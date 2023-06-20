@@ -5,14 +5,14 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Survey Batch" url="/batch-apprisal"></e-breadcrumb-item>
+            <!-- <e-breadcrumb-item text="Survey Batch" url="/batch-apprisal"></e-breadcrumb-item> -->
             <e-breadcrumb-item text="New Survey Batch" url="/batch-apprisal/new"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
           <div class="header-content">
-            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
-            <span class="back-prefix" (click)="previousState()">Back | </span>
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
+            <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
           <p class="e-card-sub-title">Add New Survey Batch</p>
         </div>
@@ -36,59 +36,61 @@
           >
             Partner
           </div>
-          <table mat-table [dataSource]="itemsPartner" class="mat-table-expand" multiTemplateDataRows>
-            <ng-container matColumnDef="no">
-              <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-              <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
-            </ng-container>
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Name</th>
-              <td class="text-center" mat-cell *matCellDef="let element">{{ element.organization.groupName }}</td>
-            </ng-container>
-            <ng-container matColumnDef="roleId">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Role</th>
-              <td mat-cell *matCellDef="let element" class="text-center">{{ element.roleId }}</td>
-            </ng-container>
-            <ng-container matColumnDef="statusDescription">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
-              <td mat-cell *matCellDef="let element" class="text-center">{{ element.statusDescription }}</td>
-            </ng-container>
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-              <td mat-cell *matCellDef="let element" class="text-center">
-                <!-- <input type="radio" id="id" name="fav_language" value="ID" (click)="selectPartner(element, $event.target.checked)" /> -->
-                <input
-                  *ngIf="element.statusDescription === 'Non Active'"
-                  type="radio"
-                  id="id"
-                  disabled
-                  name="fav_language"
-                  value="ID"
-                  (click)="selectPartner(element, $event.target.checked)"
-                />
-                <input
-                  *ngIf="element.statusDescription === 'Active'"
-                  type="radio"
-                  id="id"
-                  name="fav_language"
-                  value="ID"
-                  (click)="selectPartner(element, $event.target.checked)"
-                />
-              </td>
-            </ng-container>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="itemsPartner" class="mat-table-expand" multiTemplateDataRows>
+              <ng-container matColumnDef="no">
+                <th mat-header-cell *matHeaderCellDef>No</th>
+                <td mat-cell *matCellDef="let element; let i = dataIndex">{{ i + 1 }}.</td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let element">{{ element.organization.groupName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="roleId">
+                <th mat-header-cell *matHeaderCellDef>Role</th>
+                <td mat-cell *matCellDef="let element">{{ element.roleId }}</td>
+              </ng-container>
+              <ng-container matColumnDef="statusDescription">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let element">{{ element.statusDescription }}</td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let element">
+                  <!-- <input type="radio" id="id" name="fav_language" value="ID" (click)="selectPartner(element, $event.target.checked)" /> -->
+                  <input
+                    *ngIf="element.statusDescription === 'Non Active'"
+                    type="radio"
+                    id="id"
+                    disabled
+                    name="fav_language"
+                    value="ID"
+                    (click)="selectPartner(element, $event.target.checked)"
+                  />
+                  <input
+                    *ngIf="element.statusDescription === 'Active'"
+                    type="radio"
+                    id="id"
+                    name="fav_language"
+                    value="ID"
+                    (click)="selectPartner(element, $event.target.checked)"
+                  />
+                </td>
+              </ng-container>
 
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" [attr.colspan]="displayedColumnsExpandP.length">No records found.</td>
-            </tr>
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsExpandP"></tr>
-            <tr
-              mat-row
-              *matRowDef="let element; columns: displayedColumnsExpandP"
-              [class.mat-expanded-row]="expandedElement === element"
-              class="mat-element-row"
-              (click)="expandedElement = expandedElement === element ? null : element"
-            ></tr>
-          </table>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" [attr.colspan]="displayedColumnsExpandP.length">No records found.</td>
+              </tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsExpandP"></tr>
+              <tr
+                mat-row
+                *matRowDef="let element; columns: displayedColumnsExpandP"
+                [class.mat-expanded-row]="expandedElement === element"
+                class="mat-element-row"
+                (click)="expandedElement = expandedElement === element ? null : element"
+              ></tr>
+            </table>
+          </div>
           <mat-card *ngIf="loading" id="material-loading-bar">
             <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
           </mat-card>
@@ -134,82 +136,82 @@
           >
             Collateral Appraisal
           </div>
-          <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
-            <ng-container matColumnDef="no">
-              <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-              <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
-                {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="appraisalNumber">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Number</th>
-              <td mat-cell *matCellDef="let element">{{ element.appraisalNumber }}</td>
-            </ng-container>
-            <ng-container matColumnDef="cif">
-              <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
-              <td mat-cell *matCellDef="let element">{{ element.cif.customerId }}</td>
-            </ng-container>
-            <ng-container matColumnDef="customerName">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
-              <td mat-cell *matCellDef="let element" class="text-capitalize">
-                {{ element.cif.name }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="customerType">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
-              <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
-                {{ element.cif.customerType }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="createdDate">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Date</th>
-              <td mat-cell *matCellDef="let element" class="text-center">
-                {{ element.createdDate | formatMediumDate }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="collateralType">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Collateral Type</th>
-              <td mat-cell *matCellDef="let element" class="text-center">
-                {{ element.collateral === null ? '' : element.collateral.collateralTypeDescription }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
-              <td mat-cell *matCellDef="let element" class="text-center">
-                <mat-chip>{{ element.statusDescription }}</mat-chip>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-              <td mat-cell *matCellDef="let element" class="text-center">
-                <input
-                  *ngIf="element.surveyBatchId !== null"
-                  type="checkbox"
-                  disabled
-                  (change)="checkedCollateral(element, $event.target.checked)"
-                  [checked]="element.checked"
-                />
-                <input
-                  *ngIf="element.surveyBatchId === null"
-                  type="checkbox"
-                  (change)="checkedCollateral(element, $event.target.checked)"
-                  [checked]="element.checked"
-                />
-              </td>
-            </ng-container>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+              <ng-container matColumnDef="no">
+                <th mat-header-cell *matHeaderCellDef>No</th>
+                <td mat-cell *matCellDef="let element; let i = dataIndex">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
+              </ng-container>
+              <ng-container matColumnDef="appraisalNumber">
+                <th mat-header-cell *matHeaderCellDef>Appraisal Number</th>
+                <td mat-cell *matCellDef="let element">{{ element.appraisalNumber }}</td>
+              </ng-container>
+              <ng-container matColumnDef="cif">
+                <th mat-header-cell *matHeaderCellDef>CIF</th>
+                <td mat-cell *matCellDef="let element">{{ element.cif.customerId }}</td>
+              </ng-container>
+              <ng-container matColumnDef="customerName">
+                <th mat-header-cell *matHeaderCellDef>Debtor Name</th>
+                <td mat-cell *matCellDef="let element" class="text-capitalize">
+                  {{ element.cif.name }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="customerType">
+                <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+                <td mat-cell *matCellDef="let element" class="text-capitalize">
+                  {{ element.cif.customerType }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="createdDate">
+                <th mat-header-cell *matHeaderCellDef>Appraisal Date</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.createdDate | formatMediumDate }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="collateralType">
+                <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.collateral === null ? '' : element.collateral.collateralTypeDescription }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-chip>{{ element.statusDescription }}</mat-chip>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let element">
+                  <input
+                    *ngIf="element.surveyBatchId !== null"
+                    type="checkbox"
+                    disabled
+                    (change)="checkedCollateral(element, $event.target.checked)"
+                    [checked]="element.checked"
+                  />
+                  <input
+                    *ngIf="element.surveyBatchId === null"
+                    type="checkbox"
+                    (change)="checkedCollateral(element, $event.target.checked)"
+                    [checked]="element.checked"
+                  />
+                </td>
+              </ng-container>
 
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell text-center" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
-            </tr>
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
-            <tr
-              mat-row
-              *matRowDef="let element; columns: displayedColumnsExpand"
-              [class.mat-expanded-row]="expandedElement === element"
-              class="mat-element-row"
-              (click)="expandedElement = expandedElement === element ? null : element"
-            ></tr>
-          </table>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell text-center" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+              </tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+              <tr
+                mat-row
+                *matRowDef="let element; columns: displayedColumnsExpand"
+                [class.mat-expanded-row]="expandedElement === element"
+                class="mat-element-row"
+                (click)="expandedElement = expandedElement === element ? null : element"
+              ></tr>
+            </table>
+          </div>
           <mat-card *ngIf="loading" id="material-loading-bar">
             <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
           </mat-card>
@@ -230,7 +232,7 @@
           <button class="button-styling" mat-raised-button (click)="nextStage()">NEXT</button>
         </div>
         <div [hidden]="FormCollateral">
-          <button mat-raised-button class="button-styling" (click)="previousStateNew()">
+          <button mat-raised-button class="button-styling" (click)="openCancelDialogNew()">
             <fa-icon icon="arrow-left"></fa-icon> &nbsp;BACK
           </button>
           <button mat-raised-button class="button-styling" (click)="create()"><fa-icon icon="save"></fa-icon> &nbsp;CREATE</button>

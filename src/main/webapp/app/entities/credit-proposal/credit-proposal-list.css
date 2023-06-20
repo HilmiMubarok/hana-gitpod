@@ -48,9 +48,6 @@ td {
 .td-no {
   text-align: center;
 }
-.mat-column-action {
-  text-align: center !important;
-}
 
 .mat-column-hobis {
   text-align: center !important;
@@ -563,7 +560,7 @@ th:last-child {
 }
 
 .mat-column-no {
-  width: 5%;
+  width: 5% !important;
   text-align: right;
 }
 
@@ -726,3 +723,61 @@ mat-cell,
     vertical-align: middle;
   }
 }
+
+/* table appraisal Distribution External*/
+.mat-column-appraisalNumber {
+  text-align: left;
+}
+.mat-column-cif {
+  text-align: left;
+}
+.mat-column-customerName {
+  text-align: left;
+}
+.mat-column-customerType {
+  text-align: left;
+}
+.mat-column-createdDate {
+  text-align: right;
+}
+.mat-column-collateralType {
+  text-align: left;
+}
+.mat-column-status {
+  text-align: left;
+}
+.mat-column-action {
+  text-align: left;
+}
+/* table appraisal Distribution External*/
+
+/*  Table Appraisal External Offering Letter */
+.mat-column-tanggal {
+  text-align: right;
+}
+.mat-column-nomor {
+  text-align: left;
+}
+.mat-column-namaKjpp {
+  text-align: left;
+}
+.mat-column-biaya {
+  text-align: right;
+}
+
+/*  Table Appraisal External Offering Letter */
+
+/* Table appraisal External KJPP */
+.mat-column-name {
+  text-align: left;
+}
+.mat-column-receivedDate {
+  text-align: right;
+}
+/* Table appraisal External KJPP */
+
+/* table Appraisel Externanl add new offering letter */
+.mat-column-roleId {
+  text-align: left;
+}
+/* table Appraisel Externanl add new offering letter */

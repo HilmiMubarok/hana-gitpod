@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { TextBoxComponent } from '@syncfusion/ej2-angular-inputs';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'jhi-appraisal-data-nasabah',
@@ -11,6 +13,7 @@ export class CollateralAppraisalDataNasabahComponent {
   public searchInput?: string;
   public searchInputOnEnter?: string;
   public showCifList = false;
+  private dialog: MatDialog;
 
   public onClickFind(): void {
     this.showCifList = true;
@@ -33,5 +36,22 @@ export class CollateralAppraisalDataNasabahComponent {
 
   public previousState(): void {
     window.history.back();
+  }
+  // menu request appraisal
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

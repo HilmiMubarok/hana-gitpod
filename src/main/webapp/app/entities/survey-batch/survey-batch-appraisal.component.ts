@@ -19,6 +19,7 @@ import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.
 import { ISurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
 import { IStateBoundary } from '../state-boundary/state-boundary.model';
 import { StateBoundaryService } from '../state-boundary/state-boundary.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-survey-batch-appraisal',
@@ -220,5 +221,22 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
   public routeSubMenu(menu: object): void {
     // this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
     this.router.navigate(['./batch-apprisal/' + menu['id']]);
+  }
+  // menu request appraisal external/kjpp survey batch
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

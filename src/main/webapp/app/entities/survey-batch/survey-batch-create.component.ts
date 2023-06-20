@@ -16,6 +16,7 @@ import { SurveyBatchService } from './survey-batch.service';
 import { PartnerService } from '../partner/partner.service';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
 import { PageEvent } from '@angular/material/paginator';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-survey-batch-create',
@@ -256,5 +257,39 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
           }
         });
     }
+  }
+  // menu request KJPP add new
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
+  }
+  // menu request KJPP add new
+  // cancel confrimation dialog
+  public openCancelDialogNew(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousStateNew();
+      }
+    });
   }
 }

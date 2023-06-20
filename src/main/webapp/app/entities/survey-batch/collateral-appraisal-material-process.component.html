@@ -76,6 +76,8 @@
       <div class="text-end w-100 mt-3" *ngIf="clickedChip !== ''">
         You search data with status <span class="text-capitalize fw-bold">{{ clickedChip | lowercase }}</span>
       </div>
+    </div>
+    <div style="margin: 1rem">
       <div class="table-responsive">
         <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
           <ng-container matColumnDef="no">
