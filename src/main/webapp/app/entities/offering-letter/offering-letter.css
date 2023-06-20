@@ -192,6 +192,7 @@ td {
 th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black !important;
+  text-align: left;
   font-family: 'Poppins', sans-serif !important;
 }
 td {
@@ -384,3 +385,31 @@ mat-cell,
   min-height: auto !important;
   padding: 0 28px 0 0 !important;
 }
+
+/* Table Offering Letter */
+.mat-column-no {
+  width: 5% !important;
+  text-align: right !important;
+}
+.mat-column-proposalNumber {
+  text-align: left;
+}
+.mat-column-applicationTypeDescription-proposalType {
+  text-align: left;
+}
+.mat-column-cif {
+  text-align: left;
+}
+.mat-column-customerName {
+  text-align: left;
+}
+.mat-column-customerType {
+  text-align: left;
+}
+.mat-column-createdDate {
+  text-align: right;
+}
+.mat-column-status {
+  text-align: left;
+}
+/* Table Offering Letter */

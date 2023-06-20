@@ -30,7 +30,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
   templateUrl: './credit-proposal-tab-summary.component.html',
-  styleUrls: ['./css/credit-proposal-basic-information.css'],
+  styleUrls: ['./css/credit-proposal-basic-information.css', './credit-proposal-tab-summary.style.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {

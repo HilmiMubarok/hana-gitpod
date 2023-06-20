@@ -28,7 +28,7 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
-  styleUrls: ['../css/credit-proposal-basic-information.css'],
+  styleUrls: ['../css/credit-proposal-basic-information.css', './basic-information-view.style.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class ProposalBasicInformationViewComponent implements OnInit {

@@ -1,6 +1,6 @@
 <div *ngIf="group !== 'group'">
   <div class="style-close">
-    <button class="button-close" mat-button (click)="openCancelDialog()">X</button>
+    <button class="button-close" mat-button mat-dialog-close>X</button>
   </div>
   <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
   <mat-dialog-content>
@@ -707,7 +707,7 @@
       <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-      <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+      <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
     </section>
   </mat-dialog-actions>
 </div>
@@ -715,7 +715,7 @@
 <!--group-->
 <div *ngIf="group === 'group'">
   <div class="style-close">
-    <button class="button-close" mat-button (click)="openCancelDialog()">X</button>
+    <button class="button-close" mat-button mat-dialog-close>X</button>
   </div>
   <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
   <mat-dialog-content>
@@ -1423,7 +1423,7 @@
       <!-- <button mat-raised-button  class="confirm-button-yes" (click)="save()">Save</button> -->
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-      <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+      <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
     </section>
   </mat-dialog-actions>
 </div>

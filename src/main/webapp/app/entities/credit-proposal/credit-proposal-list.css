@@ -781,3 +781,8 @@ mat-cell,
   text-align: left;
 }
 /* table Appraisel Externanl add new offering letter */
+
+.mat-column-id {
+  width: 5% !important;
+  text-align: right !important;
+}
