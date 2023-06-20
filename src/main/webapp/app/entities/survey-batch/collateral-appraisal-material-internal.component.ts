@@ -325,6 +325,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
     const predicate: object = {
       page: this.page,
       query: this.currentSearch,
+      apprOfficer: 'INTERNAL',
       size: this.itemsPerPage,
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
