@@ -238,7 +238,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
 
   public openDialog(element: ICollateral): void {
-    this.setCertificate(element);
     this.collateralStartState = lodash.cloneDeep(element);
     this.creditProposalStartState = lodash.cloneDeep(this.creditProposal);
     let cp = {};
@@ -992,24 +991,5 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       return element;
     }
     return '';
-  }
-
-  public setCertificate(element) {
-    if (!this.creditProposal.attributes['certificateInfo']) {
-      const certificateInfo: ICertificateInfo[] = [];
-      this.creditProposal.attributes['certificateInfo'] = JSON.stringify(certificateInfo);
-    } else {
-      if (typeof this.creditProposal.attributes['certificateInfo'] === 'string') {
-        console.log('certificate info string');
-      } else {
-        console.log('certificate info object');
-      }
-    }
-    if (element.collateralTypeId === 'MACHINE') {
-      console.log('collateral type ', element.collateralTypeId);
-    }
-    if (element.collateralTypeId === 'DEPOSIT') {
-      console.log('collateral type ', element.collateralTypeId);
-    }
   }
 }
