@@ -5,7 +5,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Booking Branchs</mat-label>
-          <mat-select [value]="partyCif.debtorData.bookingBranch" (selectionChange)="select($event)">
+          <mat-select [value]="partyCif.debtorData.bookingBranch" (selectionChange)="select($event)" disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of branchs" [value]="item.id">
               {{ item.organizationName }}
