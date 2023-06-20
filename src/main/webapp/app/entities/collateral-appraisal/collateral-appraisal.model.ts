@@ -87,7 +87,7 @@ export interface ICollateralAppraisal {
   jpAdditional?: boolean;
   jpProgress?: boolean;
   jpOther?: boolean;
-  surveyorArea?: number;
+  surveyorArea?: string;
 
   // Nambah role
   divHeadId?: number;
@@ -193,7 +193,7 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public jpAdditional?: boolean,
     public jpProgress?: boolean,
     public jpOther?: boolean,
-    public surveyorArea?: number,
+    public surveyorArea?: string,
 
     // Nambah role
     public divHeadId?: number,

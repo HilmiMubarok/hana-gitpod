@@ -197,7 +197,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
             for (let i = 0; i < resA.body.length; i++) {
               if (resA.body[i].positionTypeId === 'SURVEYOR' && resA.body[i].partyId && resA.body[i].partyId !== null) {
                 surveyor.push({
-                  employeeFirstName: resA.body[i].employeeFirstName + ' ' + resA.body[i].employeeLastName,
+                  // employeeFirstName: resA.body[i].employeeFirstName + ' ' + resA.body[i].employeeLastName,
+                  // Menghindari first name atau last name null jika null akan dibuat string kosong
+                  employeeFirstName:
+                    (resA.body[i].employeeFirstName !== null ? resA.body[i].employeeFirstName : '') +
+                    ' ' +
+                    (resA.body[i].employeeLastName !== null ? resA.body[i].employeeLastName : ''),
                   id: resA.body[i].partyId,
                 });
               }
@@ -464,7 +469,14 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
         const teamLeader = [];
         for (let i = 0; i < res.body.length; i++) {
           if (res.body[i].positionTypeDescription === 'Team Leader') {
-            teamLeader.push({ employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName, id: res.body[i].id });
+            teamLeader.push({
+              // Menghindari first name atau last name null jika null akan dibuat string kosong
+              employeeFirstName:
+                (res.body[i].employeeFirstName !== null ? res.body[i].employeeFirstName : '') +
+                ' ' +
+                (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
+              id: res.body[i].id,
+            });
           }
         }
 
@@ -495,7 +507,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
         for (let i = 0; i < res.body.length; i++) {
           if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
             surveyor.push({
-              employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName,
+              // employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName,
+              // Menghindari first name atau last name null jika null akan dibuat string kosong
+              employeeFirstName:
+                (res.body[i].employeeFirstName !== null ? res.body[i].employeeFirstName : '') +
+                ' ' +
+                (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
               id: res.body[i].partyId,
             });
           }
