@@ -507,7 +507,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
       if (this.jhiMatrixDirMenu === 'dar-final') {
         if (this.positionTypeId === 'CRO') {
-          console.log('ompu', this.jhiMatrixDirMenu);
+      
           if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
             if (this.status === 'CP_CC_ANALYST') {
               this.defaultCpMatrixFull();
@@ -687,11 +687,11 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private roleOtherMatrixLabel(): void {
     if (this.jhiMatrixDirSubMenu !== 'summary') {
       if (
-        this.status !== 'DRAFT' &&
-        this.status !== 'CP_RETURN_TO_RM' &&
-        this.status !== 'CP_RETURN_TO_CR' &&
-        this.status !== 'RETURN_TO_RM_CRA' &&
-        this.status !== 'OL_APPEAL'
+        this.status === 'DRAFT' ||
+        this.status === 'CP_RETURN_TO_RM' ||
+        this.status === 'CP_RETURN_TO_CR' ||
+        this.status === 'RETURN_TO_RM_CRA' ||
+        this.status === 'OL_APPEAL'
       ) {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
