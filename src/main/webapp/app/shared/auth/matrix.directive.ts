@@ -85,7 +85,11 @@ export class MatrixDirective implements OnInit, OnDestroy {
             this.viewContainerRef.createEmbeddedView(this.templateRef);
           }
         } else {
-          this.defaultCpMatrixFull();
+          if (this.status === 'RETURN_TO_RM_CRA') {
+            this.defaultCpMatrixFull();
+          } else {
+            this.defaultCpMatrixFull();
+          }
         }
       }
 
@@ -314,7 +318,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
 
       if (this.router.url.includes('loan-committee-approval')) {
-     
         if (this.jhiMatrixDirMenu !== 'dar-final') {
           if (this.positionTypeId === 'CRO') {
             if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
@@ -507,7 +510,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
 
       if (this.jhiMatrixDirMenu === 'dar-final') {
-     
         if (this.positionTypeId === 'CRO') {
           if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
             if (this.status === 'CP_CC_ANALYST') {
@@ -539,7 +541,11 @@ export class MatrixDirective implements OnInit, OnDestroy {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
         }
       } else {
-        this.checkOnCpAndMemo();
+        if (this.status === 'RETURN_TO_RM_CRA') {
+          this.checkOnCpAndMemo();
+        } else {
+          this.checkOnCpAndMemo();
+        }
       }
     }
 
@@ -655,7 +661,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.status === 'DRAFT' ||
         this.status === 'CP_RETURN_TO_RM' ||
         this.status === 'CP_RETURN_TO_CR' ||
-        this.status === 'RETURN_TO_RM_CRA' ||
         this.status === 'OL_APPEAL'
       ) {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
@@ -671,7 +676,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.status !== 'DRAFT' &&
         this.status !== 'CP_RETURN_TO_RM' &&
         this.status !== 'CP_RETURN_TO_CR' &&
-        this.status !== 'RETURN_TO_RM_CRA' &&
         this.status !== 'OL_APPEAL'
       ) {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
@@ -688,20 +692,10 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private roleOtherMatrixLabel(): void {
     if (this.jhiMatrixDirSubMenu !== 'summary') {
       if (
-        this.status === 'DRAFT' ||
-        this.status === 'CP_RETURN_TO_RM' ||
-        this.status === 'CP_RETURN_TO_CR' ||
-        this.status === 'RETURN_TO_RM_CRA' ||
-        this.status === 'OL_APPEAL' ||
-        this.status === 'CP_LOAN_COMMITTEE' ||
-        this.status === 'CP_DAR_FINAL' ||
-        this.status === 'LA_DAR_NOTIF' ||
-        this.status === 'LEGAL_OFFICER' ||
-        this.status === 'CP_CC_DEPT_HEAD' ||
-        this.status === 'CP_CC_DIV_HEAD' ||
-        this.status === 'CP_CC_DIRECTOR' ||
-        this.status === 'OFFERING_LETTER_CONFIRMATION' ||
-        this.status === 'OL_COMPLETE'
+        this.status !== 'DRAFT' &&
+        this.status !== 'CP_RETURN_TO_RM' &&
+        this.status !== 'CP_RETURN_TO_CR' &&
+        this.status !== 'OL_APPEAL'
       ) {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
