@@ -2,7 +2,7 @@
   font-family: 'Poppins', sans-serif;
   background: #008881;
   color: #ffff;
-  font-weight: 600;
+  font-weight: 100;
   font-style: normal;
 }
 table .mat-table {
@@ -186,5 +186,12 @@ th:last-child {
 .e-float-input.e-control-wrapper.e-disabled,
 .e-float-input.e-input-group.e-disabled,
 .e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
 }

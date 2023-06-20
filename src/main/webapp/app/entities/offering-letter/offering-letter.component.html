@@ -58,58 +58,56 @@
       <div class="table-responsive">
         <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
           <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-            <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
-              {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
-            </td>
+            <th mat-header-cell *matHeaderCellDef>No</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
           </ng-container>
           <ng-container matColumnDef="proposalNumber">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Number</th>
+            <th mat-header-cell *matHeaderCellDef>Proposal Number</th>
             <td mat-cell *matCellDef="let element">{{ element.applicationNumber }}</td>
           </ng-container>
           <ng-container matColumnDef="applicationTypeDescription-proposalType">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Segment / Proposal Type</th>
+            <th mat-header-cell *matHeaderCellDef>Segment / Proposal Type</th>
             <td mat-cell *matCellDef="let element">{{ element.applicationTypeDescription }} / {{ element.attributes.proposalType }}</td>
           </ng-container>
           <ng-container matColumnDef="cif">
-            <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
+            <th mat-header-cell *matHeaderCellDef>CIF</th>
             <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
           </ng-container>
           <ng-container matColumnDef="customerName">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
+            <th mat-header-cell *matHeaderCellDef>Debtor Name</th>
             <td mat-cell *matCellDef="let element">
               {{ element.prospectPerson ? element.prospectPerson.afiks : '' }}
               {{ element.prospectOrganization ? element.prospectOrganization.groupName : element.prospectPerson.name }}
             </td>
           </ng-container>
           <ng-container matColumnDef="customerType">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
-            <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
+            <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+            <td mat-cell *matCellDef="let element" class="text-capitalize">
               {{ element.customerType | lowercase }}
             </td>
           </ng-container>
           <ng-container matColumnDef="createdDate">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Date</th>
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <th mat-header-cell *matHeaderCellDef>Proposal Date</th>
+            <td mat-cell *matCellDef="let element">
               {{ element.createdDate | formatMediumDate }}
             </td>
           </ng-container>
           <ng-container matColumnDef="maturityDate">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Maturity Date</th>
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
+            <td mat-cell *matCellDef="let element">
               {{ element.maturityDate | formatMediumDate }}
             </td>
           </ng-container>
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
               <mat-chip>{{ element.statusDescription }}</mat-chip>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element">
               <a href="javascript:void();" [routerLink]="[element.id, 'edit']" mat-icon-button (click)="$event.stopPropagation()">
                 <fa-icon icon="pencil-alt"></fa-icon>
               </a>

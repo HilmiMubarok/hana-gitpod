@@ -19,7 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'jhi-total-exposure',
   templateUrl: './total-exposure.component.html',
-  styleUrls: ['../../loan-facility/grid/loan.scss'],
+  styleUrls: ['../../loan-facility/grid/loan.scss', './total-exposure.style.scss'],
 })
 export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges, AfterViewInit {
   public parsedAttr;
@@ -128,7 +128,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   public cpGroub() {
     this.creditProposalService.applicationGroubProduct(this.id).subscribe((response: any) => {
-      console.log('ggffff', response.body);
+      // console.log('ggffff', response.body);
       this.filterBusinessGroupDebtorData(response.body);
     });
   }
@@ -347,9 +347,9 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
           a = lodash.concat(a, this.creditProposal.products[i]);
         }
       }
-      console.log('if jalan');
+      // console.log('if jalan');
     } else {
-      console.log('else jalan');
+      // console.log('else jalan');
       this.dataSource = this.creditProposal.products;
 
       for (let i = 0; i < this.creditProposal.products.length; i++) {

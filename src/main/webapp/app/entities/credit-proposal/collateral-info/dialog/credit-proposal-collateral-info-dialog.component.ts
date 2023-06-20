@@ -23,6 +23,7 @@ import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { Page } from '@syncfusion/ej2-angular-grids';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -133,6 +134,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     private cashCollateralService: CashCollateralService,
     protected generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CreditProposalCollateralInfoDialogComponent>,
+    private templateService: TemplateService,
 
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -154,10 +156,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       collateralProperties: ICollateralProperty[];
     }
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
@@ -196,6 +194,22 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.lovInsuranceTypes();
     this.addLovRank();
     this.cekCurrency();
+    this.getRole();
+  }
+
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'RM') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   public lovInsuranceTypes() {
