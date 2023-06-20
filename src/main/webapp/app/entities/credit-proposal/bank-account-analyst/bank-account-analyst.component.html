@@ -100,6 +100,22 @@
       </table>
     </div>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <mat-card-actions align="right">
+        <button mat-raised-button (click)="openDialog()" class="button-styling">ADD ACCOUNT</button>
+      </mat-card-actions>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <button mat-raised-button color="primary" hidden (click)="openDialog()">ADD ACCOUNT</button>
+    </section>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="e-card-header-title">Remarks</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <div class="form-group mt-5">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Description</mat-label>
@@ -135,12 +151,4 @@
       <p class="lable-form-title">Must explain the following things are : {{ creditProposal.attributes['bankAnalystMessage'].message }}</p>
     </section>
   </mat-card-content>
-  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-    <mat-card-actions align="right">
-      <button mat-raised-button (click)="openDialog()" class="button-styling">ADD ACCOUNT</button>
-    </mat-card-actions>
-  </section>
-  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <button mat-raised-button color="primary" hidden (click)="openDialog()">ADD ACCOUNT</button>
-  </section>
 </mat-card>
