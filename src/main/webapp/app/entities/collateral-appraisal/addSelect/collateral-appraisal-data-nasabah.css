@@ -10,16 +10,23 @@
 
 .sub-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  font-weight: 1000;
-  color: red;
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(158, 138, 113, 1);
   line-height: 35px;
   margin-left: 10px;
-  padding-top: 17px;
+  padding-top: 13px;
 }
 
 .search-box {
   padding: 10px;
+}
+
+.e-breadcrumb-text {
+  color: rgba(136, 136, 136, 1) !important;
+}
+.e-breadcrumb-icon.e-icons.e-home {
+  color: rgba(136, 136, 136, 1) !important;
 }
 
 .e-card-content {
@@ -32,16 +39,16 @@
 }
 
 .back-image {
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   margin: 1rem;
   cursor: pointer;
 }
 
 .back-prefix {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  color: rgba(136, 136, 136);
+  font-size: 14px;
+  color: rgba(136, 136, 136, 1) !important;
   padding-top: 20px;
   cursor: pointer;
 }
@@ -55,7 +62,22 @@
 .header-content {
   display: flex;
 }
-
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  text-align: left;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
 .search-border-container {
   background-color: #ebebeb;
   padding: 1rem;

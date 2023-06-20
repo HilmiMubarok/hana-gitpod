@@ -191,7 +191,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
       }
     }
 
-    console.log('pushed', this.arrayCollateral);
+    // console.log('pushed', this.arrayCollateral);
   }
 
   selectPartner(data, check) {
@@ -212,7 +212,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   create(): void {
     const firstCol = this.items.data.filter(p => p.id === this.arrayCollateral[0]);
     const cif = firstCol[0].cif.customerId;
-    console.log('cif', cif);
+    // console.log('cif', cif);
 
     let unmatchCif = false;
     for (let y = 0; y < this.arrayCollateral.length; y++) {
