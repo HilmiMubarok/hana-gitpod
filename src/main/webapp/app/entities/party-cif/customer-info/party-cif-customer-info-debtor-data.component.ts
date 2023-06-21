@@ -114,6 +114,10 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.lovCallreport();
     this.getLov();
     this.lovPep();
+    this.changePenjualan();
+    this.changeModal();
+    this.changeCorres();
+    this.changeSector();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -273,5 +277,29 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
       this.individu = 'none';
     }
   }
+  public changePenjualan() {
+    if (this.partyCif.debtorData.annualSalesName === null || this.partyCif.debtorData.annualSalesName === undefined) {
+      return 'N/A';
+    }
+    return this.partyCif.debtorData.annualSalesName;
+  }
 
+  public changeCorres() {
+    if (this.partyCif.debtorData.correspondenceAddress === null || this.partyCif.debtorData.correspondenceAddress === undefined) {
+      return 'N/A';
+    }
+    return this.partyCif.debtorData.correspondenceAddress;
+  }
+  public changeSector() {
+    if (this.partyCif.debtorData.econSectorCode === null || this.partyCif.debtorData.econSectorCode === undefined) {
+      return 'N/A';
+    }
+    return this.partyCif.debtorData.correspondenceAddress;
+  }
+  public changeModal() {
+    if (this.partyCif.debtorData.equityName === null || this.partyCif.debtorData.equityName === undefined) {
+      return 'N/A';
+    }
+    return this.partyCif.debtorData.equityName;
+  }
 }

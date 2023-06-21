@@ -25,7 +25,9 @@ export interface IDebtorData {
   gnrlBankReportCode?: string;
   gnrlBankReport?: string;
   depositCapital?: number;
+  equityName?: string;
   annualSales?: number;
+  annualSalesName?: string;
   umkmCategory?: string;
   umkmClassification?: string;
   creditScoring?: string;
@@ -89,7 +91,9 @@ export class DebtorData implements IDebtorData {
     public gnrlBankReportCode?: string,
     public gnrlBankReport?: string,
     public depositCapital?: number,
+    public equityName?: string,
     public annualSales?: number,
+    public annualSalesName?: string,
     public umkmCategory?: string,
     public umkmClassification?: string,
     public ifcRiskCategory?: string,
