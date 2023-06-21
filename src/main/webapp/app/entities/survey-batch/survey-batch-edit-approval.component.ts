@@ -19,6 +19,7 @@ import {
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE,
   SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
+  SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL,
 } from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
@@ -654,7 +655,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         }
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL;
       }
     }
 
