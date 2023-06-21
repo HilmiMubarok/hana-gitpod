@@ -84,7 +84,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public createSurveyAppraisalPromises = [];
   public collateralDetails: object[];
   public collateralCode: any;
-  collateralCodeMatrik: any;
+  collateralCodeMatrik = [];
   // collateralValidate: any;
   // public collateralValidate = [];
   constructor(
@@ -355,7 +355,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
                           this.dataSelectedCheckbox[i].collateralNumber +
                           ' ' +
                           ' ' +
-                          this.collateralCodeMatrik +
+                          this.collateralCodeMatrik[i] +
                           ' ' +
                           'masih dalam proses appraisal.',
                         life: 5000,
@@ -414,7 +414,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public getCollateralCode() {
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
       const data = this.collateralCode.find(obj => obj.id === this.dataSelectedCheckbox[i].attributes.collateralCode);
-      this.collateralCodeMatrik = data.description;
+      if (data) {
+        this.collateralCodeMatrik[i] = data.description;
+      }
+      console.log('dataColls', this.collateralCodeMatrik[i]);
     }
   }
 
@@ -428,7 +431,5 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
         this.getCollateralCode();
       }
     }
-    console.log(this.collateral);
-    console.log(this.dataSelectedCheckbox);
   }
 }
