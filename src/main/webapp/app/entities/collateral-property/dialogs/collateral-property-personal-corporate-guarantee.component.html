@@ -7,7 +7,7 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Certificate Type</mat-label>
-            <mat-select [(ngModel)]="collateralProperty.attributes.certificateType" [disabled]="dataSource()">
+            <mat-select [(ngModel)]="collateralProperty.attributes['certificateType']" [disabled]="dataSource()">
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of certypicateTypeLov" [value]="item.code"> {{ item.value }} </mat-option>
             </mat-select>
@@ -19,7 +19,7 @@
             <div class="col">Certificate Type</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ filterNameValue(collateralProperty.attributes.certificateType) }}
+              {{ filterNameValue(collateralProperty.attributes['certificateType']) }}
             </div>
           </div>
         </section>
@@ -355,9 +355,9 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Management Branch</mat-label>
-            <mat-select (selectionChange)="onSelectionChange($event)" [(ngModel)]="managementBranch">
+            <mat-select (selectionChange)="onSelectionChange($event)" [(ngModel)]="collateralProperty.attributes['managementBranch']">
               <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of managementBranchLov" [value]="item.id"> {{ item.value }} </mat-option>
+              <mat-option *ngFor="let item of managementBranchLov" [value]="item.code"> {{ item.value }} </mat-option>
             </mat-select>
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
@@ -367,7 +367,7 @@
             <div class="col">Management Branch</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ param(collateralProperty.attributes.managementBranch) }}
+              {{ param(collateralProperty.attributes['managementBranch']) }}
             </div>
           </div>
         </section>
@@ -414,7 +414,7 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Certificate Type</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.certificateType" disabled>
+          <mat-select [(ngModel)]="collateralProperty.attributes['certificateType']" disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of certypicateTypeLov" [value]="item.code"> {{ item.value }} </mat-option>
           </mat-select>
@@ -577,9 +577,13 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Management Branch</mat-label>
-          <mat-select (selectionChange)="onSelectionChange($event)" [(ngModel)]="managementBranch" disabled>
+          <mat-select
+            (selectionChange)="onSelectionChange($event)"
+            [(ngModel)]="collateralProperty.attributes['managementBranch']"
+            disabled
+          >
             <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of managementBranchLov" [value]="item.id"> {{ item.value }} </mat-option>
+            <mat-option *ngFor="let item of managementBranchLov" [value]="item.code"> {{ item.value }} </mat-option>
           </mat-select>
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
