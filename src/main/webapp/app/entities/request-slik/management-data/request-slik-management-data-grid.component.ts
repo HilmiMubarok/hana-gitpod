@@ -81,7 +81,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   public displayedColumnsExpand;
   public requestSlikId: number;
   public expandedElement;
-  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'alamat', 'jenisKelamin', 'action'];
+  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'namaIbuKandung', 'alamat', 'jenisKelamin', 'action'];
   public dataSourceExpand;
   public nikNpwp;
   public partyId;

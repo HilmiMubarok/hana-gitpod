@@ -164,6 +164,10 @@
                   <mat-header-cell *matHeaderCellDef> No. Identitas </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{ element.noIdentitas }} </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="namaIbuKandung">
+                  <mat-header-cell *matHeaderCellDef> Nama Ibu Kandung </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.namaIbuKandung }} </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="alamat">
                   <mat-header-cell *matHeaderCellDef> Alamat </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{ element.alamat }} </mat-cell>
