@@ -375,6 +375,7 @@ import { ParipasuCollateralIddDebtorComponent } from './party-cif/paripasu-colla
 import { DebtorInformationComponent } from './debtor-information/debtor-information.component';
 import { MainFacilityHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-history.component';
 import { MainFacilityChildHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-child-history.component';
+import { CertificateInfoComponent } from './offering-letter/certificate-info/certificate-info.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -813,6 +814,7 @@ import { MainFacilityChildHistoryComponent } from './credit-proposal/loan-facili
         DebtorInformationComponent,
         MainFacilityHistoryComponent,
         MainFacilityChildHistoryComponent,
+        CertificateInfoComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1207,6 +1209,7 @@ import { MainFacilityChildHistoryComponent } from './credit-proposal/loan-facili
     DebtorInformationComponent,
     MainFacilityHistoryComponent,
     MainFacilityChildHistoryComponent,
+    CertificateInfoComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

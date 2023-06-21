@@ -690,9 +690,10 @@
                 <input
                   matInput
                   (ngModelChange)="periodeDate($event)"
-                  type="number"
+                  inputmode="numeric"
                   [(ngModel)]="applicationProduct.intResetFrequency"
                   [disabled]="status || statIntRate"
+                  oninput="this.value = this.value.replace(/\D+/g, '')"
                 />
               </mat-form-field>
             </div>

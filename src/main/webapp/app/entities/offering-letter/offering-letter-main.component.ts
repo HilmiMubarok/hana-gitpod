@@ -35,6 +35,7 @@ import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { ICertificateInfo } from './certificate-info/certificate-info.model';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -302,6 +303,7 @@ export class OfferingLetterMainComponent implements OnInit {
     applicationRolePreSave.roleId = this.applicationRole.roleId;
     applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
 
+    copyCreditProposal.attributes['certificateInfoData'] = JSON.stringify(copyCreditProposal.attributes['certificateInfoData']);
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
@@ -599,17 +601,125 @@ export class OfferingLetterMainComponent implements OnInit {
         this.collateral = res.body;
         if (this.collateral.length > 0) {
           for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
+            this.findCollateralProperty(this.collateral[i], i);
           }
         }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
+  public findCollateralProperty(collateral: ICollateral, i): void {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
+        if (this.collateral.length === i + 1) {
+          this.setCertificate(this.collateral);
+        }
       });
+    }
+  }
+
+  public setCertificate(collateral) {
+    if (!this.creditProposal.attributes['syncCertificate']) {
+      this.creditProposal.attributes['syncCertificate'] = 'true';
+      this.creditProposal.attributes['certificateInfoData'] = [];
+      if (collateral.length > 0) {
+        for (let i = 0; i < collateral.length; i++) {
+          console.log('perulangan certificate ', i);
+          if (collateral[i].collateralTypeId === 'REALESTATE') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'VEHICLE') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription;
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'MACHINE') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription;
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'DEPOSIT') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralNumber + ' ' + this.findProperty('buktiKepemilikan', collateral[i]);
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'SECURITIES') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = this.findProperty('buktiKepemilikan', collateral[i]);
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'LETTER_OF_GUARANTY') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralNumber;
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+        }
+      }
+    } else {
+      this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
+    }
+  }
+
+  public findProperty(type: string, collateral: ICollateral) {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      console.log('properties ', this.collateralProperties);
+      console.log('ini data ', data);
+      if (data) {
+        if (type === 'buktiKepemilikan') {
+          if (collateral.collateralTypeId === 'SECURITIES') {
+            return data.attributes.securityName;
+          }
+          if (collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+            return data.attributes.certificateType;
+          }
+        }
+        if (type === 'jangkaWaktu') {
+          if (collateral.collateralTypeId === 'DEPOSIT') {
+            return data.attributes.maturityDate;
+          }
+          if (collateral.collateralTypeId === 'SECURITIES') {
+            return data.attributes.maturityDate;
+          }
+          if (collateral.collateralTypeId === 'OTHER') {
+            return data.attributes.maturityDate;
+          }
+          if (collateral.collateralTypeId === 'LETTER_OF_GUARANTY') {
+            return data.attributes.requisitionExpiry;
+          }
+          if (collateral.collateralTypeId === 'PERSONAL_PROPERTY') {
+            return data.attributes.maturityDate;
+          }
+          if (collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+            return data.certificateExpiryDate;
+          }
+        }
+      }
+      return '';
     }
   }
 

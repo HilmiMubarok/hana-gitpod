@@ -25,6 +25,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { ICertificateInfo } from 'app/entities/offering-letter/certificate-info/certificate-info.model';
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
