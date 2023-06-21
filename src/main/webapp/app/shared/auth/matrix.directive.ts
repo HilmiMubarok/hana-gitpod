@@ -72,7 +72,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('loan-committee-approval') &&
         !this.router.url.includes('la-analyst') &&
         !this.router.url.includes('confirmation') &&
-        !this.router.url.includes('finalize')
+        !this.router.url.includes('finalize') &&
+        !this.router.url.includes('cc-inquiry')
       ) {
         if (
           this.positionTypeId === 'SME_HEAD' ||
@@ -85,10 +86,20 @@ export class MatrixDirective implements OnInit, OnDestroy {
             this.viewContainerRef.createEmbeddedView(this.templateRef);
           }
         } else {
-          if (this.status === 'RETURN_TO_RM_CRA') {
-            this.defaultCpMatrixFull();
+          if (this.positionTypeId === 'RM') {
+            if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
+              if (this.jhiMatrixDirElementType === 'input') {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              }
+            } else {
+              this.defaultCpMatrixFull();
+            }
           } else {
-            this.defaultCpMatrixFull();
+            if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
+              this.defaultCpMatrixFull();
+            } else {
+              this.defaultCpMatrixFull();
+            }
           }
         }
       }
@@ -541,10 +552,20 @@ export class MatrixDirective implements OnInit, OnDestroy {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
         }
       } else {
-        if (this.status === 'RETURN_TO_RM_CRA') {
-          this.checkOnCpAndMemo();
+        if (this.positionTypeId === 'RM') {
+          if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            this.checkOnCpAndMemo();
+          }
         } else {
-          this.checkOnCpAndMemo();
+          if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
+            this.checkOnCpAndMemo();
+          } else {
+            this.checkOnCpAndMemo();
+          }
         }
       }
     }
@@ -657,12 +678,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
   private roleRMMatrixInput(): void {
     if (this.jhiMatrixDirSubMenu !== 'summary') {
-      if (
-        this.status === 'DRAFT' ||
-        this.status === 'CP_RETURN_TO_RM' ||
-        this.status === 'CP_RETURN_TO_CR' ||
-        this.status === 'OL_APPEAL'
-      ) {
+      if (this.status === 'DRAFT' || this.status === 'CP_RETURN_TO_RM' || this.status === 'OL_APPEAL') {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     }
@@ -672,12 +688,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
     if (this.jhiMatrixDirSubMenu === 'summary') {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     } else {
-      if (
-        this.status !== 'DRAFT' &&
-        this.status !== 'CP_RETURN_TO_RM' &&
-        this.status !== 'CP_RETURN_TO_CR' &&
-        this.status !== 'OL_APPEAL'
-      ) {
+      if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM' && this.status !== 'OL_APPEAL') {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     }
@@ -691,12 +702,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
   private roleOtherMatrixLabel(): void {
     if (this.jhiMatrixDirSubMenu !== 'summary') {
-      if (
-        this.status !== 'DRAFT' &&
-        this.status !== 'CP_RETURN_TO_RM' &&
-        this.status !== 'CP_RETURN_TO_CR' &&
-        this.status !== 'OL_APPEAL'
-      ) {
+      if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM' && this.status !== 'OL_APPEAL') {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     }

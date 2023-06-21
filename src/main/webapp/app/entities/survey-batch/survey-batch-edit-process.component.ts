@@ -704,6 +704,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
           }
         }
       });
+      this.loadProperty(this.collateral);
     });
     this.getTasks();
     this.timeLine();
@@ -942,6 +943,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this.collateral = this.surveyAppraisal.collateral;
         this.collateralType = this.collateral.collateralTypeId;
         this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
+        this.loadProperty(this.surveyAppraisal.collateral);
         resolve();
       });
     });
@@ -975,8 +977,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       // validate
 
       this.validateAppraisal().then(() => this.mainSave(source));
+      this.cekValuation();
     } else {
       this.mainSave(source);
+      this.cekValuation();
     }
   }
 
@@ -1585,5 +1589,35 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+
+  public loadProperty(collateral: ICollateral): void {
+    this.collateralPropertyService
+      .queryFilterBy({
+        idCollateral: collateral.id,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralProp = lodash.find(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
+        });
+        console.log('collateral Property Main', this.collateralProp);
+      });
+  }
+
+  public cekValuation() {
+    this.saveCollateralProperty(this.collateralProp);
+  }
+  public marketValueLandRound: number;
+  public saveCollateralProperty(property: ICollateralProperty) {
+    if (this.collateralProp) {
+      // console.log('save prop', property.attributes.marketValueLandRound);
+      // if (this.collateral.id) {
+      this.collateralPropertyService.save(property).subscribe(res => {
+        // console.log('res', res.body);
+        // console.log('save prop test', property.attributes.marketValueLandRound);
+      });
+      // }
+    }
   }
 }

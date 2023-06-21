@@ -229,7 +229,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
       })
       .subscribe(res => {
         if (res.body.length > 0) {
-          this.filteringItems = res.body.filter(e => e.relationTypeId === this.creditProposal.approvalLcDefault);
+          this.filteringItems = res.body.filter(e => e.relationTypeId === this.selectedRelationType);
         }
       });
   }
