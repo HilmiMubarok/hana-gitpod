@@ -161,3 +161,7 @@ td {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+ngx-dropzone-preview {
+  width: 200px !important;
+  overflow: hidden;
+}
