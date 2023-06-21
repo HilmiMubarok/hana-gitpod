@@ -861,7 +861,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].path = this.uuidPath;
-                  copyCreditProposal.notes[i].createDate = moment(new Date(Date.now())).format();
+                  copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
                 } else {
@@ -869,6 +869,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].path = this.uuidPath;
+				  copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
                 }

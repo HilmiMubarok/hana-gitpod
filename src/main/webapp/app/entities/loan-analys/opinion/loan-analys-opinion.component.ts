@@ -13,6 +13,7 @@ import { INotes } from 'app/entities/notes/notes.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { LoanAnalysDialogOpinionComponent } from '../dialogs/loan-analys-dialog-opinion.component';
+import moment from 'moment';
 
 import {
   DocumentEditorComponent,
@@ -85,6 +86,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public documentEditor: DocumentEditorComponent;
 
   public notes: INotes[];
+  public notesMod: any[];
   public recomendasi: string;
 
   private _creditProposalItem: ICreditProposal;
@@ -893,6 +895,16 @@ export class LoanAnalysOpinionComponent implements OnInit {
           }
         });
       }
+
+	  this.notesMod = lodash.cloneDeep(this.notes);
+
+	  this.notesMod.forEach(note => {
+		if (note['modifiedDate']) {
+		  note['modifiedDateCalc'] = moment(new Date(note['modifiedDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
+		} else {
+		  note['modifiedDateCalc'] = note['createDate'].split('T')[0];
+		}
+	  });
     });
   }
 
