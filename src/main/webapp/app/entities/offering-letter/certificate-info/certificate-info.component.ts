@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { ICertificateInfo } from './certificate-info.model';
+import { CertificateInfo, ICertificateInfo } from './certificate-info.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CertificateInfoDialogComponent } from './certificate-info-dialog.component';
 
@@ -40,7 +40,10 @@ export class CertificateInfoComponent implements OnInit {
     console.log('ini collateral di certificate ', this.collateral);
   }
 
-  public openDialog(params: ICertificateInfo) {
+  public openDialog(params?: ICertificateInfo) {
+    if (!params) {
+      params = new CertificateInfo();
+    }
     const dialogRef = this.dialog.open(CertificateInfoDialogComponent, {
       width: '80vw',
       data: {
@@ -48,7 +51,12 @@ export class CertificateInfoComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((data: ICertificateInfo) => {
-      console.log(data);
+      console.log('data ', data);
+      if (!data.id) {
+        data.id = this.collateral.id;
+        this.creditProposal.attributes['certificateInfoData'].push(data);
+        this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
+      }
     });
   }
 }

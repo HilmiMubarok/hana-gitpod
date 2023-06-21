@@ -40,6 +40,10 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
+
+      <div align="right" class="mt-5">
+        <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

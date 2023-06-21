@@ -700,7 +700,7 @@
     <div>
       <jhi-paripasu-collateral-debitur [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-debitur>
     </div>
-    <div>
+    <div *ngIf="parentSource === 'dec-offering'">
       <jhi-certificate-info></jhi-certificate-info>
     </div>
   </mat-dialog-content>
@@ -1419,7 +1419,7 @@
     <div>
       <jhi-paripasu-collateral-debitur [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-debitur>
     </div>
-    <div>
+    <div *ngIf="parentSource === 'dec-offering'">
       <jhi-certificate-info></jhi-certificate-info>
     </div>
   </mat-dialog-content>
