@@ -417,7 +417,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       if (data) {
         this.collateralCodeMatrik[i] = data.description;
       }
-      console.log('dataColls', this.collateralCodeMatrik[i]);
     }
   }
 
