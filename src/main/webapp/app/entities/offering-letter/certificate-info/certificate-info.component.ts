@@ -21,16 +21,16 @@ export class CertificateInfoComponent implements OnInit {
       collateral: ICollateral;
     }
   ) {
-    this.dataItem = data.cp.attributes['certificateInfoData'].filter(obj => obj.id === data.collateral.id);
+    if (data.cp.attributes['certificateInfoData']) {
+      if (data.cp.attributes['certificateInfoData'].length > 0) {
+        this.dataItem = data.cp.attributes['certificateInfoData'].filter(obj => obj.id === data.collateral.id);
+      }
+    }
     this.creditProposal = data.cp;
     this.collateral = data.collateral;
   }
 
   ngOnInit(): void {
     console.log('credit Proposal ', this.creditProposal);
-  }
-
-  public filterData() {
-    this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
   }
 }
