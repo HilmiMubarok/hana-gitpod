@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { ICertificateInfo } from './certificate-info.model';
+import { CertificateInfo, ICertificateInfo } from './certificate-info.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CertificateInfoDialogComponent } from './certificate-info-dialog.component';
 
 @Component({
   selector: 'jhi-certificate-info',
@@ -13,8 +14,9 @@ export class CertificateInfoComponent implements OnInit {
   public dataItem: ICertificateInfo[] = [];
   public collateral: ICollateral;
   public creditProposal: ICreditProposal;
-  public displayedColumns: string[] = ['no', 'buktiKepemilikan', 'jangkaWaktu', 'luasTanah', 'luasBangunan'];
+  public displayedColumns: string[] = ['no', 'buktiKepemilikan', 'jangkaWaktu', 'luasTanah', 'luasBangunan', 'action'];
   constructor(
+    public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       cp: ICreditProposal;
@@ -23,7 +25,10 @@ export class CertificateInfoComponent implements OnInit {
   ) {
     if (data.cp.attributes['certificateInfoData']) {
       if (data.cp.attributes['certificateInfoData'].length > 0) {
-        this.dataItem = data.cp.attributes['certificateInfoData'].filter(obj => obj.id === data.collateral.id);
+        const filter: ICertificateInfo[] = data.cp.attributes['certificateInfoData'].filter(obj => obj.id === data.collateral.id);
+        if (filter) {
+          this.dataItem = filter;
+        }
       }
     }
     this.creditProposal = data.cp;
@@ -32,5 +37,26 @@ export class CertificateInfoComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('credit Proposal ', this.creditProposal);
+    console.log('ini collateral di certificate ', this.collateral);
+  }
+
+  public openDialog(params?: ICertificateInfo) {
+    if (!params) {
+      params = new CertificateInfo();
+    }
+    const dialogRef = this.dialog.open(CertificateInfoDialogComponent, {
+      width: '80vw',
+      data: {
+        certifacteInfo: params,
+      },
+    });
+    dialogRef.afterClosed().subscribe((data: ICertificateInfo) => {
+      console.log('data ', data);
+      if (!data.id) {
+        data.id = this.collateral.id;
+        this.creditProposal.attributes['certificateInfoData'].push(data);
+        this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
+      }
+    });
   }
 }

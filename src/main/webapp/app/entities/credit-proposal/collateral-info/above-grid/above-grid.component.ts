@@ -80,6 +80,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this.selectedMenu = args.item.text;
   }
 
+  @Input() parentSource?: String = '';
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -266,6 +268,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         isViewMode: this.isViewMode,
         group: this.group,
         collateralProperties: this.collateralProperties,
+        parentSource: this.parentSource,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);

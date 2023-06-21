@@ -17,6 +17,7 @@
           [isViewMode]="isViewMode"
           [creditProposal]="creditProposal"
           [collateralProperties]="collateralProperties"
+          [parentSource]="parentSource"
         ></jhi-above-grid>
         <div *ngIf="takeOutCompare !== true">
           <jhi-credit-proposal-collateral-info-remarks-information
@@ -67,6 +68,7 @@
         [isViewMode]="isViewMode"
         [creditProposal]="creditProposal"
         [collateralProperties]="collateralProperties"
+        [parentSource]="parentSource"
       ></jhi-bellow-grid>
       <div *ngIf="takeOutCompare !== true">
         <jhi-credit-proposal-collateral-info-remarks-information
@@ -113,6 +115,7 @@
         [isViewMode]="isViewMode"
         [creditProposal]="creditProposal"
         [collateralProperties]="collateralProperties"
+        [parentSource]="parentSource"
       >
       </jhi-credit-proposal-collateral-info-btb>
       <div *ngIf="takeOutCompare !== true">
@@ -164,6 +167,7 @@
         [isViewMode]="isViewMode"
         [creditProposal]="creditProposal"
         [collateralProperties]="collateralProperties"
+        [parentSource]="parentSource"
       ></jhi-above-grid>
     </div>
     <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
@@ -200,6 +204,7 @@
         [isViewMode]="isViewMode"
         [creditProposal]="creditProposal"
         [collateralProperties]="collateralProperties"
+        [parentSource]="parentSource"
       ></jhi-bellow-grid>
     </div>
   </div>
@@ -224,6 +229,7 @@
         [isViewMode]="isViewMode"
         [creditProposal]="creditProposal"
         [collateralProperties]="collateralProperties"
+        [parentSource]="parentSource"
       >
       </jhi-credit-proposal-collateral-info-btb>
     </div>

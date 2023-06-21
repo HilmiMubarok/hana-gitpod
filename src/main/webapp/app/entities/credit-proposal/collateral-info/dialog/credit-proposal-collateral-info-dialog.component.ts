@@ -126,6 +126,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
   public collateralGradings: string;
+  public parentSource = '';
 
   constructor(
     private dialog: MatDialog,
@@ -154,6 +155,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       isViewMode: boolean;
       group: string;
       collateralProperties: ICollateralProperty[];
+      parentSource: string;
     }
   ) {
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
@@ -179,9 +181,11 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.isViewMode = data.isViewMode;
     this.collateralProperties = data.collateralProperties;
     this.group = data.group;
+    this.parentSource = data.parentSource;
   }
 
   ngOnInit(): void {
+    console.log('parent Source', this.parentSource);
     this.loadCollateralDetailOption().then(resolve => {
       this.setCollateralDetail();
     });
