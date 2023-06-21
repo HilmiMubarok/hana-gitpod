@@ -85,57 +85,85 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   //   }
   // }
 
-  public bufferFs(): Number {
-    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = Number(
-      this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
-    );
+  // public bufferFs(): Number {
+  //   this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = Number(
+  //     this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] -
+  //       this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] -
+  //       this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
+  //   );
+  //   return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'];
+  // }
+  public bufferFs(): number {
+    const monthlySalesEbit = this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'];
+    const existingFs = this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'];
+    const currentProposalFs = this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'];
+
+    const bufferFs = monthlySalesEbit - existingFs - currentProposalFs;
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = isNaN(bufferFs) ? 0 : bufferFs;
+
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'];
   }
 
   public bufferAverage() {
-    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] = Number(
-      this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
-    );
+    const averageBalance = this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'];
+    const existingFs = this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'];
+    const currentProposalFs = this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'];
+    const bufferAvg = averageBalance - existingFs - currentProposalFs;
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] = isNaN(bufferAvg) ? 0 : bufferAvg;
+
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'];
   }
 
   public bufferCredit() {
-    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] = Number(
-      this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
-    );
+    const creditMutationMargin = this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'];
+    const existingFs = this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'];
+    const currentProposalFs = this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'];
+
+    const bufferCredit = creditMutationMargin - existingFs - currentProposalFs;
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] = isNaN(bufferCredit) ? 0 : bufferCredit;
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'];
   }
 
   public bufferIncomeFs() {
-    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] = Number(
-      (this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] /
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit']) *
-        100
-    );
+    const bufferFs = this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'];
+    const monthlySalesEbit = this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'];
+
+    if (bufferFs === 0 || monthlySalesEbit === 0) {
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] = 0;
+    } else {
+      const bufferIncomeFs = (bufferFs / monthlySalesEbit) * 100;
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] = isNaN(bufferIncomeFs) ? 0 : bufferIncomeFs;
+    }
+
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'];
   }
 
   public bufferIncomeAvg() {
-    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] = Number(
-      (this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] /
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance']) *
-        100
-    );
+    const bufferAverage = this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'];
+    const averageBalance = this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'];
+    if (bufferAverage === 0 || averageBalance === 0) {
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] = 0;
+    } else {
+      const bufferIncomeAvg = (bufferAverage / averageBalance) * 100;
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] = isNaN(bufferIncomeAvg)
+        ? 0
+        : bufferIncomeAvg;
+    }
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'];
   }
 
   public bufferIncomeCredit() {
-    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] = Number(
-      (this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] /
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin']) *
-        100
-    );
+    const bufferCredit = this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'];
+    const creditMutationMargin = this.creditProposal.attributes['repaymentCapability'][0]['detail']['averagcreditMutationMargineBalance'];
+
+    if (bufferCredit === 0 || creditMutationMargin === 0) {
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] = 0;
+    } else {
+      const bufferIncomeCredit = (bufferCredit / creditMutationMargin) * 100;
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] = isNaN(bufferIncomeCredit)
+        ? 0
+        : bufferIncomeCredit;
+    }
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'];
   }
   numberInputChanged(value) {
