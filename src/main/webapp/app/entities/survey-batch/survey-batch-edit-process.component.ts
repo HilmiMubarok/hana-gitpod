@@ -704,10 +704,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
           }
         }
       });
+      this.loadProperty(this.collateral);
     });
     this.getTasks();
     this.timeLine();
-    this.loadProperty(this.collateral);
   }
 
   public addNewCriteria(data: IScoreCard[]): void {
