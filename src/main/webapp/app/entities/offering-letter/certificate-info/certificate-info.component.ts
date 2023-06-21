@@ -23,7 +23,10 @@ export class CertificateInfoComponent implements OnInit {
   ) {
     if (data.cp.attributes['certificateInfoData']) {
       if (data.cp.attributes['certificateInfoData'].length > 0) {
-        this.dataItem = data.cp.attributes['certificateInfoData'].filter(obj => obj.id === data.collateral.id);
+        const filter: ICertificateInfo[] = data.cp.attributes['certificateInfoData'].filter(obj => obj.id === data.collateral.id);
+        if (filter) {
+          this.dataItem = filter;
+        }
       }
     }
     this.creditProposal = data.cp;
@@ -32,5 +35,6 @@ export class CertificateInfoComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('credit Proposal ', this.creditProposal);
+    console.log('ini collateral di certificate ', this.collateral);
   }
 }
