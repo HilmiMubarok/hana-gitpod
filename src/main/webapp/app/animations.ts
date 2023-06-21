@@ -1,11 +1,12 @@
 import { trigger, transition, style, animate, AnimationTriggerMetadata, state, group, query, animateChild } from '@angular/animations';
 
 const defaultDuration = '0.35s';
-const defaultMinWidth = '60px';
+const defaultMinWidth = '70px';
 const defaultMaxWidth = '313px';
 const defaultMinFontSize = '18px';
 const defaultMaxFontSize = '16px';
-const defaultLabelDuration = '0.00s';
+const defaultLabelDurationIn = '0.01s';
+const defaultLabelDurationOut = '1.00s';
 
 export function mainContentAnimation(
   animationDuration: string = defaultDuration,
@@ -91,23 +92,25 @@ export function iconAnimation(
 }
 
 export function labelAnimation(
-  animationDurationIn: string = defaultLabelDuration,
-  animationDurationOut: string = defaultDuration
+  animationDurationIn: string = defaultLabelDurationIn,
+  animationDurationOut: string = defaultLabelDurationOut
 ): AnimationTriggerMetadata {
   return trigger('labelAnimation', [
     state(
       'open',
       style({
-        display: 'inline',
+        display: 'inline-block',
         opacity: 1,
       })
     ),
     state(
       'close',
       style({
-        display: 'none',
+        // display: 'none',
         // opacity: 0,
-        visibility: 'hidden',
+        // visibility: 'hidden',
+        'white-space': 'nowrap',
+        'text-overflow': 'ellipsis',
       })
     ),
     transition('close => open', animate(`${animationDurationOut} ease-in-out`)),
