@@ -902,7 +902,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 		if (note['modifiedDate']) {
 		  note['modifiedDateCalc'] = moment(new Date(note['modifiedDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
 		} else {
-		  note['modifiedDateCalc'] = note['createDate'].split('T')[0];
+		  note['modifiedDateCalc'] = moment(new Date(note['createDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
 		}
 	  });
     });
