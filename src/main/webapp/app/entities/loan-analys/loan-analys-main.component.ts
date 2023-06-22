@@ -1018,7 +1018,7 @@ export class LoanAnalysMainComponent implements OnInit {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
     if (this.creditProposal.id) {
-      let isAllowedSaveWith2StepVerification = false;
+      /* let isAllowedSaveWith2StepVerification = false;
       if (
         this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
         (this.parentPath === 'la-analyst' ||
@@ -1050,7 +1050,17 @@ export class LoanAnalysMainComponent implements OnInit {
               'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu',
           });
         }
-      }
+      } */
+
+	  this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
+		this.creditProposal.notes = res.body.notes;
+
+		if (this.loanAnalysOpinionComponent) {
+		  this.loanAnalysOpinionComponent.refresh();
+		}
+
+		this.saveApplicationRole(this.saveState);
+	  });
     }
   }
 
@@ -1181,7 +1191,7 @@ export class LoanAnalysMainComponent implements OnInit {
         this.saveApplicationRole(source);
       });
     } else {
-      let isAllowedSaveWith2StepVerification = false;
+      /* let isAllowedSaveWith2StepVerification = false;
       if (
         this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
         (this.parentPath === 'la-analyst' ||
@@ -1232,7 +1242,36 @@ export class LoanAnalysMainComponent implements OnInit {
               'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu',
           });
         }
-      }
+      } */
+
+	  this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+		this.creditProposal.products = res.body.products;
+		this.creditProposal.notes = res.body.notes;
+
+		if (status === 'complete') {
+		  this.saveFile();
+		}
+
+		const tempRouterA = this.router.url.split('/')[1];
+
+		if (tempRouterA === 'cc-review') {
+		  if (this.loanAnalysOpinionCompliancePartComponent) {
+			this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+			this.loanAnalysOpinionCompliancePartComponent.refresh();
+			this.loanAnalysOpinionCompliancePartComponent.onCreate();
+		  }
+		}
+
+		if (this.selectedMenu === 'loan-facility') {
+		  if (this.loanFacilityDetailTempComponent) {
+			this.loanFacilityDetailTempComponent.triggeredSave();
+			this.loanFacilityDetailTempComponent.onCreate();
+		  }
+		}
+
+		this.saveDoc = true;
+		this.saveApplicationRole(source);
+	  });
     }
   }
 

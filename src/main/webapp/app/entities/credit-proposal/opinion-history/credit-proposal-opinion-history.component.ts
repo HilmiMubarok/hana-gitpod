@@ -14,6 +14,7 @@ import { ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal.service';
 import { CreditProposalDialogOpinionHistoryComponent } from './dialog-opinion-history/credit-proposal-dialog-opinion-history.component';
 import { MessageService } from 'primeng/api';
+import moment from 'moment';
 
 import {
   DocumentEditorComponent,
@@ -585,7 +586,11 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 	  this.notesMod = lodash.cloneDeep(this.notes);
 
 	  this.notesMod.forEach(note => {
-		note['createDateCalc'] = moment(new Date(note['createDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
+		if (note['modifiedDate']) {
+		  note['modifiedDateCalc'] = moment(new Date(note['modifiedDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
+		} else {
+		  note['modifiedDateCalc'] = moment(new Date(note['createDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
+		}
 	  });
 
     });
