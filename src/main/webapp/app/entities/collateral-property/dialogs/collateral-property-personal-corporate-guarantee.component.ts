@@ -235,7 +235,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     private internalService: InternalService
   ) {
     // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
-    this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
+    // this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
@@ -260,7 +260,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.getLovCertificateType();
     this.cekRemark();
     this.getBranchs();
-    console.log('collateral ', this.collateralProperty.marketValue);
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -433,7 +432,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   }
 
   public findCif() {
-    console.log('cif ', this.collateralProperty.guarantorCif);
     if (this.collateralProperty.guarantorCif !== null) {
       this.partyCifService.findCifCash(this.collateralProperty.guarantorCif).subscribe(res => {
         this.partyCif = res.body;
