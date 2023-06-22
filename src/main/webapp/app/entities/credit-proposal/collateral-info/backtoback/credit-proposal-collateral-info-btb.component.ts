@@ -39,6 +39,9 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     'action',
   ];
   private _group: string;
+
+  @Input() parentSource?: String = '';
+
   @Input()
   get group() {
     return this._group;
@@ -126,7 +129,10 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
           return (
             o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
             o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
-            o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+            o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
           );
         });
         this.dataItem = new MatTableDataSource(filter);
@@ -168,6 +174,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         isViewMode: this.isViewMode,
         collateralProperties: this.collateralProperties,
         group: this.group,
+        parentSource: this.parentSource,
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);

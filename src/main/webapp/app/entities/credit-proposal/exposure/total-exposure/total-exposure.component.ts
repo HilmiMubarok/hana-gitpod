@@ -15,11 +15,11 @@ import { IApplicationProduct } from 'app/entities/application-product/applicatio
 import { CreditProposalService } from '../../credit-proposal.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'jhi-total-exposure',
   templateUrl: './total-exposure.component.html',
-  styleUrls: ['../../loan-facility/grid/loan.scss'],
+  styleUrls: ['../../loan-facility/grid/loan.scss', './total-exposure.style.scss'],
 })
 export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges, AfterViewInit {
   public parsedAttr;
@@ -37,6 +37,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public totalDebiturNonCashLoan = 0;
   public totalDebiturNonCashLoanGroup = 0;
   public grandTotalGroup = 0;
+  public id: number;
 
   public myBusinessGroup: IDebtorData[];
   public myBusinessGroupCPFacility: ICPFacilityTable[];
@@ -57,7 +58,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     protected partyCifService: PartyCifService,
     protected fakeFacilityService: FakeFacilityService,
     public creditProposalService: CreditProposalService,
-    public router: Router
+    public router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     super(_snackbar, partyCifService);
     this.myBusinessGroup = [];
@@ -116,6 +118,18 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
       this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
       this.getCurrency();
+
+      this.activatedRoute.params.subscribe(params => {
+        this.id = params['id'];
+        this.cpGroub();
+      });
+    });
+  }
+
+  public cpGroub() {
+    this.creditProposalService.applicationGroubProduct(this.id).subscribe((response: any) => {
+      // console.log('ggffff', response.body);
+      this.filterBusinessGroupDebtorData(response.body);
     });
   }
 
@@ -123,61 +137,37 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.debtorData();
   }
 
-  private getMyBusinessGroup(): void {
-    this.partyCifService.getBusinessGroup(this.creditProposal.customerNumber).subscribe(res => {
-      this.filterBusinessGroupDebtorData(res.body);
-    });
-  }
-
-  private filterBusinessGroupDebtorData(param: IDebtorData[]): void {
-    if (param.length > 0) {
+  private filterBusinessGroupDebtorData(source: any[]): void {
+    if (source.length > 0) {
       let no = 0;
-      for (let i = 0; i < param.length; i++) {
-        const item: IDebtorData = param[i];
-        if (lodash.has(item.attributes, 'cpFacility')) {
-          const source = JSON.parse(item.attributes['cpFacility']);
+      for (let y = 0; y < source.length; y++) {
+        const parsed = new CPFacilityTable();
+        no = no + 1;
+        parsed.no = no;
+        parsed.GroupName = source[y].customerName;
+        parsed.LoanAccount = source[y].agreementNumber;
+        parsed.FacilityType = source[y].productTypeId;
+        parsed.InitialLimit = Number(source[y].contractAmount ? source[y].contractAmount : 0);
+        parsed.Changes = 0;
+        parsed.OS = source[y].outstanding;
+        parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
 
-          if (source) {
-            for (let y = 0; y < source.length; y++) {
-              const parsed = new CPFacilityTable();
-              const parsedAny = parsed;
-              no = no + 1;
-              parsed.no = no;
-              parsed.GroupName = param[i].customerName;
-              parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
-              parsed.FacilityType = source[y].FACILITY_TYPE;
-              parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
-              parsed.Changes = 0;
-              parsed.OS = source[y].LNB_BASE_LON_JAN;
-              parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
+        parsed.InterestRate =
+          source[y].intResetFrequency + ' ' + source[y].intResetPeriod + ' ' + source[y].rateTypeName + ' ' + source[y].spreadRate;
+        parsed.Provision = source[y].provisionFeeAmount;
+        parsed.AdminFee = source[y].provisionFeeAmount;
+        parsed.FirstDisbursementDate = source[y].trxDate;
+        parsed.Tenor = source[y].trxDate;
+        parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].productCode);
+        parsed.CCY = source[y].baseCurrency;
+        parsed.MaturityDate = source[y].maturityDate;
 
-              parsed.InterestRate =
-                source[y].FILN10_ROLL_GAP +
-                ' ' +
-                source[y].FILN10_ROLL_GAP_GB_NM +
-                ' ' +
-                source[y].FIX_FLT_GB_NM +
-                ' ' +
-                source[y].FILN11_SPREAD_RT;
-              parsed.Provision = source[y].FILN22_FEE_AMT;
-              parsed.AdminFee = source[y].FILN22_FEE_AMT;
-              parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
-              parsed.Tenor = source[y].FXFIG_TRX_DT;
-              parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
-              parsed.CCY = source[y].LNB_BASE_LON_CCY;
-              parsed.MaturityDate = source[y].FILN10_TOT_EXP_IL;
-
-              this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
-              this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
-              this.busines = new MatTableDataSource(this.myBusinessGroupCPFacility);
-              this.busines.paginator = this.paginator;
-              const removeundefined = lodash.remove(this.myBusinessGroupCPFacility, function (n) {
-                return n === undefined;
-              });
-            }
-          }
-        }
+        this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
+        this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
+        this.busines = new MatTableDataSource(this.myBusinessGroupCPFacility);
+        this.busines.paginator = this.paginator;
       }
+
       this.calculateCashLoanNonCashLoanGroub(this.myBusinessGroupCPFacility);
     }
 
@@ -325,7 +315,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       this.fungsiSumTotalDebiturCashLoan();
       this.totalNonCashLoan();
       this.totalCashLoan();
-      this.getMyBusinessGroup();
+
       this.grandTotalDebitur();
 
       this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
@@ -357,9 +347,9 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
           a = lodash.concat(a, this.creditProposal.products[i]);
         }
       }
-      console.log('if jalan');
+      // console.log('if jalan');
     } else {
-      console.log('else jalan');
+      // console.log('else jalan');
       this.dataSource = this.creditProposal.products;
 
       for (let i = 0; i < this.creditProposal.products.length; i++) {

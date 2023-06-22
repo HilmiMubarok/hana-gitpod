@@ -196,8 +196,8 @@
         </ejs-breadcrumb>
         <div class="header-container">
           <div class="header-content">
-            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
-            <span class="back-prefix" (click)="previousState()">Back | </span>
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
+            <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
           <p class="e-card-sub-title">{{ getTextMenu() }}</p>
         </div>
@@ -262,7 +262,11 @@
       </div>
 
       <div *ngIf="clickedMenu === 'valuation'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-collateral-appraisal-valuation [collateralAppraisal]="collateralAppraisal" [collateral]="collateral">
+        <jhi-collateral-appraisal-valuation
+          [collateralAppraisal]="collateralAppraisal"
+          [collateral]="collateral"
+          [collateralProp]="collateralProp"
+        >
         </jhi-collateral-appraisal-valuation>
       </div>
       <div

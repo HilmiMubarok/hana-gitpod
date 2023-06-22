@@ -30,6 +30,7 @@ export class DocumentComponent implements OnChanges, OnInit {
 
   @Input()
   public status: string;
+  public booleanRouter: boolean;
 
   public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
   public files: Object[];
@@ -49,6 +50,7 @@ export class DocumentComponent implements OnChanges, OnInit {
   ) {
     this.files = [];
     this.folders = [];
+    this.booleanRouter = this.router.url.includes('party-cif');
   }
   ngOnInit(): void {
     this.checkLogin();

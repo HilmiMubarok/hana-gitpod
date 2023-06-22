@@ -23,9 +23,11 @@ td {
   border-top-right-radius: 15px;
 }
 
-.button-styling {
-  background-color: rgba(49, 158, 152, 1);
-  color: #ffffff;
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .mat-header-cell:first-child {
@@ -46,18 +48,9 @@ td {
 .td-no {
   text-align: center;
 }
-.mat-column-action {
-  text-align: center !important;
-}
 
 .mat-column-hobis {
   text-align: center !important;
-}
-.mat-column-proposalNumber {
-  padding-left: 50px;
-}
-.mat-column-createdDate {
-  padding-right: 50px;
 }
 .e-card {
   padding: 10px;
@@ -227,18 +220,6 @@ td {
 .mat-fab.mat-accent,
 .mat-mini-fab.mat-accent {
   background-color: rgba(209, 91, 111, 1);
-}
-
-.button-styling {
-  background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff;
-}
-
-@-moz-document url-prefix() {
-  .button-styling-moz {
-    text-align: center;
-    vertical-align: middle;
-  }
 }
 
 .align-right-grid {
@@ -553,6 +534,7 @@ table {
 
 th {
   background-color: rgba(147, 201, 199, 1) !important;
+  text-align: left;
   color: black !important;
   font-family: 'Poppins', sans-serif !important;
 }
@@ -578,8 +560,8 @@ th:last-child {
 }
 
 .mat-column-no {
-  width: 5%;
-  justify-content: flex-start;
+  width: 5% !important;
+  text-align: right;
 }
 
 .mat-column:first-child {
@@ -588,11 +570,6 @@ th:last-child {
 
 .mat-column:last-child {
   border-top-right-radius: 15px;
-}
-
-.button-styling {
-  background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff !important;
 }
 
 .mat-flat-button.mat-warn,
@@ -682,4 +659,130 @@ th:last-child {
 }
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
+}
+.mat-column-no {
+  width: 5%;
+  text-align: right !important;
+}
+.mat-column-requestDate {
+  text-align: right;
+}
+.mat-column-createdDate {
+  text-align: right !important;
+}
+.mat-column-action {
+  width: 10%;
+}
+.status-chip.status-chip.status-chip {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.category-chip__text {
+  width: calc(100%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 0 28px 0 0 !important;
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}
+
+/* table appraisal Distribution External*/
+.mat-column-appraisalNumber {
+  text-align: left;
+}
+.mat-column-cif {
+  text-align: left;
+}
+.mat-column-customerName {
+  text-align: left;
+}
+.mat-column-customerType {
+  text-align: left;
+}
+.mat-column-createdDate {
+  text-align: right;
+}
+.mat-column-collateralType {
+  text-align: left;
+}
+.mat-column-status {
+  text-align: left;
+}
+.mat-column-action {
+  text-align: left;
+}
+/* table appraisal Distribution External*/
+
+/*  Table Appraisal External Offering Letter */
+.mat-column-tanggal {
+  text-align: right;
+}
+.mat-column-nomor {
+  text-align: left;
+}
+.mat-column-namaKjpp {
+  text-align: left;
+}
+.mat-column-biaya {
+  text-align: right;
+}
+
+/*  Table Appraisal External Offering Letter */
+
+/* Table appraisal External KJPP */
+.mat-column-name {
+  text-align: left;
+}
+.mat-column-receivedDate {
+  text-align: right;
+}
+/* Table appraisal External KJPP */
+
+/* table Appraisel Externanl add new offering letter */
+.mat-column-roleId {
+  text-align: left;
+}
+/* table Appraisel Externanl add new offering letter */
+
+.mat-column-id {
+  width: 5% !important;
+  text-align: right !important;
 }

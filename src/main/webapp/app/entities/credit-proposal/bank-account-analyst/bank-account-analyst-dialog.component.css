@@ -226,4 +226,9 @@ td {
 }
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
+  margin-bottom: 20px;
+}
+
+.mat-card-header {
+  margin-bottom: 30px;
 }

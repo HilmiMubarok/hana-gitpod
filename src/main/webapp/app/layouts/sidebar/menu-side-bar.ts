@@ -988,11 +988,6 @@ export const SIDEBAR_MENU_DH: ISidebarMenuModel[] = [
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
-      // {
-      //   name: 'Loan Analysis Distribution',
-      //   iconname: 'minus',
-      //   route: 'la-distribution',
-      // },
       {
         name: 'Loan Approval',
         iconname: 'minus',
@@ -1003,24 +998,8 @@ export const SIDEBAR_MENU_DH: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'la-approval-inquiry',
       },
-      // {
-      //   name: 'Compliance Checking Distribution',
-      //   iconname: 'minus',
-      //   route: 'cc-distribution',
-      // },
     ],
   },
-  // {
-  //   name: 'Offering Letter & Legal',
-  //   iconname: 'square-check',
-  //   children: [
-  //     {
-  //       name: 'Distribution Offering Letter',
-  //       iconname: 'minus',
-  //       route: 'distribution',
-  //     },
-  //   ],
-  // },
 ];
 
 export const APPRAISAL_MENU_TL: ISidebarMenuModel[] = [
@@ -1554,11 +1533,6 @@ export const APPRAISAL_APR_DEPT_HEAD: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'batch-apprisal/internal',
       },
-      // {
-      //   name: 'Appraisal Process',
-      //   iconname: 'minus',
-      //   route: 'batch-apprisal/process',
-      // },
       {
         name: 'Appraisal Report Approval',
         iconname: 'minus',
@@ -1682,18 +1656,24 @@ export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
 
 export const APPRAISAL_MENU_LEGAL_TEAM_LEAD: ISidebarMenuModel[] = [
   {
-    name: 'Appraisal',
-    iconname: 'file',
+    name: 'Initiation',
+    iconname: 'pencil-alt',
     children: [
       {
-        name: 'Appraisal Distribution External',
+        name: 'Initial Debtor Data',
         iconname: 'minus',
-        route: 'batch-apprisal',
+        route: 'party-cif',
       },
+    ],
+  },
+  {
+    name: 'Offering Letter & Legal',
+    iconname: 'square-check',
+    children: [
       {
-        name: 'Appraisal Distribution Internal',
+        name: 'Offering Letter Review',
         iconname: 'minus',
-        route: 'batch-apprisal/internal',
+        route: 'review',
       },
     ],
   },

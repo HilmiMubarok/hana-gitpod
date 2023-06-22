@@ -140,6 +140,7 @@ mat-card-header {
 th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black !important;
+  font-weight: 100;
   font-family: 'Poppins', sans-serif !important;
 }
 td {

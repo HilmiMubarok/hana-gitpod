@@ -12,7 +12,9 @@
             <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
           </ngx-dropzone>
           <div class="row">
+            <!-- <div class="images" > -->
             <ngx-dropzone-preview
+              style="height: 300px"
               class="col-6"
               ngProjectAs="ngx-dropzone-preview"
               style="background-color: white !important; background-image: none !important"
@@ -20,7 +22,13 @@
               [removable]="f.name.includes('los_logo.png') ? false : true"
               (removed)="onRemove(f)"
             >
-              <ngx-dropzone-label [hidden]="f.name.includes('los_logo.png')" *ngIf="f.url === undefined">
+              <ngx-dropzone-label
+                [hidden]="f.name.includes('los_logo.png')"
+                *ngIf="f.url === undefined"
+                width="170px"
+                height="130px"
+                padding-top="70px"
+              >
                 <ngx-dropzone-image-preview
                   ngProjectAs="ngx-dropzone-image-preview"
                   [file]="f"
@@ -31,6 +39,25 @@
                     f.name.split('.').indexOf('gif') > -1
                   "
                 ></ngx-dropzone-image-preview>
+
+                <div
+                  style="
+                    width: 170px;
+                    top: 60%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 1;
+                    background-color: gray;
+                    padding: 2px;
+                    font-size: 12px;
+                    color: white;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                    margin-top: -20px;
+                    position: absolute;
+                  "
+                >
+                  {{ f.name }}
+                </div>
               </ngx-dropzone-label>
 
               <ngx-dropzone-label *ngIf="f.url !== undefined">
@@ -42,17 +69,44 @@
                     f.name.split('.').indexOf('gif') > -1
                   "
                 >
-                  <img [hidden]="f.name.includes('los_logo.png')" [src]="f.url" width="100%" height="100%" />
+                  <img [hidden]="f.name.includes('los_logo.png')" [src]="f.url" width="170px" height="100px" padding-top="70px" />
                 </div>
+                <section>
+                  <div
+                    style="
+                      width: 170px;
+                      top: 60%;
+                      left: 50%;
+                      transform: translateX(-50%);
+                      z-index: 1;
+                      background-color: gray;
+                      padding: 2px;
+                      font-size: 12px;
+                      color: white;
+                      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                      margin-top: -20px;
+                      position: absolute;
+                    "
+                  >
+                    {{ f.nameFIle }}
+                  </div>
+                </section>
               </ngx-dropzone-label>
               <ngx-dropzone-label>
                 <div *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
                   <img src="../../../../content/images/excel.png" width="100%" height="100%" />
+                  <!-- <div *ngIf="f.url === undefined">
+                    <p>{{f.name}}</p>
+                  </div>
+                  <div *ngIf="f.url !== undefined">
+                    <p>{{f.nameFIle}}</p>
+                  </div> -->
                 </div>
               </ngx-dropzone-label>
 
               <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
                 <img src="../../../../content/images/word.png" width="100%" height="100%" />
+                <!-- <p>{{f.name}}</p> -->
               </ngx-dropzone-label>
 
               <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('aac') > -1">
@@ -85,7 +139,17 @@
 
               <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
                 <img src="../../../../content/images/svg.jpg" width="100%" height="100%" />
+                <!-- <p>{{f.name}}</p> -->
               </ngx-dropzone-label>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col">Category type</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ itemData }}
+                  </div>
+                </div>
+              </section>
 
               <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
                 <img src="../../../../content/images/tiff.png" width="100%" height="100%" />
@@ -108,15 +172,6 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-              </section>
-              <section *jhiMatrixDirIDD="''">
-                <div class="fontsebled row">
-                  <div class="col">Category type</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col">
-                    {{ itemData }}
-                  </div>
-                </div>
               </section>
             </div>
           </div>

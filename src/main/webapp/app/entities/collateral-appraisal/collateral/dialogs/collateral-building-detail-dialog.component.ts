@@ -62,7 +62,6 @@ export class CollateralBuildingDetailDialogComponent implements OnInit {
   public getRole() {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.checkRole(newPos.positionTypeId);
-      console.log('ini adalah role', newPos.positionTypeId);
     });
   }
 

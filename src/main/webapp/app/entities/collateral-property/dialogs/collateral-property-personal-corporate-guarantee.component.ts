@@ -554,19 +554,19 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     }
   }
 
-  public param(data: string) {
-    const value = this.branceManagement.filter(obj => obj.id === data);
+  public param(data: number) {
+    const value = this.managementBranchLov.filter(obj => obj.id === Number(data));
     if (value.length > 0) {
-      return this.branceManagement.filter(obj => obj.id === data)[0].label;
+      return this.managementBranchLov.filter(obj => obj.id === Number(data))[0].label;
     } else {
       return '';
     }
   }
 
-  public filterBranch(data: string) {
-    const branchValue = this.branchs.filter(obj => obj.name === data);
+  public filterBranch(data: number) {
+    const branchValue = this.branchs.filter(obj => obj.id === data);
     if (branchValue.length > 0) {
-      return this.branchs.filter(obj => obj.name === data)[0].name;
+      return this.branchs.filter(obj => obj.id === data)[0].name;
     } else {
       return '';
     }

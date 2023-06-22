@@ -343,7 +343,47 @@ export class LoanAnalysMainComponent implements OnInit {
         this.subMenu =
           this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? [...SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
-            : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+            ? [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'dar-convenant',
+                  text: 'convenant & Document Checklist',
+                },
+                {
+                  id: 'loan-facility-detail',
+                  text: 'Loan Facility',
+                },
+                {
+                  id: 'facility-mapping',
+                  text: 'Collateral Mapping Facility',
+                },
+                { id: 'compare-data', text: 'Compare Data' },
+              ]
+            : (this.subMenu = [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'dar-convenant',
+                  text: 'convenant & Document Checklist',
+                },
+                {
+                  id: 'loan-facility-detail',
+                  text: 'Loan Facility',
+                },
+                {
+                  id: 'facility-mapping',
+                  text: 'Collateral Mapping Facility',
+                },
+                { id: 'compare-data', text: 'Compare Data' },
+              ]);
         break;
 
       case 'dar-checker':
@@ -566,6 +606,19 @@ export class LoanAnalysMainComponent implements OnInit {
             severity: 'error',
             summary: 'Error',
             detail: 'Please press button approval status!',
+            life: 3000,
+          });
+        } else if (
+          this.creditProposal.statusId === 'CP_DAR_FINAL' &&
+          this.creditProposal.attributes['approvalStatus'] !== 'Approved as condition' &&
+          this.creditProposal.attributes['approvalStatus'] !== 'Approved as proposed' &&
+          this.creditProposal.attributes['approvalStatus'] !== 'Reject' &&
+          _res.caption === 'Submit'
+        ) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please press button approval status before submit!',
             life: 3000,
           });
         } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && _res.caption === 'Submit') {
@@ -808,7 +861,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].path = this.uuidPath;
-                  copyCreditProposal.notes[i].createDate = moment(new Date(Date.now())).format();
+                  copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
                 } else {
@@ -816,6 +869,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].path = this.uuidPath;
+				  copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
                 }

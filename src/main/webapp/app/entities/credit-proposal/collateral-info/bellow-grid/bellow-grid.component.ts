@@ -54,6 +54,9 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     'action',
   ];
   private _group: string;
+
+  @Input() parentSource?: String = '';
+
   @Input()
   get group() {
     return this._group;
@@ -188,6 +191,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     this.setCertyficateType();
     this.totalCoverage();
     this.getLovInsuranceType();
+    this.lovBindingType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -260,6 +264,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         isViewMode: this.isViewMode,
         group: this.group,
         collateralProperties: this.collateralProperties,
+        parentSource: this.parentSource,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);

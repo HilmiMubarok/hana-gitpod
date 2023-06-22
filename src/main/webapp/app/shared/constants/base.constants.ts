@@ -529,26 +529,26 @@ export const SUBMENU_COLLATERAL_APPRAISAL_REALESTATE: IOptionNode[] = [
     id: 'collateral-info',
     label: 'collateral info',
   },
-  // {
-  //   id: 'valuation',
-  //   label: 'valuation',
-  // },
-  // {
-  //   id: 'negative-collateral',
-  //   label: 'negative collateral',
-  // },
-  // {
-  //   id: 'comparison-data',
-  //   label: 'comparison data',
-  // },
-  // {
-  //   id: 'foto-object-jaminan',
-  //   label: 'foto object jaminan',
-  // },
-  // {
-  //   id: 'summary',
-  //   label: 'summary',
-  // },
+  {
+    id: 'valuation',
+    label: 'valuation',
+  },
+  {
+    id: 'negative-collateral',
+    label: 'negative collateral',
+  },
+  {
+    id: 'comparison-data',
+    label: 'comparison data',
+  },
+  {
+    id: 'foto-object-jaminan',
+    label: 'foto object jaminan',
+  },
+  {
+    id: 'summary',
+    label: 'summary',
+  },
 ];
 
 export const SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL: IOptionNode[] = [
@@ -2563,6 +2563,10 @@ export const SUBMENU_OFFERING_LETTER_FINALIZE: object[] = [
       {
         id: 'finalize-convenant',
         text: 'Covenant & Document Checklist',
+      },
+      {
+        id: 'dec-collateral-info',
+        text: 'Collateral Info',
       },
       // {
       //   id: 'collateral-facility-mapping',

@@ -185,7 +185,17 @@
     </mat-card-content>
   </mat-card>
 </mat-dialog-content>
-<mat-dialog-actions align="center" [hidden]="view">
-  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Close</button>
+<!-- <mat-dialog-actions align="center" [hidden]="view">
+  <button mat-raised-button mat-dialog-close class="confirm-button-no">Close</button>
+  <button mat-raised-button class="confirm-button-no" [hidden]="buttonApproval()" (click)="openCancelDialog()">Close</button>
   <button mat-raised-button class="confirm-button-yes" [hidden]="buttonApproval()" (click)="save()">Save</button>
+</mat-dialog-actions> -->
+<mat-dialog-actions align="center" [hidden]="view">
+  <section *jhiMatrixDirIDD="''">
+    <button mat-raised-button mat-dialog-close class="confirm-button-no">Close</button>
+  </section>
+  <section *jhiMatrixDirIDD="'input'">
+    <button mat-raised-button class="confirm-button-no" [hidden]="buttonApproval()" (click)="openCancelDialog()">Close</button>
+    <button mat-raised-button class="confirm-button-yes" [hidden]="buttonApproval()" (click)="save()">Save</button>
+  </section>
 </mat-dialog-actions>

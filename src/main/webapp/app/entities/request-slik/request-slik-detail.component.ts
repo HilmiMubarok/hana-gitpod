@@ -194,8 +194,8 @@ export class RequestSlikDetailComponent implements OnInit {
   segment = 'loading...';
 
   roles = {
-    request: ['RM', 'CRO', 'BUSINESS_SUPPORT'],
-    approval: ['SME_HEAD', 'DEPT_HEAD', 'HCR1', 'HCR2'],
+    request: ['RM', 'CRO'],
+    approval: ['SME_HEAD', 'DEPT_HEAD', 'HCR1', 'HCR2', 'BUSINESS_SUPPORT'],
   };
 
   // submitTitle = this.getSubmitTitle()

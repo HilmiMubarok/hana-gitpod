@@ -343,13 +343,16 @@
         <div>
           <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
         </div>
+        <div *ngIf="parentSource === 'dec-offering'">
+          <jhi-certificate-info></jhi-certificate-info>
+        </div>
         <mat-dialog-actions align="center">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
             <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-            <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+            <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
           </section>
         </mat-dialog-actions>
       </div>

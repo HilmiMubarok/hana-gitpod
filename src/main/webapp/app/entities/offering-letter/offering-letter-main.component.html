@@ -797,6 +797,21 @@
         <jhi-offering-page [creditProposal]="creditProposal"></jhi-offering-page>
       </div>
 
+      <div *ngIf="selectedMenu === 'dec-collateral-info'" class="e-sample-resize-container e-card-resize-container">
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-credit-proposal-collateral-info
+              #creditProposalCollateralInfoComponent
+              [creditProposal]="creditProposal"
+              [collateralProperties]="collateralProperties"
+              [parentSource]="'dec-offering'"
+              [isViewMode]="true"
+            >
+            </jhi-credit-proposal-collateral-info>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
       <!-- Basic Information -->
       <div *ngIf="selectedMenu === 'basic-information'" class="e-sample-resize-container e-card-resize-container">
         <div>

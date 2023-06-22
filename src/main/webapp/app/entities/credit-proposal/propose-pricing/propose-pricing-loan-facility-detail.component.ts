@@ -62,7 +62,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
     'sublimit',
     'ccy',
     'plafond',
-    'o/s',
+    'outstanding',
     'availableLimit',
     'currentInterestRate',
     'ftp',

@@ -62,6 +62,7 @@ import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-ap
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { CollateralLandCertificateService } from '../collateral-appraisal/collateral/dialogs/collateral-land-certificate.service';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   providers: [
@@ -703,6 +704,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
           }
         }
       });
+      this.loadProperty(this.collateral);
     });
     this.getTasks();
     this.timeLine();
@@ -941,6 +943,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this.collateral = this.surveyAppraisal.collateral;
         this.collateralType = this.collateral.collateralTypeId;
         this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
+        this.loadProperty(this.surveyAppraisal.collateral);
         resolve();
       });
     });
@@ -974,8 +977,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       // validate
 
       this.validateAppraisal().then(() => this.mainSave(source));
+      this.cekValuation();
     } else {
       this.mainSave(source);
+      this.cekValuation();
     }
   }
 
@@ -1567,5 +1572,52 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
 
     this.titleUrl = x;
+  }
+  // menu request appraisal
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
+  }
+
+  public loadProperty(collateral: ICollateral): void {
+    this.collateralPropertyService
+      .queryFilterBy({
+        idCollateral: collateral.id,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralProp = lodash.find(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
+        });
+        console.log('collateral Property Main', this.collateralProp);
+      });
+  }
+
+  public cekValuation() {
+    this.saveCollateralProperty(this.collateralProp);
+  }
+  public marketValueLandRound: number;
+  public saveCollateralProperty(property: ICollateralProperty) {
+    if (this.collateralProp) {
+      // console.log('save prop', property.attributes.marketValueLandRound);
+      // if (this.collateral.id) {
+      this.collateralPropertyService.save(property).subscribe(res => {
+        // console.log('res', res.body);
+        // console.log('save prop test', property.attributes.marketValueLandRound);
+      });
+      // }
+    }
   }
 }

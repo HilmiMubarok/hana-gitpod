@@ -118,9 +118,10 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
               o => o.id !== this.creditProposal.approvalLcDefault && o.id > this.creditProposal.approvalLcDefault
             );
           }
-          // Condition Selected Approval Matriks
-          // Jika Nelum Dipilih Approval Matriks atau value Approval LC dan Defaultnya sama maka grid approval matriks akan dikosongkan
+
           if (this.creditProposal.approvalLc === this.creditProposal.approvalLcDefault) {
+            // Condition Selected Approval Matriks
+            // Jika Nelum Dipilih Approval Matriks atau value Approval LC dan Defaultnya sama maka grid approval matriks akan dikosongkan
             if (this.relationTypes.length > 0) {
               for (const relationType of this.relationTypes) {
                 this.selectedRelationType = relationType.id;
@@ -140,7 +141,11 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
 
   public selectRelationType(event): void {
     this.selectedRelationType = event.value;
-    this.getApplicationRolesByApplicationId();
+    if (this.selectedRelationType === '') {
+      this.creditProposal.approvalLc = this.creditProposal.approvalLcDefault;
+    } else {
+      this.getApplicationRolesByApplicationId();
+    }
   }
 
   private getApplicationRolesByApplicationId(): void {

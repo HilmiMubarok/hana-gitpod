@@ -1555,26 +1555,21 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
       });
   }
-
+  // CP/Float
   // cancel confrimation dialog
-  // public openCancelDialog(task): void {
-  //   if (task) {
-  //     if (task.caption === 'Cancel') {
-  //       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-  //         width: '20vw',
-  //         data: {
-  //           title: '',
-  //           message: 'Are you sure to cancel?',
-  //         },
-  //       });
-  //       dialogRef.afterClosed().subscribe(res => {
-  //         if (res) {
-  //           this.previousState();
-  //         }
-  //       });
-  //     } else {
-  //       this.processTask(task);
-  //     }
-  //   }
-  // }
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
+  }
 }

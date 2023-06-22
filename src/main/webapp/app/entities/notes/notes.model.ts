@@ -14,6 +14,8 @@ export interface INotes {
   path?: string;
   received?: boolean;
   uuid?: string;
+  modifiedDate?: Date;
+  updateAction?: boolean;
   attributes?: any;
 }
 
@@ -34,6 +36,8 @@ export class Notes implements INotes {
     public path?: string,
 	public received?: boolean,
 	public uuid?: string,
+	public modifiedDate?: Date,
+	public updateAction?: boolean,
     public attributes?: any
   ) {}
 }

@@ -188,10 +188,18 @@
   </div>
   <div class="e-card-content">
     <div class="row">
+      <div class="col-6"><h6>Is Debtor Listed on Watchlist or Resturing ?</h6></div>
+      <div class="col-6">
+        <h6>
+          Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high risk
+          category
+        </h6>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="col-md-12">
-            <h6 style="margin-bottom: 34px">Is Debtor Listed on Watchlist or Resturing ?</h6>
             <textarea
               [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
               cssClass="e-outline"
@@ -204,7 +212,6 @@
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <div class="col-md-12">
-            <h6 style="margin-bottom: 34px">Is Debtor Listed on Watchlist or Resturing ?</h6>
             <textarea
               [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
               cssClass="e-outline"
@@ -220,10 +227,6 @@
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="col-md-12">
-            <h6 style="margin-bottom: 15px">
-              Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high
-              risk category
-            </h6>
             <textarea
               [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
               cssClass="e-outline"
@@ -236,10 +239,6 @@
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <div class="col-md-12">
-            <h6 style="margin-bottom: 15px">
-              Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high
-              risk category
-            </h6>
             <textarea
               [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
               cssClass="e-outline"
@@ -284,46 +283,48 @@
       <mat-card-subtitle class="e-card-header-title">Co-Borrower Info</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <table mat-table [dataSource]="data" class="w-100">
-        <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
-          <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
-        </ng-container>
-        <ng-container matColumnDef="customerNumber">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">CIF</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.customerNumber }}</td>
-        </ng-container>
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Company Name</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="taxIdNumber">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">NPWP</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.taxIdNumber }}</td>
-        </ng-container>
-        <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Address</th>
-          <td mat-cell *matCellDef="let element">{{ element.address }}</td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="rounding-table-right grid-index-left">Action</th>
-          <td mat-cell *matCellDef="let element">
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <button mat-icon-button (click)="onDelete(element)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <button hidden (click)="onDelete(element)"></button>
-            </section>
-          </td>
-        </ng-container>
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="data" class="w-100">
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef>No</th>
+            <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          </ng-container>
+          <ng-container matColumnDef="customerNumber">
+            <th mat-header-cell *matHeaderCellDef>CIF</th>
+            <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Company Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="taxIdNumber">
+            <th mat-header-cell *matHeaderCellDef>NPWP</th>
+            <td mat-cell *matCellDef="let element">{{ element.taxIdNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef>Address</th>
+            <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <button mat-icon-button (click)="onDelete(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <button hidden (click)="onDelete(element)"></button>
+              </section>
+            </td>
+          </ng-container>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
     </mat-card-content>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">

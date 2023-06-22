@@ -421,6 +421,15 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
     }
     return undefined;
   }
+
+  public filtercertificateType(data: string) {
+    const value = this.certificateType.filter(obj => obj.code === data);
+    if (value.length > 0) {
+      return this.certificateType.filter(obj => obj.code === data)[0].value;
+    } else {
+      return '';
+    }
+  }
   public param(data: string) {
     const value = this.branceManagement.filter(obj => obj.id === data);
     if (value.length > 0) {

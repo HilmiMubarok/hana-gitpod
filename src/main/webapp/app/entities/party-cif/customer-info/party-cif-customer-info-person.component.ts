@@ -126,12 +126,12 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     const fullYear = new Date(this.person.dob);
     const year = fullYear.toISOString().split('T')[0];
 
-	this.staticDob = new Date(this.getStaticDate(this.person.dob));
+    this.staticDob = new Date(this.getStaticDate(this.person.dob));
   }
 
   private getStaticDate(date: any) {
-	const dateString = date.toString();
-	return dateString.substring(0, 4) + "/" + dateString.substring(5, 7) + "/" + dateString.substring(8, 10);
+    const dateString = date.toString();
+    return dateString.substring(0, 4) + '/' + dateString.substring(5, 7) + '/' + dateString.substring(8, 10);
   }
 
   public dataSource() {
@@ -142,11 +142,11 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   }
   public hiddenNull() {
     if (this.person.firstName === null) {
-      this.person.firstName = '';
+      this.person.firstName = 'N/A';
     }
 
     if (this.person.lastName === null) {
-      this.person.lastName = '';
+      this.person.lastName = 'N/A';
     }
   }
 }
