@@ -859,7 +859,8 @@ export class LoanAnalysMainComponent implements OnInit {
                 if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
                   copyCreditProposal.notes[i].applicationId = this.id;
                   copyCreditProposal.notes[i].message = '';
-                  copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  // copyCreditProposal.notes[i].recomendation = this.recomendation;
+				  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
                   copyCreditProposal.notes[i].path = this.uuidPath;
                   copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
@@ -867,7 +868,8 @@ export class LoanAnalysMainComponent implements OnInit {
                 } else {
                   copyCreditProposal.notes[i].applicationId = this.id;
                   copyCreditProposal.notes[i].message = '';
-                  copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  // copyCreditProposal.notes[i].recomendation = this.recomendation;
+				  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
                   copyCreditProposal.notes[i].path = this.uuidPath;
 				  copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
@@ -1121,6 +1123,36 @@ export class LoanAnalysMainComponent implements OnInit {
 
     return returnStat;
   }
+
+  private twoStepVerificationOpinionRadioRetVal() {
+    let returnVal = '';
+	returnVal = this.recomendation;
+
+    if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC')) {
+	  if (this.recomendation === 'Approved as Propose' || this.recomendation === 'Approved With Condition' || this.recomendation === 'Not Approved') {
+		if (this.recomendation === 'Approved as Propose') {
+		  returnVal = 'Recommend as Propose';
+		} else if (this.recomendation === 'Approved With Condition') {
+		  returnVal = 'Recommend With Condition';
+		} else if (this.recomendation === 'Not Approved') {
+		  returnVal = 'Not Recommend';
+		}
+	  }
+    } else if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
+	  if (this.recomendation === 'Recommend as Propose' || this.recomendation === 'Recommend With Condition' || this.recomendation === 'Not Recommend') {
+		if (this.recomendation === 'Recommend as Propose') {
+		  returnVal = 'Approved as Propose';
+		} else if (this.recomendation === 'Recommend With Condition') {
+		  returnVal = 'Approved With Condition';
+		} else if (this.recomendation === 'Not Recommend') {
+		  returnVal = 'Not Approved';
+		}
+      }
+    }
+
+    return returnVal;
+  }
+
 
   private saveUpdate(status: string, source: string): void {
     if (status === 'not-complete-not-visit') {

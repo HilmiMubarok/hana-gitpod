@@ -581,6 +581,13 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 		  } */
         }
       }
+
+	  this.notesMod = lodash.cloneDeep(this.notes);
+
+	  this.notesMod.forEach(note => {
+		note['createDateCalc'] = moment(new Date(note['createDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
+	  });
+
     });
   }
 
