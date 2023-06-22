@@ -242,3 +242,24 @@ mat-card-header {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+.mat-column-no {
+  width: 5%;
+  text-align: right;
+}
+.mat-column-NilaiPembelian {
+  text-align: left;
+}
+.mat-column-ccy {
+  text-align: left;
+}
+.mat-column-JenisJaminan {
+  text-align: left;
+}
+.mat-column-KeteranganJaminan {
+  text-align: left;
+}
+.mat-column-action {
+  text-align: left;
+  width: 15%;
+}

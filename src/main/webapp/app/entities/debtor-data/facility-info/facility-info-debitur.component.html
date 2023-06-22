@@ -1,67 +1,67 @@
 <div class="table-responsive">
   <table mat-table [dataSource]="debtorDataFacility" class="w-100">
     <ng-container matColumnDef="no">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
-      <td mat-cell *matCellDef="let i = index" class="grid-index-center">{{ i + 1 }}</td>
+      <th mat-header-cell *matHeaderCellDef>No</th>
+      <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
     </ng-container>
     <ng-container matColumnDef="appraisalNo">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Approval No</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.approvalNumber }}</td>
+      <th mat-header-cell *matHeaderCellDef>Approval No</th>
+      <td mat-cell *matCellDef="let element">{{ element.approvalNumber }}</td>
     </ng-container>
     <ng-container matColumnDef="facilityCategory">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Facility Category</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.categoryId }}</td>
+      <th mat-header-cell *matHeaderCellDef>Facility Category</th>
+      <td mat-cell *matCellDef="let element">{{ element.categoryId }}</td>
     </ng-container>
     <ng-container matColumnDef="bank">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Loan Account</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.agreementNumber }}</td>
+      <th mat-header-cell *matHeaderCellDef>Loan Account</th>
+      <td mat-cell *matCellDef="let element">{{ element.agreementNumber }}</td>
     </ng-container>
     <ng-container matColumnDef="limit">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center" style="width: 150px">Facility Type</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.productTypeId }}</td>
+      <th mat-header-cell *matHeaderCellDef style="width: 150px">Facility Type</th>
+      <td mat-cell *matCellDef="let element">{{ element.productTypeId }}</td>
     </ng-container>
     <ng-container matColumnDef="loantype">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center" style="width: 150px">Loan Type</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.productName }}</td>
+      <th mat-header-cell *matHeaderCellDef style="width: 150px">Loan Type</th>
+      <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
     </ng-container>
     <!-- <ng-container matColumnDef="os">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">Sub Limit</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ getSublimit(element.subLimit) }}</td>
+    <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
+    <td mat-cell *matCellDef="let element">{{ getSublimit(element.subLimit) }}</td>
   </ng-container> -->
     <ng-container matColumnDef="facilityType">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Available Limit</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.availableLimit }}</td>
+      <th mat-header-cell *matHeaderCellDef>Available Limit</th>
+      <td mat-cell *matCellDef="let element">{{ element.availableLimit }}</td>
     </ng-container>
     <ng-container matColumnDef="rate">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center">CCY</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center" style="width: 20px">{{ element.baseCurrency }}</td>
+      <th mat-header-cell *matHeaderCellDef>CCY</th>
+      <td mat-cell *matCellDef="let element" style="width: 20px">{{ element.baseCurrency }}</td>
     </ng-container>
     <ng-container matColumnDef="period">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Credit Limit</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.contractAmount | number: '1.0-0' }}</td>
+      <th mat-header-cell *matHeaderCellDef>Credit Limit</th>
+      <td mat-cell *matCellDef="let element">{{ element.contractAmount | number: '1.0-0' }}</td>
     </ng-container>
     <ng-container matColumnDef="collateralType">
-      <th mat-header-cell *matHeaderCellDef class="grid-index">O/S</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.outstanding | number: '1.2-2' }}</td>
+      <th mat-header-cell *matHeaderCellDef>O/S</th>
+      <td mat-cell *matCellDef="let element">{{ element.outstanding | number: '1.2-2' }}</td>
     </ng-container>
     <ng-container matColumnDef="collateralValue">
-      <th mat-header-cell *matHeaderCellDef class="grid-index">Interest Rate</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">
+      <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
+      <td mat-cell *matCellDef="let element">
         {{ element.intResetFrequency }}{{ element.intResetFrequencyParam }} {{ element.rateTypeName }}
         {{ element.spreadRate }}
       </td>
     </ng-container>
     <ng-container matColumnDef="tenor">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Disbursement Date</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.trxDate | date: 'yyyy/MM/dd' }}</td>
+      <th mat-header-cell *matHeaderCellDef>Disbursement Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.trxDate | date: 'yyyy/MM/dd' }}</td>
     </ng-container>
     <ng-container matColumnDef="lastKol">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center">MaturityDate</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.maturityDate | date: 'yyyy/MM/dd' }}</td>
+      <th mat-header-cell *matHeaderCellDef>MaturityDate</th>
+      <td mat-cell *matCellDef="let element">{{ element.maturityDate | date: 'yyyy/MM/dd' }}</td>
     </ng-container>
     <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-right">Action</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-center">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
         <button mat-icon-button (click)="openDialog(element)" id="buttonHide" *ngIf="dialogType === 'debitur'">
           <mat-icon>edit</mat-icon>
         </button>

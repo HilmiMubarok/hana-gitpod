@@ -29,30 +29,12 @@
   text-align: right;
 }
 
-.grid-index {
-  background: rgba(49, 158, 152, 1);
-  color: #000000;
-  text-align: center;
-  font-size: 15px;
-}
-
 .label-font-detail {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   color: #008881;
-}
-
-.grid-index-left {
-  justify-content: flex-start;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.grid-index-center {
-  justify-content: center;
-  text-align: center;
-  font-family: 'Poppins', sans-serif !important;
 }
 
 table {
@@ -63,6 +45,12 @@ table {
   }
   td {
     font-family: 'Poppins', sans-serif !important;
+  }
+  th:first-child {
+    border-top-left-radius: 15px;
+  }
+  th:last-child {
+    border-top-right-radius: 15px;
   }
 }
 
@@ -203,4 +191,34 @@ mat-cell,
   min-height: auto !important;
   padding: 5px 28px 5px 0 !important;
 }
-// table
+
+/* Table CP Shareholder */
+.mat-column-no {
+  text-align: right;
+  width: 5% !important;
+}
+.mat-column-fullname {
+  text-align: left;
+}
+.mat-column-idCard {
+  text-align: left;
+}
+.mat-column-pep {
+  text-align: left;
+}
+.mat-column-dob {
+  text-align: right;
+}
+
+.mat-column-ownership {
+  text-align: right;
+}
+
+.mat-column-noOfShare {
+  text-align: right;
+}
+
+.mat-column-action {
+  width: 10%;
+  text-align: left;
+}

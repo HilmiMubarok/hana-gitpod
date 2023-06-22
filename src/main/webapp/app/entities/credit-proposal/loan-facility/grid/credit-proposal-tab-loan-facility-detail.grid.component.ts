@@ -130,7 +130,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
   }
 
   ngOnInit(): void {
-    console.log('ini credit proposal loan ', this.creditProposal.products[0]);
+    // console.log('ini credit proposal loan ', this.creditProposal.products[0]);
     this.currency();
     // this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
