@@ -287,12 +287,14 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     if (event.checked === true) {
       this.dataSelectedCheckbox.push(this.collateralsData[index]);
       this.isCheckDebCol = true;
-    } else {
+    } else if (event.checked === false) {
       for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-        this.dataSelectedCheckbox.splice(i, 1);
-        i = this.dataSelectedCheckbox.length - 1;
+        if (this.dataSelectedCheckbox[i].id === this.collateralsData[index].id) {
+          this.dataSelectedCheckbox.splice(i, 1);
+          // i = this.dataSelectedCheckbox.length - 1;
+        }
+        this.isCheckDebCol = false;
       }
-      this.isCheckDebCol = false;
     }
   }
   private createSurveyAppraisal(surveyAppraisal: ISurveyAppraisals): Promise<void> {
@@ -339,10 +341,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           } else {
             for (let e = 0; e < this.statusChecked.length; e++) {
               for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-                this.loadCollateralDetailOption().then(resolve => {
-                  this.setCollateralDetail();
-                  console.log(resolve);
-                });
                 this.collateralAppraisalsAppraiseService.validateAppraise(this.dataSelectedCheckbox).subscribe({
                   error: (error: HttpErrorResponse) => {
                     if (error.status === 500) {
@@ -355,7 +353,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
                           this.dataSelectedCheckbox[i].collateralNumber +
                           ' ' +
                           ' ' +
-                          this.collateralCodeMatrik[i] +
+                          this.dataSelectedCheckbox[i].collateralTypeDescription +
                           ' ' +
                           'masih dalam proses appraisal.',
                         life: 5000,
@@ -402,33 +400,5 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   private logout(): void {
     this.loginService.logout();
     this.router.navigate(['']);
-  }
-  private loadCollateralDetailOption(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.cashCollateralService.loadDetailType().subscribe(res => {
-        this.collateralDetails = res.body;
-        resolve();
-      });
-    });
-  }
-  public getCollateralCode() {
-    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      const data = this.collateralCode.find(obj => obj.id === this.dataSelectedCheckbox[i].attributes.collateralCode);
-      if (data) {
-        this.collateralCodeMatrik[i] = data.description;
-      }
-    }
-  }
-
-  private setCollateralDetail(): void {
-    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-      if (this.dataSelectedCheckbox[i].id) {
-        const collateral = this.dataSelectedCheckbox;
-        this.collateralCode = lodash.find(this.collateralDetails, function (o) {
-          return o['id'] === collateral[i].collateralTypeId;
-        })['child'];
-        this.getCollateralCode();
-      }
-    }
   }
 }

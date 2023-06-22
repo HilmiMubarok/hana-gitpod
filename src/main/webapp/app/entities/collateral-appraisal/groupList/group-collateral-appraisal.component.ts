@@ -94,13 +94,15 @@ export class GroupCollateralAppraisalComponent implements OnChanges, OnInit {
       this.statusCheckedGroup = true;
     } else {
       for (let i = 0; i < this.statusCheckeds.length; i++) {
-        this.statusCheckeds.splice(i, 1);
-        i = this.statusCheckeds.length - 1;
-        this.statusCheckedGroup = false;
+        if (this.statusCheckeds[i].id === this.collateralsGroupData[index].id) {
+          this.statusCheckeds.splice(i, 1);
+          i = this.statusCheckeds.length - 1;
+          this.statusCheckedGroup = false;
+        }
       }
+      this.outputDataGroup.emit(this.statusCheckeds);
+      this.outputgroupselected.emit(this.statusCheckedGroup);
     }
-    this.outputDataGroup.emit(this.statusCheckeds);
-    this.outputgroupselected.emit(this.statusCheckedGroup);
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isCheckDebColtoChild']) {
