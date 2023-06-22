@@ -67,6 +67,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private documentEditor: DocumentEditorComponent;
 
   public notes: INotes[];
+  public notesMod: any[];
   public recomendasi: string;
 
   public customHeadersJWT: any;
