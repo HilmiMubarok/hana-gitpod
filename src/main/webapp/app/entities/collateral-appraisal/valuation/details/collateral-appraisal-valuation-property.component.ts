@@ -84,7 +84,13 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
   }
   ngOnInit(): void {
     this.loadPropertiesExternal(this.collateral);
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+    if (
+      this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+      this.collateralAppraisal.statusId === STATUS.VISITED ||
+      this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+      this.collateralAppraisal.statusId === STATUS.APPROVE ||
+      this.collateralAppraisal.statusId === STATUS.COMPLETE
+    ) {
       this.updateMarketValueLandRound();
       this.updateMarketValueBuildingRound();
     }
@@ -478,7 +484,13 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
           return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
         });
       });
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+    if (
+      this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+      this.collateralAppraisal.statusId === STATUS.VISITED ||
+      this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+      this.collateralAppraisal.statusId === STATUS.APPROVE ||
+      this.collateralAppraisal.statusId === STATUS.COMPLETE
+    ) {
       this.updateMarketValueLandRound();
       this.updateMarketValueBuildingRound();
     }

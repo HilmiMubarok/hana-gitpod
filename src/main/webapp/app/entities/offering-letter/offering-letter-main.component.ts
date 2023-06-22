@@ -36,6 +36,7 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { ICertificateInfo } from './certificate-info/certificate-info.model';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -624,27 +625,57 @@ export class OfferingLetterMainComponent implements OnInit {
       this.creditProposal.attributes['certificateInfoData'] = [];
       if (collateral.length > 0) {
         for (let i = 0; i < collateral.length; i++) {
-          console.log('perulangan certificate ', i);
           if (collateral[i].collateralTypeId === 'REALESTATE') {
-            const certificate: ICertificateInfo = {};
-            certificate.id = collateral[i].id;
-            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
-            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
-            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+            if (collateral[i].attributes['landCertificates']) {
+              collateral[i].attributes['landCertificates'] = JSON.parse(collateral[i].attributes['landCertificates']);
+              if (collateral[i].attributes['landCertificates'].length > 0) {
+                for (let j = 0; j < collateral[i].attributes['landCertificates'].length; j++) {
+                  const certificate: ICertificateInfo = {};
+                  certificate.id = collateral[i].id;
+                  certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
+                  certificate.jangkaWaktuKepemilikan = collateral[i].attributes['landCertificates'][j].certDueDate;
+                  this.creditProposal.attributes['certificateInfoData'].push(certificate);
+                }
+              }
+            }
           }
           if (collateral[i].collateralTypeId === 'VEHICLE') {
-            const certificate: ICertificateInfo = {};
-            certificate.id = collateral[i].id;
-            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription;
-            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
-            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+            this.collateralPropertyService
+              .queryFilterBy({
+                idCollateral: collateral[i].id,
+                size: 9999,
+                page: 0,
+                idPropertyType: CollateralPropertyType.VEHICLE,
+              })
+              .subscribe(res => {
+                if (res.body) {
+                  for (let j = 0; j < res.body.length; j++) {
+                    const certificate: ICertificateInfo = {};
+                    certificate.id = collateral[i].id;
+                    certificate.buktiKepemilikan = res.body[j].bpkbNum;
+                    this.creditProposal.attributes['certificateInfoData'].push(certificate);
+                  }
+                }
+              });
           }
           if (collateral[i].collateralTypeId === 'MACHINE') {
-            const certificate: ICertificateInfo = {};
-            certificate.id = collateral[i].id;
-            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription;
-            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
-            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+            this.collateralPropertyService
+              .queryFilterBy({
+                idCollateral: collateral[i].id,
+                page: 0,
+                size: 9999,
+                idPropertyType: CollateralPropertyType.MACHINE,
+              })
+              .subscribe(res => {
+                if (res.body) {
+                  for (let j = 0; j < res.body.length; j++) {
+                    const certificate: ICertificateInfo = {};
+                    certificate.id = collateral[i].id;
+                    certificate.buktiKepemilikan = res.body[j].machineDocType + ' ' + res.body[j].machineDocNum;
+                    this.creditProposal.attributes['certificateInfoData'].push(certificate);
+                  }
+                }
+              });
           }
           if (collateral[i].collateralTypeId === 'DEPOSIT') {
             const certificate: ICertificateInfo = {};

@@ -172,6 +172,10 @@
                     <th mat-header-cell *matHeaderCellDef class="grid-index-string">No. Identitas</th>
                     <td mat-cell *matCellDef="let element" class="grid-index-string">{{ element.noIdentitas }}</td>
                   </ng-container>
+                  <ng-container matColumnDef="namaIbuKandung">
+                    <th mat-header-cell *matHeaderCellDef class="grid-index-string">Nama Ibu Kandung</th>
+                    <td mat-cell *matCellDef="let element" class="grid-index-string">{{ element.namaIbuKandung }}</td>
+                  </ng-container>
                   <ng-container matColumnDef="alamat">
                     <th mat-header-cell *matHeaderCellDef class="grid-index-string">Alamat</th>
                     <td mat-cell *matCellDef="let element" class="grid-index-string">{{ element.alamat }}</td>

@@ -462,7 +462,7 @@
                   <input
                     matInput
                     type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs']"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] | number: '1.0-0'"
                     [value]="bufferFs()"
                     (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = numberInputChanged($event)"
                     disabled
@@ -475,7 +475,9 @@
                 <div class="fontsebled row">
                   <div class="col-3">&nbsp;</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">{{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] }}</div>
+                  <div class="col col-lg-2">
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] | currency: ' ':'symbol':'1.0-0' }}
+                  </div>
                 </div>
               </td>
             </section>
@@ -486,7 +488,7 @@
                   <input
                     matInput
                     type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage']"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] | number: '1.0-0'"
                     [value]="bufferAverage()"
                     (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = numberInputChanged($event)"
                     disabled
@@ -499,7 +501,9 @@
                 <div class="fontsebled row">
                   <div class="col-3">&nbsp;</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">{{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] }}</div>
+                  <div class="col col-lg-2">
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] | currency: ' ':'symbol':'1.0-0' }}
+                  </div>
                 </div>
               </td>
             </section>
@@ -510,7 +514,7 @@
                   <input
                     matInput
                     type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit']"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] | number: '1.0-0'"
                     [value]="bufferCredit()"
                     (ngModelChange)="
                       creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] = numberInputChanged($event)
@@ -525,7 +529,9 @@
                 <div class="fontsebled row">
                   <div class="col-3">&nbsp;</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">{{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] }}</div>
+                  <div class="col col-lg-2">
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] | currency: ' ':'symbol':'1.0-0' }}
+                  </div>
                 </div>
               </td>
             </section>
@@ -553,7 +559,9 @@
                 <div class="fontsebled row">
                   <div class="col-3">&nbsp;</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">{{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] }}</div>
+                  <div class="col col-lg-2">
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] }}
+                  </div>
                 </div>
               </td>
             </section>
@@ -579,7 +587,9 @@
                 <div class="fontsebled row">
                   <div class="col-3">&nbsp;</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">{{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] }}</div>
+                  <div class="col col-lg-2">
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] }}
+                  </div>
                 </div>
               </td>
             </section>
@@ -605,7 +615,9 @@
                 <div class="fontsebled row">
                   <div class="col-3">&nbsp;</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">{{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] }}</div>
+                  <div class="col col-lg-2">
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] }}
+                  </div>
                 </div>
               </td>
             </section>

@@ -61,7 +61,7 @@ export class RequestSlikDebiturGridComponent implements OnInit, OnChanges {
   public dataSourceExpand;
   public nikNpwp;
   public partyId;
-  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'alamat', 'jenisKelamin', 'action'];
+  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'namaIbuKandung', 'alamat', 'jenisKelamin', 'action'];
   public displayColumns: string[] = [
     'no',
     'bank',

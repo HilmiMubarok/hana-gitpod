@@ -165,6 +165,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save(mode)" *ngIf="mode !== 'view'">Save</button>
+  <button mat-button mat-raised-dialog-close class="confirm-button-no">Cancel</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="save(mode)" *ngIf="mode !== 'view'">Save</button>
 </mat-dialog-actions>

@@ -116,6 +116,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public sifatJaminan: string;
   public noDocumentJaminan: string;
   public jenis: string;
+  public parentSource = '';
 
   constructor(
     private dialog: MatDialog,
@@ -134,8 +135,10 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       binding: ICreditProposalCollateralBinding;
       emptyField: IEmptyField;
       isViewMode: Boolean;
+      parentSource: string;
     }
   ) {
+    this.parentSource = this.data.parentSource;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;

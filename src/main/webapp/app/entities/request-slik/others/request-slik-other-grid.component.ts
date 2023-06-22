@@ -60,7 +60,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   public displayedColumns: string[];
   public displayedColumnsExpand: string[];
   private _partyCif: IPartyCif;
-  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'alamat', 'jenisKelamin', 'action'];
+  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'namaIbuKandung', 'alamat', 'jenisKelamin', 'action'];
   dataSourceExpand;
   requestSlikId: number;
   nikNpwp;

@@ -72,7 +72,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('loan-committee-approval') &&
         !this.router.url.includes('la-analyst') &&
         !this.router.url.includes('confirmation') &&
-        !this.router.url.includes('finalize')
+        !this.router.url.includes('finalize') &&
+        !this.router.url.includes('cc-inquiry')
       ) {
         if (
           this.positionTypeId === 'SME_HEAD' ||
