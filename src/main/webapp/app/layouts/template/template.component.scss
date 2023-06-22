@@ -45,3 +45,7 @@
   z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
   border-bottom: 1px solid #e4e4e4;
 }
+.sidanav-content-background {
+  background-color: rgba(239, 254, 253, 1) !important;
+  padding-bottom: 183px !important;
+}

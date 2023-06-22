@@ -1,15 +1,18 @@
 import { trigger, transition, style, animate, AnimationTriggerMetadata, state, group, query, animateChild } from '@angular/animations';
 
 const defaultDuration = '0.35s';
+const defaultContentDurationIn = '0.35s';
+const defaultContentDurationOut = '0.30s';
 const defaultMinWidth = '70px';
 const defaultMaxWidth = '313px';
 const defaultMinFontSize = '18px';
 const defaultMaxFontSize = '16px';
 const defaultLabelDurationIn = '0.01s';
-const defaultLabelDurationOut = '1.00s';
+const defaultLabelDurationOut = '0.57s';
 
 export function mainContentAnimation(
-  animationDuration: string = defaultDuration,
+  animationDurationIn: string = defaultContentDurationIn,
+  animationDurationOut: string = defaultContentDurationOut,
   minWidth: string = defaultMinWidth,
   maxWidth: string = defaultMaxWidth
 ): AnimationTriggerMetadata {
@@ -26,8 +29,8 @@ export function mainContentAnimation(
         'margin-left': maxWidth,
       })
     ),
-    transition('close => open', animate(`${animationDuration} ease-in`)),
-    transition('open => close', animate(`${animationDuration} ease-out`)),
+    transition('close => open', animate(`${animationDurationIn} ease-in`)),
+    transition('open => close', animate(`${animationDurationOut} ease-out`)),
   ]);
 }
 
