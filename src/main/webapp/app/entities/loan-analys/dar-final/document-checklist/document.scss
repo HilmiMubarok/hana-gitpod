@@ -110,3 +110,7 @@ th:last-child {
 .e-float-input.e-input-group.e-control-wrapper.e-disabled {
   font-family: 'Poppins', sans-serif !important;
 }
+ngx-dropzone-preview {
+  width: 200px !important;
+  overflow: hidden;
+}

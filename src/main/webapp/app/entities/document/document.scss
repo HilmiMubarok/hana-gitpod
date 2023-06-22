@@ -188,3 +188,7 @@ th:last-child {
   font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
 }
+ngx-dropzone-preview {
+  width: 200px !important;
+  overflow: hidden;
+}

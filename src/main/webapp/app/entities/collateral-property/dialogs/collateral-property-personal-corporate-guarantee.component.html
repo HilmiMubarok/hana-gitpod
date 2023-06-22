@@ -74,6 +74,7 @@
                 [(ngModel)]="collateralProperty.marketValueOriginalAmt"
                 (ngModelChange)="amountChange()"
                 [options]="logoCcy"
+                [disabled]="dataSource()"
               />
               <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
             </mat-form-field>
@@ -174,7 +175,7 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Guarantee Identification Type</mat-label>
-            <mat-select [(ngModel)]="collateralProperty.guaranteeIdType">
+            <mat-select [(ngModel)]="collateralProperty.guaranteeIdType" [disabled]="dataSource()">
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of guaranteeIdentification" [value]="item.code"> {{ item.value }} </mat-option>
             </mat-select>
@@ -196,7 +197,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Guarantee Clasification</mat-label>
             <!-- <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()" /> -->
-            <mat-select [(ngModel)]="collateralProperty.guaranteeClass">
+            <mat-select [(ngModel)]="collateralProperty.guaranteeClass" [disabled]="dataSource()">
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of guaranteeClasification" [value]="item.code"> {{ item.value }} </mat-option>
             </mat-select>
@@ -222,7 +223,13 @@
             <section *jhiMatrixDirIDD="'input'">
               <mat-form-field appearance="outline" class="w-100 pl-1" floatLabel="always">
                 <mat-label>Guarantor</mat-label>
-                <input matInput placeholder="Search cif here..." type="text" [(ngModel)]="collateralProperty.guarantorCif" />
+                <input
+                  matInput
+                  placeholder="Search cif here..."
+                  type="text"
+                  [(ngModel)]="collateralProperty.guarantorCif"
+                  [disabled]="dataSource()"
+                />
                 <button matSuffix mat-icon-button aria-label="Clear" (click)="findCif()">
                   <mat-icon>search</mat-icon>
                 </button>
@@ -261,14 +268,14 @@
       <div class="form-group">
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Guarantee CountryID</mat-label>
+            <mat-label>Guarantee ID</mat-label>
             <input matInput type="text" [(ngModel)]="guarantorCountryId" disabled />
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
         </section>
         <section *jhiMatrixDirIDD="''">
           <div class="fontsebled row">
-            <div class="col">Guarantee CountryID</div>
+            <div class="col">Guarantee ID</div>
             <div class="col-md-auto">:</div>
             <div class="col">
               {{ guarantorCountryId }}
@@ -334,7 +341,7 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Branch</mat-label>
-            <mat-select [(ngModel)]="collateralProperty.attributes.branch">
+            <mat-select [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()">
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of branchs" [value]="item.id"> {{ item.name }} </mat-option>
             </mat-select>
@@ -355,7 +362,11 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Management Branch</mat-label>
-            <mat-select (selectionChange)="onSelectionChange($event)" [(ngModel)]="collateralProperty.attributes['managementBranch']">
+            <mat-select
+              (selectionChange)="onSelectionChange($event)"
+              [(ngModel)]="collateralProperty.attributes['managementBranch']"
+              [disabled]="dataSource()"
+            >
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of managementBranchLov" [value]="item.code"> {{ item.value }} </mat-option>
             </mat-select>
@@ -376,7 +387,7 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Relation With Loan Owner</mat-label>
-            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.relationLoanOwner" />
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.relationLoanOwner" [disabled]="dataSource()" />
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
         </section>
@@ -538,7 +549,7 @@
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Guarantee CountryID</mat-label>
+          <mat-label>Guarantee ID</mat-label>
           <input matInput type="text" [(ngModel)]="guarantorCountryId" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>

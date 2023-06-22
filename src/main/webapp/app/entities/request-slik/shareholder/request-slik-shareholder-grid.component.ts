@@ -79,7 +79,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   public displayedColumns: string[];
   public displayedColumnsExpand: string[];
   dataSourceExpand;
-  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'alamat', 'jenisKelamin', 'action'];
+  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'namaIbuKandung', 'alamat', 'jenisKelamin', 'action'];
   requestSlikId: number;
   @Input() checklists;
   partyId: number;

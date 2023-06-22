@@ -106,6 +106,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     ) {
       this.customPath = true;
     }
+    console.log('ini parent source ', this.parentSource);
   }
 
   public triggeredSave(proposalType: any) {

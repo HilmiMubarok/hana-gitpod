@@ -3,60 +3,62 @@
     <mat-card-subtitle class="label-font-detail">Collateral Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <table mat-table [dataSource]="dataSource" class="mat-table-expand" multiTemplateDataRows>
-      <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef class="grid-index rounding-table-left">No</th>
-        <td mat-cell *matCellDef="let i = dataIndex" class="grid-index-label">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
-      </ng-container>
-      <ng-container matColumnDef="collateralInfo">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Collateral Info</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.collateralNumber }}</td>
-      </ng-container>
-      <ng-container matColumnDef="collateralType">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Type</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">
-          {{ element.collateralTypeDescription }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Address</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">
-          {{ element.collateralAddress?.address1 }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Status</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">
-          {{ element.statusId }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="grid-index rounding-table-right">Actions</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">
-          <button
-            mat-icon-button
-            (click)="$event.stopPropagation(); openDialog(element)"
-            *ngIf="element.attributes.additionalStatus !== 'active'"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="$event.stopPropagation(); openDialogPropertyGeneral(element)">
-            <mat-icon>attach_money</mat-icon>
-          </button>
-          <!-- <button mat-icon-button (click)="$event.stopPropagation(); openDocument(element)">
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="dataSource" class="mat-table-expand" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="grid-index rounding-table-left">No</th>
+          <td mat-cell *matCellDef="let i = dataIndex" class="grid-index-label">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
+        </ng-container>
+        <ng-container matColumnDef="collateralInfo">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">Collateral Info</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.collateralNumber }}</td>
+        </ng-container>
+        <ng-container matColumnDef="collateralType">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">
+            {{ element.collateralTypeDescription }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">Address</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">
+            {{ element.collateralAddress?.address1 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">Status</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">
+            {{ element.statusId }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="grid-index rounding-table-right">Actions</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">
+            <button
+              mat-icon-button
+              (click)="$event.stopPropagation(); openDialog(element)"
+              *ngIf="element.attributes.additionalStatus !== 'active'"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="$event.stopPropagation(); openDialogPropertyGeneral(element)">
+              <mat-icon>attach_money</mat-icon>
+            </button>
+            <!-- <button mat-icon-button (click)="$event.stopPropagation(); openDocument(element)">
             <mat-icon>add_a_photo</mat-icon>
           </button> -->
-          <button mat-icon-button (click)="$event.stopPropagation(); openResult(element)">
-            <mat-icon>history</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
-      </tr>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+            <button mat-icon-button (click)="$event.stopPropagation(); openResult(element)">
+              <mat-icon>history</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
     <mat-card *ngIf="loading" id="material-loading-bar">
       <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
     </mat-card>
