@@ -2,7 +2,6 @@ table#tblSuppliers {
   width: 100%;
   th {
     background-color: rgba(147, 201, 199, 1);
-    text-align: left;
     color: black;
     font-family: 'Poppins', sans-serif;
   }
@@ -29,7 +28,6 @@ table#tblBuyers {
   width: 100%;
   th {
     background-color: rgba(147, 201, 199, 1);
-    text-align: left;
     color: black;
     font-family: 'Poppins', sans-serif;
   }
@@ -186,17 +184,17 @@ mat-card-subtitle {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
-.mat-header-cell {
-  min-height: auto !important;
-  padding: 4px 36px 4px 0;
-}
+// .mat-header-cell {
+//   min-height: auto !important;
+//   padding: 4px 36px 4px 0;
+// }
 
-mat-cell,
-.mat-cell {
-  min-height: auto !important;
-  padding: 5px 28px 5px 0 !important;
-}
-
+// mat-cell,
+// .mat-cell {
+//   min-height: auto !important;
+//   padding: 5px 28px 5px 0 !important;
+// }
+// table supplier dan buyers
 .mat-column-no {
   text-align: right;
   width: 5%;
@@ -204,17 +202,35 @@ mat-cell,
 
 .mat-column-relationshipSince {
   text-align: right;
-  width: 5%;
+}
+.mat-column-suppliersName {
+  text-align: left;
+}
+.mat-column-termsOfPayment {
+  text-align: left;
+}
+.mat-column-relationshipSince {
+  text-align: left;
 }
 .mat-column-purchase {
   text-align: right;
-  width: 5%;
 }
 .mat-column-reflection {
   text-align: right;
-  width: 5%;
 }
+.mat-column-explanation {
+  text-align: left;
+}
+.mat-column-contact {
+  text-align: left;
+}
+.mat-column-action {
+  text-align: left;
+  width: 10%;
+}
+//
 
+/* Table */
 .table-responsive {
   display: block;
   width: 100%;
@@ -235,9 +251,7 @@ mat-cell,
   .mat-header-cell {
     word-wrap: initial;
     display: table-cell;
-    padding: 0px 5px;
     line-break: unset;
-    width: auto;
     white-space: nowrap;
     overflow: hidden;
     vertical-align: middle;

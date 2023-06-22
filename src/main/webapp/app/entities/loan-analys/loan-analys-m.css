@@ -191,6 +191,7 @@ th:last-child {
   padding-top: 13px;
 }
 
+/* Table */
 .table-responsive {
   display: block;
   width: 100%;
@@ -212,7 +213,6 @@ th:last-child {
     word-wrap: initial;
     display: table-cell;
     line-break: unset;
-    width: auto;
     white-space: nowrap;
     overflow: hidden;
     vertical-align: middle;

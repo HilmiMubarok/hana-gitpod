@@ -102,10 +102,8 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     }
     // console.log('bab', this.creditProposal);
     const predicate: object = {
-      maxWidth: '80vw',
-      maxHeight: '50vh',
-      height: '100%',
-      width: '100%',
+      Width: '80vw',
+      Height: 'auto',
       data: {
         cp: this.creditProposal,
         collateral: element,

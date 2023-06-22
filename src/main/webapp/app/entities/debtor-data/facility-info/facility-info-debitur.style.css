@@ -42,14 +42,6 @@ tr.example-element-row:not(.example-expanded-row):active {
   opacity: 0.5;
 }
 
-.grid-index {
-  text-align: center;
-  font-size: 15px;
-}
-
-.grid-index-label {
-  text-align: center;
-}
 /* Table */
 .table-responsive {
   display: block;
@@ -71,9 +63,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   .mat-header-cell {
     word-wrap: initial;
     display: table-cell;
-    padding: 0, 24px, 0, 5px;
     line-break: unset;
-    width: auto;
     white-space: nowrap;
     overflow: hidden;
     vertical-align: middle;
@@ -100,6 +90,8 @@ mat-cell,
 
 th:first-child {
   border-top-left-radius: 15px;
+  padding-left: 1.5rem !important;
+  padding-right: 2rem !important;
 }
 th:last-child {
   border-top-right-radius: 15px;
@@ -116,8 +108,7 @@ td {
 }
 .mat-column-no {
   width: 5%;
-  text-align: center;
-  padding-right: 25px;
+  text-align: right !important;
 }
 .mat-column-action {
   width: 10%;
