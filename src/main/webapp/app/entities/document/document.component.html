@@ -27,7 +27,7 @@
             <mat-icon [hidden]="IfRmEnable" [hidden]="showButton">create</mat-icon>
           </button>
           <button mat-icon-button (click)="delete(element)" [disabled]="IfRmEnable" [hidden]="showButton">
-            <mat-icon [hidden]="IfRmEnable">delete</mat-icon>
+            <mat-icon [hidden]="IfRmEnable" [hidden]="showButton">delete</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -77,7 +77,7 @@
             <mat-icon [hidden]="IfRmEnable" [hidden]="showButton">create</mat-icon>
           </button>
           <button mat-icon-button (click)="delete(element)" [disabled]="IfRmEnable" [hidden]="showButton">
-            <mat-icon [hidden]="IfRmEnable">delete</mat-icon>
+            <mat-icon [hidden]="IfRmEnable" [hidden]="showButton">delete</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -89,7 +89,7 @@
     </table>
   </mat-card-content>
   <mat-card-actions align="center">
-    <button class="button-styling" mat-raised-button [disabled]="IfRmEnable" [hidden]="showButton" (click)="openDialog()">
+    <button class="button-styling" mat-raised-button [disabled]="IfRmEnable" (click)="openDialog()" [hidden]="showButton">
       <mat-icon>add</mat-icon> UPLOAD
     </button>
   </mat-card-actions>

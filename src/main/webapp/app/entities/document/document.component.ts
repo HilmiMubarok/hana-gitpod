@@ -449,6 +449,16 @@ export class DocumentComponent implements OnChanges, OnInit {
         }
       }
     }
+
+    if (this.account.authorities.includes('ROLE_RM')) {
+      if (this.appraisal.apprOfficer === 'External') {
+        if (this.status === STATUS.APPROVE) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
+      }
+    }
   }
 
   public testDate() {
