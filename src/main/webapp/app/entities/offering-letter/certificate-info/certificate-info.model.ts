@@ -1,5 +1,6 @@
 export interface ICertificateInfo {
   id?: number;
+  index?: number;
   buktiKepemilikan?: string;
   jangkaWaktuKepemilikan?: string;
   luasTanah?: number;
@@ -7,5 +8,11 @@ export interface ICertificateInfo {
 }
 
 export class CertificateInfo implements ICertificateInfo {
-  constructor(public id?: number, public buktiKepemilikan?: string, public luasTanah?: number, public luasBangunan?: number) {}
+  constructor(
+    public id?: number,
+    public index?: number,
+    public buktiKepemilikan?: string,
+    public luasTanah?: number,
+    public luasBangunan?: number
+  ) {}
 }

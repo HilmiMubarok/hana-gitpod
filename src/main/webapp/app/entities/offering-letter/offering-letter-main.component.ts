@@ -707,6 +707,11 @@ export class OfferingLetterMainComponent implements OnInit {
           }
         }
       }
+      if (this.creditProposal.attributes['certificateInfoData']) {
+        for (let i = 0; i < this.creditProposal.attributes['certificateInfoData'].length; i++) {
+          this.creditProposal.attributes['certificateInfoData'][i].index = i;
+        }
+      }
     } else {
       this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
     }
