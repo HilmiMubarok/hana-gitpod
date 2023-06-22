@@ -897,4 +897,11 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
       return value;
     }
   }
+
+  public getCcyBinding(element) {
+    if (element) {
+      return element;
+    }
+    return '';
+  }
 }

@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { ICreditProposalCollateralBinding } from '../credit-proposal-collateral-info.model';
 import { Observable, of } from 'rxjs';
 import lodash from 'lodash';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -22,6 +21,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { IEmptyField } from 'app/entities/credit-proposal/collateral-info/backtoback/empty-field.model';
+import { ICreditProposalCollateralBinding } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'YYYY/MM/DD',
@@ -67,7 +67,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
   public collateralProperty: ICollateralProperty;
   public collateralPropertyExternal: ICollateralProperty;
   public collateralDetailType: any;
-  public logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  public logoCcy = {};
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -79,6 +79,24 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
     'BELUM DIIKAT',
     'LAINNYA',
   ];
+
+  public logoIdr = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  public cursIdr: number;
+  public conCcy = false;
+  public status = false;
+  public unComitted = true;
+  public com = true;
+  public uncom = false;
+  private creditProposalData: ICreditProposal;
+  selection = true;
+  public setDate: string;
+  public preCurent = '';
+  public currencyName: number;
+  public ccy: string;
+  public collateralProperties: ICollateralProperty[];
+  public optionCcy: string[] = ['IDR', 'USD'];
+  public parentSource = '';
+
   public collateralStatus: any;
   public paripasuStatus: any;
   public bindingTypes: any;
@@ -382,5 +400,68 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
       }
     }
     return 0;
+  }
+
+  changeCurrency(value: string) {
+    this.ccy = value;
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      this.binding.kurs = res.body[0]?.factor;
+      if (this.preCurent === '') {
+        if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.preCurent = 'IDR';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'IDR') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.binding.bindingValueEqIdr = this.binding.bindingValueEqIdr / this.currencyName;
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'USD') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.getCurs();
+          this.preCurent = 'IDR';
+        }
+      }
+    });
+  }
+
+  getCurs() {
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.cursIdr = res.body[0]?.factor;
+      this.binding.bindingValueEqIdr = this.binding.bindingValueEqIdr * this.cursIdr;
+    });
+  }
+
+  public calBindingValue() {
+    const calculation = this.binding.bindingValue * this.binding.kurs;
+    this.binding.bindingValueEqIdr = calculation;
+    return calculation;
+  }
+
+  public cekCurrency() {
+    if (this.binding.ccy === 'IDR') {
+      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+    }
+    if (this.binding.ccy === 'USD') {
+      this.logoCcy = {};
+    }
   }
 }
