@@ -31,6 +31,9 @@
             <button mat-icon-button (click)="openDialog(element)">
               <mat-icon>edit</mat-icon>
             </button>
+            <button mat-icon-button (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
           </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>
@@ -42,7 +45,7 @@
       <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
 
       <div align="right" class="mt-5">
-        <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
+        <button mat-raised-button (click)="openDialog()" class="button-styling">Add Certificate Info</button>
       </div>
     </div>
   </mat-card-content>

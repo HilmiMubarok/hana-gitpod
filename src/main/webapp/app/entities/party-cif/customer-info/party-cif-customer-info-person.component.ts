@@ -100,6 +100,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   ngOnInit(): void {
     this.convrtDate();
     this.hiddenNull();
+    this.hiddenNulls();
   }
   public countAge(): number {
     let age: number;
@@ -142,11 +143,16 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   }
   public hiddenNull() {
     if (this.person.firstName === null) {
-      this.person.firstName = 'N/A';
+      return 'N/A';
+    } else {
+      return this.person.firstName;
     }
-
+  }
+  public hiddenNulls() {
     if (this.person.lastName === null) {
-      this.person.lastName = 'N/A';
+      return 'N/A';
+    } else {
+      return this.person.lastName;
     }
   }
 }
