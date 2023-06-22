@@ -584,16 +584,21 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         }
       }
 
-	  this.notesMod = lodash.cloneDeep(this.notes);
+      this.notesMod = lodash.cloneDeep(this.notes);
 
-	  this.notesMod.forEach(note => {
-		if (note['modifiedDate']) {
-		  note['modifiedDateCalc'] = moment(new Date(note['modifiedDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
-		} else {
-		  note['modifiedDateCalc'] = moment(new Date(note['createDate'])).utcOffset(moment(new Date(Date.now())).utcOffset()).format().split('T')[0];
-		}
-	  });
-
+      this.notesMod.forEach(note => {
+        if (note['modifiedDate']) {
+          note['modifiedDateCalc'] = moment(new Date(note['modifiedDate']))
+            .utcOffset(moment(new Date(Date.now())).utcOffset())
+            .format()
+            .split('T')[0];
+        } else {
+          note['modifiedDateCalc'] = moment(new Date(note['createDate']))
+            .utcOffset(moment(new Date(Date.now())).utcOffset())
+            .format()
+            .split('T')[0];
+        }
+      });
     });
   }
 

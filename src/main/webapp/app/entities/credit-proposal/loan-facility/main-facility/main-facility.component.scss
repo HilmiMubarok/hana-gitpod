@@ -67,6 +67,7 @@ table {
   color: #ffffff !important;
 }
 
+/* Table */
 .table-responsive {
   display: block;
   width: 100%;
@@ -88,13 +89,11 @@ table {
     word-wrap: initial;
     display: table-cell;
     line-break: unset;
-    width: auto;
     white-space: nowrap;
     overflow: hidden;
     vertical-align: middle;
   }
 }
-
 .mat-header-cell {
   min-height: auto !important;
   padding: 4px 36px 4px 0;
