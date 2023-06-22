@@ -3,7 +3,7 @@
 .mat-toolbar-single-row {
   /* background-color: white; */
   /* background-color: rgba(98, 180, 175, 1) !important; */
-  background: linear-gradient(150deg, rgba(196, 223, 222, 1) 60%, rgba(147, 201, 199, 1) 65%);
+  background: linear-gradient(150deg, rgb(146, 219, 217) 60%, #62a3a0 65%);
 
   /* background: linear-gradient(
       to right,

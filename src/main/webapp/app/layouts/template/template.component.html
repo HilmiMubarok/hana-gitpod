@@ -4,7 +4,7 @@
     <mat-sidenav #sidebardrawer mode="side" opened="true">
       <jhi-sidebar></jhi-sidebar>
     </mat-sidenav>
-    <mat-sidenav-content style="position: relative" [@onSideNavChange]="sidebarState">
+    <mat-sidenav-content style="position: relative" [@onSideNavChange]="sidebarState" class="sidanav-content-background">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
