@@ -218,9 +218,9 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 
   public setRenewal(ev) {
     if (this.isRm()) {
-      if (this.account.authorities.length <= 2) {
+      if (this.account.authorities.length <= 3) {
         this.surveyAppraisal.jpRenewal = !this.surveyAppraisal.jpRenewal;
-        if (this.surveyAppraisal.jpRenewal === true) {
+        if (this.surveyAppraisal.jpRenewal || this.surveyAppraisal.jpAdditional === true) {
           this.isEnablePlafond = true;
         } else {
           this.isEnablePlafond = false;
@@ -241,6 +241,17 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   }
 
   public setAdditional(ev) {
+    if (this.isRm()) {
+      if (this.account.authorities.length <= 3) {
+        this.surveyAppraisal.jpAdditional = !this.surveyAppraisal.jpAdditional;
+        if (this.surveyAppraisal.jpAdditional || this.surveyAppraisal.jpRenewal === true) {
+          this.isEnablePlafond = true;
+        } else {
+          this.isEnablePlafond = false;
+          this.resetValues();
+        }
+      }
+    }
     this.jpAdditional.emit(ev.checked);
   }
 
