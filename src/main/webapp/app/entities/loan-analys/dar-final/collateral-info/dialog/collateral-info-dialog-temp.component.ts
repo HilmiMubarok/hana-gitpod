@@ -4,7 +4,6 @@ import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richt
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { Observable, of } from 'rxjs';
-import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } from '../credit-proposal-collateral-info.model';
 import lodash from 'lodash';
 import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
@@ -22,6 +21,10 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { GeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import {
+  ICreditProposalCollateralBinding,
+  ICreditProposalCollateralInsurance,
+} from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -93,6 +96,24 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
+
+  public logoIdr = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  public cursIdr: number;
+  logoCcy = {};
+  public conCcy = false;
+  public status = false;
+  public unComitted = true;
+  public com = true;
+  public uncom = false;
+  private creditProposalData: ICreditProposal;
+  selection = true;
+  public setDate: string;
+  public preCurent = '';
+  public currencyName: number;
+  public ccy: string;
+  public collateralProperties: ICollateralProperty[];
+  public optionCcy: string[] = ['IDR', 'USD'];
+  public parentSource = '';
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -271,6 +292,69 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public checkStatusCOllateral() {
     if (this.collateral.paripasuStatus === undefined) {
       this.collateral.paripasuStatus = 'N';
+    }
+  }
+
+  changeCurrency(value: string) {
+    this.ccy = value;
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      this.binding.kurs = res.body[0]?.factor;
+      if (this.preCurent === '') {
+        if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.preCurent = 'IDR';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'IDR') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.binding.bindingValueEqIdr = this.binding.bindingValueEqIdr / this.currencyName;
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'USD') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.getCurs();
+          this.preCurent = 'IDR';
+        }
+      }
+    });
+  }
+
+  getCurs() {
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.cursIdr = res.body[0]?.factor;
+      this.binding.bindingValueEqIdr = this.binding.bindingValueEqIdr * this.cursIdr;
+    });
+  }
+
+  public calBindingValue() {
+    const calculation = this.binding.bindingValue * this.binding.kurs;
+    this.binding.bindingValueEqIdr = calculation;
+    return calculation;
+  }
+
+  public cekCurrency() {
+    if (this.binding.ccy === 'IDR') {
+      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+    }
+    if (this.binding.ccy === 'USD') {
+      this.logoCcy = {};
     }
   }
 }

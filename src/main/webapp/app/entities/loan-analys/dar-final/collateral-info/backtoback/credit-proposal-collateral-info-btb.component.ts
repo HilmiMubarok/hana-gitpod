@@ -605,4 +605,11 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     }
     return string2;
   }
+
+  public getCcyBinding(element) {
+    if (element) {
+      return element;
+    }
+    return '';
+  }
 }
