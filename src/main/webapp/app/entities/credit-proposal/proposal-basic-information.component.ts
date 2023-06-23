@@ -845,6 +845,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public save(source: string): void {
+    this.setIndustryName();
     this.saveState = source;
 
     if (this.creditProposal.attributes.proposalType === null || this.creditProposal.attributes.proposalType === '') {
