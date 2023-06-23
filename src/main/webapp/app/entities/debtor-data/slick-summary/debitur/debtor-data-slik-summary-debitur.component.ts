@@ -208,7 +208,6 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       })
       .subscribe({
         next: (res: HttpResponse<IPartyCif[]>) => {
-          console.log('SADHASGDKSAD', res.body);
           this.detailSlik = res.body;
           this.totalLimit = this.countTotalLimit(res.body);
           this.totalOutstanding = this.countTotalOutstanding(res.body);
@@ -446,5 +445,20 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     if (this.parentPath === 'credit-proposal-status' || this.parentPath === 'cp-status-approval') {
       this.isHideButtonCp = true;
     }
+  }
+
+  public parseElements(element) {
+    if (element === 0 || element === '') {
+      return 'N/A';
+    }
+    return element;
+  }
+
+  public parseElementNumbers(element) {
+    if (element !== null || element === 0) {
+      const dataNumber = element.toFixed(Math.max(((element + '').split('.')[1] || '').length, 2));
+      return dataNumber.replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,');
+    }
+    return element;
   }
 }
