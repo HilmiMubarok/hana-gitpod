@@ -430,7 +430,7 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
@@ -449,7 +449,7 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
@@ -582,6 +582,22 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     return 0;
   }
 
+  private filterPropertiesFilterGurante(collateral: ICollateral): ICollateralProperty[] {
+    let properties: ICollateralProperty[];
+    properties = [];
+
+    // for machine
+    if (collateral.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+      if (collateral.collateralTypeId !== '' || collateral.collateralTypeId !== undefined) {
+        properties = lodash.filter(this.collateralProperties, function (o) {
+          return o.propertyType === 'GENERAL' && o.collateralId === collateral.id;
+        });
+      }
+    }
+
+    return properties;
+  }
+
   public countTotalMVKJJP() {
     let data: ICollateralProperty;
     let result: number;
@@ -589,7 +605,7 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === true);
           if (data !== undefined && collaterals[i].collateralTypeId) {
@@ -608,7 +624,7 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === true);
           if (data !== undefined) {
@@ -880,8 +896,8 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     const array2 = this.creditProposal.attributes['binding'];
     let getBindingCalculateValue;
     const data = [];
-    array1.filter(({ id: value1 }) => {
-      data.push(array2.find(({ collateralId: value2 }) => value1 === value2));
+    array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
+      data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
