@@ -327,6 +327,13 @@
                   <input disabled matInput type="text" [(ngModel)]="collateral.collateralOwner" />
                 </mat-form-field>
               </div>
+
+              <div class="form-group" *ngIf="parentSource === 'dec-offering'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Informasi Tambahan</mat-label>
+                  <input matInput type="text" [(ngModel)]="binding.informasiTambahan" />
+                </mat-form-field>
+              </div>
             </div>
           </div>
         </div>
