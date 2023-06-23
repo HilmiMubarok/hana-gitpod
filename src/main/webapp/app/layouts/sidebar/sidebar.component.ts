@@ -136,9 +136,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
             this.dataSource.data = APPRAISAL_MENU_CRA;
           } else if (newPosSet === 'CRC') {
             this.dataSource.data = APPRAISAL_MENU_CHECKER;
-          } else if (newPosSet === 'CRC1') {
+          } else if (newPosSet === 'CHECKER1') {
             this.dataSource.data = APPRAISAL_MENU_CHECKER1;
-          } else if (newPosSet === 'CRC2') {
+          } else if (newPosSet === 'CHECKER2') {
             this.dataSource.data = APPRAISAL_MENU_CHECKER2;
           } else if (newPosSet === 'LEGAL_TEAM_LEAD') {
             this.dataSource.data = APPRAISAL_MENU_LEGAL_TEAM_LEAD;
