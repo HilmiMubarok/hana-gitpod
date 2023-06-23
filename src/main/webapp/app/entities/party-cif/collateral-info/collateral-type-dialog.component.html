@@ -158,7 +158,7 @@
       <div class="col">Registration Date</div>
       <div class="col-md-auto">:</div>
       <div class="col">
-        {{ collateral.registrationDate | formatMediumDate }}
+        {{ collateral.registrationDate | date: 'yyyy/dd/MM' }}
       </div>
     </div>
   </section>

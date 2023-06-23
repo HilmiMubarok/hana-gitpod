@@ -1111,18 +1111,29 @@ export const APPRAISAL_MENU_CHECKER: ISidebarMenuModel[] = [
 ];
 export const APPRAISAL_MENU_CHECKER1: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'SLIK Checking',
+        iconname: 'minus',
+        route: 'request-slik',
+      },
+    ],
+  },
+  {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
       {
-        name: 'Loan Analysis Distribution',
-        iconname: 'minus',
-        route: 'la-distribution',
-      },
-      {
         name: 'Loan Analysis',
         iconname: 'minus',
         route: 'la-analyst',
+      },
+      {
+        name: 'Loan Analysis Distribution',
+        iconname: 'minus',
+        route: 'la-distribution',
       },
       {
         name: 'Loan Analysis SME Credit Review Checker',
@@ -1140,42 +1151,38 @@ export const APPRAISAL_MENU_CHECKER1: ISidebarMenuModel[] = [
         route: 'la-approval-inquiry',
       },
       {
-        name: 'DAR Finalization',
-        iconname: 'minus',
-        route: 'dar-final',
-      },
-      {
         name: 'Final DAR - Checker',
         iconname: 'minus',
         route: 'dar-checker',
-      },
-      {
-        name: 'Loan Komite Approval',
-        iconname: 'minus',
-        route: 'loan-committee-approval',
-      },
-      {
-        name: 'DAR Notification',
-        iconname: 'minus',
-        route: 'dar-notif',
       },
     ],
   },
 ];
 export const APPRAISAL_MENU_CHECKER2: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'SLIK Checking',
+        iconname: 'minus',
+        route: 'request-slik',
+      },
+    ],
+  },
+  {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
       {
-        name: 'Loan Analysis Distribution',
-        iconname: 'minus',
-        route: 'la-distribution',
-      },
-      {
         name: 'Loan Analysis',
         iconname: 'minus',
         route: 'la-analyst',
+      },
+      {
+        name: 'Loan Analysis Distribution',
+        iconname: 'minus',
+        route: 'la-distribution',
       },
       {
         name: 'Loan Analysis SME Credit Review Checker',
@@ -1193,24 +1200,9 @@ export const APPRAISAL_MENU_CHECKER2: ISidebarMenuModel[] = [
         route: 'la-approval-inquiry',
       },
       {
-        name: 'DAR Finalization',
-        iconname: 'minus',
-        route: 'dar-final',
-      },
-      {
         name: 'Final DAR - Checker',
         iconname: 'minus',
         route: 'dar-checker',
-      },
-      {
-        name: 'Loan Komite Approval',
-        iconname: 'minus',
-        route: 'loan-committee-approval',
-      },
-      {
-        name: 'DAR Notification',
-        iconname: 'minus',
-        route: 'dar-notif',
       },
     ],
   },
