@@ -62,6 +62,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   public masterProduct: IMasterProductParameter;
   public listCategoryLov = [];
   public revolving: Boolean;
+  public othersDescStat: Boolean = true;
 
   @Input()
   get collateral() {
@@ -656,12 +657,17 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
 
   public applicationTypeChange(event: any) {
     this.statusFacilityValue = event.value;
-    if (this.statusFacilityValue === 'Existing' || this.statusFacilityValue === 'Renewal' || this.statusFacilityValue === 'Renewal') {
+    if (this.statusFacilityValue === 'Existing') {
       this.myControl.disable();
       this.statusFacilityDisabled = true;
     } else {
       this.myControl.enable();
       this.statusFacilityDisabled = false;
+    }
+    if (this.statusFacilityValue === 'Others') {
+      this.othersDescStat = false;
+    } else {
+      this.othersDescStat = true;
     }
   }
 

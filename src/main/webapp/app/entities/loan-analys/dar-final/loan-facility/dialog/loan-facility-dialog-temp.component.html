@@ -64,6 +64,14 @@
       <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description for Others</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['descriptionOthers']" [disabled]="othersDescStat" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Facility Type</mat-label>
             <input
               type="text"
