@@ -130,9 +130,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
   }
 
   ngOnInit(): void {
-    // console.log('ini credit proposal loan ', this.creditProposal.products[0]);
     this.currency();
-    // this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
@@ -169,7 +167,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
 
   public openDialog(param: IApplicationProduct = null): void {
     if (param) {
-      // console.log('open dialog ', param);
       this.applicationProduct = param;
     } else {
       this.applicationProduct = new ApplicationProduct();
@@ -208,6 +205,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.applicationProduct = res.applicationProduct;
+		this.applicationProduct.maturityDate = this.setDate(res);
         this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
         this.onSave(true);
       } else {
@@ -275,6 +273,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
       this.dataProduct = [...this.dataProduct];
     }
   }
+
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -293,14 +292,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
       }
     });
   }
-
-  // public onDelete(element: IApplicationProduct) {
-  //   const dataGrid = this.creditProposal.products.filter(
-  //     ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
-  //   );
-  //   this.dataParty = dataGrid;
-  //   this.creditProposal.products = this.dataParty;
-  // }
 
   public parseStringToInt(data: string): number {
     return parseInt(data, 10);
@@ -373,6 +364,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
       return element.attributes.facilityType;
     }
   }
+
+  private setDate(data: any) {
+    const getDate = data.applicationProduct.maturityDate;
+    const staticDate = moment(new Date(getDate)).format().substring(0, 19) + 'Z';
+    return staticDate;
+  }
+
   public printElements(element) {
     if (element === null || element === 'null') {
       return 0;

@@ -41,6 +41,7 @@ export class OrganizationManagementListComponent
   public view: boolean;
   public field: boolean;
   public elementData: IOrganizationManagement;
+
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
@@ -54,12 +55,14 @@ export class OrganizationManagementListComponent
     this.predicate = 'id';
     this.entityKeyName = 'id';
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['cif'] && changes['managementType']) {
       this.loadDataBy(this.cif, this.managementType);
       this.defineDisplayedColumns(this.managementType);
     }
   }
+
   ngOnInit(): void {
     this.removefield();
   }
@@ -102,6 +105,7 @@ export class OrganizationManagementListComponent
       param.attributes = new OrganizationManagementAttributeShareholder();
     }
   }
+
   public removefield() {
     this.pacth = this.router.url.split('/')[1];
     if (
@@ -129,6 +133,7 @@ export class OrganizationManagementListComponent
       this.view = true;
     }
   }
+
   public openDialog(param: IOrganizationManagement = null): void {
     let orgMgm: IOrganizationManagement;
     orgMgm = new OrganizationManagement();
@@ -149,7 +154,8 @@ export class OrganizationManagementListComponent
         typeScreen: this.type,
       },
     });
-    dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {
+    dialogRef.afterClosed().subscribe((res: any) => {
+	  res.person.dob = this.setDate(res);
       if (res) {
         if (res.id) {
           // update
@@ -165,6 +171,7 @@ export class OrganizationManagementListComponent
       }
     });
   }
+
   // Delete Confirm
   public deleteData(element: IOrganizationManagement): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -184,11 +191,11 @@ export class OrganizationManagementListComponent
     });
   }
 
-  // public deleteData(element): void {
-  //   this.organizationManagementService.delete(element.id).subscribe(() => {
-  //     this.loadDataBy(this.cif, this.managementType);
-  //   });
-  // }
+  private setDate(data: any) {
+    const getDate = data.person.dob;
+	const staticDate = moment(new Date(getDate)).format().substring(0,19) + "Z";
+    return staticDate;
+  }
 
   public hiddenButton(element: IOrganizationManagement) {
     if (element.dataSource === 'h' || element.dataSource === 'H') {
