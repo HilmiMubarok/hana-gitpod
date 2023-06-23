@@ -1438,6 +1438,30 @@ export const APPRAISAL_MENU_LEGAL_HEAD: ISidebarMenuModel[] = [
   },
 ];
 
+export const APPRAISAL_MENU_LEGALOFFICER_OUTREGION: ISidebarMenuModel[] = [
+  {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
+    name: 'Offering Letter & Legal',
+    iconname: 'square-check',
+    children: [
+      {
+        name: 'Finalize Offering Letter',
+        iconname: 'minus',
+        route: 'finalize',
+      },
+    ],
+  },
+];
 export const APPRAISAL_MENU_LEGAL_OFFICER: ISidebarMenuModel[] = [
   {
     name: 'Initiation',
