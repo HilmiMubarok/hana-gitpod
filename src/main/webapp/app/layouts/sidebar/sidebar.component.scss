@@ -19,8 +19,6 @@
 }
 
 .sidebar_menu {
-  // border-right: solid;
-  // border-color: rgba(196, 223, 222, 1) !important;
   background-color: #effefd !important;
   position: fixed;
   justify-content: space-between;
@@ -30,10 +28,8 @@
   z-index: 1;
   transform: translateX(0%);
   transition: all 0.24s ease-in-out 0s !important;
-  /* transition: 0.5s ease;
-  visibility: 500ms;
-  visibility: visible; */
 }
+
 /* OVERRIDE ANGULAR MATERIAL */
 .mat-tree {
   color: inherit !important;
@@ -41,7 +37,17 @@
 .background-sidebar {
   display: inline-block;
   position: absolute;
-  background-color: rgb(109, 172, 169);
+  background-color: #48a5a1;
+  margin: 3rem auto 0 auto;
+  margin-top: 15px;
+  margin-left: 15px;
+  padding: 1rem 1rem 2rem 5px;
+  border-radius: 5%;
+}
+.background-sidebar-appraisaladm {
+  display: inline-block;
+  position: absolute;
+  background-color: #48a5a1;
   margin: 3rem auto 0 auto;
   margin-top: 15px;
   margin-left: 15px;
@@ -50,14 +56,15 @@
 }
 .mat-tree-node,
 .mat-nested-tree-node {
-  background-color: rgb(109, 172, 169);
+  background-color: #48a5a1;
   color: white;
+  min-width: 16rem;
 }
 
 .mat-tree-node {
   padding-top: 5px;
-  background-color: rgb(109, 172, 169);
-  /* padding-top: 10px; */
+  background-color: #48a5a1;
+  min-width: 16rem;
 }
 
 .mat-tree-node.selected {
@@ -67,7 +74,7 @@
 }
 
 .mat-tree-node:hover {
-  background-color: #558f8f87;
+  background-color: #8fc5c5;
   color: #504f4f !important;
   .icon {
     color: #504f4f !important;
@@ -75,7 +82,6 @@
 }
 
 .icon {
-  /* margin-left: 15px; */
   margin-left: 10px;
   margin-right: 15px;
   color: rgba(98, 180, 175, 1);
@@ -93,7 +99,6 @@
   font-size: 18px !important;
 }
 .sub-icon {
-  /* margin-left: 15px; */
   margin-left: 7px;
   margin-right: 0px;
   color: rgb(255, 255, 255);

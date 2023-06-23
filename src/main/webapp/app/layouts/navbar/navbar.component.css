@@ -1,19 +1,13 @@
 /* OVERRIDE ANGULAR MATERIAL CSS */
 .mat-toolbar-row,
 .mat-toolbar-single-row {
-  /* background-color: white; */
-  /* background-color: rgba(98, 180, 175, 1) !important; */
-  background: linear-gradient(150deg, rgb(146, 219, 217) 60%, #62a3a0 65%);
-
-  /* background: linear-gradient(
-      to right,
-      rgba(196, 223, 222, 1)  0%,
-      rgba(196, 223, 222, 1) 75%,
-      rgba(147, 201, 199, 1)  50%,
-      rgba(147, 201, 199, 1)  100%
-    ); */
+  background: linear-gradient(150deg, #96c9c8 60%, #62a3a0 65%);
   color: #fff;
   border-bottom: rgba(98, 180, 175, 1) !important;
+}
+
+.drawer-icon {
+  color: #0d3c14;
 }
 
 .spacer {
