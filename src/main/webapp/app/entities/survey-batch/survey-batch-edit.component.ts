@@ -178,7 +178,7 @@ export class SurveyBatchEditComponent implements OnInit {
       text: 'Comparison Data',
     },
     {
-      text: 'Foto Object Jaminan',
+      text: 'Foto Objek Jaminan',
     },
     {
       text: 'Summary',
@@ -736,7 +736,7 @@ export class SurveyBatchEditComponent implements OnInit {
             text: 'Comparison Data',
           },
           {
-            text: 'Foto Object Jaminan',
+            text: 'Foto Objek Jaminan',
           },
           {
             text: 'Summary',
@@ -760,7 +760,7 @@ export class SurveyBatchEditComponent implements OnInit {
             text: 'Comparison Data',
           },
           {
-            text: 'Foto Object Jaminan',
+            text: 'Foto Objek Jaminan',
           },
           {
             text: 'Summary',

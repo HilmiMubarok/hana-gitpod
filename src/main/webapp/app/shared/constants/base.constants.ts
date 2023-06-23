@@ -508,7 +508,7 @@ export const SUBMENU_COLLATERAL_APPRAISAL: IOptionNode[] = [
   },
   {
     id: 'foto-object-jaminan',
-    label: 'foto object jaminan',
+    label: 'foto objek jaminan',
   },
   {
     id: 'summary',
@@ -543,7 +543,7 @@ export const SUBMENU_COLLATERAL_APPRAISAL_REALESTATE: IOptionNode[] = [
   },
   {
     id: 'foto-object-jaminan',
-    label: 'foto object jaminan',
+    label: 'foto objek jaminan',
   },
   {
     id: 'summary',
@@ -578,7 +578,7 @@ export const SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL: IOptionNode[] = [
   },
   {
     id: 'foto-object-jaminan',
-    label: 'foto object jaminan',
+    label: 'foto objek jaminan',
   },
   {
     id: 'summary',
@@ -655,7 +655,7 @@ export const SUBMENU_COLLATERAL_APPRAISAL_MACHINE: IOptionNode[] = [
   // },
   {
     id: 'foto-object-jaminan',
-    label: 'foto object jaminan',
+    label: 'foto objek jaminan',
   },
   {
     id: 'summary',
