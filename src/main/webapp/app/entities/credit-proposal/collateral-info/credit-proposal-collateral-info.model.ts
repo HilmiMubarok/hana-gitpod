@@ -8,6 +8,7 @@ export interface ICreditProposalCollateralBinding {
   kurs?: number;
   bindingValueEqIdr?: number;
   ccy?: string;
+  informasiTambahan?: string;
 }
 
 export class CreditProposalCollateralBinding {
@@ -18,7 +19,8 @@ export class CreditProposalCollateralBinding {
     public bindingValue?: number,
     public kurs?: number,
     public bindingValueEqIdr?: number,
-    public ccy?: string
+    public ccy?: string,
+    public informasiTambahan?: string
   ) {
     this.id = uuid.v4();
     this.bindingType = '';
@@ -26,6 +28,7 @@ export class CreditProposalCollateralBinding {
     this.bindingValue = 0;
     this.kurs = 0;
     this.bindingValueEqIdr = 0;
+    this.informasiTambahan = '';
   }
 }
 
