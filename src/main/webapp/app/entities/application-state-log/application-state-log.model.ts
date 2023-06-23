@@ -6,6 +6,7 @@ export interface IApplicationStateLog {
   note?: string;
   createdBy?: string;
   createdDate?: Date;
+  lastModifiedDate?: Date;
 }
 
 export class ApplicationStateLog implements IApplicationStateLog {
@@ -16,6 +17,7 @@ export class ApplicationStateLog implements IApplicationStateLog {
     public userName?: string,
     public note?: string,
     public createdBy?: string,
-    public createdDate?: Date
+    public createdDate?: Date,
+    public lastModifiedDate?: Date
   ) {}
 }
