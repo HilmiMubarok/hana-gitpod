@@ -24,6 +24,7 @@ import { CreditProposalService } from '../../credit-proposal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { GeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
