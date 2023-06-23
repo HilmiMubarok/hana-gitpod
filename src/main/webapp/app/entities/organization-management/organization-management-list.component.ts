@@ -13,6 +13,7 @@ import {
 } from './organization-management.model';
 import { OrganizationManagementService } from './organization-management.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-organization-management-list',
