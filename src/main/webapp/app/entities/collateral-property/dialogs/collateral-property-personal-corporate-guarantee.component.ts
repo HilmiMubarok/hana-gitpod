@@ -260,6 +260,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.getLovCertificateType();
     this.cekRemark();
     this.getBranchs();
+    this.dataSource();
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -386,9 +387,8 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
 
   public dataSource() {
     if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
-      return true;
+      this.myControlMVOri.disable();
     }
-    return false;
   }
 
   public setManagementBrance() {
