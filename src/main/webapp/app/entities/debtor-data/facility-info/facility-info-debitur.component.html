@@ -30,7 +30,7 @@
   </ng-container> -->
     <ng-container matColumnDef="facilityType">
       <th mat-header-cell *matHeaderCellDef>Available Limit</th>
-      <td mat-cell *matCellDef="let element">{{ element.availableLimit }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.availableLimit | number: '1.0-0' }}</td>
     </ng-container>
     <ng-container matColumnDef="rate">
       <th mat-header-cell *matHeaderCellDef>CCY</th>
