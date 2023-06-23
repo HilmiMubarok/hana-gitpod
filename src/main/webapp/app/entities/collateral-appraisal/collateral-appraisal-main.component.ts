@@ -252,7 +252,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     { text: 'Collateral Info' },
     { text: 'Valuation' },
     { text: 'Comparison Data' },
-    { text: 'Foto Object Jaminan' },
+    { text: 'Foto Objek Jaminan' },
     { text: 'Summary' },
   ];
   public menuItemsMin: MenuItemModel[] = [{ text: 'Appraisal Info' }, { text: 'Customer Info' }, { text: 'Collateral Info' }];
@@ -670,7 +670,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
           { text: 'Valuation' },
           { text: 'Negative Collateral' },
           { text: 'Comparison Data' },
-          { text: 'Foto Object Jaminan' },
+          { text: 'Foto Objek Jaminan' },
           { text: 'Summary' },
         ];
       } else {
@@ -680,7 +680,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
           { text: 'Collateral Info' },
           { text: 'Valuation' },
           { text: 'Comparison Data' },
-          { text: 'Foto Object Jaminan' },
+          { text: 'Foto Objek Jaminan' },
           { text: 'Summary' },
         ];
       }

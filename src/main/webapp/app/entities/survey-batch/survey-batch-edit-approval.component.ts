@@ -181,7 +181,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       text: 'Comparison Data',
     },
     {
-      text: 'Foto Object Jaminan',
+      text: 'Foto Objek Jaminan',
     },
     {
       text: 'Summary',
@@ -840,7 +840,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
             text: 'Comparison Data',
           },
           {
-            text: 'Foto Object Jaminan',
+            text: 'Foto Objek Jaminan',
           },
           {
             text: 'Summary',
@@ -864,7 +864,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
             text: 'Comparison Data',
           },
           {
-            text: 'Foto Object Jaminan',
+            text: 'Foto Objek Jaminan',
           },
           {
             text: 'Summary',
@@ -1448,7 +1448,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'foto-object-jaminan') {
-      this.titleMenu = 'Foto Object Jaminan';
+      this.titleMenu = 'Foto Objek Jaminan';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'summary') {
