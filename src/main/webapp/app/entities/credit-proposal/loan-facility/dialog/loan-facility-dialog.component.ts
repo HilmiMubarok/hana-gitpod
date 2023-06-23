@@ -346,9 +346,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public changeIntRateType(event: any): void {
     this.rateType = event;
-    if (event === 'TERM SOFR') {
-      this.rateType = event.substring(5, 8);
-    }
     this.indexRateServiceFun();
     if (event === 'OTHER' || event === 'FIXED' || event === 'FED FUND') {
       this.statIntRate = true;
@@ -358,7 +355,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public periodeDate(event: any) {
-    this.dateIndex = event;
+    this.dateIndex = Number(event);
+    this.applicationProduct.intResetFrequency = Number(event);
     this.indexRateServiceFun();
   }
 
