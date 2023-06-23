@@ -51,7 +51,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalMV() / totalPlafond) * 100, 'mv') }}</p>
+              <p>{{ presentage((countTotalMV() / totalPlafond), 'mv') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="liquidValue">
@@ -61,7 +61,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalLV() / totalPlafond) * 100, 'lv') }}</p>
+              <p>{{ presentage((countTotalLV() / totalPlafond), 'lv') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="mValueKjjp">
@@ -82,7 +82,7 @@
 
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalLVKJJP() / totalPlafond) * 100, 'lvKjjp') }}</p>
+              <p>{{ presentage((countTotalLVKJJP() / totalPlafond), 'lvKjjp') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="marketability">

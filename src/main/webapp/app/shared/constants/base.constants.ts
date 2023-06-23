@@ -586,6 +586,41 @@ export const SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL: IOptionNode[] = [
   },
 ];
 
+export const SUBMENU_COLLATERAL_APPRAISAL_MECHINE_VEHICLE: IOptionNode[] = [
+  {
+    id: 'appraisal-info',
+    label: 'appraisal info',
+  },
+  {
+    id: 'customer-info',
+    label: 'customer info',
+  },
+  {
+    id: 'collateral-info',
+    label: 'collateral info',
+  },
+  {
+    id: 'valuation',
+    label: 'valuation',
+  },
+  // {
+  //   id: 'negative-collateral',
+  //   label: 'negative collateral',
+  // },
+  {
+    id: 'comparison-data',
+    label: 'comparison data',
+  },
+  {
+    id: 'foto-object-jaminan',
+    label: 'foto object jaminan',
+  },
+  {
+    id: 'summary',
+    label: 'summary',
+  },
+];
+
 export const SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL: IOptionNode[] = [
   {
     id: 'appraisal-info',

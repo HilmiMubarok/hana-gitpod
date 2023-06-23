@@ -18,6 +18,7 @@ import {
   COLLATERAL_TYPE,
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE,
+  SUBMENU_COLLATERAL_APPRAISAL_MECHINE_VEHICLE,
   SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
   SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL,
 } from 'app/shared/constants/base.constants';
@@ -655,7 +656,11 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         }
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL;
+        if (this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE') {
+          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL;
+        } else {
+          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_MECHINE_VEHICLE;
+        }
       }
     }
 
@@ -878,16 +883,16 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   public getConditionSubMenu(data): void {
-    if (data.apprOfficer === 'External') {
-      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-    }
-    if (this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE') {
-      if (data.apprOfficer === 'Internal') {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_REALESTATE;
-      } else {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-      }
-    }
+    // if (data.apprOfficer === 'External') {
+    //   this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+    // }
+    // if (this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE') {
+    //   if (data.apprOfficer === 'Internal') {
+    //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_REALESTATE;
+    //   } else {
+    //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+    //   }
+    // }
   }
   private setMenuByRole(): void {
     for (let i = 0; i < this.collateralAppraisalMainRolesAccess.length; i++) {
