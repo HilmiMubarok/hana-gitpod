@@ -619,7 +619,6 @@ export class RequestSlikDetailComponent implements OnInit {
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
                 const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-                console.log('this container', this.documentEditor);
 
                 const contents: string = e.target.result;
                 docEditor.open(contents);
@@ -682,7 +681,6 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   protected makePartySlikWithPartyId(data) {
-    console.log('makePartySlikWithPartyId', data);
     const partySlik = data.partySlik; // array
     const partyId = data.partyId; // string
     const reqReffId = data.requestReffId; // string
@@ -708,16 +706,16 @@ export class RequestSlikDetailComponent implements OnInit {
 
     const temp = [];
     item.forEach(element => {
-      console.log('element', element);
       const partySlik: IPartySlik = new PartySlik();
       partySlik.attributes = element.attributes;
       partySlik.partyId = element.partyId;
       partySlik.bank = element.bank;
       partySlik.limit = element.limit === null ? 0 : Number(element.limit);
-      partySlik.rate = element.rate == null ? 0 : Number(element.rate.toString().replace(' %', ''));
+      partySlik.rate = element.rate === null ? 0 : parseFloat(element.rate.replace(/,/g, '.')); //replace(/,/g , ".")== null ? 0 :  Number(element.rate.toLocaleString("en-US").replace(' %', ''))
       partySlik.tenor = element.tenor == null ? 0 : Number(element.tenor.toString().replace(' bulan', ''));
       partySlik.outstanding = element.outstanding == null ? 0 : Number(element.outstanding.toString().replace(/\./g, ''));
-      partySlik.collateralIdrMio = element.collateralIdrMio == null ? 0 : Number(element.collateralIdrMio.toString().replace(/\./g, ''));
+      partySlik.sumCollateralIdrMio =
+        element.sumCollateralIdrMio == null ? 0 : Number(element.sumCollateralIdrMio.toString().replace(/\./g, ''));
       partySlik.restructureFrequency = element.frekuensiRestrukturasi == null ? 0 : Number(element.frekuensiRestrukturasi);
       partySlik.arrearsFrequency = element.frekuensiTunggakan == null ? 0 : Number(element.frekuensiTunggakan);
       partySlik.arrearsBase = element.tunggakanPokok == null ? 0 : Number(element.tunggakanPokok);
@@ -747,7 +745,6 @@ export class RequestSlikDetailComponent implements OnInit {
       partySlik.plafond = element.plafond;
       temp.push(partySlik);
     });
-    console.log('TEMP', temp);
 
     return temp;
   }

@@ -21,6 +21,7 @@ export interface IPDFSlik {
   frekuensiRestrukturasi?: string;
   tanggalRestrukturasiAkhir?: string;
   debtorName?: string;
+  sumCollateralIdrMio?: string;
 }
 
 export class PDFSlik implements IPDFSlik {
@@ -46,6 +47,7 @@ export class PDFSlik implements IPDFSlik {
     public denda?: string,
     public frekuensiRestrukturasi?: string,
     public tanggalRestrukturasiAkhir?: string,
-    public debtorName?: string
+    public debtorName?: string,
+    public sumCollateralIdrMio?: string
   ) {}
 }
