@@ -143,6 +143,7 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
     this.selectedRelationType = event.value;
     if (this.selectedRelationType === '') {
       this.creditProposal.approvalLc = this.creditProposal.approvalLcDefault;
+      this.items = [];
     } else {
       this.getApplicationRolesByApplicationId();
     }
