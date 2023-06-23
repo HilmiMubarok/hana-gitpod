@@ -261,11 +261,11 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
         //   metaData.createdBy = resAccount.login;
 
         this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res0 => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
+          // this.messageService.add({
+          //   severity: 'success',
+          //   summary: 'Success',
+          //   detail: 'Save Success',
+          // });
         });
         this.spreadsheetObj.open({ file });
         this.spreadsheetObj.clear({
