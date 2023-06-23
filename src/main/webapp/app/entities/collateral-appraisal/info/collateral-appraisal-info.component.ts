@@ -143,14 +143,29 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.visitDate = '';
   }
   public timeLineStatus: any[];
+  public visitDateInternal: any;
   public timeLine() {
     this.applicationStateLogService
       .findByBusinessKeyAndRefKey('APPRAISAL', this.collateralAppraisal.id || this.surveyAppraisal.id)
       .subscribe(res => {
+        console.log('res body', res.body);
         if (res.body.length > 0) {
           for (let i = 0; i < res.body.length; i++) {
             if (res.body[i].status === 'APPROVED') {
               this.approvalDate = moment(res.body[i].createdDate).format('yyyy/MM/dd');
+            }
+
+            if (
+              res.body[i].status === 'ASSIGNMENT' ||
+              res.body[i].status === 'ASSIGNED' ||
+              res.body[i].status === 'VISITED' ||
+              res.body[i].status === 'APPROVAL_TL' ||
+              res.body[i].status === 'APPROVAL_DEPT_HEAD' ||
+              res.body[i].status === 'APPROVAL_DH' ||
+              res.body[i].status === 'APPROVED' ||
+              res.body[i].status === 'COMPLETE'
+            ) {
+                this.visitDateInternal = res.body[i].lastModifiedDate.toString();
             }
           }
         }
@@ -168,7 +183,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
       this.surveyors = res.body;
     });
-    this.visitDate = this.surveyAppraisal.apprDate.toString();
+
+    if (this.surveyAppraisal.statusId === 'External') {
+      this.visitDate = this.surveyAppraisal.apprDate.toString();
+    } else {
+      this.visitDate = this.visitDateInternal;
+    }
   }
 
   private loadWilayah(): void {
@@ -277,15 +297,26 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
         this.loadPositionRM();
         this.loadInternalInformationRM(this.surveyAppraisal.ownerPosition.partyId);
       }
-      this.visitDate = this.surveyAppraisal.apprDate.toString();
+
+      if (this.surveyAppraisal.statusId === 'External') {
+        this.visitDate = this.surveyAppraisal.apprDate.toString();
+      } else {
+        this.visitDate = this.visitDateInternal;
+      }
+
+      // this.visitDate = this.surveyAppraisal.apprDate.toString();
     }
     if (changes['surveyAppraisal']) {
       if (this.surveyAppraisal.ownerPosition.partyId) {
         this.loadPositionRM();
         this.loadInternalInformationRM(this.surveyAppraisal.ownerPosition.partyId);
       }
-
-      this.visitDate = this.surveyAppraisal.apprDate.toString();
+      if (this.surveyAppraisal.statusId === 'External') {
+        this.visitDate = this.surveyAppraisal.apprDate.toString();
+      } else {
+        this.visitDate = this.visitDateInternal;
+      }
+      // this.visitDate = this.surveyAppraisal.apprDate.toString();
       this.loadWilayah();
     }
 
