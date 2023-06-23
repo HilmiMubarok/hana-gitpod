@@ -187,12 +187,14 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
       }
     }
     this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName)); */
-    this.itemsPartner = new MatTableDataSource(data.body);
+    // this.itemsPartner = new MatTableDataSource(data.body);
     // console.log('dataitem',this.itemsPartner)
     // const itemsdata = new MatTableDataSource(data.body);
     // console.log( 'data', itemsdata)
     // this.itemsPartner = lodash.filter(itemsdata, function (o){
     // });
+    const filtered = data.body.filter(o => o.statusDescription === 'Active');
+    this.itemsPartner = new MatTableDataSource(this.addIdx(filtered));
 
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
