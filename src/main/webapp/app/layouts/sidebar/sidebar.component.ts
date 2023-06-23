@@ -38,6 +38,7 @@ import {
   APPRAISAL_DEPT_CREDIT_LEGAL_LEAD,
   SIDEBAR_MENU_APR_DH,
   APPRAISAL_APR_DEPT_HEAD,
+  APPRAISAL_MENU_LEGALOFFICER_OUTREGION,
   APPRAISAL_MENU_SIDEBAR_ALL,
   MENU_MASTER,
   APPRAISAL_MENU_ADMIN_CONFIG,
@@ -132,6 +133,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
             this.dataSource.data = SIDEBAR_MENU_APR_DH;
           } else if (newPosSet === 'TL') {
             this.dataSource.data = APPRAISAL_MENU_TL;
+          } else if (newPosSet === 'LEGALOFFICER_OUTREGION') {
+            this.dataSource.data = APPRAISAL_MENU_LEGALOFFICER_OUTREGION;
           } else if (newPosSet === 'CRA') {
             this.dataSource.data = APPRAISAL_MENU_CRA;
           } else if (newPosSet === 'CRC') {
