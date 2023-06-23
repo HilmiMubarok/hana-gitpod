@@ -165,9 +165,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
               res.body[i].status === 'APPROVED' ||
               res.body[i].status === 'COMPLETE'
             ) {
-              if (res.body[i].lastModifiedDate !== null || res.body[i].lastModifiedDate !== undefined) {
                 this.visitDateInternal = res.body[i].lastModifiedDate.toString();
-              }
             }
           }
         }
