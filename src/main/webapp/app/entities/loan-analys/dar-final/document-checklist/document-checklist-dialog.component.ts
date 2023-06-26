@@ -191,41 +191,11 @@ export class DocumentChecklistDialogTempComponent {
   public progressSave = false;
 
   public save(): void {
-    if (this.files.category === 'C') {
-      if (this.file.length > 0) {
-        this.files.status = this.filesStatus;
-        this.files.dueDate = this.filesdueDate;
-        this.files.remarks = this.filesRemarks;
-        this.files.description = this.filesDescription;
-
-        this.approvedDeleted().then(() => {
-          this.preSave().then(() => {
-            this._dialog.close();
-          });
-          this.preUpdate().then(() => {
-            this._dialog.close();
-          });
-        });
-      } else {
-        this.file = this.fileTbo;
-        this.files.status = this.filesStatus;
-        this.files.dueDate = this.filesdueDate;
-        this.files.remarks = this.filesRemarks;
-        this.files.description = this.filesDescription;
-
-        this.approvedDeleted().then(() => {
-          this.preSave().then(() => {
-            this._dialog.close();
-          });
-          this.preUpdate().then(() => {
-            this._dialog.close();
-          });
-        });
-      }
+    if (this.filesStatus === null || this.filesStatus === undefined || this.filesStatus === '') {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'status is required' });
     } else {
-      if (this.file.length < 1) {
-        if (this.filesStatus === 'TBO' || this.filesStatus === 'Waived') {
-          this.file = this.fileTbo;
+      if (this.files.category === 'C') {
+        if (this.file.length > 0) {
           this.files.status = this.filesStatus;
           this.files.dueDate = this.filesdueDate;
           this.files.remarks = this.filesRemarks;
@@ -240,19 +210,12 @@ export class DocumentChecklistDialogTempComponent {
             });
           });
         } else {
-          this.messageService.add({
-            severity: 'info',
-            summary: 'Info',
-            detail: 'Data Selain Waived dan TBO tidak boleh kosong',
-          });
-        }
-      } else {
-        this.files.status = this.filesStatus;
-        this.files.dueDate = this.filesdueDate;
-        this.files.remarks = this.filesRemarks;
-        this.files.description = this.filesDescription;
+          this.file = this.fileTbo;
+          this.files.status = this.filesStatus;
+          this.files.dueDate = this.filesdueDate;
+          this.files.remarks = this.filesRemarks;
+          this.files.description = this.filesDescription;
 
-        this.approvedDeleted().then(() => {
           this.approvedDeleted().then(() => {
             this.preSave().then(() => {
               this._dialog.close();
@@ -261,7 +224,48 @@ export class DocumentChecklistDialogTempComponent {
               this._dialog.close();
             });
           });
-        });
+        }
+      } else {
+        if (this.file.length < 1) {
+          if (this.filesStatus === 'TBO' || this.filesStatus === 'Waived') {
+            this.file = this.fileTbo;
+            this.files.status = this.filesStatus;
+            this.files.dueDate = this.filesdueDate;
+            this.files.remarks = this.filesRemarks;
+            this.files.description = this.filesDescription;
+
+            this.approvedDeleted().then(() => {
+              this.preSave().then(() => {
+                this._dialog.close();
+              });
+              this.preUpdate().then(() => {
+                this._dialog.close();
+              });
+            });
+          } else {
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Info',
+              detail: 'Data Selain Waived dan TBO tidak boleh kosong',
+            });
+          }
+        } else {
+          this.files.status = this.filesStatus;
+          this.files.dueDate = this.filesdueDate;
+          this.files.remarks = this.filesRemarks;
+          this.files.description = this.filesDescription;
+
+          this.approvedDeleted().then(() => {
+            this.approvedDeleted().then(() => {
+              this.preSave().then(() => {
+                this._dialog.close();
+              });
+              this.preUpdate().then(() => {
+                this._dialog.close();
+              });
+            });
+          });
+        }
       }
     }
   }
