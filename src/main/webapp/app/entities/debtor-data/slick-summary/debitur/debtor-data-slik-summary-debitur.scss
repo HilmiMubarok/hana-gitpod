@@ -24,6 +24,7 @@ table {
     background-color: rgba(147, 201, 199, 1);
     color: black;
     font-family: 'Poppins', sans-serif;
+    font-weight: 500;
   }
   td {
     font-family: 'Poppins', sans-serif;
@@ -176,6 +177,7 @@ table {
 .mat-header-cell {
   min-height: auto !important;
   padding: 4px 36px 4px 0;
+  font-weight: 500;
 }
 
 mat-cell,

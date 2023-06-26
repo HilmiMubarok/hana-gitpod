@@ -42,6 +42,7 @@ table {
     background-color: rgba(147, 201, 199, 1);
     color: black;
     font-family: 'Poppins', sans-serif !important;
+    font-weight: 500;
   }
   td {
     font-family: 'Poppins', sans-serif !important;
@@ -63,10 +64,6 @@ table {
 .button-styling {
   background-color: rgba(49, 158, 152, 1);
   color: #ffffff;
-}
-
-.mat-header-cell {
-  font-weight: 100 !important;
 }
 
 ::ng-deep .custom-dialog-container-delete {
@@ -184,6 +181,7 @@ table {
 .mat-header-cell {
   min-height: auto !important;
   padding: 0px 36px 0px 0;
+  font-weight: 500;
 }
 
 mat-cell,

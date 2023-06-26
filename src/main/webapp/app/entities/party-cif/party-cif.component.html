@@ -407,19 +407,19 @@
             ></tr>
             <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
           </table>
+          <mat-card *ngIf="loading" id="material-loading-bar">
+            <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+          </mat-card>
+          <mat-paginator
+            showFirstLastButtons
+            ngClass="transparant"
+            [length]="paginatorLength"
+            [pageSize]="paginatorPageSize"
+            [pageSizeOptions]="paginatorPageSizeOption"
+            (page)="loadDataLazy($event)"
+          >
+          </mat-paginator>
         </mat-card>
-        <mat-card *ngIf="loading" id="material-loading-bar">
-          <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
-        </mat-card>
-        <mat-paginator
-          showFirstLastButtons
-          ngClass="transparant"
-          [length]="paginatorLength"
-          [pageSize]="paginatorPageSize"
-          [pageSizeOptions]="paginatorPageSizeOption"
-          (page)="loadDataLazy($event)"
-        >
-        </mat-paginator>
       </div>
       <div *ngIf="positionTypeId === 'RM'" class="d-flex justify-content-center mb-3 mt-3">
         <button mat-raised-button (click)="openDialogFindCif()" class="button-styling"><mat-icon>search</mat-icon> FIND CIF</button>
