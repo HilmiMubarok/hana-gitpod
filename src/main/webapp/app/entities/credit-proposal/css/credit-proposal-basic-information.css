@@ -264,29 +264,9 @@ span.e-icons.e-check {
   height: 250px;
 }
 
-/* Material Table */
-/* .mat-header-cell {
-  font-family: 'Poppins', sans-serif;
-  background: #008881;
-  color: black;
-  font-weight: 600;
-  font-style: normal;
-  justify-content: center !important;
-  text-align: center !important;
-} */
-
-/* .mat-cell {
-  text-align: center !important;
-  justify-content: center !important;
-} */
-
-/* table .mat-table {
-  border: 1px #008881 solid !important;
-} */
 @font-face {
   font-family: 'Poppins';
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype');
-  /* Safari, Android, iOS */
 }
 
 .wording {
