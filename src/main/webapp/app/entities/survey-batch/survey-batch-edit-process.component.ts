@@ -345,7 +345,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
     this.documentLainnya(item.id);
-
+    this.collateralData(item.id);
+    this.documentCollateral(item.id);
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
     this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
@@ -360,7 +361,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     if (item !== undefined) {
       // Get Foto Object Jaminan
       this.loadData(item.collateral);
-      this.collateralData(item.collateral.id);
+
       this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
 
       this.getFotoObjectJaminan();
@@ -412,7 +413,9 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       };
 
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        this.totalDataDocumentCollateral = res.body;
+        if (res.body.length > 0) {
+          this.totalDataDocumentCollateral = res.body;
+        }
       });
     });
   }
@@ -438,7 +441,9 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         key: `/collateral/${id}/document`,
       };
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        this.totalDataDocumentCollateral = res.body;
+        if (res.body.length > 0) {
+          this.totalDataDocumentCollateral = res.body;
+        }
       });
     });
   }
@@ -1601,7 +1606,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this.collateralProp = lodash.find(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
         });
-        console.log('collateral Property Main', this.collateralProp);
       });
   }
 
