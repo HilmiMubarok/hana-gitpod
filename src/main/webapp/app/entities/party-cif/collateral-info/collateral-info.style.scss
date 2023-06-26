@@ -41,9 +41,6 @@ td {
   background-color: rgba(49, 158, 152, 1);
   color: #ffffff;
 }
-.mat-column {
-  font-weight: 100 !important;
-}
 .mat-column-no {
   width: 5%;
   text-align: right !important;
@@ -57,11 +54,6 @@ td {
   width: 10%;
   align-items: flex-start;
   border-top-right-radius: 15px;
-}
-
-.mat-header-cell {
-  font-weight: 100 !important;
-  font-size: 12px;
 }
 
 ::ng-deep .custom-dialog-container-delete {
@@ -196,9 +188,7 @@ td {
   .mat-header-cell {
     word-wrap: initial;
     display: table-cell;
-    padding: 0, 24px, 0, 5px;
     line-break: unset;
-    width: auto;
     white-space: nowrap;
     overflow: hidden;
     vertical-align: middle;
@@ -208,6 +198,7 @@ td {
 .mat-header-cell {
   min-height: auto !important;
   padding: 4px 36px 4px 0;
+  font-weight: 500;
 }
 
 mat-cell,

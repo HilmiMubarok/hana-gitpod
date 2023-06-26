@@ -1,511 +1,521 @@
-<!-- IDD -->
-<section *ngIf="parentPath !== 'credit-proposal-status'">
-  <div class="row mt-3">
-    <div class="col-12">
-      <div class="form-group">
-        <section *jhiMatrixDirIDD="'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Address</mat-label>
-            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.address1" [disabled]="disabled" />
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDirIDD="''">
-          <div class="fontsebled row">
-            <div class="col">Address</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ partyPostalAddress.address.address1 }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDirIDD="'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Country</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.countryName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.countryName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.countryName"
-              (selectionChange)="loadProvince($event.value)"
-              [(ngModel)]="partyPostalAddress.address.countryId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of country" [value]="item.id || item.code">{{ item.description }} </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDirIDD="''">
-          <div class="fontsebled row">
-            <div class="col">Country</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.countryId, 'country') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDirIDD="'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Province</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.provinceName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.provinceName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.provinceName"
-              (selectionChange)="loadCity($event.value)"
-              [(ngModel)]="partyPostalAddress.address.provinceId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
-            </mat-select>
-            <mat-hint align="end" *ngIf="!partyPostalAddress.address.countryId">Select country to get list of province </mat-hint>
-            <mat-hint align="end" *ngIf="partyPostalAddress.address.countryId"
-              >List province of country
-              <strong>{{ findStateBoundary(partyPostalAddress.address.countryId, country).description | lowercase }}</strong>
-            </mat-hint>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDirIDD="''">
-          <div class="fontsebled row">
-            <div class="col">Province</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.provinceId, 'provinces') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDirIDD="'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>City</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.cityName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.cityName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.cityName"
-              (selectionChange)="loadDistrict($event.value)"
-              [(ngModel)]="partyPostalAddress.address.cityId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
-            </mat-select>
-            <mat-hint align="end" *ngIf="!partyPostalAddress.address.provinceId">Select province to get list of city </mat-hint>
-            <mat-hint align="end" *ngIf="partyPostalAddress.address.provinceId"
-              >List city of province
-              <strong>{{ findStateBoundary(partyPostalAddress.address.provinceId, provinces).description | lowercase }}</strong>
-            </mat-hint>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDirIDD="''">
-          <div class="fontsebled row">
-            <div class="col">City</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.cityId, 'cities') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDirIDD="'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>District</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.districtName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.districtName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.districtName"
-              (selectionChange)="loadVillage($event.value)"
-              [(ngModel)]="partyPostalAddress.address.districtId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of districts" [value]="item.id">{{ item.description }} </mat-option>
-            </mat-select>
-            <mat-hint align="end" *ngIf="!partyPostalAddress.address.cityId">Select city to get list of district </mat-hint>
-            <mat-hint align="end" *ngIf="partyPostalAddress.address.cityId"
-              >List district of city
-              <strong>{{ findStateBoundary(partyPostalAddress.address.cityId, cities).description | lowercase }}</strong>
-            </mat-hint>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDirIDD="''">
-          <div class="fontsebled row">
-            <div class="col">District</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.districtId, 'districts') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDirIDD="'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Village</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.villageName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.villageName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.villageName"
-              [(ngModel)]="partyPostalAddress.address.villageId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
-            </mat-select>
-            <mat-hint align="end" *ngIf="!partyPostalAddress.address.districtId">Select district to get list of village </mat-hint>
-            <mat-hint align="end" *ngIf="partyPostalAddress.address.districtId"
-              >List village of district
-              <strong>{{ findStateBoundary(partyPostalAddress.address.districtId, districts).description | lowercase }}</strong>
-            </mat-hint>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDirIDD="''">
-          <div class="fontsebled row">
-            <div class="col">Village</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.villageId, 'villages') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <section *jhiMatrixDirIDD="'input'">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>RT</mat-label>
-                <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" [disabled]="disabled" />
-              </mat-form-field>
-            </section>
-            <section *jhiMatrixDirIDD="''">
-              <div class="fontsebled row">
-                <div class="col-4">RT</div>
-                <div class="col-md-auto">:</div>
-                <div class="col">
-                  {{ partyPostalAddress.address.rt }}
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <section *jhiMatrixDirIDD="'input'">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>RW</mat-label>
-                <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" [disabled]="disabled" />
-              </mat-form-field>
-            </section>
-            <section *jhiMatrixDirIDD="''">
-              <div class="fontsebled row">
-                <div class="col-2">RW</div>
-                <div class="col-md-auto">:</div>
-                <div class="col">
-                  {{ partyPostalAddress.address.rw }}
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
+<!-- header Address Appraisal -->
+<div class="e-card mb-3">
+  <div class="e-card-header mb-1">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title" *ngIf="parentPath !== 'party-cif'">Customer Address</div>
+    </div>
+  </div>
+  <!-- header Address Appraisal -->
+
+  <!-- IDD -->
+  <section *ngIf="parentPath !== 'credit-proposal-status'">
+    <div class="row mt-3">
+      <div class="col-12">
         <div class="form-group">
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Kode Pos</mat-label>
-              <input matInput type="text" [(ngModel)]="partyPostalAddress.address.postalCode" [disabled]="disabled" />
+              <mat-label>Address</mat-label>
+              <input matInput type="text" [(ngModel)]="partyPostalAddress.address.address1" [disabled]="disabled" />
             </mat-form-field>
           </section>
           <section *jhiMatrixDirIDD="''">
             <div class="fontsebled row">
-              <div class="col-2">Kode Pos</div>
+              <div class="col">Address</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ partyPostalAddress.address.postalCode }}
+                {{ partyPostalAddress.address.address1 }}
               </div>
             </div>
           </section>
         </div>
+        <div class="form-group">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Country</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.countryName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.countryName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.countryName"
+                (selectionChange)="loadProvince($event.value)"
+                [(ngModel)]="partyPostalAddress.address.countryId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of country" [value]="item.id || item.code">{{ item.description }} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Country</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.countryId, 'country') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="form-group">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Province</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.provinceName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.provinceName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.provinceName"
+                (selectionChange)="loadCity($event.value)"
+                [(ngModel)]="partyPostalAddress.address.provinceId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+              <mat-hint align="end" *ngIf="!partyPostalAddress.address.countryId">Select country to get list of province </mat-hint>
+              <mat-hint align="end" *ngIf="partyPostalAddress.address.countryId"
+                >List province of country
+                <strong>{{ findStateBoundary(partyPostalAddress.address.countryId, country).description | lowercase }}</strong>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Province</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.provinceId, 'provinces') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="form-group">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>City</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.cityName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.cityName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.cityName"
+                (selectionChange)="loadDistrict($event.value)"
+                [(ngModel)]="partyPostalAddress.address.cityId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+              <mat-hint align="end" *ngIf="!partyPostalAddress.address.provinceId">Select province to get list of city </mat-hint>
+              <mat-hint align="end" *ngIf="partyPostalAddress.address.provinceId"
+                >List city of province
+                <strong>{{ findStateBoundary(partyPostalAddress.address.provinceId, provinces).description | lowercase }}</strong>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">City</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.cityId, 'cities') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="form-group">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>District</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.districtName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.districtName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.districtName"
+                (selectionChange)="loadVillage($event.value)"
+                [(ngModel)]="partyPostalAddress.address.districtId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of districts" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+              <mat-hint align="end" *ngIf="!partyPostalAddress.address.cityId">Select city to get list of district </mat-hint>
+              <mat-hint align="end" *ngIf="partyPostalAddress.address.cityId"
+                >List district of city
+                <strong>{{ findStateBoundary(partyPostalAddress.address.cityId, cities).description | lowercase }}</strong>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">District</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.districtId, 'districts') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="form-group">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Village</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.villageName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.villageName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.villageName"
+                [(ngModel)]="partyPostalAddress.address.villageId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+              <mat-hint align="end" *ngIf="!partyPostalAddress.address.districtId">Select district to get list of village </mat-hint>
+              <mat-hint align="end" *ngIf="partyPostalAddress.address.districtId"
+                >List village of district
+                <strong>{{ findStateBoundary(partyPostalAddress.address.districtId, districts).description | lowercase }}</strong>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Village</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.villageId, 'villages') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <section *jhiMatrixDirIDD="'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>RT</mat-label>
+                  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" [disabled]="disabled" />
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col-4">RT</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ partyPostalAddress.address.rt }}
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <section *jhiMatrixDirIDD="'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>RW</mat-label>
+                  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" [disabled]="disabled" />
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col-2">RW</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ partyPostalAddress.address.rw }}
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="form-group">
+            <section *jhiMatrixDirIDD="'input'">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Kode Pos</mat-label>
+                <input matInput type="text" [(ngModel)]="partyPostalAddress.address.postalCode" [disabled]="disabled" />
+              </mat-form-field>
+            </section>
+            <section *jhiMatrixDirIDD="''">
+              <div class="fontsebled row">
+                <div class="col-2">Kode Pos</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ partyPostalAddress.address.postalCode }}
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CP -->
-<section *ngIf="parentPath === 'credit-proposal-status'">
-  <div class="row mt-3">
-    <div class="col-12">
-      <div class="form-group">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Address</mat-label>
-            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.address1" [disabled]="disabled" />
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col">Address</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ partyPostalAddress.address.address1 }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Country</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.countryName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.countryName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.countryName"
-              (selectionChange)="loadProvince($event.value)"
-              [(ngModel)]="partyPostalAddress.address.countryId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of country" [value]="item.id || item.code">{{ item.description }} </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col">Country</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.countryId, 'country') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Province</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.provinceName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.provinceName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.provinceName"
-              (selectionChange)="loadCity($event.value)"
-              [(ngModel)]="partyPostalAddress.address.provinceId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
-            </mat-select>
-            <mat-hint align="end" *ngIf="!partyPostalAddress.address.countryId">Select country to get list of province </mat-hint>
-            <mat-hint align="end" *ngIf="partyPostalAddress.address.countryId"
-              >List province of country
-              <strong>{{ findStateBoundary(partyPostalAddress.address.countryId, country).description | lowercase }}</strong>
-            </mat-hint>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col">Province</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.provinceId, 'province') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>City</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.cityName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.cityName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.cityName"
-              (selectionChange)="loadDistrict($event.value)"
-              [(ngModel)]="partyPostalAddress.address.cityId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
-            </mat-select>
-            <mat-hint align="end" *ngIf="!partyPostalAddress.address.provinceId">Select province to get list of city </mat-hint>
-            <mat-hint align="end" *ngIf="partyPostalAddress.address.provinceId"
-              >List city of province
-              <strong>{{ findStateBoundary(partyPostalAddress.address.provinceId, provinces).description | lowercase }}</strong>
-            </mat-hint>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col">City</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.cityId, 'cities') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>District</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.districtName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.districtName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.districtName"
-              (selectionChange)="loadVillage($event.value)"
-              [(ngModel)]="partyPostalAddress.address.districtId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of districts" [value]="item.id">{{ item.description }} </mat-option>
-            </mat-select>
-            <mat-hint align="end" *ngIf="!partyPostalAddress.address.cityId">Select city to get list of district </mat-hint>
-            <mat-hint align="end" *ngIf="partyPostalAddress.address.cityId"
-              >List district of city
-              <strong>{{ findStateBoundary(partyPostalAddress.address.cityId, cities).description | lowercase }}</strong>
-            </mat-hint>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col">District</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.districtId, 'districts') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="form-group">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Village</mat-label>
-            <input
-              matInput
-              *ngIf="partyPostalAddress.address.villageName"
-              type="text"
-              [(ngModel)]="partyPostalAddress.address.villageName"
-              [disabled]="disabled"
-            />
-            <mat-select
-              *ngIf="!partyPostalAddress.address.villageName"
-              [(ngModel)]="partyPostalAddress.address.villageId"
-              [disabled]="disabled"
-            >
-              <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
-            </mat-select>
-            <mat-hint align="end" *ngIf="!partyPostalAddress.address.districtId">Select district to get list of village </mat-hint>
-            <mat-hint align="end" *ngIf="partyPostalAddress.address.districtId"
-              >List village of district
-              <strong>{{ findStateBoundary(partyPostalAddress.address.districtId, districts).description | lowercase }}</strong>
-            </mat-hint>
-          </mat-form-field>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col">Village</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ filterCountry(partyPostalAddress.address.villageId, 'village') }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>RT</mat-label>
-                <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" [disabled]="disabled" />
-              </mat-form-field>
-            </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <div class="fontsebled row">
-                <div class="col-4">RT</div>
-                <div class="col-md-auto">:</div>
-                <div class="col">
-                  {{ partyPostalAddress.address.rt }}
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>RW</mat-label>
-                <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" [disabled]="disabled" />
-              </mat-form-field>
-            </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <div class="fontsebled row">
-                <div class="col-2">RW</div>
-                <div class="col-md-auto">:</div>
-                <div class="col">
-                  {{ partyPostalAddress.address.rw }}
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
+  <!-- CP -->
+  <section *ngIf="parentPath === 'credit-proposal-status'">
+    <div class="row mt-3">
+      <div class="col-12">
         <div class="form-group">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Kode Pos</mat-label>
-              <input matInput type="text" [(ngModel)]="partyPostalAddress.address.postalCode" [disabled]="disabled" />
+              <mat-label>Address</mat-label>
+              <input matInput type="text" [(ngModel)]="partyPostalAddress.address.address1" [disabled]="disabled" />
             </mat-form-field>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-2">Kode Pos</div>
+              <div class="col">Address</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ partyPostalAddress.address.postalCode }}
+                {{ partyPostalAddress.address.address1 }}
               </div>
             </div>
           </section>
         </div>
+        <div class="form-group">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Country</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.countryName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.countryName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.countryName"
+                (selectionChange)="loadProvince($event.value)"
+                [(ngModel)]="partyPostalAddress.address.countryId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of country" [value]="item.id || item.code">{{ item.description }} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col">Country</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.countryId, 'country') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="form-group">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Province</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.provinceName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.provinceName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.provinceName"
+                (selectionChange)="loadCity($event.value)"
+                [(ngModel)]="partyPostalAddress.address.provinceId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+              <mat-hint align="end" *ngIf="!partyPostalAddress.address.countryId">Select country to get list of province </mat-hint>
+              <mat-hint align="end" *ngIf="partyPostalAddress.address.countryId"
+                >List province of country
+                <strong>{{ findStateBoundary(partyPostalAddress.address.countryId, country).description | lowercase }}</strong>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col">Province</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.provinceId, 'province') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="form-group">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>City</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.cityName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.cityName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.cityName"
+                (selectionChange)="loadDistrict($event.value)"
+                [(ngModel)]="partyPostalAddress.address.cityId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+              <mat-hint align="end" *ngIf="!partyPostalAddress.address.provinceId">Select province to get list of city </mat-hint>
+              <mat-hint align="end" *ngIf="partyPostalAddress.address.provinceId"
+                >List city of province
+                <strong>{{ findStateBoundary(partyPostalAddress.address.provinceId, provinces).description | lowercase }}</strong>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col">City</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.cityId, 'cities') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="form-group">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>District</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.districtName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.districtName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.districtName"
+                (selectionChange)="loadVillage($event.value)"
+                [(ngModel)]="partyPostalAddress.address.districtId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of districts" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+              <mat-hint align="end" *ngIf="!partyPostalAddress.address.cityId">Select city to get list of district </mat-hint>
+              <mat-hint align="end" *ngIf="partyPostalAddress.address.cityId"
+                >List district of city
+                <strong>{{ findStateBoundary(partyPostalAddress.address.cityId, cities).description | lowercase }}</strong>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col">District</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.districtId, 'districts') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="form-group">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Village</mat-label>
+              <input
+                matInput
+                *ngIf="partyPostalAddress.address.villageName"
+                type="text"
+                [(ngModel)]="partyPostalAddress.address.villageName"
+                [disabled]="disabled"
+              />
+              <mat-select
+                *ngIf="!partyPostalAddress.address.villageName"
+                [(ngModel)]="partyPostalAddress.address.villageId"
+                [disabled]="disabled"
+              >
+                <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+              <mat-hint align="end" *ngIf="!partyPostalAddress.address.districtId">Select district to get list of village </mat-hint>
+              <mat-hint align="end" *ngIf="partyPostalAddress.address.districtId"
+                >List village of district
+                <strong>{{ findStateBoundary(partyPostalAddress.address.districtId, districts).description | lowercase }}</strong>
+              </mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col">Village</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ filterCountry(partyPostalAddress.address.villageId, 'village') }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>RT</mat-label>
+                  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" [disabled]="disabled" />
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <div class="fontsebled row">
+                  <div class="col-4">RT</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ partyPostalAddress.address.rt }}
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>RW</mat-label>
+                  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" [disabled]="disabled" />
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <div class="fontsebled row">
+                  <div class="col-2">RW</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ partyPostalAddress.address.rw }}
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="form-group">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Kode Pos</mat-label>
+                <input matInput type="text" [(ngModel)]="partyPostalAddress.address.postalCode" [disabled]="disabled" />
+              </mat-form-field>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-2">Kode Pos</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ partyPostalAddress.address.postalCode }}
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>

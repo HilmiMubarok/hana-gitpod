@@ -10,7 +10,7 @@ import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
 @Component({
   selector: 'jhi-party-cif-customer-info-postal-address',
   templateUrl: './party-cif-customer-info-postal-address.component.html',
-  styleUrls: ['../party-cif.style.scss'],
+  styleUrls: ['./party-cif-customer-info-postal-address.style.scss'],
 })
 export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress> implements OnInit {
   public country: IStateBoundary[];
