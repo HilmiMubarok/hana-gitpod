@@ -2,6 +2,7 @@
   background-color: rgba(147, 201, 199, 1);
   color: black;
   font-family: 'Poppins', sans-serif;
+  font-weight: 500;
 }
 .rounding-table-left {
   border-top-left-radius: 15px;
