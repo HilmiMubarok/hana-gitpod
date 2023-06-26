@@ -27,6 +27,7 @@
                 "
               ></ngx-dropzone-image-preview>
               <div
+              [hidden]="f.name.includes('los_logo.png')"
                 style="
                   width: 170px;
                   top: 130px;
@@ -60,6 +61,7 @@
                 </div>
                 <section>
                   <div
+                  [hidden]="f.name.includes('los_logo.png')"
                     style="
                       width: 170px;
                       top: 120px;

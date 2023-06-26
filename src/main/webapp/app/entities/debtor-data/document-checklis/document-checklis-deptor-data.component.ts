@@ -29,7 +29,12 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   public fileUrl = [];
   datePipe: DatePipe = new DatePipe('en-US');
   public dataArray: IDocumentType[];
-  constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
+  constructor(
+    private storageService: StorageService,
+    public dialog: MatDialog,
+    private documentTypeService: DocumentTypeService,
+    private messageService: MessageService
+  ) {}
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -128,7 +133,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               zip.file(file.name, fileContent);
             }
           } catch (error) {
-            console.error(`Error downloading file ${file.name}:`, error);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'file failed to download' });
           }
         });
 
