@@ -65,13 +65,13 @@
             </div>
           </div>
         </mat-card-content>
-      </mat-card>
 
-      <div class="mt-3" *jhiHasAnyAuthority="['ROLE_ADMIN']">
-        <button mat-raised-button color="primary" (click)="rebuildIndex()" class="btn-lg w-100" style="margin-bottom: 15px">
-          REBUILD INDEX
-        </button>
-      </div>
+        <div class="mt-3" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+          <button mat-raised-button color="primary" (click)="rebuildIndex()" class="btn-lg w-100" style="margin-bottom: 15px">
+            REBUILD INDEX
+          </button>
+        </div>
+      </mat-card>
 
       <div class="text-end w-100 mt-3" *ngIf="clickedChip !== ''">
         You search data with status <span class="text-capitalize fw-bold">{{ clickedChip | lowercase }}</span>
