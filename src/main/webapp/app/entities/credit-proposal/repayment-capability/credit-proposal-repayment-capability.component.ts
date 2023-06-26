@@ -154,7 +154,7 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
 
   public bufferIncomeCredit() {
     const bufferCredit = this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'];
-    const creditMutationMargin = this.creditProposal.attributes['repaymentCapability'][0]['detail']['averagcreditMutationMargineBalance'];
+    const creditMutationMargin = this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'];
 
     if (bufferCredit === 0 || creditMutationMargin === 0) {
       this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] = 0;
