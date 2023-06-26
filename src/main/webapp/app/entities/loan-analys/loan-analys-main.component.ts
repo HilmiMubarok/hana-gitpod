@@ -1561,7 +1561,7 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Opinion';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
-    if (this.selectedMenu === 'covenant-document-check') {
+    if (this.selectedMenu === 'covenant-document-check' || this.selectedMenu === 'covenant') {
       this.titleMenu = 'Covenant & Document Checklist';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
@@ -1661,6 +1661,7 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Trade Checking';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
+
     return this.titleMenu;
   }
 
