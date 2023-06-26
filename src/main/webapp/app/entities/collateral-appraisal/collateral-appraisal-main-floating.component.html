@@ -242,22 +242,17 @@
         >
         </jhi-collateral-appraisal-party-group-view>
 
-        <div class="e-card mb-3">
-          <div class="e-card-header mb-1">
-            <div class="e-card-header-caption">
-              <div class="header-title">Customer Address</div>
-            </div>
-          </div>
-          <div style="margin: 1rem">
-            <jhi-party-cif-customer-info-postal-address
-              [disabled]="true"
-              [partyPostalAddress]="postalAddress"
-              [partyId]="surveyAppraisal.cif.partyId"
-              [collateralAppraisal]="collateralAppraisal"
-            >
-            </jhi-party-cif-customer-info-postal-address>
-          </div>
+        <!-- Customer Address -->
+        <div>
+          <jhi-party-cif-customer-info-postal-address
+            [disabled]="true"
+            [partyPostalAddress]="postalAddress"
+            [partyId]="surveyAppraisal.cif.partyId"
+            [collateralAppraisal]="collateralAppraisal"
+          >
+          </jhi-party-cif-customer-info-postal-address>
         </div>
+        <!-- Customer Address -->
       </div>
 
       <div *ngIf="clickedMenu === 'external-officer-info'" class="e-sample-resize-container e-card-resize-container">

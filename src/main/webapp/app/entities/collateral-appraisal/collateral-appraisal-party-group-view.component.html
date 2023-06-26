@@ -9,11 +9,13 @@
       <!-- LEFT SIDE -->
       <div class="col-6">
         <section class="mt-2">
-          <div style="font-size: 12px">Tipe Nasabah</div>
-          <mat-radio-group [(ngModel)]="tipeNasabah">
-            <mat-radio-button disabled value="individu">Individu</mat-radio-button>
-            <mat-radio-button checked disabled value="corporate">Badan Usaha</mat-radio-button>
-          </mat-radio-group>
+          <div style="font-size: 12px">
+            Tipe Nasabah
+            <mat-radio-group [(ngModel)]="tipeNasabah">
+              <mat-radio-button disabled value="individu">Individu</mat-radio-button>
+              <mat-radio-button checked disabled value="corporate">Badan Usaha</mat-radio-button>
+            </mat-radio-group>
+          </div>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
@@ -42,6 +44,11 @@
       </div>
       <!-- RIGHT SIDE -->
       <div class="col-6">
+        <!-- empty column -->
+        <section class="mt-2">
+          <div style="font-size: 12px; color: white; padding-bottom: 0.4rem">:</div>
+        </section>
+        <!-- empty column -->
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>NPWP</mat-label>
