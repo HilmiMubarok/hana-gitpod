@@ -24,6 +24,7 @@ import { MasterProductParameterService } from 'app/entities/master-parameter/mas
 import { IMasterProductParameter } from 'app/entities/master-parameter/master-product/master-product-parameter.model';
 import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MessageService } from 'primeng/api';
 
 export const MY_FORMATS = {
   parse: {
@@ -291,7 +292,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     protected activatedRoute: ActivatedRoute,
     protected productParameterService: MasterProductParameterService,
     protected productClasificationService: ProductClassificationService,
-    private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
+    private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>,
+    protected messageService: MessageService
   ) {
     super(creditProposalService);
     if (this.data.creditProposaldata.statusId === 'DRAFT') {
@@ -445,12 +447,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public calTotalPlafond(revolving?: Boolean): number {
     this.revolving = revolving;
     if (revolving === true) {
-      return (
-        Number(this.applicationProduct.totalPlafond = Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes))
+      return Number(
+        (this.applicationProduct.totalPlafond = Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes))
       );
     } else if (revolving === false) {
-      return (
-        Number(this.applicationProduct.totalPlafond = Number(this.applicationProduct.outstanding) + Number(this.applicationProduct.changes))
+      return Number(
+        (this.applicationProduct.totalPlafond = Number(this.applicationProduct.outstanding) + Number(this.applicationProduct.changes))
       );
     }
     return 0;
@@ -948,5 +950,60 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.logoAdminFee = '';
       }
     }
+  }
+
+  public onSave(): void {
+    this.validate().then(() => this.save());
+  }
+
+  // Validation Loan Facility
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  public checkMustValidated() {
+    const mustValidate = {
+      maturityDate: true,
+      currencyId: true,
+    };
+
+    if (!this.applicationProduct.maturityDate) {
+      this._showNotification('error', 'Masukkan Maturity Date terlebih dahulu');
+      mustValidate.maturityDate = false;
+    }
+
+    if (!this.applicationProduct.currencyId) {
+      this._showNotification('error', 'Masukkan Currency terlebih dahulu');
+      mustValidate.currencyId = false;
+    }
+
+    return this._validateProcess(mustValidate);
+  }
+
+  public validateLoanFacility(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Loan Facility Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateLoanFacility().then(() => resolve(true));
+    });
   }
 }
