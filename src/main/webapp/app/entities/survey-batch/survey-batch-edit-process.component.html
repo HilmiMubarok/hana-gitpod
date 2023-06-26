@@ -237,7 +237,7 @@
           *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'"
         >
         </jhi-collateral-appraisal-party-group-view>
-
+        <!-- 
         <div class="e-card mb-3">
           <div class="e-card-header mb-1">
             <div class="e-card-header-caption">
@@ -255,6 +255,20 @@
             </jhi-party-cif-customer-info-postal-address>
           </div>
         </div>
+      </div> -->
+
+        <!-- Customer Address -->
+        <div>
+          <jhi-party-cif-customer-info-postal-address
+            [disabled]="true"
+            [partyPostalAddress]="postalAddress"
+            [partyId]="surveyAppraisal.cif.partyId"
+            [creditProposal]="creditProposal"
+            [collateralAppraisal]="collateralAppraisal"
+          >
+          </jhi-party-cif-customer-info-postal-address>
+        </div>
+        <!-- Customer Address -->
       </div>
 
       <div *ngIf="clickedMenu === 'external-officer-info'" class="e-sample-resize-container e-card-resize-container">
