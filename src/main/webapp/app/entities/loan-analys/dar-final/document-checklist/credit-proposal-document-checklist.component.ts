@@ -36,7 +36,12 @@ export class DocumentChecklistTempComponent implements OnInit {
   datePipe: DatePipe = new DatePipe('en-US');
   public dataArray: IDocumentType[];
   public fileUrl = [];
-  constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
+  constructor(
+    private storageService: StorageService,
+    public dialog: MatDialog,
+    private documentTypeService: DocumentTypeService,
+    private messageService: MessageService
+  ) {}
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -183,7 +188,7 @@ export class DocumentChecklistTempComponent implements OnInit {
               }
             }
           } catch (error) {
-            console.error(`Error downloading file ${file.name}:`, error);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'file failed to download' });
           }
         });
 
