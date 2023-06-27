@@ -3,6 +3,7 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { dataCovenantBackToBackGeneral } from '../convenant.constant';
 import lodash from 'lodash';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-back-to-back-general-history',
@@ -16,7 +17,8 @@ export class CovenantBackToBackGeneralHistoryComponent implements OnInit {
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  public standardDataGridBackToBackGeneral: any = dataCovenantBackToBackGeneral;
+  // public standardDataGridBackToBackGeneral: any = dataCovenantBackToBackGeneral;
+  public standardDataGridBackToBackGeneral: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
@@ -37,6 +39,8 @@ export class CovenantBackToBackGeneralHistoryComponent implements OnInit {
   set creditProposalItem(item: any) {
     this._creditProposalItem = item;
   }
+
+  constructor(private generalParameterService: GeneralParameterService) {}
 
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardDataGridBackToBackGeneral.length; i++) {
@@ -76,6 +80,11 @@ export class CovenantBackToBackGeneralHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.LovCovenantBtbGeneral();
+    // console.log('proposal-type', this.creditProposalItem[])
+  }
+
+  public historyBtbGeneral() {
     if (this.historyData().convenant.standardDataGridBackToBackGeneral.length !== 0) {
       for (let i = 0; i < this.historyData().convenant.standardDataGridBackToBackGeneral.length; i++) {
         this.statusValue[i] = this.historyData().convenant.standardDataGridBackToBackGeneral[i].status;
@@ -87,7 +96,26 @@ export class CovenantBackToBackGeneralHistoryComponent implements OnInit {
         this.statusValue[i] = 'Applied';
       }
     }
+  }
 
-    // console.log('proposal-type', this.creditProposalItem[])
+  public LovCovenantBtbGeneral() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVENANT_BTB_GENERAL_TIMES_CONDITION',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        const gridCondition = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i;
+          gridCondition[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+        }
+        this.standardDataGridBackToBackGeneral = gridCondition;
+        this.historyBtbGeneral();
+      });
   }
 }
