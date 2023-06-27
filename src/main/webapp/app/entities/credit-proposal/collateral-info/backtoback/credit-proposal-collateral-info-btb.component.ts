@@ -99,7 +99,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
     this.page = 0;
-    // this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.totalMVInt = 0;
     this.totalLVInt = 0;
   }
@@ -115,7 +114,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
 
     this.setCertyficateType();
     this.lovBindingType();
-    // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
   private loadByPartyId(param: string): void {
@@ -123,6 +121,8 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
       .queryFilterBy({
         idParty: param,
         isActive: true,
+		page: this.page,
+        size: 9999
       })
       .subscribe(res => {
         const filter: ICollateral[] = res.body.filter(function (o) {
@@ -222,7 +222,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
           this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
         }
       } else {
-        console.log('cancel jalan');
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
@@ -273,8 +272,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        console.log(lastAppraisal.attributes);
-
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
       }
     }
@@ -493,7 +490,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    // console.log("collateral in above grid",collateral);
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
@@ -560,7 +556,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   public findCertyficate(collateral) {
     let data: ICollateralProperty;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -587,7 +582,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     let string2: string;
     let result: string;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false

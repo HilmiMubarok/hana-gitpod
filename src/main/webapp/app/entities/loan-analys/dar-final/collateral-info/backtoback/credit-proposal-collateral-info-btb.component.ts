@@ -103,7 +103,6 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     }
 
     this.setCertyficateType();
-    // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
   private loadData(): void {
@@ -124,6 +123,8 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
       .queryFilterBy({
         idParty: param,
         isActive: true,
+		page: this.page,
+        size: 999
       })
       .subscribe(res => {
         const filter: ICollateral[] = res.body.filter(function (o) {
@@ -220,7 +221,6 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
           this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
         }
       } else {
-        console.log('cancel jalan');
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
@@ -271,8 +271,6 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        console.log(lastAppraisal.attributes);
-
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
       }
     }
@@ -484,7 +482,6 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    // console.log("collateral in above grid",collateral);
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
@@ -551,7 +548,6 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   public findCertyficate(collateral) {
     let data: ICollateralProperty;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -578,7 +574,6 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     let string2: string;
     let result: string;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
