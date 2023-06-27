@@ -97,9 +97,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   public collateralType: string;
   public totalDataDetailLand = [];
   public tipeOfficerAppraisal?: string;
-  public title: string;
-  public titleMenu: string;
-  public titleUrl: any;
   appName: any;
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
@@ -247,7 +244,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
-    this.getTitleMenu();
   }
 
   public ceckData(menu: object) {
@@ -1421,50 +1417,19 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   public previousState(): void {
     window.history.back();
   }
-
-  getTextMenu() {
-    if (this.clickedMenu === 'batch-apprisal') {
-      this.titleMenu = 'Appraisal Distribution Approval';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+  public getTextMenu(param: string): string {
+    const titleMenu = param;
+    const regex = /[-]/g;
+    if (titleMenu === 'foto-object-jaminan') {
+      const fotoObjectJaminan = titleMenu.replace(regex, ' ');
+      const regex2 = /(object)/g;
+      return fotoObjectJaminan.replace(regex2, 'objek');
+    } else {
+      return titleMenu.replace(regex, ' ');
     }
-    if (this.clickedMenu === 'appraisal-info') {
-      this.titleMenu = 'Appraisal Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'customer-info') {
-      this.titleMenu = 'Customer Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'collateral-info') {
-      this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'valuation') {
-      this.titleMenu = 'Valuation';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'comparison-data') {
-      this.titleMenu = 'Comparison Data';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'foto-object-jaminan') {
-      this.titleMenu = 'Foto Objek Jaminan';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'summary') {
-      this.titleMenu = 'Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    return this.titleMenu;
   }
 
-  getTitleMenu() {
-    this.appNameMenu = sessionStorage.getItem('appNameMenu');
-  }
-
-  getTitleUrl() {
-    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
-
-    this.titleUrl = x;
+  showTextMenu() {
+    return this.getTextMenu(this.clickedMenu);
   }
 }

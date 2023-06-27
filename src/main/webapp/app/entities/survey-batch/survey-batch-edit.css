@@ -228,3 +228,8 @@ td {
 .mat-mini-fab.mat-warn {
   background-color: #b92a2a;
 }
+
+/* menu title css */
+.menu-title-class {
+  text-transform: capitalize !important;
+}
