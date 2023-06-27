@@ -930,13 +930,23 @@ export class RequestSlikDetailComponent implements OnInit {
       this.tempData.push(this.makePartySlikWithPartyId(element));
     });
 
-    let finalTempData = this.tempData.map(temp => this.mapperIPDFSlikToPartySlik(temp));
+    const removedDuplicateData = [];
+    // map tempData
+    this.tempData.forEach(temp => {
+      // forEach temp and remove duplicate data
+      temp.forEach(tempObj => removedDuplicateData.push(tempObj));
+    });
+
+    // remove duplicate data from removedDuplicateData
+    this.tempData = _.uniqWith(removedDuplicateData, _.isEqual);
+
+    let finalTempData = this.mapperIPDFSlikToPartySlik(this.tempData);
 
     // Take out all array inside finalTempData, and merge it into one array
     finalTempData = _.flattenDeep(finalTempData);
 
     this.verifyChecklistDatas = finalTempData;
 
-    console.log('FINAL DATA', this.verifyChecklistDatas);
+    console.log('FINAL DATA TO PUSH', this.verifyChecklistDatas);
   }
 }
