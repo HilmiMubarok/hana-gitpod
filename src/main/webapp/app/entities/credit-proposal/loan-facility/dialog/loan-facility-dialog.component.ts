@@ -258,6 +258,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   };
 
   public applicationProduct: IApplicationProduct;
+  public statusDisabledOffering: boolean;
   public status = false;
   public unComitted = true;
   public com = true;
@@ -296,6 +297,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     protected messageService: MessageService
   ) {
     super(creditProposalService);
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.selectedMenu = subRoute;
+      }
+    });
     if (this.data.creditProposaldata.statusId === 'DRAFT') {
       _dialog.disableClose = true;
       _dialog.backdropClick().subscribe(_ => {
@@ -576,28 +583,31 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   paymentIDR: boolean;
   public parentPath = this.router.url.split('/')[1];
   public selectedMenu: string;
-
+  public isDisabled(): boolean {
+    if (
+      this.parentPath === 'confirmation' &&
+      (this.selectedMenu === 'loan-facility-detail' || this.selectedMenu === 'compare-approval-report')
+    ) {
+      return true;
+    }
+    return false;
+  }
   // Condition Field in Offering Letter
   public conditionFieldInOfferingLetter() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const subRoute = params['subroute'];
-      if (subRoute) {
-        this.selectedMenu = subRoute;
-      }
-    });
     // Condition Offering Letter in Route Finalize
     if (this.parentPath === 'finalize') {
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
       if (this.selectedMenu === 'loan-facility-detail') {
         this.textBoxHidden = false;
-        this.status = false;
+        this.statusDisabledOffering = false;
         this.paymentIDR = true;
         // If the Menu Compare Approval Report field can be displayed and cannot be changed
       } else if (this.selectedMenu === 'compare-approval-report') {
         this.textBoxHidden = false;
-        this.status = true;
+        this.statusDisabledOffering = true;
       } else {
         this.textBoxHidden = true;
+        this.statusDisabledOffering = false;
       }
 
       // Condition Offering Letter in Route Distribution
@@ -606,50 +616,34 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       if (this.selectedMenu === 'loan-facility-detail') {
         if (this.dataItem.statusId === 'OL_ASSIGNED') {
           this.textBoxHidden = false;
-          this.status = false;
+          this.statusDisabledOffering = false;
         } else {
           this.textBoxHidden = false;
-          this.status = true;
+          this.statusDisabledOffering = true;
         }
         // If the Menu Compare Approval Report field can be displayed and cannot be changed
       } else if (this.selectedMenu === 'compare-approval-report') {
         this.textBoxHidden = false;
-        this.status = true;
+        this.statusDisabledOffering = true;
       } else {
         this.textBoxHidden = true;
+        this.statusDisabledOffering = true;
       }
 
       // Condition Offering Letter in Route Review
-    } else if (this.parentPath === 'review') {
-      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
-      if (this.selectedMenu === 'loan-facility-detail') {
+    } else if (this.parentPath === 'review' || this.parentPath === 'confirmation') {
+      if (this.selectedMenu === 'loan-facility-detail' || this.selectedMenu === 'compare-approval-report') {
         this.textBoxHidden = false;
-        this.status = true;
-        // If the Menu Compare Approval Report field can be displayed and cannot be changed
-      } else if (this.selectedMenu === 'compare-approval-report') {
-        this.textBoxHidden = false;
-        this.status = true;
+        this.statusDisabledOffering = true;
       } else {
         this.textBoxHidden = true;
-      }
-
-      // Condition Offering Letter in Route Confirmation
-    } else if (this.parentPath === 'confirmation') {
-      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
-      if (this.selectedMenu === 'loan-facility-detail') {
-        this.textBoxHidden = false;
-        this.status = true;
-        // If the Menu Compare Approval Report field can be displayed and cannot be changed
-      } else if (this.selectedMenu === 'compare-approval-report') {
-        this.textBoxHidden = false;
-        this.status = true;
-      } else {
-        this.textBoxHidden = true;
+        this.statusDisabledOffering = true; // Menambahkan perubahan di sini
       }
     } else {
-      // other than in the offering letter field cannot be displayed and changed
       this.textBoxHidden = true;
+      this.statusDisabledOffering = true; // Menambahkan perubahan di sini
     }
+    console.log('status adalah', this.statusDisabledOffering);
   }
 
   public latePaymentFeeUSD: any;
