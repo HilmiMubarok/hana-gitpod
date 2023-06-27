@@ -148,7 +148,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   private setAvailableCollateralForAppraise(collaterals: ICollateral[]): void {
     this.collateralsData = lodash.filter(collaterals, function (e) {
-      return e.collateralTypeAppraise === true && e.statusId !== STATUS_COLLATERAL.CANCEL;
+      return e.collateralTypeAppraise === true && e.statusId !== STATUS_COLLATERAL.CANCEL && e.statusId !== STATUS_COLLATERAL.RELEASE;
     });
   }
 
