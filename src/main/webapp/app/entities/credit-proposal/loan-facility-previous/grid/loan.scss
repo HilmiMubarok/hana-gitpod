@@ -63,35 +63,6 @@
   border-radius: 6px;
 }
 
-/* .mat-header-cell {
-  background: #008881;
-  color: #ffff;
-  font-weight: 600;
-}
-table .mat-table {
-  border: 1px #008881 solid;
-}
-
-.mat-table {
-  border-color: #008881 solid !important;
-  border: 1px solid;
-}
-
-.mat-success {
-  color: white;
-  background-color: #008881;
-  width: 320px;
-}
-
-table {
-  width: 100%;
-}
-
-td, th {
-  padding: 8px;
-  text-align: center;
-} */
-
 table {
   border-bottom: 1px solid #008881 !important;
   width: 100%;
@@ -139,6 +110,7 @@ mat-card-subtitle {
   }
   .mat-cell,
   .mat-header-cell {
+    font-weight: 500;
     word-wrap: initial;
     display: table-cell;
     padding: 0px 5px;

@@ -51,32 +51,36 @@ tr.example-element-row:not(.example-expanded-row):active {
   text-align: center;
 }
 /* Table */
+/* table reponsive */
 .table-responsive {
   display: block;
   width: 100%;
   overflow-x: auto;
-  .mat-table {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    display: table;
-    border-collapse: collapse;
-    margin: 0px;
-  }
-  .mat-row,
-  .mat-header-row {
-    display: table-row;
-  }
-  .mat-cell,
-  .mat-header-cell {
-    word-wrap: initial;
-    display: table-cell;
-    line-break: unset;
-    white-space: nowrap;
-    overflow: hidden;
-    vertical-align: middle;
-  }
 }
+
+.table-responsive .mat-table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  display: table;
+  border-collapse: collapse;
+  margin: 0px;
+}
+.table-responsive .mat-row,
+.mat-header-row {
+  display: table-row;
+}
+.table-responsive .mat-cell,
+.mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  line-break: unset;
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+}
+/* table responsive */
 
 th {
   background-color: rgba(147, 201, 199, 1);
@@ -171,37 +175,37 @@ td {
 }
 /* Facility info Debitur */
 
-::ng-deep .custom-dialog-container-delete {
-  .mat-dialog-container {
-    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
-    background-color: rgba(225, 225, 225, 1);
-    background-position: bottom;
-    background-position-y: -67px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 20px;
-  }
-  .mat-button-focus-overlay {
-    background-color: transparent !important;
-  }
+/* panel class for css */
+::ng-deep .custom-dialog-container-delete .mat-dialog-container {
+  background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+  background-color: rgba(225, 225, 225, 1);
+  background-position: bottom;
+  background-position-y: -67px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
 }
 
-::ng-deep .custom-dialog-container-cancel {
-  .mat-dialog-container {
-    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
-    background-color: rgba(225, 225, 225, 1);
-    background-position: bottom;
-    background-position-y: -67px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 20px;
-  }
-  .mat-button-focus-overlay {
-    background-color: transparent !important;
-  }
+::ng-deep .custom-dialog-container-delete .mat-dialog-container .mat-button-focus-overlay {
+  background-color: transparent !important;
 }
+
+::ng-deep .custom-dialog-container-cancel .mat-dialog-container {
+  background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+  background-color: rgba(225, 225, 225, 1);
+  background-position: bottom;
+  background-position-y: -67px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+}
+
+::ng-deep .custom-dialog-container-cancel .mat-dialog-container .mat-button-focus-overlay {
+  background-color: transparent !important;
+}
+/* panel class for css */
 
 .confirm-button-yes {
   padding: 3px 43px 3px 43px;

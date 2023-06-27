@@ -81,37 +81,37 @@ th:last-child {
   font-family: 'Poppins', sans-serif !important;
 }
 
-::ng-deep .custom-dialog-container-delete {
-  .mat-dialog-container {
-    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
-    background-color: rgba(225, 225, 225, 1);
-    background-position: bottom;
-    background-position-y: -67px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 20px;
-  }
-  .mat-button-focus-overlay {
-    background-color: transparent !important;
-  }
+/* panel class for css */
+::ng-deep .custom-dialog-container-delete .mat-dialog-container {
+  background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+  background-color: rgba(225, 225, 225, 1);
+  background-position: bottom;
+  background-position-y: -67px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
 }
 
-::ng-deep .custom-dialog-container-cancel {
-  .mat-dialog-container {
-    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
-    background-color: rgba(225, 225, 225, 1);
-    background-position: bottom;
-    background-position-y: -67px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 20px;
-  }
-  .mat-button-focus-overlay {
-    background-color: transparent !important;
-  }
+::ng-deep .custom-dialog-container-delete .mat-dialog-container .mat-button-focus-overlay {
+  background-color: transparent !important;
 }
+
+::ng-deep .custom-dialog-container-cancel .mat-dialog-container {
+  background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+  background-color: rgba(225, 225, 225, 1);
+  background-position: bottom;
+  background-position-y: -67px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+}
+
+::ng-deep .custom-dialog-container-cancel .mat-dialog-container .mat-button-focus-overlay {
+  background-color: transparent !important;
+}
+/* panel class for css */
 
 .confirm-button-yes {
   padding: 3px 43px 3px 43px;
