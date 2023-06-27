@@ -156,7 +156,10 @@ export class OrganizationManagementListComponent
       },
     });
     dialogRef.afterClosed().subscribe((res: any) => {
-	  res.person.dob = this.setDate(res);
+      if (res.person !== null) {
+        res.person.dob = this.setDate(res);
+      }
+      // res.person.dob = this.setDate(res);
       if (res) {
         if (res.id) {
           // update
@@ -194,7 +197,7 @@ export class OrganizationManagementListComponent
 
   private setDate(data: any) {
     const getDate = data.person.dob;
-	const staticDate = moment(new Date(getDate)).format().substring(0,19) + "Z";
+    const staticDate = moment(new Date(getDate)).format().substring(0, 19) + 'Z';
     return staticDate;
   }
 
