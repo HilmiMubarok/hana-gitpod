@@ -41,7 +41,7 @@ td {
 }
 
 .mat-header-cell {
-  font-weight: 100 !important;
+  font-weight: 500;
   font-size: 12px;
 }
 
@@ -141,7 +141,7 @@ td {
 .back-prefix {
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
-  color: rgba(136, 136, 136, 1) !important;
+  color: #597c97 !important;
   padding-top: 20px;
   cursor: pointer;
 }
@@ -233,37 +233,37 @@ td {
   font-size: 14px;
 }
 
-::ng-deep .custom-dialog-container-delete {
-  .mat-dialog-container {
-    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
-    background-color: rgba(225, 225, 225, 1);
-    background-position: bottom;
-    background-position-y: -67px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 20px;
-  }
-  .mat-button-focus-overlay {
-    background-color: transparent !important;
-  }
+/* panel class for css */
+::ng-deep .custom-dialog-container-delete .mat-dialog-container {
+  background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+  background-color: rgba(225, 225, 225, 1);
+  background-position: bottom;
+  background-position-y: -67px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
 }
 
-::ng-deep .custom-dialog-container-cancel {
-  .mat-dialog-container {
-    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
-    background-color: rgba(225, 225, 225, 1);
-    background-position: bottom;
-    background-position-y: -67px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 20px;
-  }
-  .mat-button-focus-overlay {
-    background-color: transparent !important;
-  }
+::ng-deep .custom-dialog-container-delete .mat-dialog-container .mat-button-focus-overlay {
+  background-color: transparent !important;
 }
+
+::ng-deep .custom-dialog-container-cancel .mat-dialog-container {
+  background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+  background-color: rgba(225, 225, 225, 1);
+  background-position: bottom;
+  background-position-y: -67px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+}
+
+::ng-deep .custom-dialog-container-cancel .mat-dialog-container .mat-button-focus-overlay {
+  background-color: transparent !important;
+}
+/* panel class for css */
 
 .confirm-button-yes {
   padding: 3px 43px 3px 43px;
@@ -367,19 +367,21 @@ td {
 
 .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
-  color: rgba(158, 138, 113, 1);
+  color: #597c97;
   line-height: 35px;
   margin-left: 10px;
   padding-top: 13px;
 }
+
 .e-breadcrumb-text {
-  color: rgba(136, 136, 136, 1) !important;
+  color: #597c97 !important;
 }
 .e-breadcrumb-icon.e-icons.e-home {
-  color: rgba(136, 136, 136, 1) !important;
+  color: #597c97 !important;
 }
+
 .e-card-content {
   border: 1px solid #008881;
   margin: 1rem;
@@ -695,35 +697,36 @@ mat-cell,
   min-height: auto !important;
   padding: 0 28px 0 0 !important;
 }
-
+/* table reponsive */
 .table-responsive {
   display: block;
   width: 100%;
   overflow-x: auto;
-  .mat-table {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    display: table;
-    border-collapse: collapse;
-    margin: 0px;
-  }
-  .mat-row,
-  .mat-header-row {
-    display: table-row;
-  }
-  .mat-cell,
-  .mat-header-cell {
-    word-wrap: initial;
-    display: table-cell;
-    line-break: unset;
-    width: auto;
-    white-space: nowrap;
-    overflow: hidden;
-    vertical-align: middle;
-  }
 }
 
+.table-responsive .mat-table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  display: table;
+  border-collapse: collapse;
+  margin: 0px;
+}
+.table-responsive .mat-row,
+.mat-header-row {
+  display: table-row;
+}
+.table-responsive .mat-cell,
+.mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  line-break: unset;
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+}
+/* table responsive */
 /* table appraisal Distribution External*/
 .mat-column-appraisalNumber {
   text-align: left;
@@ -785,4 +788,20 @@ mat-cell,
 .mat-column-id {
   width: 5% !important;
   text-align: right !important;
+}
+
+:host .e-card {
+  -webkit-tap-highlight-color: #effefd;
+  background-color: #effefd;
+  border: none none #effefd;
+  box-shadow: 0 0 0 0 #effefd;
+  color: #effefd;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+:host .e-card:hover {
+  background-color: #effefd;
+  border-color: #effefd;
+  box-shadow: 0 0 0 0 #effefd;
+  font-family: 'Poppins', sans-serif;
 }
