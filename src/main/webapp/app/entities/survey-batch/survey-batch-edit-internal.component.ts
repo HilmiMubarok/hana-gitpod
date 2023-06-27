@@ -97,9 +97,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   public collateralType: string;
   public totalDataDetailLand = [];
   public tipeOfficerAppraisal?: string;
-  public title: string;
-  public titleMenu: string;
-  public titleUrl: any;
   public menuItemsMin: MenuItemModel[] = [
     {
       text: 'Appraisal Info',
@@ -1353,25 +1350,24 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       });
     }
   }
+
+  public getTextMenu(param: string): string {
+    const titleMenu = param;
+    const regex = /[-]/g;
+    if (titleMenu === 'foto-object-jaminan') {
+      const fotoObjectJaminan = titleMenu.replace(regex, ' ');
+      const regex2 = /(object)/g;
+      return fotoObjectJaminan.replace(regex2, 'objek');
+    } else {
+      return titleMenu.replace(regex, ' ');
+    }
+  }
+
+  showTextMenu() {
+    return this.getTextMenu(this.clickedMenu);
+  }
+
   previousState(): void {
     window.history.back();
-  }
-  getTextMenu() {
-    if (this.clickedMenu === 'appraisal-info') {
-      this.titleMenu = 'Appraisal Info';
-    }
-    if (this.clickedMenu === 'customer-info') {
-      this.titleMenu = 'Customer Info';
-    }
-    if (this.clickedMenu === 'collateral-info') {
-      this.titleMenu = 'Collateral Info';
-    }
-    return this.titleMenu;
-  }
-
-  getTitleUrl() {
-    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
-
-    this.titleUrl = x;
   }
 }
