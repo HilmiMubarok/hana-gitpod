@@ -1,33 +1,70 @@
-<h2 mat-dialog-title>ADD / EDIT Regulation Master Compliance Checklist</h2>
-<mat-dialog-content>
-  <div class="row">
-    <div class="col-12">
-      <section class="mt-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Regulation No</mat-label>
-          <input matInput type="text" required [(ngModel)]="masterComplianceCheklist.regItemNo" [disabled]="true" />
-        </mat-form-field>
-      </section>
-      <section class="mt-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Regulation Name</mat-label>
-          <input matInput type="text" required [(ngModel)]="masterComplianceCheklist.regulationName" />
-        </mat-form-field>
-      </section>
-      <section class="mt-2">
-        <mat-form-field appearance="outline" class="w-100 pr-1">
-          <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="masterComplianceCheklist.statusId">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
-              {{ item.statusDescription }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section>
+<section *ngIf="mode === 'edit'">
+  <h2 mat-dialog-title>EDIT Regulation Master Compliance Checklist</h2>
+
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation No</mat-label>
+            <input matInput type="text" required [(ngModel)]="masterComplianceCheklist.regItemNo" [disabled]="true" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation Name</mat-label>
+            <input matInput type="text" required [(ngModel)]="masterComplianceCheklist.regulationName" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field appearance="outline" class="w-100 pr-1">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="masterComplianceCheklist.statusId">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+                {{ item.statusDescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </div>
     </div>
-  </div>
-</mat-dialog-content>
+  </mat-dialog-content>
+</section>
+
+<section *ngIf="mode === 'add'">
+  <h2 mat-dialog-title>ADD Regulation Master Compliance Checklist</h2>
+
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation No</mat-label>
+            <input matInput type="number" required [(ngModel)]="masterComplianceCheklist.regItemNo" [disabled]="true" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation Name</mat-label>
+            <input matInput type="text" required [(ngModel)]="masterComplianceCheklist.regulationName" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field appearance="outline" class="w-100 pr-1">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="masterComplianceCheklist.statusId">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+                {{ item.statusDescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </div>
+    </div>
+  </mat-dialog-content>
+</section>
 <mat-dialog-actions align="center">
   <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">CLOSE</button>
   <button mat-raised-button class="confirm-button-yes" (click)="onSave()">SAVE</button>

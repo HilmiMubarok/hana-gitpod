@@ -130,7 +130,7 @@ export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
   public checkMustValidated() {
     const mustValidate = {
       criteria: true,
-      statusDescription: true,
+      statusId: true,
     };
 
     if (!this.complianceChecklistCriteria.criteria) {
@@ -138,9 +138,9 @@ export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
       mustValidate.criteria = false;
     }
 
-    if (!this.complianceChecklistCriteria.statusDescription) {
-      this._showNotification('error', 'Masukkan Status terlebih dahulu');
-      mustValidate.statusDescription = false;
+    if (!this.complianceChecklistCriteria.statusId) {
+      this._showNotification('error', 'Pilih Status terlebih dahulu');
+      mustValidate.statusId = false;
     }
 
     return this._validateProcess(mustValidate);
