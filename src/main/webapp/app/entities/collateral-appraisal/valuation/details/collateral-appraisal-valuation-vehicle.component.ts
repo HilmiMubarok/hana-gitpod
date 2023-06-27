@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -9,12 +9,14 @@ import { CollateralAppraisalValuationVehicleDialogComponent } from '../dialogs/c
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { CollateralAppraisalService } from '../../collateral-appraisal.service';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { TemplateService } from 'app/layouts/template/template.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-vehicle',
   templateUrl: './collateral-appraisal-valuation-vehicle.component.html',
   styleUrls: ['../collateral-appraisal-valuation.scss'],
 })
-export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
+export class CollateralAppraisalValuationVehicleComponent implements OnChanges, OnInit {
   private _collateral: ICollateral;
   @Input() collateralAppraisal: ICollateralAppraisal;
   @Input()
@@ -31,10 +33,12 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
   public roundedtotalLiquid: number;
   public collateralProperties: ICollateralProperty[];
   public displayedColumns: string[] = ['no', 'vehType', 'vehicleMarketValue', 'vehiclePercentage', 'vehLiquid', 'action'];
+  public roleCondition = '';
   constructor(
     public dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
-    protected collateralAppraisalService: CollateralAppraisalService
+    protected collateralAppraisalService: CollateralAppraisalService,
+    private templateService: TemplateService
   ) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
@@ -47,6 +51,10 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     if (changes['collateral']) {
       this.loadData(this.collateral);
     }
+  }
+
+  ngOnInit(): void {
+    this.getRole();
   }
 
   public reloadData(): void {
@@ -63,6 +71,14 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
       if (res) {
         this.loadData(this.collateral);
       }
+    });
+  }
+
+  // check for role
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.roleCondition = newPos.positionTypeId;
+      console.log('Ini adalah sebuah role', this.roleCondition);
     });
   }
 
@@ -90,11 +106,30 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     this.roundedtotalLiquid = this.collateralPropertyService.roundHundred(this.totalLiquid);
   }
 
+  // Delete Confirmation
   public deleteVechile(element): void {
-    this.collateralPropertyService.delete(element.id).subscribe(() => {
-      this.loadData(this.collateral);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: 'Delete Building Info',
+        message: 'Are you sure to delete this data?',
+      },
+      panelClass: 'custom-dialog-container-delete',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.collateralPropertyService.delete(element.id).subscribe(() => {
+          this.loadData(this.collateral);
+        });
+      }
     });
   }
+
+  // public deleteVechile(element): void {
+  //   this.collateralPropertyService.delete(element.id).subscribe(() => {
+  //     this.loadData(this.collateral);
+  //   });
+  // }
 
   public loadData(collateral: ICollateral): void {
     this.collateralPropertyService
