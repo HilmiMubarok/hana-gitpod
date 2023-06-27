@@ -1,7 +1,7 @@
-import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -26,10 +26,12 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './credit-proposal-collateral-tab-loan-after.component.html',
   styleUrls: ['./credit-proposal-collateral-tab-loan-after.styles.scss'],
 })
-export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges {
+export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges, OnInit {
   @Input() isViewMode: Boolean = false;
   public displayedColumns: string[] = ['no', 'collateralType', 'marketValue', 'liquidValue', 'action'];
 
+  public data: ICollateral;
+  public dataCollateralTotal: ICollateral[];
   public dataCollateral: ICollateral[];
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
@@ -65,17 +67,26 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
   }
+  ngOnInit(): void {
+    if (this.creditProposal.attributes['collateralAfterData']) {
+      this.creditProposal.attributes['collateralAfterData'] = JSON.parse(this.creditProposal.attributes['collateralAfterData']);
+      this.dataCollateralTotal = this.creditProposal.attributes['collateralAfterData'];
+      this.dataItem = new MatTableDataSource(this.creditProposal.attributes['collateralAfterData']);
+      this.dataItem.paginator = this.paginator;
+    } else {
+      this.creditProposal.attributes['collateralAfterData'] = [];
+    }
+  }
 
   private loadByPartyId(param: string): void {
     this.collateralService
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.dataCollateral = res.body;
-        this.dataItem = new MatTableDataSource(res.body);
-        this.dataItem.paginator = this.paginator;
       });
   }
 
@@ -93,222 +104,41 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     }
   }
 
-  public openDialog(element: ICollateral): void {
+  public openDialog(element?: ICollateral, type = 'view'): void {
     let cp = {};
-    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
-      if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
-        cp = this.creditProposal;
+
+    if (element) {
+      for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
+        if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
+          cp = this.creditProposal;
+        }
       }
+    } else {
+      element = new Collateral();
     }
+
     // console.log('bab', this.creditProposal);
     const predicate: object = {
       Width: '80vw',
       Height: 'auto',
       data: {
         cp: this.creditProposal,
+        dataCollateral: this.dataCollateral,
+        collateralProperties: this.collateralProperties,
         collateral: element,
-        marketability: this.getMarketability(),
-        internalMV: this.countMV(element),
-        internalLV: this.countLV(element),
-        // KJJPMV: this.countKJJPMV(element),
-        // KJJPLV: this.countKJJPLV(element),
+        view: type,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralTabLoanAfterDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
-        return o.id === res['collateral'].id;
-      });
-      if (collateralIdx > -1) {
-        this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+      const collateral = this.dataCollateral.find(obj => obj.id === res.id);
+      if (collateral) {
+        this.creditProposal.attributes['collateralAfterData'].push(collateral);
       }
-
-      // replace / add binding
-      const bindingIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['binding'],
-        function (o: ICreditProposalCollateralBinding) {
-          return o.collateralId === res['collateral'].id;
-        }
-      );
-      if (bindingIdx > -1) {
-        this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
-      } else {
-        this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
-      }
-
-      // replace / add insurance
-      const insuranceIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['insurance'],
-        function (o: ICreditProposalCollateralInsurance) {
-          return o.collateralId === res['collateral'].id;
-        }
-      );
-      if (insuranceIdx > -1) {
-        this.creditProposal.attributes['insurance'][insuranceIdx] = res['insurance'];
-      } else {
-        this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
-      }
+      this.dataCollateralTotal = this.creditProposal.attributes['collateralAfterData'];
+      this.dataItem = new MatTableDataSource(this.creditProposal.attributes['collateralAfterData']);
+      this.dataItem.paginator = this.paginator;
     });
-  }
-  countKJJPLV(collateral: ICollateral) {
-    let result: number;
-    let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
-    result = 0;
-
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['property']
-    ) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (
-      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
-    ) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
-        }
-      }
-    }
-    return result;
-  }
-
-  countKJJPMV(collateral: ICollateral) {
-    let result: number;
-    result = 0;
-    let data: ICollateralProperty;
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.machineMarketValue === null) {
-          result = 0;
-        } else {
-          result = data.machineMarketValue;
-        }
-      }
-    } else if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['property']
-    ) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.propertyMarketValue === null) {
-          result = 0;
-        } else {
-          result = data.propertyMarketValue;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.vehicleMarketValue === null) {
-          result = 0;
-        } else {
-          result = data.vehicleMarketValue;
-        }
-      }
-    } else if (
-      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
-    ) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.marketValue === null) {
-          result = 0;
-        } else {
-          result = data.marketValue;
-        }
-      }
-    }
-    return result;
-  }
-
-  public getCertificationDate(collateral: ICollateral): string {
-    const properties: ICollateralProperty[] = this.filterProperties(collateral);
-    return this.creditProposalService.getCertificationDate(collateral, properties);
-  }
-
-  public getMarketability(): string {
-    if (this.creditProposal.appraisals.length > 0) {
-      const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
-      if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-      }
-    }
-    return 'N/A';
-  }
-
-  private getInsurance(element: ICollateral): ICreditProposalCollateralInsurance {
-    if (this.creditProposal.attributes['insurance'].length > 0) {
-      for (let i = 0; i < this.creditProposal.attributes['insurance'].length; i++) {
-        const item: ICreditProposalCollateralInsurance = this.creditProposal.attributes['insurance'][i];
-        if (item.collateralId === element.id) {
-          return item;
-        }
-      }
-    }
-    return new CreditProposalCollateralInsurance();
-  }
-
-  private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
-    if (this.creditProposal.attributes['binding'].length > 0) {
-      for (let i = 0; i < this.creditProposal.attributes['binding'].length; i++) {
-        const item: ICreditProposalCollateralBinding = this.creditProposal.attributes['binding'][i];
-        if (item.collateralId === element.id) {
-          return item;
-        }
-      }
-    }
-    return new CreditProposalCollateralBinding();
   }
 
   public findCollateralProperty(collateral: ICollateral): void {
@@ -353,31 +183,11 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     return 0;
   }
 
-  public countLVKJJP(collateral: ICollateral) {
-    let result: number;
-    let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
-    if (collateral.collateralTypeId) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          return 0;
-        } else {
-          return data.liquidationValue;
-        }
-      }
-    }
-    return 0;
-  }
-
   public countTotalLV(): number {
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralTotal;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -396,7 +206,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralTotal;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -404,44 +214,6 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
             result = result + Number(data.marketValue);
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  public countTotalMVKJJP() {
-    let data: ICollateralProperty;
-    let result: number;
-    result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
-      for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
-        if (properties.length > 0) {
-          data = properties.find(obj => obj.external === true);
-          if (data !== undefined) {
-            result = result + data.marketValue;
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  public countTotalLVKJJP() {
-    let data: ICollateralProperty;
-    let result: number;
-    result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
-      for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
-        if (properties.length > 0) {
-          data = properties.find(obj => obj.external === true);
-          if (data !== undefined) {
-            result = result + data.liquidationValue;
           }
         }
       }
