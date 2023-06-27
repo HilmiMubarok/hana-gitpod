@@ -32,12 +32,12 @@ export class CollateralLandInfoDialogComponent implements OnInit {
   ngOnInit(): void {
     this.checkLogin();
     this.hiddenTombol();
+    this.getRole();
   }
 
   public getRole() {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.checkRole(newPos.positionTypeId);
-      console.log('this is the role', newPos.positionTypeId);
     });
   }
 

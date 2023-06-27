@@ -30,7 +30,11 @@
         <button mat-icon-button (click)="openDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteVechile(element)">
+        <button
+          mat-icon-button
+          *ngIf="roleCondition !== 'TL' || roleCondition !== 'APR_DEPT_HEAD' || roleCondition !== 'APR_DH'"
+          (click)="deleteVechile(element)"
+        >
           <mat-icon>delete</mat-icon>
         </button>
       </td>
