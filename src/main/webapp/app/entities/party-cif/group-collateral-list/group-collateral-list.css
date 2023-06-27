@@ -80,32 +80,36 @@ th:last-child {
 }
 
 /* Table */
+/* table reponsive */
 .table-responsive {
   display: block;
   width: 100%;
   overflow-x: auto;
-  .mat-table {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    display: table;
-    border-collapse: collapse;
-    margin: 0px;
-  }
-  .mat-row,
-  .mat-header-row {
-    display: table-row;
-  }
-  .mat-cell,
-  .mat-header-cell {
-    word-wrap: initial;
-    display: table-cell;
-    line-break: unset;
-    white-space: nowrap;
-    overflow: hidden;
-    vertical-align: middle;
-  }
 }
+
+.table-responsive .mat-table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  display: table;
+  border-collapse: collapse;
+  margin: 0px;
+}
+.table-responsive .mat-row,
+.mat-header-row {
+  display: table-row;
+}
+.table-responsive .mat-cell,
+.mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  line-break: unset;
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+}
+/* table responsive */
 
 .mat-header-cell {
   min-height: auto !important;
