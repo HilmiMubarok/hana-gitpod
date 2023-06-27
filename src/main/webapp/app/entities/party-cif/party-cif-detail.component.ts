@@ -41,9 +41,6 @@ export class PartyCifDetailComponent implements OnInit {
   private internalIdLocStor: string;
   private positionIdLocStor: string;
   public positionTypeId: string;
-  public title: string;
-  public titleMenu: string;
-  public titleUrl: any;
   appName: any;
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
@@ -205,52 +202,13 @@ export class PartyCifDetailComponent implements OnInit {
     });
   }
 
-  getTextMenu() {
-    if (this.clickedMenu === 'party-cif') {
-      this.titleMenu = 'Initial Debtor Data';
-    }
-    if (this.clickedMenu === 'customer-info') {
-      this.titleMenu = 'Customer Info';
-    }
-    if (this.clickedMenu === 'organization-legal') {
-      this.titleMenu = 'Organization Legal';
-    }
-    if (this.clickedMenu === 'business-group') {
-      this.titleMenu = 'Business Group';
-    }
-    if (this.clickedMenu === 'management-data') {
-      this.titleMenu = 'Management / Shareholder';
-    }
-    if (this.clickedMenu === 'document-checklist') {
-      this.titleMenu = 'Document Checklist';
-    }
-    if (this.clickedMenu === 'facility-info') {
-      this.titleMenu = 'Facility Info';
-    }
-    if (this.clickedMenu === 'collateral-info') {
-      this.titleMenu = 'Collateral Info';
-    }
-    if (this.clickedMenu === 'financial-info') {
-      this.titleMenu = 'Financial Info';
-    }
-    if (this.clickedMenu === 'retrive-info') {
-      this.titleMenu = 'Retrive';
-    }
-    if (this.clickedMenu === 'credit-rating') {
-      this.titleMenu = 'Credit Rating';
-    }
-    if (this.clickedMenu === 'slik') {
-      this.titleMenu = 'Slik';
-    }
-    if (this.clickedMenu === 'decision-approval-report') {
-      this.titleMenu = 'Decision Approval Report';
-    }
-    return this.titleMenu;
+  public getTextMenu(param: string): string {
+    const titleMenu = param;
+    const regex = /[-]/g;
+    return titleMenu.replace(regex, ' ');
   }
 
-  getTitleUrl() {
-    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
-
-    this.titleUrl = x;
+  showTextMenu() {
+    return this.getTextMenu(this.clickedMenu);
   }
 }
