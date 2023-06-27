@@ -75,7 +75,7 @@ export class GroupCollateralAppraisalComponent implements OnChanges, OnInit {
       })
       .subscribe(res => {
         this.collateralsGroupData = lodash.filter(res.body, function (e) {
-          return e.collateralTypeAppraise === true && e.statusId !== STATUS_COLLATERAL.CANCEL;
+          return e.collateralTypeAppraise === true && e.statusId !== STATUS_COLLATERAL.CANCEL && e.statusId !== STATUS_COLLATERAL.RELEASE;
         });
         if (this.collateralsGroupData.length > 0) {
           for (let i = 0; i < this.collateralsGroupData.length; i++) {

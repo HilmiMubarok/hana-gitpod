@@ -143,16 +143,12 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   }
   public hiddenNull() {
     if (this.person.firstName === null) {
-      return 'N/A';
-    } else {
-      return this.person.firstName;
+      this.person.firstName = 'N/A';
     }
   }
   public hiddenNulls() {
     if (this.person.lastName === null) {
-      return 'N/A';
-    } else {
-      return this.person.lastName;
+      this.person.lastName = 'N/A';
     }
   }
 }
