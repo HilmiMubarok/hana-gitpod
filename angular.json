@@ -41,7 +41,9 @@
             "styles": [
               "src/main/webapp/content/scss/vendor.scss",
               "src/main/webapp/content/scss/global.scss",
-              "src/main/webapp/static/css/main.css"
+			  "src/main/webapp/content/scss/material-icon.scss",
+			  "src/main/webapp/content/scss/roboto.scss",
+              "src/main/webapp/static/css/main.css",
             ],
             "scripts": []
           },
