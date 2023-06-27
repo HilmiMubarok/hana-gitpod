@@ -436,6 +436,13 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
     console.log('changes ', this.changes);
   }
 
+  public findNameState(data: IStateBoundary) {
+    if (data.description) {
+      return data.description;
+    }
+    return '';
+  }
+
   // public country: IStateBoundary[];
   // public provinces: IStateBoundary[];
   // public districts: IStateBoundary[];
