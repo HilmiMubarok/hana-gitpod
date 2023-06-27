@@ -3,6 +3,7 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { dataCovenantAbove } from '../convenant.constant';
 import lodash from 'lodash';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-above-history',
@@ -16,7 +17,8 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  public standardDataGridAbove: any = dataCovenantAbove;
+  // public standardDataGridAbove: any = dataCovenantAbove;
+  public standardDataGridAbove: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
@@ -36,6 +38,10 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
 
   set creditProposalItem(item: any) {
     this._creditProposalItem = item;
+  }
+
+  constructor(private generalParameterService: GeneralParameterService) {
+    this.LovCovenantAbove();
   }
 
   public onKeyUpEvent(input: string, event: any, data: any) {
@@ -73,6 +79,10 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.parsedAttr = parsePreviousAtrribute(this.creditProposalItem);
+    this.LovCovenantAbove();
+  }
+
+  public historyAbove() {
     if (this.historyData().convenant.standardDataGridAbove.length !== 0) {
       for (let i = 0; i < this.historyData().convenant.standardDataGridAbove.length; i++) {
         this.statusValue[i] = this.historyData().convenant.standardDataGridAbove[i].status;
@@ -84,5 +94,26 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
         this.statusValue[i] = 'Applied';
       }
     }
+  }
+
+  public LovCovenantAbove() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVENANT_ABOVE_STANDARD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        const gridAbove = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i;
+          gridAbove[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+        }
+        this.standardDataGridAbove = gridAbove;
+        this.historyAbove();
+      });
   }
 }
