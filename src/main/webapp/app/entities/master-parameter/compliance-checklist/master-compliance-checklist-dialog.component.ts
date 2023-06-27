@@ -12,6 +12,8 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 })
 export class MasterComplianceChecklistDialogComponent implements OnInit {
   public masterComplianceCheklist: IMasterComplianceChecklist;
+  public view: boolean;
+  public mode: string;
 
   public statusValue = [
     {
@@ -30,6 +32,8 @@ export class MasterComplianceChecklistDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       masterComplianceCheklist: IMasterComplianceChecklist;
+      view: false;
+      mode: string;
     },
     private _dialog: MatDialogRef<MasterComplianceChecklistDialogComponent>,
     protected masterComplianceChecklistService: MasterComplianceChecklistService,
@@ -40,9 +44,27 @@ export class MasterComplianceChecklistDialogComponent implements OnInit {
       this.openCancelDialog();
     });
     this.masterComplianceCheklist = this.data.masterComplianceCheklist;
+    this.view = this.data.view;
+    this.mode = this.data.mode;
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    if (this.mode === 'add') {
+      this.getRegItemNo();
+    }
+  }
+
+  public getRegItemNo() {
+    this.masterComplianceChecklistService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        sort: ['id', 'asc'],
+      })
+      .subscribe(res => {
+        const lastItem = res.body[res.body.length - 1];
+        this.masterComplianceCheklist.regItemNo = lastItem.id + 1;
+        console.log('ID terakhir:', this.masterComplianceCheklist.regItemNo);
+      });
   }
 
   public onSave(): void {
@@ -95,7 +117,7 @@ export class MasterComplianceChecklistDialogComponent implements OnInit {
   public checkMustValidated() {
     const mustValidate = {
       regulationName: true,
-      statusDescription: true,
+      statusId: true,
     };
 
     if (!this.masterComplianceCheklist.regulationName) {
@@ -103,9 +125,9 @@ export class MasterComplianceChecklistDialogComponent implements OnInit {
       mustValidate.regulationName = false;
     }
 
-    if (!this.masterComplianceCheklist.statusDescription) {
-      this._showNotification('error', 'Masukkan Status terlebih dahulu');
-      mustValidate.statusDescription = false;
+    if (!this.masterComplianceCheklist.statusId) {
+      this._showNotification('error', 'Pilih Status terlebih dahulu');
+      mustValidate.statusId = false;
     }
 
     return this._validateProcess(mustValidate);

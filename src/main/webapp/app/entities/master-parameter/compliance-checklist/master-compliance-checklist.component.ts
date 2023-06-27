@@ -99,7 +99,7 @@ export class MasterComplianceChecklistComponent extends AbstractEntityMaterialCo
     this.loadAll();
   }
 
-  public openDialog(element: IMasterComplianceChecklist = null): void {
+  public openDialog(element: IMasterComplianceChecklist = null, data: any): void {
     let predicate: IMasterComplianceChecklist;
     predicate = new MasterComplianceChecklist();
 
@@ -111,6 +111,7 @@ export class MasterComplianceChecklistComponent extends AbstractEntityMaterialCo
       width: '100%',
       data: {
         masterComplianceCheklist: predicate,
+        mode: data,
       },
     });
     dialogRef.afterClosed().subscribe((res: IMasterComplianceChecklist) => {
@@ -134,8 +135,8 @@ export class MasterComplianceChecklistComponent extends AbstractEntityMaterialCo
     this.complianceChecklistCriteriaService
       .filterTableData({
         regId: param.id,
-        page: this.page,
-        size: this.itemsPerPage,
+        page: 0,
+        size: 9999,
         sort: ['id', 'asc'],
       })
       .subscribe(res => {
