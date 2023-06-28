@@ -26,6 +26,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-summary-grid',
   templateUrl: './summary-grid.component.html',
@@ -52,7 +53,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'action',
+    'noUrutFasilitas',
+    'facilityType',
   ];
 
   public _collateralProperty: ICollateralProperty[];
@@ -197,7 +199,9 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   private loadSummaryCollateral(): void {
     const applicationNumber = this.creditProposal.id;
     this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
-      this.dataCollateral = res.body;
+      this.dataCollateral = lodash.filter(res.body, function (o) {
+        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+      });
       this.dataItem = new MatTableDataSource(res.body);
       this.dataItem.paginator = this.paginator;
       this.getBindingCalculate(res.body);
