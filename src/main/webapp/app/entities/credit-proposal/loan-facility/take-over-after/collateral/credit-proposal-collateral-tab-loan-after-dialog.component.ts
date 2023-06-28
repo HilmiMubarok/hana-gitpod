@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -20,14 +20,17 @@ import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal
   styleUrls: ['./collateral-info-dialog.css'],
   providers: [ToolbarService, HtmlEditorService],
 })
-export class CreditProposalCollateralTabLoanAfterDialogComponent {
+export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnInit {
+  public view: string;
   public creditProposal: ICreditProposal;
+  public dataCollateral: ICollateral[];
+  public collateralProperties: ICollateralProperty[];
   public disabledOpt = true;
   public collateral: ICollateral;
   public insurance: ICreditProposalCollateralInsurance;
   public marketability: string;
-  public internalMV: number;
-  public internalLV: number;
+  public internalMV = 0;
+  public internalLV = 0;
   public kjjpMV: number;
   public kjjpLV: number;
   public properties: ICollateralProperty[];
@@ -54,41 +57,24 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent {
     public data: {
       cp: ICreditProposal;
       collateral: ICollateral;
-      marketability: string;
-      internalMV: number;
-      internalLV: number;
-      kjjpMV: number;
-      kjjpLV: number;
-      properties: ICollateralProperty[];
-      binding: ICreditProposalCollateralBinding;
-      insurance: ICreditProposalCollateralInsurance;
+      view: string;
+      dataCollateral: ICollateral[];
+      collateralProperties: ICollateralProperty[];
     }
   ) {
-    // console.log('aliando', this.data.cp);
     this.creditProposal = this.data.cp;
     this.collateral = this.data.collateral;
-    this.marketability = this.data.marketability;
-    this.internalMV = this.data.internalMV;
-    this.internalLV = this.data.internalLV;
-    this.kjjpMV = this.data.kjjpMV;
-    this.kjjpLV = this.data.kjjpLV;
-    this.properties = this.data.properties;
-    this.binding = this.data.binding;
-    this.insurance = this.data.insurance;
+    this.view = this.data.view;
+    this.dataCollateral = data.dataCollateral;
+    this.collateralProperties = data.collateralProperties;
   }
 
-  public save() {
-    if (!this.binding.collateralId) {
-      this.binding.collateralId = this.collateral.id;
+  ngOnInit(): void {
+    if (this.view === 'view') {
+      this.changeType(this.collateral.id);
     }
-    if (!this.insurance.collateralId) {
-      this.insurance.collateralId = this.collateral.id;
-    }
-    this._dialog.close({
-      binding: this.binding,
-      collateral: this.collateral,
-      insurance: this.insurance,
-    });
+    console.log('ini type ', this.view);
+    console.log('collateral property ', this.collateralProperties);
   }
 
   public getCertificateDueDate(): string {
@@ -107,5 +93,60 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent {
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+
+  public changeType(id) {
+    const collateral = this.dataCollateral.find(obj => obj.id === id);
+    if (collateral) {
+      this.internalMV = this.countMV(collateral);
+      this.internalLV = this.countLV(collateral);
+    } else {
+      this.internalMV = 0;
+      this.internalLV = 0;
+    }
+  }
+
+  public countMV(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValue === null) {
+          return 0;
+        } else {
+          return data.marketValue;
+        }
+      }
+    }
+    return 0;
+  }
+
+  public countLV(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          return 0;
+        } else {
+          return data.liquidationValue;
+        }
+      }
+    }
+    return 0;
+  }
+
+  public onSave() {
+    this._dialog.close(this.collateral);
   }
 }

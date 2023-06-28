@@ -1182,6 +1182,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
 
+    copyCreditProposal.attributes['collateralAfterData'] = JSON.stringify(copyCreditProposal.attributes['collateralAfterData']);
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
@@ -1407,7 +1408,9 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public cekCgpgData() {
     for (let i = 0; i < this.collateralProperties.length; i++) {
-      this.saveCollateralProperty(this.collateralProperties[i]);
+      if (this.collateralProperties[i].propertyType === 'GENERAL') {
+        this.saveCollateralProperty(this.collateralProperties[i]);
+      }
     }
   }
 
