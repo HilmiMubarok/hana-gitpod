@@ -1181,8 +1181,6 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
       }
     }
-
-    copyCreditProposal.attributes['collateralAfterData'] = JSON.stringify(copyCreditProposal.attributes['collateralAfterData']);
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
