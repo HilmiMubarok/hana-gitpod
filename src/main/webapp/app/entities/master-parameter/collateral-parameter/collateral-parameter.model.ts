@@ -7,7 +7,7 @@ export interface ICollateralParameter {
   createdDate?: Date;
   lastModifiedBy?: Date;
   lastModifiedDate?: Date;
-  collateralType?: string;
+  collateralTypeId?: string;
   collateralTypeCode?: string;
   collateralTypeCodeDescription?: string;
   collateralDetailTypeCode?: string;
@@ -24,7 +24,7 @@ export class CollateralParameter implements ICollateralParameter {
     public createdDate?: Date,
     public lastModifiedBy?: Date,
     public lastModifiedDate?: Date,
-    public collateralType?: string,
+    public collateralTypeId?: string,
     public collateralTypeCode?: string,
     public collateralTypeCodeDescription?: string,
     public collateralDetailTypeCode?: string,

@@ -123,7 +123,7 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
     const data = this.collateralParameterService.paramTypeId.subscribe((message: any) => {
       this.typeID = message;
     });
-    predicate.collateralType = this.typeID;
+    predicate.collateralTypeId = this.typeID;
 
     if (element) {
       predicate = element;
