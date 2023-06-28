@@ -12,7 +12,7 @@
     <link rel="icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.webapp" />
     <link rel="stylesheet" href="content/css/loading.css" />
-	<!-- <link rel="stylesheet" href="fonts/material-icon/MaterialIcons-Regular.ttf" /> -->
+    <!-- <link rel="stylesheet" href="fonts/material-icon/MaterialIcons-Regular.ttf" /> -->
     <!-- <style>
       @font-face {
         font-family: 'Material Icons';
@@ -48,7 +48,7 @@
 
     <!-- jhipster-needle-add-resources-to-root - JHipster will add new resources here -->
   </head>
-  <body>
+  <body onload="">
     <!--[if lt IE 9]>
       <p class="browserupgrade">
         You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve
@@ -56,7 +56,7 @@
       </p>
     <![endif]-->
     <jhi-main>
-      <div class="app-loading">
+      <!-- <div class="app-loading">
         <div class="lds-pacman">
           <div>
             <div></div>
@@ -69,7 +69,38 @@
             <div></div>
           </div>
         </div>
+      </div> -->
+      <div class="app-loading">
+        <div class="wrapper" style="margin-top: 6rem">
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <span><img src="./content/images/cash_logo.png" style="max-width: 221px; margin-top: 2rem; margin-left: -45px" /></span>
+          <div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
       </div>
+      <!-- <div class="app-loading">
+        <div class="loader">
+          <span class="box"></span>
+          <span class="box"></span>
+          <div class="code">
+            <img src="./content/images/cash_logo.png" width="221px" style="margin-top: -69px; margin-left: -75px" />
+          </div>
+          <span class="txt">LOADING CASH...</span>
+          <div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div> -->
       <div class="app-loading">
         <div id="jhipster-error" style="display: none">
           <!-- This content is for troubleshooting purpose and will be removed when app renders -->
@@ -140,7 +171,7 @@
     <script type="text/javascript">
       // show an error message if the app loading takes more than 4 sec
       window.onload = function () {
-        setTimeout(showError, 4000);
+        setTimeout(showError, 9000);
       };
       function showError() {
         var errorElm = document.getElementById('jhipster-error');
