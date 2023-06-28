@@ -437,8 +437,10 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
   }
 
   public findNameState(data: IStateBoundary) {
-    if (data.description) {
-      return data.description;
+    if (data) {
+      if (data.description) {
+        return data.description;
+      }
     }
     return '';
   }
