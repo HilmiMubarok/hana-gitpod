@@ -86,6 +86,10 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
   }
 
   protected preSave(entity: ICreditProposal) {
+    if (entity.attributes['collateralAfterData']) {
+      entity.attributes['collateralAfterData'] = JSON.stringify(entity.attributes['collateralAfterData']);
+    }
+
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }
