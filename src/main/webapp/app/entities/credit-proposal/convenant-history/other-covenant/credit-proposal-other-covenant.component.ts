@@ -42,7 +42,7 @@ export class CreditProposalOtherCovenantHistoryComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification'];
+  public displayColumns: string[] = ['no', 'category', 'sub_category', 'covenant', 'status', 'deviation', 'justification'];
 
   constructor(public dialog: MatDialog) {
     this.loading = false;
