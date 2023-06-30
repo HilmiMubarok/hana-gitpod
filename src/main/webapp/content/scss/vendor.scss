@@ -4,7 +4,6 @@
 put Sass variables here:
 eg $input-color: red;
 ****************************/
-
 // Override Bootstrap variables
 @import 'bootstrap-variables';
 // Import Bootstrap source files from node_modules
@@ -28,7 +27,7 @@ eg $input-color: red;
 @import '~@syncfusion/ej2-angular-grids/styles/material.css';
 @import '~@syncfusion/ej2-lists/styles/material.css';
 @import '~@syncfusion/ej2-angular-popups/styles/material.css';
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+// @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~@syncfusion/ej2-angular-inputs/styles/material.css';
 @import '~@syncfusion/ej2-icons/styles/material.css';
 @import '~@syncfusion/ej2-richtexteditor/styles/material.css';
@@ -39,3 +38,21 @@ eg $input-color: red;
 @import '~@syncfusion/ej2-angular-documenteditor/styles/material.css';
 
 // @import url('https://fonts.googleapis.com/icon?family=Material+Icons&display=block');
+
+// Angular Custom Themes
+@import '~@angular/material/theming';
+// define fonts
+$general-typography: mat-typography-config(
+  $font-family: '"Poppins", sans-serif',
+  $body-2: mat-typography-level(14px, 24px, 600),
+);
+
+// default font for material theme
+@include mat-core($general-typography);
+
+// define default theme
+$app-primary: mat-palette($mat-indigo);
+$app-accent: mat-palette($mat-pink, A200, A100, A400);
+$app-warn: mat-palette($mat-red);
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+@include angular-material-theme($app-theme);
