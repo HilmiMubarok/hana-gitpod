@@ -26,8 +26,9 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import { LoanFacilityAproveLevelComponent } from 'app/entities/loan-analys/approval-level/approve-level.component';
 import { LoanFacilityAproveMatrixComponent } from 'app/entities/loan-analys/approval-matrix/approve-matrix.component';
+import { LoanFacilityAproveLevelComponent } from 'app/entities/loan-analys/approval-level/approval-level-reporting-structure/approve-level.component';
+import { LoanFacilityAproveLevelNoteComponent } from 'app/entities/loan-analys/approval-level/approval-level-user-notes-data/approve-level-note.component';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -58,6 +59,7 @@ import { LoanFacilityAproveMatrixComponent } from 'app/entities/loan-analys/appr
     ConfirmDialogComponent,
     LoanFacilityAproveLevelComponent,
     LoanFacilityAproveMatrixComponent,
+    LoanFacilityAproveLevelNoteComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -87,6 +89,7 @@ import { LoanFacilityAproveMatrixComponent } from 'app/entities/loan-analys/appr
     ConfirmDialogComponent,
     LoanFacilityAproveLevelComponent,
     LoanFacilityAproveMatrixComponent,
+    LoanFacilityAproveLevelNoteComponent,
   ],
 })
 export class SharedModule {}
