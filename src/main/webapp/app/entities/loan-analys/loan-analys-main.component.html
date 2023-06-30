@@ -187,24 +187,25 @@
         </mat-card>
 
         <!-- RM -->
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header">RM</div>
-          </div>
-        </div>
+
         <mat-card class="mb-3">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header">RM</div>
+            </div>
+          </div>
           <mat-card-content>
             <jhi-credit-proposal-personal-analyst-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-analyst-info>
           </mat-card-content>
         </mat-card>
 
         <!-- Cust info -->
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header">Customer Info</div>
-          </div>
-        </div>
         <mat-card class="mb-3">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header">Customer Info</div>
+            </div>
+          </div>
           <mat-card-content>
             <jhi-credit-proposal-person
               *ngIf="creditProposal.partyTypeId === 'PERSON'"
@@ -223,13 +224,12 @@
         </mat-card>
 
         <!-- Postal address -->
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header">Address</div>
-          </div>
-        </div>
-
         <mat-card class="mb-3">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header">Address</div>
+            </div>
+          </div>
           <mat-card-content>
             <jhi-party-cif-customer-info-postal-address
               [disabled]="true"
@@ -546,6 +546,7 @@
     <!-- Trade Checking  -->
     <div *ngIf="selectedMenu === 'trade-checking'">
       <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"></jhi-credit-proposal-trade-checking>
+      <br />
       <jhi-credit-proposal-trade-checking-remarks [creditProposal]="creditProposal" [saveWord]="saveWord">
       </jhi-credit-proposal-trade-checking-remarks>
     </div>

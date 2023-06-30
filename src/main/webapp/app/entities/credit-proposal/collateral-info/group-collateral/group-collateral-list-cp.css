@@ -103,3 +103,7 @@ td {
 .mat-column-no {
   width: 1%;
 }
+
+.mat-header-cell {
+  font-weight: 500 !important;
+}
