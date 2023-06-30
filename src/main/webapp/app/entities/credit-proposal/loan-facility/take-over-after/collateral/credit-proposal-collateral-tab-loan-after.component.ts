@@ -20,6 +20,7 @@ import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-pr
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after',
@@ -69,7 +70,9 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   }
   ngOnInit(): void {
     if (this.creditProposal.attributes['collateralAfterData']) {
-      this.creditProposal.attributes['collateralAfterData'] = JSON.parse(this.creditProposal.attributes['collateralAfterData']);
+      while (typeof this.creditProposal.attributes['collateralAfterData'] === 'string') {
+        this.creditProposal.attributes['collateralAfterData'] = JSON.parse(this.creditProposal.attributes['collateralAfterData']);
+      }
       this.dataCollateralTotal = this.creditProposal.attributes['collateralAfterData'];
       this.dataItem = new MatTableDataSource(this.creditProposal.attributes['collateralAfterData']);
       this.dataItem.paginator = this.paginator;
@@ -93,7 +96,6 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      console.log('ini credit proposal ', this.creditProposal);
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
@@ -105,6 +107,14 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   }
 
   public openDialog(element?: ICollateral, type = 'view'): void {
+    let dataCollateralOption: ICollateral[] = this.dataCollateral;
+    if (this.creditProposal.attributes['collateralAfterData'].length > 0) {
+      for (let i = 0; i < this.creditProposal.attributes['collateralAfterData'].length; i++) {
+        dataCollateralOption = dataCollateralOption.filter(obj => obj.id !== this.creditProposal.attributes['collateralAfterData'][i].id);
+      }
+    } else {
+      dataCollateralOption = this.dataCollateral;
+    }
     let cp = {};
 
     if (element) {
@@ -117,13 +127,13 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
       element = new Collateral();
     }
 
-    // console.log('bab', this.creditProposal);
     const predicate: object = {
       Width: '80vw',
       Height: 'auto',
       data: {
         cp: this.creditProposal,
         dataCollateral: this.dataCollateral,
+        dataCollateralOptionx: dataCollateralOption,
         collateralProperties: this.collateralProperties,
         collateral: element,
         view: type,
@@ -167,7 +177,6 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -225,7 +234,6 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -239,5 +247,26 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
       }
     }
     return 0;
+  }
+
+  public onDelete(element) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: 'Delete Take Over After Data',
+        message: 'Are you sure to delete this data?',
+      },
+      panelClass: 'custom-dialog-container-delete',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.creditProposal.attributes['collateralAfterData'] = this.creditProposal.attributes['collateralAfterData'].filter(
+          obj => obj.id !== element.id
+        );
+        this.dataCollateralTotal = this.creditProposal.attributes['collateralAfterData'];
+        this.dataItem = new MatTableDataSource(this.creditProposal.attributes['collateralAfterData']);
+        this.dataItem.paginator = this.paginator;
+      }
+    });
   }
 }

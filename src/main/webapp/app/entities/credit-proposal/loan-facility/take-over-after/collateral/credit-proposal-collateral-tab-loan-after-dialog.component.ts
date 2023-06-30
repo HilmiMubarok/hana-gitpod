@@ -24,6 +24,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
   public view: string;
   public creditProposal: ICreditProposal;
   public dataCollateral: ICollateral[];
+  public dataCollateralOption: ICollateral[];
   public collateralProperties: ICollateralProperty[];
   public disabledOpt = true;
   public collateral: ICollateral;
@@ -59,6 +60,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
       collateral: ICollateral;
       view: string;
       dataCollateral: ICollateral[];
+      dataCollateralOptionx: ICollateral[];
       collateralProperties: ICollateralProperty[];
     }
   ) {
@@ -66,6 +68,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
     this.collateral = this.data.collateral;
     this.view = this.data.view;
     this.dataCollateral = data.dataCollateral;
+    this.dataCollateralOption = data.dataCollateralOptionx;
     this.collateralProperties = data.collateralProperties;
   }
 
@@ -73,8 +76,6 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
     if (this.view === 'view') {
       this.changeType(this.collateral.id);
     }
-    console.log('ini type ', this.view);
-    console.log('collateral property ', this.collateralProperties);
   }
 
   public getCertificateDueDate(): string {

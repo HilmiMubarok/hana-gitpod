@@ -18,7 +18,7 @@
               <mat-label>Collateral add</mat-label>
               <mat-select [(ngModel)]="collateral.id" name="facilityType" (selectionChange)="changeType($event.value)">
                 <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of dataCollateral" [value]="item.id">
+                <mat-option *ngFor="let item of dataCollateralOption" [value]="item.id">
                   {{ item.id + ' ' + item.collateralTypeDescription }}
                 </mat-option>
               </mat-select>
