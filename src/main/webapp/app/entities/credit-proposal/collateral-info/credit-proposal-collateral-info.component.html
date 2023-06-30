@@ -149,26 +149,29 @@
     </div>
   </div>
 </section>
+
 <section *ngIf="source === 'summaryAll'">
   <div class="row">
     <div *ngIf="creditProposal.attributes['proposalType'] === '' || creditProposal.attributes['proposalType'] === null">
       <h2 style="font-weight: 30px">- Please Select Proposal Type -</h2>
     </div>
-    <ejs-menu
-      [hidden]="view"
-      *ngIf="isViewMode === false || customPath === true"
-      [enableScrolling]="true"
-      cssClass="e-rounded-menu e-custom-scroll"
-      [items]="menuItems"
-      (select)="selectMenuItem($event)"
-    ></ejs-menu>
-    <div *ngIf="selectedMenu === 'INFORMATION'">
-      <jhi-above-grid
-        [isViewMode]="isViewMode"
-        [creditProposal]="creditProposal"
-        [collateralProperties]="collateralProperties"
-        [parentSource]="parentSource"
-      ></jhi-above-grid>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+      <ejs-menu
+        [hidden]="view"
+        *ngIf="isViewMode === false || customPath === true"
+        [enableScrolling]="true"
+        cssClass="e-rounded-menu e-custom-scroll"
+        [items]="menuItems"
+        (select)="selectMenuItem($event)"
+      ></ejs-menu>
+      <div *ngIf="selectedMenu === 'INFORMATION'">
+        <jhi-above-grid
+          [isViewMode]="isViewMode"
+          [creditProposal]="creditProposal"
+          [collateralProperties]="collateralProperties"
+          [parentSource]="parentSource"
+        ></jhi-above-grid>
+      </div>
     </div>
     <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
       <div *ngIf="selectedMenu === 'CHECKLIST'">
