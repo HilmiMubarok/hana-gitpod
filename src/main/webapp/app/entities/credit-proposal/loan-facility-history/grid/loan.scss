@@ -160,3 +160,18 @@ mat-card-subtitle {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 0 28px 0 0 !important;
+}
+
+.mat-header-cell {
+  font-weight: 500 !important;
+}

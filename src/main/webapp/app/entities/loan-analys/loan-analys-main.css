@@ -193,3 +193,27 @@ th:last-child {
   background-color: rgba(49, 158, 152, 1);
   color: #ffffff;
 }
+
+/* override e-card */
+:host .e-card {
+  -webkit-tap-highlight-color: #effefd;
+  background-color: #effefd;
+  border: none none #effefd;
+  box-shadow: 0 0 0 0 #effefd;
+  color: #effefd;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+:host .e-card:hover {
+  background-color: #effefd;
+  border-color: #effefd;
+  box-shadow: 0 0 0 0 #effefd;
+  font-family: 'Poppins', sans-serif;
+}
+
+.e-breadcrumb-text {
+  color: #597c97 !important;
+}
+.e-breadcrumb-icon.e-icons.e-home {
+  color: #597c97 !important;
+}

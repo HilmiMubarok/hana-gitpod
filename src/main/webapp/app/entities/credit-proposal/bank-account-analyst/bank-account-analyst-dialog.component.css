@@ -232,3 +232,7 @@ td {
 .mat-card-header {
   margin-bottom: 30px;
 }
+
+.mat-header-cell {
+  font-weight: 500 !important;
+}

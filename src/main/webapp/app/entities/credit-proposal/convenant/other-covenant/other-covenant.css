@@ -294,3 +294,7 @@ th:last-child {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+.mat-header-cell {
+  font-weight: 500 !important;
+}
