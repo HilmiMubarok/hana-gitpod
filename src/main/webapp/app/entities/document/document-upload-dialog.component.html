@@ -155,7 +155,7 @@
     <section *jhiMatrixDirIDD="'input'">
       <mat-dialog-actions align="center">
         <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-        <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+        <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
       </mat-dialog-actions>
     </section>
     <section *jhiMatrixDirIDD="''" align="center">
@@ -287,7 +287,7 @@
     </mat-dialog-content>
     <mat-dialog-actions align="center">
       <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-      <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+      <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
     </mat-dialog-actions>
   </div>
 </div>
@@ -297,9 +297,76 @@
   <mat-dialog-content>
     <div class="row">
       <div class="col-6">
-        <ngx-dropzone disabled>
+        <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
+        <ngx-dropzone-preview
+        class="col-6"
+        ngProjectAs="ngx-dropzone-preview"
+        *ngFor="let f of files"
+        [removable]="true"
+        (removed)="onRemove(f)"
+      >
+        <ngx-dropzone-label>
+          <ngx-dropzone-image-preview
+            ngProjectAs="ngx-dropzone-image-preview"
+            [file]="f"
+            *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+          >
+          </ngx-dropzone-image-preview>
+          <div
+            style="
+              width: 170px;
+              top: 90%;
+              left: 50%;
+              transform: translateX(-50%);
+              z-index: 1;
+              background-color: gray;
+              padding: 2px;
+              font-size: 12px;
+              color: white;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+              margin-top: -20px;
+              position: absolute;
+            "
+          >
+            {{ f.name }}
+          </div>
+        </ngx-dropzone-label>
+        <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
+          <img src="../../../content/images/excel.png" width="100%" height="100%" />
+        </ngx-dropzone-label>
+
+        <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
+          <img src="../../../content/images/word.png" width="100%" height="100%" />
+        </ngx-dropzone-label>
+
+        <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
+          <img src="../../../content/images/pdf.png" width="100%" height="100%" />
+        </ngx-dropzone-label>
+
+        <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('pptx') > -1">
+          <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
+        </ngx-dropzone-label>
+        <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
+          <img src="../../../content/images/csv.png" width="100%" height="100%" />
+        </ngx-dropzone-label>
+
+        <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
+          <img src="../../../content/images/mp3.png" width="100%" height="100%" />
+        </ngx-dropzone-label>
+
+        <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
+          <img src="../../../content/images/svg.jpg" width="100%" height="100%" />
+        </ngx-dropzone-label>
+
+        <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
+          <img src="../../../content/images/tiff.png" width="100%" height="100%" />
+        </ngx-dropzone-label>
+        <ngx-dropzone-label *ngIf="f.url !== undefined">
+          <img [src]="f.url" width="100%" height="100%" />
+        </ngx-dropzone-label>
+      </ngx-dropzone-preview>
 
         <div class="row">
           <ngx-dropzone-preview
@@ -307,7 +374,7 @@
             ngProjectAs="ngx-dropzone-preview"
             *ngFor="let item of folder.files"
             [removable]="true"
-            (removed)="onRemove(f)"
+            (removed)="onRemove(item)"
           >
             <ngx-dropzone-label>
               <img
@@ -365,7 +432,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Document Issued Date</mat-label>
             <input
-              [value]="folder['files'][0]['tags']['docDate'] | formatMediumDate"
+              [(ngModel)]="document.documentDate"
               [matDatepicker]="documentDate"
               matInput
               type="text"
@@ -379,7 +446,7 @@
         <div class="form-group" *ngIf="collateralOrAppraisal === 'collateral'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Document Collateral</mat-label>
-            <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
+            <mat-select [(ngModel)]="document.documentType">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.description }}</mat-option>
             </mat-select>
@@ -390,7 +457,7 @@
         <div class="form-group" *ngIf="collateralOrAppraisal === 'appraisal'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Dokumen Collateral</mat-label>
-            <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
+            <mat-select [(ngModel)]="document.documentType">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of documentTypes" [value]="item.id">{{ item.description }} </mat-option>
               <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
@@ -401,7 +468,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Document Name</mat-label>
-            <input (change)="setModel($event)" matInput type="text" [value]="convertDan(folder['files'][0]['tags']['docNo'])" />
+            <input (change)="setModel($event)" matInput type="text" [value]="convertDan(document.documentNumber)" />
           </mat-form-field>
         </div>
       </div>
@@ -409,6 +476,6 @@
   </mat-dialog-content>
   <mat-dialog-actions align="center">
     <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-    <button mat-raised-button class="confirm-button-yes" (click)="edit()">Save</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
   </mat-dialog-actions>
 </div>

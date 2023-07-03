@@ -1,4 +1,5 @@
 export interface IDocumentMetaData {
+  id?: string;
   objectName?: string;
   entityId?: number;
   docType?: string;
@@ -11,6 +12,7 @@ export interface IDocumentMetaData {
 
 export class DocumentMetaData implements IDocumentMetaData {
   constructor(
+    public id?: string,
     public objectName?: string,
     public entityId?: number,
     public docType?: string,
@@ -20,6 +22,7 @@ export class DocumentMetaData implements IDocumentMetaData {
     public createdDate?: Date,
     public createdBy?: string
   ) {
+    this.id = null;
     this.objectName = null;
     this.entityId = null;
     this.docType = null;
