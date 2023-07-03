@@ -55,13 +55,16 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges, 
 
   ngOnInit(): void {
     this.getRole();
+    this.testToFunc();
   }
 
   public reloadData(): void {
     this.loadData(this.collateral);
+    this.testToFunc();
   }
 
   public openDialog(colProp: ICollateralProperty = null): void {
+    this.testToFunc();
     const predicate: object = {
       width: '80vw',
       data: { collateralProperty: colProp, collateralAppraisal: this.dataCollateralAppraisal },
@@ -78,7 +81,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges, 
   public getRole() {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.roleCondition = newPos.positionTypeId;
-      console.log('Ini adalah sebuah role', this.roleCondition);
+      console.log('role yang digunakan sekrang', this.roleCondition);
     });
   }
 
@@ -152,5 +155,15 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges, 
       return true;
     }
     return false;
+  }
+  public hideButtonRoleBased() {
+    if (this.roleCondition === 'TL' || this.roleCondition === 'APR_DEPT_HEAD' || this.roleCondition === 'APR_DH') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public testToFunc() {
+    console.log('ini adalah datasource yang digunakan', this.collateralProperties);
   }
 }
