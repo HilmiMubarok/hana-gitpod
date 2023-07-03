@@ -181,7 +181,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         // do nothing; done by another function //
       }
     }
-    this.creditProposalService.changeColRelByCP(this.creditProposal);
+    // this.creditProposalService.changeColRelByCP(this.creditProposal);
   }
 
   private checkIndividualCol(cp: ICreditProposal): void {
