@@ -135,3 +135,7 @@
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+.col {
+  padding-bottom: 10px;
+}

@@ -78,7 +78,6 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges, 
   public getRole() {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.roleCondition = newPos.positionTypeId;
-      console.log('Ini adalah sebuah role', this.roleCondition);
     });
   }
 
@@ -152,5 +151,12 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges, 
       return true;
     }
     return false;
+  }
+  public hideButtonRoleBased() {
+    if (this.roleCondition === 'TL' || this.roleCondition === 'APR_DEPT_HEAD' || this.roleCondition === 'APR_DH') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

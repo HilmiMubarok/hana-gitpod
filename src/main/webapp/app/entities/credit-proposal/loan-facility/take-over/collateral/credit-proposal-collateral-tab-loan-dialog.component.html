@@ -17,7 +17,7 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-1">Collateral</div>
+              <div class="col-2">Collateral</div>
               <div class="col-md-auto">:</div>
               <div class="col">
                 {{ collateralPrevious.collateralType }}
@@ -41,7 +41,7 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
               <div class="fontsebled row">
-                <div class="col-2">MV Internal in IDR</div>
+                <div class="col-4">MV Internal in IDR</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
                   {{ collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0' }}
@@ -67,7 +67,7 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
               <div class="fontsebled row">
-                <div class="col-2">LV Internal in IDR</div>
+                <div class="col-4">LV Internal in IDR</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
                   {{ collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0' }}
