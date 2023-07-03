@@ -123,8 +123,8 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
       .queryFilterBy({
         idParty: param,
         isActive: true,
-		page: this.page,
-        size: 999
+        page: this.page,
+        size: 999,
       })
       .subscribe(res => {
         const filter: ICollateral[] = res.body.filter(function (o) {
@@ -189,7 +189,9 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
             return (
               o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
               o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
-              o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+              o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
           const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
@@ -228,7 +230,9 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
             return (
               o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
               o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
-              o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+              o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
           const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
