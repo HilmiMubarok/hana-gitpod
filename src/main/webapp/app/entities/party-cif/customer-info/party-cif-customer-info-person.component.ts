@@ -90,6 +90,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   public bloodTypes: any;
   public maritalStatuses: any;
   public genders: any;
+  public dataHidden: string;
   constructor(protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {
     super();
     this.bloodTypes = BLOOD_TYPE;
@@ -100,7 +101,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   ngOnInit(): void {
     this.convrtDate();
     this.hiddenNull();
-    this.hiddenNulls();
+    // this.hiddenNulls();
   }
   public countAge(): number {
     let age: number;
@@ -141,14 +142,11 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     }
     return false;
   }
+
   public hiddenNull() {
-    if (this.person.firstName === null) {
-      this.person.firstName = 'N/A';
+    if (this.person.firstName === '' || this.person.lastName === '') {
+      return 'NA';
     }
-  }
-  public hiddenNulls() {
-    if (this.person.lastName === null) {
-      this.person.lastName = 'N/A';
-    }
+    return this.person.firstName + ' ' + this.person.lastName;
   }
 }
