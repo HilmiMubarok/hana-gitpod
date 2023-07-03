@@ -72,7 +72,7 @@ export class OfferingLetterMainComponent implements OnInit {
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
 
-  public resAttr: IProcessTask;
+  public resAttr: any;
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
   public dataOfferingSPPK = [];
