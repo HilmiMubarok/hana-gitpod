@@ -55,6 +55,7 @@ import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-a
 import { CalculationExposure } from './exposure/total-exposure/calculation-exposure.model';
 import { DocumentData } from '../loan-analys/assign-to/assign.model';
 import { LendingProgramParameter } from '../lending-program-parameter/lending-program-parameter.model';
+import { GroupCollateralTotal } from './collateral-info/group-collateral/group-collateral-total.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -376,6 +377,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['coverageTotal'] = JSON.parse(creditProposal.body.attributes['coverageTotal']);
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'collateralGroup')) {
+              creditProposal.body.attributes['collateralGroup'] = new GroupCollateralTotal();
+            } else {
+              creditProposal.body.attributes['collateralGroup'] = JSON.parse(creditProposal.body.attributes['collateralGroup']);
+            }
+
             if (!lodash.has(creditProposal.body.attributes, 'dataAssignTo')) {
               creditProposal.body.attributes['dataAssignTo'] = [];
               creditProposal.body.attributes['dataAssignTo'].push(new DocumentData());
@@ -383,25 +390,27 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['dataAssignTo'] = JSON.parse(creditProposal.body.attributes['dataAssignTo']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'dataAssignToCRO')) {
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToCRO')) {
               creditProposal.body.attributes['dataAssignToCRO'] = [];
               creditProposal.body.attributes['dataAssignToCRO'].push(new DocumentData());
             } else {
               creditProposal.body.attributes['dataAssignToCRO'] = JSON.parse(creditProposal.body.attributes['dataAssignToCRO']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'dataAssignToCCAdmin')) {
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToCCAdmin')) {
               creditProposal.body.attributes['dataAssignToCCAdmin'] = [];
               creditProposal.body.attributes['dataAssignToCCAdmin'].push(new DocumentData());
             } else {
               creditProposal.body.attributes['dataAssignToCCAdmin'] = JSON.parse(creditProposal.body.attributes['dataAssignToCCAdmin']);
             }
 
-			if (!lodash.has(creditProposal.body.attributes, 'dataAssignToLegalOfficer')) {
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToLegalOfficer')) {
               creditProposal.body.attributes['dataAssignToLegalOfficer'] = [];
               creditProposal.body.attributes['dataAssignToLegalOfficer'].push(new DocumentData());
             } else {
-              creditProposal.body.attributes['dataAssignToLegalOfficer'] = JSON.parse(creditProposal.body.attributes['dataAssignToLegalOfficer']);
+              creditProposal.body.attributes['dataAssignToLegalOfficer'] = JSON.parse(
+                creditProposal.body.attributes['dataAssignToLegalOfficer']
+              );
             }
 
             if (creditProposal.body.prospectOrganization) {
