@@ -31,7 +31,6 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
 export class GroupCollateralComponent implements OnInit, OnChanges {
-  public mappingStatus: [];
   @Input() isViewMode;
   public displayedColumns: string[] = [
     'select',
@@ -70,6 +69,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
 
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  checkedManual = [];
 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -102,7 +102,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
   set group(data: string) {
     this._group = data;
   }
-
+  public mappingStatus = [];
   public mappingStatusHelper: any = [];
 
   constructor(
@@ -120,9 +120,9 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.setCertyficateType();
-    this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
-      this.checkIndividualCol(newCP);
-    });
+    // this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
+    //   this.checkIndividualCol(newCP);
+    // });
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -146,12 +146,12 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
   private findAndCleanConnection(col: any): void {
     if (this.creditProposal.collateralProductRelations.length > 0 && this.creditProposal.products.length > 0 && col) {
       /* for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
-		for (let j = 0; j < this.creditProposal.products.length; j++) {
-		  if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === col.id) {
-			this.creditProposal.collateralProductRelations.splice(i,1);
-		  }
-		}
-	  } */
+    for (let j = 0; j < this.creditProposal.products.length; j++) {
+      if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === col.id) {
+      this.creditProposal.collateralProductRelations.splice(i,1);
+      }
+    }
+    } */
       for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           if (
@@ -533,6 +533,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         }
       }
     }
+    this.creditProposal.attributes['collateralGroup'].totalLV = result;
     return result;
   }
 
@@ -552,6 +553,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         }
       }
     }
+    this.creditProposal.attributes['collateralGroup'].totalMV = result;
     return result;
   }
 
@@ -590,6 +592,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         }
       }
     }
+    this.creditProposal.attributes['collateralGroup'].totalMVKJJP = result;
     return result;
   }
 
@@ -609,6 +612,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         }
       }
     }
+    this.creditProposal.attributes['collateralGroup'].totalLvKJJP = result;
     return result;
   }
 
@@ -626,16 +630,16 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
       })
       .subscribe(res => {
         this.groupCollaterals = res.body;
-        if (this.creditProposal) {
-          this.checkIndividualCol(this.creditProposal);
-        }
+        // if (this.creditProposal) {
+        //   this.checkIndividualCol(this.creditProposal);
+        // }
         this.mapCollateralProperty(res.body);
         this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
         this.groubCollateralPagination.paginator = this.paginator;
       });
     /* this.partyCifService.getListGroupCollateral(cifNumber).subscribe(res => {
       this.groupCollaterals = res.body;
-	  this.checkIndividualCol();
+    this.checkIndividualCol();
       this.mapCollateralProperty(res.body);
       this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
       this.groubCollateralPagination.paginator = this.paginator;
