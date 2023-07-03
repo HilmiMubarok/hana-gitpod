@@ -101,8 +101,8 @@
                 <mat-label>PEP Status</mat-label>
                 <mat-select name="pepStatus" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()">
                   <mat-option value="">-Please select-</mat-option>
-                  <mat-option *ngFor="let item of pepStatus" [value]="item.label">
-                    {{ item.label }}
+                  <mat-option *ngFor="let item of pepStatus" [value]="item.value">
+                    {{ item.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

@@ -134,9 +134,22 @@ export class OrganizationManagementDialogComponent implements OnInit {
   }
 
   public setPep() {
-    this.partyCifService.getPep().subscribe(res => {
-      this.pepStatus = res.body;
-    });
+    // this.partyCifService.getPep().subscribe(res => {
+    //   this.pepStatus = res.body;
+    //   console.log('harusnya', this.pepStatus);
+    // });
+
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PEP_STATUS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.pepStatus = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   public setPosition() {
