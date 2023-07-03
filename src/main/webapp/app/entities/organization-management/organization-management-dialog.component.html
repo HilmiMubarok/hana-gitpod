@@ -55,6 +55,7 @@
             [partyGroup]="organizationManagement.shareHolderOrg"
             mode="edit"
             [type]="typeSable"
+            [source]="'shareHolder'"
           >
           </jhi-party-cif-customer-info-party-group>
         </div>
@@ -109,7 +110,7 @@
             </section>
             <section *jhiMatrixDirIDD="''">
               <div class="fontsebled row">
-                <div class="col">PEP Statu</div>
+                <div class="col">PEP Status</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
                   {{ organizationManagement.attributes.pep }}
