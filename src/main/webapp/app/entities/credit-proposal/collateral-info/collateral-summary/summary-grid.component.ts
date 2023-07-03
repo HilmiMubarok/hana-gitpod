@@ -947,4 +947,10 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       return value;
     }
   }
+  public getCcyBinding(element: ICollateral) {
+    if (element) {
+      return element;
+    }
+    return '';
+  }
 }
