@@ -261,6 +261,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.cekRemark();
     this.getBranchs();
     this.dataSource();
+    this.cekDataSource();
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -384,8 +385,13 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
         this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
       });
   }
-
   public dataSource() {
+    if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
+      return true;
+    }
+    return false;
+  }
+  public cekDataSource() {
     if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
       this.myControlMVOri.disable();
     }
