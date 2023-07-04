@@ -341,7 +341,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           } else {
             for (let e = 0; e < this.statusChecked.length; e++) {
               for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-                this.collateralAppraisalsAppraiseService.validateAppraise(this.dataSelectedCheckbox).subscribe({
+                this.collateralAppraisalsAppraiseService.validateAppraise([this.dataSelectedCheckbox[i]]).subscribe({
                   error: (error: HttpErrorResponse) => {
                     if (error.status === 500) {
                       this.messageService.add({
@@ -356,7 +356,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
                           this.dataSelectedCheckbox[i].collateralTypeDescription +
                           ' ' +
                           'masih dalam proses appraisal.',
-                        life: 5000,
+                        life: 7000,
                       });
                     } else {
                       this.surveyAppraisalCross = lodash.clone(this.surveyAppraisalTemplate);
@@ -390,6 +390,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
                     }
                   },
                 });
+                //
               }
             }
           }
