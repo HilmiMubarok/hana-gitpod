@@ -5,7 +5,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>CIF Number</mat-label>
-          <input matInput type="text" [(ngModel)]="partyGroup.cif" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="organization.attributes['management_cif']" [disabled]="dataSource()" />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </section>
@@ -14,7 +14,7 @@
           <div class="col">CIF Number</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ organization.cifNumber }}
+            {{ organization.attributes['management_cif'] }}
           </div>
         </div>
       </section>
