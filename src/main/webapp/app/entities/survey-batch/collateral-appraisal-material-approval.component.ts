@@ -342,7 +342,7 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
       predicate['target'] = 'appraisal-report-approval';
     }
 
-    this.surveyAppraisalService
+    this.cashSurveyAppraisalsService
       .search(predicate)
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
       .subscribe({
