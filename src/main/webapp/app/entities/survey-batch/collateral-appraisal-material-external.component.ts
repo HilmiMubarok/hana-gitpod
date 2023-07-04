@@ -343,7 +343,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
       predicate['target'] = 'appraisal-distribution-external';
     }
 
-    this.surveyAppraisalService
+    this.cashSurveyAppraisalService
       .search(predicate)
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
       .subscribe({
