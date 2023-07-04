@@ -1,13 +1,80 @@
 <div class="row">
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
-    <jhi-above-grid-dar-final [creditProposal]="creditProposal" [collateralProperties]="collateralProperties"></jhi-above-grid-dar-final>
+    <ejs-menu
+      [hidden]="view"
+      *ngIf="isViewMode === false || customPath === true"
+      [enableScrolling]="true"
+      cssClass="e-rounded-menu e-custom-scroll"
+      [items]="menuItemx"
+      (select)="selectMenuItem($event)"
+    ></ejs-menu>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+      <div *ngIf="selectedMenu === 'INFORMATION'">
+        <jhi-above-grid-dar-final
+          [creditProposal]="creditProposal"
+          [collateralProperties]="collateralProperties"
+        ></jhi-above-grid-dar-final>
+      </div>
+    </div>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+      <div *ngIf="selectedMenu === 'SUMMARY'">
+        <div class="card-content">
+          <jhi-summary-grid [creditProposal]="creditProposal" [collateralProperties]="collateralProperties"></jhi-summary-grid>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-
-<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
-  <jhi-bellow-grid-dar-final [creditProposal]="creditProposal" [collateralProperties]="collateralProperties"></jhi-bellow-grid-dar-final>
-</div>
-
-<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
-  <jhi-btb-grid-dar-final [creditProposal]="creditProposal" [collateralProperties]="collateralProperties"></jhi-btb-grid-dar-final>
+  <div class="row">
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+      <ejs-menu
+        [hidden]="view"
+        *ngIf="isViewMode === false || customPath === true"
+        [enableScrolling]="true"
+        cssClass="e-rounded-menu e-custom-scroll"
+        [items]="menuItemx"
+        (select)="selectMenuItem($event)"
+      ></ejs-menu>
+    </div>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+      <div *ngIf="selectedMenu === 'INFORMATION'">
+        <div class="card-content">
+          <jhi-bellow-grid-dar-final
+            [creditProposal]="creditProposal"
+            [collateralProperties]="collateralProperties"
+          ></jhi-bellow-grid-dar-final>
+        </div>
+      </div>
+      <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+        <div *ngIf="selectedMenu === 'SUMMARY'">
+          <div class="card-content">
+            <jhi-summary-grid [creditProposal]="creditProposal" [collateralProperties]="collateralProperties"></jhi-summary-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+      <ejs-menu
+        [hidden]="view"
+        *ngIf="isViewMode === false || customPath === true"
+        [enableScrolling]="true"
+        cssClass="e-rounded-menu e-custom-scroll"
+        [items]="menuItemx"
+        (select)="selectMenuItem($event)"
+      ></ejs-menu>
+    </div>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+      <div *ngIf="selectedMenu === 'INFORMATION'">
+        <jhi-btb-grid-dar-final [creditProposal]="creditProposal" [collateralProperties]="collateralProperties"></jhi-btb-grid-dar-final>
+      </div>
+    </div>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+      <div *ngIf="selectedMenu === 'SUMMARY'">
+        <div class="card-content">
+          <jhi-summary-grid [creditProposal]="creditProposal" [collateralProperties]="collateralProperties"></jhi-summary-grid>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
