@@ -33,19 +33,15 @@ export class DocumentDialogDialogV2Component implements OnInit {
   }
 
   public donwload(event: any, name: any) {
-
-      this.reportUtilService.downloadFileBYName(event, name.name);
-    
- 
+    this.reportUtilService.downloadFileBYName(event, name.name);
   }
 
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
     }
-    
   }
 
   public save(): void {

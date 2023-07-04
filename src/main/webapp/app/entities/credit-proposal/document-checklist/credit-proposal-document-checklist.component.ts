@@ -182,6 +182,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
   }
 
   public openDialog(element: IDocumentType = null, view: string, item: string): void {
+    
     const predicate = { width: '80vw', data: {} };
     predicate.data['cpId'] = this.creditProposal.id;
     predicate.data['partyId'] = this.creditProposal.customerNumber;

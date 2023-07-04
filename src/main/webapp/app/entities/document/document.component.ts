@@ -40,6 +40,7 @@ export class DocumentComponent implements OnChanges, OnInit {
   private bucket: string;
   public IfRmEnable: boolean;
   public showButton: boolean;
+  public change: any;
   constructor(
     private storageService: StorageService,
     private dialog: MatDialog,
@@ -58,6 +59,7 @@ export class DocumentComponent implements OnChanges, OnInit {
     this.showButtonInApproval();
   }
   ngOnChanges(changes: SimpleChanges): void {
+    this.change = changes;
     if (changes['collateral']) {
       this.getBucket().then(res => {
         this.getFiles('collateral', this.collateral.id);
@@ -116,12 +118,14 @@ export class DocumentComponent implements OnChanges, OnInit {
     }
 
     predicate['data']['documents'] = this.documents;
+    predicate['data']['change'] = this.change;
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         if (this.collateral) {
           if (this.collateral.id) {
+            console.log('olll');
             this.getFiles('collateral', this.collateral.id);
           }
         }
@@ -201,40 +205,20 @@ export class DocumentComponent implements OnChanges, OnInit {
     }
 
     predicate['data']['documents'] = this.documents;
+    predicate['data']['change'] = this.change;
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         if (this.collateral) {
-          if (this.collateral.id) {
-            this.getFiles('collateral', this.collateral.id);
-          }
+          this.getFiles('collateral', this.collateral.id);
         }
 
         if (this.appraisal) {
-          if (this.appraisal.id) {
-            this.getFiles('appraisal', this.appraisal.id);
-          }
+          this.getFiles('appraisal', this.appraisal.id);
         }
       }
     });
-  }
-
-  private groupByFolder(param: Object[]): void {
-    this.folders = [];
-    if (param.length > 0) {
-      this.folders = lodash
-        .chain(param)
-        .groupBy('tags.folder')
-        .map((val, key) => ({
-          folder: key,
-          date: val[0]['tags']['docDate'],
-          files: val,
-          nameFile: val[0]['name'],
-        }))
-        .value();
-      console.log('folder', this.folders);
-    }
   }
 
   private getFiles(owner: string, id: number): void {
@@ -268,6 +252,24 @@ export class DocumentComponent implements OnChanges, OnInit {
           this.collateralAppraisalService.totalDataDocumentLainya = res.body;
         });
       }
+    }
+  }
+
+  private groupByFolder(param: Object[]): void {
+    this.folders = [];
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.id')
+        .map((val, key) => ({
+          folder: key,
+          date: val[0]['tags']['docDate'],
+          files: val,
+          nameFile: val[0]['name'],
+          nameDoc: val[0]['tags']['docNo'],
+        }))
+        .value();
+      console.log('folder', this.folders);
     }
   }
 
@@ -468,6 +470,8 @@ export class DocumentComponent implements OnChanges, OnInit {
       }
     }
   }
+
+  // fungsi ini di hilangkan atas persetujuan anjar
   public convert(str) {
     const mnths = {
         Jan: '01',
