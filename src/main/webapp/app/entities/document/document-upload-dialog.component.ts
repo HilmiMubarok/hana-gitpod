@@ -28,6 +28,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   public files: File[] = [];
   public file: File;
   public document: IDocument;
+  public id: string;
   public documentTypes = [];
   public object: ICollateral | ICollateralAppraisal;
   public multiple: Boolean = false;
@@ -256,12 +257,16 @@ export class DocumentUploadDialogComponent implements OnInit {
       });
       return;
     }
-    if (this.removeFile.length > 0) {
+    if (this.removeFile.length > 1) {
       for (let i = 0; i < this.removeFile.length; i++) {
         this.storageService.deleteFile(this.bucket, this.removeFile[i]).subscribe(data => {
           this.saveAndUpdate();
         });
       }
+    } else if (this.removeFile.length === 1) {
+      this.storageService.deleteFile(this.bucket, this.removeFile[0]).subscribe(data => {
+        this.saveAndUpdate();
+      });
     } else {
       this.saveAndUpdate();
     }
@@ -359,6 +364,7 @@ export class DocumentUploadDialogComponent implements OnInit {
       this.folder = this.folders[0];
       this.folders2 = this.folders;
       this.getField();
+      this.id = this.folder['files'][0]['tags']['id'];
     }
   }
 
@@ -374,7 +380,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   public save(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.accountService.identity().subscribe(resAccount => {
-        const id = this.view === 'add' ? this.generateUniqueRandomId(6, this.existingIds) : this.folder['files'][0]['tags']['id'];
+        const id = this.view === 'add' ? this.generateUniqueRandomId(6, this.existingIds) : this.id;
         const promises: Array<any> = new Array<any>();
         for (let i = 0; i < this.files.length; i++) {
           const metaData = new DocumentMetaData();
@@ -433,8 +439,7 @@ export class DocumentUploadDialogComponent implements OnInit {
         if (files.length > 0) {
           for (let i = 0; i < files.length; i++) {
             const file: IDocumentNode = files[i];
-            file.tags['id'] =
-              this.view === 'add' ? this.generateUniqueRandomId(6, this.existingIds) : this.folder['files'][0]['tags']['id'];
+            file.tags['id'] = this.view === 'add' ? this.generateUniqueRandomId(6, this.existingIds) : this.id;
             file.tags['docDate'] = new Date(this.document.documentDate);
             file.tags['docType'] = this.document.documentType;
             file.tags['docNo'] = this.document.documentNumber.replace('&', 'codeSpecialDan');
