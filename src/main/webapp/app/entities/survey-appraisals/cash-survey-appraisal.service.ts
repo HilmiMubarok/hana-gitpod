@@ -24,7 +24,7 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
     this.applicationRoleIdUH = ['false'];
     this.applicationRoleIdDeptHead = ['false'];
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/cash-survey-appraisals');
   }
 
   /* protected isNew(entity: ISurveyAppraisals): boolean {
