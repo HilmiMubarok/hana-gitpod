@@ -273,15 +273,15 @@ export class DocumentUploadDialogComponent implements OnInit {
   }
 
   private getFiles(owner: string, id: number): void {
-    if (owner === 'collateral') {
-      const predicate: Object = {
-        key: `/collateral/${id}/document/` + this.folder['files'][0]['tags']['id'],
-      };
-      this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        this.groupByFolder(res.body);
-        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-      });
-    }
+    // if (owner === 'collateral') {
+    //   const predicate: Object = {
+    //     key: `/collateral/${id}/document/` + this.folder['files'][0]['tags']['id'],
+    //   };
+    //   this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+    //     this.groupByFolder(res.body);
+    //     this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
+    //   });
+    // }
 
     if (owner === 'appraisal') {
       if (this.documents === 'document-collateral') {
@@ -307,16 +307,16 @@ export class DocumentUploadDialogComponent implements OnInit {
   }
 
   private getFilesId(owner: string, id: number): void {
-    if (owner === 'collateral') {
-      const predicate: Object = {
-        key: `/collateral/${id}/document`,
-      };
-      this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        if (res.body.length > 0) {
-          this.loopId(res.body);
-        }
-      });
-    }
+    // if (owner === 'collateral') {
+    //   const predicate: Object = {
+    //     key: `/collateral/${id}/document`,
+    //   };
+    //   this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+    //     if (res.body.length > 0) {
+    //       this.loopId(res.body);
+    //     }
+    //   });
+    // }
 
     if (owner === 'appraisal') {
       if (this.documents === 'document-collateral') {
@@ -396,10 +396,10 @@ export class DocumentUploadDialogComponent implements OnInit {
 
           const formData = new FormData();
           formData.append('file', this.files[i]);
-          if (this.data.collateral) {
-            metaData.objectName = `/collateral/${this.data.collateral.id}/document/${id.replace('&', 'codeSpecialDan')}/${files}`;
-            metaData.entityId = this.data.collateral.id;
-          }
+          // if (this.data.collateral) {
+          //   metaData.objectName = `/collateral/${this.data.collateral.id}/document/${id.replace('&', 'codeSpecialDan')}/${files}`;
+          //   metaData.entityId = this.data.collateral.id;
+          // }
 
           if (this.data.appraisal) {
             if (this.documents === 'document-lainnya') {
