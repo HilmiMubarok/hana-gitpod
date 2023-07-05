@@ -954,10 +954,8 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-    <button mat-raised-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
-    <button mat-raised-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">
-      Cancel
-    </button>
+    <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
+    <button mat-raised-button (click)="save()" class="confirm-button-yes">Save</button>
   </section>
   <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
     <div class="mt-3 text-center">
@@ -967,15 +965,8 @@
   <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
   <section *ngIf="parentPath === 'finalize'">
     <div class="mt-3 text-center">
-      <button mat-raised-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
-      <button mat-raised-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">
-        Cancel
-      </button>
+      <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
+      <button mat-raised-button (click)="save()" class="confirm-button-yes">Save</button>
     </div>
   </section>
-  <!-- <div class="mt-3 text-center py-3">
-    <button mat-raised-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">
-      Cancel
-    </button>
-  </div> -->
 </mat-dialog-actions>

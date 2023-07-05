@@ -143,8 +143,8 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="item.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-    <button mat-button *ngIf="!view" (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
-    <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">Close</button>
+    <button mat-button mat-dialog-close class="confirm-button-no">Close</button>
+    <button mat-button *ngIf="!view" (click)="save()" class="confirm-button-yes">Save</button>
   </section>
   <section *jhiMatrixDir="item.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
     <button mat-raised-button mat-dialog-close class="confirm-button-no">Close</button>
