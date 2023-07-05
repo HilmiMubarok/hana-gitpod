@@ -272,6 +272,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public interestTypeList = [];
   public installmentMethodList = [];
   public restructList = [];
+  public installmentMethodValue: string;
+  public restructMethodValue: string;
 
   constructor(
     private dialog: MatDialog,
@@ -796,6 +798,16 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.installmentMethodList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+
+        if (this.installmentMethodList) {
+          let element: string;
+          for (let i = 0; i < this.installmentMethodList.length; i++) {
+            if (this.applicationProduct.installmentMethod === this.installmentMethodList[i].code) {
+              element = this.installmentMethodList[i].value;
+            }
+          }
+          this.installmentMethodValue = element;
+        }
       });
   }
 
@@ -810,6 +822,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.restructList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.restructList) {
+          let element: string;
+          for (let i = 0; i < this.restructList.length; i++) {
+            if (this.applicationProduct.restructMethod === this.restructList[i].code) {
+              element = this.restructList[i].value;
+            }
+          }
+          this.restructMethodValue = element;
+        }
       });
   }
 
