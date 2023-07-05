@@ -660,39 +660,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       }
     }
 
-    // this.currentAccount = await firstValueFrom(this.accountService.identity());
-    // this.accountAuthorities = this.currentAccount.authorities;
-    // if (lodash.indexOf(this.accountAuthorities, Authority.ADMIN) >= 0) {
-    //   this.subMenu =
-    //     this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-    //       ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-    //       : SUBMENU_COLLATERAL_APPRAISAL;
-    // } else {
-    //   if (
-    //     lodash.indexOf(this.accountAuthorities, Authority.ADMIN_APPRAISER) >= 0 ||
-    //     lodash.indexOf(this.accountAuthorities, Authority.RM) >= 0
-    //   ) {
-    //     if (
-    //       this.collateralAppraisal.statusId === STATUS.DRAFT ||
-    //       this.collateralAppraisal.statusId === STATUS.RETURNTORM ||
-    //       this.collateralAppraisal.statusId === STATUS.ASSIGNMENT ||
-    //       this.collateralAppraisal.statusId === STATUS.VISITED
-    //     ) {
-    //       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-    //     } else {
-    //       this.subMenu =
-    //         this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-    //           ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-    //           : SUBMENU_COLLATERAL_APPRAISAL;
-    //     }
-    //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-    //   } else {
-    //     this.subMenu =
-    //       this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-    //         ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-    //         : SUBMENU_COLLATERAL_APPRAISAL;
-    //   }
-    // }
     this.setAuthorizedRole();
     this.selectedMenu = 'Appraisal Info';
     this.setMenuByRole();
@@ -879,16 +846,9 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   public getConditionSubMenu(data): void {
-    // if (data.apprOfficer === 'External') {
-    //   this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-    // }
-    // if (this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE') {
-    //   if (data.apprOfficer === 'Internal') {
-    //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_REALESTATE;
-    //   } else {
-    //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-    //   }
-    // }
+    if (data.apprOfficer === 'External') {
+      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+    }
   }
   private setMenuByRole(): void {
     for (let i = 0; i < this.collateralAppraisalMainRolesAccess.length; i++) {
