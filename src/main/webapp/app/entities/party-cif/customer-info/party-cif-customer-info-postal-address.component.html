@@ -216,17 +216,18 @@
                   <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" [disabled]="disabled" />
                 </mat-form-field>
               </section>
+            </div>
+          </div>
               <section *jhiMatrixDirIDD="''">
                 <div class="fontsebled row">
-                  <div class="col-4">RT</div>
+                  <div class="col">RT</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
                     {{ partyPostalAddress.address.rt }}
                   </div>
                 </div>
               </section>
-            </div>
-          </div>
+            
           <div class="col-6">
             <div class="form-group">
               <section *jhiMatrixDirIDD="'input'">
@@ -235,17 +236,19 @@
                   <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" [disabled]="disabled" />
                 </mat-form-field>
               </section>
+            </div>
+          </div>
+
               <section *jhiMatrixDirIDD="''">
                 <div class="fontsebled row">
-                  <div class="col-2">RW</div>
+                  <div class="col">RW</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
                     {{ partyPostalAddress.address.rw }}
                   </div>
                 </div>
               </section>
-            </div>
-          </div>
+            
           <div class="form-group">
             <section *jhiMatrixDirIDD="'input'">
               <mat-form-field class="w-100" appearance="outline">
@@ -255,7 +258,7 @@
             </section>
             <section *jhiMatrixDirIDD="''">
               <div class="fontsebled row">
-                <div class="col-2">Kode Pos</div>
+                <div class="col">Kode Pos</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
                   {{ partyPostalAddress.address.postalCode }}
