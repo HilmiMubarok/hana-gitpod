@@ -23,8 +23,8 @@ export class MainFacilityInfoChildComponent implements OnChanges {
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mainFacility']) {
-      this.dataSource = this.mainFacility.categoryListDTO;
-      // console.log('ini data source ', this.dataSource);
+      this.dataSource = this.mainFacility?.categoryListDTO;
+      // console.log('ini data source ', this.mainFacility);
     }
   }
 }
