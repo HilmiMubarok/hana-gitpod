@@ -27,6 +27,7 @@ import { ApplicationProduct } from 'app/entities/application-product/application
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-summary-grid',
   templateUrl: './summary-grid.component.html',
@@ -53,8 +54,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'noUrutFasilitas',
-    'facilityType',
+    'action',
   ];
 
   public _collateralProperty: ICollateralProperty[];
@@ -78,6 +78,15 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
+  }
+  private _group: string;
+
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
   }
   public _partyCif: IPartyCif;
   @Input()
@@ -205,7 +214,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       this.dataItem = new MatTableDataSource(res.body);
       this.dataItem.paginator = this.paginator;
       this.getBindingCalculate(res.body);
-      console.log('data', res.body);
+      console.log('data', this.dataItem);
+      console.log('dataColl', this.dataCollateral);
     });
   }
 
@@ -261,6 +271,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         isViewMode: this.isViewMode,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
