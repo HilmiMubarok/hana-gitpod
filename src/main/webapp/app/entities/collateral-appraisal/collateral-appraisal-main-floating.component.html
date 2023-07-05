@@ -243,15 +243,18 @@
         </jhi-collateral-appraisal-party-group-view>
 
         <!-- Customer Address -->
-        <div>
-          <jhi-party-cif-customer-info-postal-address
-            [disabled]="true"
-            [partyPostalAddress]="postalAddress"
-            [partyId]="surveyAppraisal.cif.partyId"
-            [collateralAppraisal]="collateralAppraisal"
-          >
-          </jhi-party-cif-customer-info-postal-address>
+        <div class="wrapper-card">
+          <e-card>
+            <jhi-party-cif-customer-info-postal-address
+              [disabled]="true"
+              [partyPostalAddress]="postalAddress"
+              [partyId]="surveyAppraisal.cif.partyId"
+              [collateralAppraisal]="collateralAppraisal"
+            >
+            </jhi-party-cif-customer-info-postal-address
+          ></e-card>
         </div>
+
         <!-- Customer Address -->
       </div>
 
