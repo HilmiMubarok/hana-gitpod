@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
@@ -12,7 +12,7 @@ import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
   templateUrl: './party-cif-customer-info-postal-address.component.html',
   styleUrls: ['./party-cif-customer-info-postal-address.style.scss'],
 })
-export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress> implements OnInit {
+export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress> {
   public country: IStateBoundary[];
   public provinces: IStateBoundary[];
   public districts: IStateBoundary[];
@@ -69,13 +69,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     this.districts = [];
     this.villages = [];
   }
-  ngOnInit(): void {
-    this.RouteLink();
-  }
-
-  public RouteLink(): void {
-    console.log('router', this.parentPath);
-  }
+  
   public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
     if (param.length > 0) {
       for (let i = 0; i < param.length; i++) {
