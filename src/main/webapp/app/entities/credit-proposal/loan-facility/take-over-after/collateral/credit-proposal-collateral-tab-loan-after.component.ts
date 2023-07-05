@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
+import { Collateral, ICollateral, ICollateralInfoAfter } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -31,6 +31,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   @Input() isViewMode: Boolean = false;
   public displayedColumns: string[] = ['no', 'collateralType', 'marketValue', 'liquidValue', 'action'];
 
+  public collateralInfoAfterReport: ICollateralInfoAfter;
   public data: ICollateral;
   public dataCollateralTotal: ICollateral[];
   public dataCollateral: ICollateral[];
@@ -78,6 +79,13 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
       this.dataItem.paginator = this.paginator;
     } else {
       this.creditProposal.attributes['collateralAfterData'] = [];
+    }
+    if (this.creditProposal.attributes['collateralAfterReport']) {
+      while (typeof this.creditProposal.attributes['collateralAfterReport'] === 'string') {
+        this.creditProposal.attributes['collateralAfterReport'] = JSON.parse(this.creditProposal.attributes['collateralAfterReport']);
+      }
+    } else {
+      this.creditProposal.attributes['collateralAfterReport'] = [];
     }
   }
 
@@ -141,13 +149,14 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralTabLoanAfterDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      const collateral = this.dataCollateral.find(obj => obj.id === res.id);
+      const collateral = this.dataCollateral.find(obj => obj.id === res.collateral.id);
       if (collateral) {
         this.creditProposal.attributes['collateralAfterData'].push(collateral);
       }
       this.dataCollateralTotal = this.creditProposal.attributes['collateralAfterData'];
       this.dataItem = new MatTableDataSource(this.creditProposal.attributes['collateralAfterData']);
       this.dataItem.paginator = this.paginator;
+      this.creditProposal.attributes['collateralAfterReport'].push(res.collateralAfter);
     });
   }
 
@@ -208,6 +217,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
         }
       }
     }
+    this.creditProposal.attributes['totalLvAfterCollateral'] = result;
     return result;
   }
 
@@ -227,6 +237,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
         }
       }
     }
+    this.creditProposal.attributes['totalMvAfterCollateral'] = result;
     return result;
   }
 
@@ -266,6 +277,9 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
         this.dataCollateralTotal = this.creditProposal.attributes['collateralAfterData'];
         this.dataItem = new MatTableDataSource(this.creditProposal.attributes['collateralAfterData']);
         this.dataItem.paginator = this.paginator;
+        this.creditProposal.attributes['collateralAfterReport'] = this.creditProposal.attributes['collateralAfterReport'].filter(
+          obj => obj.id !== element.id
+        );
       }
     });
   }

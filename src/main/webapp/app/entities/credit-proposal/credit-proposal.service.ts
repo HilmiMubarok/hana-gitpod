@@ -90,6 +90,10 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
       entity.attributes['collateralAfterData'] = JSON.stringify(entity.attributes['collateralAfterData']);
     }
 
+    if (entity.attributes['collateralAfterReport']) {
+      entity.attributes['collateralAfterReport'] = JSON.stringify(entity.attributes['collateralAfterReport']);
+    }
+
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }
