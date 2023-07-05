@@ -601,7 +601,7 @@
         </table>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mt-3 text-center">
-            <button mat-raised-button (click)="addRow()" style="background: rgba(0, 136, 129, 1); color: #ffffff">ADD ROW</button>
+            <button mat-raised-button (click)="addRow()" class="button-styling">ADD ROW</button>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -615,10 +615,10 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-    <button mat-button *ngIf="edit" (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
-    <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">Close</button>
+    <button mat-button (click)="openCancelDialog()" class="confirm-button-no">Close</button>
+    <button mat-button *ngIf="edit" (click)="save()" class="confirm-button-yes">Save</button>
   </section>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">Close</button>
+    <button mat-button (click)="openCancelDialog()" class="confirm-button-no">Close</button>
   </section>
 </mat-dialog-actions>

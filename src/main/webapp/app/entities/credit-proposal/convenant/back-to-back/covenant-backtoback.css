@@ -136,3 +136,28 @@ th:last-child {
   color: black;
   font-family: 'Poppins', sans-serif;
 }
+
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}
+
+/* Table Covenant TBO CP */
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 0 25px 0 0;
+  font-weight: 500;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 0 25px 0 0 !important;
+}
+
+/* Table Covenant TBO CP */

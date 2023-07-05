@@ -1,8 +1,13 @@
 <!-- header Address Appraisal -->
-<div class="e-card mb-3">
+<div class="mb-3">
   <div class="e-card-header mb-1">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title" *ngIf="parentPath !== 'party-cif' && parentPath !== 'la-distribution'">Customer Address</div>
+      <div
+        class="header-title"
+        *ngIf="parentPath !== 'party-cif' && parentPath !== 'la-distribution' && parentPath !== 'credit-proposal-status'"
+      >
+        Customer Address
+      </div>
     </div>
   </div>
   <!-- header Address Appraisal -->

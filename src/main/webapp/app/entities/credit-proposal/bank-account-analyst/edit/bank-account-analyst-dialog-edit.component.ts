@@ -14,6 +14,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog-edit.component.html',
+  styleUrls: ['../bank-account-analyst-dialog.component.css'],
 })
 export class CreditProposalBankAccountAnalystDialogEditComponent {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI', 'OTHERS'];

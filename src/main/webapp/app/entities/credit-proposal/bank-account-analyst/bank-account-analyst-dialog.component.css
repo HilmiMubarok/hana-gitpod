@@ -81,10 +81,10 @@ th {
 td {
   font-family: 'Poppins', sans-serif;
 }
-.rounding-table-left {
+th:first-child {
   border-top-left-radius: 15px;
 }
-.rounding-table-right {
+th:last-child {
   border-top-right-radius: 15px;
 }
 
@@ -114,30 +114,6 @@ td {
   text-align: left;
   padding-left: 45px;
 }
-/* .mat-column-accNo {
-  text-align: left;
-}
-.mat-column-ccy {
-  text-align: left;
-}
-.mat-column-accName {
-  text-align: left;
-}
-.mat-column-debit {
-  text-align: right;
-}
-.mat-column-fqDebit {
-  text-align: right;
-}
-.mat-column-credit {
-  text-align: right;
-}
-.mat-column-fqCredit {
-  text-align: right;
-}
-.mat-column-balance {
-  text-align: right;
-} */
 .mat-column-action {
   width: 10%;
   text-align: left;
@@ -235,4 +211,54 @@ td {
 
 .mat-header-cell {
   font-weight: 500 !important;
+}
+
+/* e-card */
+.wrapper-card e-card {
+  font-family: 'Poppins', sans-serif !important;
+  border: 1px solid #b8b8b8 !important;
+  border-radius: 10px;
+  padding-top: 26px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  width: 100%;
+  height: 100%;
+}
+
+.wrapper-card e-card {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  border: 1px solid #b8b8b8 !important;
+  background-color: #fff;
+  border: 1px none #000;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+  color: rgba(0, 0, 0, 0.87);
+  outline: none;
+}
+.wrapper-card e-card {
+  border: 1px solid #b8b8b8 !important;
+  border-radius: 10px !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-size: 15px;
+  justify-content: center;
+  line-height: 36px;
+  min-height: 36px;
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.e-card-header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
 }
