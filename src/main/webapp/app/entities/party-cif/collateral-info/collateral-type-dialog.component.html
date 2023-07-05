@@ -50,7 +50,7 @@
       <mat-label>Collateral Code</mat-label>
       <mat-select
         name="collateralCode"
-        (selectionChange)="changeCollateralCode($event)"
+        (selectionChange)="changeCollateralCode($event.value)"
         [(ngModel)]="collateral.attributes.collateralCode"
         [disabled]="dataSource()"
       >
