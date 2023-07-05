@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-trade-checking-buyers-dialog-edit',
   templateUrl: './credit-proposal-trade-checking-buyers-dialog-edit.component.html',
+  styleUrls: ['../../trade-checking.scss'],
 })
 export class CreditProposalTradeCheckingBuyersDialogEditComponent {
   private dialog: MatDialog;
