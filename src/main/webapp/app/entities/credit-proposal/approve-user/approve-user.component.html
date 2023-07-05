@@ -1,41 +1,43 @@
-<mat-card class="mb-2 mt-5">
-  <div>
-    <mat-card-subtitle>
-      <div style="float: left; line-height: 85px">Approval User</div>
-      <div style="float: right">
-        <mat-form-field appearance="fill">
-          <mat-label>Approval Level</mat-label>
-          <mat-select [(value)]="selectedRelationType" (selectionChange)="selectRelationType($event.value)" [disabled]="true">
-            <mat-option *ngFor="let item of relationTypes" [value]="item.id">
-              {{ item.description }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div style="clear: both"></div>
-    </mat-card-subtitle>
-  </div>
-  <mat-card-content>
-    <div class="table-responsive-material">
-      <table mat-table class="w-100" appearance="outline" [dataSource]="filteringItems">
-        <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
-          <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
-        </ng-container>
-        <ng-container matColumnDef="approval_name">
-          <th mat-header-cell *matHeaderCellDef width="40%" class="grid-index-left">Approval Name</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.positionToEmployeeName }}</td>
-        </ng-container>
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Position</th>
-          <td mat-cell *matCellDef="let element" lass="grid-index-left">{{ element.positionTypeToDescription }}</td>
-        </ng-container>
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-      </table>
+<section class="wrapper-card">
+  <e-card class="mb-2 mt-5">
+    <div>
+      <mat-card-subtitle>
+        <div style="float: left; line-height: 85px">Approval User</div>
+        <div style="float: right">
+          <mat-form-field appearance="fill">
+            <mat-label>Approval Level</mat-label>
+            <mat-select [(value)]="selectedRelationType" (selectionChange)="selectRelationType($event.value)" [disabled]="true">
+              <mat-option *ngFor="let item of relationTypes" [value]="item.id">
+                {{ item.description }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div style="clear: both"></div>
+      </mat-card-subtitle>
     </div>
-  </mat-card-content>
-</mat-card>
+    <mat-card-content>
+      <div class="table-responsive-material">
+        <table mat-table class="w-100" appearance="outline" [dataSource]="filteringItems">
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+            <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
+          </ng-container>
+          <ng-container matColumnDef="approval_name">
+            <th mat-header-cell *matHeaderCellDef width="40%" class="grid-index-left">Approval Name</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.positionToEmployeeName }}</td>
+          </ng-container>
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Position</th>
+            <td mat-cell *matCellDef="let element" lass="grid-index-left">{{ element.positionTypeToDescription }}</td>
+          </ng-container>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </e-card>
+</section>
