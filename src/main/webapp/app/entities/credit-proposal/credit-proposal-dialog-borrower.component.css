@@ -5,3 +5,18 @@
 .example-item {
   height: 50px;
 }
+.confirm-button-no {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
