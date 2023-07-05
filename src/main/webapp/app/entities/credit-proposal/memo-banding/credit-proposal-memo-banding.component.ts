@@ -1,0 +1,108 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { ICreditProposal } from '../credit-proposal.model';
+import _ from 'lodash';
+import { CpMemoBandingService } from './services/cp-memo-banding.service';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { memoBandingData } from './memo-banding';
+
+@Component({
+  selector: 'jhi-credit-proposal-memo-banding',
+  templateUrl: './credit-proposal-memo-banding.component.html',
+})
+export class MemoBandingComponent implements OnInit {
+  constructor(
+    private cpMemoBandingService: CpMemoBandingService,
+    private collateralService: CollateralService,
+    private collateralPropertyService: CollateralPropertyService
+  ) {}
+
+  ngOnInit(): void {
+    this.cpMemoBandingService.parseAttrCp(this.testData);
+    this.cpMemoBandingService.compareDeepData(this.d1, this.d2);
+    if (this.creditProposal.cif) {
+      this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
+  }
+
+  testData = memoBandingData;
+
+  @Input() creditProposal: ICreditProposal;
+
+  public loanFacilityData: unknown;
+  public collateralData: unknown;
+  public convenantData: unknown;
+
+  /**
+   * steps for compare data
+   * 1. get data from creditProposal.products / creditProposal.collaterals / creditProposal.attributes['covenants'] => the current data (data1)
+   * 2. get data from creditProposal.attributes['previousOfferingLetter'] => next data (data2)
+   * 3. compare data1 and data2 using lodash
+   * 4. if result is false, then add key 'isChanged' to changed data, add key 'isRemoved' to removed data, and add key 'noChanged' to no changed data
+   * 5. assign data to loanFacilityData, collateralData, and convenantData. use this data to show in html
+   */
+
+  public d1 = [
+    {
+      id: 1,
+      name: 'john',
+      age: 24,
+    },
+    {
+      id: 2,
+      name: 'Doe',
+      age: 24,
+    },
+    {
+      id: 3,
+      name: 'John Doe',
+      age: 24,
+    },
+  ];
+
+  public d2 = [
+    {
+      id: 1,
+      name: 'john',
+      age: 24,
+    },
+    {
+      id: 4,
+      name: 'Jane Doe',
+      age: 24,
+    },
+    {
+      id: 2,
+      name: 'Doe',
+      age: 25,
+    },
+  ];
+
+  public collateralProperties: ICollateralProperty[] = [];
+  public collateral: ICollateral[] = [];
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i]);
+          }
+        }
+      });
+  }
+
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
+  }
+}

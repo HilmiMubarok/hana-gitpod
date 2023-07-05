@@ -376,6 +376,12 @@ import { DebtorInformationComponent } from './debtor-information/debtor-informat
 import { MainFacilityHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-history.component';
 import { MainFacilityChildHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-child-history.component';
 import { CertificateInfoComponent } from './offering-letter/certificate-info/certificate-info.component';
+import { CpMemoBandingLoanFacilityComponent } from './credit-proposal/memo-banding/memo-banding-loan-facility/cp-memo-banding-loan-facility.component';
+import { CpMemoBandingCollateralComponent } from './credit-proposal/memo-banding/memo-banding-collateral/cp-memo-banding-collateral.component';
+import { CpMemoBandingCollateralAboveComponent } from './credit-proposal/memo-banding/memo-banding-collateral/above/cp-memo-banding-collateral-above.component';
+import { CPMemoBandingStandardCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/cp-memo-banding-standard-covenant.component';
+import { CPMemoBandingCovenantAboveComponent } from './credit-proposal/memo-banding/memo-banding-covenant/above/cp-memo-banding-covenant-above.component';
+import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/other-covenant/cp-memo-banding-other-covenant.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -815,6 +821,12 @@ import { CertificateInfoComponent } from './offering-letter/certificate-info/cer
         MainFacilityHistoryComponent,
         MainFacilityChildHistoryComponent,
         CertificateInfoComponent,
+        CpMemoBandingLoanFacilityComponent,
+        CpMemoBandingCollateralComponent,
+        CpMemoBandingCollateralAboveComponent,
+        CPMemoBandingStandardCovenantComponent,
+        CPMemoBandingCovenantAboveComponent,
+        CpMemoBandingOtherCovenantComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1210,6 +1222,12 @@ import { CertificateInfoComponent } from './offering-letter/certificate-info/cer
     MainFacilityHistoryComponent,
     MainFacilityChildHistoryComponent,
     CertificateInfoComponent,
+    CpMemoBandingLoanFacilityComponent,
+    CpMemoBandingCollateralComponent,
+    CpMemoBandingCollateralAboveComponent,
+    CPMemoBandingStandardCovenantComponent,
+    CPMemoBandingCovenantAboveComponent,
+    CpMemoBandingOtherCovenantComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

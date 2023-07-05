@@ -463,7 +463,19 @@ export class ProposalBasicInformationComponent implements OnInit {
             },
           ];
         } else {
-          this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+          // this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN
+
+          // if status dar appeal, then add memo banding screen
+          this.subMenu =
+            this.creditProposal.statusId === 'CP_APPROVAL_DH'
+              ? [
+                  ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+                  {
+                    id: 'memo-banding',
+                    text: 'Memo Banding',
+                  },
+                ]
+              : SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
         }
       } else if (event === ID_LOWER_EQUAL_15_BN) {
         if (this.parentPath === 'cp-status-approval') {
@@ -479,7 +491,18 @@ export class ProposalBasicInformationComponent implements OnInit {
             },
           ];
         } else {
-          this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+          // this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+          // if status dar appeal, then add memo banding screen
+          this.subMenu =
+            this.creditProposal.statusId === 'CP_APPROVAL_DH'
+              ? [
+                  ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+                  {
+                    id: 'memo-banding',
+                    text: 'Memo Banding',
+                  },
+                ]
+              : SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
         }
       } else if (event === ID_BACK_TO_BACK) {
         if (this.parentPath === 'cp-status-approval') {
@@ -495,7 +518,18 @@ export class ProposalBasicInformationComponent implements OnInit {
             },
           ];
         } else {
-          this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+          // this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+          // if status dar appeal, then add memo banding screen
+          this.subMenu =
+            this.creditProposal.statusId === 'CP_APPROVAL_DH'
+              ? [
+                  ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+                  {
+                    id: 'memo-banding',
+                    text: 'Memo Banding',
+                  },
+                ]
+              : SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
         }
       } else {
         this.subMenu = PROPOSAL_TYPE;
@@ -566,17 +600,50 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     } else if (this.parentPath === 'credit-proposal-status') {
       if (this.creditProposal.attributes.proposalType === ID_GREATER_15_BN && this.creditProposal.attributes.proposalType !== undefined) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        // this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        // if status dar appeal, then add memo banding screen
+        this.subMenu =
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
+            ? [
+                ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ]
+            : SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else if (
         this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        // this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        // if status dar appeal, then add memo banding screen
+        this.subMenu =
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
+            ? [
+                ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ]
+            : SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
       } else if (
         this.creditProposal.attributes.proposalType === ID_BACK_TO_BACK &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+        // this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+        // if status dar appeal, then add memo banding screen
+        this.subMenu =
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
+            ? [
+                ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ]
+            : SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
       } else {
         this.subMenu = PROPOSAL_TYPE;
       }
@@ -591,7 +658,18 @@ export class ProposalBasicInformationComponent implements OnInit {
     if (menu['id'] === ID_GREATER_15_BN) {
       this.creditProposal.attributes.proposalType = ID_GREATER_15_BN;
       if (this.parentPath === 'credit-proposal-status') {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        // this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        // if status dar appeal, then add memo banding screen
+        this.subMenu =
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
+            ? [
+                ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ]
+            : SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else {
         this.subMenu = [
           {
@@ -609,7 +687,18 @@ export class ProposalBasicInformationComponent implements OnInit {
     if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
       this.creditProposal.attributes.proposalType = ID_LOWER_EQUAL_15_BN;
       if (this.parentPath === 'credit-proposal-status') {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        // this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        // if status dar appeal, then add memo banding screen
+        this.subMenu =
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
+            ? [
+                ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ]
+            : SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
       } else {
         this.subMenu = [
           {
@@ -627,7 +716,18 @@ export class ProposalBasicInformationComponent implements OnInit {
     if (menu['id'] === ID_BACK_TO_BACK) {
       this.creditProposal.attributes.proposalType = ID_BACK_TO_BACK;
       if (this.parentPath === 'credit-proposal-status') {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+        // this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+        // if status dar appeal, then add memo banding screen
+        this.subMenu =
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
+            ? [
+                ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ]
+            : SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
       } else {
         this.subMenu = [
           {
@@ -1357,6 +1457,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
     if (this.clickedMenu === 'repayment-capability') {
       this.titleMenu = 'Repayment Capability';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'memo-banding') {
+      this.titleMenu = 'Memo Banding';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     return this.titleMenu;

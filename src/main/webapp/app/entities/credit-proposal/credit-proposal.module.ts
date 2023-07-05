@@ -32,6 +32,7 @@ import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collater
 import { MainFacilityDialogComponent } from './loan-facility/main-facility/main-facility-dialog.component';
 import { MainFacilityDialogHistoryComponent } from './loan-facility-history/main-facility/main-facility-dialog-history.component';
 import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-facility/main-facility-child-history.component';
+import { MemoBandingComponent } from './memo-banding/credit-proposal-memo-banding.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -60,6 +61,7 @@ import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-
     ForwardToComponent,
     MainFacilityDialogComponent,
     MainFacilityDialogHistoryComponent,
+    MemoBandingComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

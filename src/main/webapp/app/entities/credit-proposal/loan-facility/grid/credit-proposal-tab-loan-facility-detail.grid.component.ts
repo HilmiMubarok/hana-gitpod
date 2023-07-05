@@ -34,6 +34,7 @@ import moment from 'moment';
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit, OnChanges {
   public dataParty = [];
 
+  @Input() isOnMemo: Boolean = false;
   @Input() isViewMode: Boolean = false;
   public _creditProposal: ICreditProposal;
   @Input()

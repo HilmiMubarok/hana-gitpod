@@ -1,0 +1,14 @@
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Debtor Collateral</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <jhi-cp-memo-banding-collateral-above
+      [creditProposal]="creditProposal"
+      *ngIf="proposalType === 'Total Exposure > IDR 15 Bio'"
+      [collateralProperties]="collateralProperties"
+    ></jhi-cp-memo-banding-collateral-above>
+  </div>
+</div>
