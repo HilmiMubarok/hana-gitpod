@@ -19,7 +19,7 @@ import { RequestSlikStatus } from '../enums/request-slik-status.enum';
 @Component({
   selector: 'jhi-request-slik-debitur-grid',
   templateUrl: './request-slik-debitur-grid.component.html',
-  styleUrls: ['./request-slik-debitur-grid.styles.scss'],
+  styleUrls: ['./request-slik-debitur-grid.styles.scss', '../../party-cif/party-cif.style.scss'],
 })
 export class RequestSlikDebiturGridComponent implements OnInit, OnChanges {
   reqSlikStatus = RequestSlikStatus;

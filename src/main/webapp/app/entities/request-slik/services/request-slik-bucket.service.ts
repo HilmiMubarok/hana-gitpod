@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
@@ -34,7 +34,6 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
 
     return this.http.get<any>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
       switchMap(data => {
-        console.log('BUCKET DATA', data.body.data.content);
         if (data.body.data.content.length === 0) {
           return of([]);
         }
@@ -117,7 +116,6 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
     const options = { params: new HttpParams().set('status', status) };
     return this.http.get<any>(`${this.resourceUrl}/bystatus`, options).pipe(
       switchMap(data => {
-        console.log('ddd', data.data.content);
         if (data.data.content.length === 0) {
           return of([]);
         }
@@ -153,29 +151,5 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
         );
       })
     );
-  }
-
-  displayStatusLabel(dataSource) {
-    const modifiedData = _.map(dataSource, obj => {
-      if (obj.status === this.reqSlikStatus.DRAFT) {
-        return { ...obj, status: 'Draft' };
-      } else if (obj.status === this.reqSlikStatus.APPROVAL_BU) {
-        return { ...obj, status: 'Approval SLIK By BU' };
-      } else if (obj.status === this.reqSlikStatus.APPROVAL_SLIK) {
-        return { ...obj, status: 'Approval SLIK By Team SLIK' };
-      } else if (obj.status === this.reqSlikStatus.CHECKING) {
-        return { ...obj, status: 'Checking In Progress' };
-      } else if (obj.status === this.reqSlikStatus.RETURN_TO_RM) {
-        return { ...obj, status: 'Return To RM' };
-      } else if (obj.status === this.reqSlikStatus.VERIFY) {
-        return { ...obj, status: 'Verify' };
-      } else if (obj.status === this.reqSlikStatus.COMPLETE) {
-        return { ...obj, status: 'Complete' };
-      } else if (obj.status === this.reqSlikStatus.CANCEL) {
-        return { ...obj, status: 'Cancel' };
-      }
-      return obj;
-    });
-    return modifiedData;
   }
 }

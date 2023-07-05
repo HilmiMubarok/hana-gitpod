@@ -1,7 +1,5 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-subtitle>Documents</mat-card-subtitle>
-  </mat-card-header>
+  <h4 class="label-font-detail">Documents</h4>
   <mat-card-content>
     <table mat-table [dataSource]="data$ | async" class="w-100">
       <ng-container matColumnDef="no">
@@ -44,19 +42,14 @@
   <mat-card-actions align="center">
     <button
       mat-raised-button
-      color="primary"
+      class="button-styling"
       (click)="openDialog('add', null)"
       *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
     >
       <mat-icon>add</mat-icon> UPLOAD
     </button>
-    <button mat-raised-button color="primary" (click)="download()">
-      <!-- <mat-icon *ngIf="!isLoading">get_app</mat-icon> -->
+    <button mat-raised-button class="button-styling" (click)="download()">
       <mat-icon>get_app</mat-icon>
-
-      <!-- add spinner when downloading -->
-      <!-- <mat-spinner *ngIf="isLoading" diameter="20" style="display: inline-block"></mat-spinner> -->
-
       {{ downloadAllLabel }}
     </button>
   </mat-card-actions>

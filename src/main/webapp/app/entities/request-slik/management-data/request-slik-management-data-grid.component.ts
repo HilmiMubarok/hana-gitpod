@@ -25,7 +25,7 @@ import { RequestSlikStatus } from '../enums/request-slik-status.enum';
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
   templateUrl: './request-slik-management-data-grid.component.html',
-  styleUrls: ['./request-slik-management-data-grid.styles.scss'],
+  styleUrls: ['./request-slik-management-data-grid.styles.scss', '../../party-cif/party-cif.style.scss'],
   animations: [
     trigger('detailExpand', [
       state(
