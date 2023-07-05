@@ -142,6 +142,15 @@ export class LoanAnalysMainComponent implements OnInit {
   public proposType = [];
   private KEYG = 'credit_proposal/summary';
 
+  private applicationRolePreSave = {
+	id: 0,
+	applicationId: 0,
+	partyId: '',
+	partyName: '',
+	roleDescription: '',
+	roleId: '',
+  };
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -776,23 +785,29 @@ export class LoanAnalysMainComponent implements OnInit {
   public InternalId: any;
   public positionApproval: any;
 
+  private doCheckApplicationRolePreSave(): void {
+	if (this.applicationRolePreSave) {
+	  if ((!this.applicationRolePreSave.id || this.applicationRolePreSave.id === 0) || (!this.applicationRolePreSave.applicationId || this.applicationRolePreSave.applicationId === 0)) {
+		if (this.url === 'la-distribution') {
+		  this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCRO'];
+		} else if (this.url === 'cc-distribution') {
+		  this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCCAdmin'];
+		} else if (this.url === 'distribution') {
+		  this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToLegalOfficer'];
+		}
+	  }
+	}
+  }
+
   private preSave(status: string): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-    const applicationRolePreSave = {
-      id: 0,
-      applicationId: 0,
-      partyId: '',
-      partyName: '',
-      roleDescription: '',
-      roleId: '',
-    };
 
-    applicationRolePreSave.id = Number(this.applicationRole.id);
-    applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
-    applicationRolePreSave.partyId = this.applicationRole.partyId;
-    applicationRolePreSave.partyName = this.applicationRole.partyName;
-    applicationRolePreSave.roleId = this.applicationRole.roleId;
-    applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
+    this.applicationRolePreSave.id = Number(this.applicationRole.id);
+    this.applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
+    this.applicationRolePreSave.partyId = this.applicationRole.partyId;
+    this.applicationRolePreSave.partyName = this.applicationRole.partyName;
+    this.applicationRolePreSave.roleId = this.applicationRole.roleId;
+    this.applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
 
     const tempRouter = this.router.url.split('/')[1];
 
@@ -942,18 +957,21 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
+
+	this.doCheckApplicationRolePreSave();
+
     if (this.url === 'la-distribution') {
-      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(applicationRolePreSave);
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(this.applicationRolePreSave);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
       copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     } else if (this.url === 'cc-distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
-      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(applicationRolePreSave);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(this.applicationRolePreSave);
       copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     } else if (this.url === 'distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(applicationRolePreSave);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(this.applicationRolePreSave);
     } else {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
