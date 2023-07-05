@@ -382,3 +382,29 @@ table {
   margin-left: 10px;
   padding-top: 13px;
 }
+
+/* table styling */
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+/* table styling */
+/* button */
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+/* button */
