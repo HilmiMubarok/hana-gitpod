@@ -279,7 +279,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
         },
       });
       dialogRef.afterClosed().subscribe(res2 => {
-        console.log(res2);
+ 
       });
     });
   }
