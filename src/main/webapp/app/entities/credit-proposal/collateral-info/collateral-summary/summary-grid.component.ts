@@ -79,6 +79,15 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+  private _group: string;
+
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
   public _partyCif: IPartyCif;
   @Input()
   get partyCif() {
@@ -262,6 +271,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         isViewMode: this.isViewMode,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
