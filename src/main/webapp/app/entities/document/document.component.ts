@@ -60,11 +60,11 @@ export class DocumentComponent implements OnChanges, OnInit {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.change = changes;
-    if (changes['collateral']) {
-      this.getBucket().then(res => {
-        this.getFiles('collateral', this.collateral.id);
-      });
-    }
+    // if (changes['collateral']) {
+    //   this.getBucket().then(res => {
+    //     this.getFiles('collateral', this.collateral.id);
+    //   });
+    // }
 
     if (changes['appraisal']) {
       if (changes.document.currentValue === 'document-lainnya') {
@@ -222,15 +222,15 @@ export class DocumentComponent implements OnChanges, OnInit {
   }
 
   private getFiles(owner: string, id: number): void {
-    if (owner === 'collateral') {
-      const predicate: Object = {
-        key: `/collateral/${id}/document`,
-      };
-      this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        this.groupByFolder(res.body);
-        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-      });
-    }
+    // if (owner === 'collateral') {
+    //   const predicate: Object = {
+    //     key: `/collateral/${id}/document`,
+    //   };
+    //   this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+    //     this.groupByFolder(res.body);
+    //     this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
+    //   });
+    // }
 
     if (owner === 'appraisal') {
       if (this.documents === 'document-collateral') {
