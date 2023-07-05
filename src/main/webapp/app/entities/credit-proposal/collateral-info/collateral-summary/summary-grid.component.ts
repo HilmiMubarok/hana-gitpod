@@ -27,6 +27,7 @@ import { ApplicationProduct } from 'app/entities/application-product/application
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-summary-grid',
   templateUrl: './summary-grid.component.html',
@@ -53,8 +54,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'noUrutFasilitas',
-    'facilityType',
+    'action',
   ];
 
   public _collateralProperty: ICollateralProperty[];
@@ -205,7 +205,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       this.dataItem = new MatTableDataSource(res.body);
       this.dataItem.paginator = this.paginator;
       this.getBindingCalculate(res.body);
-      console.log('data', res.body);
+      console.log('data', this.dataItem);
+      console.log('dataColl', this.dataCollateral);
     });
   }
 

@@ -45,7 +45,7 @@ import { PageEvent } from '@angular/material/paginator';
     ]),
   ],
 })
-export class GroupCollateralListCpComponent extends AbstractEntityMaterialComponent<IGroupCollateral> implements OnInit, OnChanges {
+export class GroupCollateralListCpComponent extends AbstractEntityMaterialComponent<IGroupCollateral> implements OnChanges {
   @Input() public cif: string;
 
   public listGroupCollateral: any;
@@ -90,15 +90,15 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
     this.entityKeyName = 'id';
   }
 
-  ngOnInit(): void {
-    this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(updatedCP => {
-      if (updatedCP && this.listGroupCollateralItems) {
-        if (updatedCP.collateralProductRelations.length > 0 && updatedCP.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-          this.checkGroupAll(updatedCP);
-        }
-      }
-    });
-  }
+  // ngOnInit(): void {
+  //   this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(updatedCP => {
+  //     if (updatedCP && this.listGroupCollateralItems) {
+  //       if (updatedCP.collateralProductRelations.length > 0 && updatedCP.products.length > 0 && this.listGroupCollateralItems.length > 0) {
+  //         this.checkGroupAll(updatedCP);
+  //       }
+  //     }
+  //   });
+  // }
   loadDataLazy(event?: PageEvent) {
     this.items = null;
     this.page = event.pageIndex;
@@ -129,43 +129,43 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
             for (let i = 0; i < res.body.length; i++) {
               this.listGroupCollateralItems.push(res.body[i]);
             }
-            this.checkGroupAll(this.creditProposal);
+            // this.checkGroupAll(this.creditProposal);
           });
       });
     }
   }
 
-  private checkGroupAll(cp: ICreditProposal): void {
-    if (cp.collateralProductRelations.length === 0) {
-      this.isChecked = false;
-    } else {
-      if (cp.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-        const totalAllGroup = cp.products.length * this.listGroupCollateralItems.length;
-        let countChecked = 0;
+  // private checkGroupAll(cp: ICreditProposal): void {
+  //   if (cp.collateralProductRelations.length === 0) {
+  //     this.isChecked = false;
+  //   } else {
+  //     if (cp.products.length > 0 && this.listGroupCollateralItems.length > 0) {
+  //       const totalAllGroup = cp.products.length * this.listGroupCollateralItems.length;
+  //       let countChecked = 0;
 
-        for (let i = 0; i < cp.collateralProductRelations.length; i++) {
-          for (let j = 0; j < cp.products.length; j++) {
-            for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-              if (
-                cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
-                cp.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id
-              ) {
-                ++countChecked;
-              }
-            }
-          }
-        }
+  //       for (let i = 0; i < cp.collateralProductRelations.length; i++) {
+  //         for (let j = 0; j < cp.products.length; j++) {
+  //           for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+  //             if (
+  //               cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
+  //               cp.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id
+  //             ) {
+  //               ++countChecked;
+  //             }
+  //           }
+  //         }
+  //       }
 
-        if (countChecked === totalAllGroup) {
-          this.isChecked = true;
-        } else {
-          this.isChecked = false;
-        }
-      } else {
-        this.isChecked = false;
-      }
-    }
-  }
+  //       if (countChecked === totalAllGroup) {
+  //         this.isChecked = true;
+  //       } else {
+  //         this.isChecked = false;
+  //       }
+  //     } else {
+  //       this.isChecked = false;
+  //     }
+  //   }
+  // }
 
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
@@ -190,7 +190,7 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
 		  }
 		}
 	  } */
-      for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+      for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
             if (
@@ -207,8 +207,9 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
 
   public slideChange(event) {
     if (event === true) {
+      this.isChecked = true;
       if (this.creditProposal.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-        this.cleanUpColGroupRel();
+        // this.cleanUpColGroupRel();
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
             const tempCollateralProductRelationObject = {
@@ -223,6 +224,6 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
     } else {
       this.cleanUpColGroupRel();
     }
-    this.creditProposalService.changeColRelByCP(this.creditProposal);
+    // this.creditProposalService.changeColRelByCP(this.creditProposal);
   }
 }

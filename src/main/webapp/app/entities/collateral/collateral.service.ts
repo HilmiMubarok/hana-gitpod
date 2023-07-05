@@ -83,6 +83,6 @@ export class CollateralService extends AbstractEntityService<ICollateral> {
     return this.http.get<object[]>(this.resourceUrl + '/lov/V2/land-plantation', { observe: 'response' });
   }
   public getSummaryCollateral(applicationId: number): Observable<HttpResponse<ICollateral[]>> {
-    return this.http.get<any>(`${this.resourceUrl}/summary2/${applicationId}`, { observe: 'response' });
+    return this.http.get<any>(`${this.resourceUrl}/summary3/${applicationId}`, { observe: 'response' });
   }
 }
