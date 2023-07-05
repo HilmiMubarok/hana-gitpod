@@ -19,6 +19,7 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'jhi-document-checklist-history',
   templateUrl: './credit-proposal-document-checklist-history.component.html',
+  styleUrls: ['./document.scss'],
 })
 export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
   public files: any[];
