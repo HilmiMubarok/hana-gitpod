@@ -331,3 +331,14 @@ export class Collateral implements ICollateral {
     this.statusId = 'NEW';
   }
 }
+
+export interface ICollateralInfoAfter {
+  id?: number;
+  collateralType?: string;
+  mvInternal?: number;
+  lvInternal?: number;
+}
+
+export class CollateralInfoAfter implements ICollateralInfoAfter {
+  constructor(public id?: number, public collateralType?: string, public mvInternal?: number, public lvInternal?: number) {}
+}

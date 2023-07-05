@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
-import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { ICollateral, ICollateralInfoAfter } from 'app/entities/collateral/collateral.model';
 import {
   ICreditProposalCollateralInsurance,
   ICreditProposalCollateralBinding,
@@ -21,6 +21,7 @@ import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal
   providers: [ToolbarService, HtmlEditorService],
 })
 export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnInit {
+  public collateralInfoAfterReport: ICollateralInfoAfter = {};
   public view: string;
   public creditProposal: ICreditProposal;
   public dataCollateral: ICollateral[];
@@ -105,6 +106,10 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
       this.internalMV = 0;
       this.internalLV = 0;
     }
+    this.collateralInfoAfterReport.collateralType = collateral.collateralTypeDescription;
+    this.collateralInfoAfterReport.id = collateral.id;
+    this.collateralInfoAfterReport.mvInternal = this.internalMV;
+    this.collateralInfoAfterReport.lvInternal = this.internalLV;
   }
 
   public countMV(collateral: ICollateral): number {
@@ -148,6 +153,6 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
   }
 
   public onSave() {
-    this._dialog.close(this.collateral);
+    this._dialog.close({ collateral: this.collateral, collateralAfter: this.collateralInfoAfterReport });
   }
 }
