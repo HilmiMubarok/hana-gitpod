@@ -801,8 +801,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
-      this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
-      this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      if (this.surveyAppraisal.statusId !== 'COMPLETE') {
+        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
+        this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      }
     }
   }
 
