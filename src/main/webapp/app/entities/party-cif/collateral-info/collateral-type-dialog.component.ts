@@ -229,7 +229,13 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     event = collateralParamId;
     if (event) {
       this.collateralProposePricingService.filterTableData(event).subscribe(res => {
-        this.collateral.attributes.collateralProposePricing = res.body.map(e => e.proposePricing);
+        let element: string;
+        if (res.body) {
+          for (let i = 0; i < res.body.length; i++) {
+            element = res.body[i].proposePricing;
+          }
+          this.collateral.attributes.collateralProposePricing = element;
+        }
       });
     }
   }
