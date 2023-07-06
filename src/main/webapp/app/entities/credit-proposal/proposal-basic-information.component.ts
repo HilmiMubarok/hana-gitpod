@@ -192,7 +192,12 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.clickedMenu = subRoute;
       }
     });
-    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+    this.isHistoryExist =
+      this.creditProposal.attributes.previousHistory &&
+      this.parentPath !== 'cp-status-approval' &&
+      this.parentPath !== 'credit-proposal-status'
+        ? true
+        : false;
     this.setTotalPlafond();
   }
 
