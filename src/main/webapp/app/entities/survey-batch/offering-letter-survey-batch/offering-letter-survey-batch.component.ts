@@ -28,6 +28,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 })
 export class OfferingLetterSurveyBatchComponent extends AbstractEntityMaterialComponent<ISurveyRequest> implements OnInit {
   public clickedMenu: string;
+  public isOpen = false;
   offeringLetter: IOfferingLetter | null = null;
   public displayedColumns: string[] = ['no', 'tanggal', 'nomor', 'namaKjpp', 'biaya', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns];
@@ -116,5 +117,8 @@ export class OfferingLetterSurveyBatchComponent extends AbstractEntityMaterialCo
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

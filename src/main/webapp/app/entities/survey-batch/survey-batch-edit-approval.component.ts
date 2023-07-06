@@ -97,6 +97,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   public collateralType: string;
   public totalDataDetailLand = [];
   public tipeOfficerAppraisal?: string;
+  public isOpen = false;
   appName: any;
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
@@ -1391,5 +1392,8 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
 
   showTextMenu() {
     return this.getTextMenu(this.clickedMenu);
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

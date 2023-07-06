@@ -30,6 +30,7 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
   public clickedMenu: string;
   public globalSearchValModel: string;
   public globalSearchVal: string;
+  public isOpen = false;
   cif: string;
   surveyBatch: ISurveyBatch | null = null;
   public displayedColumns: string[] = ['no', 'name', 'receivedDate', 'action'];
@@ -238,5 +239,8 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

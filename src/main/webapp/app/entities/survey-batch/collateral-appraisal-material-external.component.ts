@@ -75,6 +75,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
     [key: string]: Object;
   }[] = [];
   public positionIdLocStor: string;
+  public isOpen = false;
   public subMenu: object[];
   public globalSearchValModel: string;
   public collateralAppraisalStatusCodes: any[] = [];
@@ -278,9 +279,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
           content: this.convertToTimelineModel(res.body),
         },
       });
-      dialogRef.afterClosed().subscribe(res2 => {
- 
-      });
+      dialogRef.afterClosed().subscribe(res2 => {});
     });
   }
 
@@ -362,5 +361,8 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
   public routeSubMenu(menu: object): void {
     // this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
     this.router.navigate(['./batch-apprisal/' + menu['id']]);
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

@@ -141,6 +141,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
   public value: string;
+  public isOpen = false;
 
   constructor(
     protected applicationStateLogService: ApplicationStateLogService,
@@ -1303,5 +1304,8 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }
