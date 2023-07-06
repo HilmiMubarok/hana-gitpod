@@ -143,12 +143,12 @@ export class LoanAnalysMainComponent implements OnInit {
   private KEYG = 'credit_proposal/summary';
 
   private applicationRolePreSave = {
-	id: 0,
-	applicationId: 0,
-	partyId: '',
-	partyName: '',
-	roleDescription: '',
-	roleId: '',
+    id: 0,
+    applicationId: 0,
+    partyId: '',
+    partyName: '',
+    roleDescription: '',
+    roleId: '',
   };
 
   constructor(
@@ -786,17 +786,22 @@ export class LoanAnalysMainComponent implements OnInit {
   public positionApproval: any;
 
   private doCheckApplicationRolePreSave(): void {
-	if (this.applicationRolePreSave) {
-	  if ((!this.applicationRolePreSave.id || this.applicationRolePreSave.id === 0) || (!this.applicationRolePreSave.applicationId || this.applicationRolePreSave.applicationId === 0)) {
-		if (this.url === 'la-distribution') {
-		  this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCRO'];
-		} else if (this.url === 'cc-distribution') {
-		  this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCCAdmin'];
-		} else if (this.url === 'distribution') {
-		  this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToLegalOfficer'];
-		}
-	  }
-	}
+    if (this.applicationRolePreSave) {
+      if (
+        !this.applicationRolePreSave.id ||
+        this.applicationRolePreSave.id === 0 ||
+        !this.applicationRolePreSave.applicationId ||
+        this.applicationRolePreSave.applicationId === 0
+      ) {
+        if (this.url === 'la-distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCRO'];
+        } else if (this.url === 'cc-distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCCAdmin'];
+        } else if (this.url === 'distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToLegalOfficer'];
+        }
+      }
+    }
   }
 
   private preSave(status: string): ICreditProposal {
@@ -958,7 +963,7 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
 
-	this.doCheckApplicationRolePreSave();
+    this.doCheckApplicationRolePreSave();
 
     if (this.url === 'la-distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(this.applicationRolePreSave);
@@ -1502,62 +1507,47 @@ export class LoanAnalysMainComponent implements OnInit {
     this.appName = sessionStorage.getItem('appName');
   }
 
-  getText(value: any) {
+  getText(value: any): string {
     if (value === 'la-distribution') {
-      this.title = 'Loan Analysis Distribution';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Analysis Distribution';
     }
     if (value === 'la-analyst') {
-      this.title = 'Loan Analysis';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Analysis';
     }
     if (value === 'la-SME-CRC') {
-      this.title = 'Loan Analysis SME Checker';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Analysis SME Checker';
     }
     if (value === 'la-approval') {
-      this.title = 'Loan Approval';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Approval';
     }
     if (value === 'la-approval-inquiry') {
-      this.title = 'Loan Approval Inquiry';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Approval Inquiry';
     }
     if (value === 'dar-final') {
-      this.title = 'DAR Finalization';
-      sessionStorage.setItem('appName', this.title);
+      return 'DAR Finalization';
     }
     if (value === 'dar-checker') {
-      this.title = 'Final DAR - Checker';
-      sessionStorage.setItem('appName', this.title);
+      return 'Final DAR - Checker';
     }
     if (value === 'loan-committee-approval') {
-      this.title = 'Loan Komite Approval';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Komite Approval';
     }
     if (value === 'dar-notif') {
-      this.title = 'DAR Notification';
-      sessionStorage.setItem('appName', this.title);
+      return 'DAR Notification';
     }
     if (value === 'cc-distribution') {
-      this.title = 'Compliance Checking Distribution';
-      sessionStorage.setItem('appName', this.title);
+      return 'Compliance Checking Distribution';
     }
     if (value === 'cc-checking') {
-      this.title = 'Compliance Checking';
-      sessionStorage.setItem('appName', this.title);
+      return 'Compliance Checking';
     }
     if (value === 'cc-review') {
-      this.title = 'Compliance Checking Review';
-      sessionStorage.setItem('appName', this.title);
+      return 'Compliance Checking Review';
     }
     if (value === 'cc-inquiry') {
-      this.title = 'Compliance Checking';
-      sessionStorage.setItem('appName', this.title);
-    }
-    if (value === 'loan-analys-and-approval-monitoring') {
-      this.title = 'Loan Analyst and Approval Monitoring';
-      sessionStorage.setItem('appName', this.title);
+      return 'Compliance Checking';
+    } else {
+      return 'Loan Analyst and Approval Monitoring';
     }
   }
 
@@ -1566,123 +1556,30 @@ export class LoanAnalysMainComponent implements OnInit {
     this.titleUrl = x;
   }
 
-  getTextMenu() {
-    if (this.selectedMenu === 'credit-proposal-summary') {
-      this.titleMenu = 'Credit Proposal Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+  public getTextMenu(param: string): string {
+    const titleMenu = param;
+    const regex = /[-]/g;
+    if (titleMenu === 'convenant-tbo') {
+      const convenantTbo = titleMenu.replace(regex, ' & ');
+      return convenantTbo;
+    } else if (titleMenu === 'credit-proposal-approval') {
+      return 'Credit Proposal Summary';
+    } else if (titleMenu === 'group-guarantor-analyst') {
+      const regex2 = /[-^]+/;
+      const groupGuarantor = titleMenu.replace(regex2, ' & ');
+      return groupGuarantor.replace(regex, ' ');
+    } else if (titleMenu === 'loan-slik-checking' || titleMenu === 'slik-summary') {
+      return 'Slik Checking';
+    } else if (titleMenu === 'loan-facility') {
+      return 'Loan Facility Detail';
+    } else {
+      return titleMenu.replace(regex, ' ');
     }
-    if (this.selectedMenu === 'compliance-recomendation') {
-      this.titleMenu = 'Compliance Recomendation';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'opinion') {
-      this.titleMenu = 'Opinion';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'covenant-document-check' || this.selectedMenu === 'covenant') {
-      this.titleMenu = 'Covenant & Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'document-checklist') {
-      this.titleMenu = 'Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'basic-information') {
-      this.titleMenu = 'Basic Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'management-information') {
-      this.titleMenu = 'Management Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'exposure') {
-      this.titleMenu = 'Exposure';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'risk-acceptance-criteria') {
-      this.titleMenu = 'Risk Acceptance Criteria';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (
-      this.selectedMenu === 'loan-facility-detail' ||
-      this.selectedMenu === 'loan-facility' ||
-      this.selectedMenu === 'loan-facility-view'
-    ) {
-      this.titleMenu = 'Loan Facility Detail';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'collateral-info') {
-      this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'business-activity') {
-      this.titleMenu = 'Business Activity';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'financial-statement') {
-      this.titleMenu = 'Financial Statement';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'bank-account-analyst') {
-      this.titleMenu = 'Bank Account Analyst';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'convenant-tbo') {
-      this.titleMenu = 'Convenant & Tbo';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'propose-pricing') {
-      this.titleMenu = 'Propose Pricing';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'summary') {
-      this.titleMenu = 'Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'compare-data') {
-      this.titleMenu = 'Compare Data';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'compliance-recommendation') {
-      this.titleMenu = 'Compliance Recommendation';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'slik-checking') {
-      this.titleMenu = 'Slik Checking';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'facility-mapping') {
-      this.titleMenu = 'Facility Mapping';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'mapping-facility') {
-      this.titleMenu = 'Collateral Mapping Facility';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'correspondence') {
-      this.titleMenu = 'Correspondence';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'group-guarantor-analyst') {
-      this.titleMenu = 'Group Guarantor Analyst';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'slik-summary') {
-      this.titleMenu = 'SLIK Checking';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'credit-rating') {
-      this.titleMenu = 'Credit Rating';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'trade-checking') {
-      this.titleMenu = 'Trade Checking';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-
-    return this.titleMenu;
   }
 
+  showTextMenu() {
+    return this.getTextMenu(this.selectedMenu);
+  }
   getTitleMenu(): void {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
   }

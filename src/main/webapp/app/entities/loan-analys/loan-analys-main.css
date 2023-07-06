@@ -256,3 +256,8 @@ th:last-child {
   vertical-align: middle;
   width: 100%;
 }
+
+/* menu title css */
+.menu-title-class {
+  text-transform: capitalize !important;
+}
