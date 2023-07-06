@@ -123,6 +123,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public routeHelper: string;
   public resAttr: any;
   public lendingProgram = [];
+  public isOpen = false;
 
   appName: any;
   appNameMenu: any;
@@ -1400,5 +1401,8 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }
