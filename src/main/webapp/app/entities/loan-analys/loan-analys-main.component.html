@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ getText(parentPath) }}"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">{{ getTextMenu() }}</p>
+          <p class="e-card-sub-title menu-title-class">{{ showTextMenu() }}</p>
         </div>
       </div>
     </div>
@@ -298,7 +298,7 @@
         </section>
         <!-- Final Approval -->
         <div class="wrapper-card mb-3">
-          <e-card><jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final></e-card>
+          <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
         </div>
 
         <!-- Assign to -->
@@ -477,14 +477,18 @@
       </div>
 
       <!-- Summary -->
-      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"> </jhi-credit-proposal-tab-summary>
+      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card
+          ><jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"> </jhi-credit-proposal-tab-summary
+        ></e-card>
       </div>
 
       <!-- Group Guarantor Analysis -->
-      <div *ngIf="selectedMenu === 'group-guarantor-analyst'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-group-guarantor-analysis [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
-        </jhi-loan-analys-group-guarantor-analysis>
+      <div *ngIf="selectedMenu === 'group-guarantor-analyst'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-loan-analys-group-guarantor-analysis [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
+          </jhi-loan-analys-group-guarantor-analysis
+        ></e-card>
       </div>
 
       <!-- Slik Checking in Credit Proposal -->
@@ -492,8 +496,10 @@
         <jhi-loan-analys-slik-summary [creditProposal]="creditProposal"></jhi-loan-analys-slik-summary>
       </div>
 
-      <div *ngIf="selectedMenu === 'loan-slik-checking'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-slik-summary [source]="sourceSlikChecking" [creditProposal]="creditProposal"> </jhi-loan-analys-slik-summary>
+      <div *ngIf="selectedMenu === 'loan-slik-checking'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card
+          ><jhi-loan-analys-slik-summary [source]="sourceSlikChecking" [creditProposal]="creditProposal"> </jhi-loan-analys-slik-summary
+        ></e-card>
       </div>
 
       <!-- Credit Rating -->
@@ -502,21 +508,23 @@
       </div>
 
       <!-- Opinion -->
-      <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion
-          #loanAnalysOpinionComponent
-          (uuidPath)="setUuidPath($event)"
-          (positionLoginEmit)="setPositionLogin($event)"
-          (newItemEvent)="setOpinionRecomendation($event)"
-          (isAllowSave)="setIsAllowSave($event)"
-          (opinionFileSfdt)="setOpinionFileSfdt($event)"
-          (opinionFileWord)="setOpinionFileWord($event)"
-          (conditionFileSfdt)="setConditionFileSfdt($event)"
-          (conditionFileWord)="setConditionFileWord($event)"
-          [creditProposalItem]="creditProposal"
-          [notifyChild]="parentSubject"
-        >
-        </jhi-loan-analys-opinion>
+      <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-loan-analys-opinion
+            #loanAnalysOpinionComponent
+            (uuidPath)="setUuidPath($event)"
+            (positionLoginEmit)="setPositionLogin($event)"
+            (newItemEvent)="setOpinionRecomendation($event)"
+            (isAllowSave)="setIsAllowSave($event)"
+            (opinionFileSfdt)="setOpinionFileSfdt($event)"
+            (opinionFileWord)="setOpinionFileWord($event)"
+            (conditionFileSfdt)="setConditionFileSfdt($event)"
+            (conditionFileWord)="setConditionFileWord($event)"
+            [creditProposalItem]="creditProposal"
+            [notifyChild]="parentSubject"
+          >
+          </jhi-loan-analys-opinion
+        ></e-card>
       </div>
 
       <!-- compare data -->
