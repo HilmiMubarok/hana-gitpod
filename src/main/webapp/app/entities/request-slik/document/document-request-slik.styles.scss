@@ -52,7 +52,7 @@ table {
   border-bottom: 1px solid #008881 !important;
   width: 100%;
 }
-
+// table
 th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black !important;
@@ -67,7 +67,24 @@ th:first-child {
 th:last-child {
   border-top-right-radius: 15px;
 }
+.mat-column-no {
+  text-align: right;
+  width: 5% !important;
+}
+.mat-column-docName {
+  text-align: left;
+}
+.mat-column-action {
+  text-align: left;
+  width: 20% !important;
+}
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 0 18px 0 0;
+  font-weight: 500;
+}
 
+//
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
@@ -77,4 +94,14 @@ th:last-child {
   background-color: rgba(49, 158, 152, 1) !important;
   font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
+}
+
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
 }
