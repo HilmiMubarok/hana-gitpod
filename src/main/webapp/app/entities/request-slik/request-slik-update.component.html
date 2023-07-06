@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="e-card-content">
+    <mat-card style="margin: 1rem">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Find Cif</mat-label>
         <input type="number" matInput placeholder="insert cif number" (change)="getValue($event)" (keyup.enter)="search()" />
@@ -82,10 +82,12 @@
         </mat-card-header>
         <mat-card-content> </mat-card-content>
       </mat-card> -->
-    </div>
+    </mat-card>
     <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button color="primary" (click)="createReqSlik()" tooltip="Create Request Slik">Create Request Slik</button>
+        <button mat-raised-button class="button-styling" (click)="createReqSlik()" tooltip="Create Request Slik">
+          Create Request Slik
+        </button>
         <!-- [routerLink]="['/request-slik']" -->
       </div>
     </div>

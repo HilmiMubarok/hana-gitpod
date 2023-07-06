@@ -44,13 +44,13 @@
   <mat-card-actions align="center">
     <button
       mat-raised-button
-      color="primary"
+      class="button-styling"
       (click)="openDialog('add', null)"
       *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
     >
       <mat-icon>add</mat-icon> UPLOAD
     </button>
-    <button mat-raised-button color="primary" (click)="download()">
+    <button mat-raised-button class="button-styling" (click)="download()">
       <!-- <mat-icon *ngIf="!isLoading">get_app</mat-icon> -->
       <mat-icon>get_app</mat-icon>
 

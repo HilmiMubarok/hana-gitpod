@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="e-card-content">
+    <div style="margin: 1rem">
       <div class="page-view" style="padding-bottom: 30px">
         <div
           *ngIf="isLoading"
@@ -35,106 +35,107 @@
         </div>
 
         <div *ngIf="!isLoading">
-          <div>
-            <div class="row px-3 pt-5">
-              <div class="col">
-                <div class="d-flex justify-content-start align-item-center">
-                  <h4 style="margin: 0 20px 0 0">Debtor Data</h4>
-                  <section>
-                    <mat-checkbox
-                      [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
-                      #c
-                      (click)="$event.stopPropagation()"
-                      (change)="updateChecklist(element, c)"
-                      [checked]="isDetailChecked(partyCif.partyId)"
-                      >Check SLIK</mat-checkbox
-                    >
-                  </section>
+          <div class="wrapper-card">
+            <e-card>
+              <div class="row px-3 pt-5">
+                <div class="col">
+                  <div class="d-flex justify-content-start align-item-center">
+                    <h4 style="margin: 0 20px 0 0">Debtor Data</h4>
+                    <section>
+                      <mat-checkbox
+                        [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
+                        #c
+                        (click)="$event.stopPropagation()"
+                        (change)="updateChecklist(element, c)"
+                        [checked]="isDetailChecked(partyCif.partyId)"
+                        >Check SLIK</mat-checkbox
+                      >
+                    </section>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="row px-3 pt-5">
-              <div class="col-6">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Request Number</mat-label>
-                  <input
-                    [disabled]="true"
-                    matInput
-                    type="text"
-                    [ngModel]="requestSlik.requestNumber"
-                    (ngModelChange)="requestSlik.requestNumber = $event"
-                  />
-                </mat-form-field>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Request Date</mat-label>
-                  <input
-                    [disabled]="true"
-                    matInput
-                    type="text"
-                    [ngModel]="requestSlik.requestDate | date: 'YYY-MM-dd'"
-                    (ngModelChange)="requestSlik.requestDate = $event"
-                  />
-                </mat-form-field>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Cif Number</mat-label>
-                  <input
-                    [disabled]="true"
-                    matInput
-                    type="text"
-                    [ngModel]="partyCif.customerNumber"
-                    (ngModelChange)="partyCif.customerNumber = $event"
-                  />
-                </mat-form-field>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Customer Name</mat-label>
-                  <input [disabled]="true" matInput type="text" [ngModel]="partyCif.name" (ngModelChange)="partyCif.name = $event" />
-                </mat-form-field>
+              <div class="row px-3 pt-5">
+                <div class="col-6">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Request Number</mat-label>
+                    <input
+                      [disabled]="true"
+                      matInput
+                      type="text"
+                      [ngModel]="requestSlik.requestNumber"
+                      (ngModelChange)="requestSlik.requestNumber = $event"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Request Date</mat-label>
+                    <input
+                      [disabled]="true"
+                      matInput
+                      type="text"
+                      [ngModel]="requestSlik.requestDate | date: 'YYY-MM-dd'"
+                      (ngModelChange)="requestSlik.requestDate = $event"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Cif Number</mat-label>
+                    <input
+                      [disabled]="true"
+                      matInput
+                      type="text"
+                      [ngModel]="partyCif.customerNumber"
+                      (ngModelChange)="partyCif.customerNumber = $event"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Customer Name</mat-label>
+                    <input [disabled]="true" matInput type="text" [ngModel]="partyCif.name" (ngModelChange)="partyCif.name = $event" />
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Segment</mat-label>
+                    <input [disabled]="true" [(ngModel)]="segment" matInput type="text" />
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>ID/Deed of Establishment Number</mat-label>
+                    <input
+                      [disabled]="true"
+                      matInput
+                      type="text"
+                      [ngModel]="partyCif.organizationLegal?.deedEstablishNum"
+                      (ngModelChange)="partyCif.organizationLegal.deedEstablishNum = $event"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Birth of Date / Deed of Establishment Date</mat-label>
+                    <input
+                      [disabled]="true"
+                      matInput
+                      type="text"
+                      [ngModel]="partyCif.organizationLegal?.deedEstablishDate | date: 'YYY-MM-dd'"
+                      (ngModelChange)="partyCif.organizationLegal.deedEstablishDate = $event"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>NPWP</mat-label>
+                    <input
+                      [disabled]="true"
+                      matInput
+                      type="text"
+                      [ngModel]="
+                        partyCif.customerType === 'CORPORATE'
+                          ? partyCif.customerOrganization.taxIdNumber
+                          : partyCif.customerPerson?.taxIdNumber
+                      "
+                      (ngModelChange)="partyCif.customerPerson.taxIdNumber = $event"
+                    />
+                  </mat-form-field>
+                </div>
               </div>
-              <div class="col-6">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Segment</mat-label>
-                  <input [disabled]="true" [(ngModel)]="segment" matInput type="text" />
-                </mat-form-field>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>ID/Deed of Establishment Number</mat-label>
-                  <input
-                    [disabled]="true"
-                    matInput
-                    type="text"
-                    [ngModel]="partyCif.organizationLegal?.deedEstablishNum"
-                    (ngModelChange)="partyCif.organizationLegal.deedEstablishNum = $event"
-                  />
-                </mat-form-field>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Birth of Date / Deed of Establishment Date</mat-label>
-                  <input
-                    [disabled]="true"
-                    matInput
-                    type="text"
-                    [ngModel]="partyCif.organizationLegal?.deedEstablishDate | date: 'YYY-MM-dd'"
-                    (ngModelChange)="partyCif.organizationLegal.deedEstablishDate = $event"
-                  />
-                </mat-form-field>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>NPWP</mat-label>
-                  <input
-                    [disabled]="true"
-                    matInput
-                    type="text"
-                    [ngModel]="
-                      partyCif.customerType === 'CORPORATE'
-                        ? partyCif.customerOrganization.taxIdNumber
-                        : partyCif.customerPerson?.taxIdNumber
-                    "
-                    (ngModelChange)="partyCif.customerPerson.taxIdNumber = $event"
-                  />
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="row px-3 pt-5">
-              <div class="col">
+            </e-card>
+            <div class="row px-3 pt-5 wrapper-card">
+              <e-card class="col">
                 <jhi-request-slik-debitur-grid
                   *ngIf="requestSlik.status === reqSlikStatus.VERIFY || requestSlik.status === reqSlikStatus.COMPLETE"
                   [cif]="partyCif.customerNumber"
@@ -189,26 +190,24 @@
                   (defaultVerifyChecklist)="getAllChecklistVerifyData($event)"
                   [verifyChecklists]="verifyData"
                 ></jhi-request-slik-other-grid>
-              </div>
+              </e-card>
             </div>
 
-            <div class="row px-3 pt-5">
-              <mat-form-field appearance="fill" class="col-6">
-                <mat-label>Request Purpose Type</mat-label>
-                <mat-select
-                  [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
-                  (selectionChange)="setPurposeCode($event)"
-                  [(ngModel)]="requestSlik.purposeCode"
-                >
-                  <mat-option *ngFor="let data of purposeType" [value]="data.code">
-                    {{ data.value }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+            <div class="row px-3 pt-5 wrapper-card">
+              <e-card>
+                <mat-form-field appearance="fill" class="col-6">
+                  <mat-label>Request Purpose Type</mat-label>
+                  <mat-select
+                    [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
+                    (selectionChange)="setPurposeCode($event)"
+                    [(ngModel)]="requestSlik.purposeCode"
+                  >
+                    <mat-option *ngFor="let data of purposeType" [value]="data.code">
+                      {{ data.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
 
-            <div class="row px-3 pt-5">
-              <mat-card>
                 <h5 mat-title>Remarks</h5>
                 <mat-conten>
                   <ejs-documenteditorcontainer
@@ -236,17 +235,19 @@
                     (created)="onCreate()"
                   ></ejs-documenteditorcontainer>
                 </mat-conten>
-              </mat-card>
+              </e-card>
             </div>
-            <div class="row px-3 pt-5">
-              <jhi-document-request-slik [requestSlik]="requestSlik"></jhi-document-request-slik>
+            <div class="row px-3 pt-5 wrapper-card">
+              <e-card>
+                <jhi-document-request-slik [requestSlik]="requestSlik"></jhi-document-request-slik>
+              </e-card>
             </div>
             <!-- Getting segment... dont show the buttons, so flow can running properly -->
             <div class="w-100 text-center my-3" *ngIf="segment === 'loading...'">loading...</div>
             <div class="d-flex justify-content-center" style="margin-top: 30px" *ngIf="segment !== 'loading...'">
               <button
                 mat-raised-button
-                color="primary"
+                class="button-styling"
                 style="margin-right: 10px"
                 (click)="openSubmitDialog('submit')"
                 *ngIf="showSubmitButton()"
@@ -255,7 +256,7 @@
               </button>
               <button
                 mat-raised-button
-                color="primary"
+                class="button-styling"
                 *ngIf="showCancelButton()"
                 style="margin-right: 10px"
                 (click)="openSubmitDialog('cancel')"
@@ -265,14 +266,14 @@
 
               <button
                 mat-raised-button
-                color="primary"
+                class="button-styling"
                 *ngIf="showRejectButton()"
                 style="margin-right: 10px"
                 (click)="openSubmitDialog('reject')"
               >
                 Return to RM
               </button>
-              <button mat-raised-button color="primary" *ngIf="showSaveButton()" (click)="save()">Save</button>
+              <button mat-raised-button class="button-styling" *ngIf="showSaveButton()" (click)="save()">Save</button>
             </div>
           </div>
         </div>
