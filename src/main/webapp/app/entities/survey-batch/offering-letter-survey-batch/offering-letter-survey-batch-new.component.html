@@ -142,7 +142,7 @@
             <table mat-table [dataSource]="itemsPartner" class="mat-table-expand" multiTemplateDataRows>
               <ng-container matColumnDef="no">
                 <th mat-header-cell *matHeaderCellDef>No</th>
-                <td mat-cell *matCellDef="let element; let i = dataIndex">{{ i + 1 }}.</td>
+                <td mat-cell *matCellDef="let element; let i = dataIndex">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
               </ng-container>
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -197,7 +197,7 @@
           <mat-card *ngIf="loading" id="material-loading-bar">
             <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
           </mat-card>
-          <!-- <mat-paginator
+          <mat-paginator
             showFirstLastButtons
             ngClass="transparant"
             [length]="paginatorLengthP"
@@ -205,7 +205,7 @@
             [pageSizeOptions]="paginatorPageSizeOption"
             (page)="loadDataLazyPartner($event)"
           >
-          </mat-paginator> -->
+          </mat-paginator>
 
           <br /><br />
           <span>
