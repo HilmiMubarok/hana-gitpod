@@ -866,7 +866,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         this.creditProposal.products.length > 0 &&
         this.creditProposal.collaterals.length > 0
       ) {
-        for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+        for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
           for (let j = 0; j < this.creditProposal.products.length; j++) {
             for (let k = 0; k < this.creditProposal.collaterals.length; k++) {
               if (
