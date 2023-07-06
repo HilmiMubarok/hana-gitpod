@@ -1,21 +1,19 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
 import { ICreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
   ApplicationProduct,
   ApplicationProductAttribute,
-  IApplicationProductAttribute,
 } from '../../../application-product/application-product.model';
 import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { CreditProposalService } from '../../credit-proposal.service';
-import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
-import { CreditProposalLoanFacilityDialogComponent } from '../../loan-facility/dialog/loan-facility-dialog.component';
 import { CpMemoBandingService } from '../services/cp-memo-banding.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-cp-memo-banding-loan-facility',
@@ -38,7 +36,7 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
   }
 
   public interestTypeList = [];
-  public dataProduct: IApplicationProduct[];
+  public dataProduct;
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
   public collaterallInfo: any;
@@ -95,7 +93,11 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
   public view: boolean;
   public kurs: any;
 
-  private applicationProductStartState: IApplicationProduct;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  // ngAfterViewInit(): void {
+  //   this.dataProduct.paginator = this.paginator;
+  // }
 
   constructor(
     public partyCifService: PartyCifService,
@@ -113,7 +115,12 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      this.dataProduct = this.cpMemoBandingservice.compareDeepData(this.creditProposal.products, this.creditProposal.products);
+      // this.dataProduct = this.cpMemoBandingservice.compareDeepData(this.creditProposal.products, this.creditProposal.products);
+      if (this.parsed) {
+        this.dataProduct = new MatTableDataSource<any>(
+          this.cpMemoBandingservice.compareDeepData(this.parsed.products, this.creditProposal.products)
+        );
+      }
 
       this.cpMemoBandingservice.compareSingleObject(
         { totalPlafond: Number(this.fungsiSumcredit('both')) },
@@ -135,7 +142,11 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
     }
   }
 
+  parsed;
   ngOnInit(): void {
+    this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposal);
+
+    console.log('DATA PARSED', { parsed: this.parsed, cp: this.creditProposal.products });
     this.currency();
     // this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
@@ -353,7 +364,7 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
       });
   }
 
-  public getFacilityType(element: IApplicationProduct, i) {
+  public getFacilityType(element: IApplicationProduct) {
     if (element.productTypeId !== undefined && element.productTypeId !== null) {
       if (element.applicationType === 'Existing') {
         if (!element.attributes.facilityType) {

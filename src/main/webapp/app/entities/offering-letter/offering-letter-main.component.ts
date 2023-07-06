@@ -520,6 +520,10 @@ export class OfferingLetterMainComponent implements OnInit {
       this.titleMenu = 'Compare Approval Report';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
+    if (this.selectedMenu === 'memo-banding') {
+      this.titleMenu = 'Memo Banding';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
     return this.titleMenu;
   }
 

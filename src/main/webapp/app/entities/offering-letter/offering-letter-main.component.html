@@ -919,6 +919,11 @@
         </jhi-repayment-spreadsheet>
       </div>
 
+      <!-- Memo Banding -->
+      <div *ngIf="selectedMenu === 'memo-banding'">
+        <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
+      </div>
+
       <!-- Slik Checking -->
       <div *ngIf="selectedMenu === 'slik-checking'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-slik-main></jhi-loan-analys-slik-main>

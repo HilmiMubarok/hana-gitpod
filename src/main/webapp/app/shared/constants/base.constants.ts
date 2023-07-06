@@ -2562,6 +2562,10 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
         id: 'summary',
         text: 'Summary',
       },
+      {
+        id: 'memo-banding',
+        text: 'Memo Banding',
+      },
     ],
   },
   {

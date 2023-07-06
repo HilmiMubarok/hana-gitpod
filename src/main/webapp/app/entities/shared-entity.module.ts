@@ -382,6 +382,7 @@ import { CpMemoBandingCollateralAboveComponent } from './credit-proposal/memo-ba
 import { CPMemoBandingStandardCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/cp-memo-banding-standard-covenant.component';
 import { CPMemoBandingCovenantAboveComponent } from './credit-proposal/memo-banding/memo-banding-covenant/above/cp-memo-banding-covenant-above.component';
 import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/other-covenant/cp-memo-banding-other-covenant.component';
+import { MemoBandingComponent } from './credit-proposal/memo-banding/credit-proposal-memo-banding.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -826,7 +827,8 @@ import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-band
         CpMemoBandingCollateralAboveComponent,
         CPMemoBandingStandardCovenantComponent,
         CPMemoBandingCovenantAboveComponent,
-        CpMemoBandingOtherCovenantComponent
+        CpMemoBandingOtherCovenantComponent,
+        MemoBandingComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1228,6 +1230,7 @@ import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-band
     CPMemoBandingStandardCovenantComponent,
     CPMemoBandingCovenantAboveComponent,
     CpMemoBandingOtherCovenantComponent,
+    MemoBandingComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
