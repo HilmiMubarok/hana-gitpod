@@ -51,7 +51,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalMV() / totalPlafond), 'mv') }}</p>
+              <p>{{ presentage(countTotalMV() / totalPlafond, 'mv') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="liquidValue">
@@ -61,7 +61,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalLV() / totalPlafond), 'lv') }}</p>
+              <p>{{ presentage(countTotalLV() / totalPlafond, 'lv') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="mValueKjjp">
@@ -82,7 +82,7 @@
 
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalLVKJJP() / totalPlafond), 'lvKjjp') }}</p>
+              <p>{{ presentage(countTotalLVKJJP() / totalPlafond, 'lvKjjp') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="marketability">
@@ -135,9 +135,8 @@
               {{ getCcyBinding(getBinding(element).ccy) + ' ' + (getBinding(element).bindingValue | number) }}
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-              {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
-
-              {{ biddingValueCoverage }} %
+              <P>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</P>
+              <p>{{ biddingValueCoverage }} %</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="collateralStatus">
@@ -313,9 +312,8 @@
               {{ getCcyBinding(getBinding(element).ccy) + ' ' + (getBinding(element).bindingValue | number) }}
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-              {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
-
-              {{ biddingValueCoverage }} %
+              <P>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</P>
+              <p>{{ biddingValueCoverage }} %</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="collateralStatus">

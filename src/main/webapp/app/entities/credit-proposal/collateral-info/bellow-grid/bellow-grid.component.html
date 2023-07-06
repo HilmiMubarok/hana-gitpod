@@ -134,8 +134,8 @@
               {{ getCcyBinding(getBinding(element).ccy) + ' ' + (getBinding(element).bindingValue | number) }}
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-              {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
-              {{ biddingValueCoverage }} %
+              <P>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</P>
+              <p>{{ biddingValueCoverage }} %</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="collateralStatus">

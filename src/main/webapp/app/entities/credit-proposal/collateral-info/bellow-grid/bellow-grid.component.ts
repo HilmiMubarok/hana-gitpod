@@ -943,7 +943,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
 
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
-        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
 
         this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
