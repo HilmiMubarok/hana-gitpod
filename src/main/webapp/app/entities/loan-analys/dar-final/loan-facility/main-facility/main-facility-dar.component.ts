@@ -69,6 +69,7 @@ export class MainFacilityDarComponent implements OnInit, OnChanges {
       width: '80vw',
       data: {
         mainData: params,
+        item: this.creditProposal,
       },
     });
     dialogRef.afterClosed().subscribe((data: IMainFacility) => {
