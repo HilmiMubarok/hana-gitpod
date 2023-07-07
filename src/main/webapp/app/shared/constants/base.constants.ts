@@ -2070,7 +2070,7 @@ export const SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
