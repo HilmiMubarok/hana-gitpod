@@ -58,8 +58,8 @@
 .btn-float-styling {
   border: solid;
   border-width: 7px;
-  border-color: #d2edff;
-  background-color: #effefd;
+  border-color: #93c1dd;
+  background-color: #e0fffd;
   rotate: 0deg;
   border-top-left-radius: 12%;
   border-bottom-left-radius: 12%;
@@ -80,7 +80,7 @@
   margin-left: 1rem;
 }
 .list-styling:first-child {
-  margin: 2.5rem 0 0 1rem;
+  margin: 7.5rem 0 0 1rem;
 }
 .list-styling span {
   font-size: 16px;
@@ -114,15 +114,18 @@ mat-sidenav {
 }
 
 .header-sub-menu {
+  text-align: center;
   font-size: 1.5rem;
   font-weight: 600;
   overflow: hidden;
+  position: absolute;
   width: 100%;
   padding: 10px;
+  z-index: 1;
   height: 76px;
   font-size: 1.5rem;
   font-weight: 600;
-  background-color: #a1b9c8;
+  background-color: #80bcb8;
 }
 
 .sub-list-styling {
