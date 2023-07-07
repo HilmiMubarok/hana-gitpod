@@ -37,7 +37,6 @@ export class CertificateInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('aaaaaaaaaaaaaaaaaaa', this.creditProposal);
     console.log('credit Proposal ', this.creditProposal.attributes['certificateInfoData']);
     console.log('ini collateral di certificate ', this.collateral);
   }
