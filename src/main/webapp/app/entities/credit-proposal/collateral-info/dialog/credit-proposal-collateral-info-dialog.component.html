@@ -6,7 +6,7 @@
   <mat-dialog-content>
     <mat-card>
       <mat-card-header>
-        <mat-card-subtitle>Info</mat-card-subtitle>
+        <mat-card-subtitle class="header-title">Info</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <div class="row">
@@ -541,7 +541,7 @@
 
           <div class="col-6">
             <div class="row">
-              <div class="col-4">
+              <div class="col-8">
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                     <mat-form-field class="w-100" appearance="outline">
@@ -697,7 +697,7 @@
       </mat-card-content>
     </mat-card>
     <div>
-      <mat-label>Mapping to Facility</mat-label>
+      <mat-label class="header-title">Mapping to Facility</mat-label>
       <jhi-mapping-facility
         [collateralData]="collateral"
         [creditProposal]="creditProposal"
@@ -1278,7 +1278,7 @@
 
           <div class="col-6">
             <div class="row">
-              <div class="col-4">
+              <div class="col-8">
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                     <mat-form-field class="w-100" appearance="outline">
