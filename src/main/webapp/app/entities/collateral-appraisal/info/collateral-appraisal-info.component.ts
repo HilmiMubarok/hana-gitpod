@@ -195,17 +195,19 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
           }
         }
 
-        this.positionService
-          .queryFilterBy({
+        // this.positionService
+		this.positionService
+          .cashQueryFilterBy({
             page: 0,
             size: 9999,
             idInternal: this.wilayahKotaInternalValue,
-			idPositionType: 'SURVEYOR'
+			idPositionType: 'SURVEYOR',
+			active: true;
           })
           .subscribe(resA => {
             const surveyor = [];
             for (let i = 0; i < resA.body.length; i++) {
-              if (resA.body[i].partyId && resA.body[i].partyId !== null) {
+              // if (resA.body[i].partyId && resA.body[i].partyId !== null) {
                 surveyor.push({
                   // employeeFirstName: resA.body[i].employeeFirstName + ' ' + resA.body[i].employeeLastName,
                   // Menghindari first name atau last name null jika null akan dibuat string kosong
@@ -215,7 +217,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                     (resA.body[i].employeeLastName !== null ? resA.body[i].employeeLastName : ''),
                   id: resA.body[i].partyId,
                 });
-              }
+              // }
             }
 
             this.officer = surveyor;
