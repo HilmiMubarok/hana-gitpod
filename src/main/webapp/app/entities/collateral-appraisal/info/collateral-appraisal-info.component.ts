@@ -195,8 +195,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
           }
         }
 
-        // this.positionService
 		this.positionService
+		  // .queryFilterBy({
           .cashQueryFilterBy({
             page: 0,
             size: 9999,
@@ -520,7 +520,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public selectWilayahKotaInternal(args: ChangeEventArgs): void {
     this.outputWilayahKotaInternal.emit(args['value']);
     this.positionService
-      .queryFilterBy({
+      // .queryFilterBy({
+	  .cashQueryFilterBy({
         page: 0,
         size: 9999,
         idInternal: args['value'],
