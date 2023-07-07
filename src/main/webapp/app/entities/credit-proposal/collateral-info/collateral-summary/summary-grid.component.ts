@@ -76,6 +76,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
+  public bindingTypesHobies = [];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -200,6 +201,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     this.setCertyficateType();
     this.totalCoverage();
     this.getLovInsuranceType();
+    this.lovBindingType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -211,7 +213,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       this.dataCollateral = lodash.filter(res.body, function (o) {
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
-      this.dataItem = new MatTableDataSource(res.body);
+      this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
       this.getBindingCalculate(res.body);
       console.log('data', this.dataItem);
@@ -888,12 +890,28 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
     }
   }
-
-  public getBindingType(element: string) {
-    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
-    return this.bindingTypeVal[keyy];
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
-
+  public getBindingType(element: string) {
+    if (this.bindingTypesHobies) {
+      const data = this.bindingTypesHobies.find(obj => obj.code === element);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
+  }
   public getCrossStatus(status: string) {
     if (status === 'N') {
       return 'NO';
