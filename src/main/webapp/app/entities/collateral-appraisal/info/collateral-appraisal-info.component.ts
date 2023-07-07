@@ -147,7 +147,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.applicationStateLogService
       .findByBusinessKeyAndRefKey('APPRAISAL', this.collateralAppraisal.id || this.surveyAppraisal.id)
       .subscribe(res => {
-        console.log('res body', res.body);
         if (res.body.length > 0) {
           for (let i = 0; i < res.body.length; i++) {
             if (res.body[i].status === 'APPROVED') {
@@ -201,11 +200,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
             page: 0,
             size: 9999,
             idInternal: this.wilayahKotaInternalValue,
+			idPositionType: 'SURVEYOR'
           })
           .subscribe(resA => {
             const surveyor = [];
             for (let i = 0; i < resA.body.length; i++) {
-              if (resA.body[i].positionTypeId === 'SURVEYOR' && resA.body[i].partyId && resA.body[i].partyId !== null) {
+              if (resA.body[i].partyId && resA.body[i].partyId !== null) {
                 surveyor.push({
                   // employeeFirstName: resA.body[i].employeeFirstName + ' ' + resA.body[i].employeeLastName,
                   // Menghindari first name atau last name null jika null akan dibuat string kosong
@@ -522,11 +522,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
         page: 0,
         size: 9999,
         idInternal: args['value'],
+		idPositionType: 'SURVEYOR'
       })
       .subscribe(res => {
         const surveyor = [];
         for (let i = 0; i < res.body.length; i++) {
-          if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
+          if (res.body[i].partyId && res.body[i].partyId !== null) {
             surveyor.push({
               // employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName,
               // Menghindari first name atau last name null jika null akan dibuat string kosong
