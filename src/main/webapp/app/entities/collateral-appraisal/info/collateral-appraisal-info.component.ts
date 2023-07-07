@@ -202,7 +202,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
             size: 9999,
             idInternal: this.wilayahKotaInternalValue,
 			idPositionType: 'SURVEYOR',
-			active: true;
+			active: true
           })
           .subscribe(resA => {
             const surveyor = [];
