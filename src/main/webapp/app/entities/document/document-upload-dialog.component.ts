@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-document-upload-dialog',
   templateUrl: './document-upload-dialog.component.html',
@@ -68,9 +69,10 @@ export class DocumentUploadDialogComponent implements OnInit {
     private accountService: AccountService,
     public reportUtilService: ReportUtilService,
     protected partyCifService: PartyCifService,
-    protected documentTypeService: DocumentTypeService,
+    // protected documentTypeService: DocumentTypeService,
     private router: Router,
-    private collateralAppraisalService: CollateralAppraisalService
+    private collateralAppraisalService: CollateralAppraisalService,
+    private generalParameterService: GeneralParameterService
   ) {
     this.document = new Document();
     this.file = null;
@@ -109,19 +111,21 @@ export class DocumentUploadDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getLovDocumentCollateralIDD();
     if (this.data.collateral) {
       this.collateralOrAppraisal = 'collateral';
       this.object = this.data.collateral;
-      // this.setCertificateType();
+      this.getLovDocumentCollateral();
     }
 
     if (this.data.appraisal) {
       this.collateralOrAppraisal = 'appraisal';
       this.object = this.data.appraisal;
+      this.getLovDocumentLainnya();
+
       // console.log('document type', this.documentTypes);
       // this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
+
     this.getRole();
 
     this.checkObject();
@@ -478,27 +482,32 @@ export class DocumentUploadDialogComponent implements OnInit {
   //     this.certiFicateTypeName = res.body;
   //   });
   // }
-  public getLovDocumentCollateralIDD() {
-    this.documentTypeService
-      .filterTableData({
-        lvl2: true,
 
+  public getLovDocumentCollateral() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'DOCUMENT_COLLATERAL',
         page: 0,
         size: 9999,
-        sort: ['id', 'asc'],
       })
       .subscribe(res => {
-        if (this.collateralOrAppraisal === 'collateral') {
-          this.certiFicateTypeName = lodash.filter(res.body, function (o) {
-            return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMET_COLLATERAL_IDD && o.statusId === 'ACTIVE';
-          });
-          // console.log('idd', this.certiFicateTypeName);
-        }
-        if (this.collateralOrAppraisal === 'appraisal') {
-          this.documentTypes = lodash.filter(res.body, function (o) {
-            return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMENT_APPRAISAL && o.statusId === 'ACTIVE';
-          });
-        }
+        this.certiFicateTypeName = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getLovDocumentLainnya() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'DOCUMENT_APPRAISAL',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.documentTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
