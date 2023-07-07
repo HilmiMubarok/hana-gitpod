@@ -145,33 +145,43 @@ export class DocumentChecklistDialogTempComponent {
       key: `/idd/${this.data.partyId}/document/${this.files.id}`,
     };
 
-    this.prosesGetDataByID(retrieveDataCpDuplicateIdd);
-    this.prosesGetDataByID(dataCpOnly);
-    this.prosesGetDataByID(retrieveIDDNotDuplicated);
-  }
-
-  public prosesGetDataByID(url: any) {
-    this.storageService.getObjects(this.bucket, url).subscribe((res: any) => {
+    this.storageService.getObjects(this.bucket, retrieveIDDNotDuplicated).subscribe((res: any) => {
       if (res.body.length > 0) {
-        this.files.remarks = res.body[0].tags.remarks;
-        this.files.status = res.body[0].tags.status;
-        this.files.dueDate = res.body[0].tags.dueDate;
-      }
-      this.lengthMinIO = res.body;
-      for (let index = 0; index < res.body.length; index++) {
-        this.file = [
-          ...this.file,
-          {
-            url: res.body[index].url,
-            name: res.body[index].key,
-            nameFIle: res.body[index].name,
-            remarks: res.body[index].tags.remarks,
-            status: res.body[index].tags.status,
-            dueDate: res.body[index].tags.dueDate,
-          },
-        ];
+        this.prosesGetDataByID(res);
+        this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
+          this.prosesGetDataByID(res1);
+        });
+      } else {
+        this.storageService.getObjects(this.bucket, retrieveDataCpDuplicateIdd).subscribe((res2: any) => {
+          this.prosesGetDataByID(res2);
+          this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
+            this.prosesGetDataByID(res1);
+          });
+        });
       }
     });
+  }
+
+  public prosesGetDataByID(res: any) {
+    if (res.body.length > 0) {
+      this.files.remarks = res.body[0].tags.remarks;
+      this.files.status = res.body[0].tags.status;
+      this.files.dueDate = res.body[0].tags.dueDate;
+    }
+    this.lengthMinIO = res.body;
+    for (let index = 0; index < res.body.length; index++) {
+      this.file = [
+        ...this.file,
+        {
+          url: res.body[index].url,
+          name: res.body[index].key,
+          nameFIle: res.body[index].name,
+          remarks: res.body[index].tags.remarks,
+          status: res.body[index].tags.status,
+          dueDate: res.body[index].tags.dueDate,
+        },
+      ];
+    }
   }
 
   public setStatus() {
