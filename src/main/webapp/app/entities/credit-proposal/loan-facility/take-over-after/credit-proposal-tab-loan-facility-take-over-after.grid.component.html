@@ -1,59 +1,61 @@
 <section *ngIf="isViewMode === true">
-  <table mat-table [dataSource]="creditProposal.attributes['facilityTakeOverAfterBank']" class="w-100">
-    <ng-container matColumnDef="no">
-      <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-left grid-index-right">No</th>
-      <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
-    </ng-container>
-    <ng-container matColumnDef="facilityType1">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Type</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">
-        {{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="changes">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-right">Changes</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-right">
-        {{ getCurrencyType(element.currency) + ' ' + (element.changes | number) }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="outstanding">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-right">O/S</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-right">
-        {{ getCurrencyType(element.currency) + ' ' + (element.outstandingBankOver | number) }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="tenor">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-right">Tenor</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-right">
-        {{ element.initialLimitBankOver + ' ' + element.maturityPeriodType }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">
-        <button mat-icon-button (click)="openDialog(element)">
-          <mat-icon>remove_red_eye</mat-icon>
-        </button>
+  <div class="table-responsive-material">
+    <table mat-table [dataSource]="creditProposal.attributes['facilityTakeOverAfterBank']" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-left grid-index-right">No</th>
+        <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="facilityType1">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Type</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-left">
+          {{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="changes">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-right">Changes</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-right">
+          {{ getCurrencyType(element.currency) + ' ' + (element.changes | number) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="outstanding">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-right">O/S</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-right">
+          {{ getCurrencyType(element.currency) + ' ' + (element.outstandingBankOver | number) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="tenor">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-right">Tenor</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-right">
+          {{ element.initialLimitBankOver + ' ' + element.maturityPeriodType }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-left">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-          <button mat-icon-button (click)="onDelete(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-          <button mat-icon-button hidden (click)="onDelete(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </section>
-      </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-    </tr>
-    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-  </table>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <button mat-icon-button (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <button mat-icon-button hidden (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </section>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+    </table>
+  </div>
   <mat-card *ngIf="loading" id="material-loading-bar">
     <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
   </mat-card>
@@ -64,63 +66,65 @@
   </section>
 </section>
 <section *ngIf="isViewMode === false">
-  <table mat-table [dataSource]="creditProposal.attributes['facilityTakeOverAfterBank']" class="w-100">
-    <ng-container matColumnDef="no">
-      <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-left grid-index-right">No</th>
-      <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
-    </ng-container>
-    <ng-container matColumnDef="facilityType1">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Type</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">
-        {{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="changes">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-right">Changes</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-right">
-        {{ getCurrencyType(element.currency) + ' ' + (element.changes | number) }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="outstanding">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-right">O/S</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-right">
-        {{ getCurrencyType(element.currency) + ' ' + (element.outstandingBankOver | number) }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="tenor">
-      <th mat-header-cell *matHeaderCellDef class="grid-index-right">Tenor</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-right">
-        {{ element.initialLimitBankOver + ' ' + element.maturityPeriodType }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef class="rounding-table-right grid-index-right">Action</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="openDialog(element)">
-          <mat-icon>remove_red_eye</mat-icon>
-        </button>
-        <section
-          [hidden]="
-            parentPath === 'dar-notif' ||
-            parentPath === 'cc-review' ||
-            parentPath === 'cc-inquiry' ||
-            parentPath === 'dar-checker' ||
-            parentPath === 'cc-checking'
-          "
-        >
-          <button mat-icon-button (click)="onDelete(element)">
-            <mat-icon>delete</mat-icon>
+  <div class="table-responsive-material">
+    <table mat-table [dataSource]="creditProposal.attributes['facilityTakeOverAfterBank']" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-left grid-index-right">No</th>
+        <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="facilityType1">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Type</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-left">
+          {{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="changes">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-right">Changes</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-right">
+          {{ getCurrencyType(element.currency) + ' ' + (element.changes | number) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="outstanding">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-right">O/S</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-right">
+          {{ getCurrencyType(element.currency) + ' ' + (element.outstandingBankOver | number) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="tenor">
+        <th mat-header-cell *matHeaderCellDef class="grid-index-right">Tenor</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-right">
+          {{ element.initialLimitBankOver + ' ' + element.maturityPeriodType }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="rounding-table-right grid-index-right">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>remove_red_eye</mat-icon>
           </button>
-        </section>
-      </td>
-      <td mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-    </tr>
-    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-  </table>
+          <section
+            [hidden]="
+              parentPath === 'dar-notif' ||
+              parentPath === 'cc-review' ||
+              parentPath === 'cc-inquiry' ||
+              parentPath === 'dar-checker' ||
+              parentPath === 'cc-checking'
+            "
+          >
+            <button mat-icon-button (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </section>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+    </table>
+  </div>
   <mat-card *ngIf="loading" id="material-loading-bar">
     <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
   </mat-card>
