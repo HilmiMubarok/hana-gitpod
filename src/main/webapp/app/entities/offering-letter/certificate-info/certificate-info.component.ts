@@ -52,6 +52,7 @@ export class CertificateInfoComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((data: ICertificateInfo) => {
+      console.log('this is the recived Data', data);
       if (!data.id) {
         data.id = this.collateral.id;
         data.index =
