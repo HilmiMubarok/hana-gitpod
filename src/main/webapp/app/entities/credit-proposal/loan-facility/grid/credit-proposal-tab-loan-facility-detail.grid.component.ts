@@ -112,7 +112,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      console.log('new cp', this.creditProposal);
       this.dataProduct = this.creditProposal.products;
     }
   }
@@ -208,69 +207,31 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
         this.applicationProduct = res.applicationProduct;
 		this.applicationProduct.maturityDate = this.setDate(res);
         this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
-        this.onSave(true);
+        this.onSave(true, param);
       } else {
         this.onSave(false);
       }
     });
   }
 
-  public onSave(mark: boolean): void {
+  public onSave(mark: boolean, param?): void {
     const appProduct: IApplicationProduct = this.applicationProduct;
-    let idx = -1;
-    if (!this.applicationProduct.id) {
-      if (this.creditProposal.products) {
-        if (this.creditProposal.products.length) {
-          for (let i = 0; i < this.creditProposal.products.length; i++) {
-            if (appProduct) {
-              if (this.creditProposal.products[i].nomorUrutFasilitas === appProduct.nomorUrutFasilitas) {
-                idx = i;
-              }
-            }
-          }
-        }
+	const idx: number = lodash.findIndex(this.dataProduct, function (o) {
+	  return o.nomorUrutFasilitas === appProduct.nomorUrutFasilitas;
+	});
+	if (mark) {
+      if (param) {
+        this.dataProduct[idx] = appProduct;
+        this.creditProposal.products = this.dataProduct;
+      } else {
+        const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
+		copyApplicationProduct.applicationId = this.creditProposal.id;
+
+		this.dataProduct = [...this.dataProduct, copyApplicationProduct];
+		this.creditProposal.products = [...this.creditProposal.products, copyApplicationProduct];
       }
-
-      if (idx === -1) {
-        if (mark) {
-          let isAlready2StepVerification = false;
-          this.dataProduct.forEach(dP => {
-            if (dP.nomorUrutFasilitas === appProduct.nomorUrutFasilitas) {
-              isAlready2StepVerification = true;
-            }
-          });
-
-          if (isAlready2StepVerification) {
-            idx = lodash.findIndex(this.dataProduct, function (o) {
-              return o.nomorUrutFasilitas === appProduct.nomorUrutFasilitas;
-            });
-            this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-            this.dataProduct[idx] = mark ? appProduct : this.applicationProductStartState;
-            this.dataProduct = [...this.dataProduct];
-          } else {
-            const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-            copyApplicationProduct.applicationId = this.creditProposal.id;
-
-            this.dataProduct = [...this.dataProduct, copyApplicationProduct];
-            this.creditProposal.products = [...this.creditProposal.products, copyApplicationProduct];
-
-            // this.dataParty = [...this.dataParty, this.applicationProduct];
-            // this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
-          }
-        }
-      }
-
-      // else {
-      //   this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-      //   this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-      //   this.dataParty = [...this.dataParty];
-      // }
     } else {
-      idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.id === appProduct.id;
-      });
-      this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-      this.dataProduct[idx] = mark ? appProduct : this.applicationProductStartState;
+      this.dataProduct[idx] = this.applicationProductStartState;
       this.dataProduct = [...this.dataProduct];
     }
   }
@@ -348,7 +309,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
         this.interestTypeList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('interest type', this.interestTypeList);
       });
   }
 
