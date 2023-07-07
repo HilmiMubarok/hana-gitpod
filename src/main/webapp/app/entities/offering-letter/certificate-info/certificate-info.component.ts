@@ -37,6 +37,7 @@ export class CertificateInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('aaaaaaaaaaaaaaaaaaa', this.creditProposal);
     console.log('credit Proposal ', this.creditProposal.attributes['certificateInfoData']);
     console.log('ini collateral di certificate ', this.collateral);
   }
@@ -54,8 +55,13 @@ export class CertificateInfoComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data: ICertificateInfo) => {
       if (!data.id) {
         data.id = this.collateral.id;
-        data.index =
-          this.creditProposal.attributes['certificateInfoData'][this.creditProposal.attributes['certificateInfoData'].length - 1].index + 1;
+        if (this.creditProposal.attributes['certificateInfoData'].length !== 0) {
+          data.index =
+            this.creditProposal.attributes['certificateInfoData'][this.creditProposal.attributes['certificateInfoData'].length - 1] + 1;
+        } else {
+          data.index = this.creditProposal.attributes['certificateInfoData'][0];
+        }
+        console.log('index index index', data.index);
         this.creditProposal.attributes['certificateInfoData'].push(data);
         this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
       }
