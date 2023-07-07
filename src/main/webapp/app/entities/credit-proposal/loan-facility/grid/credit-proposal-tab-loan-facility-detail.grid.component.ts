@@ -112,6 +112,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
+      console.log('new cp', this.creditProposal);
       this.dataProduct = this.creditProposal.products;
     }
   }
@@ -217,37 +218,29 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
   public onSave(mark: boolean): void {
     const appProduct: IApplicationProduct = this.applicationProduct;
     let idx = -1;
-	let update = [];
-
-    if (this.applicationProduct.id === undefined) {
+    if (!this.applicationProduct.id) {
       if (this.creditProposal.products) {
-        if (this.creditProposal.products.length > 0) {
-		  update = this.creditProposal.products.filter((data: ICreditProposal) => data.attributes['nomorUrutFasilitas'] === appProduct['attributes']['nomorUrutFasilitas']);
-
-          /* for (let i = 0; i < this.creditProposal.products.length; i++) {
+        if (this.creditProposal.products.length) {
+          for (let i = 0; i < this.creditProposal.products.length; i++) {
             if (appProduct) {
               if (this.creditProposal.products[i].nomorUrutFasilitas === appProduct.nomorUrutFasilitas) {
                 idx = i;
               }
             }
-          } */
+          }
         }
       }
 
-      // if (idx === -1) {
-	  if (update.length > 0) {
+      if (idx === -1) {
         if (mark) {
-          /* let isAlready2StepVerification = false;
+          let isAlready2StepVerification = false;
           this.dataProduct.forEach(dP => {
             if (dP.nomorUrutFasilitas === appProduct.nomorUrutFasilitas) {
               isAlready2StepVerification = true;
             }
-          }); */
-		  
-		  const isAlready2StepVerification = this.dataParty.filter((dP: ICreditProposal) => {dP.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas;});
+          });
 
-          // if (isAlready2StepVerification) {
-		  if (isAlready2StepVerification.length > 0) {
+          if (isAlready2StepVerification) {
             idx = lodash.findIndex(this.dataProduct, function (o) {
               return o.nomorUrutFasilitas === appProduct.nomorUrutFasilitas;
             });
@@ -260,9 +253,18 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
 
             this.dataProduct = [...this.dataProduct, copyApplicationProduct];
             this.creditProposal.products = [...this.creditProposal.products, copyApplicationProduct];
+
+            // this.dataParty = [...this.dataParty, this.applicationProduct];
+            // this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
           }
         }
       }
+
+      // else {
+      //   this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+      //   this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
+      //   this.dataParty = [...this.dataParty];
+      // }
     } else {
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
@@ -346,6 +348,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
         this.interestTypeList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        console.log('interest type', this.interestTypeList);
       });
   }
 
