@@ -525,12 +525,13 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
         page: 0,
         size: 9999,
         idInternal: args['value'],
-		idPositionType: 'SURVEYOR'
+		idPositionType: 'SURVEYOR',
+		active: true
       })
       .subscribe(res => {
         const surveyor = [];
         for (let i = 0; i < res.body.length; i++) {
-          if (res.body[i].partyId && res.body[i].partyId !== null) {
+          // if (res.body[i].partyId && res.body[i].partyId !== null) {
             surveyor.push({
               // employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName,
               // Menghindari first name atau last name null jika null akan dibuat string kosong
@@ -540,7 +541,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                 (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
               id: res.body[i].partyId,
             });
-          }
+          // }
         }
 
         this.officer = surveyor;
