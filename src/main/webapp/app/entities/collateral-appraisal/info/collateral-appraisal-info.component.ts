@@ -228,14 +228,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 
   public setRenewal(ev) {
     if (this.isRm()) {
-      if (this.account.authorities.length <= 3) {
-        this.surveyAppraisal.jpRenewal = !this.surveyAppraisal.jpRenewal;
-        if (this.surveyAppraisal.jpRenewal || this.surveyAppraisal.jpAdditional === true) {
-          this.isEnablePlafond = true;
-        } else {
-          this.isEnablePlafond = false;
-          this.resetValues();
-        }
+      this.surveyAppraisal.jpRenewal = !this.surveyAppraisal.jpRenewal;
+      if (this.surveyAppraisal.jpRenewal || this.surveyAppraisal.jpAdditional === true) {
+        this.isEnablePlafond = true;
+      } else {
+        this.isEnablePlafond = false;
+        this.resetValues();
       }
     }
     this.jpRenewal.emit(ev.checked);
@@ -252,14 +250,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 
   public setAdditional(ev) {
     if (this.isRm()) {
-      if (this.account.authorities.length <= 3) {
-        this.surveyAppraisal.jpAdditional = !this.surveyAppraisal.jpAdditional;
-        if (this.surveyAppraisal.jpAdditional || this.surveyAppraisal.jpRenewal === true) {
-          this.isEnablePlafond = true;
-        } else {
-          this.isEnablePlafond = false;
-          this.resetValues();
-        }
+      this.surveyAppraisal.jpAdditional = !this.surveyAppraisal.jpAdditional;
+      if (this.surveyAppraisal.jpAdditional || this.surveyAppraisal.jpRenewal === true) {
+        this.isEnablePlafond = true;
+      } else {
+        this.isEnablePlafond = false;
+        this.resetValues();
       }
     }
     this.jpAdditional.emit(ev.checked);
@@ -562,7 +558,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.account = account;
-
         this.disableRmInfo = this.account.login === 'admin' ? false : true;
       }
     });
