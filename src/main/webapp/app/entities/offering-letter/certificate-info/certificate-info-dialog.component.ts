@@ -39,7 +39,6 @@ export class CertificateInfoDialogComponent {
   }
 
   public save() {
-    // console.log('this is the saved data', this.certificateInfo);
     this._dialog.close(this.certificateInfo);
   }
 }
