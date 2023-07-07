@@ -68,6 +68,7 @@ export class DocumentChecklistDialogComponent {
   public filesdueDate: string;
   public filesRemarks: string;
   public filesDescription: string;
+  public parentDescription: string;
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -122,6 +123,8 @@ export class DocumentChecklistDialogComponent {
       this.filesRemarks = this.files.remarks;
     }
     this.filesDescription = this.files.description;
+    this.parentDescription = this.files.parentDescription;
+
     this.checkCategory_C();
     this.isTBO();
   }
@@ -213,6 +216,7 @@ export class DocumentChecklistDialogComponent {
           this.files.dueDate = this.filesdueDate;
           this.files.remarks = this.filesRemarks;
           this.files.description = this.filesDescription;
+          this.files.parentDescription = this.parentDescription;
 
           this.approvedDeleted().then(() => {
             this.preSave().then(() => {
@@ -228,6 +232,7 @@ export class DocumentChecklistDialogComponent {
           this.files.dueDate = this.filesdueDate;
           this.files.remarks = this.filesRemarks;
           this.files.description = this.filesDescription;
+          this.files.parentDescription = this.parentDescription;
 
           this.approvedDeleted().then(() => {
             this.preSave().then(() => {
@@ -246,6 +251,7 @@ export class DocumentChecklistDialogComponent {
             this.files.dueDate = this.filesdueDate;
             this.files.remarks = this.filesRemarks;
             this.files.description = this.filesDescription;
+            this.files.parentDescription = this.parentDescription;
 
             this.approvedDeleted().then(() => {
               this.preSave().then(() => {
@@ -267,6 +273,7 @@ export class DocumentChecklistDialogComponent {
           this.files.dueDate = this.filesdueDate;
           this.files.remarks = this.filesRemarks;
           this.files.description = this.filesDescription;
+          this.files.parentDescription = this.parentDescription;
 
           this.approvedDeleted().then(() => {
             this.approvedDeleted().then(() => {
@@ -420,9 +427,11 @@ export class DocumentChecklistDialogComponent {
             entityId: null,
             id: null,
             status: null,
+            description: null,
             dueDate: null,
             remarks: null,
             createdBy: null,
+            parentDescription: null,
           };
           const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.file[i].name.replace('&', '');
           if (files.split('').length > 254) {
@@ -436,6 +445,7 @@ export class DocumentChecklistDialogComponent {
             metaData.entityId = this.data.cpId;
             metaData.id = this.files.id;
             metaData.status = this.files.status;
+            metaData.description = this.files.description;
             metaData.dueDate =
               this.files.dueDate === 'null' || this.files.dueDate === null || this.files.dueDate === undefined || this.files.dueDate === ''
                 ? null
@@ -444,6 +454,7 @@ export class DocumentChecklistDialogComponent {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === '' || this.files.remarks === undefined
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
+            metaData.parentDescription = this.parentDescription;
 
             const formData = new FormData();
             formData.append('file', this.file[i]);

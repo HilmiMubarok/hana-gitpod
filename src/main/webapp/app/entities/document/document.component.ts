@@ -269,7 +269,6 @@ export class DocumentComponent implements OnChanges, OnInit {
           nameDoc: val[0]['tags']['docNo'],
         }))
         .value();
-      console.log('folder', this.folders);
     }
   }
 
@@ -281,7 +280,6 @@ export class DocumentComponent implements OnChanges, OnInit {
       };
 
       this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-        console.log('appss', res.body);
         this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
       });
     });
@@ -293,20 +291,17 @@ export class DocumentComponent implements OnChanges, OnInit {
         key: `/collateral/${id}/document`,
       };
       this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-        console.log('fasdsad', res.body);
         this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
       });
     });
   }
 
   public documentLainnya(id: number) {
-    console.log('document-lainnya', id);
     this.storageService.getBucketName().subscribe(r => {
       const predicate: Object = {
         key: `/appraisals/${id}/document-lainnya`,
       };
       this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-        console.log('apttt', res.body);
         this.collateralAppraisalService.totalDataDocumentLainya = res.body;
       });
     });
