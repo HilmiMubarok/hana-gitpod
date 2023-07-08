@@ -385,7 +385,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   }
 
   public creditRatingCondition() {
-    if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
+    if (this.creditProposal.attributes['purposePricing'].industry === '') {
       this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
       const data = this.sectorIndustry.filter(
         industry => industry.industry === this.creditProposal.creditRatings[0].attributes['industryCode']
