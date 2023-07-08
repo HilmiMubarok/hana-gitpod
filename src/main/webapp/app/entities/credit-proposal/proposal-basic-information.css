@@ -622,12 +622,13 @@ mat-sidenav {
   overflow: hidden;
   width: 100%;
   padding: 17px;
-  height: 75px;
+  height: 98px;
   position: absolute;
   z-index: 1;
   font-size: 1.5rem;
   font-weight: 600;
-  background-color: #80bcb8;
+  /* background-color: #80bcb8; */
+  background: linear-gradient(180deg, #96c9c8 83%, #eff8fe 100%);
 }
 
 .sub-list-styling {
@@ -646,6 +647,6 @@ mat-sidenav {
   transform: translate(10px, 20px) !important;
 }
 
-.subroute-background {
+/* .subroute-background {
   background: linear-gradient(180deg, #96c9c8 15%, #eff8fe 17%);
-}
+} */
