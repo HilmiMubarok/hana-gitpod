@@ -116,7 +116,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   }
 
   public presentage(value: string, status: string) {
-    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       if (status === 'mv') {
@@ -213,11 +212,10 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       this.dataCollateral = lodash.filter(res.body, function (o) {
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
-      this.dataItem = new MatTableDataSource(this.dataCollateral);
+      this.dataItem = new MatTableDataSource(res.body);
       this.dataItem.paginator = this.paginator;
+      this.mapCollateralProperty(res.body);
       this.getBindingCalculate(res.body);
-      console.log('data', this.dataItem);
-      console.log('dataColl', this.dataCollateral);
     });
   }
 
@@ -227,7 +225,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          this.findCollateralProperty(collateral);
+          // this.findCollateralProperty(collateral);
+
           if (this.creditProposal.id) {
             this.loadSummaryCollateral();
           }
@@ -235,7 +234,11 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
     }
   }
-
+  public mapCollateralProperty(data: ICollateral[]) {
+    for (let i = 0; i < data.length; i++) {
+      this.findCollateralProperty(data[i]);
+    }
+  }
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
@@ -313,7 +316,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         } else {
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
-        console.log(res, 'debtorCollateral');
       } else {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
@@ -407,7 +409,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         size: 9999,
       })
       .subscribe(res => {
-        console.log('insurance type body ', res.body);
         this.insuranceTypes = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
@@ -552,7 +553,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -657,7 +657,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let result: string;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -785,7 +784,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let string2: string;
     let result: string;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -806,7 +804,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    // console.log("collateral in above grid",collateral);
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
@@ -934,7 +931,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public findCertyficate(collateral) {
     let data: ICollateralProperty;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false

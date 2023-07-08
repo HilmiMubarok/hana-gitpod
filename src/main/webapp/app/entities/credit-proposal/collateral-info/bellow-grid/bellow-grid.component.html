@@ -352,7 +352,12 @@
   </mat-card>
   <div>
     <!-- <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral> -->
-    <jhi-group-collateral-list-cp [group]="'group'" [creditProposal]="creditProposal" [isViewMode]="isViewMode">
+    <jhi-group-collateral-list-cp
+      [group]="'group'"
+      [creditProposal]="creditProposal"
+      [isViewMode]="isViewMode"
+      [collateralProperties]="collateralProperties"
+    >
     </jhi-group-collateral-list-cp>
     <!-- <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks> -->
   </div>

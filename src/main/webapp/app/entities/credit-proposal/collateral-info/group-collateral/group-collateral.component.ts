@@ -655,7 +655,6 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
           this.checkIndividualCol(this.creditProposal);
         }
         this.mapCollateralProperty(res.body);
-        console.log('groupColl', this.groupCollaterals);
         this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
         this.groubCollateralPagination.paginator = this.paginator;
       });
