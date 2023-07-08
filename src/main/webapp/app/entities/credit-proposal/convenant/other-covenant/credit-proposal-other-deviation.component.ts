@@ -9,6 +9,7 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'jhi-other-deviation',
   templateUrl: './credit-proposal-other-deviation.component.html',
@@ -182,12 +183,21 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
         idMap[obj.idFile].count++;
       } else {
         idMap[obj.idFile] = {
+          categoryId: '',
           covenant: obj.description,
           categoryName: obj.parentDescription,
           status: obj.status,
           justification: '',
+
+          otherCovenant: {
+            covenant: '',
+            deviation: '',
+            justification: '',
+            status: '',
+          },
           sub_category: '',
           deviation: '',
+          id: uuidv4(),
         };
       }
     });
@@ -201,9 +211,13 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
     }
     this.otherConvenantMinIO = [...sameIdObjects, ...differentIdObjects];
     if (this.filterStatus.length > 0) {
-      this.filterStatus = [...this.otherConvenantMinIO, this.filterStatus];
+      for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
+        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
+      }
     } else {
-      this.filterStatus = this.otherConvenantMinIO;
+      for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
+        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
+      }
     }
   }
 
