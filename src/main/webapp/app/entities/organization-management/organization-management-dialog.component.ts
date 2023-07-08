@@ -31,6 +31,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public customerType = 'individu';
   public partyGroup: IPartyGroup;
   public isDisabled = false;
+  public source = '';
 
   constructor(
     private templateService: TemplateService,
@@ -40,6 +41,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
       organizationManagement: IOrganizationManagement;
       managementType: string;
       typeScreen: string;
+      source: string;
     },
     private router: Router,
     private _dialog: MatDialogRef<OrganizationManagementDialogComponent>,
@@ -50,6 +52,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.organizationManagement = this.data.organizationManagement;
     this.managementType = this.data.managementType;
     this.typeSable = this.data.typeScreen;
+    this.source = this.data.source;
   }
   ngOnInit(): void {
     this.remove();

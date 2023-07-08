@@ -27,6 +27,7 @@ export class OrganizationManagementListComponent
   @Input() public cif: string;
   @Input() public type: string;
   @Input() public managementType: string;
+  @Input() public source: string;
 
   @Input()
   get organizationManagement() {
@@ -61,6 +62,9 @@ export class OrganizationManagementListComponent
     if (changes['cif'] && changes['managementType']) {
       this.loadDataBy(this.cif, this.managementType);
       this.defineDisplayedColumns(this.managementType);
+    }
+    if (changes['source']) {
+      console.log('ini source ', this.source);
     }
   }
 
@@ -153,6 +157,7 @@ export class OrganizationManagementListComponent
         organizationManagement: orgMgm,
         managementType: this.managementType,
         typeScreen: this.type,
+        source: this.source,
       },
     });
     dialogRef.afterClosed().subscribe((res: any) => {
