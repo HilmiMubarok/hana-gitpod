@@ -7,10 +7,10 @@
   <mat-dialog-content>
     <div class="row">
       <div class="col-6">
-        <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
+        <section *ngIf="!collateralProperty.id || collateral.collateralTypeId !== 'MACHINE'">
           <input hidden type="file" #uploader (change)="chooseFile($event)" required />
           <button mat-button color="primary" [disabled]="hideordisable()" required (click)="uploader.click()">Choose Photo</button>
-        </div>
+        </section>
         <div *ngIf="imagePreviewSrc">
           <img [src]="imagePreviewSrc" class="img-fluid" />
         </div>
