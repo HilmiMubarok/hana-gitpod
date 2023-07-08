@@ -48,8 +48,8 @@ export class CreditProposalBranchComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      if (this.creditProposal.internalId) {
-        this.loadInternalInformationRMByInternalId(this.creditProposal.internalId);
+      if (this.creditProposal.debtorData.bookingBranch) {
+        this.loadInternalInformationRMByInternalId(this.creditProposal.debtorData.bookingBranch);
       } else {
         this.loadInternalInformationRM(this.creditProposal.cif.rm.id);
       }
@@ -110,7 +110,6 @@ export class CreditProposalBranchComponent implements OnChanges {
         this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
             this.rmPosition = res.body[0];
-            console.log('dsss', this.rmPosition);
             resolve(this.rmPosition);
           } else {
             resolve(null);
@@ -132,8 +131,7 @@ export class CreditProposalBranchComponent implements OnChanges {
   public select(event): void {
     for (let i = 0; i < this.branchs.length; i++) {
       if (event.value === this.branchs[i].id) {
-        this.creditProposal.bookingBranchId = this.branchs[i].id.toString();
-        this.creditProposal.bookingBranchName = this.branchs[i].organizationName;
+        this.creditProposal.debtorData.bookingBranch = this.branchs[i].id.toString();
       }
     }
   }

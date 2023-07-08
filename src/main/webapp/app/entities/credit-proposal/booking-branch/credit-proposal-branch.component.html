@@ -3,7 +3,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Booking Branch</mat-label>
-        <mat-select [value]="creditProposal.bookingBranchId" (selectionChange)="select($event)">
+        <mat-select [value]="creditProposal.debtorData.bookingBranch" (selectionChange)="select($event)" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branchs" [value]="item.id">
             {{ item.organizationName }}
@@ -18,7 +18,7 @@
         <div class="col">Booking Branchs</div>
         <div class="col-md-auto">:</div>
         <div class="col">
-          {{ creditProposal.bookingBranchName }}
+          {{ creditProposal.debtorData.bookingBranch }}
         </div>
       </div>
     </section>
@@ -29,7 +29,7 @@
         <div class="col-4">Booking Branchs</div>
         <div class="col-md-auto">:</div>
         <div class="col col-lg-4">
-          {{ creditProposal.bookingBranchName }}
+          {{ creditProposal.debtorData.bookingBranch }}
         </div>
       </div>
     </section>
