@@ -804,6 +804,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (this.surveyAppraisal.statusId !== 'COMPLETE') {
         this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
         this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      } else {
+        this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
       }
     }
   }
