@@ -7,7 +7,7 @@ import { OtherCovenantTempDialogComponent } from './add/credit-proposal-other-co
 import { CreditProposalOtherCovenantEditTempComponent } from './edit/credit-proposal-other-covenant-edit.component';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'jhi-other-covenant-temp',
   templateUrl: './credit-proposal-other-covenant.component.html',
@@ -114,12 +114,21 @@ export class OtherCovenantTempComponent implements OnInit {
         idMap[obj.idFile].count++;
       } else {
         idMap[obj.idFile] = {
+          categoryId: '',
           covenant: obj.description,
           categoryName: obj.parentDescription,
           status: obj.status,
           justification: '',
+
+          otherCovenant: {
+            covenant: '',
+            deviation: '',
+            justification: '',
+            status: '',
+          },
           sub_category: '',
           deviation: '',
+          id: uuidv4(),
         };
       }
     });
@@ -133,9 +142,13 @@ export class OtherCovenantTempComponent implements OnInit {
     }
     this.otherConvenantMinIO = [...sameIdObjects, ...differentIdObjects];
     if (this.filterStatus.length > 0) {
-      this.filterStatus = [...this.otherConvenantMinIO, this.filterStatus];
+      for (let index = 0; index < this.otherConvenantMinIO.length; index++) {
+        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[index]];
+      }
     } else {
-      this.filterStatus = this.otherConvenantMinIO;
+      for (let index = 0; index < this.otherConvenantMinIO.length; index++) {
+        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[index]];
+      }
     }
   }
 
