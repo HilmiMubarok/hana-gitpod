@@ -21,6 +21,7 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { IGroupCollateral } from 'app/shared/model/group-collateral.model';
 import { PageEvent } from '@angular/material/paginator';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-group-collateral-list-cp',
@@ -50,7 +51,14 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
 
   public listGroupCollateral: any;
   private _creditProposal: ICreditProposal;
-
+  public _collateralProperty: ICollateralProperty[];
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
+  }
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -129,43 +137,32 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
             for (let i = 0; i < res.body.length; i++) {
               this.listGroupCollateralItems.push(res.body[i]);
             }
-            // this.checkGroupAll(this.creditProposal);
+            this.checkGroupAll(this.creditProposal);
           });
       });
     }
   }
 
-  // private checkGroupAll(cp: ICreditProposal): void {
-  //   if (cp.collateralProductRelations.length === 0) {
-  //     this.isChecked = false;
-  //   } else {
-  //     if (cp.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-  //       const totalAllGroup = cp.products.length * this.listGroupCollateralItems.length;
-  //       let countChecked = 0;
-
-  //       for (let i = 0; i < cp.collateralProductRelations.length; i++) {
-  //         for (let j = 0; j < cp.products.length; j++) {
-  //           for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-  //             if (
-  //               cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
-  //               cp.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id
-  //             ) {
-  //               ++countChecked;
-  //             }
-  //           }
-  //         }
-  //       }
-
-  //       if (countChecked === totalAllGroup) {
-  //         this.isChecked = true;
-  //       } else {
-  //         this.isChecked = false;
-  //       }
-  //     } else {
-  //       this.isChecked = false;
-  //     }
-  //   }
-  // }
+  private checkGroupAll(cp: ICreditProposal): void {
+    if (cp.collateralProductRelations.length === 0) {
+      this.isChecked = false;
+    } else {
+      if (cp.products.length > 0 && this.listGroupCollateralItems.length > 0) {
+        for (let i = 0; i < cp.collateralProductRelations.length; i++) {
+          for (let j = 0; j < cp.products.length; j++) {
+            for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+              if (
+                cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
+                cp.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id
+              ) {
+                this.isChecked = true;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;

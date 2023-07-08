@@ -69,6 +69,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
   public groupCollaterals: ICollateral[];
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  fieldDisable: boolean;
   @Input()
   get collateralProperties() {
     return this._collateralProperty;
