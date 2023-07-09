@@ -64,21 +64,21 @@
 }
 
 table {
-  border-bottom: 1px solid #008881 !important;
   width: 100%;
   th {
     background-color: rgba(147, 201, 199, 1) !important;
     color: black !important;
     font-family: 'Poppins', sans-serif !important;
   }
+  th:first-child {
+    border-top-left-radius: 15px;
+  }
+  th:last-child {
+    border-top-right-radius: 15px;
+  }
   td {
     font-family: 'Poppins', sans-serif !important;
   }
-}
-
-.button-styling {
-  background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff !important;
 }
 
 mat-card-subtitle {
@@ -120,56 +120,19 @@ mat-card-subtitle {
     overflow: hidden;
     vertical-align: middle;
   }
-  .grid-index {
-    background: rgba(49, 158, 152, 1) !important;
-    color: #000000 !important;
-    text-align: center !important;
-    font-size: 15px !important;
-    font-size: 15px !important;
-  }
 }
 
 .html * {
   font-family: 'Poppins', sans-serif !important;
 }
 
-th {
-  background-color: rgba(147, 201, 199, 1) !important;
-  color: black !important;
-  font-family: 'Poppins', sans-serif !important;
-}
-th:first-child {
-  border-top-left-radius: 15px;
-}
-th:last-child {
-  border-top-right-radius: 15px;
-}
-td {
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.rounding-table-left {
-  border-top-left-radius: 15px;
-}
-.rounding-table-right {
-  border-top-right-radius: 15px;
-}
-
-.grid-index-left {
-  justify-content: flex-start;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.grid-index-center {
-  justify-content: center;
-  text-align: center;
-  font-family: 'Poppins', sans-serif !important;
-}
-.button-styling {
+.button-styling:enabled {
+  color: white;
   background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
 }
-
+// table-column
 .mat-column-facilityCategory {
   text-align: left !important;
 }
@@ -210,7 +173,7 @@ td {
 .mat-column-action {
   width: 10% !important;
 }
-
+// table-column
 .confirm-button-yes {
   padding: 3px 43px 3px 43px;
   border-radius: 10px;
@@ -295,14 +258,14 @@ td {
 
 .mat-header-cell {
   min-height: auto !important;
-  padding: 4px 36px 4px 0;
+  padding: 0 25px 0 0;
   font-weight: 500;
 }
 
 mat-cell,
 .mat-cell {
   min-height: auto !important;
-  padding: 5px 28px 5px 0 !important;
+  padding: 0 25px 0 0 !important;
 }
 
 // table exposure di CP
