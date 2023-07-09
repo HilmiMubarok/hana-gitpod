@@ -97,6 +97,7 @@ export class SurveyBatchEditComponent implements OnInit {
   public totalDataDocumentCollateral = [];
   public totalDataDocumentLainya = [];
   public totalDataDetailLand = [];
+  public isOpen = false;
   appName: any;
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
@@ -1329,5 +1330,8 @@ export class SurveyBatchEditComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }
