@@ -2,36 +2,34 @@
   <div class="table-responsive-material">
     <table mat-table [dataSource]="creditProposal.attributes['facilityTakeOverAfterBank']" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-left grid-index-right">No</th>
-        <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
+        <th mat-header-cell *matHeaderCellDef width="10%">No</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
       </ng-container>
       <ng-container matColumnDef="facilityType1">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Type</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-left">
-          {{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}
-        </td>
+        <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}</td>
       </ng-container>
       <ng-container matColumnDef="changes">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-right">Changes</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-right">
+        <th mat-header-cell *matHeaderCellDef>Changes</th>
+        <td mat-cell *matCellDef="let element">
           {{ getCurrencyType(element.currency) + ' ' + (element.changes | number) }}
         </td>
       </ng-container>
       <ng-container matColumnDef="outstanding">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-right">O/S</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-right">
+        <th mat-header-cell *matHeaderCellDef>O/S</th>
+        <td mat-cell *matCellDef="let element">
           {{ getCurrencyType(element.currency) + ' ' + (element.outstandingBankOver | number) }}
         </td>
       </ng-container>
       <ng-container matColumnDef="tenor">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-right">Tenor</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-right">
+        <th mat-header-cell *matHeaderCellDef>Tenor</th>
+        <td mat-cell *matCellDef="let element">
           {{ element.initialLimitBankOver + ' ' + element.maturityPeriodType }}
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-left">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
@@ -69,35 +67,33 @@
   <div class="table-responsive-material">
     <table mat-table [dataSource]="creditProposal.attributes['facilityTakeOverAfterBank']" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-left grid-index-right">No</th>
-        <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
+        <th mat-header-cell *matHeaderCellDef width="10%">No</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
       </ng-container>
       <ng-container matColumnDef="facilityType1">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Type</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-left">
-          {{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}
-        </td>
+        <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}</td>
       </ng-container>
       <ng-container matColumnDef="changes">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-right">Changes</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-right">
+        <th mat-header-cell *matHeaderCellDef>Changes</th>
+        <td mat-cell *matCellDef="let element">
           {{ getCurrencyType(element.currency) + ' ' + (element.changes | number) }}
         </td>
       </ng-container>
       <ng-container matColumnDef="outstanding">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-right">O/S</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-right">
+        <th mat-header-cell *matHeaderCellDef>O/S</th>
+        <td mat-cell *matCellDef="let element">
           {{ getCurrencyType(element.currency) + ' ' + (element.outstandingBankOver | number) }}
         </td>
       </ng-container>
       <ng-container matColumnDef="tenor">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-right">Tenor</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-right">
+        <th mat-header-cell *matHeaderCellDef>Tenor</th>
+        <td mat-cell *matCellDef="let element">
           {{ element.initialLimitBankOver + ' ' + element.maturityPeriodType }}
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="rounding-table-right grid-index-right">Action</th>
+        <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>remove_red_eye</mat-icon>
