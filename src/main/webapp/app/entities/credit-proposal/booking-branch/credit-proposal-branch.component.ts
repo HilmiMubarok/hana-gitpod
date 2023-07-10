@@ -47,7 +47,6 @@ export class CreditProposalBranchComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('op', this.organizationNameCp);
     if (changes['creditProposal']) {
       if (this.creditProposal.debtorData.bookingBranch) {
         this.loadInternalInformationRMByInternalId(this.creditProposal.debtorData.bookingBranch);
