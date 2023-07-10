@@ -188,3 +188,8 @@ th:last-child {
   top: 50%;
   transform: translateY(-100%);
 }
+
+/* Mat-Input-Loan-Facility-Dialog */
+div ejs-numerictextbox div span {
+  display: none;
+}

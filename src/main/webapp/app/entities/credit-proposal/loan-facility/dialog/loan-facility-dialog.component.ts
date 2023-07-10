@@ -107,8 +107,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public lovIndex = [];
   private selectedType;
   private selectedCurrency;
-  private provisionFormat = '0';
-  private adminFormat = '0';
+  private provisionFormat = '0,';
+  private adminFormat = '0,';
 
   public preCurent = '';
   public lovLoanType = [];
@@ -645,7 +645,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.textBoxHidden = true;
       this.statusDisabledOffering = true; // Menambahkan perubahan di sini
     }
-    console.log('status adalah', this.statusDisabledOffering);
   }
 
   public latePaymentFeeUSD: any;
@@ -894,40 +893,40 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public checkForDecimalProvision(inputProvision) {
+    const predicate = JSON.stringify(inputProvision);
+    const regex = /[0-9]+\./;
     if (this.selectedCurrency !== '%p.a') {
-      const predicate = JSON.stringify(inputProvision);
-      const regex = /[0-9]+\./;
-      if (inputProvision > 0) {
-        const param = predicate.match(regex);
-        if (param !== null) {
-          this.provisionFormat = '0,0.00';
-        } else {
-          this.provisionFormat = '0,';
-        }
-      } else {
-        this.provisionFormat = '';
+      const param = predicate.match(regex);
+      if (param !== null) {
+        this.provisionFormat = '0,.00';
       }
     } else {
-      this.provisionFormat = '';
+      const regex2 = /[0-9]+\.+[0]/;
+      const param = predicate.match(regex2);
+      if (param !== null) {
+        this.provisionFormat = '0,.00';
+      } else {
+        this.provisionFormat = '0,.0';
+      }
     }
     this.updateFormat(this.selectedType, this.selectedCurrency);
   }
   public checkForDecimalAdmin(inputAdmin) {
+    const predicate = JSON.stringify(inputAdmin);
+    const regex = /[0-9]+\./;
     if (this.selectedCurrency !== '%p.a') {
-      const predicate = JSON.stringify(inputAdmin);
-      const regex = /[0-9]+\./;
-      if (inputAdmin > 0) {
-        const param = predicate.match(regex);
-        if (param !== null) {
-          this.adminFormat = '0,0.00';
-        } else {
-          this.adminFormat = '0,';
-        }
-      } else {
-        this.adminFormat = '';
+      const param = predicate.match(regex);
+      if (param !== null) {
+        this.adminFormat = '0,.00';
       }
     } else {
-      this.provisionFormat = '';
+      const regex2 = /[0-9]+\.+[0]/;
+      const param = predicate.match(regex2);
+      if (param !== null) {
+        this.adminFormat = '0,.00';
+      } else {
+        this.adminFormat = '0,.0';
+      }
     }
     this.updateFormat(this.selectedType, this.selectedCurrency);
   }
@@ -949,19 +948,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     }
     if (type === 'admin') {
       if (event === '%p.a') {
-        // this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
         this.logoAdminFee = this.adminFormat;
       }
       if (event === 'Amount IDR') {
-        // this.logoAdminFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
         this.logoAdminFee = 'IDR ' + this.adminFormat;
       }
       if (event === 'Amount USD') {
-        // this.logoAdminFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
         this.logoAdminFee = 'USD ' + this.adminFormat;
       }
       if (event === '' || event === undefined) {
-        // this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
         this.logoAdminFee = '';
       }
     }
