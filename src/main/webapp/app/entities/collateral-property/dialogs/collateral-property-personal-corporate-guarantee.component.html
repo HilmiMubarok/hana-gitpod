@@ -9,7 +9,10 @@
             <mat-label>Certificate Type</mat-label>
             <mat-select [(ngModel)]="collateralProperty.attributes['certificateType']" [disabled]="dataSource()">
               <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of certypicateTypeLov" [value]="item.code"> {{ item.value }} </mat-option>
+              <!-- <mat-option *ngFor="let item of certypicateTypeLov" [value]="item.code"> {{ item.value }} </mat-option> -->
+              <mat-option *ngFor="let item of collateralDetailType" [value]="item.collateralDetailTypeCode">
+                {{ item.collateralDetailTypeDescription }}
+              </mat-option>
             </mat-select>
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
@@ -19,7 +22,8 @@
             <div class="col">Certificate Type</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ filterNameValue(collateralProperty.attributes['certificateType']) }}
+              <!-- {{ filterNameValue(collateralProperty.attributes['certificateType']) }} -->
+              {{ collateralDetailTypeValue }}
             </div>
           </div>
         </section>

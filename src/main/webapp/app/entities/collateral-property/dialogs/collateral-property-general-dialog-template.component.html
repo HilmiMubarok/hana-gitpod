@@ -8,7 +8,11 @@
           <mat-label>Collateral Detail Type</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType">
             <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+            <!-- <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }}
+            </mat-option> -->
+            <mat-option *ngFor="let item of collateralDetailType" [value]="item.collateralDetailTypeCode">
+              {{ item.collateralDetailTypeDescription }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -207,7 +211,7 @@
           <div class="col-4">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Qty</mat-label>
-              <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId">
+              <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" disabled>
                 <mat-option value="">Please Select</mat-option>
                 <mat-option *ngFor="let item of areaMeasure" [value]="item.id">
                   {{ item.abbreviation }} - {{ item.description }}
@@ -412,7 +416,9 @@
           <mat-label>Collateral Detail Type</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" disabled>
             <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+            <mat-option *ngFor="let item of collateralDetailType" [value]="item.collateralDetailTypeCode">
+              {{ item.collateralDetailTypeDescription }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>

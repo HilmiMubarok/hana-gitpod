@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -26,6 +27,7 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-property-general-dialog-template',
@@ -33,6 +35,7 @@ import {
 })
 export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit {
   private _pariPasu: string;
+  collateralDetailTypeValue: string;
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -89,13 +92,14 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
   constructor(
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private collateralParameterService: CollateralParameterService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+    // this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
   }
 
   ngOnInit(): void {
@@ -107,6 +111,7 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
     this.collateral.collateralTypeId;
     this.setManagementBrance();
     this.setBranches();
+    this.changeCollateralType();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -248,5 +253,30 @@ export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit 
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
     });
+  }
+
+  // Get Collateral Detail Type in Master Collateral
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'REALESTATE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }

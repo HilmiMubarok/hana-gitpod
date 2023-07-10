@@ -11,6 +11,8 @@ import {
   UOM_TYPE,
 } from 'app/shared/constants/base.constants';
 import { ICollateralProperty } from '../../../collateral-property.model';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-property-guarantee-letter-general-dialog-template',
@@ -18,6 +20,7 @@ import { ICollateralProperty } from '../../../collateral-property.model';
 })
 export class CollateralPropertyGuaranteeLetterGeneralDialogTemplateComponent implements OnChanges {
   private _collateralProperty: ICollateralProperty;
+  collateralDetailTypeValue: string;
   @Input()
   get collateralProperty() {
     return this._collateralProperty;
@@ -32,8 +35,12 @@ export class CollateralPropertyGuaranteeLetterGeneralDialogTemplateComponent imp
   public guaranteeType: any;
   public guaranteeBisColDetailType: any;
   public collateralDetailType: any;
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
-    this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    private collateralParameterService: CollateralParameterService
+  ) {
+    // this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
     this.guaranteeType = GUARANTEE_TYPE;
     this.guaranteeBisColDetailType = GUARANTEE_BIS_COL_DETAIL_TYPE;
   }
@@ -42,6 +49,7 @@ export class CollateralPropertyGuaranteeLetterGeneralDialogTemplateComponent imp
       this.loadCurrencyMeasure();
       this.loadAreaMeasure();
       this.loadCountry();
+      this.changeCollateralType();
     }
   }
 
@@ -74,5 +82,28 @@ export class CollateralPropertyGuaranteeLetterGeneralDialogTemplateComponent imp
     this.stateBoundaryService.queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['country'], page: 0, size: 9999 }).subscribe(res => {
       this.countries = res.body;
     });
+  }
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'LETTER_OF_GUARANTY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }

@@ -12,6 +12,8 @@ import {
   UOM_TYPE,
 } from 'app/shared/constants/base.constants';
 import { ICollateralProperty } from '../../../collateral-property.model';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-property-other-general-dialog-template',
@@ -27,6 +29,7 @@ export class CollateralPropertyOtherGeneralDialogTemplateComponent implements On
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
   private _collateralProperty: ICollateralProperty;
+  collateralDetailTypeValue: string;
   @Input()
   get collateralProperty() {
     return this._collateralProperty;
@@ -35,13 +38,18 @@ export class CollateralPropertyOtherGeneralDialogTemplateComponent implements On
     this._collateralProperty = this.preLoadData(param);
   }
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    private collateralParameterService: CollateralParameterService
+  ) {
     this.managementBranches = SECURITIES_MANAGEMENT_BRANCH;
-    this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
+    // this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
   }
 
   ngOnInit(): void {
     this.loadCountry();
+    this.changeCollateralType();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -142,6 +150,29 @@ export class CollateralPropertyOtherGeneralDialogTemplateComponent implements On
       })
       .subscribe(res => {
         this.currencies = res.body;
+      });
+  }
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'OTHER',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
       });
   }
 }
