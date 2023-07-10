@@ -343,6 +343,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     this.getTasks();
     this.timeLine();
+    // console.log('prop', this.collateralProp);
   }
 
   public timeLine() {
@@ -1151,6 +1152,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.collateralProp = lodash.find(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
         });
+        // console.log('collateral Property Main', this.collateralProp);
       });
   }
 
@@ -1160,7 +1162,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public marketValueLandRound: number;
   public saveCollateralProperty(property: ICollateralProperty) {
     if (this.collateralProp) {
-      this.collateralPropertyService.save(property).subscribe(res => {});
+      // console.log('save prop', property.attributes.marketValueLandRound);
+      // if (this.collateral.id) {
+      this.collateralPropertyService.save(property).subscribe(res => {
+        // console.log('res', res.body);
+        // console.log('save prop test', property.attributes.marketValueLandRound);
+      });
+      // }
     }
   }
 
