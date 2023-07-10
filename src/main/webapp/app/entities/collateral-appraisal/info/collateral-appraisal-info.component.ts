@@ -216,7 +216,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                     (resA.body[i].employeeFirstName !== null ? resA.body[i].employeeFirstName : '') +
                     ' ' +
                     (resA.body[i].employeeLastName !== null ? resA.body[i].employeeLastName : ''),
-                  id: resA.body[i].partyId,
+                  id: resA.body[i].id,
                 });
               // }
             }
@@ -543,7 +543,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                 (res.body[i].employeeFirstName !== null ? res.body[i].employeeFirstName : '') +
                 ' ' +
                 (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
-              id: res.body[i].partyId,
+              id: res.body[i].id,
             });
           // }
         }
