@@ -60,7 +60,8 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
       this.purposeAmmount = 0;
       this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
       this.remainingAfterCpMinus = Math.round(Number(this.purposeAmmount) - Number(this.remainingBalance));
-      if (this.remainingAfterCp > 0) {
+
+      if (this.remainingAfterCp > 0 && !String(this.remainingAfterCp).includes('-')) {
         this.status = 'Comply';
       } else {
         this.status = 'Breach The Limit';
@@ -70,7 +71,8 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
         this.purposeAmmount = message;
         this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
         this.remainingAfterCpMinus = Math.round(Number(this.purposeAmmount) - Number(this.remainingBalance));
-        if (this.remainingAfterCp > 0) {
+
+        if (this.remainingAfterCp > 0 && !String(this.remainingAfterCp).includes('-')) {
           this.status = 'Comply';
         } else {
           this.status = 'Breach The Limit';

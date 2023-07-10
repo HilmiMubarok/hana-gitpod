@@ -23,11 +23,12 @@ import { ICollateral } from '../collateral/collateral.model';
 import { CollateralService } from '../collateral/collateral.service';
 import { LoginService } from 'app/login/login.service';
 import { PositionService } from '../position/position.service';
+import { ToolbarService } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-party-cif-detail',
   templateUrl: './party-cif-detail.component.html',
-  styleUrls: ['./party-cif.style.scss'],
+  styleUrls: ['./party-cif.style.scss', './party-cif-detail.style.css'],
 })
 export class PartyCifDetailComponent implements OnInit {
   private id: string;
@@ -45,6 +46,7 @@ export class PartyCifDetailComponent implements OnInit {
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
   public value: string;
+  public isOpen = false;
 
   constructor(
     private dialog: MatDialog,
@@ -210,5 +212,8 @@ export class PartyCifDetailComponent implements OnInit {
 
   showTextMenu() {
     return this.getTextMenu(this.clickedMenu);
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

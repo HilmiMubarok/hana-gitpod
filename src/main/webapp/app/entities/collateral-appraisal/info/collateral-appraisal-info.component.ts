@@ -147,7 +147,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.applicationStateLogService
       .findByBusinessKeyAndRefKey('APPRAISAL', this.collateralAppraisal.id || this.surveyAppraisal.id)
       .subscribe(res => {
-        console.log('res body', res.body);
         if (res.body.length > 0) {
           for (let i = 0; i < res.body.length; i++) {
             if (res.body[i].status === 'APPROVED') {
@@ -196,16 +195,19 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
           }
         }
 
-        this.positionService
-          .queryFilterBy({
+		this.positionService
+		  // .queryFilterBy({
+          .cashQueryFilterBy({
             page: 0,
             size: 9999,
             idInternal: this.wilayahKotaInternalValue,
+			idPositionType: 'SURVEYOR',
+			active: true
           })
           .subscribe(resA => {
             const surveyor = [];
             for (let i = 0; i < resA.body.length; i++) {
-              if (resA.body[i].positionTypeId === 'SURVEYOR' && resA.body[i].partyId && resA.body[i].partyId !== null) {
+              // if (resA.body[i].partyId && resA.body[i].partyId !== null) {
                 surveyor.push({
                   // employeeFirstName: resA.body[i].employeeFirstName + ' ' + resA.body[i].employeeLastName,
                   // Menghindari first name atau last name null jika null akan dibuat string kosong
@@ -215,7 +217,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                     (resA.body[i].employeeLastName !== null ? resA.body[i].employeeLastName : ''),
                   id: resA.body[i].partyId,
                 });
-              }
+              // }
             }
 
             this.officer = surveyor;
@@ -228,14 +230,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 
   public setRenewal(ev) {
     if (this.isRm()) {
-      if (this.account.authorities.length <= 3) {
-        this.surveyAppraisal.jpRenewal = !this.surveyAppraisal.jpRenewal;
-        if (this.surveyAppraisal.jpRenewal || this.surveyAppraisal.jpAdditional === true) {
-          this.isEnablePlafond = true;
-        } else {
-          this.isEnablePlafond = false;
-          this.resetValues();
-        }
+      this.surveyAppraisal.jpRenewal = !this.surveyAppraisal.jpRenewal;
+      if (this.surveyAppraisal.jpRenewal || this.surveyAppraisal.jpAdditional === true) {
+        this.isEnablePlafond = true;
+      } else {
+        this.isEnablePlafond = false;
+        this.resetValues();
       }
     }
     this.jpRenewal.emit(ev.checked);
@@ -252,14 +252,12 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 
   public setAdditional(ev) {
     if (this.isRm()) {
-      if (this.account.authorities.length <= 3) {
-        this.surveyAppraisal.jpAdditional = !this.surveyAppraisal.jpAdditional;
-        if (this.surveyAppraisal.jpAdditional || this.surveyAppraisal.jpRenewal === true) {
-          this.isEnablePlafond = true;
-        } else {
-          this.isEnablePlafond = false;
-          this.resetValues();
-        }
+      this.surveyAppraisal.jpAdditional = !this.surveyAppraisal.jpAdditional;
+      if (this.surveyAppraisal.jpAdditional || this.surveyAppraisal.jpRenewal === true) {
+        this.isEnablePlafond = true;
+      } else {
+        this.isEnablePlafond = false;
+        this.resetValues();
       }
     }
     this.jpAdditional.emit(ev.checked);
@@ -522,15 +520,18 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public selectWilayahKotaInternal(args: ChangeEventArgs): void {
     this.outputWilayahKotaInternal.emit(args['value']);
     this.positionService
-      .queryFilterBy({
+      // .queryFilterBy({
+	  .cashQueryFilterBy({
         page: 0,
         size: 9999,
         idInternal: args['value'],
+		idPositionType: 'SURVEYOR',
+		active: true
       })
       .subscribe(res => {
         const surveyor = [];
         for (let i = 0; i < res.body.length; i++) {
-          if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
+          // if (res.body[i].partyId && res.body[i].partyId !== null) {
             surveyor.push({
               // employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName,
               // Menghindari first name atau last name null jika null akan dibuat string kosong
@@ -540,7 +541,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                 (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
               id: res.body[i].partyId,
             });
-          }
+          // }
         }
 
         this.officer = surveyor;
@@ -562,7 +563,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.account = account;
-
         this.disableRmInfo = this.account.login === 'admin' ? false : true;
       }
     });

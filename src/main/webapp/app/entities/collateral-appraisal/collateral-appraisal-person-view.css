@@ -19,3 +19,7 @@
   font-family: 'Poppins';
   src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
+
+.custom-mt {
+  margin-top: 4.4rem !important;
+}

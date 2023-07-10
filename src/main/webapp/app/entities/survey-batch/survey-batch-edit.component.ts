@@ -327,20 +327,6 @@ export class SurveyBatchEditComponent implements OnInit {
       });
   }
 
-  public documentCollateral(id: number) {
-    console.log('document-collateral', id);
-    this.storageService.getBucketName().subscribe((r: any) => {
-      const predicate: Object = {
-        key: `/appraisals/${id}/document-colateral`,
-      };
-
-      this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        console.log('appss', res.body);
-        this.totalDataDocumentCollateral = res.body;
-      });
-    });
-  }
-
   public propertyData(_collateralId: number, data: string) {
     console.log('ompu', _collateralId);
     this.collateralPropertyService
@@ -352,7 +338,6 @@ export class SurveyBatchEditComponent implements OnInit {
         idPropertyType: data,
       })
       .subscribe((res: any) => {
-        console.log('resss', res.body);
         this.totalDataDetailLand = res.body;
         this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
@@ -364,18 +349,19 @@ export class SurveyBatchEditComponent implements OnInit {
         key: `/collateral/${id}/document`,
       };
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
         this.totalDataDocumentCollateral = res.body;
       });
     });
   }
 
   public documentLainnya(id: number) {
-    console.log('document-lainnya', id);
     this.storageService.getBucketName().subscribe((r: any) => {
       const predicate: Object = {
         key: `/appraisals/${id}/document-lainnya`,
       };
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        this.collateralAppraisalService.totalDataDocumentLainya = res.body;
         this.totalDataDocumentLainya = res.body;
       });
     });
@@ -517,13 +503,7 @@ export class SurveyBatchEditComponent implements OnInit {
   private async initialize(): Promise<void> {
     this.loadData(this.collateralAppraisal.collateral);
     this.bucket = this.getBucketName()['bucket'];
-
-    let key: string;
-    key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
-
-    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
-
-    key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
+    const key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
     this.collateralAppraisalService.totalDataFotoObjectJaminan = await this.getDocument(key);
 
     if (this.collateralAppraisal.collateralId) {
@@ -532,12 +512,6 @@ export class SurveyBatchEditComponent implements OnInit {
         CollateralPropertyType.COMPARISON
       );
     }
-
-    key = `/appraisals/${this.collateralAppraisal.id}/document-lainnya`;
-    this.collateralAppraisalService.totalDataDocumentLainya = await this.getDocument(key);
-
-    key = `/appraisals/${this.collateralAppraisal.id}/document-colateral`;
-    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
 
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
       if (this.collateralAppraisal.collateralId) {

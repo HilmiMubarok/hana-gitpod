@@ -116,12 +116,35 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
 
   public openDialog(element?: ICollateral, type = 'view'): void {
     let dataCollateralOption: ICollateral[] = this.dataCollateral;
+
     if (this.creditProposal.attributes['collateralAfterData'].length > 0) {
       for (let i = 0; i < this.creditProposal.attributes['collateralAfterData'].length; i++) {
+        if (this.creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back') {
+          dataCollateralOption = dataCollateralOption.filter(function (o) {
+            return (
+              o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
+            );
+          });
+        }
         dataCollateralOption = dataCollateralOption.filter(obj => obj.id !== this.creditProposal.attributes['collateralAfterData'][i].id);
       }
     } else {
       dataCollateralOption = this.dataCollateral;
+      if (this.creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back') {
+        dataCollateralOption = dataCollateralOption.filter(function (o) {
+          return (
+            o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
+          );
+        });
+      }
     }
     let cp = {};
 

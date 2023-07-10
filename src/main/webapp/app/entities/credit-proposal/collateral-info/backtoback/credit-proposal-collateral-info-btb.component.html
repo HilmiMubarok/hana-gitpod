@@ -55,7 +55,10 @@
           <td mat-cell *matCellDef="let element">
             {{ getCcyBinding(getBinding(element).ccy) + ' ' + (getBinding(element).bindingValue | number) }}
           </td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
+            <P>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</P>
+            <p>{{ biddingValueCoverage }} %</p>
+          </td>
         </ng-container>
         <ng-container matColumnDef="collateralStatus">
           <th mat-header-cell *matHeaderCellDef>Collateral Status</th>
@@ -92,7 +95,12 @@
 
 <mat-card>
   <mat-card-content>
-    <jhi-group-collateral-list-cp [group]="'group'" [creditProposal]="creditProposal" [isViewMode]="isViewMode">
+    <jhi-group-collateral-list-cp
+      [group]="'group'"
+      [creditProposal]="creditProposal"
+      [isViewMode]="isViewMode"
+      [collateralProperties]="collateralProperties"
+    >
     </jhi-group-collateral-list-cp>
     <!-- <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-remarks> -->
   </mat-card-content>

@@ -123,11 +123,11 @@ export class ProposalBasicInformationComponent implements OnInit {
   public routeHelper: string;
   public resAttr: any;
   public lendingProgram = [];
+  public isOpen = false;
 
   appName: any;
   appNameMenu: any;
   public title: string;
-  public titleMenu: string;
   public value: string;
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
@@ -193,7 +193,12 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.clickedMenu = subRoute;
       }
     });
-    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+    this.isHistoryExist =
+      this.creditProposal.attributes.previousHistory &&
+      this.parentPath !== 'cp-status-approval' &&
+      this.parentPath !== 'credit-proposal-status'
+        ? true
+        : false;
     this.setTotalPlafond();
   }
 
@@ -407,7 +412,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getListIndustry();
     this.lendingProgramParameter();
     this.getPositionTypeId();
-    this.getTitle();
     this.lovProposalType();
     this.getBucketNameSummary();
 
@@ -441,7 +445,6 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     this.getTasks();
     this.getTitleUrl();
-    this.getTitleMenu();
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
@@ -1271,105 +1274,29 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
   }
 
-  getText(value: any) {
+  getText(value: any): string {
     if (value === 'cp-status-approval') {
-      this.title = 'Credit Proposal Approval';
-      sessionStorage.setItem('appName', this.title);
-    }
-    if (value === 'credit-proposal-status') {
-      this.title = 'Credit Proposal';
-      sessionStorage.setItem('appName', this.title);
+      return 'Credit Proposal Approval';
+    } else {
+      return 'Credit Proposal';
     }
   }
 
-  getTitle() {
-    this.appName = sessionStorage.getItem('appName');
+  public getTextMenu(param: string): string {
+    const titleMenu = param;
+    const regex = /[-]/g;
+    if (titleMenu === 'convenant-tbo') {
+      const convenantTbo = titleMenu.replace(regex, ' & ');
+      return convenantTbo;
+    } else if (titleMenu === 'credit-proposal-approval') {
+      return 'Credit Proposal Summary';
+    } else {
+      return titleMenu.replace(regex, ' ');
+    }
   }
 
-  getTextMenu() {
-    if (this.clickedMenu === 'credit-proposal-approval') {
-      this.titleMenu = 'Credit Proposal Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'basic-information') {
-      this.titleMenu = 'Basic Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'management-information') {
-      this.titleMenu = 'Management Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'exposure') {
-      this.titleMenu = 'Exposure';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'risk-acceptance-criteria') {
-      this.titleMenu = 'Risk Acceptance Criteria';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'loan-facility-detail') {
-      this.titleMenu = 'Loan Facility Detail';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'collateral-info') {
-      this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'business-activity') {
-      this.titleMenu = 'Business Activity';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'financial-statement') {
-      this.titleMenu = 'Financial Statement';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'slik-checking') {
-      this.titleMenu = 'Slik Checking';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'bank-account-analyst') {
-      this.titleMenu = 'Bank Account Analyst';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'trade-checking') {
-      this.titleMenu = 'Trade Checking';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'convenant-tbo') {
-      this.titleMenu = 'Covenant & Tbo';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'propose-pricing') {
-      this.titleMenu = 'Propose Pricing';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'summary') {
-      this.titleMenu = 'Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'group-guarantour-analyst') {
-      this.titleMenu = 'Group Guarantor Analyst';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'credit-rating') {
-      this.titleMenu = 'Credit Rating';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.clickedMenu === 'repayment-capability') {
-      this.titleMenu = 'Repayment Capability';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    return this.titleMenu;
-  }
-
-  getTitleMenu() {
-    this.appNameMenu = sessionStorage.getItem('appNameMenu');
-  }
-
-  getTitleUrl() {
-    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
-
-    this.titleUrl = x;
+  showTextMenu() {
+    return this.getTextMenu(this.clickedMenu);
   }
   disabledProptype() {
     if (this.parentPath === 'cp-status-approval') {
@@ -1378,6 +1305,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     return false;
   }
 
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
+
+    this.titleUrl = x;
+  }
   public notes: any;
 
   private loadByPartyId(param: string): void {
@@ -1469,5 +1401,8 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

@@ -341,8 +341,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
     this.documentLainnya(item.id);
-    this.collateralData(item.id);
-    this.documentCollateral(item.id);
+    this.collateralData(item.collateral.id);
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
     this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
@@ -437,9 +436,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         key: `/collateral/${id}/document`,
       };
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        if (res.body.length > 0) {
-          this.totalDataDocumentCollateral = res.body;
-        }
+        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
+        this.totalDataDocumentCollateral = res.body;
       });
     });
   }
@@ -450,6 +448,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         key: `/appraisals/${id}/document-lainnya`,
       };
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        this.collateralAppraisalService.totalDataDocumentLainya = res.body;
         this.totalDataDocumentLainya = res.body;
       });
     });
@@ -604,12 +603,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
 
     this.getKeteranganObjectJaminan();
 
-    let key: string;
-    key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
-
-    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
-
-    key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
+    const key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
     this.collateralAppraisalService.totalDataFotoObjectJaminan = await this.getDocument(key);
 
     if (this.collateralAppraisal.collateralId) {
@@ -618,12 +612,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         CollateralPropertyType.COMPARISON
       );
     }
-
-    key = `/appraisals/${this.collateralAppraisal.id}/document-lainnya`;
-    this.collateralAppraisalService.totalDataDocumentLainya = await this.getDocument(key);
-
-    key = `/appraisals/${this.collateralAppraisal.id}/document-colateral`;
-    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
 
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
       if (this.collateralAppraisal.collateralId) {

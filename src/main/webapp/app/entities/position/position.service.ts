@@ -13,6 +13,7 @@ export class PositionService extends AbstractEntityService<IPosition> {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-survey-appraisals');
+	this.resourceUrlCash = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-position');
   }
 
   protected isNew(entity: IPosition): boolean {

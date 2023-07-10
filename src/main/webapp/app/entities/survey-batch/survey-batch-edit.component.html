@@ -221,7 +221,7 @@
         </jhi-collateral-appraisal-info>
       </div>
 
-      <div *ngIf="clickedMenu === 'customer-info'">
+      <div *ngIf="clickedMenu === 'customer-info'" class="wrapper-card mb-3">
         <jhi-collateral-appraisal-person-view
           mode="view"
           [collateralAppraisal]="collateralAppraisal"
@@ -237,7 +237,6 @@
           *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'"
         >
         </jhi-collateral-appraisal-party-group-view>
-
         <!-- <div class="e-card mb-3">
           <div class="e-card-header mb-1">
             <div class="e-card-header-caption">
@@ -257,15 +256,17 @@
         </div>
       </div> -->
         <!-- Customer Address -->
-        <div>
-          <jhi-party-cif-customer-info-postal-address
-            [disabled]="true"
-            [partyPostalAddress]="postalAddress"
-            [partyId]="surveyAppraisal.cif.partyId"
-            [creditProposal]="creditProposal"
-            [collateralAppraisal]="collateralAppraisal"
-          >
-          </jhi-party-cif-customer-info-postal-address>
+        <div calss="wrapper-card">
+          <e-card>
+            <jhi-party-cif-customer-info-postal-address
+              [disabled]="true"
+              [partyPostalAddress]="postalAddress"
+              [partyId]="surveyAppraisal.cif.partyId"
+              [creditProposal]="creditProposal"
+              [collateralAppraisal]="collateralAppraisal"
+            >
+            </jhi-party-cif-customer-info-postal-address
+          ></e-card>
         </div>
         <!-- Customer Address -->
       </div>
@@ -353,8 +354,10 @@
           [creditProposal]="creditProposal"
         ></jhi-credit-proposal-correspondence>
       </div>
-      <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-report-independent-collateral [surveyAppraisal]="surveyAppraisal"> </jhi-report-independent-collateral>
+      <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-report-independent-collateral [surveyAppraisal]="surveyAppraisal"> </jhi-report-independent-collateral>
+        </e-card>
       </div>
     </div>
     <div class="e-card-actions mx-auto mb-5 mt-3">

@@ -74,7 +74,7 @@
                 </div>
                 <section>
                   <div
-                  [hidden]="f.name.includes('los_logo.png')"
+                    [hidden]="f.name.includes('los_logo.png')"
                     style="
                       width: 170px;
                       top: 120px;
@@ -302,7 +302,9 @@
     </mat-dialog-actions>
   </section>
   <section *jhiMatrixDirIDD="''">
-    <button mat-raised-button class="confirm-button-no" mat-dialog-close>Close</button>
+    <mat-dialog-actions align="center">
+      <button mat-raised-button class="confirm-button-no" mat-dialog-close>Close</button></mat-dialog-actions
+    >
   </section>
 </div>
 

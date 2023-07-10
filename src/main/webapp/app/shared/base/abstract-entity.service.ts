@@ -15,6 +15,7 @@ export class AbstractEntityService<T> {
 
   protected resourceUrl: string;
   protected resourceUrlNew: string;
+  protected resourceUrlCash: string;
   protected resourceSearchUrl: string;
   protected resourceCurrency: string;
   protected resourceRetrive: string;
@@ -144,6 +145,14 @@ export class AbstractEntityService<T> {
     const options = createRequestOption(req);
     return this.http
       .get<T[]>(this.resourceUrl + '/filterBy', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
+  }
+
+  cashQueryFilterBy(req?: any): Observable<HttpResponse<T[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<T[]>(this.resourceUrlCash + '/filterBy', { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }

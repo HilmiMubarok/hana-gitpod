@@ -1,7 +1,7 @@
 <div *ngIf="isViewMode === false">
   <mat-card>
     <mat-card-header>
-      <mat-card-subtitle class="e-card-header-title">Debtor Collateral</mat-card-subtitle>
+      <mat-card-subtitle class="header-title">Debtor Collateral</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <div style="margin: 30px">
@@ -50,7 +50,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalMV() / totalPlafond) , 'mv') }}</p>
+              <p>{{ presentage(countTotalMV() / totalPlafond, 'mv') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="liquidValue">
@@ -60,7 +60,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalLV() / totalPlafond) , 'lv') }}</p>
+              <p>{{ presentage(countTotalLV() / totalPlafond, 'lv') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="mValueKjjp">
@@ -70,7 +70,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalMVKJJP() / totalPlafond) , 'mvKjjp') }}</p>
+              <p>{{ presentage(countTotalMVKJJP() / totalPlafond, 'mvKjjp') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="lValueKjjp">
@@ -134,8 +134,8 @@
               {{ getCcyBinding(getBinding(element).ccy) + ' ' + (getBinding(element).bindingValue | number) }}
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-              {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
-              {{ biddingValueCoverage }} %
+              <P>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</P>
+              <p>{{ biddingValueCoverage }} %</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="collateralStatus">
@@ -352,7 +352,12 @@
   </mat-card>
   <div>
     <!-- <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral> -->
-    <jhi-group-collateral-list-cp [group]="'group'" [creditProposal]="creditProposal" [isViewMode]="isViewMode">
+    <jhi-group-collateral-list-cp
+      [group]="'group'"
+      [creditProposal]="creditProposal"
+      [isViewMode]="isViewMode"
+      [collateralProperties]="collateralProperties"
+    >
     </jhi-group-collateral-list-cp>
     <!-- <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks> -->
   </div>

@@ -54,7 +54,10 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   public creditProposalStartState: ICreditProposal;
   private dataFilter: ICollateral[];
   public bindingTypesHobies = [];
+  public totalPlafond: number;
 
+  public biddingValueCoverage: number;
+  public biddingValueSum: number;
   public certificateType: any;
   public dataCertyficate: any;
   public dataItem: any;
@@ -137,6 +140,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         });
         this.dataItem = new MatTableDataSource(filter);
         this.dataItem.paginator = this.paginator;
+        this.getBindingCalculate(res.body);
       });
   }
 
@@ -450,7 +454,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         this.creditProposal.products.length > 0 &&
         this.creditProposal.collaterals.length > 0
       ) {
-        for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+        for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
           for (let j = 0; j < this.creditProposal.products.length; j++) {
             for (let k = 0; k < this.creditProposal.collaterals.length; k++) {
               if (
@@ -632,5 +636,112 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
       return element;
     }
     return '';
+  }
+
+  public getBindingCalculate(res: any[]) {
+    const array1 = res;
+    const array2 = this.creditProposal.attributes['binding'];
+    let getBindingCalculateValue;
+    const data = [];
+    array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
+      data.push(
+        array2.find(
+          ({ collateralId: value2 }) =>
+            value1 === value2 &&
+            collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+            collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+            collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+            collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+            collateralTypeId !== COLLATERAL_TYPE['property']
+        )
+      );
+      getBindingCalculateValue = data.filter(item => item !== undefined);
+      console.log('getBindingCalculateValue ', getBindingCalculateValue);
+      this.fungsiSumcredit('both').then(() => {
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
+        const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+
+        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
+        this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
+        this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
+      });
+    });
+  }
+
+  public convertNan(value: any): any {
+    if (Number.isNaN(value)) {
+      return 0;
+    } else {
+      return value;
+    }
+  }
+
+  public fungsiSumcredit(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      let result: number;
+      let dolar: number;
+      let filterIdr = [];
+      let filterUsd = [];
+      result = 0;
+      dolar = 0;
+
+      const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+
+      if (dataFilter.length > 0) {
+        if (value === 'USD' || value === 'both') {
+          filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+        }
+
+        if (value === 'IDR' || value === 'both') {
+          filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+        }
+
+        if (value === 'IDR' || value === 'both') {
+          if (filterIdr.length > 0) {
+            for (let i = 0; i < filterIdr.length; i++) {
+              if (filterIdr[i].totalPlafond !== undefined) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+          }
+        }
+
+        if (value === 'USD') {
+          if (filterUsd.length > 0) {
+            for (let i = 0; i < filterUsd.length; i++) {
+              if (filterUsd[i].totalPlafond !== undefined) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond);
+              }
+            }
+          }
+        }
+
+        if (value === 'both') {
+          if (filterUsd.length > 0) {
+            for (let i = 0; i < filterUsd.length; i++) {
+              if (filterUsd[i].totalPlafond !== undefined) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+          }
+        }
+      }
+      if (value === 'both') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
+      }
+      if (value === 'USD') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
+      }
+      if (value === 'IDR') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafondIdr = result + dolar;
+      }
+
+      const creditLimit = result + dolar;
+      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+
+      this.totalPlafond = result + dolar;
+
+      resolve();
+    });
   }
 }

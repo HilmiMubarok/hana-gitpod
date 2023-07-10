@@ -166,7 +166,10 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
       // update
       this.collateralProperty.attributes['comparison'] = JSON.stringify(this.item);
       this.collateralPropertyService.update(this.collateralProperty).subscribe(res => {
-        this._dialog.close(res.body);
+        if (res.body.id) {
+          this.uploadFile(this.file, res.body.id);
+          this._dialog.close(res.body);
+        }
       });
     } else {
       if (this.item['nameFile'] !== '') {

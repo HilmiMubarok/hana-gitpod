@@ -1,9 +1,11 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { MainFacilityDialogComponent } from './main-facility-dialog.component';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { ICategoryList, IMainFacility } from 'app/entities/main-facility/main-facility.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-main-facility',
@@ -19,7 +21,7 @@ import { ICategoryList, IMainFacility } from 'app/entities/main-facility/main-fa
 })
 export class MainFacilityComponent implements OnInit, OnChanges {
   private _creditProposal: ICreditProposal;
-  public dataSource: IMainFacility[];
+  public dataSource: MatTableDataSource<IMainFacility>;
   public dataMain: IMainFacility;
 
   @Input()
@@ -30,6 +32,8 @@ export class MainFacilityComponent implements OnInit, OnChanges {
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(public dialog: MatDialog) {}
 
@@ -56,7 +60,8 @@ export class MainFacilityComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['creditProposal']) {
-      this.dataSource = this.creditProposal.mainProducts;
+      this.dataSource = new MatTableDataSource<IMainFacility>(this._creditProposal.mainProducts);
+      this.dataSource.paginator = this.paginator;
     }
   }
 

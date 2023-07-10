@@ -150,7 +150,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         parsed.InitialLimit = Number(source[y].contractAmount ? source[y].contractAmount : 0);
         parsed.Changes = 0;
         parsed.OS = source[y].outstanding;
-        parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
+        parsed.TotalPlafond = source[y].productRevolving ? parsed.InitialLimit + parsed.Changes : source[y].outstanding;
 
         parsed.InterestRate =
           source[y].intResetFrequency + ' ' + source[y].intResetPeriod + ' ' + source[y].rateTypeName + ' ' + source[y].spreadRate;

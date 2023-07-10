@@ -7,16 +7,16 @@
       <table mat-table class="w-100" [dataSource]="groubCollateralPagination">
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef class="rounding-table-left"></th>
-          <td mat-cell *matCellDef="let i = index">
+          <td mat-cell *matCellDef="let element; let i = index">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
               <mat-checkbox
-                [checked]="mappingStatusHelper[i] === 'yes'"
+                [checked]="element.attributes.crossCollateral === 'yes'"
                 (change)="changeCheckedColGroupAssignToProdAll($event, i)"
               ></mat-checkbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
               <mat-checkbox
-                [checked]="mappingStatusHelper[i] === 'yes'"
+                [checked]="element.attributes.crossCollateral === 'yes'"
                 (change)="changeCheckedColGroupAssignToProdAll($event, i)"
                 disabled
               ></mat-checkbox>
@@ -79,7 +79,7 @@
         </ng-container>
         <ng-container matColumnDef="occupancy">
           <th mat-header-cell *matHeaderCellDef class="grid-index-left">Occupancy</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralOwner }}</td>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.occupancy }}</td>
           <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
         </ng-container>
         <ng-container matColumnDef="ownership">

@@ -109,9 +109,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   set collateralAppraisal(item: ICollateralAppraisal) {
-    this.loadData(item.collateral);
-    this.documentComponent.documentCollateral(item.id);
     this.documentComponent.documentLainnya(item.id);
+    this.loadData(item.collateral);
 
     this._collateralAppraisal = item;
 
@@ -131,7 +130,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   set surveyAppraisal(item: ISurveyAppraisals) {
     this._surveyAppraisal = item;
     if (item.collateral !== undefined) {
-      this.documentComponent.collateralData(item.collateral.id);
+      this.documentComponent.documentCollateral(item.collateral.id);
     }
 
     // Get Foto Object Jaminan
@@ -203,6 +202,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.id = params['id'];
     });
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
+
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -388,19 +388,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
-  }
-
   private getDataSurveyAppraisal(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.find(this.id).subscribe(res => {
         this.surveyAppraisal = res.body;
+
         this.collateral = this.surveyAppraisal.collateral;
         this.collateralType = this.collateral.collateralTypeId;
         this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
@@ -801,8 +793,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
-      this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
-      this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      if (this.surveyAppraisal.statusId !== 'COMPLETE') {
+        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
+        this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      }
     }
   }
 

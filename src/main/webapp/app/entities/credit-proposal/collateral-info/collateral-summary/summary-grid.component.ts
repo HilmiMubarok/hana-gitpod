@@ -27,6 +27,7 @@ import { ApplicationProduct } from 'app/entities/application-product/application
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-summary-grid',
   templateUrl: './summary-grid.component.html',
@@ -53,8 +54,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'noUrutFasilitas',
-    'facilityType',
+    'action',
   ];
 
   public _collateralProperty: ICollateralProperty[];
@@ -76,8 +76,18 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
+  public bindingTypesHobies = [];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
+  }
+  private _group: string;
+
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
   }
   public _partyCif: IPartyCif;
   @Input()
@@ -106,7 +116,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   }
 
   public presentage(value: string, status: string) {
-    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       if (status === 'mv') {
@@ -191,6 +200,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     this.setCertyficateType();
     this.totalCoverage();
     this.getLovInsuranceType();
+    this.lovBindingType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -204,8 +214,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       });
       this.dataItem = new MatTableDataSource(res.body);
       this.dataItem.paginator = this.paginator;
+      this.mapCollateralProperty(res.body);
       this.getBindingCalculate(res.body);
-      console.log('data', res.body);
     });
   }
 
@@ -215,7 +225,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          this.findCollateralProperty(collateral);
+          // this.findCollateralProperty(collateral);
+
           if (this.creditProposal.id) {
             this.loadSummaryCollateral();
           }
@@ -223,7 +234,11 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
     }
   }
-
+  public mapCollateralProperty(data: ICollateral[]) {
+    for (let i = 0; i < data.length; i++) {
+      this.findCollateralProperty(data[i]);
+    }
+  }
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
@@ -261,6 +276,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         isViewMode: this.isViewMode,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -300,7 +316,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         } else {
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
-        console.log(res, 'debtorCollateral');
       } else {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
@@ -394,7 +409,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         size: 9999,
       })
       .subscribe(res => {
-        console.log('insurance type body ', res.body);
         this.insuranceTypes = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
@@ -539,7 +553,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -644,7 +657,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let result: string;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -772,7 +784,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let string2: string;
     let result: string;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -793,7 +804,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    // console.log("collateral in above grid",collateral);
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
@@ -877,12 +887,28 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
     }
   }
-
-  public getBindingType(element: string) {
-    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
-    return this.bindingTypeVal[keyy];
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
-
+  public getBindingType(element: string) {
+    if (this.bindingTypesHobies) {
+      const data = this.bindingTypesHobies.find(obj => obj.code === element);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
+  }
   public getCrossStatus(status: string) {
     if (status === 'N') {
       return 'NO';
@@ -905,7 +931,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public findCertyficate(collateral) {
     let data: ICollateralProperty;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false

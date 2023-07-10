@@ -14,6 +14,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 @Component({
   selector: 'jhi-mapping-facility',
   templateUrl: './mapping-facility.component.html',
+  styleUrls: ['./mapping-facility.style.css'],
 })
 export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges {
   @Output() outputCreditProposalMappingData = new EventEmitter();

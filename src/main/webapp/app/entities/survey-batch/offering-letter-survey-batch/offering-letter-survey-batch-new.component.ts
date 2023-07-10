@@ -56,7 +56,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
 
   FormPartner: boolean;
   FormCollateral: boolean;
-
+  public page: number;
   paginatorLengthP: number;
   paginatorPageSizeP: number;
 
@@ -143,9 +143,10 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   private loadDataPartner(): void {
     this.partnerService
       // .query({
-      .query({
-        page: 0,
-        size: 999,
+      .queryFilterBy({
+        idStatus: 'ACTIVE',
+        page: this.page,
+        size: this.itemsPerPage,
       })
       .subscribe({
         next: (res: HttpResponse<ISurveyBatch[]>) => {
@@ -269,8 +270,8 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
 
   // ==============table partner=================
   initTable(data: any, headers: HttpHeaders): void {
-    const filtered = data.body.filter(p => p.statusDescription === 'Active');
-    this.itemsPartner = new MatTableDataSource(this.addIdx(filtered));
+    // const filtered = data.body.filter(p => p.statusDescription === 'Active');
+    this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
     }

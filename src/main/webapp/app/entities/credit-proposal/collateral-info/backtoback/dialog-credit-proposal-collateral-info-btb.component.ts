@@ -41,7 +41,7 @@ export const MY_FORMATS = {
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './dialog-credit-proposal-collateral-info-btb.component.html',
-  styleUrls: ['../../proposal-basic-information.css'],
+  styleUrls: ['../collateral-info-cp.style.scss'],
   providers: [
     ToolbarService,
     HtmlEditorService,
