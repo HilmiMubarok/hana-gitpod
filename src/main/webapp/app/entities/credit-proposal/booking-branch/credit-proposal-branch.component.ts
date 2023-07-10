@@ -18,7 +18,7 @@ export class CreditProposalBranchComponent implements OnChanges {
   public rmBranch: IInternal;
   public rmRegional: IInternal;
   public branchs: IInternal[];
-  public penampung: string;
+  public organizationNameCp: string;
 
   @Input() isViewLoan: Boolean = false;
   @Input() isViewBranch: Boolean = false;
@@ -47,6 +47,7 @@ export class CreditProposalBranchComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('op', this.organizationNameCp);
     if (changes['creditProposal']) {
       if (this.creditProposal.debtorData.bookingBranch) {
         this.loadInternalInformationRMByInternalId(this.creditProposal.debtorData.bookingBranch);
@@ -124,6 +125,11 @@ export class CreditProposalBranchComponent implements OnChanges {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
         this.branchs = res.body;
         resolve();
+        for (let i = 0; i < this.branchs.length; i++) {
+          if (this.branchs[i].id.toString() === this.creditProposal.debtorData.bookingBranch) {
+            this.organizationNameCp = this.branchs[i].organizationName;
+          }
+        }
       });
     });
   }
