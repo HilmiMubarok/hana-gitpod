@@ -20,8 +20,8 @@ export class MemoBandingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cpMemoBandingService.parseAttrCp(this.testData);
-    this.cpMemoBandingService.compareDeepData(this.d1, this.d2);
+    // this.cpMemoBandingService.parseAttrCp(this.testData);
+    // this.cpMemoBandingService.compareDeepData(this.d1, this.d2);
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }

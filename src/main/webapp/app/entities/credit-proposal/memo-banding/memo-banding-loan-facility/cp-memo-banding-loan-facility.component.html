@@ -282,7 +282,7 @@
         </ng-container>
 
         <ng-container matColumnDef="total-plafond-status">
-          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'">Not Changed</th>
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'">{{ totalPlafondStatus[0].status }}</th>
         </ng-container>
 
         <ng-container matColumnDef="custody-fee">
@@ -296,7 +296,7 @@
         </ng-container>
 
         <ng-container matColumnDef="custody-fee-status">
-          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'">Not Changed</th>
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'">{{ custodyFeeStatus[0].status }}</th>
         </ng-container>
 
         <tr

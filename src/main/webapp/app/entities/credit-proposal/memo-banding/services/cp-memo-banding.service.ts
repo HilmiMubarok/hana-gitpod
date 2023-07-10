@@ -6,25 +6,17 @@ import _ from 'lodash';
   providedIn: 'root',
 })
 export class CpMemoBandingService extends AbstractEntityService<any> {
-  compareDeepData(firstData: Array<any>, secondData: Array<any>): Array<any> {
+  compareDeepData(firstData, secondData) {
+    console.log('Data', { firstData, secondData });
+
     const comparedData = firstData.map(data => {
       const matchingData = secondData.find(d => d.id === data.id);
-      if (matchingData) {
-        return {
-          ...data,
-          status: _.isEqual(data, matchingData) ? 'Not changed' : 'Changed',
-        };
-      } else {
-        return {
-          ...data,
-          status: 'Removed',
-        };
-      }
+      const status = matchingData ? (_.isEqual(data, matchingData) ? 'Not changed' : 'Changed') : 'Removed';
+      return { ...data, status };
     });
 
     secondData.forEach(data => {
-      const matchingData = firstData.find(d => d.id === data.id);
-      if (!matchingData) {
+      if (!firstData.some(d => d.id === data.id)) {
         comparedData.push({ ...data, status: 'Added' });
       }
     });
@@ -33,8 +25,12 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
 
     return comparedData;
   }
-
   compareSingleObject(firsObject: Object, secondObject: Object): Object {
+    return Object.keys(firsObject).map(key => ({
+      [key]: firsObject[key],
+      status: _.isEqual(firsObject, secondObject) ? 'Not changed' : 'Changed',
+    }));
+
     console.log({
       firsObject,
       secondObject,

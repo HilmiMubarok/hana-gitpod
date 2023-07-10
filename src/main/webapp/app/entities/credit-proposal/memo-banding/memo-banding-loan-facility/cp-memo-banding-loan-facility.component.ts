@@ -46,11 +46,7 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
   length: number;
   pageSize = 10;
   pageIndex = 0;
-  pageSizeOptions = [5, 10, 25];
 
-  hidePageSize = false;
-  showPageSizeOptions = true;
-  showFirstLastButtons = true;
   disabled = false;
 
   pageEvent: PageEvent;
@@ -95,10 +91,6 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  // ngAfterViewInit(): void {
-  //   this.dataProduct.paginator = this.paginator;
-  // }
-
   constructor(
     public partyCifService: PartyCifService,
     public dialog: MatDialog,
@@ -129,20 +121,9 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
     }
   }
 
-  handlePageEvent(e: PageEvent) {
-    this.pageEvent = e;
-    this.length = e.length;
-    this.pageSize = e.pageSize;
-    this.pageIndex = e.pageIndex;
-  }
-
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-    }
-  }
-
   parsed;
+  custodyFeeStatus;
+  totalPlafondStatus;
   ngOnInit(): void {
     this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposal);
 
@@ -154,6 +135,40 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
     this.lovInterestRateTypeList();
+
+    this.dataProduct = new MatTableDataSource<any>(
+      this.cpMemoBandingservice.compareDeepData(this.parsed.products, this.creditProposal.products)
+    );
+
+    this.totalPlafondStatus = this.cpMemoBandingservice.compareSingleObject(
+      { plafon: this.fungsiSumcredit('both') },
+      { plafon: this.fungsiSumcreditAfter('both') }
+    );
+
+    (this.custodyFeeStatus = this.cpMemoBandingservice.compareSingleObject(
+      { custodian: this.parsed.facilityDetail.custodianFee },
+      { custodian: this.creditProposal.attributes['facilityDetail'].custodianFee }
+    )),
+      console.log('totaaaa', {
+        plafon: {
+          before: this.fungsiSumcredit('both'),
+          after: this.fungsiSumcreditAfter('both'),
+        },
+        custodian: {
+          before: this.parsed.facilityDetail.custodianFee,
+          after: this.creditProposal.attributes['facilityDetail'].custodianFee,
+        },
+        compared: {
+          plafon: this.cpMemoBandingservice.compareSingleObject(
+            { plafon: this.fungsiSumcredit('both') },
+            { plafon: this.fungsiSumcreditAfter('both') }
+          ),
+          custodian: this.cpMemoBandingservice.compareSingleObject(
+            { custodian: this.parsed.facilityDetail.custodianFee },
+            { custodian: this.creditProposal.attributes['facilityDetail'].custodianFee }
+          ),
+        },
+      });
   }
   partyCifFunc() {
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
@@ -392,7 +407,67 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.parsed.products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter.length > 0) {
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
+          }
+        }
+      }
+    }
+    if (value === 'both') {
+      this.parsed.facilityDetail.totalPlafond = result + dolar;
+    }
+    if (value === 'USD') {
+      this.parsed.facilityDetail.totalPlafondUsd = result + dolar;
+    }
+    if (value === 'IDR') {
+      this.parsed.facilityDetail.totalPlafondIdr = result + dolar;
+    }
+    return result + dolar;
+  }
+  fungsiSumcreditAfter(value: string) {
+    let result: number;
+    let dolar: number;
+    let filterIdr = [];
+    let filterUsd = [];
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.parsed.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       if (value === 'USD' || value === 'both') {
