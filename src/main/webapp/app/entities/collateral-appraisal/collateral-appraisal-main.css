@@ -423,8 +423,8 @@ th:last-child {
 .btn-float-styling {
   border: solid;
   border-width: 7px;
-  border-color: #d2edff;
-  background-color: #effefd;
+  border-color: #93c1dd;
+  background-color: #e0fffd;
   rotate: 0deg;
   border-top-left-radius: 12%;
   border-bottom-left-radius: 12%;
@@ -483,9 +483,10 @@ mat-sidenav {
   padding: 10px;
   height: 75px;
   z-index: 1;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  background-color: #a1b9c8;
+  /* background-color: #a1b9c8; */
+  background: linear-gradient(180deg, #96c9c8 83%, #eff8fe 100%);
 }
 
 .sub-list-styling {
