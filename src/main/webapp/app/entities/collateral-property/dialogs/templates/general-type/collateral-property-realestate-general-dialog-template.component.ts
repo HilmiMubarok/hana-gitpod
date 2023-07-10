@@ -2,6 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
@@ -13,6 +14,7 @@ import {
   SECURITIES_MANAGEMENT_BRANCH,
   UOM_TYPE,
 } from 'app/shared/constants/base.constants';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-property-realestate-general-dialog-template',
@@ -20,6 +22,7 @@ import {
 })
 export class CollateralPropertyRealestateGeneralDialogTemplateComponent implements OnInit {
   private _collateralProperty: ICollateralProperty;
+  collateralDetailTypeValue: string;
   @Input()
   get collateralProperty() {
     return this._collateralProperty;
@@ -39,8 +42,12 @@ export class CollateralPropertyRealestateGeneralDialogTemplateComponent implemen
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
-    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    private collateralParameterService: CollateralParameterService
+  ) {
+    // this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
   }
@@ -49,6 +56,7 @@ export class CollateralPropertyRealestateGeneralDialogTemplateComponent implemen
     this.loadCurrencyMeasure();
     this.loadAreaMeasure();
     this.loadProvince();
+    this.changeCollateralType();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -145,6 +153,30 @@ export class CollateralPropertyRealestateGeneralDialogTemplateComponent implemen
       })
       .subscribe(res => {
         this.areaMeasure = res.body;
+      });
+  }
+
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'REALESTATE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
       });
   }
 }

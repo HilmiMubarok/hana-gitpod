@@ -27,6 +27,8 @@ import {
 import { map, Observable, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
+import lodash from 'lodash';
 export interface User {
   name: string;
 }
@@ -37,6 +39,7 @@ export interface User {
 })
 export class CollateralPropertyDepositDialogComponent implements OnInit {
   private _pariPasu: string;
+  collateralDetailTypeValue: string;
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -113,13 +116,14 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
     private partyCifService: PartyCifService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    private collateralParameterService: CollateralParameterService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     // this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = DEPOSIT_COLLATERAL_DETAIL_TYPE;
+    // this.collateralDetailType = DEPOSIT_COLLATERAL_DETAIL_TYPE;
   }
 
   ngOnInit(): void {
@@ -134,6 +138,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.cekDataSource();
     this.cekData();
     this.setData();
+    this.changeCollateralType();
   }
 
   cekData() {
@@ -429,5 +434,30 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  // Get Collateral Detail Type in Master Collateral
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'DEPOSIT',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }

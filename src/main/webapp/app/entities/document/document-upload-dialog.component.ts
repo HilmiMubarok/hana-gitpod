@@ -95,12 +95,10 @@ export class DocumentUploadDialogComponent implements OnInit {
   public setOwnerCollateral() {
     if (this.data.collateral !== null) {
       if (this.documents === 'document-collateral') {
-        console.log('collateral', this.data.collateral.id);
         this.getFilesId('collateral', this.data.collateral.id);
       }
     }
     if (this.documents === 'document-lainnya') {
-      console.log('appraisal', this.data.appraisal.id);
       this.getFilesId('appraisal', this.data.appraisal.id);
     }
 
@@ -366,6 +364,7 @@ export class DocumentUploadDialogComponent implements OnInit {
           nameFile: val[0]['name'],
         }))
         .value();
+      console.log('kkfff', this.folders);
       this.folder = this.folders[0];
       this.folders2 = this.folders;
       this.getField();

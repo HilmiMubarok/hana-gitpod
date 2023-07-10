@@ -24,9 +24,9 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Legal Lending Limit Type</div>
+              <div class="col-6">Legal Lending Limit Type</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col col-lg-3">
                 {{ creditProposal.attributes['legalLendingLimit'].legalLendingLimitType }}
               </div>
             </div>
@@ -48,9 +48,9 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Legal Lending Limit Value</div>
+              <div class="col-6">Legal Lending Limit Value</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col col-lg-3">
                 {{ creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue | currency: 'IDR ':'symbol':'1.0-0' }}
               </div>
             </div>
@@ -65,9 +65,9 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Total Exposure (Debtor & Group)</div>
+              <div class="col-6">Total Exposure (Debtor & Group)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col col-lg-4">
                 {{ countBuffer(totalExposureDebtorAndGroub) }}
               </div>
             </div>
@@ -91,9 +91,9 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Modal Inti Utama (TIER1 Bank Hana)</div>
+              <div class="col-6">Modal Inti Utama (TIER1 Bank Hana)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col col-lg-3">
                 {{ creditProposal.attributes['legalLendingLimit'].modalIntiUtama | currency: 'IDR ':'symbol':'1.0-0' }}
               </div>
             </div>
@@ -119,9 +119,9 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Buffer</div>
+              <div class="col-6">Buffer</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col col-lg-4">
                 {{
                   countBuffer(this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - this.totalExposureDebtorAndGroub)
                 }}
@@ -138,7 +138,7 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Status</div>
+              <div class="col-6">Status</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
                 {{ creditProposal.attributes['legalLendingLimit'].status }}

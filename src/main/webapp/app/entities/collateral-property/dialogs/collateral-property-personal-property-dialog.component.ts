@@ -31,6 +31,7 @@ import { map, Observable, startWith } from 'rxjs';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 
 @Component({
   selector: 'jhi-collateral-property-personal-property-dialog',
@@ -38,6 +39,7 @@ import lodash from 'lodash';
 })
 export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit {
   private _pariPasu: string;
+  collateralDetailTypeValue: string;
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -109,7 +111,8 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     private stateBoundaryService: StateBoundaryService,
     private partyCifService: PartyCifService,
     public creditProposalService: CreditProposalService,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    private collateralParameterService: CollateralParameterService
   ) {
     //  this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -130,6 +133,7 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     this.cekDataSource();
     this.cekData();
     this.lovcertificateType();
+    this.changeCollateralType();
   }
 
   public cekData() {
@@ -427,5 +431,29 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     } else {
       return '';
     }
+  }
+
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'PERSONAL_PROPERTY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }
