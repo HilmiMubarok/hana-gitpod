@@ -28,6 +28,8 @@
             <mat-card-content>
               <div class="row">
                 <div class="col-md-6">
+                  <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal" [isViewLoan]="true">
+                  </jhi-credit-proposal-booking-branch>
                   <div class="form-group mb-3">
                     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
@@ -158,8 +160,6 @@
                       </div>
                     </section>
                   </div>
-                  <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal" [isViewLoan]="true">
-                  </jhi-credit-proposal-booking-branch>
                   <div class="form-group">
                     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <mat-form-field appearance="outline" class="w-100">
