@@ -67,6 +67,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
     }
   }
 
+  public key = [];
   private initObject(collateral: ICollateral): void {
     if (this.data.collateralProperty) {
       // this.item = JSON.parse(this.data.collateralProperty.attributes['comparison']);
@@ -83,6 +84,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
             return o['tags']['collateralPropertyId'] === id.toString();
           });
           this.imagePreviewSrc = file['url'];
+          this.key = files;
         });
       });
     } else {
@@ -166,10 +168,21 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
       // update
       this.collateralProperty.attributes['comparison'] = JSON.stringify(this.item);
       this.collateralPropertyService.update(this.collateralProperty).subscribe(res => {
-        if (res.body.id) {
+        if (this.key.length > 0) {
+          let element: any;
+          for (let i = 0; i < this.key.length; i++) {
+            element = this.key[i].key;
+          }
+          if (element) {
+            // hapus
+            this.storageService.getBucketName().subscribe(res2 => {
+              const bucket = res2.body['bucket'];
+              this.storageService.deleteFile(bucket, element).subscribe();
+            });
+          }
           this.uploadFile(this.file, res.body.id);
-          this._dialog.close(res.body);
         }
+        this._dialog.close(res.body);
       });
     } else {
       if (this.item['nameFile'] !== '') {
@@ -177,7 +190,6 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
       } else {
         this.item['nameFile'] = this.file.name.split('.')[0];
       }
-
       // create
       this.collateralProperty.collateralId = this.collateral.id;
       this.collateralProperty.partyId = this.collateral.partyId;
