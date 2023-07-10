@@ -19,11 +19,28 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./document.scss'],
 })
 export class DocumentComponent implements OnChanges, OnInit {
-  @Input()
-  public collateral: ICollateral;
+  public _collateral: ICollateral;
 
   @Input()
-  public appraisal: ICollateralAppraisal;
+  get collateral(): ICollateral {
+    return this._collateral;
+  }
+
+  set collateral(value: ICollateral) {
+    this._collateral = value;
+  }
+
+  @Input()
+  public _appraisal: ICollateralAppraisal;
+
+  @Input()
+  get appraisal(): ICollateralAppraisal {
+    return this._appraisal;
+  }
+
+  set appraisal(value: ICollateralAppraisal) {
+    this._appraisal = value;
+  }
 
   @Input()
   public document: ICollateralAppraisal;
@@ -60,20 +77,15 @@ export class DocumentComponent implements OnChanges, OnInit {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.change = changes;
-    // if (changes['collateral']) {
-    //   this.getBucket().then(res => {
-    //     this.getFiles('collateral', this.collateral.id);
-    //   });
-    // }
+    if (changes['collateral']) {
+      this.documents = 'document-collateral';
+      this.getBucket().then(res => {
+        this.getFiles('collateral', this.collateral.id);
+      });
+    }
 
     if (changes['appraisal']) {
-      if (changes.document.currentValue === 'document-lainnya') {
-        this.documents = 'document-lainnya';
-      }
-
-      if (changes.document.currentValue === 'document-collateral') {
-        this.documents = 'document-collateral';
-      }
+      this.documents = 'document-lainnya';
       this.getBucket().then(res => {
         this.getFiles('appraisal', this.appraisal.id);
       });
@@ -110,11 +122,11 @@ export class DocumentComponent implements OnChanges, OnInit {
     };
 
     if (this.collateral) {
-      predicate['data']['collateral'] = this.collateral;
+      predicate['data']['collateral'] = this.change.collateral['currentValue'];
     }
 
     if (this.appraisal) {
-      predicate['data']['appraisal'] = this.appraisal;
+      predicate['data']['appraisal'] = this.change.appraisal['currentValue'];
     }
 
     predicate['data']['documents'] = this.documents;
@@ -122,19 +134,12 @@ export class DocumentComponent implements OnChanges, OnInit {
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (this.collateral) {
-          if (this.collateral.id) {
-            console.log('olll');
-            this.getFiles('collateral', this.collateral.id);
-          }
-        }
+      if (this.change.collateral !== undefined) {
+        this.getFiles('collateral', this.change.collateral['currentValue'].id);
+      }
 
-        if (this.appraisal) {
-          if (this.appraisal.id) {
-            this.getFiles('appraisal', this.appraisal.id);
-          }
-        }
+      if (this.change.appraisal !== undefined) {
+        this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
       }
     });
   }
@@ -197,11 +202,11 @@ export class DocumentComponent implements OnChanges, OnInit {
     };
 
     if (this.collateral) {
-      predicate['data']['collateral'] = this.collateral;
+      predicate['data']['collateral'] = this.change.collateral['currentValue'];
     }
 
     if (this.appraisal) {
-      predicate['data']['appraisal'] = this.appraisal;
+      predicate['data']['appraisal'] = this.change.appraisal['currentValue'];
     }
 
     predicate['data']['documents'] = this.documents;
@@ -209,48 +214,41 @@ export class DocumentComponent implements OnChanges, OnInit {
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (this.collateral) {
-          this.getFiles('collateral', this.collateral.id);
-        }
+      if (this.change.collateral !== undefined) {
+        this.getFiles('collateral', this.change.collateral['currentValue'].id);
+      }
 
-        if (this.appraisal) {
-          this.getFiles('appraisal', this.appraisal.id);
-        }
+      if (this.change.appraisal !== undefined) {
+        this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
       }
     });
   }
 
   private getFiles(owner: string, id: number): void {
-    // if (owner === 'collateral') {
-    //   const predicate: Object = {
-    //     key: `/collateral/${id}/document`,
-    //   };
-    //   this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-    //     this.groupByFolder(res.body);
-    //     this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-    //   });
-    // }
+    if (owner === 'collateral') {
+      if (this.change.collateral !== undefined) {
+        if (this.change.collateral['currentValue'] !== undefined) {
+          const predicate: Object = {
+            key: `/collateral/${id}/document`,
+          };
+          this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+            this.groupByFolder(res.body);
 
-    if (owner === 'appraisal') {
-      if (this.documents === 'document-collateral') {
-        const predicate: Object = {
-          key: `/appraisals/${id}/document-colateral`,
-        };
-        this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-          this.groupByFolder(res.body);
-
-          this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-        });
+            this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
+          });
+        }
       }
-      if (this.documents === 'document-lainnya') {
-        const predicate: Object = {
-          key: `/appraisals/${id}/document-lainnya`,
-        };
-        this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-          this.groupByFolder(res.body);
-          this.collateralAppraisalService.totalDataDocumentLainya = res.body;
-        });
+    } else if (owner === 'appraisal') {
+      if (this.change.appraisal !== undefined) {
+        if (this.change.appraisal['currentValue'] !== undefined) {
+          const predicate: Object = {
+            key: `/appraisals/${id}/document-lainnya`,
+          };
+          this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+            this.groupByFolder(res.body);
+            this.collateralAppraisalService.totalDataDocumentLainya = res.body;
+          });
+        }
       }
     }
   }
@@ -273,25 +271,14 @@ export class DocumentComponent implements OnChanges, OnInit {
   }
 
   public documentCollateral(id: number) {
-    console.log('document-collateral', id);
-    this.storageService.getBucketName().subscribe(r => {
-      const predicate: Object = {
-        key: `/appraisals/${id}/document-colateral`,
-      };
-
-      this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-      });
-    });
-  }
-
-  public collateralData(id: number) {
     this.storageService.getBucketName().subscribe(r => {
       const predicate: Object = {
         key: `/collateral/${id}/document`,
       };
+
       this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
         this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
+        console.log('kkfff', res.body);
       });
     });
   }
@@ -302,7 +289,9 @@ export class DocumentComponent implements OnChanges, OnInit {
         key: `/appraisals/${id}/document-lainnya`,
       };
       this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
+        this.groupByFolder(res.body);
         this.collateralAppraisalService.totalDataDocumentLainya = res.body;
+        console.log('qwe', res.body);
       });
     });
   }
