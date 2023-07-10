@@ -226,7 +226,7 @@
       <td mat-cell *matCellDef="let element">{{ element.maturityDate | date: 'yyyy/MM/dd' }}</td>
     </ng-container>
     <ng-container matColumnDef="firstDisbursementDate">
-      <th mat-header-cell *matHeaderCellDef>FirstDisbursement Date</th>
+      <th mat-header-cell *matHeaderCellDef>First Disbursement Date</th>
       <td mat-cell *matCellDef="let element">
         <span *ngIf="element.firstDisbursementDate === undefined">0</span>
         <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate | date: 'yyyy/MM/dd' }}</span>
