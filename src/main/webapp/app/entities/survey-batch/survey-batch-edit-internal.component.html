@@ -1,4 +1,4 @@
-<mat-sidenav-container [hasBackdrop]="true">
+<mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
@@ -62,8 +62,8 @@
               [creditProposal]="creditProposal"
               [collateralAppraisal]="collateralAppraisal"
             >
-            </jhi-party-cif-customer-info-postal-address
-          ></div>
+            </jhi-party-cif-customer-info-postal-address>
+          </div>
         </div>
         <!-- Customer Address -->
       </div>
@@ -172,42 +172,38 @@
     </div>
   </div>
 
-  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-    <div class="p-3" style="padding-top: 90px !important">
-      <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-      <ul class="side-menu">
-        <li *ngFor="let item of subMenu">
-          <!--SUBMENU DOESNT HAS A CHILD-->
-          <a
-            *ngIf="!item.hasOwnProperty('child')"
-            href="javascript:void(0)"
-            class="text-capitalize"
-            (click)="routeSubMenu(item); drawer.toggle()"
-            [ngClass]="checkCompletedData(item) ? 'completed-data' : ''"
-            >{{ item.label }}</a
-          >
-          <!--SUBMENU HAS A CHILD-->
-          <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
-          <ul *ngIf="item.hasOwnProperty('child')">
-            <li *ngFor="let itemChild of item.child">
-              <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
-                itemChild.label
-              }}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+  <mat-sidenav position="end" style="position: fixed !important; max-height: 20rem !important" #drawer class="example-sidenav" mode="over">
+    <div class="header-sub-menu"><label style="margin-top: 1rem">Select your destination:</label></div>
+    <ul class="side-menu list-styling">
+      <li *ngFor="let item of subMenu">
+        <!--SUBMENU DOESNT HAS A CHILD-->
+        <a
+          *ngIf="!item.hasOwnProperty('child')"
+          href="javascript:void(0)"
+          class="text-capitalize"
+          (click)="routeSubMenu(item); drawer.toggle(); triggerToggle()"
+          [ngClass]="checkCompletedData(item) ? 'completed-data' : ''"
+          >{{ item.label }}</a
+        >
+        <!--SUBMENU HAS A CHILD-->
+        <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
+        <ul *ngIf="item.hasOwnProperty('child')">
+          <li *ngFor="let itemChild of item.child">
+            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize">{{
+              itemChild.label
+            }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </mat-sidenav>
 </mat-sidenav-container>
 <button
   matTooltip="Click this for show sub menu of Collateral Appraisal"
-  style="z-index: 1"
-  class="btn-menu-floating"
-  (click)="drawer.toggle()"
-  mat-fab
-  color="warn"
+  [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+  class="btn-menu-floating button-float-color btn-float-styling"
+  (click)="drawer.toggle(); triggerToggle()"
   matTooltipPosition="before"
 >
-  <mat-icon>more_vert</mat-icon>
+  <mat-icon class="settings-icon rotating">settings</mat-icon>
 </button>

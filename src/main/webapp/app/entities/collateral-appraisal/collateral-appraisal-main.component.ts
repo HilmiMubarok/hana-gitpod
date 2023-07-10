@@ -102,6 +102,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private resProcess: any;
   private taskProcess: IProcessTask;
   private _collateralAppraisal: ICollateralAppraisal;
+  public isOpen = false;
   appName: any;
   appNameMenu: any;
   get collateralAppraisal() {
@@ -1201,5 +1202,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

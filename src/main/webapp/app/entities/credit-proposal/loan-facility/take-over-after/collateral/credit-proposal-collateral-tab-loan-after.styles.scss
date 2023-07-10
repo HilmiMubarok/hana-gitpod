@@ -2,44 +2,68 @@ table {
   width: 100%;
 }
 
-th {
-  background-color: rgba(147, 201, 199, 1);
-  color: black;
-  font-family: 'Poppins', sans-serif;
-}
-td {
-  font-family: 'Poppins', sans-serif;
-}
-.rounding-table-left {
-  border-top-left-radius: 15px;
-}
-.rounding-table-right {
-  border-top-right-radius: 15px;
+/* Table Styling */
+table {
+  th {
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500;
+  }
+  td {
+    font-family: 'Poppins', sans-serif !important;
+  }
+  th:first-child {
+    border-top-left-radius: 15px;
+  }
+  th:last-child {
+    border-top-right-radius: 15px;
+  }
+
+  table .mat-table {
+    border: 1px #008881 solid !important;
+  }
+
+  .mat-header-cell {
+    min-height: auto !important;
+    padding: 0 25px 0 0;
+  }
+  .mat-footer-cell {
+    min-height: auto !important;
+    padding: 0 25px 0 0;
+  }
+  mat-cell,
+  .mat-cell {
+    min-height: auto !important;
+    padding: 5px 25px 5px 0 !important;
+  }
 }
 
-.grid-index-left {
-  justify-content: flex-start;
-  font-family: 'Poppins', sans-serif;
-}
+/* Table Styling */
 
-.grid-index-right {
-  justify-content: flex-end;
-  text-align: right;
-  padding-right: 45px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.grid-index-center {
-  justify-content: center;
-  text-align: center;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.button-styling {
+.button-styling:enabled {
+  color: white;
   background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .mat-header-cell {
   font-weight: 500 !important;
 }
+
+// collateral info table
+.mat-column-no {
+  text-align: right;
+  width: 5% !important;
+}
+.mat-column-collateralType {
+  text-align: left;
+}
+.mat-column-marketValue {
+  text-align: right;
+}
+.mat-column-liquidValue {
+  text-align: right;
+}
+// collateral info table
