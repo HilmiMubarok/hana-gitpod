@@ -151,6 +151,8 @@ export class LoanAnalysMainComponent implements OnInit {
     roleId: '',
   };
 
+  public isOpen = false;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -1718,6 +1720,9 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public saveCollateralProperty(property: ICollateralProperty) {
     this.collateralPropertyService.save(property).subscribe(res => {});
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }
 

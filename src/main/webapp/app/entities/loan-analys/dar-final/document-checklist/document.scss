@@ -114,3 +114,20 @@ ngx-dropzone-preview {
   width: 200px !important;
   overflow: hidden;
 }
+
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}
+
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
