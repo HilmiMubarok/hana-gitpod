@@ -54,6 +54,7 @@ import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { IInternal } from 'app/entities/internal/internal.model';
 import { EmploymentType } from 'app/entities/employment-type/employment-type.model';
 import { InternalType } from 'app/entities/internal-type/internal-type.model';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -125,6 +126,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     ],
   };
   private _pariPasu: string;
+  collateralDetailTypeValue: string;
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -232,13 +234,14 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     public stateBoundaryService: StateBoundaryService,
     protected generalParameterService: GeneralParameterService,
     protected positionService: PositionService,
-    private internalService: InternalService
+    private internalService: InternalService,
+    private collateralParameterService: CollateralParameterService
   ) {
     // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     // this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+    // this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
     this.collPropLand = [];
     this.collPropBuilding = [];
     this.liquidationValueMV = 0;
@@ -262,6 +265,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.getBranchs();
     this.dataSource();
     this.cekDataSource();
+    this.changeCollateralType();
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -574,5 +578,29 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     } else {
       return '';
     }
+  }
+
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'CORPORATEPERSONALGUARANTEE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }

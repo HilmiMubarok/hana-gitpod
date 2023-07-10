@@ -8,7 +8,11 @@
           <mat-label>Collateral Detail Type</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType">
             <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+            <!-- <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }}
+            </mat-option> -->
+            <mat-option *ngFor="let item of collateralDetailType" [value]="item.collateralDetailTypeCode">
+              {{ item.collateralDetailTypeDescription }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -412,7 +416,9 @@
           <mat-label>Collateral Detail Type</mat-label>
           <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" disabled>
             <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+            <mat-option *ngFor="let item of collateralDetailType" [value]="item.collateralDetailTypeCode">
+              {{ item.collateralDetailTypeDescription }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
