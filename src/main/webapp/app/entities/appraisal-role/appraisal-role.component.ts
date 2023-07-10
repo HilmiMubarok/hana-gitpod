@@ -63,14 +63,12 @@ export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IPos
 
   public selectRelationType(event: any): void {
     event = this.selectedRelationType;
-    console.log('evt', event);
     this.getReportingStructureByAppraislId();
   }
 
   private getReportingStructureByAppraislId(): void {
     this.position.findPositionReportingStructureAppraisal(this.appraisalId).subscribe(res => {
       this.filteringItems = res.body;
-      console.log('zz', this.filteringItems);
     });
   }
 }

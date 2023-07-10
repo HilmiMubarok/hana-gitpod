@@ -106,9 +106,10 @@
   <!-- </mat-card> -->
   <div align="right" class="mt-5">
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-     <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling" style="margin-right: 1.4rem">ADD</button>
+      <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling" style="margin-right: 1.4rem">ADD</button>
     </section>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''"></section>
-    <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling" style="margin-right: 1.4rem">ADD</button>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling" style="margin-right: 1.4rem">ADD</button>
+    </section>
   </div>
 </section>

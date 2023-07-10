@@ -656,7 +656,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         )
       );
       getBindingCalculateValue = data.filter(item => item !== undefined);
-      console.log('getBindingCalculateValue ', getBindingCalculateValue);
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
