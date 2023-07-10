@@ -223,7 +223,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 
             this.officer = surveyor;
             this.surveyAppraisalsService.find(this.surveyAppraisal.id).subscribe(resSA => {
-              this.tempSurveyor = resSA.body.surveyorPersonId;
+              // this.tempSurveyor = resSA.body.surveyorPersonId;
+			  this.tempSurveyor = resSA.body.surveyorPositionId;
             });
           });
       });
