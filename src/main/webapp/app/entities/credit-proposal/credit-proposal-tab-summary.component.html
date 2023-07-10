@@ -43,97 +43,81 @@
 </section>
 
 <div class="mb-5">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="header-title">Generate Document</div>
-      <div class="e-card-sub-title"></div>
-    </div>
-  </div>
-  <div class="e-card-content">
-    <div *ngIf="viewButton === 'cp'">
-      <div class="form-space" id="viewButton" style="display: flex">
-        <ejs-dropdownlist
-          [dataSource]="fileTypeList"
-          [(value)]="fileTypeSelected"
-          cssClass="e-outline"
-          floatLabelType="Auto"
-          placeholder="file template"
-        ></ejs-dropdownlist>
-        <button ejs-button class="button-styling" (click)="generate($event)" style="margin-left: 5px">Generate</button>
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="header-title">Generate Document</div>
+        <div class="e-card-sub-title"></div>
       </div>
     </div>
-    <div class="form-group">
-      <div class="table-responsive-material">
-        <table mat-table [dataSource]="data" class="w-100">
-          <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef>No</th>
-            <td mat-cell *matCellDef="let element">{{ element.indexNum }}</td>
-          </ng-container>
-          <ng-container matColumnDef="fileName">
-            <th mat-header-cell *matHeaderCellDef>File Name</th>
-            <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
-          </ng-container>
-          <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef>Date</th>
-            <td mat-cell *matCellDef="let element">{{ element.tags.createDate }}</td>
-          </ng-container>
-          <ng-container matColumnDef="createBy">
-            <th mat-header-cell *matHeaderCellDef>Create By</th>
-            <td mat-cell *matCellDef="let element">{{ element.tags.createBy }}</td>
-          </ng-container>
-          <ng-container matColumnDef="sizeFile">
-            <th mat-header-cell *matHeaderCellDef>Size File</th>
-            <td mat-cell *matCellDef="let element">{{ element.sizeFile }}</td>
-          </ng-container>
+    <div class="e-card-content">
+      <div *ngIf="viewButton === 'cp'">
+        <div class="form-space" id="viewButton" style="display: flex">
+          <ejs-dropdownlist
+            [dataSource]="fileTypeList"
+            [(value)]="fileTypeSelected"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            placeholder="file template"
+          ></ejs-dropdownlist>
+          <button ejs-button class="button-styling" (click)="generate($event)" style="margin-left: 5px">Generate</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="table-responsive-material">
+          <table mat-table [dataSource]="data" class="w-100">
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef>No</th>
+              <td mat-cell *matCellDef="let element">{{ element.indexNum }}</td>
+            </ng-container>
+            <ng-container matColumnDef="fileName">
+              <th mat-header-cell *matHeaderCellDef>File Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let element">{{ element.tags.createDate }}</td>
+            </ng-container>
+            <ng-container matColumnDef="createBy">
+              <th mat-header-cell *matHeaderCellDef>Create By</th>
+              <td mat-cell *matCellDef="let element">{{ element.tags.createBy }}</td>
+            </ng-container>
+            <ng-container matColumnDef="sizeFile">
+              <th mat-header-cell *matHeaderCellDef>Size File</th>
+              <td mat-cell *matCellDef="let element">{{ element.sizeFile }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef width="10%">Action</th>
-            <td mat-cell *matCellDef="let element">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <button pButton type="button" (click)="onEdit(element)" class="flat-button">
-                  <fa-icon icon="eye"></fa-icon>
-                </button>
-                <button pButton type="button" (click)="onDelete(element)" class="flat-button">
-                  <fa-icon icon="trash-alt"></fa-icon>
-                </button>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <button pButton type="button" (click)="onEdit(element)" class="flat-button">
-                  <fa-icon icon="eye"></fa-icon>
-                </button>
-              </section>
-            </td>
-          </ng-container>
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-          </tr>
-          <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-        </table>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef width="10%">Action</th>
+              <td mat-cell *matCellDef="let element">
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <button pButton type="button" (click)="onEdit(element)" class="flat-button">
+                    <fa-icon icon="eye"></fa-icon>
+                  </button>
+                  <button pButton type="button" (click)="onDelete(element)" class="flat-button">
+                    <fa-icon icon="trash-alt"></fa-icon>
+                  </button>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <button pButton type="button" (click)="onEdit(element)" class="flat-button">
+                    <fa-icon icon="eye"></fa-icon>
+                  </button>
+                </section>
+              </td>
+            </ng-container>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- LC3_SME, LC3_COMM, LC3_ENTRP, LC3_CORP, LC3_GLOB, LC4_SME, LC4_COMM, LC4_ENTRP, LC4_CORP, LC4_GLOB -->
-  <section class="mt-2">
-    <ng-container
-      *ngIf="
-        item.approvalLc === 'LC3_SME' ||
-        item.approvalLc === 'LC3_COMM' ||
-        item.approvalLc === 'LC3_ENTRP' ||
-        item.approvalLc === 'LC3_CORP' ||
-        item.approvalLc === 'LC3_GLOB' ||
-        item.approvalLc === 'LC4_SME' ||
-        item.approvalLc === 'LC4_COMM' ||
-        item.approvalLc === 'LC4_ENTRP' ||
-        item.approvalLc === 'LC4_CORP' ||
-        item.approvalLc === 'LC4_GLOB'
-      "
-    >
-      <jhi-loan-facility-approve-level-note [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level-note>
-    </ng-container>
-    <ng-container
-      *ngIf="
-        !(
+    <!-- LC3_SME, LC3_COMM, LC3_ENTRP, LC3_CORP, LC3_GLOB, LC4_SME, LC4_COMM, LC4_ENTRP, LC4_CORP, LC4_GLOB -->
+    <section class="mt-2">
+      <ng-container
+        *ngIf="
           item.approvalLc === 'LC3_SME' ||
           item.approvalLc === 'LC3_COMM' ||
           item.approvalLc === 'LC3_ENTRP' ||
@@ -144,12 +128,30 @@
           item.approvalLc === 'LC4_ENTRP' ||
           item.approvalLc === 'LC4_CORP' ||
           item.approvalLc === 'LC4_GLOB'
-        )
-      "
-    >
-      <jhi-loan-facility-approve-level [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level>
-    </ng-container>
-  </section>
+        "
+      >
+        <jhi-loan-facility-approve-level-note [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level-note>
+      </ng-container>
+      <ng-container
+        *ngIf="
+          !(
+            item.approvalLc === 'LC3_SME' ||
+            item.approvalLc === 'LC3_COMM' ||
+            item.approvalLc === 'LC3_ENTRP' ||
+            item.approvalLc === 'LC3_CORP' ||
+            item.approvalLc === 'LC3_GLOB' ||
+            item.approvalLc === 'LC4_SME' ||
+            item.approvalLc === 'LC4_COMM' ||
+            item.approvalLc === 'LC4_ENTRP' ||
+            item.approvalLc === 'LC4_CORP' ||
+            item.approvalLc === 'LC4_GLOB'
+          )
+        "
+      >
+        <jhi-loan-facility-approve-level [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level>
+      </ng-container>
+    </section>
 
-  <jhi-loan-facility-approve-matrix [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-matrix>
+    <jhi-loan-facility-approve-matrix [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-matrix>
+  </div>
 </div>

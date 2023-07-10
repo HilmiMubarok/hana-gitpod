@@ -947,7 +947,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
       data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
       getBindingCalculateValue = data.filter(item => item !== undefined);
-      console.log('getBindingCalculateValue ', getBindingCalculateValue);
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
