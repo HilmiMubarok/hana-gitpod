@@ -195,7 +195,8 @@
             <section *jhiMatrixDirIDD="'input'">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Qty</mat-label>
-                <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
+                <!-- <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()"> -->
+                <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" disabled>
                   <mat-option value="">Please Select</mat-option>
                   <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
                     {{ item.abbreviation }} - {{ item.description }}
