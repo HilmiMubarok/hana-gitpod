@@ -79,6 +79,7 @@ export class OfferingLetterMainComponent implements OnInit {
   public isHistoryExist: boolean;
   public proposType = [];
   private KEYG = 'credit_proposal/summary';
+  public isOpen = false;
 
   @Input('item')
   get item() {
@@ -231,8 +232,6 @@ export class OfferingLetterMainComponent implements OnInit {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
 
-    this.getTitle();
-    this.getTitleMenu();
     this.getBucketNameSummary();
 
     if (this.creditProposal.cif) {
@@ -411,10 +410,6 @@ export class OfferingLetterMainComponent implements OnInit {
     }
   }
 
-  getTitle() {
-    this.appName = sessionStorage.getItem('appName');
-  }
-
   getTitleUrl() {
     const x = this.router.url.split('/')[3];
     this.titleUrl = x;
@@ -423,108 +418,36 @@ export class OfferingLetterMainComponent implements OnInit {
   getText(value: any) {
     if (value === 'distribution') {
       this.title = 'Offering Letter Distribution';
-      sessionStorage.setItem('appName', this.title);
     }
     if (value === 'finalize') {
       this.title = 'Offering Letter Finalize';
-      sessionStorage.setItem('appName', this.title);
     }
     if (value === 'review') {
       this.title = 'Offering Letter Review';
-      sessionStorage.setItem('appName', this.title);
     }
     if (value === 'confirmation') {
       this.title = 'Offering Letter Confirmation';
-      sessionStorage.setItem('appName', this.title);
+    }
+    return this.title;
+  }
+
+  public getTextMenu(param: string): string {
+    const titleMenu = param;
+    const regex = /[-]/g;
+    if (titleMenu === 'covenant-document-check') {
+      return 'covenant document checklist';
+    } else if (titleMenu === 'loan-facility') {
+      return 'loan facility details';
+    } else if (titleMenu === 'convenant-tbo') {
+      const convenantTbo = titleMenu.replace(regex, ' & ');
+      return convenantTbo;
+    } else {
+      return titleMenu.replace(regex, ' ');
     }
   }
 
-  getTextMenu() {
-    if (this.selectedMenu === 'credit-proposal-summary') {
-      this.titleMenu = 'Credit Proposal Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'offering-letter') {
-      this.titleMenu = 'Offering Letter';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'compliance-recomendation') {
-      this.titleMenu = 'Compliance Recomendation';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'credit-opinion') {
-      this.titleMenu = 'Credit Opinion';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'covenant-document-check') {
-      this.titleMenu = 'Covenant & Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'document-checklist') {
-      this.titleMenu = 'Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'basic-information') {
-      this.titleMenu = 'Basic Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'management-information') {
-      this.titleMenu = 'Management Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'exposure') {
-      this.titleMenu = 'Exposure';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'risk-acceptance-criteria') {
-      this.titleMenu = 'Risk Acceptance Criteria';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'loan-facility-detail') {
-      this.titleMenu = 'Loan Facility Detail';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'loan-facility') {
-      this.titleMenu = 'Loan Facility';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'collateral-info') {
-      this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'business-activity') {
-      this.titleMenu = 'Business Activity';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'financial-statement') {
-      this.titleMenu = 'Financial Statement';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'bank-account-analyst') {
-      this.titleMenu = 'Bank Account Analyst';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'convenant-tbo') {
-      this.titleMenu = 'Convenant & Tbo';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'propose-pricing') {
-      this.titleMenu = 'Propose Pricing';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'summary') {
-      this.titleMenu = 'Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'compare-approval-report') {
-      this.titleMenu = 'Compare Approval Report';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    return this.titleMenu;
-  }
-
-  getTitleMenu() {
-    this.appNameMenu = sessionStorage.getItem('appNameMenu');
+  showTextMenu() {
+    return this.getTextMenu(this.selectedMenu);
   }
 
   private getBucketNameSummary() {
@@ -781,12 +704,6 @@ export class OfferingLetterMainComponent implements OnInit {
     window.history.back();
   }
 
-  // public cekCgpgData() {
-  //   for (let i = 0; i < this.collateralProperties.length; i++) {
-  //     this.saveCollateralProperty(this.collateralProperties[i]);
-  //   }
-  // }
-
   // offering letter / confirmation
   // cancel confrimation dialog
   public openCancelDialog(): void {
@@ -803,6 +720,9 @@ export class OfferingLetterMainComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }
 interface IObj {

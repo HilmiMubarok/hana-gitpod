@@ -1,11 +1,11 @@
-<mat-sidenav-container [hasBackdrop]="true">
+<mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Offering Letter Distribution" url=""> </e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ getText(parentPath) }}" url=""> </e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
             <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
-          <p class="e-card-sub-title">{{ getTextMenu() }}</p>
+          <p class="e-card-sub-title menu-title-class">{{ showTextMenu() }}</p>
         </div>
       </div>
     </div>
@@ -406,7 +406,7 @@
       </div>
 
       <!-- Propose Pricing -->
-      <div *ngIf="selectedMenu === 'propose-pricing'" class="e-sample-resize-container e-card-resize-container wraper-card">
+      <div *ngIf="selectedMenu === 'propose-pricing'" class="e-sample-resize-container e-card-resize-container wrapper-card">
         <e-card><jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing></e-card>
       </div>
 
@@ -426,18 +426,18 @@
       </div>
 
       <!-- Convenant on finalize (:enable:) -->
-      <div *ngIf="selectedMenu === 'finalize-convenant'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-covenant-temp [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+      <div *ngIf="selectedMenu === 'finalize-convenant'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card class="mb-3"><jhi-covenant-temp [creditProposalItem]="creditProposal"></jhi-covenant-temp></e-card>
       </div>
 
       <!-- Summary -->
-      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card><jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary></e-card>
       </div>
 
       <!-- Opinion -->
-      <div *ngIf="selectedMenu === 'credit-opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
+      <div *ngIf="selectedMenu === 'credit-opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card><jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion></e-card>
       </div>
 
       <!-- Compare Data -->
@@ -446,9 +446,11 @@
       </div>
 
       <!-- Complience Rec -->
-      <div *ngIf="selectedMenu === 'compliance-recomendation'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
-        <jhi-loan-analys-opinion-compliance-part [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion-compliance-part>
+      <div *ngIf="selectedMenu === 'compliance-recomendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card
+          ><jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
+          <jhi-loan-analys-opinion-compliance-part [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion-compliance-part
+        ></e-card>
       </div>
     </div>
 
@@ -491,45 +493,42 @@
     </div>
   </div>
 
-  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-    <div class="p-3" style="padding-top: 90px !important">
-      <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-
-      <mat-list role="list">
-        <div *ngFor="let item of subMenu">
-          <mat-list-item role="listitem">
-            <a
-              *ngIf="!item.hasOwnProperty('child')"
-              href="javascript:void(0)"
-              class="text-capitalize"
-              (click)="routeSubMenu(item); drawer.toggle()"
-              >{{ item.text }}</a
-            >
-          </mat-list-item>
-          <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
-            item.text
-          }}</mat-list-item>
-          <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
-            <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
-              <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
-              <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
-                itemChild.text
-              }}</a>
-            </mat-list-item>
-          </mat-list>
-        </div>
-      </mat-list>
+  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
+    <div class="header-sub-menu">
+      <label style="margin-top: 1rem; min-width: 20rem">{{ getText(parentPath) }}:</label>
     </div>
+    <mat-list role="list" class="list-styling">
+      <div *ngFor="let item of subMenu">
+        <mat-list-item role="listitem">
+          <a
+            *ngIf="!item.hasOwnProperty('child')"
+            href="javascript:void(0)"
+            class="text-capitalize"
+            (click)="routeSubMenu(item); drawer.toggle(); triggerToggle()"
+            >{{ item.text }}</a
+          >
+        </mat-list-item>
+        <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
+          item.text
+        }}</mat-list-item>
+        <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
+          <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
+            <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
+            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize">{{
+              itemChild.text
+            }}</a>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-list>
   </mat-sidenav>
 </mat-sidenav-container>
 <button
   matTooltip="Click this for show sub menu of Offering Letter"
-  style="z-index: 1"
-  class="btn-menu-floating"
-  (click)="drawer.toggle()"
-  mat-fab
-  color="warn"
+  [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+  class="btn-menu-floating button-float-color btn-float-styling"
+  (click)="drawer.toggle(); triggerToggle()"
   matTooltipPosition="before"
 >
-  <mat-icon>more_vert</mat-icon>
+  <mat-icon class="settings-icon rotating">settings</mat-icon>
 </button>
