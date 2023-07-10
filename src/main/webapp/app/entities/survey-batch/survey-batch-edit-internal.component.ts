@@ -149,6 +149,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   public totalDataDocumentCollateral = [];
   public totalDataDocumentLainya = [];
   public positionTypeId: string;
+  public isOpen = false;
   public jpRenewal: boolean;
   public jpNew: boolean;
   public jpAdditional: boolean;
@@ -1342,5 +1343,8 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

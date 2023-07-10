@@ -156,6 +156,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public fotoObjectJaminan: any;
   public totalDataDocumentCollateral = [];
   public totalDataDocumentLainya = [];
+  public isOpen = false;
 
   public jpRenewal: boolean;
   public jpNew: boolean;
@@ -1573,5 +1574,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       });
       // }
     }
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }
