@@ -6,6 +6,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-deviation-below-temp',
   templateUrl: './credit-proposal-deviation-below.component.html',
+  styleUrls: ['./credit-proposal-deviation-below.style.css'],
 })
 export class CreditProposalDeviationBelowTempComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();
