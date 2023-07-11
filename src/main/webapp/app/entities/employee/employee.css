@@ -292,3 +292,9 @@ th:last-child {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+@-moz-document url-prefix() {
+  .align-center {
+    text-align: center;
+    margin: 0 auto;
+  }
+}
