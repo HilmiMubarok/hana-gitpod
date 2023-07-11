@@ -1,0 +1,25 @@
+<div class="e-card my-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Remarks</div>
+    </div>
+  </div>
+  <div class="e-card-content p-3">
+    <ejs-documenteditorcontainer
+      #document_editor_container
+      [headers]="customHeadersJWT"
+      [enableToolbar]="true"
+      [isReadOnly]="false"
+      [disabled]="false"
+      [enableEditor]="true"
+      [enableLocalPaste]="false"
+      height="100vh"
+      style="display: block"
+      [spellcheck]="false"
+      [enableSpellCheck]="false"
+      (keyDown)="onKeyDown($event)"
+      (documentChange)="onDocumentChange()"
+      (created)="onCreate()"
+    ></ejs-documenteditorcontainer>
+  </div>
+</div>

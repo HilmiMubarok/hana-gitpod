@@ -384,6 +384,7 @@ import { CPMemoBandingStandardCovenantComponent } from './credit-proposal/memo-b
 import { CPMemoBandingCovenantAboveComponent } from './credit-proposal/memo-banding/memo-banding-covenant/above/cp-memo-banding-covenant-above.component';
 import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/other-covenant/cp-memo-banding-other-covenant.component';
 import { MemoBandingComponent } from './credit-proposal/memo-banding/credit-proposal-memo-banding.component';
+import { CPMemoBandingRemarkComponent } from './credit-proposal/memo-banding/remarks/cp-memo-banding-remark.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -829,6 +830,7 @@ import { MemoBandingComponent } from './credit-proposal/memo-banding/credit-prop
         CPMemoBandingStandardCovenantComponent,
         CPMemoBandingCovenantAboveComponent,
         CpMemoBandingOtherCovenantComponent,
+        CPMemoBandingRemarkComponent,
         MemoBandingComponent,
   ],
   exports: [
@@ -1231,6 +1233,7 @@ import { MemoBandingComponent } from './credit-proposal/memo-banding/credit-prop
     CPMemoBandingStandardCovenantComponent,
     CPMemoBandingCovenantAboveComponent,
     CpMemoBandingOtherCovenantComponent,
+    CPMemoBandingRemarkComponent,
     MemoBandingComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
