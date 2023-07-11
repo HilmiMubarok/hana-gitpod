@@ -785,4 +785,11 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     }
     return result;
   }
+
+  public disabledCeklis(event) {
+    if (event.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+      return true;
+    }
+    return false;
+  }
 }
