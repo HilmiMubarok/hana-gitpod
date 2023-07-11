@@ -171,3 +171,9 @@ th:last-child {
   font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
 }
+
+.align-center {
+  @-moz-document url-prefix()
+  text-align: center;
+  margin: 0 auto;
+}
