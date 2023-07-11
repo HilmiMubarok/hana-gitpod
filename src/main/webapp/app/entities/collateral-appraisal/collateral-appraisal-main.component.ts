@@ -102,6 +102,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private resProcess: any;
   private taskProcess: IProcessTask;
   private _collateralAppraisal: ICollateralAppraisal;
+  public isOpen = false;
   appName: any;
   appNameMenu: any;
   get collateralAppraisal() {
@@ -796,6 +797,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (this.surveyAppraisal.statusId !== 'COMPLETE') {
         this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
         this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      } else {
+        this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
       }
     }
   }
@@ -1201,5 +1204,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

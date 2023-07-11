@@ -93,7 +93,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public wilayahKotaInternalValue: number;
   public wilayahKotaExternalValue: number;
 
-  public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
+  // public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
+  public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'employeeId' };
 
   public officerAppraisalFields?: Object = { text: 'employeeFirstName', value: 'id' };
   public officerAppraisalValue?: string;
@@ -215,14 +216,15 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                     (resA.body[i].employeeFirstName !== null ? resA.body[i].employeeFirstName : '') +
                     ' ' +
                     (resA.body[i].employeeLastName !== null ? resA.body[i].employeeLastName : ''),
-                  id: resA.body[i].partyId,
+                  id: resA.body[i].id,
                 });
               // }
             }
 
             this.officer = surveyor;
             this.surveyAppraisalsService.find(this.surveyAppraisal.id).subscribe(resSA => {
-              this.tempSurveyor = resSA.body.surveyorPersonId;
+              // this.tempSurveyor = resSA.body.surveyorPersonId;
+			  this.tempSurveyor = Number(resSA.body.surveyorPositionId);
             });
           });
       });
@@ -499,6 +501,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                 ' ' +
                 (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
               id: res.body[i].id,
+			  employeeId: res.body[i].employeeId,
             });
           }
         }
@@ -510,7 +513,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   }
 
   public selectTeamReviewer(args: ChangeEventArgs): void {
-    this.surveyAppraisal.teamLeadId = args['itemData'].id;
+    // this.surveyAppraisal.teamLeadId = args['itemData'].id;
+	this.surveyAppraisal.teamLeadId = args['itemData'].employeeId;
     this.surveyAppraisal.teamLeadPersonId = args['itemData'].employeeId;
     this.surveyAppraisal.teamLeadName = args['itemData'].employeeFirstName;
     this.surveyAppraisal.reviewedBy = args['itemData'].employeeFirstName;
@@ -539,7 +543,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                 (res.body[i].employeeFirstName !== null ? res.body[i].employeeFirstName : '') +
                 ' ' +
                 (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
-              id: res.body[i].partyId,
+              id: res.body[i].id,
             });
           // }
         }

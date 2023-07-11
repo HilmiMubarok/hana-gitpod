@@ -24,12 +24,13 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-survey-batch-appraisal',
   templateUrl: './survey-batch-appraisal.component.html',
-  styleUrls: ['../credit-proposal/credit-proposal-list.css'],
+  styleUrls: ['../credit-proposal/credit-proposal-list.css', './collateral-appraisal-material-external.style.css'],
 })
 export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialComponent<ISurveyBatch> implements OnInit {
   public clickedMenu: string;
   public globalSearchValModel: string;
   public globalSearchVal: string;
+  public isOpen = false;
   cif: string;
   surveyBatch: ISurveyBatch | null = null;
   public displayedColumns: string[] = ['no', 'name', 'receivedDate', 'action'];
@@ -238,5 +239,8 @@ export class SurveyBatchAppraisalComponent extends AbstractEntityMaterialCompone
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

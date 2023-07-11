@@ -29,6 +29,7 @@ import { firstValueFrom, map, Observable, startWith } from 'rxjs';
 import { CollateralPropertyService } from '../collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 
 @Component({
   selector: 'jhi-collateral-property-machine-dialog',
@@ -36,6 +37,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 })
 export class CollateralPropertyMachineDialogComponent implements OnInit, OnChanges {
   private _pariPasu: string;
+  collateralDetailTypeValue: string;
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -114,13 +116,14 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
     private stateBoundaryService: StateBoundaryService,
     private partyCifService: PartyCifService,
     private collateralPropertyService: CollateralPropertyService,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    private collateralParameterService: CollateralParameterService
   ) {
     // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE;
+    // this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE;
     this.collPropMachine = [];
     this.liquidValueMV = 0;
   }
@@ -148,6 +151,7 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
     this.cekData();
     this.cekDataSource();
     this.lovcertificateType();
+    this.changeCollateralType();
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -463,5 +467,29 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
     } else {
       return '';
     }
+  }
+
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'MACHINE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }

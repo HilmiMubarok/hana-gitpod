@@ -72,7 +72,7 @@ td {
   font-family: 'Poppins', sans-serif;
   font-size: 22px;
   font-weight: 600;
-  color: rgba(158, 138, 113, 1);
+  color: #597c97 !important;
   line-height: 35px;
   margin-left: 10px;
   padding-top: 13px;
@@ -416,3 +416,20 @@ mat-cell,
   text-align: left;
 }
 /* Table Offering Letter */
+
+/* override e card */
+:host .e-card {
+  -webkit-tap-highlight-color: #effefd;
+  background-color: #effefd;
+  border: none none #effefd;
+  box-shadow: 0 0 0 0 #effefd;
+  color: #effefd;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+:host .e-card:hover {
+  background-color: #effefd;
+  border-color: #effefd;
+  box-shadow: 0 0 0 0 #effefd;
+  font-family: 'Poppins', sans-serif;
+}

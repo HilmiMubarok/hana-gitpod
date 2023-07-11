@@ -14,6 +14,8 @@ import {
   UOM_TYPE,
 } from 'app/shared/constants/base.constants';
 import { ICollateralProperty } from '../../../collateral-property.model';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-property-machine-general-dialog-template',
@@ -21,6 +23,7 @@ import { ICollateralProperty } from '../../../collateral-property.model';
 })
 export class CollateralPropertyMachineGeneralDialogTemplateComponent implements OnInit {
   private _collateralProperty: ICollateralProperty;
+  collateralDetailTypeValue: string;
   @Input()
   get collateralProperty() {
     return this._collateralProperty;
@@ -40,8 +43,12 @@ export class CollateralPropertyMachineGeneralDialogTemplateComponent implements 
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
-    this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE;
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    private collateralParameterService: CollateralParameterService
+  ) {
+    // this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE;
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
   }
@@ -50,6 +57,7 @@ export class CollateralPropertyMachineGeneralDialogTemplateComponent implements 
     this.loadCurrencyMeasure();
     this.loadAreaMeasure();
     this.loadProvince();
+    this.changeCollateralType();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -146,6 +154,30 @@ export class CollateralPropertyMachineGeneralDialogTemplateComponent implements 
       })
       .subscribe(res => {
         this.areaMeasure = res.body;
+      });
+  }
+
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'MACHINE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
       });
   }
 }

@@ -1,110 +1,115 @@
 <section *ngIf="isViewMode === true">
-  <mat-card>
-    <!-- <mat-card-header> -->
-    <!-- <mat-card-subtitle>Collateral Info</mat-card-subtitle> -->
-    <mat-label>Collateral Info</mat-label>
-    <!-- </mat-card-header> -->
-    <mat-card-content>
-      <div class="table-responsive-material">
-        <table mat-table [dataSource]="dataItem" class="w-100">
-          <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-left grid-index-right">No</th>
-            <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
-            <td mat-footer-cell *matFooterCellDef class="grid-index-right"><strong>Total</strong></td>
-          </ng-container>
-          <ng-container matColumnDef="collateralType">
-            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Collateral Type</th>
-            <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralTypeDescription }}</td>
-            <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
-          </ng-container>
-          <ng-container matColumnDef="marketValue">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px" class="grid-index-right">MV Internal in IDR</th>
-            <td mat-cell *matCellDef="let element" class="grid-index-right">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef class="grid-index-right">{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-          </ng-container>
-          <ng-container matColumnDef="liquidValue">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px" class="grid-index-right">LV Internal in IDR</th>
-            <td mat-cell *matCellDef="let element" class="grid-index-right">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-              {{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
-            <td mat-cell *matCellDef="let element" class="grid-index-left">
-              <button mat-icon-button (click)="openDialog(element, 'view')">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-            </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
-          </tr>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-        </table>
-        <!-- <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <!-- <mat-card> -->
+  <!-- <mat-card-header> -->
+  <!-- <mat-card-subtitle>Collateral Info</mat-card-subtitle> -->
+  <mat-label style="margin-left: 4px">Collateral Info</mat-label>
+  <!-- </mat-card-header> -->
+  <mat-card-content>
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="dataItem" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
+        </ng-container>
+        <ng-container matColumnDef="collateralType">
+          <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralTypeDescription }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="marketValue">
+          <th mat-header-cell *matHeaderCellDef>MV Internal in IDR</th>
+          <td mat-cell *matCellDef="let element">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="liquidValue">
+          <th mat-header-cell *matHeaderCellDef>LV Internal in IDR</th>
+          <td mat-cell *matCellDef="let element">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            {{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="openDialog(element, 'view')">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+      <!-- <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
+    </div>
+  </mat-card-content>
+  <!-- </mat-card> -->
 </section>
 <section *ngIf="isViewMode === false">
-  <mat-card>
-    <!-- <mat-card-header> -->
-    <!-- <mat-card-subtitle>Collateral Info</mat-card-subtitle> -->
-    <mat-label>Collateral Info</mat-label>
-    <!-- </mat-card-header> -->
-    <mat-card-content>
-      <div class="table-responsive-material">
-        <table mat-table [dataSource]="dataItem" class="w-100">
-          <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-right rounding-table-left">No</th>
-            <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
-            <td mat-footer-cell *matFooterCellDef class="grid-index-right"><strong>Total</strong></td>
-          </ng-container>
-          <ng-container matColumnDef="collateralType">
-            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Collateral Type</th>
-            <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralTypeDescription }}</td>
-            <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
-          </ng-container>
-          <ng-container matColumnDef="marketValue">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px" class="grid-index-right">MV Internal in IDR</th>
-            <td mat-cell *matCellDef="let element" class="grid-index-right">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef class="grid-index-right">{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-          </ng-container>
-          <ng-container matColumnDef="liquidValue">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px" class="grid-index-right">LV Internal in IDR</th>
-            <td mat-cell *matCellDef="let element" class="grid-index-right">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-              {{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
-            <td mat-cell *matCellDef="let element" class="grid-index-left">
-              <button mat-icon-button (click)="openDialog(element, 'view')">
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-              <button mat-icon-button (click)="onDelete(element)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
-          </tr>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-        </table>
-        <!-- <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <!-- <mat-card> -->
+  <!-- <mat-card-header> -->
+  <!-- <mat-card-subtitle>Collateral Info</mat-card-subtitle> -->
+  <mat-label style="margin-left: 4px">Collateral Info</mat-label>
+  <!-- </mat-card-header> -->
+  <mat-card-content>
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="dataItem" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef width="10%">No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
+        </ng-container>
+        <ng-container matColumnDef="collateralType">
+          <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralTypeDescription }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="marketValue">
+          <th mat-header-cell *matHeaderCellDef>MV Internal in IDR</th>
+          <td mat-cell *matCellDef="let element">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="liquidValue">
+          <th mat-header-cell *matHeaderCellDef>LV Internal in IDR</th>
+          <td mat-cell *matCellDef="let element">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            {{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="openDialog(element, 'view')">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+            <button mat-icon-button (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+      <!-- <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
+    </div>
+  </mat-card-content>
+  <!-- </mat-card> -->
   <div align="right" class="mt-5">
-    <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling">ADD</button>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling" style="margin-right: 1.4rem">ADD</button>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling" style="margin-right: 1.4rem">ADD</button>
+    </section>
   </div>
 </section>
