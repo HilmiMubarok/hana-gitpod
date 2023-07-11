@@ -410,8 +410,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   spreadPerFacilityEvent(event): void {
     if (event) {
       for (let i = 0; i < event?.length; i++) {
-        console.log('cek event', event[i]);
-        console.log('cekd s', this.creditProposal.products[i]);
         this.dashboardChartData.push({
           labelData: event[i]?.productTypeId + ' ' + event[i].currencyId,
           name: event[i]?.id,
