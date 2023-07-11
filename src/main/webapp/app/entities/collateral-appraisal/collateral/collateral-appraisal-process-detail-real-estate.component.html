@@ -82,7 +82,7 @@
           </ng-container>
           <ng-container matColumnDef="floors">
             <th mat-header-cell *matHeaderCellDef>Numbers of Floors of The Building</th>
-            <td mat-cell *matCellDef="let element" align="center">
+            <td mat-cell *matCellDef="let element" align="center" class="align-center">
               {{ element.attributes['floors'] | arrayCount }}
               <a (click)="openDialogFloor(element)" [hidden]="hideordisable()">
                 <mat-icon style="font-size: 1rem">edit</mat-icon>

@@ -138,6 +138,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     }
   }
   ngOnInit(): void {
+    this.fungsiSumcredit('both');
     this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
     this.loadData();
     // this.isViewMode && this.displayedColumns.pop();
@@ -166,7 +167,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
-    // if (changes['creditProposal']) {
+    this.fungsiSumcredit('both'); // if (changes['creditProposal']) {
     //   if (this.creditProposal.collaterals.length > 0) {
     //     for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
     //       const collateral = this.creditProposal.collaterals[i];
@@ -181,11 +182,11 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
 
   public collateral: any;
   ngAfterViewInit(): void {
+    this.fungsiSumcredit('both');
     let a = [];
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       a = lodash.concat(a, this.historyData().collaterals[i]);
     }
-    this.getBindingCalculate(this.historyData().collaterals);
     this.collateral = new MatTableDataSource(a);
     this.collateral.paginator = this.paginator2;
     this.dataItem.paginator = this.paginator;
@@ -537,6 +538,62 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
       this.totalPlafond = result + dolar;
       resolve();
     });
+  }
+
+  public totalPlafondData(value: string): number {
+    let result: number;
+    let dolar: number;
+    let filterIdr = [];
+    let filterUsd = [];
+    result = 0;
+    dolar = 0;
+
+    const dataFilter =
+      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
+        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
+        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter?.length > 0) {
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
+          }
+        }
+      }
+    }
+
+    return result + dolar;
   }
 
   public countMVOriginal(collateral: ICollateral): number {

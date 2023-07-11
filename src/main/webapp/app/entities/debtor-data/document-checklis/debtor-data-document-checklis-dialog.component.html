@@ -296,13 +296,13 @@
     </div>
   </mat-dialog-content>
   <section *jhiMatrixDirIDD="'input'">
-    <mat-dialog-actions align="center">
+    <mat-dialog-actions align="center" class="align-center">
       <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Close</button>
       <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
     </mat-dialog-actions>
   </section>
   <section *jhiMatrixDirIDD="''">
-    <mat-dialog-actions align="center">
+    <mat-dialog-actions align="center" class="align-center">
       <button mat-raised-button class="confirm-button-no" mat-dialog-close>Close</button></mat-dialog-actions
     >
   </section>
@@ -310,7 +310,7 @@
 
 <div *ngIf="view === 'view'">
   <h2 mat-dialog-title>Detail Document</h2>
-  <mat-dialog-content align="center">
+  <mat-dialog-content align="center" class="align-center">
     <table class="table">
       <thead>
         <tr>
@@ -447,7 +447,7 @@
       </li>
     </ul>
   </mat-dialog-content>
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <button mat-raised-button class="confirm-button-no" mat-dialog-close>Close</button>
   </mat-dialog-actions>
 </div>

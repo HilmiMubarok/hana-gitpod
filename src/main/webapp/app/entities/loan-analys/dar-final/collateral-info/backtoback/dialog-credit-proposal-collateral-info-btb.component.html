@@ -172,7 +172,7 @@
                       type="text"
                       [(ngModel)]="binding.bindingValueEqIdr"
                       [value]="calBindingValue()"
-                      [options]="logoCcy"
+                      [options]="logoIdr"
                     />
                   </mat-form-field>
                 </section>
@@ -327,7 +327,7 @@
           </jhi-mapping-facility>
         </div>
         <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
-        <mat-dialog-actions align="center">
+        <mat-dialog-actions align="center" class="align-center">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
             <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
             <button mat-button (click)="save()">Save</button>

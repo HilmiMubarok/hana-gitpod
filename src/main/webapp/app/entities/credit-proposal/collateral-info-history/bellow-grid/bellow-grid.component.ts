@@ -427,6 +427,62 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     return result;
   }
 
+  public totalPlafondData(value: string): number {
+    let result: number;
+    let dolar: number;
+    let filterIdr = [];
+    let filterUsd = [];
+    result = 0;
+    dolar = 0;
+
+    const dataFilter =
+      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
+        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
+        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter?.length > 0) {
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
+          }
+        }
+      }
+    }
+
+    return result + dolar;
+  }
+
   public countTotalMV(): number {
     let data: ICollateralProperty;
     let result: number;
