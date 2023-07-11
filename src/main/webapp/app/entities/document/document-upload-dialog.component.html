@@ -153,12 +153,12 @@
       </div>
     </mat-dialog-content>
     <section *jhiMatrixDirIDD="'input'">
-      <mat-dialog-actions align="center">
+      <mat-dialog-actions align="center" class="align-center">
         <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
         <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
       </mat-dialog-actions>
     </section>
-    <section *jhiMatrixDirIDD="''" align="center">
+    <section *jhiMatrixDirIDD="''" align="center" class="align-center">
       <button mat-button mat-dialog-close class="confirm-button-no">Cancel</button>
     </section>
   </div>
@@ -285,7 +285,7 @@
         </div>
       </div>
     </mat-dialog-content>
-    <mat-dialog-actions align="center">
+    <mat-dialog-actions align="center" class="align-center">
       <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
       <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
     </mat-dialog-actions>
@@ -387,25 +387,25 @@
                   item.key.split('.').indexOf('gif') > -1
                 "
               />
-              
+
               <div
-              style="
-                width: 170px;
-                top: 90%;
-                left: 50%;
-                transform: translateX(-50%);
-                z-index: 1;
-                background-color: gray;
-                padding: 2px;
-                font-size: 12px;
-                color: white;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-                margin-top: -20px;
-                position: absolute;
-              "
-            >
-              {{ item.name }}
-            </div>
+                style="
+                  width: 170px;
+                  top: 90%;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  z-index: 1;
+                  background-color: gray;
+                  padding: 2px;
+                  font-size: 12px;
+                  color: white;
+                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                  margin-top: -20px;
+                  position: absolute;
+                "
+              >
+                {{ item.name }}
+              </div>
 
               <img width="150px" src="../../../content/images/csv.png" *ngIf="item.key.split('.').indexOf('csv') > -1" />
 
@@ -487,7 +487,7 @@
       </div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
     <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
   </mat-dialog-actions>
