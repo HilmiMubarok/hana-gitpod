@@ -901,13 +901,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.provisionFormat = '0,.00';
       }
     } else {
-      const regex2 = /[0-9]+\.+[0]/;
-      const param = predicate.match(regex2);
-      if (param !== null) {
-        this.provisionFormat = '0,.00';
-      } else {
-        this.provisionFormat = '0,.0';
-      }
+      this.provisionFormat = '0,.00';
     }
     this.updateFormat(this.selectedType, this.selectedCurrency);
   }
@@ -920,13 +914,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.adminFormat = '0,.00';
       }
     } else {
-      const regex2 = /[0-9]+\.+[0]/;
-      const param = predicate.match(regex2);
-      if (param !== null) {
-        this.adminFormat = '0,.00';
-      } else {
-        this.adminFormat = '0,.0';
-      }
+      this.adminFormat = '0,.00';
     }
     this.updateFormat(this.selectedType, this.selectedCurrency);
   }

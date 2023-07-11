@@ -191,14 +191,14 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   }
 
   private loadPositionRM(): void {
-    const tempName = this.partyCif.rm.firstName;
+    const tempId = this.partyCif.rm.id;
     this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
       this.positionRM = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
 
       this.positionRMS = lodash.find(res.body, function (o) {
-        return o.employeeFirstName === tempName;
+        return o.partyId === tempId;
       });
 
       this.loadInternalInformationRM(this.positionRMS.partyId);
