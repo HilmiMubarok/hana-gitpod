@@ -168,7 +168,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
               this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
               this.creditProposal.collateralProductRelations[index].collateralId === this.groupCollaterals[k].id
             ) {
-              this.creditProposal.collateralProductRelations.splice(index, 1);
+              this.creditProposal.collateralProductRelations.splice(index);
             }
           }
         }
@@ -437,13 +437,13 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     let result: string;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-
+    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.amount === undefined) {
+        if (data.attributes.amount === null || data.attributes.amount === undefined) {
           return 0;
         } else {
           return data.attributes.amount;
@@ -455,7 +455,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.collateralValue === undefined) {
+        if (data.attributes.collateralValue === null || data.attributes.collateralValue === undefined) {
           return 0;
         } else {
           return data.attributes.collateralValue;
@@ -467,7 +467,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.totalFaceAmount === undefined) {
+        if (data.attributes.totalFaceAmount === null || data.attributes.totalFaceAmount === undefined) {
           return 0;
         } else {
           return data.attributes.totalFaceAmount;
@@ -479,7 +479,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.collateralValueOther === undefined) {
+        if (data.attributes.collateralValueOther === undefined || data.attributes.collateralValueOther === null) {
           return 0;
         } else {
           return data.attributes.collateralValueOther;
@@ -491,7 +491,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.amount === undefined) {
+        if (data.attributes.amount === null || data.attributes.amount === undefined) {
           return 0;
         } else {
           return data.attributes.amount;
@@ -501,7 +501,8 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']
     ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -516,7 +517,21 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     }
     return 0;
   }
+  private filterPropertiesFilterGurante(collateral: ICollateral): ICollateralProperty[] {
+    let properties: ICollateralProperty[];
+    properties = [];
 
+    // for machine
+    if (collateral.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+      if (collateral.collateralTypeId !== '' || collateral.collateralTypeId !== undefined) {
+        properties = lodash.filter(this.collateralProperties, function (o) {
+          return o.propertyType === 'GENERAL' && o.collateralId === collateral.id;
+        });
+      }
+    }
+
+    return properties;
+  }
   public countLV(collateral: ICollateral): number {
     let result: number;
     let data: ICollateralProperty;
@@ -545,7 +560,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     const collaterals: ICollateral[] = this.groupCollaterals;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
@@ -565,7 +580,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     const collaterals: ICollateral[] = this.groupCollaterals;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
@@ -604,7 +619,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     const collaterals: ICollateral[] = this.groupCollaterals;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === true);
           if (data !== undefined && collaterals[i].collateralTypeId) {
@@ -624,7 +639,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     const collaterals: ICollateral[] = this.groupCollaterals;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === true);
           if (data !== undefined) {
@@ -784,5 +799,12 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
       }
     }
     return result;
+  }
+
+  public disabledCeklis(event) {
+    if (event.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+      return true;
+    }
+    return false;
   }
 }

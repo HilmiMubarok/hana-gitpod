@@ -179,14 +179,14 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
       this.listGroupCollateralItems.length > 0
     ) {
       /* for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
-		for (let j = 0; j < this.creditProposal.products.length; j++) {
-		  for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-			if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id) {
-			  this.creditProposal.collateralProductRelations.splice(i,1);
-			}
-		  }
-		}
-	  } */
+    for (let j = 0; j < this.creditProposal.products.length; j++) {
+      for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+      if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id) {
+        this.creditProposal.collateralProductRelations.splice(i,1);
+      }
+      }
+    }
+    } */
       for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
@@ -194,7 +194,7 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
               this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
               this.creditProposal.collateralProductRelations[index].collateralId === this.listGroupCollateralItems[k].id
             ) {
-              this.creditProposal.collateralProductRelations.splice(index, 1);
+              this.creditProposal.collateralProductRelations.splice(index);
             }
           }
         }
