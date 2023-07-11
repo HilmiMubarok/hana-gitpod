@@ -190,7 +190,7 @@
           <td mat-cell *matCellDef="let element">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
           <td mat-footer-cell *matFooterCellDef>
             <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            <p>{{ presentage((countTotalMV() / totalPlafond), 'mv') }}</p>
+            <p>{{ presentage(countTotalMV() / totalPlafond, 'mv') }}</p>
           </td>
         </ng-container>
         <ng-container matColumnDef="liquidValue">
@@ -198,7 +198,7 @@
           <td mat-cell *matCellDef="let element">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
           <td mat-footer-cell *matFooterCellDef>
             <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            <p>{{ presentage((countTotalLV() / totalPlafond), 'lv') }}</p>
+            <p>{{ presentage(countTotalLV() / totalPlafond, 'lv') }}</p>
           </td>
         </ng-container>
         <ng-container matColumnDef="mValueKjjp">
@@ -206,7 +206,7 @@
           <td mat-cell *matCellDef="let element">{{ countKJJPMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
           <td mat-footer-cell *matFooterCellDef>
             <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            <p>{{ presentage((countTotalMVKJJP() / totalPlafond), 'mvKjjp') }}</p>
+            <p>{{ presentage(countTotalMVKJJP() / totalPlafond, 'mvKjjp') }}</p>
           </td>
         </ng-container>
         <ng-container matColumnDef="lValueKjjp">
@@ -215,7 +215,7 @@
 
           <td mat-footer-cell *matFooterCellDef>
             <p>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            <p>{{ presentage((countTotalLVKJJP() / totalPlafond), 'lvKjjp') }}</p>
+            <p>{{ presentage(countTotalLVKJJP() / totalPlafond, 'lvKjjp') }}</p>
           </td>
         </ng-container>
         <ng-container matColumnDef="marketability">
@@ -259,7 +259,7 @@
         <ng-container matColumnDef="bindingValue">
           <th mat-header-cell *matHeaderCellDef>Binding Value</th>
           <td mat-cell *matCellDef="let element">
-            {{ getCcyBinding(getBinding(element).ccy) + ' ' + (getBinding(element).bindingValue | number) }}
+            {{ 'IDR ' + (getBinding(element).bindingValueEqIdr | number) }}
           </td>
           <td mat-footer-cell *matFooterCellDef>
             {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
