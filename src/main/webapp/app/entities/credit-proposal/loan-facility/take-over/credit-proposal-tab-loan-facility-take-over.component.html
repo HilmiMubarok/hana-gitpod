@@ -152,7 +152,7 @@
             </div>
           </section>
         </div>
-        <mat-dialog-actions align="center">
+        <mat-dialog-actions align="center" class="align-center">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <button mat-raised-button *ngIf="!view" (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
             <button mat-raised-button *ngIf="!view" (click)="Onsave()" class="confirm-button-yes">Save</button>
@@ -314,7 +314,7 @@
             </div>
           </section>
         </div>
-        <mat-dialog-actions align="center">
+        <mat-dialog-actions align="center" class="align-center">
           <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
           <button mat-raised-button (click)="Onsave()" class="confirm-button-yes">Save</button>
           <section *ngIf="view">
