@@ -50,7 +50,7 @@ export class CPMemoBandingRemarkComponent implements OnInit {
   }
 
   onDocumentChange() {
-    this.container.restrictEditing = true;
+    this.container.restrictEditing = false;
   }
 
   paramsIdGet;
