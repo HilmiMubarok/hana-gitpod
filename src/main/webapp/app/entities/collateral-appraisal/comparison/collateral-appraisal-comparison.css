@@ -199,3 +199,7 @@ th:last-child {
   font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
 }
+mat-dialog-actions {
+  text-align: center;
+  margin: 0 auto;
+}
