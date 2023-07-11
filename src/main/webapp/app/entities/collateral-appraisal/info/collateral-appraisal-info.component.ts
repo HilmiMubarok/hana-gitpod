@@ -216,6 +216,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                     (resA.body[i].employeeFirstName !== null ? resA.body[i].employeeFirstName : '') +
                     ' ' +
                     (resA.body[i].employeeLastName !== null ? resA.body[i].employeeLastName : ''),
+				  partyId: resA.body[i].partyId,
                   id: resA.body[i].id,
                 });
               // }
@@ -543,7 +544,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                 (res.body[i].employeeFirstName !== null ? res.body[i].employeeFirstName : '') +
                 ' ' +
                 (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
-              id: res.body[i].id,
+              partyId: res.body[i].partyId,
+			  id: res.body[i].id,
             });
           // }
         }
@@ -555,7 +557,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   }
 
   public selectSurveyor(args: ChangeEventArgs): void {
-    this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
+    this.surveyorService.queryFilterBy({ idPerson: args['itemData'].partyId }).subscribe(res => {
       if (res.body.length > 0) {
         this.surveyAppraisal.surveyorId = res.body[0].id;
         this.tempSurveyor = res.body[0].id;
