@@ -334,7 +334,7 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
   private loadAreaMeasure(): void {
     this.uomService
       .queryFilterBy({
-        idUomType: UOM_TYPE.AREAMEASURE,
+        idUomType: 'OTHER_MEASURE',
         page: 0,
         size: 9999,
       })
