@@ -242,7 +242,6 @@ export class SurveyBatchEditComponent implements OnInit {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
-    // console.log('ress doc lainnya', this.totalDataDocumentLainya);
   }
 
   public ceckData(menu: object) {
@@ -279,7 +278,6 @@ export class SurveyBatchEditComponent implements OnInit {
   }
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
-    // this.documentCollateral(item.id)
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
@@ -329,7 +327,6 @@ export class SurveyBatchEditComponent implements OnInit {
   }
 
   public propertyData(_collateralId: number, data: string) {
-    console.log('ompu', _collateralId);
     this.collateralPropertyService
       .queryFilterBy({
         page: 0,
@@ -905,14 +902,10 @@ export class SurveyBatchEditComponent implements OnInit {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
       }
-      if (!this.surveyAppraisal.surveyorId) {
+      if (!this.surveyAppraisal.surveyorPositionId) {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
-      // if (!this.surveyAppraisal.totalMarketValue) {
-      //   this._showNotification('error', 'Masukkan Appraisal Value Physic terlebih dahulu');
-      //   mustValidateOnAssignment.totalMarketValue = false;
-      // }
     }
 
     if (this.surveyAppraisal.apprOfficer === 'External') {
@@ -937,17 +930,6 @@ export class SurveyBatchEditComponent implements OnInit {
         mustValidateOnAssignment.totalMarketValue = false;
       }
     }
-    // else {
-
-    //   if (!this.teamReviewerValue) {
-    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.officerAppraisal = false;
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-    //     mustValidateOnAssignment.wilayah = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
@@ -979,11 +961,6 @@ export class SurveyBatchEditComponent implements OnInit {
           mustValidatedOnAssigned.comparisonData = false;
         }
       }
-
-      // if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-      //   this._showNotification('error', 'Foto object jaminan data less than 6');
-      //   mustValidatedOnAssigned.fotoObjectJaminan = false;
-      // }
     }
 
     return this._validateProcess(mustValidatedOnAssigned);
@@ -1161,10 +1138,7 @@ export class SurveyBatchEditComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    // if (this.keteranganObjectJaminan.length < 1) {
-    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-    //   mustValidatedOnVisited.keterangan = false;
-    // }
+
     if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;

@@ -151,14 +151,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
   }
 
-  // get collateralProp() {
-  //   return this._collateralProp;
-  // }
-
-  // set collateralProp(item: ICollateralProperty) {
-  //   this._collateralProp = item;
-  // }
-
   public collateralProp: ICollateralProperty;
   private id: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -343,7 +335,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     this.getTasks();
     this.timeLine();
-    // console.log('prop', this.collateralProp);
   }
 
   public timeLine() {
@@ -633,10 +624,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.tipeOfficerAppraisal = ev;
       this.getMenuAppraisalOfficer(ev);
     }
-  }
-
-  public onValCollateralItemChanged(ev: any): void {
-    console.log('ev @onValCollateralItemChanged collateral-appraisal-main: ', ev);
   }
 
   public previousState(): void {
@@ -937,7 +924,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
       }
-      if (!this.surveyAppraisal.surveyorId) {
+      if (!this.surveyAppraisal.surveyorPositionId) {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
@@ -1152,7 +1139,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.collateralProp = lodash.find(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
         });
-        // console.log('collateral Property Main', this.collateralProp);
       });
   }
 
@@ -1162,13 +1148,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public marketValueLandRound: number;
   public saveCollateralProperty(property: ICollateralProperty) {
     if (this.collateralProp) {
-      // console.log('save prop', property.attributes.marketValueLandRound);
-      // if (this.collateral.id) {
       this.collateralPropertyService.save(property).subscribe(res => {
-        // console.log('res', res.body);
-        // console.log('save prop test', property.attributes.marketValueLandRound);
       });
-      // }
     }
   }
 
