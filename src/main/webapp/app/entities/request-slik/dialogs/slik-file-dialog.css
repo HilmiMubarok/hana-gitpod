@@ -15,7 +15,3 @@
   max-height: 150px;
   object-fit: cover;
 }
-mat-dialog-actions {
-  text-align: center;
-  margin: 0 auto;
-}
