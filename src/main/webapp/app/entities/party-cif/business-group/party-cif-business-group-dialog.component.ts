@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-party-cif-business-group-dialog',
   templateUrl: './party-cif-business-group-dialog.component.html',
+  styleUrls: ['../party-cif.style.scss'],
 })
 export class PartyCifBusinessGroupDialogComponent {
   private dialog: MatDialog;

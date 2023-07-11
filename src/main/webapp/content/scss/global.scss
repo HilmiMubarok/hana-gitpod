@@ -639,3 +639,19 @@ input#rteTool_toolbar_BackgroundColor_Target.e-rte-backgroundcolor-element {
 input#rteTool_toolbar_FontColor_Target.e-rte-fontcolor-element {
   display: none !important;
 }
+
+// align center
+@-moz-document url-prefix() {
+  .align-center {
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+// align-right
+@-moz-document url-prefix() {
+  .align-right {
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
