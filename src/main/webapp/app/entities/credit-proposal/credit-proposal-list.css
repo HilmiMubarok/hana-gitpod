@@ -975,7 +975,3 @@ mat-sidenav {
   z-index: 0;
 }
 /* submenu css */
-mat-dialog-actions {
-  text-align: center;
-  margin: 0 auto;
-}
