@@ -143,13 +143,13 @@
   </div>
 </mat-dialog-content>
 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <button mat-button (click)="openCancelDialog()" class="confirm-button-no">Close</button>
     <button mat-button *ngIf="edit" (click)="save()" class="confirm-button-yes">Save</button>
   </mat-dialog-actions>
 </section>
 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <button mat-raised-button class="confirm-button-no" (click)="close()">Close</button>
   </mat-dialog-actions>
 </section>
