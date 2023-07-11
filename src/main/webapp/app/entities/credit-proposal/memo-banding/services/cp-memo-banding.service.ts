@@ -7,7 +7,7 @@ import _ from 'lodash';
 })
 export class CpMemoBandingService extends AbstractEntityService<any> {
   compareDeepData(firstData, secondData) {
-    console.log('Data', { firstData, secondData });
+    // console.log('Data', { firstData, secondData });
 
     const comparedData = firstData.map(data => {
       const matchingData = secondData.find(d => d.id === data.id);
@@ -21,7 +21,7 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
       }
     });
 
-    console.log('comparedData', comparedData);
+    // console.log('comparedData', comparedData);
 
     return comparedData;
   }
@@ -58,7 +58,7 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
 
   parseAttrCp(creditProposal: any) {
     const parsed = {};
-    console.log('creditProposal', creditProposal);
+    // console.log('creditProposal', creditProposal);
 
     // Check if creditProposal has attributes['previousOfferingLetter']
     if (creditProposal.attributes['previousOfferingLetter']) {
@@ -77,7 +77,7 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
       // Loop over each key in previousOfferingLetter, and parse it
       Object.keys(parsedPrevOL).forEach(key => {
         // === parse each key's value if it's a string
-        console.log('kjsakdjhsd', parsed[key]);
+        // console.log('kjsakdjhsd', parsed[key]);
         if (typeof parsedPrevOL[key] === 'string') {
           parsed[key] = JSON.parse(parsedPrevOL[key]);
         } else {

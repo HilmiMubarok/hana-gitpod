@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
 
 @Component({
   selector: 'jhi-cp-memo-banding-covenant-above',
@@ -34,13 +35,31 @@ export class CPMemoBandingCovenantAboveComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  constructor(private generalParameterService: GeneralParameterService) {
-    this.LovCovenantAbove();
+  constructor(private generalParameterService: GeneralParameterService, private cpMemoBandingservice: CpMemoBandingService) {
+    // this.LovCovenantAbove();
   }
 
   ngOnInit(): void {
     this.LovCovenantAbove();
+    // this.getData();
     // console.log('proposal-type', this.creditProposalItem[])
+  }
+
+  data;
+  getData() {
+    // const compared = this.cpMemoBandingservice.compareDeepData(
+    //   this.creditProposalItem.attributes['convenant'].standardDataGridAbove,
+    //   this.data.convenant.standardDataGridAbove
+    // );
+    console.log('ASDHSADAS', {
+      // compared,
+      // before: this.data.convenant['standardDataGridAbove'],
+      // after: this.creditProposalItem.attributes['convenant']['standardDataGridAbove'],
+      oriBefore: this.data,
+      oriAfter: this.creditProposalItem.attributes,
+    });
+
+    return {};
   }
 
   public onKeyUpEvent(input: string, event: any, data: any) {
@@ -77,7 +96,7 @@ export class CPMemoBandingCovenantAboveComponent implements OnInit {
   }
 
   public LovCovenantAbove() {
-    this.generalParameterService
+    return this.generalParameterService
       .queryFilterBy({
         idParameterType: 'COVENANT_ABOVE_STANDARD',
         page: 0,
@@ -109,6 +128,24 @@ export class CPMemoBandingCovenantAboveComponent implements OnInit {
             this.standardDataGridAbove = this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
           }
         }
+
+        this.data = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposalItem);
+        (this.parsed = this.cpMemoBandingservice.compareDeepData(
+          this.data.convenant['standardDataGridAbove'],
+          this.creditProposalItem.attributes['convenant']['standardDataGridAbove']
+        )),
+          console.log('ASDHSADAS', {
+            // compared,
+            // before: this.data.convenant['standardDataGridAbove'],
+            // after: this.creditProposalItem.attributes['convenant']['standardDataGridAbove'],
+            oriBefore: this.data,
+            oriAfter: this.creditProposalItem.attributes,
+            compared: this.cpMemoBandingservice.compareDeepData(
+              this.data.convenant['standardDataGridAbove'],
+              this.creditProposalItem.attributes['convenant']['standardDataGridAbove']
+            ),
+          });
       });
   }
+  parsed;
 }

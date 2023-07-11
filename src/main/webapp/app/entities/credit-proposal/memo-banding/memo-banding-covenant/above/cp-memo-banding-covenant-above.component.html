@@ -1,4 +1,4 @@
-<ejs-grid [dataSource]="standardDataGridAbove" allowTextWrap="true">
+<ejs-grid [dataSource]="parsed" allowTextWrap="true">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center" class="rounding-table-left">
     </e-column>
@@ -49,6 +49,11 @@
           disabled
         >
         </ejs-textbox>
+      </ng-template>
+    </e-column>
+    <e-column field="status" headerText="Status" width="200" textAlign="justify" headerTextAlign="center" class="rounding-table-right">
+      <ng-template #template let-data>
+        {{ data.status }}
       </ng-template>
     </e-column>
   </e-columns>
