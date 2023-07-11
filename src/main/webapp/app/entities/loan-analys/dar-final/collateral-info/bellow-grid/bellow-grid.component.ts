@@ -802,6 +802,7 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
       resolve();
     });
   }
+
   public openResult(element: ICollateral) {
     const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
       width: '80vw',
@@ -891,7 +892,8 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     }
     return '';
   }
-  public getBindingCalculate(res: any) {
+
+  public getBindingCalculate(res: any[]) {
     const array1 = res;
     const array2 = this.creditProposal.attributes['binding'];
     let getBindingCalculateValue;
@@ -900,10 +902,12 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
       data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
-        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
 
         this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
+        this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
+        this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
       });
     });
   }
@@ -921,5 +925,13 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
       return element;
     }
     return '';
+  }
+
+  public filterNull(value) {
+    console.log('value ', value);
+    if (value !== null || value !== undefined) {
+      return value;
+    }
+    return 0;
   }
 }

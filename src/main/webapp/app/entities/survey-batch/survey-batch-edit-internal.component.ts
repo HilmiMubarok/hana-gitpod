@@ -287,7 +287,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
-    // this.documentCollateral(item.id)
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
@@ -367,7 +366,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this.loadData(item.collateral);
       this.collateralData(item.collateral.id);
       this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
-      console.log('zzzzz', this.collateralAppraisalService.totalDataFotoObjectJaminan);
 
       this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
@@ -391,7 +389,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
             arr.push(e['tags']['category']);
           });
           this.collateralAppraisalService.totalDataFotoObjectJaminan = arr.filter(item => item === 'OBJECT');
-          console.log('category Foto Object', this.collateralAppraisalService.totalDataFotoObjectJaminan);
         });
     });
   }
@@ -436,7 +433,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   }
 
   public propertyData(_collateralId: number, data: string) {
-    console.log('ompu', _collateralId);
     this.collateralPropertyService
       .queryFilterBy({
         page: 0,
@@ -446,7 +442,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         idPropertyType: data,
       })
       .subscribe((res: any) => {
-        console.log('resss', res.body);
         this.totalDataDetailLand = res.body;
         this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
@@ -585,12 +580,9 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   private async initialize(): Promise<void> {
     this.loadData(this.collateralAppraisal.collateral);
     this.bucket = this.getBucketName()['bucket'];
-    // this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
 
     this.getKeteranganObjectJaminan();
-
-    // console totalKeteranganJaminan after await
 
     const key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
     this.collateralAppraisalService.totalDataFotoObjectJaminan = await this.getDocument(key);
@@ -1010,25 +1002,11 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
       }
-      if (!this.surveyAppraisal.surveyorId) {
+      if (!this.surveyAppraisal.surveyorPositionId) {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
     }
-    // else {
-    //   if (!this.kjppIndependentAppraisalValue) {
-    //     this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.kjpp = false;
-    //   }
-    //   if (!this.teamReviewerValue) {
-    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.officerAppraisal = false;
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-    //     mustValidateOnAssignment.wilayah = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
@@ -1213,10 +1191,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    // if (this.keteranganObjectJaminan.length < 1) {
-    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-    //   mustValidatedOnVisited.keterangan = false;
-    // }
+
     if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;

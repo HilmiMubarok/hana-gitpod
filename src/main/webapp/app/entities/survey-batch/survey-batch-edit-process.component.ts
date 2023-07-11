@@ -1047,7 +1047,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
       }
-      if (!this.surveyAppraisal.surveyorId) {
+      if (!this.surveyAppraisal.surveyorPositionId) {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
@@ -1563,18 +1563,16 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public cekValuation() {
     this.saveCollateralProperty(this.collateralProp);
   }
+
   public marketValueLandRound: number;
+
   public saveCollateralProperty(property: ICollateralProperty) {
     if (this.collateralProp) {
-      // console.log('save prop', property.attributes.marketValueLandRound);
-      // if (this.collateral.id) {
       this.collateralPropertyService.save(property).subscribe(res => {
-        // console.log('res', res.body);
-        // console.log('save prop test', property.attributes.marketValueLandRound);
       });
-      // }
     }
   }
+
   public triggerToggle() {
     this.isOpen = !this.isOpen;
   }

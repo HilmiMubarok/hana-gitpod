@@ -105,16 +105,16 @@ mat-sidenav {
   visibility: visible;
 }
 
-mat-sidenav .mat-drawer{
-  background-color: #EFFEFD;
-    color: rgba(0, 0, 0, 0.87);
+mat-sidenav .mat-drawer {
+  background-color: #effefd;
+  color: rgba(0, 0, 0, 0.87);
 }
 .mat-drawer .mat-drawer-inner-container {
   width: 100%;
   height: 100%;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  background-color: #EFFEFD !important;
+  background-color: #effefd !important;
 }
 
 .header-sub-wrapper {

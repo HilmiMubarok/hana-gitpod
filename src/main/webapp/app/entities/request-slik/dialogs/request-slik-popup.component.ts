@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'jhi-request-slik-popup',
   templateUrl: './request-slik-popup.component.html',
+  styleUrls: ['./slik-file-dialog.css'],
 })
 export class RequestSlikPopupComponent {
   public businessKey: string;
@@ -21,8 +22,8 @@ export class RequestSlikPopupComponent {
     this.userName = this.data.userName;
     this.note = this.data.note;
     this.createdBy = this.data.createdBy;
-    this.task = this.data.task
-    console.log("dialog data: ", this.data);
+    this.task = this.data.task;
+    console.log('dialog data: ', this.data);
   }
 
   public save(): void {
