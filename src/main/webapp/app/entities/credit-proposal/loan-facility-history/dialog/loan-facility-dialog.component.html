@@ -952,7 +952,7 @@
   <mat-label>Mapping to Collateral</mat-label>
   <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
+<mat-dialog-actions align="center" class="align-center">
   <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
     <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
     <button mat-raised-button (click)="save()" class="confirm-button-yes">Save</button>
