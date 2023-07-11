@@ -212,10 +212,10 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       this.dataCollateral = lodash.filter(res.body, function (o) {
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
-      this.dataItem = new MatTableDataSource(res.body);
+      this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
-      this.mapCollateralProperty(res.body);
-      this.getBindingCalculate(res.body);
+      this.mapCollateralProperty(this.dataCollateral);
+      this.getBindingCalculate(this.dataCollateral);
     });
   }
 
@@ -959,7 +959,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
-        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
       });
     });
@@ -972,7 +972,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       return value;
     }
   }
-  public getCcyBinding(element: ICollateral) {
+  public getCcyBinding(element) {
     if (element) {
       return element;
     }
