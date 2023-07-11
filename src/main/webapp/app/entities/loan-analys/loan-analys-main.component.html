@@ -649,7 +649,9 @@
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-    <div class="header-sub-menu"><label style="margin-top: 1rem">Select your destination:</label></div>
+    <div class="header-sub-menu">
+      <label style="margin-top: 1rem; min-width: 17rem">{{ getText(parentPath) }} :</label>
+    </div>
 
     <mat-list role="list" class="list-styling">
       <div *ngFor="let item of subMenu">
