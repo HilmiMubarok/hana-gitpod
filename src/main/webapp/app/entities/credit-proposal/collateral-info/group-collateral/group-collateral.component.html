@@ -12,6 +12,7 @@
               <mat-checkbox
                 [checked]="element.attributes.crossCollateral === 'yes'"
                 (change)="changeCheckedColGroupAssignToProdAll($event, i)"
+                [disabled]="disabledCeklis(element)"
               ></mat-checkbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
