@@ -120,6 +120,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
 
     this.setCertyficateType();
     this.lovBindingType();
+    this.totalCoverage();
   }
 
   private loadByPartyId(param: string): void {
@@ -893,5 +894,19 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     }
 
     return properties;
+  }
+
+  private totalCoverage() {
+    const mvCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalMV / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].mvInternalCoverage = mvCoverage.toFixed(2);
+    const lvCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalLV / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].lvInternalCoverage = lvCoverage.toFixed(2);
+    const mvKjjpCoverage = this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP / 0;
+    this._creditProposal.attributes['coverageTotal'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
+    const lvKjjpCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
   }
 }
