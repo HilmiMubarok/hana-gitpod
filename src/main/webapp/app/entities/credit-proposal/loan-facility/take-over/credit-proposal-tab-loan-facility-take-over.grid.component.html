@@ -57,7 +57,7 @@
     <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
   </mat-card>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-    <div align="right" class="mt-5">
+    <div align="right" class="mt-5 align-right">
       <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
     </div>
   </section>
@@ -125,7 +125,7 @@
   </mat-card>
   <!-- Dar Final -->
   <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
-    <div align="right" class="mt-5">
+    <div align="right" class="mt-5 align-right">
       <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
     </div>
   </section>

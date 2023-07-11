@@ -88,47 +88,6 @@ td {
   }
 }
 
-.confirm-button-yes {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: rgba(224, 223, 223, 1);
-  font-weight: bold;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.confirm-button-no {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: rgba(224, 223, 223, 1);
-  font-weight: bold;
-  font-family: 'Poppins', sans-serif !important;
-}
-.confirm-button-no:hover {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: #f44336;
-  color: #ffff;
-  font-weight: bold;
-  font-family: 'Poppins', sans-serif !important;
-}
-.confirm-button-yes:active:hover:not([disabled]) {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: rgba(157, 157, 157, 1);
-  color: #ffff;
-  font-weight: bold;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.confirm-button-yes:enabled:hover {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffff;
-  font-weight: bold;
-  font-family: 'Poppins', sans-serif !important;
-}
-
 .mat-select {
   font-family: 'Poppins', sans-serif !important;
 }
@@ -205,9 +164,4 @@ mat-cell,
 .mat-cell {
   min-height: auto !important;
   padding: 0 28px 0 0 !important;
-}
-
-mat-dialog-actions {
-  text-align: center;
-  margin: 0 auto;
 }
