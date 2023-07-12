@@ -8,7 +8,7 @@
           <mat-select [(ngModel)]="postiion.positionTypeId" [disabled]="views">
             <mat-option *ngFor="let ax of positionType" [value]="ax.id" (click)="choosedPosition(postiion.positionTypeId)">
               {{ ax.title }} </mat-option
-            >S
+            >
           </mat-select>
         </mat-form-field>
       </div>
