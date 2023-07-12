@@ -893,31 +893,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.updateFormat(this.selectedType, this.selectedCurrency);
   }
 
-  // public checkForDecimalProvision(inputProvision) {
-  //   const predicate = JSON.stringify(inputProvision);
-  //   const regex = /[0-9]+\./;
-  //   const param = predicate.match(regex);
-
-  //   // if (param !== null) {
-  //   this.provisionFormat = '0,.00';
-  //   // } else {
-  //   //   this.provisionFormat = '0,';
-  //   // }
-  //   this.updateFormat(this.selectedType, this.selectedCurrency);
-  // }
-  // public checkForDecimalAdmin(inputAdmin) {
-  //   const predicate = JSON.stringify(inputAdmin);
-  //   const regex = /[0-9]+\./;
-  //   const param = predicate.match(regex);
-
-  //   // if (param !== null) {
-  //   this.adminFormat = '0,.00';
-  //   // } else {
-  //   //   this.adminFormat = '0,';
-  //   // }
-  //   this.updateFormat(this.selectedType, this.selectedCurrency);
-  // }
-
   public updateFormat(type, event) {
     if (type === 'provision') {
       if (event === '%p.a') {
