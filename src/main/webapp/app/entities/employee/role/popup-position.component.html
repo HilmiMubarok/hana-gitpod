@@ -5,10 +5,10 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="w-100 pr-1">
           <mat-label>Position Type</mat-label>
-          <mat-select [(ngModel)]="postiion.positionTypeId">
+          <mat-select [(ngModel)]="postiion.positionTypeId" [disabled]="views">
             <mat-option *ngFor="let ax of positionType" [value]="ax.id" (click)="choosedPosition(postiion.positionTypeId)">
-              {{ ax.title }}
-            </mat-option>
+              {{ ax.title }} </mat-option
+            >S
           </mat-select>
         </mat-form-field>
       </div>
@@ -16,8 +16,13 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="w-100 pr-1">
           <mat-label>Branch</mat-label>
-          <mat-select [(ngModel)]="postiion.internalId">
-            <mat-option *ngFor="let ax of branchtype" [value]="ax.id" (click)="choosedInternal(postiion.internalId)">
+          <mat-select [(ngModel)]="postiion.internalId" [disabled]="views">
+            <mat-option
+              *ngFor="let ax of branchtype"
+              [value]="ax.id"
+              (disabledData)="(true)"
+              (click)="choosedInternal(postiion.internalId)"
+            >
               {{ ax.name }}
             </mat-option>
           </mat-select>
