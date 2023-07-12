@@ -107,8 +107,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public lovIndex = [];
   private selectedType;
   private selectedCurrency;
-  private provisionFormat = '0,';
-  private adminFormat = '0,';
+  private provisionFormat = '0,.00';
+  private adminFormat = '0,.00';
 
   public preCurent = '';
   public lovLoanType = [];
@@ -341,6 +341,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.getFacilityType();
     this.berubah(this.applicationProduct.attributes.facilityType);
     this.cekData();
+    this.updateFormat(this.selectedType, this.selectedCurrency);
   }
 
   public cekData() {
@@ -892,32 +893,30 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.updateFormat(this.selectedType, this.selectedCurrency);
   }
 
-  public checkForDecimalProvision(inputProvision) {
-    const predicate = JSON.stringify(inputProvision);
-    const regex = /[0-9]+\./;
-    if (this.selectedCurrency !== '%p.a') {
-      const param = predicate.match(regex);
-      if (param !== null) {
-        this.provisionFormat = '0,.00';
-      }
-    } else {
-      this.provisionFormat = '0,.00';
-    }
-    this.updateFormat(this.selectedType, this.selectedCurrency);
-  }
-  public checkForDecimalAdmin(inputAdmin) {
-    const predicate = JSON.stringify(inputAdmin);
-    const regex = /[0-9]+\./;
-    if (this.selectedCurrency !== '%p.a') {
-      const param = predicate.match(regex);
-      if (param !== null) {
-        this.adminFormat = '0,.00';
-      }
-    } else {
-      this.adminFormat = '0,.00';
-    }
-    this.updateFormat(this.selectedType, this.selectedCurrency);
-  }
+  // public checkForDecimalProvision(inputProvision) {
+  //   const predicate = JSON.stringify(inputProvision);
+  //   const regex = /[0-9]+\./;
+  //   const param = predicate.match(regex);
+
+  //   // if (param !== null) {
+  //   this.provisionFormat = '0,.00';
+  //   // } else {
+  //   //   this.provisionFormat = '0,';
+  //   // }
+  //   this.updateFormat(this.selectedType, this.selectedCurrency);
+  // }
+  // public checkForDecimalAdmin(inputAdmin) {
+  //   const predicate = JSON.stringify(inputAdmin);
+  //   const regex = /[0-9]+\./;
+  //   const param = predicate.match(regex);
+
+  //   // if (param !== null) {
+  //   this.adminFormat = '0,.00';
+  //   // } else {
+  //   //   this.adminFormat = '0,';
+  //   // }
+  //   this.updateFormat(this.selectedType, this.selectedCurrency);
+  // }
 
   public updateFormat(type, event) {
     if (type === 'provision') {
