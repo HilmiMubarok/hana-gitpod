@@ -413,20 +413,21 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
         this.legalLendingLimitValue = (this.modalUsaha * Number(this.generalParameter[i].value)) / 100;
       }
     }
-    this.creditProposal['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
-    this.creditProposal['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
-    this.creditProposal['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
-    this.creditProposal['legalLendingLimit'].totalExposureDebtorGroup =
+    this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
+    this.creditProposal.attributes['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
+    this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
+    this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup =
       this.creditProposal.attributes['calculationExposure'].grandTotalPlafond;
-    this.creditProposal['legalLendingLimit'].buffer =
-      this.creditProposal['legalLendingLimit'].legalLendingLimitValue - this.creditProposal['legalLendingLimit'].totalExposureDebtorGroup;
+    this.creditProposal.attributes['legalLendingLimit'].buffer =
+      this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue -
+      this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup;
 
-    if (this.creditProposal['legalLendingLimit'].buffer > 0) {
-      this.creditProposal['legalLendingLimit'].status = 'comply';
-    } else if (this.creditProposal['legalLendingLimit'].buffer < 0) {
-      this.creditProposal['legalLendingLimit'].status = 'Breach The Limit';
+    if (this.creditProposal.attributes['legalLendingLimit'].buffer > 0) {
+      this.creditProposal.attributes['legalLendingLimit'].status = 'comply';
+    } else if (this.creditProposal.attributes['legalLendingLimit'].buffer < 0) {
+      this.creditProposal.attributes['legalLendingLimit'].status = 'Breach The Limit';
     } else {
-      this.creditProposal['legalLendingLimit'].status = '';
+      this.creditProposal.attributes['legalLendingLimit'].status = '';
     }
   }
 
