@@ -12,7 +12,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Document, DocumentMetaData, IDocument } from './document.model';
+import { IDocumentNode } from '../document-node/document-node.model';
 @Component({
   selector: 'jhi-document',
   templateUrl: './document.component.html',
@@ -109,7 +110,7 @@ export class DocumentComponent implements OnChanges, OnInit {
     });
   }
 
-  public edit(element: object) {
+  public update(element: object) {
     const predicate: object = {
       width: '80vw',
       data: {
@@ -134,13 +135,25 @@ export class DocumentComponent implements OnChanges, OnInit {
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (this.change.collateral !== undefined) {
-        this.getFiles('collateral', this.change.collateral['currentValue'].id);
-      }
+      this.save(res).then(() => {
+        if (res.collateral !== undefined) {
+          this.getFiles('collateral', this.change.collateral['currentValue'].id);
+        }
 
-      if (this.change.appraisal !== undefined) {
-        this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
-      }
+        if (res.appraisal !== undefined) {
+          this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
+        }
+      });
+
+      this.edit(res).then(() => {
+        if (res.collateral !== undefined) {
+          this.getFiles('collateral', this.change.collateral['currentValue'].id);
+        }
+
+        if (res.appraisal !== undefined) {
+          this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
+        }
+      });
     });
   }
 
@@ -213,13 +226,139 @@ export class DocumentComponent implements OnChanges, OnInit {
     predicate['data']['change'] = this.change;
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {
-      if (this.change.collateral !== undefined) {
-        this.getFiles('collateral', this.change.collateral['currentValue'].id);
-      }
+    dialogRef.afterClosed().subscribe((res: any) => {
+      this.save(res).then(() => {
+        if (res.collateral !== undefined) {
+          this.getFiles('collateral', this.change.collateral['currentValue'].id);
+        }
 
-      if (this.change.appraisal !== undefined) {
-        this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
+        if (res.appraisal !== undefined) {
+          this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
+        }
+      });
+
+      this.edit(res).then(() => {
+        if (res.collateral !== undefined) {
+          this.getFiles('collateral', this.change.collateral['currentValue'].id);
+        }
+
+        if (res.appraisal !== undefined) {
+          this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
+        }
+      });
+    });
+  }
+
+  private doUpload(frmData: FormData, metaData: object): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.uploadMeta(this.bucket, frmData, metaData).subscribe({
+        next: res => resolve(),
+        error: err => reject(),
+      });
+    });
+  }
+  public checkIdExists(id: string, existingIds: string[]): boolean {
+    return existingIds.includes(id);
+  }
+  public generateRandomId(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomId = '';
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomId += characters.charAt(randomIndex);
+    }
+
+    return randomId;
+  }
+
+  public generateUniqueRandomId(length: number, existingIds: string[]): string {
+    let randomId = this.generateRandomId(length);
+
+    while (this.checkIdExists(randomId, existingIds)) {
+      randomId = this.generateRandomId(length);
+    }
+
+    return randomId;
+  }
+
+  public save(res: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.accountService.identity().subscribe(resAccount => {
+        const id = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
+        const promises: Array<any> = new Array<any>();
+        for (let i = 0; i < res.files.length; i++) {
+          const metaData = new DocumentMetaData();
+
+          const files = res.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + res.files[i].name.replace('&', '');
+          metaData.id = id;
+          metaData.folder = res.documentNumber.replace('&', 'codeSpecialDan');
+          metaData.docDate = res.documentDate;
+          metaData.docNo = res.documentNumber.replace('&', 'codeSpecialDan');
+          metaData.docType = res.documentType;
+          metaData.createdDate = new Date();
+          metaData.createdBy = resAccount.login;
+
+          const formData = new FormData();
+          formData.append('file', res.files[i]);
+          // if (this.data.collateral) {
+          //   metaData.objectName = `/collateral/${this.data.collateral.id}/document/${id.replace('&', 'codeSpecialDan')}/${files}`;
+          //   metaData.entityId = this.data.collateral.id;
+          // }
+
+          if (res.appraisal !== undefined) {
+            metaData.objectName = `/appraisals/${res.appraisal.id}/document-lainnya/${id}/${files}`;
+            metaData.entityId = res.appraisal.id;
+          }
+          if (res.collateral !== undefined) {
+            metaData.objectName = `/collateral/${res.collateral.id}/document/${id}/${files}`;
+            metaData.entityId = res.collateral.id;
+          }
+
+          promises.push(this.doUpload(formData, metaData));
+        }
+
+        if (promises.length === res.files.length) {
+          Promise.all(promises).then(res1 => {
+            resolve(res1);
+          });
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  public edit(res: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      console.log('fsdsf');
+      if (res.folderFiles.length > 0) {
+        this.accountService.identity().subscribe(resAccount => {
+          const promises: Array<any> = new Array<any>();
+          const fileRes = [];
+          const files: IDocumentNode[] = res.folderFiles;
+          if (files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+              const file: IDocumentNode = files[i];
+              file.tags['id'] = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
+              file.tags['docDate'] = new Date(res.documentDate);
+              file.tags['docType'] = res.documentType;
+              file.tags['docNo'] = res.documentNumber.replace('&', 'codeSpecialDan');
+              file.tags['folder'] = res.documentNumber.replace('&', 'codeSpecialDan');
+              file.tags['createdBy'] = resAccount.login;
+              // console.log('ompuyy', file);
+              this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
+                fileRes.push(res1);
+              });
+            }
+          }
+
+          if (fileRes.length === files.length) {
+            resolve(fileRes[0]);
+          }
+        });
+      } else {
+        resolve(null);
       }
     });
   }

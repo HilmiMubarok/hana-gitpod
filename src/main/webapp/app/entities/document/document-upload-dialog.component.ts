@@ -364,7 +364,7 @@ export class DocumentUploadDialogComponent implements OnInit {
           nameFile: val[0]['name'],
         }))
         .value();
-      console.log('kkfff', this.folders);
+
       this.folder = this.folders[0];
       this.folders2 = this.folders;
       this.getField();
@@ -373,92 +373,55 @@ export class DocumentUploadDialogComponent implements OnInit {
   }
 
   public saveAndUpdate() {
-    this.save().then(res => {
-      this._dialog.close(res);
-    });
-    this.edit().then((res: any) => {
+    this.save().then((res: any) => {
       this._dialog.close(res);
     });
   }
 
   public save(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.accountService.identity().subscribe(resAccount => {
-        const id = this.view === 'add' ? this.generateUniqueRandomId(6, this.existingIds) : this.id;
-        const promises: Array<any> = new Array<any>();
-        for (let i = 0; i < this.files.length; i++) {
-          const metaData = new DocumentMetaData();
+      if (this.data.appraisal !== null) {
+        const data = {
+          existingIds: this.existingIds,
+          view: this.view,
+          files: this.files,
+          datePipe: this.datePipe,
+          id: this.id,
+          documentNumber: this.document.documentNumber,
+          documentType: this.document.documentType,
+          appraisal: {
+            id: this.data.appraisal.id,
+          },
 
-          const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.files[i].name.replace('&', '');
-          metaData.id = id;
-          metaData.folder = this.document.documentNumber.replace('&', 'codeSpecialDan');
-          metaData.docDate = this.document.documentDate;
-          metaData.docNo = this.document.documentNumber.replace('&', 'codeSpecialDan');
-          metaData.docType = this.document.documentType;
-          metaData.createdDate = new Date();
-          metaData.createdBy = resAccount.login;
+          documentDate: this.document.documentDate,
+          folderFiles: this.folderFiles,
+        };
+        resolve(data);
+      }
+      if (this.data.collateral !== null) {
+        const data = {
+          existingIds: this.existingIds,
+          view: this.view,
+          files: this.files,
+          datePipe: this.datePipe,
+          id: this.id,
+          documentNumber: this.document.documentNumber,
+          documentType: this.document.documentType,
+          collateral: {
+            id: this.data.collateral.id,
+          },
 
-          const formData = new FormData();
-          formData.append('file', this.files[i]);
-          // if (this.data.collateral) {
-          //   metaData.objectName = `/collateral/${this.data.collateral.id}/document/${id.replace('&', 'codeSpecialDan')}/${files}`;
-          //   metaData.entityId = this.data.collateral.id;
-          // }
+          documentDate: this.document.documentDate,
+          folderFiles: this.folderFiles,
+        };
 
-          if (this.data.appraisal !== null) {
-            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-lainnya/${id}/${files}`;
-            metaData.entityId = this.data.appraisal.id;
-          }
-          if (this.data.collateral !== null) {
-            metaData.objectName = `/collateral/${this.data.collateral.id}/document/${id}/${files}`;
-            metaData.entityId = this.data.collateral.id;
-          }
-
-          promises.push(this.doUpload(formData, metaData));
-        }
-
-        if (promises.length === this.files.length) {
-          Promise.all(promises).then(res => {
-            resolve(res);
-          });
-        } else {
-          resolve(null);
-        }
-      });
+        resolve(data);
+      }
     });
   }
 
   public setModel(event: any) {
     this.document.documentNumber = event.target.value;
-  }
-
-  public edit(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.accountService.identity().subscribe(resAccount => {
-        const promises: Array<any> = new Array<any>();
-        const fileRes = [];
-        const files: IDocumentNode[] = this.folderFiles;
-        if (files.length > 0) {
-          for (let i = 0; i < files.length; i++) {
-            const file: IDocumentNode = files[i];
-            file.tags['id'] = this.view === 'add' ? this.generateUniqueRandomId(6, this.existingIds) : this.id;
-            file.tags['docDate'] = new Date(this.document.documentDate);
-            file.tags['docType'] = this.document.documentType;
-            file.tags['docNo'] = this.document.documentNumber.replace('&', 'codeSpecialDan');
-            file.tags['folder'] = this.document.documentNumber.replace('&', 'codeSpecialDan');
-            file.tags['createdBy'] = resAccount.login;
-            // console.log('ompuyy', file);
-            this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
-              fileRes.push(res);
-            });
-          }
-        }
-
-        if (fileRes.length === files.length) {
-          resolve(fileRes[0]);
-        }
-      });
-    });
   }
 
   public onSelect(event: any) {
