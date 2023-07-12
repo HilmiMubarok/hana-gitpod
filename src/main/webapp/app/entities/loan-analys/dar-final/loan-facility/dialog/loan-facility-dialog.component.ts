@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
@@ -24,6 +24,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { MasterProductParameterService } from 'app/entities/master-parameter/master-product/master-product-parameter.service';
 import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
 import { IMasterProductParameter } from 'app/entities/master-parameter/master-product/master-product-parameter.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -270,6 +271,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     protected applicationOptionService: ApplicationOptionService,
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
+    public dialog: MatDialog,
 
     // Code Lov get General Parameter  List Of Value Improvement Phase 1
     public generalParameterService: GeneralParameterService,
@@ -827,5 +829,20 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
 
   public getSpread() {
     this.applicationProduct.attributes.requiredSpread = this.applicationProduct.attributes.currentInterestRate + '%';
+  }
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

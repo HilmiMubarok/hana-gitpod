@@ -1148,8 +1148,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public marketValueLandRound: number;
   public saveCollateralProperty(property: ICollateralProperty) {
     if (this.collateralProp) {
-      this.collateralPropertyService.save(property).subscribe(res => {
-      });
+      this.collateralPropertyService.save(property).subscribe(res => {});
+    }
+  }
+
+  getText(parentPath: string): string {
+    if (parentPath === 'collateral-appraisal') {
+      return 'Request Appraisal';
+    } else if (parentPath === 'batch-apprisal') {
+      return 'Appraisal Distribution External';
+    } else {
+      return 'Appraisal Result Inqury';
     }
   }
 

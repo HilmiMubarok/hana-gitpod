@@ -43,6 +43,8 @@ export class PopupPositionComponent implements OnInit {
   public object: ICollateral | ICollateralAppraisal;
   public multiple: Boolean = false;
   public indeks = 0;
+  disabledData: Boolean = false;
+  views: boolean;
   label: string;
   positionType: any;
   desc: {
@@ -54,7 +56,11 @@ export class PopupPositionComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: { idx: string },
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      idx: string;
+      views: boolean;
+    },
     private positionTypeService: PositionTypeService,
     private internalService: InternalService,
     private storageService: StorageService,
@@ -72,9 +78,10 @@ export class PopupPositionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('this dialog', this.data);
-    if (this.data.idx) {
+    console.log('this dialog', this.data.idx);
+    if (this.data.idx !== undefined) {
       this.label = 'Update Position';
+      this.views = true;
     } else {
       this.label = 'Add New Position';
     }

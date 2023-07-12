@@ -9,9 +9,9 @@
   </div>
 
   <div *ngIf="item.attributes['proposalType']  ==='Total Exposure > IDR 15 Bio'" [item]="creditProposal">
-    <div class="mx-3 py-3">
+    <div class="py-3">
       <div class="row justify-content-between mb-5">
-        <div class="e-sample-resize-container e-card-resize-container mb-5">
+        <div class="e-sample-resize-container e-card-resize-container mb-5" style="margin-left: 0 !important">
           <div class="row">
             <div class="card-layout mb-3">
               <div class="e-card mb-3 mt-3">
@@ -102,14 +102,14 @@
   </div>
 
   <div *ngIf="item.attributes['proposalType']  === 'Total Exposure <= IDR 15 Bio'||''" [item]="creditProposal">
-    <div class="mx-3 py-3">
+    <div class="py-3">
       <jhi-credit-proposal-risk-acceptance-criteria-below #creditProposalRiskAcceptanceCriteriaBelowComponent [item]="item">
       </jhi-credit-proposal-risk-acceptance-criteria-below>
     </div>
   </div>
 
   <div *ngIf="item.attributes[ 'proposalType']==='Total Exposure Back to Back' " [creditProposal]="creditProposal ">
-    <div class="mx-3 py-3">
+    <div class="py-3">
       <jhi-credit-proposal-risk-acceptance-criteria-back-to-back
         #creditProposalAceptanceCriteriaBackToBackComponent
         [item]="item"

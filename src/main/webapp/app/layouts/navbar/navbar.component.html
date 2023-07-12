@@ -10,13 +10,13 @@
 
   <section *ngIf="isLogin">
     <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
-    <section *ngIf="isAdministrator">
+    <!-- <section *ngIf="isAdministrator">
       <span style="font-size: 14px; line-height: 0.9cm">Last Login : {{ lastLogin }}</span>
-    </section>
+    </section> -->
     <img *ngIf="!isAdministrator" src="" style="opacity: 0" />
-    <section *ngIf="!isAdministrator" src="">
+    <!-- <section *ngIf="!isAdministrator" src="">
       <span style="font-size: 14px; line-height: 1px">Last Login : {{ lastLogin }}</span>
-    </section>
+    </section> -->
   </section>
 
   <mat-menu #adminsitration="matMenu">
@@ -50,7 +50,7 @@
   </section>
 
   <mat-menu #account="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="language">Language</button>
+    <!-- <button mat-menu-item [matMenuTriggerFor]="language">Language</button> -->
     <button *ngFor="let item of menuListItems" mat-menu-item (click)="item.fn()">
       {{ item.text }}
     </button>
@@ -65,8 +65,8 @@
     > -->
   </mat-menu>
 
-  <mat-menu #language="matMenu">
+  <!-- <mat-menu #language="matMenu">
     <button mat-menu-item (click)="changeLanguage('en')">English</button>
     <button mat-menu-item (click)="changeLanguage('id')">Bahasa</button>
-  </mat-menu>
+  </mat-menu> -->
 </mat-toolbar>
