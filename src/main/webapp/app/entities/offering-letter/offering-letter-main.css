@@ -499,7 +499,6 @@ mat-sidenav {
 
 .header-sub-menu {
   text-align: center;
-  font-size: 1.5rem;
   font-weight: 600;
   overflow: hidden;
   width: 100%;
@@ -507,10 +506,15 @@ mat-sidenav {
   height: 98px;
   position: absolute;
   z-index: 1;
-  font-size: 1.5rem;
   font-weight: 600;
-  /* background-color: #80bcb8; */
   background: linear-gradient(180deg, #96c9c8 83%, #eff8fe 100%);
+}
+
+.header-sub-menu label {
+  white-space: nowrap;
+  font-size: 21px;
+  margin-top: 1rem;
+  min-width: 10rem;
 }
 
 .sub-list-styling {
