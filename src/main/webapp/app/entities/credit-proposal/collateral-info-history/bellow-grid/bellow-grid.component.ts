@@ -435,10 +435,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.historyData().products.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -546,10 +543,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       result = 0;
       dolar = 0;
 
-      const dataFilter =
-        this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-          ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-          : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+      const dataFilter = this.historyData().products.filter(obj => obj.subLimit === false);
 
       if (dataFilter?.length > 0) {
         if (value === 'USD' || value === 'both') {
