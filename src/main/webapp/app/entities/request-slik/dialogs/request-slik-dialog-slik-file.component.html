@@ -3,7 +3,7 @@
   <mat-progress-spinner *ngIf="!(data$ | async)" color="primary" mode="indeterminate"></mat-progress-spinner>
 
   <div class="file-grid" *ngIf="!isLoading">
-    <ng-container *ngIf="(data$ | async) as files">
+    <ng-container *ngIf="data$ | async as files">
       <ng-container *ngIf="files.length > 0; else noFiles">
         <mat-card *ngFor="let file of files" class="file-card">
           <mat-card-header>
@@ -24,6 +24,5 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button mat-dialog-close class="confirm-button-no">Close</button>
 </mat-dialog-actions>
-

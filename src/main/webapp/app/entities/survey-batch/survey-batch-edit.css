@@ -405,20 +405,23 @@ mat-sidenav {
 }
 
 .header-sub-menu {
-  position: absolute;
-  font-size: 1.5rem;
+  text-align: center;
   font-weight: 600;
   overflow: hidden;
   width: 100%;
-  padding: 10px;
-  height: 75px;
+  padding: 17px;
+  height: 98px;
+  position: absolute;
   z-index: 1;
-  font-size: 1.5rem;
   font-weight: 600;
-  background-color: #a1b9c8;
+  background: linear-gradient(180deg, #96c9c8 83%, #eff8fe 100%);
 }
+
 .header-sub-menu label {
-  margin-top: 0.5;
+  white-space: nowrap;
+  font-size: 18px;
+  margin-top: 1rem;
+  min-width: 10rem;
 }
 
 .sub-list-styling {
