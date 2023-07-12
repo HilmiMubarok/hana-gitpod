@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Appraisal Distribution Process" url=""> </e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ getText(parentPath) }}" url=""> </e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -157,8 +157,8 @@
           [creditProposal]="creditProposal"
         ></jhi-credit-proposal-correspondence>
       </div>
-      <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-report-independent-collateral [surveyAppraisal]="surveyAppraisal"> </jhi-report-independent-collateral>
+      <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card><jhi-report-independent-collateral [surveyAppraisal]="surveyAppraisal"> </jhi-report-independent-collateral></e-card>
       </div>
     </div>
     <div class="e-card-actions mx-auto mb-5 mt-3" *ngIf="collateralAppraisal.statusId !== 'COMPLETE'">
@@ -176,9 +176,17 @@
     </div>
   </div>
 
-  <mat-sidenav position="end" style="position: fixed !important; background-color: #effefd !important;" #drawer class="example-sidenav" mode="over">
-    <div class="header-sub-menu"><label style="margin-top: 1rem">Appraisal Distribution Process :</label></div>
-    <ul class="side-menu sub-list-styling">
+  <mat-sidenav
+    position="end"
+    style="position: fixed !important; background-color: #effefd !important"
+    #drawer
+    class="example-sidenav"
+    mode="over"
+  >
+    <div class="header-sub-menu">
+      <label style="margin-top: 1rem">{{ getText(parentPath) }}</label>
+    </div>
+    <ul class="side-menu sub-list-styling" style="margin-top: 7rem">
       <li *ngFor="let item of subMenu">
         <!--SUBMENU DOESNT HAS A CHILD-->
         <a
