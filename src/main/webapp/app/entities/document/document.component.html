@@ -23,7 +23,7 @@
             <mat-icon>remove_red_eye</mat-icon>
           </button>
 
-          <button mat-icon-button (click)="edit(element)" [disabled]="IfRmEnable" [hidden]="showButton">
+          <button mat-icon-button (click)="update(element)" [disabled]="IfRmEnable" [hidden]="showButton">
             <mat-icon [hidden]="IfRmEnable" [hidden]="showButton">create</mat-icon>
           </button>
           <button mat-icon-button (click)="delete(element)" [disabled]="IfRmEnable" [hidden]="showButton">
@@ -73,7 +73,7 @@
             <mat-icon>remove_red_eye</mat-icon>
           </button>
 
-          <button mat-icon-button (click)="edit(element)" [disabled]="IfRmEnable" [hidden]="showButton">
+          <button mat-icon-button (click)="update(element)" [disabled]="IfRmEnable" [hidden]="showButton">
             <mat-icon [hidden]="IfRmEnable" [hidden]="showButton">create</mat-icon>
           </button>
           <button mat-icon-button (click)="delete(element)" [disabled]="IfRmEnable" [hidden]="showButton">
