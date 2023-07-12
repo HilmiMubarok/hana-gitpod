@@ -289,7 +289,7 @@
       <!-- Basic Information -->
       <div *ngIf="selectedMenu === 'basic-information'" class="e-sample-resize-container e-card-resize-container">
         <div>
-          <div class="mb-3">
+          <div class="mb-3" style="margin: 0.8rem">
             <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
           </div>
         </div>
@@ -495,7 +495,7 @@
 
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
     <div class="header-sub-menu">
-      <label style="margin-top: 1rem; min-width: 20rem">{{ getText(parentPath) }}:</label>
+      <label>{{ getText(parentPath) }}:</label>
     </div>
     <mat-list role="list" class="list-styling">
       <div *ngFor="let item of subMenu">
