@@ -159,7 +159,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         parsed.FirstDisbursementDate = source[y].trxDate;
         parsed.Tenor = source[y].trxDate;
         parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].productCode);
-        parsed.CCY = source[y].baseCurrency;
+        parsed.CCY = source[y].loanCurrency;
         parsed.MaturityDate = source[y].maturityDate;
 
         this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
@@ -167,7 +167,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         this.busines = new MatTableDataSource(this.myBusinessGroupCPFacility);
         this.busines.paginator = this.paginator;
       }
-
+      console.log('gdfff', this.myBusinessGroupCPFacility);
       this.calculateCashLoanNonCashLoanGroub(this.myBusinessGroupCPFacility);
     }
 
