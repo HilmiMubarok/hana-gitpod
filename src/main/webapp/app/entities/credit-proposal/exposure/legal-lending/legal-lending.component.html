@@ -59,7 +59,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Exposure (Debtor & Group)</mat-label>
-                <input currencyMask matInput type="text" [value]="countBuffer(totalExposureDebtorAndGroub)" disabled />
+                <input currencyMask matInput type="text" [value]="countBuffer(creditProposal.attributes['calculationExposure'].grandTotalPlafond)" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -68,7 +68,7 @@
               <div class="col-6">Total Exposure (Debtor & Group)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-4">
-                {{ countBuffer(totalExposureDebtorAndGroub) }}
+                {{ countBuffer(creditProposal.attributes['calculationExposure'].grandTotalPlafond) }}
               </div>
             </div>
           </section>
@@ -109,7 +109,7 @@
                   type="text"
                   [value]="
                     countBuffer(
-                      this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - this.totalExposureDebtorAndGroub
+                      this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - creditProposal.attributes['calculationExposure'].grandTotalPlafond
                     )
                   "
                   disabled
@@ -123,7 +123,7 @@
               <div class="col-md-auto">:</div>
               <div class="col col-lg-4">
                 {{
-                  countBuffer(this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - this.totalExposureDebtorAndGroub)
+                  countBuffer(this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - creditProposal.attributes['calculationExposure'].grandTotalPlafond)
                 }}
               </div>
             </div>

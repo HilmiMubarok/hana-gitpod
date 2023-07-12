@@ -408,6 +408,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
   }
 
+  public grandTotalPlafond() {
+    this.creditProposal.attributes['calculationExposure'].grandTotalPlafond = this.fungsiSumcredit() + this.fungsiSumcreditGroub();
+    return this.creditProposal.attributes['calculationExposure'].grandTotalPlafond;
+  }
+
   fungsiSuminit() {
     let result: number;
     let dolar: number;
