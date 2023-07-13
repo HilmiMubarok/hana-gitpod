@@ -456,6 +456,10 @@
               </section>
             </div>
 
+              <div *ngIf="clickedMenu === 'memo-banding'">
+                <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
+              </div>
+
             <jhi-collateral-info-history
               *ngIf="clickedMenu === 'collateral-info' && isHistoryExist"
               [creditProposal]="creditProposal"
