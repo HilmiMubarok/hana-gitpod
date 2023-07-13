@@ -56,6 +56,7 @@ import { CalculationExposure } from './exposure/total-exposure/calculation-expos
 import { DocumentData } from '../loan-analys/assign-to/assign.model';
 import { LendingProgramParameter } from '../lending-program-parameter/lending-program-parameter.model';
 import { GroupCollateralTotal } from './collateral-info/group-collateral/group-collateral-total.model';
+import { CollateralSummary } from './collateral-info/collateral-summary/collateral-summary-total.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -381,6 +382,12 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['collateralGroup'] = new GroupCollateralTotal();
             } else {
               creditProposal.body.attributes['collateralGroup'] = JSON.parse(creditProposal.body.attributes['collateralGroup']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'collateralSummary')) {
+              creditProposal.body.attributes['collateralSummary'] = new CollateralSummary();
+            } else {
+              creditProposal.body.attributes['collateralSummary'] = JSON.parse(creditProposal.body.attributes['collateralSummary']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'dataAssignTo')) {
