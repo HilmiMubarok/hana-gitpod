@@ -378,14 +378,7 @@
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Ccy</mat-label>
-              <input
-                type="text"
-                matInput
-                [formControl]="myControlMVImb"
-                [matAutocomplete]="autoImb"
-                [(ngModel)]="MVImbCcy"
-                (ngModelChange)="getMVImbCcy()"
-              />
+              <input type="text" matInput [formControl]="myControlMVImb" [matAutocomplete]="autoImb" [(ngModel)]="MVImbCcy" />
               <mat-autocomplete #autoImb="matAutocomplete" [displayWith]="displayFnMVImb">
                 <mat-option *ngFor="let option of filteredOptionsMVImb | async" [value]="option">
                   {{ option.abbreviation }} - {{ option.description }}
@@ -995,15 +988,7 @@
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Ccy</mat-label>
-              <input
-                type="text"
-                matInput
-                [formControl]="myControlMVImb"
-                [matAutocomplete]="autoImb"
-                [(ngModel)]="MVImbCcy"
-                (ngModelChange)="getMVImbCcy()"
-                disabled
-              />
+              <input type="text" matInput [formControl]="myControlMVImb" [matAutocomplete]="autoImb" [(ngModel)]="MVImbCcy" disabled />
               <mat-autocomplete #autoImb="matAutocomplete" [displayWith]="displayFnMVImb" disabled>
                 <mat-option *ngFor="let option of filteredOptionsMVImb | async" [value]="option" disabled>
                   {{ option.abbreviation }} - {{ option.description }}
