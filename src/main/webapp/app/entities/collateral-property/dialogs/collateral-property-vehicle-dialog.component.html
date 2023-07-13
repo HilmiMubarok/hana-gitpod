@@ -158,7 +158,7 @@
             <section *jhiMatrixDirIDD="'input'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Quantity Size</mat-label>
-                <input matInput currencyMask [options]="logoCcy" type="text" [(ngModel)]="collateralProperty.total" disabled />
+                <input matInput [options]="logoCcy" type="text" [value]="collateralProperty.total" disabled />
                 <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
               </mat-form-field>
             </section>
@@ -174,24 +174,18 @@
           </div>
           <div class="col-4">
             <section *jhiMatrixDirIDD="'input'">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Qty</mat-label>
-                <!-- <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()"> -->
-                <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" disabled>
-                  <mat-option value="">Please Select</mat-option>
-                  <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
-                    {{ item.abbreviation }} - {{ item.description }}
-                  </mat-option>
-                </mat-select>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Quantity Size</mat-label>
+                <input matInput [options]="logoCcy" type="text" [value]="collateralProperty.uomDescription" disabled />
                 <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
               </mat-form-field>
             </section>
             <section *jhiMatrixDirIDD="''">
               <div class="fontsebled row">
-                <div class="col">Qty</div>
+                <div class="col">UOM</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
-                  {{ collateralProperty.attributes.quantitySizeUomId }}
+                  {{ collateralProperty.uomDescription }}
                 </div>
               </div>
             </section>
