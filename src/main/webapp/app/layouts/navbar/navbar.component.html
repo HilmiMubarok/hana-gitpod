@@ -32,19 +32,25 @@
     <img id="avatar" src="../../../content/images/default_avatar.svg" style="max-width: 60px; width: 100%" [matMenuTriggerFor]="account" />
   </section>
   <section>
-    <section style="margin-top: 10px; margin-left: 0.2rem">
+    <section style="margin-top: 10px; margin-left: 0.8rem">
       <span id="not-pointer">{{ loginName }}</span>
     </section>
     <!-- <section style="margin-top: -10px">
       <span *ngIf="!isPositionMoreThan1" id="not-pointer">{{ positionName }} - {{ internalName }}</span>
       <span *ngIf="isPositionMoreThan1" id="pointer" [matMenuTriggerFor]="position">{{ positionName }} - {{ internalName }}</span>
     </section> -->
-    <section style="margin-top: -10px">
+    <section matTooltip="click to see more options" style="margin-top: -10px">
       <mat-chip-list *ngIf="!isPositionMoreThan1"
-        ><mat-chip class="example-box text-capitalize" id="not-pointer" cdkDrag>{{ positionName }} - {{ internalName }}</mat-chip>
+        ><mat-chip class="example-box text-capitalize" id="not-pointer" cdkDrag
+          ><label>{{ positionName }} - {{ internalName }}</label
+          ><mat-icon>expand_more</mat-icon></mat-chip
+        >
       </mat-chip-list>
       <mat-chip-list *ngIf="isPositionMoreThan1" cdkDropList cdkDropListOrientation="horizontal" [matMenuTriggerFor]="position">
-        <mat-chip class="example-box text-capitalize" id="pointer" cdkDrag> {{ positionName }} - {{ internalName }} </mat-chip>
+        <mat-chip class="example-box text-capitalize" id="pointer" cdkDrag
+          ><label>{{ positionName }} - {{ internalName }}</label>
+          <mat-icon>expand_more</mat-icon>
+        </mat-chip>
       </mat-chip-list>
     </section>
   </section>
