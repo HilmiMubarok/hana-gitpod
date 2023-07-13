@@ -25,6 +25,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { IGroupCollateralChecklis } from './group-collateral-total.model';
 
 @Component({
   selector: 'jhi-group-collateral',
@@ -56,6 +57,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     'action',
   ];
 
+  public groupChecklisCollaterals: IGroupCollateralChecklis[] = [];
   public certificateType: any;
   public dataItem: any;
   public dataCertyficate: any;
@@ -125,6 +127,14 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.setCertyficateType();
     this.lovBindingType();
+    if (this.creditProposal.attributes['groupChecklisCollateral']) {
+      while (typeof this.creditProposal.attributes['groupChecklisCollateral'] === 'string') {
+        this.creditProposal.attributes['groupChecklisCollateral'] = JSON.parse(this.creditProposal.attributes['groupChecklisCollateral']);
+        this.groupChecklisCollaterals = this.creditProposal.attributes['groupChecklisCollateral'];
+      }
+    } else {
+      this.creditProposal.attributes['groupChecklisCollateral'] = [];
+    }
     // this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
     //   this.checkIndividualCol(newCP);
     // });
@@ -175,10 +185,27 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
       }
     }
   }
-  public changeCheckedColGroupAssignToProdAll(event: MatCheckboxChange, index: number): void {
+  public changeCheckedColGroupAssignToProdAll(event: MatCheckboxChange, index: number, element: ICollateral): void {
     if (this.creditProposal.products.length > 0 && this.groupCollaterals.length > 0) {
       const value: boolean = event.checked;
       if (value) {
+        if (this.creditProposal.attributes['groupChecklisCollateral']) {
+          const filter: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
+            obj => obj.collateralId === element.id
+          );
+          if (filter) {
+            const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
+              return o.collateralId === element.id;
+            });
+            this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = true;
+          } else {
+            const checklis: IGroupCollateralChecklis = {};
+            checklis.cifNumber = this.cif;
+            checklis.checklis = true;
+            checklis.collateralId = element.id;
+            this.creditProposal.attributes['groupChecklisCollateral'].push(checklis);
+          }
+        }
         this.groupCollaterals[index].attributes['crossCollateral'] = 'yes';
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           const tempCollateralProductRelationObject = {
@@ -189,6 +216,16 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
           this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
         }
       } else {
+        this.groupChecklisCollaterals = this.creditProposal.attributes['groupChecklisCollateral'];
+        const filter: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
+          obj => obj.collateralId === element.id
+        );
+        if (filter) {
+          const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
+            return o.collateralId === element.id;
+          });
+          this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = false;
+        }
         this.findAndCleanConnection();
         // do nothing; done by another function
         // this.creditProposalService.changeColRelByCP(this.creditProposal);
@@ -804,6 +841,16 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
   public disabledCeklis(event) {
     if (event.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
       return true;
+    }
+    return false;
+  }
+
+  public getDataCeklis(element) {
+    const data: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
+      obj => obj.collateralId === element.id
+    );
+    if (data) {
+      return data.checklis;
     }
     return false;
   }

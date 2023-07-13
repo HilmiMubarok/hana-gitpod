@@ -94,6 +94,10 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
       entity.attributes['collateralAfterReport'] = JSON.stringify(entity.attributes['collateralAfterReport']);
     }
 
+    if (entity.attributes['groupChecklisCollateral']) {
+      entity.attributes['groupChecklisCollateral'] = JSON.stringify(entity.attributes['groupChecklisCollateral']);
+    }
+
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }

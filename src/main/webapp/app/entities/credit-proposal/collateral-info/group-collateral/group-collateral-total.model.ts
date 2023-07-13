@@ -14,3 +14,13 @@ export class GroupCollateralTotal implements IGroupCollateralTotal {
     this.totalLV = 0;
   }
 }
+
+export interface IGroupCollateralChecklis {
+  cifNumber?: string;
+  collateralId?: number;
+  checklis?: boolean;
+}
+
+export class GroupCollateralChecklis implements IGroupCollateralChecklis {
+  constructor(public cifNumber?: string, public collateralId?: number, public checklis?: boolean) {}
+}
