@@ -6,13 +6,6 @@
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
             <e-breadcrumb-item text="{{ getText(parentPath) }}"> </e-breadcrumb-item>
-            <!-- <e-breadcrumb-item text="Edit" url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}">
-            </e-breadcrumb-item> -->
-            <!-- <e-breadcrumb-item
-              text="{{ getTextMenu() }} {{ titleMenu }}"
-              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}/{{ clickedMenu }}"
-            >
-            </e-breadcrumb-item> -->
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -201,11 +194,7 @@
                     </div>
                   </section>
                 </div>
-                <!-- <div class="form-group">
-                <jhi-credit-proposal-branch [creditProposal]="creditProposal"></jhi-credit-proposal-branch>
-              </div> -->
                 <div class="form-group">
-                  <!-- <section class="mt-2"> -->
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <mat-form-field appearance="outline" class="w-100">
                       <mat-label>Lending Program</mat-label>
@@ -226,7 +215,6 @@
                       </div>
                     </div>
                   </section>
-                  <!-- </section> -->
                 </div>
               </div>
             </div>
@@ -426,11 +414,7 @@
 
             <div *ngIf="clickedMenu === 'convenant-tbo'">
               <section class="wrapper-card">
-                <e-card
-                  ><jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
-                  <!-- <jhi-credit-proposal-tab-covenant-history *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
-                    </jhi-credit-proposal-tab-covenant-history> --></e-card
-                >
+                <e-card><jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant></e-card>
               </section>
             </div>
 
@@ -483,15 +467,6 @@
 
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <!-- <button
-        style="margin-right: 25px"
-        mat-raised-button
-        *ngFor="let task of tasks"
-        (click)="processTask(task)"
-        class="btn-lg text-uppercase"
-      >
-        {{ task.caption }}
-      </button> -->
       <div>
         <button
           mat-raised-button

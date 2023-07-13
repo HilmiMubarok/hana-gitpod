@@ -322,7 +322,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   setPositionLogin(posLog: number) {
-    this.positionLogin = posLog;
+    // this.positionLogin = posLog;
+	this.positionLogin = this.getLocStor('POS');;
   }
 
   setOpinionFileSfdt(file: File) {
