@@ -32,7 +32,7 @@
       <td mat-cell *matCellDef="let element" class="grid-index-right">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
       <td mat-footer-cell *matFooterCellDef class="grid-index-right">
         <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-        <p>{{ presentage((countTotalMV() / totalPlafond) * 100, 'mv') }}</p>
+        <p>{{ presentage(countTotalMV() / totalPlafond, 'mv') }}</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="liquidValue">
@@ -40,7 +40,7 @@
       <td mat-cell *matCellDef="let element" class="grid-index-right">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
       <td mat-footer-cell *matFooterCellDef class="grid-index-right">
         <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-        <p>{{ presentage((countTotalLV() / totalPlafond) * 100, 'lv') }}</p>
+        <p>{{ presentage(countTotalLV() / totalPlafond, 'lv') }}</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="mValueKjjp">
@@ -61,7 +61,7 @@
 
       <td mat-footer-cell *matFooterCellDef class="grid-index-right">
         <p>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-        <p>{{ presentage((countTotalLVKJJP() / totalPlafond) * 100, 'lvKjjp') }}</p>
+        <p>{{ presentage(countTotalLVKJJP() / totalPlafond, 'lvKjjp') }}</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="marketability">
@@ -108,9 +108,8 @@
         {{ getCcyBinding(getBinding(element).ccy) + ' ' + getBinding(element).bindingValue }}
       </td>
       <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-        {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
-
-        {{ biddingValueCoverage }}
+        <p>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+        <p>{{ biddingValueCoverage }} %</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="collateralStatus">
@@ -127,14 +126,7 @@
     </ng-container>
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right"></th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">
-        <!-- <button mat-icon-button (click)="openDialog(element)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="$event.stopPropagation(); openResult(element)">
-          <mat-icon>history</mat-icon>
-        </button> -->
-      </td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left"></td>
       <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
     </ng-container>
     <tr class="mat-row" *matNoDataRow>
@@ -144,7 +136,6 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
-  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
 </div>
 
 <p class="p-3 mt-3">AFTER</p>
@@ -180,7 +171,7 @@
       <td mat-cell *matCellDef="let element" class="grid-index-right">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
       <td mat-footer-cell *matFooterCellDef class="grid-index-right">
         <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-        <p>{{ presentage((countTotalMV() / totalPlafond) * 100, 'mv') }}</p>
+        <p>{{ presentage(countTotalMV() / totalPlafond, 'mv') }}</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="liquidValue">
@@ -188,7 +179,7 @@
       <td mat-cell *matCellDef="let element" class="grid-index-right">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
       <td mat-footer-cell *matFooterCellDef class="grid-index-right">
         <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-        <p>{{ presentage((countTotalLV() / totalPlafond) * 100, 'lv') }}</p>
+        <p>{{ presentage(countTotalMV() / totalPlafond, 'lv') }}</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="mValueKjjp">
@@ -209,7 +200,7 @@
 
       <td mat-footer-cell *matFooterCellDef class="grid-index-right">
         <p>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-        <p>{{ presentage((countTotalLVKJJP() / totalPlafond) * 100, 'lvKjjp') }}</p>
+        <p>{{ presentage(countTotalLVKJJP() / totalPlafond, 'lvKjjp') }}</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="marketability">
@@ -256,9 +247,8 @@
         {{ getCcyBinding(getBinding(element).ccy) + ' ' + getBinding(element).bindingValue }}
       </td>
       <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-        {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
-
-        {{ biddingValueCoverage }}
+        <p>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+        <p>{{ biddingValueCoverage }} %</p>
       </td>
     </ng-container>
     <ng-container matColumnDef="collateralStatus">
@@ -275,7 +265,7 @@
     </ng-container>
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.status }}</td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.appealStatus }}</td>
       <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
     </ng-container>
     <tr class="mat-row" *matNoDataRow>
@@ -285,7 +275,4 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
-
-  <!-- Add paginator -->
-  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
 </div>

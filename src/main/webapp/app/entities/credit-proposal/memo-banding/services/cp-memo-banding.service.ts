@@ -11,13 +11,13 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
 
     const comparedData = firstData.map(data => {
       const matchingData = secondData.find(d => d.id === data.id);
-      const status = matchingData ? (_.isEqual(data, matchingData) ? 'Not changed' : 'Changed') : 'Removed';
-      return { ...data, status };
+      const appealStatus = matchingData ? (_.isEqual(data, matchingData) ? 'Not changed' : 'Changed') : 'Removed';
+      return { ...data, appealStatus };
     });
 
     secondData.forEach(data => {
       if (!firstData.some(d => d.id === data.id)) {
-        comparedData.push({ ...data, status: 'Added' });
+        comparedData.push({ ...data, appealStatus: 'Added' });
       }
     });
 
@@ -28,7 +28,7 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
   compareSingleObject(firsObject: Object, secondObject: Object): Object {
     return Object.keys(firsObject).map(key => ({
       [key]: firsObject[key],
-      status: _.isEqual(firsObject, secondObject) ? 'Not changed' : 'Changed',
+      appealStatus: _.isEqual(firsObject, secondObject) ? 'Not changed' : 'Changed',
     }));
 
     console.log({

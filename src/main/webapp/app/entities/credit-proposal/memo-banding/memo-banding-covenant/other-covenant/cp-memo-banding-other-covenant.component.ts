@@ -19,6 +19,7 @@ export class CpMemoBandingOtherCovenantComponent implements OnInit {
       this.parsed.convenant['otherCovenant'],
       this.creditProposalItem.attributes['convenant']['otherCovenant']
     );
+    console.log('datasour', this.dataSource);
   }
   ngOnInit() {
     this.getData();

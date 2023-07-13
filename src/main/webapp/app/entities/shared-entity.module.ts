@@ -385,6 +385,7 @@ import { CPMemoBandingCovenantAboveComponent } from './credit-proposal/memo-band
 import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/other-covenant/cp-memo-banding-other-covenant.component';
 import { MemoBandingComponent } from './credit-proposal/memo-banding/credit-proposal-memo-banding.component';
 import { CPMemoBandingRemarkComponent } from './credit-proposal/memo-banding/remarks/cp-memo-banding-remark.component';
+import { CPMemoBandingCollateralBacktobackComponent } from './credit-proposal/memo-banding/memo-banding-collateral/backtoback/cp-memo-banding-collateral-backtoback.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -831,6 +832,7 @@ import { CPMemoBandingRemarkComponent } from './credit-proposal/memo-banding/rem
         CPMemoBandingCovenantAboveComponent,
         CpMemoBandingOtherCovenantComponent,
         CPMemoBandingRemarkComponent,
+        CPMemoBandingCollateralBacktobackComponent,
         MemoBandingComponent,
   ],
   exports: [
@@ -1234,6 +1236,7 @@ import { CPMemoBandingRemarkComponent } from './credit-proposal/memo-banding/rem
     CPMemoBandingCovenantAboveComponent,
     CpMemoBandingOtherCovenantComponent,
     CPMemoBandingRemarkComponent,
+    CPMemoBandingCollateralBacktobackComponent,
     MemoBandingComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
