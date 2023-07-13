@@ -1,6 +1,6 @@
 <mat-card *ngIf="requestSlik.status !== reqSlikStatus.VERIFY && requestSlik.status !== reqSlikStatus.COMPLETE">
   <mat-card-header>
-    <mat-card-header-subtitle class="text-capitalize">Management Data</mat-card-header-subtitle>
+    <mat-card-header-subtitle class="text-capitalize header-title">Management Data</mat-card-header-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="table-responsive-material">
@@ -94,7 +94,7 @@
  -->
 <mat-card *ngIf="requestSlik.status === reqSlikStatus.VERIFY || requestSlik.status === reqSlikStatus.COMPLETE">
   <mat-card-header>
-    <mat-card-header-subtitle class="text-capitalize">Management Data</mat-card-header-subtitle>
+    <mat-card-header-subtitle class="text-capitalize header-title">Management Data</mat-card-header-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="table-responsive">

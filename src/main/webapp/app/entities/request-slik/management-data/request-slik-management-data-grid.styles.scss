@@ -25,7 +25,15 @@ table {
     text-align: left;
   }
 }
-
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}
 .mat-select {
   font-family: 'Poppins', sans-serif !important;
 }
