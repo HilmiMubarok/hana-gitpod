@@ -204,27 +204,29 @@
         </section>
 
         <!-- Cust info -->
-        <section class="mb-3" style="margin: 0.8rem">
-          <!-- <div class="e-card-header">
+        <section class="mb-3 wrapper-card">
+          <e-card>
+            <!-- <div class="e-card-header">
               <div class="e-card-header-caption">
                 <div class="e-card-header">Customer Info</div>
               </div>
             </div> -->
-          <mat-card-content>
-            <jhi-credit-proposal-person
-              *ngIf="creditProposal.partyTypeId === 'PERSON'"
-              [item]="creditProposal.prospectPerson"
-              [deptorData]="creditProposal"
-              [partyCif]="partyCif"
-              mode="view"
-            >
-            </jhi-credit-proposal-person>
-            <jhi-party-group-view
-              [mode]="'view'"
-              *ngIf="creditProposal.partyTypeId !== 'PERSON'"
-              [item]="creditProposal"
-            ></jhi-party-group-view>
-          </mat-card-content>
+            <mat-card-content>
+              <jhi-credit-proposal-person
+                *ngIf="creditProposal.partyTypeId === 'PERSON'"
+                [item]="creditProposal.prospectPerson"
+                [deptorData]="creditProposal"
+                [partyCif]="partyCif"
+                mode="view"
+              >
+              </jhi-credit-proposal-person>
+              <jhi-party-group-view
+                [mode]="'view'"
+                *ngIf="creditProposal.partyTypeId !== 'PERSON'"
+                [item]="creditProposal"
+              ></jhi-party-group-view>
+            </mat-card-content>
+          </e-card>
         </section>
 
         <!-- Postal address -->

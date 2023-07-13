@@ -188,20 +188,23 @@
         </div>
 
         <!-- Customer info -->
-        <section class="mb-3">
-          <jhi-credit-proposal-person
-            *ngIf="creditProposal.partyTypeId === 'PERSON'"
-            [item]="creditProposal.prospectPerson"
-            [deptorData]="creditProposal"
-            [partyCif]="partyCif"
-            mode="view"
-          >
-          </jhi-credit-proposal-person>
-          <jhi-party-group-view
-            [mode]="'view'"
-            *ngIf="creditProposal.partyTypeId !== 'PERSON'"
-            [item]="creditProposal"
-          ></jhi-party-group-view>
+        <section class="mb-3 wrapper-card">
+          <e-card>
+            <jhi-credit-proposal-person
+              *ngIf="creditProposal.partyTypeId === 'PERSON'"
+              [item]="creditProposal.prospectPerson"
+              [deptorData]="creditProposal"
+              [partyCif]="partyCif"
+              mode="view"
+            >
+            </jhi-credit-proposal-person>
+
+            <jhi-party-group-view
+              [mode]="'view'"
+              *ngIf="creditProposal.partyTypeId !== 'PERSON'"
+              [item]="creditProposal"
+            ></jhi-party-group-view>
+          </e-card>
         </section>
 
         <!-- Postal address -->
