@@ -186,6 +186,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     }
   }
   public changeCheckedColGroupAssignToProdAll(event: MatCheckboxChange, index: number, element: ICollateral): void {
+    this.groupChecklisCollaterals = this.creditProposal.attributes['groupChecklisCollateral'];
     if (this.creditProposal.products.length > 0 && this.groupCollaterals.length > 0) {
       const value: boolean = event.checked;
       if (value) {
