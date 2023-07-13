@@ -10,8 +10,8 @@
           <td mat-cell *matCellDef="let element; let i = index">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
               <mat-checkbox
-                [checked]="element.attributes.crossCollateral === 'yes'"
-                (change)="changeCheckedColGroupAssignToProdAll($event, i)"
+                [checked]="getDataCeklis(element)"
+                (change)="changeCheckedColGroupAssignToProdAll($event, i, element)"
                 [disabled]="disabledCeklis(element)"
               ></mat-checkbox>
             </section>
