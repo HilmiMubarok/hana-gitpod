@@ -10,8 +10,19 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
   styleUrls: ['./legal-lending-limit-parameter.css'],
 })
 export class MasterParameterLegalLendingLimitDialogComponent {
-  public statuses: any;
   public generalParameter: IGeneralParameter;
+  public statusValue = [
+    {
+      statusId: 'ACTIVE',
+      statusDescription: 'Active',
+      statusCode: 'ACTIVE',
+    },
+    {
+      statusId: 'NON_ACTIVE',
+      statusDescription: 'Non Active',
+      statusCode: 'NON_ACTIVE',
+    },
+  ];
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -25,7 +36,6 @@ export class MasterParameterLegalLendingLimitDialogComponent {
       this.openCancelDialog();
     });
     this.generalParameter = this.data.generalParameter;
-    this.statuses = STATUS_PARAMETER;
   }
 
   public save(): void {
