@@ -164,7 +164,7 @@
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KURS</mat-label>
-                    <input currencyMask matInput type="text" [(ngModel)]="binding.kurs" readOnly [options]="logoIdr" readOnly />
+                    <input currencyMask matInput type="text" [(ngModel)]="binding.kurs" disabled [options]="logoIdr" />
                   </mat-form-field>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
