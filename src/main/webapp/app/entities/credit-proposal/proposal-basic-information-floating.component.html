@@ -414,7 +414,9 @@
 
             <div *ngIf="clickedMenu === 'convenant-tbo'">
               <section class="wrapper-card">
-                <e-card><jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant></e-card>
+                <e-card
+                  ><jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant
+                ></e-card>
               </section>
             </div>
 
@@ -456,9 +458,9 @@
               </section>
             </div>
 
-              <div *ngIf="clickedMenu === 'memo-banding'">
-                <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
-              </div>
+            <div *ngIf="clickedMenu === 'memo-banding'">
+              <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
+            </div>
 
             <jhi-collateral-info-history
               *ngIf="clickedMenu === 'collateral-info' && isHistoryExist"
@@ -490,7 +492,7 @@
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
     <div class="header-sub-menu"><label style="margin-top: 1rem">Credit Proposal :</label></div>
 
-    <mat-list role="list" class="sub-list-styling">
+    <mat-list role="list" class="list-styling">
       <div *ngFor="let item of subMenu">
         <mat-list-item role="listitem">
           <a
