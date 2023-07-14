@@ -115,13 +115,11 @@
       </div>
     </div>
     <!-- LC3_SME, LC3_COMM, LC3_ENTRP, LC3_CORP, LC3_GLOB, LC4_SME, LC4_COMM, LC4_ENTRP, LC4_CORP, LC4_GLOB -->
-    <section class="mt-2" *ngIf="approvalUserNote">
-      <ng-container>
+    <section class="mt-2">
+      <ng-container *ngIf="approvalUserNote">
         <jhi-loan-facility-approve-level-note [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level-note>
       </ng-container>
-    </section>
-    <section *ngIf="approvalUser">
-      <ng-container>
+      <ng-container *ngIf="approvalUser">
         <jhi-loan-facility-approve-level [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level>
       </ng-container>
     </section>
