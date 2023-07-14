@@ -658,50 +658,50 @@ input#rteTool_toolbar_FontColor_Target.e-rte-fontcolor-element {
 
 /* Button yes no Styling */
 .confirm-button-yes {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: rgba(224, 223, 223, 1);
-  font-weight: bold;
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: rgba(224, 223, 223, 1) !important;
+  font-weight: bold !important;
   font-family: 'Poppins', sans-serif !important;
 }
 
 .confirm-button-no {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: rgba(224, 223, 223, 1);
-  font-weight: bold;
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: rgba(224, 223, 223, 1) !important;
+  font-weight: bold !important;
   font-family: 'Poppins', sans-serif !important;
 }
 .confirm-button-no:hover {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: #f44336;
-  color: #ffff;
-  font-weight: bold;
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: #f44336 !important;
+  color: #ffff !important;
+  font-weight: bold !important;
   font-family: 'Poppins', sans-serif !important;
 }
 .confirm-button-yes:active:hover:not([disabled]) {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
-  background-color: rgba(157, 157, 157, 1);
-  color: #ffff;
-  font-weight: bold;
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: rgba(157, 157, 157, 1) !important;
+  color: #ffff !important;
+  font-weight: bold !important;
   font-family: 'Poppins', sans-serif !important;
 }
 
 .confirm-button-yes:enabled:hover {
-  padding: 3px 43px 3px 43px;
-  border-radius: 10px;
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
   background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffff;
-  font-weight: bold;
+  color: #ffff !important;
+  font-weight: bold !important;
   font-family: 'Poppins', sans-serif !important;
 }
 
 .button-styling:enabled {
-  color: white;
+  color: white !important;
   background-color: rgba(49, 158, 152, 1) !important;
-  font-weight: bold;
+  font-weight: bold !important;
   font-family: 'Poppins', sans-serif !important;
 }
 
