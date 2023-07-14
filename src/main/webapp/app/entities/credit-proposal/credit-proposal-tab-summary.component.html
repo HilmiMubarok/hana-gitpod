@@ -115,39 +115,13 @@
       </div>
     </div>
     <!-- LC3_SME, LC3_COMM, LC3_ENTRP, LC3_CORP, LC3_GLOB, LC4_SME, LC4_COMM, LC4_ENTRP, LC4_CORP, LC4_GLOB -->
-    <section class="mt-2">
-      <ng-container
-        *ngIf="
-          item.approvalLc === 'LC3_SME' ||
-          item.approvalLc === 'LC3_COMM' ||
-          item.approvalLc === 'LC3_ENTRP' ||
-          item.approvalLc === 'LC3_CORP' ||
-          item.approvalLc === 'LC3_GLOB' ||
-          item.approvalLc === 'LC4_SME' ||
-          item.approvalLc === 'LC4_COMM' ||
-          item.approvalLc === 'LC4_ENTRP' ||
-          item.approvalLc === 'LC4_CORP' ||
-          item.approvalLc === 'LC4_GLOB'
-        "
-      >
+    <section class="mt-2" *ngIf="approvalUserNote">
+      <ng-container>
         <jhi-loan-facility-approve-level-note [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level-note>
       </ng-container>
-      <ng-container
-        *ngIf="
-          !(
-            item.approvalLc === 'LC3_SME' ||
-            item.approvalLc === 'LC3_COMM' ||
-            item.approvalLc === 'LC3_ENTRP' ||
-            item.approvalLc === 'LC3_CORP' ||
-            item.approvalLc === 'LC3_GLOB' ||
-            item.approvalLc === 'LC4_SME' ||
-            item.approvalLc === 'LC4_COMM' ||
-            item.approvalLc === 'LC4_ENTRP' ||
-            item.approvalLc === 'LC4_CORP' ||
-            item.approvalLc === 'LC4_GLOB'
-          )
-        "
-      >
+    </section>
+    <section *ngIf="approvalUser">
+      <ng-container>
         <jhi-loan-facility-approve-level [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level>
       </ng-container>
     </section>
