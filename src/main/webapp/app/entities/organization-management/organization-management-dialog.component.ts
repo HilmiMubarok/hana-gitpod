@@ -261,7 +261,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
       }
 
       if (!this.organizationManagement.person.dob) {
-        this._showNotification('error', 'Please Enter Deat Of Birth');
+        this._showNotification('error', 'Please Enter Date Of Birth');
         mustValidate.dob = false;
       }
 
