@@ -1562,34 +1562,38 @@ export class LoanAnalysMainComponent implements OnInit {
     const formDataConditionSfdt = new FormData();
     const formDataConditionWord = new FormData();
 
-    const fileNameSfdt = this.uuidPath + '.sfdt';
-    const fileNameWord = this.uuidPath + '.docs';
+    /* const fileNameSfdt = this.uuidPath + '.sfdt';
+    const fileNameWord = this.uuidPath + '.docs'; */
+	const fileNameOpinionSfdt = 'opini.sfdt';
+    const fileNameOpinionWord = 'opini.docs';
+	const fileNameConditionSfdt = 'condition.sfdt';
+    const fileNameConditionWord = 'condition.docs';
     const fileTypeSfdt = 'sfdt';
     const fileTypeWord = 'word';
 
     const keyOpinion = 'credit_proposal/remark/opinion-history/opinion';
     const pathHelperOpinion = this.uuidPath + '-opinion';
     const metaDataOpinionSfdt = {
-      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
+      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameOpinionSfdt}`,
     };
     const metaDataOpinionWord = {
-      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
+      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameOpinionWord}`,
     };
 
     const keyCondition = 'credit_proposal/remark/opinion-history/condition';
     const pathHelperCondition = this.uuidPath + '-condition';
     const metaDataConditionSfdt = {
-      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
+      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameConditionSfdt}`,
     };
     const metaDataConditionWord = {
-      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
+      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameConditionWord}`,
     };
 
-    formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameSfdt));
-    formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameWord));
+    formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameOpinionSfdt));
+    formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameOpinionWord));
 
-    formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameSfdt));
-    formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameWord));
+    formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameConditionSfdt));
+    formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameConditionWord));
 
     this.storageService.uploadMeta(this.BUCKET, formDataOpinionSfdt, metaDataOpinionSfdt).subscribe();
     this.storageService.uploadMeta(this.BUCKET, formDataOpinionWord, metaDataOpinionWord).subscribe();
