@@ -45,7 +45,6 @@ export class AssignToComponent implements OnInit {
 
     if (this.router.url.split('/')[1] === 'la-distribution') {
       this.loadPosition(['CRO']);
-      console.log('load', this.loadPosition(['CRO']));
     } else if (this.router.url.split('/')[1] === 'cc-distribution') {
       this.loadPosition(['CC_ANALYST']);
     } else if (this.router.url.split('/')[1] === 'distribution') {
@@ -53,9 +52,8 @@ export class AssignToComponent implements OnInit {
     }
   }
 
-  public loadPosition(positionTypeId: any): void {
-    // Change endpoint position
-    this.positionService.getPositionAssignTo(positionTypeId, this.creditProposal.internalId).subscribe(res => {
+  public loadPosition(position: any): void {
+    this.positionService.queryFilterByNew({ idPositionTypes: position, size: 9999, page: 0 }).subscribe(res => {
       let tempDataAssignTo = {};
       this.position = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
