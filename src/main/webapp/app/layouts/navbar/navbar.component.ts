@@ -113,11 +113,13 @@ export class NavbarComponent implements OnInit {
 	  if (res.body[0].positions.length > 0) {
 		let i = 0;
 		let isFirstPosActive = false;
+		let indexHelper: number;
 		let positionId = '';
 		let positionTypeDescription = '';
 		let internalId = '';
 		let internalName = '';
 		let positionTypeId = '';
+		let positionActive = 0;
 		
 		while (!isFirstPosActive && i < res.body[0].positions.length) {
 		  if (res.body[0].positions[i].statusCode === 'ACTIVE' || res.body[0].positions[i].statusId === 'ACTIVE') {
@@ -131,6 +133,7 @@ export class NavbarComponent implements OnInit {
 			internalName = res.body[0].positions[i].internalName;
 
 			isFirstPosActive = true;
+			indexHelper = i;
 			i = res.body[0].positions.length - 1;
 		  }
 		  i++;
@@ -139,16 +142,40 @@ export class NavbarComponent implements OnInit {
 		this.positionName = positionTypeDescription === '' ? 'Not Have Active Position': positionTypeDescription;
 		this.internalName = internalName === '' ? 'Not Have Active Position': internalName;
 
-		this.setCookie(this.cNamePos, positionId, positionTypeDescription);
-		this.setCookie(this.cNameInt, internalId, internalName);
-
-		if (res.body[0].positions.length > 1) {
-		  this.isPositionMoreThan1 =  true;
-		  this.definePositionMenu(res.body[0].positions);
+		if (positionId !== '' && positionTypeDescription !== '') {
+		  this.setCookie(this.cNamePos, positionId, positionTypeDescription);
+		}
+		
+		if (internalId !== '' && internalName !== '') {
+		  this.setCookie(this.cNameInt, internalId, internalName);
 		}
 
-		this.templateService.changePosInt(positionTypeId);
-		this.templateService.changePosIntObject(res.body[0].positions[0]);
+		if (isFirstPosActive) {
+		  res.body[0].positions.forEach(position => {
+			if (position.statusCode === 'ACTIVE' || position.statusId === 'ACTIVE') {
+			  positionActive++;
+			}
+		  });
+		}
+
+		if (positionActive > 1) {
+		  this.isPositionMoreThan1 = true;
+		  res.body[0].positions.forEach(position => {
+			if (position.statusCode === 'ACTIVE' || position.statusId === 'ACTIVE') {
+			  this.definePositionMenu(position);
+			}
+		  });
+		}
+
+		if (positionTypeId !== '') {
+		  this.templateService.changePosInt(positionTypeId);
+		}
+
+		console.log('indexHelper : ', indexHelper);
+		if (indexHelper === 0 || indexHelper > 0) {
+		  console.log('in cuk');
+		  this.templateService.changePosIntObject(res.body[0].positions[indexHelper]);
+		}
 	  }
 	}
 

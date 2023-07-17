@@ -7,6 +7,7 @@ import { AlertErrorComponent } from './alert/alert-error.component';
 import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
 import { MatrixDirective } from './auth/matrix.directive';
 import { MatrixIDDDirective } from './auth/matrixIDD.directive';
+import { MatrixMenuPosStatDirective } from './auth/matrixMPS.directive';
 import { DurationPipe } from './date/duration.pipe';
 import { FormatMediumDatetimePipe } from './date/format-medium-datetime.pipe';
 import { FormatMediumDatePipe } from './date/format-medium-date.pipe';
@@ -40,6 +41,7 @@ import { LoanFacilityAproveLevelNoteComponent } from 'app/entities/loan-analys/a
     HasAnyAuthorityDirective,
     MatrixDirective,
     MatrixIDDDirective,
+	MatrixMenuPosStatDirective,
     DurationPipe,
     FormatMediumDatetimePipe,
     ArrayCountPipe,
@@ -70,6 +72,7 @@ import { LoanFacilityAproveLevelNoteComponent } from 'app/entities/loan-analys/a
     HasAnyAuthorityDirective,
     MatrixDirective,
     MatrixIDDDirective,
+	MatrixMenuPosStatDirective,
     DurationPipe,
     ArrayCountPipe,
     FormatMediumDatetimePipe,
