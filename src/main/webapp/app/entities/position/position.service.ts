@@ -13,7 +13,8 @@ export class PositionService extends AbstractEntityService<IPosition> {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-survey-appraisals');
-	this.resourceUrlCash = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-position');
+    this.resourceUrlCash = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-position');
+    this.cashPositionResource = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/cash-positions');
   }
 
   protected isNew(entity: IPosition): boolean {
@@ -21,13 +22,22 @@ export class PositionService extends AbstractEntityService<IPosition> {
   }
 
   public findByLogin(): Observable<HttpResponse<IPosition>> {
-    return this.http.get<IPosition>(this.resourceUrl + '/get-by-login/', { observe: 'response' });
+    return this.http.get<IPosition>(this.resourceUrl + '/get-by-llogin/', { observe: 'response' });
   }
 
   public findPositionReportingStructureAppraisal(idAppraisal: number) {
     return this.http.get<IPosition[]>(`${this.resourceUrlNew}/approval-user/${idAppraisal}`, {
       observe: 'response',
     });
+  }
+
+  public getPositionAssignTo(idPositionType: string, idInternal: string) {
+    return this.http.get<IPosition[]>(
+      this.cashPositionResource + `/find-by/position-type/${idPositionType}/internal/${idInternal}/superordinate-internal`,
+      {
+        observe: 'response',
+      }
+    );
   }
 
   protected preSave(entity: IPosition) {}
