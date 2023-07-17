@@ -331,7 +331,6 @@ export class DocumentComponent implements OnChanges, OnInit {
 
   public edit(res: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      console.log('fsdsf');
       if (res.folderFiles.length > 0) {
         this.accountService.identity().subscribe(resAccount => {
           const promises: Array<any> = new Array<any>();
