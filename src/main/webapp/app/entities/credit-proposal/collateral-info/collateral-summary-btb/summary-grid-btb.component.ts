@@ -1025,7 +1025,9 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
-        this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+        this.biddingValueCoverage = this.convertNan(
+          Number(this.biddingValueSum) / Number(this.creditProposal.attributes['facilityDetail'].totalPlafond)
+        );
       });
     });
   }

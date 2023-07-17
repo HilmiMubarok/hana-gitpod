@@ -27,6 +27,10 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
     return entity.id === undefined || entity.id === null;
   }
 
+  public findCollateral(cif: string, code: string) {
+    return this.http.get<IDebtorData[]>(`${this.resourceUrl}/cif/0${cif}/collateral-detail-type/${code}`, { observe: 'response' });
+  }
+
   protected preSave(entity: IPartyCif) {}
 
   public getMyBusinessGroup(cif: string): Observable<HttpResponse<IDebtorData[]>> {

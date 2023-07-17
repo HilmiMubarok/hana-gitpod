@@ -706,11 +706,24 @@ input#rteTool_toolbar_FontColor_Target.e-rte-fontcolor-element {
 }
 
 /* Button yes no Styling */
+/* Table Styling */
 table {
   mat-header-cell {
     font-weight: bold !important;
   }
   th {
     font-weight: bold !important;
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black !important;
+    font-family: 'Poppins', sans-serif !important;
+  }
+  th:first-child {
+    border-top-left-radius: 15px !important;
+  }
+  th:last-child {
+    border-top-right-radius: 15px !important;
+  }
+  td {
+    font-family: 'Poppins', sans-serif !important;
   }
 }
