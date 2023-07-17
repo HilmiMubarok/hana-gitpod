@@ -922,8 +922,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
-        const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
-        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
+        const biddingValueCoverage = Number(this.biddingValueSum) / Number(this.totalPlafond);
+        this.biddingValueCoverage = biddingValueCoverage;
       });
     });
   }
