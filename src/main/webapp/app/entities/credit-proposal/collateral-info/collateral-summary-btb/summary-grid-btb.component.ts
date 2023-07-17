@@ -119,35 +119,35 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
       } else if (status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
       }
       return '0.00' + '%';
     } else if (num === 'NaN') {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
       } else if (status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
       }
       return '0.00' + '%';
     } else {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = num;
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = num;
       } else if (status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = num;
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = num;
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = num;
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = num;
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = num;
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = num;
       }
       return num + '%';
     }
@@ -155,16 +155,17 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
 
   private totalCoverage() {
     const mvCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalMV / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].mvInternalCoverage = mvCoverage.toFixed(2);
+      this._creditProposal.attributes['collateralSummary'].countTotalMV / this._creditProposal.attributes['collateralSummary'].creditLimit;
+    this._creditProposal.attributes['collateralSummary'].mvInternalCoverage = mvCoverage.toFixed(2);
     const lvCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalLV / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].lvInternalCoverage = lvCoverage.toFixed(2);
-    const mvKjjpCoverage = this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP / 0;
-    this._creditProposal.attributes['coverageTotal'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
+      this._creditProposal.attributes['collateralSummary'].countTotalLV / this._creditProposal.attributes['collateralSummary'].creditLimit;
+    this._creditProposal.attributes['collateralSummary'].lvInternalCoverage = lvCoverage.toFixed(2);
+    const mvKjjpCoverage = this._creditProposal.attributes['collateralSummary'].countTotalMVKJJP / 0;
+    this._creditProposal.attributes['collateralSummary'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
     const lvKjjpCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
+      this._creditProposal.attributes['collateralSummary'].countTotalLVKJJP /
+      this._creditProposal.attributes['collateralSummary'].creditLimit;
+    this._creditProposal.attributes['collateralSummary'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
   }
 
   @Input() isViewMode;
@@ -517,7 +518,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalLV = result;
 
     return result;
   }
@@ -554,7 +555,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalMV = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalMV = result;
     return result;
   }
 
@@ -654,7 +655,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
       }
 
       const creditLimit = result + dolar;
-      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+      this._creditProposal.attributes['collateralSummary'].creditLimit = creditLimit;
 
       this.totalPlafond = result + dolar;
 
@@ -761,7 +762,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalMVKJJP = result;
     return result;
   }
 
@@ -781,10 +782,65 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalLVKJJP = result;
     return result;
   }
+  public totalPlafondData(value: string): number {
+    let result: number;
+    let dolar: number;
+    let filterIdr = [];
+    let filterUsd = [];
+    result = 0;
+    dolar = 0;
 
+    // const dataFilter =
+    //   this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
+    //     ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
+    //     : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter?.length > 0) {
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
   // get Ownership
   public getOwnerShip(collateral: ICollateral) {
     let data: ICollateralProperty;

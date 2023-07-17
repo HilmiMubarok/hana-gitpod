@@ -137,6 +137,7 @@ export interface ICollateralProperty {
   appraisalId?: number;
   collPropertyType?: string;
   uomId?: string;
+  uomDescription?: string;
   propertyPercentageIMB?: number;
   propertyMarketValueIMBPerMeter?: number;
   propertyMarketValueIMB?: number;
@@ -244,6 +245,7 @@ export class CollateralProperty implements ICollateralProperty {
     public appraisalId?: number,
     public collPropertyType?: string,
     public uomId?: string,
+    public uomDescription?: string,
     public propertyPercentageIMB?: number,
     public propertyMarketValueIMBPerMeter?: number,
     public propertyMarketValueIMB?: number,

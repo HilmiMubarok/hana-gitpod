@@ -6,6 +6,8 @@ import { PARAMETER_TYPE } from 'app/shared/constants/base.constants';
 import { GeneralParameter, IGeneralParameter } from '../general-parameter/general-parameter.model';
 import { GeneralParameterService } from '../general-parameter/general-parameter.service';
 import { MasterParameterLegalLendingLimitDialogComponent } from './legal-lending-limit-parameter-dialog.component';
+import lodash from 'lodash';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-legal-lending-limit-parameter',
@@ -29,13 +31,18 @@ export class MasterParameterLegalLendingLimitComponent extends AbstractEntityMat
     this.generalParameterService
       .queryFilterBy({
         idParameterType: PARAMETER_TYPE.LEGALLENDINGLIMIT,
-        page: this.page,
-        size: this.itemsPerPage,
+        page: 0,
+        size: 9999,
         sort: this.sortData(),
       })
-      .subscribe({
-        next: res => this.initDataForMatTable(res, res.headers),
-        error: res => this.onError(res.message),
+      .subscribe(res => {
+        let data = res.body || [];
+        data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        this.items = new MatTableDataSource(data);
+
+        this.items.paginator = this.paginator;
       });
   }
 

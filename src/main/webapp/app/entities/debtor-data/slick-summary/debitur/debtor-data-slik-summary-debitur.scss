@@ -19,36 +19,93 @@ table th {
 }
 
 table {
-  border: 5px;
+  border-bottom: 1px solid #008881 !important;
+  width: 100%;
   th {
-    background-color: rgba(147, 201, 199, 1);
-    color: black;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black !important;
+    font-family: 'Poppins', sans-serif !important;
   }
   td {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
   }
-  .rounding-table-left {
+  th:first-child {
     border-top-left-radius: 15px;
   }
-  .rounding-table-right {
+  th:last-child {
     border-top-right-radius: 15px;
   }
-}
-.mat-column:first-child {
-  border-top-left-radius: 15px;
-}
 
-.mat-column:last-child {
-  border-top-right-radius: 15px;
+  mat-header-cell {
+    background-color: #008881;
+    // border: 1px solid #008881;
+    color: black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  mat-cell {
+    padding: 8px;
+    text-align: left;
+  }
 }
+// column
 .mat-column-no {
-  width: 5%;
+  padding: 2px 10px 0 2em !important;
+  text-align: right;
+  width: 5% !important;
 }
-
+.mat-column-bank {
+  text-align: left;
+}
+.mat-column-limit {
+  text-align: right;
+}
+.mat-column-os {
+  text-align: right;
+}
+.mat-column-facilityType {
+  text-align: left;
+}
+.mat-column-typeOfFacility {
+  text-align: left;
+}
+.mat-column-rate {
+  text-align: right;
+}
+.mat-column-period {
+  text-align: left;
+}
+.mat-column-collateralValue {
+  text-align: right;
+}
+.mat-column-tenor {
+  text-align: right;
+}
+.mat-column-firstConstractDate {
+  text-align: left;
+}
+.mat-column-disbursementDate {
+  text-align: left;
+}
+.mat-column-maturityDate {
+  text-align: left;
+}
+.mat-column-lastKol {
+  text-align: left;
+}
+.mat-column-worseKol {
+  text-align: left;
+}
+.mat-column-restructureMethod {
+  text-align: left;
+}
+.mat-column-condition {
+  text-align: left;
+}
 .mat-column-action {
-  width: 10%;
+  text-align: left;
+  width: 10% !important;
 }
 .button-styling {
   background-color: rgba(49, 158, 152, 1) !important;
@@ -167,21 +224,4 @@ table {
 }
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
-}
-
-.mat-column-no {
-  width: 5%;
-  text-align: right !important;
-}
-
-.mat-header-cell {
-  min-height: auto !important;
-  padding: 4px 36px 4px 0;
-  font-weight: 500;
-}
-
-mat-cell,
-.mat-cell {
-  min-height: auto !important;
-  padding: 5px 28px 5px 0 !important;
 }

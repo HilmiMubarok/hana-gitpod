@@ -27,6 +27,18 @@
   cursor: pointer;
 }
 
+.mat-chip.mat-standard-chip {
+  background-color: #62a3a0;
+  color: rgb(255 255 255);
+  font-weight: 500;
+  border: solid;
+  border-width: thin;
+  border-color: rgb(255 255 255);
+}
+
+section mat-chip-list mat-chip label {
+  margin-right: 2px;
+}
 /* span {
   color: #002b5b;
 } */

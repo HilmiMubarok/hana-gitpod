@@ -1,4 +1,5 @@
 export interface IGroupCollateralTotal {
+  cif?: string;
   totalLvKJJP?: number;
   totalMVKJJP?: number;
   totalMV?: number;
@@ -7,10 +8,26 @@ export interface IGroupCollateralTotal {
 
 //
 export class GroupCollateralTotal implements IGroupCollateralTotal {
-  constructor(public totalLvKJJP?: number, public totalMVKJJP?: number, public totalMV?: number, public totalLV?: number) {
+  constructor(
+    public cif?: string,
+    public totalLvKJJP?: number,
+    public totalMVKJJP?: number,
+    public totalMV?: number,
+    public totalLV?: number
+  ) {
     this.totalLvKJJP = 0;
     this.totalMVKJJP = 0;
     this.totalMV = 0;
     this.totalLV = 0;
   }
+}
+
+export interface IGroupCollateralChecklis {
+  cifNumber?: string;
+  collateralId?: number;
+  checklis?: boolean;
+}
+
+export class GroupCollateralChecklis implements IGroupCollateralChecklis {
+  constructor(public cifNumber?: string, public collateralId?: number, public checklis?: boolean) {}
 }

@@ -67,17 +67,17 @@ table {
   border-bottom: 1px solid #008881 !important;
   width: 100%;
   th {
-    background-color: rgba(147, 201, 199, 1);
-    color: black;
-    font-family: 'Poppins', sans-serif;
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black !important;
+    font-family: 'Poppins', sans-serif !important;
   }
   td {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
   }
-  .rounding-table-left {
+  th:first-child {
     border-top-left-radius: 15px;
   }
-  .rounding-table-right {
+  th:last-child {
     border-top-right-radius: 15px;
   }
 }
@@ -100,11 +100,12 @@ table {
   font-family: 'Poppins', sans-serif !important;
 }
 
-.button-styling {
+.button-styling:enabled {
+  color: white;
   background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
 }
-
 mat-card-subtitle {
   font-size: 24px;
   font-weight: 500;
@@ -288,14 +289,14 @@ input[type='number'] {
 // table
 .mat-header-cell {
   min-height: auto !important;
-  padding: 4px 36px 4px 0;
+  padding: 0 28 0 0;
   font-weight: 500;
 }
 
 mat-cell,
 .mat-cell {
   min-height: auto !important;
-  padding: 5px 28px 5px 0 !important;
+  padding: 0 28px 0 0 !important;
 }
 
 .mat-column-plafond {

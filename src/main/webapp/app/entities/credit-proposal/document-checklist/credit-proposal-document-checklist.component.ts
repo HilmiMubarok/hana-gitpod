@@ -39,11 +39,11 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
   public collateralProperty: any;
   public dataArray: IDocumentType[];
   datePipe: DatePipe = new DatePipe('en-US');
+  @Input() isOnMemoBanding: Boolean = false;
   constructor(
     private storageService: StorageService,
     public dialog: MatDialog,
     private documentTypeService: DocumentTypeService,
-    public collateralPropertyService: CollateralPropertyService,
     public partyCifService: PartyCifService
   ) {}
   @Input()

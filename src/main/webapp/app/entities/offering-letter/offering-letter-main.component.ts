@@ -118,7 +118,34 @@ export class OfferingLetterMainComponent implements OnInit {
     this.url = this.parentPath;
 
     this.selectedMenu = 'credit-proposal-summary';
-    this.subMenu = this.url === 'finalize' ? SUBMENU_OFFERING_LETTER_FINALIZE : SUBMENU_OFFERING_LETTER;
+
+    if (this.url === 'finalize') {
+      if (this.creditProposal.attributes['previousOfferingLetter']) {
+        this.subMenu = [
+          ...SUBMENU_OFFERING_LETTER_FINALIZE,
+          {
+            id: 'memo-banding',
+            text: 'Memo Banding',
+          },
+        ];
+      } else {
+        this.subMenu = SUBMENU_OFFERING_LETTER_FINALIZE;
+      }
+    } else {
+      if (this.creditProposal.attributes['previousOfferingLetter']) {
+        this.subMenu = [
+          ...SUBMENU_OFFERING_LETTER,
+          {
+            id: 'memo-banding',
+            text: 'Memo Banding',
+          },
+        ];
+      } else {
+        this.subMenu = SUBMENU_OFFERING_LETTER;
+      }
+    }
+
+    // this.subMenu = this.url === 'finalize' ? SUBMENU_OFFERING_LETTER_FINALIZE : SUBMENU_OFFERING_LETTER;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
     this.activatedRoute.queryParams.subscribe(params => {

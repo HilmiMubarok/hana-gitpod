@@ -1,7 +1,63 @@
+/* table */
 table {
   width: 100%;
 }
 
+table th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+table td {
+  font-family: 'Poppins', sans-serif !important;
+}
+table th:first-child {
+  border-top-left-radius: 15px;
+}
+table th:last-child {
+  border-top-right-radius: 15px;
+}
+table mat-header-cell {
+  color: black;
+  padding: 8px;
+  text-align: left;
+}
+
+table mat-cell {
+  padding: 8px;
+  text-align: left;
+}
+
+/* table */
+/* column */
+.mat-column-no {
+  text-align: right;
+  width: 2% !important;
+}
+.mat-column-fullname {
+  text-align: left;
+}
+.mat-column-position {
+  text-align: left;
+}
+.mat-column-idCard {
+  text-align: left;
+}
+.mat-column-dob {
+  text-align: left;
+}
+.mat-column-address {
+  text-align: left;
+}
+.mat-column-action {
+  text-align: left;
+  width: 10% !important;
+}
+
+.mat-column-ownership {
+  text-align: right;
+}
+/* column */
 tr.example-detail-row {
   height: 0;
 }
@@ -54,50 +110,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: #008881;
 }
 
-/* .grid-index-label {
-  text-align: center;
-} */
-
-th {
-  text-align: left;
-  background-color: rgba(147, 201, 199, 1);
-  color: black;
-  font-family: 'Poppins', sans-serif;
-}
-td {
-  font-family: 'Poppins', sans-serif;
-}
-.rounding-table-left {
-  border-top-left-radius: 15px;
-}
-.rounding-table-right {
-  border-top-right-radius: 15px;
-}
 .button-styling {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff;
-}
-
-.mat-column-no {
-  width: 5%;
-  text-align: right !important;
-}
-
-.mat-column-dob {
-  text-align: right !important;
-}
-.mat-column-ownership {
-  text-align: right !important;
-}
-
-.mat-header-cell {
-  font-weight: 500;
-  min-height: auto !important;
-  padding: 4px 36px 4px 0;
-}
-
-mat-cell,
-.mat-cell {
-  min-height: auto !important;
-  padding: 5px 28px 5px 0 !important;
 }
