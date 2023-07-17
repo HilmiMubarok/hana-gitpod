@@ -2,14 +2,18 @@ table {
   border-bottom: 1px solid #008881 !important;
   width: 100%;
   th {
-    background-color: #008881;
-    // border: 1px solid #008881;
-    color: black;
-    padding: 8px;
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black !important;
+    font-family: 'Poppins', sans-serif !important;
   }
-
   td {
-    padding: 8px;
+    font-family: 'Poppins', sans-serif !important;
+  }
+  th:first-child {
+    border-top-left-radius: 15px;
+  }
+  th:last-child {
+    border-top-right-radius: 15px;
   }
 
   mat-header-cell {
@@ -34,6 +38,38 @@ table {
   margin-left: 10px;
   padding-top: 13px;
 }
+// table column
+.mat-column-no {
+  text-align: right;
+  width: 3% !important;
+}
+.mat-column-fullname {
+  text-align: left;
+}
+.mat-column-position {
+  text-align: left;
+}
+.mat-column-idCard {
+  text-align: left;
+}
+.mat-column-dob {
+  text-align: left;
+}
+
+.mat-column-address {
+  text-align: left;
+}
+.mat-column-npwp {
+  text-align: left;
+}
+.mat-column-pep {
+  text-align: left;
+}
+.mat-column-action {
+  text-align: left;
+  width: 10% !important;
+}
+// table column
 .mat-select {
   font-family: 'Poppins', sans-serif !important;
 }
@@ -69,49 +105,6 @@ table {
   font-family: 'Poppins', sans-serif !important;
 }
 
-table {
-  border-bottom: 1px solid #008881 !important;
-  width: 100%;
-}
-
-th {
-  background-color: rgba(147, 201, 199, 1) !important;
-  color: black !important;
-  font-family: 'Poppins', sans-serif !important;
-}
-td {
-  font-family: 'Poppins', sans-serif !important;
-}
-th:first-child {
-  border-top-left-radius: 15px;
-}
-th:last-child {
-  border-top-right-radius: 15px;
-}
-
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
-
-// .grid-index-string {
-//   justify-content: flex-start;
-//   font-size: 15px;
-// }
-
-// .grid-index-string-action {
-//   justify-content: flex-end;
-//   font-size: 15px;
-// }
-
-// .grid-index-number {
-//   justify-content: flex-end;
-//   font-size: 15px;
-// }
-
-// .grid-index-label-string {
-//   text-align: left;
-// }
-
-// .grid-index-label-number {
-//   text-align: right;
-// }
