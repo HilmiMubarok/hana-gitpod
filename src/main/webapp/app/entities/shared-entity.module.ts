@@ -386,6 +386,9 @@ import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-band
 import { MemoBandingComponent } from './credit-proposal/memo-banding/credit-proposal-memo-banding.component';
 import { CPMemoBandingRemarkComponent } from './credit-proposal/memo-banding/remarks/cp-memo-banding-remark.component';
 import { CPMemoBandingCollateralBacktobackComponent } from './credit-proposal/memo-banding/memo-banding-collateral/backtoback/cp-memo-banding-collateral-backtoback.component';
+import { CPMemoBandingCovenantBelowComponent } from './credit-proposal/memo-banding/memo-banding-covenant/below/cp-memo-banding-covenant-below.component';
+import { CPMemoBandingCovenantBackToBackDepositComponent } from './credit-proposal/memo-banding/memo-banding-covenant/back-to-back/cp-memo-banding-covenant-back-to-back-deposit.component';
+import { CPMemoBandingCovenantBackToBackGeneralComponent } from './credit-proposal/memo-banding/memo-banding-covenant/back-to-back/cp-memo-banding-covenant-back-to-back-general.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -830,6 +833,9 @@ import { CPMemoBandingCollateralBacktobackComponent } from './credit-proposal/me
         CpMemoBandingCollateralAboveComponent,
         CPMemoBandingStandardCovenantComponent,
         CPMemoBandingCovenantAboveComponent,
+        CPMemoBandingCovenantBelowComponent,
+        CPMemoBandingCovenantBackToBackDepositComponent,
+        CPMemoBandingCovenantBackToBackGeneralComponent,
         CpMemoBandingOtherCovenantComponent,
         CPMemoBandingRemarkComponent,
         CPMemoBandingCollateralBacktobackComponent,
@@ -1234,6 +1240,9 @@ import { CPMemoBandingCollateralBacktobackComponent } from './credit-proposal/me
     CpMemoBandingCollateralAboveComponent,
     CPMemoBandingStandardCovenantComponent,
     CPMemoBandingCovenantAboveComponent,
+    CPMemoBandingCovenantBelowComponent,
+    CPMemoBandingCovenantBackToBackDepositComponent,
+    CPMemoBandingCovenantBackToBackGeneralComponent,
     CpMemoBandingOtherCovenantComponent,
     CPMemoBandingRemarkComponent,
     CPMemoBandingCollateralBacktobackComponent,
