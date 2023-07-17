@@ -14,13 +14,14 @@ import { CreditProposalService } from '../../credit-proposal.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { CpMemoBandingService } from '../services/cp-memo-banding.service';
 import { MatTableDataSource } from '@angular/material/table';
+import _ from 'lodash';
 
 @Component({
   selector: 'jhi-cp-memo-banding-loan-facility',
   templateUrl: './cp-memo-banding-loan-facility.component.html',
   styleUrls: ['../../loan-facility/credit-proposal-tab-loan-facility-detail.css', '../../loan-facility/grid/loan.scss'],
 })
-export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
+export class CpMemoBandingLoanFacilityComponent implements OnInit {
   public dataParty = [];
 
   @Input() isOnMemo: Boolean = false;
@@ -105,29 +106,37 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
     this.loading = false;
     this.visibleDialog = false;
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['creditProposal']) {
-      // this.dataProduct = this.cpMemoBandingservice.compareDeepData(this.creditProposal.products, this.creditProposal.products);
-      if (this.parsed) {
-        this.dataProduct = new MatTableDataSource<any>(
-          this.cpMemoBandingservice.compareDeepData(this.parsed.products, this.creditProposal.products)
-        );
-      }
-
-      this.cpMemoBandingservice.compareSingleObject(
-        { totalPlafond: Number(this.fungsiSumcredit('both')) },
-        { totalPlafond: Number(this.fungsiSumcredit('both')) }
-      );
-    }
-  }
 
   parsed;
   custodyFeeStatus;
   totalPlafondStatus;
+  customizer(objValue, otherValue, key) {
+    if (
+      key === 'id'
+      // key === 'facilityCategory' ||
+      // key === 'applicationType' ||
+      // key === 'facilityType' ||
+      // key === 'subLimit' ||
+      // key === 'currency' ||
+      // key === 'initialLimit' ||
+      // key === 'outstanding' ||
+      // key === 'changes' ||
+      // key === 'totalCreditLimit' ||
+      // key === 'interestrate' ||
+      // key === 'provisionAmount' ||
+      // key === 'tenor' ||
+      // key === 'maturityDate' ||
+      // key === 'firstDisbursementDate'
+    ) {
+      return true;
+    }
+    // Return undefined to defer to the default comparison behavior of _.isEqual
+    return undefined;
+  }
+
   ngOnInit(): void {
     this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposal);
 
-    console.log('DATA PARSED', { parsed: this.parsed, cp: this.creditProposal.products });
     this.currency();
     // this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
@@ -137,13 +146,21 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
     this.lovInterestRateTypeList();
 
     this.dataProduct = new MatTableDataSource<any>(
-      this.cpMemoBandingservice.compareDeepData(this.parsed.products, this.creditProposal.products)
+      this.cpMemoBandingservice.compareDeepDataNew(this.parsed.products, this.creditProposal.products)
     );
 
     this.totalPlafondStatus = this.cpMemoBandingservice.compareSingleObject(
       { plafon: this.fungsiSumcredit('both') },
       { plafon: this.fungsiSumcreditAfter('both') }
     );
+
+    console.log('DATA PARSED product', {
+      parsed: this.parsed.products,
+      cp: this.creditProposal.products,
+      totalb: this.fungsiSumcredit('both'),
+      totala: this.fungsiSumcreditAfter('both'),
+      totals: this.totalPlafondStatus,
+    });
 
     (this.custodyFeeStatus = this.cpMemoBandingservice.compareSingleObject(
       { custodian: this.parsed.facilityDetail.custodianFee },
@@ -448,15 +465,6 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
         }
       }
     }
-    if (value === 'both') {
-      this.parsed.facilityDetail.totalPlafond = result + dolar;
-    }
-    if (value === 'USD') {
-      this.parsed.facilityDetail.totalPlafondUsd = result + dolar;
-    }
-    if (value === 'IDR') {
-      this.parsed.facilityDetail.totalPlafondIdr = result + dolar;
-    }
     return result + dolar;
   }
   fungsiSumcreditAfter(value: string) {
@@ -467,7 +475,7 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.parsed.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -507,15 +515,6 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
           }
         }
       }
-    }
-    if (value === 'both') {
-      this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
-    }
-    if (value === 'USD') {
-      this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
-    }
-    if (value === 'IDR') {
-      this.creditProposal.attributes['facilityDetail'].totalPlafondIdr = result + dolar;
     }
     return result + dolar;
   }
