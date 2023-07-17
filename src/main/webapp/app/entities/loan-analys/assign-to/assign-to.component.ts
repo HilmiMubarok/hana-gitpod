@@ -45,7 +45,6 @@ export class AssignToComponent implements OnInit {
 
     if (this.router.url.split('/')[1] === 'la-distribution') {
       this.loadPosition(['CRO']);
-      console.log('load', this.loadPosition(['CRO']));
     } else if (this.router.url.split('/')[1] === 'cc-distribution') {
       this.loadPosition(['CC_ANALYST']);
     } else if (this.router.url.split('/')[1] === 'distribution') {
