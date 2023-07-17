@@ -2,7 +2,6 @@ th {
   background-color: rgba(147, 201, 199, 1);
   color: black;
   font-family: 'Poppins', sans-serif;
-  font-weight: 500 !important;
 }
 td {
   font-family: 'Poppins', sans-serif;
@@ -12,9 +11,6 @@ td {
 }
 .rounding-table-right {
   border-top-right-radius: 15px;
-}
-.mat-header-cell {
-  font-weight: 500 !important;
 }
 .grid-index-left {
   justify-content: flex-start;
