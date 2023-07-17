@@ -26,13 +26,13 @@
             >
               <mat-icon>create</mat-icon>
             </button>
-            <!-- <button
-            mat-icon-button
-            *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
-            (click)="delete(element)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button> -->
+            <button
+              mat-icon-button
+              *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
+              (click)="delete(element)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
           </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>

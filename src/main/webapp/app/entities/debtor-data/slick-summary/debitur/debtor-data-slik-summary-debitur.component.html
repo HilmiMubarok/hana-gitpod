@@ -1,4 +1,4 @@
-<div *ngIf="mode === 'edit'">
+<div *ngIf="mode === 'edit'" class="mb-3">
   <!-- <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
     Upload
   </button> -->
@@ -28,110 +28,108 @@
   <div class="table-responsive-material" style="padding-top: 8px">
     <table mat-table [dataSource]="partySliks" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef class="grid-index rounding-table-left">No</th>
-        <td mat-cell *matCellDef="let i = index" class="grid-index-label">{{ i + 1 }}</td>
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="bank">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Bank</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.bank }}</td>
-        <td mat-footer-cell *matFooterCellDef><p>Total in IDR</p></td>
+        <th mat-header-cell *matHeaderCellDef>Bank</th>
+        <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
+        <td mat-footer-cell *matFooterCellDef style="white-space: nowrap"><p>Total in IDR</p></td>
       </ng-container>
       <ng-container matColumnDef="limit">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Limit</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">
-          <!-- {{ element.plafond | number: '1.0-0' }} -->{{ parseElementNumbers(element.limit) }}
-        </td>
+        <th mat-header-cell *matHeaderCellDef>Limit</th>
+        <td mat-cell *matCellDef="let element"><!-- {{ element.plafond | number: '1.0-0' }} -->{{ parseElementNumbers(element.limit) }}</td>
         <td mat-footer-cell *matFooterCellDef>
           <p>{{ totalLimit | number: '1.0-0' }}</p>
         </td>
       </ng-container>
       <ng-container matColumnDef="os">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">O/S</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ parseElementNumbers(element.outstanding) }}</td>
+        <th mat-header-cell *matHeaderCellDef>O/S</th>
+        <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.outstanding) }}</td>
         <td mat-footer-cell *matFooterCellDef>
           <p>{{ totalOutstanding | number: '1.0-0' }}</p>
         </td>
       </ng-container>
       <ng-container matColumnDef="facilityType">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Facility Type</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.facilityType }}</td>
+        <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="typeOfFacility">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Type Of Facility</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.typeOfFacility }}</td>
+        <th mat-header-cell *matHeaderCellDef>Type Of Facility</th>
+        <td mat-cell *matCellDef="let element">{{ element.typeOfFacility }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="rate">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Rate(%)</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ parseElementNumbers(element.rate) }}</td>
+        <th mat-header-cell *matHeaderCellDef>Rate(%)</th>
+        <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.rate) }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="period">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Tanggal Penarikan</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.period }}</td>
+        <th mat-header-cell *matHeaderCellDef>Tanggal Penarikan</th>
+        <td mat-cell *matCellDef="let element">{{ element.period }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="collateralValue">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Collateral IDR Mio</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">
+        <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
+        <td mat-cell *matCellDef="let element">
           {{ element.sumCollateralIdrMio | number: '1.0-0' }}
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="tenor">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Tenor (Month)</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.tenor | number: '1.0-0' }}</td>
+        <th mat-header-cell *matHeaderCellDef>Tenor (Month)</th>
+        <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="firstConstractDate">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">First Contract Date</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.tanggalAkadAwal }}</td>
+        <th mat-header-cell *matHeaderCellDef>First Contract Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.tanggalAkadAwal }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="disbursementDate">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Disbursement Date</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.tanggalMulai }}</td>
+        <th mat-header-cell *matHeaderCellDef>Disbursement Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.tanggalMulai }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="maturityDate">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Maturity Date</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.tanggalJatuhTempo }}</td>
+        <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.tanggalJatuhTempo }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="lastKol">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Last Collectablility</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.lastCollectability }}</td>
+        <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
+        <td mat-cell *matCellDef="let element">{{ element.lastCollectability }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="worseKol">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Worst Collectability</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.worstCollectability }}</td>
+        <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
+        <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="restructureMethod">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Restructure Method</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ parseElements(element.restructureFrequency) }}</td>
+        <th mat-header-cell *matHeaderCellDef>Restructure Method</th>
+        <td mat-cell *matCellDef="let element">{{ parseElements(element.restructureFrequency) }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="condition">
-        <th mat-header-cell *matHeaderCellDef class="grid-index">Condition</th>
-        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.kondisi }}</td>
+        <th mat-header-cell *matHeaderCellDef>Condition</th>
+        <td mat-cell *matCellDef="let element">{{ element.kondisi }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="grid-index rounding-table-right">Action</th>
-        <td mat-cell *matCellDef="let element; let i = index" class="grid-index-label">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element; let i = index">
           <button mat-icon-button (click)="openDialog(element, i, 'view')">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
           <button mat-icon-button (click)="openDialog(element, i, 'edit')">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="openRemoveDebtorData(element)" [hidden]="isCpApproval">
+          <!-- <button mat-icon-button (click)="openRemoveDebtorData(element)" [hidden]="isCpApproval">
             <mat-icon>delete</mat-icon>
-          </button>
+          </button> -->
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
@@ -164,84 +162,86 @@
   </mat-card>
 </div>
 
-<div *ngIf="mode === 'view'">
+<div *ngIf="mode === 'view'" class="mb-3">
   <div [hidden]="_loanStatus !== 'CP_ASSIGNMENT'">
     <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
       Upload
     </button>
   </div>
   <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
-  <table mat-table [dataSource]="partySliks" class="w-100">
-    <ng-container matColumnDef="no">
-      <th mat-header-cell *matHeaderCellDef>No</th>
-      <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-    </ng-container>
-    <ng-container matColumnDef="bank">
-      <th mat-header-cell *matHeaderCellDef>Bank</th>
-      <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
-    </ng-container>
-    <ng-container matColumnDef="limit">
-      <th mat-header-cell *matHeaderCellDef>Limit</th>
-      <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.limit) }}</td>
-    </ng-container>
-    <ng-container matColumnDef="os">
-      <th mat-header-cell *matHeaderCellDef>O/S</th>
-      <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.outstanding) }}</td>
-    </ng-container>
-    <ng-container matColumnDef="facilityType">
-      <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
-    </ng-container>
-    <ng-container matColumnDef="rate">
-      <th mat-header-cell *matHeaderCellDef>Rate</th>
-      <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.rate) }}</td>
-    </ng-container>
-    <ng-container matColumnDef="period">
-      <th mat-header-cell *matHeaderCellDef>Period</th>
-      <td mat-cell *matCellDef="let element">{{ element.period }}</td>
-    </ng-container>
-    <ng-container matColumnDef="collateralType">
-      <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.collateralType }}</td>
-    </ng-container>
-    <ng-container matColumnDef="collateralValue">
-      <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
-      <td mat-cell *matCellDef="let element">{{ element.sumCollateralIdrMio | number: '1.0-0' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="tenor">
-      <th mat-header-cell *matHeaderCellDef>Tenor</th>
-      <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="lastKol">
-      <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
-      <td mat-cell *matCellDef="let element">{{ element.lastCollectability }}</td>
-    </ng-container>
-    <ng-container matColumnDef="worseKol">
-      <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
-      <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
-    </ng-container>
-    <ng-container matColumnDef="restructureWay">
-      <th mat-header-cell *matHeaderCellDef>Restructure Way</th>
-      <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
-    </ng-container>
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="openDialog(element)">
-          <mat-icon>remove_red_eye</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+  <div class="table-responsive-material" style="padding-top: 8px">
+    <table mat-table [dataSource]="partySliks" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="bank">
+        <th mat-header-cell *matHeaderCellDef>Bank</th>
+        <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
+      </ng-container>
+      <ng-container matColumnDef="limit">
+        <th mat-header-cell *matHeaderCellDef>Limit</th>
+        <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.limit) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="os">
+        <th mat-header-cell *matHeaderCellDef>O/S</th>
+        <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.outstanding) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="facilityType">
+        <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef>Rate</th>
+        <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.rate) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef>Period</th>
+        <td mat-cell *matCellDef="let element">{{ element.period }}</td>
+      </ng-container>
+      <ng-container matColumnDef="collateralType">
+        <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.collateralType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="collateralValue">
+        <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
+        <td mat-cell *matCellDef="let element">{{ element.sumCollateralIdrMio | number: '1.0-0' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="tenor">
+        <th mat-header-cell *matHeaderCellDef>Tenor</th>
+        <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="lastKol">
+        <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
+        <td mat-cell *matCellDef="let element">{{ element.lastCollectability }}</td>
+      </ng-container>
+      <ng-container matColumnDef="worseKol">
+        <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
+        <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
+      </ng-container>
+      <ng-container matColumnDef="restructureWay">
+        <th mat-header-cell *matHeaderCellDef>Restructure Way</th>
+        <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
-    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+      <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
+      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
 
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-    </tr>
-    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-  </table>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+    </table>
+  </div>
   <mat-card *ngIf="loading" id="material-loading-bar">
     <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
   </mat-card>
@@ -258,84 +258,86 @@
   </mat-card>
 </div>
 
-<div *ngIf="mode === 'loan'">
+<div *ngIf="mode === 'loan'" class="mb-3">
   <div [hidden]="_loanStatus !== 'CP_ASSIGNMENT'">
     <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
       Upload
     </button>
   </div>
   <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
-  <table mat-table [dataSource]="partySliks" class="w-100">
-    <ng-container matColumnDef="no">
-      <th mat-header-cell *matHeaderCellDef>No</th>
-      <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-    </ng-container>
-    <ng-container matColumnDef="bank">
-      <th mat-header-cell *matHeaderCellDef>Bank</th>
-      <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
-    </ng-container>
-    <ng-container matColumnDef="limit">
-      <th mat-header-cell *matHeaderCellDef>Limit</th>
-      <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.limit) }}</td>
-    </ng-container>
-    <ng-container matColumnDef="os">
-      <th mat-header-cell *matHeaderCellDef>O/S</th>
-      <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.outstanding) }}</td>
-    </ng-container>
-    <ng-container matColumnDef="facilityType">
-      <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
-    </ng-container>
-    <ng-container matColumnDef="rate">
-      <th mat-header-cell *matHeaderCellDef>Rate</th>
-      <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.rate) }}</td>
-    </ng-container>
-    <ng-container matColumnDef="period">
-      <th mat-header-cell *matHeaderCellDef>Period</th>
-      <td mat-cell *matCellDef="let element">{{ element.period }}</td>
-    </ng-container>
-    <ng-container matColumnDef="collateralType">
-      <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.collateralType }}</td>
-    </ng-container>
-    <ng-container matColumnDef="collateralValue">
-      <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
-      <td mat-cell *matCellDef="let element">{{ element.sumCollateralIdrMio | number: '1.0-0' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="tenor">
-      <th mat-header-cell *matHeaderCellDef>Tenor</th>
-      <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="lastKol">
-      <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
-      <td mat-cell *matCellDef="let element">{{ element.lastCollectability }}</td>
-    </ng-container>
-    <ng-container matColumnDef="worseKol">
-      <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
-      <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
-    </ng-container>
-    <ng-container matColumnDef="restructureWay">
-      <th mat-header-cell *matHeaderCellDef>Restructure Way</th>
-      <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
-    </ng-container>
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="openDialog(element)">
-          <mat-icon>remove_red_eye</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+  <div class="table-responsive-material" style="padding-top: 8px">
+    <table mat-table [dataSource]="partySliks" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="bank">
+        <th mat-header-cell *matHeaderCellDef>Bank</th>
+        <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
+      </ng-container>
+      <ng-container matColumnDef="limit">
+        <th mat-header-cell *matHeaderCellDef>Limit</th>
+        <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.limit) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="os">
+        <th mat-header-cell *matHeaderCellDef>O/S</th>
+        <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.outstanding) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="facilityType">
+        <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef>Rate</th>
+        <td mat-cell *matCellDef="let element">{{ parseElementNumbers(element.rate) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef>Period</th>
+        <td mat-cell *matCellDef="let element">{{ element.period }}</td>
+      </ng-container>
+      <ng-container matColumnDef="collateralType">
+        <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.collateralType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="collateralValue">
+        <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
+        <td mat-cell *matCellDef="let element">{{ element.sumCollateralIdrMio | number: '1.0-0' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="tenor">
+        <th mat-header-cell *matHeaderCellDef>Tenor</th>
+        <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="lastKol">
+        <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
+        <td mat-cell *matCellDef="let element">{{ element.lastCollectability }}</td>
+      </ng-container>
+      <ng-container matColumnDef="worseKol">
+        <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
+        <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
+      </ng-container>
+      <ng-container matColumnDef="restructureWay">
+        <th mat-header-cell *matHeaderCellDef>Restructure Way</th>
+        <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
-    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+      <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
+      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
 
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-    </tr>
-    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-  </table>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+    </table>
+  </div>
   <mat-card *ngIf="loading" id="material-loading-bar">
     <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
   </mat-card>
