@@ -152,52 +152,52 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit, AfterView
     return '';
   }
 
-  // public openDialog(param: IApplicationProduct = null): void {
-  //   if (param) {
-  //     this.applicationProduct = param;
-  //     if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
-  //       this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
-  //     }
-  //     if (this.applicationProduct.attributes.commitedLine === 'true') {
-  //       this.applicationProduct.attributes.commitedLine = true;
-  //     } else if (this.applicationProduct.attributes.commitedLine === 'false') {
-  //       this.applicationProduct.attributes.commitedLine = false;
-  //     }
-  //     if (this.applicationProduct.attributes.subLimit === 'true') {
-  //       this.applicationProduct.attributes.subLimit = true;
-  //     } else if (this.applicationProduct.attributes.subLimit === 'false') {
-  //       this.applicationProduct.attributes.subLimit = false;
-  //     }
-  //     if (this.applicationProduct.attributes.restructuredStatus === 'true') {
-  //       this.applicationProduct.attributes.restructuredStatus = true;
-  //     } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
-  //       this.applicationProduct.attributes.restructuredStatus = false;
-  //     }
-  //   } else {
-  //     this.applicationProduct = new ApplicationProduct();
-  //     const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
-  //     attr.nomorUrutFasilitas = this.creditProposal.products.length + 1;
-  //     this.applicationProduct.attributes = attr;
+  public openDialog(param: IApplicationProduct = null): void {
+    if (param) {
+      this.applicationProduct = param;
+      if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
+        this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
+      }
+      if (this.applicationProduct.attributes.commitedLine === 'true') {
+        this.applicationProduct.attributes.commitedLine = true;
+      } else if (this.applicationProduct.attributes.commitedLine === 'false') {
+        this.applicationProduct.attributes.commitedLine = false;
+      }
+      if (this.applicationProduct.attributes.subLimit === 'true') {
+        this.applicationProduct.attributes.subLimit = true;
+      } else if (this.applicationProduct.attributes.subLimit === 'false') {
+        this.applicationProduct.attributes.subLimit = false;
+      }
+      if (this.applicationProduct.attributes.restructuredStatus === 'true') {
+        this.applicationProduct.attributes.restructuredStatus = true;
+      } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
+        this.applicationProduct.attributes.restructuredStatus = false;
+      }
+    } else {
+      this.applicationProduct = new ApplicationProduct();
+      const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
+      attr.nomorUrutFasilitas = this.creditProposal.products.length + 1;
+      this.applicationProduct.attributes = attr;
+    }
+
+    const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogHistoryComponent, {
+      width: '80vw',
+
+      data: {
+        item: this.creditProposal,
+        creditProposaldata: this.creditProposal,
+        applicationProduct: this.applicationProduct,
+        collateralInfo: this.collaterallInfo,
+      },
+    });
+  }
+  // dialogRef.afterClosed().subscribe(res => {
+  //   if (res) {
+  //     this.applicationProduct = res.applicationProduct;
+  //     this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
+  //     this.onSave();
   //   }
-
-  //   const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogHistoryComponent, {
-  //     width: '80vw',
-
-  //     data: {
-  //       item: this.creditProposal,
-  //       creditProposaldata: this.creditProposal,
-  //       applicationProduct: this.applicationProduct,
-  //       collateralInfo: this.collaterallInfo,
-  //     },
-  //   });
-  //   dialogRef.afterClosed().subscribe(res => {
-  //     if (res) {
-  //       this.applicationProduct = res.applicationProduct;
-  //       this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
-  //       this.onSave();
-  //     }
-  //   });
-  // }
+  // });
 
   // public onSave(): void {
   //   const appProduct: IApplicationProduct = this.applicationProduct;
