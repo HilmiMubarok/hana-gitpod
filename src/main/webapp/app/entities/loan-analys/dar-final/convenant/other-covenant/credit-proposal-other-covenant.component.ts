@@ -8,6 +8,10 @@ import { CreditProposalOtherCovenantEditTempComponent } from './edit/credit-prop
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { v4 as uuidv4 } from 'uuid';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 @Component({
   selector: 'jhi-other-covenant-temp',
   templateUrl: './credit-proposal-other-covenant.component.html',
@@ -24,6 +28,7 @@ export class OtherCovenantTempComponent implements OnInit {
   public bucket: string;
   public otherConvenantMinIO = [];
   public filterStatus: any[];
+  public typeData = [];
 
   @Input() isViewMode: Boolean = false;
 
@@ -38,17 +43,147 @@ export class OtherCovenantTempComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
+  public displayColumns: string[] = ['no', 'category', 'sub_category', 'covenant', 'status', 'deviation', 'justification', 'action'];
+
+  constructor(
+    public dialog: MatDialog,
+    public storageService: StorageService,
+    private partyCifService: PartyCifService,
+    private documentTypeService: DocumentTypeService
+  ) {
+    this.loading = false;
+    this.filterStatus = [];
+  }
+
   ngOnInit() {
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.isOtherDeviation && this.displayColumns.pop();
     this.isOtherDeviation && this.filterDeviation();
-  }
 
-  public displayColumns: string[] = ['no', 'category', 'sub_category', 'covenant', 'status', 'deviation', 'justification', 'action'];
+    this.partyCifService.findCollateral(this.creditProposalItem.cif.customerId, 'R201').subscribe((find: any) => {
+      const Investoris = find.body;
+      const colllateralKapal = this.creditProposalItem.collaterals.filter(
+        (data: any) =>
+          data.attributes.collateralCode === 'AN0206' &&
+          data.statusId !== 'CANCEL' &&
+          data.statusId !== 'RELEASE' &&
+          data.statusId !== 'EXISTING'
+      );
+      const nonKeuangan = this.creditProposalItem.collaterals.filter(
+        (data: any) =>
+          data.attributes.collateralCode === 'AN0299' &&
+          data.statusId !== 'CANCEL' &&
+          data.statusId !== 'RELEASE' &&
+          data.statusId !== 'EXISTING'
+      );
+      const eArcLoanForegn = [];
+      const eArcLoan = [];
+      for (let i = 0; i < this.creditProposalItem.products.length; i++) {
+        if (this.creditProposalItem.products[i].productName === 'Working Capital - eARC Loan(Foreign)') {
+          eArcLoanForegn.push(this.creditProposalItem.products[i]);
+        }
 
-  constructor(public dialog: MatDialog, public storageService: StorageService) {
-    this.loading = false;
-    this.filterStatus = [];
+        if (this.creditProposalItem.products[i].productName === 'Working Capital - eARC Loan') {
+          eArcLoan.push(this.creditProposalItem.products[i]);
+        }
+      }
+      const jaminanFactoring = eArcLoanForegn.length > 0 || eArcLoan.length > 0 ? true : false;
+
+      if (this.creditProposalItem.attributes['collateralAfterData']) {
+        while (typeof this.creditProposalItem.attributes['collateralAfterData'] === 'string') {
+          this.creditProposalItem.attributes['collateralAfterData'] = JSON.parse(this.creditProposalItem.attributes['collateralAfterData']);
+        }
+      } else {
+        this.creditProposalItem.attributes['collateralAfterData'] = [];
+      }
+
+      this.getBucket().then(() => {
+        this.getFiles(String(this.creditProposalItem.id)).then(() => {
+          this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
+            this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
+              this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
+                this.typeData = [...res.body, ...res1.body, ...res2.body];
+
+                for (let i = 0; i < this.typeData.length; i++) {
+                  if (this.typeData[i].id.includes('DEPO')) {
+                    this.typeData[i].collateralTypeId = 'DEPOSIT';
+                  } else if (this.typeData[i].id.includes('RE')) {
+                    this.typeData[i].collateralTypeId = 'REALESTATE';
+                  } else if (this.typeData[i].id.includes('MC')) {
+                    this.typeData[i].collateralTypeId = 'MACHINE';
+                  } else if (this.typeData[i].id.includes('VH')) {
+                    this.typeData[i].collateralTypeId = 'VEHICLE';
+                  } else if (this.typeData[i].id.includes('GRNT')) {
+                    this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
+                  } else if (this.typeData[i].id.includes('DOC_CP_COLL_OTHER') || this.typeData[i].id.includes('DOC_COLL_OTHER')) {
+                    this.typeData[i].collateralTypeId = 'OTHER';
+                  } else if (this.typeData[i].id.includes('STOCK')) {
+                    this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
+                  } else if (this.typeData[i].id.includes('COR')) {
+                    this.typeData[i].collateralTypeId = 'COR';
+                  } else if (this.typeData[i].id.includes('IND')) {
+                    this.typeData[i].collateralTypeId = 'IND';
+                  }
+                }
+                const filterStatus: ICollateral[] = this.creditProposalItem.collaterals.filter(obj => obj.statusCode !== 'CANCEL');
+                const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
+                  filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
+                );
+                const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposalItem.customerType);
+                const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR');
+                const PengikatKredit: IDocumentType[] = this.typeData.filter(
+                  obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING'
+                );
+                const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
+                const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(
+                  obj => obj.id === 'DOC_CP_OTHER_ID'
+                );
+
+                const takeOverData =
+                  this.creditProposalItem.attributes['facilityTakeOver'].length > 0
+                    ? this.typeData.filter(obj => obj.id === 'DOC_CP_COLL_TO')
+                    : [];
+                const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
+                const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
+                const jaminanFactoringData = jaminanFactoring ? this.typeData.filter(obj => obj.id.includes('COLL_EARC')) : [];
+                const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
+                const result: IDocumentType[] = [
+                  ...collateralData,
+                  ...INDCORData,
+                  ...PersetujuanKredit,
+                  ...PengikatKredit,
+                  ...DocumentLainnya,
+                  ...DocumentLainnyaIdentitasDebiturPerorangan,
+                  ...takeOverData,
+                  ...InvestorisData,
+                  ...colllateralKapalData,
+                  ...jaminanFactoringData,
+                  ...nonKeuanganData,
+                ];
+
+                for (let i = 0; i < result.length; i++) {
+                  this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
+                    let level = re.body;
+
+                    const mergeArray: ILevel[] = level.map(item1 => {
+                      const file = this.file.find(item2 => item2.idFile === item1.id);
+                      return { ...item1, ...file };
+                    });
+
+                    const personalCorporate = mergeArray.filter(obj => obj.customerType === this.creditProposalItem.customerType);
+                    const nullData = mergeArray.filter(obj => obj.customerType === 'ALL');
+
+                    level = [...personalCorporate, ...nullData];
+
+                    this.groupByFolder(level);
+                  });
+                }
+              });
+            });
+          });
+        });
+      });
+    });
   }
 
   // Add View Dialog
@@ -89,10 +224,6 @@ export class OtherCovenantTempComponent implements OnInit {
   }
 
   public filterDeviation() {
-    this.getBucket().then(() => {
-      this.getFiles(String(this.creditProposalItem.id));
-    });
-
     if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['convenant']['otherCovenant'].length; i++) {
         if (this.creditProposalItem.attributes['convenant']['otherCovenant'][i].status !== 'Applied') {
@@ -105,11 +236,12 @@ export class OtherCovenantTempComponent implements OnInit {
   public folders = [];
   public dataFolder = [];
   private groupByFolder(param: any[]): void {
+    const waived = param.filter((data: any) => data.status === 'Waived');
     const sameIdObjects = [];
     const differentIdObjects = [];
     const idMap: any = {};
 
-    param.forEach(obj => {
+    waived.forEach(obj => {
       if (idMap[obj.idFile]) {
         idMap[obj.idFile].count++;
       } else {
@@ -142,12 +274,12 @@ export class OtherCovenantTempComponent implements OnInit {
     }
     this.otherConvenantMinIO = [...sameIdObjects, ...differentIdObjects];
     if (this.filterStatus.length > 0) {
-      for (let index = 0; index < this.otherConvenantMinIO.length; index++) {
-        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[index]];
+      for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
+        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
       }
     } else {
-      for (let index = 0; index < this.otherConvenantMinIO.length; index++) {
-        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[index]];
+      for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
+        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
       }
     }
   }
@@ -176,8 +308,6 @@ export class OtherCovenantTempComponent implements OnInit {
                   remarks: res.body[index].tags.remarks,
                   status: res.body[index].tags.status,
                   dueDate: res.body[index].tags.dueDate,
-                  description: res.body[index].tags.description,
-                  parentDescription: res.body[index].tags.parentDescription,
                 },
               ];
             }
@@ -195,8 +325,6 @@ export class OtherCovenantTempComponent implements OnInit {
                     remarks: res1.body[index].tags.remarks,
                     status: res1.body[index].tags.status,
                     dueDate: res1.body[index].tags.dueDate,
-                    description: res1.body[index].tags.description,
-                    parentDescription: res1.body[index].tags.parentDescription,
                   },
                 ];
               }
@@ -222,8 +350,6 @@ export class OtherCovenantTempComponent implements OnInit {
                     remarks: res1.body[index].tags.remarks,
                     status: res1.body[index].tags.status,
                     dueDate: res1.body[index].tags.dueDate,
-                    description: res1.body[index].tags.description,
-                    parentDescription: res1.body[index].tags.parentDescription,
                   },
                 ];
               }
@@ -241,8 +367,6 @@ export class OtherCovenantTempComponent implements OnInit {
                       remarks: res2.body[index].tags.remarks,
                       status: res2.body[index].tags.status,
                       dueDate: res2.body[index].tags.dueDate,
-                      description: res2.body[index].tags.description,
-                      parentDescription: res2.body[index].tags.parentDescription,
                     },
                   ];
                 }
