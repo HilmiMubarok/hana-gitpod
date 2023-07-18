@@ -25,7 +25,6 @@ export class MainFacilityChildHistoryComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mainData']) {
       this.dataSource = this.mainData.categoryListDTO;
-      console.log('data source ', this.dataSource);
     }
   }
   public printElements(element) {
