@@ -313,7 +313,7 @@ export class DocumentChecklistDialogTempComponent {
               this.files.remarks === null || this.files.remarks === undefined || this.files.remarks === '' || this.files.remarks === 'null'
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-            file.tags['appealStatus '] = this.data.cp.attributes['previousOfferingLeter'] === undefined ? statusAppeal : null;
+            file.tags['appealStatus'] = this.data.cp.attributes['previousOfferingLeter'] === undefined ? null : statusAppeal;
             file.tags['createdBy'] = resAccount.login;
           });
 
@@ -445,7 +445,7 @@ export class DocumentChecklistDialogTempComponent {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === undefined || this.files.remarks === ''
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-            metaData.appealStatus = this.data.cp.attributes['previousOfferingLeter'] === undefined ? statusAppeal : null;
+            metaData.appealStatus = this.data.cp.attributes['previousOfferingLeter'] === undefined ? null : statusAppeal;
             const formData = new FormData();
             formData.append('file', this.file[i]);
 
