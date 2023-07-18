@@ -40,13 +40,18 @@
       <span *ngIf="isPositionMoreThan1" id="pointer" [matMenuTriggerFor]="position">{{ positionName }} - {{ internalName }}</span>
     </section> -->
     <section style="margin-top: -10px">
-      <mat-chip-list *ngIf="!isPositionMoreThan1"
-        ><mat-chip class="example-box text-capitalize" id="not-pointer" cdkDrag
-          ><label>{{ positionName }} - {{ internalName }}</label
-          ></mat-chip
+      <mat-chip-list *ngIf="!isPositionMoreThan1" class="mat-menu-no-item"
+        ><mat-chip class="example-box text-capitalize" id="not-pointer" cdkDrag disabled
+          ><label>{{ positionName }} - {{ internalName }}</label></mat-chip
         >
       </mat-chip-list>
-      <mat-chip-list matTooltip="click to see more options" *ngIf="isPositionMoreThan1" cdkDropList cdkDropListOrientation="horizontal" [matMenuTriggerFor]="position">
+      <mat-chip-list
+        matTooltip="click to see more options"
+        *ngIf="isPositionMoreThan1"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        [matMenuTriggerFor]="position"
+      >
         <mat-chip class="example-box text-capitalize" id="pointer" cdkDrag
           ><label>{{ positionName }} - {{ internalName }}</label>
           <mat-icon>expand_more</mat-icon>
