@@ -15,6 +15,7 @@ import { MessageService } from 'primeng/api';
 import { IDocumentNode } from 'app/entities/document-node/document-node.model';
 import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { MatSelectChange } from '@angular/material/select';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -75,6 +76,7 @@ export class DocumentChecklistDialogTempComponent {
       cpId: string;
       typeData: IDocumentType[];
       item: string;
+      cp: ICreditProposal;
     },
     private _dialog: MatDialogRef<DocumentChecklistDialogTempComponent>,
     private storageService: StorageService,
@@ -296,6 +298,7 @@ export class DocumentChecklistDialogTempComponent {
 
   public preUpdate(): Promise<void> {
     return new Promise((resolve, reject) => {
+      const statusAppeal = this.file.length > 0 ? 'Changed' : 'Added';
       const files: any[] = this.lengthMinIO;
       if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {
@@ -310,7 +313,7 @@ export class DocumentChecklistDialogTempComponent {
               this.files.remarks === null || this.files.remarks === undefined || this.files.remarks === '' || this.files.remarks === 'null'
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-
+            file.tags['appealStatus '] = this.data.cp.attributes['previousOfferingLeter'] === undefined ? statusAppeal : null;
             file.tags['createdBy'] = resAccount.login;
           });
 
@@ -407,6 +410,7 @@ export class DocumentChecklistDialogTempComponent {
   }
 
   public preSave(): Promise<void> {
+    const statusAppeal = this.file.length > 0 ? 'Changed' : 'Added';
     return new Promise((resolve, reject) => {
       const promises = [];
       for (let i = 0; i < this.file.length; i++) {
@@ -419,6 +423,7 @@ export class DocumentChecklistDialogTempComponent {
             dueDate: null,
             remarks: null,
             createdBy: null,
+            appealStatus: null,
           };
           const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.file[i].name.replace('&', '');
           if (files.split('').length > 254) {
@@ -440,7 +445,7 @@ export class DocumentChecklistDialogTempComponent {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === undefined || this.files.remarks === ''
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-
+            metaData.appealStatus = this.data.cp.attributes['previousOfferingLeter'] === undefined ? statusAppeal : null;
             const formData = new FormData();
             formData.append('file', this.file[i]);
 
