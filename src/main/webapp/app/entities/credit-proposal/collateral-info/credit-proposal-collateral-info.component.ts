@@ -199,7 +199,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     groupTotal.totalMVKJJP = this.countTotalMVKJJP(collaterals);
     groupTotal.totalLvKJJP = this.countTotalLVKJJP(collaterals);
     this.groupCollateraltotal.push(groupTotal);
-    this.creditProposal.attributes['groupChecklisCollateral'] = this.groupCollateraltotal;
+    this.creditProposal.attributes['totalGroupMVLVCollateral'] = this.groupCollateraltotal;
   }
 
   public countTotalLV(collaterals: ICollateral[]): number {
