@@ -325,7 +325,7 @@ export class DocumentChecklistDialogComponent {
                 : this.files.remarks.replace('&', 'codeSpecialDan');
 
             file.tags['createdBy'] = resAccount.login;
-            file.tags['appealStatus'] = this.data.cp.attributes['previousOfferingLetter'] === undefined ? statusAppeal : null;
+            file.tags['appealStatus'] = this.data.cp.attributes['previousOfferingLetter'] === undefined ? null : statusAppeal;
           });
 
           this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
@@ -459,7 +459,7 @@ export class DocumentChecklistDialogComponent {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === '' || this.files.remarks === undefined
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-            metaData.appealStatus = this.data.cp.attributes['previousOfferingLetter'] === undefined ? statusAppeal : null;
+            metaData.appealStatus = this.data.cp.attributes['previousOfferingLetter'] === undefined ? null : statusAppeal;
             const formData = new FormData();
             formData.append('file', this.file[i]);
 

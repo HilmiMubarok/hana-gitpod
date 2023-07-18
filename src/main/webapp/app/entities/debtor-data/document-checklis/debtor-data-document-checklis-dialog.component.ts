@@ -298,7 +298,6 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
 
   public preUpdate(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const statusAppeal = this.file.length > 0 ? 'Changed' : 'Added';
       const files: any[] = this.lengthMinIO;
       if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {
@@ -313,7 +312,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === undefined || this.files.remarks === ''
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-            file.tags['appealStatus'] = statusAppeal;
+            file.tags['appealStatus'] = null;
             file.tags['createdBy'] = resAccount.login;
           });
 
@@ -409,7 +408,6 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
   // }
 
   public preSave(): Promise<void> {
-    const statusAppeal = this.file.length > 0 ? 'Changed' : 'Added';
     return new Promise((resolve, reject) => {
       const promises = [];
       for (let i = 0; i < this.file.length; i++) {
@@ -444,7 +442,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === '' || this.files.remarks === undefined
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-            metaData.appealStatus = statusAppeal;
+            metaData.appealStatus = null;
 
             const formData = new FormData();
             formData.append('file', this.file[i]);
