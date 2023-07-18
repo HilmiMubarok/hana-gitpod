@@ -1,15 +1,33 @@
-.mat-header-cell {
-  min-height: auto !important;
-  padding: 4px 36px 4px 0 !important;
-  font-weight: 500;
-}
+table {
+  border-bottom: 1px solid #008881 !important;
+  width: 100%;
+  th {
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black !important;
+    font-family: 'Poppins', sans-serif !important;
+  }
+  td {
+    font-family: 'Poppins', sans-serif !important;
+  }
+  th:first-child {
+    border-top-left-radius: 15px;
+  }
+  th:last-child {
+    border-top-right-radius: 15px;
+  }
 
-mat-cell,
-.mat-cell {
-  min-height: auto !important;
-  padding: 5px 28px 5px 0 !important;
-}
+  mat-header-cell {
+    background-color: #008881;
+    color: black;
+    padding: 8px;
+    text-align: left;
+  }
 
+  mat-cell {
+    padding: 8px;
+    text-align: left;
+  }
+}
 .mat-column-no {
   text-align: right !important;
   width: 5% !important;
