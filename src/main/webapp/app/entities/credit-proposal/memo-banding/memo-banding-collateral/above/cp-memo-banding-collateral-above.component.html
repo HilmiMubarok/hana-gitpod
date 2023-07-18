@@ -1,7 +1,7 @@
 <p class="p-3">BEFORE</p>
 
 <div class="table-responsive-material">
-  <table mat-table [dataSource]="parsed.collaterals" class="w-100">
+  <table mat-table [dataSource]="filtered" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef class="grid-index-right rounding-table-left">No</th>
       <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
