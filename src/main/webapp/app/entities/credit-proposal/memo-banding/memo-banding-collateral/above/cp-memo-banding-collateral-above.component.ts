@@ -170,12 +170,15 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
   }
 
   parsed;
+  filtered;
   ngOnInit(): void {
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
 
     this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposal);
+
+    this.filtered = this.parsed.collaterals.filter(obj => obj.statusId !== 'CANCEL');
 
     // this.isViewMode && this.displayedColumns.pop();
 
@@ -210,7 +213,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
       .subscribe(res => {
         // console.log('Load by party id', res.body);
         this.dataCollateral = res.body;
-        this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepData(this.parsed.collaterals, res.body));
+        this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(this.filtered, res.body, 'collateral-info'));
         this.getBindingCalculate(res.body);
       });
   }

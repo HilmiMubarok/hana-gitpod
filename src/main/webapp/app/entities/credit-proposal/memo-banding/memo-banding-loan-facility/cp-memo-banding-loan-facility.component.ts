@@ -146,7 +146,7 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit {
     this.lovInterestRateTypeList();
 
     this.dataProduct = new MatTableDataSource<any>(
-      this.cpMemoBandingservice.compareDeepDataNew(this.parsed.products, this.creditProposal.products)
+      this.cpMemoBandingservice.compareDeepDataNew(this.parsed.products, this.creditProposal.products, 'loan-facility')
     );
 
     this.totalPlafondStatus = this.cpMemoBandingservice.compareSingleObject(
