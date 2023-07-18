@@ -593,7 +593,6 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
         }
       }
     }
-    console.log('ompu', result + dolar);
     return result + dolar;
   }
 

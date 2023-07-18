@@ -79,7 +79,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
           eArcLoanForegn.push(this.creditProposal.products[i]);
         }
 
-        if (this.creditProposal.products[i].productName === 'Working Capital - ARC Loan') {
+        if (this.creditProposal.products[i].productName === 'Working Capital - eARC Loan') {
           eArcLoan.push(this.creditProposal.products[i]);
         }
       }
@@ -113,8 +113,6 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                     this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
                   } else if (this.typeData[i].id.includes('DOC_CP_COLL_OTHER') || this.typeData[i].id.includes('DOC_COLL_OTHER')) {
                     this.typeData[i].collateralTypeId = 'OTHER';
-                  } else if (this.typeData[i].id.includes('STOCK')) {
-                    this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
                   } else if (this.typeData[i].id.includes('COR')) {
                     this.typeData[i].collateralTypeId = 'COR';
                   } else if (this.typeData[i].id.includes('IND')) {
@@ -243,6 +241,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
 
   public openDialog(element: IDocumentType = null, view: string, item: string): void {
     const predicate = { width: '80vw', data: {} };
+    predicate.data['cp'] = this.creditProposal;
     predicate.data['cpId'] = this.creditProposal.id;
     predicate.data['partyId'] = this.creditProposal.customerNumber;
     predicate.data['bucket'] = this.bucket;

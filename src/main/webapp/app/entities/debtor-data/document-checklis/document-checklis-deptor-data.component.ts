@@ -83,8 +83,6 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
                   this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
                 } else if (this.typeData[i].id.includes('DOC_COLL_OTHER')) {
                   this.typeData[i].collateralTypeId = 'OTHER';
-                } else if (this.typeData[i].id.includes('STOCK')) {
-                  this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
                 } else if (this.typeData[i].id.includes('COR')) {
                   this.typeData[i].collateralTypeId = 'COR';
                 } else if (this.typeData[i].id.includes('IND')) {
@@ -192,7 +190,6 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
         key: `/idd/${id}/document/`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
-        console.log('ompu', res);
         this.fileUrl = res.body;
         for (let index = 0; index < res.body.length; index++) {
           this.file = [

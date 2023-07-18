@@ -103,7 +103,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
           eArcLoanForegn.push(this.creditProposal.products[i]);
         }
 
-        if (this.creditProposal.products[i].productName === 'Working Capital - ARC Loan') {
+        if (this.creditProposal.products[i].productName === 'Working Capital - eARC Loan') {
           eArcLoan.push(this.creditProposal.products[i]);
         }
       }
@@ -137,8 +137,6 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
                     this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
                   } else if (this.typeData[i].id.includes('DOC_CP_COLL_OTHER') || this.typeData[i].id.includes('DOC_COLL_OTHER')) {
                     this.typeData[i].collateralTypeId = 'OTHER';
-                  } else if (this.typeData[i].id.includes('STOCK')) {
-                    this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
                   } else if (this.typeData[i].id.includes('COR')) {
                     this.typeData[i].collateralTypeId = 'COR';
                   } else if (this.typeData[i].id.includes('IND')) {

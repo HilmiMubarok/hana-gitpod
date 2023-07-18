@@ -80,4 +80,5 @@
     ></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
+  <mat-paginator [pageSizeOptions]="[5, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>

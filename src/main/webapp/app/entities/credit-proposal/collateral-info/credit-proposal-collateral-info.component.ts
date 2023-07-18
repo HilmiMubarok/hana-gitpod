@@ -196,8 +196,10 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     groupTotal.cif = parentCol.customerCIF;
     groupTotal.totalMV = this.countTotalMV(collaterals);
     groupTotal.totalLV = this.countTotalLV(collaterals);
+    groupTotal.totalMVKJJP = this.countTotalMVKJJP(collaterals);
+    groupTotal.totalLvKJJP = this.countTotalLVKJJP(collaterals);
     this.groupCollateraltotal.push(groupTotal);
-    this.creditProposal.attributes['groupChecklisCollateral'] = this.groupCollateraltotal;
+    this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] = this.groupCollateraltotal;
   }
 
   public countTotalLV(collaterals: ICollateral[]): number {
@@ -238,6 +240,47 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
       }
     }
     this._creditProposal.attributes['coverageTotal'].countTotalMV = result;
+    return result;
+  }
+
+  public countTotalLVKJJP(collaterals: ICollateral[]): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === true);
+          if (data !== undefined) {
+            result = result + Number(data.liquidationValue);
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP = result;
+
+    return result;
+  }
+
+  public countTotalMVKJJP(collaterals: ICollateral[]): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        if (collaterals[i].id) {
+          const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+          if (properties.length > 0) {
+            data = properties.find(obj => obj.external === true);
+            if (data !== undefined) {
+              result = result + Number(data.marketValue);
+            }
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countKJJPMV = result;
     return result;
   }
 

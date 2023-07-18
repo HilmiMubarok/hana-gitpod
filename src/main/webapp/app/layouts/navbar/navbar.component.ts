@@ -75,86 +75,111 @@ export class NavbarComponent implements OnInit {
   }
 
   public setCookie(cname: string, cvalue: any, cdesc: any): void {
-	this.positionIdPub = cvalue;
-	if (cname === 'POS') {
-	  this.positionName = cdesc;
-	} else if (cname === 'INT') {
-	  this.internalName = cdesc;
-	}
-	document.cookie = cname + "=" + cvalue + ";";
+    this.positionIdPub = cvalue;
+    if (cname === 'POS') {
+      this.positionName = cdesc;
+    } else if (cname === 'INT') {
+      this.internalName = cdesc;
+    }
+    document.cookie = cname + '=' + cvalue + ';';
   }
 
   public deleteCookie(cname: string, cvalue: any): void {
-	const d = new Date();
-	d.setTime(d.getTime() + (-1*24*60*60*1000));
-	const expires = "expires=" + d.toUTCString();
-	document.cookie = cname + "=" + cvalue + ";" + expires + ";";
+    const d = new Date();
+    d.setTime(d.getTime() + -1 * 24 * 60 * 60 * 1000);
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = cname + '=' + cvalue + ';' + expires + ';';
   }
 
   private setUpAcc(res: any, account: any): void {
-	this.positionIdPub = '';
-	this.internalIdPub = '';
+    this.positionIdPub = '';
+    this.internalIdPub = '';
 
-	if (res.body.length < 1) {
-	  this.loginName = 'First Name Last Name';
+    if (res.body.length < 1) {
+      this.loginName = 'First Name Last Name';
       this.lastLogin = 'Not Registered Employee';
 
-	  this.positionName = 'Not Registered Position';
-	  this.setCookie(this.cNamePos, '', this.positionName);
+      this.positionName = 'Not Registered Position';
+      this.setCookie(this.cNamePos, '', this.positionName);
 
-	  this.internalName = 'Not Registered Internal';
-	  this.setCookie(this.cNameInt, '', this.internalName);
-	  
-	  this.templateService.changePosInt('ADMIN_MAYBE');
-	} else {
-	  this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
+      this.internalName = 'Not Registered Internal';
+      this.setCookie(this.cNameInt, '', this.internalName);
+
+      this.templateService.changePosInt('ADMIN_MAYBE');
+    } else {
+      this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
       this.lastLogin = account.lastModifiedDate.substring(0, 19);
 
-	  if (res.body[0].positions.length > 0) {
-		let i = 0;
-		let isFirstPosActive = false;
-		let positionId = '';
-		let positionTypeDescription = '';
-		let internalId = '';
-		let internalName = '';
-		let positionTypeId = '';
-		
-		while (!isFirstPosActive && i < res.body[0].positions.length) {
-		  if (res.body[0].positions[i].statusCode === 'ACTIVE' || res.body[0].positions[i].statusId === 'ACTIVE') {
-			this.positionIdPub = res.body[0].positions[i].id;
-			positionId = res.body[0].positions[i].id;
-			positionTypeId = res.body[0].positions[i].positionTypeId;
-			positionTypeDescription = res.body[0].positions[i].positionTypeDescription;
+      if (res.body[0].positions.length > 0) {
+        let i = 0;
+        let isFirstPosActive = false;
+        let indexHelper: number;
+        let positionId = '';
+        let positionTypeDescription = '';
+        let internalId = '';
+        let internalName = '';
+        let positionTypeId = '';
+        let positionActive = 0;
 
-			this.internalIdPub = res.body[0].positions[i].internalId;
-			internalId = res.body[0].positions[i].internalId;
-			internalName = res.body[0].positions[i].internalName;
+        while (!isFirstPosActive && i < res.body[0].positions.length) {
+          if (res.body[0].positions[i].statusCode === 'ACTIVE' || res.body[0].positions[i].statusId === 'ACTIVE') {
+            this.positionIdPub = res.body[0].positions[i].id;
+            positionId = res.body[0].positions[i].id;
+            positionTypeId = res.body[0].positions[i].positionTypeId;
+            positionTypeDescription = res.body[0].positions[i].positionTypeDescription;
 
-			isFirstPosActive = true;
-			i = res.body[0].positions.length - 1;
-		  }
-		  i++;
-		}
+            this.internalIdPub = res.body[0].positions[i].internalId;
+            internalId = res.body[0].positions[i].internalId;
+            internalName = res.body[0].positions[i].internalName;
 
-		this.positionName = positionTypeDescription === '' ? 'Not Have Active Position': positionTypeDescription;
-		this.internalName = internalName === '' ? 'Not Have Active Position': internalName;
+            isFirstPosActive = true;
+            indexHelper = i;
+            i = res.body[0].positions.length - 1;
+          }
+          i++;
+        }
 
-		this.setCookie(this.cNamePos, positionId, positionTypeDescription);
-		this.setCookie(this.cNameInt, internalId, internalName);
+        this.positionName = positionTypeDescription === '' ? 'Not Have Active Position' : positionTypeDescription;
+        this.internalName = internalName === '' ? 'Not Have Active Position' : internalName;
 
-		if (res.body[0].positions.length > 1) {
-		  this.isPositionMoreThan1 =  true;
-		  this.definePositionMenu(res.body[0].positions);
-		}
+        if (positionId !== '' && positionTypeDescription !== '') {
+          this.setCookie(this.cNamePos, positionId, positionTypeDescription);
+        }
 
-		this.templateService.changePosInt(positionTypeId);
-		this.templateService.changePosIntObject(res.body[0].positions[0]);
-	  }
-	}
+        if (internalId !== '' && internalName !== '') {
+          this.setCookie(this.cNameInt, internalId, internalName);
+        }
+
+        if (isFirstPosActive) {
+          res.body[0].positions.forEach(position => {
+            if (position.statusCode === 'ACTIVE' || position.statusId === 'ACTIVE') {
+              positionActive++;
+            }
+          });
+        }
+
+        if (positionActive > 1) {
+          this.isPositionMoreThan1 = true;
+          res.body[0].positions.forEach(position => {
+            if (position.statusCode === 'ACTIVE' || position.statusId === 'ACTIVE') {
+              this.definePositionMenu(position);
+            }
+          });
+        }
+
+        if (positionTypeId !== '') {
+          this.templateService.changePosInt(positionTypeId);
+        }
+
+        if (indexHelper === 0 || indexHelper > 0) {
+          this.templateService.changePosIntObject(res.body[0].positions[indexHelper]);
+        }
+      }
+    }
 
     if (account.login === 'admin') {
-	  this.isAdministrator = true;
-	}
+      this.isAdministrator = true;
+    }
   }
 
   private onError(errorMessage: string) {
@@ -176,20 +201,22 @@ export class NavbarComponent implements OnInit {
   }
 
   private definePositionMenu(positions: any): void {
-	positions.forEach(position => {
-	  if (position.statusCode === 'ACTIVE' && position.statusId === 'ACTIVE') {
-		const item: CustomMatMenu = new CustomMatMenu();
-		item.text = position.positionTypeDescription + " - " + position.internalName;
-		item.fn = () => {
-		  const posN = lodash.clone(this.positionName);
-		  this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
-		  this.setCookie(this.cNameInt, position.internalId, position.internalName);
-		  this.templateService.changePosInt(position.positionTypeId);
-		  this.templateService.changePosIntObject(position);
-		}
-		this.positionListItems.push(item);
-	  }
-	});
+    const arrayPositions = [];
+    arrayPositions.push(positions);
+    arrayPositions.forEach(position => {
+      if (position.statusCode === 'ACTIVE' && position.statusId === 'ACTIVE') {
+        const item: CustomMatMenu = new CustomMatMenu();
+        item.text = position.positionTypeDescription + ' - ' + position.internalName;
+        item.fn = () => {
+          const posN = lodash.clone(this.positionName);
+          this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
+          this.setCookie(this.cNameInt, position.internalId, position.internalName);
+          this.templateService.changePosInt(position.positionTypeId);
+          this.templateService.changePosIntObject(position);
+        };
+        this.positionListItems.push(item);
+      }
+    });
   }
 
   private defineAccountMenu(): void {
@@ -211,8 +238,8 @@ export class NavbarComponent implements OnInit {
   }
 
   public logout(): void {
-	this.deleteCookie(this.cNamePos, this.positionIdPub);
-	this.deleteCookie(this.cNameInt, this.internalIdPub);
+    this.deleteCookie(this.cNamePos, this.positionIdPub);
+    this.deleteCookie(this.cNameInt, this.internalIdPub);
     this.loginService.logout();
     this.router.navigate(['']);
   }

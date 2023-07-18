@@ -22,6 +22,14 @@ export class InternalService extends AbstractEntityService<IInternal> {
 
   protected preSave(entity: IInternal) {}
 
+  pageSize(req?: any): Observable<HttpResponse<IInternal[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IInternal[]>(this.resourceUrl + '?page=0&size=999', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IInternal[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IInternal[]>) => this.preLoadItemArray(res)));
+  }
+
   queryCustom(req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     return this.http
