@@ -79,7 +79,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
           eArcLoanForegn.push(this.creditProposal.products[i]);
         }
 
-        if (this.creditProposal.products[i].productName === 'Working Capital - ARC Loan') {
+        if (this.creditProposal.products[i].productName === 'Working Capital - eARC Loan') {
           eArcLoan.push(this.creditProposal.products[i]);
         }
       }

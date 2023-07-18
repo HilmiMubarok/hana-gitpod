@@ -10,6 +10,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import { v4 as uuidv4 } from 'uuid';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 @Component({
   selector: 'jhi-other-deviation',
   templateUrl: './credit-proposal-other-deviation.component.html',
@@ -43,7 +44,12 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
 
   public displayColumns: string[] = ['no', 'category', 'sub_category', 'covenant', 'status', 'deviation', 'justification'];
 
-  constructor(public dialog: MatDialog, public storageService: StorageService, private documentTypeService: DocumentTypeService) {
+  constructor(
+    public dialog: MatDialog,
+    public storageService: StorageService,
+    private documentTypeService: DocumentTypeService,
+    private partyCifService: PartyCifService
+  ) {
     this.loading = false;
     this.filterStatus = [];
   }
@@ -51,8 +57,130 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
   ngOnInit() {
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.filterDeviation();
-    this.getBucket().then(() => {
-      this.getFiles(String(this.creditProposalItem.id));
+
+    this.partyCifService.findCollateral(this.creditProposalItem.cif.customerId, 'R201').subscribe((find: any) => {
+      const Investoris = find.body;
+      const colllateralKapal = this.creditProposalItem.collaterals.filter(
+        (data: any) =>
+          data.attributes.collateralCode === 'AN0206' &&
+          data.statusId !== 'CANCEL' &&
+          data.statusId !== 'RELEASE' &&
+          data.statusId !== 'EXISTING'
+      );
+      const nonKeuangan = this.creditProposalItem.collaterals.filter(
+        (data: any) =>
+          data.attributes.collateralCode === 'AN0299' &&
+          data.statusId !== 'CANCEL' &&
+          data.statusId !== 'RELEASE' &&
+          data.statusId !== 'EXISTING'
+      );
+      const eArcLoanForegn = [];
+      const eArcLoan = [];
+      for (let i = 0; i < this.creditProposalItem.products.length; i++) {
+        if (this.creditProposalItem.products[i].productName === 'Working Capital - eARC Loan(Foreign)') {
+          eArcLoanForegn.push(this.creditProposalItem.products[i]);
+        }
+
+        if (this.creditProposalItem.products[i].productName === 'Working Capital - eARC Loan') {
+          eArcLoan.push(this.creditProposalItem.products[i]);
+        }
+      }
+      const jaminanFactoring = eArcLoanForegn.length > 0 || eArcLoan.length > 0 ? true : false;
+
+      if (this.creditProposalItem.attributes['collateralAfterData']) {
+        while (typeof this.creditProposalItem.attributes['collateralAfterData'] === 'string') {
+          this.creditProposalItem.attributes['collateralAfterData'] = JSON.parse(this.creditProposalItem.attributes['collateralAfterData']);
+        }
+      } else {
+        this.creditProposalItem.attributes['collateralAfterData'] = [];
+      }
+
+      this.getBucket().then(() => {
+        this.getFiles(String(this.creditProposalItem.id)).then(() => {
+          this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
+            this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
+              this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
+                this.typeData = [...res.body, ...res1.body, ...res2.body];
+
+                for (let i = 0; i < this.typeData.length; i++) {
+                  if (this.typeData[i].id.includes('DEPO')) {
+                    this.typeData[i].collateralTypeId = 'DEPOSIT';
+                  } else if (this.typeData[i].id.includes('RE')) {
+                    this.typeData[i].collateralTypeId = 'REALESTATE';
+                  } else if (this.typeData[i].id.includes('MC')) {
+                    this.typeData[i].collateralTypeId = 'MACHINE';
+                  } else if (this.typeData[i].id.includes('VH')) {
+                    this.typeData[i].collateralTypeId = 'VEHICLE';
+                  } else if (this.typeData[i].id.includes('GRNT')) {
+                    this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
+                  } else if (this.typeData[i].id.includes('DOC_CP_COLL_OTHER') || this.typeData[i].id.includes('DOC_COLL_OTHER')) {
+                    this.typeData[i].collateralTypeId = 'OTHER';
+                  } else if (this.typeData[i].id.includes('STOCK')) {
+                    this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
+                  } else if (this.typeData[i].id.includes('COR')) {
+                    this.typeData[i].collateralTypeId = 'COR';
+                  } else if (this.typeData[i].id.includes('IND')) {
+                    this.typeData[i].collateralTypeId = 'IND';
+                  }
+                }
+                const filterStatus: ICollateral[] = this.creditProposalItem.collaterals.filter(obj => obj.statusCode !== 'CANCEL');
+                const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
+                  filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
+                );
+                const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposalItem.customerType);
+                const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR');
+                const PengikatKredit: IDocumentType[] = this.typeData.filter(
+                  obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING'
+                );
+                const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
+                const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(
+                  obj => obj.id === 'DOC_CP_OTHER_ID'
+                );
+
+                const takeOverData =
+                  this.creditProposalItem.attributes['facilityTakeOver'].length > 0
+                    ? this.typeData.filter(obj => obj.id === 'DOC_CP_COLL_TO')
+                    : [];
+                const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
+                const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
+                const jaminanFactoringData = jaminanFactoring ? this.typeData.filter(obj => obj.id.includes('COLL_EARC')) : [];
+                const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
+                const result: IDocumentType[] = [
+                  ...collateralData,
+                  ...INDCORData,
+                  ...PersetujuanKredit,
+                  ...PengikatKredit,
+                  ...DocumentLainnya,
+                  ...DocumentLainnyaIdentitasDebiturPerorangan,
+                  ...takeOverData,
+                  ...InvestorisData,
+                  ...colllateralKapalData,
+                  ...jaminanFactoringData,
+                  ...nonKeuanganData,
+                ];
+
+                for (let i = 0; i < result.length; i++) {
+                  this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
+                    let level = re.body;
+
+                    const mergeArray: ILevel[] = level.map(item1 => {
+                      const file = this.file.find(item2 => item2.idFile === item1.id);
+                      return { ...item1, ...file };
+                    });
+
+                    const personalCorporate = mergeArray.filter(obj => obj.customerType === this.creditProposalItem.customerType);
+                    const nullData = mergeArray.filter(obj => obj.customerType === 'ALL');
+
+                    level = [...personalCorporate, ...nullData];
+
+                    this.groupByFolder(level);
+                  });
+                }
+              });
+            });
+          });
+        });
+      });
     });
   }
 
@@ -79,92 +207,69 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
       this.storageService.getObjects(this.bucket, retrieveDataCpDuplicateIdd).subscribe((res: any) => {
         if (res.body.length > 0) {
           for (let index = 0; index < res.body.length; index++) {
-            if (res.body[index].tags.status === 'Waived') {
-              this.file1 = [
-                ...this.file1,
-                {
-                  idFile: res.body[index].tags.id,
-                  url: res.body[index].url,
-                  name: res.body[index].key,
-                  remarks: res.body[index].tags.remarks,
-                  status: res.body[index].tags.status,
-                  dueDate: res.body[index].tags.dueDate,
-                  description: res.body[index].tags.description,
-                  parentDescription: res.body[index].tags.parentDescription,
-                },
-              ];
-            }
+            this.file1 = [
+              ...this.file1,
+              {
+                idFile: res.body[index].tags.id,
+                url: res.body[index].url,
+                name: res.body[index].key,
+                remarks: res.body[index].tags.remarks,
+                status: res.body[index].tags.status,
+                dueDate: res.body[index].tags.dueDate,
+              },
+            ];
           }
 
           this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
             for (let index = 0; index < res1.body.length; index++) {
-              if (res1.body[index].tags.status === 'Waived') {
-                this.file2 = [
-                  ...this.file2,
-                  {
-                    idFile: res1.body[index].tags.id,
-                    url: res1.body[index].url,
-                    name: res1.body[index].key,
-                    remarks: res1.body[index].tags.remarks,
-                    status: res1.body[index].tags.status,
-                    dueDate: res1.body[index].tags.dueDate,
-                    description: res1.body[index].tags.description,
-                    parentDescription: res1.body[index].tags.parentDescription,
-                  },
-                ];
-              }
+              this.file2 = [
+                ...this.file2,
+                {
+                  idFile: res1.body[index].tags.id,
+                  url: res1.body[index].url,
+                  name: res1.body[index].key,
+                  remarks: res1.body[index].tags.remarks,
+                  status: res1.body[index].tags.status,
+                  dueDate: res1.body[index].tags.dueDate,
+                },
+              ];
             }
 
             this.file = [...this.file1, ...this.file2];
-            if (this.file.length > 0) {
-              this.groupByFolder(this.file);
-            }
 
             resolve();
           });
         } else {
           this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
             for (let index = 0; index < res1.body.length; index++) {
-              if (res1.body[index].tags.status === 'Waived') {
-                this.file1 = [
-                  ...this.file1,
-                  {
-                    idFile: res1.body[index].tags.id,
-                    url: res1.body[index].url,
-                    name: res1.body[index].key,
-                    remarks: res1.body[index].tags.remarks,
-                    status: res1.body[index].tags.status,
-                    dueDate: res1.body[index].tags.dueDate,
-                    description: res1.body[index].tags.description,
-                    parentDescription: res1.body[index].tags.parentDescription,
-                  },
-                ];
-              }
+              this.file1 = [
+                ...this.file1,
+                {
+                  idFile: res1.body[index].tags.id,
+                  url: res1.body[index].url,
+                  name: res1.body[index].key,
+                  remarks: res1.body[index].tags.remarks,
+                  status: res1.body[index].tags.status,
+                  dueDate: res1.body[index].tags.dueDate,
+                },
+              ];
             }
 
             this.storageService.getObjects(this.bucket, retrieveIDDNotDuplicated).subscribe((res2: any) => {
               for (let index = 0; index < res2.body.length; index++) {
-                if (res2.body[index].tags.status === 'Waived') {
-                  this.file2 = [
-                    ...this.file2,
-                    {
-                      idFile: res2.body[index].tags.id,
-                      url: res2.body[index].url,
-                      name: res2.body[index].key,
-                      remarks: res2.body[index].tags.remarks,
-                      status: res2.body[index].tags.status,
-                      dueDate: res2.body[index].tags.dueDate,
-                      description: res2.body[index].tags.description,
-                      parentDescription: res2.body[index].tags.parentDescription,
-                    },
-                  ];
-                }
+                this.file2 = [
+                  ...this.file2,
+                  {
+                    idFile: res2.body[index].tags.id,
+                    url: res2.body[index].url,
+                    name: res2.body[index].key,
+                    remarks: res2.body[index].tags.remarks,
+                    status: res2.body[index].tags.status,
+                    dueDate: res2.body[index].tags.dueDate,
+                  },
+                ];
               }
               this.file = [...this.file1, ...this.file2];
-
-              if (this.file.length > 0) {
-                this.groupByFolder(this.file);
-              }
               resolve();
             });
           });
@@ -174,11 +279,12 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
   }
 
   private groupByFolder(param: any[]): void {
+    const waived = param.filter((data: any) => data.status === 'Waived');
     const sameIdObjects = [];
     const differentIdObjects = [];
     const idMap: any = {};
 
-    param.forEach(obj => {
+    waived.forEach(obj => {
       if (idMap[obj.idFile]) {
         idMap[obj.idFile].count++;
       } else {
