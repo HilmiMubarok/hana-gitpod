@@ -43,6 +43,7 @@ export class CovenantTempComponent implements OnInit {
 
   @Input() setActiveMenu: string;
   @Input() isViewMode: Boolean = false;
+  @Input() isOnOffering: Boolean = false;
 
   @Input()
   get creditProposalItem() {
@@ -55,5 +56,6 @@ export class CovenantTempComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedMenu = !this.setActiveMenu ? 'COVENANT' : this.setActiveMenu;
+    console.log('Mubarok');
   }
 }
