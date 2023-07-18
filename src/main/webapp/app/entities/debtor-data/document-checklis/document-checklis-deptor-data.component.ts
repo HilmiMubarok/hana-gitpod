@@ -192,7 +192,6 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
         key: `/idd/${id}/document/`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
-        console.log('ompu', res);
         this.fileUrl = res.body;
         for (let index = 0; index < res.body.length; index++) {
           this.file = [
