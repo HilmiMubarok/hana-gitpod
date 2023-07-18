@@ -59,6 +59,7 @@ import { DocumentComponent } from '../document/document.component';
 import { CollateralAppraisalDetailProcessLandComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
+import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 
 @Component({
   providers: [
@@ -70,6 +71,7 @@ import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-ap
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalDetailProcessRealEstateComponent,
   ],
   selector: 'jhi-survey-batch-edit-approval',
   templateUrl: './survey-batch-edit-approval.component.html',
@@ -225,7 +227,8 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
-    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
+    public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -285,6 +288,8 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+    this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
+
     this.getWord();
 
     if (item.collateral.propertyUsage !== '') {
@@ -331,11 +336,12 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     if (item !== undefined) {
       this.loadData(item.collateral);
       // Get Foto Object Jaminan
-      this.collateralData(item.collateral.id);      
+      this.collateralData(item.collateral.id);
       this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
       this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
     }
@@ -585,6 +591,10 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         this.collateralAppraisalService.totalDataDetailLand = await this.getCollateralProperty(
           this.collateralAppraisal.collateralId,
           CollateralPropertyType.LAND
+        );
+        this.collateralAppraisalService.totalDataDetailBuilding = await this.getCollateralProperty(
+          this.collateralAppraisal.collateralId,
+          CollateralPropertyType.BUILDING
         );
       }
     }
