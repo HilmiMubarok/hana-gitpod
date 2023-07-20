@@ -13,6 +13,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 
 import { Observable, of } from 'rxjs';
 import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal-collateral-tab-loan-after.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after-dialog',
@@ -21,6 +22,7 @@ import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal
   providers: [ToolbarService, HtmlEditorService],
 })
 export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnInit {
+  public parentPath: any;
   public collateralInfoAfterReport: ICollateralInfoAfter = {};
   public view: string;
   public creditProposal: ICreditProposal;
@@ -53,6 +55,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
 
   constructor(
+    public router: Router,
     private creditProposalService: CreditProposalService,
     private _dialog: MatDialogRef<CreditProposalCollateralTabLoanAfterComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -65,6 +68,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
       collateralProperties: ICollateralProperty[];
     }
   ) {
+    this.parentPath = this.router.url.split('/')[1];
     this.creditProposal = this.data.cp;
     this.collateral = this.data.collateral;
     this.view = this.data.view;
@@ -74,6 +78,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
   }
 
   ngOnInit(): void {
+    console.log('parent path ', this.parentPath);
     if (this.view === 'view') {
       this.changeType(this.collateral.id);
     }
