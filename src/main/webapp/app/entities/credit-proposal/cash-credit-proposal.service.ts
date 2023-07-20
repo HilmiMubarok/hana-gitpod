@@ -12,15 +12,18 @@ import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import moment from 'moment';
 import { createRequestOption } from 'app/core/request/request-util';
 import { DelegationApplicationRequest } from '../employee/delegationApplicationRequest.model';
+import { ILoanApplication } from '../loan-application/loan-application.model';
 
 @Injectable({ providedIn: 'root' })
 export class CashCreditProposalService extends AbstractEntityService<ICreditProposal> {
+  private resourceUrlCashCreditProposal: string;
   public statRemarkBusinessActivity;
   public partySliks = [];
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.statRemarkBusinessActivity = '';
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api');
+    this.resourceUrlCashCreditProposal = this.resourceUrl + '/cash-credit-proposals';
   }
 
   cashCreditProposalApprovalByStatus(req?: any): Observable<HttpResponse<ICreditProposal[]>> {
@@ -82,6 +85,11 @@ export class CashCreditProposalService extends AbstractEntityService<ICreditProp
 
   protected isNew(entity: ICreditProposal): boolean {
     return entity.id === undefined || entity.id === null;
+  }
+
+  public getIncorrectData(req?: any): Observable<HttpResponse<ILoanApplication[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<ILoanApplication[]>(this.resourceUrlCashCreditProposal + '/unknown-pic', { params: options, observe: 'response' });
   }
 
   public getCertificationDate(collateral: ICollateral, properties: ICollateralProperty[]): string {

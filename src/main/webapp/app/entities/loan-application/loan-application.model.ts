@@ -1,8 +1,8 @@
 import { IApplicationRole } from '../application-role/application-role.model';
-import { IPerson } from '../person/person.model';
+import { IPerson, Person } from '../person/person.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 import { IApplicationProduct } from '../application-product/application-product.model';
-import { IPartyGroup } from '../party-group/party-group.model';
+import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
 import { IPosition } from '../position/position.model';
 
 export interface ILoanApplication {
@@ -82,8 +82,12 @@ export class LoanApplication implements ILoanApplication {
     public bookingBranchId?: string,
     public bookingBranchName?: string,
     public approvalLc?: string,
+    public prospectPerson?: IPerson,
+    public prospectOrganization?: IPartyGroup,
     public approvalLcDefault?: string
   ) {
     this.products = new Array<IApplicationProduct>();
+    this.prospectPerson = new Person();
+    this.prospectOrganization = new PartyGroup();
   }
 }
