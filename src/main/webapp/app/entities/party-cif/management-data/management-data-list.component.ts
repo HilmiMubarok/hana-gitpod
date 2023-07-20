@@ -24,8 +24,6 @@ export class PartyCifManagementDataComponent implements OnChanges {
   }
 
   public needToReload() {
-    console.log('ini sebelum', this.validation);
     this.validation = !this.validation;
-    console.log('ini sesudah', this.validation);
   }
 }

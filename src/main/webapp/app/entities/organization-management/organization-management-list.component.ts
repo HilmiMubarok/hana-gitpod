@@ -72,7 +72,6 @@ export class OrganizationManagementListComponent
     }
     if (changes['validation']) {
       this.loadDataBy(this.cif, this.managementType);
-      console.log('validation berubah');
     }
   }
 
