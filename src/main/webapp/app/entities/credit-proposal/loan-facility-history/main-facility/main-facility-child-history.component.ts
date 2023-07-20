@@ -1,4 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ICategoryList, IMainFacility } from 'app/entities/main-facility/main-facility.model';
 
 @Component({
@@ -15,8 +17,9 @@ export class MainFacilityChildHistoryComponent implements OnChanges {
   set mainData(items: IMainFacility) {
     this._mainData = items;
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  public dataSource: ICategoryList[];
+  public dataSource: MatTableDataSource<ICategoryList>;
   private _mainData: IMainFacility;
   displayColumns = ['facilityCategory', 'mainPlafond', 'outstanding', 'changes', 'totalPlafond'];
 
@@ -24,7 +27,8 @@ export class MainFacilityChildHistoryComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mainData']) {
-      this.dataSource = this.mainData.categoryListDTO;
+      this.dataSource = new MatTableDataSource<ICategoryList>(this.mainData.categoryListDTO);
+      this.dataSource.paginator = this.paginator;
     }
   }
   public printElements(element) {
