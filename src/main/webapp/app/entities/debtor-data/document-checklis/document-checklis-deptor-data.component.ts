@@ -81,7 +81,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
                   this.typeData[i].collateralTypeId = 'VEHICLE';
                 } else if (this.typeData[i].id.includes('GRNT')) {
                   this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
-                } else if (this.typeData[i].id.includes('DOC_COLL_OTHER')) {
+                } else if (this.typeData[i].id.includes('DOC_IDD_OTHER')) {
                   this.typeData[i].collateralTypeId = 'OTHER';
                 } else if (this.typeData[i].id.includes('COR')) {
                   this.typeData[i].collateralTypeId = 'COR';
@@ -90,7 +90,9 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
                 }
               }
 
-              const filterStatus: ICollateral[] = this.partyCif.collaterals.filter(obj => obj.statusCode !== 'CANCEL');
+              const filterStatus: ICollateral[] = this.partyCif.collaterals.filter(
+                data => data.statusId !== 'CANCEL' && data.statusId !== 'RELEASE' && data.statusId !== 'EXISTING'
+              );
               const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
                 filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
               );
