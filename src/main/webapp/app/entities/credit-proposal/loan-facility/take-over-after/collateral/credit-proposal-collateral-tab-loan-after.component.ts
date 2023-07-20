@@ -21,6 +21,7 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after',
@@ -39,6 +40,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   public totalMVInt: number;
   public totalLVInt: number;
   public dataItem: any;
+  public parentPath: any;
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
@@ -61,11 +63,13 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    public router: Router
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+    this.parentPath = this.router.url.split('/')[1];
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
   }
