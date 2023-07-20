@@ -3,6 +3,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { cloneDeep } from 'lodash';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { OrganizationManagementDialogComponent } from './organization-management-dialog.component';
 import {
@@ -150,16 +151,20 @@ export class OrganizationManagementListComponent
 
     if (param) {
       orgMgm = param;
+      this.loadDataBy(this.cif, this.managementType);
     }
-    const dialogRef = this.dialog.open(OrganizationManagementDialogComponent, {
-      width: '80vw',
-      data: {
-        organizationManagement: orgMgm,
-        managementType: this.managementType,
-        typeScreen: this.type,
-        source: this.source,
-      },
-    });
+    const dialogRef = this.dialog.open(
+      OrganizationManagementDialogComponent,
+      cloneDeep({
+        width: '80vw',
+        data: {
+          organizationManagement: orgMgm,
+          managementType: this.managementType,
+          typeScreen: this.type,
+          source: this.source,
+        },
+      })
+    );
     dialogRef.afterClosed().subscribe((res: any) => {
       if (res.person !== null) {
         res.person.dob = this.setDate(res);
