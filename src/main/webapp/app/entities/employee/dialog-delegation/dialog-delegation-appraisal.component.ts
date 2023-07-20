@@ -9,6 +9,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { IEmployee } from '../employee.model';
 import { CashSurveyAppraisalsService } from 'app/entities/survey-appraisals/cash-survey-appraisal.service';
 import { DelegationAppraisalRequest } from '../delegationApplicationRequest.model';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-delegation-appraisal-dialog',
   templateUrl: './dialog-delegation-appraisal.component.html',
@@ -35,6 +36,7 @@ export class DialogDelegationAppraisalComponent implements OnInit {
     'status',
     'action',
   ];
+  public dataSelect: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -47,10 +49,12 @@ export class DialogDelegationAppraisalComponent implements OnInit {
     public reportUtilService: ReportUtilService,
     public employeeService: EmployeeService,
     public internalService: InternalService,
-    public cashSurveyAppraisalsService: CashSurveyAppraisalsService
+    public cashSurveyAppraisalsService: CashSurveyAppraisalsService,
+    private messageService: MessageService
   ) {
     this.partyId = this.data.partyId;
     this.fromEmployee = this.data.fromEmployee;
+    this.dataSelect = true;
   }
 
   ngOnInit(): void {
@@ -105,16 +109,42 @@ export class DialogDelegationAppraisalComponent implements OnInit {
     }
   }
 
+  public unCheck(value: any) {
+    if (value === false) {
+      for (const obj of this.selectedData) {
+        obj.attributes.selected = false;
+      }
+      this.selectedData = [];
+    } else if (value === true) {
+      this.selectedData = this.dataDelegation;
+      for (const obj of this.selectedData) {
+        obj.attributes.selected = true;
+      }
+    }
+  }
+
   protected postLoadDataLazy() {}
 
   public save(): void {
-    const result = this.employeeData.filter(data => data.id === this.employeeId);
-    this.DelegationAppraisalreq.fromEmployee = this.fromEmployee;
-    this.DelegationAppraisalreq.toEmployee = result[0];
-    this.DelegationAppraisalreq.appraisals = this.selectedData;
-    this.cashSurveyAppraisalsService.addDelegation(this.DelegationAppraisalreq).subscribe(() => {
-      this._dialog.close();
-    });
+    if (this.selectedData.length < 1) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'List delegation required' });
+    } else {
+      const result = this.employeeData.filter(data => data.id === this.employeeId);
+      this.DelegationAppraisalreq.fromEmployee = this.fromEmployee;
+      this.DelegationAppraisalreq.toEmployee = result[0];
+      this.DelegationAppraisalreq.appraisals = this.selectedData;
+      this.cashSurveyAppraisalsService.addDelegation(this.DelegationAppraisalreq).subscribe(
+        () => {
+          this._dialog.close();
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+          // Fungsi ini akan dijalankan ketika terjadi respons error
+
+          // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
+        }
+      );
+    }
   }
 
   public cancel(): void {
