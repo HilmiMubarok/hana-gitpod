@@ -157,7 +157,6 @@ export class OrganizationManagementListComponent
 
     if (param) {
       orgMgm = param;
-      this.loadDataBy(this.cif, this.managementType);
     }
     const dialogRef = this.dialog.open(
       OrganizationManagementDialogComponent,
