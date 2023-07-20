@@ -177,12 +177,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 	  });
 	});
 	this.dataSource.data = dataSourceTemp;
-	console.log('this.dataSource.data : ', this.dataSource.data);
   }
 
   private getMenuByPos(newPositionTypeId: string): void {
 	this.queryFilterBy({positionTypeId: newPositionTypeId, sort: ['id', 'asc'],}).subscribe(menus => {
-	  console.log('menus : ', menus.body);
 	  this.setMenu(menus.body);
 	});
   }

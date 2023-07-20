@@ -43,4 +43,8 @@
     <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
   </tr>
   <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
 </table>
+<mat-card>
+  <mat-paginator showFirstLastButtons ngClass="transparant"> </mat-paginator>
+</mat-card>

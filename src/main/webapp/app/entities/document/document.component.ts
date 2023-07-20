@@ -345,7 +345,6 @@ export class DocumentComponent implements OnChanges, OnInit {
               file.tags['docNo'] = res.documentNumber.replace('&', 'codeSpecialDan');
               file.tags['folder'] = res.documentNumber.replace('&', 'codeSpecialDan');
               file.tags['createdBy'] = resAccount.login;
-              // console.log('ompuyy', file);
               this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
                 fileRes.push(res1);
               });

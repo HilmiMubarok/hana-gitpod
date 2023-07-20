@@ -86,7 +86,6 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   public presentage(value: string, status: string) {
-    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       return '0.00' + '%';
@@ -140,14 +139,15 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
+    this.fungsiSumcredit('both');
     this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
     this.loadData();
-    for (let i = 0; i < this.historyData().collaterals.length; i++) {
-      this.findCollateralProperty(this.historyData().collaterals[i]);
-    }
-    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
-      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
-    }
+    // for (let i = 0; i < this.historyData().collaterals.length; i++) {
+    //   this.findCollateralProperty(this.historyData().collaterals[i]);
+    // }
+    // if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+    //   this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
+    // }
 
     // this.isViewMode && this.displayedColumns.pop();
 
@@ -175,6 +175,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
+    this.fungsiSumcredit('both');
     // if (changes['creditProposal']) {
     //   if (this.creditProposal.collaterals.length > 0) {
     //     for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
@@ -194,7 +195,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       a = lodash.concat(a, this.historyData().collaterals[i]);
     }
-    this.getBindingCalculate(this.historyData().collaterals);
+    // this.getBindingCalculate(this.historyData().collaterals);
     this.collateral = new MatTableDataSource(a);
     this.collateral.paginator = this.paginator2;
     this.dataItem.paginator = this.paginator;

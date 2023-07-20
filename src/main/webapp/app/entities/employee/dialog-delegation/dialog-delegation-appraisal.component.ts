@@ -54,7 +54,7 @@ export class DialogDelegationAppraisalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.internalService.query().subscribe((res: any) => {
+    this.internalService.pageSize().subscribe((res: any) => {
       this.internalData = res.body;
     });
     this.delegationAppraisalData();

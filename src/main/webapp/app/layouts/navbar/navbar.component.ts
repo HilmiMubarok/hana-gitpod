@@ -171,9 +171,7 @@ export class NavbarComponent implements OnInit {
           this.templateService.changePosInt(positionTypeId);
         }
 
-        console.log('indexHelper : ', indexHelper);
         if (indexHelper === 0 || indexHelper > 0) {
-          console.log('in cuk');
           this.templateService.changePosIntObject(res.body[0].positions[indexHelper]);
         }
       }

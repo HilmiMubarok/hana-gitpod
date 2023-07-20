@@ -2503,6 +2503,10 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
         id: 'covenant-document-check',
         text: 'Covenant & Document Checklist',
       },
+      {
+        id: 'dec-collateral-info',
+        text: 'Collateral Info',
+      },
       // {
       //   id: 'collateral-facility-mapping',
       //   text: 'Collateral Facility Mapping',
