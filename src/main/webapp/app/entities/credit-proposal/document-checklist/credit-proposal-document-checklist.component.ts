@@ -280,6 +280,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                 remarks: res.body[index].tags.remarks,
                 status: res.body[index].tags.status,
                 dueDate: res.body[index].tags.dueDate,
+                appealStatus: res.body[index].tags.appealStatus,
               },
             ];
           }
@@ -295,6 +296,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                   remarks: res1.body[index].tags.remarks,
                   status: res1.body[index].tags.status,
                   dueDate: res1.body[index].tags.dueDate,
+                  appealStatus: res1.body[index].tags.appealStatus,
                 },
               ];
             }
@@ -316,6 +318,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                   remarks: res1.body[index].tags.remarks,
                   status: res1.body[index].tags.status,
                   dueDate: res1.body[index].tags.dueDate,
+                  appealStatus: res1.body[index].tags.appealStatus,
                 },
               ];
             }
@@ -331,6 +334,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                     remarks: res2.body[index].tags.remarks,
                     status: res2.body[index].tags.status,
                     dueDate: res2.body[index].tags.dueDate,
+                    appealStatus: res2.body[index].tags.appealStatus,
                   },
                 ];
               }
