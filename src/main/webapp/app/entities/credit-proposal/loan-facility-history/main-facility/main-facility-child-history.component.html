@@ -46,5 +46,5 @@
   <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
 </table>
 <mat-card>
-  <mat-paginator showFirstLastButtons ngClass="transparant"> </mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 25, 50, 100]" showFirstLastButtons></mat-paginator>
 </mat-card>
