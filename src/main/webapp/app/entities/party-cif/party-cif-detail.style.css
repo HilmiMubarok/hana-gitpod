@@ -106,6 +106,10 @@ mat-sidenav .mat-drawer {
   -webkit-overflow-scrolling: touch;
 }
 
+.subroute-background {
+  background: linear-gradient(180deg, #96c9c8 14%, #eff8fe 16%);
+}
+
 .header-sub-wrapper {
   background-position-x: 5rem;
   background-position-y: 5rem;
