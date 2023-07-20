@@ -37,30 +37,45 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
 
     return true;
   }
-  compareDeepDataNew(firstData, secondData) {
+  compareDeepDataNew(firstData, secondData, where) {
     // console.log('Data', { firstData, secondData });
-    const customizer = {
-      // id: true,
-      categoryId: true,
-      applicationType: true,
-      productTypeId: true,
-      subLimit: true,
-      currencyId: true,
-      initialLimit: true,
-      outstanding: true,
-      changes: true,
-      totalPlafond: true,
-      intResetFrequency: true,
-      intResetPeriod: true,
-      rateTypeName: true,
-      currentInterestRate: true,
-      // requiredSpread: true,
-      provisionFeeAmount: true,
-      tenor: true,
-      periodType: true,
-      // maturityDate: true,
-      // firstDisbursementDate: true,
-    };
+
+    let customizer = {};
+    if (where === 'loan-facility') {
+      customizer = {
+        // id: true,
+        categoryId: true,
+        applicationType: true,
+        productTypeId: true,
+        subLimit: true,
+        currencyId: true,
+        initialLimit: true,
+        outstanding: true,
+        changes: true,
+        totalPlafond: true,
+        intResetFrequency: true,
+        intResetPeriod: true,
+        rateTypeName: true,
+        currentInterestRate: true,
+        // requiredSpread: true,
+        provisionFeeAmount: true,
+        tenor: true,
+        periodType: true,
+        // maturityDate: true,
+        // firstDisbursementDate: true,
+      };
+    } else {
+      customizer = {
+        // id: true,
+        collateralTypeDescription: true,
+        // collateralAddress.address1: true,
+        // occupancy: true,
+        collBindingType: true,
+        statusId: true,
+        paripasuStatus: true,
+      };
+    }
+
 
     const comparedData = firstData.map(data => {
       const matchingData = secondData.find(d => d.id === data.id);

@@ -39,7 +39,9 @@
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-right">{{ isOnMemoBanding ? 'Status' : 'Action' }}</th>
+          <th mat-header-cell *matHeaderCellDef width="10%" class="rounding-table-right">
+            {{ isOnMemoBanding ? 'Status Memo Banding' : 'Action' }}
+          </th>
           <td mat-cell *matCellDef="let element">
             <div *ngIf="!isOnMemoBanding">
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -57,7 +59,9 @@
                 </button>
               </section>
             </div>
-            <div *ngIf="isOnMemoBanding">{{ element.appealStatus }}</div>
+            <div *ngIf="isOnMemoBanding">
+              {{ element.appealStatus === null || element.appealStatus === 'null' ? 'Not Changed' : element.appealStatus }}
+            </div>
           </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>

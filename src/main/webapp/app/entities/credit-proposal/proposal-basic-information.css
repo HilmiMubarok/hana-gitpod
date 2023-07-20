@@ -557,6 +557,10 @@ td {
   transform-box: fill-box;
 }
 
+.subroute-background {
+  background: linear-gradient(180deg, #96c9c8 14%, #eff8fe 16%);
+}
+
 .btn-float-styling {
   border: solid;
   border-width: 7px;

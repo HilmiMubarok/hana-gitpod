@@ -468,6 +468,8 @@ export class OfferingLetterMainComponent implements OnInit {
     } else if (titleMenu === 'convenant-tbo') {
       const convenantTbo = titleMenu.replace(regex, ' & ');
       return convenantTbo;
+    } else if (titleMenu === 'dec-collateral-info') {
+      return 'Collateral Info';
     } else {
       return titleMenu.replace(regex, ' ');
     }

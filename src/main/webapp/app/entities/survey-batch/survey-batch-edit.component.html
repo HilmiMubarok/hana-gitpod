@@ -189,7 +189,13 @@
     </div>
   </div>
 
-  <mat-sidenav position="end" style="position: fixed !important; max-height: 20rem !important" #drawer class="example-sidenav" mode="over">
+  <mat-sidenav
+    position="end"
+    style="position: fixed !important; max-height: 20rem !important"
+    #drawer
+    class="example-sidenav subroute-background"
+    mode="over"
+  >
     <div class="header-sub-menu"><label style="margin-top: 1rem">Appraisal Distribution External:</label></div>
     <ul class="side-menu" style="margin: 7rem 0 0 1rem">
       <li *ngFor="let item of subMenu">

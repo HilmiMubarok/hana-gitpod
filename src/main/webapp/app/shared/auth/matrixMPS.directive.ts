@@ -87,7 +87,6 @@ export class MatrixMenuPosStatDirective implements OnInit, OnDestroy {
 	this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
 	  this.position = newPos;
 	  this.queryFilterBy({menuItemId: this.jhiMatrixDirMPSMenu, positionTypeId: this.position.positionTypeId, statusId: this.jhiMatrixDirMPSStatus}).subscribe(permissionObject => {
-		console.log('permissionObject : ', permissionObject.body);
 		this.permission = permissionObject.body;
 		this.checkAccess();
 	  });

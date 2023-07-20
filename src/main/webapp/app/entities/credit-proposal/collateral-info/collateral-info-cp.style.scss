@@ -57,20 +57,37 @@
   font-style: normal;
   border-radius: 6px;
 }
-th {
-  background-color: rgba(147, 201, 199, 1);
-  color: black;
-  font-family: 'Poppins', sans-serif;
+/* table */
+table {
+  width: 100%;
 }
-td {
-  font-family: 'Poppins', sans-serif;
+
+table th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
 }
-th:first-child {
+table td {
+  font-family: 'Poppins', sans-serif !important;
+}
+table th:first-child {
   border-top-left-radius: 15px;
 }
-th:last-child {
+table th:last-child {
   border-top-right-radius: 15px;
 }
+table mat-header-cell {
+  color: black;
+  padding: 8px;
+  text-align: left;
+}
+
+table mat-cell {
+  padding: 8px;
+  text-align: left;
+}
+
+/* table */
 
 table thead tr th {
   background-color: rgba(147, 201, 199, 1);

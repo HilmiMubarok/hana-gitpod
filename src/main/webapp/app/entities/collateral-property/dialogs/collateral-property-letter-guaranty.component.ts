@@ -148,6 +148,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.setData();
     this.setDebitBlock();
     this.filterChar();
+    this.changeCollateralType();
   }
 
   public cekData() {

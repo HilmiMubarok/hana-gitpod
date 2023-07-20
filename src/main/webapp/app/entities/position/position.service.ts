@@ -22,7 +22,7 @@ export class PositionService extends AbstractEntityService<IPosition> {
   }
 
   public findByLogin(): Observable<HttpResponse<IPosition>> {
-    return this.http.get<IPosition>(this.resourceUrl + '/get-by-llogin/', { observe: 'response' });
+    return this.http.get<IPosition>(this.resourceUrl + '/get-by-login/', { observe: 'response' });
   }
 
   public findPositionReportingStructureAppraisal(idAppraisal: number) {
