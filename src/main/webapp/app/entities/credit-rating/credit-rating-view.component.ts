@@ -29,7 +29,6 @@ import { IndustryLimitExposureParameterService } from '../master-parameter/indus
   templateUrl: './credit-rating-view.component.html',
   styleUrls: ['./credit-rating-view.component.css'],
 })
-
 export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<ICreditRating> implements OnInit, OnChanges {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
@@ -195,15 +194,21 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
           this.equityPosition = res.body[i].value;
         }
         if (res.body[i].id === 'EQUITY_POSITION_AS_DATE_OF') {
-          this.equityPositionDate = res.body[i].value;
-          this.equityPositionDate = new Date(this.equityPositionDate);
+          const date = res.body[i].value;
+          this.equityPositionDate = new Date(date);
+          console.log('xx', this.equityPositionDate);
         }
-        this.partyCif.creditRatings[0].equityPosition = this.equityPosition;
-        this.partyCif.creditRatings[0].equityPositionDate = this.equityPositionDate;
+
+        // this.partyCif.creditRatings[0].equityPosition = this.equityPosition;
+        // this.partyCif.creditRatings[0].equityPositionDate = this.equityPositionDate;
+        this.creditRatings.equityPositionDate = this.equityPositionDate;
+        this.creditRatings.equityPosition = this.equityPosition;
       }
 
-      this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
-      this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
+      //   this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
+      //   // this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
+      //   this.creditRatings.equityPositionDate = this.equityPositionDate;
+      // console.log('xxx', this.creditRatings.equityPositionDate)
     });
   }
 
