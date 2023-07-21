@@ -53,6 +53,7 @@ import { ProductClassificationService } from '../product-classification/product-
 import { MasterProductParameterService } from '../master-parameter/master-product/master-product-parameter.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
+import { CPMemoBandingRemarkComponent } from './memo-banding/remarks/cp-memo-banding-remark.component';
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
@@ -63,6 +64,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     static: false,
   })
   creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
+
+  @ViewChild('CPMemoBandingRemarkComponent', {
+    static: false,
+  })
+  CPMemoBandingRemarkComponent: CPMemoBandingRemarkComponent;
 
   @ViewChild('creditProposalCollateralInfoComponent', {
     static: false,
@@ -353,6 +359,10 @@ export class ProposalBasicInformationComponent implements OnInit {
 
         if (this.creditProposalTabBusinessActivityComponent) {
           this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+        }
+
+        if (this.CPMemoBandingRemarkComponent) {
+          this.CPMemoBandingRemarkComponent.triggeredSave();
         }
 
         /* if (this.creditProposalOpinionHistoryComponent) {
@@ -1047,6 +1057,10 @@ export class ProposalBasicInformationComponent implements OnInit {
 
       if (this.creditProposalTabBusinessActivityComponent) {
         this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+      }
+
+      if (this.CPMemoBandingRemarkComponent) {
+        this.CPMemoBandingRemarkComponent.triggeredSave();
       }
 
       /* if (this.creditProposalOpinionHistoryComponent) {

@@ -5,4 +5,7 @@
 ></jhi-cp-memo-banding-collateral>
 <jhi-cp-memo-banding-standard-covenant [creditProposal]="creditProposal"></jhi-cp-memo-banding-standard-covenant>
 <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal" [isOnMemoBanding]="true"></jhi-credit-proposal-document-checklist>
-<jhi-cp-memo-banding-remark></jhi-cp-memo-banding-remark>
+<jhi-cp-memo-banding-remark
+#cpMemoBandingRemarkComponent
+[creditProposal]="creditProposal"
+></jhi-cp-memo-banding-remark>

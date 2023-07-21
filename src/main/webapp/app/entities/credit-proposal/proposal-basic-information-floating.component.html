@@ -459,7 +459,10 @@
             </div>
 
             <div *ngIf="clickedMenu === 'memo-banding'">
-              <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
+              <jhi-credit-proposal-memo-banding 
+              #CPMemoBandingRemarkComponent
+              [saveWordMinio]="saveWord"
+              [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
             </div>
 
             <jhi-collateral-info-history

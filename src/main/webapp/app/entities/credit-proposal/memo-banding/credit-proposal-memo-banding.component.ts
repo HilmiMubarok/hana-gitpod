@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import _ from 'lodash';
 import { CpMemoBandingService } from './services/cp-memo-banding.service';
@@ -7,6 +7,7 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { memoBandingData } from './memo-banding';
+import { CPMemoBandingRemarkComponent } from './remarks/cp-memo-banding-remark.component';
 
 @Component({
   selector: 'jhi-credit-proposal-memo-banding',
@@ -18,6 +19,11 @@ export class MemoBandingComponent implements OnInit {
     private collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService
   ) {}
+
+  @ViewChild('cpMemoBandingRemarkComponent', {
+    static: false,
+  })
+  cpMemoBandingRemarkComponent: CPMemoBandingRemarkComponent;
 
   ngOnInit(): void {
     // this.cpMemoBandingService.parseAttrCp(this.testData);
@@ -104,5 +110,11 @@ export class MemoBandingComponent implements OnInit {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
       });
     }
+  }
+
+  public triggeredSave(proposalType: any) {
+
+    this.cpMemoBandingRemarkComponent.triggeredSave();
+    
   }
 }
