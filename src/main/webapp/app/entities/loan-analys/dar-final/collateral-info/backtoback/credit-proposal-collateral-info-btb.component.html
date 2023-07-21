@@ -122,7 +122,11 @@
 
 <mat-card>
   <mat-card-content>
-    <jhi-group-collateral [creditProposal]="creditProposal"></jhi-group-collateral>
-    <!-- <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-remarks> -->
+    <jhi-group-collateral-list-cp
+      [isViewMode]="isViewMode"
+      [creditProposal]="creditProposal"
+      [collateralProperties]="collateralProperties"
+      [group]="'group'"
+    ></jhi-group-collateral-list-cp>
   </mat-card-content>
 </mat-card>
