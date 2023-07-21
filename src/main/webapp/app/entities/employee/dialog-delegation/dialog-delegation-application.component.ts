@@ -128,25 +128,21 @@ export class DialogDelegationApplicationComponent implements OnInit {
   }
 
   public save(): void {
-    if (this.selectedData.length < 1) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'List delegation required' });
-    } else {
-      const result = this.employeeData.filter(data => data.id === this.employeeId);
-      this.DelegationApplicationReq.fromEmployee = this.fromEmployee;
-      this.DelegationApplicationReq.toEmployee = result[0];
-      this.DelegationApplicationReq.loanApplications = this.selectedData;
-      this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(
-        () => {
-          this._dialog.close();
-        },
-        error => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
-          // Fungsi ini akan dijalankan ketika terjadi respons error
+    const result = this.employeeData.filter(data => data.id === this.employeeId);
+    this.DelegationApplicationReq.fromEmployee = this.fromEmployee;
+    this.DelegationApplicationReq.toEmployee = result[0];
+    this.DelegationApplicationReq.loanApplications = this.selectedData;
+    this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(
+      () => {
+        this._dialog.close();
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+        // Fungsi ini akan dijalankan ketika terjadi respons error
 
-          // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
-        }
-      );
-    }
+        // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
+      }
+    );
   }
 
   public cancel(): void {
