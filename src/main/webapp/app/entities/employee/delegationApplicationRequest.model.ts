@@ -4,8 +4,8 @@ import { IEmployee } from './employee.model';
 
 export interface IDelegationApplicationRequest {
   id?: number;
-  fromEmployee?: IEmployee;
-  toEmployee?: IEmployee;
+  fromEmployeeId?: number;
+  toEmployeeId?: number;
   fromDate?: Date;
   thruDate?: Date;
   reason?: string;
@@ -15,8 +15,8 @@ export interface IDelegationApplicationRequest {
 export class DelegationApplicationRequest implements IDelegationApplicationRequest {
   constructor(
     public id?: number,
-    public fromEmployee?: IEmployee,
-    public toEmployee?: IEmployee,
+    public fromEmployeeId?: number,
+    public toEmployeeId?: number,
     public fromDate?: Date,
     public thruDate?: Date,
     public reason?: string,

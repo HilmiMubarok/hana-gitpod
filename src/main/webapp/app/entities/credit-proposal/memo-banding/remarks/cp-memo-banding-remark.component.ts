@@ -76,7 +76,6 @@ export class CPMemoBandingRemarkComponent implements OnInit, OnChanges {
   getKey;
   onCreate(): void {
     this.container.serviceUrl = '/services/los/api/wordeditor/';
-    
   }
 
   bucket;

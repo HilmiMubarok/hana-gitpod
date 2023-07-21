@@ -113,8 +113,6 @@ export class MemoBandingComponent implements OnInit {
   }
 
   public triggeredSave(proposalType: any) {
-
     this.cpMemoBandingRemarkComponent.triggeredSave();
-    
   }
 }

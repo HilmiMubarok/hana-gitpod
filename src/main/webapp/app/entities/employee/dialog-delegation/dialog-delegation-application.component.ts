@@ -9,6 +9,10 @@ import { CashCreditProposalService } from 'app/entities/credit-proposal/cash-cre
 import { MatSelectChange } from '@angular/material/select';
 import { EmployeeService } from '../employee.service';
 import { DelegationApplicationRequest } from '../delegationApplicationRequest.model';
+import { CashPositionService } from 'app/entities/cash-position/cash-position.service';
+import { IPositionType } from 'app/entities/position-type/position-type.model';
+import { firstValueFrom } from 'rxjs';
+import { IPosition } from '@syncfusion/ej2-angular-grids';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -29,8 +33,12 @@ export class DialogDelegationApplicationComponent implements OnInit {
   public filesRemarks: string;
   public filesDescription: string;
   public fromEmployee: IEmployee;
+  public positionTypes: IPositionType[];
+  public positionTo: IPosition[];
+  private selectedPosition: string;
   public dataSelect: boolean;
   public DelegationApplicationReq = new DelegationApplicationRequest();
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -40,13 +48,14 @@ export class DialogDelegationApplicationComponent implements OnInit {
     private _dialog: MatDialogRef<DialogDelegationApplicationComponent>,
 
     public reportUtilService: ReportUtilService,
-    public internalService: InternalService,
     public cashCreditProposalService: CashCreditProposalService,
     public employeeService: EmployeeService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private cashPositionService: CashPositionService
   ) {
     this.partyId = this.data.partyId;
     this.fromEmployee = this.data.fromEmployee;
+    this.dataDelegation = [];
     this.dataSelect = true;
   }
 
@@ -62,15 +71,46 @@ export class DialogDelegationApplicationComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.internalService.pageSize().subscribe((res: any) => {
-      this.internalData = res.body;
-    });
-    this.delegationAppicationData();
+    this.loadPositionByIdParty(this.partyId);
   }
 
-  public delegationAppicationData() {
+  public async loadPositionByIdParty(idParty: string): Promise<void> {
+    this.positionTypes = (
+      await firstValueFrom(
+        this.cashPositionService.getPositionTypeByPartyId(idParty, {
+          page: 0,
+          size: 9999,
+        })
+      )
+    ).body;
+  }
+
+  public changePositions(event: MatSelectChange): void {
+    this.selectedPosition = event.value;
+    if (this.selectedPosition !== '') {
+      this.getInternalByPositionAndIdParty(this.selectedPosition, this.partyId);
+      this.getMyApplication();
+    } else {
+      this.dataDelegation = [];
+      this.internalData = [];
+      this.positionTo = [];
+      this.disableField();
+    }
+  }
+
+  public disableField(): boolean {
+    return true;
+  }
+
+  public async getInternalByPositionAndIdParty(idPositionType: string, idParty: string): Promise<void> {
+    this.internalData = (
+      await firstValueFrom(this.cashPositionService.getInternalByPartyIdAndPositionTypeId(idPositionType, idParty, { page: 0, size: 999 }))
+    ).body;
+  }
+
+  public getMyApplication() {
     this.cashCreditProposalService
-      .cashCreditProposalMyApplication(this.partyId, {
+      .getMyApplication(this.partyId, this.selectedPosition, {
         size: 9999,
         page: 0,
         sort: ['asc'],
@@ -86,6 +126,25 @@ export class DialogDelegationApplicationComponent implements OnInit {
       });
   }
 
+  public async changeInternal(event: MatSelectChange): Promise<void> {
+    const value: string = event.value;
+    if (value !== '') {
+      this.positionTo = (
+        await firstValueFrom(
+          this.cashPositionService.filterBy({
+            idPositionType: this.selectedPosition,
+            idInternal: value,
+            active: true,
+            page: 0,
+            size: 999,
+          })
+        )
+      ).body;
+    } else {
+      this.positionTo = [];
+    }
+  }
+
   public unCheck(value: any) {
     if (value === false) {
       for (const obj of this.selectedData) {
@@ -98,19 +157,6 @@ export class DialogDelegationApplicationComponent implements OnInit {
         obj.attributes.selected = true;
       }
     }
-  }
-
-  public changeEvent(event: MatSelectChange): void {
-    this.employeeService
-      .queryFilterBy({
-        idInternal: event.value,
-        size: 9999,
-        page: 0,
-        sort: ['asc'],
-      })
-      .subscribe((res: any) => {
-        this.employeeData = res.body;
-      });
   }
 
   onCheckboxChange(row: any) {
@@ -129,9 +175,8 @@ export class DialogDelegationApplicationComponent implements OnInit {
 
   public save(): void {
     if (this.selectedData.length > 0) {
-      const result = this.employeeData.filter(data => data.id === this.employeeId);
-      this.DelegationApplicationReq.fromEmployee = this.fromEmployee;
-      this.DelegationApplicationReq.toEmployee = result[0];
+      this.DelegationApplicationReq.fromEmployeeId = this.fromEmployee.id;
+      this.DelegationApplicationReq.toEmployeeId = this.employeeId;
       this.DelegationApplicationReq.loanApplications = this.selectedData;
       this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(
         () => {

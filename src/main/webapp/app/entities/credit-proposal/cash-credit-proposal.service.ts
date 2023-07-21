@@ -54,10 +54,13 @@ export class CashCreditProposalService extends AbstractEntityService<ICreditProp
       .pipe(map((res: HttpResponse<ICreditProposal>) => this.preLoadItem(res)));
   }
 
-  cashCreditProposalMyApplication(id: string, req?: any): Observable<HttpResponse<ICreditProposal[]>> {
+  public getMyApplication(idParty: string, idPositionType: string, req?: any): Observable<HttpResponse<ICreditProposal[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ICreditProposal[]>(this.resourceUrl + '/cash-credit-proposal/my-application/' + id, { params: options, observe: 'response' })
+      .get<ICreditProposal[]>(this.resourceUrl + '/cash-credit-proposal/my-application/' + idParty + '/position-type/' + idPositionType, {
+        params: options,
+        observe: 'response',
+      })
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoadItemArray(res)));
   }

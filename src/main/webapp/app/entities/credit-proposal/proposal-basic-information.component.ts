@@ -1008,9 +1008,9 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     /* const fileNameSfdt = this.uuidPath + '.sfdt';
     const fileNameWord = this.uuidPath + '.docs'; */
-	const fileNameOpinionSfdt = 'opini.sfdt';
+    const fileNameOpinionSfdt = 'opini.sfdt';
     const fileNameOpinionWord = 'opini.docs';
-	const fileNameConditionSfdt = 'condition.sfdt';
+    const fileNameConditionSfdt = 'condition.sfdt';
     const fileNameConditionWord = 'condition.docs';
     const fileTypeSfdt = 'sfdt';
     const fileTypeWord = 'word';
