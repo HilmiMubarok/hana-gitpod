@@ -52,11 +52,13 @@ export class CreditProposalCollateralInsurance {
 
 export interface ICreditProposalCollateralData {
   crossCollateralStatus?: string;
+  crossCollateralGroup?: string;
 }
 
 export class CreditProposalCollateralData {
-  constructor(public crossCollateralStatus?: string) {
+  constructor(public crossCollateralStatus?: string, public crossCollateralGroup?: string) {
     this.crossCollateralStatus = '';
+    this.crossCollateralGroup = '';
   }
 }
 

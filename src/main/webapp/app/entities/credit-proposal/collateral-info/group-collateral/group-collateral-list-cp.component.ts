@@ -46,12 +46,13 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
     ]),
   ],
 })
-export class GroupCollateralListCpComponent extends AbstractEntityMaterialComponent<IGroupCollateral> implements OnChanges {
+export class GroupCollateralListCpComponent extends AbstractEntityMaterialComponent<IGroupCollateral> implements OnChanges, OnInit {
   @Input() public cif: string;
 
   public listGroupCollateral: any;
   private _creditProposal: ICreditProposal;
   public _collateralProperty: ICollateralProperty[];
+  groupChecklisCollaterals: any;
   @Input()
   get collateralProperties() {
     return this._collateralProperty;
@@ -98,15 +99,14 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
     this.entityKeyName = 'id';
   }
 
-  // ngOnInit(): void {
-  //   this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(updatedCP => {
-  //     if (updatedCP && this.listGroupCollateralItems) {
-  //       if (updatedCP.collateralProductRelations.length > 0 && updatedCP.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-  //         this.checkGroupAll(updatedCP);
-  //       }
-  //     }
-  //   });
-  // }
+  ngOnInit(): void {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
+    }
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup === 'Yes') {
+      this.isChecked = true;
+    }
+  }
   loadDataLazy(event?: PageEvent) {
     this.items = null;
     this.page = event.pageIndex;
@@ -137,32 +137,32 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
             for (let i = 0; i < res.body.length; i++) {
               this.listGroupCollateralItems.push(res.body[i]);
             }
-            this.checkGroupAll(this.creditProposal);
+            // this.checkGroupAll(this.creditProposal);
           });
       });
     }
   }
 
-  private checkGroupAll(cp: ICreditProposal): void {
-    if (cp.collateralProductRelations.length === 0) {
-      this.isChecked = false;
-    } else {
-      if (cp.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-        for (let i = 0; i < cp.collateralProductRelations.length; i++) {
-          for (let j = 0; j < cp.products.length; j++) {
-            for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-              if (
-                cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
-                cp.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id
-              ) {
-                this.isChecked = true;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  // private checkGroupAll(cp: ICreditProposal): void {
+  //   if (cp.collateralProductRelations.length === 0) {
+  //     this.isChecked = false;
+  //   } else {
+  //     if (cp.products.length > 0 && this.listGroupCollateralItems.length > 0) {
+  //       for (let i = 0; i < cp.collateralProductRelations.length; i++) {
+  //         for (let j = 0; j < cp.products.length; j++) {
+  //           for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+  //             if (
+  //               cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
+  //               cp.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id
+  //             ) {
+  //               // this.isChecked = true;
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
@@ -173,6 +173,7 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
   }
 
   private cleanUpColGroupRel(): void {
+    this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
     if (
       this.creditProposal.collateralProductRelations.length > 0 &&
       this.creditProposal.products.length > 0 &&
@@ -205,6 +206,7 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
   public slideChange(event) {
     if (event === true) {
       this.isChecked = true;
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'Yes';
       if (this.creditProposal.products.length > 0 && this.listGroupCollateralItems.length > 0) {
         // this.cleanUpColGroupRel();
         for (let j = 0; j < this.creditProposal.products.length; j++) {
@@ -219,7 +221,8 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
         }
       }
     } else {
-      this.cleanUpColGroupRel();
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
+      // this.cleanUpColGroupRel();
     }
     // this.creditProposalService.changeColRelByCP(this.creditProposal);
   }
