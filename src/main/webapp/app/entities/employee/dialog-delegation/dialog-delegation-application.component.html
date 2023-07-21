@@ -40,14 +40,14 @@
     <div class="col-6">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Date From</mat-label>
-        <input disabled [(ngModel)]="DelegationApplicationReq.fromDate" [matDatepicker]="documentDateFrom" matInput type="text" />
+        <input disabled [(ngModel)]="delegationApplicationRequest.fromDate" [matDatepicker]="documentDateFrom" matInput type="text" />
         <mat-datepicker-toggle matSuffix [for]="documentDateFrom"></mat-datepicker-toggle>
         <mat-datepicker #documentDateFrom disabled="false"></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Date To</mat-label>
-        <input disabled [(ngModel)]="DelegationApplicationReq.thruDate" [matDatepicker]="documentDateTo" matInput type="text" />
+        <input disabled [(ngModel)]="delegationApplicationRequest.thruDate" [matDatepicker]="documentDateTo" matInput type="text" />
         <mat-datepicker-toggle matSuffix [for]="documentDateTo"></mat-datepicker-toggle>
         <mat-datepicker #documentDateTo disabled="false"></mat-datepicker>
       </mat-form-field>
@@ -55,7 +55,7 @@
   </div>
 
   <div class="col-12">
-    <textarea placeholder="Reason" style="width: 100%; height: 200px" [(ngModel)]="DelegationApplicationReq.reason"></textarea>
+    <textarea placeholder="Reason" style="width: 100%; height: 200px" [(ngModel)]="delegationApplicationRequest.reason"></textarea>
   </div>
 
   <table mat-table [dataSource]="dataDelegation" class="mat-table-expand" multiTemplateDataRows>

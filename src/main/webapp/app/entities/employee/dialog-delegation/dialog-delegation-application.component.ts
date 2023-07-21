@@ -8,12 +8,12 @@ import { InternalService } from 'app/entities/internal/internal.service';
 import { CashCreditProposalService } from 'app/entities/credit-proposal/cash-credit-proposal.service';
 import { MatSelectChange } from '@angular/material/select';
 import { EmployeeService } from '../employee.service';
-import { DelegationApplicationRequest } from '../delegationApplicationRequest.model';
+import { DelegationApplicationRequest, IDelegationApplicationRequest } from '../delegationApplicationRequest.model';
 import { CashPositionService } from 'app/entities/cash-position/cash-position.service';
 import { IPositionType } from 'app/entities/position-type/position-type.model';
 import { firstValueFrom } from 'rxjs';
-import { IPosition } from '@syncfusion/ej2-angular-grids';
 import { MessageService } from 'primeng/api';
+import { IPosition } from 'app/entities/position/position.model';
 
 @Component({
   selector: 'jhi-delegation-application-dialog',
@@ -37,7 +37,7 @@ export class DialogDelegationApplicationComponent implements OnInit {
   public positionTo: IPosition[];
   private selectedPosition: string;
   public dataSelect: boolean;
-  public DelegationApplicationReq = new DelegationApplicationRequest();
+  public delegationApplicationRequest: IDelegationApplicationRequest = new DelegationApplicationRequest();
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -175,10 +175,11 @@ export class DialogDelegationApplicationComponent implements OnInit {
 
   public save(): void {
     if (this.selectedData.length > 0) {
-      this.DelegationApplicationReq.fromEmployeeId = this.fromEmployee.id;
-      this.DelegationApplicationReq.toEmployeeId = this.employeeId;
-      this.DelegationApplicationReq.loanApplications = this.selectedData;
-      this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(
+      this.delegationApplicationRequest.fromEmployeeId = this.fromEmployee.id;
+      this.delegationApplicationRequest.toEmployeeId = this.employeeId;
+      this.delegationApplicationRequest.loanApplications = this.selectedData;
+      this.delegationApplicationRequest.roleId = this.selectedPosition;
+      this.cashCreditProposalService.addDelegation(this.delegationApplicationRequest).subscribe(
         () => {
           this._dialog.close();
         },
