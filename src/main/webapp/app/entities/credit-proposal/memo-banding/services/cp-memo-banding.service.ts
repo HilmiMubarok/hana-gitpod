@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import _ from 'lodash';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -43,7 +45,6 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
     let customizer = {};
     if (where === 'loan-facility') {
       customizer = {
-        // id: true,
         categoryId: true,
         applicationType: true,
         productTypeId: true,
@@ -66,32 +67,40 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
       };
     } else {
       customizer = {
-        // id: true,
-        collateralTypeDescription: true,
-        // collateralAddress.address1: true,
-        // occupancy: true,
-        collBindingType: true,
-        statusId: true,
-        paripasuStatus: true,
+        jenisCollateral: true,
+        alamat: true,
+        nomorSertifikat: true,
+        mvInternal: true,
+        mvExternal: true,
+        lvInternal: true,
+        lvExternal: true,
       };
     }
 
-
-    const comparedData = firstData.map(data => {
-      const matchingData = secondData.find(d => d.id === data.id);
+    const comparedData = secondData.map(data => {
+      const matchingData = firstData.find(d => d.id === data.id);
       const appealStatus = matchingData ? (this.compareObjects(data, matchingData, customizer) ? 'Not changed' : 'Changed') : 'Removed';
       return { ...data, appealStatus };
     });
 
-    secondData.forEach(data => {
-      if (!firstData.some(d => d.id === data.id)) {
-        comparedData.push({ ...data, appealStatus: 'Added' });
-      }
-    });
+    const addedData = secondData.filter(data => !firstData.some(d => d.id === data.id));
+
+    return [...comparedData, ...addedData.map(data => ({ ...data, appealStatus: 'Added' }))];
+    // const comparedData = firstData.map(data => {
+    //   const matchingData = secondData.find(d => d.id === data.id);
+    //   const appealStatus = matchingData ? (this.compareObjects(data, matchingData, customizer) ? 'Not changed' : 'Changed') : 'Removed';
+    //   return { ...data, appealStatus };
+    // });
+
+    // secondData.forEach(data => {
+    //   if (!firstData.some(d => d.id === data.id)) {
+    //     comparedData.push({ ...data, appealStatus: 'Added' });
+    //   }
+    // });
 
     // console.log('comparedData', comparedData);
 
-    return comparedData;
+    // return comparedData;
   }
   compareDeepData(firstData, secondData) {
     // console.log('Data', { firstData, secondData });
@@ -174,6 +183,60 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
     }
 
     return parsed;
+  }
+
+  mapDataCollateral(collaterals: ICollateral[], collateralProperties: ICollateralProperty[]) {
+    const mappedData = [];
+
+    for (const coll of collaterals) {
+      const collId = coll.id;
+      const externalProperty = collateralProperties.find(entry => entry.collateralId === collId && entry.external);
+      const internalProperty = collateralProperties.find(entry => entry.collateralId === collId && !entry.external);
+      if (externalProperty && internalProperty) {
+        mappedData.push({
+          coll,
+          externalProperty,
+          internalProperty,
+        });
+      }
+    }
+
+    /**
+     * Mapped data structure
+     * {
+     * coll: ICollateral,
+     * externalProperty: ICollateralProperty -> external = true,
+     * internalProperty: ICollateralProperty -> external = false,
+     * }
+     */
+    const dataToCompare = mappedData.map(data => {
+      const { coll, externalProperty, internalProperty } = data;
+
+      // const a = {
+      //   jenisCollateral: coll.collateralTypeDescription,
+      //   alamat: coll.collateralAddress.address1,
+      //   nomorSertifikat: internalProperty.attributes['certificateNumber'],
+      //   mvInternal: internalProperty.marketValue === null ? 0 : internalProperty.marketValue,
+      //   mvExternal: externalProperty.marketValue === null ? 0 : externalProperty.marketValue,
+      //   lvInternal: internalProperty.liquidationValue === null ? 0 : internalProperty.liquidationValue,
+      //   lvExternal: externalProperty.liquidationValue === null ? 0 : externalProperty.liquidationValue,
+      // };
+
+      // insert coll
+      return {
+        ...coll,
+        ...{
+          jenisCollateral: coll.collateralTypeDescription,
+          alamat: coll.collateralAddress.address1,
+          nomorSertifikat: internalProperty.attributes['certificateNumber'],
+          mvInternal: internalProperty.marketValue === null ? 0 : internalProperty.marketValue,
+          mvExternal: externalProperty.marketValue === null ? 0 : externalProperty.marketValue,
+          lvInternal: internalProperty.liquidationValue === null ? 0 : internalProperty.liquidationValue,
+          lvExternal: externalProperty.liquidationValue === null ? 0 : externalProperty.liquidationValue,
+        },
+      };
+    });
+    return dataToCompare;
   }
 }
 
