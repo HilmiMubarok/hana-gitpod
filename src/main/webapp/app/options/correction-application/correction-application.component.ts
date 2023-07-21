@@ -22,6 +22,8 @@ export class CorrectionApplicationComponent extends AbstractEntityMaterialCompon
     this.page = 0;
     this.itemsPerPage = 10;
     this.loading = true;
+    this.predicate = 'id';
+    this.entityKeyName = 'id';
     this.currentSearch = '';
   }
 
@@ -35,7 +37,7 @@ export class CorrectionApplicationComponent extends AbstractEntityMaterialCompon
         page: this.page,
         size: this.itemsPerPage,
         query: text,
-        sort: ['id', 'desc'],
+        sort: this.sortData(),
       })
       .subscribe(res => {
         this.initDataForMatTable(res, res.headers);
