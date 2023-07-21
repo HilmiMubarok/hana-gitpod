@@ -4,8 +4,8 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { Observable } from 'rxjs';
 import { IPositionType } from '../position-type/position-type.model';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IPosition } from '@syncfusion/ej2-angular-grids';
 import { IInternal } from '../internal/internal.model';
+import { IPosition } from '../position/position.model';
 
 @Injectable({ providedIn: 'root' })
 export class CashPositionService {
