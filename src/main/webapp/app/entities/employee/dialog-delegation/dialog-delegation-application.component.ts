@@ -9,6 +9,7 @@ import { CashCreditProposalService } from 'app/entities/credit-proposal/cash-cre
 import { MatSelectChange } from '@angular/material/select';
 import { EmployeeService } from '../employee.service';
 import { DelegationApplicationRequest } from '../delegationApplicationRequest.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-delegation-application-dialog',
@@ -28,6 +29,7 @@ export class DialogDelegationApplicationComponent implements OnInit {
   public filesRemarks: string;
   public filesDescription: string;
   public fromEmployee: IEmployee;
+  public dataSelect: boolean;
   public DelegationApplicationReq = new DelegationApplicationRequest();
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -40,10 +42,12 @@ export class DialogDelegationApplicationComponent implements OnInit {
     public reportUtilService: ReportUtilService,
     public internalService: InternalService,
     public cashCreditProposalService: CashCreditProposalService,
-    public employeeService: EmployeeService
+    public employeeService: EmployeeService,
+    private messageService: MessageService
   ) {
     this.partyId = this.data.partyId;
     this.fromEmployee = this.data.fromEmployee;
+    this.dataSelect = true;
   }
 
   public displayedColumnsExpand: string[] = [
@@ -82,6 +86,20 @@ export class DialogDelegationApplicationComponent implements OnInit {
       });
   }
 
+  public unCheck(value: any) {
+    if (value === false) {
+      for (const obj of this.selectedData) {
+        obj.attributes.selected = false;
+      }
+      this.selectedData = [];
+    } else if (value === true) {
+      this.selectedData = this.dataDelegation;
+      for (const obj of this.selectedData) {
+        obj.attributes.selected = true;
+      }
+    }
+  }
+
   public changeEvent(event: MatSelectChange): void {
     this.employeeService
       .queryFilterBy({
@@ -110,13 +128,25 @@ export class DialogDelegationApplicationComponent implements OnInit {
   }
 
   public save(): void {
-    const result = this.employeeData.filter(data => data.id === this.employeeId);
-    this.DelegationApplicationReq.fromEmployee = this.fromEmployee;
-    this.DelegationApplicationReq.toEmployee = result[0];
-    this.DelegationApplicationReq.loanApplications = this.selectedData;
-    this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(() => {
-      this._dialog.close();
-    });
+    if (this.selectedData.length < 1) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'List delegation required' });
+    } else {
+      const result = this.employeeData.filter(data => data.id === this.employeeId);
+      this.DelegationApplicationReq.fromEmployee = this.fromEmployee;
+      this.DelegationApplicationReq.toEmployee = result[0];
+      this.DelegationApplicationReq.loanApplications = this.selectedData;
+      this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(
+        () => {
+          this._dialog.close();
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+          // Fungsi ini akan dijalankan ketika terjadi respons error
+
+          // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
+        }
+      );
+    }
   }
 
   public cancel(): void {
