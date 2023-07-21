@@ -79,6 +79,8 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit {
     'tenor',
     'maturityDate',
     'firstDisbursementDate',
+    'gracePeriod',
+    'availablePeriod',
     'action',
   ];
 
