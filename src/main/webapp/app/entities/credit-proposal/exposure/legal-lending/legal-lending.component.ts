@@ -416,22 +416,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       }
     }
     this.getValueLimit();
-    // this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
-    // this.creditProposal.attributes['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
-    // this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
-    // this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup =
-    //   this.creditProposal.attributes['calculationExposure'].grandTotalPlafond;
-    // this.creditProposal.attributes['legalLendingLimit'].buffer =
-    //   this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue -
-    //   this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup;
 
-    // if (this.creditProposal.attributes['legalLendingLimit'].buffer > 0) {
-    //   this.creditProposal.attributes['legalLendingLimit'].status = 'comply';
-    // } else if (this.creditProposal.attributes['legalLendingLimit'].buffer < 0) {
-    //   this.creditProposal.attributes['legalLendingLimit'].status = 'Breach The Limit';
-    // } else {
-    //   this.creditProposal.attributes['legalLendingLimit'].status = '';
-    // }
   }
 
   public getValueLimit(): void {
