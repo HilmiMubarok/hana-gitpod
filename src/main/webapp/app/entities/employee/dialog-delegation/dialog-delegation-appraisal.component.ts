@@ -126,21 +126,25 @@ export class DialogDelegationAppraisalComponent implements OnInit {
   protected postLoadDataLazy() {}
 
   public save(): void {
-    const result = this.employeeData.filter(data => data.id === this.employeeId);
-    this.DelegationAppraisalreq.fromEmployee = this.fromEmployee;
-    this.DelegationAppraisalreq.toEmployee = result[0];
-    this.DelegationAppraisalreq.appraisals = this.selectedData;
-    this.cashSurveyAppraisalsService.addDelegation(this.DelegationAppraisalreq).subscribe(
-      () => {
-        this._dialog.close();
-      },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
-        // Fungsi ini akan dijalankan ketika terjadi respons error
+    if (this.selectedData.length > 0) {
+      const result = this.employeeData.filter(data => data.id === this.employeeId);
+      this.DelegationAppraisalreq.fromEmployee = this.fromEmployee;
+      this.DelegationAppraisalreq.toEmployee = result[0];
+      this.DelegationAppraisalreq.appraisals = this.selectedData;
+      this.cashSurveyAppraisalsService.addDelegation(this.DelegationAppraisalreq).subscribe(
+        () => {
+          this._dialog.close();
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+          // Fungsi ini akan dijalankan ketika terjadi respons error
 
-        // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
-      }
-    );
+          // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
+        }
+      );
+    } else if (this.selectedData.length < 1) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'List delegation required' });
+    }
   }
 
   public cancel(): void {
