@@ -103,7 +103,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
           eArcLoanForegn.push(this.creditProposal.products[i]);
         }
 
-        if (this.creditProposal.products[i].productName === 'Working Capital - ARC Loan') {
+        if (this.creditProposal.products[i].productName === 'Working Capital - eARC Loan') {
           eArcLoan.push(this.creditProposal.products[i]);
         }
       }
@@ -135,17 +135,17 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
                     this.typeData[i].collateralTypeId = 'VEHICLE';
                   } else if (this.typeData[i].id.includes('GRNT')) {
                     this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
-                  } else if (this.typeData[i].id.includes('DOC_CP_COLL_OTHER') || this.typeData[i].id.includes('DOC_COLL_OTHER')) {
+                  } else if (this.typeData[i].id.includes('DOC_CP_OTHER') || this.typeData[i].id.includes('DOC_IDD_OTHER')) {
                     this.typeData[i].collateralTypeId = 'OTHER';
-                  } else if (this.typeData[i].id.includes('STOCK')) {
-                    this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
                   } else if (this.typeData[i].id.includes('COR')) {
                     this.typeData[i].collateralTypeId = 'COR';
                   } else if (this.typeData[i].id.includes('IND')) {
                     this.typeData[i].collateralTypeId = 'IND';
                   }
                 }
-                const filterStatus: ICollateral[] = this.creditProposal.collaterals.filter(obj => obj.statusCode !== 'CANCEL');
+                const filterStatus: ICollateral[] = this.creditProposal.collaterals.filter(
+                  data => data.statusId !== 'CANCEL' && data.statusId !== 'RELEASE' && data.statusId !== 'EXISTING'
+                );
                 const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
                   filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
                 );
@@ -154,7 +154,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
                 const PengikatKredit: IDocumentType[] = this.typeData.filter(
                   obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING'
                 );
-                const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
+                const DocumentJaminanLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_COLL_OTHER');
                 const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(
                   obj => obj.id === 'DOC_CP_OTHER_ID'
                 );
@@ -172,7 +172,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
                   ...INDCORData,
                   ...PersetujuanKredit,
                   ...PengikatKredit,
-                  ...DocumentLainnya,
+                  ...DocumentJaminanLainnya,
                   ...DocumentLainnyaIdentitasDebiturPerorangan,
                   ...takeOverData,
                   ...InvestorisData,

@@ -59,7 +59,9 @@
                 </button>
               </section>
             </div>
-            <div *ngIf="isOnMemoBanding">{{ element.appealStatus }}</div>
+            <div *ngIf="isOnMemoBanding">
+              {{ element.appealStatus === null || element.appealStatus === 'null' ? 'Not Changed' : element.appealStatus }}
+            </div>
           </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>

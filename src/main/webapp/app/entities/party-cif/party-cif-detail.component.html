@@ -106,25 +106,13 @@
       </li>
     </ul>
   </mat-sidenav>
+  <button
+    matTooltip="Click this for show sub menu of initial debtor data"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); triggerToggle()"
+    matTooltipPosition="after"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
 </mat-sidenav-container>
-<!-- <button
-  matTooltip="Click this for show sub menu of initial debtor data"
-  style="z-index: 1"
-  mat-fab
-  class="btn-menu-floating button-float-color custom-button-wrapper"
-  (click)="drawer.toggle()"
-  matTooltipPosition="before"
->
-  <mat-icon class="settings-icon">settings</mat-icon>
-</button> -->
-
-<button
-  matTooltip="Click this for show sub menu of initial debtor data"
-  [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
-  class="btn-menu-floating button-float-color btn-float-styling"
-  (click)="drawer.toggle(); triggerToggle()"
-  matTooltipPosition="after"
->
-  <mat-icon class="settings-icon rotating">settings</mat-icon>
-</button>
-<!-- New Submenu Button Horizontal-->

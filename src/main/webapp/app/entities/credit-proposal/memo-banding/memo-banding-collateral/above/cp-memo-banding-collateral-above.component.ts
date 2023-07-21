@@ -213,22 +213,43 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
       .subscribe(res => {
         // console.log('Load by party id', res.body);
         this.dataCollateral = res.body;
-        this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(this.filtered, res.body, 'collateral-info'));
+        // this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(this.filtered, res.body, 'collateral-info'));
+        const dataBefore = this.cpMemoBandingservice.mapDataCollateral(
+          this.filtered,
+          this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
+        );
+        const dataAfter = this.cpMemoBandingservice.mapDataCollateral(
+          res.body,
+          this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
+        );
+
+        this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(dataBefore, dataAfter, 'collateral-info'));
+
+        console.log(`ajsdg ${Math.random()}`, {
+          dataBefore,
+          dataAfter,
+          compared: this.cpMemoBandingservice.compareDeepDataNew(dataBefore, dataAfter, 'collateral-info'),
+        });
+        // const data = this.cpMemoBandingservice.compareDeepDataNew(dataBefore, dataAfter, 'collateral-info');
+
+        // console.log('ajsdg', data);
         this.getBindingCalculate(res.body);
       });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
-    if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          if (this.creditProposal.cif) {
-            this.loadByPartyId(this.creditProposal.cif.partyId);
-          }
+    // if (changes['collateralProperties']) {
+    // }
+    // if (changes['creditProposal']) {
+    if (this.creditProposal.collaterals.length > 0) {
+      for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+        if (this.creditProposal.cif) {
+          this.loadByPartyId(this.creditProposal.cif.partyId);
         }
       }
     }
+    // }
   }
 
   public collateral: any;

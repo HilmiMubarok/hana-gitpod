@@ -336,3 +336,7 @@ mat-cell,
   text-align: right;
 }
 // table
+// remove arrow from ej2 numeric texbox
+div ejs-numerictextbox div span {
+  display: none;
+}

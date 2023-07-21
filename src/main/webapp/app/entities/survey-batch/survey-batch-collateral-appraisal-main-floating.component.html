@@ -57,13 +57,13 @@
         >
         </jhi-collateral-appraisal-party-group-view>
 
-        <div class="e-card mb-3">
-          <div class="e-card-header mb-1">
+        <div class="e-card mb-3 wrapper-card">
+          <!-- <div class="e-card-header mb-1">
             <div class="e-card-header-caption">
               <div class="header-title">Customer Address</div>
             </div>
-          </div>
-          <div style="margin: 1rem">
+          </div> -->
+          <e-card>
             <jhi-party-cif-customer-info-postal-address
               [disabled]="true"
               [partyPostalAddress]="postalAddress"
@@ -72,7 +72,7 @@
               [collateralAppraisal]="collateralAppraisal"
             >
             </jhi-party-cif-customer-info-postal-address>
-          </div>
+          </e-card>
         </div>
       </div>
 
@@ -122,8 +122,8 @@
           [appraisal]="collateralAppraisal"
         ></jhi-collateral-info>
       </div>
-      <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-report-independent [surveyAppraisal]="surveyAppraisal"></jhi-report-independent>
+      <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card> <jhi-report-independent [surveyAppraisal]="surveyAppraisal"></jhi-report-independent></e-card>
       </div>
     </div>
     <div class="e-card-actions mx-auto mb-5 mt-3">
@@ -140,7 +140,13 @@
     </div>
   </div>
 
-  <mat-sidenav position="end" style="position: fixed !important; max-height: 20rem !important" #drawer class="example-sidenav" mode="over">
+  <mat-sidenav
+    position="end"
+    style="position: fixed !important; max-height: 20rem !important"
+    #drawer
+    class="example-sidenav subroute-background"
+    mode="over"
+  >
     <div class="header-sub-menu"><label style="margin-top: 1rem">Select your destination:</label></div>
     <ul class="side-menu list-styling">
       <li *ngFor="let item of subMenu">
@@ -165,13 +171,13 @@
       </li>
     </ul>
   </mat-sidenav>
+  <button
+    matTooltip="Click this for show sub menu of Collateral Appraisal"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); triggerToggle()"
+    matTooltipPosition="before"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
 </mat-sidenav-container>
-<button
-  matTooltip="Click this for show sub menu of Collateral Appraisal"
-  [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
-  class="btn-menu-floating button-float-color btn-float-styling"
-  (click)="drawer.toggle(); triggerToggle()"
-  matTooltipPosition="before"
->
-  <mat-icon class="settings-icon rotating">settings</mat-icon>
-</button>

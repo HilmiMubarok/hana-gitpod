@@ -509,6 +509,11 @@
         <jhi-loan-analys-credit-rating-view [mode]="'view'" [creditProposalItem]="creditProposal"> </jhi-loan-analys-credit-rating-view>
       </div>
 
+      <!-- Memo Banding -->
+      <div *ngIf="selectedMenu === 'memo-banding'">
+        <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
+      </div>
+
       <!-- Opinion -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
         <e-card>
@@ -650,7 +655,7 @@
       <button mat-raised-button class="btn-lg text-uppercase button-styling" (click)="onSave('default')">Save</button>
     </div>
   </div>
-  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
+  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
     <div class="header-sub-menu">
       <label style="margin-top: 1rem; min-width: 17rem">{{ getText(parentPath) }} :</label>
     </div>
@@ -680,14 +685,14 @@
       </div>
     </mat-list>
   </mat-sidenav>
+  <button
+    matTooltip="Click this for show sub menu of Loan Analysis"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); triggerToggle()"
+    matTooltipPosition="before"
+    (click)="onClickRed()"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
 </mat-sidenav-container>
-<button
-  matTooltip="Click this for show sub menu of Loan Analysis"
-  [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
-  class="btn-menu-floating button-float-color btn-float-styling"
-  (click)="drawer.toggle(); triggerToggle()"
-  matTooltipPosition="before"
-  (click)="onClickRed()"
->
-  <mat-icon class="settings-icon rotating">settings</mat-icon>
-</button>

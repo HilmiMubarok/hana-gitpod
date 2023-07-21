@@ -326,7 +326,13 @@
     </div>-->
     </div>
   </div>
-  <mat-sidenav position="end" style="position: fixed !important; max-height: 20rem !important" #drawer class="example-sidenav" mode="over">
+  <mat-sidenav
+    position="end"
+    style="position: fixed !important; max-height: 20rem !important"
+    #drawer
+    class="example-sidenav subroute-background"
+    mode="over"
+  >
     <div class="header-sub-menu"><label style="margin-top: 1rem">Appraisal Distibution External:</label></div>
     <ul class="side-menu list-styling">
       <li *ngFor="let item of subMenu">
@@ -350,13 +356,13 @@
       </li>
     </ul>
   </mat-sidenav>
+  <button
+    matTooltip="Click this for show sub menu of Collateral Appraisal"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); triggerToggle()"
+    matTooltipPosition="before"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
 </mat-sidenav-container>
-<button
-  matTooltip="Click this for show sub menu of Collateral Appraisal"
-  [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
-  class="btn-menu-floating button-float-color btn-float-styling"
-  (click)="drawer.toggle(); triggerToggle()"
-  matTooltipPosition="before"
->
-  <mat-icon class="settings-icon rotating">settings</mat-icon>
-</button>

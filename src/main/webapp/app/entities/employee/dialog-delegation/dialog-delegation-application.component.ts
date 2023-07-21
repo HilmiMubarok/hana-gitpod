@@ -13,6 +13,7 @@ import { CashPositionService } from 'app/entities/cash-position/cash-position.se
 import { IPositionType } from 'app/entities/position-type/position-type.model';
 import { firstValueFrom } from 'rxjs';
 import { IPosition } from '@syncfusion/ej2-angular-grids';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-delegation-application-dialog',
@@ -35,7 +36,9 @@ export class DialogDelegationApplicationComponent implements OnInit {
   public positionTypes: IPositionType[];
   public positionTo: IPosition[];
   private selectedPosition: string;
+  public dataSelect: boolean;
   public DelegationApplicationReq = new DelegationApplicationRequest();
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -47,11 +50,13 @@ export class DialogDelegationApplicationComponent implements OnInit {
     public reportUtilService: ReportUtilService,
     public cashCreditProposalService: CashCreditProposalService,
     public employeeService: EmployeeService,
+    private messageService: MessageService,
     private cashPositionService: CashPositionService
   ) {
     this.partyId = this.data.partyId;
     this.fromEmployee = this.data.fromEmployee;
     this.dataDelegation = [];
+    this.dataSelect = true;
   }
 
   public displayedColumnsExpand: string[] = [
@@ -140,6 +145,20 @@ export class DialogDelegationApplicationComponent implements OnInit {
     }
   }
 
+  public unCheck(value: any) {
+    if (value === false) {
+      for (const obj of this.selectedData) {
+        obj.attributes.selected = false;
+      }
+      this.selectedData = [];
+    } else if (value === true) {
+      this.selectedData = this.dataDelegation;
+      for (const obj of this.selectedData) {
+        obj.attributes.selected = true;
+      }
+    }
+  }
+
   onCheckboxChange(row: any) {
     row.attributes.selected = !row.attributes.selected;
 
@@ -155,12 +174,24 @@ export class DialogDelegationApplicationComponent implements OnInit {
   }
 
   public save(): void {
-    this.DelegationApplicationReq.fromEmployeeId = this.fromEmployee.id;
-    this.DelegationApplicationReq.toEmployeeId = this.employeeId;
-    this.DelegationApplicationReq.loanApplications = this.selectedData;
-    this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(() => {
-      this._dialog.close();
-    });
+    if (this.selectedData.length > 0) {
+      this.DelegationApplicationReq.fromEmployeeId = this.fromEmployee.id;
+      this.DelegationApplicationReq.toEmployeeId = this.employeeId;
+      this.DelegationApplicationReq.loanApplications = this.selectedData;
+      this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(
+        () => {
+          this._dialog.close();
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+          // Fungsi ini akan dijalankan ketika terjadi respons error
+
+          // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
+        }
+      );
+    } else if (this.selectedData.length < 1) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'List delegation required' });
+    }
   }
 
   public cancel(): void {
