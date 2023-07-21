@@ -481,10 +481,10 @@ td {
 }
 
 .sidebar-state-true {
-  z-index: 0;
+  z-index: 1;
 }
 .sidebar-state-false {
-  z-index: 1;
+  z-index: 2;
 }
 
 .subroute-background {
@@ -516,7 +516,7 @@ mat-sidenav {
   border-radius: 1rem;
 }
 
-mat-sidenav .mat-drawer {
+.mat-drawer {
   color: rgba(0, 0, 0, 0.87);
 }
 
