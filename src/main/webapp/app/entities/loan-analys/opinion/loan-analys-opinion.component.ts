@@ -244,26 +244,19 @@ export class LoanAnalysOpinionComponent implements OnInit {
   }
 
   private loadApprovalUser(): void {
-    this.applicationRoleService
-      .queryFilterBy({
-        idApplication: this.creditProposalItem.id,
-        isActive: true,
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.items = res.body;
-        this.filteringRelType(this.items);
-        for (let i = 0; i < this.items.length; i++) {
-          const each: IApplicationRole = this.items[i];
-          const validatorApprovalLC =
-            this.creditProposalItem.approvalLc === '' ? this.creditProposalItem.approvalLcDefault : this.creditProposalItem.approvalLc;
-          // if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase()) {
-          if (each.relationTypeId && each.relationTypeId.toLowerCase() === validatorApprovalLC.toLowerCase()) {
-            this.approvalUserData.push(each);
-          }
+    this.applicationRoleService.getApprovalUser(this.creditProposalItem.id).subscribe(res => {
+      this.items = res.body;
+      this.filteringRelType(this.items);
+      for (let i = 0; i < this.items.length; i++) {
+        const each: IApplicationRole = this.items[i];
+        const validatorApprovalLC =
+          this.creditProposalItem.approvalLc === '' ? this.creditProposalItem.approvalLcDefault : this.creditProposalItem.approvalLc;
+        // if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase()) {
+        if (each.relationTypeId && each.relationTypeId.toLowerCase() === validatorApprovalLC.toLowerCase()) {
+          this.approvalUserData.push(each);
         }
-      });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -282,10 +275,10 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
         /* const fileNameSfdt = this.uuid + '.sfdt';
         const fileNameWord = this.uuid + '.word'; */
-		const fileNameOpinionSfdt = 'opini.sfdt';
-		const fileNameOpinionWord = 'opini.word';
-		const fileNameConditionSfdt = 'condition.sfdt';
-		const fileNameConditionWord = 'condition.word';
+        const fileNameOpinionSfdt = 'opini.sfdt';
+        const fileNameOpinionWord = 'opini.word';
+        const fileNameConditionSfdt = 'condition.sfdt';
+        const fileNameConditionWord = 'condition.word';
 
         docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
           const testFile = new File([exportedDocument], fileNameOpinionSfdt);
@@ -518,7 +511,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       // const fileName = this.uuid + '.sfdt';
-	  const fileName = 'opini.sfdt';
+      const fileName = 'opini.sfdt';
       const testFile = new File([exportedDocument], fileName);
       if (testFile) {
         const fileReader: FileReader = new FileReader();
@@ -592,7 +585,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
               docEditor_condition.saveAsBlob('Sfdt').then((exportedDocumentCondition: Blob) => {
                 // const fileNameCondition = this.uuid + '.sfdt';
-				const fileNameCondition = 'condition.sfdt';
+                const fileNameCondition = 'condition.sfdt';
                 const testFileCondition = new File([exportedDocumentCondition], fileNameCondition);
                 if (testFileCondition) {
                   const fileReaderCondition: FileReader = new FileReader();
@@ -743,7 +736,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
       const fileType = 'word';
       const pathHelper = this.uuid + '-opinion';
       // const fileName = this.uuid + '.docs';
-	  const fileName = 'opini.docs';
+      const fileName = 'opini.docs';
       const metaData = {
         objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
       };
@@ -757,7 +750,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
       const fileType = 'sfdt';
       const pathHelper = this.uuid + '-opinion';
       // const fileName = this.uuid + '.sfdt';
-	  const fileName = 'opini.sfdt';
+      const fileName = 'opini.sfdt';
       const metaData = {
         objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
       };
@@ -798,7 +791,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
       const fileType = 'word';
       const pathHelper = this.uuid + '-condition';
       // const fileName = this.uuid + '.docs';
-	  const fileName = 'condition.docs';
+      const fileName = 'condition.docs';
       const metaData = {
         objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
       };
@@ -812,7 +805,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
       const fileType = 'sfdt';
       const pathHelper = this.uuid + '-condition';
       // const fileName = this.uuid + '.sfdt';
-	  const fileName = 'condition.sfdt';
+      const fileName = 'condition.sfdt';
       const metaData = {
         objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
       };

@@ -6,13 +6,16 @@ import { IApplicationRole } from './application-role.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
-import lodash from 'lodash';
+import lodash, { map } from 'lodash';
+import { Observable } from 'rxjs';
+import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationRoleService extends AbstractEntityService<IApplicationRole> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/application-roles');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-application-role');
   }
 
   protected isNew(entity: IApplicationRole): boolean {
@@ -57,5 +60,11 @@ export class ApplicationRoleService extends AbstractEntityService<IApplicationRo
       }
     }
     return result;
+  }
+
+  public getApprovalUser(id: number) {
+    return this.http.get<IApplicationRole[]>(this.resourceUrlNew + `/find-active/application/${id}`, {
+      observe: 'response',
+    });
   }
 }
