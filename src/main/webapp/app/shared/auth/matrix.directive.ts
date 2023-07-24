@@ -75,30 +75,46 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('finalize') &&
         !this.router.url.includes('cc-inquiry')
       ) {
-        if (
-          this.positionTypeId === 'SME_HEAD' ||
-          this.positionTypeId === 'DEPT_HEAD' ||
-          this.positionTypeId === 'SDH' ||
-          this.positionTypeId === 'DH' ||
-          this.positionTypeId === 'BM'
-        ) {
-          if (this.jhiMatrixDirElementType === '') {
-            this.viewContainerRef.createEmbeddedView(this.templateRef);
-          }
-        } else {
-          if (this.positionTypeId === 'RM') {
-            if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
-              if (this.jhiMatrixDirElementType === 'input') {
-                this.viewContainerRef.createEmbeddedView(this.templateRef);
-              }
-            } else {
-              this.defaultCpMatrixFull();
+        if (this.status === 'OL_APPEAL') {
+          if (
+            this.router.url.includes('loan-facility-detail') ||
+            this.router.url.includes('convenant-tbo') ||
+            this.router.url.includes('collateral-info')
+          ) {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
           } else {
-            if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
-              this.defaultCpMatrixFull();
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else {
+          if (
+            this.positionTypeId === 'SME_HEAD' ||
+            this.positionTypeId === 'DEPT_HEAD' ||
+            this.positionTypeId === 'SDH' ||
+            this.positionTypeId === 'DH' ||
+            this.positionTypeId === 'BM'
+          ) {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.positionTypeId === 'RM') {
+              if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
+                if (this.jhiMatrixDirElementType === 'input') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              } else {
+                this.defaultCpMatrixFull();
+              }
             } else {
-              this.defaultCpMatrixFull();
+              if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
+                this.defaultCpMatrixFull();
+              } else {
+                this.defaultCpMatrixFull();
+              }
             }
           }
         }
