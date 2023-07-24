@@ -1564,9 +1564,9 @@ export class LoanAnalysMainComponent implements OnInit {
 
     /* const fileNameSfdt = this.uuidPath + '.sfdt';
     const fileNameWord = this.uuidPath + '.docs'; */
-	const fileNameOpinionSfdt = 'opini.sfdt';
+    const fileNameOpinionSfdt = 'opini.sfdt';
     const fileNameOpinionWord = 'opini.docs';
-	const fileNameConditionSfdt = 'condition.sfdt';
+    const fileNameConditionSfdt = 'condition.sfdt';
     const fileNameConditionWord = 'condition.docs';
     const fileTypeSfdt = 'sfdt';
     const fileTypeWord = 'word';
@@ -2028,30 +2028,24 @@ export class LoanAnalysMainComponent implements OnInit {
     this.titleUrl = x;
   }
 
-  public getTextMenu(param: string): string {
-    const titleMenu = param;
-    const regex = /[-]/g;
-    if (titleMenu === 'convenant-tbo') {
-      const convenantTbo = titleMenu.replace(regex, ' & ');
-      return convenantTbo;
-    } else if (titleMenu === 'credit-proposal-approval') {
-      return 'Credit Proposal Summary';
-    } else if (titleMenu === 'group-guarantor-analyst') {
-      const regex2 = /[-^]+/;
-      const groupGuarantor = titleMenu.replace(regex2, ' & ');
-      return groupGuarantor.replace(regex, ' ');
-    } else if (titleMenu === 'loan-slik-checking' || titleMenu === 'slik-summary') {
-      return 'Slik Checking';
-    } else if (titleMenu === 'loan-facility') {
-      return 'Loan Facility Detail';
-    } else {
-      return titleMenu.replace(regex, ' ');
+  showTextMenu() {
+    const menuList = [];
+    menuList.push(this.subMenu);
+    for (let i = 0; i < menuList.length; i++) {
+      for (let x = 0; x < menuList[i].length; x++) {
+        if (this.selectedMenu === menuList[i][x].id) {
+          return menuList[i][x].text;
+        } else {
+          for (let y = 0; y < menuList[i][x].child?.length; y++) {
+            if (this.selectedMenu === menuList[i][x].child[y].id) {
+              return menuList[i][x].child[y].text;
+            }
+          }
+        }
+      }
     }
   }
 
-  showTextMenu() {
-    return this.getTextMenu(this.selectedMenu);
-  }
   getTitleMenu(): void {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
   }
