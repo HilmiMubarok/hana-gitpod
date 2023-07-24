@@ -13,6 +13,10 @@ import { SharedModule } from 'app/shared/shared.module';
         path: 'correction-application',
         loadChildren: () => import('./correction-application/correction-application.module').then(m => m.CorrectionApplicationAppModule),
       },
+      {
+        path: 'correction-appraisal',
+        loadChildren: () => import('./correction-appraisal/correction-appraisal.module').then(m => m.CorrectionAppraisalAppModule),
+      },
       /* jhipster-needle-add-admin-route - JHipster will add admin routes here */
     ]),
   ],

@@ -2,8 +2,8 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title-group>
-        <mat-card-title>Correction Data Application</mat-card-title>
-        <mat-card-subtitle>This page are for correcting incorrect data like no pic</mat-card-subtitle>
+        <mat-card-title>Correction Data Appraisal</mat-card-title>
+        <mat-card-subtitle>This page are for correct incorrect data like no pic</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
@@ -16,7 +16,7 @@
               [(ngModel)]="currentSearch"
               id="currentSearch"
               name="currentSearch"
-              placeholder="Search Application..."
+              placeholder="Search Appraisal..."
             />
             <button class="input-group-addon btn btn-info flat-style-button" (click)="search(currentSearch)" *ngIf="currentSearch">
               <span>
@@ -38,32 +38,28 @@
             {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
           </td>
         </ng-container>
-        <ng-container matColumnDef="applicationNumber">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Application Number</th>
+        <ng-container matColumnDef="appraisalNumber">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Number</th>
           <td mat-cell *matCellDef="let element" class="text-left">
-            <a (click)="copy(element.applicationNumber)" href="javascript:void(0)">{{ element.applicationNumber }}</a>
+            <a (click)="copy(element.appraisalNumber)" href="javascript:void(0)">{{ element.appraisalNumber }}</a>
           </td>
         </ng-container>
         <ng-container matColumnDef="cif">
           <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
           <td mat-cell *matCellDef="let element" class="text-center">
-            <a (click)="copy(element.customerNumber)" href="javascript:void(0)">{{ element.customerNumber }}</a>
+            <a (click)="copy(element.cif.customerId)" href="javascript:void(0)">{{ element.cif.customerId }}</a>
           </td>
         </ng-container>
         <ng-container matColumnDef="customerName">
           <th mat-header-cell *matHeaderCellDef class="text-left">Customer Name</th>
           <td mat-cell *matCellDef="let element" class="text-left">
-            <a
-              (click)="copy(element.prospectPerson ? element.prospectPerson.name : element.prospectOrganization.groupName)"
-              href="javascript:void(0)"
-              >{{ element.prospectPerson ? element.prospectPerson.name : element.prospectOrganization.groupName }}</a
-            >
+            <a (click)="copy(element.cif.name)" href="javascript:void(0)">{{ element.cif.name }}</a>
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
           <td mat-cell *matCellDef="let element" class="grid-index-left text-lowercase">
-            <a mat-icon-button [routerLink]="['/options/correction-application', element.id, 'edit']">
+            <a mat-icon-button [routerLink]="['/options/correction-appraisal', element.id, 'edit']">
               <mat-icon>edit</mat-icon>
             </a>
           </td>

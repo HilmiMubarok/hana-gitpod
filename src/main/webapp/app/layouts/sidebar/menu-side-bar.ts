@@ -11,6 +11,11 @@ export const FORBIDDEN_MENU: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'options/correction-application',
       },
+      {
+        name: 'Correction Appraisal',
+        iconname: 'minus',
+        route: 'options/correction-appraisal',
+      },
     ],
   },
 ];

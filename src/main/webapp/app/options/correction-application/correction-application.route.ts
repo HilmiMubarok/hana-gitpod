@@ -6,7 +6,7 @@ import { CorrectionApplicationComponent } from './correction-application.compone
 import { CorrectionApplicationEditComponent } from './correction-application-edit.component';
 import { RoleAdminAccessService } from 'app/core/auth/role-admin-access.service';
 
-export const fixApplicationRoute: Routes = [
+export const correctionApplicationRoute: Routes = [
   {
     path: '',
     component: CorrectionApplicationComponent,
