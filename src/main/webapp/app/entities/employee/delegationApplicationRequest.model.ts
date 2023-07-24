@@ -4,10 +4,11 @@ import { IEmployee } from './employee.model';
 
 export interface IDelegationApplicationRequest {
   id?: number;
-  fromEmployee?: IEmployee;
-  toEmployee?: IEmployee;
+  fromEmployeeId?: number;
+  toEmployeeId?: number;
   fromDate?: Date;
   thruDate?: Date;
+  roleId?: string;
   reason?: string;
   loanApplications?: ICreditProposal[];
 }
@@ -15,8 +16,9 @@ export interface IDelegationApplicationRequest {
 export class DelegationApplicationRequest implements IDelegationApplicationRequest {
   constructor(
     public id?: number,
-    public fromEmployee?: IEmployee,
-    public toEmployee?: IEmployee,
+    public fromEmployeeId?: number,
+    public toEmployeeId?: number,
+    public roleId?: string,
     public fromDate?: Date,
     public thruDate?: Date,
     public reason?: string,
@@ -26,8 +28,9 @@ export class DelegationApplicationRequest implements IDelegationApplicationReque
 
 export interface IDelegationAppraisalRequest {
   id?: number;
-  fromEmployee?: IEmployee;
-  toEmployee?: IEmployee;
+  fromEmployeeId?: number;
+  toEmployeeId?: number;
+  roleId?: string;
   fromDate?: Date;
   thruDate?: Date;
   reason?: string;
@@ -37,8 +40,9 @@ export interface IDelegationAppraisalRequest {
 export class DelegationAppraisalRequest implements IDelegationAppraisalRequest {
   constructor(
     public id?: number,
-    public fromEmployee?: IEmployee,
-    public toEmployee?: IEmployee,
+    public fromEmployeeId?: number,
+    public toEmployeeId?: number,
+    public roleId?: string,
     public fromDate?: Date,
     public thruDate?: Date,
     public reason?: string,

@@ -248,7 +248,6 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public checkMustValidated() {
     const mustValidate = {
       dob: true,
-      idExpiry: true,
       name: true,
       gender: true,
       npwp: true,
@@ -270,10 +269,6 @@ export class OrganizationManagementDialogComponent implements OnInit {
         mustValidate.gender = false;
       }
 
-      if (!this.organizationManagement.person.idExpiryDate) {
-        this._showNotification('error', 'Please Enter ID Expiry Date');
-        mustValidate.idExpiry = false;
-      }
       if (!this.organizationManagement.person.personalIdNumber) {
         this._showNotification('error', 'Please Enter ID Number');
         mustValidate.nik = false;

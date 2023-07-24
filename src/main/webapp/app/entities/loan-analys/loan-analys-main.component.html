@@ -509,6 +509,11 @@
         <jhi-loan-analys-credit-rating-view [mode]="'view'" [creditProposalItem]="creditProposal"> </jhi-loan-analys-credit-rating-view>
       </div>
 
+      <!-- Memo Banding -->
+      <div *ngIf="selectedMenu === 'memo-banding'">
+        <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
+      </div>
+
       <!-- Opinion -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
         <e-card>
@@ -586,8 +591,8 @@
       </jhi-credit-proposal-tab-loan-facility-detail>
     </div>
 
-    <div *ngIf="selectedMenu === 'covenant'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-covenant-temp [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+    <div *ngIf="selectedMenu === 'covenant'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+      <e-card> <jhi-covenant-temp [creditProposalItem]="creditProposal"></jhi-covenant-temp></e-card>
     </div>
 
     <!-- Trade Checking  -->
@@ -601,8 +606,10 @@
     </div>
     <!-- Repayment Capability  -->
 
-    <div *ngIf="selectedMenu === 'repayment-capability'">
-      <jhi-credit-proposal-repayment-capability [creditProposal]="creditProposal"> </jhi-credit-proposal-repayment-capability>
+    <div *ngIf="selectedMenu === 'repayment-capability'" class="wrapper-card">
+      <e-card>
+        <jhi-credit-proposal-repayment-capability [creditProposal]="creditProposal"> </jhi-credit-proposal-repayment-capability
+      ></e-card>
     </div>
 
     <div class="e-card-actions mx-auto mb-5 mt-3">
@@ -650,7 +657,7 @@
       <button mat-raised-button class="btn-lg text-uppercase button-styling" (click)="onSave('default')">Save</button>
     </div>
   </div>
-  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
+  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
     <div class="header-sub-menu">
       <label style="margin-top: 1rem; min-width: 17rem">{{ getText(parentPath) }} :</label>
     </div>
@@ -680,14 +687,14 @@
       </div>
     </mat-list>
   </mat-sidenav>
+  <button
+    matTooltip="Click this for show sub menu of Loan Analysis"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); triggerToggle()"
+    matTooltipPosition="before"
+    (click)="onClickRed()"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
 </mat-sidenav-container>
-<button
-  matTooltip="Click this for show sub menu of Loan Analysis"
-  [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
-  class="btn-menu-floating button-float-color btn-float-styling"
-  (click)="drawer.toggle(); triggerToggle()"
-  matTooltipPosition="before"
-  (click)="onClickRed()"
->
-  <mat-icon class="settings-icon rotating">settings</mat-icon>
-</button>

@@ -82,10 +82,13 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
       .pipe(map((res: HttpResponse<ISurveyAppraisals>) => this.preLoadItem(res)));
   }
 
-  cashSurveyAppraisalMyApplication(id: string, req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+  public getMyAppraisal(idParty: string, idPositionType: string, req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ISurveyAppraisals[]>(this.resourceUrl + '/cash-survey-appraisals/my-appraisals/' + id, { params: options, observe: 'response' })
+      .get<ISurveyAppraisals[]>(
+        this.resourceUrl + '/cash-survey-appraisals/my-appraisals/' + idParty + '/position-type/' + idPositionType,
+        { params: options, observe: 'response' }
+      )
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
   }

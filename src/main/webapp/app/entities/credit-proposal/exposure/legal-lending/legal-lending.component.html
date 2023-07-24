@@ -59,7 +59,13 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Exposure (Debtor & Group)</mat-label>
-                <input currencyMask matInput type="text" [value]="countBuffer(creditProposal.attributes['calculationExposure'].grandTotalPlafond)" disabled />
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [value]="countBuffer(creditProposal.attributes['calculationExposure'].grandTotalPlafond)"
+                  disabled
+                />
               </mat-form-field>
             </div>
           </section>
@@ -82,8 +88,7 @@
                   currencyMask
                   matInput
                   type="text"
-                  [(ngModel)]="creditProposal.attributes['legalLendingLimit'].modalIntiUtama"
-                  [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  [value]="countBuffer(creditProposal.attributes['legalLendingLimit'].modalIntiUtama)"
                   disabled
                 />
               </mat-form-field>
@@ -94,7 +99,7 @@
               <div class="col-6">Modal Inti Utama (TIER1 Bank Hana)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-3">
-                {{ creditProposal.attributes['legalLendingLimit'].modalIntiUtama | currency: 'IDR ':'symbol':'1.0-0' }}
+                {{ countBuffer(creditProposal.attributes['legalLendingLimit'].modalIntiUtama) }}
               </div>
             </div>
           </section>
@@ -109,7 +114,8 @@
                   type="text"
                   [value]="
                     countBuffer(
-                      this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - creditProposal.attributes['calculationExposure'].grandTotalPlafond
+                      this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue -
+                        creditProposal.attributes['calculationExposure'].grandTotalPlafond
                     )
                   "
                   disabled
@@ -123,7 +129,10 @@
               <div class="col-md-auto">:</div>
               <div class="col col-lg-4">
                 {{
-                  countBuffer(this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - creditProposal.attributes['calculationExposure'].grandTotalPlafond)
+                  countBuffer(
+                    this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue -
+                      creditProposal.attributes['calculationExposure'].grandTotalPlafond
+                  )
                 }}
               </div>
             </div>

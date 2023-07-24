@@ -1162,20 +1162,22 @@ export class CollateralAppraisalMainComponent implements OnInit {
     }
   }
 
-  public getTextMenu(param: string): string {
-    const titleMenu = param;
-    const regex = /[-]/g;
-    if (titleMenu === 'foto-object-jaminan') {
-      const fotoObjectJaminan = titleMenu.replace(regex, ' ');
-      const regex2 = /(object)/g;
-      return fotoObjectJaminan.replace(regex2, 'objek');
-    } else {
-      return titleMenu.replace(regex, ' ');
-    }
-  }
-
   showTextMenu() {
-    return this.getTextMenu(this.clickedMenu);
+    const menuList = [];
+    menuList.push(this.subMenu);
+    for (let i = 0; i < menuList.length; i++) {
+      for (let x = 0; x < menuList[i].length; x++) {
+        if (this.clickedMenu === menuList[i][x].id) {
+          return menuList[i][x].text;
+        } else {
+          for (let y = 0; y < menuList[i][x].child?.length; y++) {
+            if (this.clickedMenu === menuList[i][x].child[y].id) {
+              return menuList[i][x].child[y].text;
+            }
+          }
+        }
+      }
+    }
   }
 
   // menu request appraisal

@@ -126,6 +126,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       this.grandTotalDebitur();
       this.getMyBusinessGroup();
       this.getCurrency();
+      this.getValueLimit();
     });
   }
 
@@ -147,6 +148,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'MODAL_INTI_USAHA') {
           this.modalUsaha = res.body[i].value;
+          this.creditProposal.attributes['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
         }
       }
     });
@@ -413,9 +415,13 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
         this.legalLendingLimitValue = (this.modalUsaha * Number(this.generalParameter[i].value)) / 100;
       }
     }
+    this.getValueLimit();
+
+  }
+
+  public getValueLimit(): void {
     this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
     this.creditProposal.attributes['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
-    this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
     this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup =
       this.creditProposal.attributes['calculationExposure'].grandTotalPlafond;
     this.creditProposal.attributes['legalLendingLimit'].buffer =

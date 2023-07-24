@@ -6,6 +6,7 @@ import { PARAMETER_TYPE } from 'app/shared/constants/base.constants';
 import { GeneralParameter, IGeneralParameter } from '../general-parameter/general-parameter.model';
 import { GeneralParameterService } from '../general-parameter/general-parameter.service';
 import { MasterLovParameterDialogComponent } from './master-lov-parameter-dialog.component';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-master-lov-parameter',
@@ -14,7 +15,7 @@ import { MasterLovParameterDialogComponent } from './master-lov-parameter-dialog
 })
 export class MasterLovParameterComponent extends AbstractEntityMaterialComponent<IGeneralParameter> implements OnInit {
   public displayColumns: string[] = ['no', 'code', 'value', 'status', 'action'];
-  public listGeneralLov;
+  public listGeneralLov = [];
   public typeID: string;
   private paramType: any;
   public conditionButton: boolean;
@@ -33,6 +34,7 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   }
 
   public getListType() {
+    let data = [];
     this.generalParameterService
       .getListTypeGeneral({
         page: 0,
@@ -40,7 +42,9 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
         sort: ['desc'],
       })
       .subscribe(res => {
-        this.listGeneralLov = res.body;
+        data = res.body;
+        // Takeout Legal Lending Limit di master LOV, karna sudah ada master legal lending limit
+        this.listGeneralLov = data.filter(e => e.id !== 'LEGAL_LENDING_LIMIT');
       });
   }
 
@@ -55,7 +59,8 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
       this.paramType === 'CREDIT_RATING' ||
       this.paramType === 'PROPOSAL_TYPE' ||
       this.paramType === 'PEP_STATUS' ||
-      this.paramType === 'RANK'
+      this.paramType === 'RANK' ||
+      this.paramType === 'CREDIT_RATING_GUARANTEE'
     ) {
       this.conditionButton = true;
     } else {
@@ -72,7 +77,7 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
           idParameterType: this.typeID,
           page: this.page,
           size: this.itemsPerPage,
-          sort: ['code', 'asc'],
+          sort: ['id', 'asc'],
         })
         .subscribe({
           next: res => this.initDataForMatTable(res, res.headers),

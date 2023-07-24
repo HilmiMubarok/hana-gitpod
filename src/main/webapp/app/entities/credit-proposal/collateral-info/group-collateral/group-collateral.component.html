@@ -17,8 +17,8 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
               <mat-checkbox
-                [checked]="element.attributes.crossCollateral === 'yes'"
-                (change)="changeCheckedColGroupAssignToProdAll($event, i)"
+                [checked]="getDataCeklis(element)"
+                (change)="changeCheckedColGroupAssignToProdAll($event, i, element)"
                 disabled
               ></mat-checkbox>
             </section>

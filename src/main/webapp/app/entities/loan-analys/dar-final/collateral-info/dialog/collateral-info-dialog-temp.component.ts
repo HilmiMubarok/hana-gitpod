@@ -304,7 +304,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
       if (this.preCurent === '') {
         if (value === 'IDR') {
           this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 2 };
           this.preCurent = 'IDR';
         } else if (value === 'USD') {
           this.conCcy = true;
@@ -327,7 +327,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
           this.preCurent = '';
         } else if (value === 'IDR') {
           this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 2 };
           this.getCurs();
           this.preCurent = 'IDR';
         }
@@ -351,7 +351,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
 
   public cekCurrency() {
     if (this.binding.ccy === 'IDR') {
-      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 2 };
     }
     if (this.binding.ccy === 'USD') {
       this.logoCcy = {};

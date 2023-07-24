@@ -86,6 +86,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
     this.view = this.data.view;
 
     this.files = this.data.files;
+
     this.itemData = this.data.item;
     this.category();
     this.setStatus();
@@ -311,7 +312,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === undefined || this.files.remarks === ''
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-
+            file.tags['appealStatus'] = null;
             file.tags['createdBy'] = resAccount.login;
           });
 
@@ -419,8 +420,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
             dueDate: null,
             remarks: null,
             createdBy: null,
-            description: null,
-            parentDescription: null,
+            appealStatus: null,
           };
           const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.file[i].name.replace('&', '');
           if (files.split('').length > 254) {
@@ -442,8 +442,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === '' || this.files.remarks === undefined
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-            metaData.description = this.files.description;
-            metaData.parentDescription = this.files.parentDescription;
+            metaData.appealStatus = null;
 
             const formData = new FormData();
             formData.append('file', this.file[i]);
@@ -460,6 +459,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
 
   // cancel confrimation dialog
   public openCancelDialog(): void {
+    console.log('llsss', this.file);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
       data: {
