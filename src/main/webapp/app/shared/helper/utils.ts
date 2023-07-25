@@ -50,6 +50,9 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     if (parsedAttribute['previousReturn']['facilityTakeOverAfterBank']) {
       parsedAttribute['previousReturn']['facilityTakeOverAfterBank'] = JSON.parse(previousReturn['facilityTakeOverAfterBank']);
     }
+    if (parsedAttribute['previousReturn']['groupChecklisCollateral']) {
+      parsedAttribute['previousReturn']['groupChecklisCollateral'] = JSON.parse(previousReturn['groupChecklisCollateral']);
+    }
   }
 
   // check if previousHistory attribute is exist
@@ -84,6 +87,10 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     }
     if (parsedAttribute['previousHistory']['facilityTakeOverAfterBank']) {
       parsedAttribute['previousHistory']['facilityTakeOverAfterBank'] = JSON.parse(previousHistory['facilityTakeOverAfterBank']);
+    }
+
+    if (parsedAttribute['previousHistory']['groupChecklisCollateral']) {
+      parsedAttribute['previousHistory']['groupChecklisCollateral'] = JSON.parse(previousHistory['groupChecklisCollateral']);
     }
   }
 
