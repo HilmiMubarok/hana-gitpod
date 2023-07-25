@@ -87,6 +87,9 @@ export class DelegationAppraisalComponent extends AbstractEntityBaseViewComponen
   }
 
   public loadDataLazy(event: any): void {
+    this.data = null;
+    this.page = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
     this.loadAll();
   }
 
@@ -108,17 +111,19 @@ export class DelegationAppraisalComponent extends AbstractEntityBaseViewComponen
         fromPartyId: this.partyId,
       })
       .subscribe({
-        next: res => this.initDataForMatTable(res, res.headers),
-        error: res => this.onError(res.message),
+        next: (res: HttpResponse<any[]>) => {
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
 
   initDataForMatTable(data: any, headers: HttpHeaders) {
     this.data = new MatTableDataSource(this.addIdx(data.body));
-    if (!this.items) {
+    if (!this.data) {
       this.data.paginator = this.paginator;
     }
-    this.data.sort = this.sort;
+
     this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
     this.paginatorPageSize = this.paginator.pageSize;
   }
