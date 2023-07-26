@@ -100,8 +100,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
 
   ngOnInit(): void {
     this.convrtDate();
-    this.hiddenNull();
-    // this.hiddenNulls();
+    this.conditionCompleteNameSpouse();
   }
   public countAge(): number {
     let age: number;
@@ -143,10 +142,22 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     return false;
   }
 
-  public hiddenNull() {
-    if (this.person.firstName === '' || this.person.lastName === '') {
-      return 'NA';
-    }
-    return this.person.firstName + ' ' + this.person.lastName;
+  // public hiddenNull() {
+  //   if (this.person.firstName === '' || this.person.lastName === '') {
+  //     return 'NA';
+  //   } else {
+  //     return this.person.firstName + ' ' + this.person.lastName;
+  //   }
+  // }
+  public completeName: any;
+  public conditionCompleteNameSpouse() {
+    this.completeName =
+      this.person.firstName === '' || null || undefined
+        ? this.person.lastName
+        : this.person.lastName === '' || null || undefined
+        ? this.person.firstName
+        : this.person.firstName === '' || null || (undefined && this.person.lastName === '') || null || undefined
+        ? 'NA'
+        : this.person.firstName + ' ' + this.person.lastName;
   }
 }

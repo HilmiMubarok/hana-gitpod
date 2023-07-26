@@ -23,7 +23,7 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Complete Name</mat-label>
-            <input matInput type="text" [value]="hiddenNull()" disabled />
+            <input matInput type="text" [value]="completeName" disabled />
           </mat-form-field>
         </section>
         <section *jhiMatrixDirIDD="''">
@@ -31,7 +31,7 @@
             <div class="col">Complete Name</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ hiddenNull() }}
+              {{ completeName }}
             </div>
           </div>
         </section>
