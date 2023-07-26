@@ -269,7 +269,7 @@ import { BellowGridHistoryComponent } from './credit-proposal/collateral-info-hi
 import { CollateralInfoBTPHistoryComponent } from './credit-proposal/collateral-info-history/backtoback/credit-proposal-collateral-info-btb.component';
 import { CollateralInfoDialogBTBHistoryComponent } from './credit-proposal/collateral-info-history/backtoback/dialog-credit-proposal-collateral-info-btb.component';
 import { CollateralInfoChecklistHistoryComponent } from './credit-proposal/collateral-info-history/checklist/credit-proposal-collateral-info-checklist.component';
-import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral.component';
+
 import { ParipasuCollateralHistoryComponent } from './credit-proposal/collateral-info-history/paripasu-collateral/paripasu-collateral.component';
 import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collateral-info-history/remarks/credit-proposal-collateral-info-remarks.component';
 import { LoanFacilityDetailHistoryComponent } from './credit-proposal/loan-facility-history/loan-facility-detail-history.component';
@@ -389,6 +389,10 @@ import { CPMemoBandingCollateralBacktobackComponent } from './credit-proposal/me
 import { CPMemoBandingCovenantBelowComponent } from './credit-proposal/memo-banding/memo-banding-covenant/below/cp-memo-banding-covenant-below.component';
 import { CPMemoBandingCovenantBackToBackDepositComponent } from './credit-proposal/memo-banding/memo-banding-covenant/back-to-back/cp-memo-banding-covenant-back-to-back-deposit.component';
 import { CPMemoBandingCovenantBackToBackGeneralComponent } from './credit-proposal/memo-banding/memo-banding-covenant/back-to-back/cp-memo-banding-covenant-back-to-back-general.component';
+import { GroupCollateralListHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral-list-history.component';
+import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral-history.component';
+import { GroupCollateralDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-dar.component';
+import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-list-dar.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -711,6 +715,7 @@ import { CPMemoBandingCovenantBackToBackGeneralComponent } from './credit-propos
     // Checklist
     CollateralInfoChecklistHistoryComponent,
     // Group Collateral
+    GroupCollateralListHistoryComponent,
     GroupCollateralHistoryComponent,
     // Paripaasu Collateral
     ParipasuCollateralHistoryComponent,
@@ -820,6 +825,10 @@ import { CPMemoBandingCovenantBackToBackGeneralComponent } from './credit-propos
     GroupCollateralListAppraisalComponent,
     GroupCollateralAppraisalComponent,
     SummaryGridBtbComponent,
+
+    // cross dar // 
+    GroupCollateralDarComponent,
+    GroupCollateralListDarComponent,
         MainFacilityInfoComponent,
         MainFacilityInfoChildComponent,
         MainFacilityComponent,
@@ -1115,6 +1124,7 @@ import { CPMemoBandingCovenantBackToBackGeneralComponent } from './credit-propos
     CollateralInfoChecklistHistoryComponent,
     // Group Collateral
     GroupCollateralHistoryComponent,
+    GroupCollateralListHistoryComponent,
     // Paripaasu Collateral
     ParipasuCollateralHistoryComponent,
     // Remarks
@@ -1227,7 +1237,9 @@ import { CPMemoBandingCovenantBackToBackGeneralComponent } from './credit-propos
     // cross appraisal //
     GroupCollateralListAppraisalComponent,
     GroupCollateralAppraisalComponent,
-
+    // cross dar //
+    GroupCollateralDarComponent,
+    GroupCollateralListDarComponent,
     MainFacilityInfoComponent,
     MainFacilityComponent,
     MainFacilityChildComponent,
