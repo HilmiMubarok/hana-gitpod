@@ -752,6 +752,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (this.applicationProduct.applicationType === 'Others') {
       this.othersDescStat = false;
     }
+    if (this.applicationProduct.applicationType !== 'Existing') {
+      this.applicationProduct.attributes.facilityType = this.applicationProduct.productTypeId;
+    }
   }
 
   setFacilityType() {
