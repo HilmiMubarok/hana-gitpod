@@ -139,7 +139,6 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.cekData();
     this.setData();
     this.changeCollateralType();
-    console.log('ini collateral property ', this.collateralProperty);
   }
 
   cekData() {
