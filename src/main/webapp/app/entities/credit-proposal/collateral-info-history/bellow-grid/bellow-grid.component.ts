@@ -165,6 +165,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
+    if (dataFilter.length > 0) {
+      this.getBindingCalculate(dataFilter);
+    }
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       this.findCollateralProperty(this.historyData().collaterals[i]);
     }
@@ -880,9 +883,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     return '';
   }
 
-  public getBindingCalculate(res: any) {
+  public getBindingCalculate(res: any[]) {
     const array1 = res;
-    const array2 = this.historyData().binding;
+    const array2 = JSON.parse(this.historyData().binding);
     let getBindingCalculateValue;
     const data = [];
     array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
@@ -891,7 +894,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
         const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
-        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
+        this.biddingValueCoverage = parseFloat(biddingValueCoverage.toFixed(2));
       });
     });
   }
