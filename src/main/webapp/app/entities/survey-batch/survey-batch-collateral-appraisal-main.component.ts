@@ -604,6 +604,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        this.getTasks();
         if (source === 'process') {
           this.saveProcess();
         } else if (source === 'default') {

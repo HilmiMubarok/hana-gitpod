@@ -130,17 +130,18 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.totalLVInt = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
   }
-  private loadData(): void {
-    this.parsedData = parsePreviousAtrribute(this.creditProposal);
-    const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
-    this.dataItem = new MatTableDataSource(dataFilter);
-    this.dataItem.paginator = this.paginator;
-    for (let i = 0; i < this.historyData().collaterals.length; i++) {
-      this.findCollateralProperty(this.historyData().collaterals[i]);
-    }
-    if (this.historyData().creditProposalCollateralData.crossCollateralGroup === '') {
-      this.historyData().creditProposalCollateralData.crossCollateralGroup = 'No';
-    }
+  public collateralMybusiness() {
+    this.collateralService
+      .queryFilterBy({
+        idParty: this._partyId,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.groupCollaterals = res.body;
+        this.mapCollateralProperty(res.body);
+        this.dataItem = new MatTableDataSource(this.groupCollaterals);
+        this.dataItem.paginator = this.paginator;
+      });
   }
   public historyData() {
     // if isOnCompare and not isCompareDar, then set dynamic data to previousReturn
@@ -166,12 +167,30 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.lovBindingType();
     this.loadData();
   }
+  private loadData(): void {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
+    const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
+    this.dataItem = new MatTableDataSource(dataFilter);
+    this.dataItem.paginator = this.paginator;
 
+    // if (dataFilter.length > 0) {
+    //   this.getBindingCalculate(dataFilter);
+    // }
+
+    for (let i = 0; i < this.historyData().collaterals.length; i++) {
+      this.findCollateralProperty(this.historyData().collaterals[i]);
+    }
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
+    }
+  }
   @ViewChild('paginator') paginator: MatPaginator;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
-
+    if (changes['partyId']) {
+      this.collateralMybusiness();
+    }
     // if (changes['creditProposal']) {
     //   if (this.historyData().collaterals.length > 0) {
     //     for (let i = 0; i < this.historyData().collaterals.length; i++) {
