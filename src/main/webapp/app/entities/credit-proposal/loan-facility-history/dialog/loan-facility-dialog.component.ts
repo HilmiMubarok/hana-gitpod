@@ -807,6 +807,9 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
     if (this.applicationProduct.applicationType === 'Others') {
       this.othersDescStat = false;
     }
+    if (this.applicationProduct.applicationType !== 'Existing') {
+      this.applicationProduct.attributes.facilityType = this.applicationProduct.productTypeId;
+    }
   }
 
   setFacilityType() {

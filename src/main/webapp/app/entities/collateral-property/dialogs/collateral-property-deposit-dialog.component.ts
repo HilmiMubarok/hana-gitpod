@@ -297,11 +297,11 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
       .subscribe(res => {
         this.optionsCurrency = res.body;
         this.optionsMVImb = res.body;
+        this.amountCcy = this.optionsCurrency.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
         // this.options = this.findIndex(this.options);
         this.filteredCurrency();
         this.filteredMVImb();
         this.getAmountCcy();
-        this.amountCcy = this.optionsCurrency.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
         this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
       });
   }

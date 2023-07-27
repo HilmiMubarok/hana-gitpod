@@ -740,10 +740,10 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
-    <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-    <button mat-button (click)="save()">Save</button>
+    <button mat-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
+    <button mat-button (click)="save()" class="confirm-button-no">Save</button>
   </section>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
-    <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+    <button mat-button mat-dialog-close (click)="cancel()" class="confirm-button-no">Cancel</button>
   </section>
 </mat-dialog-actions>

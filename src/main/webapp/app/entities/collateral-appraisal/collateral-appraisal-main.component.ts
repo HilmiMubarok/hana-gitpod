@@ -479,7 +479,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else {
       copySurveyAppraisal.collateral.attributes['landCertificates'];
     }
-
     return copySurveyAppraisal;
   }
 
@@ -499,6 +498,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        this.getTasks();
         this.surveyAppraisal.surveyorId = res.body.surveyorId;
         this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
         this.collateralAppraisal.surveyorId = res.body.surveyorId;

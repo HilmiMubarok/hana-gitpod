@@ -129,9 +129,6 @@ mat-card-header {
 .mat-dialog-content {
   overflow: hidden;
 }
-td {
-  text-align: center;
-}
 
 th {
   background-color: rgba(147, 201, 199, 1) !important;

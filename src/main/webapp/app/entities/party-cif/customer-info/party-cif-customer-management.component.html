@@ -224,7 +224,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Relation With Debtor</mat-label>
-          <input matInput type="text" [(ngModel)]="organization.relationWithDebtor" />
+          <input matInput type="text" [(ngModel)]="organization.relationWithDebtor" [disabled]="approvalDisabled()" />
           <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
         </mat-form-field>
       </section>
@@ -242,7 +242,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Join Company Since </mat-label>
-          <input matInput type="text" [(ngModel)]="organization.attributes['joinCompanySince']" />
+          <input matInput type="text" [(ngModel)]="organization.attributes['joinCompanySince']" [disabled]="approvalDisabled()" />
           <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
         </mat-form-field>
       </section>

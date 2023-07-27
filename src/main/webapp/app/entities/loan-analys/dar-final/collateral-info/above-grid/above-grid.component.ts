@@ -271,6 +271,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
         } else {
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
+        this.loadByPartyId(this.creditProposal.cif.partyId);
       } else {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
