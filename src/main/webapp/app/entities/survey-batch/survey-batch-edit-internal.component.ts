@@ -1259,6 +1259,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        this.getTasks();
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
