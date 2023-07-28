@@ -55,13 +55,13 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.source = this.data.source;
   }
   ngOnInit(): void {
+    this.getRole();
     this.remove();
     this.removepacth();
     this.setPep();
     this.setPosition();
     // this.closes();
     this.setRadioButton();
-    this.getRole();
   }
 
   // menu idd organization Management
@@ -174,16 +174,6 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public onChange(event: string) {
     this.organizationManagement.attributes['customerType'] = event;
   }
-
-  // public setRadioButton() {
-  //   this.customerType = this.organizationManagement.attributes['customerType'];
-  //   if (this.organizationManagement.person.partyTypeId === 'PERSON' && this.customerType) {
-  //     this.isDisabled = true;
-  //   }
-  //   if (this.organizationManagement.shareHolderOrg.partyTypeId === 'PARTY_GROUP' || this.customerType) {
-  //     this.isDisabled = true;
-  //   }
-  // }
 
   public setRadioButton() {
     this.isDisabled = true;
