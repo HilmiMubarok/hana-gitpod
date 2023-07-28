@@ -81,8 +81,6 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
                   this.typeData[i].collateralTypeId = 'VEHICLE';
                 } else if (this.typeData[i].id.includes('GRNT')) {
                   this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
-                } else if (this.typeData[i].id.includes('DOC_IDD_OTHER')) {
-                  this.typeData[i].collateralTypeId = 'OTHER';
                 } else if (this.typeData[i].id.includes('COR')) {
                   this.typeData[i].collateralTypeId = 'COR';
                 } else if (this.typeData[i].id.includes('IND')) {
@@ -102,6 +100,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
               const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
               const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
+              const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
               const result: IDocumentType[] = [
                 ...collateralData,
                 ...INDCORData,
@@ -110,6 +109,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
                 ...InvestorisData,
                 ...nonKeuanganData,
                 ...colllateralKapalData,
+                ...DocumentLainnya,
               ];
 
               for (let i = 0; i < result.length; i++) {
