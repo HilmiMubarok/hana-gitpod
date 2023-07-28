@@ -178,32 +178,37 @@ export class DialogDelegationAppraisalComponent implements OnInit {
   protected postLoadDataLazy() {}
 
   public save(): void {
-    if (this.selectedData.length > 0) {
-      this.delegationAppraisalRequest.fromEmployeeId = this.fromEmployee.id;
-      this.delegationAppraisalRequest.toEmployeeId = this.employeeId;
-      this.delegationAppraisalRequest.appraisals = this.selectedData;
-      this.delegationAppraisalRequest.roleId = this.selectedPosition;
-      this.cashSurveyAppraisalsService.addDelegation(this.delegationAppraisalRequest).subscribe(
-        () => {
-          this._dialog.close();
-        },
-        error => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error.error.detail,
-          });
-          // Fungsi ini akan dijalankan ketika terjadi respons error
-
-          // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
-        }
-      );
-    } else if (this.selectedData.length < 1) {
+    if (this.delegationAppraisalRequest.fromDate === undefined || this.delegationAppraisalRequest.thruDate === undefined) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'List delegation required',
+        detail: 'Form date is required',
       });
+    } else {
+      if (this.selectedData.length > 0) {
+        this.delegationAppraisalRequest.fromEmployeeId = this.fromEmployee.id;
+        this.delegationAppraisalRequest.toEmployeeId = this.employeeId;
+        this.delegationAppraisalRequest.appraisals = this.selectedData;
+        this.delegationAppraisalRequest.roleId = this.selectedPosition;
+        this.cashSurveyAppraisalsService.addDelegation(this.delegationAppraisalRequest).subscribe(
+          () => {
+            this._dialog.close();
+          },
+          error => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: error.error.detail,
+            });
+          }
+        );
+      } else if (this.selectedData.length < 1) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'List delegation required',
+        });
+      }
     }
   }
 
