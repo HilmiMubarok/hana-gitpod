@@ -30,9 +30,9 @@ export class CollateralLandInfoDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getRole();
     this.checkLogin();
     this.hiddenTombol();
-    this.getRole();
   }
 
   public getRole() {

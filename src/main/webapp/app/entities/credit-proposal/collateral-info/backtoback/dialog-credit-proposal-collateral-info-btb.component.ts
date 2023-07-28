@@ -157,14 +157,13 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.loadByCollateral(this.collateral.id);
   }
   ngOnInit(): void {
-    console.log('ini credit proposal ', this.creditProposal);
+    this.getRole();
     this.loadCollateralDetailOption().then(resolve => {
       this.setCollateralDetail();
     });
     this.setBranches();
     this.lovBindingType();
     this.cekCurrency();
-    this.getRole();
   }
 
   public getRole() {

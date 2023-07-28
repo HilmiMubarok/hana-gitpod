@@ -176,6 +176,9 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.creditProposal.statusId === 'CP_DAR_FINAL') {
       this.disabledData = false;
     }
+    if (this.creditProposal.id) {
+      this.cekCurrency();
+    }
   }
   public getFacilityType() {
     const keyy = Object.keys(this.facilityTypes).find(item => item === this.collateral.facilityType);

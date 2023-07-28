@@ -152,11 +152,15 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   public completeName: any;
   public conditionCompleteNameSpouse() {
     this.completeName =
-      this.person.firstName === '' || null || undefined
+      this.person.firstName === '' || this.person.firstName === null || this.person.firstName === undefined
         ? this.person.lastName
-        : this.person.lastName === '' || null || undefined
+        : this.person.lastName === '' || this.person.lastName === null || this.person.lastName === undefined
         ? this.person.firstName
-        : this.person.firstName === '' || null || (undefined && this.person.lastName === '') || null || undefined
+        : this.person.firstName === '' ||
+          this.person.firstName === null ||
+          (this.person.firstName === undefined && this.person.lastName === '') ||
+          this.person.lastName === null ||
+          this.person.lastName === undefined
         ? 'NA'
         : this.person.firstName + ' ' + this.person.lastName;
   }

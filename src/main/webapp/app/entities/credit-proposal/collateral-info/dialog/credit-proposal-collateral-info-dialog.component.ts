@@ -185,7 +185,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('parent Source', this.parentSource);
+    this.getRole();
     this.loadCollateralDetailOption().then(resolve => {
       this.setCollateralDetail();
     });
@@ -198,7 +198,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.lovInsuranceTypes();
     this.addLovRank();
     this.cekCurrency();
-    this.getRole();
   }
 
   public getRole() {

@@ -479,7 +479,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else {
       copySurveyAppraisal.collateral.attributes['landCertificates'];
     }
-
     return copySurveyAppraisal;
   }
 
@@ -499,6 +498,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        this.getTasks();
         this.surveyAppraisal.surveyorId = res.body.surveyorId;
         this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
         this.collateralAppraisal.surveyorId = res.body.surveyorId;
@@ -1163,17 +1163,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   showTextMenu() {
-    const menuList = [];
-    menuList.push(this.subMenu);
+    let menuList = [];
+    menuList = [...this.subMenu];
     for (let i = 0; i < menuList.length; i++) {
-      for (let x = 0; x < menuList[i].length; x++) {
-        if (this.clickedMenu === menuList[i][x].id) {
-          return menuList[i][x].text;
-        } else {
-          for (let y = 0; y < menuList[i][x].child?.length; y++) {
-            if (this.clickedMenu === menuList[i][x].child[y].id) {
-              return menuList[i][x].child[y].text;
-            }
+      if (this.clickedMenu === menuList[i].id) {
+        return menuList[i].label;
+      } else {
+        for (let y = 0; y < menuList[i].child?.length; y++) {
+          if (this.clickedMenu === menuList[i].child[y].id) {
+            return menuList[i].child[y].label;
           }
         }
       }
