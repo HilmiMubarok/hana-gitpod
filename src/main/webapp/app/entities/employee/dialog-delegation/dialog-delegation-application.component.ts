@@ -174,7 +174,6 @@ export class DialogDelegationApplicationComponent implements OnInit {
   }
 
   public save(): void {
-    console.log('ddff', this.delegationApplicationRequest.fromDate);
     if (this.delegationApplicationRequest.fromDate === undefined || this.delegationApplicationRequest.thruDate === undefined) {
       this.messageService.add({
         severity: 'error',
