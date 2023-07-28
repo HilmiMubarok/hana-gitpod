@@ -410,7 +410,7 @@ export class OfferingLetterMainComponent implements OnInit {
     } else if (this.url === 'distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(applicationRolePreSave);
+	  copyCreditProposal.attributes['dataAssignToLegalOfficer'] = applicationRolePreSave.id ? JSON.stringify(applicationRolePreSave) : JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);;
     } else {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
