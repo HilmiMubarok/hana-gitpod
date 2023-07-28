@@ -48,8 +48,8 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.findCollateral();
     this.getRole();
+    this.findCollateral();
   }
 
   public getRole() {

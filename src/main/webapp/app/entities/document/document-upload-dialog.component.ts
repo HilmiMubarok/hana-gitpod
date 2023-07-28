@@ -114,6 +114,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getRole();
     if (this.data.collateral) {
       this.collateralOrAppraisal = 'collateral';
       this.object = this.data.collateral;
@@ -128,8 +129,6 @@ export class DocumentUploadDialogComponent implements OnInit {
       // console.log('document type', this.documentTypes);
       // this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
-
-    this.getRole();
 
     this.checkObject();
   }
