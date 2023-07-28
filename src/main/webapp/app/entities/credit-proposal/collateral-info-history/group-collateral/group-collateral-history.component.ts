@@ -166,22 +166,19 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.setCertyficateType();
     this.lovBindingType();
     this.loadData();
+    console.log('checklist', this.historyData());
   }
   private loadData(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
     const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
-
     // if (dataFilter.length > 0) {
     //   this.getBindingCalculate(dataFilter);
     // }
 
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       this.findCollateralProperty(this.historyData().collaterals[i]);
-    }
-    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
-      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
   @ViewChild('paginator') paginator: MatPaginator;
@@ -817,9 +814,7 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
   }
 
   public getDataCeklis(element) {
-    const data: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
-      obj => obj.collateralId === element.id
-    );
+    const data: IGroupCollateralChecklis = this.historyData().groupChecklisCollateral.find(obj => obj.collateralId === element.id);
     if (data) {
       return data.checklis;
     }
