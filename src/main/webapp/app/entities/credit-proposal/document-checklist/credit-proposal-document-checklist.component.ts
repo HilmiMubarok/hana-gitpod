@@ -111,7 +111,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                     this.typeData[i].collateralTypeId = 'VEHICLE';
                   } else if (this.typeData[i].id.includes('GRNT')) {
                     this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
-                  } else if (this.typeData[i].id.includes('DOC_CP_OTHER') || this.typeData[i].id.includes('DOC_IDD_OTHER')) {
+                  } else if (this.typeData[i].id.includes('DOC_CP_COLL_OTHER')) {
                     this.typeData[i].collateralTypeId = 'OTHER';
                   } else if (this.typeData[i].id.includes('COR')) {
                     this.typeData[i].collateralTypeId = 'COR';
@@ -130,7 +130,9 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                 const PengikatKredit: IDocumentType[] = this.typeData.filter(
                   obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING'
                 );
-                const DocumentJaminanLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_COLL_OTHER');
+                const DocumentLainnya: IDocumentType[] = this.typeData.filter(
+                  obj => obj.id === 'DOC_CP_OTHER' || obj.id === 'DOC_IDD_OTHER'
+                );
                 const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(
                   obj => obj.id === 'DOC_CP_OTHER_ID'
                 );
@@ -148,7 +150,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                   ...INDCORData,
                   ...PersetujuanKredit,
                   ...PengikatKredit,
-                  ...DocumentJaminanLainnya,
+                  ...DocumentLainnya,
                   ...DocumentLainnyaIdentitasDebiturPerorangan,
                   ...takeOverData,
                   ...InvestorisData,
