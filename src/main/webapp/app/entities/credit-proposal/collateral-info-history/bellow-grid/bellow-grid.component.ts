@@ -24,6 +24,7 @@ import {
   ICreditProposalCollateralInsurance,
 } from '../../collateral-info/credit-proposal-collateral-info.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-bellow-grid-history',
   templateUrl: './bellow-grid.component.html',
@@ -73,6 +74,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public insuranceTypes = [];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -108,7 +110,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private generalParameterService: GeneralParameterService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -155,6 +158,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       this.isChecked = true;
     }
     this.setCertyficateType();
+    this.getLovInsuranceType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -174,6 +178,29 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
       this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
+  }
+  getLovInsuranceType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getInsuranceType(value) {
+    if (this.insuranceTypes) {
+      const data = this.insuranceTypes.find(obj => obj.code === value);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
   }
 
   ngOnChanges(changes: SimpleChanges): void {

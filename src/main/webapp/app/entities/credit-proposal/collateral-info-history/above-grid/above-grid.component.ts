@@ -24,6 +24,7 @@ import {
   ICreditProposalCollateralInsurance,
 } from '../../collateral-info/credit-proposal-collateral-info.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-above-grid-history',
   templateUrl: './above-grid.component.html',
@@ -72,6 +73,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   public biddingValueCoverage: number;
   public parsedAttribute;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public insuranceTypes = [];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -108,7 +110,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private generalParameterService: GeneralParameterService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -147,6 +150,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
       this.isChecked = true;
     }
     this.setCertyficateType();
+    this.getLovInsuranceType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -835,7 +839,30 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   //     this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
   //   }
   // }
+  getLovInsuranceType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // console.log('insurance type body ', res.body);
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
 
+  public getInsuranceType(value) {
+    if (this.insuranceTypes) {
+      const data = this.insuranceTypes.find(obj => obj.code === value);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
+  }
   public slideChange($event) {
     if (this.isChecked === true) {
       this.historyData().creditProposalCollateralData.crossCollateralStatus = 'Yes';

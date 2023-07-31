@@ -174,24 +174,29 @@ export class DialogDelegationApplicationComponent implements OnInit {
   }
 
   public save(): void {
-    if (this.selectedData.length > 0) {
-      this.delegationApplicationRequest.fromEmployeeId = this.fromEmployee.id;
-      this.delegationApplicationRequest.toEmployeeId = this.employeeId;
-      this.delegationApplicationRequest.loanApplications = this.selectedData;
-      this.delegationApplicationRequest.roleId = this.selectedPosition;
-      this.cashCreditProposalService.addDelegation(this.delegationApplicationRequest).subscribe(
-        () => {
-          this._dialog.close();
-        },
-        error => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
-          // Fungsi ini akan dijalankan ketika terjadi respons error
-
-          // Lakukan penanganan error sesuai kebutuhan, misalnya menampilkan pesan kesalahan ke pengguna
-        }
-      );
-    } else if (this.selectedData.length < 1) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'List delegation required' });
+    if (this.delegationApplicationRequest.fromDate === undefined || this.delegationApplicationRequest.thruDate === undefined) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Form date is required',
+      });
+    } else {
+      if (this.selectedData.length > 0) {
+        this.delegationApplicationRequest.fromEmployeeId = this.fromEmployee.id;
+        this.delegationApplicationRequest.toEmployeeId = this.employeeId;
+        this.delegationApplicationRequest.loanApplications = this.selectedData;
+        this.delegationApplicationRequest.roleId = this.selectedPosition;
+        this.cashCreditProposalService.addDelegation(this.delegationApplicationRequest).subscribe(
+          () => {
+            this._dialog.close();
+          },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+          }
+        );
+      } else if (this.selectedData.length < 1) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'List delegation required' });
+      }
     }
   }
 
