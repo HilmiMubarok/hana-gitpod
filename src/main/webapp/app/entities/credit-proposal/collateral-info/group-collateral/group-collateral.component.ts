@@ -71,6 +71,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
   public groupCollaterals: ICollateral[];
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public insuranceTypes = [];
   @Input()
   get collateralProperties() {
     return this._collateralProperty;
@@ -125,6 +126,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.getLovInsuranceType();
     this.setCertyficateType();
     this.lovBindingType();
     if (this.creditProposal.attributes['groupChecklisCollateral']) {
@@ -393,7 +395,30 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
 
     return new CreditProposalCollateralInsurance();
   }
+  getLovInsuranceType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // console.log('insurance type body ', res.body);
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
 
+  public getInsuranceType(value) {
+    if (this.insuranceTypes) {
+      const data = this.insuranceTypes.find(obj => obj.code === value);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
+  }
   public lovBindingType() {
     this.generalParameterService
       .queryFilterBy({
