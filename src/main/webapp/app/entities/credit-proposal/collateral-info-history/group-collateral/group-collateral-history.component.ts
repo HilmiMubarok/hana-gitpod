@@ -78,6 +78,7 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
   @Input() isOnCompareData: Boolean = false;
 
   @Input() isCompareDar: Boolean = false;
+  public insuranceTypes = [];
   @Input()
   get collateralProperties() {
     return this._collateralProperty;
@@ -166,7 +167,32 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.setCertyficateType();
     this.lovBindingType();
     this.loadData();
+    this.getLovInsuranceType();
     console.log('checklist', this.historyData());
+  }
+  getLovInsuranceType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // console.log('insurance type body ', res.body);
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getInsuranceType(value) {
+    if (this.insuranceTypes) {
+      const data = this.insuranceTypes.find(obj => obj.code === value);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
   }
   private loadData(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
