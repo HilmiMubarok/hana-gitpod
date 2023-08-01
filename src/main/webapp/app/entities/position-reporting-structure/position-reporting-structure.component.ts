@@ -23,8 +23,6 @@ export class PositionReportingStructureComponent extends AbstractEntityMaterialC
     'positionFromEmployeeName',
     'positionTo',
     'positionToEmployeeName',
-    'positionDelegationTo',
-    'positionDelegationToEmployeeName',
     'dtfrom',
     'dtthru',
     'actions',
