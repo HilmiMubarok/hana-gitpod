@@ -7,7 +7,7 @@
           <div class="form-group">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Relation Type:</mat-label>
-              <mat-select [(ngModel)]="positionReportingStructure.relationTypeId">
+              <mat-select [(ngModel)]="positionReportingStructure.relationTypeId" required>
                 <mat-option *ngFor="let item of relationTypes" [value]="item.id">
                   {{ item.description }}
                 </mat-option>
@@ -17,13 +17,14 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-4">
+        <div class="col-6">
           <div class="form-group">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Internal From:</mat-label>
               <mat-select
                 [(ngModel)]="positionReportingStructure.positionFromInternalId"
                 (selectionChange)="selectInternal($event.value, 'from')"
+                required
               >
                 <mat-option *ngFor="let item of internalFrom" [value]="item.id">
                   {{ item.name }}
@@ -34,7 +35,7 @@
           <div class="form-group">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Position From:</mat-label>
-              <mat-select [(ngModel)]="positionReportingStructure.positionFromId">
+              <mat-select [(ngModel)]="positionReportingStructure.positionFromId" required>
                 <mat-option *ngFor="let item of positionListFrom" [value]="item.id">
                   [{{ item.positionTypeDescription }}] - {{ item.employeeFirstName }} {{ item.employeeLastName }}
                 </mat-option>
@@ -42,13 +43,14 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-6">
           <div class="form-group">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Internal To:</mat-label>
               <mat-select
                 [(ngModel)]="positionReportingStructure.positionToInternalId"
                 (selectionChange)="selectInternal($event.value, 'to')"
+                required
               >
                 <mat-option *ngFor="let item of internalTo" [value]="item.id">
                   {{ item.name }}
@@ -59,33 +61,8 @@
           <div class="form-group">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Select Position To:</mat-label>
-              <mat-select [(ngModel)]="positionReportingStructure.positionToId">
+              <mat-select [(ngModel)]="positionReportingStructure.positionToId" required>
                 <mat-option *ngFor="let item of positionListTo" [value]="item.id">
-                  [{{ item.positionTypeDescription }}] - {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="form-group">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Select Internal Delegation:</mat-label>
-              <mat-select
-                [(ngModel)]="positionReportingStructure.positionDelegationToInternalId"
-                (selectionChange)="selectInternal($event.value, 'delegation')"
-              >
-                <mat-option *ngFor="let item of internalDelegation" [value]="item.id">
-                  {{ item.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Select Position Delegation:</mat-label>
-              <mat-select [(ngModel)]="positionReportingStructure.positionDelegationToId">
-                <mat-option *ngFor="let item of positionListDelegation" [value]="item.id">
                   [{{ item.positionTypeDescription }}] - {{ item.employeeFirstName }} {{ item.employeeLastName }}
                 </mat-option>
               </mat-select>
@@ -97,7 +74,7 @@
         <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>From Date</mat-label>
-            <input [matDatepicker]="fromDate" matInput type="text" [(ngModel)]="positionReportingStructure.fromDate" disabled />
+            <input [matDatepicker]="fromDate" matInput type="text" [(ngModel)]="positionReportingStructure.fromDate" disabled required />
             <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
             <mat-datepicker #fromDate disabled="false"></mat-datepicker>
           </mat-form-field>
@@ -105,7 +82,7 @@
         <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Thru Date</mat-label>
-            <input [matDatepicker]="thruDate" matInput type="text" [(ngModel)]="positionReportingStructure.thruDate" disabled />
+            <input [matDatepicker]="thruDate" matInput type="text" [(ngModel)]="positionReportingStructure.thruDate" disabled required />
             <mat-datepicker-toggle matSuffix [for]="thruDate"></mat-datepicker-toggle>
             <mat-datepicker #thruDate disabled="false"></mat-datepicker>
           </mat-form-field>
