@@ -10,7 +10,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
   templateUrl: './correction-appraisal.component.html',
 })
 export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
-  public displayColumns: string[] = ['no', 'appraisalNumber', 'cif', 'customerName', 'action'];
+  public displayColumns: string[] = ['no', 'appraisalNumber', 'cif', 'customerName', 'status', 'action'];
   public currentSearch: string;
 
   constructor(

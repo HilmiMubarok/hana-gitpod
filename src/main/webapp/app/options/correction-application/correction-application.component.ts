@@ -11,7 +11,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
   styleUrls: ['./correction-application.scss'],
 })
 export class CorrectionApplicationComponent extends AbstractEntityMaterialComponent<ILoanApplication> implements OnInit {
-  public displayColumns: string[] = ['no', 'applicationNumber', 'cif', 'customerName', 'action'];
+  public displayColumns: string[] = ['no', 'applicationNumber', 'cif', 'customerName', 'status', 'action'];
   public currentSearch: string;
   constructor(
     private cashCreditProposalService: CashCreditProposalService,

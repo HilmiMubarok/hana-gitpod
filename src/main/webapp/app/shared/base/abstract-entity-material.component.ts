@@ -53,8 +53,12 @@ export class AbstractEntityMaterialComponent<T> {
     return data;
   }
 
+  protected manipulateData(data: T[]): Object[] {
+    return data;
+  }
+
   initDataForMatTable(data: any, headers: HttpHeaders) {
-    this.items = new MatTableDataSource(this.addIdx(data.body));
+    this.items = new MatTableDataSource(this.addIdx(this.manipulateData(data.body)));
     if (!this.items) {
       this.items.paginator = this.paginator;
     }
@@ -83,6 +87,14 @@ export class AbstractEntityMaterialComponent<T> {
       duration: this.durationInSecond.valueOf() * 1000,
     });
     this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+  }
+
+  protected showErrorWithSnackBarMaterial(message: string) {
+    this._snackBar.open(message, '', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSecond.valueOf() * 1000,
+    });
   }
 
   rebuildIndex() {
