@@ -193,12 +193,21 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
 
   public generateForReport(collaterals: ICollateral[], parentCol: IDebtorData) {
     const groupTotal: IGroupCollateralTotal = {};
+    let group: IGroupCollateralTotal = {};
     groupTotal.cif = parentCol.customerCIF;
     groupTotal.totalMV = this.countTotalMV(collaterals);
     groupTotal.totalLV = this.countTotalLV(collaterals);
     groupTotal.totalMVKJJP = this.countTotalMVKJJP(collaterals);
     groupTotal.totalLvKJJP = this.countTotalLVKJJP(collaterals);
-    this.groupCollateraltotal.push(groupTotal);
+    if (this.creditProposal.attributes['collateralInfoGroupTotalMvLv']) {
+      group = this.creditProposal.attributes['collateralInfoGroupTotalMvLv'].find(obj => obj.cif === groupTotal.cif);
+    }
+    if (group) {
+      const idx = this.creditProposal.attributes['collateralInfoGroupTotalMvLv'].findIndex(obj => obj.cif === group.cif);
+      this.creditProposal.attributes['collateralInfoGroupTotalMvLv'][idx] = groupTotal;
+    } else {
+      this.groupCollateraltotal.push(groupTotal);
+    }
     this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] = this.groupCollateraltotal;
   }
 
