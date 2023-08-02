@@ -107,7 +107,11 @@ export class NavbarComponent implements OnInit {
 
       this.templateService.changePosInt('ADMIN_MAYBE');
     } else {
-      this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
+      if (res.body[0].person.lastName === null) {
+        this.loginName = res.body[0].person.firstName;
+      } else {
+        this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
+      }
       this.lastLogin = account.lastModifiedDate.substring(0, 19);
 
       if (res.body[0].positions.length > 0) {
