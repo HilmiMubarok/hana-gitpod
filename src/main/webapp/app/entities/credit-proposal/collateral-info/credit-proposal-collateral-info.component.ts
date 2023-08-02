@@ -193,7 +193,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
 
   public generateForReport(collaterals: ICollateral[], parentCol: IDebtorData) {
     const groupTotal: IGroupCollateralTotal = {};
-    let group: IGroupCollateralTotal = {};
+    let group: IGroupCollateralTotal;
     groupTotal.cif = parentCol.customerCIF;
     groupTotal.totalMV = this.countTotalMV(collaterals);
     groupTotal.totalLV = this.countTotalLV(collaterals);
