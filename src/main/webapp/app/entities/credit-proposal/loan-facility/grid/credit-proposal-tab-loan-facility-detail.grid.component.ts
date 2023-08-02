@@ -264,6 +264,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
         const dataGrid = this.creditProposal.products.filter(obj => obj.nomorUrutFasilitas !== element.nomorUrutFasilitas);
         this.dataProduct = dataGrid;
         this.creditProposal.products = this.dataProduct;
+
+        this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
+        this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
+        this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
       }
     });
   }
