@@ -168,7 +168,6 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.lovBindingType();
     this.loadData();
     this.getLovInsuranceType();
-    console.log('checklist', this.historyData());
   }
   getLovInsuranceType() {
     this.generalParameterService
@@ -178,7 +177,6 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
         size: 9999,
       })
       .subscribe(res => {
-        // console.log('insurance type body ', res.body);
         this.insuranceTypes = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
@@ -840,7 +838,9 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
   }
 
   public getDataCeklis(element) {
-    const data: IGroupCollateralChecklis = this.historyData().groupChecklisCollateral.find(obj => obj.collateralId === element.id);
+    const list = [];
+    list.push(this.historyData().groupChecklisCollateral);
+    const data: IGroupCollateralChecklis = list.find(obj => obj.collateralId === element.id);
     if (data) {
       return data.checklis;
     }
