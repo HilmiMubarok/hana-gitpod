@@ -45,6 +45,7 @@ import {
   MENU_MASTER_CONFIG,
   SLIK_MENU_BUSINESS_SUPPORT,
   DASHBOARD,
+  FORBIDDEN_MENU,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 import { LoginService } from 'app/login/login.service';
@@ -81,8 +82,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     private templateService: TemplateService,
     protected loginService: LoginService,
     protected positionService: PositionService,
-	protected applicationConfigService: ApplicationConfigService,
-	protected http?: HttpClient
+    protected applicationConfigService: ApplicationConfigService,
+    protected http?: HttpClient
   ) {
     this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
       if (newState === 'close') {
@@ -130,6 +131,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public dataSourceDashboard: any = new MatTreeFlatDataSource(this.treeControlDashboard, this.treeFlattenerDashboard);
   public dataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   public dataSourceConfig: any = new MatTreeFlatDataSource(this.treeControlConfig, this.treeFlattenerConfig);
+  public forbiddenDataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   private convertDateArrayFromServer(res: HttpResponse<any[]>): HttpResponse<any[]> {
     return res;
@@ -145,44 +147,63 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     });
     return res;
   }
-  
+
   private queryFilterBy(req?: any): Observable<HttpResponse<any[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<any[]>(this.resourceUrlMenu + '/filterBy', { params: options, observe: 'response' })
+      .get<any[]>(this.resourceUrlMenu + '/filterBy', {
+        params: options,
+        observe: 'response',
+      })
       .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
-  
+
   private setMenu(menusData: any): void {
-	let orderNum = 0;
-	let parentMenus = [];
-	const dataSourceTemp = [];
+    let orderNum = 0;
+    let parentMenus = [];
+    const dataSourceTemp = [];
 
-	menusData.forEach(menu => {
-	  orderNum++;
-	  parentMenus.push({id: menu.parentMenuItemId, descripton: menu.parentMenuItemDescription, icon: menu.parentMenuItemIcon, order: orderNum});
-	});
-	parentMenus = lodash.uniqBy(parentMenus, 'id');
-	parentMenus.sort((a, b) => (a.order > b.order ? 1 : -1));
-	parentMenus.forEach(parentMenu => {
-	  dataSourceTemp.push({name: parentMenu.descripton, iconname: parentMenu.icon, children: []});
-	});
+    menusData.forEach(menu => {
+      orderNum++;
+      parentMenus.push({
+        id: menu.parentMenuItemId,
+        descripton: menu.parentMenuItemDescription,
+        icon: menu.parentMenuItemIcon,
+        order: orderNum,
+      });
+    });
+    parentMenus = lodash.uniqBy(parentMenus, 'id');
+    parentMenus.sort((a, b) => (a.order > b.order ? 1 : -1));
+    parentMenus.forEach(parentMenu => {
+      dataSourceTemp.push({
+        name: parentMenu.descripton,
+        iconname: parentMenu.icon,
+        children: [],
+      });
+    });
 
-	dataSourceTemp.forEach(data => {
-	  menusData.forEach(menu => {
-		if (menu.parentMenuItemDescription === data.name) {
-		  data.children.push({name: menu.menuItemDescription, iconname: menu.menuItemIcon, route: menu.menuItemcode});
-		}
-	  });
-	});
-	this.dataSource.data = dataSourceTemp;
+    dataSourceTemp.forEach(data => {
+      menusData.forEach(menu => {
+        if (menu.parentMenuItemDescription === data.name) {
+          data.children.push({
+            name: menu.menuItemDescription,
+            iconname: menu.menuItemIcon,
+            route: menu.menuItemcode,
+          });
+        }
+      });
+    });
+    this.dataSource.data = dataSourceTemp;
   }
 
   private getMenuByPos(newPositionTypeId: string): void {
-	this.queryFilterBy({positionTypeId: newPositionTypeId, sort: ['id', 'asc'],}).subscribe(menus => {
-	  this.setMenu(menus.body);
-	});
+    this.queryFilterBy({
+      positionTypeId: newPositionTypeId,
+      sort: ['id', 'asc'],
+    }).subscribe(menus => {
+      this.setMenu(menus.body);
+    });
   }
 
   private setMenuFromPosInt(newPosSet: any): void {
@@ -193,7 +214,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = APPRAISAL_MENU_ADMIN;
           this.dataSourceConfig.data = APPRAISAL_MENU_ADMIN_CONFIG;
         } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {
-		  this.getMenuByPos(newPosSet.positionTypeId);
+          this.getMenuByPos(newPosSet.positionTypeId);
         }
       });
     } else {
@@ -209,12 +230,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.checkLogin();
-	this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.setMenuFromPosInt(newPos);
     });
     this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
       this.sidebarState = newState;
     });
+    this.forbiddenDataSource.data = FORBIDDEN_MENU;
   }
 
   ngAfterViewInit(): void {

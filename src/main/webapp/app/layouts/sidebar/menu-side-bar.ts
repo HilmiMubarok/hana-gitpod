@@ -1,5 +1,25 @@
 import { ISidebarMenuModel } from './sidebar.model';
 
+// Forbidden Menu
+export const FORBIDDEN_MENU: ISidebarMenuModel[] = [
+  {
+    name: 'Options',
+    iconname: 'stethoscope',
+    children: [
+      {
+        name: 'Correction Application',
+        iconname: 'minus',
+        route: 'options/correction-application',
+      },
+      {
+        name: 'Correction Appraisal',
+        iconname: 'minus',
+        route: 'options/correction-appraisal',
+      },
+    ],
+  },
+];
+
 // Dashboard
 export const DASHBOARD: ISidebarMenuModel[] = [
   {
