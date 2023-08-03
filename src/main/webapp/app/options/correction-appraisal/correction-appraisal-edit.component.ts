@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CashPositionService } from 'app/entities/cash-position/cash-position.service';
@@ -6,7 +6,7 @@ import { IPosition } from 'app/entities/position/position.model';
 import { ISurveyAppraisals, SurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-appraisals.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { POSITION_TYPE } from 'app/shared/constants/base.constants';
+import { DIRECTION, POSITION_TYPE } from 'app/shared/constants/base.constants';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
@@ -14,7 +14,18 @@ import lodash from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
 import { CorrectionAppraisalService } from './correction-appraisal.service';
 import { CorrectionAppraisal, ICorrectionAppraisal } from './correction-appraisal.model';
-import { STATUS_CODES } from 'http';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+
+@Component({
+  selector: 'jhi-correction-appraisal-edit-info',
+  templateUrl: './correction-appraisal-edit-info.component.html',
+})
+export class CorrectionAppraisalEditInfoComponent {
+  public infoContent: string;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string) {
+    this.infoContent = data;
+  }
+}
 
 @Component({
   selector: 'jhi-correction-appraisal-edit',
@@ -31,6 +42,7 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
     private surveyAppraisalService: SurveyAppraisalsService,
     private cashPositionService: CashPositionService,
     private correctionAppraisalService: CorrectionAppraisalService,
+    public dialog: MatDialog,
     private _snackbar: MatSnackBar,
     private router: Router
   ) {
@@ -54,6 +66,63 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
 
   private async getById(): Promise<void> {
     this.surveyAppraisal = (await firstValueFrom(this.surveyAppraisalService.find(this.idAppraisal))).body;
+  }
+
+  public openInfo(): void {
+    const statusId: string = this.surveyAppraisal.statusId;
+    let content: string;
+    switch (statusId) {
+      case STATUS.ASSIGNMENT: {
+        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.ADMIN_APPRAISER + ' dengan status aktif';
+        break;
+      }
+      case STATUS.RETURNTORM: {
+        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.RM + ' dari data owner appraisal';
+        break;
+      }
+      case STATUS.ASSIGNED: {
+        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.SURVEYOR + ' dari data assign surveyor untuk appraisal';
+        break;
+      }
+      case STATUS.RETURNTOADMIN: {
+        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.ADMIN_APPRAISER + ' dengan status aktif';
+        break;
+      }
+      case STATUS.APPROVAL_TL: {
+        content =
+          'Status ' +
+          statusId +
+          ' mencari data posisi ' +
+          POSITION_TYPE.TL +
+          ' dengan internal superordinate internal dari internal surveyor yang di assign';
+        break;
+      }
+      case STATUS.RETURN_TO_OFFICER: {
+        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.SURVEYOR + ' dari data assign surveyor untuk appraisal';
+        break;
+      }
+      case STATUS.APPROVAL_DEPT_HEAD: {
+        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.APR_DEPT_HEAD + ' dengan status aktif';
+        break;
+      }
+      case STATUS.APPROVAL_DH: {
+        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.APR_DH + ' dengan status aktif';
+        break;
+      }
+      case STATUS.APPROVE: {
+        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.RM + ' dari data owner appraisal';
+        break;
+      }
+      default: {
+        content = 'Status ini tidak terdapat content';
+        break;
+      }
+    }
+
+    this.dialog.open(CorrectionAppraisalEditInfoComponent, {
+      width: '800px',
+      data: content,
+    });
   }
 
   private async getPositions(): Promise<void> {
@@ -85,6 +154,34 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
       case STATUS.RETURNTOADMIN: {
         param['active'] = true;
         param['idPositionType'] = POSITION_TYPE.ADMIN_APPRAISER;
+        break;
+      }
+      case STATUS.APPROVAL_TL: {
+        param['internalDirection'] = DIRECTION.SUPERORDINATE;
+        param['idPositionType'] = POSITION_TYPE.TL;
+        param['idInternal'] = this.surveyAppraisal.surveyorPositionInternalId;
+        break;
+      }
+      case STATUS.RETURN_TO_OFFICER: {
+        param['active'] = true;
+        param['idPosition'] = this.surveyAppraisal.surveyorPositionId;
+        param['idPositionType'] = POSITION_TYPE.SURVEYOR;
+        break;
+      }
+      case STATUS.APPROVAL_DEPT_HEAD: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.APR_DEPT_HEAD;
+        break;
+      }
+      case STATUS.APPROVAL_DH: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.APR_DH;
+        break;
+      }
+      case STATUS.APPROVE: {
+        param['active'] = true;
+        param['idParty'] = this.surveyAppraisal.ownerPosition.partyId;
+        param['idPositionType'] = POSITION_TYPE.RM;
         break;
       }
       default: {

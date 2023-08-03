@@ -28,6 +28,7 @@ export interface ISurveyAppraisals {
   surveyorId?: number;
   surveyorPersonId?: string;
   surveyorPositionId?: string;
+  surveyorPositionInternalId?: string;
   surveyorName?: string;
   apprType?: string;
   kjppNo?: string;
@@ -149,7 +150,8 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public partyTypeId?: string,
     public surveyorId?: number,
     public surveyorPersonId?: string,
-	public surveyorPositionId?: string,
+    public surveyorPositionId?: string,
+    public surveyorPositionInternalId?: string,
     public surveyorName?: string,
     public apprType?: string,
     public kjppNo?: string,

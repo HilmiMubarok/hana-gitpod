@@ -1,9 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CashSurveyAppraisalsService } from 'app/entities/survey-appraisals/cash-survey-appraisal.service';
 import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+
+@Component({
+  selector: 'jhi-correction-appraisal-info',
+  templateUrl: './correction-appraisal-info.component.html',
+})
+export class CorrectionAppraisalInfoComponent {
+  constructor() {}
+}
 
 @Component({
   selector: 'jhi-correction-appraisal',
@@ -16,7 +25,8 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
   constructor(
     private cashSurveyAppraisalsService: CashSurveyAppraisalsService,
     protected _snackbar: MatSnackBar,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    public dialog: MatDialog
   ) {
     super(_snackbar, cashSurveyAppraisalsService);
     this.currentSearch = '';
@@ -40,6 +50,12 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
     this.items = null;
     this.loading = true;
     this.loadAll(this.currentSearch);
+  }
+
+  public openInfo(): void {
+    this.dialog.open(CorrectionAppraisalInfoComponent, {
+      width: '800px',
+    });
   }
 
   public clear(): void {
