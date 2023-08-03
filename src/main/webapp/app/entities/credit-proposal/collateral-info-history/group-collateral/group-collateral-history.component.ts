@@ -838,9 +838,7 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
   }
 
   public getDataCeklis(element) {
-    const list = [];
-    list.push(this.historyData().groupChecklisCollateral);
-    const data: IGroupCollateralChecklis = list.find(obj => obj.collateralId === element.id);
+    const data: IGroupCollateralChecklis = this.historyData().groupChecklisCollateral?.find(obj => obj.collateralId === element.id);
     if (data) {
       return data.checklis;
     }
