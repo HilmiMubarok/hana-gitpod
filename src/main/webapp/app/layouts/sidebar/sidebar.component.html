@@ -1,14 +1,9 @@
 <div class="sidebar_menu" [@onSideNavChange]="sidebarState">
   <div class="background-sidebar">
     <mat-nav-list class="menu-list">
+      <!-- dasboard -->
       <mat-tree [dataSource]="dataSourceDashboard" [treeControl]="treeControlDashboard">
-        <mat-tree-node
-          class="menu-list"
-          *matTreeNodeDef="let node"
-          matTreeNodePadding
-          (click)="selectedNode()"
-          [ngClass]="getClassActive(node.route)"
-        >
+        <mat-tree-node class="menu-list" *matTreeNodeDef="let node" (click)="selectedNode()" [ngClass]="getClassActive(node.route)">
           <a routerLink="{{ node.route }}" routerLinkActive="active">
             <span [@iconAnimation]="sidebarState">
               <fa-icon [icon]="node.iconname" class="icon"></fa-icon>
@@ -17,22 +12,20 @@
           </a>
         </mat-tree-node>
       </mat-tree>
+      <!-- dasboard -->
+      <!-- original menu list -->
       <mat-tree #tree [dataSource]="dataSource" [treeControl]="treeControl">
-        <mat-tree-node
-          class="menu-list"
-          *matTreeNodeDef="let node"
-          matTreeNodePadding
-          (click)="selectedNode()"
-          [ngClass]="getClassActive(node.route)"
-        >
+        <mat-tree-node class="menu-list" *matTreeNodeDef="let node" (click)="selectedNode()" [ngClass]="getClassActive(node.route)">
           <a routerLink="{{ node.route }}" routerLinkActive="active">
             <span class="sub-icon" [@iconAnimation]="sidebarState">
               <fa-icon [icon]="node.iconname"></fa-icon>
             </span>
-            <span class="sub-label" [@labelAnimation]="sidebarState">{{ node.name }}</span>
           </a>
+          <a routerLink="{{ node.route }}" routerLinkActive="active"
+            ><span class="sub-label" [@labelAnimation]="sidebarState">{{ node.name }}</span></a
+          >
         </mat-tree-node>
-        <mat-tree-node class="menu-list" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="5">
+        <mat-tree-node class="menu-list" *matTreeNodeDef="let node; when: hasChild">
           <span [@iconAnimation]="sidebarState">
             <fa-icon [icon]="node.iconname" (click)="selectedIcon()" class="icon"></fa-icon>
           </span>
@@ -44,14 +37,10 @@
           </button>
         </mat-tree-node>
       </mat-tree>
+      <!-- original menu list -->
+      <!-- config -->
       <mat-tree [dataSource]="dataSourceConfig" [treeControl]="treeControlConfig">
-        <mat-tree-node
-          class="menu-list"
-          *matTreeNodeDef="let node"
-          matTreeNodePadding
-          (click)="selectedNode()"
-          [ngClass]="getClassActive(node.route)"
-        >
+        <mat-tree-node class="menu-list" *matTreeNodeDef="let node" (click)="selectedNode()" [ngClass]="getClassActive(node.route)">
           <a routerLink="{{ node.route }}" routerLinkActive="active">
             <span [@iconAnimation]="sidebarState">
               <fa-icon [icon]="node.iconname" class="icon"></fa-icon>
@@ -60,22 +49,18 @@
           </a>
         </mat-tree-node>
       </mat-tree>
+      <!-- config -->
+      <!-- options -->
       <mat-tree [treeControl]="treeControl" [dataSource]="forbiddenDataSource" *jhiHasAnyAuthority="['ROLE_ADMIN']">
-        <mat-tree-node
-          class="menu-list"
-          *matTreeNodeDef="let node"
-          matTreeNodePadding
-          (click)="selectedNode()"
-          [ngClass]="getClassActive(node.route)"
-        >
+        <mat-tree-node class="menu-list" *matTreeNodeDef="let node" (click)="selectedNode()" [ngClass]="getClassActive(node.route)">
           <a routerLink="{{ node.route }}" routerLinkActive="active">
-            <span class="sub-icon" [@iconAnimation]="sidebarState">
-              <fa-icon [icon]="node.iconname"></fa-icon>
+            <span [@iconAnimation]="sidebarState">
+              <fa-icon [icon]="node.iconname" class="sub-icon"></fa-icon>
             </span>
             <span class="sub-label" [@labelAnimation]="sidebarState">{{ node.name }}</span>
           </a>
         </mat-tree-node>
-        <mat-tree-node class="menu-list" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="5">
+        <mat-tree-node class="menu-list" *matTreeNodeDef="let node; when: hasChild" Indent="5">
           <span [@iconAnimation]="sidebarState">
             <fa-icon [icon]="node.iconname" (click)="selectedIcon()" class="icon"></fa-icon>
           </span>
@@ -87,6 +72,7 @@
           </button>
         </mat-tree-node>
       </mat-tree>
+      <!-- options -->
     </mat-nav-list>
   </div>
 </div>
