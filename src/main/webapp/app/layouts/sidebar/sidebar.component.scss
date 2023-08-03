@@ -11,6 +11,8 @@
   flex: 1;
   justify-content: normal;
   height: auto;
+  position: relative;
+  padding-top: 0 !important;
 }
 
 .menu-list.icon {
@@ -36,13 +38,18 @@
 }
 .background-sidebar {
   display: inline-block;
-  position: absolute;
+  position: fixed;
   background-color: #48a5a1;
   margin: 3rem auto 0 auto;
   margin-top: 15px;
   margin-left: 15px;
   padding: 1rem 1rem 2rem 5px;
   border-radius: 5%;
+  max-height: 25em !important;
+  overflow-y: scroll;
+}
+.background-sidebar::-webkit-scrollbar {
+  display: none;
 }
 .background-sidebar-appraisaladm {
   display: inline-block;
@@ -120,7 +127,7 @@
   font-size: 14px !important;
   text-align: left;
   display: inline-block;
-  position: fixed;
+  position: relative;
   margin-left: -2px;
 }
 
