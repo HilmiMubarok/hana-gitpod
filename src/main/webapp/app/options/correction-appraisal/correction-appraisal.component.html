@@ -8,7 +8,7 @@
             <mat-icon>info</mat-icon>
           </button></mat-card-title
         >
-        <mat-card-subtitle>This page are for correct incorrect data like no pic</mat-card-subtitle>
+        <mat-card-subtitle>This page are for fix incorrect data like no pic</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
@@ -19,9 +19,9 @@
             <mat-panel-description> Filtering data collection </mat-panel-description>
           </mat-expansion-panel-header>
           <div class="row">
-            <div class="col-4">
+            <div class="col-6">
               <mat-form-field class="w-100">
-                <mat-label>Ignore active position type:</mat-label>
+                <mat-label>Inactive / Not Exist PIC Position Type</mat-label>
                 <mat-select multiple [(ngModel)]="selectedFilterPositionTypes">
                   <mat-select-trigger>
                     {{ selectedFilterPositionTypes[0] ? showSelectedPositions(selectedFilterPositionTypes[0]) : '' }}
@@ -33,6 +33,22 @@
                     </span>
                   </mat-select-trigger>
                   <mat-option *ngFor="let each of positionTypes" [value]="each.id">{{ each.description }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <mat-form-field class="w-100">
+                <mat-label>Appraisal Status</mat-label>
+                <mat-select multiple [(ngModel)]="selectedFilterStatusItems">
+                  <mat-select-trigger>
+                    {{ selectedFilterStatusItems[0] ? showSelectedStatus(selectedFilterStatusItems[0]) : '' }}
+                    {{ selectedFilterStatusItems[1] ? ', ' + showSelectedStatus(selectedFilterStatusItems[1]) : '' }}
+                    {{ selectedFilterStatusItems[2] ? ', ' + showSelectedStatus(selectedFilterStatusItems[2]) : '' }}
+                    <span *ngIf="(selectedFilterStatusItems.length || 0) > 3" style="opacity: 0.75; font-size: 0.75em">
+                      (+{{ (selectedFilterStatusItems.length || 0) - 3 }} {{ selectedFilterStatusItems.length === 4 ? 'other' : 'others' }})
+                    </span>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let each of statusItems" [value]="each.id">{{ each.description }}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
