@@ -415,11 +415,6 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
         this.legalLendingLimitValue = (this.modalUsaha * Number(this.generalParameter[i].value)) / 100;
       }
     }
-    this.getValueLimit();
-
-  }
-
-  public getValueLimit(): void {
     this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
     this.creditProposal.attributes['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
     this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup =
@@ -427,7 +422,10 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.creditProposal.attributes['legalLendingLimit'].buffer =
       this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue -
       this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup;
+    this.getValueLimit();
+  }
 
+  public getValueLimit(): void {
     if (this.creditProposal.attributes['legalLendingLimit'].buffer > 0) {
       this.creditProposal.attributes['legalLendingLimit'].status = 'comply';
     } else if (this.creditProposal.attributes['legalLendingLimit'].buffer < 0) {
