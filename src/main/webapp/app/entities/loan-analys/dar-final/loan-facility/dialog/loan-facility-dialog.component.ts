@@ -292,7 +292,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   }
 
   ngOnInit(): void {
-    console.log('application product ', this.applicationProduct);
     this.cekApplicationType();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.sublimitFromExistingFacility);
@@ -356,7 +355,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     } else {
       const dateNew = new Date().toISOString().split('T')[0];
       if (this.rateType !== '' && this.ccy !== '' && dateNew) {
-        console.log('ini rate type ', this.rateType);
         this.indexRateService
           .find('get?date=' + dateNew.replace(/-/g, '') + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
           .subscribe((res: any) => {
@@ -372,6 +370,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   }
 
   public berubah(event: any): void {
+    this.applicationProduct.productTypeId = this.applicationProduct.attributes.facilityType;
     if (event === 'FN - Syndicate loan / club deal') {
       this.status = true;
     } else {
@@ -390,7 +389,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       .subscribe(res => {
         this.listLoanType = res.body;
         // const a = this.listLoanType.find(obj => obj.name === event);
-        console.log('loan type List', this.listLoanType);
         this.getfacilityCategory(this.applicationProduct.productName);
       });
 
@@ -725,7 +723,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         this.interestTypeList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('interest type', this.interestTypeList);
       });
   }
 
@@ -809,7 +806,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
 
   public getfacilityCategory(event) {
     const data = this.listLoanType.find(obj => obj.name === event);
-
     if (data) {
       this.productClasificationService
         .queryFilterBy({

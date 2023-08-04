@@ -107,7 +107,6 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      console.log('new cp', this.creditProposal);
       this.dataProduct = this.creditProposal.products;
     }
   }
@@ -126,7 +125,6 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log('ini credit proposal loan ', this.creditProposal.products[0]);
     this.currency();
     // this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
@@ -397,6 +395,10 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
             this.dataProduct = [...this.dataProduct, copyApplicationProduct];
             this.creditProposal.products = [...this.creditProposal.products, copyApplicationProduct];
 
+            this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
+            this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
+            this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
+
             // this.dataParty = [...this.dataParty, this.applicationProduct];
             // this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
           }
@@ -415,6 +417,10 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
       this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
       this.dataProduct[idx] = mark ? appProduct : this.applicationProductStartState;
       this.dataProduct = [...this.dataProduct];
+
+      this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
+      this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
+      this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
     }
   }
   // Delete Confirmation
@@ -432,6 +438,10 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
         const dataGrid = this.creditProposal.products.filter(obj => obj.nomorUrutFasilitas !== element.nomorUrutFasilitas);
         this.dataProduct = dataGrid;
         this.creditProposal.products = this.dataProduct;
+
+        this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
+        this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
+        this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
       }
     });
   }
@@ -482,5 +492,164 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
       return element;
     }
     return '';
+  }
+
+  public countTotalPsrDebitur() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].totalPlafond !== undefined) {
+            if (filterIdr[i].hobis) {
+              if (filterIdr[i].facilityType === 'FX') {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            } else {
+              if (filterIdr[i].attributes.facilityType === 'FX') {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].totalPlafond !== undefined) {
+            if (filterUsd[i].hobis) {
+              if (filterUsd[i].facilityType === 'FX') {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            } else {
+              if (filterUsd[i].attributes.facilityType === 'FX') {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  public countShortTermLoanDebitur() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].totalPlafond !== undefined) {
+            if (filterIdr[i].periodType === 'Week') {
+              if (filterIdr[i].tenor <= 52) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+            if (filterIdr[i].periodType === 'Month') {
+              if (filterIdr[i].tenor <= 12) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+            if (filterIdr[i].periodType === 'Year') {
+              if (filterIdr[i].tenor <= 1) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].totalPlafond !== undefined) {
+            if (filterUsd[i].periodType === 'Week') {
+              if (filterUsd[i].tenor <= 52) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+            if (filterUsd[i].periodType === 'Month') {
+              if (filterUsd[i].tenor <= 12) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+            if (filterUsd[i].periodType === 'Year') {
+              if (filterUsd[i].tenor <= 1) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  public countLongThermLoanDebitur() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].totalPlafond !== undefined) {
+            if (filterIdr[i].periodType === 'Week') {
+              if (filterIdr[i].tenor > 52) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+            if (filterIdr[i].periodType === 'Month') {
+              if (filterIdr[i].tenor > 12) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+            if (filterIdr[i].periodType === 'Year') {
+              if (filterIdr[i].tenor > 1) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].totalPlafond !== undefined) {
+            if (filterUsd[i].periodType === 'Week') {
+              if (filterUsd[i].tenor > 52) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+            if (filterUsd[i].periodType === 'Month') {
+              if (filterUsd[i].tenor > 12) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+            if (filterUsd[i].periodType === 'Year') {
+              if (filterUsd[i].tenor > 1) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+          }
+        }
+      }
+    }
+    return result + dolar;
   }
 }
