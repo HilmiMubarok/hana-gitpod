@@ -80,7 +80,7 @@
               matInput
               [formControl]="myControl"
               [matAutocomplete]="auto"
-              [(ngModel)]="applicationProduct.productTypeId"
+              [(ngModel)]="applicationProduct.attributes.facilityType"
               (ngModelChange)="berubah($event)"
             />
             <mat-autocomplete #auto="matAutocomplete">
@@ -484,11 +484,11 @@
                 type="text"
                 [(ngModel)]="applicationProduct.totalPlafond"
                 [options]="logoCcy"
-                [value]="calTotalPlafond()"
+                [value]="calTotalPlafond(revolving)"
               />
             </ng-template>
             <ng-template #f>
-              <input matInput type="text" [(ngModel)]="applicationProduct.totalPlafond" [value]="calTotalPlafond()" />
+              <input matInput type="text" [(ngModel)]="applicationProduct.totalPlafond" [value]="calTotalPlafond(revolving)" />
             </ng-template>
           </mat-form-field>
         </div>
