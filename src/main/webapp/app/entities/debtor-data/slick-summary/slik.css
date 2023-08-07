@@ -245,7 +245,7 @@ mat-card-header {
 }
 /* slik dialog view */
 .mat-column-no {
-  width: 5% !important;
+  width: 3% !important;
   text-align: right;
 }
 .mat-column-action {
