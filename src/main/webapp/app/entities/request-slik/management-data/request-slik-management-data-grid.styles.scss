@@ -2,9 +2,10 @@ table {
   border-bottom: 1px solid #008881 !important;
   width: 100%;
   th {
-    background-color: rgba(147, 201, 199, 1) !important;
-    color: black !important;
-    font-family: 'Poppins', sans-serif !important;
+    background-color: #93c9c7;
+    // border: 1px solid #93c9c7;
+    color: black;
+    padding: 8px;
   }
   td {
     font-family: 'Poppins', sans-serif !important;
@@ -17,8 +18,8 @@ table {
   }
 
   mat-header-cell {
-    background-color: #008881;
-    // border: 1px solid #008881;
+    background-color: #93c9c7;
+    // border: 1px solid #93c9c7;
     color: black;
     padding: 8px;
     text-align: left;

@@ -1,47 +1,45 @@
 <mat-card *ngIf="requestSlik.status !== reqSlikStatus.VERIFY && requestSlik.status !== reqSlikStatus.COMPLETE">
-  <mat-card-header>
-    <mat-card-header-subtitle class="text-capitalize header-title">Others (group, guarantor, etc)</mat-card-header-subtitle>
-  </mat-card-header>
+  <h4 class="label-font-detail">Others (group, guarantor, etc)</h4>
   <mat-card-content>
-    <div class="table-responsive-material">
+    <div class="table-responsive">
       <table mat-table [dataSource]="organizationManagement" class="w-100">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef>No</th>
-          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}.</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-number">No</th>
+          <td mat-cell *matCellDef="let i = index" class="grid-index-number">{{ i + 1 }}.</td>
         </ng-container>
         <ng-container matColumnDef="fullname">
-          <th mat-header-cell *matHeaderCellDef>Fullname</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Fullname</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.person.name }}
           </td>
         </ng-container>
         <ng-container matColumnDef="idCard">
-          <th mat-header-cell *matHeaderCellDef>ID Card</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">ID Card</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.person.personalIdNumber }}
           </td>
         </ng-container>
         <ng-container matColumnDef="dob">
-          <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Date of Birth</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.person?.dob | formatMediumDate }}
           </td>
         </ng-container>
         <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef>Address</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Address</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.postalAddress.address1 }}
           </td>
         </ng-container>
         <ng-container matColumnDef="pep">
-          <th mat-header-cell *matHeaderCellDef>Pep</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Pep</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.attributes.pep }}
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Actions</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             <mat-checkbox
               #c
               (click)="$event.stopPropagation()"
@@ -58,6 +56,7 @@
         <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
       </table>
     </div>
+
     <mat-card *ngIf="loading" id="material-loading-bar">
       <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
     </mat-card>
@@ -75,49 +74,47 @@
 </mat-card>
 
 <mat-card *ngIf="requestSlik.status === reqSlikStatus.VERIFY || requestSlik.status === reqSlikStatus.COMPLETE">
-  <mat-card-header>
-    <mat-card-header-subtitle class="text-capitalize header-title">Others (group, guarantor, etc)</mat-card-header-subtitle>
-  </mat-card-header>
+  <h4 class="label-font-detail">Others (group, guarantor, etc)</h4>
   <mat-card-content>
-    <div class="table-responsive-material">
+    <div class="table-responsive">
       <table mat-table [dataSource]="organizationManagement" class="w-100 mat-table-expand" multiTemplateDataRows>
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef>No</th>
-          <td mat-cell *matCellDef="let i = dataIndex">{{ i + 1 }}.</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-number">No</th>
+          <td mat-cell *matCellDef="let i = dataIndex" class="grid-index-number">{{ i + 1 }}.</td>
         </ng-container>
         <ng-container matColumnDef="fullname">
-          <th mat-header-cell *matHeaderCellDef>Fullname</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Fullname</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.person.name }}
           </td>
         </ng-container>
         <ng-container matColumnDef="idCard">
-          <th mat-header-cell *matHeaderCellDef>ID Card</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">ID Card</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.person.personalIdNumber }}
           </td>
         </ng-container>
         <ng-container matColumnDef="dob">
-          <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Date of Birth</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.person?.dob | formatMediumDate }}
           </td>
         </ng-container>
         <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef>Address</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Address</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.postalAddress.address1 }}
           </td>
         </ng-container>
         <ng-container matColumnDef="pep">
-          <th mat-header-cell *matHeaderCellDef>Pep</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Pep</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             {{ element.attributes.pep }}
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Actions</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-string">
             <mat-checkbox
               #c
               (click)="$event.stopPropagation()"
@@ -128,7 +125,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="grid-index-string">&nbsp;</th>
           <td mat-cell *matCellDef="let element">
             <button
               mat-icon-button
