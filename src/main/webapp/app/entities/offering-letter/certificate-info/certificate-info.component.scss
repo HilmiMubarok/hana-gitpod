@@ -1,0 +1,46 @@
+th {
+  background-color: rgba(147, 201, 199, 1);
+  color: black;
+  font-family: 'Poppins', sans-serif;
+}
+td {
+  font-family: 'Poppins', sans-serif;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+
+table thead tr th {
+  background-color: rgba(147, 201, 199, 1);
+  color: black;
+  font-family: 'Poppins', sans-serif;
+}
+td {
+  font-family: 'Poppins', sans-serif;
+}
+table thead tr th:first-child {
+  border-top-left-radius: 15px;
+}
+table thead tr th:last-child {
+  border-top-right-radius: 15px;
+}
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}

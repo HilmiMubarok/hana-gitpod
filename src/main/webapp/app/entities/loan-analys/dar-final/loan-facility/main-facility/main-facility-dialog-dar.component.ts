@@ -1,9 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IMainFacility } from 'app/entities/main-facility/main-facility.model';
 import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { UOM_TYPE } from 'app/shared/constants/base.constants';
 import { Observable, map, startWith } from 'rxjs';
 
@@ -19,22 +21,31 @@ export class MainFacilityDialogDarComponent implements OnInit {
   public filteredOptionsCurrency: Observable<IUom[]>;
   public amountCcy: IUom;
   public mainFacility: IMainFacility;
+  public dataItem: ICreditProposal;
 
   constructor(
+    private dialog: MatDialog,
     private uomService: UomService,
-
     @Inject(MAT_DIALOG_DATA)
     public data: {
       mainData: IMainFacility;
+      item: ICreditProposal;
     },
     private _dialog: MatDialogRef<MainFacilityDialogDarComponent>
   ) {
     this.mainFacility = data.mainData;
+    this.dataItem = this.data.item;
   }
 
   ngOnInit(): void {
     this.loadCurrencyMeasure();
     this.myControlCurrency.disable();
+    if (!this.mainFacility.startPeriodDate) {
+      this.mainFacility.startPeriodDate = this.mainFacility.lastAgreementDate;
+    }
+    if (!this.mainFacility.endPeriodDate) {
+      this.mainFacility.endPeriodDate = this.mainFacility.maturityDate;
+    }
   }
 
   filteredCurrency() {
@@ -79,5 +90,21 @@ export class MainFacilityDialogDarComponent implements OnInit {
   }
   public cancel(): void {
     this._dialog.close();
+  }
+
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

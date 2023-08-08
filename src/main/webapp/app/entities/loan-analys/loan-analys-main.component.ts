@@ -142,6 +142,17 @@ export class LoanAnalysMainComponent implements OnInit {
   public proposType = [];
   private KEYG = 'credit_proposal/summary';
 
+  private applicationRolePreSave = {
+    id: 0,
+    applicationId: 0,
+    partyId: '',
+    partyName: '',
+    roleDescription: '',
+    roleId: '',
+  };
+
+  public isOpen = false;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -175,14 +186,33 @@ export class LoanAnalysMainComponent implements OnInit {
     switch (this.parentPath) {
       case 'la-distribution':
         if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-            ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
-            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-            ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW)
-            : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
+          if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+            // Above
+            if (this.creditProposal.attributes['previousOfferingLetter']) {
+              this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'memo-banding', text: 'Memo Banding' }];
+            } else {
+              this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY;
+            }
+          } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+            // Below
+            if (this.creditProposal.attributes['previousOfferingLetter']) {
+              this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW, { id: 'memo-banding', text: 'Memo Banding' }];
+            } else {
+              this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW;
+            }
+          } else {
+            // BTB
+            if (this.creditProposal.attributes['previousOfferingLetter']) {
+              this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB, { id: 'memo-banding', text: 'Memo Banding' }];
+            } else {
+              this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB;
+            }
+          }
         } else {
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-            ? (this.subMenu = [
+          if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+            // Above
+            if (this.creditProposal.attributes['previousOfferingLetter']) {
+              this.subMenu = [
                 ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
                 {
                   id: 'loan-slik-checking',
@@ -196,9 +226,32 @@ export class LoanAnalysMainComponent implements OnInit {
                   id: 'compare-data',
                   text: 'Compare Data',
                 },
-              ])
-            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-            ? (this.subMenu = [
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ];
+            } else {
+              this.subMenu = [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+                {
+                  id: 'loan-slik-checking',
+                  text: 'SLIK Checking',
+                },
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'compare-data',
+                  text: 'Compare Data',
+                },
+              ];
+            }
+          } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+            // Below
+            if (this.creditProposal.attributes['previousOfferingLetter']) {
+              this.subMenu = [
                 ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
                 {
                   id: 'loan-slik-checking',
@@ -212,8 +265,32 @@ export class LoanAnalysMainComponent implements OnInit {
                   id: 'compare-data',
                   text: 'Compare Data',
                 },
-              ])
-            : (this.subMenu = [
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ];
+            } else {
+              this.subMenu = [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+                {
+                  id: 'loan-slik-checking',
+                  text: 'SLIK Checking',
+                },
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'compare-data',
+                  text: 'Compare Data',
+                },
+              ];
+            }
+          } else {
+            // BTB
+            if (this.creditProposal.attributes['previousOfferingLetter']) {
+              this.subMenu = [
                 ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
                 {
                   id: 'loan-slik-checking',
@@ -227,43 +304,123 @@ export class LoanAnalysMainComponent implements OnInit {
                   id: 'compare-data',
                   text: 'Compare Data',
                 },
-              ]);
+                {
+                  id: 'memo-banding',
+                  text: 'Memo Banding',
+                },
+              ];
+            } else {
+              this.subMenu = [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+                {
+                  id: 'loan-slik-checking',
+                  text: 'SLIK Checking',
+                },
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'compare-data',
+                  text: 'Compare Data',
+                },
+              ];
+            }
+          }
         }
         break;
 
       case 'la-SME-CRC':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-          ? (this.subMenu = [
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
               { id: 'opinion', text: 'Opinion' },
               { id: 'compare-data', text: 'Compare Data' },
-            ])
-          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-          ? (this.subMenu = [
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
               { id: 'opinion', text: 'Opinion' },
               { id: 'compare-data', text: 'Compare Data' },
-            ])
-          : (this.subMenu = [
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
               { id: 'opinion', text: 'Opinion' },
               { id: 'compare-data', text: 'Compare Data' },
-            ]);
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        }
+
         break;
 
       case 'cc-distribution':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-          ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
-          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-          ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW)
-          : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY;
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW;
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB;
+          }
+        }
+
         break;
 
       case 'la-analyst':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-          ? (this.subMenu = [...SUBMENU_LOAN_ANALYS])
-          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-          ? (this.subMenu = [
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS;
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
               {
                 id: 'loan-slik-checking',
@@ -277,164 +434,412 @@ export class LoanAnalysMainComponent implements OnInit {
                 id: 'compare-data',
                 text: 'Compare Data',
               },
-            ])
-          : (this.subMenu = [...SUBMENU_LOAN_ANALYS_BELOW_AND_BTB]);
+              {
+                id: 'memo-banding',
+                text: 'Memo Banding',
+              },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'loan-slik-checking',
+                text: 'SLIK Checking',
+              },
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'compare-data',
+                text: 'Compare Data',
+              },
+            ];
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_BELOW_AND_BTB, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB;
+          }
+        }
+
         break;
 
       case 'la-approval':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-          ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL])
-          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-          ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW])
-          : (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BTB]);
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL];
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW];
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BTB, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BTB];
+          }
+        }
+
         break;
 
       case 'la-approval-inquiry':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-          ? (this.subMenu = [
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
               { id: 'opinion', text: 'Opinion' },
-
               { id: 'compare-data', text: 'Compare Data' },
-            ])
-          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-          ? (this.subMenu = [
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
               { id: 'opinion', text: 'Opinion' },
-
               { id: 'compare-data', text: 'Compare Data' },
-            ])
-          : (this.subMenu = [
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
               { id: 'opinion', text: 'Opinion' },
-
               { id: 'compare-data', text: 'Compare Data' },
-            ]);
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          }
+        }
+
         break;
+
       case 'dar-final':
-        this.subMenu =
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-            ? [...SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
-            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-            ? [
-                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
-                {
-                  id: 'opinion',
-                  text: 'Opinion',
-                },
-                {
-                  id: 'covenant',
-                  text: 'convenant & Document Checklist',
-                },
-                {
-                  id: 'loan-facility-detail',
-                  text: 'Loan Facility',
-                },
-                {
-                  id: 'facility-mapping',
-                  text: 'Collateral Mapping Facility',
-                },
-                { id: 'compare-data', text: 'Compare Data' },
-              ]
-            : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE,
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }];
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'covenant',
+                text: 'convenant & Document Checklist',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'Loan Facility',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Mapping Facility',
+              },
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'covenant',
+                text: 'convenant & Document Checklist',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'Loan Facility',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Mapping Facility',
+              },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_DAR_FINAL,
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+          }
+        }
+
         break;
 
       case 'dar-notif':
-        this.subMenu =
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-            ? [...SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
-            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-            ? [
-                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
-                {
-                  id: 'opinion',
-                  text: 'Opinion',
-                },
-                {
-                  id: 'dar-convenant',
-                  text: 'convenant & Document Checklist',
-                },
-                {
-                  id: 'loan-facility-detail',
-                  text: 'Loan Facility',
-                },
-                {
-                  id: 'facility-mapping',
-                  text: 'Collateral Mapping Facility',
-                },
-                { id: 'compare-data', text: 'Compare Data' },
-              ]
-            : (this.subMenu = [
-                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
-                {
-                  id: 'opinion',
-                  text: 'Opinion',
-                },
-                {
-                  id: 'dar-convenant',
-                  text: 'convenant & Document Checklist',
-                },
-                {
-                  id: 'loan-facility-detail',
-                  text: 'Loan Facility',
-                },
-                {
-                  id: 'facility-mapping',
-                  text: 'Collateral Mapping Facility',
-                },
-                { id: 'compare-data', text: 'Compare Data' },
-              ]);
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE,
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE, { id: 'compare-data', text: 'Compare Data' }];
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'dar-convenant',
+                text: 'convenant & Document Checklist',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'Loan Facility',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Mapping Facility',
+              },
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'dar-convenant',
+                text: 'convenant & Document Checklist',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'Loan Facility',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Mapping Facility',
+              },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'dar-convenant',
+                text: 'convenant & Document Checklist',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'Loan Facility',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Mapping Facility',
+              },
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'dar-convenant',
+                text: 'convenant & Document Checklist',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'Loan Facility',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Mapping Facility',
+              },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        }
+
         break;
 
       case 'dar-checker':
-        this.subMenu =
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-            ? SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE
-            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-            ? SUBMENU_LOAN_ANALYS_DAR_CHECKER_BELOW
-            : SUBMENU_LOAN_ANALYS_DAR_CHECKER;
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE;
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_CHECKER_BELOW, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER_BELOW;
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_CHECKER, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER;
+          }
+        }
+
         break;
 
       case 'loan-committee-approval':
-        this.subMenu =
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-            ? [...SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
-            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-            ? [
-                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
-                {
-                  id: 'opinion',
-                  text: 'Opinion',
-                },
-                {
-                  id: 'covenant',
-                  text: 'convenant & Document Checklist',
-                },
-                {
-                  id: 'loan-facility-detail',
-                  text: 'Loan Facility',
-                },
-                {
-                  id: 'facility-mapping',
-                  text: 'Collateral Mapping Facility',
-                },
-                { id: 'compare-data', text: 'Compare Data' },
-              ]
-            : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE,
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }];
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'covenant',
+                text: 'convenant & Document Checklist',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'Loan Facility',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Mapping Facility',
+              },
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'covenant',
+                text: 'convenant & Document Checklist',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'Loan Facility',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Mapping Facility',
+              },
+              { id: 'compare-data', text: 'Compare Data' },
+            ];
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_DAR_FINAL,
+              { id: 'compare-data', text: 'Compare Data' },
+              { id: 'memo-banding', text: 'Memo Banding' },
+            ];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+          }
+        }
+
         break;
 
       case 'cc-checking':
-        this.subMenu = SUBMENU_LOAN_ANALYS_CC_CHECKING;
+        this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
+          ? [...SUBMENU_LOAN_ANALYS_CC_CHECKING, { id: 'memo-banding', text: 'Memo Banding' }]
+          : SUBMENU_LOAN_ANALYS_CC_CHECKING;
         break;
 
       case 'cc-review':
       case 'cc-inquiry':
-        this.subMenu = SUBMENU_LOAN_ANALYS_CC_REVIEW;
+        this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
+          ? [...SUBMENU_LOAN_ANALYS_CC_REVIEW, { id: 'memo-banding', text: 'Memo Banding' }]
+          : SUBMENU_LOAN_ANALYS_CC_REVIEW;
         break;
 
       case 'loan-analys-and-approval-monitoring':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-          ? (this.subMenu = [
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
               {
                 id: 'opinion',
@@ -452,9 +857,36 @@ export class LoanAnalysMainComponent implements OnInit {
                 id: 'facility-mapping',
                 text: 'Collateral Facility Mapping',
               },
-            ])
-          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-          ? (this.subMenu = [
+              {
+                id: 'memo-banding',
+                text: 'Memo Banding',
+              },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+              {
+                id: 'opinion',
+                text: 'Credit Opinion',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'loan facility detail',
+              },
+              {
+                id: 'convenant-tbo',
+                text: 'Covenant & Document Checklist',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Facility Mapping',
+              },
+            ];
+          }
+        } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio') {
+          // Below
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
               {
                 id: 'opinion',
@@ -472,14 +904,59 @@ export class LoanAnalysMainComponent implements OnInit {
                 id: 'facility-mapping',
                 text: 'Collateral Facility Mapping',
               },
-            ])
-          : (this.subMenu = [...SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING]);
+              {
+                id: 'memo-banding',
+                text: 'Memo Banding',
+              },
+            ];
+          } else {
+            this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'opinion',
+                text: 'Credit Opinion',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'loan facility detail',
+              },
+              {
+                id: 'convenant-tbo',
+                text: 'Covenant & Document Checklist',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Facility Mapping',
+              },
+            ];
+          }
+        } else {
+          // BTB
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING];
+          }
+        }
+
         break;
 
       default:
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
-          ? (this.subMenu = SUBMENU_LOAN_ANALYS)
-          : (this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB);
+        if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
+          // Above
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS;
+          }
+        } else {
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = [...SUBMENU_LOAN_ANALYS_BELOW_AND_BTB, { id: 'memo-banding', text: 'Memo Banding' }];
+          } else {
+            this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB;
+          }
+        }
+
         break;
     }
 
@@ -776,23 +1253,34 @@ export class LoanAnalysMainComponent implements OnInit {
   public InternalId: any;
   public positionApproval: any;
 
+  private doCheckApplicationRolePreSave(): void {
+    if (this.applicationRolePreSave) {
+      if (
+        !this.applicationRolePreSave.id ||
+        this.applicationRolePreSave.id === 0 ||
+        !this.applicationRolePreSave.applicationId ||
+        this.applicationRolePreSave.applicationId === 0
+      ) {
+        if (this.url === 'la-distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCRO'];
+        } else if (this.url === 'cc-distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCCAdmin'];
+        } else if (this.url === 'distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToLegalOfficer'];
+        }
+      }
+    }
+  }
+
   private preSave(status: string): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-    const applicationRolePreSave = {
-      id: 0,
-      applicationId: 0,
-      partyId: '',
-      partyName: '',
-      roleDescription: '',
-      roleId: '',
-    };
 
-    applicationRolePreSave.id = Number(this.applicationRole.id);
-    applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
-    applicationRolePreSave.partyId = this.applicationRole.partyId;
-    applicationRolePreSave.partyName = this.applicationRole.partyName;
-    applicationRolePreSave.roleId = this.applicationRole.roleId;
-    applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
+    this.applicationRolePreSave.id = Number(this.applicationRole.id);
+    this.applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
+    this.applicationRolePreSave.partyId = this.applicationRole.partyId;
+    this.applicationRolePreSave.partyName = this.applicationRole.partyName;
+    this.applicationRolePreSave.roleId = this.applicationRole.roleId;
+    this.applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
 
     const tempRouter = this.router.url.split('/')[1];
 
@@ -941,19 +1429,22 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
+    copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
+
+    this.doCheckApplicationRolePreSave();
 
     if (this.url === 'la-distribution') {
-      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(applicationRolePreSave);
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(this.applicationRolePreSave);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
       copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     } else if (this.url === 'cc-distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
-      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(applicationRolePreSave);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(this.applicationRolePreSave);
       copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     } else if (this.url === 'distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(applicationRolePreSave);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(this.applicationRolePreSave);
     } else {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
@@ -1071,34 +1562,38 @@ export class LoanAnalysMainComponent implements OnInit {
     const formDataConditionSfdt = new FormData();
     const formDataConditionWord = new FormData();
 
-    const fileNameSfdt = this.uuidPath + '.sfdt';
-    const fileNameWord = this.uuidPath + '.docs';
+    /* const fileNameSfdt = this.uuidPath + '.sfdt';
+    const fileNameWord = this.uuidPath + '.docs'; */
+    const fileNameOpinionSfdt = 'opini.sfdt';
+    const fileNameOpinionWord = 'opini.docs';
+    const fileNameConditionSfdt = 'condition.sfdt';
+    const fileNameConditionWord = 'condition.docs';
     const fileTypeSfdt = 'sfdt';
     const fileTypeWord = 'word';
 
     const keyOpinion = 'credit_proposal/remark/opinion-history/opinion';
     const pathHelperOpinion = this.uuidPath + '-opinion';
     const metaDataOpinionSfdt = {
-      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
+      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameOpinionSfdt}`,
     };
     const metaDataOpinionWord = {
-      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
+      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameOpinionWord}`,
     };
 
     const keyCondition = 'credit_proposal/remark/opinion-history/condition';
     const pathHelperCondition = this.uuidPath + '-condition';
     const metaDataConditionSfdt = {
-      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
+      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameConditionSfdt}`,
     };
     const metaDataConditionWord = {
-      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
+      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameConditionWord}`,
     };
 
-    formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameSfdt));
-    formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameWord));
+    formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameOpinionSfdt));
+    formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameOpinionWord));
 
-    formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameSfdt));
-    formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameWord));
+    formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameConditionSfdt));
+    formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameConditionWord));
 
     this.storageService.uploadMeta(this.BUCKET, formDataOpinionSfdt, metaDataOpinionSfdt).subscribe();
     this.storageService.uploadMeta(this.BUCKET, formDataOpinionWord, metaDataOpinionWord).subscribe();
@@ -1484,62 +1979,47 @@ export class LoanAnalysMainComponent implements OnInit {
     this.appName = sessionStorage.getItem('appName');
   }
 
-  getText(value: any) {
+  getText(value: any): string {
     if (value === 'la-distribution') {
-      this.title = 'Loan Analysis Distribution';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Analysis Distribution';
     }
     if (value === 'la-analyst') {
-      this.title = 'Loan Analysis';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Analysis';
     }
     if (value === 'la-SME-CRC') {
-      this.title = 'Loan Analysis SME Checker';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Analysis SME Checker';
     }
     if (value === 'la-approval') {
-      this.title = 'Loan Approval';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Approval';
     }
     if (value === 'la-approval-inquiry') {
-      this.title = 'Loan Approval Inquiry';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Approval Inquiry';
     }
     if (value === 'dar-final') {
-      this.title = 'DAR Finalization';
-      sessionStorage.setItem('appName', this.title);
+      return 'DAR Finalization';
     }
     if (value === 'dar-checker') {
-      this.title = 'Final DAR - Checker';
-      sessionStorage.setItem('appName', this.title);
+      return 'Final DAR - Checker';
     }
     if (value === 'loan-committee-approval') {
-      this.title = 'Loan Komite Approval';
-      sessionStorage.setItem('appName', this.title);
+      return 'Loan Komite Approval';
     }
     if (value === 'dar-notif') {
-      this.title = 'DAR Notification';
-      sessionStorage.setItem('appName', this.title);
+      return 'DAR Notification';
     }
     if (value === 'cc-distribution') {
-      this.title = 'Compliance Checking Distribution';
-      sessionStorage.setItem('appName', this.title);
+      return 'Compliance Checking Distribution';
     }
     if (value === 'cc-checking') {
-      this.title = 'Compliance Checking';
-      sessionStorage.setItem('appName', this.title);
+      return 'Compliance Checking';
     }
     if (value === 'cc-review') {
-      this.title = 'Compliance Checking Review';
-      sessionStorage.setItem('appName', this.title);
+      return 'Compliance Checking Review';
     }
     if (value === 'cc-inquiry') {
-      this.title = 'Compliance Checking';
-      sessionStorage.setItem('appName', this.title);
-    }
-    if (value === 'loan-analys-and-approval-monitoring') {
-      this.title = 'Loan Analyst and Approval Monitoring';
-      sessionStorage.setItem('appName', this.title);
+      return 'Compliance Checking';
+    } else {
+      return 'Loan Analyst and Approval Monitoring';
     }
   }
 
@@ -1548,121 +2028,22 @@ export class LoanAnalysMainComponent implements OnInit {
     this.titleUrl = x;
   }
 
-  getTextMenu() {
-    if (this.selectedMenu === 'credit-proposal-summary') {
-      this.titleMenu = 'Credit Proposal Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+  showTextMenu() {
+    const menuList = [];
+    menuList.push(this.subMenu);
+    for (let i = 0; i < menuList.length; i++) {
+      for (let x = 0; x < menuList[i].length; x++) {
+        if (this.selectedMenu === menuList[i][x].id) {
+          return menuList[i][x].text;
+        } else {
+          for (let y = 0; y < menuList[i][x].child?.length; y++) {
+            if (this.selectedMenu === menuList[i][x].child[y].id) {
+              return menuList[i][x].child[y].text;
+            }
+          }
+        }
+      }
     }
-    if (this.selectedMenu === 'compliance-recomendation') {
-      this.titleMenu = 'Compliance Recomendation';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'opinion') {
-      this.titleMenu = 'Opinion';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'covenant-document-check' || this.selectedMenu === 'covenant') {
-      this.titleMenu = 'Covenant & Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'document-checklist') {
-      this.titleMenu = 'Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'basic-information') {
-      this.titleMenu = 'Basic Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'management-information') {
-      this.titleMenu = 'Management Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'exposure') {
-      this.titleMenu = 'Exposure';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'risk-acceptance-criteria') {
-      this.titleMenu = 'Risk Acceptance Criteria';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (
-      this.selectedMenu === 'loan-facility-detail' ||
-      this.selectedMenu === 'loan-facility' ||
-      this.selectedMenu === 'loan-facility-view'
-    ) {
-      this.titleMenu = 'Loan Facility Detail';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'collateral-info') {
-      this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'business-activity') {
-      this.titleMenu = 'Business Activity';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'financial-statement') {
-      this.titleMenu = 'Financial Statement';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'bank-account-analyst') {
-      this.titleMenu = 'Bank Account Analyst';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'convenant-tbo') {
-      this.titleMenu = 'Convenant & Tbo';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'propose-pricing') {
-      this.titleMenu = 'Propose Pricing';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'summary') {
-      this.titleMenu = 'Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'compare-data') {
-      this.titleMenu = 'Compare Data';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'compliance-recommendation') {
-      this.titleMenu = 'Compliance Recommendation';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'slik-checking') {
-      this.titleMenu = 'Slik Checking';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'facility-mapping') {
-      this.titleMenu = 'Facility Mapping';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'mapping-facility') {
-      this.titleMenu = 'Collateral Mapping Facility';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'correspondence') {
-      this.titleMenu = 'Correspondence';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'group-guarantor-analyst') {
-      this.titleMenu = 'Group Guarantor Analyst';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'slik-summary') {
-      this.titleMenu = 'SLIK Checking';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'credit-rating') {
-      this.titleMenu = 'Credit Rating';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'trade-checking') {
-      this.titleMenu = 'Trade Checking';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-
-    return this.titleMenu;
   }
 
   getTitleMenu(): void {
@@ -1803,6 +2184,9 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public saveCollateralProperty(property: ICollateralProperty) {
     this.collateralPropertyService.save(property).subscribe(res => {});
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }
 

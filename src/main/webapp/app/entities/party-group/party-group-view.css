@@ -162,3 +162,31 @@ body,
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+.e-card {
+  border: 1px solid #b8b8b8 !important;
+  border-radius: 10px !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-size: 15px;
+  justify-content: center;
+  line-height: 36px;
+  min-height: 36px;
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}

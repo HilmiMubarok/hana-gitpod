@@ -1,0 +1,67 @@
+th {
+  background-color: rgba(147, 201, 199, 1);
+  color: black;
+  font-family: 'Poppins', sans-serif;
+}
+td {
+  font-family: 'Poppins', sans-serif;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+
+table thead tr th {
+  background-color: rgba(147, 201, 199, 1);
+  color: black;
+  font-family: 'Poppins', sans-serif;
+}
+td {
+  font-family: 'Poppins', sans-serif;
+}
+table thead tr th:first-child {
+  border-top-left-radius: 15px;
+}
+table thead tr th:last-child {
+  border-top-right-radius: 15px;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
+}

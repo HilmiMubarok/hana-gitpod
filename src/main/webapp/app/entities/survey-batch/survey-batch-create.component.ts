@@ -91,7 +91,8 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
 
   private loadDataPartner(): void {
     this.partnerService
-      .query({
+      .queryFilterBy({
+        idStatus: 'ACTIVE',
         page: this.pageP,
         size: this.itemsPerPage,
         sort: this.sortData(),
@@ -128,7 +129,6 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
-    console.log('data', this.loading);
   }
 
   selectPartner(data, check) {
@@ -180,21 +180,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
 
   // ==============table partner=================
   initTable(data: any, headers: HttpHeaders): void {
-    /* this.arrayName = [];
-    for (let i = 0; i < data.body.length; i++) {
-      if (data.body[i].surveyProvider === true) {
-        this.arrayName.push(data.body[i]);
-      }
-    }
-    this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName)); */
-    // this.itemsPartner = new MatTableDataSource(data.body);
-    // console.log('dataitem',this.itemsPartner)
-    // const itemsdata = new MatTableDataSource(data.body);
-    // console.log( 'data', itemsdata)
-    // this.itemsPartner = lodash.filter(itemsdata, function (o){
-    // });
-    const filtered = data.body.filter(o => o.statusDescription === 'Active');
-    this.itemsPartner = new MatTableDataSource(this.addIdx(filtered));
+    this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
 
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
@@ -240,7 +226,6 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
           attributes: {},
         })
         .subscribe(res => {
-          console.log('res', res);
           let flag = 0;
           for (let i = 0; i < this.arrayCollateral.length; i++) {
             if (this.arrayCollateral[i].surveyBatchId !== null) {

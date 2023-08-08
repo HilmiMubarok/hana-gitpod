@@ -5,7 +5,7 @@
       <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
         <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
       </ngx-dropzone>
-    <!-- notes from ismoyo saya di sini hanya membuat code unutk menampilkan icon yang di buat oleh programer sebelumnya -->
+      <!-- notes from ismoyo saya di sini hanya membuat code unutk menampilkan icon yang di buat oleh programer sebelumnya -->
       <div class="row">
         <ngx-dropzone-preview
           class="col-6"
@@ -45,7 +45,7 @@
     </div>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
+<mat-dialog-actions align="center" class="align-center">
   <button mat-button mat-dialog-close (click)="onNoClick()">Cancel</button>
   <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>

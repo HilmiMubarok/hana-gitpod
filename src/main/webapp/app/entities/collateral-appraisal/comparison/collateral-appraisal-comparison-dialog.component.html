@@ -7,10 +7,10 @@
   <mat-dialog-content>
     <div class="row">
       <div class="col-6">
-        <div *ngIf="!collateralProperty.id && collateral.collateralTypeId !== 'MACHINE'">
+        <section *ngIf="!collateralProperty.id || collateral.collateralTypeId !== 'MACHINE'">
           <input hidden type="file" #uploader (change)="chooseFile($event)" required />
           <button mat-button color="primary" [disabled]="hideordisable()" required (click)="uploader.click()">Choose Photo</button>
-        </div>
+        </section>
         <div *ngIf="imagePreviewSrc">
           <img [src]="imagePreviewSrc" class="img-fluid" />
         </div>
@@ -329,7 +329,7 @@
       <div class="col-6" *ngIf="collateral.collateralTypeId === 'MACHINE'">No Feature Comparison for Machine</div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <button mat-raised-button class="confirm-button-no" (click)="cancel()" *ngIf="collateral.collateralTypeId === 'MACHINE'">Cancel</button>
     <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()" *ngIf="collateral.collateralTypeId !== 'MACHINE'">
       Cancel
@@ -650,7 +650,7 @@
       <div class="col-6" *ngIf="collateral.collateralTypeId === 'MACHINE'">No Feature Comparison for Machine</div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <button mat-button mat-dialog-close>Close</button>
   </mat-dialog-actions>
 </section>

@@ -72,13 +72,14 @@ export class OfferingLetterMainComponent implements OnInit {
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
 
-  public resAttr: IProcessTask;
+  public resAttr: any;
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
   public dataOfferingSPPK = [];
   public isHistoryExist: boolean;
   public proposType = [];
   private KEYG = 'credit_proposal/summary';
+  public isOpen = false;
 
   @Input('item')
   get item() {
@@ -117,7 +118,34 @@ export class OfferingLetterMainComponent implements OnInit {
     this.url = this.parentPath;
 
     this.selectedMenu = 'credit-proposal-summary';
-    this.subMenu = this.url === 'finalize' ? SUBMENU_OFFERING_LETTER_FINALIZE : SUBMENU_OFFERING_LETTER;
+
+    if (this.url === 'finalize') {
+      if (this.creditProposal.attributes['previousOfferingLetter']) {
+        this.subMenu = [
+          ...SUBMENU_OFFERING_LETTER_FINALIZE,
+          {
+            id: 'memo-banding',
+            text: 'Memo Banding',
+          },
+        ];
+      } else {
+        this.subMenu = SUBMENU_OFFERING_LETTER_FINALIZE;
+      }
+    } else {
+      if (this.creditProposal.attributes['previousOfferingLetter']) {
+        this.subMenu = [
+          ...SUBMENU_OFFERING_LETTER,
+          {
+            id: 'memo-banding',
+            text: 'Memo Banding',
+          },
+        ];
+      } else {
+        this.subMenu = SUBMENU_OFFERING_LETTER;
+      }
+    }
+
+    // this.subMenu = this.url === 'finalize' ? SUBMENU_OFFERING_LETTER_FINALIZE : SUBMENU_OFFERING_LETTER;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -231,8 +259,6 @@ export class OfferingLetterMainComponent implements OnInit {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
 
-    this.getTitle();
-    this.getTitleMenu();
     this.getBucketNameSummary();
 
     if (this.creditProposal.cif) {
@@ -246,6 +272,7 @@ export class OfferingLetterMainComponent implements OnInit {
       this.tasks = res.body;
     });
   }
+
   public lovProposalType() {
     this.generalParameterService
       .queryFilterBy({
@@ -257,6 +284,22 @@ export class OfferingLetterMainComponent implements OnInit {
         this.proposType = res.body;
       });
   }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
@@ -265,6 +308,7 @@ export class OfferingLetterMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resAttr = _res;
+        this.resAttr.attr.idPosition = this.getLocStor('POS');
 
         this.onSave('process');
       }
@@ -366,7 +410,7 @@ export class OfferingLetterMainComponent implements OnInit {
     } else if (this.url === 'distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(applicationRolePreSave);
+	  copyCreditProposal.attributes['dataAssignToLegalOfficer'] = applicationRolePreSave.id ? JSON.stringify(applicationRolePreSave) : JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);;
     } else {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
@@ -375,7 +419,7 @@ export class OfferingLetterMainComponent implements OnInit {
 
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
-
+    copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
     return copyCreditProposal;
   }
 
@@ -393,10 +437,6 @@ export class OfferingLetterMainComponent implements OnInit {
     }
   }
 
-  getTitle() {
-    this.appName = sessionStorage.getItem('appName');
-  }
-
   getTitleUrl() {
     const x = this.router.url.split('/')[3];
     this.titleUrl = x;
@@ -405,108 +445,35 @@ export class OfferingLetterMainComponent implements OnInit {
   getText(value: any) {
     if (value === 'distribution') {
       this.title = 'Offering Letter Distribution';
-      sessionStorage.setItem('appName', this.title);
     }
     if (value === 'finalize') {
       this.title = 'Offering Letter Finalize';
-      sessionStorage.setItem('appName', this.title);
     }
     if (value === 'review') {
       this.title = 'Offering Letter Review';
-      sessionStorage.setItem('appName', this.title);
     }
     if (value === 'confirmation') {
       this.title = 'Offering Letter Confirmation';
-      sessionStorage.setItem('appName', this.title);
     }
+    return this.title;
   }
 
-  getTextMenu() {
-    if (this.selectedMenu === 'credit-proposal-summary') {
-      this.titleMenu = 'Credit Proposal Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+  showTextMenu() {
+    const menuList = [];
+    menuList.push(this.subMenu);
+    for (let i = 0; i < menuList.length; i++) {
+      for (let x = 0; x < menuList[i].length; x++) {
+        if (this.selectedMenu === menuList[i][x].id) {
+          return menuList[i][x].text;
+        } else {
+          for (let y = 0; y < menuList[i][x].child?.length; y++) {
+            if (this.selectedMenu === menuList[i][x].child[y].id) {
+              return menuList[i][x].child[y].text;
+            }
+          }
+        }
+      }
     }
-    if (this.selectedMenu === 'offering-letter') {
-      this.titleMenu = 'Offering Letter';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'compliance-recomendation') {
-      this.titleMenu = 'Compliance Recomendation';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'credit-opinion') {
-      this.titleMenu = 'Credit Opinion';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'covenant-document-check') {
-      this.titleMenu = 'Covenant & Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'document-checklist') {
-      this.titleMenu = 'Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'basic-information') {
-      this.titleMenu = 'Basic Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'management-information') {
-      this.titleMenu = 'Management Information';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'exposure') {
-      this.titleMenu = 'Exposure';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'risk-acceptance-criteria') {
-      this.titleMenu = 'Risk Acceptance Criteria';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'loan-facility-detail') {
-      this.titleMenu = 'Loan Facility Detail';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'loan-facility') {
-      this.titleMenu = 'Loan Facility';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'collateral-info') {
-      this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'business-activity') {
-      this.titleMenu = 'Business Activity';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'financial-statement') {
-      this.titleMenu = 'Financial Statement';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'bank-account-analyst') {
-      this.titleMenu = 'Bank Account Analyst';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'convenant-tbo') {
-      this.titleMenu = 'Convenant & Tbo';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'propose-pricing') {
-      this.titleMenu = 'Propose Pricing';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'summary') {
-      this.titleMenu = 'Summary';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    if (this.selectedMenu === 'compare-approval-report') {
-      this.titleMenu = 'Compare Approval Report';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
-    return this.titleMenu;
-  }
-
-  getTitleMenu() {
-    this.appNameMenu = sessionStorage.getItem('appNameMenu');
   }
 
   private getBucketNameSummary() {
@@ -763,12 +730,6 @@ export class OfferingLetterMainComponent implements OnInit {
     window.history.back();
   }
 
-  // public cekCgpgData() {
-  //   for (let i = 0; i < this.collateralProperties.length; i++) {
-  //     this.saveCollateralProperty(this.collateralProperties[i]);
-  //   }
-  // }
-
   // offering letter / confirmation
   // cancel confrimation dialog
   public openCancelDialog(): void {
@@ -785,6 +746,9 @@ export class OfferingLetterMainComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }
 interface IObj {

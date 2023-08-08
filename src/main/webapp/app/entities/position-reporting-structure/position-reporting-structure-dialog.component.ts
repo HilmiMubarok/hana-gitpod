@@ -9,6 +9,7 @@ import { RelationTypeService } from '../relation-type/relation-type.service';
 import { IRelationType } from '../relation-type/relation-type.model';
 import { firstValueFrom } from 'rxjs';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'jhi-position-reporting-structure-dialog',
@@ -34,7 +35,8 @@ export class PositionReportingStructureDialogComponent implements OnInit {
     private _dialog: MatDialogRef<PositionReportingStructureDialogComponent>,
     protected internalService: InternalService,
     protected positionService: PositionService,
-    protected relationTypeService: RelationTypeService
+    protected relationTypeService: RelationTypeService,
+    private _snackBar: MatSnackBar
   ) {
     _dialog.disableClose = true;
     _dialog.backdropClick().subscribe(_ => {
@@ -101,6 +103,63 @@ export class PositionReportingStructureDialogComponent implements OnInit {
   }
 
   public save(): void {
+    if (!this.positionReportingStructure.relationTypeId) {
+      this._snackBar.open('Masukan Relation Type terlebih dahulu', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.positionReportingStructure.positionFromInternalId) {
+      this._snackBar.open('Masukan Internal From terlebih dahulu', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!this.positionReportingStructure.positionFromId) {
+      this._snackBar.open('Masukan Position From terlebih dahulu', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.positionReportingStructure.positionToInternalId) {
+      this._snackBar.open('Masukan Internal To terlebih dahulu', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.positionReportingStructure.positionToId) {
+      this._snackBar.open('Masukan Position To terlebih dahulu', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.positionReportingStructure.fromDate) {
+      this._snackBar.open('Masukan From Date terlebih dahulu', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.positionReportingStructure.thruDate) {
+      this._snackBar.open('Masukan Thru Date terlebih dahulu', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
     this._dialog.close(this.positionReportingStructure);
   }
 

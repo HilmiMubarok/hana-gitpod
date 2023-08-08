@@ -24,6 +24,7 @@ import {
   ICreditProposalCollateralInsurance,
 } from '../../collateral-info/credit-proposal-collateral-info.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-bellow-grid-history',
   templateUrl: './bellow-grid.component.html',
@@ -73,6 +74,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public insuranceTypes = [];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -86,7 +88,6 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   public presentage(value: string, status: string) {
-    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       return '0.00' + '%';
@@ -109,7 +110,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private generalParameterService: GeneralParameterService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -140,14 +142,15 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
+    this.fungsiSumcredit('both');
     this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
     this.loadData();
-    for (let i = 0; i < this.historyData().collaterals.length; i++) {
-      this.findCollateralProperty(this.historyData().collaterals[i]);
-    }
-    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
-      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
-    }
+    // for (let i = 0; i < this.historyData().collaterals.length; i++) {
+    //   this.findCollateralProperty(this.historyData().collaterals[i]);
+    // }
+    // if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+    //   this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
+    // }
 
     // this.isViewMode && this.displayedColumns.pop();
 
@@ -155,6 +158,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       this.isChecked = true;
     }
     this.setCertyficateType();
+    this.getLovInsuranceType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -165,6 +169,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
+    if (dataFilter.length > 0) {
+      this.getBindingCalculate(dataFilter);
+    }
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       this.findCollateralProperty(this.historyData().collaterals[i]);
     }
@@ -172,9 +179,33 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
+  getLovInsuranceType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getInsuranceType(value) {
+    if (this.insuranceTypes) {
+      const data = this.insuranceTypes.find(obj => obj.code === value);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
+    this.fungsiSumcredit('both');
     // if (changes['creditProposal']) {
     //   if (this.creditProposal.collaterals.length > 0) {
     //     for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
@@ -194,7 +225,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       a = lodash.concat(a, this.historyData().collaterals[i]);
     }
-    this.getBindingCalculate(this.historyData().collaterals);
+    // this.getBindingCalculate(this.historyData().collaterals);
     this.collateral = new MatTableDataSource(a);
     this.collateral.paginator = this.paginator2;
     this.dataItem.paginator = this.paginator;
@@ -427,6 +458,59 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     return result;
   }
 
+  public totalPlafondData(value: string): number {
+    let result: number;
+    let dolar: number;
+    let filterIdr = [];
+    let filterUsd = [];
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.historyData().products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter?.length > 0) {
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
+          }
+        }
+      }
+    }
+
+    return result + dolar;
+  }
+
   public countTotalMV(): number {
     let data: ICollateralProperty;
     let result: number;
@@ -490,10 +574,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       result = 0;
       dolar = 0;
 
-      const dataFilter =
-        this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-          ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-          : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+      const dataFilter = this.historyData().products.filter(obj => obj.subLimit === false);
 
       if (dataFilter?.length > 0) {
         if (value === 'USD' || value === 'both') {
@@ -829,9 +910,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     return '';
   }
 
-  public getBindingCalculate(res: any) {
+  public getBindingCalculate(res: any[]) {
     const array1 = res;
-    const array2 = this.historyData().binding;
+    const array2 = JSON.parse(this.historyData().binding);
     let getBindingCalculateValue;
     const data = [];
     array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
@@ -840,7 +921,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
         const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
-        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
+        this.biddingValueCoverage = parseFloat(biddingValueCoverage.toFixed(2));
       });
     });
   }

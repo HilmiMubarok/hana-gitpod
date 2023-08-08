@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
+import { Collateral, ICollateral, ICollateralInfoAfter } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -21,6 +21,7 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after',
@@ -31,6 +32,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   @Input() isViewMode: Boolean = false;
   public displayedColumns: string[] = ['no', 'collateralType', 'marketValue', 'liquidValue', 'action'];
 
+  public collateralInfoAfterReport: ICollateralInfoAfter;
   public data: ICollateral;
   public dataCollateralTotal: ICollateral[];
   public dataCollateral: ICollateral[];
@@ -38,6 +40,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   public totalMVInt: number;
   public totalLVInt: number;
   public dataItem: any;
+  public parentPath: any;
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
@@ -60,11 +63,13 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    public router: Router
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+    this.parentPath = this.router.url.split('/')[1];
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
   }
@@ -78,6 +83,13 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
       this.dataItem.paginator = this.paginator;
     } else {
       this.creditProposal.attributes['collateralAfterData'] = [];
+    }
+    if (this.creditProposal.attributes['collateralAfterReport']) {
+      while (typeof this.creditProposal.attributes['collateralAfterReport'] === 'string') {
+        this.creditProposal.attributes['collateralAfterReport'] = JSON.parse(this.creditProposal.attributes['collateralAfterReport']);
+      }
+    } else {
+      this.creditProposal.attributes['collateralAfterReport'] = [];
     }
   }
 
@@ -108,12 +120,35 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
 
   public openDialog(element?: ICollateral, type = 'view'): void {
     let dataCollateralOption: ICollateral[] = this.dataCollateral;
+
     if (this.creditProposal.attributes['collateralAfterData'].length > 0) {
       for (let i = 0; i < this.creditProposal.attributes['collateralAfterData'].length; i++) {
+        if (this.creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back') {
+          dataCollateralOption = dataCollateralOption.filter(function (o) {
+            return (
+              o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
+            );
+          });
+        }
         dataCollateralOption = dataCollateralOption.filter(obj => obj.id !== this.creditProposal.attributes['collateralAfterData'][i].id);
       }
     } else {
       dataCollateralOption = this.dataCollateral;
+      if (this.creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back') {
+        dataCollateralOption = dataCollateralOption.filter(function (o) {
+          return (
+            o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
+          );
+        });
+      }
     }
     let cp = {};
 
@@ -141,13 +176,14 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralTabLoanAfterDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      const collateral = this.dataCollateral.find(obj => obj.id === res.id);
+      const collateral = this.dataCollateral.find(obj => obj.id === res.collateral.id);
       if (collateral) {
         this.creditProposal.attributes['collateralAfterData'].push(collateral);
       }
       this.dataCollateralTotal = this.creditProposal.attributes['collateralAfterData'];
       this.dataItem = new MatTableDataSource(this.creditProposal.attributes['collateralAfterData']);
       this.dataItem.paginator = this.paginator;
+      this.creditProposal.attributes['collateralAfterReport'].push(res.collateralAfter);
     });
   }
 
@@ -208,6 +244,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
         }
       }
     }
+    this.creditProposal.attributes['totalLvAfterCollateral'] = result;
     return result;
   }
 
@@ -227,6 +264,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
         }
       }
     }
+    this.creditProposal.attributes['totalMvAfterCollateral'] = result;
     return result;
   }
 
@@ -266,6 +304,9 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
         this.dataCollateralTotal = this.creditProposal.attributes['collateralAfterData'];
         this.dataItem = new MatTableDataSource(this.creditProposal.attributes['collateralAfterData']);
         this.dataItem.paginator = this.paginator;
+        this.creditProposal.attributes['collateralAfterReport'] = this.creditProposal.attributes['collateralAfterReport'].filter(
+          obj => obj.id !== element.id
+        );
       }
     });
   }

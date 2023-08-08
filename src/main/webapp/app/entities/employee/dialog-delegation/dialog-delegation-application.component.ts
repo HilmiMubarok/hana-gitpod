@@ -8,7 +8,12 @@ import { InternalService } from 'app/entities/internal/internal.service';
 import { CashCreditProposalService } from 'app/entities/credit-proposal/cash-credit-proposal.service';
 import { MatSelectChange } from '@angular/material/select';
 import { EmployeeService } from '../employee.service';
-import { DelegationApplicationRequest } from '../delegationApplicationRequest.model';
+import { DelegationApplicationRequest, IDelegationApplicationRequest } from '../delegationApplicationRequest.model';
+import { CashPositionService } from 'app/entities/cash-position/cash-position.service';
+import { IPositionType } from 'app/entities/position-type/position-type.model';
+import { firstValueFrom } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { IPosition } from 'app/entities/position/position.model';
 
 @Component({
   selector: 'jhi-delegation-application-dialog',
@@ -28,7 +33,12 @@ export class DialogDelegationApplicationComponent implements OnInit {
   public filesRemarks: string;
   public filesDescription: string;
   public fromEmployee: IEmployee;
-  public DelegationApplicationReq = new DelegationApplicationRequest();
+  public positionTypes: IPositionType[];
+  public positionTo: IPosition[];
+  private selectedPosition: string;
+  public dataSelect: boolean;
+  public delegationApplicationRequest: IDelegationApplicationRequest = new DelegationApplicationRequest();
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -38,12 +48,15 @@ export class DialogDelegationApplicationComponent implements OnInit {
     private _dialog: MatDialogRef<DialogDelegationApplicationComponent>,
 
     public reportUtilService: ReportUtilService,
-    public internalService: InternalService,
     public cashCreditProposalService: CashCreditProposalService,
-    public employeeService: EmployeeService
+    public employeeService: EmployeeService,
+    private messageService: MessageService,
+    private cashPositionService: CashPositionService
   ) {
     this.partyId = this.data.partyId;
     this.fromEmployee = this.data.fromEmployee;
+    this.dataDelegation = [];
+    this.dataSelect = true;
   }
 
   public displayedColumnsExpand: string[] = [
@@ -58,15 +71,46 @@ export class DialogDelegationApplicationComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.internalService.query().subscribe((res: any) => {
-      this.internalData = res.body;
-    });
-    this.delegationAppicationData();
+    this.loadPositionByIdParty(this.partyId);
   }
 
-  public delegationAppicationData() {
+  public async loadPositionByIdParty(idParty: string): Promise<void> {
+    this.positionTypes = (
+      await firstValueFrom(
+        this.cashPositionService.getPositionTypeByPartyId(idParty, {
+          page: 0,
+          size: 9999,
+        })
+      )
+    ).body;
+  }
+
+  public changePositions(event: MatSelectChange): void {
+    this.selectedPosition = event.value;
+    if (this.selectedPosition !== '') {
+      this.getInternalByPositionAndIdParty(this.selectedPosition, this.partyId);
+      this.getMyApplication();
+    } else {
+      this.dataDelegation = [];
+      this.internalData = [];
+      this.positionTo = [];
+      this.disableField();
+    }
+  }
+
+  public disableField(): boolean {
+    return true;
+  }
+
+  public async getInternalByPositionAndIdParty(idPositionType: string, idParty: string): Promise<void> {
+    this.internalData = (
+      await firstValueFrom(this.cashPositionService.getInternalByPartyIdAndPositionTypeId(idPositionType, idParty, { page: 0, size: 999 }))
+    ).body;
+  }
+
+  public getMyApplication() {
     this.cashCreditProposalService
-      .cashCreditProposalMyApplication(this.partyId, {
+      .getMyApplication(this.partyId, this.selectedPosition, {
         size: 9999,
         page: 0,
         sort: ['asc'],
@@ -82,17 +126,37 @@ export class DialogDelegationApplicationComponent implements OnInit {
       });
   }
 
-  public changeEvent(event: MatSelectChange): void {
-    this.employeeService
-      .queryFilterBy({
-        idInternal: event.value,
-        size: 9999,
-        page: 0,
-        sort: ['asc'],
-      })
-      .subscribe((res: any) => {
-        this.employeeData = res.body;
-      });
+  public async changeInternal(event: MatSelectChange): Promise<void> {
+    const value: string = event.value;
+    if (value !== '') {
+      this.positionTo = (
+        await firstValueFrom(
+          this.cashPositionService.filterBy({
+            idPositionType: this.selectedPosition,
+            idInternal: value,
+            active: true,
+            page: 0,
+            size: 999,
+          })
+        )
+      ).body;
+    } else {
+      this.positionTo = [];
+    }
+  }
+
+  public unCheck(value: any) {
+    if (value === false) {
+      for (const obj of this.selectedData) {
+        obj.attributes.selected = false;
+      }
+      this.selectedData = [];
+    } else if (value === true) {
+      this.selectedData = this.dataDelegation;
+      for (const obj of this.selectedData) {
+        obj.attributes.selected = true;
+      }
+    }
   }
 
   onCheckboxChange(row: any) {
@@ -110,13 +174,30 @@ export class DialogDelegationApplicationComponent implements OnInit {
   }
 
   public save(): void {
-    const result = this.employeeData.filter(data => data.id === this.employeeId);
-    this.DelegationApplicationReq.fromEmployee = this.fromEmployee;
-    this.DelegationApplicationReq.toEmployee = result[0];
-    this.DelegationApplicationReq.loanApplications = this.selectedData;
-    this.cashCreditProposalService.addDelegation(this.DelegationApplicationReq).subscribe(() => {
-      this._dialog.close();
-    });
+    if (this.delegationApplicationRequest.fromDate === undefined || this.delegationApplicationRequest.thruDate === undefined) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Form date is required',
+      });
+    } else {
+      if (this.selectedData.length > 0) {
+        this.delegationApplicationRequest.fromEmployeeId = this.fromEmployee.id;
+        this.delegationApplicationRequest.toEmployeeId = this.employeeId;
+        this.delegationApplicationRequest.loanApplications = this.selectedData;
+        this.delegationApplicationRequest.roleId = this.selectedPosition;
+        this.cashCreditProposalService.addDelegation(this.delegationApplicationRequest).subscribe(
+          () => {
+            this._dialog.close();
+          },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+          }
+        );
+      } else if (this.selectedData.length < 1) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'List delegation required' });
+      }
+    }
   }
 
   public cancel(): void {

@@ -10,6 +10,8 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IDelegationAppraisalRequest } from '../employee/delegationApplicationRequest.model';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 
 @Injectable({ providedIn: 'root' })
 export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAppraisals> {
@@ -17,6 +19,7 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
   public applicationRoleIdTL: any[];
   public applicationRoleIdUH: any[];
   public applicationRoleIdDeptHead: any[];
+  private resourceUrlCashSurveyAppraisal: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.applicationRoleIdDH = ['false'];
@@ -24,7 +27,8 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
     this.applicationRoleIdUH = ['false'];
     this.applicationRoleIdDeptHead = ['false'];
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api');
-    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/cash-survey-appraisals');
+    this.resourceUrlCashSurveyAppraisal = `${this.resourceUrl}/cash-survey-appraisals`;
   }
 
   /* protected isNew(entity: ISurveyAppraisals): boolean {
@@ -36,6 +40,14 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
     res.body.thruDate = res.body.thruDate != null ? new Date(res.body.thruDate) : null;
     return res;
   } */
+
+  public getIncorrectData(req?: any): Observable<HttpResponse<ICollateralAppraisal[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<ICollateralAppraisal[]>(this.resourceUrlCashSurveyAppraisal + '/incorrect-data', {
+      params: options,
+      observe: 'response',
+    });
+  }
 
   public cashSurveyAppraisalQueryFilterBy(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
     const options = createRequestOption(req);
@@ -70,10 +82,13 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
       .pipe(map((res: HttpResponse<ISurveyAppraisals>) => this.preLoadItem(res)));
   }
 
-  cashSurveyAppraisalMyApplication(id: string, req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+  public getMyAppraisal(idParty: string, idPositionType: string, req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ISurveyAppraisals[]>(this.resourceUrl + '/cash-survey-appraisals/my-appraisals/' + id, { params: options, observe: 'response' })
+      .get<ISurveyAppraisals[]>(
+        this.resourceUrl + '/cash-survey-appraisals/my-appraisals/' + idParty + '/position-type/' + idPositionType,
+        { params: options, observe: 'response' }
+      )
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
   }

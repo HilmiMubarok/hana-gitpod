@@ -182,7 +182,7 @@
           <div class="col-3">Installment Method</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.installmentMethod }}
+            {{ installmentMethodValue }}
           </div>
         </div>
       </section>
@@ -536,7 +536,7 @@
           <div class="col-3">Restruct Method</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.restructMethod }}
+            {{ restructMethodValue }}
           </div>
         </div>
       </section>
@@ -934,12 +934,15 @@
         </div>
       </section>
 
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Index Rate</mat-label>
-          <input matInput [(ngModel)]="applicationProduct.indexRateStr" type="text" disabled />
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Index Rate</mat-label>
+            <input matInput [(ngModel)]="applicationProduct.indexRateStr" type="text" disabled />
+          </mat-form-field>
+        </div>
+      </section>
+
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
           <div class="col-3">Available Period</div>
@@ -954,6 +957,17 @@
           </div>
         </div>
       </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Index Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.indexRateStr }}
+          </div>
+        </div>
+      </section>
+
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
@@ -1098,26 +1112,32 @@
   <mat-label>Mapping to Collateral</mat-label>
   <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
-  <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-    <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-    <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
-  </section>
-  <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-    <div class="mt-3 text-center">
-      <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
-      <button mat-raised-button class="confirm-button-yes" hidden (click)="onSave()">Save</button>
-    </div>
-  </section>
-  <section *ngIf="parentPath === 'finalize'">
-    <div class="mt-3 text-center">
+<mat-dialog-actions align="center" class="align-center">
+  <section *ngIf="parentPath !== 'finalize'">
+    <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
       <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
       <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
-    </div>
+    </section>
+    <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="mt-3 text-center">
+        <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
+        <button mat-raised-button class="confirm-button-yes" hidden (click)="onSave()">Save</button>
+      </div>
+    </section>
   </section>
-  <!-- <div class="mt-3 text-center py-3">
-    <button mat-raised-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">
-      Cancel
-    </button>
-  </div> -->
+
+  <section *ngIf="parentPath === 'finalize'">
+    <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'" align="center" class="align-center">
+      <div class="mt-3 text-center">
+        <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+        <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
+      </div>
+    </section>
+    <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''" align="center" class="align-center">
+      <div class="mt-3 text-center">
+        <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+        <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
+      </div>
+    </section>
+  </section>
 </mat-dialog-actions>

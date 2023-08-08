@@ -118,13 +118,13 @@
       <div class="col col-lg-2">{{ nilaiRac.keteranganJaminan }}</div>
     </div>
   </section>
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()" style="margin-right: 15px">Close</button>
     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <button mat-raised-button class="confirm-button-yes" *ngIf="!view" (click)="save()">Save</button>
     </section>
   </mat-dialog-actions>
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <button mat-raised-button class="confirm-button-yes" *ngIf="!view" (click)="save()" hidden>Save</button>
     </section>

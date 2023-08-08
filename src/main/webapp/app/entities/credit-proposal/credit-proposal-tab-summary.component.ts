@@ -115,6 +115,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.creditRatingCondition();
+    this.conditionApprovalUser();
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
@@ -737,8 +738,36 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       this.distribution = 'none';
     }
   }
-}
 
+  public approvalUser: boolean;
+  public approvalUserNote: boolean;
+
+  public conditionApprovalUser(): void {
+    if (this.item.statusId === 'CP_ASSIGNMENT' || this.item.statusId === 'CP_APPROVE_TO_LA') {
+      this.approvalUserNote = false;
+      this.approvalUser = true;
+    } else {
+      if (
+        this.item.approvalLc === 'LC3_SME' ||
+        this.item.approvalLc === 'LC3_COMM' ||
+        this.item.approvalLc === 'LC3_ENTRP' ||
+        this.item.approvalLc === 'LC3_CORP' ||
+        this.item.approvalLc === 'LC3_GLOB' ||
+        this.item.approvalLc === 'LC4_SME' ||
+        this.item.approvalLc === 'LC4_COMM' ||
+        this.item.approvalLc === 'LC4_ENTRP' ||
+        this.item.approvalLc === 'LC4_CORP' ||
+        this.item.approvalLc === 'LC4_GLOB'
+      ) {
+        this.approvalUserNote = true;
+        this.approvalUser = false;
+      } else {
+        this.approvalUserNote = false;
+        this.approvalUser = true;
+      }
+    }
+  }
+}
 interface IObj {
   key?: string;
   metaData?: any;

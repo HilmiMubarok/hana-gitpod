@@ -603,7 +603,7 @@
         </table>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mt-3 text-center">
-            <button mat-raised-button (click)="addRow()" style="background: rgba(0, 136, 129, 1); color: #ffffff">ADD ROW</button>
+            <button mat-raised-button (click)="addRow()" class="button-styling">ADD ROW</button>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -615,7 +615,7 @@
     </div>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
+<mat-dialog-actions align="center" class="align-center">
   <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Close</button>
   <button mat-raised-button class="confirm-button-yes" *ngIf="!view" (click)="save()">Save</button>
 </mat-dialog-actions>

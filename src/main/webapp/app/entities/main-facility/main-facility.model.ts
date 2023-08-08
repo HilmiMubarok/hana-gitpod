@@ -16,6 +16,7 @@ export interface IMainFacility {
   lastAgreementDate?: Date;
   startPeriodDate?: Date;
   categoryListDTO?: ICategoryList[];
+  endPeriodRemark?: string;
 }
 
 export class MainFacility implements IMainFacility {
@@ -36,7 +37,8 @@ export class MainFacility implements IMainFacility {
     public kurs?: number,
     public lastAgreementDate?: Date,
     public startPeriodDate?: Date,
-    public categoryListDTO?: ICategoryList[]
+    public categoryListDTO?: ICategoryList[],
+    public endPeriodRemark?: string
   ) {
     this.changes = 0;
     this.mainPlafond = 0;

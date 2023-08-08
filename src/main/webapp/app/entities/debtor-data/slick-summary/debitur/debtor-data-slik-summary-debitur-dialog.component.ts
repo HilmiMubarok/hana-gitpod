@@ -55,6 +55,7 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
   public totalNJOP = 0;
   public totalMarketValue = 0;
   public pageLength: String;
+  public dataSource = [];
 
   id: string;
   constructor(
@@ -85,11 +86,11 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
     this.cif = this.data.cif;
   }
   ngOnInit(): void {
-    this.parsingPartySlikCollaterals();
-    this.paginatorLength = this.countPageLength(this.collateralInfoList);
-    this.totalCollateralValue = this.countTotalCollateralValue(this.collateralInfoList);
-    this.totalNJOP = this.countTotalNJOP(this.collateralInfoList);
-    this.totalMarketValue = this.countTotlMarketValue(this.collateralInfoList);
+    this.dataSource.push(this.data.partySlik);
+    this.paginatorLength = this.countPageLength(this.dataSource);
+    this.totalCollateralValue = this.countTotalCollateralValue(this.dataSource);
+    this.totalNJOP = this.countTotalNJOP(this.dataSource);
+    this.totalMarketValue = this.countTotlMarketValue(this.dataSource);
   }
 
   public countPageLength(element: any): number {
@@ -98,7 +99,6 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
     if (element) {
       for (let index = 0; index < element.length; index++) {
         totalCount = totalCount + 1;
-        // console.log('this is the total count', totalCount);
       }
     }
     return totalCount;
@@ -150,52 +150,12 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
         this.partySlik.facilityType = this.partySlik.facilityType == null ? '' : this.partySlik.facilityType;
         this.partySlik.attributes = {};
         this.partySlik.period = this.partySlik.period == null ? '' : this.partySlik.period;
-
-        // const findPeriod = this.bulan.find(obj => obj.name === res.body[0].period.substring(3, 6));
-        // this.partySlik.period = findPeriod.id;
       }
-
-      // bank: "BANK CIMB NIAGA BANK CIMB NIAGA KPO "
-      // caraRestrukturasi:""
-      // collateralIdrMio:null
-      // collateralType:null
-      // denda:"0"
-      // facilityType:"Kartu Kredit atau Kartu Pembiayaan Syariah"
-      // frekuensiRestrukturasi:"0"
-      // frekuensiTunggakan:"0"
-      // keterangan:""
-      // kolTerakhir:"1 (0 hari)"
-      // kolTerburuk:"1 (0 hari)"
-      // limit:"20.000.000"
-      // outstanding:"0"
-      // period:"12 Oktober 2020"
-      // rate:" 2 % "
-      // sebabMacet:""
-      // tanggalMacet:""
-      // tanggalRestrukturasiAkhir:""
-      // tenor:"48 bulan"
-      // tunggakanBunga:"0"
-      // tunggakanPokok:"0"
     });
   }
 
   onNoClick(): void {
     this._dialog.close();
-  }
-
-  // Data Parsing
-  public parsingPartySlikCollaterals(): void {
-    // const listDetailPartySlik: any = [];
-    for (let y = 0; y < this.viewData.length; y++) {
-      if (this.viewData[y].id === this.selectedDataId) {
-        if (this.viewData[y].attributes.partySlikCollaterals) {
-          const item = this.viewData[y].attributes.partySlikCollaterals;
-          this.collateralInfoList = [...JSON.parse(item)];
-          // listDetailPartySlik = this.parsedPartyCollaterals(JSON.parse(item))
-        }
-      }
-    }
-    // console.log('this is the respnes collateralInfoList', this.collateralInfoList)
   }
 
   // Count Total Collateral Value
@@ -204,14 +164,11 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
     totalCollateralValue = 0;
     if (element) {
       for (let i = 0; i < element.length; i++) {
-        const regex = /[.,\s]/g;
         if (element[i].collateralIdrMio) {
-          totalCollateralValue = totalCollateralValue + Number(element[i].collateralIdrMio.replace(regex, ''));
+          totalCollateralValue = totalCollateralValue + Number(element[i].collateralIdrMio);
         }
       }
     }
-    // console.log('datanya yang di ambil', element);
-    // console.log('Hasil Hitungan', totalCollateralValue);
     return totalCollateralValue;
   }
 
@@ -221,14 +178,11 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
     totalNJOP = 0;
     if (element) {
       for (let i = 0; i < element.length; i++) {
-        const regex = /[.,\s]/g;
         if (element[i].nilaiNJOP) {
-          totalNJOP = totalNJOP + Number(element[i].nilaiNJOP.replace(regex, ''));
+          totalNJOP = totalNJOP + Number(element[i].nilaiNJOP);
         }
       }
     }
-    // console.log('datanya yang di ambil', element);
-    // console.log('Hasil Hitungan', totalNJOP);
     return totalNJOP;
   }
 
@@ -238,14 +192,11 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
     totalMarketValue = 0;
     if (element) {
       for (let i = 0; i < element.length; i++) {
-        const regex = /[.,\s]/g;
         if (element[i].nilaiPenilai) {
-          totalMarketValue = totalMarketValue + Number(element[i].nilaiPenilai.replace(regex, ''));
+          totalMarketValue = totalMarketValue + Number(element[i].nilaiPenilai);
         }
       }
     }
-    // console.log('datanya yang di ambil', element);
-    // console.log('Hasil Hitungan', totalMarketValue);
     return totalMarketValue;
   }
 }

@@ -1,534 +1,11 @@
-<!-- <mat-sidenav-container [hasBackdrop]="true">
+<mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="{{ title }}" url="{{ parentPath }}/{{ getText(value) }}"> </e-breadcrumb-item>
-            <e-breadcrumb-item text="Edit" url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}">
-            </e-breadcrumb-item>
-            <e-breadcrumb-item
-              text="{{ getTextMenu() }} {{ titleMenu }}"
-              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}/{{ selectedMenu }}"
-            >
-            </e-breadcrumb-item>
-          </e-breadcrumb-items>
-        </ejs-breadcrumb>
-        <div class="header-container">
-          <div class="header-content">
-            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
-            <span class="back-prefix" (click)="previousState()">Back | </span>
-          </div>
-          <p class="e-card-sub-title">{{ title }}</p>
-        </div>
-      </div>
-    </div> -->
-
-<!-- CONTENT -->
-<!-- <div style="margin: 1rem">
-      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container"> -->
-<!-- Credit Proposal -->
-<!-- <mat-card class="mb-3">
-          <mat-card-content>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group mb-3">
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
-                      required
-                      disabled
-                      [(ngModel)]="creditProposal.applicationNumber"
-                      placeholder="Proposal Number"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    ></ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Proposal Number</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.applicationNumber }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="form-group mb-3">
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
-                      required
-                      disabled
-                      [value]="creditProposal.createdDate | formatMediumDate"
-                      placeholder="Proposal Date"
-                      cssClass="e-outline"
-                      floatLabelType="Always"
-                    ></ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Proposal Date</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.createdDate | formatMediumDate }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="form-group mb-3">
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
-                      required
-                      disabled
-                      [(ngModel)]="creditProposal.cif.customerId"
-                      placeholder="CIF Number"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    ></ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">CIF Number</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.cif.customerId }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="form-group mb-3">
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
-                      required
-                      disabled
-                      [(ngModel)]="creditProposal.cif.name"
-                      placeholder="Customer Name"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    ></ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Customer Name</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.cif.name }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group mb-3">
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <mat-form-field>
-                      <mat-label>Proposal Type</mat-label>
-                      <mat-select name="proposalType" [(ngModel)]="creditProposal.attributes.proposalType" disabled>
-                        <mat-option value="">- Please select proposal type -</mat-option>
-                        <mat-option *ngFor="let item of proposType" [value]="item.code">
-                          {{ item.value }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </section>
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Proposal Type</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.attributes.proposalType }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="form-group mb-3">
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
-                      [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
-                      placeholder="Referral"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      disabled
-                    ></ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Referral</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.attributes['basicInformation'].refferal }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal" [isViewLoan]="true">
-                </jhi-credit-proposal-booking-branch>
-                <div class="form-group">
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Lending Program</mat-label>
-                      <mat-select name="lendingProgram" [(ngModel)]="creditProposal.attributes['lendingProgramParameter']" disabled>
-                        <mat-option value="">Please Select</mat-option>
-                        <mat-option *ngFor="let item of lendingProgram" [value]="item.id">
-                          {{ item.description }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </section>
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Lending Program</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.attributes['lendingProgramParameter'] }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card> -->
-
-<!-- RM -->
-<!-- <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-info>
-          </mat-card-content>
-        </mat-card> -->
-
-<!-- Cust info -->
-<!-- <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-person
-              *ngIf="creditProposal.partyTypeId === 'PERSON'"
-              [item]="creditProposal.prospectPerson"
-              [deptorData]="creditProposal"
-              [partyCif]="partyCif"
-              mode="view"
-            >
-            </jhi-credit-proposal-person>
-            <jhi-party-group-view
-              [mode]="'view'"
-              *ngIf="creditProposal.partyTypeId !== 'PERSON'"
-              [item]="creditProposal"
-            ></jhi-party-group-view>
-          </mat-card-content>
-        </mat-card> -->
-
-<!-- Postal address -->
-<!-- <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-party-cif-customer-info-postal-address
-              [disabled]="true"
-              [creditProposal]="creditProposal"
-              [partyPostalAddress]="postalAdresss"
-            >
-            </jhi-party-cif-customer-info-postal-address>
-          </mat-card-content>
-        </mat-card> -->
-
-<!-- Loan facility -->
-<!-- <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-loan-facility-detail>
-          </mat-card-content>
-        </mat-card> -->
-
-<!-- Tab Exposure -->
-<!-- <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
-          </mat-card-content>
-        </mat-card> -->
-
-<!-- Collateral info -->
-<!-- <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-collateral-info
-              #creditProposalCollateralInfoComponent
-              [creditProposal]="creditProposal"
-              [collateralProperties]="collateralProperties"
-              [source]="'summaryAll'"
-              [parentSource]="'loan-analys'"
-              [isViewMode]="true"
-            >
-            </jhi-credit-proposal-collateral-info>
-          </mat-card-content>
-        </mat-card> -->
-
-<!-- Document: summary gabung -->
-<!-- <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-tab-summary
-              [fileDar]="dataFileDar"
-              [fileCompliance]="dataFileCompliance"
-              [source]="'summaryAll'"
-              [fileSPPK]="dataOfferingSPPK"
-              [item]="creditProposal"
-              [sourceComponent]="'loan'"
-            >
-            </jhi-credit-proposal-tab-summary>
-            <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
-          </mat-card-content>
-        </mat-card> -->
-
-<!-- <div *ngIf="url === 'distribution' && creditProposal.statusDescription === 'Ol Distribution'">
-          <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"> </jhi-assign-to>
-        </div>
-      </div> -->
-
-<!-- Offering Letter -->
-<!-- <div *ngIf="selectedMenu === 'offering-letter'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-offering-page [creditProposal]="creditProposal"></jhi-offering-page>
-      </div> -->
-
-<!-- Basic Information -->
-<!-- <div *ngIf="selectedMenu === 'basic-information'" class="e-sample-resize-container e-card-resize-container">
-        <div>
-          <mat-card class="mb-3">
-            <mat-card-content>
-              <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div> -->
-
-<!-- Document Checklist -->
-<!-- <div *ngIf="selectedMenu === 'document-checklist'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-document-checklist>
-      </div> -->
-
-<!-- Bussines Activity -->
-<!-- <div *ngIf="selectedMenu === 'business-activity'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal" [projectAnalysis]="subMenuItems">
-        </jhi-credit-proposal-busines-activity>
-      </div> -->
-
-<!-- Loan Facility -->
-<!-- <div *ngIf="selectedMenu === 'loan-facility-detail'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
-            </jhi-credit-proposal-tab-loan-facility-detail>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div *ngIf="selectedMenu === 'loan-facility'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail
-              *ngIf="!isHistoryExist"
-              [isViewMode]="true"
-              [parentSource]="'loan-analys'"
-              [creditProposal]="creditProposal"
-            >
-            </jhi-credit-proposal-tab-loan-facility-detail>
-            <jhi-loan-facility-detail-history
-              *ngIf="isHistoryExist"
-              [parentSource]="'loan-analys'"
-              [creditProposal]="creditProposal"
-              [isViewMode]="true"
-            ></jhi-loan-facility-detail-history>
-          </mat-card-content>
-        </mat-card>
-      </div> -->
-
-<!-- Exposure -->
-<!-- <div *ngIf="selectedMenu === 'exposure'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
-          </mat-card-content>
-        </mat-card>
-      </div> -->
-
-<!-- Risk Acceptance Criteria -->
-<!-- <div *ngIf="selectedMenu === 'risk-acceptance-criteria'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
-      </div> -->
-
-<!-- Collateral Info -->
-<!-- <div *ngIf="selectedMenu === 'collateral-info'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-collateral-info
-              #creditProposalCollateralInfoComponent
-              [creditProposal]="creditProposal"
-              [collateralProperties]="collateralProperties"
-              [parentSource]="'loan-analys'"
-              [isViewMode]="true"
-            >
-            </jhi-credit-proposal-collateral-info>
-          </mat-card-content>
-        </mat-card>
-      </div> -->
-
-<!-- Management Information -->
-<!-- <div *ngIf="selectedMenu === 'management-information'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
-      </div> -->
-
-<!-- Financial Statement -->
-<!-- <div *ngIf="selectedMenu === 'financial-statement'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-repayment-spreadsheet
-          [creditProposalItem]="creditProposal"
-          *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'"
-          [jhifilter]="creditProposal.attributes.proposalType"
-          [saveWordMinio]="saveWord"
-        ></jhi-repayment-spreadsheet>
-
-        <jhi-repayment-spreadsheet
-          [creditProposalItem]="creditProposal"
-          *ngIf="
-            creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' ||
-            creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
-          "
-          [jhifilter]="creditProposal.attributes.proposalType"
-          [saveWordMinio]="saveWord"
-        >
-        </jhi-repayment-spreadsheet>
-      </div> -->
-
-<!-- Slik Checking -->
-<!-- <div *ngIf="selectedMenu === 'slik-checking'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-slik-main></jhi-loan-analys-slik-main>
-      </div> -->
-
-<!-- Bank Account Analysis -->
-<!-- <div *ngIf="selectedMenu === 'bank-account-analyst'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-bank-account-analyst [creditProposal]="creditProposal"> </jhi-credit-proposal-bank-account-analyst>
-      </div> -->
-
-<!-- Propose Pricing -->
-<!-- <div *ngIf="selectedMenu === 'propose-pricing'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
-      </div> -->
-
-<!-- Covenant & TBO And Deviation -->
-<!-- <div *ngIf="selectedMenu === 'convenant-tbo'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-covenant [isViewMode]="true" *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
-        </jhi-credit-proposal-tab-covenant>
-        <jhi-credit-proposal-tab-covenant-history [isViewMode]="true" *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
-        </jhi-credit-proposal-tab-covenant-history>
-      </div> -->
-
-<!-- Covenant Dan Document checklist -->
-<!-- <div *ngIf="selectedMenu === 'covenant-document-check'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
-      </div> -->
-
-<!-- Convenant on finalize (:enable:) -->
-<!-- <div *ngIf="selectedMenu === 'finalize-convenant'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-covenant-temp [creditProposalItem]="creditProposal"></jhi-covenant-temp>
-      </div> -->
-
-<!-- Summary -->
-<!-- <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
-      </div> -->
-
-<!-- Opinion -->
-<!-- <div *ngIf="selectedMenu === 'credit-opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
-      </div> -->
-
-<!-- Compare Data -->
-<!-- <div *ngIf="selectedMenu === 'compare-approval-report'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-comprae-approval-report [creditProposal]="creditProposal"></jhi-comprae-approval-report>
-      </div> -->
-
-<!-- Complience Rec -->
-<!-- <div *ngIf="selectedMenu === 'compliance-recomendation'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
-        <jhi-loan-analys-opinion-compliance-part [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion-compliance-part>
-      </div>
-    </div> -->
-
-<!-- <div class="e-card-actions mx-auto mb-5 mt-3">
-      <button
-        style="margin-right: 25px"
-        mat-raised-button
-        *ngFor="let task of tasks"
-        (click)="processTask(task)"
-        class="btn-lg text-uppercase"
-      >
-        {{ task.caption }}
-      </button>
-      <button
-        style="margin-right: 25px"
-        mat-raised-button
-        *ngIf="creditProposal.statusId === 'OL_FINALIZE' || creditProposal.statusId === 'OL_ASSIGNED'"
-        (click)="generate()"
-        class="btn-lg text-uppercase"
-      >
-        Generate SPPK
-      </button>
-      <button
-        mat-raised-button
-        class="btn-lg text-uppercase"
-        *ngIf="creditProposal.statusId === 'OL_COMPLETE'"
-        hidden
-        (click)="onSave('default')"
-      >
-        Save
-      </button>
-      <button mat-raised-button class="btn-lg text-uppercase" *ngIf="creditProposal.statusId !== 'OL_COMPLETE'" (click)="onSave('default')">
-        Save
-      </button>
-    </div>
-  </div>
-  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-    <div class="p-3" style="padding-top: 90px !important">
-      <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-
-      <mat-list role="list">
-        <div *ngFor="let item of subMenu">
-          <mat-list-item role="listitem">
-            <a
-              *ngIf="!item.hasOwnProperty('child')"
-              href="javascript:void(0)"
-              class="text-capitalize"
-              (click)="routeSubMenu(item); drawer.toggle()"
-              >{{ item.text }}</a
-            >
-          </mat-list-item>
-          <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
-            item.text
-          }}</mat-list-item>
-          <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
-            <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
-              <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
-              <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
-                itemChild.text
-              }}</a>
-            </mat-list-item>
-          </mat-list>
-        </div>
-      </mat-list>
-    </div>
-  </mat-sidenav>
-</mat-sidenav-container> -->
-<!-- <button
-  matTooltip="Click this for show sub menu of Offering Letter"
-  style="z-index: 1"
-  class="btn-menu-floating"
-  (click)="drawer.toggle()"
-  mat-fab
-  color="warn"
-  matTooltipPosition="before"
->
-  <mat-icon>more_vert</mat-icon>
-</button> -->
-
-<mat-sidenav-container [hasBackdrop]="true">
-  <div class="e-card">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <ejs-breadcrumb cssClass="margin: 1rem;">
-          <e-breadcrumb-items>
-            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Appraisal Distribution Process" url=""> </e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ getText(parentPath) }}" url=""> </e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -536,14 +13,14 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
             <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
-          <p class="e-card-sub-title">{{ getTextMenu() }}</p>
+          <p class="e-card-sub-title menu-title-class">{{ showTextMenu() }}</p>
         </div>
       </div>
     </div>
     <div style="margin: 1rem">
-      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="selectedMenu === 'credit-proposal-summary'" class="e-sample-resize-container e-card-resize-container wrapper-card">
         <!-- Credit Proposal -->
-        <mat-card class="mb-3">
+        <e-card class="mb-3">
           <mat-card-content>
             <div class="row">
               <div class="col-md-6">
@@ -702,18 +179,17 @@
               </div>
             </div>
           </mat-card-content>
-        </mat-card>
-
+        </e-card>
         <!-- RM -->
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-info>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
 
-        <!-- Cust info -->
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <!-- Customer info -->
+        <section class="mb-3 wrapper-card">
+          <e-card>
             <jhi-credit-proposal-person
               *ngIf="creditProposal.partyTypeId === 'PERSON'"
               [item]="creditProposal.prospectPerson"
@@ -722,43 +198,44 @@
               mode="view"
             >
             </jhi-credit-proposal-person>
+
             <jhi-party-group-view
               [mode]="'view'"
               *ngIf="creditProposal.partyTypeId !== 'PERSON'"
               [item]="creditProposal"
             ></jhi-party-group-view>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </section>
 
         <!-- Postal address -->
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-party-cif-customer-info-postal-address
               [disabled]="true"
               [creditProposal]="creditProposal"
               [partyPostalAddress]="postalAdresss"
             >
             </jhi-party-cif-customer-info-postal-address>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
 
         <!-- Loan facility -->
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-loan-facility-detail>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
 
         <!-- Tab Exposure -->
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
 
         <!-- Collateral info -->
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
               [creditProposal]="creditProposal"
@@ -768,12 +245,12 @@
               [isViewMode]="true"
             >
             </jhi-credit-proposal-collateral-info>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
 
         <!-- Document: summary gabung -->
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-tab-summary
               [fileDar]="dataFileDar"
               [fileCompliance]="dataFileCompliance"
@@ -784,8 +261,8 @@
             >
             </jhi-credit-proposal-tab-summary>
             <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
 
         <div *ngIf="url === 'distribution' && creditProposal.statusDescription === 'Ol Distribution'">
           <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"> </jhi-assign-to>
@@ -793,13 +270,14 @@
       </div>
 
       <!-- Offering Letter -->
-      <div *ngIf="selectedMenu === 'offering-letter'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-offering-page [creditProposal]="creditProposal"></jhi-offering-page>
+      <div *ngIf="selectedMenu === 'offering-letter'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <!-- <e-card><jhi-offering-page [creditProposal]="creditProposal"></jhi-offering-page></e-card> -->
+        <jhi-offering-page [creditProposal]="creditProposal" [fileSPPK]="dataOfferingSPPK"></jhi-offering-page>
       </div>
 
       <div *ngIf="selectedMenu === 'dec-collateral-info'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
               [creditProposal]="creditProposal"
@@ -808,18 +286,16 @@
               [isViewMode]="true"
             >
             </jhi-credit-proposal-collateral-info>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
       </div>
 
       <!-- Basic Information -->
       <div *ngIf="selectedMenu === 'basic-information'" class="e-sample-resize-container e-card-resize-container">
         <div>
-          <mat-card class="mb-3">
-            <mat-card-content>
-              <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
-            </mat-card-content>
-          </mat-card>
+          <div class="mb-3" style="margin: 0.8rem">
+            <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
+          </div>
         </div>
       </div>
 
@@ -829,23 +305,25 @@
       </div>
 
       <!-- Bussines Activity -->
-      <div *ngIf="selectedMenu === 'business-activity'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal" [projectAnalysis]="subMenuItems">
-        </jhi-credit-proposal-busines-activity>
+      <div *ngIf="selectedMenu === 'business-activity'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal" [projectAnalysis]="subMenuItems">
+          </jhi-credit-proposal-busines-activity>
+        </e-card>
       </div>
 
       <!-- Loan Facility -->
       <div *ngIf="selectedMenu === 'loan-facility-detail'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
       </div>
       <div *ngIf="selectedMenu === 'loan-facility'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-tab-loan-facility-detail
               *ngIf="!isHistoryExist"
               [isViewMode]="true"
@@ -859,17 +337,17 @@
               [creditProposal]="creditProposal"
               [isViewMode]="true"
             ></jhi-loan-facility-detail-history>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
       </div>
 
       <!-- Exposure -->
       <div *ngIf="selectedMenu === 'exposure'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
       </div>
 
       <!-- Risk Acceptance Criteria -->
@@ -879,8 +357,8 @@
 
       <!-- Collateral Info -->
       <div *ngIf="selectedMenu === 'collateral-info'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
+        <div class="wrapper-card">
+          <e-card class="mb-3">
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
               [creditProposal]="creditProposal"
@@ -889,8 +367,8 @@
               [isViewMode]="true"
             >
             </jhi-credit-proposal-collateral-info>
-          </mat-card-content>
-        </mat-card>
+          </e-card>
+        </div>
       </div>
 
       <!-- Management Information -->
@@ -899,24 +377,31 @@
       </div>
 
       <!-- Financial Statement -->
-      <div *ngIf="selectedMenu === 'financial-statement'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-repayment-spreadsheet
-          [creditProposalItem]="creditProposal"
-          *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'"
-          [jhifilter]="creditProposal.attributes.proposalType"
-          [saveWordMinio]="saveWord"
-        ></jhi-repayment-spreadsheet>
+      <div *ngIf="selectedMenu === 'financial-statement'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-repayment-spreadsheet
+            [creditProposalItem]="creditProposal"
+            *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'"
+            [jhifilter]="creditProposal.attributes.proposalType"
+            [saveWordMinio]="saveWord"
+          ></jhi-repayment-spreadsheet>
 
-        <jhi-repayment-spreadsheet
-          [creditProposalItem]="creditProposal"
-          *ngIf="
-            creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' ||
-            creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
-          "
-          [jhifilter]="creditProposal.attributes.proposalType"
-          [saveWordMinio]="saveWord"
-        >
-        </jhi-repayment-spreadsheet>
+          <jhi-repayment-spreadsheet
+            [creditProposalItem]="creditProposal"
+            *ngIf="
+              creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' ||
+              creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
+            "
+            [jhifilter]="creditProposal.attributes.proposalType"
+            [saveWordMinio]="saveWord"
+          >
+          </jhi-repayment-spreadsheet>
+        </e-card>
+      </div>
+
+      <!-- Memo Banding -->
+      <div *ngIf="selectedMenu === 'memo-banding'">
+        <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
       </div>
 
       <!-- Slik Checking -->
@@ -930,47 +415,63 @@
       </div>
 
       <!-- Propose Pricing -->
-      <div *ngIf="selectedMenu === 'propose-pricing'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
+      <div *ngIf="selectedMenu === 'propose-pricing'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
+        </e-card>
       </div>
 
       <!-- Covenant & TBO And Deviation -->
-      <div *ngIf="selectedMenu === 'convenant-tbo'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-covenant [isViewMode]="true" *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
-        </jhi-credit-proposal-tab-covenant>
-        <jhi-credit-proposal-tab-covenant-history [isViewMode]="true" *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
-        </jhi-credit-proposal-tab-covenant-history>
+      <div *ngIf="selectedMenu === 'convenant-tbo'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-credit-proposal-tab-covenant [isViewMode]="true" *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
+          </jhi-credit-proposal-tab-covenant>
+          <jhi-credit-proposal-tab-covenant-history [isViewMode]="true" *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
+          </jhi-credit-proposal-tab-covenant-history>
+        </e-card>
       </div>
 
       <!-- Covenant Dan Document checklist -->
-      <div *ngIf="selectedMenu === 'covenant-document-check'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+      <div *ngIf="selectedMenu === 'covenant-document-check'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+        </e-card>
       </div>
 
       <!-- Convenant on finalize (:enable:) -->
-      <div *ngIf="selectedMenu === 'finalize-convenant'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-covenant-temp [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+      <div *ngIf="selectedMenu === 'finalize-convenant'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card class="mb-3">
+          <jhi-covenant-temp [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+        </e-card>
       </div>
 
       <!-- Summary -->
-      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+        </e-card>
       </div>
 
       <!-- Opinion -->
-      <div *ngIf="selectedMenu === 'credit-opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
+      <div *ngIf="selectedMenu === 'credit-opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
+        </e-card>
       </div>
 
       <!-- Compare Data -->
-      <div *ngIf="selectedMenu === 'compare-approval-report'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-comprae-approval-report [creditProposal]="creditProposal"></jhi-comprae-approval-report>
+      <div *ngIf="selectedMenu === 'compare-approval-report'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-comprae-approval-report [creditProposal]="creditProposal"></jhi-comprae-approval-report>
+        </e-card>
       </div>
 
       <!-- Complience Rec -->
-      <div *ngIf="selectedMenu === 'compliance-recomendation'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
-        <jhi-loan-analys-opinion-compliance-part [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion-compliance-part>
+      <div *ngIf="selectedMenu === 'compliance-recomendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <e-card>
+          <jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
+          <jhi-loan-analys-opinion-compliance-part [creditProposalItem]="creditProposal"> </jhi-loan-analys-opinion-compliance-part>
+        </e-card>
       </div>
     </div>
 
@@ -1013,45 +514,42 @@
     </div>
   </div>
 
-  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-    <div class="p-3" style="padding-top: 90px !important">
-      <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-
-      <mat-list role="list">
-        <div *ngFor="let item of subMenu">
-          <mat-list-item role="listitem">
-            <a
-              *ngIf="!item.hasOwnProperty('child')"
-              href="javascript:void(0)"
-              class="text-capitalize"
-              (click)="routeSubMenu(item); drawer.toggle()"
-              >{{ item.text }}</a
-            >
-          </mat-list-item>
-          <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
-            item.text
-          }}</mat-list-item>
-          <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
-            <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
-              <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
-              <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
-                itemChild.text
-              }}</a>
-            </mat-list-item>
-          </mat-list>
-        </div>
-      </mat-list>
+  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
+    <div class="header-sub-menu">
+      <label>{{ getText(parentPath) }}:</label>
     </div>
+    <mat-list role="list" class="list-styling">
+      <div *ngFor="let item of subMenu">
+        <mat-list-item role="listitem">
+          <a
+            *ngIf="!item.hasOwnProperty('child')"
+            href="javascript:void(0)"
+            class="text-capitalize"
+            (click)="routeSubMenu(item); drawer.toggle(); triggerToggle()"
+            >{{ item.text }}</a
+          >
+        </mat-list-item>
+        <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
+          item.text
+        }}</mat-list-item>
+        <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
+          <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
+            <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
+            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize">{{
+              itemChild.text
+            }}</a>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-list>
   </mat-sidenav>
+  <button
+    matTooltip="Click this for show sub menu of Offering Letter"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); triggerToggle()"
+    matTooltipPosition="before"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
 </mat-sidenav-container>
-<button
-  matTooltip="Click this for show sub menu of Offering Letter"
-  style="z-index: 1"
-  class="btn-menu-floating"
-  (click)="drawer.toggle()"
-  mat-fab
-  color="warn"
-  matTooltipPosition="before"
->
-  <mat-icon>more_vert</mat-icon>
-</button>

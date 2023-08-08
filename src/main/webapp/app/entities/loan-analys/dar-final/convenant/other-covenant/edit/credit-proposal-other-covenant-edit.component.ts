@@ -4,6 +4,7 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { IOtherCovenant } from '../other-convenant.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-other-covenant-edit-temp',
@@ -23,7 +24,8 @@ export class CreditProposalOtherCovenantEditTempComponent implements OnInit {
       item: ICreditProposal;
     },
     private _dialog: MatDialogRef<CreditProposalOtherCovenantEditTempComponent>,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    private dialog: MatDialog
   ) {
     this.edit = this.data.edit;
     this.otherCovenant = this.data.otherCovenant;
@@ -32,20 +34,21 @@ export class CreditProposalOtherCovenantEditTempComponent implements OnInit {
 
   ngOnInit(): void {
     this.subCategoryValue(this.data.otherCovenant.categoryId);
+    this.checkRole();
   }
 
   public categorys = [
     {
       parameterTypeId: 'OTHER_COVENANT_CATEGORY_OTHER',
-      parameterTypeDescription: 'Other Covenant Category Other',
+      parameterTypeDescription: 'Other Covenant',
     },
     {
       parameterTypeId: 'OTHER_COVENANT_CATEGORY_NOTES',
-      parameterTypeDescription: 'Other Covenant Category Notes',
+      parameterTypeDescription: 'Notes',
     },
     {
       parameterTypeId: 'OTHER_COVENANT_CATEGORY_CONDITION',
-      parameterTypeDescription: 'Other Covenant Category Condition',
+      parameterTypeDescription: 'Condition',
     },
   ];
 
@@ -56,6 +59,13 @@ export class CreditProposalOtherCovenantEditTempComponent implements OnInit {
     if (this.select) {
       this.subCategoryValue(this.select);
     }
+  }
+
+  public checkRole() {
+    this._dialog.disableClose = true;
+    this._dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
   }
 
   public categoryCovenant = [];
@@ -83,5 +93,21 @@ export class CreditProposalOtherCovenantEditTempComponent implements OnInit {
       }
     }
     this._dialog.close(this.otherCovenant);
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

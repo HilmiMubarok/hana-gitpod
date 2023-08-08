@@ -10,7 +10,10 @@
             <mat-label>Collateral Detail Type</mat-label>
             <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" [disabled]="dataSource()">
               <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+              <!-- <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option> -->
+              <mat-option *ngFor="let item of collateralDetailType" [value]="item.collateralDetailTypeCode">
+                {{ item.collateralDetailTypeDescription }}
+              </mat-option>
             </mat-select>
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
@@ -20,7 +23,8 @@
             <div class="col">Collateral Detail Type</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ filternameValue(collateralProperty.attributes.collateralDetailType) }}
+              <!-- {{ filternameValue(collateralProperty.attributes.collateralDetailType) }} -->
+              {{ collateralDetailTypeValue }}
             </div>
           </div>
         </section>
@@ -154,7 +158,7 @@
             <section *jhiMatrixDirIDD="'input'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Quantity Size</mat-label>
-                <input matInput currencyMask [options]="logoCcy" type="text" [(ngModel)]="collateralProperty.total" disabled />
+                <input matInput [options]="logoCcy" type="text" [value]="collateralProperty.total" disabled />
                 <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
               </mat-form-field>
             </section>
@@ -170,23 +174,18 @@
           </div>
           <div class="col-4">
             <section *jhiMatrixDirIDD="'input'">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Qty</mat-label>
-                <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
-                  <mat-option value="">Please Select</mat-option>
-                  <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
-                    {{ item.abbreviation }} - {{ item.description }}
-                  </mat-option>
-                </mat-select>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Quantity Size</mat-label>
+                <input matInput [options]="logoCcy" type="text" [value]="collateralProperty.uomDescription" disabled />
                 <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
               </mat-form-field>
             </section>
             <section *jhiMatrixDirIDD="''">
               <div class="fontsebled row">
-                <div class="col">Qty</div>
+                <div class="col">UOM</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
-                  {{ collateralProperty.attributes.quantitySizeUomId }}
+                  {{ collateralProperty.uomDescription }}
                 </div>
               </div>
             </section>
@@ -581,7 +580,10 @@
             <mat-label>Collateral Detail Type</mat-label>
             <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" disabled>
               <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+              <!-- <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option> -->
+              <mat-option *ngFor="let item of collateralDetailType" [value]="item.collateralDetailTypeCode">
+                {{ item.collateralDetailTypeDescription }}
+              </mat-option>
             </mat-select>
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
@@ -591,7 +593,8 @@
             <div class="col">Collateral Detail Type</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ collateralProperty.attributes.collateralDetailType }}
+              <!-- {{ collateralProperty.attributes.collateralDetailType }} -->
+              {{ collateralDetailTypeValue }}
             </div>
           </div>
         </section>

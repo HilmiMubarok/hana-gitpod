@@ -78,7 +78,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-dialog-actions align="center">
+    <mat-dialog-actions align="center" class="align-center">
       <button mat-raised-button mat-dialog-close *ngIf="view" class="confirm-button-no" style="margin-right: 5px">Cancel</button>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <button mat-raised-button (click)="openCancelDialog()" *ngIf="!view" class="confirm-button-no" style="margin-right: 5px">
@@ -98,7 +98,7 @@
   <div class="style-close">
     <button class="button-close" mat-button mat-dialog-close>X</button>
   </div>
-  <h2 mat-dialog-title class="header-title">Collateral Detailxx</h2>
+  <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
   <mat-dialog-content>
     <mat-card>
       <mat-card-content>
@@ -174,7 +174,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-dialog-actions align="center">
+    <mat-dialog-actions class="align-center">
       <!-- <button mat-raised-button mat-dialog-close *ngIf="view" class="confirm-button-no" style="margin-right: 5px">Cancel</button> -->
       <section *ngIf="!view">
         <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no" style="margin-right: 5px">Cancel</button>

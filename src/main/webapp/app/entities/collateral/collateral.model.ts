@@ -44,6 +44,7 @@ export interface ICollateralAttribute {
   collateralProposePricing?: string;
   collateralCode?: string;
   landCertificates?: ICollateralLandAttribute[];
+  crossCollateral?: string;
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
@@ -58,6 +59,7 @@ export class CollateralAttribute implements ICollateralAttribute {
     public buildingFacWaterHeater?: string,
     public buildingFacCleanWater?: string,
     public mappingStatus?: string,
+    public crossCollateral?: string,
     public collateralCode?: string,
     public collateralProposePricing?: string,
     public landCertificates?: ICollateralLandAttribute[]
@@ -70,6 +72,7 @@ export class CollateralAttribute implements ICollateralAttribute {
     this.buildingFacWaterHeater = 'no';
     this.landCertificates = new Array<ICollateralLandAttribute>();
     this.mappingStatus = 'no';
+    this.crossCollateral = 'no';
   }
 }
 
@@ -330,4 +333,15 @@ export class Collateral implements ICollateral {
     this.collateralAddress = new PostalAddress();
     this.statusId = 'NEW';
   }
+}
+
+export interface ICollateralInfoAfter {
+  id?: number;
+  collateralType?: string;
+  mvInternal?: number;
+  lvInternal?: number;
+}
+
+export class CollateralInfoAfter implements ICollateralInfoAfter {
+  constructor(public id?: number, public collateralType?: string, public mvInternal?: number, public lvInternal?: number) {}
 }

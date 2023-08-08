@@ -10,11 +10,11 @@
       </ng-container>
       <ng-container matColumnDef="docName">
         <th mat-header-cell *matHeaderCellDef>Document Name</th>
-        <td mat-cell *matCellDef="let element">{{ convertDan(element['folder']) }}</td>
+        <td mat-cell *matCellDef="let element">{{ convertDan(element['nameDoc']) }}</td>
       </ng-container>
       <ng-container matColumnDef="docDate">
         <th mat-header-cell *matHeaderCellDef>Document Issued Date</th>
-        <td mat-cell *matCellDef="let element">{{ convert(element['date']) | date: 'yyyy/dd/MM' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element['date'] | date: 'yyyy-MM-dd' }}</td>
       </ng-container>
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -23,7 +23,7 @@
             <mat-icon>remove_red_eye</mat-icon>
           </button>
 
-          <button mat-icon-button (click)="edit(element)" [disabled]="IfRmEnable" [hidden]="showButton">
+          <button mat-icon-button (click)="update(element)" [disabled]="IfRmEnable" [hidden]="showButton">
             <mat-icon [hidden]="IfRmEnable" [hidden]="showButton">create</mat-icon>
           </button>
           <button mat-icon-button (click)="delete(element)" [disabled]="IfRmEnable" [hidden]="showButton">
@@ -38,7 +38,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card-content>
-  <mat-card-actions align="center">
+  <mat-card-actions align="center" class="align-center">
     <section *jhiMatrixDirIDD="'input'">
       <button class="button-styling" mat-raised-button [disabled]="IfRmEnable" [hidden]="showButton" (click)="openDialog()">
         <mat-icon>add</mat-icon> UPLOAD
@@ -60,11 +60,11 @@
       </ng-container>
       <ng-container matColumnDef="docName">
         <th mat-header-cell *matHeaderCellDef>Document Name</th>
-        <td mat-cell *matCellDef="let element">{{ convertDan(element['folder']) }}</td>
+        <td mat-cell *matCellDef="let element">{{ convertDan(element['nameDoc']) }}</td>
       </ng-container>
       <ng-container matColumnDef="docDate">
         <th mat-header-cell *matHeaderCellDef>Document Issued Date</th>
-        <td mat-cell *matCellDef="let element">{{ convert(element['date']) | date: 'yyyy/dd/MM' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element['date'] | date: 'yyyy-MM-dd' }}</td>
       </ng-container>
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -73,7 +73,7 @@
             <mat-icon>remove_red_eye</mat-icon>
           </button>
 
-          <button mat-icon-button (click)="edit(element)" [disabled]="IfRmEnable" [hidden]="showButton">
+          <button mat-icon-button (click)="update(element)" [disabled]="IfRmEnable" [hidden]="showButton">
             <mat-icon [hidden]="IfRmEnable" [hidden]="showButton">create</mat-icon>
           </button>
           <button mat-icon-button (click)="delete(element)" [disabled]="IfRmEnable" [hidden]="showButton">
@@ -88,7 +88,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card-content>
-  <mat-card-actions align="center">
+  <mat-card-actions align="center" class="align-center">
     <button class="button-styling" mat-raised-button [disabled]="IfRmEnable" (click)="openDialog()" [hidden]="showButton">
       <mat-icon>add</mat-icon> UPLOAD
     </button>

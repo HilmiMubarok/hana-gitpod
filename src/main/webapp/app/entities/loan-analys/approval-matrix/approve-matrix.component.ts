@@ -67,6 +67,7 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   public data = [];
   public displayColumns: string[] = ['approval_name', 'position', 'date', 'alternatename'];
   public displayedColumnsExpand = [...this.displayColumns, 'expand'];
+  public parentId: string;
 
   constructor(
     protected router: Router,
@@ -100,13 +101,16 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   }
 
   private loadRelationType(): void {
+    this.parentId =
+      this.creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back' ? 'BTB' : this.creditProposal.applicationTypeId;
     this.relationTypeService
       .queryFilterBy({
-        idParent: this.creditProposal.applicationTypeId,
+        idParent: this.parentId,
         page: 0,
         size: 9999,
       })
       .subscribe(res => {
+        console.log('res data', res.body);
         this.data = res.body;
         if (this.data.length > 0) {
           const index = this.data.length - 1;

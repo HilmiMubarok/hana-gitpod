@@ -47,6 +47,13 @@ export class MainFacilityDialogComponent implements OnInit {
   ngOnInit(): void {
     this.loadCurrencyMeasure();
     this.myControlCurrency.disable();
+    if (!this.mainFacility.startPeriodDate) {
+      this.mainFacility.startPeriodDate = this.mainFacility.lastAgreementDate;
+    }
+    if (!this.mainFacility.endPeriodDate) {
+      this.mainFacility.endPeriodDate = this.mainFacility.maturityDate;
+    }
+    console.log('ini date default ', this.mainFacility.startPeriodDate, 'end ', this.mainFacility.endPeriodDate);
   }
 
   filteredCurrency() {

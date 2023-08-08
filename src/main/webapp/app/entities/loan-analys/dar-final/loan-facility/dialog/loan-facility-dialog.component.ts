@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
@@ -24,6 +24,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { MasterProductParameterService } from 'app/entities/master-parameter/master-product/master-product-parameter.service';
 import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
 import { IMasterProductParameter } from 'app/entities/master-parameter/master-product/master-product-parameter.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -255,6 +256,8 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   public interestTypeList = [];
   public installmentMethodList = [];
   public restructList = [];
+  public installmentMethodValue: string;
+  public restructMethodValue: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -268,6 +271,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     protected applicationOptionService: ApplicationOptionService,
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
+    public dialog: MatDialog,
 
     // Code Lov get General Parameter  List Of Value Improvement Phase 1
     public generalParameterService: GeneralParameterService,
@@ -288,7 +292,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   }
 
   ngOnInit(): void {
-    console.log('application product ', this.applicationProduct);
     this.cekApplicationType();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.sublimitFromExistingFacility);
@@ -352,7 +355,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     } else {
       const dateNew = new Date().toISOString().split('T')[0];
       if (this.rateType !== '' && this.ccy !== '' && dateNew) {
-        console.log('ini rate type ', this.rateType);
         this.indexRateService
           .find('get?date=' + dateNew.replace(/-/g, '') + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
           .subscribe((res: any) => {
@@ -368,6 +370,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   }
 
   public berubah(event: any): void {
+    this.applicationProduct.productTypeId = this.applicationProduct.attributes.facilityType;
     if (event === 'FN - Syndicate loan / club deal') {
       this.status = true;
     } else {
@@ -386,7 +389,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       .subscribe(res => {
         this.listLoanType = res.body;
         // const a = this.listLoanType.find(obj => obj.name === event);
-        console.log('loan type List', this.listLoanType);
         this.getfacilityCategory(this.applicationProduct.productName);
       });
 
@@ -721,7 +723,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         this.interestTypeList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('interest type', this.interestTypeList);
       });
   }
 
@@ -736,7 +737,16 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         this.installmentMethodList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('installment ', this.installmentMethodList);
+
+        if (this.installmentMethodList) {
+          let element: string;
+          for (let i = 0; i < this.installmentMethodList.length; i++) {
+            if (this.applicationProduct.installmentMethod === this.installmentMethodList[i].code) {
+              element = this.installmentMethodList[i].value;
+            }
+          }
+          this.installmentMethodValue = element;
+        }
       });
   }
 
@@ -751,7 +761,15 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         this.restructList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('restruct', this.restructList);
+        if (this.restructList) {
+          let element: string;
+          for (let i = 0; i < this.restructList.length; i++) {
+            if (this.applicationProduct.restructMethod === this.restructList[i].code) {
+              element = this.restructList[i].value;
+            }
+          }
+          this.restructMethodValue = element;
+        }
       });
   }
 
@@ -788,7 +806,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
 
   public getfacilityCategory(event) {
     const data = this.listLoanType.find(obj => obj.name === event);
-
     if (data) {
       this.productClasificationService
         .queryFilterBy({
@@ -808,5 +825,20 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
 
   public getSpread() {
     this.applicationProduct.attributes.requiredSpread = this.applicationProduct.attributes.currentInterestRate + '%';
+  }
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

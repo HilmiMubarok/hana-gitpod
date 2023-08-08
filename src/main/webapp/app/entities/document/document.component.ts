@@ -12,18 +12,36 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Document, DocumentMetaData, IDocument } from './document.model';
+import { IDocumentNode } from '../document-node/document-node.model';
 @Component({
   selector: 'jhi-document',
   templateUrl: './document.component.html',
   styleUrls: ['./document.scss'],
 })
 export class DocumentComponent implements OnChanges, OnInit {
-  @Input()
-  public collateral: ICollateral;
+  public _collateral: ICollateral;
 
   @Input()
-  public appraisal: ICollateralAppraisal;
+  get collateral(): ICollateral {
+    return this._collateral;
+  }
+
+  set collateral(value: ICollateral) {
+    this._collateral = value;
+  }
+
+  @Input()
+  public _appraisal: ICollateralAppraisal;
+
+  @Input()
+  get appraisal(): ICollateralAppraisal {
+    return this._appraisal;
+  }
+
+  set appraisal(value: ICollateralAppraisal) {
+    this._appraisal = value;
+  }
 
   @Input()
   public document: ICollateralAppraisal;
@@ -40,6 +58,7 @@ export class DocumentComponent implements OnChanges, OnInit {
   private bucket: string;
   public IfRmEnable: boolean;
   public showButton: boolean;
+  public change: any;
   constructor(
     private storageService: StorageService,
     private dialog: MatDialog,
@@ -58,20 +77,16 @@ export class DocumentComponent implements OnChanges, OnInit {
     this.showButtonInApproval();
   }
   ngOnChanges(changes: SimpleChanges): void {
+    this.change = changes;
     if (changes['collateral']) {
+      this.documents = 'document-collateral';
       this.getBucket().then(res => {
         this.getFiles('collateral', this.collateral.id);
       });
     }
 
     if (changes['appraisal']) {
-      if (changes.document.currentValue === 'document-lainnya') {
-        this.documents = 'document-lainnya';
-      }
-
-      if (changes.document.currentValue === 'document-collateral') {
-        this.documents = 'document-collateral';
-      }
+      this.documents = 'document-lainnya';
       this.getBucket().then(res => {
         this.getFiles('appraisal', this.appraisal.id);
       });
@@ -95,7 +110,7 @@ export class DocumentComponent implements OnChanges, OnInit {
     });
   }
 
-  public edit(element: object) {
+  public update(element: object) {
     const predicate: object = {
       width: '80vw',
       data: {
@@ -108,30 +123,37 @@ export class DocumentComponent implements OnChanges, OnInit {
     };
 
     if (this.collateral) {
-      predicate['data']['collateral'] = this.collateral;
+      predicate['data']['collateral'] = this.change.collateral['currentValue'];
     }
 
     if (this.appraisal) {
-      predicate['data']['appraisal'] = this.appraisal;
+      predicate['data']['appraisal'] = this.change.appraisal['currentValue'];
     }
 
     predicate['data']['documents'] = this.documents;
+    predicate['data']['change'] = this.change;
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (this.collateral) {
-          if (this.collateral.id) {
-            this.getFiles('collateral', this.collateral.id);
-          }
+      this.save(res).then(() => {
+        if (res.collateral !== undefined) {
+          this.getFiles('collateral', this.change.collateral['currentValue'].id);
         }
 
-        if (this.appraisal) {
-          if (this.appraisal.id) {
-            this.getFiles('appraisal', this.appraisal.id);
-          }
+        if (res.appraisal !== undefined) {
+          this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
         }
-      }
+      });
+
+      this.edit(res).then(() => {
+        if (res.collateral !== undefined) {
+          this.getFiles('collateral', this.change.collateral['currentValue'].id);
+        }
+
+        if (res.appraisal !== undefined) {
+          this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
+        }
+      });
     });
   }
 
@@ -193,31 +215,179 @@ export class DocumentComponent implements OnChanges, OnInit {
     };
 
     if (this.collateral) {
-      predicate['data']['collateral'] = this.collateral;
+      predicate['data']['collateral'] = this.change.collateral['currentValue'];
     }
 
     if (this.appraisal) {
-      predicate['data']['appraisal'] = this.appraisal;
+      predicate['data']['appraisal'] = this.change.appraisal['currentValue'];
     }
 
     predicate['data']['documents'] = this.documents;
+    predicate['data']['change'] = this.change;
 
     const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (this.collateral) {
-          if (this.collateral.id) {
-            this.getFiles('collateral', this.collateral.id);
-          }
+    dialogRef.afterClosed().subscribe((res: any) => {
+      this.save(res).then(() => {
+        if (res.collateral !== undefined) {
+          this.getFiles('collateral', this.change.collateral['currentValue'].id);
         }
 
-        if (this.appraisal) {
-          if (this.appraisal.id) {
-            this.getFiles('appraisal', this.appraisal.id);
-          }
+        if (res.appraisal !== undefined) {
+          this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
         }
+      });
+
+      this.edit(res).then(() => {
+        if (res.collateral !== undefined) {
+          this.getFiles('collateral', this.change.collateral['currentValue'].id);
+        }
+
+        if (res.appraisal !== undefined) {
+          this.getFiles('appraisal', this.change.appraisal['currentValue'].id);
+        }
+      });
+    });
+  }
+
+  private doUpload(frmData: FormData, metaData: object): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.uploadMeta(this.bucket, frmData, metaData).subscribe({
+        next: res => resolve(),
+        error: err => reject(),
+      });
+    });
+  }
+  public checkIdExists(id: string, existingIds: string[]): boolean {
+    return existingIds.includes(id);
+  }
+  public generateRandomId(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomId = '';
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomId += characters.charAt(randomIndex);
+    }
+
+    return randomId;
+  }
+
+  public generateUniqueRandomId(length: number, existingIds: string[]): string {
+    let randomId = this.generateRandomId(length);
+
+    while (this.checkIdExists(randomId, existingIds)) {
+      randomId = this.generateRandomId(length);
+    }
+
+    return randomId;
+  }
+
+  public save(res: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.accountService.identity().subscribe(resAccount => {
+        const id = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
+        const promises: Array<any> = new Array<any>();
+        for (let i = 0; i < res.files.length; i++) {
+          const metaData = new DocumentMetaData();
+
+          const files = res.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + res.files[i].name.replace('&', '');
+          metaData.id = id;
+          metaData.folder = res.documentNumber.replace('&', 'codeSpecialDan');
+          metaData.docDate = res.documentDate;
+          metaData.docNo = res.documentNumber.replace('&', 'codeSpecialDan');
+          metaData.docType = res.documentType;
+          metaData.createdDate = new Date();
+          metaData.createdBy = resAccount.login;
+
+          const formData = new FormData();
+          formData.append('file', res.files[i]);
+          // if (this.data.collateral) {
+          //   metaData.objectName = `/collateral/${this.data.collateral.id}/document/${id.replace('&', 'codeSpecialDan')}/${files}`;
+          //   metaData.entityId = this.data.collateral.id;
+          // }
+
+          if (res.appraisal !== undefined) {
+            metaData.objectName = `/appraisals/${res.appraisal.id}/document-lainnya/${id}/${files}`;
+            metaData.entityId = res.appraisal.id;
+          }
+          if (res.collateral !== undefined) {
+            metaData.objectName = `/collateral/${res.collateral.id}/document/${id}/${files}`;
+            metaData.entityId = res.collateral.id;
+          }
+
+          promises.push(this.doUpload(formData, metaData));
+        }
+
+        if (promises.length === res.files.length) {
+          Promise.all(promises).then(res1 => {
+            resolve(res1);
+          });
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  public edit(res: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (res.folderFiles.length > 0) {
+        this.accountService.identity().subscribe(resAccount => {
+          const promises: Array<any> = new Array<any>();
+          const fileRes = [];
+          const files: IDocumentNode[] = res.folderFiles;
+          if (files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+              const file: IDocumentNode = files[i];
+              file.tags['id'] = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
+              file.tags['docDate'] = new Date(res.documentDate);
+              file.tags['docType'] = res.documentType;
+              file.tags['docNo'] = res.documentNumber.replace('&', 'codeSpecialDan');
+              file.tags['folder'] = res.documentNumber.replace('&', 'codeSpecialDan');
+              file.tags['createdBy'] = resAccount.login;
+              this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
+                fileRes.push(res1);
+              });
+            }
+          }
+
+          if (fileRes.length === files.length) {
+            resolve(fileRes[0]);
+          }
+        });
+      } else {
+        resolve(null);
       }
     });
+  }
+
+  private getFiles(owner: string, id: number): void {
+    if (owner === 'collateral') {
+      if (this.change.collateral !== undefined) {
+        if (this.change.collateral['currentValue'] !== undefined) {
+          const predicate: Object = {
+            key: `/collateral/${id}/document`,
+          };
+          this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+            this.groupByFolder(res.body);
+
+            this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
+          });
+        }
+      }
+    } else if (owner === 'appraisal') {
+      if (this.change.appraisal !== undefined) {
+        if (this.change.appraisal['currentValue'] !== undefined) {
+          const predicate: Object = {
+            key: `/appraisals/${id}/document-lainnya`,
+          };
+          this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+            this.groupByFolder(res.body);
+            this.collateralAppraisalService.totalDataDocumentLainya = res.body;
+          });
+        }
+      }
+    }
   }
 
   private groupByFolder(param: Object[]): void {
@@ -225,87 +395,40 @@ export class DocumentComponent implements OnChanges, OnInit {
     if (param.length > 0) {
       this.folders = lodash
         .chain(param)
-        .groupBy('tags.folder')
+        .groupBy('tags.id')
         .map((val, key) => ({
           folder: key,
           date: val[0]['tags']['docDate'],
           files: val,
           nameFile: val[0]['name'],
+          nameDoc: val[0]['tags']['docNo'],
         }))
         .value();
-      console.log('folder', this.folders);
-    }
-  }
-
-  private getFiles(owner: string, id: number): void {
-    if (owner === 'collateral') {
-      const predicate: Object = {
-        key: `/collateral/${id}/document`,
-      };
-      this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        this.groupByFolder(res.body);
-        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-      });
-    }
-
-    if (owner === 'appraisal') {
-      if (this.documents === 'document-collateral') {
-        const predicate: Object = {
-          key: `/appraisals/${id}/document-colateral`,
-        };
-        this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-          this.groupByFolder(res.body);
-
-          this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-        });
-      }
-      if (this.documents === 'document-lainnya') {
-        const predicate: Object = {
-          key: `/appraisals/${id}/document-lainnya`,
-        };
-        this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-          this.groupByFolder(res.body);
-          this.collateralAppraisalService.totalDataDocumentLainya = res.body;
-        });
-      }
     }
   }
 
   public documentCollateral(id: number) {
-    console.log('document-collateral', id);
-    this.storageService.getBucketName().subscribe(r => {
-      const predicate: Object = {
-        key: `/appraisals/${id}/document-colateral`,
-      };
-
-      this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-        console.log('appss', res.body);
-        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-      });
-    });
-  }
-
-  public collateralData(id: number) {
     this.storageService.getBucketName().subscribe(r => {
       const predicate: Object = {
         key: `/collateral/${id}/document`,
       };
+
       this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-        console.log('fasdsad', res.body);
         this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
+        console.log('kkfff', res.body);
       });
     });
   }
 
   public documentLainnya(id: number) {
-    console.log('document-lainnya', id);
     this.storageService.getBucketName().subscribe(r => {
       const predicate: Object = {
         key: `/appraisals/${id}/document-lainnya`,
       };
       this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-        console.log('apttt', res.body);
+        this.groupByFolder(res.body);
         this.collateralAppraisalService.totalDataDocumentLainya = res.body;
+        console.log('qwe', res.body);
       });
     });
   }
@@ -468,6 +591,8 @@ export class DocumentComponent implements OnChanges, OnInit {
       }
     }
   }
+
+  // fungsi ini di hilangkan atas persetujuan anjar
   public convert(str) {
     const mnths = {
         Jan: '01',

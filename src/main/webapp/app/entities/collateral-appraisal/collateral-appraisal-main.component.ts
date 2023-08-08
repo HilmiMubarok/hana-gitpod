@@ -102,6 +102,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private resProcess: any;
   private taskProcess: IProcessTask;
   private _collateralAppraisal: ICollateralAppraisal;
+  public isOpen = false;
   appName: any;
   appNameMenu: any;
   get collateralAppraisal() {
@@ -109,9 +110,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   set collateralAppraisal(item: ICollateralAppraisal) {
-    this.loadData(item.collateral);
-    this.documentComponent.documentCollateral(item.id);
     this.documentComponent.documentLainnya(item.id);
+    this.loadData(item.collateral);
 
     this._collateralAppraisal = item;
 
@@ -131,7 +131,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   set surveyAppraisal(item: ISurveyAppraisals) {
     this._surveyAppraisal = item;
     if (item.collateral !== undefined) {
-      this.documentComponent.collateralData(item.collateral.id);
+      this.documentComponent.documentCollateral(item.collateral.id);
     }
 
     // Get Foto Object Jaminan
@@ -150,14 +150,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
     this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
   }
-
-  // get collateralProp() {
-  //   return this._collateralProp;
-  // }
-
-  // set collateralProp(item: ICollateralProperty) {
-  //   this._collateralProp = item;
-  // }
 
   public collateralProp: ICollateralProperty;
   private id: number;
@@ -203,6 +195,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.id = params['id'];
     });
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
+
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -342,7 +335,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     this.getTasks();
     this.timeLine();
-    // console.log('prop', this.collateralProp);
   }
 
   public timeLine() {
@@ -388,19 +380,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
-  }
-
   private getDataSurveyAppraisal(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.find(this.id).subscribe(res => {
         this.surveyAppraisal = res.body;
+
         this.collateral = this.surveyAppraisal.collateral;
         this.collateralType = this.collateral.collateralTypeId;
         this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
@@ -495,7 +479,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else {
       copySurveyAppraisal.collateral.attributes['landCertificates'];
     }
-
     return copySurveyAppraisal;
   }
 
@@ -515,6 +498,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        this.getTasks();
         this.surveyAppraisal.surveyorId = res.body.surveyorId;
         this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
         this.collateralAppraisal.surveyorId = res.body.surveyorId;
@@ -640,10 +624,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.tipeOfficerAppraisal = ev;
       this.getMenuAppraisalOfficer(ev);
     }
-  }
-
-  public onValCollateralItemChanged(ev: any): void {
-    console.log('ev @onValCollateralItemChanged collateral-appraisal-main: ', ev);
   }
 
   public previousState(): void {
@@ -801,8 +781,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
-      this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
-      this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      if (this.surveyAppraisal.statusId !== 'COMPLETE') {
+        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
+        this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      } else {
+        this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      }
     }
   }
 
@@ -940,7 +924,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
       }
-      if (!this.surveyAppraisal.surveyorId) {
+      if (!this.surveyAppraisal.surveyorPositionId) {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
@@ -1155,7 +1139,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.collateralProp = lodash.find(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
         });
-        // console.log('collateral Property Main', this.collateralProp);
       });
   }
 
@@ -1165,30 +1148,34 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public marketValueLandRound: number;
   public saveCollateralProperty(property: ICollateralProperty) {
     if (this.collateralProp) {
-      // console.log('save prop', property.attributes.marketValueLandRound);
-      // if (this.collateral.id) {
-      this.collateralPropertyService.save(property).subscribe(res => {
-        // console.log('res', res.body);
-        // console.log('save prop test', property.attributes.marketValueLandRound);
-      });
-      // }
+      this.collateralPropertyService.save(property).subscribe(res => {});
     }
   }
 
-  public getTextMenu(param: string): string {
-    const titleMenu = param;
-    const regex = /[-]/g;
-    if (titleMenu === 'foto-object-jaminan') {
-      const fotoObjectJaminan = titleMenu.replace(regex, ' ');
-      const regex2 = /(object)/g;
-      return fotoObjectJaminan.replace(regex2, 'objek');
+  getText(parentPath: string): string {
+    if (parentPath === 'collateral-appraisal') {
+      return 'Request Appraisal';
+    } else if (parentPath === 'batch-apprisal') {
+      return 'Appraisal Distribution External';
     } else {
-      return titleMenu.replace(regex, ' ');
+      return 'Appraisal Result Inqury';
     }
   }
 
   showTextMenu() {
-    return this.getTextMenu(this.clickedMenu);
+    let menuList = [];
+    menuList = [...this.subMenu];
+    for (let i = 0; i < menuList.length; i++) {
+      if (this.clickedMenu === menuList[i].id) {
+        return menuList[i].label;
+      } else {
+        for (let y = 0; y < menuList[i].child?.length; y++) {
+          if (this.clickedMenu === menuList[i].child[y].id) {
+            return menuList[i].child[y].label;
+          }
+        }
+      }
+    }
   }
 
   // menu request appraisal
@@ -1207,5 +1194,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

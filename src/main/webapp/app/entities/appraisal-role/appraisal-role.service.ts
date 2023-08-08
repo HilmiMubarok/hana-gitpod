@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
@@ -7,6 +7,9 @@ import { IAppraisalRole } from './appraisal-role.model';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 import lodash from 'lodash';
+import { Observable } from 'rxjs';
+import { IPosition } from '@syncfusion/ej2-angular-grids';
+import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class AppraisalRoleService extends AbstractEntityService<IAppraisalRole> {
@@ -21,9 +24,19 @@ export class AppraisalRoleService extends AbstractEntityService<IAppraisalRole> 
 
   protected preSave(entity: IAppraisalRole) {}
 
-  public filteringRelationTypes(params: IAppraisalRole[]): IOptionNode[] {
-    console.log('params', params);
+  public getPositionBaseOnInternalApplication(
+    idPositionType: String,
+    idApplication: number,
+    req: any
+  ): Observable<HttpResponse<IPosition[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<IPosition[]>(`${this.resourceUrl}/position-type/${idPositionType}/application/${idApplication}`, {
+      params: options,
+      observe: 'response',
+    });
+  }
 
+  public filteringRelationTypes(params: IAppraisalRole[]): IOptionNode[] {
     const result: IOptionNode[] = [];
     if (params.length > 0) {
       for (let i = 0; i < params.length; i++) {

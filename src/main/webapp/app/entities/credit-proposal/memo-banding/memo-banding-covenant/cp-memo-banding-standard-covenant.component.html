@@ -1,0 +1,50 @@
+<!-- {{
+  creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'
+    ? 'Above'
+    : creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'
+    ? 'Below'
+    : 'Back to back'
+}} -->
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Standard Covenant</div>
+      <div class="e-card-sub-title"></div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <jhi-cp-memo-banding-covenant-above
+      *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'"
+      [creditProposalItem]="creditProposal"
+    ></jhi-cp-memo-banding-covenant-above>
+
+    <jhi-cp-memo-banding-covenant-below
+      *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'"
+      [creditProposalItem]="creditProposal"
+    ></jhi-cp-memo-banding-covenant-below>
+
+    <jhi-cp-memo-banding-covenant-back-to-back-general
+      *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'"
+      [creditProposalItem]="creditProposal"
+    >
+    </jhi-cp-memo-banding-covenant-back-to-back-general>
+
+    <jhi-cp-memo-banding-covenant-back-to-back-deposit
+      *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'"
+      [creditProposalItem]="creditProposal"
+    >
+    </jhi-cp-memo-banding-covenant-back-to-back-deposit>
+  </div>
+</div>
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Other Covenant</div>
+      <div class="e-card-sub-title"></div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <jhi-cp-memo-banding-other-covenant [creditProposalItem]="creditProposal"></jhi-cp-memo-banding-other-covenant>
+  </div>
+</div>

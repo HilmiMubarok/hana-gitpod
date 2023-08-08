@@ -126,6 +126,11 @@ export enum APPLICATION_TYPE {
   BUSINESS_UNIT = 'BUSINESS_UNIT',
 }
 
+export enum DIRECTION {
+  SUPERORDINATE = 'SUPERORDINATE',
+  SUBORDINATE = 'SUBORDINATE',
+}
+
 export enum POSITION_TYPE {
   BM = 'BM',
   CRO = 'CRO',
@@ -135,6 +140,10 @@ export enum POSITION_TYPE {
   SDH = 'SDH',
   TL = 'TL',
   UH = 'UH',
+  ADMIN_APPRAISER = 'ADMIN_APPRAISER',
+  SURVEYOR = 'SURVEYOR',
+  APR_DEPT_HEAD = 'APR_DEPT_HEAD',
+  APR_DH = 'APR_DH',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_VEHICLE {
@@ -1671,7 +1680,7 @@ export const SUBMENU_LOAN_CP: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
@@ -1728,7 +1737,7 @@ export const SUBMENU_LOAN_DAR: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
@@ -1860,7 +1869,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
@@ -1926,7 +1935,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE: object[] = [
   },
   {
     id: 'loan-facility-detail',
-    text: 'Loan Facility',
+    text: 'Loan Facility Detail',
   },
   {
     id: 'facility-mapping',
@@ -1950,7 +1959,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
   },
   {
     id: 'loan-facility-detail',
-    text: 'Loan Facility',
+    text: 'Loan Facility Detail',
   },
   {
     id: 'facility-mapping',
@@ -1977,7 +1986,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
@@ -2043,7 +2052,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE: object[] = [
   },
   {
     id: 'loan-facility-detail',
-    text: 'Loan Facility',
+    text: 'Loan Facility Detail',
   },
   {
     id: 'facility-mapping',
@@ -2070,7 +2079,7 @@ export const SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
@@ -2136,7 +2145,7 @@ export const SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE: object[] = [
   },
   {
     id: 'loan-facility-detail',
-    text: 'Loan Facility',
+    text: 'Loan Facility Detail',
   },
   {
     id: 'facility-mapping',
@@ -2191,7 +2200,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_BELOW: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
@@ -2284,7 +2293,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
@@ -2503,6 +2512,10 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
         id: 'covenant-document-check',
         text: 'Covenant & Document Checklist',
       },
+      {
+        id: 'dec-collateral-info',
+        text: 'Collateral Info',
+      },
       // {
       //   id: 'collateral-facility-mapping',
       //   text: 'Collateral Facility Mapping',
@@ -2524,7 +2537,7 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',
@@ -2627,7 +2640,7 @@ export const SUBMENU_OFFERING_LETTER_FINALIZE: object[] = [
       },
       {
         id: 'loan-facility',
-        text: 'Loan Facility',
+        text: 'Loan Facility Detail',
       },
       {
         id: 'exposure',

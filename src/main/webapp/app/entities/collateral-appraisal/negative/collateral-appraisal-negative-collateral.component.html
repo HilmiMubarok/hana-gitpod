@@ -41,7 +41,13 @@
     </div>
     <div class="e-card-actions">
       <div class="d-flex justify-content-end mt-3">
-        <button class="button-styling" style="margin-top: 20px; margin-right: 15px" [hidden]="hideordisable()" (click)="openDialog()">
+        <button
+          mat-raised-button
+          class="button-styling"
+          style="margin-top: 20px; margin-right: 15px"
+          [hidden]="hideordisable()"
+          (click)="openDialog()"
+        >
           ADD CRITERIA
         </button>
       </div>

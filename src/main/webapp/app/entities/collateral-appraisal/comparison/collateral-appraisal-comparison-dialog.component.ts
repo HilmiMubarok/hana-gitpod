@@ -48,8 +48,8 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.findCollateral();
     this.getRole();
+    this.findCollateral();
   }
 
   public getRole() {
@@ -67,6 +67,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
     }
   }
 
+  public key = [];
   private initObject(collateral: ICollateral): void {
     if (this.data.collateralProperty) {
       // this.item = JSON.parse(this.data.collateralProperty.attributes['comparison']);
@@ -83,6 +84,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
             return o['tags']['collateralPropertyId'] === id.toString();
           });
           this.imagePreviewSrc = file['url'];
+          this.key = files;
         });
       });
     } else {
@@ -148,44 +150,63 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
     this._dialog.close(this.collateralProperty);
   }
   public save(): void {
-    this.collateralPropertyService.create(this.collateralProperty).subscribe(res => {
-      this.uploadFile(this.file, res.body.id);
-      this._dialog.close(res.body);
-    });
-
-    if (this.imagePreviewSrc === '') {
-      this._snackBar.open('Please select file', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-
     if (this.collateralProperty.id) {
-      // update
+      // Update
       this.collateralProperty.attributes['comparison'] = JSON.stringify(this.item);
       this.collateralPropertyService.update(this.collateralProperty).subscribe(res => {
-        this._dialog.close(res.body);
+        if (this.file) {
+          // Delete old file
+          const fileId = this.getFileIdByCollateralPropertyId(this.collateralProperty.id);
+          if (fileId) {
+            this.storageService.getBucketName().subscribe(res2 => {
+              const bucket = res2.body['bucket'];
+              this.storageService.deleteFile(bucket, fileId).subscribe(() => {
+                // Upload new file
+                this.uploadFile(this.file, res.body.id);
+                this._dialog.close(res.body);
+              });
+            });
+          } else {
+            // Upload new file
+            this.uploadFile(this.file, res.body.id);
+            this._dialog.close(res.body);
+          }
+        } else {
+          this._dialog.close(res.body);
+        }
       });
     } else {
-      if (this.item['nameFile'] !== '') {
-        this.item['nameFile'];
-      } else {
-        this.item['nameFile'] = this.file.name.split('.')[0];
+      // Create new collateral property
+      if (!this.file) {
+        this._snackBar.open('Please select a file', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
       }
 
-      // create
       this.collateralProperty.collateralId = this.collateral.id;
       this.collateralProperty.partyId = this.collateral.partyId;
       this.collateralProperty.propertyType = CollateralPropertyType.COMPARISON;
       this.collateralProperty.attributes = {};
       this.collateralProperty.attributes['comparison'] = JSON.stringify(this.item);
+
       this.collateralPropertyService.create(this.collateralProperty).subscribe(res => {
+        // Upload new file
         this.uploadFile(this.file, res.body.id);
         this._dialog.close(res.body);
       });
     }
+  }
+
+  private getFileIdByCollateralPropertyId(collateralPropertyId: number): string {
+    for (const file of this.key) {
+      if (file.tags.collateralPropertyId === collateralPropertyId.toString()) {
+        return file.key;
+      }
+    }
+    return null;
   }
 
   private showPreview(file: any): void {

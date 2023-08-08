@@ -215,6 +215,8 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
   public interestTypeList = [];
   public installmentMethodList = [];
   public restructList = [];
+  public installmentMethodValue: string;
+  public restructMethodValue: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -486,7 +488,15 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
         this.installmentMethodList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('installment ', this.installmentMethodList);
+        if (this.installmentMethodList) {
+          let element: string;
+          for (let i = 0; i < this.installmentMethodList.length; i++) {
+            if (this.applicationProduct.installmentMethod === this.installmentMethodList[i].code) {
+              element = this.installmentMethodList[i].value;
+            }
+          }
+          this.installmentMethodValue = element;
+        }
       });
   }
 
@@ -501,7 +511,15 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
         this.restructList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('restruct', this.restructList);
+        if (this.restructList) {
+          let element: string;
+          for (let i = 0; i < this.restructList.length; i++) {
+            if (this.applicationProduct.restructMethod === this.restructList[i].code) {
+              element = this.restructList[i].value;
+            }
+          }
+          this.restructMethodValue = element;
+        }
       });
   }
 
@@ -788,6 +806,9 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
     }
     if (this.applicationProduct.applicationType === 'Others') {
       this.othersDescStat = false;
+    }
+    if (this.applicationProduct.applicationType !== 'Existing') {
+      this.applicationProduct.attributes.facilityType = this.applicationProduct.productTypeId;
     }
   }
 

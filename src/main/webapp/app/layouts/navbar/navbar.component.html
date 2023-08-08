@@ -10,13 +10,13 @@
 
   <section *ngIf="isLogin">
     <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
-    <section *ngIf="isAdministrator">
+    <!-- <section *ngIf="isAdministrator">
       <span style="font-size: 14px; line-height: 0.9cm">Last Login : {{ lastLogin }}</span>
-    </section>
+    </section> -->
     <img *ngIf="!isAdministrator" src="" style="opacity: 0" />
-    <section *ngIf="!isAdministrator" src="">
+    <!-- <section *ngIf="!isAdministrator" src="">
       <span style="font-size: 14px; line-height: 1px">Last Login : {{ lastLogin }}</span>
-    </section>
+    </section> -->
   </section>
 
   <mat-menu #adminsitration="matMenu">
@@ -29,38 +29,55 @@
   </mat-menu>
 
   <section style="text-align: center; margin-left: 10px; margin-right: 10px">
-    <img
-      id="avatar"
-      src="../../../content/images/default_avatar_transp_small.png"
-      style="max-width: 60px; width: 100%"
-      [matMenuTriggerFor]="account"
-    />
+    <img id="avatar" src="../../../content/images/default_avatar.svg" style="max-width: 60px; width: 100%" [matMenuTriggerFor]="account" />
   </section>
   <section>
-    <section style="margin-top: 10px">
+    <section style="margin-top: 10px; margin-left: 0.8rem">
       <span id="not-pointer">{{ loginName }}</span>
     </section>
-    <section style="margin-top: -10px">
+    <!-- <section style="margin-top: -10px">
       <span *ngIf="!isPositionMoreThan1" id="not-pointer">{{ positionName }} - {{ internalName }}</span>
       <span *ngIf="isPositionMoreThan1" id="pointer" [matMenuTriggerFor]="position">{{ positionName }} - {{ internalName }}</span>
+    </section> -->
+    <section style="margin-top: -10px">
+      <mat-chip-list *ngIf="!isPositionMoreThan1" class="mat-menu-no-item"
+        ><mat-chip class="example-box text-capitalize" id="not-pointer" cdkDrag disabled
+          ><label>{{ positionName }} - {{ internalName }}</label></mat-chip
+        >
+      </mat-chip-list>
+      <mat-chip-list
+        matTooltip="click to see more options"
+        *ngIf="isPositionMoreThan1"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        [matMenuTriggerFor]="position"
+      >
+        <mat-chip class="example-box text-capitalize" id="pointer" cdkDrag
+          ><label>{{ positionName }} - {{ internalName }}</label>
+          <mat-icon>expand_more</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
     </section>
   </section>
 
   <mat-menu #account="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="language">Language</button>
+    <!-- <button mat-menu-item [matMenuTriggerFor]="language">Language</button> -->
     <button *ngFor="let item of menuListItems" mat-menu-item (click)="item.fn()">
       {{ item.text }}
     </button>
   </mat-menu>
 
-  <mat-menu #position="matMenu">
+  <mat-menu #position="matMenu" align="center">
     <button *ngFor="let item of positionListItems" mat-menu-item (click)="item.fn()">
       {{ item.text }}
     </button>
+    <!-- <mat-chip class="example-box text-capitalize" cdkDrag *ngFor="let item of positionListItems" mat-menu-item (click)="item.fn()">
+      {{ item.text }}</mat-chip
+    > -->
   </mat-menu>
 
-  <mat-menu #language="matMenu">
+  <!-- <mat-menu #language="matMenu">
     <button mat-menu-item (click)="changeLanguage('en')">English</button>
     <button mat-menu-item (click)="changeLanguage('id')">Bahasa</button>
-  </mat-menu>
+  </mat-menu> -->
 </mat-toolbar>

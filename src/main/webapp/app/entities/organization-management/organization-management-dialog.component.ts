@@ -9,6 +9,7 @@ import lodash from 'lodash';
 import { IPartyGroup } from '../party-group/party-group.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-organization-management-dialog',
@@ -30,6 +31,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public customerType = 'individu';
   public partyGroup: IPartyGroup;
   public isDisabled = false;
+  public source = '';
 
   constructor(
     private templateService: TemplateService,
@@ -39,24 +41,27 @@ export class OrganizationManagementDialogComponent implements OnInit {
       organizationManagement: IOrganizationManagement;
       managementType: string;
       typeScreen: string;
+      source: string;
     },
     private router: Router,
     private _dialog: MatDialogRef<OrganizationManagementDialogComponent>,
     private partyCifService: PartyCifService,
-    private generalParameterService: GeneralParameterService
+    private generalParameterService: GeneralParameterService,
+    protected messageService: MessageService
   ) {
     this.organizationManagement = this.data.organizationManagement;
     this.managementType = this.data.managementType;
     this.typeSable = this.data.typeScreen;
+    this.source = this.data.source;
   }
   ngOnInit(): void {
+    this.getRole();
     this.remove();
     this.removepacth();
     this.setPep();
     this.setPosition();
     // this.closes();
     this.setRadioButton();
-    this.getRole();
   }
 
   // menu idd organization Management
@@ -134,9 +139,22 @@ export class OrganizationManagementDialogComponent implements OnInit {
   }
 
   public setPep() {
-    this.partyCifService.getPep().subscribe(res => {
-      this.pepStatus = res.body;
-    });
+    // this.partyCifService.getPep().subscribe(res => {
+    //   this.pepStatus = res.body;
+    //   console.log('harusnya', this.pepStatus);
+    // });
+
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PEP_STATUS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.pepStatus = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   public setPosition() {
@@ -156,16 +174,6 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public onChange(event: string) {
     this.organizationManagement.attributes['customerType'] = event;
   }
-
-  // public setRadioButton() {
-  //   this.customerType = this.organizationManagement.attributes['customerType'];
-  //   if (this.organizationManagement.person.partyTypeId === 'PERSON' && this.customerType) {
-  //     this.isDisabled = true;
-  //   }
-  //   if (this.organizationManagement.shareHolderOrg.partyTypeId === 'PARTY_GROUP' || this.customerType) {
-  //     this.isDisabled = true;
-  //   }
-  // }
 
   public setRadioButton() {
     this.isDisabled = true;
@@ -194,6 +202,91 @@ export class OrganizationManagementDialogComponent implements OnInit {
       if (res) {
         this._dialog.close();
       }
+    });
+  }
+
+  //   validasi
+  public Onsave(): void {
+    this.validate().then(() => this.save());
+    // if (this.customerType === 'individu') {
+    //     this.validate().then(() => this.save());
+    // }
+    // else {
+    // }
+  }
+
+  // Validation Loan Facility
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  public checkMustValidated() {
+    const mustValidate = {
+      dob: true,
+      name: true,
+      gender: true,
+      npwp: true,
+      nik: true,
+    };
+    if (this.customerType === 'individu') {
+      if (!this.organizationManagement.person.firstName) {
+        this._showNotification('error', 'Please Enter First Name');
+        mustValidate.name = false;
+      }
+
+      if (!this.organizationManagement.person.dob) {
+        this._showNotification('error', 'Please Enter Date Of Birth');
+        mustValidate.dob = false;
+      }
+
+      if (!this.organizationManagement.person.gender) {
+        this._showNotification('error', 'Please Selected Gender');
+        mustValidate.gender = false;
+      }
+
+      if (!this.organizationManagement.person.personalIdNumber) {
+        this._showNotification('error', 'Please Enter ID Number');
+        mustValidate.nik = false;
+      }
+    } else {
+      if (!this.organizationManagement.shareHolderOrg.groupName) {
+        this._showNotification('error', 'Please Enter Complate Name');
+        mustValidate.name = false;
+      }
+
+      if (!this.organizationManagement.shareHolderOrg.taxIdNumber) {
+        this._showNotification('error', 'Please Enter NPWP');
+        mustValidate.npwp = false;
+      }
+    }
+
+    return this._validateProcess(mustValidate);
+  }
+
+  public validateManagementShareHolder(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Management Share Holder');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateManagementShareHolder().then(() => resolve(true));
     });
   }
 }

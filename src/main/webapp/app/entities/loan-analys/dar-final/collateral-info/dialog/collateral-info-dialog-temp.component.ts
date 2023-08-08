@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -25,6 +25,7 @@ import {
   ICreditProposalCollateralBinding,
   ICreditProposalCollateralInsurance,
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -121,6 +122,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     private cashCollateralService: CashCollateralService,
     private generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CollateralInfoDialogTempComponent>,
+    private dialog: MatDialog,
 
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -170,8 +172,12 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     this.trashUndefined();
     this.checkStatusCOllateral();
     this.getFacilityType();
+    this.checkRole();
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.creditProposal.statusId === 'CP_DAR_FINAL') {
       this.disabledData = false;
+    }
+    if (this.creditProposal.id) {
+      this.cekCurrency();
     }
   }
   public getFacilityType() {
@@ -246,7 +252,12 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public cancel() {
     this._dialog.close();
   }
-
+  public checkRole() {
+    this._dialog.disableClose = true;
+    this._dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
+  }
   public getCertificateDueDate(): string {
     return this.creditProposalService.getCertificationDate(this.collateral, this.properties);
   }
@@ -304,7 +315,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
       if (this.preCurent === '') {
         if (value === 'IDR') {
           this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 2 };
           this.preCurent = 'IDR';
         } else if (value === 'USD') {
           this.conCcy = true;
@@ -327,7 +338,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
           this.preCurent = '';
         } else if (value === 'IDR') {
           this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 2 };
           this.getCurs();
           this.preCurent = 'IDR';
         }
@@ -351,10 +362,26 @@ export class CollateralInfoDialogTempComponent implements OnInit {
 
   public cekCurrency() {
     if (this.binding.ccy === 'IDR') {
-      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 2 };
     }
     if (this.binding.ccy === 'USD') {
       this.logoCcy = {};
     }
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

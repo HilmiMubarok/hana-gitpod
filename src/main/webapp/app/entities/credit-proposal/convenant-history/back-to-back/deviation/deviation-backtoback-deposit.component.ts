@@ -7,6 +7,7 @@ import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-credit-proposal-tab-deviation-back-to-back-deposit-history',
   templateUrl: './deviation-backtoback-deposit.component.html',
+  styleUrls: ['../covenant-backtoback.css'],
 })
 export class DeviationBackToBackDepositHistoryComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();

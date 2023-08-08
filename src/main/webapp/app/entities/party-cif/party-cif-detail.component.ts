@@ -23,11 +23,12 @@ import { ICollateral } from '../collateral/collateral.model';
 import { CollateralService } from '../collateral/collateral.service';
 import { LoginService } from 'app/login/login.service';
 import { PositionService } from '../position/position.service';
+import { ToolbarService } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'jhi-party-cif-detail',
   templateUrl: './party-cif-detail.component.html',
-  styleUrls: ['./party-cif.style.scss'],
+  styleUrls: ['./party-cif.style.scss', './party-cif-detail.style.css'],
 })
 export class PartyCifDetailComponent implements OnInit {
   private id: string;
@@ -45,6 +46,7 @@ export class PartyCifDetailComponent implements OnInit {
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
   public value: string;
+  public isOpen = false;
 
   constructor(
     private dialog: MatDialog,
@@ -201,14 +203,25 @@ export class PartyCifDetailComponent implements OnInit {
       }
     });
   }
-
-  public getTextMenu(param: string): string {
-    const titleMenu = param;
-    const regex = /[-]/g;
-    return titleMenu.replace(regex, ' ');
+  showTextMenu() {
+    const menuList = [];
+    menuList.push(this.subMenu);
+    for (let i = 0; i < menuList.length; i++) {
+      for (let x = 0; x < menuList[i].length; x++) {
+        if (this.clickedMenu === menuList[i][x].id) {
+          return menuList[i][x].text;
+        } else {
+          for (let y = 0; y < menuList[i][x].child?.length; y++) {
+            if (this.clickedMenu === menuList[i][x].child[y].id) {
+              return menuList[i][x].child[y].text;
+            }
+          }
+        }
+      }
+    }
   }
 
-  showTextMenu() {
-    return this.getTextMenu(this.clickedMenu);
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

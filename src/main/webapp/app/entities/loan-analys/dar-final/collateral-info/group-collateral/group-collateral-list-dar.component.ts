@@ -1,0 +1,163 @@
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { OrganizationManagementDialogComponent } from 'app/entities/organization-management/organization-management-dialog.component';
+import {
+  IOrganizationManagement,
+  OrganizationManagement,
+  OrganizationManagementAttributeManagementData,
+  OrganizationManagementAttributeShareholder,
+} from 'app/entities/organization-management/organization-management.model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { OrganizationManagementService } from 'app/entities/organization-management/organization-management.service';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import lodash from 'lodash';
+import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { IGroupCollateral } from 'app/shared/model/group-collateral.model';
+import { PageEvent } from '@angular/material/paginator';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+
+@Component({
+  selector: 'jhi-group-collateral-list-dar',
+  templateUrl: './group-collateral-list-dar.component.html',
+  styleUrls: ['./group-collateral-list-dar.css'],
+  animations: [
+    trigger('detailExpand', [
+      state(
+        'collapsed',
+        style({
+          height: '0px',
+          minHeight: '0',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+        })
+      ),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
+})
+export class GroupCollateralListDarComponent extends AbstractEntityMaterialComponent<IGroupCollateral> implements OnChanges, OnInit {
+  @Input() public cif: string;
+
+  public listGroupCollateral: any;
+  private _creditProposal: ICreditProposal;
+  public _collateralProperty: ICollateralProperty[];
+  groupChecklisCollaterals: any;
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
+  }
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+  set creditProposal(cp: ICreditProposal) {
+    this._creditProposal = cp;
+  }
+
+  private _group: string;
+
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
+
+  public displayedColumns: string[] = ['no', 'name', 'cif'];
+  public columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+  public listGroupCollateralItems = [];
+  // public isChecked: boolean;
+  public isChecked = false;
+
+  constructor(
+    protected partyCifService: PartyCifService,
+    protected collateralService: CollateralService,
+    protected creditProposalService: CreditProposalService,
+    protected _snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {
+    super(_snackBar, partyCifService);
+    this.itemsPerPage = 10;
+    this.page = 0;
+    this.displayedColumns = null;
+    this.predicate = 'id';
+    this.entityKeyName = 'id';
+  }
+
+  ngOnInit(): void {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
+    }
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup === 'Yes') {
+      this.isChecked = true;
+    }
+  }
+  loadDataLazy(event?: PageEvent) {
+    this.items = null;
+    this.page = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
+    this.postLoadDataLazy();
+  }
+
+  protected postLoadDataLazy(): void {
+    this.loadDataBy();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['creditProposal']) {
+      if (this.creditProposal.customerNumber) {
+        this.loadDataBy();
+      }
+    }
+  }
+
+  private getAllColGroup(): void {
+    if (this.listGroupCollateral.length > 0) {
+      this.listGroupCollateral.forEach(item => {
+        this.collateralService
+          .queryFilterBy({
+            idParty: item.partyId,
+            isActive: true,
+          })
+          .subscribe(res => {
+            for (let i = 0; i < res.body.length; i++) {
+              this.listGroupCollateralItems.push(res.body[i]);
+            }
+            // this.checkGroupAll(this.creditProposal);
+          });
+      });
+    }
+  }
+
+  public loadDataBy(): void {
+    const cifNumber = this.creditProposal.customerNumber;
+    this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
+      this.listGroupCollateral = res.body;
+      this.getAllColGroup();
+    });
+  }
+
+  public slideChange(event) {
+    if (event === true) {
+      this.isChecked = true;
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'Yes';
+    } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
+    }
+  }
+}

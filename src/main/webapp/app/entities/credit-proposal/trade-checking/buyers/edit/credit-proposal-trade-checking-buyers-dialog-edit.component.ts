@@ -8,8 +8,9 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-trade-checking-buyers-dialog-edit',
   templateUrl: './credit-proposal-trade-checking-buyers-dialog-edit.component.html',
+  styleUrls: ['../../trade-checking.scss'],
 })
-export class CreditProposalTradeCheckingBuyersDialogEditComponent {
+export class CreditProposalTradeCheckingBuyersDialogEditComponent implements OnInit {
   private dialog: MatDialog;
   public creditProposal: ICreditProposal;
   public tradeCheckingBuyers: ITradeCheckingBuyers;
@@ -25,14 +26,14 @@ export class CreditProposalTradeCheckingBuyersDialogEditComponent {
     },
     private _dialog: MatDialogRef<CreditProposalTradeCheckingBuyersDialogEditComponent>
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
     this.edit = this.data.edit;
     this.creditProposal = this.data.creditProposal;
     this.tradeCheckingBuyers = this.data.tradeCheckingBuyers;
     this.tradeCheckingBuyers1 = lodash.cloneDeep(this.data.tradeCheckingBuyers);
+  }
+
+  ngOnInit(): void {
+    this.backdropClick();
   }
 
   public save(): void {
@@ -43,7 +44,12 @@ export class CreditProposalTradeCheckingBuyersDialogEditComponent {
   public close() {
     this._dialog.close({ tradeCheckingBuyers: this.tradeCheckingBuyers1, action: 'cancel' });
   }
-
+  public backdropClick() {
+    this._dialog.disableClose = true;
+    this._dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
+  }
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return String(num);

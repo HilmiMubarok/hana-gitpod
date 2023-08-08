@@ -126,6 +126,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       this.grandTotalDebitur();
       this.getMyBusinessGroup();
       this.getCurrency();
+      this.getValueLimit();
     });
   }
 
@@ -147,6 +148,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'MODAL_INTI_USAHA') {
           this.modalUsaha = res.body[i].value;
+          this.creditProposal.attributes['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
         }
       }
     });
@@ -167,102 +169,95 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   }
 
   fungsiSuminit() {
-    const datafilter = this.dataSource.filter(obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false);
+    const datafilter = this.dataSource.filter(obj => obj['sublimit'] === 'false' || obj['sublimit'] === false);
 
     if (this.dataSource.length > 0) {
       for (let i = 0; i < this.dataSource.length; i++) {
-        this.init = this.init + Number(this.dataSource[i].attributes.initialLimit);
+        this.init = this.init + Number(this.dataSource[i].initialLimit);
       }
     }
   }
 
   fungsiSumTotalDebiturCashLoan() {
     for (let i = 0; i < this.dataSource.length; i++) {
-      if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
-        if (this.dataSource[i].attributes.currency === 'IDR') {
+      if (this.dataSource[i].subLimit === false || this.dataSource[i].subLimit === 'false') {
+        if (this.dataSource[i].currencyId === 'IDR') {
           if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
-            if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
-              this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond);
+            if (this.dataSource[i]['applicationType'].toUpperCase() === 'NEW') {
+              this.totalWcl = this.totalWcl + Number(this.dataSource[i].totalPlafond);
             } else {
-              this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.outstanding);
+              this.totalWcl = this.totalWcl + Number(this.dataSource[i].outstanding);
             }
           }
-          if (this.dataSource[i].attributes['facilityType'] === 'DL') {
-            this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.totalPlafond);
+          if (this.dataSource[i]['facilityType'] === 'DL') {
+            this.totalDl = this.totalDl + Number(this.dataSource[i].totalPlafond);
           }
-          if (this.dataSource[i].attributes['facilityType'] === 'MML') {
-            this.totalMML = this.totalMML + Number(this.dataSource[i].attributes.totalPlafond);
+          if (this.dataSource[i]['facilityType'] === 'MML') {
+            this.totalMML = this.totalMML + Number(this.dataSource[i].totalPlafond);
           }
-          if (this.dataSource[i].attributes['facilityType'] === 'FL') {
-            if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
-              this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.totalPlafond);
+          if (this.dataSource[i]['facilityType'] === 'FL') {
+            if (this.dataSource[i]['applicationType'].toUpperCase() === 'NEW') {
+              this.totalFL = this.totalFL + Number(this.dataSource[i].totalPlafond);
             } else {
-              this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.outstanding);
+              this.totalFL = this.totalFL + Number(this.dataSource[i].outstanding);
             }
           }
           if (this.dataSource[i].attributes['facilityType'] === 'IL') {
-            if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
-              this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond);
+            if (this.dataSource[i]['applicationType'].toUpperCase() === 'NEW') {
+              this.totalIL = this.totalIL + Number(this.dataSource[i].totalPlafond);
             } else {
-              this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.outstanding);
+              this.totalIL = this.totalIL + Number(this.dataSource[i].outstanding);
             }
           }
-          if (this.dataSource[i].attributes['facilityType'] === 'OD') {
-            this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.totalPlafond);
+          if (this.dataSource[i]['facilityType'] === 'OD') {
+            this.totalOD = this.totalOD + Number(this.dataSource[i].totalPlafond);
           }
 
-          if (this.dataSource[i].attributes['facilityType'] === 'BG') {
-            this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.totalPlafond);
+          if (this.dataSource[i]['facilityType'] === 'BG') {
+            this.totalBG = this.totalBG + Number(this.dataSource[i].totalPlafond);
           }
-          if (this.dataSource[i].attributes['facilityType'] === 'LC') {
-            this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond);
+          if (this.dataSource[i]['facilityType'] === 'LC') {
+            this.totalLC = this.totalLC + Number(this.dataSource[i].totalPlafond);
           }
         }
 
-        if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
-          if (this.dataSource[i].attributes.currency === 'USD') {
+        if (this.dataSource[i].subLimit === false || this.dataSource[i].subLimit === 'false') {
+          if (this.dataSource[i].currencyId === 'USD') {
             if (this.dataSource[i].attributes['facilityType'] === 'BG') {
-              this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              this.totalBG = this.totalBG + Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs);
             }
             if (this.dataSource[i].attributes['facilityType'] === 'LC') {
-              this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              this.totalLC = this.totalLC + Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs);
             }
             if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
-              if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
-                this.totalWcl =
-                  this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              if (this.dataSource[i]['applicationType'].toUpperCase() === 'NEW') {
+                this.totalWcl = this.totalWcl + Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs);
               } else {
-                this.totalWcl =
-                  this.totalWcl + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+                this.totalWcl = this.totalWcl + Number(this.dataSource[i].outstanding) * Number(this.dataSource[i].kurs);
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'DL') {
-              this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              this.totalDl = this.totalDl + Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs);
             }
             if (this.dataSource[i].attributes['facilityType'] === 'MML') {
-              this.totalMML =
-                this.totalMML + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              this.totalMML = this.totalMML + Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs);
             }
             if (this.dataSource[i].attributes['facilityType'] === 'FL') {
-              if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
-                this.totalFL =
-                  this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              if (this.dataSource[i]['applicationType'].toUpperCase() === 'NEW') {
+                this.totalFL = this.totalFL + Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs);
               } else {
-                this.totalFL =
-                  this.totalFL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+                this.totalFL = this.totalFL + Number(this.dataSource[i].outstanding) * Number(this.dataSource[i].kurs);
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'IL') {
-              if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
-                this.totalIL =
-                  this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              if (this.dataSource[i]['applicationType'].toUpperCase() === 'NEW') {
+                this.totalIL = this.totalIL + Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs);
               } else {
-                this.totalIL =
-                  this.totalIL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+                this.totalIL = this.totalIL + Number(this.dataSource[i].outstanding) * Number(this.dataSource[i].kurs);
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'OD') {
-              this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              this.totalOD = this.totalOD + Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs);
             }
           }
         }
@@ -299,97 +294,89 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   public buffer = 0;
 
   private getMyBusinessGroup(): void {
-    this.partyCifService.getMyBusinessGroup(this.creditProposal.customerNumber).subscribe(res => {
-      this.filterBusinessGroupDebtorData(res.body);
+    this.creditProposalService.applicationGroubProduct(this.creditProposal.id).subscribe((response: any) => {
+      // console.log('ggffff', response.body);
+      this.filterBusinessGroupDebtorData(response.body);
     });
   }
 
-  private filterBusinessGroupDebtorData(param: IDebtorData[]): void {
-    if (param.length > 0) {
-      for (let i = 0; i < param.length; i++) {
-        const item: IDebtorData = param[i];
-        if (lodash.has(item.attributes, 'cpFacility')) {
-          const source = JSON.parse(item.attributes['cpFacility']);
-          if (source) {
-            for (let y = 0; y < source.length; y++) {
-              const parsed = new CPFacilityTable();
-              parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
-              parsed.Changes = 0;
-              parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
-              parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
+  private filterBusinessGroupDebtorData(source: any[]): void {
+    if (source.length > 0) {
+      let no = 0;
+      for (let y = 0; y < source.length; y++) {
+        const parsed = new CPFacilityTable();
+        no = no + 1;
+        parsed.no = no;
+        parsed.GroupName = source[y].customerName;
+        parsed.LoanAccount = source[y].agreementNumber;
+        parsed.FacilityType = source[y].productTypeId;
+        parsed.InitialLimit = Number(source[y].contractAmount ? source[y].contractAmount : 0);
+        parsed.Changes = 0;
+        parsed.OS = source[y].outstanding;
+        parsed.TotalPlafond = source[y].productRevolving ? parsed.InitialLimit + parsed.Changes : source[y].outstanding;
 
-              parsed.GroupName = '';
-              parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
-              parsed.FacilityType = source[y].FILN11_COM_NM;
-              parsed.FacilityType = source[y].FACILITY_TYPE;
-              parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
-              parsed.Changes = 0;
-              parsed.OS = source[y].LNB_BASE_LON_JAN;
-              parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
-              parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN11_FIX_FLT_GB + source[y].FILN11_SPREAD_RT;
-              parsed.Provision = source[y].FILN22_FEE_AMT;
-              parsed.AdminFee = source[y].FILN22_FEE_AMT;
-              parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
-              parsed.Tenor = (Number(new Date(source[y].FILN10_TOT_EXP_IL)) - Number(new Date(source[y].FXFIG_TRX_DT))) / 86400000;
-              parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
-              parsed.CCY = source[y].LNB_BASE_LON_CCY;
+        parsed.InterestRate =
+          source[y].intResetFrequency + ' ' + source[y].intResetPeriod + ' ' + source[y].rateTypeName + ' ' + source[y].spreadRate;
+        parsed.Provision = source[y].provisionFeeAmount;
+        parsed.AdminFee = source[y].provisionFeeAmount;
+        parsed.FirstDisbursementDate = source[y].trxDate;
+        parsed.Tenor = source[y].trxDate;
+        parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].productCode);
+        parsed.CCY = source[y].baseCurrency;
+        parsed.MaturityDate = source[y].maturityDate;
 
-              if (parsed.CCY === 'IDR') {
-                if (parsed.FacilityType === 'WCI') {
-                  this.totalWclGroub = this.totalWclGroub + Number(parsed.OS);
-                }
-                if (parsed.FacilityType === 'IL') {
-                  this.totalILGroub = this.totalILGroub + Number(parsed.OS);
-                }
-                if (parsed.FacilityType === 'FL') {
-                  this.totalFLGroub = this.totalFLGroub + Number(parsed.OS);
-                }
-                if (parsed.FacilityType === 'MML') {
-                  this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond);
-                }
-                if (parsed.FacilityType === 'DL') {
-                  this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond);
-                }
-                if (parsed.FacilityType === 'OD') {
-                  this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond);
-                }
-                if (parsed.FacilityType === 'LC') {
-                  this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond);
-                }
+        this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
+        if (parsed.CCY === 'IDR') {
+          if (parsed.FacilityType === 'WCI') {
+            this.totalWclGroub = this.totalWclGroub + Number(parsed.OS);
+          }
+          if (parsed.FacilityType === 'IL') {
+            this.totalILGroub = this.totalILGroub + Number(parsed.OS);
+          }
+          if (parsed.FacilityType === 'FL') {
+            this.totalFLGroub = this.totalFLGroub + Number(parsed.OS);
+          }
+          if (parsed.FacilityType === 'MML') {
+            this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond);
+          }
+          if (parsed.FacilityType === 'DL') {
+            this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond);
+          }
+          if (parsed.FacilityType === 'OD') {
+            this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond);
+          }
+          if (parsed.FacilityType === 'LC') {
+            this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond);
+          }
 
-                if (parsed.FacilityType === 'BG') {
-                  this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond);
-                }
-              } else if (parsed.CCY !== 'IDR') {
-                if (parsed.FacilityType === 'WCI') {
-                  this.totalWclGroub = this.totalWclGroub + Number(parsed.OS) * Number(this.currencyMaster);
-                }
-                if (parsed.FacilityType === 'IL') {
-                  this.totalILGroub = this.totalILGroub + Number(parsed.OS) * Number(this.currencyMaster);
-                }
-                if (parsed.FacilityType === 'FL') {
-                  this.totalFLGroub = this.totalFLGroub + Number(parsed.OS) * Number(this.currencyMaster);
-                }
-                if (parsed.FacilityType === 'MML') {
-                  this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
-                }
-                if (parsed.FacilityType === 'DL') {
-                  this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
-                }
-                if (parsed.FacilityType === 'OD') {
-                  this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
-                }
-                if (parsed.FacilityType === 'LC') {
-                  this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
-                }
+          if (parsed.FacilityType === 'BG') {
+            this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond);
+          }
+        } else if (parsed.CCY !== 'IDR') {
+          if (parsed.FacilityType === 'WCI') {
+            this.totalWclGroub = this.totalWclGroub + Number(parsed.OS) * Number(this.currencyMaster);
+          }
+          if (parsed.FacilityType === 'IL') {
+            this.totalILGroub = this.totalILGroub + Number(parsed.OS) * Number(this.currencyMaster);
+          }
+          if (parsed.FacilityType === 'FL') {
+            this.totalFLGroub = this.totalFLGroub + Number(parsed.OS) * Number(this.currencyMaster);
+          }
+          if (parsed.FacilityType === 'MML') {
+            this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
+          }
+          if (parsed.FacilityType === 'DL') {
+            this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
+          }
+          if (parsed.FacilityType === 'OD') {
+            this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
+          }
+          if (parsed.FacilityType === 'LC') {
+            this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
+          }
 
-                if (parsed.FacilityType === 'BG') {
-                  this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
-                }
-              }
-
-              this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
-            }
+          if (parsed.FacilityType === 'BG') {
+            this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
           }
         }
       }
@@ -398,7 +385,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   }
   // currency code
   getCurrency() {
-    this.ccy = this.creditProposal.products[0].attributes.currency;
+    this.ccy = this.creditProposal.products[0].currency;
   }
 
   public totalGroubCashLoanNonCashLoan() {
@@ -430,12 +417,15 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     }
     this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
     this.creditProposal.attributes['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
-    this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue = this.legalLendingLimitValue;
-    this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup = this.grandTotalGroup + this.grandTotalDebitor;
+    this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup =
+      this.creditProposal.attributes['calculationExposure'].grandTotalPlafond;
     this.creditProposal.attributes['legalLendingLimit'].buffer =
       this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue -
       this.creditProposal.attributes['legalLendingLimit'].totalExposureDebtorGroup;
+    this.getValueLimit();
+  }
 
+  public getValueLimit(): void {
     if (this.creditProposal.attributes['legalLendingLimit'].buffer > 0) {
       this.creditProposal.attributes['legalLendingLimit'].status = 'comply';
     } else if (this.creditProposal.attributes['legalLendingLimit'].buffer < 0) {

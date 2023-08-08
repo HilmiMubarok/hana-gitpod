@@ -2,7 +2,7 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import 'roboto.scss';
-@import 'material-icon.scss';
+@import 'material-icons.scss';
 
 /* ==============================================================
 Fonts
@@ -27,7 +27,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   font-weight: 300;
 }
 
@@ -638,4 +638,96 @@ input#rteTool_toolbar_BackgroundColor_Target.e-rte-backgroundcolor-element {
 
 input#rteTool_toolbar_FontColor_Target.e-rte-fontcolor-element {
   display: none !important;
+}
+
+// align center
+@-moz-document url-prefix() {
+  .align-center {
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+// align-right
+@-moz-document url-prefix() {
+  .align-right {
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+
+/* Button yes no Styling */
+.confirm-button-yes {
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: rgba(224, 223, 223, 1) !important;
+  font-weight: bold !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-no {
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: rgba(224, 223, 223, 1) !important;
+  font-weight: bold !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: #f44336 !important;
+  color: #ffff !important;
+  font-weight: bold !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-yes:active:hover:not([disabled]) {
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: rgba(157, 157, 157, 1) !important;
+  color: #ffff !important;
+  font-weight: bold !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px !important;
+  border-radius: 10px !important;
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffff !important;
+  font-weight: bold !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.button-styling:enabled {
+  color: white !important;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* Button yes no Styling */
+/* Table Styling */
+table {
+  mat-header-cell {
+    font-weight: bold !important;
+  }
+  th {
+    font-weight: bold !important;
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black !important;
+    font-family: 'Poppins', sans-serif !important;
+  }
+  th:first-child {
+    border-top-left-radius: 15px !important;
+  }
+  th:last-child {
+    border-top-right-radius: 15px !important;
+  }
+  td {
+    font-family: 'Poppins', sans-serif !important;
+  }
+}
+
+.mat-calendar-table-header-divider {
+  padding: 0 !important;
 }

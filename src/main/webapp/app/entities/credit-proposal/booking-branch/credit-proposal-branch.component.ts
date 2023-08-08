@@ -18,7 +18,7 @@ export class CreditProposalBranchComponent implements OnChanges {
   public rmBranch: IInternal;
   public rmRegional: IInternal;
   public branchs: IInternal[];
-  public penampung: string;
+  public organizationNameCp: string;
 
   @Input() isViewLoan: Boolean = false;
   @Input() isViewBranch: Boolean = false;
@@ -48,8 +48,8 @@ export class CreditProposalBranchComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      if (this.creditProposal.internalId) {
-        this.loadInternalInformationRMByInternalId(this.creditProposal.internalId);
+      if (this.creditProposal.debtorData.bookingBranch) {
+        this.loadInternalInformationRMByInternalId(this.creditProposal.debtorData.bookingBranch);
       } else {
         this.loadInternalInformationRM(this.creditProposal.cif.rm.id);
       }
@@ -110,7 +110,6 @@ export class CreditProposalBranchComponent implements OnChanges {
         this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
             this.rmPosition = res.body[0];
-            console.log('dsss', this.rmPosition);
             resolve(this.rmPosition);
           } else {
             resolve(null);
@@ -125,6 +124,11 @@ export class CreditProposalBranchComponent implements OnChanges {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
         this.branchs = res.body;
         resolve();
+        for (let i = 0; i < this.branchs.length; i++) {
+          if (this.branchs[i].id.toString() === this.creditProposal.debtorData.bookingBranch) {
+            this.organizationNameCp = this.branchs[i].organizationName;
+          }
+        }
       });
     });
   }
@@ -132,8 +136,7 @@ export class CreditProposalBranchComponent implements OnChanges {
   public select(event): void {
     for (let i = 0; i < this.branchs.length; i++) {
       if (event.value === this.branchs[i].id) {
-        this.creditProposal.bookingBranchId = this.branchs[i].id.toString();
-        this.creditProposal.bookingBranchName = this.branchs[i].organizationName;
+        this.creditProposal.debtorData.bookingBranch = this.branchs[i].id.toString();
       }
     }
   }

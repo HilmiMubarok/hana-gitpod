@@ -122,3 +122,7 @@ th:first-child {
 th:last-child {
   border-top-right-radius: 15px;
 }
+mat-card-actions {
+  text-align: center;
+  margin: 0 auto;
+}

@@ -260,7 +260,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
-	MatMomentDateModule,
+    MatMomentDateModule,
     MatDividerModule,
     MatListModule,
     MatSelectModule,

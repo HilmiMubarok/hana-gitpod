@@ -385,7 +385,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   }
 
   public creditRatingCondition() {
-    if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
+    if (this.creditProposal.attributes['purposePricing'].industry === '') {
       this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
       const data = this.sectorIndustry.filter(
         industry => industry.industry === this.creditProposal.creditRatings[0].attributes['industryCode']
@@ -411,26 +411,20 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     if (event) {
       for (let i = 0; i < event?.length; i++) {
         this.dashboardChartData.push({
-          labelData: event[i]?.attributes?.facilityType + ' ' + event[i]?.attributes?.currency,
+          labelData: event[i]?.productTypeId + ' ' + event[i].currencyId,
           name: event[i]?.id,
-          cost: Number(event[i]?.attributes?.cost.replace(/%|,/g, '')),
-          roaa: Number(event[i]?.attributes?.roaa.replace(/%|,/g, '')),
-          currentInterest: Number(this.creditProposal.products[i]?.attributes?.currentInterest),
-          normalRate: Number(event[i]?.attributes?.normalRate.replace(/%|,/g, '')),
-          discountProposal: Number(event[i]?.attributes?.discountProposal.replace(/%|,/g, '')),
-          proposeRate: Number(event[i]?.attributes?.proposedRate.replace(/%|,/g, '')),
-          industrySpread: Number(event[i]?.attributes?.industrySpread.replace(/%|,/g, '')),
-          targetMargin: Number(event[i]?.attributes?.targetMargin.replace(/%|,/g, '')),
+          cost: Number(event[i]?.cost.replace(/%|,/g, '')),
+          roaa: Number(event[i]?.roaa.replace(/%|,/g, '')),
+          currentInterest: Number(this.creditProposal.products[i]?.currentInterestRate),
+          normalRate: Number(event[i]?.normalRate.replace(/%|,/g, '')),
+          discountProposal: Number(event[i]?.discountProposal.replace(/%|,/g, '')),
+          proposeRate: Number(event[i]?.proposedRate.replace(/%|,/g, '')),
+          industrySpread: Number(event[i]?.industrySpread.replace(/%|,/g, '')),
+          targetMargin: Number(event[i]?.targetMargin.replace(/%|,/g, '')),
           currentProfitability:
-            event[i]?.attributes.currency === 'IDR'
-              ? Number(
-                  Number(event[i]?.attributes?.currentInterestRate.replace(/%|,/g, '')) -
-                    Number(event[i]?.attributes?.cost.replace(/%|,/g, ''))
-                ) * 1
-              : Number(
-                  Number(event[i]?.attributes?.currentInterestRate.replace(/%|,/g, '')) -
-                    Number(event[i]?.attributes?.cost.replace(/%|,/g, ''))
-                ) * Number(event[i]?.attributes?.kurs.replace(/%|,/g, '')),
+            event[i]?.currencyId === 'IDR'
+              ? Number(Number(event[i]?.currentInterestRate) - Number(event[i]?.cost.replace(/%|,/g, ''))) * 1
+              : Number(Number(event[i]?.currentInterestRate) - Number(event[i]?.cost.replace(/%|,/g, ''))) * Number(event[i]?.kurs),
         });
       }
     }

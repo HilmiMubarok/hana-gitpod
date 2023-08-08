@@ -871,14 +871,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         this.creditProposal.products.length > 0 &&
         this.creditProposal.collaterals.length > 0
       ) {
-        for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+        for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
           for (let j = 0; j < this.creditProposal.products.length; j++) {
             for (let k = 0; k < this.creditProposal.collaterals.length; k++) {
               if (
-                this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
-                this.creditProposal.collateralProductRelations[index].collateralId === this.creditProposal.collaterals[k].id
+                this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id &&
+                this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[k].id
               ) {
-                this.creditProposal.collateralProductRelations.splice(index, 1);
+                this.creditProposal.collateralProductRelations.splice(i, 1);
               }
             }
           }
@@ -948,7 +948,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
-        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
 
         this.biddingValueCoverage = biddingValueCoverage.toFixed(2);

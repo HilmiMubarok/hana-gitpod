@@ -16,6 +16,7 @@ import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { MatSelectChange } from '@angular/material/select';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { DatePipe } from '@angular/common';
+import { ICreditProposal } from '../credit-proposal.model';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -68,6 +69,7 @@ export class DocumentChecklistDialogComponent {
   public filesdueDate: string;
   public filesRemarks: string;
   public filesDescription: string;
+  public parentDescription: string;
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -79,6 +81,7 @@ export class DocumentChecklistDialogComponent {
       cpId: string;
       typeData: IDocumentType[];
       item: string;
+      cp: ICreditProposal;
     },
     private _dialog: MatDialogRef<DocumentChecklistDialogComponent>,
     private storageService: StorageService,
@@ -86,11 +89,6 @@ export class DocumentChecklistDialogComponent {
     private accountService: AccountService,
     public reportUtilService: ReportUtilService
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
-
     this.view = this.data.view;
 
     this.files = this.data.files;
@@ -122,6 +120,8 @@ export class DocumentChecklistDialogComponent {
       this.filesRemarks = this.files.remarks;
     }
     this.filesDescription = this.files.description;
+    this.parentDescription = this.files.parentDescription;
+
     this.checkCategory_C();
     this.isTBO();
   }
@@ -213,6 +213,7 @@ export class DocumentChecklistDialogComponent {
           this.files.dueDate = this.filesdueDate;
           this.files.remarks = this.filesRemarks;
           this.files.description = this.filesDescription;
+          this.files.parentDescription = this.parentDescription;
 
           this.approvedDeleted().then(() => {
             this.preSave().then(() => {
@@ -228,6 +229,7 @@ export class DocumentChecklistDialogComponent {
           this.files.dueDate = this.filesdueDate;
           this.files.remarks = this.filesRemarks;
           this.files.description = this.filesDescription;
+          this.files.parentDescription = this.parentDescription;
 
           this.approvedDeleted().then(() => {
             this.preSave().then(() => {
@@ -246,6 +248,7 @@ export class DocumentChecklistDialogComponent {
             this.files.dueDate = this.filesdueDate;
             this.files.remarks = this.filesRemarks;
             this.files.description = this.filesDescription;
+            this.files.parentDescription = this.parentDescription;
 
             this.approvedDeleted().then(() => {
               this.preSave().then(() => {
@@ -267,6 +270,7 @@ export class DocumentChecklistDialogComponent {
           this.files.dueDate = this.filesdueDate;
           this.files.remarks = this.filesRemarks;
           this.files.description = this.filesDescription;
+          this.files.parentDescription = this.parentDescription;
 
           this.approvedDeleted().then(() => {
             this.approvedDeleted().then(() => {
@@ -299,6 +303,7 @@ export class DocumentChecklistDialogComponent {
 
   public preUpdate(): Promise<void> {
     return new Promise((resolve, reject) => {
+      const statusAppeal = this.file.length > 0 ? 'Changed' : 'Added';
       const files: any[] = this.lengthMinIO;
       if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {
@@ -315,6 +320,7 @@ export class DocumentChecklistDialogComponent {
                 : this.files.remarks.replace('&', 'codeSpecialDan');
 
             file.tags['createdBy'] = resAccount.login;
+            file.tags['appealStatus'] = this.data.cp.attributes['previousOfferingLetter'] === undefined ? null : statusAppeal;
           });
 
           this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
@@ -412,6 +418,7 @@ export class DocumentChecklistDialogComponent {
 
   public preSave(): Promise<void> {
     return new Promise((resolve, reject) => {
+      const statusAppeal = this.file.length > 0 ? 'Changed' : 'Added';
       const promises = [];
       for (let i = 0; i < this.file.length; i++) {
         if (this.file[i].url === undefined) {
@@ -420,9 +427,11 @@ export class DocumentChecklistDialogComponent {
             entityId: null,
             id: null,
             status: null,
+            description: null,
             dueDate: null,
             remarks: null,
             createdBy: null,
+            appealStatus: null,
           };
           const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.file[i].name.replace('&', '');
           if (files.split('').length > 254) {
@@ -436,6 +445,7 @@ export class DocumentChecklistDialogComponent {
             metaData.entityId = this.data.cpId;
             metaData.id = this.files.id;
             metaData.status = this.files.status;
+            metaData.description = this.files.description;
             metaData.dueDate =
               this.files.dueDate === 'null' || this.files.dueDate === null || this.files.dueDate === undefined || this.files.dueDate === ''
                 ? null
@@ -444,7 +454,7 @@ export class DocumentChecklistDialogComponent {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === '' || this.files.remarks === undefined
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-
+            metaData.appealStatus = this.data.cp.attributes['previousOfferingLetter'] === undefined ? null : statusAppeal;
             const formData = new FormData();
             formData.append('file', this.file[i]);
 

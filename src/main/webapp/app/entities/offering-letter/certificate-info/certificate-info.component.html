@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-subtitle class="e-card-header-title">Certificate Info</mat-card-subtitle>
+    <mat-card-subtitle class="header-title">Certificate Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="table-responsive-material">
@@ -44,8 +44,10 @@
       </table>
       <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
 
-      <div align="right" class="mt-5">
-        <button mat-raised-button (click)="openDialog()" class="button-styling">Add Certificate Info</button>
+      <div align="right" class="mt-5 align-right">
+        <button mat-raised-button (click)="openDialog()" class="button-styling" [disabled]="creditProposal.statusId === 'OL_DISTRIBUTION'">
+          Add Certificate Info
+        </button>
       </div>
     </div>
   </mat-card-content>

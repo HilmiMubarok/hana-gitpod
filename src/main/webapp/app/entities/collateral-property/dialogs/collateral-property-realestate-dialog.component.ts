@@ -30,6 +30,7 @@ import lodash, { size } from 'lodash';
 import { CollateralPropertyService } from '../collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -144,11 +145,13 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   public villages: IStateBoundary[];
   public detailType: any;
   public branceManagement: any;
+  public collateralDetailTypeValue: string;
 
   constructor(
     private uomService: UomService,
     protected partyCifService: PartyCifService,
     protected generalParameterService: GeneralParameterService,
+    protected collateralParameterService: CollateralParameterService,
     public collateralPropertyService: CollateralPropertyService
   ) {
     // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
@@ -178,6 +181,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     this.cekDataSource();
     this.cekData();
     this.lovcertificateType();
+    this.changeCollateralType();
   }
 
   public lovcertificateType() {
@@ -503,5 +507,30 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
 
   displayFnNjop(curency: IUom): string {
     return curency && curency.id ? curency.id : '';
+  }
+
+  // Get Collateral Detail Type in Master Collateral
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'REALESTATE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }

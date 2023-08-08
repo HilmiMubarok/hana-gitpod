@@ -9,7 +9,7 @@
       <div class="col-6">
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Slik Checking Name</mat-label>
+            <mat-label>SLIK Checking Name</mat-label>
             <input matInput type="text" [(ngModel)]="partySlik.debtorName" disabled />
           </mat-form-field>
         </div>
@@ -207,7 +207,7 @@
       </div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <!-- <button mat-button class="btn-save-debtor" (click)="save()">Save</button> -->
     <button mat-raised-button mat-dialog-close class="confirm-button-no" (click)="onNoClick()">Close</button>
   </mat-dialog-actions>
@@ -215,67 +215,55 @@
 
 <div *ngIf="mode === 'view'">
   <div class="style-close"></div>
-  <h2 mat-dialog-title>Slik Collateral Info</h2>
+  <h2 mat-dialog-title>SLIK Collateral Info</h2>
   <mat-dialog-content>
     <div class="table-responsive-material">
-      <table mat-table [dataSource]="collateralInfoList" class="w-100">
+      <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="rounding-table-left grid-index-right">No</th>
-          <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="collateralType">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Collateral Type</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralType }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+          <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralType }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="ownershipDocument">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Ownership Document Type</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.buktiKepemilikan }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right"><p>Total in IDR</p></td>
+          <th mat-header-cell *matHeaderCellDef>Ownership Document Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.buktiKepemilikan }}</td>
+          <td mat-footer-cell *matFooterCellDef><p>Total in IDR</p></td>
         </ng-container>
         <ng-container matColumnDef="collateralValue">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Collateral Value</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ element.collateralIdrMio }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            <p>{{ totalCollateralValue | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+          <th mat-header-cell *matHeaderCellDef>Collateral Value</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralIdrMio | number: '1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            <p>{{ totalCollateralValue | number: '1.0-0' }}</p>
           </td>
         </ng-container>
         <ng-container matColumnDef="collateralValueNJOP">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right">
-            <div [align]="center">Collateral Value</div>
-            <div [align]="center">(NJOP/Market Value)</div>
-          </th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ element.nilaiNJOP }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            <p>{{ totalNJOP | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+          <th mat-header-cell *matHeaderCellDef>Collateral Value (NJOP/Market Value)</th>
+          <td mat-cell *matCellDef="let element">{{ element.nilaiNJOP | number: '1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            <p>{{ totalNJOP | number: '1.0-0' }}</p>
           </td>
         </ng-container>
         <ng-container matColumnDef="collateralValueIndependentAppraisal">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right">
-            <div [align]="center">Market Value</div>
-            <div [align]="center">(Independent Appraisal)</div>
-          </th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ element.nilaiPenilai }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            <p>{{ totalMarketValue | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+          <th mat-header-cell *matHeaderCellDef>Market Value (Independent Appraisal)</th>
+          <td mat-cell *matCellDef="let element">{{ element.nilaiPenilai | number: '1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            <p>{{ totalMarketValue | number: '1.0-0' }}</p>
           </td>
         </ng-container>
         <ng-container matColumnDef="banksAppraisalDate">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right">
-            <div [align]="center">Bank's</div>
-            <div [align]="center">Appraisal Date</div>
-          </th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ element.tanggalPenilaianPelapor }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
+          <th mat-header-cell *matHeaderCellDef>Bank's Appraisal Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.tanggalPenilaianPelapor }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="independentAppraisalDate">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right rounding-table-right">
-            <div [align]="center">Independent</div>
-            <div [align]="center">Appraisal Date</div>
-          </th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ element.tanggalPenilaianPenilai }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
+          <th mat-header-cell *matHeaderCellDef>Independent Appraisal Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.tanggalPenilaianPenilai }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
@@ -304,7 +292,7 @@
       </mat-card>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" class="align-center">
     <button mat-raised-button mat-dialog-close class="confirm-button-no">Close</button>
   </mat-dialog-actions>
 </div>

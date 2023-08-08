@@ -24,6 +24,7 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
   public status: string;
   public cpFaciity = [];
   public remainingAfterCpMinus: number;
+  public statusRemaining: boolean;
 
   constructor(
     public applicationOptionService: ApplicationOptionService,
@@ -58,18 +59,11 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
     // this.industryLimit();
     this.industry().then(() => {
       this.purposeAmmount = 0;
-      this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
-      this.remainingAfterCpMinus = Math.round(Number(this.purposeAmmount) - Number(this.remainingBalance));
-      if (this.remainingAfterCp > 0) {
-        this.status = 'Comply';
-      } else {
-        this.status = 'Breach The Limit';
-      }
-
       this.creditProposalService.totalChanges.subscribe((message: any) => {
         this.purposeAmmount = message;
         this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
         this.remainingAfterCpMinus = Math.round(Number(this.purposeAmmount) - Number(this.remainingBalance));
+        this.statusRemaining = String(this.remainingAfterCp).includes('-');
         if (this.remainingAfterCp > 0) {
           this.status = 'Comply';
         } else {
@@ -83,6 +77,11 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.industry();
+    if (this.remainingAfterCp > 0) {
+      this.status = 'Comply';
+    } else {
+      this.status = 'Breach The Limit';
+    }
   }
 
   public industry(): Promise<any> {

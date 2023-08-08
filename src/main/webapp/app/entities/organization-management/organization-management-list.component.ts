@@ -1,8 +1,9 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { cloneDeep } from 'lodash';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { OrganizationManagementDialogComponent } from './organization-management-dialog.component';
 import {
@@ -27,6 +28,8 @@ export class OrganizationManagementListComponent
   @Input() public cif: string;
   @Input() public type: string;
   @Input() public managementType: string;
+  @Input() public source: string;
+  @Input() public validation: boolean;
 
   @Input()
   get organizationManagement() {
@@ -35,6 +38,8 @@ export class OrganizationManagementListComponent
   set organizationManagement(param: IOrganizationManagement[]) {
     this.items = param;
   }
+
+  @Output() validationTrigger = new EventEmitter<void>();
 
   public displayedColumns: string[];
   public pacth: any;
@@ -61,6 +66,12 @@ export class OrganizationManagementListComponent
     if (changes['cif'] && changes['managementType']) {
       this.loadDataBy(this.cif, this.managementType);
       this.defineDisplayedColumns(this.managementType);
+    }
+    if (changes['source']) {
+      console.log('ini source ', this.source);
+    }
+    if (changes['validation']) {
+      this.loadDataBy(this.cif, this.managementType);
     }
   }
 
@@ -147,14 +158,18 @@ export class OrganizationManagementListComponent
     if (param) {
       orgMgm = param;
     }
-    const dialogRef = this.dialog.open(OrganizationManagementDialogComponent, {
-      width: '80vw',
-      data: {
-        organizationManagement: orgMgm,
-        managementType: this.managementType,
-        typeScreen: this.type,
-      },
-    });
+    const dialogRef = this.dialog.open(
+      OrganizationManagementDialogComponent,
+      cloneDeep({
+        width: '80vw',
+        data: {
+          organizationManagement: orgMgm,
+          managementType: this.managementType,
+          typeScreen: this.type,
+          source: this.source,
+        },
+      })
+    );
     dialogRef.afterClosed().subscribe((res: any) => {
       if (res.person !== null) {
         res.person.dob = this.setDate(res);
@@ -165,6 +180,9 @@ export class OrganizationManagementListComponent
           // update
           this.organizationManagementService.update(res).subscribe(rs => {
             this.loadDataBy(this.cif, this.managementType);
+            if (res.person !== null) {
+              this.validationTrigger.emit();
+            }
           });
         } else {
           // create

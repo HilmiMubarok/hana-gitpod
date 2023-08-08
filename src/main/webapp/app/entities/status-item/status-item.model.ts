@@ -1,5 +1,5 @@
 export interface IStatusItem {
-  id?: number;
+  id?: string;
   statusName?: string;
   sequence?: number;
   statusCode?: string;
@@ -12,7 +12,7 @@ export interface IStatusItem {
 
 export class StatusItem implements IStatusItem {
   constructor(
-    public id?: number,
+    public id?: string,
     public statusName?: string,
     public sequence?: number,
     public statusCode?: string,

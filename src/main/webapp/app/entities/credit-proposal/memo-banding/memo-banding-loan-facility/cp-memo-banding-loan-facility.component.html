@@ -1,0 +1,351 @@
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Facility Details</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <!-- === -->
+    <p class="p-3">BEFORE</p>
+    <!-- === -->
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="parsed.products" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="rounding-table-left grid-index-right">No</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="approvalNo">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Approval Number</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.approvalNumber }}</td>
+        </ng-container>
+        <ng-container matColumnDef="facilityCategory">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Category</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.categoryId }}</td>
+        </ng-container>
+        <ng-container matColumnDef="applicationType">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Application Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.applicationType }}</td>
+        </ng-container>
+        <ng-container matColumnDef="facilityType">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.productTypeId }}</td>
+        </ng-container>
+        <ng-container matColumnDef="subLimit">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Sub Limit</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ printElement(element.subLimit) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="currency">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">CCY</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ getCurrencyType(element.currencyId) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="initialLimit">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Initial Limit</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrencyType(element.currencyId) + ' ' + (element.initialLimit | number) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="outstanding">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">O/S</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrencyType(element.currencyId) + ' ' + (element.outstanding | number) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="changes">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Changes</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrencyType(element.currencyId) + ' ' + (element.changes | number) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="totalCreditLimit">
+          <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
+          <td mat-cell *matCellDef="let element">
+            {{ getCurrencyType(element.currencyId) }} {{ printElements(element.totalPlafond | number) }}
+          </td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Total Plafond</th>
+          <td mat-cell *matCellDef="let element">
+            {{ getCurrencyType(element.currencyId) + ' ' + (element.totalPlafond | number) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="interestrate">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Interest</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
+            <div *ngIf="element.applicationType === 'Existing'">
+              {{
+                element.intResetFrequency + ' ' + element.intResetPeriod + ' ' + element.rateTypeName + ' ' + element.currentInterestRate
+              }}
+            </div>
+            <div *ngIf="element.applicationType !== 'Existing'">
+              {{
+                element.rateTypeName +
+                  ' ' +
+                  element.intResetFrequency +
+                  ' ' +
+                  element.intResetPeriod +
+                  ' ' +
+                  getRequeredSpread(element.requiredSpread)
+              }}
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="provisionAmount">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Provision Amount</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrency(element) + ' ' + (element.provisionFeeAmount | number) + ' ' + getCurrency2(element) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="tenor">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Tenor</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.tenor + ' ' + element.periodType }}</td>
+        </ng-container>
+        <ng-container matColumnDef="maturityDate">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Maturity Date</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ printElements(element.maturityDate) | date: 'yyyy/MM/dd' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="firstDisbursementDate">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">FirstDisbursement Date</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            <span *ngIf="element.firstDisbursementDate === undefined">0</span>
+            <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate | date: 'yyyy/MM/dd' }}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="gracePeriod">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Grace Period</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ element.gracePeriod }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="availablePeriod">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Available Period</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ element.availablePeriod }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right"></th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left rounding-table-right"></td>
+        </ng-container>
+
+        <!-- attr.colspan = 17 -->
+        <ng-container matColumnDef="total-plafond">
+          <th mat-footer-cell *matFooterCellDef [style.text-align]="'right'" [attr.colspan]="9">Total Plafond</th>
+        </ng-container>
+
+        <ng-container matColumnDef="total-plafond-res">
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="2" [style.text-align]="'right'">
+            IDR. {{ fungsiSumcredit('both') | number }}
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="total-plafond-status">
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'"></th>
+        </ng-container>
+
+        <ng-container matColumnDef="custody-fee">
+          <th mat-footer-cell *matFooterCellDef [style.text-align]="'right'" [attr.colspan]="4">Custody Fee</th>
+        </ng-container>
+
+        <ng-container matColumnDef="custody-fee-res">
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="2" [style.text-align]="'right'">
+            {{ parsed['facilityDetail'].custodianFee | number }}
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="custody-fee-status">
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'"></th>
+        </ng-container>
+
+        <tr
+          mat-footer-row
+          *matFooterRowDef="[
+            'total-plafond',
+            'total-plafond-res',
+            'total-plafond-status',
+            'custody-fee',
+            'custody-fee-res',
+            'custody-fee-status'
+          ]"
+        ></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+      </table>
+    </div>
+    <!-- === -->
+    <p class="p-3 mt-3">AFTER</p>
+    <!-- === -->
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="dataProduct" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="rounding-table-left grid-index-right">No</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="approvalNo">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Approval Number</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.approvalNumber }}</td>
+        </ng-container>
+        <ng-container matColumnDef="facilityCategory">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Category</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.categoryId }}</td>
+        </ng-container>
+        <ng-container matColumnDef="applicationType">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Application Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.applicationType }}</td>
+        </ng-container>
+        <ng-container matColumnDef="facilityType">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Facility Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.productTypeId }}</td>
+        </ng-container>
+        <ng-container matColumnDef="subLimit">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Sub Limit</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ printElement(element.subLimit) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="currency">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">CCY</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ getCurrencyType(element.currencyId) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="initialLimit">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Initial Limit</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrencyType(element.currencyId) + ' ' + (element.initialLimit | number) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="outstanding">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">O/S</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrencyType(element.currencyId) + ' ' + (element.outstanding | number) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="changes">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Changes</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrencyType(element.currencyId) + ' ' + (element.changes | number) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="totalCreditLimit">
+          <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
+          <td mat-cell *matCellDef="let element">
+            {{ getCurrencyType(element.currencyId) }} {{ printElements(element.totalPlafond | number) }}
+          </td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Total Plafond</th>
+          <td mat-cell *matCellDef="let element">
+            {{ getCurrencyType(element.currencyId) + ' ' + (element.totalPlafond | number) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="interestrate">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Interest</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
+            <div *ngIf="element.applicationType === 'Existing'">
+              {{
+                element.intResetFrequency + ' ' + element.intResetPeriod + ' ' + element.rateTypeName + ' ' + element.currentInterestRate
+              }}
+            </div>
+            <div *ngIf="element.applicationType !== 'Existing'">
+              {{
+                element.rateTypeName +
+                  ' ' +
+                  element.intResetFrequency +
+                  ' ' +
+                  element.intResetPeriod +
+                  ' ' +
+                  getRequeredSpread(element.requiredSpread)
+              }}
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="provisionAmount">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Provision Amount</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrency(element) + ' ' + (element.provisionFeeAmount | number) + ' ' + getCurrency2(element) }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="tenor">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Tenor</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.tenor + ' ' + element.periodType }}</td>
+        </ng-container>
+        <ng-container matColumnDef="maturityDate">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Maturity Date</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ printElements(element.maturityDate) | date: 'yyyy/MM/dd' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="firstDisbursementDate">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">FirstDisbursement Date</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            <span *ngIf="element.firstDisbursementDate === undefined">0</span>
+            <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate | date: 'yyyy/MM/dd' }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gracePeriod">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Grace Period</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ element.gracePeriod }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="availablePeriod">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Available Period</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ element.availablePeriod }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left rounding-table-right">{{ element.appealStatus }}</td>
+        </ng-container>
+
+        <!-- attr.colspan = 17 -->
+        <ng-container matColumnDef="total-plafond">
+          <th mat-footer-cell *matFooterCellDef [style.text-align]="'right'" [attr.colspan]="8">Total Plafond</th>
+        </ng-container>
+
+        <ng-container matColumnDef="total-plafond-res">
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="2" [style.text-align]="'left'">
+            IDR. {{ fungsiSumcreditAfter('both') | number }}
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="total-plafond-status">
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'">{{ totalPlafondStatus[0].appealStatus }}</th>
+        </ng-container>
+
+        <ng-container matColumnDef="custody-fee">
+          <th mat-footer-cell *matFooterCellDef [style.text-align]="'right'" [attr.colspan]="6">Custody Fee</th>
+        </ng-container>
+
+        <ng-container matColumnDef="custody-fee-res">
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'">
+            {{ creditProposal.attributes['facilityDetail'].custodianFee | number }}
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="custody-fee-status">
+          <th mat-footer-cell *matFooterCellDef [attr.colspan]="1" [style.text-align]="'left'">{{ custodyFeeStatus[0].appealStatus }}</th>
+        </ng-container>
+
+        <tr
+          mat-footer-row
+          *matFooterRowDef="[
+            'total-plafond',
+            'total-plafond-res',
+            'total-plafond-status',
+            'custody-fee',
+            'custody-fee-res',
+            'custody-fee-status'
+          ]"
+        ></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+      </table>
+    </div>
+  </div>
+</div>

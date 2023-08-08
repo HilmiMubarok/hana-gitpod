@@ -6,6 +6,13 @@ import { CreditProposalCollateralInfoRemarksInformationComponent } from './remar
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks/credit-proposal-collateral-info-remarks-checklist.component';
 import { CreditProposalCollateralInfoChecklistComponent } from './checklist/credit-proposal-collateral-info-checklist.component';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { IGroupCollateralTotal } from './group-collateral/group-collateral-total.model';
+import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info',
@@ -13,11 +20,19 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
 export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges {
+  public groupCollateraltotal: IGroupCollateralTotal[] = [];
+  public listGroupCollateral: any;
+  public collateralPropertyGroupData: ICollateralProperty[] = [];
   public pacth: any;
   public view: boolean;
   public customPath: Boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    protected partyCifService: PartyCifService,
+    protected collateralService: CollateralService,
+    protected collateralPropertyService: CollateralPropertyService
+  ) {}
 
   @Input() source = '';
 
@@ -77,8 +92,8 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['collateralProperties']) {
-      console.log('collateralproperties di cp collateral indo ', this.collateralProperties);
+    if (changes['creditProposal']) {
+      this.loadDataBy();
     }
   }
 
@@ -106,7 +121,17 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     ) {
       this.customPath = true;
     }
-    console.log('ini parent source ', this.parentSource);
+
+    if (this.creditProposal.attributes['collateralInfoGroupTotalMvLv']) {
+      while (typeof this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] === 'string') {
+        this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] = JSON.parse(
+          this.creditProposal.attributes['collateralInfoGroupTotalMvLv']
+        );
+        this.groupCollateraltotal = this.creditProposal.attributes['collateralInfoGroupTotalMvLv'];
+      }
+    } else {
+      this.creditProposal.attributes['groupChecklisCollateral'] = [];
+    }
   }
 
   public triggeredSave(proposalType: any) {
@@ -125,5 +150,160 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
         }
       }
     }
+  }
+
+  public loadDataBy(): void {
+    const cifNumber = this.creditProposal.customerNumber;
+    this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
+      this.listGroupCollateral = res.body;
+      this.getAllColGroup();
+    });
+  }
+
+  private getAllColGroup() {
+    return new Promise((resolve, reject) => {
+      if (this.listGroupCollateral.length > 0) {
+        for (let j = 0; j < this.listGroupCollateral.length; j++) {
+          this.collateralService
+            .queryFilterBy({
+              idParty: this.listGroupCollateral[j].partyId,
+              isActive: true,
+            })
+            .subscribe(res => {
+              if (res.body) {
+                for (let i = 0; i < res.body.length; i++) {
+                  if (res.body[i].id) {
+                    this.collateralPropertyService.queryFilterBy({ idCollateral: res.body[i].id, page: 0, size: 9999 }).subscribe(res2 => {
+                      this.collateralPropertyGroupData = [...this.collateralPropertyGroupData, ...res2.body];
+                      if (res.body.length - 1 === i) {
+                        this.generateForReport(res.body, this.listGroupCollateral[j]);
+                      }
+                    });
+                  }
+                }
+              }
+              resolve(this.collateralPropertyGroupData);
+            });
+        }
+      }
+    });
+  }
+
+  // Mulai dari stage ini kebawah dibuat untuk kebutuhan REPORT
+
+  public generateForReport(collaterals: ICollateral[], parentCol: IDebtorData) {
+    const groupTotal: IGroupCollateralTotal = {};
+    let group: IGroupCollateralTotal;
+    groupTotal.cif = parentCol.customerCIF;
+    groupTotal.totalMV = this.countTotalMV(collaterals);
+    groupTotal.totalLV = this.countTotalLV(collaterals);
+    groupTotal.totalMVKJJP = this.countTotalMVKJJP(collaterals);
+    groupTotal.totalLvKJJP = this.countTotalLVKJJP(collaterals);
+    if (this.creditProposal.attributes['collateralInfoGroupTotalMvLv']) {
+      group = this.creditProposal.attributes['collateralInfoGroupTotalMvLv'].find(obj => obj.cif === groupTotal.cif);
+    }
+    if (group) {
+      const idx = this.creditProposal.attributes['collateralInfoGroupTotalMvLv'].findIndex(obj => obj.cif === group.cif);
+      this.creditProposal.attributes['collateralInfoGroupTotalMvLv'][idx] = groupTotal;
+    } else {
+      this.groupCollateraltotal.push(groupTotal);
+    }
+    this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] = this.groupCollateraltotal;
+  }
+
+  public countTotalLV(collaterals: ICollateral[]): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + Number(data.liquidationValue);
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
+
+    return result;
+  }
+
+  public countTotalMV(collaterals: ICollateral[]): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        if (collaterals[i].id) {
+          const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+          if (properties.length > 0) {
+            data = properties.find(obj => obj.external === false);
+            if (data !== undefined) {
+              result = result + Number(data.marketValue);
+            }
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalMV = result;
+    return result;
+  }
+
+  public countTotalLVKJJP(collaterals: ICollateral[]): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === true);
+          if (data !== undefined) {
+            result = result + Number(data.liquidationValue);
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP = result;
+
+    return result;
+  }
+
+  public countTotalMVKJJP(collaterals: ICollateral[]): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        if (collaterals[i].id) {
+          const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+          if (properties.length > 0) {
+            data = properties.find(obj => obj.external === true);
+            if (data !== undefined) {
+              result = result + Number(data.marketValue);
+            }
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countKJJPMV = result;
+    return result;
+  }
+
+  private filterPropertiesFilterGurante(collateral: ICollateral): ICollateralProperty[] {
+    let properties: ICollateralProperty[];
+    properties = [];
+    // for machine
+    if (collateral.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+      if (collateral.collateralTypeId !== '' || collateral.collateralTypeId !== undefined) {
+        properties = lodash.filter(this.collateralPropertyGroupData, function (o) {
+          return o.propertyType === 'GENERAL' && o.collateralId === collateral.id;
+        });
+      }
+    }
+    return properties;
   }
 }

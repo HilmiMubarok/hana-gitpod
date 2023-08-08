@@ -55,6 +55,7 @@
             [partyGroup]="organizationManagement.shareHolderOrg"
             mode="edit"
             [type]="typeSable"
+            [source]="source"
           >
           </jhi-party-cif-customer-info-party-group>
         </div>
@@ -101,15 +102,15 @@
                 <mat-label>PEP Status</mat-label>
                 <mat-select name="pepStatus" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()">
                   <mat-option value="">-Please select-</mat-option>
-                  <mat-option *ngFor="let item of pepStatus" [value]="item.label">
-                    {{ item.label }}
+                  <mat-option *ngFor="let item of pepStatus" [value]="item.value">
+                    {{ item.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </section>
             <section *jhiMatrixDirIDD="''">
               <div class="fontsebled row">
-                <div class="col">PEP Statu</div>
+                <div class="col">PEP Status</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
                   {{ organizationManagement.attributes.pep }}
@@ -196,6 +197,6 @@
   </section>
   <section *jhiMatrixDirIDD="'input'">
     <button mat-raised-button class="confirm-button-no" [hidden]="buttonApproval()" (click)="openCancelDialog()">Close</button>
-    <button mat-raised-button class="confirm-button-yes" [hidden]="buttonApproval()" (click)="save()">Save</button>
+    <button mat-raised-button class="confirm-button-yes" [hidden]="buttonApproval()" (click)="Onsave()">Save</button>
   </section>
 </mat-dialog-actions>

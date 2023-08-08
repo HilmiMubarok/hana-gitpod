@@ -18,6 +18,7 @@ import { FormControl } from '@angular/forms';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { CollateralParameter, ICollateralParameter } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.model';
 import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
+import { CollateralProposePricingParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-propose-pricing/propose-pricing-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -95,7 +96,8 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     private collateralTypeService: CollateralTypeService,
     private cashCollateralService: CashCollateralService,
     protected generalParameterService: GeneralParameterService,
-    protected collateralParameterService: CollateralParameterService
+    protected collateralParameterService: CollateralParameterService,
+    protected collateralProposePricingService: CollateralProposePricingParameterService
   ) {
     // this.bindingTypes = COLLATERAL_BINDING_TYPE;
 
@@ -221,10 +223,21 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       });
   }
 
-  public changeCollateralCode(event: MatSelectChange): void {
-    this.collateral.attributes.collateralProposePricing = lodash.find(this.collateralCode, function (o) {
-      return o['collateralTypeCode'] === event.value;
-    })['collateralDetailTypeDescription'];
+  public changeCollateralCode(event: any): void {
+    const idCollateralParam = this.collateralCode.filter(e => e.collateralTypeCode === event);
+    const collateralParamId: any = idCollateralParam.map(e => e.id);
+    event = collateralParamId;
+    if (event) {
+      this.collateralProposePricingService.filterTableData(event).subscribe(res => {
+        let element: string;
+        if (res.body) {
+          for (let i = 0; i < res.body.length; i++) {
+            element = res.body[i].proposePricing;
+          }
+          this.collateral.attributes.collateralProposePricing = element;
+        }
+      });
+    }
   }
 
   public dataSource() {

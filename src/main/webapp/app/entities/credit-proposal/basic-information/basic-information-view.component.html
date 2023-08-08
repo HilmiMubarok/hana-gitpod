@@ -28,19 +28,22 @@
       <div class="e-card-header-title">Customer Info</div>
     </div>
   </div> -->
-<div>
-  <jhi-credit-proposal-person
-    *ngIf="creditProposal.partyTypeId === 'PERSON'"
-    [item]="creditProposal.prospectPerson"
-    [deptorData]="creditProposal"
-    [partyCif]="partyCif"
-    mode="view"
-  ></jhi-credit-proposal-person>
-  <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'" [item]="creditProposal"> </jhi-party-group-view>
+<div class="wrapper-card">
+  <e-card *ngIf="creditProposal.partyTypeId === 'PERSON'" class="mb-3">
+    <jhi-credit-proposal-person
+      [item]="creditProposal.prospectPerson"
+      [deptorData]="creditProposal"
+      [partyCif]="partyCif"
+      mode="view"
+    ></jhi-credit-proposal-person>
+  </e-card>
+  <e-card *ngIf="creditProposal.partyTypeId !== 'PERSON'" class="mb-3">
+    <jhi-party-group-view [mode]="'view'" [item]="creditProposal"> </jhi-party-group-view
+  ></e-card>
 </div>
 <!-- </div> -->
 
-<div class="e-card">
+<div class="e-card mb-5">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Address</div>
@@ -52,7 +55,7 @@
   </div>
 </div>
 <!-- <div [hidden]="view"> -->
-<div class="e-card">
+<div class="e-card mb-5">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Domicile Address</div>
@@ -72,7 +75,7 @@
 
 <!-- <div [hidden]="view"> -->
 <div *ngIf="creditProposal.partyTypeId !== 'PERSON'">
-  <div class="e-card">
+  <div class="e-card mb-5">
     <div class="e-card-header">
       <div class="e-card-header-caption">
         <div class="e-card-header-title">Warehouse Address</div>

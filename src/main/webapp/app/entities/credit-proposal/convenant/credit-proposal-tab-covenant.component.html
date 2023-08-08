@@ -10,35 +10,33 @@
   <div class="e-sample-resize-container e-card-resize-container mb-5">
     <div class="row">
       <div class="row card-layout">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">Standard Covenant</div>
-              <div class="e-card-sub-title"></div>
-            </div>
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Standard Covenant</div>
+            <div class="e-card-sub-title"></div>
           </div>
-          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
-            <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-above [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
-              </jhi-credit-proposal-tab-covenant-above>
-            </div>
+        </div>
+        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+          <div class="card-content">
+            <jhi-credit-proposal-tab-covenant-above [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
+            </jhi-credit-proposal-tab-covenant-above>
           </div>
+        </div>
 
-          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
-            <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-below [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
-              </jhi-credit-proposal-tab-covenant-below>
-            </div>
+        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+          <div class="card-content">
+            <jhi-credit-proposal-tab-covenant-below [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
+            </jhi-credit-proposal-tab-covenant-below>
           </div>
-          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
-            <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-back-to-back-general [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
-              </jhi-credit-proposal-tab-covenant-back-to-back-general>
-            </div>
-            <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-back-to-back-deposit [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
-              </jhi-credit-proposal-tab-covenant-back-to-back-deposit>
-            </div>
+        </div>
+        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
+          <div class="card-content">
+            <jhi-credit-proposal-tab-covenant-back-to-back-general [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
+            </jhi-credit-proposal-tab-covenant-back-to-back-general>
+          </div>
+          <div class="card-content">
+            <jhi-credit-proposal-tab-covenant-back-to-back-deposit [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
+            </jhi-credit-proposal-tab-covenant-back-to-back-deposit>
           </div>
         </div>
       </div>
@@ -48,14 +46,12 @@
   <div class="e-sample-resize-container e-card-resize-container mb-5">
     <div class="row">
       <div class="row card-layout">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">Other Covenant</div>
-              <div class="e-card-sub-title"></div>
-              <div class="card-content">
-                <jhi-other-covenant [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem"> </jhi-other-covenant>
-              </div>
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Other Covenant</div>
+            <div class="e-card-sub-title"></div>
+            <div class="card-content">
+              <jhi-other-covenant [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem"> </jhi-other-covenant>
             </div>
           </div>
         </div>
@@ -88,14 +84,12 @@
   <div class="e-sample-resize-container e-card-resize-container mb-5">
     <div class="row">
       <div class="row card-layout">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">Other Deviation</div>
-              <div class="e-card-sub-title"></div>
-              <div class="card-content">
-                <jhi-other-deviation [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem"> </jhi-other-deviation>
-              </div>
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Other Deviation</div>
+            <div class="e-card-sub-title"></div>
+            <div class="card-content">
+              <jhi-other-deviation [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem"> </jhi-other-deviation>
             </div>
           </div>
         </div>

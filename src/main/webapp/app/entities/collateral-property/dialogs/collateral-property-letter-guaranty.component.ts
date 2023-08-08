@@ -6,6 +6,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -31,6 +32,7 @@ import {
   MANAGEMENT_BRANCH,
   GUARANTEE_COVERAGE,
 } from 'app/shared/constants/base.constants';
+import lodash from 'lodash';
 import { map, Observable, startWith } from 'rxjs';
 @Component({
   selector: 'jhi-collateral-property-letter-guaranty',
@@ -38,6 +40,7 @@ import { map, Observable, startWith } from 'rxjs';
 })
 export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   private _pariPasu: string;
+  collateralDetailTypeValue: string;
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -117,14 +120,15 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
     private partyCifService: PartyCifService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    private collateralParameterService: CollateralParameterService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.guaranteeCoverage = GUARANTEE_COVERAGE;
     // this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
+    // this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
     this.guaranteeBisColDetailType = GUARANTEE_BIS_COL_DETAIL_TYPE;
     this.branches = SECURITIES_MANAGEMENT_BRANCH;
   }
@@ -144,6 +148,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.setData();
     this.setDebitBlock();
     this.filterChar();
+    this.changeCollateralType();
   }
 
   public cekData() {
@@ -499,5 +504,30 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     } else {
       this.chatCollateral = 'Non Eligible';
     }
+  }
+
+  // Get Collateral Detail Type in Master Collateral
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'LETTER_OF_GUARANTY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }

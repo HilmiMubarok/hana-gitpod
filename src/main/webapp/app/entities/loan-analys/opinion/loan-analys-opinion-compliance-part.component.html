@@ -1,8 +1,6 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-subtitle>OPINION HISTORY</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
+<div class="wrapper-card">
+  <e-card class="mb-3">
+    <mat-card-subtitle class="header-title">OPINION HISTORY</mat-card-subtitle>
     <table mat-table [dataSource]="notes" class="w-100">
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>No</th>
@@ -52,5 +50,5 @@
         ></ejs-documenteditorcontainer>
       </div>
     </div>
-  </mat-card-content>
-</mat-card>
+  </e-card>
+</div>

@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
-import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { ICollateral, ICollateralInfoAfter } from 'app/entities/collateral/collateral.model';
 import {
   ICreditProposalCollateralInsurance,
   ICreditProposalCollateralBinding,
@@ -13,6 +13,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 
 import { Observable, of } from 'rxjs';
 import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal-collateral-tab-loan-after.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after-dialog',
@@ -21,6 +22,8 @@ import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal
   providers: [ToolbarService, HtmlEditorService],
 })
 export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnInit {
+  public parentPath: any;
+  public collateralInfoAfterReport: ICollateralInfoAfter = {};
   public view: string;
   public creditProposal: ICreditProposal;
   public dataCollateral: ICollateral[];
@@ -52,6 +55,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
 
   constructor(
+    public router: Router,
     private creditProposalService: CreditProposalService,
     private _dialog: MatDialogRef<CreditProposalCollateralTabLoanAfterComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -64,6 +68,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
       collateralProperties: ICollateralProperty[];
     }
   ) {
+    this.parentPath = this.router.url.split('/')[1];
     this.creditProposal = this.data.cp;
     this.collateral = this.data.collateral;
     this.view = this.data.view;
@@ -73,6 +78,7 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
   }
 
   ngOnInit(): void {
+    console.log('parent path ', this.parentPath);
     if (this.view === 'view') {
       this.changeType(this.collateral.id);
     }
@@ -105,6 +111,10 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
       this.internalMV = 0;
       this.internalLV = 0;
     }
+    this.collateralInfoAfterReport.collateralType = collateral.collateralTypeDescription;
+    this.collateralInfoAfterReport.id = collateral.id;
+    this.collateralInfoAfterReport.mvInternal = this.internalMV;
+    this.collateralInfoAfterReport.lvInternal = this.internalLV;
   }
 
   public countMV(collateral: ICollateral): number {
@@ -148,6 +158,6 @@ export class CreditProposalCollateralTabLoanAfterDialogComponent implements OnIn
   }
 
   public onSave() {
-    this._dialog.close(this.collateral);
+    this._dialog.close({ collateral: this.collateral, collateralAfter: this.collateralInfoAfterReport });
   }
 }

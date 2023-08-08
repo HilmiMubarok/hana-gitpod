@@ -70,10 +70,12 @@ import {
   faSquareCheck,
   faPaperclip,
   faSuitcase,
+  faStethoscope,
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontAwesomeIcons = [
+  faStethoscope,
   faExclamationTriangle,
   faArrowCircleLeft,
   faArrowLeft,

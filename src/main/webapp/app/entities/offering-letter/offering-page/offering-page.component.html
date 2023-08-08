@@ -14,7 +14,8 @@
             cssClass="e-outline"
             floatLabelType="Auto"
             [disabled]="field"
-          ></ejs-textbox>
+          >
+          </ejs-textbox>
           <!-- <ejs-textbox placeholder="Offering Letter No." cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox> -->
         </div>
       </div>
@@ -38,6 +39,7 @@
             floatLabelType="auto"
             [(ngModel)]="creditProposal.attributes['offeringLetterPreparation'].dateOffering"
             [disabled]="field"
+            [format]="'yyyy/MM/dd'"
           >
           </ejs-datepicker>
           <!-- <ejs-textbox placeholder="Offering Letter Date" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox> -->

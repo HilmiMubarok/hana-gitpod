@@ -46,9 +46,9 @@
 
 .e-grid .e-headercell,
 .e-grid .e-detailheadercell {
-  background-color: #008881 !important;
+  background-color: rgba(147, 201, 199, 1);
   color: black;
-  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
 }
 .card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-header-title,
 .card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-sub-title {

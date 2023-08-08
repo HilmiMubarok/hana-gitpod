@@ -5,7 +5,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>CIF Number</mat-label>
-          <input matInput type="text" [(ngModel)]="organization.cifNumber" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="organization.attributes['shareholder_cif']" [disabled]="dataSource()" />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </section>
@@ -14,7 +14,7 @@
           <div class="col">CIF Number</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ organization.cifNumber }}
+            {{ organization.attributes['shareholder_cif'] }}
           </div>
         </div>
       </section>
@@ -65,7 +65,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>CIF Number</mat-label>
-          <input matInput type="text" [(ngModel)]="organization.cifNumber" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="organization.attributes['management_cif']" [disabled]="dataSource()" />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </section>
@@ -74,7 +74,7 @@
           <div class="col">CIF Number</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ organization.cifNumber }}
+            {{ organization.attributes['management_cif'] }}
           </div>
         </div>
       </section>
@@ -220,12 +220,12 @@
         </div>
       </section>
     </div>
-    <div class="form-group" *ngIf="managementType === 'CONTROL_PERSON'">
+    <div class="form-group">
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Relation With Debtor</mat-label>
-          <input matInput type="text" [(ngModel)]="organization.relationWithDebtor" [disabled]="dataSource()" />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          <input matInput type="text" [(ngModel)]="organization.relationWithDebtor" [disabled]="approvalDisabled()" />
+          <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
         </mat-form-field>
       </section>
       <section *jhiMatrixDirIDD="''">
@@ -234,6 +234,24 @@
           <div class="col-md-auto">:</div>
           <div class="col">
             {{ organization.relationWithDebtor }}
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="form-group">
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Join Company Since </mat-label>
+          <input matInput type="text" [(ngModel)]="organization.attributes['joinCompanySince']" [disabled]="approvalDisabled()" />
+          <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Join Company Since</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ organization.attributes['joinCompanySince'] }}
           </div>
         </div>
       </section>

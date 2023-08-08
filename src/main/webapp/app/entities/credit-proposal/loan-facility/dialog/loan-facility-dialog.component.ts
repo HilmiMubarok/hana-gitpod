@@ -107,8 +107,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public lovIndex = [];
   private selectedType;
   private selectedCurrency;
-  private provisionFormat = '0';
-  private adminFormat = '0';
+  private provisionFormat = '0,.00';
+  private adminFormat = '0,.00';
 
   public preCurent = '';
   public lovLoanType = [];
@@ -272,6 +272,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public interestTypeList = [];
   public installmentMethodList = [];
   public restructList = [];
+  public installmentMethodValue: string;
+  public restructMethodValue: string;
 
   constructor(
     private dialog: MatDialog,
@@ -339,6 +341,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.getFacilityType();
     this.berubah(this.applicationProduct.attributes.facilityType);
     this.cekData();
+    this.updateFormat(this.selectedType, this.selectedCurrency);
   }
 
   public cekData() {
@@ -643,7 +646,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.textBoxHidden = true;
       this.statusDisabledOffering = true; // Menambahkan perubahan di sini
     }
-    console.log('status adalah', this.statusDisabledOffering);
   }
 
   public latePaymentFeeUSD: any;
@@ -750,6 +752,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (this.applicationProduct.applicationType === 'Others') {
       this.othersDescStat = false;
     }
+    if (this.applicationProduct.applicationType !== 'Existing') {
+      this.applicationProduct.attributes.facilityType = this.applicationProduct.productTypeId;
+    }
   }
 
   setFacilityType() {
@@ -796,6 +801,16 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.installmentMethodList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+
+        if (this.installmentMethodList) {
+          let element: string;
+          for (let i = 0; i < this.installmentMethodList.length; i++) {
+            if (this.applicationProduct.installmentMethod === this.installmentMethodList[i].code) {
+              element = this.installmentMethodList[i].value;
+            }
+          }
+          this.installmentMethodValue = element;
+        }
       });
   }
 
@@ -810,6 +825,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.restructList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.restructList) {
+          let element: string;
+          for (let i = 0; i < this.restructList.length; i++) {
+            if (this.applicationProduct.restructMethod === this.restructList[i].code) {
+              element = this.restructList[i].value;
+            }
+          }
+          this.restructMethodValue = element;
+        }
       });
   }
 
@@ -872,45 +896,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.updateFormat(this.selectedType, this.selectedCurrency);
   }
 
-  public checkForDecimalProvision(inputProvision) {
-    if (this.selectedCurrency !== '%p.a') {
-      const predicate = JSON.stringify(inputProvision);
-      const regex = /[0-9]+\./;
-      if (inputProvision > 0) {
-        const param = predicate.match(regex);
-        if (param !== null) {
-          this.provisionFormat = '0,0.00';
-        } else {
-          this.provisionFormat = '0,';
-        }
-      } else {
-        this.provisionFormat = '';
-      }
-    } else {
-      this.provisionFormat = '';
-    }
-    this.updateFormat(this.selectedType, this.selectedCurrency);
-  }
-  public checkForDecimalAdmin(inputAdmin) {
-    if (this.selectedCurrency !== '%p.a') {
-      const predicate = JSON.stringify(inputAdmin);
-      const regex = /[0-9]+\./;
-      if (inputAdmin > 0) {
-        const param = predicate.match(regex);
-        if (param !== null) {
-          this.adminFormat = '0,0.00';
-        } else {
-          this.adminFormat = '0,';
-        }
-      } else {
-        this.adminFormat = '';
-      }
-    } else {
-      this.provisionFormat = '';
-    }
-    this.updateFormat(this.selectedType, this.selectedCurrency);
-  }
-
   public updateFormat(type, event) {
     if (type === 'provision') {
       if (event === '%p.a') {
@@ -928,19 +913,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     }
     if (type === 'admin') {
       if (event === '%p.a') {
-        // this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
         this.logoAdminFee = this.adminFormat;
       }
       if (event === 'Amount IDR') {
-        // this.logoAdminFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
         this.logoAdminFee = 'IDR ' + this.adminFormat;
       }
       if (event === 'Amount USD') {
-        // this.logoAdminFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
         this.logoAdminFee = 'USD ' + this.adminFormat;
       }
       if (event === '' || event === undefined) {
-        // this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
         this.logoAdminFee = '';
       }
     }

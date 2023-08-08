@@ -90,6 +90,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   public bloodTypes: any;
   public maritalStatuses: any;
   public genders: any;
+  public dataHidden: string;
   constructor(protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {
     super();
     this.bloodTypes = BLOOD_TYPE;
@@ -99,8 +100,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
 
   ngOnInit(): void {
     this.convrtDate();
-    this.hiddenNull();
-    this.hiddenNulls();
+    this.conditionCompleteNameSpouse();
   }
   public countAge(): number {
     let age: number;
@@ -141,14 +141,27 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     }
     return false;
   }
-  public hiddenNull() {
-    if (this.person.firstName === null) {
-      this.person.firstName = 'N/A';
-    }
-  }
-  public hiddenNulls() {
-    if (this.person.lastName === null) {
-      this.person.lastName = 'N/A';
-    }
+
+  // public hiddenNull() {
+  //   if (this.person.firstName === '' || this.person.lastName === '') {
+  //     return 'NA';
+  //   } else {
+  //     return this.person.firstName + ' ' + this.person.lastName;
+  //   }
+  // }
+  public completeName: any;
+  public conditionCompleteNameSpouse() {
+    this.completeName =
+      this.person.firstName === '' || this.person.firstName === null || this.person.firstName === undefined
+        ? this.person.lastName
+        : this.person.lastName === '' || this.person.lastName === null || this.person.lastName === undefined
+        ? this.person.firstName
+        : this.person.firstName === '' ||
+          this.person.firstName === null ||
+          (this.person.firstName === undefined && this.person.lastName === '') ||
+          this.person.lastName === null ||
+          this.person.lastName === undefined
+        ? 'NA'
+        : this.person.firstName + ' ' + this.person.lastName;
   }
 }

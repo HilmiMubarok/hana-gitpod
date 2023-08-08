@@ -61,7 +61,12 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['source']) {
-      if (this.source) {
+      if (this.source === 'idd') {
+        if (this.organization) {
+          this.disabledData = this.dataSource();
+        }
+      }
+      if (this.source === 'customerInfo' || this.source === 'cp') {
         this.disabledData = true;
       }
     }

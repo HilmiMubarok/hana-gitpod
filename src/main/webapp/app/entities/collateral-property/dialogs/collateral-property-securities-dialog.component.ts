@@ -6,6 +6,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
@@ -29,6 +30,7 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import lodash from 'lodash';
 import { map, Observable, startWith } from 'rxjs';
 @Component({
   selector: 'jhi-collateral-property-securities-dialog',
@@ -36,6 +38,7 @@ import { map, Observable, startWith } from 'rxjs';
 })
 export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   private _pariPasu: string;
+  collateralDetailTypeValue: string;
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -111,13 +114,14 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
     protected partyCifService: PartyCifService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    private collateralParameterService: CollateralParameterService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     // this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
-    this.collateralDetailType = SECURITIES_COLLATERAL_DETAIL_TYPE;
+    // this.collateralDetailType = SECURITIES_COLLATERAL_DETAIL_TYPE;
   }
 
   ngOnInit(): void {
@@ -132,6 +136,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     this.setBranches();
     this.setData();
     this.setDebitBlock();
+    this.changeCollateralType();
   }
 
   public cekData() {
@@ -452,5 +457,29 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  public changeCollateralType(): void {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'SECURITIES',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        // Filter status Active in collateral type
+        this.collateralDetailType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE' && o.collateralDetailTypeCode !== '';
+        });
+        if (this.collateralDetailType) {
+          let element: string;
+          for (let i = 0; i < this.collateralDetailType.length; i++) {
+            if (this.collateralProperty.attributes.collateralDetailType === this.collateralDetailType[i].collateralDetailTypeCode) {
+              element = this.collateralDetailType[i].collateralDetailTypeDescription;
+            }
+          }
+          this.collateralDetailTypeValue = element;
+        }
+      });
   }
 }

@@ -45,10 +45,20 @@ import {
   MENU_MASTER_CONFIG,
   SLIK_MENU_BUSINESS_SUPPORT,
   DASHBOARD,
+  FORBIDDEN_MENU,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 import { LoginService } from 'app/login/login.service';
 import { PositionService } from 'app/entities/position/position.service';
+
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { createRequestOption } from 'app/core/request/request-util';
+
 import lodash from 'lodash';
 
 @Component({
@@ -62,7 +72,25 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public account: Account | null = null;
   public sidebarState: string;
   private treeData: ISidebarMenuModel[];
-  public userRole: string;
+
+  private positionIdLocStor: string;
+  private resourceUrlMenu = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-position-type');
+
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private templateService: TemplateService,
+    protected loginService: LoginService,
+    protected positionService: PositionService,
+    protected applicationConfigService: ApplicationConfigService,
+    protected http?: HttpClient
+  ) {
+    this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
+      if (newState === 'close') {
+        this.tree.treeControl.collapseAll();
+      }
+    });
+  }
 
   public treeControlDashboard = new FlatTreeControl<FlatNode>(
     node => node.level,
@@ -103,103 +131,96 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public dataSourceDashboard: any = new MatTreeFlatDataSource(this.treeControlDashboard, this.treeFlattenerDashboard);
   public dataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   public dataSourceConfig: any = new MatTreeFlatDataSource(this.treeControlConfig, this.treeFlattenerConfig);
+  public forbiddenDataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  private positionIdLocStor: string;
+  private convertDateArrayFromServer(res: HttpResponse<any[]>): HttpResponse<any[]> {
+    return res;
+  }
 
-  private setMenuFromPosInt(newPosSet: string): void {
+  private itemPreLoad(item: any): any {
+    return item;
+  }
+
+  private preLoadItemArray(res: HttpResponse<any[]>): HttpResponse<any[]> {
+    res.body.forEach(item => {
+      this.itemPreLoad(item);
+    });
+    return res;
+  }
+
+  private queryFilterBy(req?: any): Observable<HttpResponse<any[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(this.resourceUrlMenu + '/filterBy', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
+  }
+
+  private setMenu(menusData: any): void {
+    let orderNum = 0;
+    let parentMenus = [];
+    const dataSourceTemp = [];
+
+    menusData.forEach(menu => {
+      orderNum++;
+      parentMenus.push({
+        id: menu.parentMenuItemId,
+        descripton: menu.parentMenuItemDescription,
+        icon: menu.parentMenuItemIcon,
+        order: orderNum,
+      });
+    });
+    parentMenus = lodash.uniqBy(parentMenus, 'id');
+    parentMenus.sort((a, b) => (a.order > b.order ? 1 : -1));
+    parentMenus.forEach(parentMenu => {
+      dataSourceTemp.push({
+        name: parentMenu.descripton,
+        iconname: parentMenu.icon,
+        children: [],
+      });
+    });
+
+    dataSourceTemp.forEach(data => {
+      menusData.forEach(menu => {
+        if (menu.parentMenuItemDescription === data.name) {
+          data.children.push({
+            name: menu.menuItemDescription,
+            iconname: menu.menuItemIcon,
+            route: menu.menuItemcode,
+          });
+        }
+      });
+    });
+    this.dataSource.data = dataSourceTemp;
+  }
+
+  private getMenuByPos(newPositionTypeId: string): void {
+    this.queryFilterBy({
+      positionTypeId: newPositionTypeId,
+      sort: ['id', 'asc'],
+    }).subscribe(menus => {
+      this.setMenu(menus.body);
+    });
+  }
+
+  private setMenuFromPosInt(newPosSet: any): void {
     if (newPosSet !== 'Empty') {
-      console.log('data sidebar', newPosSet);
       this.accountService.identity().subscribe(account => {
         if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
           this.dataSourceDashboard.data = DASHBOARD;
           this.dataSource.data = APPRAISAL_MENU_ADMIN;
           this.dataSourceConfig.data = APPRAISAL_MENU_ADMIN_CONFIG;
         } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {
-          if (newPosSet === 'MASTER_ADMIN') {
-            this.dataSource.data = MENU_MASTER;
-          } else if (newPosSet === 'SURVEYOR') {
-            this.dataSource.data = APPRAISAL_MENU_SURVEYOR;
-          } else if (newPosSet === 'RM') {
-            this.dataSource.data = APPRAISAL_MENU_RM;
-          } else if (newPosSet === 'BM') {
-            this.dataSource.data = SIDEBAR_MENU_BM;
-          } else if (newPosSet === 'SME_HEAD') {
-            this.dataSource.data = SIDEBAR_MENU_SME_HEAD;
-          } else if (newPosSet === 'SDH') {
-            this.dataSource.data = SIDEBAR_MENU_ROLE_SME_HEAD;
-          } else if (newPosSet === 'DH') {
-            this.dataSource.data = SIDEBAR_MENU_DH;
-          } else if (newPosSet === 'APR_DH') {
-            this.dataSource.data = SIDEBAR_MENU_APR_DH;
-          } else if (newPosSet === 'TL') {
-            this.dataSource.data = APPRAISAL_MENU_TL;
-          } else if (newPosSet === 'LEGALOFFICER_OUTREGION') {
-            this.dataSource.data = APPRAISAL_MENU_LEGALOFFICER_OUTREGION;
-          } else if (newPosSet === 'CRA') {
-            this.dataSource.data = APPRAISAL_MENU_CRA;
-          } else if (newPosSet === 'CRC') {
-            this.dataSource.data = APPRAISAL_MENU_CHECKER;
-          } else if (newPosSet === 'CHECKER1') {
-            this.dataSource.data = APPRAISAL_MENU_CHECKER1;
-          } else if (newPosSet === 'CHECKER2') {
-            this.dataSource.data = APPRAISAL_MENU_CHECKER2;
-          } else if (newPosSet === 'LEGAL_TEAM_LEAD') {
-            this.dataSource.data = APPRAISAL_MENU_LEGAL_TEAM_LEAD;
-          } else if (newPosSet === 'HCR1' || newPosSet === 'HCR2') {
-            this.dataSource.data = APPRAISAL_MENU_HCR;
-          } else if (newPosSet === 'BUSINESS_DIR') {
-            this.dataSource.data = APPRAISAL_MENU_BUSINESS_DIR;
-          } else if (newPosSet === 'CREDIT_DIR') {
-            this.dataSource.data = APPRAISAL_MENU_CREDIT_DIR;
-          } else if (newPosSet === 'CC_ANALYST') {
-            this.dataSource.data = APPRAISAL_MENU_CC_ANALYST;
-          } else if (newPosSet === 'BUSINESS_SUPPORT') {
-            this.dataSource.data = SLIK_MENU_BUSINESS_SUPPORT;
-          } else if (newPosSet === 'FINANCE_DIR') {
-            this.dataSource.data = APPRAISAL_MENU_FINANCE_DIR;
-          } else if (newPosSet === 'CC_ADMIN') {
-            this.dataSource.data = APPRAISAL_MENU_CC_ADMIN;
-          } else if (newPosSet === 'CC_DEPT_HEAD') {
-            this.dataSource.data = APPRAISAL_MENU_CC_DEPT_HEAD;
-          } else if (newPosSet === 'CC_DH') {
-            this.dataSource.data = APPRAISAL_MENU_CC_DH;
-          } else if (newPosSet === 'CC_DIR') {
-            this.dataSource.data = APPRAISAL_MENU_CC_DIR;
-          } else if (newPosSet === 'LEGAL_HEAD') {
-            this.dataSource.data = APPRAISAL_MENU_LEGAL_HEAD;
-          } else if (newPosSet === 'LEGAL_OFFICER') {
-            this.dataSource.data = APPRAISAL_MENU_LEGAL_OFFICER;
-          } else if (newPosSet === 'CRO') {
-            this.dataSource.data = APPRAISAL_MENU_CRO;
-          } else if (newPosSet === 'DEPT_HEAD') {
-            this.dataSource.data = APPRAISAL_DEPT_HEAD;
-          } else if (newPosSet === 'APR_DEPT_HEAD') {
-            this.dataSource.data = APPRAISAL_APR_DEPT_HEAD;
-          } else if (newPosSet === 'CREDIT_LEGAL_LEAD') {
-            this.dataSource.data = APPRAISAL_DEPT_CREDIT_LEGAL_LEAD;
-          } else if (newPosSet === 'ADMIN_APPRAISER') {
-            this.dataSource.data = APPRAISAL_MENU_ADMIN_APPRAISAL;
-          }
+          this.getMenuByPos(newPosSet.positionTypeId);
         }
       });
     } else {
       this.dataSource.data = [];
     }
     this.router.navigate(['']);
-  }
-
-  constructor(
-    private accountService: AccountService,
-    private router: Router,
-    private templateService: TemplateService,
-    protected loginService: LoginService,
-    protected positionService: PositionService
-  ) {
-    this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
-      if (newState === 'close') {
-        this.tree.treeControl.collapseAll();
-      }
-    });
   }
 
   private logout(): void {
@@ -209,12 +230,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.checkLogin();
-    this.templateService.triggerChanggedPosIntObservable.subscribe((newPos: string) => {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.setMenuFromPosInt(newPos);
     });
     this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
       this.sidebarState = newState;
     });
+    this.forbiddenDataSource.data = FORBIDDEN_MENU;
   }
 
   ngAfterViewInit(): void {

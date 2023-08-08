@@ -97,6 +97,7 @@ export class SurveyBatchEditComponent implements OnInit {
   public totalDataDocumentCollateral = [];
   public totalDataDocumentLainya = [];
   public totalDataDetailLand = [];
+  public isOpen = false;
   appName: any;
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
@@ -241,7 +242,6 @@ export class SurveyBatchEditComponent implements OnInit {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
-    // console.log('ress doc lainnya', this.totalDataDocumentLainya);
   }
 
   public ceckData(menu: object) {
@@ -278,7 +278,6 @@ export class SurveyBatchEditComponent implements OnInit {
   }
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
-    // this.documentCollateral(item.id)
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
@@ -327,22 +326,7 @@ export class SurveyBatchEditComponent implements OnInit {
       });
   }
 
-  public documentCollateral(id: number) {
-    console.log('document-collateral', id);
-    this.storageService.getBucketName().subscribe((r: any) => {
-      const predicate: Object = {
-        key: `/appraisals/${id}/document-colateral`,
-      };
-
-      this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        console.log('appss', res.body);
-        this.totalDataDocumentCollateral = res.body;
-      });
-    });
-  }
-
   public propertyData(_collateralId: number, data: string) {
-    console.log('ompu', _collateralId);
     this.collateralPropertyService
       .queryFilterBy({
         page: 0,
@@ -352,7 +336,6 @@ export class SurveyBatchEditComponent implements OnInit {
         idPropertyType: data,
       })
       .subscribe((res: any) => {
-        console.log('resss', res.body);
         this.totalDataDetailLand = res.body;
         this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
@@ -364,18 +347,19 @@ export class SurveyBatchEditComponent implements OnInit {
         key: `/collateral/${id}/document`,
       };
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
         this.totalDataDocumentCollateral = res.body;
       });
     });
   }
 
   public documentLainnya(id: number) {
-    console.log('document-lainnya', id);
     this.storageService.getBucketName().subscribe((r: any) => {
       const predicate: Object = {
         key: `/appraisals/${id}/document-lainnya`,
       };
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        this.collateralAppraisalService.totalDataDocumentLainya = res.body;
         this.totalDataDocumentLainya = res.body;
       });
     });
@@ -517,13 +501,7 @@ export class SurveyBatchEditComponent implements OnInit {
   private async initialize(): Promise<void> {
     this.loadData(this.collateralAppraisal.collateral);
     this.bucket = this.getBucketName()['bucket'];
-
-    let key: string;
-    key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
-
-    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
-
-    key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
+    const key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
     this.collateralAppraisalService.totalDataFotoObjectJaminan = await this.getDocument(key);
 
     if (this.collateralAppraisal.collateralId) {
@@ -532,12 +510,6 @@ export class SurveyBatchEditComponent implements OnInit {
         CollateralPropertyType.COMPARISON
       );
     }
-
-    key = `/appraisals/${this.collateralAppraisal.id}/document-lainnya`;
-    this.collateralAppraisalService.totalDataDocumentLainya = await this.getDocument(key);
-
-    key = `/appraisals/${this.collateralAppraisal.id}/document-colateral`;
-    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
 
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
       if (this.collateralAppraisal.collateralId) {
@@ -930,14 +902,10 @@ export class SurveyBatchEditComponent implements OnInit {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
       }
-      if (!this.surveyAppraisal.surveyorId) {
+      if (!this.surveyAppraisal.surveyorPositionId) {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
-      // if (!this.surveyAppraisal.totalMarketValue) {
-      //   this._showNotification('error', 'Masukkan Appraisal Value Physic terlebih dahulu');
-      //   mustValidateOnAssignment.totalMarketValue = false;
-      // }
     }
 
     if (this.surveyAppraisal.apprOfficer === 'External') {
@@ -962,17 +930,6 @@ export class SurveyBatchEditComponent implements OnInit {
         mustValidateOnAssignment.totalMarketValue = false;
       }
     }
-    // else {
-
-    //   if (!this.teamReviewerValue) {
-    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.officerAppraisal = false;
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-    //     mustValidateOnAssignment.wilayah = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
@@ -1004,11 +961,6 @@ export class SurveyBatchEditComponent implements OnInit {
           mustValidatedOnAssigned.comparisonData = false;
         }
       }
-
-      // if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-      //   this._showNotification('error', 'Foto object jaminan data less than 6');
-      //   mustValidatedOnAssigned.fotoObjectJaminan = false;
-      // }
     }
 
     return this._validateProcess(mustValidatedOnAssigned);
@@ -1186,10 +1138,7 @@ export class SurveyBatchEditComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    // if (this.keteranganObjectJaminan.length < 1) {
-    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-    //   mustValidatedOnVisited.keterangan = false;
-    // }
+
     if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
@@ -1257,6 +1206,7 @@ export class SurveyBatchEditComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        this.getTasks();
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
@@ -1294,20 +1244,20 @@ export class SurveyBatchEditComponent implements OnInit {
     }
   }
 
-  public getTextMenu(param: string): string {
-    const titleMenu = param;
-    const regex = /[-]/g;
-    if (titleMenu === 'foto-object-jaminan') {
-      const fotoObjectJaminan = titleMenu.replace(regex, ' ');
-      const regex2 = /(object)/g;
-      return fotoObjectJaminan.replace(regex2, 'objek');
-    } else {
-      return titleMenu.replace(regex, ' ');
-    }
-  }
-
   showTextMenu() {
-    return this.getTextMenu(this.clickedMenu);
+    let menuList = [];
+    menuList = [...this.subMenu];
+    for (let i = 0; i < menuList.length; i++) {
+      if (this.clickedMenu === menuList[i].id) {
+        return menuList[i].label;
+      } else {
+        for (let y = 0; y < menuList[i].child?.length; y++) {
+          if (this.clickedMenu === menuList[i].child[y].id) {
+            return menuList[i].child[y].label;
+          }
+        }
+      }
+    }
   }
   public previousState(): void {
     window.history.back();
@@ -1329,5 +1279,8 @@ export class SurveyBatchEditComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

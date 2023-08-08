@@ -149,6 +149,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   public totalDataDocumentCollateral = [];
   public totalDataDocumentLainya = [];
   public positionTypeId: string;
+  public isOpen = false;
   public jpRenewal: boolean;
   public jpNew: boolean;
   public jpAdditional: boolean;
@@ -286,7 +287,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
-    // this.documentCollateral(item.id)
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
@@ -366,7 +366,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this.loadData(item.collateral);
       this.collateralData(item.collateral.id);
       this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
-      console.log('zzzzz', this.collateralAppraisalService.totalDataFotoObjectJaminan);
 
       this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
@@ -390,7 +389,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
             arr.push(e['tags']['category']);
           });
           this.collateralAppraisalService.totalDataFotoObjectJaminan = arr.filter(item => item === 'OBJECT');
-          console.log('category Foto Object', this.collateralAppraisalService.totalDataFotoObjectJaminan);
         });
     });
   }
@@ -410,23 +408,31 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         });
       });
   }
-
-  public documentCollateral(id: number) {
-    console.log('document-collateral', id);
+  public collateralData(id: number) {
     this.storageService.getBucketName().subscribe((r: any) => {
       const predicate: Object = {
-        key: `/appraisals/${id}/document-colateral`,
+        key: `/collateral/${id}/document`,
       };
-
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        console.log('appss', res.body);
+        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
         this.totalDataDocumentCollateral = res.body;
       });
     });
   }
 
+  public documentLainnya(id: number) {
+    this.storageService.getBucketName().subscribe((r: any) => {
+      const predicate: Object = {
+        key: `/appraisals/${id}/document-lainnya`,
+      };
+      this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        this.collateralAppraisalService.totalDataDocumentLainya = res.body;
+        this.totalDataDocumentLainya = res.body;
+      });
+    });
+  }
+
   public propertyData(_collateralId: number, data: string) {
-    console.log('ompu', _collateralId);
     this.collateralPropertyService
       .queryFilterBy({
         page: 0,
@@ -436,33 +442,9 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         idPropertyType: data,
       })
       .subscribe((res: any) => {
-        console.log('resss', res.body);
         this.totalDataDetailLand = res.body;
         this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
-  }
-
-  public collateralData(id: number) {
-    this.storageService.getBucketName().subscribe((r: any) => {
-      const predicate: Object = {
-        key: `/collateral/${id}/document`,
-      };
-      this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        this.totalDataDocumentCollateral = res.body;
-      });
-    });
-  }
-
-  public documentLainnya(id: number) {
-    console.log('document-lainnya', id);
-    this.storageService.getBucketName().subscribe((r: any) => {
-      const predicate: Object = {
-        key: `/appraisals/${id}/document-lainnya`,
-      };
-      this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        this.totalDataDocumentLainya = res.body;
-      });
-    });
   }
 
   public checkCompletedData(node: IOptionNode): boolean {
@@ -536,10 +518,8 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         }
       } else if (node.id === 'collateral-info') {
         if (
-          (this.collateralAppraisalService.totalDataDocumentCollateral.length >= MINIMUM_DOCUMENT_COLLATERAL &&
-            this.collateralAppraisalService.totalDataDocumentLainya.length >= MINIMUM_DOCUMENT_LAINYA) ||
-          (this.totalDataDocumentCollateral.length >= MINIMUM_DOCUMENT_COLLATERAL &&
-            this.totalDataDocumentLainya.length >= MINIMUM_DOCUMENT_LAINYA)
+          this.totalDataDocumentCollateral.length >= MINIMUM_DOCUMENT_COLLATERAL &&
+          this.totalDataDocumentLainya.length >= MINIMUM_DOCUMENT_LAINYA
         ) {
           if (
             this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
@@ -600,19 +580,11 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   private async initialize(): Promise<void> {
     this.loadData(this.collateralAppraisal.collateral);
     this.bucket = this.getBucketName()['bucket'];
-    // this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
 
     this.getKeteranganObjectJaminan();
 
-    // console totalKeteranganJaminan after await
-
-    let key: string;
-    key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
-
-    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
-
-    key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
+    const key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
     this.collateralAppraisalService.totalDataFotoObjectJaminan = await this.getDocument(key);
 
     if (this.collateralAppraisal.collateralId) {
@@ -621,12 +593,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         CollateralPropertyType.COMPARISON
       );
     }
-
-    key = `/appraisals/${this.collateralAppraisal.id}/document-lainnya`;
-    this.collateralAppraisalService.totalDataDocumentLainya = await this.getDocument(key);
-
-    key = `/appraisals/${this.collateralAppraisal.id}/document-colateral`;
-    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
 
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
       if (this.collateralAppraisal.collateralId) {
@@ -1036,25 +1002,11 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
       }
-      if (!this.surveyAppraisal.surveyorId) {
+      if (!this.surveyAppraisal.surveyorPositionId) {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
     }
-    // else {
-    //   if (!this.kjppIndependentAppraisalValue) {
-    //     this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.kjpp = false;
-    //   }
-    //   if (!this.teamReviewerValue) {
-    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.officerAppraisal = false;
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-    //     mustValidateOnAssignment.wilayah = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
@@ -1239,10 +1191,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    // if (this.keteranganObjectJaminan.length < 1) {
-    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-    //   mustValidatedOnVisited.keterangan = false;
-    // }
+
     if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
@@ -1310,6 +1259,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        this.getTasks();
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
@@ -1351,23 +1301,26 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     }
   }
 
-  public getTextMenu(param: string): string {
-    const titleMenu = param;
-    const regex = /[-]/g;
-    if (titleMenu === 'foto-object-jaminan') {
-      const fotoObjectJaminan = titleMenu.replace(regex, ' ');
-      const regex2 = /(object)/g;
-      return fotoObjectJaminan.replace(regex2, 'objek');
-    } else {
-      return titleMenu.replace(regex, ' ');
-    }
-  }
-
   showTextMenu() {
-    return this.getTextMenu(this.clickedMenu);
+    let menuList = [];
+    menuList = [...this.subMenu];
+    for (let i = 0; i < menuList.length; i++) {
+      if (this.clickedMenu === menuList[i].id) {
+        return menuList[i].label;
+      } else {
+        for (let y = 0; y < menuList[i].child?.length; y++) {
+          if (this.clickedMenu === menuList[i].child[y].id) {
+            return menuList[i].child[y].label;
+          }
+        }
+      }
+    }
   }
 
   previousState(): void {
     window.history.back();
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

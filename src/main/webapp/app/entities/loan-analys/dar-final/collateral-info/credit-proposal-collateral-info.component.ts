@@ -13,7 +13,7 @@ export class CollateralInfoDarFinalComponent implements OnInit {
   private _collateralProperties: ICollateralProperty[];
 
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public menuItemx: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -38,5 +38,6 @@ export class CollateralInfoDarFinalComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('collateral properties parent ', this.collateralProperties);
+    this.selectedMenu = 'INFORMATION';
   }
 }

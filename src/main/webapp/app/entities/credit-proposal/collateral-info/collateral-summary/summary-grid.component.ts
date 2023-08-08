@@ -27,6 +27,7 @@ import { ApplicationProduct } from 'app/entities/application-product/application
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+
 @Component({
   selector: 'jhi-summary-grid',
   templateUrl: './summary-grid.component.html',
@@ -53,8 +54,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     'bindingValue',
     'collateralStatus',
     'crossCollateral',
-    'noUrutFasilitas',
-    'facilityType',
+    'action',
   ];
 
   public _collateralProperty: ICollateralProperty[];
@@ -76,8 +76,18 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
+  public bindingTypesHobies = [];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
+  }
+  private _group: string;
+
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
   }
   public _partyCif: IPartyCif;
   @Input()
@@ -106,39 +116,38 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   }
 
   public presentage(value: string, status: string) {
-    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
       } else if (status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
       }
       return '0.00' + '%';
     } else if (num === 'NaN') {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
       } else if (status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
       }
       return '0.00' + '%';
     } else {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = num;
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = num;
       } else if (status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = num;
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = num;
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = num;
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = num;
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = num;
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = num;
       }
       return num + '%';
     }
@@ -146,16 +155,17 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
 
   private totalCoverage() {
     const mvCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalMV / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].mvInternalCoverage = mvCoverage.toFixed(2);
+      this._creditProposal.attributes['collateralSummary'].countTotalMV / this._creditProposal.attributes['collateralSummary'].creditLimit;
+    this._creditProposal.attributes['collateralSummary'].mvInternalCoverage = mvCoverage.toFixed(2);
     const lvCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalLV / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].lvInternalCoverage = lvCoverage.toFixed(2);
-    const mvKjjpCoverage = this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP / 0;
-    this._creditProposal.attributes['coverageTotal'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
+      this._creditProposal.attributes['collateralSummary'].countTotalLV / this._creditProposal.attributes['collateralSummary'].creditLimit;
+    this._creditProposal.attributes['collateralSummary'].lvInternalCoverage = lvCoverage.toFixed(2);
+    const mvKjjpCoverage = this._creditProposal.attributes['collateralSummary'].countTotalMVKJJP / 0;
+    this._creditProposal.attributes['collateralSummary'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
     const lvKjjpCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
+      this._creditProposal.attributes['collateralSummary'].countTotalLVKJJP /
+      this._creditProposal.attributes['collateralSummary'].creditLimit;
+    this._creditProposal.attributes['collateralSummary'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
   }
 
   @Input() isViewMode;
@@ -191,6 +201,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     this.setCertyficateType();
     this.totalCoverage();
     this.getLovInsuranceType();
+    this.lovBindingType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -202,10 +213,10 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       this.dataCollateral = lodash.filter(res.body, function (o) {
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
-      this.dataItem = new MatTableDataSource(res.body);
+      this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
-      this.getBindingCalculate(res.body);
-      console.log('data', res.body);
+      this.mapCollateralProperty(this.dataCollateral);
+      this.getBindingCalculate(this.dataCollateral);
     });
   }
 
@@ -215,7 +226,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          this.findCollateralProperty(collateral);
+          // this.findCollateralProperty(collateral);
+
           if (this.creditProposal.id) {
             this.loadSummaryCollateral();
           }
@@ -223,7 +235,11 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
     }
   }
-
+  public mapCollateralProperty(data: ICollateral[]) {
+    for (let i = 0; i < data.length; i++) {
+      this.findCollateralProperty(data[i]);
+    }
+  }
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
@@ -261,6 +277,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         isViewMode: this.isViewMode,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -300,7 +317,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         } else {
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
-        console.log(res, 'debtorCollateral');
       } else {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
@@ -394,7 +410,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         size: 9999,
       })
       .subscribe(res => {
-        console.log('insurance type body ', res.body);
         this.insuranceTypes = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
@@ -494,7 +509,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalLV = result;
 
     return result;
   }
@@ -531,7 +546,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalMV = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalMV = result;
     return result;
   }
 
@@ -539,7 +554,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -632,7 +646,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
 
       const creditLimit = result + dolar;
-      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+      this._creditProposal.attributes['collateralSummary'].creditLimit = creditLimit;
 
       this.totalPlafond = result + dolar;
 
@@ -640,11 +654,68 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     });
   }
 
+  //
+  public totalPlafondData(value: string): number {
+    let result: number;
+    let dolar: number;
+    let filterIdr = [];
+    let filterUsd = [];
+    result = 0;
+    dolar = 0;
+
+    // const dataFilter =
+    //   this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
+    //     ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
+    //     : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+
+    if (dataFilter?.length > 0) {
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
   public countMVOriginal(collateral: ICollateral): number {
     let result: string;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -740,7 +811,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalMVKJJP = result;
     return result;
   }
 
@@ -760,7 +831,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalLVKJJP = result;
     return result;
   }
 
@@ -772,7 +843,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let string2: string;
     let result: string;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -793,7 +863,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    // console.log("collateral in above grid",collateral);
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
@@ -877,12 +946,28 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
     }
   }
-
-  public getBindingType(element: string) {
-    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
-    return this.bindingTypeVal[keyy];
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
-
+  public getBindingType(element: string) {
+    if (this.bindingTypesHobies) {
+      const data = this.bindingTypesHobies.find(obj => obj.code === element);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
+  }
   public getCrossStatus(status: string) {
     if (status === 'N') {
       return 'NO';
@@ -905,7 +990,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public findCertyficate(collateral) {
     let data: ICollateralProperty;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -934,7 +1018,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
-        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
       });
     });
@@ -947,7 +1031,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       return value;
     }
   }
-  public getCcyBinding(element: ICollateral) {
+  public getCcyBinding(element) {
     if (element) {
       return element;
     }

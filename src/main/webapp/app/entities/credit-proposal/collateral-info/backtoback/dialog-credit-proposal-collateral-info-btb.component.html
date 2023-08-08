@@ -137,6 +137,17 @@
                         </mat-select>
                       </mat-form-field>
                     </section>
+                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>CCY</mat-label>
+                        <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)" disabled>
+                          <mat-option value=" ">- Please Select -</mat-option>
+                          <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value">
+                            {{ item.value }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </section>
                   </div>
                 </div>
                 <div class="col-8">
@@ -148,13 +159,17 @@
                       </mat-form-field>
                     </section>
                     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-                      <div class="fontsebled row">
+                      <!-- <div class="fontsebled row">
                         <div class="col-4">Binding Value</div>
                         <div class="col-md-auto">:</div>
                         <div class="col">
                           {{ binding.bindingValue }}
                         </div>
-                      </div>
+                      </div> -->
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Binding Value</mat-label>
+                        <input currencyMask matInput type="text" [(ngModel)]="binding.bindingValue" [options]="logoCcy" disabled />
+                      </mat-form-field>
                     </section>
                   </div>
                 </div>
@@ -164,17 +179,21 @@
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KURS</mat-label>
-                    <input currencyMask matInput type="text" [(ngModel)]="binding.kurs" readOnly [options]="logoIdr" readOnly />
+                    <input currencyMask matInput type="text" [(ngModel)]="binding.kurs" disabled [options]="logoIdr" />
                   </mat-form-field>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-                  <div class="fontsebled row">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>KURS</mat-label>
+                    <input currencyMask matInput type="text" [(ngModel)]="binding.kurs" disabled [options]="logoIdr" disabled />
+                  </mat-form-field>
+                  <!-- <div class="fontsebled row">
                     <div class="col-4">KURS</div>
                     <div class="col-md-auto">:</div>
                     <div class="col">
                       {{ binding.kurs }}
                     </div>
-                  </div>
+                  </div> -->
                 </section>
               </div>
 
@@ -188,18 +207,30 @@
                       type="text"
                       [(ngModel)]="binding.bindingValueEqIdr"
                       [value]="calBindingValue()"
-                      [options]="logoCcy"
+                      [options]="logoIdr"
                     />
                   </mat-form-field>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-                  <div class="fontsebled row">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Binding Value eq to IDR</mat-label>
+                    <input
+                      currencyMask
+                      matInput
+                      type="text"
+                      [(ngModel)]="binding.bindingValueEqIdr"
+                      [value]="calBindingValue()"
+                      [options]="logoIdr"
+                      disabled
+                    />
+                  </mat-form-field>
+                  <!-- <div class="fontsebled row">
                     <div class="col-4">Binding Value eq to IDR</div>
                     <div class="col-md-auto">:</div>
                     <div class="col">
                       {{ binding.bindingValueEqIdr }}
                     </div>
-                  </div>
+                  </div> -->
                 </section>
               </div>
 
@@ -331,14 +362,14 @@
               <div class="form-group" *ngIf="parentSource === 'dec-offering'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Informasi Tambahan</mat-label>
-                  <input matInput type="text" [(ngModel)]="binding.informasiTambahan" />
+                  <input matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" />
                 </mat-form-field>
               </div>
             </div>
           </div>
         </div>
         <div>
-          <mat-label>Mapping to Facility</mat-label>
+          <mat-label class="header-title">Mapping to Facility</mat-label>
           <jhi-mapping-facility
             [collateralData]="collateral"
             [creditProposal]="creditProposal"
@@ -353,7 +384,7 @@
         <div *ngIf="parentSource === 'dec-offering'">
           <jhi-certificate-info></jhi-certificate-info>
         </div>
-        <mat-dialog-actions align="center">
+        <mat-dialog-actions align="center" class="align-center">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
             <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>

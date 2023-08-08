@@ -59,6 +59,7 @@ import { DocumentComponent } from '../document/document.component';
 import { CollateralAppraisalDetailProcessLandComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
+import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 
 @Component({
   providers: [
@@ -70,6 +71,7 @@ import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-ap
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalDetailProcessRealEstateComponent,
   ],
   selector: 'jhi-survey-batch-edit-approval',
   templateUrl: './survey-batch-edit-approval.component.html',
@@ -97,6 +99,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   public collateralType: string;
   public totalDataDetailLand = [];
   public tipeOfficerAppraisal?: string;
+  public isOpen = false;
   appName: any;
   appNameMenu: any;
   public parentPath = this.router.url.split('/')[1];
@@ -224,7 +227,8 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
-    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
+    public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -280,14 +284,14 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
-    // this.documentCollateral(item.id)
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+    this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
+
     this.getWord();
 
-    // this.getContainer();
     if (item.collateral.propertyUsage !== '') {
       this.checkedData = true;
     }
@@ -310,11 +314,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         this.totalKeteranganObjectJaminan = response.body;
-
-        // if (response.body.length > 0) {
-        //   this.totalKeteranganObjectJaminan = true;
-        console.log('vvvvv', this.totalKeteranganObjectJaminan);
-        // }
       });
   }
 
@@ -338,20 +337,11 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       this.loadData(item.collateral);
       // Get Foto Object Jaminan
       this.collateralData(item.collateral.id);
-      // this.storageService.getBucketName().subscribe(res => {
-      //   this.storageService
-      //     .getObjects(res.body['bucket'], {
-      //       key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
-      //     })
-      //     .subscribe((result: any) => {
-      //       this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
-      //     });
-      // });
       this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
-      console.log('zzzzz', this.collateralAppraisalService.totalDataFotoObjectJaminan);
       this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
     }
@@ -374,21 +364,18 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   public documentCollateral(id: number) {
-    console.log('document-collateral', id);
     this.storageService.getBucketName().subscribe((r: any) => {
       const predicate: Object = {
         key: `/appraisals/${id}/document-colateral`,
       };
 
       this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
-        console.log('appss', res.body);
         this.totalDataDocumentCollateral = res.body;
       });
     });
   }
 
   public propertyData(_collateralId: number, data: string) {
-    console.log('ompu', _collateralId);
     this.collateralPropertyService
       .queryFilterBy({
         page: 0,
@@ -398,7 +385,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         idPropertyType: data,
       })
       .subscribe((res: any) => {
-        console.log('resss', res.body);
         this.totalDataDetailLand = res.body;
         this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
@@ -416,7 +402,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   public documentLainnya(id: number) {
-    console.log('document-lainnya', id);
     this.storageService.getBucketName().subscribe((r: any) => {
       const predicate: Object = {
         key: `/appraisals/${id}/document-lainnya`,
@@ -439,7 +424,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
             arr.push(e['tags']['category']);
           });
           this.collateralAppraisalService.totalDataFotoObjectJaminan = arr.filter(item => item === 'OBJECT');
-          console.log('category Foto Object', this.collateralAppraisalService.totalDataFotoObjectJaminan);
         });
     });
   }
@@ -581,8 +565,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     this.bucket = this.getBucketName()['bucket'];
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
 
-    console.log('yyyyy', this.collateralAppraisalService.totalDataFotoObjectJaminan);
-
     let key: string;
     key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
 
@@ -609,6 +591,10 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         this.collateralAppraisalService.totalDataDetailLand = await this.getCollateralProperty(
           this.collateralAppraisal.collateralId,
           CollateralPropertyType.LAND
+        );
+        this.collateralAppraisalService.totalDataDetailBuilding = await this.getCollateralProperty(
+          this.collateralAppraisal.collateralId,
+          CollateralPropertyType.BUILDING
         );
       }
     }
@@ -660,39 +646,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       }
     }
 
-    // this.currentAccount = await firstValueFrom(this.accountService.identity());
-    // this.accountAuthorities = this.currentAccount.authorities;
-    // if (lodash.indexOf(this.accountAuthorities, Authority.ADMIN) >= 0) {
-    //   this.subMenu =
-    //     this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-    //       ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-    //       : SUBMENU_COLLATERAL_APPRAISAL;
-    // } else {
-    //   if (
-    //     lodash.indexOf(this.accountAuthorities, Authority.ADMIN_APPRAISER) >= 0 ||
-    //     lodash.indexOf(this.accountAuthorities, Authority.RM) >= 0
-    //   ) {
-    //     if (
-    //       this.collateralAppraisal.statusId === STATUS.DRAFT ||
-    //       this.collateralAppraisal.statusId === STATUS.RETURNTORM ||
-    //       this.collateralAppraisal.statusId === STATUS.ASSIGNMENT ||
-    //       this.collateralAppraisal.statusId === STATUS.VISITED
-    //     ) {
-    //       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-    //     } else {
-    //       this.subMenu =
-    //         this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-    //           ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-    //           : SUBMENU_COLLATERAL_APPRAISAL;
-    //     }
-    //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-    //   } else {
-    //     this.subMenu =
-    //       this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-    //         ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-    //         : SUBMENU_COLLATERAL_APPRAISAL;
-    //   }
-    // }
     this.setAuthorizedRole();
     this.selectedMenu = 'Appraisal Info';
     this.setMenuByRole();
@@ -879,16 +832,9 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   public getConditionSubMenu(data): void {
-    // if (data.apprOfficer === 'External') {
-    //   this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-    // }
-    // if (this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE') {
-    //   if (data.apprOfficer === 'Internal') {
-    //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_REALESTATE;
-    //   } else {
-    //     this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-    //   }
-    // }
+    if (data.apprOfficer === 'External') {
+      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+    }
   }
   private setMenuByRole(): void {
     for (let i = 0; i < this.collateralAppraisalMainRolesAccess.length; i++) {
@@ -965,10 +911,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     this.collateralAppraisal = this.parseCollateralAppraisal((await firstValueFrom(this.collateralAppraisalService.find(id))).body);
   }
 
-  // private async loadCollateralAppraisal(id: number): Promise<void> {
-  //   this.collateralAppraisal = (await firstValueFrom(this.collateralAppraisalService.find(id))).body;
-  // }
-
   public onAssignTo(ev) {
     this.surveyAppraisal = ev;
   }
@@ -1043,25 +985,11 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
       }
-      if (!this.surveyAppraisal.surveyorId) {
+      if (!this.surveyAppraisal.surveyorPositionId) {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
     }
-    // else {
-    //   if (!this.kjppIndependentAppraisalValue) {
-    //     this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.kjpp = false;
-    //   }
-    //   if (!this.teamReviewerValue) {
-    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.officerAppraisal = false;
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-    //     mustValidateOnAssignment.wilayah = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
@@ -1191,22 +1119,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         mustValidateOnTL.reviewedOpinion = false;
       }
     }
-    // if (
-    //   this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
-    //   this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
-    // ) {
-    //   if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
-    //     if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
-    //       this._showNotification('error', 'Comparison data less than 3');
-    //       mustValidateOnTL.comparisonData = false;
-    //     }
-    //   }
-
-    //   if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-    //     this._showNotification('error', 'Foto object jaminan data less than 6');
-    //     mustValidateOnTL.fotoObjectJaminan = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnTL);
   }
@@ -1297,14 +1209,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    // if (this.keteranganObjectJaminan.length < 1) {
-    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-    //   mustValidatedOnVisited.keterangan = false;
-    // }
-    // if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
-    //   this._showNotification('error', 'Masukkan Marketability Dahulu');
-    //   mustValidatedOnVisited.marketability = false;
-    // }
+
     if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketbility = false;
@@ -1357,8 +1262,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     } else {
       copySurveyAppraisal.attributes['marketbility'] = this.collateralAppraisal.attributes['marketbility'];
     }
-    // copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
-    // copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
+
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
         copySurveyAppraisal.collateral.attributes['landCertificates']
@@ -1374,6 +1278,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+        this.getTasks();
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
@@ -1417,19 +1322,22 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   public previousState(): void {
     window.history.back();
   }
-  public getTextMenu(param: string): string {
-    const titleMenu = param;
-    const regex = /[-]/g;
-    if (titleMenu === 'foto-object-jaminan') {
-      const fotoObjectJaminan = titleMenu.replace(regex, ' ');
-      const regex2 = /(object)/g;
-      return fotoObjectJaminan.replace(regex2, 'objek');
-    } else {
-      return titleMenu.replace(regex, ' ');
+  showTextMenu() {
+    let menuList = [];
+    menuList = [...this.subMenu];
+    for (let i = 0; i < menuList.length; i++) {
+      if (this.clickedMenu === menuList[i].id) {
+        return menuList[i].label;
+      } else {
+        for (let y = 0; y < menuList[i].child?.length; y++) {
+          if (this.clickedMenu === menuList[i].child[y].id) {
+            return menuList[i].child[y].label;
+          }
+        }
+      }
     }
   }
-
-  showTextMenu() {
-    return this.getTextMenu(this.clickedMenu);
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

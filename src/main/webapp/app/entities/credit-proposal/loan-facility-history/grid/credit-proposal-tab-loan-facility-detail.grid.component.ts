@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
@@ -21,15 +21,18 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-loan-facility-detail-grid-history',
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
   styleUrls: ['./loan.scss'],
 })
-export class LoanFacilityDetailGridHistoryComponent implements OnInit {
+export class LoanFacilityDetailGridHistoryComponent implements OnInit, AfterViewInit {
+  @Input() isOnMemo: Boolean = false;
   @Output() newItemEvent = new EventEmitter<any[]>();
-  public dataParty = [];
+  public dataParty: MatTableDataSource<any>;
   @Input() isViewMode: Boolean = false;
   @Input() isOnCompareData: Boolean = false;
   public _creditProposal: ICreditProposal;
@@ -41,6 +44,8 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   public view: boolean;
   public interestTypeList = [];
@@ -100,18 +105,35 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     this.creditProposaldata = this.creditProposal;
     // this.isViewMode && this.displayColumns.pop();
   }
+
+  // ngOnChanges(changes: SimpleChanges) {
+
+  //   if (changes['creditProposal']) {
+  //     // this.dataParty = new MatTableDataSource<any>;
+  //     // this.dataParty.paginator = this.paginator;
+  //     this.partyCifFunc()
+  //   }
+  // }
   partyCifFunc() {
+    const dataFilter = [];
     const previous =
       this.parsedAttribute['previousReturn'] && this.isOnCompareData
         ? this.parsedAttribute['previousReturn']
         : this.parsedAttribute['previousHistory'];
     if (previous.products) {
       for (let i = 0; i < previous.products.length; i++) {
-        this.dataParty.push(previous.products[i]);
+        dataFilter.push(previous.products[i]);
       }
+      // this.dataParty = new MatTableDataSource<any>(dataFilter);
+
+      this.dataParty = new MatTableDataSource(previous.products);
+      console.log('party', this.dataParty);
+      this.dataParty.paginator = this.paginator;
     }
   }
-
+  ngAfterViewInit() {
+    this.dataParty.paginator = this.paginator;
+  }
   public getCurrency(element: IApplicationProduct) {
     if (element.provisionFeeType === 'Amount IDR') {
       return 'IDR';
@@ -168,60 +190,60 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
         collateralInfo: this.collaterallInfo,
       },
     });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.applicationProduct = res.applicationProduct;
-        this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
-        this.onSave();
-      }
-    });
   }
+  // dialogRef.afterClosed().subscribe(res => {
+  //   if (res) {
+  //     this.applicationProduct = res.applicationProduct;
+  //     this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
+  //     this.onSave();
+  //   }
+  // });
 
-  public onSave(): void {
-    const appProduct: IApplicationProduct = this.applicationProduct;
-    let idx: number;
-    if (!this.applicationProduct.id) {
-      idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.uniqueKey === appProduct.uniqueKey;
-      });
+  // public onSave(): void {
+  //   const appProduct: IApplicationProduct = this.applicationProduct;
+  //   let idx: number;
+  //   if (!this.applicationProduct.id) {
+  //     idx = lodash.findIndex(this.creditProposal.products, function (o) {
+  //       return o.uniqueKey === appProduct.uniqueKey;
+  //     });
 
-      if (idx === -1) {
-        const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-        copyApplicationProduct.applicationId = this.creditProposal.id;
-        this.dataParty = [...this.dataParty, this.applicationProduct];
-        this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
-      } else {
-        this.creditProposal.products[idx] = appProduct;
-        this.dataParty[idx] = appProduct;
-      }
-    } else {
-      idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.id === appProduct.id;
-      });
-      this.creditProposal.products[idx] = appProduct;
-      this.dataParty[idx] = appProduct;
-    }
-  }
+  //     if (idx === -1) {
+  //       const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
+  //       copyApplicationProduct.applicationId = this.creditProposal.id;
+  //       this.dataParty = [...this.dataParty, this.applicationProduct];
+  //       this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
+  //     } else {
+  //       this.creditProposal.products[idx] = appProduct;
+  //       this.dataParty[idx] = appProduct;
+  //     }
+  //   } else {
+  //     idx = lodash.findIndex(this.creditProposal.products, function (o) {
+  //       return o.id === appProduct.id;
+  //     });
+  //     this.creditProposal.products[idx] = appProduct;
+  //     this.dataParty[idx] = appProduct;
+  //   }
+  // }
 
   // Delete Confirmation
-  public onDelete(element): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '25vw',
-      data: {
-        title: 'Delete Facility Detail Data',
-        message: 'Are you sure to delete this data?',
-      },
-      panelClass: 'custom-dialog-container-delete',
-    });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
-        this.dataParty = dataGrid;
-        this.creditProposal.products = dataGrid;
-        this.partyCifFunc();
-      }
-    });
-  }
+  // public onDelete(element): void {
+  //   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+  //     width: '25vw',
+  //     data: {
+  //       title: 'Delete Facility Detail Data',
+  //       message: 'Are you sure to delete this data?',
+  //     },
+  //     panelClass: 'custom-dialog-container-delete',
+  //   });
+  //   dialogRef.afterClosed().subscribe(res => {
+  //     if (res) {
+  //       const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
+  //       this.dataParty = dataGrid;
+  //       this.creditProposal.products = dataGrid;
+  //       this.partyCifFunc();
+  //     }
+  //   });
+  // }
 
   // public onDelete(element: IApplicationProduct) {
   //   const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
