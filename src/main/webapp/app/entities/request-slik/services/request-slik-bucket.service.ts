@@ -7,7 +7,7 @@ import { InternalService } from 'app/entities/internal/internal.service';
 import { MessageService } from 'primeng/api';
 import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { Observable, forkJoin, map, of, switchMap } from 'rxjs';
+import { Observable, delay, forkJoin, map, of, retryWhen, switchMap, take } from 'rxjs';
 import _ from 'lodash';
 import { RequestSlikStatus } from '../enums/request-slik-status.enum';
 
@@ -67,7 +67,8 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
               }))
             )
         );
-      })
+      }),
+      retryWhen(errors => errors.pipe(delay(1000), take(3)))
     );
   }
 
