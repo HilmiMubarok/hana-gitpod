@@ -55,7 +55,15 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <button mat-raised-button (click)="filter()" class="w-100" color="primary">Process</button>
+              <button
+                mat-raised-button
+                (click)="filter()"
+                [disabled]="selectedFilterPositionTypes.length === 0 && selectedFilterStatusItems.length === 0"
+                class="w-100"
+                color="primary"
+              >
+                Filter <mat-icon>search</mat-icon>
+              </button>
             </div>
           </div>
         </mat-expansion-panel>
@@ -126,7 +134,7 @@
           </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+          <td class="mat-cell text-center" [attr.colspan]="displayColumns.length">No records found.</td>
         </tr>
         <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
         <tr mat-row *matRowDef="let element; columns: displayColumns"></tr>
@@ -134,6 +142,9 @@
       <div *ngIf="loading" style="padding: 20px 0px" align="center" id="material-loading-bar">
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
         <div align="center" style="padding-top: 10px">searching..</div>
+      </div>
+      <div *ngIf="!loading && items === null" style="padding: 20px 0px" align="center" id="material-loading-bar">
+        Please filter to get a data.
       </div>
       <mat-paginator
         showFirstLastButtons

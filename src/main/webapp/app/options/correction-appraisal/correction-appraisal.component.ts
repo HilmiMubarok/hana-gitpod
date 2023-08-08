@@ -9,10 +9,9 @@ import { PositionTypeService } from 'app/entities/position-type/position-type.se
 import { IPositionType } from 'app/entities/position-type/position-type.model';
 import { firstValueFrom } from 'rxjs';
 import lodash from 'lodash';
-import { StatusItemService } from 'app/entities/status-item/status-item.service';
 import { IStatusItem } from 'app/entities/status-item/status-item.model';
 import { CashStatusItemService } from 'app/entities/cash-status-item/cash-status-item.service';
-import { STATUS_COLLATERAL, STATUS_TYPE } from 'app/shared/constants/status.constants';
+import { STATUS_TYPE } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-correction-appraisal-info',
@@ -54,7 +53,8 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
   }
 
   ngOnInit(): void {
-    this.loadAll(this.currentSearch);
+    this.items = null;
+    this.loading = false;
     this.loadPositionType();
     this.loadStatusItem();
   }
