@@ -4,13 +4,30 @@
       <div class="col-md-12">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>User ID</mat-label>
-          <input matInput type="text" name="userLogin" id="userLogin" [value]="item.userLogin" [(ngModel)]="item.userLogin" />
+          <input
+            matInput
+            type="text"
+            name="userLogin"
+            id="userLogin"
+            required="true"
+            [disabled]="existing"
+            [value]="item.userLogin"
+            [(ngModel)]="item.userLogin"
+          />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput type="password" name="password" id="password" [value]="item.password" [(ngModel)]="item.password" />
+          <input
+            matInput
+            type="password"
+            name="password"
+            id="password"
+            [value]="item.password"
+            required="true"
+            [(ngModel)]="item.password"
+          />
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -21,6 +38,8 @@
             type="text"
             name="personalEmail"
             id="personalEmail"
+            required="true"
+            [disabled]="existing"
             [value]="item.personalEmail"
             [(ngModel)]="item.personalEmail"
           />

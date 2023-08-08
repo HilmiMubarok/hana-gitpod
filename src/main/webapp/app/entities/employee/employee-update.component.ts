@@ -165,8 +165,14 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
   }
 
   submit() {
-    this.item.thruDate = this.thruDateTMP;
-    this.save();
+    if (!this.item.person.userLogin || !this.item.person.personalEmail) {
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'User ID or Email are empty' });
+    } else if (!this.item.person.password) {
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Passowrd is Empty' });
+    } else {
+      this.item.thruDate = this.thruDateTMP;
+      this.save();
+    }
   }
 
   get employee() {
