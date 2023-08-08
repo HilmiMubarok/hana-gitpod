@@ -44,23 +44,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <!-- <td width="1%" style="vertical-align: middle; text-align: center">
-                  <mat-form-field class="w-100" appearance="outline">
-                    <input
-                    matInput
-                    type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] | number: '1.0-0'"
-                    (ngModelChange)="
-                    creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] = numberInputChanged($event)
-                    "
-                    disabled
-                    />
-                  </mat-form-field>
-                </td> -->
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] | currency: ' ':'symbol':'1.0-0' }}
                   </div>
                 </div>
@@ -83,10 +69,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] | currency: ' ':'symbol':'1.0-0' }}
                   </div>
                 </div>
@@ -110,23 +95,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <!-- <td width="1%" style="vertical-align: middle; text-align: center">
-                  <mat-form-field class="w-100" appearance="outline">
-                    <input
-                    matInput
-                    type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] | number: '1.0-0'"
-                    (ngModelChange)="
-                    creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] = numberInputChanged($event)
-                    "
-                    disabled
-                    />
-                  </mat-form-field>
-                </td> -->
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{
                       creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] | currency: ' ':'symbol':'1.0-0'
                     }}
@@ -155,10 +126,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{
                       creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] +
                         creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | currency: ' ':'symbol':'1.0-0'
@@ -185,10 +155,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{
                       creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] +
                         creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | currency: ' ':'symbol':'1.0-0'
@@ -217,10 +186,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{
                       creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] +
                         creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | currency: ' ':'symbol':'1.0-0'
@@ -252,22 +220,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <!-- <mat-form-field class="w-100" appearance="outline">
-                  <input
-                    matInput
-                    type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
-                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
-                    (ngModelChange)="
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] = numberInputChanged($event)
-                    "
-                    disabled
-                  />
-                </mat-form-field> -->
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | currency: ' ':'symbol':'1.0-0' }}
                   </div>
                 </div>
@@ -289,10 +244,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | currency: ' ':'symbol':'1.0-0' }}
                   </div>
                 </div>
@@ -317,22 +271,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <!-- <mat-form-field class="w-100" appearance="outline">
-                  <input
-                    matInput
-                    type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
-                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
-                    (ngModelChange)="
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] = numberInputChanged($event)
-                    "
-                    disabled
-                  />
-                </mat-form-field> -->
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | currency: ' ':'symbol':'1.0-0' }}
                   </div>
                 </div>
@@ -361,22 +302,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <!-- <mat-form-field class="w-100" appearance="outline">
-                  <input
-                    matInput
-                    type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
-                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
-                    (ngModelChange)="
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] = numberInputChanged($event)
-                    "
-                    disabled
-                  />
-                </mat-form-field> -->
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{
                       creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | currency: ' ':'symbol':'1.0-0'
                     }}
@@ -399,10 +327,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{
                       creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | currency: ' ':'symbol':'1.0-0'
                     }}
@@ -430,22 +357,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <!-- <mat-form-field class="w-100" appearance="outline">
-                  <input
-                    matInput
-                    type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
-                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
-                    (ngModelChange)="
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] = numberInputChanged($event)
-                    "
-                    disabled
-                  />
-                </mat-form-field> -->
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{
                       creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | currency: ' ':'symbol':'1.0-0'
                     }}
@@ -472,10 +386,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] | currency: ' ':'symbol':'1.0-0' }}
                   </div>
                 </div>
@@ -498,10 +411,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] | currency: ' ':'symbol':'1.0-0' }}
                   </div>
                 </div>
@@ -526,10 +438,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] | currency: ' ':'symbol':'1.0-0' }}
                   </div>
                 </div>
@@ -556,10 +467,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center; border-bottom: none">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] }}
                   </div>
                 </div>
@@ -584,10 +494,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center; border-bottom: none">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] }}
                   </div>
                 </div>
@@ -612,10 +521,9 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td width="1%" style="vertical-align: middle; text-align: center; border-bottom: none">
-                <div class="fontsebled row">
-                  <div class="col-3">&nbsp;</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
+                <div class="col-md-12 row">
+                  <div class="col-md-3">:</div>
+                  <div class="col-md-9">
                     {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] }}
                   </div>
                 </div>

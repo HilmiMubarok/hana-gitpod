@@ -164,9 +164,11 @@ th:last-child {
   font-family: 'Poppins', sans-serif !important;
 }
 
-.button-styling {
+.button-styling:enabled {
+  color: white;
   background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 @-moz-document url-prefix() {
