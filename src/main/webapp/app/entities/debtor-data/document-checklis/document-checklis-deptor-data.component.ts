@@ -96,7 +96,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               );
               const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.partyCif.customerType);
               const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_BINDING');
-              const OtherDoc: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
+
               const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
               const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
               const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
@@ -104,7 +104,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               const result: IDocumentType[] = [
                 ...collateralData,
                 ...INDCORData,
-                ...OtherDoc,
+
                 ...PengikatKredit,
                 ...InvestorisData,
                 ...nonKeuanganData,
