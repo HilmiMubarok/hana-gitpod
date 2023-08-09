@@ -22,7 +22,6 @@ import lodash from 'lodash';
 export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges {
   public groupCollateraltotal: IGroupCollateralTotal[] = [];
   public listGroupCollateral: any;
-  public collateralPropertyGroupData: ICollateralProperty[] = [];
   public pacth: any;
   public view: boolean;
   public customPath: Boolean = false;
@@ -60,6 +59,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     static: false,
   })
   creditProposalCollateralInfoChecklistComponent: CreditProposalCollateralInfoChecklistComponent;
+  private _collateralPropertyGroupData: ICollateralProperty[];
   private _creditProposal: ICreditProposal;
   private _collateralProperty: ICollateralProperty[];
 
@@ -91,8 +91,16 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     this._collateralProperty = item;
   }
 
+  @Input()
+  get collateralPropertyGroupData() {
+    return this._collateralPropertyGroupData;
+  }
+  set collateralPropertyGroupData(item: ICollateralProperty[]) {
+    this._collateralPropertyGroupData = item;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['creditProposal']) {
+    if (changes['collateralPropertyGroupData']) {
       this.loadDataBy();
     }
   }
@@ -173,12 +181,9 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
               if (res.body) {
                 for (let i = 0; i < res.body.length; i++) {
                   if (res.body[i].id) {
-                    this.collateralPropertyService.queryFilterBy({ idCollateral: res.body[i].id, page: 0, size: 9999 }).subscribe(res2 => {
-                      this.collateralPropertyGroupData = [...this.collateralPropertyGroupData, ...res2.body];
-                      if (res.body.length - 1 === i) {
-                        this.generateForReport(res.body, this.listGroupCollateral[j]);
-                      }
-                    });
+                    if (res.body.length - 1 === i) {
+                      this.generateForReport(res.body, this.listGroupCollateral[j]);
+                    }
                   }
                 }
               }

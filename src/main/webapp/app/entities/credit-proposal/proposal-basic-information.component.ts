@@ -54,6 +54,7 @@ import { MasterProductParameterService } from '../master-parameter/master-produc
 import { TemplateService } from 'app/layouts/template/template.service';
 import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 import { CPMemoBandingRemarkComponent } from './memo-banding/remarks/cp-memo-banding-remark.component';
+import { PartyCifService } from '../party-cif/party-cif.service';
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
@@ -100,6 +101,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   })
   remaksComponent: RemarskComponent;
 
+  public listGroupCollateral: any;
+  public collateralPropertyGroupData: ICollateralProperty[] = [];
   public listLoanType: any;
   private collateralProperties: ICollateralProperty[] = [];
   private collateral: ICollateral[] = [];
@@ -158,6 +161,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public parentSubject: Subject<any> = new Subject();
 
   constructor(
+    private partyCifService: PartyCifService,
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
     protected activatedRoute: ActivatedRoute,
@@ -461,6 +465,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
+
+    this.loadDataBy();
   }
 
   public setSubmenu(event: Object): void {
@@ -1671,5 +1677,39 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
+  }
+
+  public loadDataBy(): void {
+    const cifNumber = this.creditProposal.customerNumber;
+    this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
+      this.listGroupCollateral = res.body;
+      this.getAllColGroup();
+    });
+  }
+
+  private getAllColGroup() {
+    return new Promise((resolve, reject) => {
+      if (this.listGroupCollateral.length > 0) {
+        for (let j = 0; j < this.listGroupCollateral.length; j++) {
+          this.collateralService
+            .queryFilterBy({
+              idParty: this.listGroupCollateral[j].partyId,
+              isActive: true,
+            })
+            .subscribe(res => {
+              if (res.body) {
+                for (let i = 0; i < res.body.length; i++) {
+                  if (res.body[i].id) {
+                    this.collateralPropertyService.queryFilterBy({ idCollateral: res.body[i].id, page: 0, size: 9999 }).subscribe(res2 => {
+                      this.collateralPropertyGroupData = [...this.collateralPropertyGroupData, ...res2.body];
+                    });
+                  }
+                }
+              }
+              resolve(this.collateralPropertyGroupData);
+            });
+        }
+      }
+    });
   }
 }
