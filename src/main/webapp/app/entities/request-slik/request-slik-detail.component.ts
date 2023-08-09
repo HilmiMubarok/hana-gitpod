@@ -16,7 +16,7 @@ import { MessageService } from 'primeng/api';
 import { PartySlikService } from '../party-slik/party-slik.service';
 import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { StorageService } from '../storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
 import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
@@ -30,6 +30,7 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 import { RequestSlikChecklistService } from './services/request-slik-checklist.service';
 import { RequestSlikStatus } from './enums/request-slik-status.enum';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { RequestSlikVerifyService } from './services/request-slik-verify.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -156,6 +157,7 @@ export class RequestSlikDetailComponent implements OnInit {
     protected requestSlikValidateService: RequestSlikValidateService,
     protected partyCifService: PartyCifService,
     protected requestSlikChecklistService: RequestSlikChecklistService,
+    protected requestSlikVerifyService: RequestSlikVerifyService,
     protected templateService: TemplateService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
@@ -867,6 +869,38 @@ export class RequestSlikDetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.previousState();
+      }
+    });
+  }
+
+  submitRequestSlik(): void {
+    // Show dialog confirmation when there are some data that has not been retrieved from OJK
+    this.requestSlikVerifyService.isAllDataRetrieved(this.requestSlikId).subscribe(res => {
+      if (!res && this.requestSlik.status === this.reqSlikStatus.VERIFY) {
+        this.openConfirmationDialog();
+      } else {
+        this.openSubmitDialog('submit');
+      }
+    });
+  }
+
+  openConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        message: 'There are some data that has not been retrieved from OJK, are you sure you want to submit?',
+        buttonText: {
+          ok: 'Yes',
+          cancel: 'No',
+        },
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.openSubmitDialog('submit');
+      } else {
+        console.log('No');
       }
     });
   }
