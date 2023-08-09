@@ -1,28 +1,198 @@
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CashPositionService } from 'app/entities/cash-position/cash-position.service';
 import { ILoanApplication, LoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
+import { IPosition } from 'app/entities/position/position.model';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { POSITION_TYPE, RELATION_TYPE } from 'app/shared/constants/base.constants';
+import { STATUS } from 'app/shared/constants/status.constants';
+import lodash from 'lodash';
 import { firstValueFrom } from 'rxjs';
+import { CorrectionApplication, ICorrectionApplication } from './correction-application.model';
+import { CorrectionApplicationService } from './correction-application.service';
 
 @Component({
   selector: 'jhi-correction-application-edit',
   templateUrl: './correction-application-edit.component.html',
   styleUrls: ['./correction-application.scss'],
 })
-export class CorrectionApplicationEditComponent implements OnInit {
+export class CorrectionApplicationEditComponent extends AbstractEntityMaterialComponent<IPosition> implements OnInit {
+  public displayColumns: string[] = ['no', 'internal', 'name', 'position', 'select'];
   private idApplication: number;
   public loanApplication: ILoanApplication = new LoanApplication();
-  constructor(private loanApplicationService: LoanApplicationService, private route: ActivatedRoute) {
+  constructor(
+    private loanApplicationService: LoanApplicationService,
+    private route: ActivatedRoute,
+    private _snackbar: MatSnackBar,
+    private cashPositionService: CashPositionService,
+    private router: Router,
+    private correctionApplicationService: CorrectionApplicationService
+  ) {
+    super(_snackbar, loanApplicationService);
+    this.page = 0;
+    this.itemsPerPage = 10;
+    this.loading = true;
+    this.predicate = 'id';
+    this.entityKeyName = 'id';
     this.route.paramMap.subscribe(params => {
       this.idApplication = parseInt(params.get('id'), 10);
     });
   }
 
   ngOnInit(): void {
-    this.getById();
+    this.getById().then(() => {
+      this.getPositions();
+    });
   }
 
-  public async getById() {
+  public async getById(): Promise<void> {
     this.loanApplication = (await firstValueFrom(this.loanApplicationService.find(this.idApplication))).body;
+  }
+
+  private async getPositions(): Promise<void> {
+    const statusId: string = this.loanApplication.statusId;
+
+    let param: object = {};
+    param = {
+      page: this.page,
+      size: this.itemsPerPage,
+      sort: ['id', 'desc'],
+    };
+
+    switch (statusId) {
+      case STATUS.CP_ASSIGNMENT: {
+        param['active'] = true;
+        const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
+        param['idParty'] = dataAssignToCRO['partyId'];
+        param['idPositionType'] = POSITION_TYPE.CRO;
+        break;
+      }
+      case STATUS.CP_CHECKER: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CRC;
+        break;
+      }
+      case STATUS.CP_LOAN_APPROVAL: {
+        param['active'] = true;
+        param['relationType'] = this.loanApplication.approvalLc;
+        break;
+      }
+      case STATUS.CP_LOAN_COMMITTEE: {
+        param['active'] = true;
+        param['relationType'] = this.loanApplication.approvalLc;
+        break;
+      }
+      case STATUS.CP_DAR_FINAL: {
+        param['active'] = true;
+        const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
+        param['idParty'] = dataAssignToCRO['partyId'];
+        param['idPositionType'] = POSITION_TYPE.CRO;
+        break;
+      }
+      case STATUS.CP_DAR_CHECKER: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.DAR;
+        param['idPositionType'] = POSITION_TYPE.CRC + ',' + POSITION_TYPE.HCR1 + ',' + POSITION_TYPE.HCR2;
+        break;
+      }
+      case STATUS.LA_DAR_NOTIF: {
+        param['active'] = true;
+        const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
+        param['idParty'] = dataAssignToCRO['partyId'];
+        param['idPositionType'] = POSITION_TYPE.CRO;
+        break;
+      }
+      case STATUS.CP_CC_ANALYST: {
+        param['active'] = true;
+        const dataAssignToCCAdmin: object = JSON.parse(this.loanApplication.attributes['dataAssignToCCAdmin']);
+        param['idParty'] = dataAssignToCCAdmin['partyId'];
+        param['idPositionType'] = POSITION_TYPE.CC_ANALYST;
+        break;
+      }
+      case STATUS.OL_ASSIGNED: {
+        param['active'] = true;
+        const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
+        param['idParty'] = dataAssignToLegalOfficer['partyId'];
+        param['idPositionType'] = POSITION_TYPE.LEGAL_OFFICER;
+        param['code'] = 'LEGAL_OFFICER';
+        break;
+      }
+      default: {
+        param = {};
+        break;
+      }
+    }
+
+    const resp: HttpResponse<IPosition[]> = await firstValueFrom(this.cashPositionService.filterBy(param));
+    this.initDataForMatTable(resp, resp.headers);
+  }
+
+  private validate(loanApplication: ILoanApplication, positions: IPosition[]): void {
+    const statusId: string = loanApplication.statusId;
+    switch (statusId) {
+      case STATUS.CP_DAR_CHECKER: {
+        const filterSelectedPositions: IPosition[] = lodash.filter(positions, function (o) {
+          return o['checked'] === true;
+        });
+
+        let isCRC: boolean;
+        let isHCR1: boolean;
+        let isHCR2: boolean;
+        isHCR1 = false;
+        isHCR2 = false;
+        isCRC = false;
+
+        for (let i = 0; i < filterSelectedPositions.length; i++) {
+          if (!isCRC && filterSelectedPositions[i].positionTypeId === POSITION_TYPE.CRC) {
+            isCRC = true;
+          }
+
+          if (!isHCR1 && filterSelectedPositions[i].positionTypeId === POSITION_TYPE.HCR1) {
+            isHCR1 = true;
+          }
+
+          if (!isHCR2 && filterSelectedPositions[i].positionTypeId === POSITION_TYPE.HCR2) {
+            isHCR2 = true;
+          }
+        }
+
+        if (!isCRC || !isHCR1 || !isHCR2) {
+          throw new Error('Please check selected person position requirement');
+        }
+
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
+  public save(data: MatTableDataSource<IPosition>): void {
+    try {
+      this.validate(this.loanApplication, data.filteredData);
+      const filterSelectedPositions: IPosition[] = lodash.filter(data.filteredData, function (o) {
+        return o['checked'] === true;
+      });
+
+      const correctionAppraisal: ICorrectionApplication = new CorrectionApplication();
+      correctionAppraisal.applicationId = this.idApplication;
+      correctionAppraisal.selectedPosition = filterSelectedPositions;
+
+      this.correctionApplicationService.create(correctionAppraisal).subscribe({
+        next: res => {
+          this.router.navigate(['/options/correction-application']);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.showErrorWithSnackBarMaterial(err.error['detail']);
+        },
+      });
+    } catch (error: any) {
+      this.showErrorWithSnackBarMaterial(error);
+    }
   }
 }
