@@ -18,7 +18,7 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'jhi-document-request-slik',
   templateUrl: './document-request-slik.component.html',
-  styleUrls: ['./document-request-slik.styles.scss'],
+  styleUrls: ['./document-request-slik.styles.scss', '../../party-cif/party-cif.style.scss'],
 })
 export class DocumentRequestSlikComponent {
   reqSlikStatus = RequestSlikStatus;

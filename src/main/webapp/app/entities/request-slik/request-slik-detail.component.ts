@@ -16,7 +16,7 @@ import { MessageService } from 'primeng/api';
 import { PartySlikService } from '../party-slik/party-slik.service';
 import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { StorageService } from '../storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
 import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
@@ -30,11 +30,12 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 import { RequestSlikChecklistService } from './services/request-slik-checklist.service';
 import { RequestSlikStatus } from './enums/request-slik-status.enum';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { RequestSlikVerifyService } from './services/request-slik-verify.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
   templateUrl: './request-slik-detail.component.html',
-  styleUrls: ['../credit-proposal/credit-proposal-list.css'],
+  styleUrls: ['../party-cif/party-cif.style.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class RequestSlikDetailComponent implements OnInit {
@@ -54,36 +55,18 @@ export class RequestSlikDetailComponent implements OnInit {
    */
   checkDataChecklist;
   getAllChecklistsAndPush() {
-    console.log('all checklists', {
-      status: this.requestSlik.status,
-      reqreffid: this.requestSlik.id,
-    });
     if (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM) {
       this.requestSlikChecklistService.getAllChecklistsByRequestSlikId(this.requestSlik.id).subscribe(res => {
         this.checkDataChecklist = res;
-        console.log('all checklists: ', this.checkDataChecklist.data);
         this.checklists = this.checkDataChecklist.length === 0 && this.checkDataChecklist;
-        console.log('Checklists', this.checklists);
       });
     }
   }
 
   getAllChecklistData(data) {
-    console.log('all checklist from child', { data, checklists: this.checklists });
-    // this.checklists.push(data);
-
     data.forEach(element => {
-      // !this.containsObject(element, this.checkDataChecklist) && this.checkDataChecklist.push(element);
       !this.containsObject(element, this.requestSlikChecklistService.defaultChecklists.getValue()) &&
         this.requestSlikChecklistService.updateDefaultChecklists(element);
-      // !this.containsObject(element, this.checklists) && this.checklists.push(element);
-    });
-    // this.requestSlikChecklistService.updateDefaultChecklists(data);
-    console.log('all checklist from child cheeckdaadsdalsdj', this.requestSlikChecklistService.defaultChecklists.getValue());
-
-    console.log('AFTER VIEW INIT', {
-      details: this.details,
-      default: this.requestSlikChecklistService.removeDuplicate(this.requestSlikChecklistService.defaultChecklists.getValue()),
     });
 
     if (this.details.length === 0 && !this.isLoading) {
@@ -98,15 +81,12 @@ export class RequestSlikDetailComponent implements OnInit {
       debiturChecklist.idParty = this.partyCif.partyId;
       debiturChecklist.idRequestSlik = this.requestSlikId;
       this.checklists.push(debiturChecklist);
-
-      console.log('AFTER VIEW INIT FINAL', this.checklists);
     } else {
       this.checklists = this.details;
     }
   }
 
   getFinalOcrData() {
-    console.log('evv final data', this.ocrDatas);
     const splicedData = [];
     this.ocrDatas.forEach(data => {
       if (data.person !== null) {
@@ -126,7 +106,6 @@ export class RequestSlikDetailComponent implements OnInit {
     let finalOcr = [];
 
     this.ocrDatas.forEach(ocrData => {
-      console.log('evv ocr data', ocrData.dob);
       finalOcr = [
         ...finalOcr,
         {
@@ -145,7 +124,6 @@ export class RequestSlikDetailComponent implements OnInit {
       ];
     });
 
-    console.log('evv spliced', { datas: this.ocrDatas, final: finalOcr });
     this.ocrData = finalOcr;
     return finalOcr;
   }
@@ -179,6 +157,7 @@ export class RequestSlikDetailComponent implements OnInit {
     protected requestSlikValidateService: RequestSlikValidateService,
     protected partyCifService: PartyCifService,
     protected requestSlikChecklistService: RequestSlikChecklistService,
+    protected requestSlikVerifyService: RequestSlikVerifyService,
     protected templateService: TemplateService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
@@ -187,7 +166,6 @@ export class RequestSlikDetailComponent implements OnInit {
     this.getAccountDetail();
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.position = newPos.positionTypeId;
-      console.log('new pos', this.position);
     });
   }
 
@@ -256,7 +234,6 @@ export class RequestSlikDetailComponent implements OnInit {
 
   ocrDatas = [];
   getOcrData(ev) {
-    console.log('evv', ev);
     ev.body.map(data => this.ocrDatas.push(data));
   }
 
@@ -266,7 +243,6 @@ export class RequestSlikDetailComponent implements OnInit {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
       next: res => {
         this.details = res.details;
-        console.log('RESSSSSSS', res);
         this.checklists = res.details.map(cheklist => {
           const obj = {
             idParty: cheklist.idParty,
@@ -295,7 +271,6 @@ export class RequestSlikDetailComponent implements OnInit {
             });
           }
         });
-        console.log('RES DETAIL', { res, segment: this.segment });
       },
       complete: () => {
         this.requestSlikValidateService.setPurposeType(this.requestSlik.purposeCode);
@@ -356,7 +331,6 @@ export class RequestSlikDetailComponent implements OnInit {
               this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
                 this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
                   this.rmSegment = res6;
-                  console.log('rmSegment', this.rmSegment);
                 });
               });
             }
@@ -375,14 +349,12 @@ export class RequestSlikDetailComponent implements OnInit {
   getLovPurposeType() {
     this.lovAndStatus.getLovProposeCode().subscribe(res => {
       this.purposeType = res;
-      console.log('Asdasd', this.purposeType);
     });
   }
 
   ocrData = [];
   submit() {
     this.getFinalOcrData();
-    console.log(this.requestSlikChecklistService.checklistOcrs.getValue());
     this.ocrData = [
       ...this.ocrData,
       {
@@ -406,8 +378,6 @@ export class RequestSlikDetailComponent implements OnInit {
       },
     ];
 
-    console.log('dddd newocr', this.ocrData);
-
     const data = {
       id: this.requestSlikId,
       status: this.checkStatus(this.requestSlik.status).status,
@@ -422,14 +392,12 @@ export class RequestSlikDetailComponent implements OnInit {
     this.requestSlikService.onSubmit(data).subscribe({
       // eslint-disable-next-line object-shorthand
       next: res => {
-        console.log('RES', res);
         data.status === this.reqSlikStatus.CHECKING && this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
         this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
         this.router.navigate(['/request-slik']);
       },
       // eslint-disable-next-line object-shorthand
       error: err => {
-        console.log(err);
         if (
           data.status === this.reqSlikStatus.APPROVAL_BU ||
           data.status === this.reqSlikStatus.APPROVAL_SLIK ||
@@ -464,7 +432,6 @@ export class RequestSlikDetailComponent implements OnInit {
   setPurposeCode(ev) {
     this.requestSlik.purposeCode = ev.value;
     this.requestSlikValidateService.setPurposeType(ev.value);
-    console.log(this.requestSlik);
   }
 
   isSaved: Boolean = false;
@@ -478,7 +445,6 @@ export class RequestSlikDetailComponent implements OnInit {
   cancel() {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'CANCEL').subscribe(res => {
-      console.log(res);
       this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
       this.router.navigate(['/request-slik']);
     });
@@ -702,8 +668,6 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   private mapperIPDFSlikToPartySlik(item: any): any {
-    console.log('mapperIPDFSlikToPartySlik', item);
-
     const temp = [];
     item.forEach(element => {
       const partySlik: IPartySlik = new PartySlik();
@@ -786,10 +750,6 @@ export class RequestSlikDetailComponent implements OnInit {
   protected getChecklistManagementData(ev) {
     if (ev.mode === 'add') {
       !this.containsObject(ev.data, this.checklists) && this.checklists.push(ev.data);
-      console.log('this checklists', {
-        data: ev.data,
-        che: this.checklists,
-      });
     } else {
       this.containsObject(ev.data, this.checklists) && _.remove(this.checklists, { idParty: ev.data.idParty });
     }
@@ -864,7 +824,8 @@ export class RequestSlikDetailComponent implements OnInit {
   public openSubmitDialog(task): void {
     if (
       !this.requestSlikValidateService.validate() &&
-      (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM)
+      (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM) &&
+      task !== 'cancel'
     ) {
       return this.requestSlikValidateService.messages.getValue().forEach(message => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
@@ -912,6 +873,38 @@ export class RequestSlikDetailComponent implements OnInit {
     });
   }
 
+  submitRequestSlik(): void {
+    // Show dialog confirmation when there are some data that has not been retrieved from OJK
+    this.requestSlikVerifyService.isAllDataRetrieved(this.requestSlikId).subscribe(res => {
+      if (!res && this.requestSlik.status === this.reqSlikStatus.VERIFY) {
+        this.openConfirmationDialog();
+      } else {
+        this.openSubmitDialog('submit');
+      }
+    });
+  }
+
+  openConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        message: 'There are some data that has not been retrieved from OJK, are you sure you want to submit?',
+        buttonText: {
+          ok: 'Yes',
+          cancel: 'No',
+        },
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.openSubmitDialog('submit');
+      } else {
+        console.log('No');
+      }
+    });
+  }
+
   verifyChecklistDatas;
   getAllChecklistVerifyData(el) {
     this.tempData = [];
@@ -946,7 +939,5 @@ export class RequestSlikDetailComponent implements OnInit {
     finalTempData = _.flattenDeep(finalTempData);
 
     this.verifyChecklistDatas = finalTempData;
-
-    console.log('FINAL DATA TO PUSH', this.verifyChecklistDatas);
   }
 }

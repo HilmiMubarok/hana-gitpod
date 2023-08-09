@@ -34,8 +34,6 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
   ngOnInit(): void {
     const data = this.creditProposal.attributes['bankAnalyst'];
     data.length > 0 ? this.getTotal(data) : null;
-
-    console.log('bankAnalyst', this.creditProposal.attributes['bankAnalyst']);
   }
   public getTotal(data) {
     data.filter(item => item.convert > 0).map(item => (this.totalData = [...this.totalData, item.average_other]));
@@ -432,7 +430,7 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
       const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
       for (let i = 0; i < bankAnalyst.length; i++) {
-        result = result + this.getBalanceAverage(bankAnalyst[i]);
+        result = result + bankAnalyst[i].average.balance;
       }
     }
 

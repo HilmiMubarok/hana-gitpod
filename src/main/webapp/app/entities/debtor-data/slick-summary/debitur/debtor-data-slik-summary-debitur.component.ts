@@ -323,10 +323,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     totalLimit = 0;
     if (partySlik) {
       for (let i = 0; i < partySlik.length; i++) {
-        const regex = /[.,\s]/g;
-        if (partySlik[i].plafond) {
-          totalLimit = totalLimit + Number(partySlik[i].limit);
-        }
+        totalLimit = totalLimit + Number(partySlik[i].limit);
       }
     }
     return totalLimit;

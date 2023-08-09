@@ -9,6 +9,9 @@ import { PositionTypeService } from 'app/entities/position-type/position-type.se
 import { IPositionType } from 'app/entities/position-type/position-type.model';
 import { firstValueFrom } from 'rxjs';
 import lodash from 'lodash';
+import { IStatusItem } from 'app/entities/status-item/status-item.model';
+import { CashStatusItemService } from 'app/entities/cash-status-item/cash-status-item.service';
+import { STATUS_TYPE } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-correction-appraisal-info',
@@ -27,12 +30,15 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
   public currentSearch: string;
   public positionTypes: IPositionType[];
   public selectedFilterPositionTypes: string[];
+  public selectedFilterStatusItems: string[];
+  public statusItems: IStatusItem[];
 
   constructor(
     private cashSurveyAppraisalsService: CashSurveyAppraisalsService,
     private _snackbar: MatSnackBar,
     private positionTypeService: PositionTypeService,
     private clipboard: Clipboard,
+    private cashStatusItemService: CashStatusItemService,
     public dialog: MatDialog
   ) {
     super(_snackbar, cashSurveyAppraisalsService);
@@ -43,20 +49,35 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.selectedFilterPositionTypes = [];
+    this.selectedFilterStatusItems = [];
   }
 
   ngOnInit(): void {
-    this.loadAll(this.currentSearch);
+    this.items = null;
+    this.loading = false;
     this.loadPositionType();
+    this.loadStatusItem();
   }
 
   private async loadPositionType() {
     this.positionTypes = (await firstValueFrom(this.positionTypeService.query({ page: 0, size: 9999 }))).body;
   }
 
+  private async loadStatusItem() {
+    this.statusItems = (
+      await firstValueFrom(
+        this.cashStatusItemService.filterBy({
+          page: 0,
+          size: 9999,
+          idStatusType: STATUS_TYPE.COLLATERALAPPRAISAL + ',' + STATUS_TYPE.COLLATERAL_APPRAISAL,
+        })
+      )
+    ).body;
+  }
+
   protected postLoadDataLazy(): void {
     this.loading = true;
-    this.loadAll(this.currentSearch);
+    this.loadAll(this.currentSearch, this.selectedFilterPositionTypes, this.selectedFilterStatusItems);
   }
 
   public search(): void {
@@ -75,13 +96,13 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
     this.items = null;
     this.loading = true;
     this.currentSearch = '';
-    this.loadAll(this.currentSearch);
+    this.loadAll(this.currentSearch, this.selectedFilterPositionTypes, this.selectedFilterStatusItems);
   }
 
   public filter() {
     this.items = null;
     this.loading = true;
-    this.loadAll(this.currentSearch, this.selectedFilterPositionTypes);
+    this.loadAll(this.currentSearch, this.selectedFilterPositionTypes, this.selectedFilterStatusItems);
   }
 
   public showSelectedPositions(id: string): string {
@@ -94,9 +115,20 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
     return '';
   }
 
-  public loadAll(text: string = null, excludeStatus: string[] = null): void {
-    let _excludeStatuses: string[] = [];
-    if (excludeStatus && excludeStatus.length > 0) {
+  public showSelectedStatus(id: string): string {
+    if (id) {
+      return lodash.find(this.statusItems, function (o: IStatusItem) {
+        return o.id === id;
+      }).description;
+    }
+
+    return '';
+  }
+
+  public loadAll(text: string = null, roleIds: string[] = null, appraisalStatuses: string[] = null): void {
+    let _roleIds: string[] = [];
+    let _appraisalStatuses: string[] = [];
+    if (roleIds && roleIds.length > 0) {
       const _selectedPositionTypes: string[] = this.selectedFilterPositionTypes;
       const _positionTypes = this.positionTypes;
       const filtered: IPositionType[] = lodash.filter(_positionTypes, function (o) {
@@ -104,7 +136,22 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
       });
 
       if (filtered.length > 0) {
-        _excludeStatuses = lodash.map(filtered, function (o) {
+        _roleIds = lodash.map(filtered, function (o) {
+          return o.id;
+        });
+      }
+    }
+
+    // collect idstatusitem
+    if (appraisalStatuses && appraisalStatuses.length > 0) {
+      const _selectedStatusItem: string[] = this.selectedFilterStatusItems;
+      const _statusItems = this.statusItems;
+      const filtered: IStatusItem[] = lodash.filter(_statusItems, function (o) {
+        return lodash.includes(_selectedStatusItem, o.id);
+      });
+
+      if (filtered.length > 0) {
+        _appraisalStatuses = lodash.map(filtered, function (o) {
           return o.id;
         });
       }
@@ -114,9 +161,16 @@ export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponen
       page: this.page,
       size: this.itemsPerPage,
       query: text,
-      excludeAppraisalRoleIds: _excludeStatuses,
       sort: this.sortData(),
     };
+
+    if (_roleIds.length > 0) {
+      param['idRoles'] = _roleIds;
+    }
+
+    if (_appraisalStatuses.length > 0) {
+      param['idStatusItems'] = _appraisalStatuses;
+    }
 
     this.cashSurveyAppraisalsService.getIncorrectData(param).subscribe(res => {
       this.initDataForMatTable(res, res.headers);

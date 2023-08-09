@@ -1,5 +1,10 @@
 import { IEJOptionNode, IOptionNode } from '../model/option-node.model';
 
+export enum RELATION_TYPE {
+  DAR = 'DAR',
+  COMPLIANCE = 'COMPLIANCE',
+}
+
 export enum PARTY_TYPE {
   PERSON = 'PERSON',
   PARTYGROUP = 'PARTY_GROUP',
@@ -144,6 +149,12 @@ export enum POSITION_TYPE {
   SURVEYOR = 'SURVEYOR',
   APR_DEPT_HEAD = 'APR_DEPT_HEAD',
   APR_DH = 'APR_DH',
+  CRC = 'CRC',
+  HCR1 = 'HCR1',
+  HCR2 = 'HCR2',
+  CC_ANALYST = 'CC_ANALYST',
+  LEGAL_OFFICER = 'LEGAL_OFFICER',
+  LEGALOFFICER_OUTREGION = 'LEGALOFFICER_OUTREGION',
 }
 
 export enum DOCUMENT_TYPE_COLLATERAL_VEHICLE {

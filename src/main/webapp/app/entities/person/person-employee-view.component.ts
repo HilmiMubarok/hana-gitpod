@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,7 +29,8 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPT
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
 })
-export class PersonEmployeeViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges, OnInit {
+export class PersonEmployeeViewComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges {
+  public existing = false;
   constructor(
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
@@ -43,15 +44,19 @@ export class PersonEmployeeViewComponent extends AbstractEntityBaseViewComponent
     public account: AccountService
   ) {
     super(personService, messageService, elementRef, dataUtils, account, eventManager);
+    this.activatedRoute.params.subscribe(event => {
+      const newOrExisting = event;
+      if (Object.keys(newOrExisting).length !== 0) {
+        this.existing = true;
+      } else {
+        this.existing = false;
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['item']) {
-      throw new Error('Method not implemented.');
+      // throw new Error('Method not implemented.');
     }
-  }
-
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 }
