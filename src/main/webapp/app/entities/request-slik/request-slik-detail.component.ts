@@ -822,7 +822,8 @@ export class RequestSlikDetailComponent implements OnInit {
   public openSubmitDialog(task): void {
     if (
       !this.requestSlikValidateService.validate() &&
-      (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM)
+      (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM) &&
+      task !== 'cancel'
     ) {
       return this.requestSlikValidateService.messages.getValue().forEach(message => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
