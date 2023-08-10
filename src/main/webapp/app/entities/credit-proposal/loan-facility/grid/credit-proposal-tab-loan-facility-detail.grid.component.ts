@@ -143,6 +143,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
   }
 
+  public getdataNull(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
+
   public getCurrency(element: IApplicationProduct) {
     if (element.provisionFeeType === 'Amount IDR') {
       return 'IDR';
