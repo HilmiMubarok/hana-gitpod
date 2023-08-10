@@ -216,6 +216,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+		if (res.applicationProduct.maturityDate === null) {
+          res.applicationProduct.maturityDate = undefined;
+        }
+
         this.applicationProduct = res.applicationProduct;
         this.applicationProduct.maturityDate = this.setDate(res);
         this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
