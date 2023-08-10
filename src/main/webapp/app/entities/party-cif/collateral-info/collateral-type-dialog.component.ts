@@ -112,9 +112,9 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.loadCollateralDetailOption().then(resolve => {
-      this.setCollateralDetail();
-    });
+    // this.loadCollateralDetailOption().then(resolve => {
+    //   this.setCollateralDetail();
+    // });
     this.loadCollateralType();
     this.loadCollateralGrading();
     this.cekData();
@@ -181,23 +181,23 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       });
   }
 
-  private setCollateralDetail(): void {
-    if (this.collateral.id) {
-      const collateral = this.collateral;
-      this.collateralCode = lodash.find(this.collateralDetails, function (o) {
-        return o['id'] === collateral.collateralTypeId;
-      })['child'];
-    }
-  }
+  // private setCollateralDetail(): void {
+  //   if (this.collateral.id) {
+  //     const collateral = this.collateral;
+  //     this.collateralCode = lodash.find(this.collateralDetails, function (o) {
+  //       return o['id'] === collateral.collateralTypeId;
+  //     })['child'];
+  //   }
+  // }
 
-  private loadCollateralDetailOption(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.cashCollateralService.loadDetailType().subscribe(res => {
-        this.collateralDetails = res.body;
-        resolve();
-      });
-    });
-  }
+  // private loadCollateralDetailOption(): Promise<void> {
+  //   return new Promise<void>((resolve, reject) => {
+  //     this.cashCollateralService.loadDetailType().subscribe(res => {
+  //       this.collateralDetails = res.body;
+  //       resolve();
+  //     });
+  //   });
+  // }
 
   private loadCollateralType(): void {
     this.collateralTypeService.query().subscribe(res => {
