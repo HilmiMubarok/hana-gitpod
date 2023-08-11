@@ -157,9 +157,15 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
         break;
       }
       case STATUS.APPROVAL_TL: {
-        param['internalDirection'] = DIRECTION.SUPERORDINATE;
-        param['idPositionType'] = POSITION_TYPE.TL;
-        param['idInternal'] = this.surveyAppraisal.surveyorPositionInternalId;
+        if (this.surveyAppraisal.apprOfficer.toLowerCase() === 'internal') {
+          param['internalDirection'] = DIRECTION.SUPERORDINATE;
+          param['idPositionType'] = POSITION_TYPE.TL;
+          param['idInternal'] = this.surveyAppraisal.surveyorPositionInternalId;
+        } else if (this.surveyAppraisal.apprOfficer.toLowerCase() === 'external') {
+          param['active'] = true;
+          param['idPositionType'] = POSITION_TYPE.TL;
+          param['idParty'] = this.surveyAppraisal.teamLeadPersonId;
+        }
         break;
       }
       case STATUS.RETURN_TO_OFFICER: {
