@@ -841,7 +841,7 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
   },
   {
     id: 'slik-checking',
-    text: 'slik checking',
+    text: 'SLIK checking',
   },
   {
     id: 'bank-account-analyst',
@@ -908,7 +908,7 @@ export const CP_APPROVAL_MENU: object[] = [
       },
       {
         id: 'slik-checking',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -981,7 +981,7 @@ export const CP_APPROVAL_MENU_BELOW: object[] = [
       },
       {
         id: 'slik-checking',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -1046,7 +1046,7 @@ export const CP_APPROVAL_MENU_BTB: object[] = [
       },
       {
         id: 'slik-checking',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -1112,7 +1112,7 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
   },
   {
     id: 'slik-checking',
-    text: 'slik checking',
+    text: 'SLIK checking',
   },
   {
     id: 'bank-account-analyst',
@@ -1179,7 +1179,7 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
   },
   {
     id: 'slik-checking',
-    text: 'slik checking',
+    text: 'SLIK checking',
   },
   {
     id: 'bank-account-analyst',
@@ -1254,7 +1254,7 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
       },
       {
         id: 'slik-summary',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -1343,7 +1343,7 @@ export const SUBMENU_LOAN_ANALYS_BELOW_AND_BTB: object[] = [
       },
       {
         id: 'slik-summary',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -1436,7 +1436,7 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY: object[] = [
       },
       {
         id: 'slik-checking',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -1509,7 +1509,7 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB: object[] = [
       },
       {
         id: 'slik-checking',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -1583,7 +1583,7 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BTB: object[] = [
       },
       {
         id: 'slik-summary',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -1656,7 +1656,7 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW: object[] = [
       },
       {
         id: 'slik-checking',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'bank-account-analyst',
@@ -1774,7 +1774,7 @@ export const SUBMENU_LOAN_DAR: object[] = [
       },
       {
         id: 'slik-summary',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'management-information',
@@ -1906,7 +1906,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE: object[] = [
       },
       {
         id: 'slik-checking',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'management-information',
@@ -2023,7 +2023,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE: object[] = [
       },
       {
         id: 'slik-checking',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'management-information',
@@ -2116,7 +2116,7 @@ export const SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE: object[] = [
       },
       {
         id: 'slik-summary',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'management-information',
@@ -2237,7 +2237,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_BELOW: object[] = [
       },
       {
         id: 'slik-summary',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'management-information',
@@ -2330,7 +2330,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE: object[] = [
       },
       {
         id: 'slik-summary',
-        text: 'slik checking',
+        text: 'SLIK checking',
       },
       {
         id: 'management-information',
