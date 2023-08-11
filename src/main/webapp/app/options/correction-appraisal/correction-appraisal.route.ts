@@ -10,11 +10,17 @@ export const correctionAppraisalRoute: Routes = [
   {
     path: '',
     component: CorrectionAppraisalComponent,
+    data: {
+      pageTitle: 'Correction Data Appraisal',
+    },
     canActivate: [UserRouteAccessService, RoleAdminAccessService],
   },
   {
     path: ':id/edit',
     component: CorrectionAppraisalEditComponent,
+    data: {
+      pageTitle: 'Correction Data Appraisal',
+    },
     canActivate: [UserRouteAccessService, RoleAdminAccessService],
   },
 ];

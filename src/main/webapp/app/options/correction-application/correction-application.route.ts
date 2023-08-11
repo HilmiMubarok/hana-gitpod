@@ -11,10 +11,16 @@ export const correctionApplicationRoute: Routes = [
     path: '',
     component: CorrectionApplicationComponent,
     canActivate: [UserRouteAccessService, RoleAdminAccessService],
+    data: {
+      pageTitle: 'Correction Data Application',
+    },
   },
   {
     path: ':id/edit',
     component: CorrectionApplicationEditComponent,
+    data: {
+      pageTitle: 'Correction Data Application',
+    },
     canActivate: [UserRouteAccessService, RoleAdminAccessService],
   },
 ];

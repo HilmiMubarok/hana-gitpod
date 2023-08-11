@@ -47,6 +47,7 @@ export interface ILoanApplication {
   bookingBranchName?: string;
   approvalLc?: string;
   approvalLcDefault?: string;
+  ownerPosition?: IPosition;
 }
 
 export class LoanApplication implements ILoanApplication {
@@ -84,7 +85,8 @@ export class LoanApplication implements ILoanApplication {
     public approvalLc?: string,
     public prospectPerson?: IPerson,
     public prospectOrganization?: IPartyGroup,
-    public approvalLcDefault?: string
+    public approvalLcDefault?: string,
+    public ownerPosition?: IPosition
   ) {
     this.products = new Array<IApplicationProduct>();
     this.prospectPerson = new Person();

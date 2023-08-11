@@ -8,7 +8,7 @@ import { ILoanApplication, LoanApplication } from 'app/entities/loan-application
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { IPosition } from 'app/entities/position/position.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { POSITION_TYPE, RELATION_TYPE } from 'app/shared/constants/base.constants';
+import { DIRECTION, POSITION_TYPE, RELATION_TYPE } from 'app/shared/constants/base.constants';
 import { STATUS } from 'app/shared/constants/status.constants';
 import lodash from 'lodash';
 import { firstValueFrom } from 'rxjs';
@@ -119,6 +119,114 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         param['idParty'] = dataAssignToLegalOfficer['partyId'];
         param['idPositionType'] = POSITION_TYPE.LEGAL_OFFICER;
         param['code'] = 'LEGAL_OFFICER';
+        break;
+      }
+      case STATUS.CP_APPROVAL_BM: {
+        param['active'] = true;
+        param['idInternal'] = this.loanApplication.ownerPosition.internalId;
+        param['idPositionType'] = POSITION_TYPE.BM;
+        break;
+      }
+      case STATUS.CP_APPROVAL_DEPTHEAD: {
+        param['hierarchyInternal'] = true;
+        param['hierarchyLevel'] = 2;
+        param['hierarchyDirection'] = DIRECTION.SUPERORDINATE;
+        param['idPositionType'] = POSITION_TYPE.DEPT_HEAD;
+        param['idInternal'] = this.loanApplication.ownerPosition.internalId;
+        break;
+      }
+      case STATUS.CP_RETURN_TO_RM: {
+        param['active'] = true;
+        param['idParty'] = this.loanApplication.ownerPosition.partyId;
+        param['idPositionType'] = POSITION_TYPE.RM;
+        break;
+      }
+      case STATUS.CP_APPROVAL_SME_HEAD: {
+        param['hierarchyInternal'] = true;
+        param['hierarchyLevel'] = 1;
+        param['hierarchyDirection'] = DIRECTION.SUPERORDINATE;
+        param['idPositionType'] = POSITION_TYPE.SME_HEAD;
+        param['idInternal'] = this.loanApplication.ownerPosition.internalId;
+        break;
+      }
+      case STATUS.CP_APPROVAL_DH: {
+        param['hierarchyInternal'] = true;
+        param['hierarchyLevel'] = 2;
+        param['hierarchyDirection'] = DIRECTION.SUPERORDINATE;
+        param['idPositionType'] = POSITION_TYPE.DH;
+        param['idInternal'] = this.loanApplication.ownerPosition.internalId;
+        break;
+      }
+      case STATUS.CP_APPROVAL_SDH: {
+        param['hierarchyInternal'] = true;
+        param['hierarchyLevel'] = 2;
+        param['hierarchyDirection'] = DIRECTION.SUPERORDINATE;
+        param['idPositionType'] = POSITION_TYPE.SDH;
+        param['idInternal'] = this.loanApplication.ownerPosition.internalId;
+        break;
+      }
+      case STATUS.CP_APPROVE_TO_LA: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CRA;
+        break;
+      }
+      case STATUS.RETURN_TO_RM_CRA: {
+        param['active'] = true;
+        param['idParty'] = this.loanApplication.ownerPosition.partyId;
+        param['idPositionType'] = POSITION_TYPE.RM;
+        break;
+      }
+      case STATUS.CP_CC_DISTRIBUTION: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CC_ADMIN;
+        break;
+      }
+      case STATUS.CP_CC_DIV_HEAD: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CC_DH;
+        break;
+      }
+      case STATUS.CP_CC_DEPT_HEAD: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CC_DEPT_HEAD;
+        break;
+      }
+      case STATUS.OL_DISTRIBUTION: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CREDIT_LEGAL_LEAD;
+        break;
+      }
+      case STATUS.CP_CC_DIRECTOR: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CREDIT_LEGAL_LEAD;
+        break;
+      }
+      case STATUS.OL_REVIEW_TEAMLEAD: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.OL_APPROVAL;
+        param['idPositionType'] = POSITION_TYPE.LEGAL_TEAM_LEAD;
+        break;
+      }
+      case STATUS.OL_REVIEW_LEAD: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CREDIT_LEGAL_LEAD;
+        break;
+      }
+      case STATUS.OL_REVIEW_HEAD: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.LEGAL_HEAD;
+        break;
+      }
+      case STATUS.OL_APPEAL: {
+        param['active'] = true;
+        param['idParty'] = this.loanApplication.ownerPosition.partyId;
+        param['idPositionType'] = POSITION_TYPE.RM;
+        break;
+      }
+      case STATUS.OL_CONFIRMATION: {
+        param['active'] = true;
+        param['idParty'] = this.loanApplication.ownerPosition.partyId;
+        param['idPositionType'] = POSITION_TYPE.RM;
         break;
       }
       default: {
