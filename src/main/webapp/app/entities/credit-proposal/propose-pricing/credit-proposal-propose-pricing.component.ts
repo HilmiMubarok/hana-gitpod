@@ -381,7 +381,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
     this.defaultCurrency();
 
-    this.averagetoIDR();
+    // this.averagetoIDR();
   }
 
   public creditRatingCondition() {
@@ -430,19 +430,20 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     }
   }
 
-  public averagetoIDR() {
-    this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
-      for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.avgNormalRateIDR = this.aplicationProducts[i].avgNormalRateIDR = res['proposePricing'][i]['avgNormalRateIDR'];
-        this.avgProposedRateIDR = this.aplicationProducts[i].avgProposedRateIDR = res['proposePricing'][i]['avgProposedRateIDR'];
-        this.avgDiscProposalIDR = this.aplicationProducts[i].avgDiscProposalIDR = res['proposePricing'][i]['avgDiscProposalIDR'];
+  // public averagetoIDR() {
+  //   this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
+  //     for (let i = 0; i < this.creditProposal.products.length; i++) {
+  //       this.avgNormalRateIDR = this.aplicationProducts[i].avgNormalRateIDR = res['proposePricing'][i]['avgNormalRateIDR'];
+  //       this.avgProposedRateIDR = this.aplicationProducts[i].avgProposedRateIDR = res['proposePricing'][i]['avgProposedRateIDR'];
+  //       this.avgDiscProposalIDR = this.aplicationProducts[i].avgDiscProposalIDR = res['proposePricing'][i]['avgDiscProposalIDR'];
 
-        this.avgProposedRateUSD = this.aplicationProducts[i].avgProposedRateUSD = res['proposePricing'][i]['avgProposedRateUSD'];
-        this.avgNormalRateUSD = this.aplicationProducts[i].avgNormalRateUSD = res['proposePricing'][i]['avgNormalRateUSD'];
-        this.avgDiscProposalUSD = this.aplicationProducts[i].avgDiscProposalUSD = res['proposePricing'][i]['avgDiscProposalUSD'];
-      }
-    });
-  }
+  //       this.avgProposedRateUSD = this.aplicationProducts[i].avgProposedRateUSD = res['proposePricing'][i]['avgProposedRateUSD'];
+  //       this.avgNormalRateUSD = this.aplicationProducts[i].avgNormalRateUSD = res['proposePricing'][i]['avgNormalRateUSD'];
+  //       this.avgDiscProposalUSD = this.aplicationProducts[i].avgDiscProposalUSD = res['proposePricing'][i]['avgDiscProposalUSD'];
+  //       console.log("index ", i, " nilai ",this.avgNormalRateIDR);
+  //     }
+  //   });
+  // }
 
   public getCorporateGurante() {
     if (
@@ -453,5 +454,52 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     } else {
       return this.creditProposal.attributes['creditRatingPricing'];
     }
+  }
+
+  public getAverage(type: string) {
+    if (this.aplicationProducts.length > 0) {
+      switch (type) {
+        case 'normalRateIdr':
+          if (this.aplicationProducts[0].avgNormalRateIDR) {
+            return this.aplicationProducts[0].avgNormalRateIDR;
+          }
+          return '0.00%';
+          break;
+        case 'proposedRateIdr':
+          if (this.aplicationProducts[0].avgProposedRateIDR) {
+            return this.aplicationProducts[0].avgProposedRateIDR;
+          }
+          return '0.00%';
+          break;
+        case 'discRateIdr':
+          if (this.aplicationProducts[0].avgDiscProposalIDR) {
+            return this.aplicationProducts[0].avgDiscProposalIDR;
+          }
+          return '0.00%';
+          break;
+        case 'normalRateUsd':
+          if (this.aplicationProducts[0].avgNormalRateUSD) {
+            return this.aplicationProducts[0].avgNormalRateUSD;
+          }
+          return '0.00%';
+          break;
+        case 'proposedRateUsd':
+          if (this.aplicationProducts[0].avgProposedRateUSD) {
+            return this.aplicationProducts[0].avgProposedRateUSD;
+          }
+          return '0.00%';
+          break;
+        case 'discRateUsd':
+          if (this.aplicationProducts[0].avgDiscProposalUSD) {
+            return this.aplicationProducts[0].avgDiscProposalUSD;
+          }
+          return '0.00%';
+          break;
+        default:
+          return '0.00%';
+          break;
+      }
+    }
+    return '0.00%';
   }
 }

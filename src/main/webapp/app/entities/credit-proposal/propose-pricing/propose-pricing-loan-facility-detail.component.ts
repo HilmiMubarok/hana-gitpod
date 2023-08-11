@@ -310,6 +310,14 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
               res['proposePricing'][j]['requiredSpread'] === null ? '0.00%' : res['proposePricing'][j]['requiredSpread'];
             this.aplicationProducts[i].cost = res['proposePricing'][j]['cost'] === null ? '0.00%' : res['proposePricing'][j]['cost'];
             this.aplicationProducts[i].roaa = res['proposePricing'][j]['roaa'] === null ? '0.00%' : res['proposePricing'][j]['roaa'];
+
+            this.aplicationProducts[i].avgNormalRateIDR = res['proposePricing'][j]['avgNormalRateIDR'];
+            this.aplicationProducts[i].avgProposedRateIDR = res['proposePricing'][j]['avgProposedRateIDR'];
+            this.aplicationProducts[i].avgDiscProposalIDR = res['proposePricing'][j]['avgDiscProposalIDR'];
+
+            this.aplicationProducts[i].avgProposedRateUSD = res['proposePricing'][j]['avgProposedRateUSD'];
+            this.aplicationProducts[i].avgNormalRateUSD = res['proposePricing'][j]['avgNormalRateUSD'];
+            this.aplicationProducts[i].avgDiscProposalUSD = res['proposePricing'][j]['avgDiscProposalUSD'];
           }
         }
         if (res) {
