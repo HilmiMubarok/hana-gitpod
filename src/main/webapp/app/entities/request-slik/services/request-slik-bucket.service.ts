@@ -29,8 +29,8 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR + '/api/cbas_slik');
   }
 
-  getAllData(page: number, size: number, sort: string): Observable<any> {
-    const options = new HttpParams().set('page', page).set('size', size).set('sort', sort);
+  getAllData(page: number, size: number, sort: string, idPosition): Observable<any> {
+    const options = new HttpParams().set('page', page).set('size', size).set('sort', sort).set('idPosition', idPosition);
 
     return this.http.get<any>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
       switchMap(data => {

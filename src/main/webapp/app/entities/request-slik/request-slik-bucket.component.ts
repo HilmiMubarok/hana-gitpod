@@ -98,9 +98,24 @@ export class RequestSlikBucketComponent implements OnInit {
       })
     );
   }
+  
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
 
   totalItemCount;
-  getData(page = this.pageIndex, size = 10, sort = 'dateCreate,desc') {
+  getData(page = this.pageIndex, size = 10, sort = 'dateCreate,desc', idPosition = this.getLocStor('POS')) {
     this.requestSlikBucketService.getAllData(page, size, sort).subscribe({
       next: data => {
         if (data.length === 0) {
