@@ -96,8 +96,8 @@ export enum MARITAL_STATUS {
 }
 
 export enum GENDER {
-  L = 'Laki - Laki',
-  P = 'Perempuan',
+  L = 'Male',
+  P = 'Female',
 }
 
 export enum BLOOD_TYPE {
