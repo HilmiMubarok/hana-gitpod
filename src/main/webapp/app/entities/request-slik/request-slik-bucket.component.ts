@@ -116,7 +116,7 @@ export class RequestSlikBucketComponent implements OnInit {
 
   totalItemCount;
   getData(page = this.pageIndex, size = 10, sort = 'dateCreate,desc', idPosition = this.getLocStor('POS')) {
-    this.requestSlikBucketService.getAllData(page, size, sort).subscribe({
+    this.requestSlikBucketService.getAllData(page, size, sort, idPosition).subscribe({
       next: data => {
         if (data.length === 0) {
           this.dataSource = new MatTableDataSource([]);
