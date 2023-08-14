@@ -65,6 +65,22 @@ export class RequestSlikUpdateComponent {
       this.requestSlikService.create(data).subscribe(() => this.router.navigate(['request-slik']));
     }
   }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   partyCifs$: Observable<any>;
   public selection = new SelectionModel<any>(true, []);
   search() {
@@ -72,6 +88,7 @@ export class RequestSlikUpdateComponent {
       .findLikeCif(this.currentSearch, {
         page: 0,
         size: 999,
+		idPosition: this.getLocStor('POS')
       })
       .pipe(map(res => res.body));
   }
