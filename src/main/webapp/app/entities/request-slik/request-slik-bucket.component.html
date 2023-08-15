@@ -269,7 +269,7 @@
         </mat-card>
       </div>
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button [routerLink]="['./new']" tooltip="Add new Data" class="button-styling">
+        <button mat-raised-button [routerLink]="['./new']" tooltip="Add new Data" class="button-styling" *ngIf="isHasAddSlikPermission">
           <mat-icon>add</mat-icon> Add Request SLIK
         </button>
       </div>

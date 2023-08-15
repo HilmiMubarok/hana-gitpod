@@ -18,6 +18,8 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
 import { RequestSlikTimelineService } from './services/request-slik-timeline.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RequestSlikBucketService } from './services/request-slik-bucket.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { EmployeeService } from '../employee/employee.service';
 
 @Component({
   selector: 'jhi-request-slik-bucket',
@@ -54,6 +56,28 @@ export class RequestSlikBucketComponent implements OnInit {
 
   iconTimeline: any;
 
+  isHasAddSlikPermission: boolean;
+
+  getPos(data) {
+    const haveAccess = ['RM', 'CRO'];
+
+    const positions = data[0].positions;
+    const posLoc = this.getLocStor('POS');
+
+    // find id on positions that same with posLoc
+    const pos = positions.find(o => o.id === Number(posLoc));
+
+    // get positionTypeId from positions with pos.id
+    const posType = pos.positionTypeId;
+
+    // if haveAccess contains posType, set isHasAddSlikPermission to true
+    if (haveAccess.includes(posType)) {
+      this.isHasAddSlikPermission = true;
+    } else {
+      this.isHasAddSlikPermission = false;
+    }
+  }
+
   constructor(
     private internalService: InternalService,
     protected messageService: MessageService,
@@ -61,10 +85,25 @@ export class RequestSlikBucketComponent implements OnInit {
     protected applicationStateLogService: ApplicationStateLogService,
     public dialog: MatDialog,
     protected requestSlikTimelineService: RequestSlikTimelineService,
-    public requestSlikBucketService: RequestSlikBucketService
+    public requestSlikBucketService: RequestSlikBucketService,
+    public accountService: AccountService,
+    public employeeService: EmployeeService
   ) {
     this.getStatus();
     this.iconTimeline = faTimeline;
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.employeeService
+          .queryFilterBy({
+            page: 0,
+            query: 999,
+            eqLogin: account.login,
+            sort: ['id,desc'],
+          })
+          .subscribe(res => this.getPos(res.body));
+      }
+    });
   }
 
   private loadInternalById(internalId: string): Promise<IInternal> {
@@ -143,12 +182,15 @@ export class RequestSlikBucketComponent implements OnInit {
           this.dataSource = new MatTableDataSource([]);
           this.isLoading = false;
         } else {
+          console.log(data.data);
+
           this.dataSource = new MatTableDataSource(data.data);
           this.paginator.length = data.pageable.totalElements || 0;
           this.isLoading = false;
         }
       },
       error: err => {
+        console.log(err);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
         this.dataSource = new MatTableDataSource([]);
         this.isLoading = false;
