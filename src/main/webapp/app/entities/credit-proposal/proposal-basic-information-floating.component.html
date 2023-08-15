@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
             <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
-          <p class="e-card-sub-title menu-title-class">{{ showTextMenu() }}</p>
+          <p class="e-card-sub-title menu-title-class">{{ headerTitle }}</p>
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
-                      disabled
+                      readonly
                       [(ngModel)]="creditProposal.applicationNumber"
                       placeholder="Proposal Number"
                       cssClass="e-outline"
@@ -61,7 +61,7 @@
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
-                      disabled
+                      readonly
                       [value]="creditProposal.createdDate | formatMediumDate"
                       placeholder="Proposal Date"
                       cssClass="e-outline"
@@ -81,7 +81,7 @@
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
-                      disabled
+                      readonly
                       [(ngModel)]="creditProposal.customerNumber"
                       placeholder="CIF Number"
                       cssClass="e-outline"
@@ -101,7 +101,7 @@
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
-                      disabled
+                      readonly
                       [(ngModel)]="creditProposal.cif.name"
                       placeholder=" Customer Name"
                       cssClass="e-outline"
@@ -152,7 +152,7 @@
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-combobox
                       disabled
-                      cssClass="e-outline"
+                      cssClass="e-outline e-disabled"
                       placeholder="Segment"
                       floatLabelType="Auto"
                       [ngModel]="creditProposal.applicationTypeDescription"
@@ -278,7 +278,6 @@
                     *ngIf="!isHistoryExist"
                     [creditProposal]="creditProposal"
                     [collateralProperties]="collateralProperties"
-                    [collateralPropertyGroupData]="collateralPropertyGroupData"
                   >
                   </jhi-credit-proposal-collateral-info
                 ></e-card>
@@ -453,7 +452,6 @@
                     #creditProposalCollateralInfoComponent
                     [creditProposal]="creditProposal"
                     [collateralProperties]="collateralProperties"
-                    [collateralPropertyGroupData]="collateralPropertyGroupData"
                   >
                   </jhi-credit-proposal-collateral-info
                 ></e-card>

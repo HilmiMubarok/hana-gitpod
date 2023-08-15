@@ -24,7 +24,7 @@
 
             <div class="col-2">
               <ejs-radiobutton
-                disabled
+                readonly
                 label="Individu"
                 [(ngModel)]="deptorData.partyTypeId"
                 [value]="'PERSON'"
@@ -64,7 +64,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [value]="deptorData.cif.customerId"
                   name="CIF Number"
                   id="cifNumber"
@@ -87,7 +87,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="item.mothersName"
                   placeholder="Mother Maiden Name"
                   cssClass="e-outline"
@@ -110,7 +110,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [value]="item.firstName + ' ' + item.lastName"
                   name="completeName"
                   id="completeName"
@@ -133,7 +133,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="item.personalEmail"
                   name="email"
                   id="email"
@@ -158,7 +158,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="item.aliasName"
                   name="aliasName"
                   id="aliasName"
@@ -180,7 +180,7 @@
             </div>
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-textbox disabled [(ngModel)]="item.taxIdNumber" placeholder="NPWP" cssClass="e-outline" floatLabelType="Auto">
+                <ejs-textbox readonly [(ngModel)]="item.taxIdNumber" placeholder="NPWP" cssClass="e-outline" floatLabelType="Auto">
                 </ejs-textbox>
               </section>
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -198,7 +198,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.relationWithHana"
                   placeHolder="Relations with keb Hana Bank"
                   cssClass="e-outline"
@@ -219,7 +219,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="item.cellPhone1"
                   placeholder="Handphone Number 1"
                   cssClass="e-outline"
@@ -243,7 +243,7 @@
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Gender</mat-label>
-                  <mat-select [(ngModel)]="item.gender" disabled>
+                  <mat-select [(ngModel)]="item.gender" readonly>
                     <mat-option *ngFor="let item of genderss | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -261,7 +261,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="item.cellPhone2"
                   placeholder="Handphone Number 2"
                   cssClass="e-outline"
@@ -284,7 +284,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="item.personalIdNumber"
                   name="idCardNumber"
                   id="idCardNumber"
@@ -307,7 +307,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="item.cellPhone3"
                   placeholder="Handphone Number 3"
                   cssClass="e-outline"
@@ -334,7 +334,7 @@
                   placeholder="ID Expire Date"
                   cssClass="e-outline"
                   floatLabelType="Auto"
-                  disabled
+                  readonly
                 >
                 </ejs-textbox>
               </section>
@@ -351,7 +351,7 @@
             <div class="col-6">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [value]="item.pob"
                   name="placeOfBirth"
                   id="placeOfBirth"
@@ -380,7 +380,7 @@
                   placeholder="Date Of Birth"
                   cssClass="e-outline"
                   floatLabelType="Always"
-                  disabled
+                  readonly
                 >
                 </ejs-textbox>
                 <mat-hint align="start"
@@ -410,7 +410,7 @@
             <div class="col-6">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [value]="deptorData.debtorData.customerSince | date: 'yyyy/MM/dd'"
                   placeholder="Existing Customer Since"
                   cssClass="e-outline"
@@ -433,7 +433,7 @@
             <div class="col-6">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [value]="item.pob"
                   name="placeOfBirth"
                   id="placeOfBirth"
@@ -460,7 +460,7 @@
                   placeholder="Existing Debtor Since"
                   cssClass="e-outline"
                   floatLabelType="Auto"
-                  disabled
+                  readonly
                 >
                 </ejs-textbox>
               </section>
@@ -480,7 +480,7 @@
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Marital Status</mat-label>
-                  <mat-select [(ngModel)]="item.maritalStatus" disabled>
+                  <mat-select [(ngModel)]="item.maritalStatus" readonly>
                     <mat-option *ngFor="let item of maritalStatusess | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -498,7 +498,7 @@
             <div class="col-6">
               <!-- <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-datepicker
-                      disabled
+                      readonly
                       [value]="deptorData.debtorData.debtorSince | date: 'yyyy/MM/dd'"
                       placeholder="Existing Debtor Since"
                       cssClass="e-outline"
@@ -521,7 +521,7 @@
             <div class="col-6">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.attributes['lobName']"
                   placeholder="Line of Business"
                   cssClass="e-outline"
@@ -542,7 +542,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.attributes['lobCode']"
                   placeholder="Line of Business Code"
                   cssClass="e-outline"
@@ -565,7 +565,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.gnrlBankReportCode"
                   placeholder="Kode LBU"
                   cssClass="e-outline"
@@ -586,7 +586,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.strAccountNumberIDR"
                   placeholder="Account Number (IDR)"
                   cssClass="e-outline"
@@ -609,7 +609,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.gnrlBankReport"
                   placeholder="LBU Remark"
                   cssClass="e-outline"
@@ -631,7 +631,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.strAccountNumberUSD"
                   placeholder="Account Number (USD)"
                   cssClass="e-outline"
@@ -655,7 +655,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.custInfoSystemCode"
                   placeholder="SID Code"
                   cssClass="e-outline"
@@ -676,7 +676,7 @@
             <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="deptorData.debtorData.custInfoSystemName"
                   placeholder="SID"
                   cssClass="e-outline"
@@ -717,7 +717,7 @@
                   [value]="'New'"
                   name="customer"
                   label="New"
-                  disabled
+                  readonly
                 ></ejs-radiobutton>
               </section>
               <!-- </div> -->
@@ -737,7 +737,7 @@
                   [value]="'Existing'"
                   name="customer"
                   label="Existing"
-                  disabled
+                  readonly
                 ></ejs-radiobutton>
               </section>
               <!-- </div> -->
@@ -780,7 +780,7 @@
                 </mat-form-field>
 
                 <!-- <ejs-numerictextbox
-                      disabled
+                      readonly
                       [(ngModel)]="creditProposal.annualSales"
                       placeholder="Penjualan Tahunan"
                       floatLabelType="Auto"
@@ -807,7 +807,7 @@
                   placeholder="Correspondence Address"
                   cssClass="e-outline"
                   floatLabelType="Auto"
-                  disabled
+                  readonly
                 >
                 </ejs-textbox>
               </section>
@@ -830,7 +830,7 @@
                   <input matInput type="text" [(ngModel)]="deptorData.umkmClass" [disabled]="true" />
                 </mat-form-field>
                 <!-- <ejs-textbox
-                      disabled
+                      readonly
                       [(ngModel)]="creditProposal.umkmClass"
                       placeholder="Klasifikasi UMKM"
                       floatLabelType="Auto"
@@ -854,7 +854,7 @@
                   placeholder="Collectability Status"
                   cssClass="e-outline"
                   floatLabelType="Auto"
-                  disabled
+                  readonly
                 >
                 </ejs-dropdownlist>
               </section>
@@ -898,7 +898,7 @@
                       placeholder="PEP"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                      disabled
+                      readonly
                     >
                     </ejs-textbox> -->
                 <mat-form-field appearance="outline" class="w-100">
