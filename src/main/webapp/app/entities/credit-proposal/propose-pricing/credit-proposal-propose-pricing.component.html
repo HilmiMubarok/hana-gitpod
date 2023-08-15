@@ -46,7 +46,7 @@
                 [(ngModel)]="creditProposal.creditRatings[0].creditRating"
                 cssClass="e-outline"
                 floatLabelType="Always"
-                disabled
+                readonly
               ></ejs-textbox>
               <ejs-textbox
                 *ngIf="creditProposal.creditRatings[0].creditRating === null || creditProposal.creditRatings[0].creditRating === ''"
@@ -54,7 +54,7 @@
                 value="N/A"
                 cssClass="e-outline"
                 floatLabelType="Always"
-                disabled
+                readonly
               ></ejs-textbox>
             </div>
           </section>
@@ -270,7 +270,7 @@
                 placeholder="Modified Date"
                 cssClass="e-outline"
                 floatLabelType="Always"
-                disabled
+                readonly
               >
               </ejs-textbox>
             </div>
@@ -292,7 +292,7 @@
                 [(ngModel)]="creditProposal.creditRatings[0].creditRating"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                disabled
+                readonly
               ></ejs-textbox>
             </div>
           </section>

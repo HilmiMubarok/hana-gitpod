@@ -278,10 +278,10 @@ Browser Upgrade Prompt
 ========================================================================== */
 
 .browserupgrade {
-  margin: 0.2em 0;
+  margin: 0.5em 0;
   background: #ccc;
   color: #000;
-  padding: 0.2em 0;
+  padding: 0.5em 0;
 }
 
 /* ==========================================================================
@@ -731,3 +731,157 @@ table {
 .mat-calendar-table-header-divider {
   padding: 0 !important;
 }
+
+.header-title {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: #008881 !important;
+  line-height: 35px !important;
+  margin-left: 10px !important;
+  padding-top: 13px !important;
+}
+
+/* custom disabled ejs input/ material input */
+.mat-select-disabled .mat-select-value {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+// read-only
+// value
+.e-input-group .e-input[readonly],
+.e-input-group.e-control-wrapper .e-input[readonly],
+.e-float-input input[readonly],
+.e-float-input.e-control-wrapper input[readonly],
+.e-float-input textarea[readonly],
+.e-float-input.e-control-wrapper textarea[readonly] {
+  cursor: not-allowed !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+.e-input-group .e-input[readonly],
+.e-input-group.e-control-wrapper .e-input[readonly],
+.e-float-input input[readonly],
+.e-float-input.e-control-wrapper input[readonly],
+.e-float-input textarea[readonly],
+.e-float-input.e-control-wrapper textarea[readonly] {
+  border-top-color: transparent !important;
+  border-right-color: rgba(0, 0, 0, 0.06) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.06) !important;
+  border-left-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+.e-outline.e-input[readonly],
+.e-outline.e-input-group .e-input[readonly],
+.e-outline.e-input-group.e-control-wrapper .e-input[readonly],
+.e-outline.e-input-group.e-disabled,
+.e-outline.e-input-group.e-control-wrapper.e-disabled,
+.e-outline.e-float-input input[readonly],
+.e-outline.e-float-input.e-control-wrapper input[readonly],
+.e-outline.e-float-input textarea[readonly],
+.e-outline.e-float-input.e-control-wrapper textarea[readonly],
+.e-outline.e-float-input.e-disabled,
+.e-outline.e-float-input.e-control-wrapper.e-disabled,
+.e-outline.e-input-group:not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left).e-disabled,
+.e-outline.e-input-group.e-float-icon-left:not(.e-success):not(.e-warning):not(.e-error).e-disabled .e-input-in-wrap,
+.e-outline.e-input-group.e-control-wrapper:not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left).e-disabled,
+.e-outline.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-success):not(.e-warning):not(.e-error).e-disabled .e-input-in-wrap {
+  background-image: none;
+  border-bottom-color: rgba(0, 0, 0, 0.06) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+// label
+.e-float-input.e-control-wrapper:not(.e-error) input:focus ~ label.e-float-text,
+.e-float-input.e-control-wrapper:not(.e-error) input:valid ~ label.e-float-text,
+.e-float-input.e-control-wrapper:not(.e-error) input ~ label.e-label-top.e-float-text,
+.e-float-input.e-control-wrapper:not(.e-error) input[readonly] ~ label.e-label-top.e-float-text,
+.e-float-input.e-control-wrapper:not(.e-error) input[disabled] ~ label.e-label-top.e-float-text,
+.e-float-input .e-control-wrapper:not(.e-error) input label.e-float-text.e-label-top,
+.e-float-input.e-control-wrapper.e-bigger:not(.e-error) input:focus ~ label.e-float-text,
+.e-float-input.e-control-wrapper.e-bigger:not(.e-error) input:valid ~ label.e-float-text,
+.e-float-input.e-control-wrapper.e-bigger:not(.e-error) input ~ label.e-label-top.e-float-text,
+.e-float-input.e-control-wrapper.e-bigger:not(.e-error) input[readonly] ~ label.e-label-top.e-float-text,
+.e-float-input.e-control-wrapper.e-bigger:not(.e-error) input[disabled] ~ label.e-label-top.e-float-text,
+.e-bigger .e-float-input.e-control-wrapper:not(.e-error) input:focus ~ label.e-float-text,
+.e-bigger .e-float-input.e-control-wrapper:not(.e-error) input:valid ~ label.e-float-text,
+.e-bigger .e-float-input.e-control-wrapper:not(.e-error) input ~ label.e-label-top.e-float-text,
+.e-bigger .e-float-input.e-control-wrapper:not(.e-error) input[readonly] ~ label.e-label-top.e-float-text,
+.e-bigger .e-float-input.e-control-wrapper:not(.e-error) input[disabled] ~ label.e-label-top.e-float-text,
+.e-float-input.e-control-wrapper:not(.e-error).e-input-focus input ~ label.e-float-text,
+.e-float-input.e-control-wrapper.e-bigger:not(.e-error).e-input-focus input ~ label.e-float-text,
+.e-bigger .e-float-input.e-control-wrapper:not(.e-error).e-input-focus input ~ label.e-float-text {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+// read-only
+
+// disabled
+// field
+.mat-input-element:disabled,
+.mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+  color: rgba(0, 0, 0, 0.7) !important;
+  cursor: not-allowed !important;
+}
+.mat-form-field-infix:disabled {
+  color: rgba(0, 0, 0, 0.7) !important;
+  cursor: not-allowed !important;
+}
+.mat-select:disabled {
+  color: rgba(0, 0, 0, 0.7) !important;
+  cursor: not-allowed !important;
+}
+mat-select:disbled {
+  color: rgba(0, 0, 0, 0.7) !important;
+  cursor: not-allowed !important;
+}
+// Field
+// disabled
+
+// enable
+// field
+.e-card .e-card-content {
+  color: rgba(0, 0, 0, 1) !important;
+}
+
+.e-outline.e-float-input.e-valid-input:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input:hover:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-control-wrapper:hover:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-control-wrapper:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-control-wrapper:hover:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left):not(.e-disabled),
+.e-outline.e-float-input.e-valid-input.e-control-wrapper:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left):not(.e-disabled),
+.e-outline.e-float-input.e-input-group.e-valid-input:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-valid-input:hover:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-control-wrapper.e-valid-input:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-control-wrapper.e-valid-input:hover:not(.e-success):not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-success:not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-success:hover:not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-valid-input.e-success:not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-valid-input.e-success:hover:not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-control-wrapper.e-valid-input.e-success:not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-control-wrapper.e-valid-input.e-success:hover:not(.e-error):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-error:not(.e-success):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-error:hover:not(.e-success):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-valid-input.e-error:not(.e-success):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-valid-input.e-error:hover:not(.e-success):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-control-wrapper.e-valid-input.e-error:not(.e-success):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-control-wrapper.e-valid-input.e-error:hover:not(.e-success):not(.e-warning):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-warning:not(.e-success):not(.e-error):not(.e-float-icon-left),
+.e-outline.e-float-input.e-valid-input.e-warning:hover:not(.e-success):not(.e-error):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-valid-input.e-warning:not(.e-success):not(.e-error):not(.e-float-icon-left),
+.e-outline.e-float-input.e-input-group.e-valid-input.e-warning:hover:not(.e-success):not(.e-error):not(.e-float-icon-left),
+.e-outline.e-float-input.e-control-wrapper.e-valid-input.e-warning:not(.e-success):not(.e-error):not(.e-float-icon-left),
+.e-outline.e-float-input.e-control-wrapper.e-valid-input.e-warning:hover:not(.e-success):not(.e-error):not(.e-float-icon-left) {
+  color: rgba(0, 0, 0, 1) !important;
+}
+.e-outline {
+  color: rgba(0, 0, 0, 1) !important;
+}
+// field
+// label
+.mat-form-field-label {
+  color: rgba(0, 0, 0, 1) !important;
+}
+.mat-select-value-text {
+  color: rgba(0, 0, 0, 1) !important;
+}
+// enable
+
+/* custom disabled ejs input/ material input */

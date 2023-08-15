@@ -11,7 +11,7 @@
         <div class="col-6">
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <ejs-textbox disabled type="date" cssClass="e-outline" placeholder="Date As Of" floatLabelType="Always" [value]="dateAsOf">
+              <ejs-textbox readonly type="date" cssClass="e-outline" placeholder="Date As Of" floatLabelType="Always" [value]="dateAsOf">
               </ejs-textbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -32,7 +32,7 @@
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [value]="limitPercentage"
-                disabled
+                readonly
               >
               </ejs-textbox>
             </section>
@@ -49,7 +49,7 @@
 
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <ejs-numerictextbox placeholder="Limit in IDR" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="limitNominal" disabled>
+              <ejs-numerictextbox placeholder="Limit in IDR" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="limitNominal" readonly>
               </ejs-numerictextbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -71,7 +71,7 @@
                 floatLabelType="Auto"
                 [(ngModel)]="remainingBalance"
                 format="IDR 0,"
-                disabled
+                readonly
                 min="0"
               >
               </ejs-numerictextbox>
@@ -98,7 +98,7 @@
                 [(ngModel)]="industryLimitExposure"
                 format="0,"
                 min="0"
-                disabled
+                readonly
               >
               </ejs-numerictextbox>
             </section>
@@ -122,7 +122,7 @@
                 [(ngModel)]="purposeAmmount"
                 format="0,"
                 min="0"
-                disabled
+                readonly
               >
               </ejs-numerictextbox>
             </section>
@@ -145,7 +145,7 @@
                 floatLabelType="Auto"
                 [(ngModel)]="remainingAfterCp"
                 format="IDR 0,"
-                disabled
+                readonly
               ></ejs-textbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -164,7 +164,7 @@
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [value]="'-' + remainingAfterCpMinus | number"
-                disabled
+                readonly
               ></ejs-textbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -178,7 +178,7 @@
 
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="status" disabled></ejs-textbox>
+              <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="status" readonly></ejs-textbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <div class="fontsebled row py-3">
