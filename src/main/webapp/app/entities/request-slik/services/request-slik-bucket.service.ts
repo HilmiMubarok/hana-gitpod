@@ -72,6 +72,28 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
     );
   }
 
+  getAllRequestSliks(page: number, size: number, sort: string, idPosition): Observable<any> {
+    const options = new HttpParams().set('page', page).set('size', size).set('sort', sort).set('idPosition', idPosition);
+    return this.http.get<any>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
+      switchMap(data => {
+        if (data.body.data.content.length === 0) {
+          return of([]);
+        } else {
+          return of(data).pipe(
+            map(final => ({
+              data: [...final.body.data.content],
+              pageable: {
+                totalElements: data.body.data.totalElements,
+                totalPages: data.body.data.totalPages,
+                pageable: data.body.data.pageable,
+              },
+            }))
+          );
+        }
+      })
+    );
+  }
+
   searchRequestSlik(query: number | string, page: number): Observable<any> {
     const options = new HttpParams().set('query', query).set('page', page).set('size', 10).set('sort', 'dateCreate,desc');
     return this.http.get<any>(this.resourceUrl + '/byall', { observe: 'response', params: options }).pipe(

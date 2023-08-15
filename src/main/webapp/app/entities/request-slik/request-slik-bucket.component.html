@@ -93,15 +93,15 @@
               </ng-container>
               <ng-container matColumnDef="cif">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left">CIF</th>
-                <td mat-cell *matCellDef="let row">{{ row.cif }}</td>
+                <td mat-cell *matCellDef="let row">{{ row.cif.customerId || row.cif }}</td>
               </ng-container>
               <ng-container matColumnDef="debtorName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left">Debtor Name</th>
-                <td mat-cell *matCellDef="let row">{{ row.customerName }}</td>
+                <td mat-cell *matCellDef="let row">{{ row.cif.name || row.customerName }}</td>
               </ng-container>
               <ng-container matColumnDef="customerType">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left">Customer Type</th>
-                <td mat-cell *matCellDef="let row">{{ row.customerType }}</td>
+                <td mat-cell *matCellDef="let row">{{ row.cif.customerType || row.customerType }}</td>
               </ng-container>
               <ng-container matColumnDef="segment">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left">Segment</th>
