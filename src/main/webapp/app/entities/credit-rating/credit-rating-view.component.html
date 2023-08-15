@@ -331,7 +331,12 @@
               <section *jhiMatrixDirIDD="'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal Maksimum LLL (%)</mat-label>
-                  <input matInput type="number" [(ngModel)]="creditRatings.internalMaxLLL" />
+                  <mat-select name="internalMaxLLL" [(ngModel)]="partyCif.creditRatings[0].internalMaxLLL">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
                 </mat-form-field>
               </section>
               <section *jhiMatrixDirIDD="''">

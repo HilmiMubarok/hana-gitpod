@@ -658,7 +658,12 @@
     >
     </jhi-mapping-facility-history>
   </div>
-  <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+  <div>
+    <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
+  </div>
+  <div>
+    <jhi-paripasu-collateral-debitur [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-debitur>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center" class="align-center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
