@@ -94,13 +94,19 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
                 filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
               );
-              const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.partyCif.customerType);
-              const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_BINDING');
+              const INDCORData: IDocumentType[] = this.typeData.filter(
+                obj => obj.customerType === this.partyCif.customerType && obj.id !== 'DOC_IDD_BINDING'
+              );
+              const PengikatKredit: IDocumentType[] = this.typeData.filter(
+                obj => obj.id === 'DOC_IDD_BINDING' && obj.customerType === this.partyCif.customerType
+              );
+              console.log('peningkat', PengikatKredit);
 
               const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
               const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
               const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
               const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
+              console.log('DocumentLainnya', DocumentLainnya);
               const result: IDocumentType[] = [
                 ...collateralData,
                 ...INDCORData,
@@ -115,6 +121,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               for (let i = 0; i < result.length; i++) {
                 this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
                   result[i].level = re.body;
+                  console.log('re.body', re.body);
 
                   const mergeArray: ILevel[] = result[i].level.map(item1 => {
                     const file = this.file.find(item2 => item2.idFile === item1.id);
@@ -127,6 +134,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
                   result[i].level = [...personalCorporate, ...nullData];
 
                   this.dataArray = result;
+                  console.log('re.body', this.dataArray);
                 });
               }
             });
