@@ -470,7 +470,7 @@
                 <div class="col-md-12 row">
                   <div class="col-md-3">:</div>
                   <div class="col-md-9">
-                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] | number: '1.0-0' }}
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] | percent: '1.2' }}
                   </div>
                 </div>
               </td>
@@ -497,7 +497,7 @@
                 <div class="col-md-12 row">
                   <div class="col-md-3">:</div>
                   <div class="col-md-9">
-                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] | number: '1.0-0' }}
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] | percent: '1.2' }}
                   </div>
                 </div>
               </td>
@@ -524,7 +524,7 @@
                 <div class="col-md-12 row">
                   <div class="col-md-3">:</div>
                   <div class="col-md-9">
-                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] | number: '1.0-0' }}
+                    {{ creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] | percent: '1.2' }}
                   </div>
                 </div>
               </td>
