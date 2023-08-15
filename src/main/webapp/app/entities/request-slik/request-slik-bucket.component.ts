@@ -98,7 +98,7 @@ export class RequestSlikBucketComponent implements OnInit {
       })
     );
   }
-  
+
   private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
@@ -136,9 +136,30 @@ export class RequestSlikBucketComponent implements OnInit {
     });
   }
 
+  getRequestSliks(page = this.pageIndex, size = 10, sort = 'dateCreate,desc', idPosition = this.getLocStor('POS')) {
+    this.requestSlikBucketService.getAllRequestSliks(page, size, sort, idPosition).subscribe({
+      next: data => {
+        if (data.length === 0) {
+          this.dataSource = new MatTableDataSource([]);
+          this.isLoading = false;
+        } else {
+          this.dataSource = new MatTableDataSource(data.data);
+          this.paginator.length = data.pageable.totalElements || 0;
+          this.isLoading = false;
+        }
+      },
+      error: err => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+        this.dataSource = new MatTableDataSource([]);
+        this.isLoading = false;
+      },
+    });
+  }
+
   ngOnInit() {
     this.dataSource = new MatTableDataSource();
-    this.getData();
+    // this.getData();
+    this.getRequestSliks();
   }
 
   public showTimeLine(element: IRequestSlik): void {
@@ -171,7 +192,8 @@ export class RequestSlikBucketComponent implements OnInit {
       this.dataSource = new MatTableDataSource([]);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.getData();
+      // this.getData();
+      this.getRequestSliks();
     } else {
       this.clickedChip = option;
 
@@ -202,7 +224,8 @@ export class RequestSlikBucketComponent implements OnInit {
   clearSearch() {
     this.searchCif = '';
     this.isLoading = true;
-    this.getData(0);
+    // this.getData(0);
+    this.getRequestSliks(0);
   }
 
   // === SEARCH REQUEST SLIK BUCKET
@@ -238,7 +261,7 @@ export class RequestSlikBucketComponent implements OnInit {
       ? this.searchReqSlik(this.searchCif)
       : this.clickedChip !== ''
       ? this.chipClick(this.clickedChip)
-      : this.getData(page);
+      : this.getRequestSliks(page);
   }
 
   pageIndex = 0;
