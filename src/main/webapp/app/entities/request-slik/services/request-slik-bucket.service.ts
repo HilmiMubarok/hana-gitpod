@@ -79,16 +79,28 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
         if (data.body.data.content.length === 0) {
           return of([]);
         } else {
-          return of(data).pipe(
-            map(final => ({
-              data: [...final.body.data.content],
-              pageable: {
-                totalElements: data.body.data.totalElements,
-                totalPages: data.body.data.totalPages,
-                pageable: data.body.data.pageable,
-              },
-            }))
-          );
+          return of(data)
+            .pipe(
+              map(details =>
+                data.body.data.content.map((user, i) => ({
+                  ...user,
+                  dataExpand:
+                    details.body.data.content[i].cif.customerType === 'CORPORATE'
+                      ? [details.body.data.content[i].cif.organization]
+                      : [details.body.data.content[i].cif.person],
+                }))
+              )
+            )
+            .pipe(
+              map(final => ({
+                data: [...final],
+                pageable: {
+                  totalElements: data.body.data.totalElements,
+                  totalPages: data.body.data.totalPages,
+                  pageable: data.body.data.pageable,
+                },
+              }))
+            );
         }
       })
     );
