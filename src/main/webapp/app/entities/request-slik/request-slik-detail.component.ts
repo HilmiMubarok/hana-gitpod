@@ -609,11 +609,15 @@ export class RequestSlikDetailComponent implements OnInit {
       this.segment !== 'Small Medium Enterprise'
     ) {
       return {
-        status: this.reqSlikStatus.APPROVAL_SLIK,
+        status: this.reqSlikStatus.APPROVAL_BU,
       };
-    } else if (currentStatus === this.reqSlikStatus.APPROVAL_BU) {
+    } else if (currentStatus === this.reqSlikStatus.APPROVAL_BU && this.segment === 'Small Medium Enterprise') {
       return {
         status: this.reqSlikStatus.APPROVAL_SLIK,
+      };
+    } else if (currentStatus === this.reqSlikStatus.APPROVAL_BU && this.segment !== 'Small Medium Enterprise') {
+      return {
+        status: this.reqSlikStatus.CHECKING,
       };
     } else if (currentStatus === this.reqSlikStatus.APPROVAL_SLIK) {
       return {
