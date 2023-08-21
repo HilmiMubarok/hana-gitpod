@@ -11,7 +11,15 @@ import { IStatusItem } from 'app/entities/status-item/status-item.model';
 import { firstValueFrom } from 'rxjs';
 import { STATUS_TYPE } from 'app/shared/constants/status.constants';
 import lodash from 'lodash';
+import { MatDialog } from '@angular/material/dialog';
 
+@Component({
+  selector: 'jhi-correction-application-info',
+  templateUrl: './correction-application-info.component.html',
+})
+export class CorrectionApplicationInfoComponent {
+  constructor() {}
+}
 @Component({
   selector: 'jhi-correction-application',
   templateUrl: './correction-application.component.html',
@@ -29,7 +37,8 @@ export class CorrectionApplicationComponent extends AbstractEntityMaterialCompon
     protected _snackbar: MatSnackBar,
     private clipboard: Clipboard,
     private positionTypeService: PositionTypeService,
-    private cashStatusItemService: CashStatusItemService
+    private cashStatusItemService: CashStatusItemService,
+    private dialog: MatDialog
   ) {
     super(_snackbar, cashCreditProposalService);
     this.page = 0;
@@ -167,6 +176,11 @@ export class CorrectionApplicationComponent extends AbstractEntityMaterialCompon
       horizontalPosition: 'end',
       verticalPosition: 'top',
       duration: 1000,
+    });
+  }
+  public openInfo(): void {
+    this.dialog.open(CorrectionApplicationInfoComponent, {
+      width: '800px',
     });
   }
 }
