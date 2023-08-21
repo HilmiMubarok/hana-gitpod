@@ -119,7 +119,7 @@ export class AbstractEntityPageComponent<T> implements OnDestroy {
   }
 
   protected onSaveError(res: HttpErrorResponse) {
-    this.messageService.add({ severity: 'warning', summary: res.error.title, detail: res.error.detail });
+    this.messageService.add({ severity: 'warn', summary: res.error.title, detail: res.error.detail });
     this.isSaving = false;
   }
 

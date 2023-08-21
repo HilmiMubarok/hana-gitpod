@@ -15,8 +15,9 @@
       <mat-accordion multi>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
-            <mat-panel-title> Info </mat-panel-title>
-            <mat-panel-description> Appraisal Info </mat-panel-description>
+            <mat-panel-title> Appraisal Info </mat-panel-title>
+            <!-- <mat-panel-title> Info </mat-panel-title>
+            <mat-panel-description> Appraisal Info </mat-panel-description> -->
           </mat-expansion-panel-header>
           <table id="edit" class="w-100 info">
             <tr align="center">
@@ -33,7 +34,7 @@
               </td>
               <td>
                 <mat-chip class="status-chip"
-                  ><span class="category-chip__text">{{ surveyAppraisal.statusId }}</span>
+                  ><span class="category-chip__text">{{ surveyAppraisal.statusDescription }}</span>
                 </mat-chip>
               </td>
             </tr>
@@ -41,8 +42,9 @@
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
-            <mat-panel-title> Action </mat-panel-title>
-            <mat-panel-description> Person will you assign </mat-panel-description>
+            <mat-panel-title> Person will you assign </mat-panel-title>
+            <!-- <mat-panel-title> Action </mat-panel-title>
+            <mat-panel-description> Person will you assign </mat-panel-description> -->
           </mat-expansion-panel-header>
           <table mat-table [dataSource]="items" class="mat-table-expand mt-3">
             <ng-container matColumnDef="no">

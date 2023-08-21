@@ -18,6 +18,8 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
 import { RequestSlikTimelineService } from './services/request-slik-timeline.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RequestSlikBucketService } from './services/request-slik-bucket.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { EmployeeService } from '../employee/employee.service';
 
 @Component({
   selector: 'jhi-request-slik-bucket',
@@ -54,6 +56,28 @@ export class RequestSlikBucketComponent implements OnInit {
 
   iconTimeline: any;
 
+  isHasAddSlikPermission: boolean;
+
+  getPos(data) {
+    const haveAccess = ['RM', 'CRO'];
+
+    const positions = data[0].positions;
+    const posLoc = this.getLocStor('POS');
+
+    // find id on positions that same with posLoc
+    const pos = positions.find(o => o.id === Number(posLoc));
+
+    // get positionTypeId from positions with pos.id
+    const posType = pos.positionTypeId;
+
+    // if haveAccess contains posType, set isHasAddSlikPermission to true
+    if (haveAccess.includes(posType)) {
+      this.isHasAddSlikPermission = true;
+    } else {
+      this.isHasAddSlikPermission = false;
+    }
+  }
+
   constructor(
     private internalService: InternalService,
     protected messageService: MessageService,
@@ -61,10 +85,25 @@ export class RequestSlikBucketComponent implements OnInit {
     protected applicationStateLogService: ApplicationStateLogService,
     public dialog: MatDialog,
     protected requestSlikTimelineService: RequestSlikTimelineService,
-    public requestSlikBucketService: RequestSlikBucketService
+    public requestSlikBucketService: RequestSlikBucketService,
+    public accountService: AccountService,
+    public employeeService: EmployeeService
   ) {
     this.getStatus();
     this.iconTimeline = faTimeline;
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.employeeService
+          .queryFilterBy({
+            page: 0,
+            query: 999,
+            eqLogin: account.login,
+            sort: ['id,desc'],
+          })
+          .subscribe(res => this.getPos(res.body));
+      }
+    });
   }
 
   private loadInternalById(internalId: string): Promise<IInternal> {
@@ -99,9 +138,24 @@ export class RequestSlikBucketComponent implements OnInit {
     );
   }
 
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   totalItemCount;
-  getData(page = this.pageIndex, size = 10, sort = 'dateCreate,desc') {
-    this.requestSlikBucketService.getAllData(page, size, sort).subscribe({
+  getData(page = this.pageIndex, size = 10, sort = 'dateCreate,desc', idPosition = this.getLocStor('POS')) {
+    this.requestSlikBucketService.getAllData(page, size, sort, idPosition).subscribe({
       next: data => {
         if (data.length === 0) {
           this.dataSource = new MatTableDataSource([]);
@@ -121,9 +175,33 @@ export class RequestSlikBucketComponent implements OnInit {
     });
   }
 
+  getRequestSliks(page = this.pageIndex, size = 10, sort = 'dateCreate,desc', idPosition = this.getLocStor('POS')) {
+    this.requestSlikBucketService.getAllRequestSliks(page, size, sort, idPosition).subscribe({
+      next: data => {
+        if (data.length === 0) {
+          this.dataSource = new MatTableDataSource([]);
+          this.isLoading = false;
+        } else {
+          console.log(data.data);
+
+          this.dataSource = new MatTableDataSource(data.data);
+          this.paginator.length = data.pageable.totalElements || 0;
+          this.isLoading = false;
+        }
+      },
+      error: err => {
+        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+        this.dataSource = new MatTableDataSource([]);
+        this.isLoading = false;
+      },
+    });
+  }
+
   ngOnInit() {
     this.dataSource = new MatTableDataSource();
-    this.getData();
+    // this.getData();
+    this.getRequestSliks();
   }
 
   public showTimeLine(element: IRequestSlik): void {
@@ -156,7 +234,8 @@ export class RequestSlikBucketComponent implements OnInit {
       this.dataSource = new MatTableDataSource([]);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.getData();
+      // this.getData();
+      this.getRequestSliks();
     } else {
       this.clickedChip = option;
 
@@ -187,7 +266,8 @@ export class RequestSlikBucketComponent implements OnInit {
   clearSearch() {
     this.searchCif = '';
     this.isLoading = true;
-    this.getData(0);
+    // this.getData(0);
+    this.getRequestSliks(0);
   }
 
   // === SEARCH REQUEST SLIK BUCKET
@@ -223,7 +303,7 @@ export class RequestSlikBucketComponent implements OnInit {
       ? this.searchReqSlik(this.searchCif)
       : this.clickedChip !== ''
       ? this.chipClick(this.clickedChip)
-      : this.getData(page);
+      : this.getRequestSliks(page);
   }
 
   pageIndex = 0;

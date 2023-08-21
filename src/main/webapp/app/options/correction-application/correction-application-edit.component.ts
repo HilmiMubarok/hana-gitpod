@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,18 @@ import lodash from 'lodash';
 import { firstValueFrom } from 'rxjs';
 import { CorrectionApplication, ICorrectionApplication } from './correction-application.model';
 import { CorrectionApplicationService } from './correction-application.service';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
+@Component({
+  selector: 'jhi-correction-application-edit-info',
+  templateUrl: './correction-application-edit-info.component.html',
+})
+export class CorrectionApplicationEditInfoComponent {
+  public infoContent: string;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string) {
+    this.infoContent = data;
+  }
+}
 @Component({
   selector: 'jhi-correction-application-edit',
   templateUrl: './correction-application-edit.component.html',
@@ -30,7 +41,8 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
     private _snackbar: MatSnackBar,
     private cashPositionService: CashPositionService,
     private router: Router,
-    private correctionApplicationService: CorrectionApplicationService
+    private correctionApplicationService: CorrectionApplicationService,
+    private dialog: MatDialog
   ) {
     super(_snackbar, loanApplicationService);
     this.page = 0;
@@ -302,5 +314,139 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
     } catch (error: any) {
       this.showErrorWithSnackBarMaterial(error);
     }
+  }
+
+  public openInfo(): void {
+    const statusId: string = this.loanApplication.statusId;
+    const statusDesc: string = this.loanApplication.statusDescription;
+    let content: string;
+    switch (statusId) {
+      case STATUS.CP_ASSIGNMENT: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Reviewer Officer';
+        +' with active status';
+        break;
+      }
+      case STATUS.CP_CHECKER: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Reviewer Checker' + ' with active status';
+        break;
+      }
+      case STATUS.CP_LOAN_APPROVAL: {
+        content = 'Status ' + statusDesc;
+        break;
+      }
+      case STATUS.CP_LOAN_COMMITTEE: {
+        content = 'Status ' + statusDesc;
+        break;
+      }
+      case STATUS.CP_DAR_FINAL: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Reviewer Officer' + ' with active status';
+        break;
+      }
+      case STATUS.CP_DAR_CHECKER: {
+        content =
+          'Status ' +
+          statusDesc +
+          ' searching for position data ' +
+          'Credit Reviewer Checker' +
+          ',' +
+          'Head of Credit Review 1' +
+          ',' +
+          'Head of Credit Review 2' +
+          ' with active status';
+        break;
+      }
+      case STATUS.LA_DAR_NOTIF: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Reviewer Officer' + ' with active status';
+        break;
+      }
+      case STATUS.CP_CC_ANALYST: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Compliance Analyst' + ' with active status';
+        break;
+      }
+      case STATUS.OL_ASSIGNED: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Legal Officer' + ' with active status';
+        break;
+      }
+      case STATUS.CP_APPROVAL_BM: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Branch Manager' + ' with active status';
+        break;
+      }
+      case STATUS.CP_APPROVAL_DEPTHEAD: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Department Head' + ' with active status';
+        break;
+      }
+      case STATUS.CP_RETURN_TO_RM: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Relationship Manager' + ' with active status';
+        break;
+      }
+      case STATUS.CP_APPROVAL_SME_HEAD: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'SME Head' + ' with active status';
+        break;
+      }
+      case STATUS.CP_APPROVAL_DH: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Division Head' + ' with active status';
+        break;
+      }
+      case STATUS.CP_APPROVAL_SDH: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Sales & Dist. Head' + ' with active status';
+        break;
+      }
+      case STATUS.CP_APPROVE_TO_LA: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Reviewer Admin' + ' with active status';
+        break;
+      }
+      case STATUS.RETURN_TO_RM_CRA: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Relationship Manager' + ' with active status';
+        break;
+      }
+      case STATUS.CP_CC_DISTRIBUTION: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Compliance Admin' + ' with active status';
+        break;
+      }
+      case STATUS.CP_CC_DIV_HEAD: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Head of Compliance' + ' with active status';
+        break;
+      }
+      case STATUS.CP_CC_DEPT_HEAD: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Compliance Dept Head' + ' with active status';
+        break;
+      }
+      case STATUS.OL_DISTRIBUTION: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Legal Lead' + ' with active status';
+        break;
+      }
+      case STATUS.CP_CC_DIRECTOR: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Legal Lead' + ' with active status';
+        break;
+      }
+      case STATUS.OL_REVIEW_TEAMLEAD: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Legal Team Lead' + ' with active status';
+        break;
+      }
+      case STATUS.OL_REVIEW_LEAD: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Credit Legal Lead' + ' with active status';
+        break;
+      }
+      case STATUS.OL_REVIEW_HEAD: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Head of Legal' + ' with active status';
+        break;
+      }
+      case STATUS.OL_APPEAL: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Relationship Manager' + ' with active status';
+        break;
+      }
+      case STATUS.OL_CONFIRMATION: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Relationship Manager' + ' with active status';
+        break;
+      }
+      default: {
+        content = 'Status ini tidak terdapat content';
+        break;
+      }
+    }
+    this.dialog.open(CorrectionApplicationEditInfoComponent, {
+      width: '800px',
+      data: content,
+    });
   }
 }

@@ -2,19 +2,24 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title-group>
-        <mat-card-title>Correction Data Application</mat-card-title>
-        <mat-card-subtitle
+        <mat-card-title
+          >Correction Data Application<button (click)="openInfo()" mat-icon-button>
+            <mat-icon>info</mat-icon>
+          </button></mat-card-title
+        >
+        <!-- <mat-card-subtitle
           >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
           aliqua.</mat-card-subtitle
-        >
+        > -->
       </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> Filter </mat-panel-title>
-            <mat-panel-description> Filtering data collection </mat-panel-description>
+            <mat-panel-title>Filtering data collection</mat-panel-title>
+            <!-- <mat-panel-title> Filter </mat-panel-title>
+            <mat-panel-description> Filtering data collection </mat-panel-description> -->
           </mat-expansion-panel-header>
           <div class="row">
             <div class="col-6">
@@ -36,7 +41,7 @@
             </div>
             <div class="col-6">
               <mat-form-field class="w-100">
-                <mat-label>Appraisal Status</mat-label>
+                <mat-label>Application Status</mat-label>
                 <mat-select multiple [(ngModel)]="selectedFilterStatusItems">
                   <mat-select-trigger>
                     {{ selectedFilterStatusItems[0] ? showSelectedStatus(selectedFilterStatusItems[0]) : '' }}
@@ -76,7 +81,7 @@
               [(ngModel)]="currentSearch"
               id="currentSearch"
               name="currentSearch"
-              placeholder="Search Application..."
+              placeholder="Search Application"
             />
             <button class="input-group-addon btn btn-info flat-style-button" (click)="search(currentSearch)" *ngIf="currentSearch">
               <span>

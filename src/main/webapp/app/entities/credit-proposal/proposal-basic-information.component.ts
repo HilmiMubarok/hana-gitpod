@@ -156,6 +156,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public conditionFileSfdt: File;
   public conditionFileWord: File;
   public positionTypeId: string;
+  public headerTitle = 'select proposal type';
 
   private saveState: string;
   public parentSubject: Subject<any> = new Subject();
@@ -203,6 +204,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       const subRoute = params['subroute'];
       if (subRoute) {
         this.clickedMenu = subRoute;
+        this.showTextMenu();
       }
     });
     this.isHistoryExist =
@@ -467,6 +469,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
 
     this.loadDataBy();
+    this.showTextMenu();
   }
 
   public setSubmenu(event: Object): void {
@@ -1553,17 +1556,17 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
   }
 
-  showTextMenu() {
+  public showTextMenu(): void {
     const menuList = [];
     menuList.push(this.subMenu);
     for (let i = 0; i < menuList.length; i++) {
       for (let x = 0; x < menuList[i].length; x++) {
         if (this.clickedMenu === menuList[i][x].id) {
-          return menuList[i][x].text;
+          this.headerTitle = menuList[i][x].text;
         } else {
           for (let y = 0; y < menuList[i][x].child?.length; y++) {
             if (this.clickedMenu === menuList[i][x].child[y].id) {
-              return menuList[i][x].child[y].text;
+              this.headerTitle = menuList[i][x].child[y].text;
             }
           }
         }

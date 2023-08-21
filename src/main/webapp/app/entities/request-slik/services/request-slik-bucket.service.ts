@@ -29,8 +29,8 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR + '/api/cbas_slik');
   }
 
-  getAllData(page: number, size: number, sort: string): Observable<any> {
-    const options = new HttpParams().set('page', page).set('size', size).set('sort', sort);
+  getAllData(page: number, size: number, sort: string, idPosition): Observable<any> {
+    const options = new HttpParams().set('page', page).set('size', size).set('sort', sort).set('idPosition', idPosition);
 
     return this.http.get<any>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
       switchMap(data => {
@@ -69,6 +69,40 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
         );
       }),
       retryWhen(errors => errors.pipe(delay(1000), take(3)))
+    );
+  }
+
+  getAllRequestSliks(page: number, size: number, sort: string, idPosition): Observable<any> {
+    const options = new HttpParams().set('page', page).set('size', size).set('sort', sort).set('idPosition', idPosition);
+    return this.http.get<any>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
+      switchMap(data => {
+        if (data.body.data.content.length === 0) {
+          return of([]);
+        } else {
+          return of(data)
+            .pipe(
+              map(details =>
+                data.body.data.content.map((user, i) => ({
+                  ...user,
+                  dataExpand:
+                    details.body.data.content[i].cif.customerType === 'CORPORATE'
+                      ? [details.body.data.content[i].cif.organization]
+                      : [details.body.data.content[i].cif.person],
+                }))
+              )
+            )
+            .pipe(
+              map(final => ({
+                data: [...final],
+                pageable: {
+                  totalElements: data.body.data.totalElements,
+                  totalPages: data.body.data.totalPages,
+                  pageable: data.body.data.pageable,
+                },
+              }))
+            );
+        }
+      })
     );
   }
 

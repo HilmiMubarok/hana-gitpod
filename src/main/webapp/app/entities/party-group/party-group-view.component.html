@@ -14,12 +14,12 @@
               </div>
               <div class="col-2">
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-radiobutton disabled label="Individu" [(ngModel)]="item.customerType"></ejs-radiobutton>
+                  <ejs-radiobutton readonly label="Individu" [(ngModel)]="item.customerType"></ejs-radiobutton>
                 </section>
               </div>
               <div class="col-2">
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-radiobutton disabled label="Badan Usaha" [(ngModel)]="item.customerType" checked="true"> </ejs-radiobutton>
+                  <ejs-radiobutton readonly label="Badan Usaha" [(ngModel)]="item.customerType" checked="true"> </ejs-radiobutton>
                 </section>
               </div>
               <!-- empty column -->
@@ -56,7 +56,7 @@
                   </div>
                   <div class="my-3">
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                      <ejs-textbox disabled placeholder="CIF" [(ngModel)]="item.cif.customerId" floatLabelType="Auto" cssClass="e-outline">
+                      <ejs-textbox readonly placeholder="CIF" [(ngModel)]="item.cif.customerId" floatLabelType="Auto" cssClass="e-outline">
                       </ejs-textbox>
                     </section>
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -71,7 +71,7 @@
                     <!-- <div class="form-space"> -->
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
-                        disabled
+                        readonly
                         placeholder="Complete Name"
                         [(ngModel)]="item.prospectOrganization.name"
                         floatLabelType="Auto"
@@ -117,7 +117,7 @@
                         [(ngModel)]="item.prospectOrganization.companyType"
                         placeholder="Company Type"
                         floatLabelType="Auto"
-                        disabled
+                        readonly
                         cssClass="e-outline"
                       >
                       </ejs-textbox>
@@ -135,7 +135,7 @@
                       <ejs-textbox
                         [(ngModel)]="item.prospectOrganization.officeMail"
                         placeholder="Email"
-                        disabled
+                        readonly
                         floatLabelType="Auto"
                         cssClass="e-outline"
                       >
@@ -154,7 +154,7 @@
                       <ejs-textbox
                         [(ngModel)]="item.legal.deedEstablishNum"
                         placeholder="Deed Of Established No"
-                        disabled
+                        readonly
                         floatLabelType="Auto"
                         cssClass="e-outline"
                       >
@@ -186,7 +186,7 @@
                   <div class="my-3">
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
-                        disabled
+                        readonly
                         placeholder="Identity Type"
                         [(ngModel)]="item.prospectOrganization.organizationIdType"
                         floatLabelType="Auto"
@@ -208,7 +208,7 @@
                         placeholder="Identity Number"
                         [(ngModel)]="item.prospectOrganization.organizationIdNumber"
                         floatLabelType="Auto"
-                        disabled
+                        readonly
                         cssClass="e-outline"
                       >
                       </ejs-textbox>
@@ -227,7 +227,7 @@
                         placeholder="NPWP"
                         [(ngModel)]="item.prospectOrganization.taxIdNumber"
                         floatLabelType="Auto"
-                        disabled
+                        readonly
                         cssClass="e-outline"
                       >
                       </ejs-textbox>
@@ -246,7 +246,7 @@
                         [value]="item.legal.deedEstablishDate | date: 'yyyy/MM/dd'"
                         placeholder="Deed Of Established Date"
                         floatLabelType="Auto"
-                        disabled
+                        readonly
                         cssClass="e-outline"
                       >
                       </ejs-textbox>
@@ -266,7 +266,7 @@
                           [(ngModel)]="item.prospectOrganization.officePhone"
                           placeholder="Phone Number 1"
                           floatLabelType="Auto"
-                          disabled
+                          readonly
                           cssClass="e-outline"
                         >
                         </ejs-textbox>
@@ -285,7 +285,7 @@
                           [(ngModel)]="item.prospectOrganization.otherPhone1"
                           placeholder="Phone Number 2"
                           floatLabelType="Auto"
-                          disabled
+                          readonly
                           cssClass="e-outline"
                         >
                         </ejs-textbox>
@@ -305,7 +305,7 @@
                         <ejs-textbox
                           [(ngModel)]="item.prospectOrganization.otherPhone2"
                           placeholder="Phone Number 3"
-                          disabled
+                          readonly
                           floatLabelType="Auto"
                           cssClass="e-outline"
                         >
@@ -325,7 +325,7 @@
                           [(ngModel)]="item.prospectOrganization.faxOffice"
                           placeholder="FAX"
                           floatLabelType="Auto"
-                          disabled
+                          readonly
                           cssClass="e-outline"
                         >
                         </ejs-textbox>
@@ -348,7 +348,7 @@
                     <ejs-textbox
                       [(ngModel)]="item.legal.establishPlace"
                       placeholder="Deed Of Established Place"
-                      disabled
+                      readonly
                       floatLabelType="Auto"
                       cssClass="e-outline"
                     >
@@ -367,7 +367,7 @@
                     <ejs-textbox
                       [(ngModel)]="item.legal.establishNotary"
                       placeholder="Deed Of Established Nota"
-                      disabled
+                      readonly
                       floatLabelType="Auto"
                       cssClass="e-outline"
                     >
@@ -390,7 +390,7 @@
                     floatLabelType="Auto"
                     placeholder="Factory Warehouse Address"
                     [multiline]="true"
-                    disabled
+                    readonly
                   ></ejs-textbox>
                 </div> -->
                 <div class="row my-3">
@@ -400,7 +400,7 @@
                       <ejs-textbox
                         [(ngModel)]="item.debtorData.relationWithHana"
                         placeholder="Relation With Keb Hana Bank"
-                        disabled
+                        readonly
                         floatLabelType="Auto"
                         cssClass="e-outline"
                       >
@@ -418,7 +418,7 @@
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
                         [(ngModel)]="item.legal.siupNumber"
-                        disabled
+                        readonly
                         placeholder="SIUP"
                         floatLabelType="Auto"
                         cssClass="e-outline"
@@ -441,7 +441,7 @@
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
                         [(ngModel)]="item.debtorData.attributes['lobName']"
-                        disabled
+                        readonly
                         cssClass="e-outline"
                         floatLabelType="Auto"
                         placeholder="Line Of Business"
@@ -458,7 +458,7 @@
                   <div class="col-6">
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
-                        disabled
+                        readonly
                         [(ngModel)]="item.debtorData.attributes['lobCode']"
                         placeholder="Line of Business Code"
                         cssClass="e-outline"
@@ -483,7 +483,7 @@
                         placeholder="SID"
                         floatLabelType="Auto"
                         cssClass="e-outline"
-                        disabled
+                        readonly
                       >
                       </ejs-textbox>
                     </section>
@@ -499,7 +499,7 @@
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
                         [value]="item.debtorData.customerSince | date: 'yyyy/MM/dd'"
-                        disabled
+                        readonly
                         placeholder="Existing Customer Since"
                         floatLabelType="Auto"
                         cssClass="e-outline"
@@ -520,7 +520,7 @@
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
                         [(ngModel)]="item.debtorData.custInfoSystemCode"
-                        disabled
+                        readonly
                         placeholder="SID Code"
                         floatLabelType="Auto"
                         cssClass="e-outline"
@@ -565,7 +565,7 @@
                     <!-- <div class="form-space"> -->
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
-                        disabled
+                        readonly
                         [(ngModel)]="item.debtorData.gnrlBankReportCode"
                         placeholder="Kode LBU"
                         floatLabelType="Auto"
@@ -585,7 +585,7 @@
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
                         [(ngModel)]="item.debtorData.strAccountNumberIDR"
-                        disabled
+                        readonly
                         placeholder="Account Number (IDR)"
                         floatLabelType="Auto"
                         cssClass="e-outline"
@@ -607,7 +607,7 @@
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
                         [(ngModel)]="item.debtorData.gnrlBankReport"
-                        disabled
+                        readonly
                         [multiline]="true"
                         placeholder="LBU Remark"
                         floatLabelType="Auto"
@@ -627,7 +627,7 @@
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
                         [(ngModel)]="item.debtorData.strAccountNumberUSD"
-                        disabled
+                        readonly
                         placeholder="Account Number (USD)"
                         floatLabelType="Auto"
                         cssClass="e-outline"
@@ -648,7 +648,7 @@
                     <!-- <div class="form-space"> -->
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-dropdownlist
-                        disabled
+                        readonly
                         [(ngModel)]="item.debtorData.collectabilityStatus"
                         cssClass="e-outline"
                         floatLabelType="Auto"
@@ -837,7 +837,7 @@
                   <div class="col-6">
                     <!-- <div class="form-space"> -->
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                      <ejs-textbox disabled [(ngModel)]="item.debtorData.pep" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline">
+                      <ejs-textbox readonly [(ngModel)]="item.debtorData.pep" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline">
                       </ejs-textbox>
                     </section>
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -851,7 +851,7 @@
                   <div class="col-6">
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
-                        disabled
+                        readonly
                         [(ngModel)]="item.debtorData.correspondenceAddressDesc"
                         placeholder="Correspondence Address"
                         floatLabelType="Auto"
@@ -873,14 +873,14 @@
                     <!-- <div class="form-space"> -->
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <!-- <ejs-numerictextbox
-                          disabled
+                          readonly
                           [(ngModel)]="item.debtorData.depositCapital"
                           placeholder="Modal Disetor"
                           floatLabelType="Auto"
                           cssClass="e-outline"
                           format="IDR 0,"
                           min="0"
-                          disabled
+                          readonly
                         >
                         </ejs-numerictextbox> -->
                       <mat-form-field class="w-100" appearance="outline">
@@ -1296,7 +1296,7 @@
               <div class="col-6">
                 <!-- <div class="form-space"> -->
                 <ejs-textbox
-                  disabled
+                  readonly
                   [(ngModel)]="item.debtorData.correspondenceAddressDesc"
                   placeholder="Correspondence Address"
                   floatLabelType="Auto"
@@ -1324,7 +1324,7 @@
                   cssClass="e-outline"
                   format="IDR 0,"
                   min="0"
-                  disabled
+                  readonly
                 >
                 </ejs-numerictextbox>
               </div>

@@ -46,7 +46,7 @@
                 [(ngModel)]="creditProposal.creditRatings[0].creditRating"
                 cssClass="e-outline"
                 floatLabelType="Always"
-                disabled
+                readonly
               ></ejs-textbox>
               <ejs-textbox
                 *ngIf="creditProposal.creditRatings[0].creditRating === null || creditProposal.creditRatings[0].creditRating === ''"
@@ -54,7 +54,7 @@
                 value="N/A"
                 cssClass="e-outline"
                 floatLabelType="Always"
-                disabled
+                readonly
               ></ejs-textbox>
             </div>
           </section>
@@ -219,30 +219,30 @@
               </tr>
               <tr>
                 <td>NORMAL RATE</td>
-                <td>{{ avgNormalRateIDR }}</td>
+                <td>{{ getAverage('normalRateIdr') }}</td>
               </tr>
               <tr>
                 <td>DISCOUNT PROPOSAL</td>
-                <td>{{ avgDiscProposalIDR }}</td>
+                <td>{{ getAverage('discRateIdr') }}</td>
               </tr>
               <tr>
                 <td>PROPOSED RATE</td>
-                <td>{{ avgProposedRateIDR }}</td>
+                <td>{{ getAverage('proposedRateIdr') }}</td>
               </tr>
               <tr>
                 <th colspan="2" class="rounding-table-left rounding-table-right">USD</th>
               </tr>
               <tr>
                 <td>NORMAL RATE</td>
-                <td>{{ avgNormalRateUSD }}</td>
+                <td>{{ getAverage('normalRateUsd') }}</td>
               </tr>
               <tr>
                 <td>DISCOUNT PROPOSAL</td>
-                <td>{{ avgDiscProposalUSD }}</td>
+                <td>{{ getAverage('discRateUsd') }}</td>
               </tr>
               <tr>
                 <td>PROPOSED RATE</td>
-                <td>{{ avgProposedRateUSD }}</td>
+                <td>{{ getAverage('proposedRateUsd') }}</td>
               </tr>
             </table>
           </div>
@@ -270,7 +270,7 @@
                 placeholder="Modified Date"
                 cssClass="e-outline"
                 floatLabelType="Always"
-                disabled
+                readonly
               >
               </ejs-textbox>
             </div>
@@ -292,7 +292,7 @@
                 [(ngModel)]="creditProposal.creditRatings[0].creditRating"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                disabled
+                readonly
               ></ejs-textbox>
             </div>
           </section>
