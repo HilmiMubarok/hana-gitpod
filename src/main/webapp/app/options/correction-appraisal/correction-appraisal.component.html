@@ -8,18 +8,19 @@
             <mat-icon>info</mat-icon>
           </button></mat-card-title
         >
-        <mat-card-subtitle
+        <!-- <mat-card-subtitle
           >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
           aliqua.</mat-card-subtitle
-        >
+        > -->
       </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title> Filter </mat-panel-title>
-            <mat-panel-description> Filtering data collection </mat-panel-description>
+            <mat-panel-title> Filtering data collection </mat-panel-title>
+            <!-- <mat-panel-title> Filter </mat-panel-title>
+            <mat-panel-description> Filtering data collection </mat-panel-description> -->
           </mat-expansion-panel-header>
           <div class="row">
             <div class="col-6">
@@ -80,7 +81,7 @@
               [(ngModel)]="currentSearch"
               id="currentSearch"
               name="currentSearch"
-              placeholder="Search Appraisal..."
+              placeholder="Search Appraisal"
             />
             <button class="input-group-addon btn btn-info flat-style-button" (click)="search(currentSearch)" *ngIf="currentSearch">
               <span>

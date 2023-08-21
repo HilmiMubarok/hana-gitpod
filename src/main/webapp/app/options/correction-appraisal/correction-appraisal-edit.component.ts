@@ -70,47 +70,43 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
 
   public openInfo(): void {
     const statusId: string = this.surveyAppraisal.statusId;
+    const statusDesc: string = this.surveyAppraisal.statusDescription;
     let content: string;
     switch (statusId) {
       case STATUS.ASSIGNMENT: {
-        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.ADMIN_APPRAISER + ' dengan status aktif';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Admin Appraiser' + ' with active status';
         break;
       }
       case STATUS.RETURNTORM: {
-        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.RM + ' dari data owner appraisal';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Relationship Manager' + ' with active status';
         break;
       }
       case STATUS.ASSIGNED: {
-        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.SURVEYOR + ' dari data assign surveyor untuk appraisal';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Officer Appraiser' + ' with active status';
         break;
       }
       case STATUS.RETURNTOADMIN: {
-        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.ADMIN_APPRAISER + ' dengan status aktif';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Admin Appraiser' + ' with active status';
         break;
       }
       case STATUS.APPROVAL_TL: {
-        content =
-          'Status ' +
-          statusId +
-          ' mencari data posisi ' +
-          POSITION_TYPE.TL +
-          ' dengan internal superordinate internal dari internal surveyor yang di assign';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Team Leader' + ' with active status';
         break;
       }
       case STATUS.RETURN_TO_OFFICER: {
-        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.SURVEYOR + ' dari data assign surveyor untuk appraisal';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Officer Appraiser' + ' with active status';
         break;
       }
       case STATUS.APPROVAL_DEPT_HEAD: {
-        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.APR_DEPT_HEAD + ' dengan status aktif';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Appraisal Dept Head' + ' with active status';
         break;
       }
       case STATUS.APPROVAL_DH: {
-        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.APR_DH + ' dengan status aktif';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Appraisal Div Head' + ' with active status';
         break;
       }
       case STATUS.APPROVE: {
-        content = 'Status ' + statusId + ' mencari data posisi ' + POSITION_TYPE.RM + ' dari data owner appraisal';
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Relationship Manager' + ' with active status';
         break;
       }
       default: {
