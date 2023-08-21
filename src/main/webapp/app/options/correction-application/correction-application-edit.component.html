@@ -2,7 +2,11 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title-group>
-        <mat-card-title>Fixing Incorrect Data Application</mat-card-title>
+        <mat-card-title
+          >Fixing Incorrect Data Application<button (click)="openInfo()" mat-icon-button>
+            <mat-icon>info</mat-icon>
+          </button></mat-card-title
+        >
         <mat-card-subtitle></mat-card-subtitle>
       </mat-card-title-group>
     </mat-card-header>
@@ -10,14 +14,16 @@
       <mat-accordion multi>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
-            <mat-panel-title> Info </mat-panel-title>
-            <mat-panel-description> Application Info </mat-panel-description>
+            <mat-panel-title>Application Info</mat-panel-title>
+            <!-- <mat-panel-title> Info </mat-panel-title>
+            <mat-panel-description> Application Info </mat-panel-description> -->
           </mat-expansion-panel-header>
           <table id="edit" class="w-100 info">
             <tr align="center">
               <td class="fw-bold">Application Number</td>
               <td class="fw-bold">CIF</td>
               <td class="fw-bold">Customer Name</td>
+              <td class="fw-bold">Status</td>
             </tr>
             <tr align="center">
               <td>{{ loanApplication.applicationNumber }}</td>
@@ -25,13 +31,19 @@
               <td>
                 {{ loanApplication.prospectPerson ? loanApplication.prospectPerson.name : loanApplication.prospectOrganization.groupName }}
               </td>
+              <td>
+                <mat-chip class="status-chip"
+                  ><span class="category-chip__text">{{ loanApplication.statusDescription }}</span>
+                </mat-chip>
+              </td>
             </tr>
           </table>
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
-            <mat-panel-title> Action </mat-panel-title>
-            <mat-panel-description> Person will you assign </mat-panel-description>
+            <mat-panel-title>Person you will assign</mat-panel-title>
+            <!-- <mat-panel-title> Action </mat-panel-title>
+            <mat-panel-description> Person will you assign </mat-panel-description> -->
           </mat-expansion-panel-header>
           <table mat-table [dataSource]="items" class="mat-table-expand mt-3">
             <ng-container matColumnDef="no">
