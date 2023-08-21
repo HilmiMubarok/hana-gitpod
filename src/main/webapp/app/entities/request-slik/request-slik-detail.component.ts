@@ -444,7 +444,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
   cancel() {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'CANCEL').subscribe(res => {
+    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.CANCEL).subscribe(res => {
       this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
       this.router.navigate(['/request-slik']);
     });
