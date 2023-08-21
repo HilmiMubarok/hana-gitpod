@@ -66,8 +66,8 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
     switch (statusId) {
       case STATUS.CP_ASSIGNMENT: {
         param['active'] = true;
-        const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
-        param['idParty'] = dataAssignToCRO['partyId'];
+        // const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
+        // param['idParty'] = dataAssignToCRO['partyId'];
         param['idPositionType'] = POSITION_TYPE.CRO;
         break;
       }
@@ -88,8 +88,8 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
       }
       case STATUS.CP_DAR_FINAL: {
         param['active'] = true;
-        const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
-        param['idParty'] = dataAssignToCRO['partyId'];
+        // const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
+        // param['idParty'] = dataAssignToCRO['partyId'];
         param['idPositionType'] = POSITION_TYPE.CRO;
         break;
       }
@@ -101,22 +101,22 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
       }
       case STATUS.LA_DAR_NOTIF: {
         param['active'] = true;
-        const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
-        param['idParty'] = dataAssignToCRO['partyId'];
+        // const dataAssignToCRO: object = JSON.parse(this.loanApplication.attributes['dataAssignToCRO']);
+        // param['idParty'] = dataAssignToCRO['partyId'];
         param['idPositionType'] = POSITION_TYPE.CRO;
         break;
       }
       case STATUS.CP_CC_ANALYST: {
         param['active'] = true;
-        const dataAssignToCCAdmin: object = JSON.parse(this.loanApplication.attributes['dataAssignToCCAdmin']);
-        param['idParty'] = dataAssignToCCAdmin['partyId'];
+        // const dataAssignToCCAdmin: object = JSON.parse(this.loanApplication.attributes['dataAssignToCCAdmin']);
+        // param['idParty'] = dataAssignToCCAdmin['partyId'];
         param['idPositionType'] = POSITION_TYPE.CC_ANALYST;
         break;
       }
       case STATUS.OL_ASSIGNED: {
         param['active'] = true;
-        const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
-        param['idParty'] = dataAssignToLegalOfficer['partyId'];
+        // const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
+        // param['idParty'] = dataAssignToLegalOfficer['partyId'];
         param['idPositionType'] = POSITION_TYPE.LEGAL_OFFICER;
         param['code'] = 'LEGAL_OFFICER';
         break;
