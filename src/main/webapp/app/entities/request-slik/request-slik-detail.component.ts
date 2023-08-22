@@ -173,7 +173,8 @@ export class RequestSlikDetailComponent implements OnInit {
 
   roles = {
     request: ['RM', 'CRO'],
-    approval: ['SME_HEAD', 'DEPT_HEAD', 'HCR1', 'HCR2', 'BUSINESS_SUPPORT'],
+    approvalBu: ['SME_HEAD'],
+    approvalSlik: ['BUSINESS_SUPPORT'],
   };
 
   // submitTitle = this.getSubmitTitle()
@@ -194,20 +195,20 @@ export class RequestSlikDetailComponent implements OnInit {
         this.requestSlik.status === this.reqSlikStatus.VERIFY
         ? true
         : false;
+    } else if (this.roles.approvalBu.includes(this.position)) {
+      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU ? true : false;
     } else {
-      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU || this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK
-        ? true
-        : false;
+      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK && this.roles.approvalSlik.includes(this.position) ? true : false;
     }
   }
   showRejectButton() {
     if (this.roles.request.includes(this.position)) {
       // RM DLL
       return false;
+    } else if (this.roles.approvalBu.includes(this.position)) {
+      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU ? true : false;
     } else {
-      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU || this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK
-        ? true
-        : false;
+      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK && this.roles.approvalSlik.includes(this.position) ? true : false;
     }
   }
   showCancelButton() {
