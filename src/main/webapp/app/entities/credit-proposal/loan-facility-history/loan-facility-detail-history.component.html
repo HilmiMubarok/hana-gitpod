@@ -1,7 +1,7 @@
-<div class="e-card" *ngIf="isViewMode === true">
+<div *ngIf="isViewMode === true">
   <div class="e-card-header">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">Main Facility</div>
+      <div class="header-title">Main Facility</div>
     </div>
   </div>
 
@@ -13,7 +13,7 @@
 
   <div class="e-card-header">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">Facility Details</div>
+      <div class="header-title">Facility Details</div>
     </div>
   </div>
   <div class="e-card-content">
@@ -355,7 +355,7 @@
 
     <div class="mb-2">
       <section *ngIf="parentSource === 'credit-proposal'">
-        <mat-label>REMARKS</mat-label>
+        <mat-label class="header-title">REMARKS</mat-label>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
             #document_editor_container_view_false
@@ -399,10 +399,10 @@
       </section>
     </div>
   </div>
-  <div class="e-card" *ngIf="!isOnCompareData && !takeOutCompare">
+  <div *ngIf="!isOnCompareData && !takeOutCompare">
     <div class="e-card-header">
       <div class="e-card-header-caption">
-        <div class="e-card-header-title">Take Over Scheme (If Any)</div>
+        <div class="header-title">Take Over Scheme (If Any)</div>
       </div>
     </div>
     <div class="e-card-content">
@@ -455,10 +455,10 @@
   </div>
 </div>
 
-<div class="e-card" *ngIf="isViewMode === false">
+<div *ngIf="isViewMode === false">
   <div class="e-card-header">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">Main Facility</div>
+      <div class="header-title">Main Facility</div>
     </div>
   </div>
 
@@ -470,7 +470,7 @@
 
   <div class="e-card-header">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">Facility Details</div>
+      <div class="header-title">Facility Details</div>
     </div>
   </div>
   <div class="e-card-content">
@@ -631,10 +631,10 @@
         [isReadOnly]="true"
       ></ejs-documenteditorcontainer>
     </section>
-    <div class="e-card">
+    <div>
       <div class="e-card-header">
         <div class="e-card-header-caption">
-          <div class="e-card-header-title">Take Over Scheme (If Any)</div>
+          <div class="header-title">Take Over Scheme (If Any)</div>
         </div>
       </div>
       <div class="e-card-content">

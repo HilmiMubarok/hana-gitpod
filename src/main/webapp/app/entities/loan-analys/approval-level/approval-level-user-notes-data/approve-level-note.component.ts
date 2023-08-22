@@ -174,7 +174,6 @@ export class LoanFacilityAproveLevelNoteComponent extends AbstractEntityMaterial
       .subscribe(res => {
         const filteredItems = res.body.filter(item => item.applicationId === this.creditProposal.id && item.type === 'loan_committee');
         this.filteringItems = filteredItems;
-        console.log('res', this.filteringItems);
       });
   }
 }

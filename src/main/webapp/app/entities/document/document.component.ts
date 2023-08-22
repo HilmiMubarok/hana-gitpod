@@ -428,7 +428,6 @@ export class DocumentComponent implements OnChanges, OnInit {
       this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
         this.groupByFolder(res.body);
         this.collateralAppraisalService.totalDataDocumentLainya = res.body;
-        console.log('qwe', res.body);
       });
     });
   }

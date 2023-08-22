@@ -151,7 +151,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.triggeredSave();
     }
     if (changes['creditProposal']) {
-      console.log('cp berubah');
       this.fungsiSuminit('IDR');
       this.fungsiSuminit('USD');
       this.fungsiSuminit('both');
