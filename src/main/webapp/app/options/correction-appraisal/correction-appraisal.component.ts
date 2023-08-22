@@ -26,7 +26,7 @@ export class CorrectionAppraisalInfoComponent {
   templateUrl: './correction-appraisal.component.html',
 })
 export class CorrectionAppraisalComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
-  public displayColumns: string[] = ['no', 'appraisalNumber', 'cif', 'customerName', 'status', 'action'];
+  public displayColumns: string[] = ['no', 'appraisalNumber', 'cif', 'customerName', 'internalName', 'status', 'action'];
   public currentSearch: string;
   public positionTypes: IPositionType[];
   public selectedFilterPositionTypes: string[];
