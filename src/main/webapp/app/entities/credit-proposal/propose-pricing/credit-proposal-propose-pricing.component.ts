@@ -307,6 +307,9 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
   public selectMenuItem(args: MenuEventArgs): void {
     if (args.item.text === 'DASHBOARD') {
+      if (this.creditProposal.statusId !== 'DRAFT') {
+        this.spreadPerFacilityEvent(this.creditProposal.products);
+      }
       if (this.dashboardChartData.length <= 0) {
         alert('Please click generate button on Loan Facility Detail');
       } else {
