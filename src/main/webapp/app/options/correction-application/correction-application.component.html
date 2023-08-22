@@ -125,6 +125,12 @@
             >
           </td>
         </ng-container>
+        <ng-container matColumnDef="internalName">
+          <th mat-header-cell *matHeaderCellDef class="text-left">Internal</th>
+          <td mat-cell *matCellDef="let element" class="text-left">
+            <a (click)="copy(element.internalName)" href="javascript:void(0)">{{ element.internalName }}</a>
+          </td>
+        </ng-container>
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
           <td mat-cell *matCellDef="let element" class="text-center">
