@@ -4,16 +4,15 @@ import { EventManager } from 'app/core/util/event-manager.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 
-import { RequestSlik } from './request-slik.model';
 import { RequestSlikService } from './request-slik.service';
 import { AccountService } from 'app/core/auth/account.service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { PartyCifService } from '../party-cif/party-cif.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RequestSlikStatus } from './enums/request-slik-status.enum';
+import { CashCustomerService } from '../party-cif/cash-cusomer.service';
 
 @Component({
   selector: 'jhi-request-slik-update',
@@ -31,7 +30,7 @@ export class RequestSlikUpdateComponent {
     protected eventManager: EventManager,
     protected toastService: MessageService,
     protected accountService: AccountService,
-    private partyCifService: PartyCifService,
+    private cashCustomerService: CashCustomerService,
     private router: Router
   ) {
     this.accountService
@@ -54,7 +53,7 @@ export class RequestSlikUpdateComponent {
       });
     } else {
       const data = {
-        cif: this.selection.selected[0].customerNumber,
+        cif: this.selection.selected[0].customerId,
         requestor: this.userLogin,
         requestDate: new Date(),
         status: RequestSlikStatus.DRAFT,
@@ -84,11 +83,12 @@ export class RequestSlikUpdateComponent {
   partyCifs$: Observable<any>;
   public selection = new SelectionModel<any>(true, []);
   search() {
-    this.partyCifs$ = this.partyCifService
-      .findLikeCif(this.currentSearch, {
+    this.partyCifs$ = this.cashCustomerService
+      .cashCustomers({
         page: 0,
+        query: this.currentSearch,
         size: 999,
-		idPosition: this.getLocStor('POS')
+        idPosition: this.getLocStor('POS'),
       })
       .pipe(map(res => res.body));
   }
