@@ -95,7 +95,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
       }
       case STATUS.CP_LOAN_COMMITTEE: {
         param['active'] = true;
-        param['relationType'] = this.loanApplication.approvalLc;
+        param['idPositionType'] = POSITION_TYPE.CRO;
         break;
       }
       case STATUS.CP_DAR_FINAL: {
