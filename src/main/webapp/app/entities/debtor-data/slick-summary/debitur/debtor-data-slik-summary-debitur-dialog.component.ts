@@ -108,12 +108,12 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
     this.collateralInfoList;
   }
 
-  numberInputChanged(value) {
+  public numberInputChanged(value: string): number {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
 
-  inputChanged(value) {
+  public inputChanged(value: string): string {
     const num = value.replace(/[IDR,]/g, '');
     return String(num);
   }

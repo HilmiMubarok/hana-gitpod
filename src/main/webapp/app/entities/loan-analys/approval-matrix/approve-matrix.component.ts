@@ -110,7 +110,6 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
         size: 9999,
       })
       .subscribe(res => {
-        console.log('res data', res.body);
         this.data = res.body;
         if (this.data.length > 0) {
           const index = this.data.length - 1;

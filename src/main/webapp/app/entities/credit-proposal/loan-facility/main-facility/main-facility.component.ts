@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { MainFacilityDialogComponent } from './main-facility-dialog.component';
@@ -19,7 +19,7 @@ import { MatPaginator } from '@angular/material/paginator';
     ]),
   ],
 })
-export class MainFacilityComponent implements OnInit, OnChanges {
+export class MainFacilityComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
   public dataSource: MatTableDataSource<IMainFacility>;
   public dataMain: IMainFacility;
@@ -54,10 +54,6 @@ export class MainFacilityComponent implements OnInit, OnChanges {
 
   public id: any;
 
-  ngOnInit() {
-    console.log('ini cp main products', this.creditProposal.mainProducts);
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['creditProposal']) {
       this.dataSource = new MatTableDataSource<IMainFacility>(this._creditProposal.mainProducts);
@@ -67,7 +63,6 @@ export class MainFacilityComponent implements OnInit, OnChanges {
 
   public expanData(element: IMainFacility) {
     this.dataMain = element;
-    console.log(element);
   }
 
   public openDialog(params: IMainFacility) {

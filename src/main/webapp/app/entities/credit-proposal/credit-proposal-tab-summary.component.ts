@@ -472,8 +472,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log('abednege', obj);
-
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])

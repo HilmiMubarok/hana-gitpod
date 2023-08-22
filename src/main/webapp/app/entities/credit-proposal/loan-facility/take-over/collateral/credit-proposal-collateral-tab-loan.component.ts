@@ -42,7 +42,6 @@ export class CreditProposalCollateralTabLoanComponent implements OnChanges {
 
   set creditProposal(object: ICreditProposal) {
     this._creditProposal = object;
-    console.log('get-setter', this.creditProposal);
   }
 
   private loanApplication: ILoanApplication;

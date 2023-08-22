@@ -155,3 +155,28 @@ th:last-child {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+/* Table Styling */
+
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* collateral info table */
+.mat-column-no {
+  text-align: right;
+  width: 5% !important;
+}
+.mat-column-collateralType {
+  text-align: left;
+}
+.mat-column-marketValue {
+  text-align: right;
+}
+.mat-column-liquidValue {
+  text-align: right;
+}
+/* collateral info table */

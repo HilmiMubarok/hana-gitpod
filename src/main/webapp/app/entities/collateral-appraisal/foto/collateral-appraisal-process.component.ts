@@ -155,7 +155,6 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
         arr.push(e['tags']['category']);
       });
       this.collateralAppraisalService.totalDataFotoObjectJaminan = arr.filter(item => item === 'OBJECT');
-      console.log('category Foto Object', this.collateralAppraisalService.totalDataFotoObjectJaminan);
 
       this.setViewAllFiles(this.uploadFiles);
     });

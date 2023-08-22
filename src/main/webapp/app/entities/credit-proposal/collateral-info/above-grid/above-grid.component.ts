@@ -225,7 +225,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     }
 
     if (changes['collateralProperties']) {
-      console.log('above ', this.collateralProperties);
+      // console.log('above ', this.collateralProperties);
     }
   }
 

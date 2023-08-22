@@ -72,7 +72,6 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
           this.collateralAppraisalService.totalDataDetailMachine = res.body;
         });
     }
-    console.log('col propppppppppppp', this.collateralAppraisalService.totalDataDetailMachine);
   }
 
   public openDialog(property: ICollateralProperty = null): void {

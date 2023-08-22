@@ -148,14 +148,10 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       this.genders = res.body;
     });
     this.hiddenNull();
-    console.log(this._deptorData.debtorData.collectabilityStatus);
 
     if (this._deptorData.debtorData.collectabilityStatus === null) {
       this.deptorData.debtorData.collectabilityStatus = '1';
     }
-    console.log('item', this.item);
-    console.log('deptor Data', this.deptorData);
-    console.log(this.genders);
   }
   public countAge(): number {
     let age: number;
@@ -293,7 +289,6 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     return this.item.id;
   }
 
-
   // umkm
 
   public mortCode = [];
@@ -337,7 +332,6 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       const data = [];
 
       element = this.deptorData.products.filter(products => !this.mortCode.includes(products.productCode));
-    
 
       for (let i = 0; i < element.length; i++) {
         data.push(element[i].totalPlafond);
