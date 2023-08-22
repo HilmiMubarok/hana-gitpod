@@ -124,7 +124,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public generateButton: boolean;
 
-  public fileTypeList = { typeOfPosition: ['Business Unit Director', 'Reviewer Opinion'] };
+  public fileTypeList = { typeOfPosition: ['Business Unit Opinion', 'Reviewer Opinion'] };
 
   public typeOfPosition: any;
 
