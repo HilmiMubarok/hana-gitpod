@@ -232,7 +232,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
         const dataGrid = [];
         for (let i = 0; i < data.length; i++) {
           const num = i + 1;
-          dataGrid[i] = { No: num, parameter: data[i].value, value: '' };
+          dataGrid[i] = { No: num, Parameter: data[i].value, value: '' };
         }
         this.dataAttrPass = dataGrid;
 
