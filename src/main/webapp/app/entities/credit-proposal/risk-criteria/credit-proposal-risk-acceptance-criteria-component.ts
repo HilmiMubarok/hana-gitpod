@@ -47,51 +47,6 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   public data = [];
   public dataAttrPass = [];
 
-  // public dataAttrPass = [
-  //   {
-  //     No: 1,
-  //     Parameter: 'Is Individual Debtor Indonesia Citizen (WNI)?',
-  //     value: 'Yes',
-  //   },
-  //   {
-  //     No: 2,
-  //     Parameter:
-  //       'Is the result of SLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
-  //     value: 'Yes',
-  //   },
-  //   {
-  //     No: 3,
-  //     Parameter: 'Is debtors industry included on watch list industry?',
-  //     value: 'Yes',
-  //   },
-  //   {
-  //     No: 4,
-  //     Parameter: 'Will this facility comply with industry limit?',
-  //     value: 'Yes',
-  //   },
-  //   {
-  //     No: 5,
-  //     Parameter: 'The purpose of loan is not for buying land',
-  //     value: 'Yes',
-  //   },
-  //   {
-  //     No: 6,
-  //     Parameter:
-  //       '"For Loan in US$ there must be natural hedging(ie.revenue must also in US$).However,if loan in US$ but revenue in IDR, there must be FX Hedging to cover FX Risk.',
-  //     value: 'Yes',
-  //   },
-  //   {
-  //     No: 7,
-  //     Parameter: 'Debtor or Guarantor has positive profibility in the last 3 years.',
-  //     value: 'Yes',
-  //   },
-  //   {
-  //     No: 8,
-  //     Parameter:
-  //       'Are borrower/shareholders/managagements/Guarantor does not have Tax issue?Does not have any negative information (Legal,Criminal,Tax Dispute with other parties etc.)please check through google also.',
-  //     value: 'Yes',
-  //   },
-  // ];
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
 
@@ -171,12 +126,6 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('this.item', this.item);
-    // if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
-    //   this.data = this.dataAttrPass;
-    // } else {
-    //   this.data = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
-    //   this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
-    // }
 
     this.refreshRac();
     this.General();
@@ -185,6 +134,15 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
     this.height = '80%';
   }
 
+  public changeParameters(): void {
+    const generalRiskCriteria = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+    if (generalRiskCriteria.length > 0) {
+      for (let i = 0; i < generalRiskCriteria.length; i++) {
+        const element = generalRiskCriteria[i].Parameter;
+        console.log('zzz', element);
+      }
+    }
+  }
   public refreshRac() {
     if (this.item.id) {
       if (this.creditProposalRiskAcceptanceCriteriaBelowComponent) {
@@ -203,7 +161,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
       this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria = this.data;
     } else {
       this.data = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
-      this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+      this.dataAttrPass = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
     }
   }
 
@@ -215,89 +173,33 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
         size: 9999,
         sort: ['id', 'desc'],
       })
-      // .subscribe(res => {
-      //   this.data = lodash.filter(res.body, function (o) {
-      //     return o.statusId === 'ACTIVE';
-      //   });
-      //   for (let i = 0; i < this.data.length; i++) {
-      //     this.data[i]['No'] = i + 1;
-      //   }
-      // });
       .subscribe(res => {
         const data = lodash.filter(res.body, function (o) {
-          console.log('data', res);
           return o.statusId === 'ACTIVE';
         });
 
         const dataGrid = [];
         for (let i = 0; i < data.length; i++) {
           const num = i + 1;
-          dataGrid[i] = { No: num, Parameter: data[i].value, value: '' };
+          dataGrid[i] = { No: num, parameter: data[i].value, value: '' };
         }
         this.dataAttrPass = dataGrid;
 
         if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
           this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria = this.dataAttrPass;
         } else {
-          for (let i = 0; i < this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length; i++) {
-            console.log('data3', this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria);
-            this.dataAttrPass = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+          const generalRisk = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+          for (let i = 0; i < generalRisk.length; i++) {
+            this.dataAttrPass[i].No = generalRisk[i].No;
+            if (generalRisk[i].parameter !== undefined) {
+              this.dataAttrPass[i].parameter = generalRisk[i].parameter;
+            } else {
+              this.dataAttrPass[i].parameter = generalRisk[i].Parameter;
+            }
+
+            this.dataAttrPass[i].value = generalRisk[i].value;
           }
         }
       });
   }
 }
-
-// export const dataAttr: Object[] = [
-//   {
-//     No: 1,
-//     Parameter: 'Is Individual Debtor Indonesia Citizen (WNI)?',
-//     Verified: !0,
-//     value: 'A',
-//   },
-//   {
-//     No: 2,
-//     Parameter:
-//       'Is the result of SLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
-//     Verified: !2,
-//     value: 'B',
-//   },
-//   {
-//     No: 3,
-//     Parameter: 'Is debtors industry included on watch list industry?',
-//     Verified: !3,
-//     value: 'C',
-//   },
-//   {
-//     No: 4,
-//     Parameter: 'Will this facility comply with industry limit?',
-//     Verified: !4,
-//     value: 'D',
-//   },
-//   {
-//     No: 5,
-//     Parameter: 'The purpose of loan is not for buying land',
-//     Verified: !5,
-//     value: 'E',
-//   },
-//   {
-//     No: 6,
-//     Parameter:
-//       '"For Loan in US$ there must be natural hedging(ie.revenue must also in US$).However,if loan in US$ but revenue in IDR, there must be FX Hedging to cover FX Risk.',
-//     Verified: !6,
-//     value: 'F',
-//   },
-//   {
-//     No: 7,
-//     Parameter: 'Debtor or Guarantor has positive profibility in the last 3 years.',
-//     Verified: !7,
-//     value: 'G',
-//   },
-//   {
-//     No: 8,
-//     Parameter:
-//       'Are borrower/shareholders/managagements/Guarantor does not have Tax issue?Does not have any negative information (Legal,Criminal,Tax Dispute with other parties etc.)please check through google also.',
-//     Verified: !8,
-//     value: 'G',
-//   },
-// ];
