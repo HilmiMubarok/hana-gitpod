@@ -798,7 +798,7 @@ export const SUBMENU_PARTY_CIF: object[] = [
   },
   {
     id: 'slik',
-    text: 'slik',
+    text: 'SLIK Checking',
   },
   {
     id: 'decision-approval-report',
