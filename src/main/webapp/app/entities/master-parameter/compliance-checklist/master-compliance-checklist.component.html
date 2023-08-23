@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div style="margin: 1rem">
+    <mat-card style="margin: 1rem">
       <table mat-table [dataSource]="items" class="mat-table-expand mt-3" multiTemplateDataRows>
         <ng-container matColumnDef="no">
           <th mat-header-cell width="5%" *matHeaderCellDef class="rounding-table-left grid-index-right">No</th>
@@ -133,7 +133,7 @@
         (page)="loadDataLazy($event)"
       >
       </mat-paginator>
-    </div>
+    </mat-card>
 
     <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
