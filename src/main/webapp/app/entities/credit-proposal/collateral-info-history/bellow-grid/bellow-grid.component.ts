@@ -206,17 +206,17 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     this.fungsiSumcredit('both');
-    // if (changes['creditProposal']) {
-    //   if (this.creditProposal.collaterals.length > 0) {
-    //     for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-    //       const collateral = this.creditProposal.collaterals[i];
-    //       this.findCollateralProperty(collateral);
-    //       if (this.creditProposal.cif) {
-    //         this.loadByPartyId(this.creditProposal.cif.partyId);
-    //       }
-    //     }
-    //   }
-    // }
+    if (changes['creditProposal']) {
+      if (this.creditProposal.collaterals.length > 0) {
+        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+          const collateral = this.creditProposal.collaterals[i];
+          this.findCollateralProperty(collateral);
+          // if (this.creditProposal.cif) {
+          //   this.loadByPartyId(this.creditProposal.cif.partyId);
+          // }
+        }
+      }
+    }
   }
 
   public collateral: any;
