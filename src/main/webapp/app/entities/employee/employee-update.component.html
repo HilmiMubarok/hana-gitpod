@@ -1,94 +1,95 @@
-<div class="row remove-row-scroll">
-  <div class="e-card">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <ejs-breadcrumb cssClass="margin: 1rem;">
-          <e-breadcrumb-items>
-            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <!-- <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item> -->
-            <e-breadcrumb-item text="Employee" url="/internal/element.id/'edit'"></e-breadcrumb-item>
-          </e-breadcrumb-items>
-        </ejs-breadcrumb>
-        <div class="header-container">
-          <div class="header-content">
-            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
-            <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
+<mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
+  <div class="row remove-row-scroll">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <ejs-breadcrumb cssClass="margin: 1rem;">
+            <e-breadcrumb-items>
+              <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+              <!-- <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item> -->
+              <e-breadcrumb-item text="Employee" url="/internal/element.id/'edit'"></e-breadcrumb-item>
+            </e-breadcrumb-items>
+          </ejs-breadcrumb>
+          <div class="header-container">
+            <div class="header-content">
+              <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
+              <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
+            </div>
+            <p class="e-card-sub-title">{{ labelStr }}</p>
           </div>
-          <p class="e-card-sub-title">{{ labelStr }}</p>
         </div>
       </div>
-    </div>
-    <div style="margin: 1rem">
-      <mat-card>
-        <mat-card-header> </mat-card-header>
-        <mat-card-content>
-          <div class="row">
-            <div class="col-12">
-              <jhi-person-employee-view [item]="item.person"></jhi-person-employee-view>
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>NIK</mat-label>
-                <input matInput type="text" [(ngModel)]="item.employeeCode" />
-              </mat-form-field>
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label class="text-capitalize">Active Date</mat-label>
-                  <input
-                    placeholder="Active Date"
-                    matInput
-                    [(ngModel)]="item.registrationDate"
-                    name="registrationDate"
-                    [matDatepicker]="picker"
-                    disabled
-                  />
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker disabled="false"></mat-datepicker>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Non Active Date</mat-label>
-                  <input matInput [(ngModel)]="thruDateTMP" name="thruDate" [matDatepicker]="pickerThruDate" disabled />
-                  <mat-datepicker-toggle matSuffix [for]="pickerThruDate"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerThruDate disabled="false"></mat-datepicker>
-                </mat-form-field>
-              </div>
-
-              <div class="form-group">
+      <div style="margin: 1rem">
+        <mat-card>
+          <mat-card-header> </mat-card-header>
+          <mat-card-content>
+            <div class="row">
+              <div class="col-12">
+                <jhi-person-employee-view [item]="item.person"></jhi-person-employee-view>
                 <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Branch</mat-label>
-                  <mat-select [(ngModel)]="item.internalId">
-                    <mat-option value="">Please Select</mat-option>
-                    <mat-option *ngFor="let item of branchtype" [value]="item.id" (click)="choosedBranch(item)">
-                      {{ item.name }}
-                    </mat-option>
-                  </mat-select>
+                  <mat-label>NIK</mat-label>
+                  <input matInput type="text" [(ngModel)]="item.employeeCode" />
                 </mat-form-field>
-              </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label class="text-capitalize">Active Date</mat-label>
+                    <input
+                      placeholder="Active Date"
+                      matInput
+                      [(ngModel)]="item.registrationDate"
+                      name="registrationDate"
+                      [matDatepicker]="picker"
+                      disabled
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Non Active Date</mat-label>
+                    <input matInput [(ngModel)]="thruDateTMP" name="thruDate" [matDatepicker]="pickerThruDate" disabled />
+                    <mat-datepicker-toggle matSuffix [for]="pickerThruDate"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerThruDate disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
 
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Segmen</mat-label>
-                <input matInput type="text" [(ngModel)]="segmentModel" disabled />
-              </mat-form-field>
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100 pr-1">
-                  <mat-label>Description </mat-label>
-                  <mat-select [(ngModel)]="item.statusId">
-                    <mat-option *ngFor="let ax of desc" [value]="ax.id">
-                      {{ ax.description }}
-                    </mat-option>
-                  </mat-select>
+                <div class="form-group">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Branch</mat-label>
+                    <mat-select [(ngModel)]="item.internalId">
+                      <mat-option value="">Please Select</mat-option>
+                      <mat-option *ngFor="let item of branchtype" [value]="item.id" (click)="choosedBranch(item)">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Segmen</mat-label>
+                  <input matInput type="text" [(ngModel)]="segmentModel" disabled />
                 </mat-form-field>
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="w-100 pr-1">
+                    <mat-label>Description </mat-label>
+                    <mat-select [(ngModel)]="item.statusId">
+                      <mat-option *ngFor="let ax of desc" [value]="ax.id">
+                        {{ ax.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+          </mat-card-content>
+        </mat-card>
 
-      <mat-card-actions align="center" class="button-styling-moz">
-        <button class="button-styling" mat-raised-button type="submit" (click)="submit()">
-          <label>Save</label>
-        </button>
-        <!-- <button
+        <mat-card-actions align="center" class="button-styling-moz">
+          <button class="button-styling" mat-raised-button type="submit" (click)="validateData()">
+            <label>Save</label>
+          </button>
+          <!-- <button
           mat-raised-button
           class="submit-button"
           (click)="openCancelDialog()"
@@ -96,48 +97,49 @@
         >
           Back
         </button> -->
-      </mat-card-actions>
-
-      <mat-sidenav-container [hasBackdrop]="true">
-        <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-          <div class="p-3" style="padding-top: 90px !important">
-            <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-            <ul class="side-menu">
-              <li *ngFor="let item of subMenu">
-                <!--SUBMENU DOESNT HAVE A CHILD-->
-                <a
-                  *ngIf="!item.hasOwnProperty('child')"
-                  href="javascript:void(0)"
-                  class="text-capitalize"
-                  (click)="routeSubMenu(item); drawer.toggle()"
-                  >{{ item.label }}</a
-                >
-                <!--SUBMENU HAS A CHILD-->
-                <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
-                <ul *ngIf="item.hasOwnProperty('child')">
-                  <li *ngFor="let itemChild of item.child">
-                    <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
-                      itemChild.label
-                    }}</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </mat-sidenav>
-      </mat-sidenav-container>
-
-      <button
-        matTooltip="Click this for show sub menu of Employee"
-        style="z-index: 1"
-        class="btn-menu-floating"
-        (click)="drawer.toggle()"
-        mat-fab
-        color="warn"
-        matTooltipPosition="before"
-      >
-        <mat-icon>more_vert</mat-icon>
-      </button>
+        </mat-card-actions>
+      </div>
     </div>
   </div>
-</div>
+  <mat-sidenav
+    position="end"
+    style="position: fixed !important; max-height: 20rem"
+    #drawer
+    class="example-sidenav subroute-background"
+    mode="over"
+  >
+    <div class="header-sub-menu"><label style="margin-top: 1rem">Initial Debtor Data :</label></div>
+
+    <ul class="side-menu list-styling">
+      <li *ngFor="let item of subMenu">
+        <!--SUBMENU DOESNT HAVE A CHILD-->
+        <a
+          *ngIf="!item.hasOwnProperty('child')"
+          href="javascript:void(0)"
+          class="text-capitalize"
+          (click)="routeSubMenu(item); drawer.toggle(); triggerToggle()"
+          >{{ item.label }}</a
+        >
+        <!--SUBMENU HAS A CHILD-->
+        <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
+        <ul *ngIf="item.hasOwnProperty('child')">
+          <li *ngFor="let itemChild of item.child">
+            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize">{{
+              itemChild.label
+            }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </mat-sidenav>
+
+  <button
+    matTooltip="Click this for show sub menu of Employee"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); triggerToggle()"
+    matTooltipPosition="after"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
+</mat-sidenav-container>

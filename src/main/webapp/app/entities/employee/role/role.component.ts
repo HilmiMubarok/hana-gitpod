@@ -27,6 +27,8 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
   public clickedChip: Object;
   public iconTimeline: any;
 
+  public isOpen = false;
+
   public subMenu: object[];
   globalSearchValModel: any;
   currentSearch: any;
@@ -173,5 +175,8 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
 
   public routeSubMenu(menu: object): void {
     this.router.navigate(['./employee/' + menu['id']]);
+  }
+  public triggerToggle(): void {
+    this.isOpen = !this.isOpen;
   }
 }
