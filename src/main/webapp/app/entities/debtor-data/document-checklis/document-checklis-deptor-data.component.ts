@@ -97,9 +97,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               const INDCORData: IDocumentType[] = this.typeData.filter(
                 obj => obj.customerType === this.partyCif.customerType && obj.id !== 'DOC_IDD_BINDING'
               );
-              const PengikatKredit: IDocumentType[] = this.typeData.filter(
-                obj => obj.id === 'DOC_IDD_BINDING' && obj.customerType === this.partyCif.customerType
-              );
+              const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_BINDING');
               console.log('peningkat', PengikatKredit);
 
               const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
