@@ -26,6 +26,7 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public iconTimeline: any;
+  public isOpen = false;
 
   public subMenu: object[];
   globalSearchValModel: any;
@@ -173,5 +174,8 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
 
   public routeSubMenu(menu: object): void {
     this.router.navigate(['./employee/' + menu['id']]);
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

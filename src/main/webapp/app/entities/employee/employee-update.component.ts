@@ -47,6 +47,11 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
 
   internals: IInternal[] = [];
 
+  private comparedEmployeeId = [];
+  private comparedEmployeeEmail = [];
+
+  public isOpen = false;
+
   employmenttypes: IEmploymentType[] = [];
   roleId: string;
   personId: string;
@@ -83,6 +88,12 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
     super(dataUtils, employeeService, elementRef, confirmationService, toastService, activatedRoute);
     this.label = new EmployeeStrapi();
     this.listChangeEventName = 'employeeListModification';
+    this.activatedRoute.params.subscribe(event => {
+      const newOrExisting = event;
+      if (Object.keys(newOrExisting).length === 0) {
+        this.getEmployee();
+      }
+    });
   }
 
   protected initialState(): any {
@@ -164,15 +175,61 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
     }
   }
 
-  submit() {
-    if (!this.item.person.userLogin || !this.item.person.personalEmail) {
-      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'User ID or Email are empty' });
-    } else if (!this.item.person.password) {
-      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Passowrd is Empty' });
+  private getEmployee(): void {
+    this.employeeService
+      .query({
+        page: 0,
+        size: 999,
+      })
+      .subscribe(res => {
+        this.setStatement(res.body);
+      });
+  }
+
+  private setStatement(param: IEmployee[]): void {
+    if (param) {
+      for (let i = 0; i < param.length; i++) {
+        this.comparedEmployeeId.push(param[i].person.userLogin);
+        this.comparedEmployeeEmail.push(param[i].person.personalEmail);
+      }
     } else {
-      this.item.thruDate = this.thruDateTMP;
-      this.save();
+      return null;
     }
+  }
+
+  public validateData(): any {
+    const predicate1 = this.comparedEmployeeId.indexOf(this.item.person.userLogin);
+    const predicate2 = this.comparedEmployeeEmail.indexOf(this.item.person.personalEmail);
+
+    const canBeSaved = (statement1: number, statement2: number) => {
+      const conditionA = this.comparedEmployeeId || this.comparedEmployeeEmail;
+      const conditionB = !this.item.person.userLogin || !this.item.person.personalEmail || !this.item.person.password;
+      const conditionC = statement1 > 0 || statement2 > 0;
+      const passed: any = { canBeSaved: true };
+
+      return conditionA
+        ? conditionB
+          ? { canBeSaved: false, message: 'One of the required fields is empty' }
+          : conditionC
+          ? { canBeSaved: false, message: 'User already exist in the database' }
+          : passed
+        : conditionB
+        ? { canBeSaved: false, message: 'Password is empty' }
+        : passed;
+    };
+    const saveData = (): void => {
+      this.submit();
+    };
+    const showWarning = (): void => {
+      const warningMessage = canBeSaved(predicate1, predicate2).message;
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: warningMessage });
+    };
+    return canBeSaved(predicate1, predicate2).canBeSaved ? saveData() : showWarning();
+  }
+
+  private submit(): void {
+    this.item.thruDate = this.thruDateTMP;
+    this.save();
   }
 
   get employee() {
@@ -194,5 +251,8 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
         this.previousState();
       }
     });
+  }
+  public triggerToggle() {
+    this.isOpen = !this.isOpen;
   }
 }

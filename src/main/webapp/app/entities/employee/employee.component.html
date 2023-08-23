@@ -1,26 +1,26 @@
-<div class="row remove-row-scroll">
-  <div class="e-card">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <ejs-breadcrumb cssClass="margin: 1rem;">
-          <e-breadcrumb-items>
-            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item>
-          </e-breadcrumb-items>
-        </ejs-breadcrumb>
-        <div class="header-container">
-          <div class="header-content">
-            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
-            <span class="back-prefix" (click)="previousState()">Back | </span>
+<mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
+  <div class="row remove-row-scroll">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <ejs-breadcrumb cssClass="margin: 1rem;">
+            <e-breadcrumb-items>
+              <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+              <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item>
+            </e-breadcrumb-items>
+          </ejs-breadcrumb>
+          <div class="header-container">
+            <div class="header-content">
+              <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+              <span class="back-prefix" (click)="previousState()">Back | </span>
+            </div>
+            <p class="e-card-sub-title">Employee</p>
           </div>
-          <p class="e-card-sub-title">Employee</p>
         </div>
       </div>
-    </div>
 
-    <div style="margin: 1rem">
-      <div class="e-card">
-        <button class="my-3" mat-raised-button color="primary" (click)="rebuildIndex()" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+      <mat-card style="margin: 1rem">
+        <button mat-raised-button color="primary" class="my-3 btn-lg w-100" (click)="rebuildIndex()" *jhiHasAnyAuthority="['ROLE_ADMIN']">
           Rebuild Index
         </button>
         <div class="row search-border-container" style="align-items: center">
@@ -44,128 +44,132 @@
             </mat-form-field>
           </div>
         </div>
-      </div>
-
-      <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
-        <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
-          <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">
-            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="userLogin">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">User Id</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.person.userLogin }}</td>
-        </ng-container>
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Name</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">
-            {{ element.person.name }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="nik">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Nik</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">
-            <!-- {{ element.nik }} blm tau ngambil dari mana -->
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="lastModifiedDate">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Last Login</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ element.lastModifiedDate | date: 'dd-MM-YYYY' }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="statusDescription">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">
-            <mat-chip>{{ element.statusDescription }}</mat-chip>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">
-            <a
-              href="javascript:void();"
-              [routerLink]="['/employee', element.id, 'edit']"
-              mat-icon-button
-              (click)="$event.stopPropagation()"
-            >
-              <mat-icon>edit</mat-icon>
-            </a>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="rounding-table-right grid-index-left">&nbsp;</th>
-          <td mat-cell *matCellDef="let element"></td>
-        </ng-container>
-
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell text-center" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
-        <tr
-          mat-row
-          *matRowDef="let element; columns: displayedColumnsExpand"
-          [class.mat-expanded-row]="expandedElement === element"
-          class="mat-element-row"
-          (click)="expandedElement = expandedElement === element ? null : element"
-        ></tr>
-      </table>
-      <mat-card *ngIf="loading" id="material-loading-bar">
-        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
       </mat-card>
-      <mat-paginator
-        showFirstLastButtons
-        ngClass="transparant"
-        [length]="paginatorLength"
-        [pageSize]="paginatorPageSize"
-        [pageSizeOptions]="paginatorPageSizeOption"
-        (page)="loadDataLazy($event)"
-      >
-      </mat-paginator>
-    </div>
-    <div class="e-card-actions">
-      <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button [routerLink]="['/employee', 'new']" class="button-styling">ADD EMPLOYEE</button>
+      <mat-card style="margin: 1rem">
+        <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">
+              {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="userLogin">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left">User Id</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.person.userLogin }}</td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Name</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left">
+              {{ element.person.name }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="nik">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Nik</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left">
+              <!-- {{ element.nik }} blm tau ngambil dari mana -->
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="lastModifiedDate">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-right">Last Login</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-right">{{ element.lastModifiedDate | date: 'dd-MM-YYYY' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="statusDescription">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left">
+              <mat-chip>{{ element.statusDescription }}</mat-chip>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left">
+              <a
+                href="javascript:void();"
+                [routerLink]="['/employee', element.id, 'edit']"
+                mat-icon-button
+                (click)="$event.stopPropagation()"
+              >
+                <mat-icon>edit</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="rounding-table-right grid-index-left">&nbsp;</th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: displayedColumnsExpand"
+            [class.mat-expanded-row]="expandedElement === element"
+            class="mat-element-row"
+            (click)="expandedElement = expandedElement === element ? null : element"
+          ></tr>
+        </table>
+        <mat-card *ngIf="loading" id="material-loading-bar">
+          <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+        </mat-card>
+        <mat-paginator
+          showFirstLastButtons
+          ngClass="transparant"
+          [length]="paginatorLength"
+          [pageSize]="paginatorPageSize"
+          [pageSizeOptions]="paginatorPageSizeOption"
+          (page)="loadDataLazy($event)"
+        >
+        </mat-paginator>
+      </mat-card>
+      <div class="e-card-actions">
+        <div class="d-flex justify-content-center mb-3 mt-3">
+          <button mat-raised-button [routerLink]="['/employee', 'new']" class="button-styling">ADD EMPLOYEE</button>
+        </div>
       </div>
     </div>
-    <mat-sidenav-container [hasBackdrop]="true">
-      <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-        <div class="p-3" style="padding-top: 90px !important">
-          <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-          <ul class="side-menu">
-            <li *ngFor="let item of subMenu">
-              <!--SUBMENU DOESNT HAVE A CHILD-->
-              <a
-                *ngIf="!item.hasOwnProperty('child')"
-                href="javascript:void(0)"
-                class="text-capitalize"
-                (click)="routeSubMenu(item); drawer.toggle()"
-                >{{ item.label }}</a
-              >
-              <!--SUBMENU HAS A CHILD-->
-              <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
-              <ul *ngIf="item.hasOwnProperty('child')">
-                <li *ngFor="let itemChild of item.child">
-                  <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
-                    itemChild.label
-                  }}</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </mat-sidenav>
-    </mat-sidenav-container>
-    <button
-      matTooltip="Click this for show sub menu of Employee"
-      style="z-index: 1"
-      class="btn-menu-floating"
-      (click)="drawer.toggle()"
-      mat-fab
-      color="warn"
-      matTooltipPosition="before"
-    >
-      <mat-icon>more_vert</mat-icon>
-    </button>
   </div>
-</div>
+
+  <mat-sidenav
+    position="end"
+    style="position: fixed !important; max-height: 20rem"
+    #drawer
+    class="example-sidenav subroute-background"
+    mode="over"
+  >
+    <div class="header-sub-menu"><label style="margin-top: 1rem">Employee :</label></div>
+
+    <ul class="side-menu list-styling">
+      <li *ngFor="let item of subMenu">
+        <!--SUBMENU DOESNT HAVE A CHILD-->
+        <a
+          *ngIf="!item.hasOwnProperty('child')"
+          href="javascript:void(0)"
+          class="text-capitalize"
+          (click)="routeSubMenu(item); drawer.toggle(); triggerToggle()"
+          >{{ item.label }}</a
+        >
+        <!--SUBMENU HAS A CHILD-->
+        <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
+        <ul *ngIf="item.hasOwnProperty('child')">
+          <li *ngFor="let itemChild of item.child">
+            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize">{{
+              itemChild.label
+            }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </mat-sidenav>
+
+  <button
+    matTooltip="Click this for show sub menu of Employee"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); triggerToggle()"
+    matTooltipPosition="after"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
+</mat-sidenav-container>
