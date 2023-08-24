@@ -18,20 +18,20 @@
       </div>
     </div>
     <div style="margin: 1rem">
-      <div style="float: right">
-        <section class="mt-2">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Type LOV</mat-label>
-            <mat-select name="status" (selectionChange)="onSelect($event.value)">
-              <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
-                {{ item.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </section>
-      </div>
       <mat-card>
+        <div style="float: right">
+          <section class="mt-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Type LOV</mat-label>
+              <mat-select name="status" (selectionChange)="onSelect($event.value)">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
+                  {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+        </div>
         <table mat-table [dataSource]="items" class="w-100">
           <ng-container matColumnDef="no">
             <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
