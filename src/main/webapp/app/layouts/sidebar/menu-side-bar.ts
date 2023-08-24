@@ -229,7 +229,7 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'dar-checker',
       },
       {
-        name: 'Loan Komite Approval',
+        name: 'Loan Committee Approval',
         iconname: 'minus',
         route: 'loan-committee-approval',
       },
@@ -595,7 +595,7 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         route: 'dar-checker',
       },
       {
-        name: 'Loan Komite Approval',
+        name: 'Loan Committee Approval',
         iconname: 'minus',
         route: 'loan-committee-approval',
       },
@@ -1546,7 +1546,7 @@ export const APPRAISAL_MENU_CRO: ISidebarMenuModel[] = [
       },
 
       {
-        name: 'Loan Komite Approval',
+        name: 'Loan Committee Approval',
         iconname: 'minus',
         route: 'loan-committee-approval',
       },
