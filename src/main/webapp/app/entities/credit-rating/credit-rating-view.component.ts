@@ -204,19 +204,10 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         if (res.body[i].id === 'EQUITY_POSITION_AS_DATE_OF') {
           const date = res.body[i].value;
           this.equityPositionDate = new Date(date);
-          console.log('xx', this.equityPositionDate);
         }
-
-        // this.partyCif.creditRatings[0].equityPosition = this.equityPosition;
-        // this.partyCif.creditRatings[0].equityPositionDate = this.equityPositionDate;
         this.creditRatings.equityPositionDate = this.equityPositionDate;
         this.creditRatings.equityPosition = this.equityPosition;
       }
-
-      //   this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
-      //   // this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
-      //   this.creditRatings.equityPositionDate = this.equityPositionDate;
-      // console.log('xxx', this.creditRatings.equityPositionDate)
     });
   }
 
@@ -258,9 +249,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   }
 
   public checkRole(param): void {
-    console.log('check role', param);
     if (param === 'RM' || param === 'CRO') {
-      console.log('data asu', param);
       this.hidHobis = false;
     } else {
       this.hidHobis = true;
