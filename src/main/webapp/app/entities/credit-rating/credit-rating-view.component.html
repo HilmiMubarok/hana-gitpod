@@ -456,15 +456,23 @@
           </div>
         </div>
       </div>
-      <section *jhiMatrixDirIDD="'input'">
-        <div class="e-card-actions mx-auto mb-5 mt-3">
-          <button mat-raised-button [class.spinner]="loading" [disabled]="loading" (click)="syncCreditReting()" class="button-styling">
-            SYNC from HOBIS
-          </button>
-          <button mat-raised-button (click)="save()" class="button-styling">Save</button>
-        </div>
-      </section>
-      <section *jhiMatrixDirIDD="''"></section>
+      <!-- <section *jhiMatrixDirIDD="'input'"> -->
+      <div class="e-card-actions mx-auto mb-5 mt-3">
+        <button
+          mat-raised-button
+          [class.spinner]="loading"
+          [hidden]="hidHobis"
+          [disabled]="loading"
+          (click)="syncCreditReting()"
+          class="button-styling"
+        >
+          SYNC from HOBIS
+        </button>
+        <button mat-raised-button (click)="save()" [hidden]="hiddenfield" class="button-styling">Save</button>
+      </div>
+
+      <!-- </section> -->
+      <!-- <section *jhiMatrixDirIDD="''"></section> -->
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { AlertService } from 'app/core/util/alert.service';
@@ -23,6 +23,7 @@ import { IListOfValueIndustry } from '../../../../../../src/main/webapp/app/enti
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
 import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-credit-rating-view',
@@ -41,6 +42,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   public listOfIndustry: IListOfValueIndustry[];
   public sectorIndustry = [];
   public internalMaxLLL = [];
+  public hidHobis: boolean;
+  public hiddenfield: boolean;
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -74,7 +77,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     protected applicationOptionService: ApplicationOptionService,
     public listOfIndustryService: ListOfValueIndustryService,
     protected generalParameterService: GeneralParameterService,
-    protected industryLimitExposureParameterService: IndustryLimitExposureParameterService
+    protected industryLimitExposureParameterService: IndustryLimitExposureParameterService,
+    private templateService: TemplateService
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
@@ -83,6 +87,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
 
   ngOnChanges(changes: SimpleChanges): void {
     this.getApplicationOption();
+    this.getRole();
   }
 
   parse() {
@@ -96,6 +101,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   }
   public industrys: string;
   ngOnInit() {
+    this.getRole();
     if (this.creditProposalItem !== undefined) {
       this.creditRatingService
         .queryFilterBy({
@@ -126,6 +132,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     this.getApplicationOption();
     this.getListIndustry();
     this.getLovinternalMaxLLL();
+
+    // this.checkLogin();
   }
 
   save() {
@@ -196,19 +204,10 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         if (res.body[i].id === 'EQUITY_POSITION_AS_DATE_OF') {
           const date = res.body[i].value;
           this.equityPositionDate = new Date(date);
-          console.log('xx', this.equityPositionDate);
         }
-
-        // this.partyCif.creditRatings[0].equityPosition = this.equityPosition;
-        // this.partyCif.creditRatings[0].equityPositionDate = this.equityPositionDate;
         this.creditRatings.equityPositionDate = this.equityPositionDate;
         this.creditRatings.equityPosition = this.equityPosition;
       }
-
-      //   this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
-      //   // this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
-      //   this.creditRatings.equityPositionDate = this.equityPositionDate;
-      // console.log('xxx', this.creditRatings.equityPositionDate)
     });
   }
 
@@ -240,5 +239,28 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
           return o.statusId === 'ACTIVE';
         });
       });
+  }
+
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+      this.checkRoleSave(newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'RM' || param === 'CRO') {
+      this.hidHobis = false;
+    } else {
+      this.hidHobis = true;
+    }
+  }
+
+  public checkRoleSave(param): void {
+    if (param === 'RM') {
+      this.hiddenfield = false;
+    } else {
+      this.hiddenfield = true;
+    }
   }
 }
