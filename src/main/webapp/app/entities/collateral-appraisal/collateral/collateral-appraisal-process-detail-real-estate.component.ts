@@ -174,12 +174,11 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   public countTotalArea(data: string): Number {
     let total: number;
     total = 0;
-
     if (data) {
       const _data = JSON.parse(data);
       if (_data.length > 0) {
         for (let i = 0; i < _data.length; i++) {
-          total = total + parseInt(_data[i]['area'], 10);
+          (total = total + _data[i]['area']), 10;
         }
       }
     }
