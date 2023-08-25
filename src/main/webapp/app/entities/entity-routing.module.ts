@@ -545,7 +545,10 @@ import { RouterModule } from '@angular/router';
             m => m.LosgwMasterComplianceChecklistModule
           ),
       },
-      // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
+      {
+        path: 'menu-access',
+        loadChildren: () => import('./menu-access/menu-access.module').then(m => m.LosgwMenuAccessModule),
+      },
     ]),
   ],
 })

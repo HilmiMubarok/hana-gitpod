@@ -1,0 +1,19 @@
+<mat-card>
+  <h3>{{ data?.parentDescription }}</h3>
+  <mat-list>
+    <mat-list-item>
+      <span matListItemTitle>{{ data?.description }}</span>
+    </mat-list-item>
+  </mat-list>
+
+  <td>Position</td>
+  <mat-form-field>
+    <mat-label>Select</mat-label>
+    <mat-select>
+      <mat-option value="one">First option</mat-option>
+      <mat-option value="two">Second option</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button>Add</button>
+</mat-card>
