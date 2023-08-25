@@ -767,16 +767,16 @@ export const SUBMENU_PARTY_CIF: object[] = [
     ],
   },
   {
-    id: 'document-checklist',
-    text: 'document checklist',
-  },
-  {
     id: 'facility-info',
     text: 'facility info',
   },
   {
     id: 'collateral-info',
     text: 'collateral info',
+  },
+  {
+    id: 'document-checklist',
+    text: 'document checklist',
   },
   {
     id: 'financial-info',
