@@ -39,6 +39,7 @@
             <mat-option *ngFor="let item of constructionData" [value]="item.id">
               {{ item.label }}
             </mat-option>
+            <mat-option value="-">-</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -67,6 +68,7 @@
             <mat-option *ngFor="let item of foundationData" [value]="item.id">
               {{ item.label }}
             </mat-option>
+            <mat-option value="-">-</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -90,6 +92,7 @@
             <mat-option *ngFor="let item of wallData" [value]="item.id">
               {{ item.label }}
             </mat-option>
+            <mat-option value="-">-</mat-option>
           </mat-select>
         </mat-form-field>
         <!--<ejs-dropdownlist cssClass="e-outline" [dataSource]='wallData | async' [fields]='fields' [(value)]='collateralProp.wall' (change)='onSelectWall($event)'></ejs-dropdownlist>-->
@@ -112,6 +115,7 @@
             <mat-option *ngFor="let item of flooringData" [value]="item.id">
               {{ item.label }}
             </mat-option>
+            <mat-option value="-">-</mat-option>
           </mat-select>
         </mat-form-field>
         <!--<ejs-dropdownlist cssClass="e-outline" [dataSource]='flooringData | async' [fields]='fields' [(value)]='collateralProp.flooring' (change)='onSelectFlooring($event)'></ejs-dropdownlist>-->
@@ -134,6 +138,7 @@
             <mat-option *ngFor="let item of ceilingData" [value]="item.id">
               {{ item.label }}
             </mat-option>
+            <mat-option value="-">-</mat-option>
           </mat-select>
         </mat-form-field>
         <!--<ejs-dropdownlist cssClass="e-outline" [dataSource]='ceilingData | async' [fields]='fields' [(value)]='collateralProp.ceiling' (change)='onSelectCeiling($event)'></ejs-dropdownlist>-->
@@ -159,6 +164,7 @@
             <mat-option *ngFor="let item of roofTrussData" [value]="item.id">
               {{ item.label }}
             </mat-option>
+            <mat-option value="-">-</mat-option>
           </mat-select>
         </mat-form-field>
         <!--<ejs-dropdownlist cssClass="e-outline" [dataSource]='roofTrussData | async' [fields]='fields' [(value)]='collateralProp.roofTruss' (change)='onSelectRoofTruss($event)'></ejs-dropdownlist>-->
@@ -181,6 +187,7 @@
             <mat-option *ngFor="let item of roofData" [value]="item.id">
               {{ item.label }}
             </mat-option>
+            <mat-option value="-">-</mat-option>
           </mat-select>
         </mat-form-field>
         <!--<ejs-dropdownlist cssClass="e-outline" [dataSource]='roofData | async' [fields]='fields' [(value)]='collateralProp.roof' (change)='onSelectRoof($event)'></ejs-dropdownlist>-->
