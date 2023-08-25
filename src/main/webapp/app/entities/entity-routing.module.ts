@@ -545,6 +545,10 @@ import { RouterModule } from '@angular/router';
             m => m.LosgwMasterComplianceChecklistModule
           ),
       },
+      {
+        path: 'menu-access',
+        loadChildren: () => import('./menu-access/menu-access.module').then(m => m.LosgwMenuAccessModule),
+      },
     ]),
   ],
 })

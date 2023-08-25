@@ -22,14 +22,6 @@ export class MenuAccessViewComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['no', 'position'];
-  // dataSource = ELEMENT_DATA;
+
   dataSource$: Observable<Array<any>>;
-
-  // get position() {
-  //   return this.item;
-  // }
-
-  // set position(position: IEmployee) {
-  //   this.item = employee;
-  // }
 }

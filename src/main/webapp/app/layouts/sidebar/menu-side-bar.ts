@@ -344,7 +344,18 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
   {
     name: 'Configuration',
     iconname: 'wrench',
-    route: 'application-option',
+    children: [
+      {
+        name: 'Parameter',
+        iconname: 'minus',
+        route: 'application-option',
+      },
+      {
+        name: 'Menu Access',
+        iconname: 'minus',
+        route: 'menu-access',
+      },
+    ],
   },
 ];
 
