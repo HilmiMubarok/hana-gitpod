@@ -569,7 +569,7 @@
                       <div class="col-4">Binding Value</div>
                       <div class="col-md-auto">:</div>
                       <div class="col">
-                        {{ binding.bindingValue }}
+                        {{ binding.bindingValue | number: '1.0-0' }}
                       </div>
                     </div>
                   </section>
@@ -615,7 +615,7 @@
                   <div class="col-4">Binding Value eq to IDR</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
-                    {{ binding.bindingValueEqIdr }}
+                    {{ binding.bindingValueEqIdr | number: '1.0-0' }}
                   </div>
                 </div>
               </section>
