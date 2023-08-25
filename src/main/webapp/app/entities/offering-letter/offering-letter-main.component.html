@@ -264,7 +264,7 @@
           </e-card>
         </div>
 
-        <div *ngIf="url === 'distribution' && creditProposal.statusDescription === 'Ol Distribution'">
+        <div *ngIf="url === 'distribution' && creditProposal.statusId === 'OL_DISTRIBUTION'">
           <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"> </jhi-assign-to>
         </div>
       </div>
