@@ -264,7 +264,6 @@ export class OfferingLetterMainComponent implements OnInit {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
-    console.log('parent path ini', this.parentPath);
   }
 
   private getTasks(): void {
@@ -410,7 +409,9 @@ export class OfferingLetterMainComponent implements OnInit {
     } else if (this.url === 'distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-	  copyCreditProposal.attributes['dataAssignToLegalOfficer'] = applicationRolePreSave.id ? JSON.stringify(applicationRolePreSave) : JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);;
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = applicationRolePreSave.id
+        ? JSON.stringify(applicationRolePreSave)
+        : JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     } else {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
