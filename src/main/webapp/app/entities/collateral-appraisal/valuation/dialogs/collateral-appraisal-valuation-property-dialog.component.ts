@@ -1,11 +1,13 @@
 import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property-dialog',
   templateUrl: './collateral-appraisal-valuation-property-dialog.component.html',
@@ -15,6 +17,8 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
   public collateralProp: ICollateralProperty;
   public collateralAppraisal: ICollateralAppraisal;
   constructor(
+    private templateService: TemplateService,
+    private dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
     private _dialog: MatDialogRef<CollateralAppraisalValuationPropertyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { collateralAppraisal: ICollateralAppraisal; collateralProperty: ICollateralProperty }
@@ -23,6 +27,7 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
     this.collateralAppraisal = this.data.collateralAppraisal;
   }
   ngOnInit(): void {
+    this.getRole();
     if (this.collateralProp.propertyType === CollateralPropertyType.LAND) {
       this.calTotalmarket();
       this.calTotalmarketTataKotaLand();
@@ -32,6 +37,21 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
       this.calTotalmarketIMBBuilding();
       this.calTotalmarketTataKotaBuilding();
       this.calTotalmarketValueBilding();
+    }
+  }
+
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'SURVEYOR' || param === 'TL' || param === 'APR_DEPT_HEAD') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
     }
   }
 
@@ -120,5 +140,21 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
   public calTotalmarketValueBilding(): Number {
     this.collateralProp.propertyMarketValue = this.countTotalArea() * this.collateralProp.propertyMarketValuePerMeter;
     return this.collateralProp.propertyMarketValue;
+  }
+
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close(this.collateralProp);
+      }
+    });
   }
 }
