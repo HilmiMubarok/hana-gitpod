@@ -25,7 +25,6 @@ export interface PeriodicElement {
 @Component({
   selector: 'jhi-menu-access',
   templateUrl: './menu-access.component.html',
-  // styleUrls: ['./menu-access.css'],
 })
 export class MenuAccessComponent implements OnInit {
   constructor(private menuAccessService: MenuAccessService) {}

@@ -1,5 +1,3 @@
-<!-- <p>Menu Acesss</p> -->
-
 <div class="row remove-row-scroll">
   <div class="e-card">
     <div class="e-card-header">
@@ -52,20 +50,11 @@
           <a href="javascript:void();" [routerLink]="[element.id, 'edit']" mat-icon-button (click)="$event.stopPropagation()">
             <fa-icon icon="pencil-alt"></fa-icon>
           </a>
-          <!-- <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
-            <fa-icon [icon]="iconTimeline"></fa-icon>
-          </button> -->
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-
-    <!-- <div class="e-card-actions">
-        <div class="d-flex justify-content-center mb-3 mt-3">
-          <button mat-raised-button (click)="openDialog()" class="button-styling">ADD NEW PRODUCT</button>
-        </div>
-      </div> -->
   </div>
 </div>
