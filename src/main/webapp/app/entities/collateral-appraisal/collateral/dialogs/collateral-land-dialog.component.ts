@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ICollateral, ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import lodash from 'lodash';
@@ -7,6 +7,8 @@ import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { TemplateService } from 'app/layouts/template/template.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-land-dialog',
@@ -24,7 +26,9 @@ export class CollateralLandDialogComponent implements OnInit {
     public data: { collateralAppraisal: ICollateralAppraisal; collateralLandAttribute: ICollateralLandAttribute; collateral: ICollateral },
     private _dialog: MatDialogRef<CollateralLandDialogComponent>,
     private collateralService: CollateralService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private templateService: TemplateService,
+    private dialog: MatDialog
   ) {
     this.collateralLandAttribute = this.data.collateralLandAttribute;
     this.collateral = this.data.collateral;
@@ -32,8 +36,24 @@ export class CollateralLandDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getRole();
     this.checkLogin();
     this.hiddenTombol();
+  }
+
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'SURVEYOR' || param === 'TL' || param === 'APR_DEPT_HEAD') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   public cancel(): void {
@@ -142,5 +162,20 @@ export class CollateralLandDialogComponent implements OnInit {
   }
   public isAdminAppraisal(): any {
     return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
+  }
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close(this.collateral);
+      }
+    });
   }
 }
