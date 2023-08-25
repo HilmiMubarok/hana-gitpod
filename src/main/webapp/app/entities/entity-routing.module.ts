@@ -545,7 +545,6 @@ import { RouterModule } from '@angular/router';
             m => m.LosgwMasterComplianceChecklistModule
           ),
       },
-      // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],
 })

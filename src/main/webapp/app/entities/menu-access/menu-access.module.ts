@@ -13,7 +13,6 @@ import { MenuAccessAddComponent } from './add/menu-access-add.component';
   imports: [SharedModule, SharedEntityModule, SharedLibsModule, RouterModule.forChild(menuAccess)],
   declarations: [MenuAccessComponent, MenuAccessViewComponent, MenuAccessEditComponent, MenuAccessAddComponent],
 
-  // entryComponents: [MasterProductParameterDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwMenuAccessModule {}
