@@ -98,13 +98,12 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
                 obj => obj.customerType === this.partyCif.customerType && obj.id !== 'DOC_IDD_BINDING'
               );
               const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_BINDING');
-              console.log('peningkat', PengikatKredit);
 
               const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
               const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
               const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
               const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
-              console.log('DocumentLainnya', DocumentLainnya);
+
               const result: IDocumentType[] = [
                 ...collateralData,
                 ...INDCORData,
