@@ -3,7 +3,7 @@ export interface IRelationType {
   idRelationType?: number;
   description?: string;
   parentDescription?: string;
-  parentId?: number;
+  parentId?: string;
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
@@ -15,7 +15,7 @@ export class RelationType implements IRelationType {
     public idRelationType?: number,
     public description?: string,
     public parentDescription?: string,
-    public parentId?: number,
+    public parentId?: string,
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string
