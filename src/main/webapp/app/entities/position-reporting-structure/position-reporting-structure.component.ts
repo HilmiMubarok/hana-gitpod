@@ -78,7 +78,10 @@ export class PositionReportingStructureComponent extends AbstractEntityMaterialC
       page: 0,
       size: 9999,
     };
-    this.relationTypes = (await firstValueFrom(this.relationTypeService.queryFilterBy(predicate))).body;
+	const allRelationTypes = (await firstValueFrom(this.relationTypeService.queryFilterBy(predicate))).body;
+	this.relationTypes = allRelationTypes.filter(relationType => {
+	  if (relationType.parentId === "LOS_REL") return false;
+	});
   }
 
   public openDialog(element: IPositionReportingStructure = null): void {
