@@ -696,7 +696,7 @@ export class RequestSlikDetailComponent implements OnInit {
       partySlik.facilityType = element.facilityType;
       partySlik.period = element.period;
 
-      partySlik.restructureType = element.caraRestrukturasi;
+      partySlik.restructureType = element.caraRestrukturasi == null ? 0 : Number(element.caraRestrukturasi.substring(0, 1));
       partySlik.description = element.keterangan;
       partySlik.arrearsDate = element.tanggalMacet;
       partySlik.fee = element.denda;
