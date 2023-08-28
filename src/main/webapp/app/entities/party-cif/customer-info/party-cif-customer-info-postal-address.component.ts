@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
@@ -69,7 +69,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     this.districts = [];
     this.villages = [];
   }
-  
+
   public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
     if (param.length > 0) {
       for (let i = 0; i < param.length; i++) {
@@ -140,7 +140,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
       const country = this.country.filter(obj => obj.id === id);
       return country.length > 0 ? country[0].description : '';
       // return this.country.filter(obj => obj.id === id)[0].description ;
-    } else if (name === 'provinces') {
+    } else if (name === 'province') {
       const provinces = this.provinces.filter(obj => obj.id === id);
       return provinces.length > 0 ? provinces[0].description : '';
     } else if (name === 'cities') {
