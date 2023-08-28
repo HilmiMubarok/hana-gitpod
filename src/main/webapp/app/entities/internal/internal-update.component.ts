@@ -79,10 +79,8 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
         description: 'Non Active',
       },
     ];
-    console.log('apa ini', this.internal);
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.internalService.find(this.id).subscribe(response => {
-      console.log('response detail', response.body);
       this.internal = response.body;
       this.internal.postalAddress = response.body.postalAddress;
       this.internalService
@@ -91,7 +89,6 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
           size: 20,
         })
         .subscribe(response1 => {
-          console.log('res branch type', response1.body);
           this.branchtype = response1.body;
         });
       this.internalService
@@ -112,16 +109,29 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
     // this.loadDataAll(this.id);
   }
 
-  submit() {
-    console.log('filledPartner', this.internal);
+  public validateData(param: IInternal): void {
+    switch ('') {
+      case param.name:
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'warn',
+          detail: 'Internal Name is empty',
+        });
+        break;
+
+      default:
+        this.submit();
+        break;
+    }
+  }
+
+  public submit(): void {
     this.internalService.update(this.internal).subscribe(res => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
         detail: 'Update Success',
       });
-
-      console.log('hasil post', res);
 
       if (res.body) {
         this.router.navigate(['/internal']);
