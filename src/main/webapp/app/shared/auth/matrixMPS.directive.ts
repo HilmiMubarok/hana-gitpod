@@ -88,7 +88,13 @@ export class MatrixMenuPosStatDirective implements OnInit, OnDestroy {
 	  this.position = newPos;
 	  this.queryFilterBy({menuItemId: this.jhiMatrixDirMPSMenu, positionTypeId: this.position.positionTypeId, statusId: this.jhiMatrixDirMPSStatus}).subscribe(permissionObject => {
 		this.permission = permissionObject.body;
-		this.checkAccess();
+		if (this.permission.length === 0) {
+		  if (this.elementType !== 'input') {
+			this.viewContainerRef.createEmbeddedView(this.templateRef);
+		  }
+		} else {
+		  this.checkAccess();
+		}
 	  });
     });
   }

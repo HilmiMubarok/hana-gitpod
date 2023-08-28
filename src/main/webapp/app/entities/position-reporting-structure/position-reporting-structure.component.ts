@@ -80,7 +80,11 @@ export class PositionReportingStructureComponent extends AbstractEntityMaterialC
     };
 	const allRelationTypes = (await firstValueFrom(this.relationTypeService.queryFilterBy(predicate))).body;
 	this.relationTypes = allRelationTypes.filter(relationType => {
-	  if (relationType.parentId === "LOS_REL") return false;
+	  if (relationType.parentId === "LOS_REL") {
+		return false;
+	  } else {
+		return true;
+	  }
 	});
   }
 
