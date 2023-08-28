@@ -68,7 +68,7 @@
               </mat-form-field>
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
-                  <mat-label>Description </mat-label>
+                  <mat-label>Status </mat-label>
                   <mat-select [(ngModel)]="item.statusId" disabled>
                     <mat-option *ngFor="let ax of desc" [value]="ax.id">
                       {{ ax.description }}
@@ -88,7 +88,7 @@
                   <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">{{ i + 1 }}.</td>
                 </ng-container>
                 <ng-container matColumnDef="positionTypeId">
-                  <th mat-header-cell *matHeaderCellDef class="grid-index-right">Position Type</th>
+                  <th mat-header-cell *matHeaderCellDef class="grid-index-left">Position Type</th>
                   <td class="text-center" mat-cell *matCellDef="let element" class="grid-index-left">{{ element.positionTypeId }}</td>
                 </ng-container>
                 <ng-container matColumnDef="internalName">

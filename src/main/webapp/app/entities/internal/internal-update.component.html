@@ -29,21 +29,21 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal Id </mat-label>
-                  <input matInput type="text" [(ngModel)]="internal.id" />
+                  <input matInput type="text" [(ngModel)]="internal.id" required="true" disabled />
                 </mat-form-field>
               </div>
 
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal Name </mat-label>
-                  <input matInput type="text" [(ngModel)]="internal.name" />
+                  <input matInput type="text" [(ngModel)]="internal.name" required="true" />
                 </mat-form-field>
               </div>
 
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
                   <mat-label>Internal Type </mat-label>
-                  <mat-select [(ngModel)]="internal.internalTypeId">
+                  <mat-select [(ngModel)]="internal.internalTypeId" required="true">
                     <mat-option *ngFor="let item of branchtype" [value]="item.id">
                       {{ item.description }}
                     </mat-option>
@@ -55,8 +55,8 @@
             <div class="col-6">
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
-                  <mat-label>Description </mat-label>
-                  <mat-select [(ngModel)]="internal.statusId">
+                  <mat-label>Status </mat-label>
+                  <mat-select [(ngModel)]="internal.statusId" required="true">
                     <mat-option *ngFor="let item of desc" [value]="item.id">
                       {{ item.description }}
                     </mat-option>
@@ -74,7 +74,7 @@
                 <mat-form-field appearance="outline" class="w-100 pr-1">
                   <mat-label>Superior Internal Name </mat-label>
                   <!-- (focus) = "clickDropSupper()" -->
-                  <mat-select [(ngModel)]="internal.parentId">
+                  <mat-select [(ngModel)]="internal.parentId" required="true">
                     <!-- <input matInput type="text" [(ngModel)]="filter" placeholder="Search in here" (keyup)="filterListCareUnit($event,$event.target.value)" (focusout)="onFocusOutEvent($event)"> -->
 
                     <mat-option *ngFor="let item of superior" [value]="item.id">
@@ -105,7 +105,7 @@
         </mat-card-content>
       </mat-card>
       <mat-card-actions align="center" class="button-styling-moz">
-        <button mat-raised-button type="submit" (click)="submit()" class="button-styling button-styling-moz">
+        <button mat-raised-button type="submit" (click)="validateData(internal)" class="button-styling button-styling-moz">
           <label>Save</label>
         </button>
         <!-- <button

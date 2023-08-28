@@ -68,7 +68,6 @@ export class InternalCreateComponent extends AbstractEntityMaterialComponent<IIn
 
   ngOnInit(): void {
     this.internal = new Internal();
-    console.log('apa ini', this.internal);
     this.desc = [
       {
         id: 'ACTIVE',
@@ -138,16 +137,57 @@ export class InternalCreateComponent extends AbstractEntityMaterialComponent<IIn
   //   console.log("this.superior",this.superior);
   // }
 
-  submit() {
-    console.log('filledPartner', this.internal);
+  public validateData(param: IInternal): void {
+    switch (undefined) {
+      case param.id:
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'warn',
+          detail: 'Internal Id is empty',
+        });
+        break;
+      case param.name:
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'warn',
+          detail: 'Internal Name is empty',
+        });
+        break;
+      case param.internalTypeId:
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'warn',
+          detail: 'Internal Type is empty',
+        });
+        break;
+      case param.statusId:
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'warn',
+          detail: 'Status is empty',
+        });
+        break;
+      case param.parentId:
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'warn',
+          detail: 'Superior Internal Name is empty',
+        });
+        break;
+
+      default:
+        this.submit();
+        break;
+    }
+  }
+
+  public submit(): void {
     this.internalService.create(this.internal).subscribe(res => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
         detail: 'Save Success',
       });
-
-      console.log('hasil post', res);
 
       if (res.body) {
         this.router.navigate(['/internal']);
