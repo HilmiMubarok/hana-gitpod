@@ -321,7 +321,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   ngOnInit(): void {
-    this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
+    if (this.applicationProduct.attributes['loanPurposeLegal'] === '') {
+      this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
+    }
     this.cekApplicationType();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.sublimitFromExistingFacility);
@@ -350,6 +352,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public save(): void {
+    if (this.creditProposalData.statusId === 'DRAFT') {
+      this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
+    }
+    console.log('loan purpose ', this.applicationProduct.attributes['loanPurposeLegal']);
     this._dialog.close({
       applicationProduct: this.applicationProduct,
       creditProposal: this.creditProposalData,
