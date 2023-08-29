@@ -31,6 +31,7 @@ import { RequestSlikChecklistService } from './services/request-slik-checklist.s
 import { RequestSlikStatus } from './enums/request-slik-status.enum';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { RequestSlikVerifyService } from './services/request-slik-verify.service';
+import { EmployeeService } from '../employee/employee.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -117,7 +118,7 @@ export class RequestSlikDetailComponent implements OnInit {
           npwp: ocrData.taxIdNumber,
           gender: ocrData.gender === null ? '' : ocrData.gender === 'L' ? 'M' : 'F',
           custtype: ocrData.personalIdNumber !== null ? '1' : '2',
-          product: 'HR',
+          product: this.idPositionType,
           channel: 'LOS',
           purposeCode: this.requestSlik.purposeCode,
         },
@@ -158,7 +159,8 @@ export class RequestSlikDetailComponent implements OnInit {
     protected partyCifService: PartyCifService,
     protected requestSlikChecklistService: RequestSlikChecklistService,
     protected requestSlikVerifyService: RequestSlikVerifyService,
-    protected templateService: TemplateService
+    protected templateService: TemplateService,
+    protected employeeService: EmployeeService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
     this.requestSlikId = Number(this.router.url.split('/')[2]);
@@ -318,29 +320,6 @@ export class RequestSlikDetailComponent implements OnInit {
   rmSegment;
   rmRegional;
 
-  private loadInternalInformationRM(): void {
-    this.branchs = [];
-    this.segments = [];
-    this.regionals = [];
-    this.loadInternalById('1101').then((res2: IInternal) => {
-      if (res2.parentId) {
-        this.rmBranch = res2;
-        this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-          this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-            if (res4.parentId) {
-              this.rmRegional = res4;
-              this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-                this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-                  this.rmSegment = res6;
-                });
-              });
-            }
-          });
-        });
-      }
-    });
-  }
-
   previousState(): void {
     window.history.back();
   }
@@ -373,7 +352,7 @@ export class RequestSlikDetailComponent implements OnInit {
             : this.partyCif.customerPerson.taxIdNumber,
         gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender === 'L' ? 'M' : 'F',
         custtype: this.partyCif.customerType === 'CORPORATE' ? '2' : '1',
-        product: 'HR',
+        product: this.idPositionType,
         channel: 'LOS',
         purposeCode: this.requestSlik.purposeCode,
       },
@@ -816,12 +795,48 @@ export class RequestSlikDetailComponent implements OnInit {
     }
   }
 
+  public getPositionTypeIdToSend(listPositions: string[]): void {
+    const checker = (arr, target) => target.every(v => arr.includes(v));
+
+    // if RM exist
+    if (listPositions.includes(this.roles.request[0])) {
+      this.idPositionType = this.roles.request[0];
+
+      // if CRO exist, RM not exist
+    } else if (listPositions.includes(this.roles.request[1])) {
+      this.idPositionType = this.roles.request[1];
+
+      // if both RM and CRO exist = prioritize CRO
+    } else if (checker(listPositions, this.roles.request)) {
+      this.idPositionType = this.roles.request[1];
+
+      // if both RM and CRO not exist = default RM
+    } else {
+      this.idPositionType = this.roles.request[0];
+    }
+  }
+
   userName: string;
+  idPositionType: string;
   createdBy: string;
   getAccountDetail() {
     this.accountService.identity().subscribe(res => {
       this.createdBy = res.login;
       this.userName = res.firstName + ' ' + res.lastName;
+
+      this.employeeService
+        .queryFilterBy({
+          page: 0,
+          query: 999,
+          eqLogin: res.login,
+          sort: ['id,desc'],
+        })
+        .pipe(map((data: any) => data.body[0]))
+        .subscribe((user: any) => {
+          // map user array and get only positionTypeId key
+          const positionTypeId = user.positions.map(position => position.positionTypeId);
+          this.getPositionTypeIdToSend(positionTypeId);
+        });
     });
   }
 
@@ -880,13 +895,17 @@ export class RequestSlikDetailComponent implements OnInit {
 
   submitRequestSlik(): void {
     // Show dialog confirmation when there are some data that has not been retrieved from OJK
-    this.requestSlikVerifyService.isAllDataRetrieved(this.requestSlikId).subscribe(res => {
-      if (!res && this.requestSlik.status === this.reqSlikStatus.VERIFY) {
-        this.openConfirmationDialog();
-      } else {
-        this.openSubmitDialog('submit');
-      }
-    });
+    if (this.requestSlik.status === this.reqSlikStatus.VERIFY) {
+      this.requestSlikVerifyService.isAllDataRetrieved(this.requestSlikId).subscribe(res => {
+        if (!res && this.requestSlik.status === this.reqSlikStatus.VERIFY) {
+          this.openConfirmationDialog();
+        } else {
+          this.openSubmitDialog('submit');
+        }
+      });
+    } else {
+      this.openSubmitDialog('submit');
+    }
   }
 
   openConfirmationDialog(): void {
