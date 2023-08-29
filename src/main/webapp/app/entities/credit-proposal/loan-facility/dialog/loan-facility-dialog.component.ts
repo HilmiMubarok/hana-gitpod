@@ -355,7 +355,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (this.creditProposalData.statusId === 'DRAFT') {
       this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
     }
-    console.log('loan purpose ', this.applicationProduct.attributes['loanPurposeLegal']);
     this._dialog.close({
       applicationProduct: this.applicationProduct,
       creditProposal: this.creditProposalData,
