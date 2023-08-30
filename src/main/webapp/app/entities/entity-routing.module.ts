@@ -546,6 +546,11 @@ import { RouterModule } from '@angular/router';
           ),
       },
       {
+        path: 'master-permission',
+        loadChildren: () =>
+          import('./master-parameter/master-permission/master-permission.module').then(m => m.LosgwMasterPermissionModule),
+      },
+      {
         path: 'menu-access',
         loadChildren: () => import('./menu-access/menu-access.module').then(m => m.LosgwMenuAccessModule),
       },
