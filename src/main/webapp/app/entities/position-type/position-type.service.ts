@@ -5,6 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IPositionType } from './position-type.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PositionTypeService extends AbstractEntityService<IPositionType> {
@@ -18,4 +19,8 @@ export class PositionTypeService extends AbstractEntityService<IPositionType> {
   }
 
   protected preSave(entity: IPositionType) {}
+
+  public findById(id: string): Observable<HttpResponse<IPositionType>> {
+    return this.http.get<IPositionType>(this.resourceUrl + '/' + id, { observe: 'response' });
+  }
 }

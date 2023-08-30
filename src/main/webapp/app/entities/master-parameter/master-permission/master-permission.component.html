@@ -1,0 +1,94 @@
+<div class="row remove-row-scroll">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Master Permission" url="/list-of-value-parameter"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Master Permission</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin: 1rem">
+      <mat-card class="table-responsive-material">
+        <div>
+          <section class="mt-2" style="white-space: nowrap !important">
+            <mat-form-field class="w-50" appearance="outline">
+              <mat-label>Select Menu</mat-label>
+              <mat-select name="menu" (selectionChange)="onSelectMenu($event.value)">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of listMenuItem" [value]="item.id">
+                  {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-50" appearance="outline">
+              <mat-label>Select Position</mat-label>
+              <mat-select name="position" (selectionChange)="onSelectPosition($event.value)">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of listPositionType" [value]="item.id">
+                  {{ item.description }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+        </div>
+        <table mat-table [dataSource]="items" class="w-100">
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef>No</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
+          </ng-container>
+          <ng-container matColumnDef="menuDescription">
+            <th mat-header-cell *matHeaderCellDef>Menu Description</th>
+            <td mat-cell *matCellDef="let element">{{ element.menuStatusItem.menuItemDescription }}</td>
+          </ng-container>
+          <ng-container matColumnDef="positionDescription">
+            <th mat-header-cell *matHeaderCellDef>Position Description</th>
+            <td mat-cell *matCellDef="let element">{{ element.positionType.description }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.menuStatusItem.statusDescription }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="openDeleteDialog(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found. Please select either the menu or position</td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+          <tr mat-row *matRowDef="let element; columns: displayColumns"></tr>
+        </table>
+        <mat-paginator
+          showFirstLastButtons
+          ngClass="transparant"
+          [length]="paginatorLength"
+          [pageSize]="paginatorPageSize"
+          [pageSizeOptions]="paginatorPageSizeOption"
+          (page)="loadDataLazy($event)"
+        >
+        </mat-paginator>
+      </mat-card>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center my-2">
+        <button mat-raised-button [routerLink]="['/master-permission', 'new']" class="button-styling">ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
