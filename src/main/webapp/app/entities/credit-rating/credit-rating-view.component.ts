@@ -132,7 +132,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     this.getApplicationOption();
     this.getListIndustry();
     this.getLovinternalMaxLLL();
-
     // this.checkLogin();
   }
 
@@ -238,6 +237,11 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         this.internalMaxLLL = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        for (let index = 0; index < this.internalMaxLLL.length; index++) {
+          if (this.creditRatings.creditRating === this.internalMaxLLL[index].code) {
+            this.creditRatings.internalMaxLLL = this.internalMaxLLL[index].value;
+          }
+        }
       });
   }
 
