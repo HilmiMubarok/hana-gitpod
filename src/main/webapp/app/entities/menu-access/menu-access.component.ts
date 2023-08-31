@@ -21,7 +21,7 @@ export class MenuAccessComponent implements OnInit {
   dataSource$: Observable<Array<any>>;
 
   ngOnInit(): void {
-    this.dataSource$ = this.menuAccessService.getMenuAccess().pipe(map(res => res.body));
+    this.dataSource$ = this.menuAccessService.getMenuAccess().pipe(map(res => res.body.filter(e => e.parentId !== null)));
   }
 
   previousState(): void {

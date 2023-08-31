@@ -48,7 +48,6 @@ export class MenuAccessEditComponent implements OnInit {
           dataPos = dataPosisi[i];
         }
         this.dataPosition = dataPos;
-        console.log('data', this.dataPosition);
       });
   }
 
@@ -75,7 +74,6 @@ export class MenuAccessEditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      console.log('resss', res);
       this.menuAccessService.create(res).subscribe(response => {
         this.loadAll();
       });
