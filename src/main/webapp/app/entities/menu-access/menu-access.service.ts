@@ -3,19 +3,32 @@ import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
+import { IMenuAccess, IPositionAccess } from './menu-access.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MenuAccessService {
+export class MenuAccessService extends AbstractEntityService<IMenuAccess> {
   menuPositionType;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
+    super(http);
     this.menuPositionType = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-position-type/groupBy/');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-position-type');
   }
 
   public getMenuAccess(req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     return this.http.get<any[]>(this.menuPositionType, { params: options, observe: 'response' });
+  }
+
+  public paramTypeId: Subject<any> = new Subject();
+  setPrameterType(message: any) {
+    this.paramTypeId.next(message);
+  }
+
+  savePosition(entity: IPositionAccess) {
+    this.http.post<IPositionAccess[]>(this.resourceUrl, entity).subscribe(response => alert('success'));
   }
 }
