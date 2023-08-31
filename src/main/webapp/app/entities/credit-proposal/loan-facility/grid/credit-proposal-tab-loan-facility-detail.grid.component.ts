@@ -216,7 +216,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-		if (res.applicationProduct.maturityDate === null) {
+        if (res.applicationProduct.maturityDate === null) {
           res.applicationProduct.maturityDate = undefined;
         }
 
@@ -531,5 +531,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
       }
     }
     return result + dolar;
+  }
+
+  public getPricingRate(value) {
+    if (value) {
+      return value + '%';
+    } else {
+      return '0%';
+    }
   }
 }
