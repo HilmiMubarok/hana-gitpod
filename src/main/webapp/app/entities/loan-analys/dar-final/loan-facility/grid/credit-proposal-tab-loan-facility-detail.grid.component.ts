@@ -652,4 +652,12 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
     }
     return result + dolar;
   }
+
+  public getPricingRate(value) {
+    if (value) {
+      return value + '%';
+    } else {
+      return '0%';
+    }
+  }
 }
