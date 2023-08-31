@@ -83,7 +83,6 @@ export class MenuAccessAddComponent implements OnInit {
       };
 
       this._dialog.close(newPos);
-      // console.log('dataservice', newPos);
     }
   }
 

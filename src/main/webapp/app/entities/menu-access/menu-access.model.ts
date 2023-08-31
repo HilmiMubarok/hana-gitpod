@@ -1,31 +1,3 @@
-// export interface IMenuAccess {
-//   id?: number;
-//   requestNumber?: string;
-//   cif?: string;
-//   debtorName?: string;
-//   customerType?: string;
-//   segment?: string;
-//   requestDate?: string;
-//   purposeCode?: string;
-//   status?: string;
-// }
-
-import { IPosition } from '@syncfusion/ej2-angular-grids';
-
-// export class RequestSlik implements IMenuAccess {
-//   constructor(
-//     public id?: number,
-//     public requestNumber?: string,
-//     public cif?: string,
-//     public debtorName?: string,
-//     public customerType?: string,
-//     public segment?: string,
-//     public requestDate?: string,
-//     public purposeCode?: string,
-//     public status?: string
-//   ) {}
-// }
-
 export interface IMenuAccess {
   [obj: string]: any;
   code?: string;
