@@ -1,19 +1,23 @@
 <mat-card>
-  <h3>{{ data?.parentDescription }}</h3>
+  <h3>{{ positionAccess[0].parentDescription }}</h3>
   <mat-list>
     <mat-list-item>
-      <span matListItemTitle>{{ data?.description }}</span>
+      <span matListItemTitle>{{ positionAccess[0].description }}</span>
     </mat-list-item>
   </mat-list>
 
-  <td>Position</td>
-  <mat-form-field>
-    <mat-label>Select</mat-label>
-    <mat-select>
-      <mat-option value="one">First option</mat-option>
-      <mat-option value="two">Second option</mat-option>
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Position</mat-label>
+    <mat-select name="status" (selectionChange)="onSelect($event.value)">
+      <mat-option *ngFor="let item of position" [value]="item.id">
+        {{ item.description }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button>Add</button>
+  <!-- <button (click)="save()">Add</button> -->
+  <!-- <button mat-raised-button class="confirm-button-yes" (click)="save()">SAVE</button> -->
+  <div style="text-align: center; margin: 0 auto">
+    <button class="button-styling mb-3" (click)="save()" mat-raised-button>ADD</button>
+  </div>
 </mat-card>
