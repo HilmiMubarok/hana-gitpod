@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { menuAccess } from './menu-access.route';
 import { MenuAccessComponent } from './menu-access.component';
 import { MenuAccessViewComponent } from './view/menu-access-view.component';
-import { MenuAccessEditComponent } from './edit/menu-access-view.component';
+import { MenuAccessEditComponent } from './edit/menu-access-edit.component';
 import { MenuAccessAddComponent } from './add/menu-access-add.component';
 
 @NgModule({

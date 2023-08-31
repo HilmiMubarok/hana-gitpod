@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { MenuAccessComponent } from './menu-access.component';
 import { MenuAccessViewComponent } from './view/menu-access-view.component';
-import { MenuAccessEditComponent } from './edit/menu-access-view.component';
+import { MenuAccessEditComponent } from './edit/menu-access-edit.component';
 import { MenuAccessAddComponent } from './add/menu-access-add.component';
 
 export const menuAccess: Routes = [
