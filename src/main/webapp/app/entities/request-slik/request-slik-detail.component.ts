@@ -175,7 +175,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
   roles = {
     request: ['RM', 'CRO'],
-    approvalBu: ['SME_HEAD'],
+    approvalBu: ['SME_HEAD', 'DEPT_HEAD'],
     approvalSlik: ['BUSINESS_SUPPORT'],
   };
 
