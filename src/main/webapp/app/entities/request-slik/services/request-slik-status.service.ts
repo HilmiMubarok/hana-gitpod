@@ -28,8 +28,10 @@ export class RequestSlikStatusService extends AbstractEntityService<any> {
   }
 
   // Get Statuses
-  public getStatuses() {
-    const params = new HttpParams().set('appMenuId', 'SLIK_CHECKING_REQUEST').set('page', 0).set('size', 999);
+  public getStatuses(isBusinessSupport: boolean) {
+    const params = isBusinessSupport
+      ? new HttpParams().set('appMenuId', 'SLIK_CHECKING_REQUEST_APPROVAL').set('page', 0).set('sort', 'id,asc')
+      : new HttpParams().set('appMenuId', 'SLIK_CHECKING_REQUEST').set('page', 0).set('sort', 'id,asc');
 
     return this.http.get<any>(this.resourceUrlNew + '/filterBy', { params, observe: 'response' }).pipe(map(res => res.body));
   }

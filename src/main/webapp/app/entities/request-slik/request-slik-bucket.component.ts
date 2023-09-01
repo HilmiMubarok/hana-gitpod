@@ -55,11 +55,12 @@ export class RequestSlikBucketComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   iconTimeline: any;
-
+  isBusinessSupport: boolean;
   isHasAddSlikPermission: boolean;
 
   getPos(data) {
     const haveAccess = ['RM', 'CRO'];
+    const bsRole = 'BUSINESS_SUPPORT';
 
     const positions = data[0].positions;
     const posLoc = this.getLocStor('POS');
@@ -69,6 +70,9 @@ export class RequestSlikBucketComponent implements OnInit {
 
     // get positionTypeId from positions with pos.id
     const posType = pos.positionTypeId;
+
+    this.isBusinessSupport = posType === bsRole ? true : false;
+    this.getStatus(this.isBusinessSupport);
 
     // if haveAccess contains posType, set isHasAddSlikPermission to true
     if (haveAccess.includes(posType)) {
@@ -89,7 +93,6 @@ export class RequestSlikBucketComponent implements OnInit {
     public accountService: AccountService,
     public employeeService: EmployeeService
   ) {
-    this.getStatus();
     this.iconTimeline = faTimeline;
 
     this.accountService.identity().subscribe(account => {
@@ -215,8 +218,8 @@ export class RequestSlikBucketComponent implements OnInit {
   }
 
   public requestSlikStatusCodes: IOptionNode[] = [];
-  getStatus() {
-    this.lovAndStatusService.getStatuses().subscribe(res => {
+  getStatus(isBusinessSupport: boolean) {
+    this.lovAndStatusService.getStatuses(isBusinessSupport).subscribe(res => {
       this.requestSlikStatusCodes = res;
     });
   }
