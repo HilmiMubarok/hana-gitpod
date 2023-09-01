@@ -16,7 +16,7 @@ import { DocumentTypeDialogComponent } from './document-type-dialog.component';
   styleUrls: ['./document-type.css'],
 })
 export class DocumentTypeComponent extends AbstractEntityMaterialComponent<IDocumentType> implements OnInit {
-  public displayColumns: string[] = ['no', 'description', 'category', 'statusDescription', 'action'];
+  public displayColumns: string[] = ['no', 'description', 'category', 'customerType', 'statusDescription', 'action'];
   public displayedColumnsExpand = [...this.displayColumns, 'expand'];
   public clickedChip: Object;
   public iconTimeline: any;
