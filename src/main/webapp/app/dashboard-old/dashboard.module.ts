@@ -6,7 +6,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DASHBOARD_ROUTE } from './dashboard.route';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { ChartAllModule, AccumulationChartAllModule, RangeNavigatorAllModule } from '@syncfusion/ej2-angular-charts';
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import {
   CategoryService,
   DateTimeService,
@@ -19,10 +19,6 @@ import {
   LegendService,
   TooltipService,
 } from '@syncfusion/ej2-angular-charts';
-import { DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
-import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
-import { LineChartComponent } from './charts/line-chart/line-chart.component';
-import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 
 @NgModule({
   imports: [
@@ -33,12 +29,9 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
     MatDividerModule,
 
     // syncfusion
-    DashboardLayoutModule,
-    ChartAllModule,
-    AccumulationChartAllModule,
-    RangeNavigatorAllModule,
+    ChartModule,
   ],
-  declarations: [DashboardComponent, BarChartComponent, LineChartComponent, PieChartComponent],
+  declarations: [DashboardComponent],
   providers: [
     CategoryService,
     DateTimeService,
