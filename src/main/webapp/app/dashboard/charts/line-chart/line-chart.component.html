@@ -1,0 +1,68 @@
+<ejs-chart
+  id="spline"
+  style="height: 100%; width: 100%"
+  [primaryXAxis]="spLineAreaprimaryXAxis"
+  [primaryYAxis]="spLineAreaprimaryYAxis"
+  [tooltip]="spLineAreatooltipSettings"
+  [chartArea]="chartArea"
+  [legendSettings]="spLineLegendSettings"
+  (load)="load($event)"
+>
+  <e-series-collection>
+    <e-series
+      [dataSource]="dataSource1"
+      name="Online"
+      type="SplineArea"
+      xName="Period"
+      yName="Percentage"
+      opacity="0.3"
+      width="2.5"
+      pointColorMapping="color"
+      [fill]="spLineAreaFill"
+      [border]="spLineAreaBorder"
+    >
+    </e-series>
+    <e-series
+      [dataSource]="dataSource2"
+      name="Retail"
+      type="SplineArea"
+      xName="Period"
+      yName="Percentage"
+      opacity="0.3"
+      width="2.5"
+      pointColorMapping="color"
+      [fill]="spLineAreaFill1"
+      [border]="spLineAreaBorder1"
+    >
+    </e-series>
+    <e-series
+      [dataSource]="dataSource3"
+      name="Retail"
+      type="SplineArea"
+      xName="Period"
+      yName="Percentage"
+      opacity="0.8"
+      width="2.5"
+      [fill]="spLineAreaFill2"
+      [border]="spLineAreaBorder2"
+    >
+    </e-series>
+  </e-series-collection>
+</ejs-chart>
+
+<svg style="height: 0">
+  <defs>
+    <linearGradient id="line-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0"></stop>
+      <stop offset="1"></stop>
+    </linearGradient>
+    <linearGradient id="line-chart1" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0"></stop>
+      <stop offset="1"></stop>
+    </linearGradient>
+    <linearGradient id="line-chart2" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0"></stop>
+      <stop offset="1"></stop>
+    </linearGradient>
+  </defs>
+</svg>
