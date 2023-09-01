@@ -73,6 +73,7 @@ export class RequestSlikBucketComponent implements OnInit {
 
     this.isBusinessSupport = posType === bsRole ? true : false;
     this.getStatus(this.isBusinessSupport);
+    this.getRequestSliks(this.isBusinessSupport);
 
     // if haveAccess contains posType, set isHasAddSlikPermission to true
     if (haveAccess.includes(posType)) {
@@ -157,8 +158,14 @@ export class RequestSlikBucketComponent implements OnInit {
   }
 
   totalItemCount;
-  getData(page = this.pageIndex, size = 10, sort = 'dateCreate,desc', idPosition = this.getLocStor('POS')) {
-    this.requestSlikBucketService.getAllData(page, size, sort, idPosition).subscribe({
+  getData(
+    page = this.pageIndex,
+    size = 10,
+    sort = 'dateCreate,desc',
+    idPosition = this.getLocStor('POS'),
+    isBusinessSupport: boolean = this.isBusinessSupport
+  ) {
+    this.requestSlikBucketService.getAllData(page, size, sort, idPosition, isBusinessSupport).subscribe({
       next: data => {
         if (data.length === 0) {
           this.dataSource = new MatTableDataSource([]);
@@ -178,8 +185,14 @@ export class RequestSlikBucketComponent implements OnInit {
     });
   }
 
-  getRequestSliks(page = this.pageIndex, size = 10, sort = 'dateCreate,desc', idPosition = this.getLocStor('POS')) {
-    this.requestSlikBucketService.getAllRequestSliks(page, size, sort, idPosition).subscribe({
+  getRequestSliks(
+    isBusinessSupport = this.isBusinessSupport,
+    page = this.pageIndex,
+    size = 10,
+    sort = 'dateCreate,desc',
+    idPosition = this.getLocStor('POS')
+  ) {
+    this.requestSlikBucketService.getAllRequestSliks(isBusinessSupport, page, size, sort, idPosition).subscribe({
       next: data => {
         if (data.length === 0) {
           this.dataSource = new MatTableDataSource([]);
@@ -204,7 +217,6 @@ export class RequestSlikBucketComponent implements OnInit {
   ngOnInit() {
     this.dataSource = new MatTableDataSource();
     // this.getData();
-    this.getRequestSliks();
   }
 
   public showTimeLine(element: IRequestSlik): void {
@@ -270,7 +282,7 @@ export class RequestSlikBucketComponent implements OnInit {
     this.searchCif = '';
     this.isLoading = true;
     // this.getData(0);
-    this.getRequestSliks(0);
+    this.getRequestSliks(this.isBusinessSupport, 0);
   }
 
   // === SEARCH REQUEST SLIK BUCKET
@@ -306,7 +318,7 @@ export class RequestSlikBucketComponent implements OnInit {
       ? this.searchReqSlik(this.searchCif)
       : this.clickedChip !== ''
       ? this.chipClick(this.clickedChip)
-      : this.getRequestSliks(page);
+      : this.getRequestSliks(this.isBusinessSupport, page);
   }
 
   pageIndex = 0;
