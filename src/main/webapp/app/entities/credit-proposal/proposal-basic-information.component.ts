@@ -1122,6 +1122,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public save(source: string): void {
+    this.saveCollateralAfterReport();
     this.setIndustryName();
     this.saveState = source;
 
@@ -1593,6 +1594,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
@@ -1714,5 +1716,57 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
       }
     });
+  }
+
+  public saveCollateralAfterReport() {
+    if (this.creditProposal.attributes['collateralAfterReport']) {
+      while (typeof this.creditProposal.attributes['collateralAfterReport'] === 'string') {
+        this.creditProposal.attributes['collateralAfterReport'] = JSON.parse(this.creditProposal.attributes['collateralAfterReport']);
+      }
+      if (this.creditProposal.attributes['collateralAfterReport'].length > 0) {
+        for (let i = 0; i < this.creditProposal.attributes['collateralAfterReport'].length; i++) {
+          this.creditProposal.attributes['collateralAfterReport'][i].mvInternal = this.countMV(
+            this.creditProposal.attributes['collateralAfterReport'][i].id
+          );
+          this.creditProposal.attributes['collateralAfterReport'][i].lvInternal = this.countLV(
+            this.creditProposal.attributes['collateralAfterReport'][i].id
+          );
+        }
+      }
+    } else {
+      this.creditProposal.attributes['collateralAfterReport'] = [];
+    }
+  }
+
+  public countMV(id: number): number {
+    // console.log("collateral in above grid",collateral);
+    const data: ICollateralProperty = this.collateralProperties.find(
+      obj => obj.propertyType === 'GENERAL' && obj.collateralId === id && obj.external === false
+    );
+    console.log('data mv ', data);
+    console.log('id collateral ', id, ' ', this.collateralProperties);
+    if (data !== undefined) {
+      if (data.marketValue === null) {
+        return 0;
+      } else {
+        return data.marketValue;
+      }
+    }
+    return 0;
+  }
+
+  public countLV(id: number): number {
+    // console.log("collateral in above grid",collateral);
+    const data: ICollateralProperty = this.collateralProperties.find(
+      obj => obj.propertyType === 'GENERAL' && obj.collateralId === id && obj.external === false
+    );
+    if (data !== undefined) {
+      if (data.liquidationValue === null) {
+        return 0;
+      } else {
+        return data.liquidationValue;
+      }
+    }
+    return 0;
   }
 }
