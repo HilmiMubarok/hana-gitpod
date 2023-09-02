@@ -393,6 +393,7 @@ import { GroupCollateralListHistoryComponent } from './credit-proposal/collatera
 import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral-history.component';
 import { GroupCollateralDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-dar.component';
 import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-list-dar.component';
+import { CreditProposalMappingCollateralBtbComponent } from './credit-proposal/loan-facility/mapping/mapping-collateral-btb.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -849,6 +850,7 @@ import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collate
         CPMemoBandingRemarkComponent,
         CPMemoBandingCollateralBacktobackComponent,
         MemoBandingComponent,
+        CreditProposalMappingCollateralBtbComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1055,6 +1057,7 @@ import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collate
     CreditProposalMappingFacilityComponent,
     // mapping collateral
     CreditProposalMappingCollateralComponent,
+    CreditProposalMappingCollateralBtbComponent,
     // === Previous === //
 
     // Loan Facility Detail
