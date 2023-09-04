@@ -14,6 +14,7 @@ export class RequestSlikPopupComponent {
   public note: string;
   public createdBy: string;
   public task: string;
+  public isCrDeptHead: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: IRequestSlikNote, private _dialog: MatDialogRef<RequestSlikPopupComponent>) {
     this.businessKey = this.data.businessKey;
@@ -23,7 +24,7 @@ export class RequestSlikPopupComponent {
     this.note = this.data.note;
     this.createdBy = this.data.createdBy;
     this.task = this.data.task;
-    console.log('dialog data: ', this.data);
+    this.isCrDeptHead = this.data.isCrDeptHead;
   }
 
   public save(): void {
@@ -47,4 +48,5 @@ export interface IRequestSlikNote {
   note: string;
   createdBy: string;
   task: string;
+  isCrDeptHead: boolean;
 }
