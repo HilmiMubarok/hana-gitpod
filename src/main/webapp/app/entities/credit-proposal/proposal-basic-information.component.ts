@@ -55,6 +55,9 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 import { CPMemoBandingRemarkComponent } from './memo-banding/remarks/cp-memo-banding-remark.component';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/permission.service';
+import { PositionTypeService } from 'app/entities/master-parameter/master-permission/position-type.service';
+
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
@@ -161,6 +164,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   private saveState: string;
   public parentSubject: Subject<any> = new Subject();
 
+  public permission: any;
+  private position: any;
+
   constructor(
     private partyCifService: PartyCifService,
     private creditProposalService: CreditProposalService,
@@ -180,7 +186,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected productClasificationService: ProductClassificationService,
     protected productParameterService: MasterProductParameterService,
     public templateService: TemplateService,
-    public industryLimitExposureParameterService: IndustryLimitExposureParameterService
+    public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
+	protected masterPermissionService: MasterPermissionService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -257,6 +264,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+	  this.position = newPos;
       this.positionTypeId = newPos.positionTypeId;
       this.conditionSaveBtn();
     });
@@ -439,7 +447,13 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
 
     this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
+	  const menuItemIdByRoute = this.router.url.includes('credit-proposal-status') ? 'CREDIT_PROPOSAL' : 'CREDIT_PROPOSAL_APPROVAL';
+
       this.cp = response.body;
+
+	  this.masterPermissionService.queryFilterBy({menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.cp.statusId}).subscribe(permissionObject => {
+		this.permission = permissionObject.body;
+	  });
     });
 
     const passSummary = {

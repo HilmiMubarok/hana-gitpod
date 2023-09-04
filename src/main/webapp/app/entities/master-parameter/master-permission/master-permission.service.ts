@@ -15,23 +15,8 @@ export class MasterPermissionService extends AbstractEntityService<IAppMenuPermi
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-permission');
   }
+
   protected isNew(entity: IAppMenuPermission): boolean {
     return entity.id === undefined || entity.id === null;
   }
-
-  // public getAppMenuBucket(req?: any): Observable<HttpResponse<IAppMenuPermission[]>> {
-  //   const options = createRequestOption(req);
-  //   return this.http
-  //     .get<IAppMenuPermission[]>(this.resourceUrl, { params: options, observe: 'response' })
-  //     .pipe(map((res: HttpResponse<IAppMenuPermission[]>) => this.preLoadItemArray(res)));
-  // }
-
-  // public findPositionReportingStructureCp(idApplication: number) {
-  //   return this.http.get<IPositionReportingStructure[]>(
-  //     `${this.resourceUrlNew}/application/${idApplication}/find-base-on-owner/relation-type/CREDIT_PROPOSAL`,
-  //     {
-  //       observe: 'response',
-  //     }
-  //   );
-  // }
 }
