@@ -137,7 +137,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
             o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
             o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
             o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
-            o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
             o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
             o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
           );
@@ -429,7 +428,13 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
       if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          if (this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+          if (
+            this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+            this.creditProposal.collaterals[i].collateralTypeId !== 'MACHINE' &&
+            this.creditProposal.collaterals[i].collateralTypeId !== 'REALESTATE' &&
+            this.creditProposal.collaterals[i].collateralTypeId !== 'VEHICLE' &&
+            this.creditProposal.collaterals[i].collateralTypeId !== 'PERSONAL_PROPERTY'
+          ) {
             for (let j = 0; j < this.creditProposal.products.length; j++) {
               if ($event === true) {
                 const tempCollateralProductRelationObject = {
@@ -457,7 +462,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
                 this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
                 this.creditProposal.collateralProductRelations[index].collateralId === this.creditProposal.collaterals[k].id
               ) {
-                this.creditProposal.collateralProductRelations.splice(index, 1);
+                this.creditProposal.collateralProductRelations.splice(index);
               }
             }
           }

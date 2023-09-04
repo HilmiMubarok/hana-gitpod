@@ -12,11 +12,11 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { Router } from '@angular/router';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 @Component({
-  selector: 'jhi-mapping-collateral',
-  templateUrl: './mapping-collateral.component.html',
+  selector: 'jhi-mapping-collateral-btb',
+  templateUrl: './mapping-collateral-btb.component.html',
   styleUrls: ['../grid/loan.scss'],
 })
-export class CreditProposalMappingCollateralComponent implements OnInit {
+export class CreditProposalMappingCollateralBtbComponent implements OnInit {
   @Output() outputCreditProposalMappingData = new EventEmitter();
 
   public collateralData: any;
@@ -60,6 +60,11 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   ngOnInit(): void {
     const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
     this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
+    // && o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+    //   o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+    //   o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+    //   o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+    //   o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']);
 
     // this.collateralData = this.collateralInfo.filter(o => o.collateralTypeId !== 'CASH');
     console.log('collateral data ', this.collateralData);
@@ -234,12 +239,22 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
         this.mappingStatusHelper.push('no');
         if (this.creditProposalData.collateralProductRelations.length > 0) {
           for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
-            if (
-              this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id &&
-              this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData.id
-            ) {
-              this.mappingStatusHelper[i] = 'yes';
-              this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+            for (let k = 0; k < this.creditProposalData.collaterals.length; k++) {
+              if (
+                this.creditProposalData.collaterals[k].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+                this.creditProposalData.collaterals[k].collateralTypeId !== 'MACHINE' &&
+                this.creditProposalData.collaterals[k].collateralTypeId !== 'REALESTATE' &&
+                this.creditProposalData.collaterals[k].collateralTypeId !== 'VEHICLE' &&
+                this.creditProposalData.collaterals[k].collateralTypeId !== 'PERSONAL_PROPERTY'
+              ) {
+                if (
+                  this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id &&
+                  this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData.id
+                ) {
+                  this.mappingStatusHelper[i] = 'yes';
+                  this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+                }
+              }
             }
           }
         }
