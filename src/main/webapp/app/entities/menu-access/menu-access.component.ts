@@ -38,7 +38,6 @@ export class MenuAccessComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource$ = this.menuAccessService.getMenuAccess().pipe(map(res => res.body.filter(e => e.parentId !== null)));
-    console.log('aaaaaaaa', this.subMenu);
   }
 
   public previousState(): void {
@@ -49,7 +48,7 @@ export class MenuAccessComponent implements OnInit {
     this.isOpen = !this.isOpen;
   }
 
-  public routeSubMenu(menu: object): void {
-    this.router.navigate(['./menu-access/' + menu]);
+  public routeSubMenu(menu: any): void {
+    menu.id !== 'status' ? null : this.router.navigate(['./menu-access/' + menu.id]);
   }
 }

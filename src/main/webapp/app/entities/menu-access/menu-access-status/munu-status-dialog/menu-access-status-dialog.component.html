@@ -1,0 +1,21 @@
+<mat-card>
+  <h3>{{ statusMenuAccess[0].parentDescription }}</h3>
+  <mat-list>
+    <mat-list-item>
+      <span matListItemTitle>{{ statusMenuAccess[0].description }}</span>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Status</mat-label>
+    <mat-select name="status" (selectionChange)="onSelect($event.value)">
+      <mat-option *ngFor="let item of status" [value]="item.id">
+        {{ item.description }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div style="text-align: center; margin: 0 auto">
+    <button class="button-styling mb-3" (click)="save()" mat-raised-button>ADD</button>
+  </div>
+</mat-card>
