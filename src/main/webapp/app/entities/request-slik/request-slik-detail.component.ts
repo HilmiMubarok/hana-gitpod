@@ -175,7 +175,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
   roles = {
     request: ['RM', 'CRO'],
-    approvalBu: ['SME_HEAD', 'DEPT_HEAD'],
+    approvalBu: ['SME_HEAD', 'CRC'],
     approvalSlik: ['BUSINESS_SUPPORT'],
   };
 
@@ -190,10 +190,18 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   showSubmitButton() {
-    if (this.roles.request.includes(this.position)) {
-      // RM DLL
+    if (this.roles.request[0].includes(this.position)) {
+      // RM
       return this.requestSlik.status === this.reqSlikStatus.DRAFT ||
         this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM ||
+        this.requestSlik.status === this.reqSlikStatus.VERIFY
+        ? true
+        : false;
+
+      // CRO
+    } else if (this.roles.request[1].includes(this.position)) {
+      return this.requestSlik.status === this.reqSlikStatus.DRAFT ||
+        this.requestSlik.status === this.reqSlikStatus.RETURN_TO_CRO ||
         this.requestSlik.status === this.reqSlikStatus.VERIFY
         ? true
         : false;
@@ -430,23 +438,46 @@ export class RequestSlikDetailComponent implements OnInit {
     });
   }
 
-  reject() {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.RETURN_TO_RM).subscribe({
+  reject(isCrDeptHead = false) {
+    if (isCrDeptHead) {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      next: () => {
-        this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
-        this.router.navigate(['/request-slik']);
-      },
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      // error: err => err.status === 200 && this.router.navigate(['/request-slik']),
-      error: err => {
-        if (err.status === 200) {
+      this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.RETURN_TO_CRO).subscribe({
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        next: () => {
+          this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_CRO;
           this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
           this.router.navigate(['/request-slik']);
-        }
-      },
-    });
+        },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        // error: err => err.status === 200 && this.router.navigate(['/request-slik']),
+        error: err => {
+          if (err.status === 200) {
+            this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_CRO;
+            this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
+            this.router.navigate(['/request-slik']);
+          }
+        },
+      });
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.RETURN_TO_RM).subscribe({
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        next: () => {
+          this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_RM;
+          this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
+          this.router.navigate(['/request-slik']);
+        },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        // error: err => err.status === 200 && this.router.navigate(['/request-slik']),
+        error: err => {
+          if (err.status === 200) {
+            this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_RM;
+            this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
+            this.router.navigate(['/request-slik']);
+          }
+        },
+      });
+    }
   }
 
   // === Document Editor ===
@@ -576,41 +607,82 @@ export class RequestSlikDetailComponent implements OnInit {
   }
   // === End Document Editor ===
 
+  // protected checkStatus(currentStatus: string) {
+  //   if (
+  //     (currentStatus === this.reqSlikStatus.DRAFT || currentStatus === this.reqSlikStatus.RETURN_TO_RM) &&
+  //     this.segment === 'Small Medium Enterprise'
+  //   ) {
+  //     return {
+  //       status: this.reqSlikStatus.APPROVAL_BU,
+  //     };
+  //   } else if (
+  //     (currentStatus === this.reqSlikStatus.DRAFT || currentStatus === this.reqSlikStatus.RETURN_TO_RM) &&
+  //     this.segment !== 'Small Medium Enterprise'
+  //   ) {
+  //     return {
+  //       status: this.reqSlikStatus.APPROVAL_BU,
+  //     };
+  //   } else if (currentStatus === this.reqSlikStatus.APPROVAL_BU && this.segment === 'Small Medium Enterprise') {
+  //     return {
+  //       status: this.reqSlikStatus.APPROVAL_SLIK,
+  //     };
+  //   } else if (currentStatus === this.reqSlikStatus.APPROVAL_BU && this.segment !== 'Small Medium Enterprise') {
+  //     return {
+  //       status: this.reqSlikStatus.CHECKING,
+  //     };
+  //   } else if (currentStatus === this.reqSlikStatus.APPROVAL_SLIK) {
+  //     return {
+  //       status: this.reqSlikStatus.CHECKING,
+  //     };
+  //   } else if (currentStatus === this.reqSlikStatus.VERIFY) {
+  //     return {
+  //       status: this.reqSlikStatus.COMPLETE,
+  //     };
+  //   } else {
+  //     return {
+  //       status: this.reqSlikStatus.COMPLETE,
+  //     };
+  //   }
+  // }
+
+  // if cr dept head => approval bu to checking
+  isCrDeptHead: Boolean = false;
   protected checkStatus(currentStatus: string) {
-    if (
-      (currentStatus === this.reqSlikStatus.DRAFT || currentStatus === this.reqSlikStatus.RETURN_TO_RM) &&
-      this.segment === 'Small Medium Enterprise'
-    ) {
-      return {
-        status: this.reqSlikStatus.APPROVAL_BU,
-      };
-    } else if (
-      (currentStatus === this.reqSlikStatus.DRAFT || currentStatus === this.reqSlikStatus.RETURN_TO_RM) &&
-      this.segment !== 'Small Medium Enterprise'
-    ) {
-      return {
-        status: this.reqSlikStatus.APPROVAL_BU,
-      };
-    } else if (currentStatus === this.reqSlikStatus.APPROVAL_BU && this.segment === 'Small Medium Enterprise') {
-      return {
-        status: this.reqSlikStatus.APPROVAL_SLIK,
-      };
-    } else if (currentStatus === this.reqSlikStatus.APPROVAL_BU && this.segment !== 'Small Medium Enterprise') {
-      return {
-        status: this.reqSlikStatus.CHECKING,
-      };
-    } else if (currentStatus === this.reqSlikStatus.APPROVAL_SLIK) {
-      return {
-        status: this.reqSlikStatus.CHECKING,
-      };
-    } else if (currentStatus === this.reqSlikStatus.VERIFY) {
-      return {
-        status: this.reqSlikStatus.COMPLETE,
-      };
-    } else {
-      return {
-        status: this.reqSlikStatus.COMPLETE,
-      };
+    switch (currentStatus) {
+      case this.reqSlikStatus.DRAFT:
+      case this.reqSlikStatus.RETURN_TO_RM:
+      case this.reqSlikStatus.RETURN_TO_CRO:
+        return {
+          status: this.reqSlikStatus.APPROVAL_BU,
+        };
+      case this.reqSlikStatus.APPROVAL_BU:
+        if (this.isCrDeptHead) {
+          return {
+            status: this.reqSlikStatus.CHECKING,
+          };
+        } else {
+          if (this.segment === 'Small Medium Enterprise') {
+            return {
+              status: this.reqSlikStatus.APPROVAL_SLIK,
+            };
+          } else {
+            return {
+              status: this.reqSlikStatus.CHECKING,
+            };
+          }
+        }
+      case this.reqSlikStatus.APPROVAL_SLIK:
+        return {
+          status: this.reqSlikStatus.CHECKING,
+        };
+      case this.reqSlikStatus.VERIFY:
+        return {
+          status: this.reqSlikStatus.COMPLETE,
+        };
+      default:
+        return {
+          status: this.reqSlikStatus.COMPLETE,
+        };
     }
   }
 
@@ -798,6 +870,11 @@ export class RequestSlikDetailComponent implements OnInit {
   public getPositionTypeIdToSend(listPositions: string[]): void {
     const checker = (arr, target) => target.every(v => arr.includes(v));
 
+    // if DEPT_HEAD exist, set isCrDeptHead = true
+    if (listPositions.includes(this.roles.approvalBu[1])) {
+      this.isCrDeptHead = true;
+    }
+
     // if RM exist
     if (listPositions.includes(this.roles.request[0])) {
       this.idPositionType = this.roles.request[0];
@@ -841,7 +918,7 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   noteTimeline: IRequestSlikNote;
-  public openSubmitDialog(task): void {
+  public openSubmitDialog(task, isCrDeptHead = false): void {
     if (
       !this.requestSlikValidateService.validate() &&
       (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM) &&
@@ -861,6 +938,7 @@ export class RequestSlikDetailComponent implements OnInit {
         createdBy: this.createdBy,
         businessKey: 'SLIK',
         task,
+        isCrDeptHead,
       },
     });
     dialogRef.afterClosed().subscribe(_res => {
@@ -869,7 +947,7 @@ export class RequestSlikDetailComponent implements OnInit {
         if (task === 'cancel') {
           this.cancel();
         } else if (task === 'reject') {
-          this.reject();
+          this.reject(isCrDeptHead);
         } else {
           this.submit();
         }

@@ -267,9 +267,9 @@
           class="button-styling"
           *ngIf="showRejectButton()"
           style="margin-right: 10px"
-          (click)="openSubmitDialog('reject')"
+          (click)="openSubmitDialog('reject', isCrDeptHead)"
         >
-          Return to RM
+          {{ isCrDeptHead ? 'Return to CR' : 'Return to RM' }}
         </button>
         <button mat-raised-button class="button-styling" *ngIf="showSaveButton()" (click)="save()">Save</button>
       </div>
