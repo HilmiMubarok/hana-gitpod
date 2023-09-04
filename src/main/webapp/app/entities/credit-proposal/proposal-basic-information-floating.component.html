@@ -290,7 +290,7 @@
                   >
                   </jhi-credit-proposal-collateral-info
                 ></e-card>
-                <jhi-collateral-info-history [source]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                <jhi-collateral-info-history #creditProposalCollateralInfoHistoryComponent [source]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
                 </jhi-collateral-info-history>
 
                 <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>

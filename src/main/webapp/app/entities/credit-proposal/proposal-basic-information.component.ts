@@ -56,6 +56,7 @@ import { IndustryLimitExposureParameterService } from '../master-parameter/indus
 import { CPMemoBandingRemarkComponent } from './memo-banding/remarks/cp-memo-banding-remark.component';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/master-permission.service';
+import { CollateralInfoHistoryComponent } from './collateral-info-history/collateral-info-history.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -77,6 +78,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     static: false,
   })
   creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
+
+  @ViewChild('creditProposalCollateralInfoHistoryComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoHistoryComponent: CollateralInfoHistoryComponent;
 
   @ViewChild('creditProposalOpinionHistoryComponent', {
     static: false,
@@ -1107,6 +1113,10 @@ export class ProposalBasicInformationComponent implements OnInit {
 
       if (this.creditProposalCollateralInfoComponent) {
         this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+      }
+
+	  if (this.creditProposalCollateralInfoHistoryComponent) {
+        this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
       }
 
       if (this.remaksComponent) {
