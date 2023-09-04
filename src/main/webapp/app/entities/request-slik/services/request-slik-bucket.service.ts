@@ -29,52 +29,56 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR + '/api/cbas_slik');
   }
 
-  getAllData(page: number, size: number, sort: string, idPosition): Observable<any> {
+  getAllData(page: number, size: number, sort: string, idPosition, isBusinessSupport): Observable<any> {
     const options = new HttpParams().set('page', page).set('size', size).set('sort', sort).set('idPosition', idPosition);
 
-    return this.http.get<any>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
-      switchMap(data => {
-        if (data.body.data.content.length === 0) {
-          return of([]);
-        }
-        const requests = data.body.data.content.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
-        return (
-          forkJoin(requests)
-            .pipe(
-              map(details =>
-                data.body.data.content.map((user, i) => ({
-                  ...user,
-                  internalId: details[i].body.internalId,
-                  customerName: details[i].body.name,
-                  segment: 'loading...',
-                  dataExpand:
-                    details[i].body.customerType === 'CORPORATE'
-                      ? [details[i].body.customerOrganization]
-                      : [details[i].body.customerPerson],
-                  customerType: details[i].body.customerType,
+    return this.http
+      .get<any>(`${this.resourceUrl} + ${isBusinessSupport ? '-approval' : ''}`, { params: options, observe: 'response' })
+      .pipe(
+        switchMap(data => {
+          if (data.body.data.content.length === 0) {
+            return of([]);
+          }
+          const requests = data.body.data.content.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
+          return (
+            forkJoin(requests)
+              .pipe(
+                map(details =>
+                  data.body.data.content.map((user, i) => ({
+                    ...user,
+                    internalId: details[i].body.internalId,
+                    customerName: details[i].body.name,
+                    segment: 'loading...',
+                    dataExpand:
+                      details[i].body.customerType === 'CORPORATE'
+                        ? [details[i].body.customerOrganization]
+                        : [details[i].body.customerPerson],
+                    customerType: details[i].body.customerType,
+                  }))
+                )
+              )
+              // Add data outside for pagination
+              .pipe(
+                map(final => ({
+                  data: [...final],
+                  pageable: {
+                    totalElements: data.body.data.totalElements,
+                    totalPages: data.body.data.totalPages,
+                    pageable: data.body.data.pageable,
+                  },
                 }))
               )
-            )
-            // Add data outside for pagination
-            .pipe(
-              map(final => ({
-                data: [...final],
-                pageable: {
-                  totalElements: data.body.data.totalElements,
-                  totalPages: data.body.data.totalPages,
-                  pageable: data.body.data.pageable,
-                },
-              }))
-            )
-        );
-      }),
-      retryWhen(errors => errors.pipe(delay(1000), take(3)))
-    );
+          );
+        }),
+        retryWhen(errors => errors.pipe(delay(1000), take(3)))
+      );
   }
 
-  getAllRequestSliks(page: number, size: number, sort: string, idPosition): Observable<any> {
+  getAllRequestSliks(isBusinessSupport, page: number, size: number, sort: string, idPosition): Observable<any> {
     const options = new HttpParams().set('page', page).set('size', size).set('sort', sort).set('idPosition', idPosition);
-    return this.http.get<any>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
+    const url = isBusinessSupport ? `${this.resourceUrl}-approval` : `${this.resourceUrl}`;
+
+    return this.http.get<any>(url, { params: options, observe: 'response' }).pipe(
       switchMap(data => {
         if (data.body.data.content.length === 0) {
           return of([]);

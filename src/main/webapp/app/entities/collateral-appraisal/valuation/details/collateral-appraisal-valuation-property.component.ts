@@ -223,26 +223,25 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
   }
 
   public countTotalArea(element: ICollateralProperty): number {
-    let total: number;
-    total = 0;
-
+    let total = 0;
     if (element.propertyType === CollateralPropertyType.BUILDING) {
       if (lodash.has(element.attributes, 'floors')) {
         const floors: object[] = JSON.parse(element.attributes['floors']);
         if (floors.length > 0) {
           for (let i = 0; i < floors.length; i++) {
             const floor: object = floors[i];
-            total = total + parseInt(floor['area'], 10);
+            const floorArea: number = parseFloat(floor['area']);
+            total += floorArea;
           }
         }
       }
     }
-
     if (element.propertyType === CollateralPropertyType.LAND) {
       return element.landSizePerCertificate;
     }
 
-    return total;
+    // toFixed(2) untuk mengatur angka desimal ke 2 di belakang koma
+    return parseFloat(total.toFixed(2));
   }
 
   public reloadData(): void {

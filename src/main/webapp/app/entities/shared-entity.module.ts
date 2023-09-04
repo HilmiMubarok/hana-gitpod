@@ -848,7 +848,7 @@ import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collate
         CpMemoBandingOtherCovenantComponent,
         CPMemoBandingRemarkComponent,
         CPMemoBandingCollateralBacktobackComponent,
-        MemoBandingComponent,
+        MemoBandingComponent
   ],
   exports: [
     ...entityDialogModule,

@@ -1,0 +1,67 @@
+<ejs-chart
+  id="column"
+  style="height: 100%; width: 100%"
+  [primaryXAxis]="columnChartprimaryXAxis"
+  [primaryYAxis]="columnChartprimaryYAxis"
+  [chartArea]="chartArea"
+  [legendSettings]="columnChartlegendSettings"
+  (load)="load($event)"
+>
+  <e-series-collection>
+    <e-series
+      [dataSource]="dataSource1"
+      type="Column"
+      name="Online"
+      xName="Period"
+      yName="Percentage"
+      opacity="0.6"
+      width="2.5"
+      [marker]="columnChartmarker"
+      [fill]="series1Fill"
+      [border]="border"
+    >
+    </e-series>
+    <e-series
+      [dataSource]="dataSource2"
+      type="Column"
+      name="Retail"
+      xName="Period"
+      yName="Percentage"
+      opacity="0.6"
+      width="2.5"
+      [marker]="columnChartmarker"
+      [fill]="series2Fill"
+      [border]="border"
+    >
+    </e-series>
+    <e-series
+      [dataSource]="dataSource3"
+      type="Column"
+      name="Retail"
+      xName="Period"
+      yName="Percentage"
+      opacity="0.6"
+      [marker]="columnChartmarker"
+      [fill]="series3Fill"
+      [border]="border"
+    >
+    </e-series>
+  </e-series-collection>
+</ejs-chart>
+
+<svg style="height: 0">
+  <defs>
+    <linearGradient id="bar-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0"></stop>
+      <stop offset="1"></stop>
+    </linearGradient>
+    <linearGradient id="bar-chart1" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0"></stop>
+      <stop offset="1"></stop>
+    </linearGradient>
+    <linearGradient id="bar-chart2" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0"></stop>
+      <stop offset="1"></stop>
+    </linearGradient>
+  </defs>
+</svg>

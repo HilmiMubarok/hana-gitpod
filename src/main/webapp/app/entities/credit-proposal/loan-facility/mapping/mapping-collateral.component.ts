@@ -50,7 +50,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.disableField = this.data.hideField;
-    this.setUp();
+    // this.setUp();
     for (let i = 0; i < this.creditProposalData.collaterals.length; i++) {
       const collateral = this.creditProposalData.collaterals[i];
       this.findCollateralProperty(collateral);
@@ -60,9 +60,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   ngOnInit(): void {
     const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
     this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
-
-    // this.collateralData = this.collateralInfo.filter(o => o.collateralTypeId !== 'CASH');
-    console.log('collateral data ', this.collateralData);
+	this.setUp();
 
     if (this.applicationProductData.id === undefined) {
       this.disabled = true;
@@ -228,7 +226,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   private setUp(): void {
-    if (this.collateralInfo.length > 0) {
+    /* if (this.collateralInfo.length > 0) {
       for (let i = 0; i < this.collateralInfo.length; i++) {
         this.bindingValueHelper.push(0);
         this.mappingStatusHelper.push('no');
@@ -236,6 +234,23 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
           for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
             if (
               this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id &&
+              this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData.id
+            ) {
+              this.mappingStatusHelper[i] = 'yes';
+              this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+            }
+          }
+        }
+      }
+    } */
+	if (this.collateralData.length > 0) {
+      for (let i = 0; i < this.collateralData.length; i++) {
+        this.bindingValueHelper.push(0);
+        this.mappingStatusHelper.push('no');
+        if (this.creditProposalData.collateralProductRelations.length > 0) {
+          for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
+            if (
+              this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralData[i].id &&
               this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData.id
             ) {
               this.mappingStatusHelper[i] = 'yes';
@@ -277,7 +292,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
             this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id &&
             this.creditProposalData.collateralProductRelations[i].applicationProduct?.id === this.applicationProductData.id
           ) {
-            this.creditProposalData.collateralProductRelations.splice(i, 1);
+            this.creditProposalData.collateralProductRelations.splice(i);
           }
         }
       }

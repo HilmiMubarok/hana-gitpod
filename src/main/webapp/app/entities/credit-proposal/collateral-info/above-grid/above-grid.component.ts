@@ -202,6 +202,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.dataCollateral = res.body;
@@ -878,7 +879,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
                 this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id &&
                 this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[k].id
               ) {
-                this.creditProposal.collateralProductRelations.splice(i, 1);
+                this.creditProposal.collateralProductRelations.splice(i);
               }
             }
           }

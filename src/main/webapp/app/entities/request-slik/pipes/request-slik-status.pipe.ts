@@ -12,6 +12,7 @@ export class RequestSlikStatusPipe implements PipeTransform {
       [this.reqSlikStatus.APPROVAL_SLIK]: 'Approval SLIK By Team SLIK',
       [this.reqSlikStatus.CHECKING]: 'Checking In Progress',
       [this.reqSlikStatus.RETURN_TO_RM]: 'Return To RM',
+      [this.reqSlikStatus.RETURN_TO_CRO]: 'Return To CR',
       [this.reqSlikStatus.VERIFY]: 'Verify',
       [this.reqSlikStatus.COMPLETE]: 'Complete',
       [this.reqSlikStatus.CANCEL]: 'Cancel',

@@ -117,7 +117,19 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
             this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
               this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
                 this.documentTypeService.documentTypeList('DOC_LA').subscribe((res3: any) => {
-                  this.typeData = [...res.body, ...res1.body, ...res2.body, ...res3.body];
+                  let docLaData;
+
+                  if (!this.router.url.includes('credit-proposal-status')) {
+                    docLaData = [];
+                  } else {
+                    if (!this.router.url.includes('cp-status-approval')) {
+                      docLaData = [];
+                    } else {
+                      docLaData = res3.body;
+                    }
+                  }
+
+                  this.typeData = [...res.body, ...res1.body, ...res2.body, ...docLaData];
 
                   for (let i = 0; i < this.typeData.length; i++) {
                     if (this.typeData[i].id.includes('DEPO')) {
@@ -160,10 +172,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                     obj => obj.id === 'DOC_CP_OTHER_ID'
                   );
 
-                  const docLa: IDocumentType[] =
-                    this.router.url.includes('credit-proposal-status') === false || this.router.url.includes('cp-status-approval') === false
-                      ? this.typeData.filter(obj => obj.id === 'DOC_LA_OPINION')
-                      : [];
+                  const docLa: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_LA_OPINION');
 
                   const takeOverData =
                     this.creditProposal.attributes['facilityTakeOver'].length > 0

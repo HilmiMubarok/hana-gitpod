@@ -12,6 +12,6 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button (click)="save()">{{task === 'reject' ? 'Return to RM' : 'Submit'}}</button>
+  <button mat-button (click)="save()">{{ task === 'reject' ? (isCrDeptHead ? 'Return to CR' : 'Return to RM') : 'Submit' }}</button>
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

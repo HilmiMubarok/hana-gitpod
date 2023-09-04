@@ -1,0 +1,15 @@
+.control-container {
+  padding: 0px !important;
+}
+
+#bar-chart stop {
+  stop-color: #ff6384 !important;
+}
+
+#bar-chart1 stop {
+  stop-color: #4aacee !important;
+}
+
+#bar-chart2 stop {
+  stop-color: #ffd4aa !important;
+}

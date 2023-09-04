@@ -115,7 +115,18 @@ export class DocumentChecklistTempComponent implements OnInit {
             this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
               this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
                 this.documentTypeService.documentTypeList('DOC_LA').subscribe((res3: any) => {
-                  this.typeData = [...res.body, ...res1.body, ...res2.body, ...res3.body];
+                  let docLaData;
+
+                  if (!this.router.url.includes('credit-proposal-status')) {
+                    docLaData = [];
+                  } else {
+                    if (!this.router.url.includes('cp-status-approval')) {
+                      docLaData = [];
+                    } else {
+                      docLaData = res3.body;
+                    }
+                  }
+                  this.typeData = [...res.body, ...res1.body, ...res2.body, ...docLaData];
 
                   for (let i = 0; i < this.typeData.length; i++) {
                     if (this.typeData[i].id.includes('DEPO')) {

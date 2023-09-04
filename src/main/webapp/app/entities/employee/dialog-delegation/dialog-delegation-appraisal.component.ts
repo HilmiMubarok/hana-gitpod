@@ -13,6 +13,7 @@ import { CashPositionService } from 'app/entities/cash-position/cash-position.se
 import { IPositionType } from 'app/entities/position-type/position-type.model';
 import { firstValueFrom } from 'rxjs';
 import { IPosition } from 'app/entities/position/position.model';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-delegation-appraisal-dialog',
@@ -190,6 +191,8 @@ export class DialogDelegationAppraisalComponent implements OnInit {
         this.delegationAppraisalRequest.toEmployeeId = this.employeeId;
         this.delegationAppraisalRequest.appraisals = this.selectedData;
         this.delegationAppraisalRequest.roleId = this.selectedPosition;
+        this.delegationAppraisalRequest.fromDate = moment(this.delegationAppraisalRequest.fromDate).toDate();
+        this.delegationAppraisalRequest.thruDate = moment(this.delegationAppraisalRequest.thruDate).toDate();
         this.cashSurveyAppraisalsService.addDelegation(this.delegationAppraisalRequest).subscribe(
           () => {
             this._dialog.close();

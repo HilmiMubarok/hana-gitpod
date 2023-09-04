@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
-import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { IInternal } from 'app/entities/internal/internal.model';
 import { IEmployee } from '../employee.model';
-import { InternalService } from 'app/entities/internal/internal.service';
 import { CashCreditProposalService } from 'app/entities/credit-proposal/cash-credit-proposal.service';
 import { MatSelectChange } from '@angular/material/select';
 import { EmployeeService } from '../employee.service';
@@ -14,11 +12,13 @@ import { IPositionType } from 'app/entities/position-type/position-type.model';
 import { firstValueFrom } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { IPosition } from 'app/entities/position/position.model';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-delegation-application-dialog',
   templateUrl: './dialog-delegation-application.component.html',
   styleUrls: ['../employee.css'],
+  providers: [{ provide: 'MAT_DATE_LOCALE', useValue: 'in_ID' }],
 })
 export class DialogDelegationApplicationComponent implements OnInit {
   public partyId: string;
@@ -174,6 +174,8 @@ export class DialogDelegationApplicationComponent implements OnInit {
   }
 
   public save(): void {
+    console.log('xxx', moment(this.delegationApplicationRequest.fromDate).add(7, 'h'));
+
     if (this.delegationApplicationRequest.fromDate === undefined || this.delegationApplicationRequest.thruDate === undefined) {
       this.messageService.add({
         severity: 'error',
@@ -186,6 +188,8 @@ export class DialogDelegationApplicationComponent implements OnInit {
         this.delegationApplicationRequest.toEmployeeId = this.employeeId;
         this.delegationApplicationRequest.loanApplications = this.selectedData;
         this.delegationApplicationRequest.roleId = this.selectedPosition;
+        this.delegationApplicationRequest.fromDate = moment(this.delegationApplicationRequest.fromDate).add(7, 'h').toDate();
+        this.delegationApplicationRequest.thruDate = moment(this.delegationApplicationRequest.thruDate).add(7, 'h').toDate();
         this.cashCreditProposalService.addDelegation(this.delegationApplicationRequest).subscribe(
           () => {
             this._dialog.close();

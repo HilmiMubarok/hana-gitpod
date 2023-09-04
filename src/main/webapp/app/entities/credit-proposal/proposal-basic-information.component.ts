@@ -55,6 +55,9 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 import { CPMemoBandingRemarkComponent } from './memo-banding/remarks/cp-memo-banding-remark.component';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/master-permission.service';
+import { CollateralInfoHistoryComponent } from './collateral-info-history/collateral-info-history.component';
+
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
@@ -75,6 +78,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     static: false,
   })
   creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
+
+  @ViewChild('creditProposalCollateralInfoHistoryComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoHistoryComponent: CollateralInfoHistoryComponent;
 
   @ViewChild('creditProposalOpinionHistoryComponent', {
     static: false,
@@ -161,6 +169,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   private saveState: string;
   public parentSubject: Subject<any> = new Subject();
 
+  public permission: any;
+  private position: any;
+
   constructor(
     private partyCifService: PartyCifService,
     private creditProposalService: CreditProposalService,
@@ -180,7 +191,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected productClasificationService: ProductClassificationService,
     protected productParameterService: MasterProductParameterService,
     public templateService: TemplateService,
-    public industryLimitExposureParameterService: IndustryLimitExposureParameterService
+    public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
+	protected masterPermissionService: MasterPermissionService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -257,6 +269,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+	  this.position = newPos;
       this.positionTypeId = newPos.positionTypeId;
       this.conditionSaveBtn();
     });
@@ -439,7 +452,13 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
 
     this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
+	  const menuItemIdByRoute = this.router.url.includes('credit-proposal-status') ? 'CREDIT_PROPOSAL' : 'CREDIT_PROPOSAL_APPROVAL';
+
       this.cp = response.body;
+
+	  this.masterPermissionService.queryFilterBy({menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.cp.statusId}).subscribe(permissionObject => {
+		this.permission = permissionObject.body;
+	  });
     });
 
     const passSummary = {
@@ -1096,6 +1115,10 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
       }
 
+	  if (this.creditProposalCollateralInfoHistoryComponent) {
+        this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+      }
+
       if (this.remaksComponent) {
         this.remaksComponent.triggeredSave();
       }
@@ -1122,6 +1145,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public save(source: string): void {
+    this.saveCollateralAfterReport();
     this.setIndustryName();
     this.saveState = source;
 
@@ -1593,6 +1617,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
@@ -1714,5 +1739,57 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
       }
     });
+  }
+
+  public saveCollateralAfterReport() {
+    if (this.creditProposal.attributes['collateralAfterReport']) {
+      while (typeof this.creditProposal.attributes['collateralAfterReport'] === 'string') {
+        this.creditProposal.attributes['collateralAfterReport'] = JSON.parse(this.creditProposal.attributes['collateralAfterReport']);
+      }
+      if (this.creditProposal.attributes['collateralAfterReport'].length > 0) {
+        for (let i = 0; i < this.creditProposal.attributes['collateralAfterReport'].length; i++) {
+          this.creditProposal.attributes['collateralAfterReport'][i].mvInternal = this.countMV(
+            this.creditProposal.attributes['collateralAfterReport'][i].id
+          );
+          this.creditProposal.attributes['collateralAfterReport'][i].lvInternal = this.countLV(
+            this.creditProposal.attributes['collateralAfterReport'][i].id
+          );
+        }
+      }
+    } else {
+      this.creditProposal.attributes['collateralAfterReport'] = [];
+    }
+  }
+
+  public countMV(id: number): number {
+    // console.log("collateral in above grid",collateral);
+    const data: ICollateralProperty = this.collateralProperties.find(
+      obj => obj.propertyType === 'GENERAL' && obj.collateralId === id && obj.external === false
+    );
+    console.log('data mv ', data);
+    console.log('id collateral ', id, ' ', this.collateralProperties);
+    if (data !== undefined) {
+      if (data.marketValue === null) {
+        return 0;
+      } else {
+        return data.marketValue;
+      }
+    }
+    return 0;
+  }
+
+  public countLV(id: number): number {
+    // console.log("collateral in above grid",collateral);
+    const data: ICollateralProperty = this.collateralProperties.find(
+      obj => obj.propertyType === 'GENERAL' && obj.collateralId === id && obj.external === false
+    );
+    if (data !== undefined) {
+      if (data.liquidationValue === null) {
+        return 0;
+      } else {
+        return data.liquidationValue;
+      }
+    }
+    return 0;
   }
 }

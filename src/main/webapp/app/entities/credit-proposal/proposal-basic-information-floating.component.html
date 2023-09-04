@@ -39,7 +39,15 @@
                   <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
                 </div>
                 <div class="form-group">
-                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+				  <section *ngIf="permission">
+					<section *jhiMatrixDirMPS="'input'; permission: permission">
+					  Directive Input RM
+					</section>
+					<section *jhiMatrixDirMPS="'label'; permission: permission">
+					  Directive Label RM
+					</section>
+				  </section>
+                  <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.applicationNumber"
@@ -56,7 +64,7 @@
                         {{ creditProposal.applicationNumber }}
                       </div>
                     </div>
-                  </section>
+                  </section> -->
                 </div>
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -282,7 +290,7 @@
                   >
                   </jhi-credit-proposal-collateral-info
                 ></e-card>
-                <jhi-collateral-info-history [source]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                <jhi-collateral-info-history #creditProposalCollateralInfoHistoryComponent [source]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
                 </jhi-collateral-info-history>
 
                 <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>

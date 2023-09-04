@@ -201,6 +201,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.getBindingCalculate(res.body);
@@ -873,7 +874,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
                 this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
                 this.creditProposal.collateralProductRelations[index].collateralId === this.creditProposal.collaterals[k].id
               ) {
-                this.creditProposal.collateralProductRelations.splice(index, 1);
+                this.creditProposal.collateralProductRelations.splice(index);
               }
             }
           }
