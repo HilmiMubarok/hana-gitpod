@@ -140,7 +140,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         const dataGrid = [];
         for (let i = 0; i < this.dataAttrMgn.length; i++) {
           const num = i + 1;
-          dataGrid[i] = { indexNum: num, value: this.dataAttrMgn[i].value, valueSelect: '' };
+          dataGrid[i] = { indexNum: num, Management: this.dataAttrMgn[i].value, value: '' };
           console.log('data tabel', dataGrid);
         }
         this.dataAttrMgn = dataGrid;
