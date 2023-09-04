@@ -84,21 +84,21 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
 
   public totalArea: number;
   public countTotalArea(): number {
-    this.totalArea = 0;
-
+    let total = 0;
     if (this.collateralProp.propertyType === CollateralPropertyType.BUILDING) {
       if (lodash.has(this.collateralProp.attributes, 'floors')) {
         const floors: object[] = JSON.parse(this.collateralProp.attributes['floors']);
         if (floors.length > 0) {
           for (let i = 0; i < floors.length; i++) {
             const floor: object = floors[i];
-            this.totalArea = this.totalArea + parseInt(floor['area'], 10);
+            const floorArea: number = parseFloat(floor['area']);
+            total += floorArea;
           }
         }
       }
     }
-
-    return this.totalArea;
+    // toFixed(2) untuk mengatur angka desimal ke 2 di belakang koma
+    return parseFloat(total.toFixed(2));
   }
 
   hideordisable() {
