@@ -55,8 +55,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 import { CPMemoBandingRemarkComponent } from './memo-banding/remarks/cp-memo-banding-remark.component';
 import { PartyCifService } from '../party-cif/party-cif.service';
-import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/permission.service';
-import { PositionTypeService } from 'app/entities/master-parameter/master-permission/position-type.service';
+import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/master-permission.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
