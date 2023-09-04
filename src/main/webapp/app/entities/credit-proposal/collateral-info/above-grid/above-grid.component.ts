@@ -202,6 +202,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.dataCollateral = res.body;

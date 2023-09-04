@@ -172,6 +172,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.getBindingCalculate(res.body);
