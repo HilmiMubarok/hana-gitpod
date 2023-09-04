@@ -913,7 +913,6 @@ export class RequestSlikDetailComponent implements OnInit {
           // map user array and get only positionTypeId key
           const positionTypeId = user.positions.map(position => position.positionTypeId);
           this.getPositionTypeIdToSend(positionTypeId);
-          console.log('is CR DEPT HEAD ? ', this.isCrDeptHead);
         });
     });
   }
