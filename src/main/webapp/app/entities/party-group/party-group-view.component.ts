@@ -243,6 +243,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
         this.initialize();
+        this.myFunction();
       }
       if (this.item) {
         this.prepareView();
