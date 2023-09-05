@@ -1,94 +1,55 @@
-<div class="control-section">
-  <div class="col-lg-8 w-100" id="dashboard_container">
-    <ejs-dashboardlayout
-      id="predefine_dashboard"
-      #predefine_dashboard
-      columns="6"
-      [cellSpacing]="cellSpacing"
-      [cellAspectRatio]="aspectRatio"
-      [allowDragging]="false"
-    >
-      <e-panels>
-        <!-- Status -->
-        <!-- progress -->
-        <!-- <e-panel [sizeX]="2" [sizeY]="1" [row]="0" [col]="0">
-          <ng-template #header>
-            <div>In Progress</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel> -->
-        <!-- complete -->
-        <!-- <e-panel [sizeX]="2" [sizeY]="1" [row]="0" [col]="2">
-          <ng-template #header>
-            <div>Complete</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-complete-status-bar></jhi-complete-status-bar>
-          </ng-template>
-        </e-panel> -->
-        <!-- filter -->
-        <!-- <e-panel [sizeX]="2" [sizeY]="1" [row]="0" [col]="4">
-          <ng-template #header>
-            <div>filter</div>
-          </ng-template>
-          <ng-template #content>
-            <section style="justify-content: center">
-              <mat-form-field class="w-50" appearance="outline">
-                <mat-label>Status</mat-label>
-                <mat-select>
-                  <mat-option *ngFor="let item of status" [value]="item">
-                    {{ item }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field class="w-50" appearance="outline" style="float: right !important">
-                <mat-label>Date</mat-label>
-                <mat-select>
-                  <mat-option *ngFor="let item of dates" [value]="item">
-                    {{ item }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </section>
-          </ng-template>
-        </e-panel> -->
-        <!-- Status -->
-        <!-- bar chart -->
-        <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="1" [col]="0">
-          <ng-template #header>
-            <div>Chart 1</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-bar-chart></jhi-bar-chart>
-          </ng-template>
-        </e-panel>
-        <!-- bar chart -->
-        <!-- pie chart -->
-        <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="2" [col]="3">
-          <ng-template #header>
-            <div>Chart 2</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-pie-chart></jhi-pie-chart>
-          </ng-template>
-        </e-panel>
-        <!-- pie chart -->
-        <!-- line chart -->
-        <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="6" [col]="4">
-          <ng-template #header>
-            <div>Chart 3</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-line-chart></jhi-line-chart>
-          </ng-template>
-        </e-panel>
-        <!-- line chart -->
-      </e-panels>
-    </ejs-dashboardlayout>
-  </div>
-</div>
-<mat-card class="w-100 my-2"
-  ><label>Credit Approval System of Hana Bank <br />Version 1.0.30</label></mat-card
->
+<mat-card>
+  <mat-card-header>
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Credit Approval System of Hana Bank</div>
+        <mat-card-subtitle class="e-card-header-title-version">Version 1.0.29</mat-card-subtitle>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-6 p-3">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Chart 1</mat-card-title>
+            <mat-card-subtitle>Description Chart 1</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [dataSource]="chartData">
+              <e-series-collection>
+                <e-series type="Column" xName="month" yName="sales" name="Sales"></e-series>
+                <e-series type="Column" xName="month" yName="sales1" name="Sales"></e-series>
+              </e-series-collection>
+            </ejs-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-6 p-3">
+        <mat-card>
+          <mat-card-title>Chart 2</mat-card-title>
+          <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
+          <mat-card-content>
+            <ejs-chart
+              style="display: block"
+              align="center"
+              id="chartcontainer"
+              [title]="title"
+              [primaryXAxis]="primaryXAxis2"
+              [primaryYAxis]="primaryYAxis2"
+              [tooltip]="tooltip"
+              (load)="load($event)"
+              [chartArea]="chartArea"
+              [width]="width"
+            >
+              <e-series-collection>
+                <e-series [dataSource]="data" type="Line" xName="x" yName="y" name="Germany" width="2" [marker]="marker"> </e-series>
+                <e-series [dataSource]="data1" type="Line" xName="x" yName="y" name="England" width="2" [marker]="marker"> </e-series>
+              </e-series-collection>
+            </ejs-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
