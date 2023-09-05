@@ -765,6 +765,15 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       }
     }
   }
+
+  public memoBandingStats() {
+    if (this.item.darAppealSeqNo) {
+      if (this.item.darAppealSeqNo > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 interface IObj {
   key?: string;
