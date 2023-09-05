@@ -114,11 +114,6 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'master-compliance-checklist',
       },
-      {
-        name: 'Master Permission',
-        iconname: 'minus',
-        route: 'master-permission',
-      },
     ],
   },
   {
@@ -331,6 +326,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         name: 'Menu Access',
         iconname: 'minus',
         route: 'menu-access',
+      },
+      {
+        name: 'Menu Permission',
+        iconname: 'minus',
+        route: 'menu-permission',
       },
     ],
   },
