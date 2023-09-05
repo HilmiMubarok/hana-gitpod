@@ -9,8 +9,54 @@
       [allowDragging]="false"
     >
       <e-panels>
+        <!-- Status -->
+        <!-- progress -->
+        <!-- <e-panel [sizeX]="2" [sizeY]="1" [row]="0" [col]="0">
+          <ng-template #header>
+            <div>In Progress</div>
+          </ng-template>
+          <ng-template #content>
+            <jhi-progress-status-bar></jhi-progress-status-bar>
+          </ng-template>
+        </e-panel> -->
+        <!-- complete -->
+        <!-- <e-panel [sizeX]="2" [sizeY]="1" [row]="0" [col]="2">
+          <ng-template #header>
+            <div>Complete</div>
+          </ng-template>
+          <ng-template #content>
+            <jhi-complete-status-bar></jhi-complete-status-bar>
+          </ng-template>
+        </e-panel> -->
+        <!-- filter -->
+        <!-- <e-panel [sizeX]="2" [sizeY]="1" [row]="0" [col]="4">
+          <ng-template #header>
+            <div>filter</div>
+          </ng-template>
+          <ng-template #content>
+            <section style="justify-content: center">
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let item of status" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="w-50" appearance="outline" style="float: right !important">
+                <mat-label>Date</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let item of dates" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </section>
+          </ng-template>
+        </e-panel> -->
+        <!-- Status -->
         <!-- bar chart -->
-        <e-panel [sizeX]="3" [sizeY]="3" [row]="0" [col]="0">
+        <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="1" [col]="0">
           <ng-template #header>
             <div>Chart 1</div>
           </ng-template>
@@ -20,7 +66,7 @@
         </e-panel>
         <!-- bar chart -->
         <!-- pie chart -->
-        <e-panel [sizeX]="3" [sizeY]="3" [row]="0" [col]="4">
+        <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="2" [col]="3">
           <ng-template #header>
             <div>Chart 2</div>
           </ng-template>
@@ -30,7 +76,7 @@
         </e-panel>
         <!-- pie chart -->
         <!-- line chart -->
-        <e-panel [sizeX]="6" [sizeY]="3" [row]="3" [col]="0">
+        <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="6" [col]="4">
           <ng-template #header>
             <div>Chart 3</div>
           </ng-template>
