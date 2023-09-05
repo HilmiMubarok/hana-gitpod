@@ -181,24 +181,14 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
         const dataGrid = [];
         for (let i = 0; i < data.length; i++) {
           const num = i + 1;
-          dataGrid[i] = { No: num, parameter: data[i].value, value: '' };
+          dataGrid[i] = { No: num, Parameter: data[i].value, value: '' };
         }
         this.dataAttrPass = dataGrid;
 
         if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
           this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria = this.dataAttrPass;
         } else {
-          const generalRisk = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
-          for (let i = 0; i < generalRisk.length; i++) {
-            this.dataAttrPass[i].No = generalRisk[i].No;
-            if (generalRisk[i].parameter !== undefined) {
-              this.dataAttrPass[i].parameter = generalRisk[i].parameter;
-            } else {
-              this.dataAttrPass[i].parameter = generalRisk[i].Parameter;
-            }
-
-            this.dataAttrPass[i].value = generalRisk[i].value;
-          }
+          this.dataAttrPass = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
         }
       });
   }
