@@ -11,12 +11,14 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-menu-access-edit',
   templateUrl: './menu-access-edit.component.html',
+  styleUrls: ['../menu-access.style.css'],
 })
 export class MenuAccessEditComponent implements OnInit {
   public id;
   public dataPosition = [];
   public data: any;
   public menuAccess: IMenuAccess;
+
   constructor(
     protected _snackbar: MatSnackBar,
     private menuAccessService: MenuAccessService,

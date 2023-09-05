@@ -6,6 +6,7 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'jhi-menu-access-view',
   templateUrl: './menu-access-view.component.html',
+  styleUrls: ['../menu-access.style.css'],
 })
 export class MenuAccessViewComponent implements OnInit {
   id;
