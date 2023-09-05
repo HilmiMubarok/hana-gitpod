@@ -133,6 +133,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     });
     this.lovProjectIndicator();
     this.tes();
+    // this.creditProposalItem.attributes['businessActivity'].BusinessAct = [];
   }
 
   private getToken(cookieName: string) {
@@ -165,7 +166,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         for (let i = 0; i < this.dataAttrPass.length; i++) {
           // this.dataAttrPass[i]['indexNum'] = i + 1;
           const num = i + 1;
-          dataGrid[i] = { No: num, indicator: this.dataAttrPass[i].value, value: '' };
+          dataGrid[i] = { No: num, Parameter: this.dataAttrPass[i].value, value: '' };
         }
         this.dataAttrPass = dataGrid;
         if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
