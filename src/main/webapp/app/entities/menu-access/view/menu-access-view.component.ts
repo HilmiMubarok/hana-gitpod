@@ -25,4 +25,8 @@ export class MenuAccessViewComponent implements OnInit {
   displayedColumns: string[] = ['no', 'position'];
 
   dataSource$: Observable<Array<any>>;
+
+  public previousState(): void {
+    window.history.back();
+  }
 }

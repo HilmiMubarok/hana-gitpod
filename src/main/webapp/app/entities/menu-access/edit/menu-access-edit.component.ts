@@ -99,4 +99,7 @@ export class MenuAccessEditComponent implements OnInit {
       }
     });
   }
+  public previousState(): void {
+    window.history.back();
+  }
 }
