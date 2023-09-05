@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, ViewEncapsulation, Inject, ViewChild, OnInit } from '@angular/core';
 import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
 import { Browser } from '@syncfusion/ej2-base';
 
@@ -8,7 +8,9 @@ import { Browser } from '@syncfusion/ej2-base';
   styleUrls: ['./dashboard.style.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  public mediaQuery = window.matchMedia('(max-width: 1282px)');
+
   @ViewChild('predefine_dashboard')
   public dashboard: DashboardLayoutComponent;
   public panels: any[];
@@ -16,25 +18,63 @@ export class DashboardComponent {
   public cellSpacing: number[] = [15, 15];
   public cellAspectRatio: number = Browser.isDevice ? 1 : 0.8;
   public columns: number = Browser.isDevice ? 2 : 8;
-  public columnSizeX: number = Browser.isDevice ? 1 : 5;
-  public columnSizeY: number = Browser.isDevice ? 1 : 2;
+  // public columnSizeX: number = Browser.isDevice ? 1 : 5;
+  // public columnSizeY: number = Browser.isDevice ? 1 : 2;
   public pieColumn: number = Browser.isDevice ? 1 : 5;
-  public pieSizeX: number = Browser.isDevice ? 1 : 3;
-  public pieSizeY: number = Browser.isDevice ? 1 : 2;
+  // public pieSizeX: number = Browser.isDevice ? 1 : 3;
+  // public pieSizeY: number = Browser.isDevice ? 1 : 2;
   public splineRow: number = Browser.isDevice ? 1 : 4;
-  public splineSizeX: number = Browser.isDevice ? 2 : 8;
-  public splineSizeY: number = Browser.isDevice ? 1 : 3;
+  // public splineSizeX: number = Browser.isDevice ? 2 : 8;
+  // public splineSizeY: number = Browser.isDevice ? 1 : 3;
   public chartArea: Object = {
     border: { width: 0 },
   };
 
+  public columnSizeX: number;
+  public columnSizeY: number;
+  public pieSizeX: number;
+  public pieSizeY: number;
+  public splineSizeX: number;
+  public splineSizeY: number;
+
+  public status: string[] = ['status1', 'status2', 'status3'];
+  public dates: string[] = ['senin', 'selasa', 'rabu', 'kamis', "jum'at", 'sabtu', 'minggu'];
+
   public aspectRatio: any = 100 / 85;
   public headerCount = 1;
+  public count = 8;
+
   constructor() {
     // code
   }
 
-  public count = 8;
+  ngOnInit(): void {
+    this.initSize();
+  }
+
+  public initSize(): void {
+    this.columnSizeX = 3;
+    this.columnSizeY = 2;
+    this.pieSizeX = 3;
+    this.pieSizeY = 2;
+    this.splineSizeX = 6;
+    this.splineSizeY = 2;
+    // if (this.mediaQuery.matches) {
+    //   this.columnSizeX = 3;
+    //   this.columnSizeY = 3;
+    //   this.pieSizeX = 3;
+    //   this.pieSizeY = 3;
+    //   this.splineSizeX = 6;
+    //   this.splineSizeY = 3;
+    // } else {
+    //   this.columnSizeX = 3;
+    //   this.columnSizeY = 2;
+    //   this.pieSizeX = 3;
+    //   this.pieSizeY = 2;
+    //   this.splineSizeX = 6;
+    //   this.splineSizeY = 2;
+    // }
+  }
 
   onButtonClick(): void {
     const selectedElement: HTMLCollection = document.getElementsByClassName('e-selected-style');
