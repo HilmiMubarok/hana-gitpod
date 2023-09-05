@@ -50,7 +50,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.disableField = this.data.hideField;
-    // this.setUp();
     for (let i = 0; i < this.creditProposalData.collaterals.length; i++) {
       const collateral = this.creditProposalData.collaterals[i];
       this.findCollateralProperty(collateral);
@@ -124,7 +123,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     let result: string;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -226,23 +224,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   private setUp(): void {
-    /* if (this.collateralInfo.length > 0) {
-      for (let i = 0; i < this.collateralInfo.length; i++) {
-        this.bindingValueHelper.push(0);
-        this.mappingStatusHelper.push('no');
-        if (this.creditProposalData.collateralProductRelations.length > 0) {
-          for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
-            if (
-              this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id &&
-              this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData.id
-            ) {
-              this.mappingStatusHelper[i] = 'yes';
-              this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
-            }
-          }
-        }
-      }
-    } */
 	if (this.collateralData.length > 0) {
       for (let i = 0; i < this.collateralData.length; i++) {
         this.bindingValueHelper.push(0);
@@ -266,7 +247,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     if (this.creditProposalData.collateralProductRelations.length > 0) {
       for (let i = 0; i < this.creditProposalData.collateralProductRelations.length; i++) {
         if (
-          this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo.id &&
+          this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralData.id &&
           this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData.id
         ) {
           this.creditProposalData.collateralProductRelations[i].bindingValue = event.target.value;
@@ -280,7 +261,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   public changeBuildingFacility(event: MatCheckboxChange, index: number): void {
     if (event.checked === true) {
       const tempCollateralProductRelationObject = {
-        collateralId: this.collateralInfo[index].id,
+        collateralId: this.collateralData[index].id,
         bindingValue: this.bindingValueHelper[index],
         applicationProduct: this.applicationProductData,
       };
@@ -289,7 +270,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       if (this.creditProposalData.collateralProductRelations.length > 0) {
         for (let i = 0; i < this.creditProposalData.collateralProductRelations.length; i++) {
           if (
-            this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id &&
+            this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralData[index].id &&
             this.creditProposalData.collateralProductRelations[i].applicationProduct?.id === this.applicationProductData.id
           ) {
             this.creditProposalData.collateralProductRelations.splice(i);
@@ -311,7 +292,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       })
       .subscribe(res => {
         data = res.body.find(obj => obj.propertyType === 'GENERAL' && obj.collateralId && obj.external === true);
-        console.log(data);
         if (data !== undefined) {
           if (this.collateralInfo[i].collateralTypeId === 'VEHICLE') {
             this.collateralInfo[i].marketValueMaping = data.vehicleMarketValue;
@@ -352,7 +332,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false

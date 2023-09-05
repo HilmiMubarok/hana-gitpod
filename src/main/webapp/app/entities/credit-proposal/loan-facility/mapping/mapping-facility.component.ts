@@ -125,7 +125,6 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
             bindingValue: this.bindingValueHelper[index],
             applicationProduct: this.applicationProductData[index],
           };
-          console.log('cross jalan');
           this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
         }
       }
@@ -238,29 +237,4 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     }
     return '';
   }
-
-  // private loadByPartyId(param: string): void {
-  //   this.collateralService
-  //     .queryFilterBy({
-  //       idParty: param,
-  //       isActive: true,
-  //     })
-  //     .subscribe(res => {
-  //       this.collateralCGPG = res.body.filter(obj => obj.collateralTypeId === 'CORPORATEPERSONALGUARANTEE');
-  //       console.log("collateral cgpg ", this.collateralCGPG);
-  //       if(this.collateralCGPG.length > 0){
-  //         for(let i = 0; i < this.collateralCGPG.length; i++){
-  //           this.findCollateralProperty(this.collateralCGPG[i]);
-  //         }
-  //       }
-  //     });
-  // }
-
-  // public findCollateralProperty(collateral: ICollateral): void {
-  //   if (collateral.id) {
-  //     this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-  //       this.collateralProperties = [...this.collateralProperties, ...res.body];
-  //     });
-  //   }
-  // }
 }
