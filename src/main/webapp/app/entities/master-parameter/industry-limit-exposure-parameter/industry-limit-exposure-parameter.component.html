@@ -18,6 +18,15 @@
       </div>
     </div>
     <mat-card style="margin: 1rem">
+      <div class="row">
+        <div class="col-12 my-3" align="right">
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Actions</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="download()">Download</button>
+            <button mat-menu-item (click)="upload()">Upload</button>
+          </mat-menu>
+        </div>
+      </div>
       <div class="table-responsive-material">
         <table mat-table [dataSource]="items" class="mat-table-expand">
           <ng-container matColumnDef="no">

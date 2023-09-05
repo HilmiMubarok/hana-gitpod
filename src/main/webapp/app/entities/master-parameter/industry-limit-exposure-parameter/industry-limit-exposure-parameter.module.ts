@@ -6,10 +6,17 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MasterParameterIndustryLimitExposureDialogComponent } from './industry-limit-exposure-parameter-dialog.component';
 import { MasterParameterIndustryLimitExposureComponent } from './industry-limit-exposure-parameter.component';
 import { INDUSTRY_LIMIT_EXPOSURE_PARAMETER_ROUTE } from './industry-limit-exposure-parameter.route';
+import { MasterParameterIndustryLimitExposureDownloadComponent } from './industry-limit-exposure-parameter-download.component';
+import { MasterParameterIndustryLimitExposureUploadComponent } from './industry-limit-exposure-parameter-upload.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, SharedLibsModule, RouterModule.forChild(INDUSTRY_LIMIT_EXPOSURE_PARAMETER_ROUTE)],
-  declarations: [MasterParameterIndustryLimitExposureComponent, MasterParameterIndustryLimitExposureDialogComponent],
+  declarations: [
+    MasterParameterIndustryLimitExposureComponent,
+    MasterParameterIndustryLimitExposureDialogComponent,
+    MasterParameterIndustryLimitExposureDownloadComponent,
+    MasterParameterIndustryLimitExposureUploadComponent,
+  ],
   entryComponents: [MasterParameterIndustryLimitExposureDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

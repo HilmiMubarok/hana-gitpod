@@ -6,6 +6,10 @@ import { IIndustryLimitExposureParameter, IndustryLimitExposureParameter } from 
 import { IndustryLimitExposureParameterService } from './industry-limit-exposure-parameter.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MasterParameterIndustryLimitExposureDialogComponent } from './industry-limit-exposure-parameter-dialog.component';
+import { MasterParameterIndustryLimitExposureDownloadComponent } from './industry-limit-exposure-parameter-download.component';
+import { firstValueFrom } from 'rxjs';
+import * as FileSaver from 'file-saver';
+import { MasterParameterIndustryLimitExposureUploadComponent } from './industry-limit-exposure-parameter-upload.component';
 
 @Component({
   selector: 'jhi-industry-limit-exposure-parameter',
@@ -54,6 +58,45 @@ export class MasterParameterIndustryLimitExposureComponent
         next: res => this.initDataForMatTable(res, res.headers),
         error: res => this.onError(res.message),
       });
+  }
+
+  public upload(): void {
+    const dialogRef: any = this.dialog.open(MasterParameterIndustryLimitExposureUploadComponent, {
+      width: '1024px',
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadAll();
+    });
+  }
+
+  public async download(): Promise<void> {
+    const dialogRef: any = this.dialog.open(MasterParameterIndustryLimitExposureDownloadComponent, {
+      width: '300px',
+    });
+    const data: IIndustryLimitExposureParameter[] = (
+      await firstValueFrom(
+        this.industryLimitExposureParameterService.query({
+          page: 0,
+          size: 9999,
+          sort: this.sortData(),
+        })
+      )
+    ).body;
+    await new Promise(f => setTimeout(f, 4000));
+    import('xlsx').then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(data); // Sale Data
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+      const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const EXCEL_EXTENSION = '.xlsx';
+      const result: Blob = new Blob([excelBuffer], {
+        type: EXCEL_TYPE,
+      });
+      FileSaver.saveAs(result, 'master_exposure_export_' + new Date().getTime() + EXCEL_EXTENSION);
+
+      dialogRef.close();
+    });
   }
 
   public openDialog(element: IIndustryLimitExposureParameter = new IndustryLimitExposureParameter()): void {

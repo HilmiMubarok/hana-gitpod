@@ -1,0 +1,37 @@
+<div mat-dialog-content align="center" class="py-3">
+  <div class="row">
+    <div class="col-7" align="right">
+      <input type="file" (change)="fileChanged($event)" accept=".xlsx, .xls" />
+    </div>
+  </div>
+</div>
+<div *ngIf="listOfData.length > 0" style="max-height: 500px" class="w-100 table-responsive">
+  <table class="w-100 table table-striped" id="tableUploadValidate">
+    <thead>
+      <tr>
+        <th scope="col" align="center">Status</th>
+        <th scope="col" align="center">Industry</th>
+        <th scope="col" align="center">Industry Label</th>
+        <th scope="col" align="center">Limit Percentage</th>
+        <th scope="col" align="center">Limit Nominal</th>
+        <th scope="col" align="center">Remaining Balance</th>
+        <th scope="col" align="center">Industry Limit Exposure</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listOfData; let idx = index">
+        <td>{{ item.statusId }}</td>
+        <td>{{ item.industry }}</td>
+        <td>{{ item.industryLabel }}</td>
+        <td>{{ item.limitPercentage }}</td>
+        <td>{{ item.limitNominal }}</td>
+        <td>{{ item.remainingBalance }}</td>
+        <td>{{ item.industryLimitExposure }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="listOfData.length === 0" (click)="upload()" cdkFocusInitial>Upload</button>
+</mat-dialog-actions>

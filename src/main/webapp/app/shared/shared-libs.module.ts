@@ -144,6 +144,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   providers: [
@@ -273,6 +274,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatAutocompleteModule,
+    MatMenuModule,
 
     // Ej2
     ComboBoxModule,
