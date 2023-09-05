@@ -56,7 +56,7 @@ export class MenuAccessStatusEditComponent implements OnInit {
   public openDialog(element: IStatusMenuAccess): void {
     let predicate: IStatusMenuAccess;
     predicate = new StatusMenuAccess();
-    this.paramType = predicate;
+    predicate = this.paramType;
 
     if (element) {
       predicate = element;

@@ -62,7 +62,7 @@ export class MenuAccessEditComponent implements OnInit {
   public openDialog(element: IMenuAccess = null): void {
     let predicate: IMenuAccess;
     predicate = new MenuAccess();
-    this.paramType = predicate;
+    predicate = this.paramType;
 
     if (element) {
       predicate = element;
