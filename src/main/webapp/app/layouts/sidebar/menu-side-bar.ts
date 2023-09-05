@@ -318,11 +318,22 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
   //   iconname: 'file-lines',
   //   route: '',
   // },
-  // {
-  //   name: 'Configuration',
-  //   iconname: 'wrench',
-  //   route: 'application-option',
-  // },
+  {
+    name: 'Configuration',
+    iconname: 'wrench',
+    children: [
+      {
+        name: 'Parameter',
+        iconname: 'minus',
+        route: 'application-option',
+      },
+      {
+        name: 'Menu Access',
+        iconname: 'minus',
+        route: 'menu-access',
+      },
+    ],
+  },
 ];
 
 // seperated config
@@ -346,22 +357,22 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
     iconname: 'file-lines',
     route: '',
   },
-  {
-    name: 'Configuration',
-    iconname: 'wrench',
-    children: [
-      {
-        name: 'Parameter',
-        iconname: 'minus',
-        route: 'application-option',
-      },
-      {
-        name: 'Menu Access',
-        iconname: 'minus',
-        route: 'menu-access',
-      },
-    ],
-  },
+  // {
+  //   name: 'Configuration',
+  //   iconname: 'wrench',
+  //   children: [
+  //     {
+  //       name: 'Parameter',
+  //       iconname: 'minus',
+  //       route: 'application-option',
+  //     },
+  //     {
+  //       name: 'Menu Access',
+  //       iconname: 'minus',
+  //       route: 'menu-access',
+  //     },
+  //   ],
+  // },
 ];
 
 export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
