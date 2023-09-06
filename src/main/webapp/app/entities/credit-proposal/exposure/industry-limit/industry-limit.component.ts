@@ -72,7 +72,7 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
       });
     });
 
-    // this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
+    this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
   }
 
   ngOnChanges(changes: SimpleChanges) {
