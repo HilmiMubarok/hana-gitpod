@@ -32,6 +32,8 @@
   </table>
 </div>
 <mat-dialog-actions align="center">
-  <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="listOfData.length === 0" (click)="upload()" cdkFocusInitial>Upload</button>
+  <button mat-raised-button class="confirm-button-no" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="confirm-button-yes" [disabled]="listOfData.length === 0" (click)="upload()" cdkFocusInitial>
+    Upload
+  </button>
 </mat-dialog-actions>
