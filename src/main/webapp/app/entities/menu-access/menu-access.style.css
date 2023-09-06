@@ -468,3 +468,7 @@ mat-sidenav {
   right: 9px !important;
   transform: translate(10px, 20px) !important;
 }
+
+.mat-column-no {
+  width: 6% !important;
+}

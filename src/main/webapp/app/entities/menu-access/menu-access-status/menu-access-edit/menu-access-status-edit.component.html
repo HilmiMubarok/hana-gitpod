@@ -20,7 +20,7 @@
     <div class="row">
       <div class="col-12">
         <mat-card class="table-responsive-material">
-          <button class="button-styling mb-3" type="submit" (click)="openDialog(paramType)" mat-raised-button>Add Status</button>
+          <!-- <button class="button-styling mb-3" type="submit" (click)="openDialog(paramType)" mat-raised-button>Add Status</button> -->
 
           <table mat-table [dataSource]="dataStatus">
             <ng-container matColumnDef="no">
@@ -47,6 +47,13 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
         </mat-card>
+      </div>
+    </div>
+
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <!-- <button mat-raised-button [routerLink]="['/employee', 'new']" class="button-styling">ADD EMPLOYEE</button> -->
+        <button mat-raised-button class="button-styling mb-3" type="submit" (click)="openDialog(paramType)">ADD POSITION</button>
       </div>
     </div>
   </div>
