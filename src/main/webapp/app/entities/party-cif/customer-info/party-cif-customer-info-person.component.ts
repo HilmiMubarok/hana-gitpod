@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { BLOOD_TYPE, GENDER, MARITAL_STATUS } from 'app/shared/constants/base.constants';
 import { IPerson } from '../../person/person.model';
-import { IPartyCif } from '../party-cif.model';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 import { FormBuilder, FormControl } from '@angular/forms';
 import moment from 'moment';
@@ -48,6 +47,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   private _spouse: string;
   private _debtorData: IDebtorData;
   private staticDob: any;
+
   moment = _rollupMoment || _moment;
 
   date = new FormControl(moment());
@@ -100,7 +100,6 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
 
   ngOnInit(): void {
     this.convrtDate();
-    this.conditionCompleteNameSpouse();
   }
   public countAge(): number {
     let age: number;
@@ -142,26 +141,20 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     return false;
   }
 
-  // public hiddenNull() {
-  //   if (this.person.firstName === '' || this.person.lastName === '') {
-  //     return 'NA';
-  //   } else {
-  //     return this.person.firstName + ' ' + this.person.lastName;
-  //   }
-  // }
-  public completeName: any;
   public conditionCompleteNameSpouse() {
-    this.completeName =
-      this.person.firstName === '' || this.person.firstName === null || this.person.firstName === undefined
-        ? this.person.lastName
-        : this.person.lastName === '' || this.person.lastName === null || this.person.lastName === undefined
-        ? this.person.firstName
-        : this.person.firstName === '' ||
-          this.person.firstName === null ||
-          (this.person.firstName === undefined && this.person.lastName === '') ||
-          this.person.lastName === null ||
-          this.person.lastName === undefined
-        ? 'NA'
-        : this.person.firstName + ' ' + this.person.lastName;
+    if (
+      (this.person.firstName === null && this.person.lastName === '') ||
+      (this.person.lastName === null && this.person.firstName === '') ||
+      (this.person.firstName === null && this.person.lastName === null) ||
+      (this.person.firstName === '' && this.person.lastName === '')
+    ) {
+      return 'NA';
+    } else if (this.person.firstName === null || this.person.firstName === '') {
+      return this.person.lastName;
+    } else if (this.person.lastName === '' || this.person.lastName === null) {
+      return this.person.firstName;
+    } else {
+      return this.person.firstName + ' ' + this.person.lastName;
+    }
   }
 }
