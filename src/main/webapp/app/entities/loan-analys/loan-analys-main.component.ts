@@ -1814,8 +1814,10 @@ export class LoanAnalysMainComponent implements OnInit {
 				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 				} */
 
-                if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
-                  if (testSfdtFile.sections[0].blocks[0].columnCount) {
+                if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount || testSfdtFile.sections[0].blocks[0].paragraphFormat || testSfdtFile.sections[0].blocks[0].grid || testSfdtFile.sections[0].blocks[0].rows || testSfdtFile.sections[0].blocks[0].tableFormat) {
+                  if (testSfdtFile.sections[0].blocks[0].paragraphFormat || testSfdtFile.sections[0].blocks[0].grid || testSfdtFile.sections[0].blocks[0].rows || testSfdtFile.sections[0].blocks[0].tableFormat) {
+					++countValidate;
+				  } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
                     if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
                       ++countValidate;
                     } else {
@@ -1882,11 +1884,10 @@ export class LoanAnalysMainComponent implements OnInit {
 						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 						} */
 
-                        if (
-                          testSfdtFileCondition.sections[0].blocks[0].inlines ||
-                          testSfdtFileCondition.sections[0].blocks[0].columnCount
-                        ) {
-                          if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                        if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount || testSfdtFileCondition.sections[0].blocks[0].paragraphFormat || testSfdtFileCondition.sections[0].blocks[0].grid || testSfdtFileCondition.sections[0].blocks[0].rows || testSfdtFileCondition.sections[0].blocks[0].tableFormat) {
+                          if (testSfdtFileCondition.sections[0].blocks[0].paragraphFormat || testSfdtFileCondition.sections[0].blocks[0].grid || testSfdtFileCondition.sections[0].blocks[0].rows || testSfdtFileCondition.sections[0].blocks[0].tableFormat) {
+							++countValidate;
+						  } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
                             if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
                               ++countValidate;
                             } else {
