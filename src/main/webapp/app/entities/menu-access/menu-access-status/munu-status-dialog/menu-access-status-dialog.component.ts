@@ -8,6 +8,7 @@ import { Observable, map } from 'rxjs';
 import { MenuAccessAddComponent } from '../../add/menu-access-add.component';
 import { MessageService } from 'primeng/api';
 import { MenuAccessStatusAddService } from '../menu-access-status-add.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-menu-access-status-dialog',
@@ -86,4 +87,20 @@ export class MenuAccessStatusDialogComponent implements OnInit {
   }
   displayedColumns: string[] = ['no', 'status'];
   dataSource$: Observable<Array<any>>;
+
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
+  }
 }

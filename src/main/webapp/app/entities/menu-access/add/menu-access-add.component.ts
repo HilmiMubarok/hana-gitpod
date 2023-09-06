@@ -7,6 +7,7 @@ import { PositionTypeService } from 'app/entities/position-type/position-type.se
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { IMenuAccess, IPositionAccess, MenuAccess } from '../menu-access.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-menu-access-add',
@@ -92,4 +93,20 @@ export class MenuAccessAddComponent implements OnInit {
 
   displayedColumns: string[] = ['no', 'position'];
   dataSource$: Observable<Array<any>>;
+
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
+  }
 }

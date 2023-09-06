@@ -16,6 +16,7 @@
   </mat-form-field>
 
   <div style="text-align: center; margin: 0 auto">
-    <button class="button-styling mb-3" (click)="save()" mat-raised-button>ADD</button>
+    <button mat-raised-button mat-dialog-close (click)="openCancelDialog()" class="confirm-button-no">Close</button>
+    <button class="confirm-button-yes" (click)="save()" mat-raised-button>Save</button>
   </div>
 </mat-card>
