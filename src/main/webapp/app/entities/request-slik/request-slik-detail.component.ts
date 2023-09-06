@@ -875,18 +875,15 @@ export class RequestSlikDetailComponent implements OnInit {
       this.isCrDeptHead = true;
     }
 
-    // if RM exist
-    if (listPositions.includes(this.roles.request[0])) {
-      this.idPositionType = this.roles.request[0];
-
+    // if both RM and CRO exist = prioritize CRO
+    if (checker(listPositions, [this.roles.approvalBu[1], this.roles.approvalSlik[0]])) {
+      this.idPositionType = this.roles.request[1];
       // if CRO exist, RM not exist
-    } else if (listPositions.includes(this.roles.request[1])) {
+    } else if (listPositions.includes(this.roles.approvalBu[1])) {
       this.idPositionType = this.roles.request[1];
-
-      // if both RM and CRO exist = prioritize CRO
-    } else if (checker(listPositions, this.roles.request)) {
-      this.idPositionType = this.roles.request[1];
-
+      // if RM exist
+    } else if (listPositions.includes(this.roles.approvalSlik[0])) {
+      this.idPositionType = this.roles.request[0];
       // if both RM and CRO not exist = default RM
     } else {
       this.idPositionType = this.roles.request[0];
