@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { ICreditProposal } from '../../credit-proposal.model';
 
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
 import { ICreditProposal } from '../../credit-proposal.model';
@@ -16,6 +15,7 @@ import {
 
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
+
 @Component({
   selector: 'jhi-financial-statement-remarks',
   templateUrl: './financial-statement-remarks.component.html',
@@ -76,7 +76,6 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
         this.getContainer();
       });
     });
-    // this.getContainer();
   }
 
   private getToken(cookieName: string) {
@@ -95,6 +94,7 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+	console.log('changes @repayment remark : ', changes);
     if (this.saveWordMinio) {
       this.triggeredSave();
     }
@@ -111,7 +111,6 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
     console.log('isCtrlKey', isCtrlKey);
     if (isCtrlKey && keyCode === '86') {
       args.isHandled = true;
-      console.log('ini paste');
     }
   }
 
@@ -167,7 +166,6 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
       .getObjects(this.bucket, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log('test', obj);
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])

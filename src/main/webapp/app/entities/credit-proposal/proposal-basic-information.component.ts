@@ -388,7 +388,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           this.creditProposalOpinionHistoryComponent.triggeredSave();
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
-          } */
+		} */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -1092,9 +1092,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
 
       /* if (this.creditProposalOpinionHistoryComponent) {
-    this.creditProposalOpinionHistoryComponent.triggeredSave();
-    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-    this.creditProposalOpinionHistoryComponent.refresh();
+		this.creditProposalOpinionHistoryComponent.triggeredSave();
+		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+		this.creditProposalOpinionHistoryComponent.refresh();
     } */
 
       if (this.CreditProposalTabSummaryComponent) {
@@ -1127,6 +1127,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         if (this.parentPath === 'cp-status-approval') {
           this.saveApplicationRole();
         } else {
+		  this.saveWord = false;
           this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
             this.router.navigate([this.router.url.split('/')[1]]);
           });
@@ -1763,12 +1764,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public countMV(id: number): number {
-    // console.log("collateral in above grid",collateral);
     const data: ICollateralProperty = this.collateralProperties.find(
       obj => obj.propertyType === 'GENERAL' && obj.collateralId === id && obj.external === false
     );
-    console.log('data mv ', data);
-    console.log('id collateral ', id, ' ', this.collateralProperties);
     if (data !== undefined) {
       if (data.marketValue === null) {
         return 0;
@@ -1780,7 +1778,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public countLV(id: number): number {
-    // console.log("collateral in above grid",collateral);
     const data: ICollateralProperty = this.collateralProperties.find(
       obj => obj.propertyType === 'GENERAL' && obj.collateralId === id && obj.external === false
     );

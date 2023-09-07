@@ -103,6 +103,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
+	console.log('changes @repayment : ', changes);
     if (changes?.jhifilter?.currentValue !== changes?.jhifilter?.previousValue) {
       this.getUpdatekey();
       this.created();
@@ -125,8 +126,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
-    console.log('test news : ', this.creditProposalItem);
-    console.log('test news0 : ', this._creditProposalItem);
   }
 
   set creditProposalItem(item: ICreditProposal) {
@@ -166,15 +165,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     });
 
     this.selectedMenu = 'UPLOAD';
-  }
-
-  beforeSave(args: BeforeSaveEventArgs): void {
-    // args.fileName = 'template_repayment_capability';
-    // args.saveType = 'Xlsx';
-    // args.needBlobData = true;
-    console.log(args);
-    // if want to save data to minio when event save
-    // this.storeFile();
   }
 
   created(): void {
@@ -244,20 +234,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
         // this.spreadsheetDisabledObj.clear({});
       });
-  }
-
-  dataSourceChange(evt: DataSourceChangedEventArgs): void {}
-
-  beforeCellRender(args: CellRenderEventArgs): void {
-    // if (this.spreadsheetObj.sheets.length > 1) {
-    //   const data = this.spreadsheetObj.sheets.map((item: any) =>
-    //     item.properties.name === 'Dashboard'
-    //       ? { ...item, properties: { ...item.properties, state: 'Visible' } }
-    //       : { ...item, properties: { ...item.properties, state: 'Hidden' } }
-    //   );
-    //   this.spreadsheetObj.sheets = data;
-    // }
-  }
+  }  
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(true);

@@ -324,17 +324,6 @@
                 <e-card>
                   <jhi-repayment-spreadsheet
                     [creditProposalItem]="creditProposal"
-                    *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'"
-                    [jhifilter]="creditProposal.attributes.proposalType"
-                    [saveWordMinio]="saveWord"
-                  >
-                  </jhi-repayment-spreadsheet>
-                  <jhi-repayment-spreadsheet
-                    [creditProposalItem]="creditProposal"
-                    *ngIf="
-                      creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' ||
-                      creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
-                    "
                     [jhifilter]="creditProposal.attributes.proposalType"
                     [saveWordMinio]="saveWord"
                   >

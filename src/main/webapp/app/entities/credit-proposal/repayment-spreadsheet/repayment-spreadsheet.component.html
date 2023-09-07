@@ -35,7 +35,6 @@
                 </div>
               </div>
               <div class="e-card-content">
-                <!-- <button class="e-btn" (click)="onclick()">Sync</button> -->
                 <ejs-spreadsheet
                   [height]="700"
                   #spreadsheet
@@ -57,10 +56,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <div *ngIf="selectedMenu === 'RETRIEVE'">
-    <jhi-retrive [creditProposalItem]="creditProposalItem"></jhi-retrive>
-  </div> -->
 
   <div *ngIf="selectedMenu === 'FINANCIAL ANALYSIS'">
     <jhi-financial-statement-remarks [saveWordMinio]="saveWord" [creditProposalItem]="creditProposalItem">
