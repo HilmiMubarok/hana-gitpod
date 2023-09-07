@@ -109,6 +109,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
       this.created();
     }
     if (changes?.saveWordMinio?.currentValue) {
+	  console.log('changes @repayment if clause');
       this.saveWord = true;
     }
   }
