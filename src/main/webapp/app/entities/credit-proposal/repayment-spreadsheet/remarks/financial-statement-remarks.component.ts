@@ -96,6 +96,7 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
   ngOnChanges(changes: SimpleChanges): void {
 	console.log('changes @repayment remark : ', changes);
     if (changes?.saveWordMinio?.currentValue) {
+	  console.log('changes @repayment remark if clause');
       this.triggeredSave();
     }
   }
