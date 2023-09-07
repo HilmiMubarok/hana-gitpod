@@ -103,16 +103,13 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
-	console.log('changes @repayment : ', changes);
     if (changes?.jhifilter?.currentValue !== changes?.jhifilter?.previousValue) {
       this.getUpdatekey();
       this.created();
     }
     if (changes?.saveWordMinio?.currentValue) {
-	  console.log('changes @repayment if clause true');
       this.saveWord = true;
     } else {
-	  console.log('changes @repayment if clause false');
 	  this.saveWord = false;
 	}
   }
