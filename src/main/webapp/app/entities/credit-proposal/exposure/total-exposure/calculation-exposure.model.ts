@@ -12,6 +12,7 @@ export interface ICalculationExposure {
   totalChangeGroub?: number;
   totalPLafondGroub?: number;
   grandTotalPlafond?: number;
+  totalPsrGroup?: number;
 }
 
 export class CalculationExposure implements ICalculationExposure {
@@ -28,7 +29,8 @@ export class CalculationExposure implements ICalculationExposure {
     public subTotalLimitGroubOs?: number,
     public totalChangeGroub?: number,
     public totalPLafondGroub?: number,
-    public grandTotalPlafond?: number
+    public grandTotalPlafond?: number,
+    public totalPsrGroup?: number
   ) {
     this.totalDebiturCashLoan = 0;
     this.totalDebiturNonCashLoan = 0;
@@ -43,5 +45,6 @@ export class CalculationExposure implements ICalculationExposure {
     this.totalChangeGroub = 0;
     this.totalPLafondGroub = 0;
     this.grandTotalPlafond = 0;
+    this.totalPsrGroup = 0;
   }
 }

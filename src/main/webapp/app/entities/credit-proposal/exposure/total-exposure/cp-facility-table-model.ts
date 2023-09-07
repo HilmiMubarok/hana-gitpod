@@ -16,6 +16,8 @@ export interface ICPFacilityTable {
   CCY?: string;
   AvailableLimit?: number;
   CreditLimit?: number;
+  sublimit?: boolean;
+  kurs?: number;
 }
 
 export class CPFacilityTable implements ICPFacilityTable {
@@ -38,6 +40,8 @@ export class CPFacilityTable implements ICPFacilityTable {
     public AvailableLimit?: number,
     public CreditLimit?: number,
     public Maturity?: string,
-    public MaturityDate?: any
+    public MaturityDate?: any,
+    public sublimit?: boolean,
+    public kurs?: number
   ) {}
 }
