@@ -75,7 +75,17 @@ export class DocumentUploadDialogComponent implements OnInit {
     private collateralAppraisalService: CollateralAppraisalService,
     private generalParameterService: GeneralParameterService
   ) {
-    this.document = new Document();
+    const dataDoc: any = this.data.obj;
+    if (this.data.view === 'edit') {
+      this.document = {
+        documentDate: new Date(dataDoc.files[0].tags.docDate),
+        documentType: dataDoc.files[0].tags.docType,
+        documentNumber: dataDoc.files[0].tags.docNo,
+      };
+    } else {
+      this.document = new Document();
+    }
+
     this.file = null;
     this.bucket = this.data.bucket;
     this.documents = this.data.documents;
