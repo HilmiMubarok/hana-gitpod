@@ -117,10 +117,10 @@ export class DocumentChecklistTempComponent implements OnInit {
                 this.documentTypeService.documentTypeList('DOC_LA').subscribe((res3: any) => {
                   let docLaData;
 
-                  if (!this.router.url.includes('credit-proposal-status')) {
+                  if (this.router.url.includes('credit-proposal-status')) {
                     docLaData = [];
                   } else {
-                    if (!this.router.url.includes('cp-status-approval')) {
+                    if (this.router.url.includes('cp-status-approval')) {
                       docLaData = [];
                     } else {
                       docLaData = res3.body;
