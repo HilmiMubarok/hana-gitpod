@@ -57,6 +57,8 @@ import { CPMemoBandingRemarkComponent } from './memo-banding/remarks/cp-memo-ban
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/master-permission.service';
 import { CollateralInfoHistoryComponent } from './collateral-info-history/collateral-info-history.component';
+import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-facility-table-model';
+import { IApplicationProduct } from '../application-product/application-product.model';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -109,6 +111,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   })
   remaksComponent: RemarskComponent;
 
+  public currencyMaster: number;
+  public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
+  public groupProduct: IApplicationProduct[] = [];
   public listGroupCollateral: any;
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   public listLoanType: any;
@@ -192,7 +197,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected productParameterService: MasterProductParameterService,
     public templateService: TemplateService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
-	protected masterPermissionService: MasterPermissionService
+    protected masterPermissionService: MasterPermissionService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -269,7 +274,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
-	  this.position = newPos;
+      this.position = newPos;
       this.positionTypeId = newPos.positionTypeId;
       this.conditionSaveBtn();
     });
@@ -452,13 +457,15 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
 
     this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-	  const menuItemIdByRoute = this.router.url.includes('credit-proposal-status') ? 'CREDIT_PROPOSAL' : 'CREDIT_PROPOSAL_APPROVAL';
+      const menuItemIdByRoute = this.router.url.includes('credit-proposal-status') ? 'CREDIT_PROPOSAL' : 'CREDIT_PROPOSAL_APPROVAL';
 
       this.cp = response.body;
 
-	  this.masterPermissionService.queryFilterBy({menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.cp.statusId}).subscribe(permissionObject => {
-		this.permission = permissionObject.body;
-	  });
+      this.masterPermissionService
+        .queryFilterBy({ menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.cp.statusId })
+        .subscribe(permissionObject => {
+          this.permission = permissionObject.body;
+        });
     });
 
     const passSummary = {
@@ -489,6 +496,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     this.loadDataBy();
     this.showTextMenu();
+    this.cpGroub();
   }
 
   public setSubmenu(event: Object): void {
@@ -1115,7 +1123,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
       }
 
-	  if (this.creditProposalCollateralInfoHistoryComponent) {
+      if (this.creditProposalCollateralInfoHistoryComponent) {
         this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
       }
 
@@ -1127,7 +1135,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         if (this.parentPath === 'cp-status-approval') {
           this.saveApplicationRole();
         } else {
-		  this.saveWord = false;
+          this.saveWord = false;
           this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
             this.router.navigate([this.router.url.split('/')[1]]);
           });
@@ -1184,10 +1192,22 @@ export class ProposalBasicInformationComponent implements OnInit {
 					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 				  } */
 
-                  if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount || testSfdtFile.sections[0].blocks[0].paragraphFormat || testSfdtFile.sections[0].blocks[0].grid || testSfdtFile.sections[0].blocks[0].rows || testSfdtFile.sections[0].blocks[0].tableFormat) {
-					if (testSfdtFile.sections[0].blocks[0].paragraphFormat || testSfdtFile.sections[0].blocks[0].grid || testSfdtFile.sections[0].blocks[0].rows || testSfdtFile.sections[0].blocks[0].tableFormat) {
-					  ++countValidate;
-					} else if (testSfdtFile.sections[0].blocks[0].columnCount) {
+                  if (
+                    testSfdtFile.sections[0].blocks[0].inlines ||
+                    testSfdtFile.sections[0].blocks[0].columnCount ||
+                    testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                    testSfdtFile.sections[0].blocks[0].grid ||
+                    testSfdtFile.sections[0].blocks[0].rows ||
+                    testSfdtFile.sections[0].blocks[0].tableFormat
+                  ) {
+                    if (
+                      testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                      testSfdtFile.sections[0].blocks[0].grid ||
+                      testSfdtFile.sections[0].blocks[0].rows ||
+                      testSfdtFile.sections[0].blocks[0].tableFormat
+                    ) {
+                      ++countValidate;
+                    } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
                       if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
                         ++countValidate;
                       } else {
@@ -1254,10 +1274,22 @@ export class ProposalBasicInformationComponent implements OnInit {
 							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 						  } */
 
-                          if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount || testSfdtFileCondition.sections[0].blocks[0].paragraphFormat || testSfdtFileCondition.sections[0].blocks[0].grid || testSfdtFileCondition.sections[0].blocks[0].rows || testSfdtFileCondition.sections[0].blocks[0].tableFormat) {
-							if (testSfdtFileCondition.sections[0].blocks[0].paragraphFormat || testSfdtFileCondition.sections[0].blocks[0].grid || testSfdtFileCondition.sections[0].blocks[0].rows || testSfdtFileCondition.sections[0].blocks[0].tableFormat) {
-							  ++countValidate;
-							} else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                          if (
+                            testSfdtFileCondition.sections[0].blocks[0].inlines ||
+                            testSfdtFileCondition.sections[0].blocks[0].columnCount ||
+                            testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                            testSfdtFileCondition.sections[0].blocks[0].grid ||
+                            testSfdtFileCondition.sections[0].blocks[0].rows ||
+                            testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                          ) {
+                            if (
+                              testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                              testSfdtFileCondition.sections[0].blocks[0].grid ||
+                              testSfdtFileCondition.sections[0].blocks[0].rows ||
+                              testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                            ) {
+                              ++countValidate;
+                            } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
                               if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
                                 ++countValidate;
                               } else {
@@ -1789,5 +1821,79 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     return 0;
+  }
+
+  public cpGroub() {
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyMaster = res.body[0]?.factor;
+    });
+    this.creditProposalService.applicationGroubProduct(this.id).subscribe((response: any) => {
+      this.filterBusinessGroupDebtorData(response.body);
+      this.creditProposal.attributes['calculationExposure'].totalPsrGroup = this.countTotalPsrGroup();
+    });
+  }
+
+  private filterBusinessGroupDebtorData(source: any[]): void {
+    if (source.length > 0) {
+      let no = 0;
+      for (let y = 0; y < source.length; y++) {
+        const parsed = new CPFacilityTable();
+        no = no + 1;
+        parsed.no = no;
+        parsed.GroupName = source[y].customerName;
+        parsed.LoanAccount = source[y].agreementNumber;
+        parsed.FacilityType = source[y].productTypeId;
+        parsed.InitialLimit = Number(source[y].contractAmount ? source[y].contractAmount : 0);
+        parsed.Changes = 0;
+        parsed.OS = source[y].outstanding;
+        parsed.TotalPlafond = source[y].productRevolving ? parsed.InitialLimit + parsed.Changes : source[y].outstanding;
+
+        parsed.InterestRate =
+          source[y].intResetFrequency + ' ' + source[y].intResetPeriod + ' ' + source[y].rateTypeName + ' ' + source[y].spreadRate;
+        parsed.Provision = source[y].provisionFeeAmount;
+        parsed.AdminFee = source[y].provisionFeeAmount;
+        parsed.FirstDisbursementDate = source[y].trxDate;
+        parsed.Tenor = source[y].trxDate;
+        parsed.CCY = source[y].loanCurrency;
+        parsed.MaturityDate = source[y].maturityDate;
+        parsed.sublimit = source[y].subLimit;
+        parsed.kurs = source[y].kurs;
+        this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
+      }
+    }
+  }
+
+  public countTotalPsrGroup() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.myBusinessGroupCPFacility.filter(obj => obj.sublimit === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.CCY === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.CCY !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].TotalPlafond !== undefined) {
+            if (filterIdr[i].FacilityType === 'FX') {
+              result = result + Number(filterIdr[i].TotalPlafond);
+            }
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].TotalPlafond !== undefined) {
+            if (filterUsd[i].FacilityType === 'FX') {
+              dolar = dolar + Number(filterUsd[i].TotalPlafond) * Number(this.currencyMaster);
+            }
+          }
+        }
+      }
+    }
+    return result + dolar;
   }
 }
