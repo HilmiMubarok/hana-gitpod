@@ -22,6 +22,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-cp-memo-banding-collateral-backtoback',
@@ -134,6 +135,42 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
     this.totalCoverage();
   }
 
+  private loadSummaryCollateral(): void {
+    const applicationNumber = this.creditProposal.id;
+    this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
+      this.dataCollateral = lodash.filter(res.body, function (o) {
+        return (
+          o.statusId !== STATUS_COLLATERAL.CANCEL &&
+          o.statusId !== STATUS_COLLATERAL.RELEASE &&
+          o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+          o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+          o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+          o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+          o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+          o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
+        );
+      });
+      this.dataItem = new MatTableDataSource(this.dataCollateral);
+      this.dataItem.paginator = this.paginator;
+      this.mapCollateralProperty(this.dataCollateral);
+      this.getBindingCalculate(this.dataCollateral);
+    });
+  }
+
+  public mapCollateralProperty(data: ICollateral[]) {
+    for (let i = 0; i < data.length; i++) {
+      this.findCollateralProperty(data[i]);
+    }
+  }
+
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
+  }
+
   private loadByPartyId(param: string): void {
     this.collateralService
       .queryFilterBy({
@@ -166,8 +203,8 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          if (this.creditProposal.cif) {
-            this.loadByPartyId(this.creditProposal.cif.partyId);
+          if (this.creditProposal.id) {
+            this.loadSummaryCollateral();
           }
         }
       }
@@ -651,25 +688,13 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
     let getBindingCalculateValue;
     const data = [];
     array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
-      data.push(
-        array2.find(
-          ({ collateralId: value2 }) =>
-            value1 === value2 &&
-            collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
-            collateralTypeId !== COLLATERAL_TYPE['machine'] &&
-            collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
-            collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
-            collateralTypeId !== COLLATERAL_TYPE['property']
-        )
-      );
+      data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
-        const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
-
-        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
-        this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
-        this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
+        this.biddingValueCoverage = this.convertNan(
+          Number(this.biddingValueSum) / Number(this.creditProposal.attributes['facilityDetail'].totalPlafond)
+        );
       });
     });
   }
