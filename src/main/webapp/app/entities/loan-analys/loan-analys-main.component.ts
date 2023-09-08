@@ -58,6 +58,7 @@ import { ICollateral } from '../collateral/collateral.model';
 import { CollateralProperty, ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import moment from 'moment';
+import { CPFacilityTable, ICPFacilityTable } from '../credit-proposal/exposure/total-exposure/cp-facility-table-model';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -84,6 +85,9 @@ export class LoanAnalysMainComponent implements OnInit {
     static: false,
   })
   creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
+
+  public currencyMaster: number;
+  public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
 
   private id: number;
   public disabledData: Boolean = true;
@@ -971,6 +975,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cpGroub();
     this.lendingProgramParameter();
     this.lovProposalType();
     this.accountService.identity().subscribe(account => {
@@ -1814,10 +1819,22 @@ export class LoanAnalysMainComponent implements OnInit {
 				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 				} */
 
-                if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount || testSfdtFile.sections[0].blocks[0].paragraphFormat || testSfdtFile.sections[0].blocks[0].grid || testSfdtFile.sections[0].blocks[0].rows || testSfdtFile.sections[0].blocks[0].tableFormat) {
-                  if (testSfdtFile.sections[0].blocks[0].paragraphFormat || testSfdtFile.sections[0].blocks[0].grid || testSfdtFile.sections[0].blocks[0].rows || testSfdtFile.sections[0].blocks[0].tableFormat) {
-					++countValidate;
-				  } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
+                if (
+                  testSfdtFile.sections[0].blocks[0].inlines ||
+                  testSfdtFile.sections[0].blocks[0].columnCount ||
+                  testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                  testSfdtFile.sections[0].blocks[0].grid ||
+                  testSfdtFile.sections[0].blocks[0].rows ||
+                  testSfdtFile.sections[0].blocks[0].tableFormat
+                ) {
+                  if (
+                    testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                    testSfdtFile.sections[0].blocks[0].grid ||
+                    testSfdtFile.sections[0].blocks[0].rows ||
+                    testSfdtFile.sections[0].blocks[0].tableFormat
+                  ) {
+                    ++countValidate;
+                  } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
                     if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
                       ++countValidate;
                     } else {
@@ -1884,10 +1901,22 @@ export class LoanAnalysMainComponent implements OnInit {
 						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 						} */
 
-                        if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount || testSfdtFileCondition.sections[0].blocks[0].paragraphFormat || testSfdtFileCondition.sections[0].blocks[0].grid || testSfdtFileCondition.sections[0].blocks[0].rows || testSfdtFileCondition.sections[0].blocks[0].tableFormat) {
-                          if (testSfdtFileCondition.sections[0].blocks[0].paragraphFormat || testSfdtFileCondition.sections[0].blocks[0].grid || testSfdtFileCondition.sections[0].blocks[0].rows || testSfdtFileCondition.sections[0].blocks[0].tableFormat) {
-							++countValidate;
-						  } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                        if (
+                          testSfdtFileCondition.sections[0].blocks[0].inlines ||
+                          testSfdtFileCondition.sections[0].blocks[0].columnCount ||
+                          testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                          testSfdtFileCondition.sections[0].blocks[0].grid ||
+                          testSfdtFileCondition.sections[0].blocks[0].rows ||
+                          testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                        ) {
+                          if (
+                            testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                            testSfdtFileCondition.sections[0].blocks[0].grid ||
+                            testSfdtFileCondition.sections[0].blocks[0].rows ||
+                            testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                          ) {
+                            ++countValidate;
+                          } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
                             if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
                               ++countValidate;
                             } else {
@@ -2188,6 +2217,88 @@ export class LoanAnalysMainComponent implements OnInit {
   }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
+  }
+
+  public cpGroub() {
+    let data = 0;
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyMaster = res.body[0]?.factor;
+      console.log('kurs master 1', this.currencyMaster);
+    });
+    this.creditProposalService.applicationGroubProduct(this.id).subscribe((response: any) => {
+      this.filterBusinessGroupDebtorData(response.body);
+      data = this.countTotalPsrGroup();
+      this.creditProposal.attributes['calculationExposure'].totalPsrGroupNew = data;
+      this.creditProposal.attributes['calculationExposure'].totalPsrGroup = data;
+      console.log('calculation exposure ', this.creditProposal.attributes['calculationExposure']);
+      console.log('hasil total ', data);
+    });
+  }
+
+  private filterBusinessGroupDebtorData(source: any[]): void {
+    if (source.length > 0) {
+      let no = 0;
+      for (let y = 0; y < source.length; y++) {
+        const parsed = new CPFacilityTable();
+        no = no + 1;
+        parsed.no = no;
+        parsed.GroupName = source[y].customerName;
+        parsed.LoanAccount = source[y].agreementNumber;
+        parsed.FacilityType = source[y].productTypeId;
+        parsed.InitialLimit = Number(source[y].contractAmount ? source[y].contractAmount : 0);
+        parsed.Changes = 0;
+        parsed.OS = source[y].outstanding;
+        parsed.TotalPlafond = source[y].productRevolving ? parsed.InitialLimit + parsed.Changes : source[y].outstanding;
+
+        parsed.InterestRate =
+          source[y].intResetFrequency + ' ' + source[y].intResetPeriod + ' ' + source[y].rateTypeName + ' ' + source[y].spreadRate;
+        parsed.Provision = source[y].provisionFeeAmount;
+        parsed.AdminFee = source[y].provisionFeeAmount;
+        parsed.FirstDisbursementDate = source[y].trxDate;
+        parsed.Tenor = source[y].trxDate;
+        parsed.CCY = source[y].loanCurrency;
+        parsed.MaturityDate = source[y].maturityDate;
+        parsed.sublimit = source[y].subLimit;
+        parsed.kurs = source[y].kurs;
+        this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
+      }
+    }
+  }
+
+  public countTotalPsrGroup() {
+    console.log('kurs master 2', this.currencyMaster);
+    console.log('grup data ', this.myBusinessGroupCPFacility);
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.myBusinessGroupCPFacility.filter(obj => obj.sublimit === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.CCY === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.CCY !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].TotalPlafond !== undefined) {
+            if (filterIdr[i].FacilityType === 'FX') {
+              result = result + Number(filterIdr[i].TotalPlafond);
+            }
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].TotalPlafond !== undefined) {
+            if (filterUsd[i].FacilityType === 'FX') {
+              dolar = dolar + Number(filterUsd[i].TotalPlafond) * Number(this.currencyMaster);
+            }
+          }
+        }
+      }
+    }
+    return result + dolar;
   }
 }
 
