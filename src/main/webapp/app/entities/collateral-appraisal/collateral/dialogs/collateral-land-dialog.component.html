@@ -62,7 +62,7 @@
               <input
                 matInput
                 type="text"
-                [ngModel]="collateralLandAttribute.certArea | number: '1.0-0'"
+                [ngModel]="collateralLandAttribute.certArea"
                 (ngModelChange)="collateralLandAttribute.certArea = numberInputChanged($event)"
                 [disabled]="hideordisable()"
                 [disabled]="hiddenRmAdmin"

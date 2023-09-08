@@ -37,7 +37,7 @@
         </ng-container>
         <ng-container matColumnDef="landArea">
           <th mat-header-cell *matHeaderCellDef>Land Area</th>
-          <td mat-cell *matCellDef="let element">{{ element.certArea }} m<sup>2</sup></td>
+          <td mat-cell *matCellDef="let element">{{ element.certArea | number: '1.2-2' }} m<sup>2</sup></td>
           <td mat-footer-cell *matFooterCellDef>{{ getTotalArea() }} m<sup>2</sup></td>
         </ng-container>
         <ng-container matColumnDef="action">
@@ -109,7 +109,7 @@
       <input
         matInput
         type="text"
-        [value]="countTotalLandArea(collateral.truncatedArea, collateral.publicFacilities, getTotalArea()) | number: '1.0-0'"
+        [value]="countTotalLandArea(collateral.truncatedArea, collateral.publicFacilities, getTotalArea()) | number: '1.2-2'"
         disabled
       />
     </mat-form-field>
