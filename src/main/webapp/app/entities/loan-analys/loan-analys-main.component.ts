@@ -2224,15 +2224,12 @@ export class LoanAnalysMainComponent implements OnInit {
     const setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyMaster = res.body[0]?.factor;
-      console.log('kurs master 1', this.currencyMaster);
     });
     this.creditProposalService.applicationGroubProduct(this.id).subscribe((response: any) => {
       this.filterBusinessGroupDebtorData(response.body);
       data = this.countTotalPsrGroup();
       this.creditProposal.attributes['calculationExposure'].totalPsrGroupNew = data;
       this.creditProposal.attributes['calculationExposure'].totalPsrGroup = data;
-      console.log('calculation exposure ', this.creditProposal.attributes['calculationExposure']);
-      console.log('hasil total ', data);
     });
   }
 
@@ -2267,8 +2264,6 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public countTotalPsrGroup() {
-    console.log('kurs master 2', this.currencyMaster);
-    console.log('grup data ', this.myBusinessGroupCPFacility);
     let result: number;
     let dolar: number;
     result = 0;
