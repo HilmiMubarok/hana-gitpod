@@ -210,7 +210,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         });
         for (let i = 0; i < this.collateralCoverage.length; i++) {
           if (this.collateralCoverage[i].code === this.item.attributes['cpRacBelow'].Cv) {
-            this.collateralCoverages = this.collateralInsurance[i].value;
+            this.collateralCoverages = this.collateralCoverage[i].value;
           }
         }
       });
