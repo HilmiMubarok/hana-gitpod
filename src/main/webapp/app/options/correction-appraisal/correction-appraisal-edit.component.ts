@@ -85,6 +85,10 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
         content = 'Status ' + statusDesc + ' searching for position data ' + 'Officer Appraiser' + ' with active status';
         break;
       }
+      case STATUS.VISITED: {
+        content = 'Status ' + statusDesc + ' searching for position data ' + 'Officer Appraiser' + ' with active status';
+        break;
+      }
       case STATUS.RETURNTOADMIN: {
         content = 'Status ' + statusDesc + ' searching for position data ' + 'Admin Appraiser' + ' with active status';
         break;
@@ -142,6 +146,12 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
         break;
       }
       case STATUS.ASSIGNED: {
+        param['active'] = true;
+        param['idPosition'] = this.surveyAppraisal.surveyorPositionId;
+        param['idPositionType'] = POSITION_TYPE.SURVEYOR;
+        break;
+      }
+      case STATUS.VISITED: {
         param['active'] = true;
         param['idPosition'] = this.surveyAppraisal.surveyorPositionId;
         param['idPositionType'] = POSITION_TYPE.SURVEYOR;
