@@ -44,6 +44,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   public internalMaxLLL = [];
   public hidHobis: boolean;
   public hiddenfield: boolean;
+  public valueNull = 0;
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -115,10 +116,12 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
             this.creditRatings = new CreditRating();
           } else {
             this.creditRatings = res.body[0];
+            this.getLovinternalMaxLLL();
           }
         });
     } else {
       this.creditRatings = this.partyCif.creditRatings[0];
+      this.getLovinternalMaxLLL();
       if (
         this.creditRatings.creditRating === '' ||
         this.creditRatings.creditRating === undefined ||
@@ -131,7 +134,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
 
     this.getApplicationOption();
     this.getListIndustry();
-    this.getLovinternalMaxLLL();
     // this.checkLogin();
   }
 
@@ -240,6 +242,13 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         for (let index = 0; index < this.internalMaxLLL.length; index++) {
           if (this.creditRatings.creditRating === this.internalMaxLLL[index].code) {
             this.creditRatings.internalMaxLLL = this.internalMaxLLL[index].value;
+          }
+        }
+        if (this.creditRatings.creditRating === null) {
+          for (let index = 0; index < this.internalMaxLLL.length; index++) {
+            if (this.internalMaxLLL[index].code === 'A0') {
+              this.valueNull = this.internalMaxLLL[index].value;
+            }
           }
         }
       });
