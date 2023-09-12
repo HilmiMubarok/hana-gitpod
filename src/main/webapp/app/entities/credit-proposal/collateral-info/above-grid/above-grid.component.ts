@@ -98,9 +98,9 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this._collateralProperty = item;
   }
 
-  public presentage(value: string, status: string) {
+  public presentage(value: string, status: string): any {
     // console.log('cekd', value);
-    const num = parseFloat(value).toFixed(2);
+    const num = String(Math.floor(Number(value) * 100) / 100);
     if (num === 'Infinity') {
       if (status === 'mv') {
         this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
@@ -952,7 +952,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
 
-        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
+        this.biddingValueCoverage = Math.round(biddingValueCoverage * 100) / 100;
         this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
         this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
       });
