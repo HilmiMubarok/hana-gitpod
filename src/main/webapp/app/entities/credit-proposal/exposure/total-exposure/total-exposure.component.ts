@@ -424,7 +424,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataSource.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
@@ -453,7 +453,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataSource.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
@@ -484,7 +484,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataSource.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
@@ -511,10 +511,10 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     let result: number;
     result = 0;
 
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].availableLimit !== null) {
-          result = result + Number(this._creditProposal.products[i].availableLimit);
+    if (this.dataSource.length > 0) {
+      for (let i = 0; i < this.dataSource.length; i++) {
+        if (this.dataSource[i].availableLimit !== null) {
+          result = result + Number(this.dataSource[i].availableLimit);
         }
       }
     }
@@ -527,7 +527,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataSource.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
