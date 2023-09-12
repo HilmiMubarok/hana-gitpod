@@ -394,6 +394,7 @@ import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-in
 import { GroupCollateralDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-dar.component';
 import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-list-dar.component';
 import { CreditProposalSummaryGenerateMemoBandingComponent } from './credit-proposal/credit-proposal-summary-generate-memo-banding.component';
+import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposal/collateral-info/collateral-summary/credit-proposal-collateral-summary-dialog.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -851,6 +852,7 @@ import { CreditProposalSummaryGenerateMemoBandingComponent } from './credit-prop
         CPMemoBandingCollateralBacktobackComponent,
         MemoBandingComponent,
         CreditProposalSummaryGenerateMemoBandingComponent,
+        CreditProposalCollateralSummaryDialogComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1262,6 +1264,7 @@ import { CreditProposalSummaryGenerateMemoBandingComponent } from './credit-prop
     CPMemoBandingCollateralBacktobackComponent,
     MemoBandingComponent,
     CreditProposalSummaryGenerateMemoBandingComponent,
+    CreditProposalCollateralSummaryDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
