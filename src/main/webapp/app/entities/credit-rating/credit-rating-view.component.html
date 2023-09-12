@@ -329,7 +329,7 @@
           <div class="row my-3">
             <div class="col">
               <section *jhiMatrixDirIDD="'input'">
-                <mat-form-field class="w-100" appearance="outline">
+                <mat-form-field class="w-100" appearance="outline" *ngIf="creditRatings.creditRating !== null">
                   <mat-label>Internal Maksimum LLL (%)</mat-label>
                   <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL" disabled>
                     <mat-option value="">- Please Select -</mat-option>
@@ -338,13 +338,24 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
+                <mat-form-field class="w-100" appearance="outline" *ngIf="creditRatings.creditRating === null">
+                  <mat-label>Internal Maksimum LLL (%)</mat-label>
+                  <mat-label>{{ valueNull }} </mat-label>
+                </mat-form-field>
               </section>
               <section *jhiMatrixDirIDD="''">
-                <div class="fontsebled row">
+                <div class="fontsebled row" *ngIf="creditRatings.creditRating !== null">
                   <div class="col">Internal Maksimum LLL (%)</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
                     {{ creditRatings.internalMaxLLL }}
+                  </div>
+                </div>
+                <div class="fontsebled row" *ngIf="creditRatings.creditRating === null">
+                  <div class="col">Internal Maksimum LLL (%)</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ valueNull }}
                   </div>
                 </div>
               </section>

@@ -280,9 +280,16 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
           }
         }
 
-        if (!isCRC || !isHCR1 || !isHCR2) {
+        /* if (!isCRC || !isHCR1 || !isHCR2) {
           throw new Error('Please check selected person position requirement');
-        }
+        } */
+
+		if (isCRC || isHCR1 || isHCR2) {
+          // throw new Error('Please check selected person position requirement');
+		  const j = 'ok';
+        } else {
+		  throw new Error('Please check selected person position requirement');
+		}
 
         break;
       }
