@@ -27,6 +27,7 @@ import { ApplicationProduct } from 'app/entities/application-product/application
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { CreditProposalCollateralSummaryDialogComponent } from '../collateral-summary/credit-proposal-collateral-summary-dialog.component';
 
 @Component({
   selector: 'jhi-summary-grid-btb',
@@ -285,11 +286,11 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
-        isViewMode: this.isViewMode,
+        isViewMode: true,
         group: this.group,
       },
     };
-    const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
+    const dialogRef = this.dialog.open(CreditProposalCollateralSummaryDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
