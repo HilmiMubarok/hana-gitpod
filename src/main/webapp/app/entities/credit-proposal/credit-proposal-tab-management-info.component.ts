@@ -362,7 +362,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   public onSelect(value: string, dataMgn: any) {
-    this.dataAttrMgn[dataMgn.indexNum - 1].valueSelect = value;
+    this.dataAttrMgn[dataMgn.indexNum - 1].value = value;
     this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
     console.log('onSelect', value);
   }
