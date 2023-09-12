@@ -192,31 +192,57 @@ export class RequestSlikDetailComponent implements OnInit {
   showSubmitButton() {
     if (this.roles.request[0].includes(this.position)) {
       // RM
-      return this.requestSlik.status === this.reqSlikStatus.DRAFT ||
-        this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM ||
-        this.requestSlik.status === this.reqSlikStatus.VERIFY
-        ? true
-        : false;
+      const ownerPosition = this.requestSlik.ownerPosition;
+      if (ownerPosition !== this.position) {
+        return false;
+      } else {
+        return this.requestSlik.status === this.reqSlikStatus.DRAFT ||
+          this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM ||
+          this.requestSlik.status === this.reqSlikStatus.VERIFY
+          ? true
+          : false;
+      }
 
       // CRO
     } else if (this.roles.request[1].includes(this.position)) {
-      return this.requestSlik.status === this.reqSlikStatus.DRAFT ||
-        this.requestSlik.status === this.reqSlikStatus.RETURN_TO_CRO ||
-        this.requestSlik.status === this.reqSlikStatus.VERIFY
-        ? true
-        : false;
+      const ownerPosition = this.requestSlik.ownerPosition;
+      if (ownerPosition !== this.position) {
+        return false;
+      } else {
+        return this.requestSlik.status === this.reqSlikStatus.DRAFT ||
+          this.requestSlik.status === this.reqSlikStatus.RETURN_TO_CRO ||
+          this.requestSlik.status === this.reqSlikStatus.VERIFY
+          ? true
+          : false;
+      }
     } else if (this.roles.approvalBu.includes(this.position)) {
-      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU ? true : false;
+      const ownerPosition = this.requestSlik.ownerPosition;
+
+      if (ownerPosition === 'RM' && this.position === 'CRC') {
+        return false;
+      } else if (ownerPosition === 'CRO' && this.position === 'SME_HEAD') {
+        return false;
+      } else {
+        return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU ? true : false;
+      }
     } else {
       return this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK && this.roles.approvalSlik.includes(this.position) ? true : false;
     }
   }
   showRejectButton() {
+    const ownerPosition = this.requestSlik.ownerPosition;
+
     if (this.roles.request.includes(this.position)) {
       // RM DLL
       return false;
     } else if (this.roles.approvalBu.includes(this.position)) {
-      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU ? true : false;
+      if (ownerPosition === 'RM' && this.position === 'CRC') {
+        return false;
+      } else if (ownerPosition === 'CRO' && this.position === 'SME_HEAD') {
+        return false;
+      } else {
+        return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU ? true : false;
+      }
     } else {
       return this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK && this.roles.approvalSlik.includes(this.position) ? true : false;
     }
@@ -224,9 +250,14 @@ export class RequestSlikDetailComponent implements OnInit {
   showCancelButton() {
     if (this.roles.request.includes(this.position)) {
       // RM DLL
-      return this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM
-        ? true
-        : false;
+      const ownerPosition = this.requestSlik.ownerPosition;
+      if (ownerPosition !== this.position) {
+        return false;
+      } else {
+        return this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM
+          ? true
+          : false;
+      }
     } else {
       return false;
     }
@@ -235,9 +266,14 @@ export class RequestSlikDetailComponent implements OnInit {
   showSaveButton() {
     if (this.roles.request.includes(this.position)) {
       // RM DLL
-      return this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM
-        ? true
-        : false;
+      const ownerPosition = this.requestSlik.ownerPosition;
+      if (ownerPosition !== this.position) {
+        return false;
+      } else {
+        return this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM
+          ? true
+          : false;
+      }
     } else {
       return false;
     }

@@ -8,6 +8,7 @@ export interface IRequestSlik {
   requestDate?: string;
   purposeCode?: string;
   status?: string;
+  ownerPosition?: string;
 }
 
 export class RequestSlik implements IRequestSlik {
@@ -20,6 +21,7 @@ export class RequestSlik implements IRequestSlik {
     public segment?: string,
     public requestDate?: string,
     public purposeCode?: string,
-    public status?: string
+    public status?: string,
+    public ownerPosition?: string
   ) {}
 }

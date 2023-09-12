@@ -13,7 +13,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RequestSlikStatus } from './enums/request-slik-status.enum';
 import { CashCustomerService } from '../party-cif/cash-cusomer.service';
-
+import { EmployeeService } from '../../entities/employee/employee.service';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 @Component({
   selector: 'jhi-request-slik-update',
   templateUrl: './request-slik-update.component.html',
@@ -31,13 +32,38 @@ export class RequestSlikUpdateComponent {
     protected toastService: MessageService,
     protected accountService: AccountService,
     private cashCustomerService: CashCustomerService,
-    private router: Router
+    private router: Router,
+    private employeeService: EmployeeService
   ) {
-    this.accountService
-      .identity()
-      .pipe(map(user => user.login))
-      .subscribe(user => (this.userLogin = user));
+    this.accountService.identity().subscribe(user => {
+      const id = this.getLocStor('POS');
+      this.userLogin = user.login;
+
+      if (user) {
+        this.employeeService
+          .queryFilterBy({
+            page: 0,
+            query: 999,
+            eqLogin: user.login,
+            sort: ['id,desc'],
+          })
+          .pipe(
+            map((res: HttpResponse<any[]>) => {
+              const data = res.body[0].positions;
+              return data.filter(p => p.id === Number(this.getLocStor('POS')));
+            })
+          )
+          .subscribe({
+            next: (res: any) => {
+              this.requestor = res[0].positionTypeId;
+              console.log('owner Position', this.requestor);
+            },
+            error: (res: HttpErrorResponse) => console.log('error ', res),
+          });
+      }
+    });
   }
+  public requestor: string;
   public displayedColumns: string[] = ['select', 'no', 'cif', 'customerName', 'customerType', 'createdDate'];
   public currentSearch;
   getValue(event) {
@@ -54,6 +80,7 @@ export class RequestSlikUpdateComponent {
     } else {
       const data = {
         cif: this.selection.selected[0].customerId,
+        ownerPosition: this.requestor,
         requestor: this.userLogin,
         requestDate: new Date(),
         status: RequestSlikStatus.DRAFT,
