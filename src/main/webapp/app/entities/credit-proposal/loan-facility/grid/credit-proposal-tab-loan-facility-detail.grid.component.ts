@@ -238,6 +238,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     if (mark) {
       if (param) {
         this.dataProduct[idx] = appProduct;
+		this.dataProduct = lodash.flatten(this.dataProduct);
         this.creditProposal.products = this.dataProduct;
 
         this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
