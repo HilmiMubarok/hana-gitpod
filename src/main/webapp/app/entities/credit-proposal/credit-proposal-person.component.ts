@@ -357,10 +357,10 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
 
       this.totalPlafond = result + dolar;
 
-      for (let i = 0; i < element.length; i++) {
-        data.push(element[i].totalPlafond);
-      }
-      this.totalPlafond = data.reduce((acc, curr) => acc + curr, 0);
+      // for (let i = 0; i < element.length; i++) {
+      //   data.push(element[i].totalPlafond);
+      // }
+      // this.totalPlafond = data.reduce((acc, curr) => acc + curr, 0);
     }
 
     // if (this.parsedAttr.previousHistory) {
