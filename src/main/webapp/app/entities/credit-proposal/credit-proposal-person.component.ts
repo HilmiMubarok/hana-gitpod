@@ -330,13 +330,37 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       let element: IApplicationProduct[] = [];
       const jumlahPlafond = [];
       const data = [];
+      let result: number;
+      let dolar: number;
+      result = 0;
+      dolar = 0;
 
       element = this.deptorData.products.filter(products => !this.mortCode.includes(products.productCode));
-
-      for (let i = 0; i < element.length; i++) {
-        data.push(element[i].totalPlafond);
+      if (element.length > 0) {
+        const filterUsd = element.filter(obj => obj.currencyId === 'USD');
+        const filterIdr = element.filter(obj => obj.currencyId !== 'USD');
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
+          }
+        }
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
+          }
+        }
       }
-      this.totalPlafond = data.reduce((acc, curr) => acc + curr, 0);
+
+      this.totalPlafond = result + dolar;
+
+      // for (let i = 0; i < element.length; i++) {
+      //   data.push(element[i].totalPlafond);
+      // }
+      // this.totalPlafond = data.reduce((acc, curr) => acc + curr, 0);
     }
 
     // if (this.parsedAttr.previousHistory) {
