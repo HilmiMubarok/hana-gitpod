@@ -344,6 +344,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.berubah(this.applicationProduct.attributes.facilityType);
     this.cekData();
     this.updateFormat(this.selectedType, this.selectedCurrency);
+
+    if (!this.applicationProduct.commitedLine) {
+      this.applicationProduct.commitedLine = false;
+    }
   }
 
   public cekData() {
@@ -493,7 +497,11 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public changeSublimit(event) {
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === event);
-    this.applicationProduct.indexFacilityMain = this.lovIndex[0].index;
+    if (this.lovIndex.length > 0) {
+      this.applicationProduct.indexFacilityMain = this.lovIndex[0].index;
+    } else {
+      this.applicationProduct.indexFacilityMain = '';
+    }
   }
 
   public changeSublimitCheck() {

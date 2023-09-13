@@ -311,6 +311,10 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     this.lovRestructMethod();
     this.getFacilityType();
     this.berubah(this.applicationProduct.attributes.facilityType);
+
+    if (!this.applicationProduct.commitedLine) {
+      this.applicationProduct.commitedLine = false;
+    }
   }
 
   public save(): void {
