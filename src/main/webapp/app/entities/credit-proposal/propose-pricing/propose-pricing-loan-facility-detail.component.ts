@@ -115,7 +115,6 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
       this.aplicationProducts[i].typeReferenceRateFun =
         item.products[i].rateTypeName + ' ' + item.products[i].intResetFrequency + ' ' + item.products[i].intResetPeriod;
     }
-    // this.printElement();
   }
 
   ngOnInit(): void {
@@ -179,7 +178,6 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
       this.BUCKET = res['body']['bucket'];
     });
     this.getName();
-    // this.printElement();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -353,14 +351,4 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
       this.typeReferenceRateFuncttion.push(this.ReferenceRateFunct);
     }
   }
-
-  // public printElement() {
-  //   for (let i = 0; i < this.creditProposal.products.length; i++) {
-  //     if (this.aplicationProducts[i].subLimit === true) {
-  //       this.aplicationProducts[i].subLimitFun = true;
-  //     } else if (this.aplicationProducts[i].subLimit === false) {
-  //       this.aplicationProducts[i].subLimitFun = false;
-  //     }
-  //   }
-  // }
 }

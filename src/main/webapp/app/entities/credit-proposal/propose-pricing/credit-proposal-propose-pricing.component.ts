@@ -383,8 +383,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     };
 
     this.defaultCurrency();
-
-    // this.averagetoIDR();
   }
 
   public creditRatingCondition() {
@@ -432,21 +430,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       }
     }
   }
-
-  // public averagetoIDR() {
-  //   this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
-  //     for (let i = 0; i < this.creditProposal.products.length; i++) {
-  //       this.avgNormalRateIDR = this.aplicationProducts[i].avgNormalRateIDR = res['proposePricing'][i]['avgNormalRateIDR'];
-  //       this.avgProposedRateIDR = this.aplicationProducts[i].avgProposedRateIDR = res['proposePricing'][i]['avgProposedRateIDR'];
-  //       this.avgDiscProposalIDR = this.aplicationProducts[i].avgDiscProposalIDR = res['proposePricing'][i]['avgDiscProposalIDR'];
-
-  //       this.avgProposedRateUSD = this.aplicationProducts[i].avgProposedRateUSD = res['proposePricing'][i]['avgProposedRateUSD'];
-  //       this.avgNormalRateUSD = this.aplicationProducts[i].avgNormalRateUSD = res['proposePricing'][i]['avgNormalRateUSD'];
-  //       this.avgDiscProposalUSD = this.aplicationProducts[i].avgDiscProposalUSD = res['proposePricing'][i]['avgDiscProposalUSD'];
-  //       console.log("index ", i, " nilai ",this.avgNormalRateIDR);
-  //     }
-  //   });
-  // }
 
   public getCorporateGurante() {
     if (
