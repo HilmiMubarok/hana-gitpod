@@ -46,6 +46,7 @@ export const MY_FORMATS = {
 @Component({
   selector: 'jhi-collateral-property-realestate-dialog',
   templateUrl: './collateral-property-realestate-dialog.component.html',
+  styleUrls: ['./collateral-property-realestate-dialog.style.scss'],
   providers: [
     {
       provide: DateAdapter,
