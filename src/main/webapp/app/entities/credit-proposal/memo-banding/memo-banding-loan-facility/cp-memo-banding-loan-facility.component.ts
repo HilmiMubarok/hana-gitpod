@@ -189,6 +189,13 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit {
         },
       });
   }
+  public getdataNull(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
+
   partyCifFunc() {
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
@@ -209,6 +216,14 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit {
         .subscribe((response: any) => {
           this.dataFunc(response);
         });
+    }
+  }
+
+  public getPricingRate(value) {
+    if (value) {
+      return value + '%';
+    } else {
+      return '0%';
     }
   }
 
