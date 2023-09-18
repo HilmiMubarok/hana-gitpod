@@ -155,7 +155,7 @@
                 <div class="col">nominal of shares</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
-                  {{ organizationManagement.attributes.stockNominal }}
+                  {{ organizationManagement.attributes.stockNominal === '' ? '0' : organizationManagement.attributes.stockNominal }}
                 </div>
               </div>
             </section>
