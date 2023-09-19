@@ -138,6 +138,7 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit {
 
   ngOnInit(): void {
     this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposal);
+    this.cpMemoBandingservice.compareLoanFacility(this.parsed.products, this.creditProposal.products);
 
     this.currency();
     // this.partyCifFunc();
@@ -147,9 +148,11 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit {
     this.creditProposaldata = this.creditProposal;
     this.lovInterestRateTypeList();
 
-    this.dataProduct = new MatTableDataSource<any>(
-      this.cpMemoBandingservice.compareDeepDataNew(this.parsed.products, this.creditProposal.products, 'loan-facility')
-    );
+    this.cpMemoBandingservice.comparedData.subscribe(res => {
+      // sort res by id asc
+      const data = _.sortBy(res, ['id']);
+      this.dataProduct = new MatTableDataSource<any>(data);
+    });
 
     this.totalPlafondStatus = this.cpMemoBandingservice.compareSingleObject(
       { plafon: this.fungsiSumcredit('both') },
