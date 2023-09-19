@@ -39,6 +39,66 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
 
     return true;
   }
+
+  compareObjectsLoanFacility(obj1, obj2, customizer) {
+    const keys = Object.keys(customizer);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+
+      if (obj1[key] !== obj2[key]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  compareLoanFacility(firstData, secondData) {
+    console.log('Compare loan facility', { firstData, secondData });
+    const customizer = {
+      categoryId: true,
+      applicationType: true,
+      productTypeId: true,
+      subLimit: true,
+      currencyId: true,
+      initialLimit: true,
+      outstanding: true,
+      changes: true,
+      totalPlafond: true,
+      intResetFrequency: true,
+      intResetPeriod: true,
+      rateTypeName: true,
+      currentInterestRate: true,
+      provisionFeeAmount: true,
+      tenor: true,
+      periodType: true,
+      pricingRate: true,
+    };
+
+    const comparedData = [];
+
+    secondData.forEach(data => {
+      const matchingData = firstData.find(d => d.id === data.id);
+      const appealStatus = matchingData
+        ? this.compareObjectsLoanFacility(data, matchingData, customizer)
+          ? 'Not Changed'
+          : 'Changed'
+        : 'Added';
+      comparedData.push({ ...data, appealStatus });
+    });
+
+    const removedData = firstData.filter(data => !secondData.some(d => d.id === data.id));
+    removedData.forEach(data => comparedData.push({ ...data, appealStatus: 'Removed' }));
+
+    this.comparedData$.next(_.sortBy(comparedData, ['id']));
+
+    return comparedData;
+  }
+
+  comparedData$ = new BehaviorSubject<any[]>([]);
+  comparedData = this.comparedData$.asObservable();
+
   compareDeepDataNew(firstData, secondData, where) {
     // console.log('Data', { firstData, secondData });
 
@@ -58,12 +118,10 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
         intResetPeriod: true,
         rateTypeName: true,
         currentInterestRate: true,
-        // requiredSpread: true,
         provisionFeeAmount: true,
         tenor: true,
         periodType: true,
-        // maturityDate: true,
-        // firstDisbursementDate: true,
+        pricingRate: true,
       };
     } else {
       customizer = {

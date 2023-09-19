@@ -79,11 +79,11 @@
               {{
                 element.rateTypeName +
                   ' ' +
-                  element.intResetFrequency +
+                  getdataNull(element.intResetFrequency) +
                   ' ' +
                   element.intResetPeriod +
                   ' ' +
-                  getRequeredSpread(element.requiredSpread)
+                  getPricingRate(element.pricingRate)
               }}
             </div>
           </td>
