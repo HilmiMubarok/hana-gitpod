@@ -55,7 +55,6 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
   }
 
   compareLoanFacility(firstData, secondData) {
-    console.log('Compare loan facility', { firstData, secondData });
     const customizer = {
       categoryId: true,
       applicationType: true,
