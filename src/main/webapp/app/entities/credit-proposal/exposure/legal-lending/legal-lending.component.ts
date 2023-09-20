@@ -148,7 +148,6 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'MODAL_INTI_USAHA') {
           this.modalUsaha = res.body[i].value;
-          this.creditProposal.attributes['legalLendingLimit'].modalIntiUtama = this.modalUsaha;
         }
       }
     });
