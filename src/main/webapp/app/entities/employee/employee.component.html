@@ -46,6 +46,19 @@
         </div>
       </mat-card>
       <mat-card style="margin: 1rem">
+        <div class="row">
+          <div class="col-12 my-3 align-right" align="right">
+            <button mat-raised-button (click)="getTemplate()" class="download-button">
+              <fa-icon icon="file" style="margin-right: 0.4rem"></fa-icon>Template
+            </button>
+            <button mat-raised-button (click)="upload()" class="download-button">
+              <fa-icon icon="upload" style="margin-right: 0.4rem"></fa-icon>Upload
+            </button>
+            <!-- <button mat-raised-button (click)="download()" class="download-button">
+              <fa-icon icon="download" style="margin-right: 0.4rem"></fa-icon>Download
+            </button> -->
+          </div>
+        </div>
         <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
           <ng-container matColumnDef="no">
             <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>

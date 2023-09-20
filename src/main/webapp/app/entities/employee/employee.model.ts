@@ -1,7 +1,7 @@
+import { IPartyRole } from '../party-role/party-role.model';
 import { IPerson, Person } from '../person/person.model';
 
-export interface IEmployee {
-  id?: number;
+export interface IEmployee extends IPartyRole {
   employeeCode?: string;
   registrationDate?: Date;
   fromDate?: Date;
@@ -30,8 +30,39 @@ export class Employee implements IEmployee {
     public internalId?: string,
     public employmentTypeDescription?: string,
     public employmentTypeId?: string,
-    public name?: string
+    public name?: string,
+    public partyId?: string,
+    public statusId?: string,
+    public statusCode?: string,
+    public statusDescription?: string,
+    public attributes?: any
   ) {
     this.person = new Person();
   }
+}
+
+export interface IEmployeeDownload {
+  id?: number;
+  partyId?: string;
+  internalId?: string;
+  userLogin?: string;
+  personalEmail?: string;
+  statusId?: string;
+  firstName?: string;
+  lastName?: string;
+  employeeCode?: string;
+}
+
+export class EmployeeDownload implements IEmployeeDownload {
+  constructor(
+    public id?: number,
+    public partyId?: string,
+    public internalId?: string,
+    public userLogin?: string,
+    public personalEmail?: string,
+    public statusId?: string,
+    public firstName?: string,
+    public lastName?: string,
+    public employeeCode?: string
+  ) {}
 }

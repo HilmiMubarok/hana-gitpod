@@ -14,10 +14,13 @@ import { DelegationAppraisalComponent } from './delegation-appraisal.component';
 import { DelegationApplicationComponent } from './delegation-application.component';
 import { DialogDelegationAppraisalComponent } from './dialog-delegation/dialog-delegation-appraisal.component';
 import { DialogDelegationApplicationComponent } from './dialog-delegation/dialog-delegation-application.component';
+import { LosgwMiscellaneousModule } from 'app/miscellaneous/miscellaneous.module';
+import { EmployeeUploadComponent } from './employee-upload.component';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(employeeRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(employeeRoute), LosgwMiscellaneousModule],
   declarations: [
+    EmployeeUploadComponent,
     EmployeeComponent,
     EmployeeDetailComponent,
     EmployeeUpdateComponent,

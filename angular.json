@@ -23,6 +23,7 @@
             "customWebpackConfig": {
               "path": "./webpack/webpack.custom.js"
             },
+            "allowedCommonJsDependencies": ["xlsx"],
             "outputPath": "target/classes/static/",
             "index": "src/main/webapp/index.html",
             "main": "src/main/webapp/main.ts",
@@ -41,9 +42,9 @@
             "styles": [
               "src/main/webapp/content/scss/vendor.scss",
               "src/main/webapp/content/scss/global.scss",
-			  "src/main/webapp/content/scss/material-icons.scss",
-			  "src/main/webapp/content/scss/roboto.scss",
-              "src/main/webapp/static/css/main.css",
+              "src/main/webapp/content/scss/material-icons.scss",
+              "src/main/webapp/content/scss/roboto.scss",
+              "src/main/webapp/static/css/main.css"
             ],
             "scripts": []
           },

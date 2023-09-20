@@ -1,0 +1,35 @@
+<div mat-dialog-content align="center" class="py-3">
+  <div class="row">
+    <div class="col-7" align="right">
+      <input type="file" (change)="fileChanged($event)" accept=".xlsx, .xls" />
+    </div>
+  </div>
+</div>
+<div *ngIf="listOfData.length > 0" style="max-height: 500px" class="w-100 table-responsive">
+  <table class="w-100 table table-striped" id="tableUploadValidate">
+    <thead>
+      <tr>
+        <th scope="col" align="center">Internal Id</th>
+        <th scope="col" align="center">First Name</th>
+        <th scope="col" align="center">Last Name</th>
+        <th scope="col" align="center">Personal Email</th>
+        <th scope="col" align="center">User Login</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listOfData; let idx = index">
+        <td>{{ item.internalId }}</td>
+        <td>{{ item.firstName }}</td>
+        <td>{{ item.lastName }}</td>
+        <td>{{ item.personalEmail }}</td>
+        <td>{{ item.userLogin }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<mat-dialog-actions align="center">
+  <button mat-raised-button class="confirm-button-no" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="confirm-button-yes" [disabled]="listOfData.length === 0" (click)="upload()" cdkFocusInitial>
+    Upload
+  </button>
+</mat-dialog-actions>

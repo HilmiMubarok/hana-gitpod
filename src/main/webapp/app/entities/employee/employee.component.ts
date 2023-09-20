@@ -7,14 +7,29 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
-import { map } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
-import { IEmployee } from './employee.model';
+import { EmployeeDownload, IEmployee } from './employee.model';
 import { EmployeeService } from './employee.service';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
 import { EMPLOYEE } from 'app/shared/constants/base.constants';
 import { MatTableDataSource } from '@angular/material/table';
+import { DownloadProgressComponent } from 'app/miscellaneous/download-progress.component';
+import FileSaver from 'file-saver';
+import lodash from 'lodash';
+import { EmployeeUploadComponent } from './employee-upload.component';
+
+export interface IEmployeeDownload {
+  id?: number;
+  partyId?: string;
+  internalId?: string;
+  userId?: string;
+  personalEmail?: string;
+  status?: string;
+  firstName?: string;
+  lastName?: string;
+}
 
 @Component({
   selector: 'jhi-employee',
@@ -73,7 +88,11 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
 
   public doSearch(args: any): void {
     if (this.currentSearch) {
-      this.router.navigate(['employee'], { queryParams: { search: this.currentSearch } });
+      this.router.navigate(['employee'], {
+        queryParams: {
+          search: this.currentSearch,
+        },
+      });
       this.loadAll();
     } else {
       this.router.navigate(['employee']);
@@ -81,19 +100,40 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
     }
   }
 
-  private removeAdmin(data: any) {
-    let indexAdmin = 0;
+  public upload(): void {
+    const dialogRef: any = this.dialog.open(EmployeeUploadComponent, {
+      width: '1024px',
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadAll();
+    });
+  }
 
-    if (data.length > 0 && data) {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i]['id'] === 1) {
-          indexAdmin = i;
-          data.splice(indexAdmin, 1);
-        }
-      }
-    }
+  public getTemplate(): void {
+    import('xlsx').then(xlsx => {
+      const newData: IEmployeeDownload = new EmployeeDownload();
+      delete newData['id'];
+      delete newData['partyId'];
 
-    return data;
+      const worksheet = xlsx.utils.json_to_sheet([newData]); // Sale Data
+      const workbook = {
+        Sheets: {
+          data: worksheet,
+        },
+        SheetNames: ['data'],
+      };
+      const excelBuffer: any = xlsx.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array',
+      });
+
+      const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const EXCEL_EXTENSION = '.xlsx';
+      const result: Blob = new Blob([excelBuffer], {
+        type: EXCEL_TYPE,
+      });
+      FileSaver.saveAs(result, 'template_upload_employee' + EXCEL_EXTENSION);
+    });
   }
 
   initDataForMatTable(data: any, headers: HttpHeaders) {
@@ -106,6 +146,56 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
     this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
     this.paginatorPageSize = this.paginator.pageSize;
     this.loading = false;
+  }
+
+  public async download(): Promise<void> {
+    const dialogRef: any = this.dialog.open(DownloadProgressComponent, {
+      width: '300px',
+    });
+    const listForLoad: IEmployee[] = (
+      await firstValueFrom(
+        this.employeeService.query({
+          page: 0,
+          size: 1,
+        })
+      )
+    ).body;
+    if (listForLoad.length > 0) {
+      const listForDownload: IEmployeeDownload[] = lodash.map(listForLoad, function (o) {
+        const newData: IEmployeeDownload = {};
+        newData.id = o.id;
+        newData.personalEmail = o.person.personalEmail;
+        newData.internalId = o.internalId;
+        newData.partyId = o.person.id;
+        newData.status = o.statusId;
+        newData.userId = o.person.userLogin;
+
+        return newData;
+      });
+      // await new Promise(f => setTimeout(f, 4000));
+      import('xlsx').then(xlsx => {
+        const worksheet = xlsx.utils.json_to_sheet(listForDownload); // Sale Data
+        const workbook = {
+          Sheets: {
+            data: worksheet,
+          },
+          SheetNames: ['data'],
+        };
+        const excelBuffer: any = xlsx.write(workbook, {
+          bookType: 'xlsx',
+          type: 'array',
+        });
+
+        const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const EXCEL_EXTENSION = '.xlsx';
+        const result: Blob = new Blob([excelBuffer], {
+          type: EXCEL_TYPE,
+        });
+        FileSaver.saveAs(result, 'employee_export_' + new Date().getTime() + EXCEL_EXTENSION);
+
+        dialogRef.close();
+      });
+    }
   }
 
   private loadAll(): void {
