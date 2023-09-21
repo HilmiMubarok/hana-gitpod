@@ -223,7 +223,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
         this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
       );
 
-      this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(dataBefore, dataAfter, 'collateral-info'));
+      this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(this.filtered, res.body, 'collateral-info'));
 
       // this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
@@ -563,7 +563,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalMV = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalMV = result;
     return result;
   }
 
@@ -662,7 +662,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
       }
 
       const creditLimit = result + dolar;
-      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+      this._creditProposal.attributes['collateralSummary'].creditLimit = creditLimit;
 
       this.totalPlafond = result + dolar;
 
@@ -987,11 +987,11 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     const array2 = this.creditProposal.attributes['binding'];
     let getBindingCalculateValue;
     const data = [];
-    array1.filter(({ id: value1 }) => {
-      data.push(array2.find(({ collateralId: value2 }) => value1 === value2));
+    array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
+      data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
-        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
         this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
       });
     });
