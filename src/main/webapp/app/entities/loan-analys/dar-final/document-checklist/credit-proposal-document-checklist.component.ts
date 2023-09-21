@@ -256,8 +256,6 @@ export class DocumentChecklistTempComponent implements OnInit {
 
     predicate.data['clonedPredicate'] = clonedPredicate;
 
-    console.log('element', { element, predicate });
-
     const dialogRef = this.dialog.open(DocumentChecklistDialogTempComponent, predicate);
     dialogRef.afterClosed().subscribe((r: any) => {});
   }

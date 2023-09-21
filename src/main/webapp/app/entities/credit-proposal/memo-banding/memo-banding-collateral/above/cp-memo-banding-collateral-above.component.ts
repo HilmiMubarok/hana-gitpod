@@ -181,8 +181,6 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
 
     this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposal);
 
-    console.log('sjagdkash', this.parsed);
-
     this.filtered = this.parsed.collaterals.filter(obj => obj.statusId !== 'CANCEL');
 
     // this.isViewMode && this.displayedColumns.pop();
@@ -231,14 +229,6 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
       this.dataItem.paginator = this.paginator;
       this.mapCollateralProperty(this.dataCollateral);
       this.getBindingCalculate(this.dataCollateral);
-
-      console.log('SADASDAS', {
-        res: res.body,
-        dataCollateral: this.dataCollateral,
-        dataBefore,
-        dataAfter,
-        dataItem: this.dataItem,
-      });
     });
   }
 
