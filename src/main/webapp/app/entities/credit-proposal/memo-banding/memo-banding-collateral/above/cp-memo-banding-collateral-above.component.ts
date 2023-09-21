@@ -526,6 +526,27 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     return result;
   }
 
+  public countTotalLVBefore(): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.filtered;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + Number(data.liquidationValue);
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
+
+    return result;
+  }
+
   public countTotalLV(): number {
     let data: ICollateralProperty;
     let result: number;
@@ -544,6 +565,27 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     }
     this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
 
+    return result;
+  }
+
+  public countTotalMVBefore(): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.filtered;
+
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + Number(data.marketValue);
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['collateralSummary'].countTotalMV = result;
     return result;
   }
 
@@ -753,6 +795,26 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     return 0;
   }
 
+  public countTotalMVKJJPBefore() {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.filtered;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === true);
+          if (data !== undefined && collaterals[i].collateralTypeId) {
+            result = result + data.marketValue;
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP = result;
+    return result;
+  }
+
   public countTotalMVKJJP() {
     let data: ICollateralProperty;
     let result: number;
@@ -770,6 +832,26 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
       }
     }
     this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP = result;
+    return result;
+  }
+
+  public countTotalLVKJJPBefore() {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.filtered;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === true);
+          if (data !== undefined) {
+            result = result + data.liquidationValue;
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP = result;
     return result;
   }
 
