@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IPositionReportingStructure, PositionReportingStructure } from './position-reporting-structure.model';
+import {
+  IPositionReportingStructure,
+  IPositionReportingStructureDownload,
+  PositionReportingStructure,
+  PositionReportingStructureDownload,
+} from './position-reporting-structure.model';
 import { PositionReportingStructureService } from './position-reporting-structure.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,6 +13,8 @@ import { PositionReportingStructureDialogComponent } from './position-reporting-
 import { RelationTypeService } from '../relation-type/relation-type.service';
 import { IRelationType } from '../relation-type/relation-type.model';
 import { firstValueFrom } from 'rxjs';
+import FileSaver from 'file-saver';
+import { PositionReportingStructureUploadComponent } from './position-reporting-structure-upload.component';
 
 @Component({
   selector: 'jhi-position-reporting-structure',
@@ -78,14 +85,48 @@ export class PositionReportingStructureComponent extends AbstractEntityMaterialC
       page: 0,
       size: 9999,
     };
-	const allRelationTypes = (await firstValueFrom(this.relationTypeService.queryFilterBy(predicate))).body;
-	this.relationTypes = allRelationTypes.filter(relationType => {
-	  if (relationType.parentId === "LOS_REL") {
-		return false;
-	  } else {
-		return true;
-	  }
-	});
+    const allRelationTypes = (await firstValueFrom(this.relationTypeService.queryFilterBy(predicate))).body;
+    this.relationTypes = allRelationTypes.filter(relationType => {
+      if (relationType.parentId === 'LOS_REL') {
+        return false;
+      } else {
+        return true;
+      }
+    });
+  }
+
+  public upload(): void {
+    const dialogRef: any = this.dialog.open(PositionReportingStructureUploadComponent, {
+      width: '1024px',
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadAll();
+    });
+  }
+
+  public getTemplate(): void {
+    import('xlsx').then(xlsx => {
+      const newData: IPositionReportingStructureDownload = new PositionReportingStructureDownload();
+
+      const worksheet = xlsx.utils.json_to_sheet([newData]); // Sale Data
+      const workbook = {
+        Sheets: {
+          data: worksheet,
+        },
+        SheetNames: ['data'],
+      };
+      const excelBuffer: any = xlsx.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array',
+      });
+
+      const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const EXCEL_EXTENSION = '.xlsx';
+      const result: Blob = new Blob([excelBuffer], {
+        type: EXCEL_TYPE,
+      });
+      FileSaver.saveAs(result, 'template_upload_position_reporting_structure' + EXCEL_EXTENSION);
+    });
   }
 
   public openDialog(element: IPositionReportingStructure = null): void {
@@ -97,7 +138,9 @@ export class PositionReportingStructureComponent extends AbstractEntityMaterialC
     const dialog = this.dialog.open(PositionReportingStructureDialogComponent, {
       width: '100%',
       maxWidth: '95%',
-      data: { positionReportingStructure: predicate },
+      data: {
+        positionReportingStructure: predicate,
+      },
     });
     dialog.afterClosed().subscribe((res: IPositionReportingStructure) => {
       if (res) {

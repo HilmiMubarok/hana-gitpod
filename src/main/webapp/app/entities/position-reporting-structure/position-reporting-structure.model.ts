@@ -45,3 +45,13 @@ export class PositionReportingStructure implements IPositionReportingStructure {
     public positionTypeDelegationToDescription?: string
   ) {}
 }
+
+export interface IPositionReportingStructureDownload {
+  relationTypeId?: string;
+  positionFromId?: number;
+  positionToId?: number;
+}
+
+export class PositionReportingStructureDownload implements IPositionReportingStructureDownload {
+  constructor(public relationTypeId?: string, public positionFromId?: number, public positionToId?: number) {}
+}

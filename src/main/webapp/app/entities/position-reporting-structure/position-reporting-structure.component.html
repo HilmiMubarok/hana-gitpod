@@ -26,6 +26,14 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div style="float: right; padding-right: 10px" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+        <button mat-raised-button style="margin-right: 10px" (click)="getTemplate()" class="download-button">
+          <fa-icon icon="file" style="margin-right: 0.4rem"></fa-icon>Template
+        </button>
+        <button mat-raised-button (click)="upload()" class="download-button">
+          <fa-icon icon="upload" style="margin-right: 0.4rem"></fa-icon>Export
+        </button>
+      </div>
       <div style="clear: both"></div>
       <div class="table-responsive-material">
         <table mat-table [dataSource]="items" class="w-100">
