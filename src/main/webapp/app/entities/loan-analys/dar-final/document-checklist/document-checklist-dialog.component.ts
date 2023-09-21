@@ -16,6 +16,8 @@ import { IDocumentNode } from 'app/entities/document-node/document-node.model';
 import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { MatSelectChange } from '@angular/material/select';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import _ from 'lodash';
+import { BehaviorSubject } from 'rxjs';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -77,6 +79,7 @@ export class DocumentChecklistDialogTempComponent {
       typeData: IDocumentType[];
       item: string;
       cp: ICreditProposal;
+      clonedPredicate: any;
     },
     private _dialog: MatDialogRef<DocumentChecklistDialogTempComponent>,
     private storageService: StorageService,
@@ -164,6 +167,9 @@ export class DocumentChecklistDialogTempComponent {
     });
   }
 
+  filesBefore$ = new BehaviorSubject<any>(null);
+  filesBefore = this.filesBefore$.asObservable();
+
   public prosesGetDataByID(res: any) {
     if (res.body.length > 0) {
       this.files.remarks = res.body[0].tags.remarks;
@@ -183,8 +189,12 @@ export class DocumentChecklistDialogTempComponent {
           dueDate: res.body[index].tags.dueDate,
         },
       ];
+      this.filesBefore$.next(this.file);
+      this.filbefor = this.file.length;
     }
   }
+
+  filbefor: any;
 
   public setStatus() {
     if (this.data.files.category === 'A' || this.data.files.category === 'B') {
@@ -296,9 +306,32 @@ export class DocumentChecklistDialogTempComponent {
     });
   }
 
+  getStatusAppeal(dataBefore: any, dataAfter: any, filesBefore: any, filesAfter: any) {
+    const hasPreviousOfferingLetter = this.data.cp.attributes['previousOfferingLetter'];
+    const isFilesLengthDifferent = filesBefore !== filesAfter;
+    const isDataEqual = _.isEqual(dataBefore, dataAfter);
+    const isDataLengthIncreased = dataBefore.length < dataAfter.length;
+
+    if (hasPreviousOfferingLetter) {
+      if (isFilesLengthDifferent) {
+        return 'Changed';
+      }
+
+      if (!isDataEqual) {
+        return 'Changed';
+      }
+
+      return 'Not Changed';
+    } else {
+      return null;
+    }
+  }
+
   public preUpdate(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const statusAppeal = this.file.length > 0 ? 'Changed' : 'Added';
+      const dataBefore = this.data.clonedPredicate;
+      const statusAppeal = this.getStatusAppeal(dataBefore.data.files, this.data.files, this.lengthMinIO.length, this.file.length);
+
       const files: any[] = this.lengthMinIO;
       if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {
@@ -313,7 +346,7 @@ export class DocumentChecklistDialogTempComponent {
               this.files.remarks === null || this.files.remarks === undefined || this.files.remarks === '' || this.files.remarks === 'null'
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-            file.tags['appealStatus'] = this.data.cp.attributes['previousOfferingLeter'] === undefined ? null : statusAppeal;
+            file.tags['appealStatus'] = statusAppeal;
             file.tags['createdBy'] = resAccount.login;
           });
 
@@ -410,7 +443,9 @@ export class DocumentChecklistDialogTempComponent {
   }
 
   public preSave(): Promise<void> {
-    const statusAppeal = this.file.length > 0 ? 'Changed' : 'Added';
+    const dataBefore = this.data.clonedPredicate;
+    const statusAppeal = this.getStatusAppeal(dataBefore.data.files, this.data.files, this.lengthMinIO.length, this.file.length);
+
     return new Promise((resolve, reject) => {
       const promises = [];
       for (let i = 0; i < this.file.length; i++) {
@@ -445,7 +480,7 @@ export class DocumentChecklistDialogTempComponent {
               this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === undefined || this.files.remarks === ''
                 ? null
                 : this.files.remarks.replace('&', 'codeSpecialDan');
-            metaData.appealStatus = this.data.cp.attributes['previousOfferingLeter'] === undefined ? null : statusAppeal;
+            metaData.appealStatus = statusAppeal;
             const formData = new FormData();
             formData.append('file', this.file[i]);
 

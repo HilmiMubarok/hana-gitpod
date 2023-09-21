@@ -17,6 +17,7 @@ import * as JSZip from 'jszip';
 import { DatePipe } from '@angular/common';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { Router } from '@angular/router';
+import _ from 'lodash';
 
 @Component({
   selector: 'jhi-document-checklist-temp',
@@ -250,6 +251,10 @@ export class DocumentChecklistTempComponent implements OnInit {
     predicate.data['typeData'] = this.typeData;
     predicate.data['view'] = view;
     predicate.data['item'] = item;
+
+    const clonedPredicate = _.cloneDeep(predicate);
+
+    predicate.data['clonedPredicate'] = clonedPredicate;
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogTempComponent, predicate);
     dialogRef.afterClosed().subscribe((r: any) => {});

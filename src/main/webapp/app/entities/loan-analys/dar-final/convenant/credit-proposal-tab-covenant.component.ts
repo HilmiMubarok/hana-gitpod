@@ -56,6 +56,5 @@ export class CovenantTempComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedMenu = !this.setActiveMenu ? 'COVENANT' : this.setActiveMenu;
-    console.log('Mubarok');
   }
 }
