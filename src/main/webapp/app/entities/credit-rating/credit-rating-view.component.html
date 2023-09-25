@@ -340,7 +340,7 @@
                 </mat-form-field>
                 <mat-form-field class="w-100" appearance="outline" *ngIf="creditRatings.creditRating === null">
                   <mat-label>Internal Maksimum LLL (%)</mat-label>
-                  <mat-label>{{ valueNull }} </mat-label>
+                  <input matInput type="text" [value]="valueNull" disabled />
                 </mat-form-field>
               </section>
               <section *jhiMatrixDirIDD="''">
