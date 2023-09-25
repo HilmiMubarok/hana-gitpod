@@ -61,6 +61,7 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
   ngOnInit(): void {
     this.getById().then(() => {
       this.getPositions();
+      this.loading = false;
     });
   }
 
@@ -129,8 +130,8 @@ export class CorrectionAppraisalEditComponent extends AbstractEntityMaterialComp
     const statusId: string = this.surveyAppraisal.statusId;
     let param: object = {};
     param = {
-      page: this.page,
-      size: this.itemsPerPage,
+      page: 0,
+      size: 9999,
       sort: ['id', 'desc'],
     };
     switch (statusId) {

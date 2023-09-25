@@ -58,6 +58,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
   ngOnInit(): void {
     this.getById().then(() => {
       this.getPositions();
+      this.loading = false;
     });
   }
 
@@ -70,8 +71,8 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
 
     let param: object = {};
     param = {
-      page: this.page,
-      size: this.itemsPerPage,
+      page: 0,
+      size: 9999,
       sort: ['id', 'desc'],
     };
 
@@ -284,12 +285,12 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
           throw new Error('Please check selected person position requirement');
         } */
 
-		if (isCRC || isHCR1 || isHCR2) {
+        if (isCRC || isHCR1 || isHCR2) {
           // throw new Error('Please check selected person position requirement');
-		  const j = 'ok';
+          const j = 'ok';
         } else {
-		  throw new Error('Please check selected person position requirement');
-		}
+          throw new Error('Please check selected person position requirement');
+        }
 
         break;
       }
