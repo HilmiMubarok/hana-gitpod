@@ -22,6 +22,7 @@ import {
 import { LoanFacilityDialogTempComponent } from '../dialog/loan-facility-dialog.component';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-loan-facility-detail-grid-temp',
@@ -296,21 +297,6 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
       if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
         this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
       }
-      // if (this.applicationProduct.attributes.commitedLine === 'true') {
-      //   this.applicationProduct.attributes.commitedLine = true;
-      // } else if (this.applicationProduct.attributes.commitedLine === 'false') {
-      //   this.applicationProduct.attributes.commitedLine = false;
-      // }
-      // if (this.applicationProduct.attributes.subLimit === 'true') {
-      //   this.applicationProduct.attributes.subLimit = true;
-      // } else if (this.applicationProduct.attributes.subLimit === 'false') {
-      //   this.applicationProduct.attributes.subLimit = false;
-      // }
-      // if (this.applicationProduct.attributes.restructuredStatus === 'true') {
-      //   this.applicationProduct.attributes.restructuredStatus = true;
-      // } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
-      //   this.applicationProduct.attributes.restructuredStatus = false;
-      // }
     } else {
       this.applicationProduct = new ApplicationProduct();
       const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
@@ -347,7 +333,12 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        if (res.applicationProduct.maturityDate === null) {
+          res.applicationProduct.maturityDate = undefined;
+        }
+
         this.applicationProduct = res.applicationProduct;
+        this.applicationProduct.maturityDate = this.setDate(res);
         this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
         this.onSave(true);
       } else {
@@ -398,18 +389,9 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
             this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
             this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
             this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
-
-            // this.dataParty = [...this.dataParty, this.applicationProduct];
-            // this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
           }
         }
       }
-
-      // else {
-      //   this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-      //   this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-      //   this.dataParty = [...this.dataParty];
-      // }
     } else {
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
@@ -659,5 +641,11 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
     } else {
       return '0%';
     }
+  }
+
+  private setDate(data: any) {
+    const getDate = data.applicationProduct.maturityDate;
+    const staticDate = moment(new Date(getDate)).format().substring(0, 19) + 'Z';
+    return staticDate;
   }
 }
