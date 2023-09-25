@@ -131,7 +131,7 @@ export class MasterPermissionAddComponent implements OnInit {
       });
 
       if (res.body) {
-        this.router.navigate(['/master-permission']);
+        this.router.navigate(['/menu-permission']);
       }
     });
   }
