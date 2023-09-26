@@ -104,7 +104,17 @@
                 (ngModelChange)="partyCif.organizationLegal.deedEstablishNum = $event"
               />
             </mat-form-field>
-            <mat-form-field class="w-100" appearance="outline">
+            <mat-form-field class="w-100" appearance="outline" *ngIf="partyCif.customerType === 'PERSONAL'">
+              <mat-label>Birth of Date / Deed of Establishment Date</mat-label>
+              <input
+                [disabled]="true"
+                matInput
+                type="text"
+                [ngModel]="partyCif.customerPerson.dob | date: 'YYY-MM-dd'"
+                (ngModelChange)="partyCif.customerPerson.dob = $event"
+              />
+            </mat-form-field>
+            <mat-form-field class="w-100" appearance="outline" *ngIf="partyCif.customerType === 'CORPORATE'">
               <mat-label>Birth of Date / Deed of Establishment Date</mat-label>
               <input
                 [disabled]="true"

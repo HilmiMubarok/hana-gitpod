@@ -198,7 +198,15 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   public saveDetails(data: object[]) {
-    return this.http.post<object[]>(this.resourceUrl + '/details/all', data, { observe: 'response' }).pipe(map(res => res.body));
+    const formatted = [];
+    data.forEach((ev: any) => {
+      formatted.push({
+        idParty: ev.idParty,
+        idRequestSlik: ev.requestSlik && ev.requestSlik.id ? ev.requestSlik.id : ev.idRequestSlik,
+      });
+    });
+
+    return this.http.post<object[]>(this.resourceUrl + '/details/all', formatted, { observe: 'response' }).pipe(map(res => res.body));
   }
 
   postCBAS(cbasData) {
