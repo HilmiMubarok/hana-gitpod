@@ -25,7 +25,7 @@
               <jhi-person-employee-view mode="view" [item]="item.person"></jhi-person-employee-view>
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>NIK</mat-label>
-                <input matInput type="text" disabled />
+                <input matInput type="text" [(ngModel)]="item.employeeCode" disabled />
               </mat-form-field>
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100">

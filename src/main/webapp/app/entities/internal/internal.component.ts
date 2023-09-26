@@ -23,7 +23,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./internal.css'],
 })
 export class InternalComponent extends AbstractEntityMaterialComponent<IInternal> implements OnInit {
-  public displayedColumns: string[] = ['no', 'name', 'officePhone', 'address1', 'statusDescription', 'action'];
+  public displayedColumns: string[] = ['no', 'internalId', 'name', 'internalType', 'statusDescription', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public iconTimeline: any;
