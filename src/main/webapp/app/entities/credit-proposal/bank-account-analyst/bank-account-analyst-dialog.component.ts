@@ -276,6 +276,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     if (this.bankAccAnalyst.detail.length > 0) {
       result = this.getAverageBalance() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
+
     this.bankAccAnalyst.average_other.balance = result;
     return result;
   }
@@ -287,7 +288,6 @@ export class CreditProposalBankAccountAnalystDialogComponent {
 
   public save(): void {
     if (this.bankAccAnalyst.convert <= 0) {
-      console.log('data', this.bankAccAnalyst.convert);
       this._snackBar.open('Value of Exchange Rate Cannot Be 0 or Lower', null, {
         horizontalPosition: 'right',
         verticalPosition: 'top',

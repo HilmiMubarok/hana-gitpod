@@ -430,7 +430,7 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
       const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
       for (let i = 0; i < bankAnalyst.length; i++) {
-        result = result + bankAnalyst[i].average.balance;
+        result = result + bankAnalyst[i].average_other.balance;
       }
     }
 
