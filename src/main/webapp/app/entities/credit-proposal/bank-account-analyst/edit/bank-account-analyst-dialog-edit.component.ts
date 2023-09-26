@@ -272,10 +272,10 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getAverageBalance();
-      // result = this.getAverageBalance() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
+      result = this.getAverageBalance() * (this.bankAccAnalyst.convert ? this.bankAccAnalyst.convert : 1);
     }
     this.bankAccAnalyst.average_other.balance = result;
+
     return result;
   }
 
