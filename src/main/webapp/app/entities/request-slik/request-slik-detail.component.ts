@@ -844,6 +844,7 @@ export class RequestSlikDetailComponent implements OnInit {
       !this.containsObject(ev.data, this.checklists) && this.checklists.push(ev.data);
     } else {
       this.containsObject(ev.data, this.checklists) && _.remove(this.checklists, { idParty: ev.data.idParty });
+      this.checklists = this.checklists.filter(checklist => checklist.idParty !== ev.data.idParty);
     }
   }
 
@@ -880,6 +881,7 @@ export class RequestSlikDetailComponent implements OnInit {
       });
 
       this.containsObject(data, this.checklists) && _.remove(this.checklists, { idParty: data.idParty });
+      this.checklists = this.checklists.filter(checklist => checklist.idParty !== ev.data.idParty);
     }
   }
 
@@ -892,6 +894,7 @@ export class RequestSlikDetailComponent implements OnInit {
       !this.containsObject(ev.data, this.checklists) && this.checklists.push(ev.data);
     } else {
       this.containsObject(ev.data, this.checklists) && _.remove(this.checklists, { idParty: ev.data.idParty });
+      this.checklists = this.checklists.filter(checklist => checklist.idParty !== ev.data.idParty);
     }
   }
 
@@ -900,6 +903,7 @@ export class RequestSlikDetailComponent implements OnInit {
       !this.containsObject(ev.data, this.checklists) && this.checklists.push(ev.data);
     } else {
       this.containsObject(ev.data, this.checklists) && _.remove(this.checklists, { idParty: ev.data.idParty });
+      this.checklists = this.checklists.filter(checklist => checklist.idParty !== ev.data.idParty);
     }
   }
 

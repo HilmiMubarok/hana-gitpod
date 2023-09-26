@@ -196,8 +196,8 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
                     });
                 });
               });
-            if (this.requestSlik.status !== this.reqSlikStatus.DRAFT && this.requestSlik.status !== this.reqSlikStatus.DRAFT) {
-              this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
+            if (this.requestSlik.status !== this.reqSlikStatus.DRAFT && this.requestSlik.status !== this.reqSlikStatus.RETURN_TO_RM) {
+              this.requestSlikService.filterData(res, this.checklists, 'other').then(data => {
                 console.log('thee data', data);
                 this.ocrDatas.emit(data);
                 this.initDataForMatTable(data, res.headers);
