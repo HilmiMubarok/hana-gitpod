@@ -136,13 +136,15 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
 
     const comparedData = secondData.map(data => {
       const matchingData = firstData.find(d => d.id === data.id);
-      const appealStatus = matchingData ? (this.compareObjects(data, matchingData, customizer) ? 'Not changed' : 'Changed') : 'Removed';
+      const appealStatus = matchingData ? (this.compareObjects(data, matchingData, customizer) ? 'Not changed' : 'Changed') : 'Added';
       return { ...data, appealStatus };
     });
 
     const addedData = secondData.filter(data => !firstData.some(d => d.id === data.id));
 
-    const final = [...comparedData, ...addedData.map(data => ({ ...data, appealStatus: 'Added' }))];
+    const final = [...comparedData, ...addedData.map(data => ({ ...data, appealStatus: 'Removed' }))];
+
+    return _.uniqBy(final, 'id');
 
     // console.log('RES FINAL', {
     //   ori: final,

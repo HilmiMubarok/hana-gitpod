@@ -214,16 +214,18 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
 
-      const dataBefore = this.cpMemoBandingservice.mapDataCollateral(
-        this.filtered,
-        this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
-      );
-      const dataAfter = this.cpMemoBandingservice.mapDataCollateral(
-        res.body,
-        this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
-      );
+      // const dataBefore = this.cpMemoBandingservice.mapDataCollateral(
+      //   this.filtered,
+      //   this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
+      // );
+      // const dataAfter = this.cpMemoBandingservice.mapDataCollateral(
+      //   res.body,
+      //   this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
+      // );
 
-      this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(this.filtered, res.body, 'collateral-info'));
+      this.dataItem = new MatTableDataSource(
+        this.cpMemoBandingservice.compareDeepDataNew(this.filtered, this.dataCollateral, 'collateral-info')
+      );
 
       // this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
@@ -554,7 +556,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
@@ -563,9 +565,25 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
         }
       }
     }
-    this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
+    this._creditProposal.attributes['collateralSummary'].countTotalLV = result;
 
     return result;
+  }
+
+  private filterPropertiesFilterGurante(collateral: ICollateral): ICollateralProperty[] {
+    let properties: ICollateralProperty[];
+    properties = [];
+
+    // for machine
+    if (collateral.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+      if (collateral.collateralTypeId !== '' || collateral.collateralTypeId !== undefined) {
+        properties = lodash.filter(this.collateralProperties, function (o) {
+          return o.propertyType === 'GENERAL' && o.collateralId === collateral.id;
+        });
+      }
+    }
+
+    return properties;
   }
 
   public countTotalMVBefore(): number {
@@ -596,7 +614,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
-        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
@@ -713,8 +731,9 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
   }
 
   public countMVOriginal(collateral: ICollateral): number {
+    let result: string;
     let data: ICollateralProperty;
-    // console.log("collateral in above grid",collateral);
+    let datas: ICollateralProperty[];
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -778,8 +797,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
     ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
