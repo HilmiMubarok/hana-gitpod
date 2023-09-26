@@ -966,14 +966,14 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public checkMustValidated() {
     const mustValidate = {
-      maturityDate: true,
+      // maturityDate: true,
       currencyId: true,
     };
 
-    if (!this.applicationProduct.maturityDate) {
-      this._showNotification('error', 'Masukkan Maturity Date terlebih dahulu');
-      mustValidate.maturityDate = false;
-    }
+    // if (!this.applicationProduct.maturityDate) {
+    //   this._showNotification('error', 'Masukkan Maturity Date terlebih dahulu');
+    //   mustValidate.maturityDate = false;
+    // }
 
     if (!this.applicationProduct.currencyId) {
       this._showNotification('error', 'Masukkan Currency terlebih dahulu');

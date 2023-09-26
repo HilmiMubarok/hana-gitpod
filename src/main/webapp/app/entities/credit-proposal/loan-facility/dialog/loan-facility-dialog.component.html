@@ -227,7 +227,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Maturity Date</mat-label>
-            <input [matDatepicker]="bindingDate" matInput [(ngModel)]="applicationProduct.maturityDate" required />
+            <input [matDatepicker]="bindingDate" matInput [(ngModel)]="applicationProduct.maturityDate" />
             <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
             <mat-datepicker #bindingDate></mat-datepicker>
           </mat-form-field>

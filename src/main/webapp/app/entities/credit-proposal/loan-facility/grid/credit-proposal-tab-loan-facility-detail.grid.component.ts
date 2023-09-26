@@ -216,12 +216,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        if (res.applicationProduct.maturityDate === null) {
-          res.applicationProduct.maturityDate = undefined;
+        if (res.applicationProduct.maturityDate) {
+          this.applicationProduct.maturityDate = this.setDate(res);
         }
 
         this.applicationProduct = res.applicationProduct;
-        this.applicationProduct.maturityDate = this.setDate(res);
         this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
         this.onSave(true, param);
       } else {
@@ -238,7 +237,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     if (mark) {
       if (param) {
         this.dataProduct[idx] = appProduct;
-		this.dataProduct = lodash.flatten(this.dataProduct);
+        this.dataProduct = lodash.flatten(this.dataProduct);
         this.creditProposal.products = this.dataProduct;
 
         this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
