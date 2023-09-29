@@ -8,6 +8,7 @@ import { CreditProposalService } from '../credit-proposal.service';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { getCurrencySymbol } from '@angular/common';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
@@ -40,7 +41,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public currencyName: number;
   public logoCcy;
   public conCcy = false;
-
+  public allNegative: boolean;
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -130,12 +131,18 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.bankAccAnalyst.detail
-        .map(t => t.balance)
-        .filter(balance => balance >= 0)
-        .reduce((acc, value) => acc + value, 0);
+      const _detail = this.bankAccAnalyst.detail.map(t => t.balance);
+      const arg = _detail.every(n => n < 0);
+      if (arg === false) {
+        this.allNegative = false;
+        return (result = _detail.filter(balance => balance >= 0).reduce((acc, value) => acc + value, 0));
+      } else {
+        this.allNegative = true;
+        return (result = _detail.reduce((acc, value) => acc + value, 0));
+      }
+    } else {
+      return result;
     }
-    return result;
   }
 
   public getAverageDebit(): number {
@@ -202,8 +209,13 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      const jumlah = this.bankAccAnalyst.detail.map(t => t.balance).filter(balance => balance >= 0);
-      result = this.getTotalBalance() / jumlah.length;
+      if (this.allNegative === false) {
+        const jumlah = this.bankAccAnalyst.detail.map(t => t.balance).filter(balance => balance >= 0);
+        result = this.getTotalBalance() / jumlah.length;
+      } else {
+        const jumlah = this.bankAccAnalyst.detail.map(t => t.balance).filter(balance => balance <= 0);
+        result = this.getTotalBalance() / jumlah.length;
+      }
     }
     this.bankAccAnalyst.average.balance = result;
     return result;
@@ -298,11 +310,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
 
     this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst, action: 'cencel' });
   }
-  // public close() {
-  //   this._dialog.close({ action: 'cancel' });
-  // }
 
-  // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
