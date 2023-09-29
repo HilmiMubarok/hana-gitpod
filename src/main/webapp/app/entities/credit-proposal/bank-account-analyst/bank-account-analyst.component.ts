@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
   styleUrls: ['./bank-account-analyst-dialog.component.css'],
 })
 export class CreditProposalBankAccountAnalystComponent implements OnInit {
+  public allNegative: boolean;
   private _creditProposal: ICreditProposal;
   @Input()
   get creditProposal() {
@@ -411,10 +412,6 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     result = 0;
 
     const detail = element.detail;
-    // if (detail.length > 0) {
-    //   for (let a = 0; a < detail.length; a++) {
-    //     result = this.getBalanceAverage(element) * (element.convert ? element.convert : 1);
-    //   }
     if (detail.length > 0) {
       const jumlah = detail.map(t => t.balance).filter(balance => balance >= 0);
       result = this.getBalanceAverage(element) / jumlah.length;
@@ -430,12 +427,15 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
       const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
       for (let i = 0; i < bankAnalyst.length; i++) {
-        result = result + bankAnalyst[i].average_other.balance;
+        if (bankAnalyst[i].average_other.balance >= 0) {
+          result = result + bankAnalyst[i].average_other.balance;
+        }
       }
     }
 
     return result;
   }
+
   // Delete Confirmation
   public deleteAccount(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -461,17 +461,4 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
       }
     });
   }
-
-  // public deleteAccount(element) {
-  //   const data = this.creditProposal.attributes['bankAnalyst'].filter(({ accNo }) => accNo !== element.accNo);
-  //   this.creditProposal.attributes['bankAnalyst'] = data;
-
-  //   if (element.accNo > 0) {
-  //     // average other
-  //     this.totalData = this.findByMatchingProperties(this.totalData, element.average_other);
-  //   } else {
-  //     // average
-  //     this.totalData = this.findByMatchingProperties(this.totalData, element.average);
-  //   }
-  // }
 }

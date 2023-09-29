@@ -43,6 +43,7 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
   public currencyName: number;
   public logoCcy;
   public conCcy = false;
+  public allNegative: boolean;
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; edit: boolean },
@@ -128,12 +129,19 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.bankAccAnalyst.detail
-        .map(t => t.balance)
-        .filter(balance => balance >= 0)
-        .reduce((acc, value) => acc + value, 0);
+      const _detail = this.bankAccAnalyst.detail.map(t => t.balance);
+      const arg = _detail.every(n => n < 0);
+
+      if (arg === false) {
+        this.allNegative = false;
+        return (result = _detail.filter(balance => balance >= 0).reduce((acc, value) => acc + value, 0));
+      } else {
+        this.allNegative = true;
+        return (result = _detail.reduce((acc, value) => acc + value, 0));
+      }
+    } else {
+      return result;
     }
-    return result;
   }
 
   public getAverageDebit(): number {
@@ -200,8 +208,13 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      const jumlah = this.bankAccAnalyst.detail.map(t => t.balance).filter(balance => balance >= 0);
-      result = this.getTotalBalance() / jumlah.length;
+      if (this.allNegative === false) {
+        const jumlah = this.bankAccAnalyst.detail.map(t => t.balance).filter(balance => balance >= 0);
+        result = this.getTotalBalance() / jumlah.length;
+      } else {
+        const jumlah = this.bankAccAnalyst.detail.map(t => t.balance).filter(balance => balance <= 0);
+        result = this.getTotalBalance() / jumlah.length;
+      }
     }
     this.bankAccAnalyst.average.balance = result;
     return result;
