@@ -6,6 +6,7 @@ import { IPosition } from './position.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Observable } from 'rxjs';
+import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class PositionService extends AbstractEntityService<IPosition> {
@@ -31,10 +32,12 @@ export class PositionService extends AbstractEntityService<IPosition> {
     });
   }
 
-  public getPositionAssignTo(idPositionType: string, idInternal: string) {
+  public getPositionAssignTo(idPositionType: string, idInternal: string, req?: any) {
+    const options = createRequestOption(req);
     return this.http.get<IPosition[]>(
       this.cashPositionResource + `/find-by/position-type/${idPositionType}/internal/${idInternal}/superordinate-internal`,
       {
+        params: options,
         observe: 'response',
       }
     );
