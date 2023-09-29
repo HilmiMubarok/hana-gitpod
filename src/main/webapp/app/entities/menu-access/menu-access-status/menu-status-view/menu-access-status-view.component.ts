@@ -22,7 +22,7 @@ export class MenuAccessStatusVeiwComponent implements OnInit {
       .subscribe(res => (this.data = res[0]));
   }
 
-  displayedColumns: string[] = ['no', 'status'];
+  displayedColumns: string[] = ['no', 'status', 'description'];
   dataSource$: Observable<Array<any>>;
 
   public previousState(): void {

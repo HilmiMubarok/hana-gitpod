@@ -22,7 +22,7 @@ export class MenuAccessViewComponent implements OnInit {
       .subscribe(res => (this.data = res[0]));
   }
 
-  displayedColumns: string[] = ['no', 'position'];
+  displayedColumns: string[] = ['no', 'position', 'description'];
 
   dataSource$: Observable<Array<any>>;
 

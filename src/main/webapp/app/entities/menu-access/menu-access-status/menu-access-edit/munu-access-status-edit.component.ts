@@ -36,7 +36,7 @@ export class MenuAccessStatusEditComponent implements OnInit {
       .subscribe(res => (this.data = res[0]));
   }
 
-  displayedColumns: string[] = ['no', 'status', 'action'];
+  displayedColumns: string[] = ['no', 'status', 'description', 'action'];
   dataSource$: Observable<Array<any>>;
 
   private loadAll(): void {

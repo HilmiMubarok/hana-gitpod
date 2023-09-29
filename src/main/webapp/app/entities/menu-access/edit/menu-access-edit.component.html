@@ -29,8 +29,13 @@
             </ng-container>
 
             <ng-container matColumnDef="position">
-              <th mat-header-cell *matHeaderCellDef>Position</th>
+              <th mat-header-cell *matHeaderCellDef>ID Position</th>
               <td mat-cell *matCellDef="let element">{{ element.positionId }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+              <td mat-cell *matCellDef="let element">{{ element.positionDescription }}</td>
             </ng-container>
 
             <ng-container matColumnDef="action">
