@@ -74,7 +74,14 @@
         <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>From Date</mat-label>
-            <input [matDatepicker]="fromDate" matInput type="text" [(ngModel)]="positionReportingStructure.fromDate" disabled required />
+            <input
+              [matDatepicker]="fromDate"
+              matInput
+              type="text"
+              [(ngModel)]="positionReportingStructure.fromDate"
+              disabled="false"
+              required
+            />
             <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
             <mat-datepicker #fromDate disabled="false"></mat-datepicker>
           </mat-form-field>
@@ -82,7 +89,14 @@
         <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Thru Date</mat-label>
-            <input [matDatepicker]="thruDate" matInput type="text" [(ngModel)]="positionReportingStructure.thruDate" disabled required />
+            <input
+              [matDatepicker]="thruDate"
+              matInput
+              type="text"
+              [(ngModel)]="positionReportingStructure.thruDate"
+              disabled="false"
+              required
+            />
             <mat-datepicker-toggle matSuffix [for]="thruDate"></mat-datepicker-toggle>
             <mat-datepicker #thruDate disabled="false"></mat-datepicker>
           </mat-form-field>

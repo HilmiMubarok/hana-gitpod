@@ -89,7 +89,9 @@
                 </ng-container>
                 <ng-container matColumnDef="positionTypeId">
                   <th mat-header-cell *matHeaderCellDef class="grid-index-left">Position Type</th>
-                  <td class="text-center" mat-cell *matCellDef="let element" class="grid-index-left">{{ element.positionTypeId }}</td>
+                  <td class="text-center" mat-cell *matCellDef="let element" class="grid-index-left">
+                    {{ element.positionTypeDescription }}
+                  </td>
                 </ng-container>
                 <ng-container matColumnDef="internalName">
                   <th mat-header-cell *matHeaderCellDef class="grid-index-left">Branch</th>
