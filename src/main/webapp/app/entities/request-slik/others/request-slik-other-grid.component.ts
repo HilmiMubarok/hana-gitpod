@@ -177,7 +177,8 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
             res.body.length > 0 &&
               res.body.forEach(element => {
-                this.requestSlikService.getCbasRes(this.requestSlikId, element.person.id).subscribe(cbasRes => {
+                const id = element.person ? element.person.id : element.shareHolderOrg.id;
+                this.requestSlikService.getCbasRes(this.requestSlikId, id).subscribe(cbasRes => {
                   // console.log('cbasRes cbas', cbasRes.body.data.content);
                   cbasRes.body.data.content.length > 0 &&
                     cbasRes.body.data.content.forEach(el => {
@@ -290,7 +291,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   }
 
   isDetailChecked(row) {
-    return this.requestSlikService.isDetailChecked(row, this.checklists, 'other');
+    return this.requestSlikService.isDetailChecked(row, this.checklists, 'shareholder');
   }
 
   updateChecklist(ev, check) {
