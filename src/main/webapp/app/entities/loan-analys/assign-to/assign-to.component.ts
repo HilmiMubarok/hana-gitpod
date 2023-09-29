@@ -54,7 +54,7 @@ export class AssignToComponent implements OnInit {
 
   public loadPosition(positionTypeId: any): void {
     // Change endpoint position
-    this.positionService.getPositionAssignTo(positionTypeId, this.creditProposal.internalId).subscribe(res => {
+    this.positionService.getPositionAssignTo(positionTypeId, this.creditProposal.internalId, { page: 0, size: 9999 }).subscribe(res => {
       let tempDataAssignTo = {};
       this.position = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
