@@ -93,6 +93,7 @@ export class MemoBandingComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 9999,
       })
       .subscribe(res => {
         this.collateral = res.body;
