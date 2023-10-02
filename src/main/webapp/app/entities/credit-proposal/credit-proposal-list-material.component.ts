@@ -282,7 +282,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       this.router.navigate(['']);
     } else {
       if (this.router.url !== '/cp-status-approval') {
-        this.getStatusListView('CREDIT_PROPOSAL');
+        this.getStatusListView('CREDIT_PROPOSAL_STATUS');
         if (this.clickedChip['statusId'] !== '') {
           this.cashCreditProposalService
             .cashCreditProposalApprovalByStatus({
