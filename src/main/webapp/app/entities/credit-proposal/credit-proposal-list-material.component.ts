@@ -175,7 +175,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     };
 
     if (this.activeRoute === 'credit-proposal-status') {
-      predicate['target'] = 'credit_proposal';
+      predicate['target'] = 'credit_proposal_status';
     } else if (this.activeRoute === 'cp-status-approval') {
       predicate['target'] = 'credit_proposal_approval';
     }
@@ -291,6 +291,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+			  appMenuId: 'CREDIT_PROPOSAL_STATUS'
             })
             .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
             .subscribe({
@@ -305,6 +306,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+			  appMenuId: 'CREDIT_PROPOSAL_STATUS'
             })
             .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
             .subscribe({
