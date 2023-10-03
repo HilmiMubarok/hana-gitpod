@@ -18,33 +18,37 @@
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Limit (in IDR Million)</mat-label>
-          <input matInput type="number" [(ngModel)]="industryLimitExposure.limitNominal" />
+          <mat-label>Limit</mat-label>
+          <input
+            matInput
+            type="text"
+            [ngModel]="industryLimitExposure.limitNominal | number: '1.0-0'"
+            (ngModelChange)="industryLimitExposure.limitNominal = numberInputChanged($event)"
+          />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Remaining Balance (in IDR Million)</mat-label>
-          <input matInput type="number" [(ngModel)]="industryLimitExposure.remainingBalance" />
+          <mat-label>Remaining Balance</mat-label>
+          <input
+            matInput
+            type="text"
+            [ngModel]="industryLimitExposure.remainingBalance | number: '1.0-0'"
+            (ngModelChange)="industryLimitExposure.remainingBalance = numberInputChanged($event)"
+          />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Industry Limit Exposure</mat-label>
-          <input matInput type="number" [(ngModel)]="industryLimitExposure.industryLimitExposure" />
+          <input
+            matInput
+            type="text"
+            [ngModel]="industryLimitExposure.industryLimitExposure | number: '1.0-0'"
+            (ngModelChange)="industryLimitExposure.industryLimitExposure = numberInputChanged($event)"
+          />
         </mat-form-field>
       </section>
-      <!-- <section class="mt-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Status</mat-label>
-          <mat-select name="status" [(ngModel)]="industryLimitExposure.statusId">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of statuses | keyvalue" [value]="item.key">
-              {{ item.value }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section> -->
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100 pr-1">
           <mat-label>Status</mat-label>
