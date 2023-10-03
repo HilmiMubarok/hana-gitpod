@@ -6,6 +6,7 @@ import { IPartner } from './partner.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PartnerService extends AbstractEntityService<IPartner> {
@@ -13,6 +14,7 @@ export class PartnerService extends AbstractEntityService<IPartner> {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/partners');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/partners');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/partners/search');
   }
 
   protected isNew(entity: IPartner): boolean {
@@ -31,6 +33,13 @@ export class PartnerService extends AbstractEntityService<IPartner> {
       partner.thruDate = partner.thruDate != null ? new Date(partner.thruDate) : null;
     });
     return res;
+  }
+  public patnerSrc(req?: any): Observable<HttpResponse<IPartner[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
 
   protected preSave(entity: IPartner) {}

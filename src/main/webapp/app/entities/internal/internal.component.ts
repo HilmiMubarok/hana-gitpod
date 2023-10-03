@@ -29,6 +29,8 @@ export class InternalComponent extends AbstractEntityMaterialComponent<IInternal
   public iconTimeline: any;
   public rawTableData: any;
 
+  public statusSearch = false;
+
   // constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
 
   constructor(
@@ -74,7 +76,11 @@ export class InternalComponent extends AbstractEntityMaterialComponent<IInternal
   // }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === '' || this.currentSearch === undefined || this.closeSearch === null) {
+      this.loadAll();
+    } else {
+      this.search();
+    }
   }
 
   private loadAll(): void {
@@ -102,5 +108,31 @@ export class InternalComponent extends AbstractEntityMaterialComponent<IInternal
 
   generate(): void {
     this.reportUtils.downloadFile('/services/report/api/report/internal/xlsx/');
+  }
+
+  public search() {
+    this.statusSearch = true;
+    this.internalService
+      .internalSrc({
+        page: this.page,
+        keyName: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      })
+      .pipe(map((res: HttpResponse<IInternal[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<IInternal[]>) => this.initDataForMatTable(res, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
+  }
+
+  public closeSearch() {
+    this.statusSearch = false;
+    this.currentSearch = '';
+    this.page = 0;
+
+    this.itemsPerPage = 0;
+    this.loadAll();
   }
 }
