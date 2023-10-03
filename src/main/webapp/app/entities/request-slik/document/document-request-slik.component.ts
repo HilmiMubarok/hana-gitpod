@@ -47,6 +47,7 @@ export class DocumentRequestSlikComponent {
   }
 
   data$: Observable<Object[]>;
+
   private getFiles(id: number) {
     this.getBucket().then(() => {
       const predicate: Object = {
@@ -55,6 +56,15 @@ export class DocumentRequestSlikComponent {
       this.data$ = this.storageService.getObjects(this.bucket, predicate).pipe(
         map(res => {
           this.requestSlikValidateService.setDocumentLength(res.body.length);
+          // Decode doc Name and Name pada setiap objek
+          res.body.forEach(obj => {
+            if (obj['tags'] && obj['tags'].docName) {
+              obj['tags'].docName = decodeURIComponent(obj['tags'].docName);
+            }
+            if (obj['name']) {
+              obj['name'] = decodeURIComponent(obj['name']);
+            }
+          });
           return res.body;
         })
       );
