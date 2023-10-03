@@ -23,6 +23,7 @@ export class PartnerKjppComponent extends AbstractEntityMaterialComponent<IPartn
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public iconTimeline: any;
+  public patnerSrc = false;
 
   // constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
 
@@ -47,7 +48,11 @@ export class PartnerKjppComponent extends AbstractEntityMaterialComponent<IPartn
 
   ngOnInit(): void {
     // this.activatedRoute.data.subscribe(({ partner }) => (this.partner = partner));
-    this.loadAll();
+    if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
+      this.loadAll();
+    } else {
+      this.search();
+    }
   }
 
   protected postLoadDataLazy(): void {
@@ -107,5 +112,29 @@ export class PartnerKjppComponent extends AbstractEntityMaterialComponent<IPartn
 
   previousState(): void {
     window.history.back();
+  }
+
+  public search() {
+    this.patnerSrc = true;
+    this.partnerService
+      .patnerSrc({
+        page: this.page,
+        keyName: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      })
+      .pipe(map((res: HttpResponse<IPartner[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<IPartner[]>) => this.initDataForMatTable(res, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
+  }
+  public closeSearch() {
+    this.patnerSrc = false;
+    this.currentSearch = '';
+    this.page = 0;
+    this.itemsPerPage = 0;
+    this.loadAll();
   }
 }

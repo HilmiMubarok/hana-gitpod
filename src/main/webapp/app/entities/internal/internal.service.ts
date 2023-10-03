@@ -14,6 +14,8 @@ export class InternalService extends AbstractEntityService<IInternal> {
     super(http);
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internal-types');
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internals');
+    // this.resourceUrlSrc = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + 'api/internals/search?keyName={param}');
+    this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internals/search');
   }
 
   protected isNew(entity: IInternal): boolean {
@@ -36,5 +38,12 @@ export class InternalService extends AbstractEntityService<IInternal> {
       .get<any>(this.resourceUrlNew, { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+  public internalSrc(req?: any): Observable<HttpResponse<IInternal[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
 }

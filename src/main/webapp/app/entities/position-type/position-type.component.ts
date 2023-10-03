@@ -25,6 +25,8 @@ export class PositionTypeComponent extends AbstractEntityMaterialComponent<IPosi
   public displayedColumns: string[] = ['no', 'id', 'description', 'internalTypeDescription', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
 
+  public positionSearch = false;
+
   constructor(
     private positionTypeService: PositionTypeService,
     protected _snackBar: MatSnackBar,
@@ -47,7 +49,11 @@ export class PositionTypeComponent extends AbstractEntityMaterialComponent<IPosi
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === ' ' || this.currentSearch === undefined || this.currentSearch === null) {
+      this.loadAll();
+    } else {
+      this.search();
+    }
   }
 
   private loadAll(): void {
@@ -71,5 +77,30 @@ export class PositionTypeComponent extends AbstractEntityMaterialComponent<IPosi
 
   previousState(): void {
     window.history.back();
+  }
+
+  public search() {
+    this.positionSearch = true;
+    this.positionTypeService
+      .positionSrc({
+        page: this.page,
+        keyName: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      })
+      .pipe(map((res: HttpResponse<IPositionType[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<IPositionType[]>) => this.initDataForMatTable(res, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
+  }
+
+  public closeSearch() {
+    this.positionSearch = false;
+    this.currentSearch = '';
+    this.page = 0;
+    this.itemsPerPage = 0;
+    this.loadAll();
   }
 }

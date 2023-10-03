@@ -7,9 +7,10 @@ import { IndustryLimitExposureParameterService } from './industry-limit-exposure
 import { MatDialog } from '@angular/material/dialog';
 import { MasterParameterIndustryLimitExposureDialogComponent } from './industry-limit-exposure-parameter-dialog.component';
 import { MasterParameterIndustryLimitExposureDownloadComponent } from './industry-limit-exposure-parameter-download.component';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import { MasterParameterIndustryLimitExposureUploadComponent } from './industry-limit-exposure-parameter-upload.component';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-industry-limit-exposure-parameter',
@@ -133,10 +134,42 @@ export class MasterParameterIndustryLimitExposureComponent
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
+      this.loadAll();
+    } else {
+      this.search();
+    }
   }
 
   previousState(): void {
     window.history.back();
+  }
+
+  public industriSearch = false;
+
+  public search() {
+    this.industriSearch = true;
+    this.industryLimitExposureParameterService
+      .industriSrc({
+        page: this.page,
+        keyName: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      })
+      .pipe(map((res: HttpResponse<IIndustryLimitExposureParameter[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<IIndustryLimitExposureParameter[]>) => this.initDataForMatTable(res, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
+  }
+
+  public closeSearch() {
+    this.industriSearch = false;
+    this.currentSearch = '';
+    this.page = 0;
+
+    this.itemsPerPage = 0;
+    this.loadAll();
   }
 }
