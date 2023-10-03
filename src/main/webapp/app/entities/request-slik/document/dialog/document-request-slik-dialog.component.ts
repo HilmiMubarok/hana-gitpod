@@ -69,12 +69,12 @@ export class DocumentRequestSlikDialogComponent {
   preSave() {
     this.files.forEach(file => {
       const tags = {
-        docName: this.docName,
-        objectName: `/request-slik/${this.slikRequestId}/document/${new Date().getTime().toString(36) + file.name}`,
+        // Encode File Name Doc Name and Name
+        docName: encodeURIComponent(this.docName),
+        objectName: `/request-slik/${this.slikRequestId}/document/${new Date().getTime().toString(36) + encodeURIComponent(file.name)}`,
         entityId: this.slikRequestId,
         createdBy: this.userLogin,
       };
-
       const formData = new FormData();
       formData.append('file', file);
       this.storageService.uploadMeta(this.bucket, formData, tags).subscribe({
@@ -87,7 +87,8 @@ export class DocumentRequestSlikDialogComponent {
   edit() {
     const file = this.data.fileData;
     const tags = {
-      docName: this.docName,
+      //  Encode Doc Name
+      docName: encodeURIComponent(this.docName),
     };
     this.storageService.update(this.bucket, tags, { key: file.key }).subscribe(res => this._dialog.close(res));
   }
