@@ -291,6 +291,12 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   }
 
   isDetailChecked(row) {
+    if (row.person) {
+      row = row.person.id;
+    }
+    if (row.shareHolderOrg) {
+      row = row.shareHolderOrg.id;
+    }
     return this.requestSlikService.isDetailChecked(row, this.checklists, 'shareholder');
   }
 

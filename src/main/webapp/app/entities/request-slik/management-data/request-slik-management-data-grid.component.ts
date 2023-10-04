@@ -116,6 +116,12 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   isDetailChecked(row) {
+    if (row.person) {
+      row = row.person.id;
+    }
+    if (row.shareHolderOrg) {
+      row = row.shareHolderOrg.id;
+    }
     return this.requestSlikService.isDetailChecked(row, this.checklists, 'management');
   }
 

@@ -63,7 +63,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
   public filterData(data, checklists, type) {
     return new Promise((resolve, reject) => {
       data.body.forEach(res => {
-        if (!this.isDetailChecked(res, checklists, type)) {
+        if (!this.isDetailChecked(res.person ? res.person.id : res.shareHolderOrg.id, checklists, type)) {
           data.body = data.body.filter(item => item.id !== res.id);
         }
       });
@@ -163,37 +163,12 @@ export class RequestSlikService extends AbstractEntityService<any> {
     );
   }
 
-  public isDetailChecked(row, details, type) {
-    if (type === 'shareholder') {
-      if (row.person !== null) {
-        const find = _.find(details, { idParty: row.person.id });
-        if (find) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        const find = _.find(details, { idParty: row.shareHolderOrg.id });
-        if (find) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    } else if (type === 'debitur') {
-      const find = _.find(details, { idParty: row });
-      if (find) {
-        return true;
-      } else {
-        return false;
-      }
+  public isDetailChecked(row, details, type = '') {
+    const find = _.find(details, { idParty: row });
+    if (find) {
+      return true;
     } else {
-      const find = _.find(details, { idParty: row.person.id });
-      if (find) {
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
 
