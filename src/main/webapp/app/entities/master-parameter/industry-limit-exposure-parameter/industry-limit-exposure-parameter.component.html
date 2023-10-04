@@ -48,11 +48,6 @@
           <button mat-raised-button (click)="download()" class="download-button">
             <fa-icon icon="download" style="margin-right: 0.4rem"></fa-icon>Download
           </button>
-          <!-- <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Actions</button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="download()">Download</button>
-            <button mat-menu-item (click)="upload()">Upload</button>
-          </mat-menu> -->
         </div>
       </div>
       <div class="table-responsive-material">
@@ -80,19 +75,19 @@
           <ng-container matColumnDef="limitNominal">
             <th mat-header-cell *matHeaderCellDef class="grid-index-right">Limit</th>
             <td mat-cell *matCellDef="let element" class="grid-index-right text-capitalize">
-              {{ element.limitNominal | number: '1.0-0' }}
+              {{ element.limitNominal | number: '1.2-2' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="remainingBalance">
             <th mat-header-cell *matHeaderCellDef class="grid-index-right">Remaining Balance</th>
             <td mat-cell *matCellDef="let element" class="grid-index-right text-capitalize">
-              {{ element.remainingBalance | number: '1.0-0' }}
+              {{ element.remainingBalance | number: '1.2-2' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="industryLimitExposure">
             <th mat-header-cell *matHeaderCellDef class="grid-index-right">Industry Limit Exposure</th>
             <td mat-cell *matCellDef="let element" class="grid-index-right text-capitalize">
-              {{ element.industryLimitExposure | number: '1.0-0' }}
+              {{ element.industryLimitExposure | number: '1.2-2' }}
             </td>
           </ng-container>
           <ng-container matColumnDef="status">
