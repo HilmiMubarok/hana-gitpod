@@ -309,7 +309,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     // Add additional data for ocrData
     data.cust = ev.person === null ? ev.shareHolderOrg : ev.person;
 
-    data.idParty = ev.person.id;
+    data.idParty = ev.person ? ev.person.id : ev.shareHolderOrg.id;
     data.idRequestSlik = this.requestSlikId;
     if (check.checked) {
       // ketika cek
