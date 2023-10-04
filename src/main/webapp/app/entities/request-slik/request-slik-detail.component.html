@@ -43,7 +43,7 @@
                   [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
                   #c
                   (click)="$event.stopPropagation()"
-                  (change)="updateChecklist(element, c)"
+                  (change)="updateChecklist(partyCif.partyId, c)"
                   [checked]="isDetailChecked(partyCif.partyId)"
                   >Check SLIK</mat-checkbox
                 >

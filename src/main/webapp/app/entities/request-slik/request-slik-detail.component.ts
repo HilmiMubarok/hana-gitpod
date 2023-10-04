@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IRequestSlik } from './request-slik.model';
@@ -16,7 +16,7 @@ import { MessageService } from 'primeng/api';
 import { PartySlikService } from '../party-slik/party-slik.service';
 import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { StorageService } from '../storage/storage.service';
-import { Subject, map, takeUntil } from 'rxjs';
+import { Subject, interval, map, takeUntil } from 'rxjs';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
 import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
@@ -39,7 +39,8 @@ import { EmployeeService } from '../employee/employee.service';
   styleUrls: ['../party-cif/party-cif.style.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class RequestSlikDetailComponent implements OnInit {
+export class RequestSlikDetailComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
   reqSlikStatus = RequestSlikStatus;
   customHeadersJWT;
   paramsIdGet;
@@ -57,10 +58,13 @@ export class RequestSlikDetailComponent implements OnInit {
   checkDataChecklist;
   getAllChecklistsAndPush() {
     if (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM) {
-      this.requestSlikChecklistService.getAllChecklistsByRequestSlikId(this.requestSlik.id).subscribe(res => {
-        this.checkDataChecklist = res;
-        this.checklists = this.checkDataChecklist.length === 0 && this.checkDataChecklist;
-      });
+      this.requestSlikChecklistService
+        .getAllChecklistsByRequestSlikId(this.requestSlik.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.checkDataChecklist = res;
+          this.checklists = this.checkDataChecklist.length === 0 && this.checkDataChecklist;
+        });
     }
   }
 
@@ -166,7 +170,7 @@ export class RequestSlikDetailComponent implements OnInit {
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     this.requestSlikDetail();
     this.getAccountDetail();
-    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+    this.templateService.triggerChanggedPosIntObjectObservable.pipe(takeUntil(this.destroy$)).subscribe((newPos: any) => {
       this.position = newPos.positionTypeId;
     });
   }
@@ -284,76 +288,94 @@ export class RequestSlikDetailComponent implements OnInit {
     ev.body.map(data => this.ocrDatas.push(data));
   }
 
+  ngOnDestroy() {
+    this.checklists = [];
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   details = [];
   partyCifs;
   requestSlikDetail() {
-    this.requestSlikService.getDetail(this.requestSlikId).subscribe({
-      next: res => {
-        this.details = res.details;
-        this.checklists = res.details.map(cheklist => {
-          const obj = {
-            idParty: cheklist.idParty,
-            idRequestSlik: this.requestSlikId,
-          };
-          return obj;
-        });
-        this.requestSlik = res.slik;
-        this.partyCif = res.partyCif;
+    this.requestSlikService
+      .getDetail(this.requestSlikId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: res => {
+          this.details = res.details;
+          this.checklists = res.details.map(cheklist => {
+            const obj = {
+              idParty: cheklist.idParty,
+              idRequestSlik: this.requestSlikId,
+            };
+            return obj;
+          });
+          this.requestSlik = res.slik;
+          this.partyCif = res.partyCif;
 
-        this.loadInternalById(this.partyCif.internalId).then((res2: IInternal) => {
-          if (res2.parentId) {
-            this.rmBranch = res2;
-            this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-              this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-                if (res4.parentId) {
-                  this.rmRegional = res4;
-                  this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-                    this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-                      this.rmSegment = res6;
-                      this.segment = res6.organizationName;
+          this.loadInternalById(this.partyCif.internalId).then((res2: IInternal) => {
+            if (res2.parentId) {
+              this.rmBranch = res2;
+              this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+                this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                  if (res4.parentId) {
+                    this.rmRegional = res4;
+                    this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                      this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                        this.rmSegment = res6;
+                        this.segment = res6.organizationName;
+                      });
                     });
-                  });
-                }
+                  }
+                });
               });
-            });
-          }
-        });
-      },
-      complete: () => {
-        this.requestSlikValidateService.setPurposeType(this.requestSlik.purposeCode);
-        this.isLoading = false;
-        // this.getAllChecklistsAndPush();
-      },
-    });
+            }
+          });
+        },
+        complete: () => {
+          this.requestSlikValidateService.setPurposeType(this.requestSlik.purposeCode);
+          this.isLoading = false;
+          // this.getAllChecklistsAndPush();
+        },
+      });
   }
 
   private loadInternalById(internalId: string): Promise<IInternal> {
     return new Promise<IInternal>((resolve, reject) => {
-      this.internalService.find(internalId).subscribe(res => {
-        if (res.body) {
-          resolve(res.body);
-        } else {
-          resolve(null);
-        }
-      });
+      this.internalService
+        .find(internalId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          if (res.body) {
+            resolve(res.body);
+          } else {
+            resolve(null);
+          }
+        });
     });
   }
 
   private loadRegional(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.regionals = res.body;
-        resolve();
-      });
+      this.internalService
+        .queryFilterBy({ idParent: value, size: 9999, page: 0 })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.regionals = res.body;
+          resolve();
+        });
     });
   }
 
   private loadBranch(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.branchs = res.body;
-        resolve();
-      });
+      this.internalService
+        .queryFilterBy({ idParent: value, size: 9999, page: 0 })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.branchs = res.body;
+          resolve();
+        });
     });
   }
 
@@ -371,9 +393,12 @@ export class RequestSlikDetailComponent implements OnInit {
   // Get Lov Purpose Type
   purposeType;
   getLovPurposeType() {
-    this.lovAndStatus.getLovProposeCode().subscribe(res => {
-      this.purposeType = res;
-    });
+    this.lovAndStatus
+      .getLovProposeCode()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        this.purposeType = res;
+      });
   }
 
   ocrData = [];
@@ -413,42 +438,47 @@ export class RequestSlikDetailComponent implements OnInit {
       nikNpwp: this.nikNpwp,
     };
 
-    this.requestSlikService.onSubmit(data).subscribe({
-      // eslint-disable-next-line object-shorthand
-      next: res => {
-        data.status === this.reqSlikStatus.CHECKING && this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
-        this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
-        this.router.navigate(['/request-slik']);
-      },
-      // eslint-disable-next-line object-shorthand
-      error: err => {
-        if (
-          data.status === this.reqSlikStatus.APPROVAL_BU ||
-          data.status === this.reqSlikStatus.APPROVAL_SLIK ||
-          (data.status === this.reqSlikStatus.CHECKING && err.status === 200) ||
-          data.status === this.reqSlikStatus.COMPLETE
-        ) {
+    this.requestSlikService
+      .onSubmit(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        // eslint-disable-next-line object-shorthand
+        next: res => {
           data.status === this.reqSlikStatus.CHECKING &&
-            err.status === 200 &&
-            this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
-          this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
+            this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).pipe(takeUntil(this.destroy$)).subscribe();
+          this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).pipe(takeUntil(this.destroy$)).subscribe();
           this.router.navigate(['/request-slik']);
-        } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
-        }
-      },
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      complete: () => this.router.navigate(['/request-slik']),
-    });
+        },
+        // eslint-disable-next-line object-shorthand
+        error: err => {
+          if (
+            data.status === this.reqSlikStatus.APPROVAL_BU ||
+            data.status === this.reqSlikStatus.APPROVAL_SLIK ||
+            (data.status === this.reqSlikStatus.CHECKING && err.status === 200) ||
+            data.status === this.reqSlikStatus.COMPLETE
+          ) {
+            data.status === this.reqSlikStatus.CHECKING &&
+              err.status === 200 &&
+              this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).pipe(takeUntil(this.destroy$)).subscribe();
+            this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).pipe(takeUntil(this.destroy$)).subscribe();
+            this.router.navigate(['/request-slik']);
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+          }
+        },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        complete: () => this.router.navigate(['/request-slik']),
+      });
   }
 
   onSave() {
     return new Promise<void>((resolve, reject) => {
       // Put Request Slik -> Update purposeCode
-      this.lovAndStatus.updateRequestSlik(this.requestSlik).subscribe();
+      this.lovAndStatus.updateRequestSlik(this.requestSlik).pipe(takeUntil(this.destroy$)).subscribe();
 
-      this.requestSlikService.saveDetails(this.checklists).subscribe();
+      this.requestSlikService.saveDetails(this.checklists).pipe(takeUntil(this.destroy$)).subscribe();
       this.saveRemarks();
+      console.log('ini data checklist SAVE => ', this.checklists);
       resolve();
     });
   }
@@ -468,51 +498,60 @@ export class RequestSlikDetailComponent implements OnInit {
 
   cancel() {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.CANCEL).subscribe(res => {
-      this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
-      this.router.navigate(['/request-slik']);
-    });
+    this.lovAndStatus
+      .changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.CANCEL)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).pipe(takeUntil(this.destroy$)).subscribe();
+        this.router.navigate(['/request-slik']);
+      });
   }
 
   reject(isCrDeptHead = false) {
     if (isCrDeptHead) {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.RETURN_TO_CRO).subscribe({
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        next: () => {
-          this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_CRO;
-          this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
-          this.router.navigate(['/request-slik']);
-        },
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        // error: err => err.status === 200 && this.router.navigate(['/request-slik']),
-        error: err => {
-          if (err.status === 200) {
+      this.lovAndStatus
+        .changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.RETURN_TO_CRO)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          next: () => {
             this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_CRO;
-            this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
+            this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).pipe(takeUntil(this.destroy$)).subscribe();
             this.router.navigate(['/request-slik']);
-          }
-        },
-      });
+          },
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          // error: err => err.status === 200 && this.router.navigate(['/request-slik']),
+          error: err => {
+            if (err.status === 200) {
+              this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_CRO;
+              this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).pipe(takeUntil(this.destroy$)).subscribe();
+              this.router.navigate(['/request-slik']);
+            }
+          },
+        });
     } else {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.RETURN_TO_RM).subscribe({
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        next: () => {
-          this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_RM;
-          this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
-          this.router.navigate(['/request-slik']);
-        },
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        // error: err => err.status === 200 && this.router.navigate(['/request-slik']),
-        error: err => {
-          if (err.status === 200) {
+      this.lovAndStatus
+        .changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.RETURN_TO_RM)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          next: () => {
             this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_RM;
-            this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
+            this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).pipe(takeUntil(this.destroy$)).subscribe();
             this.router.navigate(['/request-slik']);
-          }
-        },
-      });
+          },
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          // error: err => err.status === 200 && this.router.navigate(['/request-slik']),
+          error: err => {
+            if (err.status === 200) {
+              this.noteTimeline.status = this.reqSlikStatus.RETURN_TO_RM;
+              this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).pipe(takeUntil(this.destroy$)).subscribe();
+              this.router.navigate(['/request-slik']);
+            }
+          },
+        });
     }
   }
 
@@ -520,7 +559,7 @@ export class RequestSlikDetailComponent implements OnInit {
   onCreate(): void {
     // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     this.container.serviceUrl = '/services/los/api/wordeditor/';
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'request_slik_remarks/' + this.paramsIdGet + '/sfdt';
       this.getBucket().then(res => {
@@ -536,10 +575,13 @@ export class RequestSlikDetailComponent implements OnInit {
 
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
+      this.storageService
+        .getBucketName()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.bucket = res.body['bucket'];
+          resolve();
+        });
     });
   }
 
@@ -547,7 +589,7 @@ export class RequestSlikDetailComponent implements OnInit {
   saveRemarks() {
     let paramsId = '';
 
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       paramsId = params['id'];
     });
     // const paramsId = this.requestSlikId;
@@ -569,7 +611,7 @@ export class RequestSlikDetailComponent implements OnInit {
           const formData = new FormData();
           formData.append('file', new File([exportedDocument], fileName));
 
-          this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+          this.storageService.uploadMeta(this.bucket, formData, metaData).pipe(takeUntil(this.destroy$)).subscribe();
         });
 
         docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -581,7 +623,7 @@ export class RequestSlikDetailComponent implements OnInit {
           const formData = new FormData();
           formData.append('file', new File([exportedDocument], fileName));
 
-          this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+          this.storageService.uploadMeta(this.bucket, formData, metaData).pipe(takeUntil(this.destroy$)).subscribe();
         });
       }
     });
@@ -621,12 +663,12 @@ export class RequestSlikDetailComponent implements OnInit {
     };
     this.storageService
       .getObjects(this.bucket, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
+            .pipe(takeUntil(this.destroy$))
             .subscribe(res => {
               this.fileGet = new File([res.body], 'request-slik-remark-' + this.paramsIdGet + '-sfdt.sfdt');
               const fileReader: FileReader = new FileReader();
@@ -870,18 +912,28 @@ export class RequestSlikDetailComponent implements OnInit {
       // ketika uncek
 
       // get checklist data by requestSlikId
-      this.requestSlikService.getChecklistData(true, this.requestSlikId).subscribe(checklistData => {
-        // get data where partyId === data.idParty
-        const resChecklistData = checklistData.body.data.filter(res => res.idParty === data.idParty);
+      this.requestSlikService
+        .getChecklistData(true, this.requestSlikId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(checklistData => {
+          // get data where partyId === data.idParty
+          const resChecklistData = checklistData.body.data.filter(res => res.idParty === data.idParty);
 
-        resChecklistData.forEach(checklist => {
-          // remove checklist
-          this.requestSlikService.removeChecklist(checklist.id).subscribe();
+          resChecklistData.forEach(checklist => {
+            // remove checklist
+            this.requestSlikService.removeChecklist(checklist.id).pipe(takeUntil(this.destroy$)).subscribe();
+          });
         });
-      });
 
-      this.containsObject(data, this.checklists) && _.remove(this.checklists, { idParty: data.idParty });
-      this.checklists = this.checklists.filter(checklist => checklist.idParty !== ev.data.idParty);
+      // remove data from checklists where idParty === ev
+      this.checklists = this.checklists.filter(checklist => checklist.idParty !== ev);
+
+      console.log({
+        ev,
+        check,
+        isContain: this.containsObject(data, this.checklists),
+        checklists: this.checklists,
+      });
     }
   }
 
@@ -934,24 +986,27 @@ export class RequestSlikDetailComponent implements OnInit {
   idPositionType: string;
   createdBy: string;
   getAccountDetail() {
-    this.accountService.identity().subscribe(res => {
-      this.createdBy = res.login;
-      this.userName = res.firstName + ' ' + res.lastName;
+    this.accountService
+      .identity()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        this.createdBy = res.login;
+        this.userName = res.firstName + ' ' + res.lastName;
 
-      this.employeeService
-        .queryFilterBy({
-          page: 0,
-          query: 999,
-          eqLogin: res.login,
-          sort: ['id,desc'],
-        })
-        .pipe(map((data: any) => data.body[0]))
-        .subscribe((user: any) => {
-          // map user array and get only positionTypeId key
-          const positionTypeId = user.positions.map(position => position.positionTypeId);
-          this.getPositionTypeIdToSend(positionTypeId);
-        });
-    });
+        this.employeeService
+          .queryFilterBy({
+            page: 0,
+            query: 999,
+            eqLogin: res.login,
+            sort: ['id,desc'],
+          })
+          .pipe(map((data: any) => data.body[0]))
+          .subscribe((user: any) => {
+            // map user array and get only positionTypeId key
+            const positionTypeId = user.positions.map(position => position.positionTypeId);
+            this.getPositionTypeIdToSend(positionTypeId);
+          });
+      });
   }
 
   noteTimeline: IRequestSlikNote;
@@ -1011,13 +1066,16 @@ export class RequestSlikDetailComponent implements OnInit {
   submitRequestSlik(): void {
     // Show dialog confirmation when there are some data that has not been retrieved from OJK
     if (this.requestSlik.status === this.reqSlikStatus.VERIFY) {
-      this.requestSlikVerifyService.isAllDataRetrieved(this.requestSlikId).subscribe(res => {
-        if (!res && this.requestSlik.status === this.reqSlikStatus.VERIFY) {
-          this.openConfirmationDialog();
-        } else {
-          this.openSubmitDialog('submit');
-        }
-      });
+      this.requestSlikVerifyService
+        .isAllDataRetrieved(this.requestSlikId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          if (!res && this.requestSlik.status === this.reqSlikStatus.VERIFY) {
+            this.openConfirmationDialog();
+          } else {
+            this.openSubmitDialog('submit');
+          }
+        });
     } else {
       this.openSubmitDialog('submit');
     }
