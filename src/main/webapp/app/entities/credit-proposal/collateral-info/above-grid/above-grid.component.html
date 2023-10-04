@@ -71,7 +71,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalMVKJJP() / totalPlafond) , 'mvKjjp') }}</p>
+              <p>{{ presentage(countTotalMVKJJP() / totalPlafond, 'mvKjjp') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="lValueKjjp">
@@ -136,7 +136,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <P>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</P>
-              <p>{{ biddingValueCoverage }} %</p>
+              <p>{{ biddingValueCoverage }} x</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="collateralStatus">
@@ -236,7 +236,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalMV() / totalPlafond), 'mv') }}</p>
+              <p>{{ presentage(countTotalMV() / totalPlafond, 'mv') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="liquidValue">
@@ -246,7 +246,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalLV() / totalPlafond), 'lv') }}</p>
+              <p>{{ presentage(countTotalLV() / totalPlafond, 'lv') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="mValueKjjp">
@@ -256,7 +256,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalMVKJJP() / totalPlafond), 'mvKjjp') }}</p>
+              <p>{{ presentage(countTotalMVKJJP() / totalPlafond, 'mvKjjp') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="lValueKjjp">
@@ -266,7 +266,7 @@
             </td>
             <td mat-footer-cell *matFooterCellDef class="grid-index-right">
               <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-              <p>{{ presentage((countTotalMVKJJP() / totalPlafond), 'mvKjjp') }}</p>
+              <p>{{ presentage(countTotalMVKJJP() / totalPlafond, 'mvKjjp') }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="marketability">

@@ -128,7 +128,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
       }
-      return '0.00' + '%';
+      return '0.00' + 'x';
     } else if (num === 'NaN') {
       if (status === 'mv') {
         this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
@@ -139,7 +139,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
       }
-      return '0.00' + '%';
+      return '0.00' + 'x';
     } else {
       if (status === 'mv') {
         this.creditProposal.attributes.collateralSummary.mvInternalCoverage = num;
@@ -150,7 +150,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = num;
       }
-      return num + '%';
+      return num + 'x';
     }
   }
 

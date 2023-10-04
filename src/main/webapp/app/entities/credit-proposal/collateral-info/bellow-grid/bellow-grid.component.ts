@@ -117,7 +117,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
       }
-      return '0.00' + '%';
+      return '0.00' + 'x';
     } else if (num === 'NaN') {
       if (status === 'mv') {
         this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
@@ -128,7 +128,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
       }
-      return '0.00' + '%';
+      return '0.00' + 'x';
     } else {
       if (status === 'mv') {
         this.creditProposal.attributes.coverageTotal.mvInternalCoverage = num;
@@ -139,7 +139,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = num;
       }
-      return num + '%';
+      return num + 'x';
     }
   }
 

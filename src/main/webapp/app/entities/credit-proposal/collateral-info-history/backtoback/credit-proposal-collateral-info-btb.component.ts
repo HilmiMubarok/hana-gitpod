@@ -662,11 +662,11 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
-      return '0.00' + '%';
+      return '0.00' + 'x';
     } else if (num === 'NaN') {
-      return '0.00' + '%';
+      return '0.00' + 'x';
     } else {
-      return num + '%';
+      return num + 'x';
     }
   }
 
