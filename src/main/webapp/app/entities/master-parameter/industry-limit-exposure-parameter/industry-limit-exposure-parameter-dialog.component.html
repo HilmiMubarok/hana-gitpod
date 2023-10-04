@@ -22,7 +22,7 @@
           <input
             matInput
             type="text"
-            [ngModel]="industryLimitExposure.limitNominal | number: '1.0-0'"
+            [ngModel]="industryLimitExposure.limitNominal | number: '1.2-2'"
             (ngModelChange)="industryLimitExposure.limitNominal = numberInputChanged($event)"
           />
         </mat-form-field>
@@ -33,7 +33,7 @@
           <input
             matInput
             type="text"
-            [ngModel]="industryLimitExposure.remainingBalance | number: '1.0-0'"
+            [ngModel]="industryLimitExposure.remainingBalance | number: '1.2-2'"
             (ngModelChange)="industryLimitExposure.remainingBalance = numberInputChanged($event)"
           />
         </mat-form-field>
@@ -44,7 +44,7 @@
           <input
             matInput
             type="text"
-            [ngModel]="industryLimitExposure.industryLimitExposure | number: '1.0-0'"
+            [ngModel]="industryLimitExposure.industryLimitExposure | number: '1.2-2'"
             (ngModelChange)="industryLimitExposure.industryLimitExposure = numberInputChanged($event)"
           />
         </mat-form-field>
