@@ -298,7 +298,13 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   }
 
   isDetailChecked(row) {
-    return this.requestSlikService.isDetailChecked(row, this.checklists, 'shareholder');
+    if (row.person) {
+      row = row.person.id;
+    }
+    if (row.shareHolderOrg) {
+      row = row.shareHolderOrg.id;
+    }
+    return this.requestSlikService.isDetailChecked(row, this.checklists);
   }
 
   updateChecklist(ev, check) {
