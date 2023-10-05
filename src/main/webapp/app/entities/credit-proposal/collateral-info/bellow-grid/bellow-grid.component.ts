@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterVie
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { CODE, COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -842,11 +842,15 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   public slideChange($event) {
+    const dataTemp = [];
     if (this.isChecked === true) {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
       if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          if (this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+          if (
+            this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+            this.creditProposal.collaterals[i].statusId !== CODE.CANCEL
+          ) {
             for (let j = 0; j < this.creditProposal.products.length; j++) {
               if ($event === true) {
                 const tempCollateralProductRelationObject = {
@@ -854,9 +858,10 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
                   bindingValue: 0,
                   applicationProduct: this.creditProposal.products[j],
                 };
-                this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+                dataTemp.push(tempCollateralProductRelationObject);
               }
             }
+            this.creditProposal.collateralProductRelations = dataTemp;
           }
         }
       }
