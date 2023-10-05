@@ -18,26 +18,24 @@
       </div>
     </div>
 
-    <div style="margin: 1rem">
-      <mat-card class="mt-3 padding-matcard">
-        <mat-card-content>
-          <div class="col-12">
-            <div class="mt-3">
-              <mat-form-field appearance="outline" class="w-100">
-                <input matInput placeholder="Search in here..." type="text" [(ngModel)]="currentSearch" />
-                <button *ngIf="statusSearch === false" matSuffix mat-icon-button aria-label="Clear" (click)="search()">
-                  <mat-icon>search</mat-icon>
-                </button>
+    <mat-card style="margin: 1rem">
+      <mat-card-content>
+        <div class="col-12">
+          <div class="mt-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <input matInput placeholder="Search in here..." type="text" [(ngModel)]="currentSearch" />
+              <button *ngIf="statusSearch === false" matSuffix mat-icon-button aria-label="Clear" (click)="search()">
+                <mat-icon>search</mat-icon>
+              </button>
 
-                <button *ngIf="statusSearch === true" matSuffix mat-icon-button aria-label="Clear" (click)="closeSearch()">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </div>
+              <button *ngIf="statusSearch === true" matSuffix mat-icon-button aria-label="Clear" (click)="closeSearch()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
           </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
     <mat-card style="margin: 1rem">
       <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
