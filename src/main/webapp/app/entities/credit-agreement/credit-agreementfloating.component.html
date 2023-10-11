@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="{{ getText(parentPath) }}"> </e-breadcrumb-item>
+            <!-- <e-breadcrumb-item text="{{ getText(parentPath) }}"> </e-breadcrumb-item> -->
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -13,37 +13,37 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
             <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
-          <p class="e-card-sub-title menu-title-class">{{ headerTitle }}</p>
+          <!-- <p class="e-card-sub-title menu-title-class">{{ headerTitle }}</p> -->
         </div>
       </div>
     </div>
-    <div style="margin: 1rem">
+    <!-- <div style="margin: 1rem">
       <div class="mb-3">
         <jhi-debtor-information
           [cifNumber]="creditProposal.customerNumber"
           [customerName]="creditProposal.cif.name"
         ></jhi-debtor-information>
-      </div>
-      <!-- PART 1 -->
-      <section class="wrapper-card">
+      </div> -->
+    <!-- PART 1 -->
+    <!-- /  <section class="wrapper-card">
         <e-card class="mb-3">
           <div class="e-card-header">
             <div class="e-card-header-caption">
-              <div class="e-card-header-title">Credit Proposal</div>
+              <div class="e-card-header-title">Credit Agreement</div>
             </div>
           </div>
           <div class="mb-3">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
-                </div>
-                <div class="form-group">
-                  <section *ngIf="permission">
+                  <!-- <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch> -->
+    <!-- </div>
+                <div class="form-group"> -->
+    <!-- <section *ngIf="permission">
                     <section *jhiMatrixDirMPS="'input'; permission: permission">Directive Input RM</section>
                     <section *jhiMatrixDirMPS="'label'; permission: permission">Directive Label RM</section>
-                  </section>
-                  <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  </section> -->
+    <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.applicationNumber"
@@ -60,7 +60,7 @@
                         {{ creditProposal.applicationNumber }}
                       </div>
                     </div>
-                  </section> -->
+                  </section> 
                 </div>
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -224,14 +224,14 @@
             </div>
           </div>
         </e-card>
-      </section>
+      </section> -->
 
-      <!-- PART 2 -->
+    <!-- PART 2 -->
 
-      <div>
+    <!-- <div>
         <div class="row">
           <div class="col-12">
-            <!-- Ketika Ke proposal Type -->
+            <!-- Ketika Ke proposal Type
             <div *ngIf="parentPath === 'credit-proposal-status'">
               <jhi-credit-proposal-basic-information
                 [creditProposal]="creditProposal"
@@ -475,7 +475,6 @@
       </div>
     </div>
 
-    <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <div>
         <button
@@ -490,11 +489,11 @@
 
         <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
-    </div>
+    </div>-->
   </div>
 
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
-    <div class="header-sub-menu"><label style="margin-top: 1rem">Credit Proposal :</label></div>
+    <div class="header-sub-menu"><label style="margin-top: 1rem">Credit Agreement :</label></div>
 
     <mat-list role="list" class="list-styling">
       <div *ngFor="let item of subMenu">
@@ -521,6 +520,7 @@
       </div>
     </mat-list>
   </mat-sidenav>
+
   <button
     matTooltip="Click this for show sub menu of Credit Proposal"
     [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"

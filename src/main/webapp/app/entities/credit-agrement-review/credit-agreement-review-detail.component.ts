@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
 import {
-  BASIC_SUBMENU_CREDITPROPOSAL,
   PROPOSAL_TYPE,
   SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
@@ -20,6 +19,7 @@ import {
   CP_APPROVAL_MENU,
   CP_APPROVAL_MENU_BTB,
   CP_APPROVAL_MENU_BELOW,
+  BASIC_SUBMENU_CREDITEGREEMENTREVIEW,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -210,8 +210,8 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     this.setMainMenuCp();
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
-      ? [...BASIC_SUBMENU_CREDITPROPOSAL, { id: 'memo-banding', text: 'Memo Banding' }]
-      : BASIC_SUBMENU_CREDITPROPOSAL;
+      ? [...BASIC_SUBMENU_CREDITEGREEMENTREVIEW, {}]
+      : BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
 
@@ -219,7 +219,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
 
     this.url = this.parentPath;
     this.menuCreditProposal();
-
+    console.log('init', this.subMenu);
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -499,174 +499,174 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
 
     this.loadDataBy();
     this.showTextMenu();
-    this.cpGroub();
+    // this.cpGroub();
   }
 
-  public setSubmenu(event: Object): void {
-    if (event) {
-      if (event === ID_GREATER_15_BN) {
-        if (this.parentPath === 'cp-status-approval') {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-            ];
-          }
-        } else {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
-          }
-        }
-      } else if (event === ID_LOWER_EQUAL_15_BN) {
-        if (this.parentPath === 'cp-status-approval') {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-            ];
-          }
-        } else {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
-          }
-        }
-      } else if (event === ID_BACK_TO_BACK) {
-        if (this.parentPath === 'cp-status-approval') {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-            ];
-          }
-        } else {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
-          }
-        }
-      } else {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [
-            ...PROPOSAL_TYPE,
-            {
-              id: 'memo-banding',
-              text: 'Memo Banding',
-            },
-          ];
-        } else {
-          this.subMenu = PROPOSAL_TYPE;
-        }
-      }
-    } else {
-      if (this.creditProposal.attributes['previousOfferingLetter']) {
-        this.subMenu = [
-          ...PROPOSAL_TYPE,
-          {
-            id: 'memo-banding',
-            text: 'Memo Banding',
-          },
-        ];
-      } else {
-        this.subMenu = PROPOSAL_TYPE;
-      }
-    }
-    // this.clickedMenu = 'basic-information';
-  }
+  // public setSubmenu(event: Object): void {
+  //   if (event) {
+  //     if (event === ID_GREATER_15_BN) {
+  //       if (this.parentPath === 'cp-status-approval') {
+  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
+  //           this.subMenu = [
+  //             {
+  //               id: 'credit-proposal-approval',
+  //               text: 'Credit Proposal Summary',
+  //             },
+  //             ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+  //             {
+  //               id: 'opinion',
+  //               text: 'Opinion',
+  //             },
+  //             {
+  //               id: 'memo-banding',
+  //               text: 'Memo Banding',
+  //             },
+  //           ];
+  //         } else {
+  //           this.subMenu = [
+  //             {
+  //               id: 'credit-proposal-approval',
+  //               text: 'Credit Proposal Summary',
+  //             },
+  //             ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+  //             {
+  //               id: 'opinion',
+  //               text: 'Opinion',
+  //             },
+  //           ];
+  //         }
+  //       } else {
+  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
+  //           this.subMenu = [
+  //             ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+  //             {
+  //               id: 'memo-banding',
+  //               text: 'Memo Banding',
+  //             },
+  //           ];
+  //         } else {
+  //           this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+  //         }
+  //       }
+  //     } else if (event === ID_LOWER_EQUAL_15_BN) {
+  //       if (this.parentPath === 'cp-status-approval') {
+  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
+  //           this.subMenu = [
+  //             {
+  //               id: 'credit-proposal-approval',
+  //               text: 'Credit Proposal Summary',
+  //             },
+  //             ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  //             {
+  //               id: 'opinion',
+  //               text: 'Opinion',
+  //             },
+  //             {
+  //               id: 'memo-banding',
+  //               text: 'Memo Banding',
+  //             },
+  //           ];
+  //         } else {
+  //           this.subMenu = [
+  //             {
+  //               id: 'credit-proposal-approval',
+  //               text: 'Credit Proposal Summary',
+  //             },
+  //             ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  //             {
+  //               id: 'opinion',
+  //               text: 'Opinion',
+  //             },
+  //           ];
+  //         }
+  //       } else {
+  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
+  //           this.subMenu = [
+  //             ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  //             {
+  //               id: 'memo-banding',
+  //               text: 'Memo Banding',
+  //             },
+  //           ];
+  //         } else {
+  //           this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+  //         }
+  //       }
+  //     } else if (event === ID_BACK_TO_BACK) {
+  //       if (this.parentPath === 'cp-status-approval') {
+  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
+  //           this.subMenu = [
+  //             {
+  //               id: 'credit-proposal-approval',
+  //               text: 'Credit Proposal Summary',
+  //             },
+  //             ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+  //             {
+  //               id: 'opinion',
+  //               text: 'Opinion',
+  //             },
+  //             {
+  //               id: 'memo-banding',
+  //               text: 'Memo Banding',
+  //             },
+  //           ];
+  //         } else {
+  //           this.subMenu = [
+  //             {
+  //               id: 'credit-proposal-approval',
+  //               text: 'Credit Proposal Summary',
+  //             },
+  //             ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+  //             {
+  //               id: 'opinion',
+  //               text: 'Opinion',
+  //             },
+  //           ];
+  //         }
+  //       } else {
+  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
+  //           this.subMenu = [
+  //             ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+  //             {
+  //               id: 'memo-banding',
+  //               text: 'Memo Banding',
+  //             },
+  //           ];
+  //         } else {
+  //           this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
+  //         }
+  //       }
+  //     } else {
+  //       if (this.creditProposal.attributes['previousOfferingLetter']) {
+  //         this.subMenu = [
+  //           ...PROPOSAL_TYPE,
+  //           {
+  //             id: 'memo-banding',
+  //             text: 'Memo Banding',
+  //           },
+  //         ];
+  //       } else {
+  //         this.subMenu = PROPOSAL_TYPE;
+  //       }
+  //     }
+  //   } else {
+  //     if (this.creditProposal.attributes['previousOfferingLetter']) {
+  //       this.subMenu = [
+  //         ...PROPOSAL_TYPE,
+  //         {
+  //           id: 'memo-banding',
+  //           text: 'Memo Banding',
+  //         },
+  //       ];
+  //     } else {
+  //       this.subMenu = PROPOSAL_TYPE;
+  //     }
+  //   }
+  //   // this.clickedMenu = 'basic-information';
+  // }
 
   public setMainMenuCp() {
-    if (this.parentPath === 'cp-status-approval') {
+    if (this.parentPath === 'credit-agreement-review') {
       this.clickedMenu = 'credit-proposal-approval';
     } else if (this.parentPath === 'credit-proposal-status') {
       this.clickedMenu = 'basic-information';
@@ -1826,16 +1826,16 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     return 0;
   }
 
-  public cpGroub() {
-    const setDate = new Date().toISOString().split('T')[0];
-    this.creditAgreementReviewService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyMaster = res.body[0]?.factor;
-    });
-    this.creditAgreementReviewService.applicationGroubProduct(this.id).subscribe((response: any) => {
-      this.filterBusinessGroupDebtorData(response.body);
-      this.creditProposal.attributes['calculationExposure'].totalPsrGroup = this.countTotalPsrGroup();
-    });
-  }
+  // public cpGroub() {
+  //   const setDate = new Date().toISOString().split('T')[0];
+  //   this.creditAgreementReviewService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+  //     this.currencyMaster = res.body[0]?.factor;
+  //   });
+  //   this.creditAgreementReviewService.applicationGroubProduct(this.id).subscribe((response: any) => {
+  //     this.filterBusinessGroupDebtorData(response.body);
+  //     this.creditProposal.attributes['calculationExposure'].totalPsrGroup = this.countTotalPsrGroup();
+  //   });
+  // }
 
   private filterBusinessGroupDebtorData(source: any[]): void {
     if (source.length > 0) {

@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 
 import {
-  BASIC_SUBMENU_CREDITPROPOSAL,
   PROPOSAL_TYPE,
   SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
   SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
@@ -20,6 +19,7 @@ import {
   CP_APPROVAL_MENU,
   CP_APPROVAL_MENU_BTB,
   CP_APPROVAL_MENU_BELOW,
+  BASIC_SUBMENU_CREDITAGREEMENT,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -209,15 +209,15 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.setMainMenuCp();
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
-      ? [...BASIC_SUBMENU_CREDITPROPOSAL, { id: 'memo-banding', text: 'Memo Banding' }]
-      : BASIC_SUBMENU_CREDITPROPOSAL;
+      ? [...BASIC_SUBMENU_CREDITAGREEMENT, { id: 'memo-banding', text: 'Memo Banding' }]
+      : BASIC_SUBMENU_CREDITAGREEMENT;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
 
     this.activeRoute = this.router.url.replace(/\//g, '');
 
     this.url = this.parentPath;
-    this.menuCreditProposal();
+    this.menuCreditAgrement();
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -498,7 +498,7 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.loadDataBy();
     this.showTextMenu();
-    this.cpGroub();
+    // this.cpGroub();
   }
 
   public setSubmenu(event: Object): void {
@@ -665,14 +665,14 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   public setMainMenuCp() {
-    if (this.parentPath === 'cp-status-approval') {
+    if (this.parentPath === 'credit-agreement') {
       this.clickedMenu = 'credit-proposal-approval';
     } else if (this.parentPath === 'credit-proposal-status') {
       this.clickedMenu = 'basic-information';
     }
   }
 
-  public menuCreditProposal() {
+  public menuCreditAgrement() {
     if (this.parentPath === 'cp-status-approval') {
       if (this.creditProposal.attributes.proposalType === ID_GREATER_15_BN && this.creditProposal.attributes.proposalType !== undefined) {
         if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -1612,7 +1612,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     if (value === 'cp-status-approval') {
       return 'Credit Proposal Approval';
     } else {
-      return 'Credit Proposal';
+      return 'Credit Agreement';
     }
   }
 
@@ -1634,12 +1634,12 @@ export class CreditAgreementDetailComponent implements OnInit {
     }
   }
 
-  disabledProptype() {
-    if (this.parentPath === 'cp-status-approval') {
-      return true;
-    }
-    return false;
-  }
+  // disabledProptype() {
+  //   if (this.parentPath === 'cp-status-approval') {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
@@ -1825,16 +1825,16 @@ export class CreditAgreementDetailComponent implements OnInit {
     return 0;
   }
 
-  public cpGroub() {
-    const setDate = new Date().toISOString().split('T')[0];
-    this.creditAgreementService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyMaster = res.body[0]?.factor;
-    });
-    this.creditAgreementService.applicationGroubProduct(this.id).subscribe((response: any) => {
-      this.filterBusinessGroupDebtorData(response.body);
-      this.creditProposal.attributes['calculationExposure'].totalPsrGroup = this.countTotalPsrGroup();
-    });
-  }
+  // public cpGroub() {
+  //   const setDate = new Date().toISOString().split('T')[0];
+  //   this.creditAgreementService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+  //     this.currencyMaster = res.body[0]?.factor;
+  //   });
+  //   this.creditAgreementService.applicationGroubProduct(this.id).subscribe((response: any) => {
+  //     this.filterBusinessGroupDebtorData(response.body);
+  //     this.creditProposal.attributes['calculationExposure'].totalPsrGroup = this.countTotalPsrGroup();
+  //   });
+  // }
 
   private filterBusinessGroupDebtorData(source: any[]): void {
     if (source.length > 0) {

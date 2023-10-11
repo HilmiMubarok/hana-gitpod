@@ -2762,3 +2762,21 @@ export const DELEGATION: object[] = [
     label: 'Delegaition Application',
   },
 ];
+
+export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
+  {
+    id: '',
+    text: 'MENU',
+  },
+  {
+    id: '',
+    text: 'MENU 1',
+  },
+];
+
+export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
+  {
+    id: '',
+    text: 'MENU',
+  },
+];
