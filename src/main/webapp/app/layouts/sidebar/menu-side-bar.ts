@@ -327,11 +327,25 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
   {
     name: 'DPDL',
     iconname: 'suitcase',
+
     children: [
       {
-        name: ' Finalize DPDL',
+        name: 'Finalize DPDL',
         iconname: 'minus',
-        route: '',
+        route: 'dpdl-finalize',
+      },
+    ],
+  },
+
+  {
+    name: 'Dar Revision',
+    iconname: 'suitcase',
+
+    children: [
+      {
+        name: 'Dar Revision',
+        iconname: 'minus',
+        route: 'dar-revision',
       },
     ],
   },
