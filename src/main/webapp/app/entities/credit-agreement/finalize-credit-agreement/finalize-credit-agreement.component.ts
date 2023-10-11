@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'jhi-finalize-credit-aggrement',
-  templateUrl: './finalize-credit-aggrement.component.html',
+  selector: 'jhi-finalize-credit-agreement',
+  templateUrl: './finalize-credit-agreement.component.html',
   styleUrls: ['../credit-agreement.css'],
 })
-export class FinalizeCreditAggrementComponent {
+export class FinalizeCreditAgreementComponent {
   public data = [];
   public loading: boolean;
   constructor() {
