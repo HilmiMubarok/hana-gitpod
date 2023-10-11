@@ -1679,7 +1679,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public cekCgpgData() {
     if (this.collateralCgpg.length > 0) {
       for (let i = 0; i < this.collateralCgpg.length; i++) {
-        const collateral = this.collateralProperties.find(obj => obj.collateralId === this.collateralCgpg[i].id);
+        const collateral = this.collateralProperties.find(obj => obj.collateralId === this.collateralCgpg[i].id && obj.external === false);
         if (collateral) {
           this.saveCollateralProperty(collateral);
         }
