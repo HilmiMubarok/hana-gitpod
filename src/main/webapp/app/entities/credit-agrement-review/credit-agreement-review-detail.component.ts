@@ -210,7 +210,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     this.setMainMenuCp();
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
-      ? [...BASIC_SUBMENU_CREDITEGREEMENTREVIEW, {}]
+      ? [...BASIC_SUBMENU_CREDITEGREEMENTREVIEW, { id: 'memo-banding', text: 'Memo Banding' }]
       : BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
