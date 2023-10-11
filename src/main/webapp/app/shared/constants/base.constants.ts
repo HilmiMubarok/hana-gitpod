@@ -2765,12 +2765,12 @@ export const DELEGATION: object[] = [
 
 export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
   {
-    id: '',
-    text: 'MENU',
+    id: 'finalize-credit-agreement',
+    text: 'Finalize Credit Agreement',
   },
   {
-    id: '',
-    text: 'MENU 1',
+    id: 'opinion',
+    text: 'Opinion',
   },
   {
     id: 'collateral-info',
