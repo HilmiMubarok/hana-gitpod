@@ -558,6 +558,16 @@ import { RouterModule } from '@angular/router';
         path: 'menu-access',
         loadChildren: () => import('./menu-access/menu-access.module').then(m => m.LosgwMenuAccessModule),
       },
+
+      {
+        path: 'dpdl-finalize',
+        loadChildren: () => import('./dpdl/dpdl-finalize.module').then(m => m.DpdlFinalizeModule),
+      },
+
+      {
+        path: 'dar-revision',
+        loadChildren: () => import('./dar-revison/dar-revision.module').then(m => m.DarRevisionModule),
+      },
     ]),
   ],
 })
