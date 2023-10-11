@@ -360,10 +360,14 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'losgwApp.collateral.home.title' },
         loadChildren: () => import('./collateral/collateral.module').then(m => m.LosgwCollateralModule),
       },
-      // {
-      //   path: 'credit-proposal',
-      //   loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
-      // },
+      {
+        path: 'credit-agreement',
+        loadChildren: () => import('./credit-agreement/credit-agreement.module').then(m => m.LosgwCreditAgreementModule),
+      },
+      {
+        path: 'credit-agreement-review',
+        loadChildren: () => import('./credit-agrement-review/credit-agreement-review.module').then(m => m.LosgwCreditAgreementReviewModule),
+      },
       {
         path: 'credit-proposal-status',
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
