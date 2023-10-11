@@ -2772,11 +2772,19 @@ export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
     id: '',
     text: 'MENU 1',
   },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
 ];
 
 export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
   {
     id: '',
     text: 'MENU',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
   },
 ];

@@ -26,7 +26,21 @@
         [creditProposal]="creditProposal"
       ></jhi-credit-proposal-memo-banding>
     </div>
-
+    <!---Collateral Info-->
+    <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
+      <section class="wrapper-card">
+        <e-card
+          ><jhi-credit-proposal-collateral-info
+            [proposalType]="creditProposal.attributes.proposalType"
+            #creditProposalCollateralInfoComponent
+            [creditProposal]="creditProposal"
+            [collateralProperties]="collateralProperties"
+            [collateralPropertyGroupData]="collateralPropertyGroupData"
+          >
+          </jhi-credit-proposal-collateral-info
+        ></e-card>
+      </section>
+    </div>
     <!-- <div style="margin: 1rem">
       <div class="mb-3">
         <jhi-debtor-information
@@ -268,26 +282,9 @@
                 </jhi-loan-facility-detail-history
                 ><e-card class="mb-3">
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure
-                ></e-card>
-                <e-card class="mb-3">
-                  <jhi-credit-proposal-collateral-info
-                    [source]="'summaryAll'"
-                    *ngIf="!isHistoryExist"
-                    [creditProposal]="creditProposal"
-                    [collateralProperties]="collateralProperties"
-                    [collateralPropertyGroupData]="collateralPropertyGroupData"
-                  >
-                  </jhi-credit-proposal-collateral-info
-                ></e-card>
-                <jhi-collateral-info-history
-                  #creditProposalCollateralInfoHistoryComponent
-                  [source]="'summaryAll'"
-                  *ngIf="isHistoryExist"
-                  [creditProposal]="creditProposal"
-                >
-                </jhi-collateral-info-history>
-
-                <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>
+                ></e-card> -->
+    <!--      
+              <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>
               </div>
             </div>
 

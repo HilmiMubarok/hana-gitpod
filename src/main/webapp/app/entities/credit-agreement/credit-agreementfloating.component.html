@@ -27,6 +27,22 @@
       ></jhi-credit-proposal-memo-banding>
     </div>
 
+    <!--- collateral info -->
+
+    <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
+      <section class="wrapper-card">
+        <e-card
+          ><jhi-credit-proposal-collateral-info
+            [proposalType]="creditProposal.attributes.proposalType"
+            #creditProposalCollateralInfoComponent
+            [creditProposal]="creditProposal"
+            [collateralProperties]="collateralProperties"
+            [collateralPropertyGroupData]="collateralPropertyGroupData"
+          >
+          </jhi-credit-proposal-collateral-info
+        ></e-card>
+      </section>
+    </div>
     <!-- <div style="margin: 1rem">
       <div class="mb-3">
         <jhi-debtor-information
@@ -303,7 +319,6 @@
                   [creditProposal]="creditProposal"
                 >
                 </jhi-collateral-info-history>
-
                 <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>
               </div>
             </div>
