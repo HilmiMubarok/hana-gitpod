@@ -14,6 +14,7 @@ import { CreditAgreementReviewComponent } from './credit-agreement-review.compon
 import { CreditAgreementReviewDetailComponent } from './credit-agreement-review-detail.component';
 import { CreditAgreementReviewService } from './credit-agreement-review.service';
 import { CreditAgreementReview, ICreditAgreementReview } from './credit-agreement-review.model';
+import { CoverageTotal } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementReview> {
@@ -41,7 +42,11 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
                 }
               }
             }
-
+            if (!lodash.has(creditAgreement.body.attributes, 'coverageTotal')) {
+              creditAgreement.body.attributes['coverageTotal'] = new CoverageTotal();
+            } else {
+              creditAgreement.body.attributes['coverageTotal'] = JSON.parse(creditAgreement.body.attributes['coverageTotal']);
+            }
             if (creditAgreement.body.prospectOrganization) {
               creditAgreement.body.prospectOrganization.cif = creditAgreement.body.prospectOrganization.attributes['cif'];
               creditAgreement.body.prospectOrganization.businessTypeId =

@@ -23,6 +23,11 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { CreditAgreementProcessService } from './credit-agreement-process.service';
 import { CashCreditAgreementReviewService } from './cash-credit-agreement-review.service';
 import { CreditAgreementReviewService } from './credit-agreement-review.service';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
+import { ICollateral } from '../collateral/collateral.model';
+import { CollateralService } from '../collateral/collateral.service';
+import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
+import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-credit-agreement-review',
@@ -51,6 +56,8 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: any;
+  public collateralPropertyGroupData: ICollateralProperty[] = [];
+  private collateralProperties: ICollateralProperty[] = [];
   public iconTimeline: any;
   public statusCodesData: Object[] = [];
   public statusCodesDataRes: Object[] = [];
@@ -113,6 +120,9 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
       numString: '12',
     },
   ];
+  public creditProposal: ICreditAgreementReview;
+  private collateral: ICollateral[] = [];
+  listGroupCollateral: any;
   constructor(
     private accountService: AccountService,
     private creditAgreementReviewService: CreditAgreementReviewService,
@@ -123,7 +133,10 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
     protected applicationConfigService: ApplicationConfigService,
     private creditAgreementProcessService: CreditAgreementProcessService,
     private cashCreditAgreementReviewService: CashCreditAgreementReviewService,
-    private templateService: TemplateService
+    private templateService: TemplateService,
+    protected collateralService: CollateralService,
+    protected collateralPropertyService: CollateralPropertyService,
+    private partyCifService: PartyCifService
   ) {
     super(_snackBar, creditAgreementReviewService);
     this.page = 0;
@@ -144,6 +157,77 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
     this.loadAll();
     this.checkLogin();
     this.getPositionTypeId();
+    if (this.creditProposal.cif) {
+      this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
+  }
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+        size: 999,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i]);
+          }
+        }
+      });
+  }
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
+  }
+
+  public cekCgpgData() {
+    for (let i = 0; i < this.collateralProperties.length; i++) {
+      if (this.collateralProperties[i].propertyType === 'GENERAL') {
+        this.saveCollateralProperty(this.collateralProperties[i]);
+      }
+    }
+  }
+
+  public saveCollateralProperty(property: ICollateralProperty) {
+    this.collateralPropertyService.save(property).subscribe(res => {});
+  }
+  public loadDataBy(): void {
+    const cifNumber = this.creditProposal.customerNumber;
+    this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
+      this.listGroupCollateral = res.body;
+      this.getAllColGroup();
+    });
+  }
+
+  private getAllColGroup() {
+    return new Promise((resolve, reject) => {
+      if (this.listGroupCollateral.length > 0) {
+        for (let j = 0; j < this.listGroupCollateral.length; j++) {
+          this.collateralService
+            .queryFilterBy({
+              idParty: this.listGroupCollateral[j].partyId,
+              isActive: true,
+            })
+            .subscribe(res => {
+              if (res.body) {
+                for (let i = 0; i < res.body.length; i++) {
+                  if (res.body[i].id) {
+                    this.collateralPropertyService.queryFilterBy({ idCollateral: res.body[i].id, page: 0, size: 9999 }).subscribe(res2 => {
+                      this.collateralPropertyGroupData = [...this.collateralPropertyGroupData, ...res2.body];
+                    });
+                  }
+                }
+              }
+              resolve(this.collateralPropertyGroupData);
+            });
+        }
+      }
+    });
   }
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
