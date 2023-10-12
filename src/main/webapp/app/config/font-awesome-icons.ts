@@ -71,6 +71,9 @@ import {
   faPaperclip,
   faSuitcase,
   faStethoscope,
+  faEnvelope,
+  faEnvelopeOpen,
+
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -147,5 +150,7 @@ export const fontAwesomeIcons = [
   faSquareCheck,
   faPaperclip,
   faSuitcase,
+  faEnvelope,
+  faEnvelopeOpen,
   // jhipster-needle-add-icon-import
 ];

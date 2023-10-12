@@ -104,17 +104,15 @@ export class MasterPermissionComponent extends AbstractEntityMaterialComponent<I
     switch ('') {
       case this.menuItemId:
         return positionTypeId;
-        break;
       case this.positionTypeId:
         return menuItemId;
-        break;
       default:
         return bothParameter;
-        break;
     }
   }
 
   public getBucketList(): void {
+    this.loading = true;
     this.masterPermissionService.queryFilterBy(this.checkForPredicate()).subscribe(res => this.initDataForMatTable(res, res.headers));
   }
 

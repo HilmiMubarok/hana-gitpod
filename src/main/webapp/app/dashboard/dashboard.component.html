@@ -1,55 +1,68 @@
-<mat-card>
-  <mat-card-header>
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Credit Approval System of Hana Bank</div>
-        <mat-card-subtitle class="e-card-header-title-version">Version 2.0.5</mat-card-subtitle>
-      </div>
+<!-- Status -->
+<div>
+  <div calss="status-container mb-3">
+    <jhi-status-slides></jhi-status-slides>
+  </div>
+
+  <!-- Charts -->
+  <div class="control-section mt-3">
+    <div class="col-lg-8 w-100" id="dashboard_container">
+      <ejs-dashboardlayout
+        id="predefine_dashboard"
+        #predefine_dashboard
+        columns="6"
+        [cellSpacing]="cellSpacing"
+        [cellAspectRatio]="aspectRatio"
+        [allowDragging]="false"
+        [allowPushing]="false"
+        [allowResizing]="false"
+        [allowFloating]="false"
+      >
+        <e-panels>
+          <!-- bar chart -->
+          <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="0" [col]="0">
+            <ng-template #header>
+              <div>Chart 1</div>
+              <div style="flex: 1 1 auto !important"></div>
+              <!-- filter -->
+              <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
+              <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
+            </ng-template>
+            <ng-template #content>
+              <jhi-bar-chart></jhi-bar-chart>
+            </ng-template>
+          </e-panel>
+          <!-- pie chart -->
+          <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="0" [col]="3">
+            <ng-template #header>
+              Chart 2
+              <div style="flex: 1 1 auto !important"></div>
+              <!-- filter -->
+              <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
+              <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
+            </ng-template>
+            <ng-template #content>
+              <jhi-pie-chart></jhi-pie-chart>
+            </ng-template>
+          </e-panel>
+          <!-- line chart -->
+          <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="2" [col]="0">
+            <ng-template #header>
+              Chart 3
+              <div style="flex: 1 1 auto !important"></div>
+              <!-- filter -->
+              <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
+              <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
+            </ng-template>
+            <ng-template #content>
+              <jhi-line-chart></jhi-line-chart>
+            </ng-template>
+          </e-panel>
+        </e-panels>
+      </ejs-dashboardlayout>
     </div>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="row">
-      <div class="col-md-6 p-3">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Chart 1</mat-card-title>
-            <mat-card-subtitle>Description Chart 1</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [dataSource]="chartData">
-              <e-series-collection>
-                <e-series type="Column" xName="month" yName="sales" name="Sales"></e-series>
-                <e-series type="Column" xName="month" yName="sales1" name="Sales"></e-series>
-              </e-series-collection>
-            </ejs-chart>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col-md-6 p-3">
-        <mat-card>
-          <mat-card-title>Chart 2</mat-card-title>
-          <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
-          <mat-card-content>
-            <ejs-chart
-              style="display: block"
-              align="center"
-              id="chartcontainer"
-              [title]="title"
-              [primaryXAxis]="primaryXAxis2"
-              [primaryYAxis]="primaryYAxis2"
-              [tooltip]="tooltip"
-              (load)="load($event)"
-              [chartArea]="chartArea"
-              [width]="width"
-            >
-              <e-series-collection>
-                <e-series [dataSource]="data" type="Line" xName="x" yName="y" name="Germany" width="2" [marker]="marker"> </e-series>
-                <e-series [dataSource]="data1" type="Line" xName="x" yName="y" name="England" width="2" [marker]="marker"> </e-series>
-              </e-series-collection>
-            </ejs-chart>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  </mat-card-content>
-</mat-card>
+  </div>
+  <mat-card id="footer" class="w-100 my-2"
+    ><label>Credit Approval System of Hana Bank <br />Version 2.0.6</label></mat-card
+  >
+</div>
