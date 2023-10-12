@@ -670,7 +670,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
               ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
               : SUBMENU_COLLATERAL_APPRAISAL;
         }
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+        // this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
         this.subMenu =
           this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
