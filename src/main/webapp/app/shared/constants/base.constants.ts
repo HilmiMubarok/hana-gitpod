@@ -2835,3 +2835,17 @@ export const DPDL_FINALIZE: object[] = [
     text: 'Loan Facility Detail',
   },
 ];
+
+export const DAR_REVISION: object[] = [
+  {
+    id: '',
+    text: 'MENU',
+  },
+];
+
+export const DAR_REVISION_CHECKER: object[] = [
+  {
+    id: '',
+    text: 'MENU',
+  },
+];

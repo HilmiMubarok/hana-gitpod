@@ -562,6 +562,14 @@ import { RouterModule } from '@angular/router';
         path: 'dpdl-finalize',
         loadChildren: () => import('./dpdl-finalize/dpdl-finalize.module').then(m => m.DpdlFinalizeModule),
       },
+      {
+        path: 'dar-revision',
+        loadChildren: () => import('./dar-revision/dar-revision.module').then(m => m.DarRevisionModule),
+      },
+      {
+        path: 'dar-revision-checker',
+        loadChildren: () => import('./dar-revision-checker/dar-revision-checker.module').then(m => m.DarRevisionCheckerModule),
+      },
     ]),
   ],
 })
