@@ -263,6 +263,16 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'loan-analys-and-approval-monitoring',
       },
+      {
+        name: 'DAR Revision',
+        iconname: 'minus',
+        route: 'dar-revision',
+      },
+      {
+        name: 'DAR Revision Checker',
+        iconname: 'minus',
+        route: 'dar-revision-checker',
+      },
     ],
   },
   {
