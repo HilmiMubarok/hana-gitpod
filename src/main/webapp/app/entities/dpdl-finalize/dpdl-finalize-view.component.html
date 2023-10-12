@@ -46,6 +46,12 @@
         <jhi-agremeent-compare-revision-final [creditProposal]="creditProposal"> </jhi-agremeent-compare-revision-final>
       </e-card>
     </div>
+
+    <!-- loan facility detail -->
+    <div *ngIf="clickedMenu === 'loan-facility'">
+      <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
+      </jhi-credit-proposal-tab-loan-facility-detail>
+    </div>
   </div>
 
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">

@@ -2814,4 +2814,8 @@ export const DPDL_FINALIZE: object[] = [
     id: 'compare-data',
     text: 'Compare Data',
   },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
 ];
