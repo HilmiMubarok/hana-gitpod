@@ -237,6 +237,12 @@
     ></jhi-credit-proposal-memo-banding>
   </div>
 
+  <!-- loan facility detail -->
+  <div *ngIf="clickedMenu === 'loan-facility'">
+    <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
+    </jhi-credit-proposal-tab-loan-facility-detail>
+  </div>
+
   <!--- collateral info -->
   <div *ngIf="clickedMenu === 'finalize-credit-agreement'">
     <jhi-finalize-credit-agreement> </jhi-finalize-credit-agreement>

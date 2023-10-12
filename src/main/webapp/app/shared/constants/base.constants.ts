@@ -2776,6 +2776,10 @@ export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
     id: 'collateral-info',
     text: 'collateral info',
   },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
 ];
 
 export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
