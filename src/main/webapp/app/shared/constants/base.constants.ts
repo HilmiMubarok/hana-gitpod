@@ -2762,3 +2762,36 @@ export const DELEGATION: object[] = [
     label: 'Delegaition Application',
   },
 ];
+
+export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
+  {
+    id: 'finalize-credit-agreement',
+    text: 'Finalize Credit Agreement',
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+];
+
+export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
+  {
+    id: '',
+    text: 'MENU',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+];
+
+export const DPDL_FINALIZE: object[] = [
+  {
+    id: '',
+    text: 'MENU',
+  },
+];

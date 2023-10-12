@@ -308,6 +308,33 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       },
     ],
   },
+  {
+    name: 'Cerdit Agreement',
+    iconname: 'suitcase',
+    children: [
+      {
+        name: ' Finalize Credit Agreement',
+        iconname: 'minus',
+        route: 'credit-agreement',
+      },
+      {
+        name: ' Credit Agreement Review',
+        iconname: 'minus',
+        route: 'credit-agreement-review',
+      },
+    ],
+  },
+  {
+    name: 'DPDL',
+    iconname: 'suitcase',
+    children: [
+      {
+        name: ' Finalize DPDL',
+        iconname: 'minus',
+        route: 'dpdl-finalize',
+      },
+    ],
+  },
   // {
   //   name: 'MIS Report',
   //   iconname: 'file-lines',
@@ -701,6 +728,7 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
       },
     ],
   },
+
   // {
   //   name: 'MIS Report',
   //   iconname: 'file-lines',
