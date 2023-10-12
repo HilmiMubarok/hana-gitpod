@@ -25,11 +25,11 @@ export class PieChartComponent implements OnInit {
   public initPieChart(): void {
     this.pieChartOptions = {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           display: true,
-          fullSize: true,
+          fullSize: false,
           position: 'top',
         },
       },
