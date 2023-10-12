@@ -973,3 +973,10 @@ mat-sidenav {
   font-size: 18px;
 }
 /* submenu css */
+/* btn-mnu-float-override */
+.btn-menu-floating {
+  position: fixed !important;
+  bottom: 27rem !important;
+  right: 9px !important;
+  transform: translate(10px, 20px) !important;
+}

@@ -2765,39 +2765,55 @@ export const DELEGATION: object[] = [
 
 export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
   {
-    id: 'finalize-credit-agreement',
-    text: 'Finalize Credit Agreement',
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
   },
   {
     id: 'opinion',
     text: 'Opinion',
   },
   {
-    id: 'collateral-info',
-    text: 'collateral info',
-  },
-  {
-    id: 'loan-facility',
-    text: 'Loan Facility Detail',
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
   },
   {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+  {
+    id: 'finalize-credit-agreement',
+    text: 'Finalize Credit Agreement',
   },
 ];
 
 export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
   {
-    id: '',
-    text: 'MENU',
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
   },
   {
     id: 'collateral-info',
     text: 'collateral info',
   },
   {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+  {
+    id: 'finalize-credit-agreement',
+    text: 'Finalize Credit Agreement',
   },
 ];
 
