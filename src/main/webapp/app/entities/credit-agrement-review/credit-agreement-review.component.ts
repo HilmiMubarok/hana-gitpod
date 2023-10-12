@@ -157,9 +157,6 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
     this.loadAll();
     this.checkLogin();
     this.getPositionTypeId();
-    if (this.creditProposal.cif) {
-      this.loadByPartyId(this.creditProposal.cif.partyId);
-    }
   }
   private loadByPartyId(param: string): void {
     this.collateralService

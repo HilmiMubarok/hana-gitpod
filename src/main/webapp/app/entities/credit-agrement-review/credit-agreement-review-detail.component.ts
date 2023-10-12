@@ -392,26 +392,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
           this.CPMemoBandingRemarkComponent.triggeredSave();
         }
 
-        /* if (this.creditProposalOpinionHistoryComponent) {
-          this.creditProposalOpinionHistoryComponent.triggeredSave();
-          this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-          this.creditProposalOpinionHistoryComponent.refresh();
-		} */
-
-        if (this.CreditProposalTabSummaryComponent) {
-          this.CreditProposalTabSummaryComponent.triggeredSave();
-        }
-
-        if (this.parentPath !== 'cp-status-approval') {
-          if (this.proposalBasicInformationViewComponent) {
-            this.proposalBasicInformationViewComponent.triggeredSave();
-          }
-        }
-
-        if (this.creditProposaTabManagementInfoComponent) {
-          this.creditProposaTabManagementInfoComponent.triggeredSave();
-        }
-
         if (this.creditProposalCollateralInfoComponent) {
           this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
         }
@@ -501,169 +481,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     this.showTextMenu();
     // this.cpGroub();
   }
-
-  // public setSubmenu(event: Object): void {
-  //   if (event) {
-  //     if (event === ID_GREATER_15_BN) {
-  //       if (this.parentPath === 'cp-status-approval') {
-  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
-  //           this.subMenu = [
-  //             {
-  //               id: 'credit-proposal-approval',
-  //               text: 'Credit Proposal Summary',
-  //             },
-  //             ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-  //             {
-  //               id: 'opinion',
-  //               text: 'Opinion',
-  //             },
-  //             {
-  //               id: 'memo-banding',
-  //               text: 'Memo Banding',
-  //             },
-  //           ];
-  //         } else {
-  //           this.subMenu = [
-  //             {
-  //               id: 'credit-proposal-approval',
-  //               text: 'Credit Proposal Summary',
-  //             },
-  //             ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-  //             {
-  //               id: 'opinion',
-  //               text: 'Opinion',
-  //             },
-  //           ];
-  //         }
-  //       } else {
-  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
-  //           this.subMenu = [
-  //             ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-  //             {
-  //               id: 'memo-banding',
-  //               text: 'Memo Banding',
-  //             },
-  //           ];
-  //         } else {
-  //           this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
-  //         }
-  //       }
-  //     } else if (event === ID_LOWER_EQUAL_15_BN) {
-  //       if (this.parentPath === 'cp-status-approval') {
-  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
-  //           this.subMenu = [
-  //             {
-  //               id: 'credit-proposal-approval',
-  //               text: 'Credit Proposal Summary',
-  //             },
-  //             ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-  //             {
-  //               id: 'opinion',
-  //               text: 'Opinion',
-  //             },
-  //             {
-  //               id: 'memo-banding',
-  //               text: 'Memo Banding',
-  //             },
-  //           ];
-  //         } else {
-  //           this.subMenu = [
-  //             {
-  //               id: 'credit-proposal-approval',
-  //               text: 'Credit Proposal Summary',
-  //             },
-  //             ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-  //             {
-  //               id: 'opinion',
-  //               text: 'Opinion',
-  //             },
-  //           ];
-  //         }
-  //       } else {
-  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
-  //           this.subMenu = [
-  //             ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-  //             {
-  //               id: 'memo-banding',
-  //               text: 'Memo Banding',
-  //             },
-  //           ];
-  //         } else {
-  //           this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
-  //         }
-  //       }
-  //     } else if (event === ID_BACK_TO_BACK) {
-  //       if (this.parentPath === 'cp-status-approval') {
-  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
-  //           this.subMenu = [
-  //             {
-  //               id: 'credit-proposal-approval',
-  //               text: 'Credit Proposal Summary',
-  //             },
-  //             ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-  //             {
-  //               id: 'opinion',
-  //               text: 'Opinion',
-  //             },
-  //             {
-  //               id: 'memo-banding',
-  //               text: 'Memo Banding',
-  //             },
-  //           ];
-  //         } else {
-  //           this.subMenu = [
-  //             {
-  //               id: 'credit-proposal-approval',
-  //               text: 'Credit Proposal Summary',
-  //             },
-  //             ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-  //             {
-  //               id: 'opinion',
-  //               text: 'Opinion',
-  //             },
-  //           ];
-  //         }
-  //       } else {
-  //         if (this.creditProposal.attributes['previousOfferingLetter']) {
-  //           this.subMenu = [
-  //             ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-  //             {
-  //               id: 'memo-banding',
-  //               text: 'Memo Banding',
-  //             },
-  //           ];
-  //         } else {
-  //           this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
-  //         }
-  //       }
-  //     } else {
-  //       if (this.creditProposal.attributes['previousOfferingLetter']) {
-  //         this.subMenu = [
-  //           ...PROPOSAL_TYPE,
-  //           {
-  //             id: 'memo-banding',
-  //             text: 'Memo Banding',
-  //           },
-  //         ];
-  //       } else {
-  //         this.subMenu = PROPOSAL_TYPE;
-  //       }
-  //     }
-  //   } else {
-  //     if (this.creditProposal.attributes['previousOfferingLetter']) {
-  //       this.subMenu = [
-  //         ...PROPOSAL_TYPE,
-  //         {
-  //           id: 'memo-banding',
-  //           text: 'Memo Banding',
-  //         },
-  //       ];
-  //     } else {
-  //       this.subMenu = PROPOSAL_TYPE;
-  //     }
-  //   }
-  //   // this.clickedMenu = 'basic-information';
-  // }
 
   public setMainMenuCp() {
     if (this.parentPath === 'credit-agreement-review') {
@@ -1241,13 +1058,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
                       } else {
                         ++countValidate;
                       }
-
-                      /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
                     }
                   } else {
                     // toast opinion empty
@@ -1265,17 +1075,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
                         const fileReaderCondition: FileReader = new FileReader();
                         fileReaderCondition.onload = (eCondition: any) => {
                           const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-                          /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
 
                           if (
                             testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -1323,13 +1122,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
                               } else {
                                 ++countValidate;
                               }
-
-                              /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-								++countValidate;
-							  } else {
-								// toast condition empty
-								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							  } */
                             }
                           } else {
                             // toast condition empty
@@ -1522,14 +1314,8 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
-    copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
-    copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
-    copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
-    copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
     copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
-    copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
     copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
-    copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
     copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
     copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
     copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
@@ -1539,15 +1325,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
     copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
     copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
-    copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
-    copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
-    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
-    copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
     copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
-    copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
-    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
-    copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
-    copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
     copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
     copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
     copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
@@ -1555,7 +1333,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
     copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
-    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
     copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
@@ -1610,10 +1387,10 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'cp-status-approval') {
-      return 'Credit Proposal Approval';
+    if (value === 'credit-agreement-review') {
+      return 'Credit Agreement Review';
     } else {
-      return 'Credit Proposal';
+      return 'Credit Agreement Review';
     }
   }
 
@@ -1825,17 +1602,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     }
     return 0;
   }
-
-  // public cpGroub() {
-  //   const setDate = new Date().toISOString().split('T')[0];
-  //   this.creditAgreementReviewService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-  //     this.currencyMaster = res.body[0]?.factor;
-  //   });
-  //   this.creditAgreementReviewService.applicationGroubProduct(this.id).subscribe((response: any) => {
-  //     this.filterBusinessGroupDebtorData(response.body);
-  //     this.creditProposal.attributes['calculationExposure'].totalPsrGroup = this.countTotalPsrGroup();
-  //   });
-  // }
 
   private filterBusinessGroupDebtorData(source: any[]): void {
     if (source.length > 0) {
