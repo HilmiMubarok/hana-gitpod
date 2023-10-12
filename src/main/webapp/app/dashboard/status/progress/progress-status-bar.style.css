@@ -131,9 +131,9 @@ mat-icon {
 
 label fa-icon {
   position: absolute !important;
-  left: 5.62vw !important;
-  top: 3.25vw !important;
-  font-size: 3.85vw !important;
+  left: calc(7.882vw - 34px) !important;
+  top: calc(4.99vw - 23px) !important;
+  font-size: calc(4.755vw - 23px) !important;
 }
 
 .spacer {
