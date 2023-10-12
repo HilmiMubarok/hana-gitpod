@@ -2788,3 +2788,10 @@ export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
     text: 'collateral info',
   },
 ];
+
+export const DPDL_FINALIZE: object[] = [
+  {
+    id: '',
+    text: 'MENU',
+  },
+];

@@ -558,6 +558,10 @@ import { RouterModule } from '@angular/router';
         path: 'menu-access',
         loadChildren: () => import('./menu-access/menu-access.module').then(m => m.LosgwMenuAccessModule),
       },
+      {
+        path: 'dpdl-finalize',
+        loadChildren: () => import('./dpdl-finalize/dpdl-finalize.module').then(m => m.DpdlFinalizeModule),
+      },
     ]),
   ],
 })
