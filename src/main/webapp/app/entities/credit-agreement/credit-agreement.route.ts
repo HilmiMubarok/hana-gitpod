@@ -14,67 +14,424 @@ import { CreditAgreementComponent } from './credit-agreement.component';
 import { CreditAgreementDetailComponent } from './credit-agreementdetail.component';
 import { CreditAgreementService } from './credit-agreement.service';
 import { CreditAgreement, ICreditAgreement } from './credit-agreement.model';
-import { CoverageTotal } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.model';
+import { CoverageTotal, CreditProposalCollateralData } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.model';
+import { FinancialState } from '../credit-proposal/repayment-spreadsheet/remarks/financial-statement-remarks.model';
+import { ProspectPerson } from '../credit-proposal/basic-prospect-person/prospect-person.model';
+import { BasicInformation } from '../credit-proposal/basic-information/basic-information.model';
+import { RisksAcceptenceCriteria } from '../credit-proposal/risk-criteria/risk-criteria.model';
+import { BusinessActivity } from '../credit-proposal/busines-activity/busines-activity.model';
+import { Guarantour } from '../credit-proposal/guarantour/guarantour.model';
+import { Covenant } from '../credit-proposal/convenant/convenant.constant';
+import { AnalysisOfCalculation, ProformaLaporanKeuangan } from '../credit-proposal/financial-statement/financial-statement.constant';
+import { RepaymentCapability } from '../credit-proposal/repayment-capability/repayment-capability.constant';
+import { Facility } from '../facility/facility.model';
+import { TabCustomerProfitability } from '../credit-proposal/tab-customer-profitability/tab-customert-profitability.model';
+import { CheckRemarks } from '../credit-proposal/trade-checking/Remarks/remarks.model';
+import { CollateralInfoChecklist } from '../credit-proposal/collateral-info/checklist/collateral-info-checklist.model';
+import { CreditManagementInfo } from '../credit-proposal/credit-proposal-tab-management-info.model';
+import { CreditTabSummary } from '../credit-proposal/credit-proposal-tab-summary.model';
+import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-pricing.model';
+import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
+import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
+import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
+import { IndustryLimit } from '../credit-proposal/exposure/industry-limit/industry-limit.model';
+import { BankAccountAnalystMessage } from '../credit-proposal/bank-account-analyst/bank-account-analyst.model';
+import { OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
+import { RejectReason } from '../credit-proposal/forward-to/reject-to.model';
+import { LegalLendingLimit } from '../credit-proposal/exposure/legal-lending/legal-lending-limit.model';
+import { CalculationExposure } from '../credit-proposal/exposure/total-exposure/calculation-exposure.model';
+import { GroupCollateralTotal } from '../credit-proposal/collateral-info/group-collateral/group-collateral-total.model';
+import { CollateralSummary } from '../credit-proposal/collateral-info/collateral-summary/collateral-summary-total.model';
+import { DocumentData } from '../loan-analys/assign-to/assign.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditAgreementReviewResolve implements Resolve<ICreditAgreement> {
   constructor(private service: CreditAgreementService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ICreditAgreement> | Observable<never> {
-    const useTemplate = 'default';
+    const useTemplate = 'PERSON';
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((creditAgreement: HttpResponse<ICreditAgreement>) => {
-          if (creditAgreement.body) {
-            if (creditAgreement.body.collaterals.length > 0) {
-              for (let i = 0; i < creditAgreement.body.collaterals.length; i++) {
-                if (!lodash.has(creditAgreement.body.collaterals[i].attributes, 'notes')) {
-                  creditAgreement.body.collaterals[i].attributes['notes'] = '';
+        mergeMap((creditProposal: HttpResponse<ICreditAgreement>) => {
+          if (creditProposal.body) {
+            if (creditProposal.body.collaterals.length > 0) {
+              for (let i = 0; i < creditProposal.body.collaterals.length; i++) {
+                if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'notes')) {
+                  creditProposal.body.collaterals[i].attributes['notes'] = '';
                 }
 
-                if (!lodash.has(creditAgreement.body.collaterals[i].attributes, 'crossCollateral')) {
-                  creditAgreement.body.collaterals[i].attributes['crossCollateral'] = '';
+                if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'crossCollateral')) {
+                  creditProposal.body.collaterals[i].attributes['crossCollateral'] = '';
                 }
 
-                if (!lodash.has(creditAgreement.body.collaterals[i].attributes, 'bindingValue')) {
-                  creditAgreement.body.collaterals[i].attributes['bindingValue'] = '';
+                if (!lodash.has(creditProposal.body.collaterals[i].attributes, 'bindingValue')) {
+                  creditProposal.body.collaterals[i].attributes['bindingValue'] = '';
                 }
               }
             }
 
-            if (!lodash.has(creditAgreement.body.attributes, 'coverageTotal')) {
-              creditAgreement.body.attributes['coverageTotal'] = new CoverageTotal();
+            if (!lodash.has(creditProposal.body.attributes, 'insurance')) {
+              creditProposal.body.attributes['insurance'] = [];
             } else {
-              creditAgreement.body.attributes['coverageTotal'] = JSON.parse(creditAgreement.body.attributes['coverageTotal']);
-            }
-            if (creditAgreement.body.prospectOrganization) {
-              creditAgreement.body.prospectOrganization.cif = creditAgreement.body.prospectOrganization.attributes['cif'];
-              creditAgreement.body.prospectOrganization.businessTypeId =
-                creditAgreement.body.prospectOrganization.attributes['businessTypeId'];
-              creditAgreement.body.prospectOrganization.bodTermEndDate =
-                creditAgreement.body.prospectOrganization.attributes['bodTermEndDate'];
-              creditAgreement.body.prospectOrganization.deedOfEstablishNo =
-                creditAgreement.body.prospectOrganization.attributes['deedOfEstablishNo'];
-              creditAgreement.body.prospectOrganization.endOfDate = creditAgreement.body.prospectOrganization.attributes['endOfDate'];
-              creditAgreement.body.prospectOrganization.identityTypeId =
-                creditAgreement.body.prospectOrganization.attributes['identityTypeId'];
-              creditAgreement.body.prospectOrganization.identityNumber =
-                creditAgreement.body.prospectOrganization.attributes['identityNumber'];
-              creditAgreement.body.prospectOrganization.koreanIdNumber =
-                creditAgreement.body.prospectOrganization.attributes['koreanIdNumber'];
-              creditAgreement.body.prospectOrganization.lineOfBusinessId =
-                creditAgreement.body.prospectOrganization.attributes['lineOfBusinessId'];
-              creditAgreement.body.prospectOrganization.notaryName = creditAgreement.body.prospectOrganization.attributes['notaryName'];
-              creditAgreement.body.prospectOrganization.npwp = creditAgreement.body.prospectOrganization.attributes['npwp'];
-              creditAgreement.body.prospectOrganization.otherName = creditAgreement.body.prospectOrganization.attributes['otherName'];
-              creditAgreement.body.prospectOrganization.pepId = creditAgreement.body.prospectOrganization.attributes['pepId'];
-              creditAgreement.body.prospectOrganization.pic = creditAgreement.body.prospectOrganization.attributes['pic'];
-              creditAgreement.body.prospectOrganization.riskProfileId =
-                creditAgreement.body.prospectOrganization.attributes['riskProfileId'];
+              creditProposal.body.attributes['insurance'] = JSON.parse(creditProposal.body.attributes['insurance']);
             }
 
-            return of(creditAgreement.body);
+            if (!lodash.has(creditProposal.body.attributes, 'binding')) {
+              creditProposal.body.attributes['binding'] = [];
+            } else {
+              creditProposal.body.attributes['binding'] = JSON.parse(creditProposal.body.attributes['binding']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'businessGroup')) {
+              creditProposal.body.attributes['businessGroup'] = [];
+            } else {
+              creditProposal.body.attributes['businessGroup'] = JSON.parse(creditProposal.body.attributes['businessGroup']);
+            }
+
+            if (!lodash.has(creditProposal.body.debtorData.attributes, 'prospectPerson')) {
+              creditProposal.body.debtorData.attributes['prospectPerson'] = new ProspectPerson();
+            } else {
+              creditProposal.body.debtorData.attributes['prospectPerson'] = JSON.parse(
+                creditProposal.body.debtorData.attributes['prospectPerson']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'shareHolder')) {
+              creditProposal.body.attributes['shareHolder'] = [];
+            } else {
+              creditProposal.body.attributes['shareHolder'] = JSON.parse(creditProposal.body.attributes['shareHolder']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'correspondence')) {
+              creditProposal.body.attributes['correspondence'] = [];
+            } else {
+              creditProposal.body.attributes['correspondence'] = JSON.parse(creditProposal.body.attributes['correspondence']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'basicInformation')) {
+              creditProposal.body.attributes['basicInformation'] = new BasicInformation();
+            } else {
+              creditProposal.body.attributes['basicInformation'] = JSON.parse(creditProposal.body.attributes['basicInformation']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'riksCriteria')) {
+              creditProposal.body.attributes['riksCriteria'] = new RisksAcceptenceCriteria();
+            } else {
+              creditProposal.body.attributes['riksCriteria'] = JSON.parse(creditProposal.body.attributes['riksCriteria']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'businessActivity')) {
+              creditProposal.body.attributes['businessActivity'] = new BusinessActivity();
+            } else {
+              creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
+              creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
+            } else {
+              creditProposal.body.attributes['guaranturAnalysis'] = JSON.parse(creditProposal.body.attributes['guaranturAnalysis']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'convenant')) {
+              creditProposal.body.attributes['convenant'] = new Covenant();
+            } else {
+              creditProposal.body.attributes['convenant'] = JSON.parse(creditProposal.body.attributes['convenant']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'bankAnalyst')) {
+              creditProposal.body.attributes['bankAnalyst'] = [];
+            } else {
+              creditProposal.body.attributes['bankAnalyst'] = JSON.parse(creditProposal.body.attributes['bankAnalyst']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'analysisOfCalculation')) {
+              creditProposal.body.attributes['analysisOfCalculation'] = new AnalysisOfCalculation();
+            } else {
+              creditProposal.body.attributes['analysisOfCalculation'] = JSON.parse(creditProposal.body.attributes['analysisOfCalculation']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'proformaLaporanKeuangan')) {
+              creditProposal.body.attributes['proformaLaporanKeuangan'] = [];
+              creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
+              creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());
+            } else {
+              creditProposal.body.attributes['proformaLaporanKeuangan'] = JSON.parse(
+                creditProposal.body.attributes['proformaLaporanKeuangan']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'proposalType')) {
+              creditProposal.body.attributes['proposalType'] = '';
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'repaymentCapability')) {
+              creditProposal.body.attributes['repaymentCapability'] = [];
+              creditProposal.body.attributes['repaymentCapability'].push(new RepaymentCapability());
+            } else {
+              creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
+              creditProposal.body.attributes['facilityDetail'] = new Facility();
+            } else {
+              creditProposal.body.attributes['facilityDetail'] = JSON.parse(creditProposal.body.attributes['facilityDetail']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tabCustomer')) {
+              creditProposal.body.attributes['tabCustomer'] = new TabCustomerProfitability();
+            } else {
+              creditProposal.body.attributes['tabCustomer'] = JSON.parse(creditProposal.body.attributes['tabCustomer']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingSupplier')) {
+              creditProposal.body.attributes['tradeCheckingSupplier'] = [];
+            } else {
+              creditProposal.body.attributes['tradeCheckingSupplier'] = JSON.parse(creditProposal.body.attributes['tradeCheckingSupplier']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingBuyers')) {
+              creditProposal.body.attributes['tradeCheckingBuyers'] = [];
+            } else {
+              creditProposal.body.attributes['tradeCheckingBuyers'] = JSON.parse(creditProposal.body.attributes['tradeCheckingBuyers']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tradeCheckingRemarks')) {
+              creditProposal.body.attributes['tradeCheckingRemarks'] = new CheckRemarks();
+            } else {
+              creditProposal.body.attributes['tradeCheckingRemarks'] = JSON.parse(creditProposal.body.attributes['tradeCheckingRemarks']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'collateralChecklist')) {
+              creditProposal.body.attributes['collateralChecklist'] = new CollateralInfoChecklist();
+            } else {
+              creditProposal.body.attributes['collateralChecklist'] = JSON.parse(creditProposal.body.attributes['collateralChecklist']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'managementInfo')) {
+              creditProposal.body.attributes['managementInfo'] = new CreditManagementInfo();
+            } else {
+              creditProposal.body.attributes['managementInfo'] = JSON.parse(creditProposal.body.attributes['managementInfo']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'tabSummaryMessage')) {
+              creditProposal.body.attributes['tabSummaryMessage'] = new CreditTabSummary();
+            } else {
+              creditProposal.body.attributes['tabSummaryMessage'] = JSON.parse(creditProposal.body.attributes['tabSummaryMessage']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'purposePricing')) {
+              creditProposal.body.attributes['purposePricing'] = new PurposePricing();
+            } else {
+              creditProposal.body.attributes['purposePricing'] = JSON.parse(creditProposal.body.attributes['purposePricing']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'creditProposalCollateralData')) {
+              creditProposal.body.attributes['creditProposalCollateralData'] = new CreditProposalCollateralData();
+            } else {
+              creditProposal.body.attributes['creditProposalCollateralData'] = JSON.parse(
+                creditProposal.body.attributes['creditProposalCollateralData']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'cpRacBelow')) {
+              creditProposal.body.attributes['cpRacBelow'] = new CpRacBelow();
+            } else {
+              creditProposal.body.attributes['cpRacBelow'] = JSON.parse(creditProposal.body.attributes['cpRacBelow']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'cpRacBack')) {
+              creditProposal.body.attributes['cpRacBack'] = new CpRacBack();
+            } else {
+              creditProposal.body.attributes['cpRacBack'] = JSON.parse(creditProposal.body.attributes['cpRacBack']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'emptyField')) {
+              creditProposal.body.attributes['emptyField'] = [];
+            } else {
+              creditProposal.body.attributes['emptyField'] = JSON.parse(creditProposal.body.attributes['emptyField']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'collateralPrevious')) {
+              creditProposal.body.attributes['collateralPrevious'] = [];
+            } else {
+              creditProposal.body.attributes['collateralPrevious'] = JSON.parse(creditProposal.body.attributes['collateralPrevious']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOver')) {
+              creditProposal.body.attributes['facilityTakeOver'] = [];
+            } else {
+              creditProposal.body.attributes['facilityTakeOver'] = JSON.parse(creditProposal.body.attributes['facilityTakeOver']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'facilityTakeOverAfterBank')) {
+              creditProposal.body.attributes['facilityTakeOverAfterBank'] = [];
+            } else {
+              creditProposal.body.attributes['facilityTakeOverAfterBank'] = JSON.parse(
+                creditProposal.body.attributes['facilityTakeOverAfterBank']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'complienceReccomendation')) {
+              creditProposal.body.attributes['complienceReccomendation'] = new ComplienceRecommendation();
+            } else {
+              creditProposal.body.attributes['complienceReccomendation'] = JSON.parse(
+                creditProposal.body.attributes['complienceReccomendation']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'industryLimit')) {
+              creditProposal.body.attributes['industryLimit'] = new IndustryLimit();
+            } else {
+              creditProposal.body.attributes['industryLimit'] = JSON.parse(creditProposal.body.attributes['industryLimit']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'bankAnalystMessage')) {
+              creditProposal.body.attributes['bankAnalystMessage'] = new BankAccountAnalystMessage();
+            } else {
+              creditProposal.body.attributes['bankAnalystMessage'] = JSON.parse(creditProposal.body.attributes['bankAnalystMessage']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'offeringLetter')) {
+              creditProposal.body.attributes['offeringLetter'] = [];
+            } else {
+              creditProposal.body.attributes['offeringLetter'] = JSON.parse(creditProposal.body.attributes['offeringLetter']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'previous')) {
+              creditProposal.body.attributes['previous'] = [];
+            } else {
+              creditProposal.body.attributes['previous'] = JSON.parse(creditProposal.body.attributes['previous']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'loanHobbies')) {
+              creditProposal.body.attributes['loanHobbies'] = '';
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'offeringLetterPreparation')) {
+              creditProposal.body.attributes['offeringLetterPreparation'] = new OfferingLetterPreparation();
+            } else {
+              creditProposal.body.attributes['offeringLetterPreparation'] = JSON.parse(
+                creditProposal.body.attributes['offeringLetterPreparation']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'retriveData')) {
+              creditProposal.body.attributes['retriveData'] = [];
+            } else {
+              creditProposal.body.attributes['retriveData'] = JSON.parse(creditProposal.body.attributes['retriveData']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'remarksFinancialStatement')) {
+              creditProposal.body.attributes['remarksFinancialStatement'] = new FinancialState();
+            } else {
+              creditProposal.body.attributes['remarksFinancialStatement'] = JSON.parse(
+                creditProposal.body.attributes['remarksFinancialStatement']
+              );
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'approvalStatus')) {
+              creditProposal.body.attributes['approvalStatus'] = [];
+            } else {
+              creditProposal.body.attributes['approvalStatus'] = JSON.parse(creditProposal.body.attributes['approvalStatus']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'rejectReason')) {
+              creditProposal.body.attributes['rejectReason'] = new RejectReason();
+            } else {
+              creditProposal.body.attributes['rejectReason'] = JSON.parse(creditProposal.body.attributes['rejectReason']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'legalLendingLimit')) {
+              creditProposal.body.attributes['legalLendingLimit'] = new LegalLendingLimit();
+            } else {
+              creditProposal.body.attributes['legalLendingLimit'] = JSON.parse(creditProposal.body.attributes['legalLendingLimit']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'calculationExposure')) {
+              creditProposal.body.attributes['calculationExposure'] = new CalculationExposure();
+            } else {
+              creditProposal.body.attributes['calculationExposure'] = JSON.parse(creditProposal.body.attributes['calculationExposure']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'lendingProgramParameter')) {
+              creditProposal.body.attributes['lendingProgramParameter'] = [];
+            } else {
+              creditProposal.body.attributes['lendingProgramParameter'] = JSON.parse(
+                creditProposal.body.attributes['lendingProgramParameter']
+              );
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'coverageTotal')) {
+              creditProposal.body.attributes['coverageTotal'] = new CoverageTotal();
+            } else {
+              creditProposal.body.attributes['coverageTotal'] = JSON.parse(creditProposal.body.attributes['coverageTotal']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'collateralGroup')) {
+              creditProposal.body.attributes['collateralGroup'] = new GroupCollateralTotal();
+            } else {
+              creditProposal.body.attributes['collateralGroup'] = JSON.parse(creditProposal.body.attributes['collateralGroup']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'collateralSummary')) {
+              creditProposal.body.attributes['collateralSummary'] = new CollateralSummary();
+            } else {
+              creditProposal.body.attributes['collateralSummary'] = JSON.parse(creditProposal.body.attributes['collateralSummary']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignTo')) {
+              creditProposal.body.attributes['dataAssignTo'] = [];
+              creditProposal.body.attributes['dataAssignTo'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignTo'] = JSON.parse(creditProposal.body.attributes['dataAssignTo']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToCRO')) {
+              creditProposal.body.attributes['dataAssignToCRO'] = [];
+              creditProposal.body.attributes['dataAssignToCRO'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignToCRO'] = JSON.parse(creditProposal.body.attributes['dataAssignToCRO']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToCCAdmin')) {
+              creditProposal.body.attributes['dataAssignToCCAdmin'] = [];
+              creditProposal.body.attributes['dataAssignToCCAdmin'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignToCCAdmin'] = JSON.parse(creditProposal.body.attributes['dataAssignToCCAdmin']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToLegalOfficer')) {
+              creditProposal.body.attributes['dataAssignToLegalOfficer'] = [];
+              creditProposal.body.attributes['dataAssignToLegalOfficer'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignToLegalOfficer'] = JSON.parse(
+                creditProposal.body.attributes['dataAssignToLegalOfficer']
+              );
+            }
+
+            if (creditProposal.body.prospectOrganization) {
+              creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
+              creditProposal.body.prospectOrganization.businessTypeId =
+                creditProposal.body.prospectOrganization.attributes['businessTypeId'];
+              creditProposal.body.prospectOrganization.bodTermEndDate =
+                creditProposal.body.prospectOrganization.attributes['bodTermEndDate'];
+              creditProposal.body.prospectOrganization.deedOfEstablishNo =
+                creditProposal.body.prospectOrganization.attributes['deedOfEstablishNo'];
+              creditProposal.body.prospectOrganization.endOfDate = creditProposal.body.prospectOrganization.attributes['endOfDate'];
+              creditProposal.body.prospectOrganization.identityTypeId =
+                creditProposal.body.prospectOrganization.attributes['identityTypeId'];
+              creditProposal.body.prospectOrganization.identityNumber =
+                creditProposal.body.prospectOrganization.attributes['identityNumber'];
+              creditProposal.body.prospectOrganization.koreanIdNumber =
+                creditProposal.body.prospectOrganization.attributes['koreanIdNumber'];
+              creditProposal.body.prospectOrganization.lineOfBusinessId =
+                creditProposal.body.prospectOrganization.attributes['lineOfBusinessId'];
+              creditProposal.body.prospectOrganization.notaryName = creditProposal.body.prospectOrganization.attributes['notaryName'];
+              creditProposal.body.prospectOrganization.npwp = creditProposal.body.prospectOrganization.attributes['npwp'];
+              creditProposal.body.prospectOrganization.otherName = creditProposal.body.prospectOrganization.attributes['otherName'];
+              creditProposal.body.prospectOrganization.pepId = creditProposal.body.prospectOrganization.attributes['pepId'];
+              creditProposal.body.prospectOrganization.pic = creditProposal.body.prospectOrganization.attributes['pic'];
+              creditProposal.body.prospectOrganization.riskProfileId = creditProposal.body.prospectOrganization.attributes['riskProfileId'];
+            }
+
+            return of(creditProposal.body);
           } else {
             this.router.navigate(['404']);
             return EMPTY;
