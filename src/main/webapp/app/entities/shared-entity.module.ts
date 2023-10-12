@@ -395,6 +395,8 @@ import { GroupCollateralDarComponent } from './loan-analys/dar-final/collateral-
 import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-list-dar.component';
 import { CreditProposalSummaryGenerateMemoBandingComponent } from './credit-proposal/credit-proposal-summary-generate-memo-banding.component';
 import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposal/collateral-info/collateral-summary/credit-proposal-collateral-summary-dialog.component';
+import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compare-data-agremeent/dar-revision-final/agreement-compare-revision-final.component';
+import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -828,7 +830,7 @@ import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposa
     GroupCollateralAppraisalComponent,
     SummaryGridBtbComponent,
 
-    // cross dar // 
+    // cross dar //
     GroupCollateralDarComponent,
     GroupCollateralListDarComponent,
         MainFacilityInfoComponent,
@@ -852,7 +854,11 @@ import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposa
         CPMemoBandingCollateralBacktobackComponent,
         MemoBandingComponent,
         CreditProposalSummaryGenerateMemoBandingComponent,
-        CreditProposalCollateralSummaryDialogComponent,
+    CreditProposalCollateralSummaryDialogComponent,
+
+    // Aggrement Compare
+    AgremeentCompareRevisionFinalComponent,
+        AgreementComparePreviousDarComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1265,6 +1271,10 @@ import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposa
     MemoBandingComponent,
     CreditProposalSummaryGenerateMemoBandingComponent,
     CreditProposalCollateralSummaryDialogComponent,
+
+    // Agreement Compare
+    AgremeentCompareRevisionFinalComponent,
+    AgreementComparePreviousDarComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
