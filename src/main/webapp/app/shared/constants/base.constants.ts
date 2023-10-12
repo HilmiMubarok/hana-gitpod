@@ -2776,6 +2776,10 @@ export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
     id: 'collateral-info',
     text: 'collateral info',
   },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
 ];
 
 export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
@@ -2787,11 +2791,19 @@ export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
     id: 'collateral-info',
     text: 'collateral info',
   },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
 ];
 
 export const DPDL_FINALIZE: object[] = [
   {
     id: '',
     text: 'MENU',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
   },
 ];

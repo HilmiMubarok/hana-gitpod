@@ -19,10 +19,8 @@
     </div>
     <div style="margin: 1rem">
       <div class="mb-3">
-        <jhi-debtor-information
-          [cifNumber]="creditProposal.customerNumber"
-          [customerName]="creditProposal.cif.name"
-        ></jhi-debtor-information>
+        <jhi-debtor-information [cifNumber]="creditProposal.customerNumber" [customerName]="creditProposal.cif.name">
+        </jhi-debtor-information>
       </div>
     </div>
     <!-- PART 1 -->
@@ -244,16 +242,16 @@
 
   <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
     <section class="wrapper-card">
-      <e-card
-        ><jhi-credit-proposal-collateral-info
+      <e-card>
+        <jhi-credit-proposal-collateral-info
           [proposalType]="creditProposal.attributes.proposalType"
           #creditProposalCollateralInfoComponent
           [creditProposal]="creditProposal"
           [collateralProperties]="collateralProperties"
           [collateralPropertyGroupData]="collateralPropertyGroupData"
         >
-        </jhi-credit-proposal-collateral-info
-      ></e-card>
+        </jhi-credit-proposal-collateral-info>
+      </e-card>
     </section>
   </div>
 
@@ -272,8 +270,15 @@
         [creditProposalItem]="creditProposal"
         [notifyChild]="parentSubject"
       >
-      </jhi-loan-analys-opinion
-    ></e-card>
+      </jhi-loan-analys-opinion>
+    </e-card>
+  </div>
+
+  <!-- compare data -->
+  <div *ngIf="clickedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+    <e-card>
+      <jhi-agremeent-compare-revision-final [creditProposal]="creditProposal"> </jhi-agremeent-compare-revision-final>
+    </e-card>
   </div>
 
   <!-- PART 2 -->
