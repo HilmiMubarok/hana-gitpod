@@ -1,0 +1,156 @@
+/* variables */
+.container {
+  /* chip border radius */
+  --cash-status-border-radius: 0.25rem;
+  --cash-status-border-radius-sm: 0.25rem;
+  --cash-status-border-radius-lg: 0.375rem;
+  --cash-status-border-radius-xl: 1rem;
+  --cash-status-border-radius-xxl: 2rem;
+  --cash-status-border-radius-2xl: var(--cash-status-border-radius-xxl);
+  --cash-status-border-radius-pill: 50rem;
+
+  /* text & bg color */
+  --cash-status-gray-100-rgb: 249, 250, 253;
+  --cash-status-gray-200-rgb: 237, 242, 249;
+  --cash-status-gray-300-rgb: 216, 226, 239;
+  --cash-status-gray-400-rgb: 182, 193, 210;
+  --cash-status-gray-500-rgb: 157, 169, 187;
+  --cash-status-gray-600-rgb: 116, 129, 148;
+  --cash-status-gray-700-rgb: 94, 110, 130;
+  --cash-status-gray-800-rgb: 77, 89, 105;
+  --cash-status-gray-900-rgb: 52, 64, 80;
+  --cash-status-gray-1000-rgb: 35, 46, 60;
+  --cash-status-gray-1100-rgb: 11, 23, 39;
+  --cash-status-primary-rgb: 44, 123, 229;
+}
+
+.custom-mb {
+  margin-bottom: -0.85rem !important;
+}
+
+.total-count {
+  display: block;
+  margin-block-start: 0.4em;
+  margin-block-end: 0px;
+  margin-inline-start: 0.3em;
+  margin-inline-end: 0.3em;
+  font-size: 2.21vw;
+}
+
+.percentage-count {
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  margin-inline-start: 0.7em;
+  margin-inline-end: 5em;
+  white-space: nowrap !important;
+}
+.percentage-count::after {
+  content: '%';
+}
+.text-700 {
+  --cash-status-text-opacity: 1;
+  color: rgba(var(--cash-status-gray-700-rgb), var(--cash-status-text-opacity)) !important;
+}
+
+.lh-1 {
+  line-height: 1 !important;
+}
+
+.fw-normal {
+  font-weight: 400 !important;
+}
+
+.fw-normal {
+  font-weight: 400 !important;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem !important;
+}
+
+.percentage-count {
+  --cash-status-badge-padding-x: 0.711111em;
+  --cash-status-badge-padding-y: 0.355555em;
+  --cash-status-badge-font-size: 0.6vw;
+  --cash-status-badge-font-weight: 600;
+  --cash-status-badge-color: #fff;
+  --cash-status-badge-border-radius: var(--cash-status-border-radius);
+  display: inline-block;
+  padding: var(--cash-status-badge-padding-y) var(--cash-status-badge-padding-x);
+  font-size: var(--cash-status-badge-font-size);
+  font-weight: var(--cash-status-badge-font-weight);
+  line-height: 1;
+  color: var(--cash-status-badge-color);
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--cash-status-badge-border-radius);
+}
+
+.rounded-pill {
+  border-radius: var(--cash-status-border-radius-pill) !important;
+}
+
+.bg-200 {
+  --cash-status-bg-opacity: 1;
+  background-color: rgba(var(--cash-status-gray-200-rgb), var(--cash-status-bg-opacity)) !important;
+}
+
+.text-primary {
+  --cash-status-text-opacity: 1;
+  color: rgba(var(--cash-status-primary-rgb), var(--cash-status-text-opacity)) !important;
+}
+
+.fs--2 {
+  font-size: 0.8rem !important;
+}
+
+mat-icon {
+  transform: rotate(270deg) translate(-2px, 10%) !important;
+
+  font-family: 'Material Icons' !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  word-wrap: normal !important;
+  white-space: nowrap !important;
+  direction: ltr !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-rendering: optimizeLegibility !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  font-feature-settings: 'liga' !important;
+  user-select: none !important;
+  background-repeat: no-repeat !important ;
+  fill: currentColor !important;
+  height: 14px !important;
+  width: 9px !important;
+}
+
+label fa-icon {
+  position: absolute !important;
+  left: 5.62vw !important;
+  top: 3.25vw !important;
+  font-size: 3.85vw !important;
+}
+
+.spacer {
+  flex: 0.05 0.05 auto;
+}
+
+/* @property --num {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+
+#total-count {
+  transition: --num 1s;
+  counter-reset: num var(--num);
+}
+
+#total-count::after {
+  content: counter(num);
+} */

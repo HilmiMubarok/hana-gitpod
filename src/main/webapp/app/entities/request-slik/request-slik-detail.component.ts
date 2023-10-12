@@ -1020,7 +1020,6 @@ export class RequestSlikDetailComponent implements OnInit, OnDestroy {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
       });
     }
-    this.onSave().then(() => {});
     const dialogRef = this.dialog.open(RequestSlikPopupComponent, {
       width: '80vw',
       data: {

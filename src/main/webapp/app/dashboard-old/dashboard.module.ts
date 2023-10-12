@@ -6,8 +6,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DASHBOARD_ROUTE } from './dashboard.route';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { ChartAllModule, AccumulationChartAllModule, RangeNavigatorAllModule } from '@syncfusion/ej2-angular-charts';
-// import { CircularGaugeAllModule } from '@syncfusion/ej2-angular-circulargauge';
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import {
   CategoryService,
   DateTimeService,
@@ -20,13 +19,6 @@ import {
   LegendService,
   TooltipService,
 } from '@syncfusion/ej2-angular-charts';
-import { DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
-import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
-import { LineChartComponent } from './charts/line-chart/line-chart.component';
-import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
-import { StatusSlidesComponent } from './status/status-slides.component';
-import { ProgressStatusBarComponent } from './status/progress/progress-status-bar.component';
-import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -37,23 +29,9 @@ import { NgChartsModule } from 'ng2-charts';
     MatDividerModule,
 
     // syncfusion
-    DashboardLayoutModule,
-    ChartAllModule,
-    AccumulationChartAllModule,
-    RangeNavigatorAllModule,
-    // CircularGaugeAllModule,
-
-    // charts
-    NgChartsModule,
+    ChartModule,
   ],
-  declarations: [
-    DashboardComponent,
-    BarChartComponent,
-    LineChartComponent,
-    PieChartComponent,
-    StatusSlidesComponent,
-    ProgressStatusBarComponent,
-  ],
+  declarations: [DashboardComponent],
   providers: [
     CategoryService,
     DateTimeService,
