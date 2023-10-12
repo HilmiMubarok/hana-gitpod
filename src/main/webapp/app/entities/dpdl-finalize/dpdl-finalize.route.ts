@@ -8,7 +8,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
-import { IDpdlFinalize, CreditProposal } from './dpdl-finalize.model';
+import { IDpdlFinalizeModel, CreditProposal } from './dpdl-finalize.model';
 import { DpdlFinalizeService } from './dpdl-finalize.service';
 import { DpdlFinalizeComponent } from './dpdl-finalize.component';
 import lodash from 'lodash';
@@ -91,10 +91,10 @@ import { DpdlFinalizeViewComponent } from './dpdl-finalize-view.component';
 // import { CollateralSummary } from './collateral-info/collateral-summary/collateral-summary-total.model';
 
 @Injectable({ providedIn: 'root' })
-export class IdplFinalizeRoute implements Resolve<IDpdlFinalize> {
+export class IdplFinalizeRoute implements Resolve<IDpdlFinalizeModel> {
   constructor(private service: DpdlFinalizeService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IDpdlFinalize> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IDpdlFinalizeModel> | Observable<never> {
     const useTemplate = 'PERSON';
     const id = route.params['id'];
     if (id) {
@@ -487,7 +487,7 @@ export class IdplFinalizeRoute implements Resolve<IDpdlFinalize> {
     }
     if (useTemplate) {
       return this.service.template(useTemplate).pipe(
-        map((res: HttpResponse<IDpdlFinalize>) => res.body),
+        map((res: HttpResponse<IDpdlFinalizeModel>) => res.body),
         mergeMap(res => {
           if (res) {
             return of(res);

@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { IDpdlFinalize } from './dpdl-finalize.model';
+import { IDpdlFinalizeModel } from './dpdl-finalize.model';
 import { DpdlFinalizeService } from './dpdl-finalize.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { faBullseye, faTimeline } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +24,7 @@ import { CashCreditProposalService } from './cash-credit-proposal.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
-  selector: 'jhi-credit-proposal-list-material',
+  selector: 'jhi-dpdl-finalize',
   templateUrl: './dpdl-finalize.component.html',
   styleUrls: ['./dpdl-finalize.styles.css'],
   animations: [
@@ -46,7 +46,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
     ]),
   ],
 })
-export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdlFinalize> implements OnInit {
+export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdlFinalizeModel> implements OnInit {
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: any;
@@ -182,9 +182,9 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
 
     this.cashCreditProposalService
       .searchCP(predicate)
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoad(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
       .subscribe({
-        next: (res: HttpResponse<IDpdlFinalize[]>) => {
+        next: (res: HttpResponse<IDpdlFinalizeModel[]>) => {
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -222,7 +222,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
     }
   }
 
-  private checkReturnStatusDescription(data: IDpdlFinalize[]) {
+  private checkReturnStatusDescription(data: IDpdlFinalizeModel[]) {
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
         data[i].statusDescription =
@@ -293,9 +293,9 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               sort: ['id,desc'],
               appMenuId: 'CREDIT_PROPOSAL_STATUS',
             })
-            .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<IDpdlFinalize[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<IDpdlFinalizeModel[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
           return;
@@ -308,9 +308,9 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               sort: ['id,desc'],
               appMenuId: 'CREDIT_PROPOSAL_STATUS',
             })
-            .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<IDpdlFinalize[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<IDpdlFinalizeModel[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
         }
@@ -325,9 +325,9 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               size: this.itemsPerPage,
               sort: ['id,desc'],
             })
-            .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<IDpdlFinalize[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<IDpdlFinalizeModel[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
           return;
@@ -339,9 +339,9 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               size: this.itemsPerPage,
               sort: ['id,desc'],
             })
-            .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<IDpdlFinalize[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<IDpdlFinalizeModel[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
         }
@@ -389,7 +389,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
     return result;
   }
 
-  public showTimeLine(element: IDpdlFinalize): void {
+  public showTimeLine(element: IDpdlFinalizeModel): void {
     this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',

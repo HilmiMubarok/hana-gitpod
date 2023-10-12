@@ -17,7 +17,7 @@ import {
   BASIC_SUBMENU_CREDITPROPOSAL,
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IDpdlFinalize } from './dpdl-finalize.model';
+import { IDpdlFinalizeModel } from './dpdl-finalize.model';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -29,8 +29,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public isOpen = false;
   public subMenu: object[];
   public parentPath = this.router.url.split('/')[1];
-  public creditProposal: IDpdlFinalize;
-  public creditProposalStartState: IDpdlFinalize;
+  public creditProposal: IDpdlFinalizeModel;
+  public creditProposalStartState: IDpdlFinalizeModel;
 
   public parentSubject: Subject<any> = new Subject();
   public clickedMenu: string;

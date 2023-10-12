@@ -23,7 +23,7 @@ import { IMainFacility } from '../main-facility/main-facility.model';
 import { IPosition } from '@syncfusion/ej2-angular-grids';
 import { IPositions } from 'app/shared/integration/models/positions-page.model';
 
-export interface IDpdlFinalize extends ILoanApplication {
+export interface IDpdlFinalizeModel extends ILoanApplication {
   credatedBy?: string;
   credatedDate?: Date;
   lastModifiedBy?: string;
@@ -58,7 +58,7 @@ export interface IDpdlFinalize extends ILoanApplication {
   debtorCategory?: string;
 }
 
-export class CreditProposal implements IDpdlFinalize {
+export class CreditProposal implements IDpdlFinalizeModel {
   constructor(
     public debtorCategory?: string,
     public umkmClass?: string,

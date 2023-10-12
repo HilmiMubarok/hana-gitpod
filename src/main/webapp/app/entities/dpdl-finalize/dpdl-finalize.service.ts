@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { IDpdlFinalize } from './dpdl-finalize.model';
+import { IDpdlFinalizeModel } from './dpdl-finalize.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { map, Observable, Subject, BehaviorSubject } from 'rxjs';
@@ -13,7 +13,7 @@ import moment from 'moment';
 import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
-export class DpdlFinalizeService extends AbstractEntityService<IDpdlFinalize> {
+export class DpdlFinalizeService extends AbstractEntityService<IDpdlFinalizeModel> {
   public statRemarkBusinessActivity;
   public partySliks = [];
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
@@ -30,16 +30,16 @@ export class DpdlFinalizeService extends AbstractEntityService<IDpdlFinalize> {
 
   public totalChanges: Subject<any> = new Subject();
 
-  private changgedColRelByCP?: IDpdlFinalize;
-  private triggerChanggedColRelByCP = new BehaviorSubject<IDpdlFinalize>(this.changgedColRelByCP);
+  private changgedColRelByCP?: IDpdlFinalizeModel;
+  private triggerChanggedColRelByCP = new BehaviorSubject<IDpdlFinalizeModel>(this.changgedColRelByCP);
   public triggerChanggedColRelByCPObservable = this.triggerChanggedColRelByCP.asObservable();
 
-  public changeColRelByCP(newCP: IDpdlFinalize) {
+  public changeColRelByCP(newCP: IDpdlFinalizeModel) {
     this.changgedColRelByCP = newCP;
     this.triggerChanggedColRelByCP.next(this.changgedColRelByCP);
   }
 
-  protected isNew(entity: IDpdlFinalize): boolean {
+  protected isNew(entity: IDpdlFinalizeModel): boolean {
     return entity.id === undefined || entity.id === null;
   }
 
@@ -64,13 +64,13 @@ export class DpdlFinalizeService extends AbstractEntityService<IDpdlFinalize> {
 
   public applicationGroubProduct(id: number): Observable<HttpResponse<any>> {
     return this.http
-      .get<IDpdlFinalize[]>(MICROSERVICENAME.LOS + '/api/application-group-products/page/' + id, { observe: 'response' })
+      .get<IDpdlFinalizeModel[]>(MICROSERVICENAME.LOS + '/api/application-group-products/page/' + id, { observe: 'response' })
       .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
 
-  protected convertDateArrayFromServer(res: HttpResponse<IDpdlFinalize[]>): HttpResponse<IDpdlFinalize[]> {
-    res.body.forEach((creditProposal: IDpdlFinalize) => {
+  protected convertDateArrayFromServer(res: HttpResponse<IDpdlFinalizeModel[]>): HttpResponse<IDpdlFinalizeModel[]> {
+    res.body.forEach((creditProposal: IDpdlFinalizeModel) => {
       //
       if (creditProposal.prospectPerson) {
         creditProposal.prospectPerson.dob = creditProposal.prospectPerson.dob ? new Date(creditProposal.prospectPerson.dob) : null;
@@ -85,7 +85,7 @@ export class DpdlFinalizeService extends AbstractEntityService<IDpdlFinalize> {
     return res;
   }
 
-  protected preSave(entity: IDpdlFinalize) {
+  protected preSave(entity: IDpdlFinalizeModel) {
     if (entity.attributes['collateralAfterData']) {
       if (typeof entity.attributes['collateralAfterData'] !== 'string') {
         entity.attributes['collateralAfterData'] = JSON.stringify(entity.attributes['collateralAfterData']);
@@ -125,16 +125,16 @@ export class DpdlFinalizeService extends AbstractEntityService<IDpdlFinalize> {
     }
   }
 
-  public findByCif(cif: string): Observable<HttpResponse<IDpdlFinalize>> {
-    return this.http.get<IDpdlFinalize>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
+  public findByCif(cif: string): Observable<HttpResponse<IDpdlFinalizeModel>> {
+    return this.http.get<IDpdlFinalizeModel>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
   }
 
-  public findPersonTemplate(cif: string): Observable<HttpResponse<IDpdlFinalize>> {
-    return this.http.get<IDpdlFinalize>(this.resourceUrl + '/cif-person-template/' + cif, { observe: 'response' });
+  public findPersonTemplate(cif: string): Observable<HttpResponse<IDpdlFinalizeModel>> {
+    return this.http.get<IDpdlFinalizeModel>(this.resourceUrl + '/cif-person-template/' + cif, { observe: 'response' });
   }
 
-  public findPartyGroupTemplate(cif: string): Observable<HttpResponse<IDpdlFinalize>> {
-    return this.http.get<IDpdlFinalize>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
+  public findPartyGroupTemplate(cif: string): Observable<HttpResponse<IDpdlFinalizeModel>> {
+    return this.http.get<IDpdlFinalizeModel>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
   }
 
   public sendNotification(idApp: number): Observable<HttpResponse<any>> {
@@ -158,9 +158,9 @@ export class DpdlFinalizeService extends AbstractEntityService<IDpdlFinalize> {
     const options = createRequestOption(req);
     const url = this.resouceGridRetrive + cif;
     return this.http
-      .get<IDpdlFinalize[]>(url, { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoadItemArray(res)));
+      .get<IDpdlFinalizeModel[]>(url, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
   }
 
   public getListCurency(page: number, size: number): Observable<HttpResponse<any>> {

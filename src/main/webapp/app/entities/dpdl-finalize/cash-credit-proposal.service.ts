@@ -12,10 +12,10 @@ import moment from 'moment';
 import { createRequestOption } from 'app/core/request/request-util';
 import { DelegationApplicationRequest } from '../employee/delegationApplicationRequest.model';
 import { ILoanApplication } from '../loan-application/loan-application.model';
-import { IDpdlFinalize } from './dpdl-finalize.model';
+import { IDpdlFinalizeModel } from './dpdl-finalize.model';
 
 @Injectable({ providedIn: 'root' })
-export class CashCreditProposalService extends AbstractEntityService<IDpdlFinalize> {
+export class CashCreditProposalService extends AbstractEntityService<IDpdlFinalizeModel> {
   private resourceUrlCashCreditProposal: string;
   public statRemarkBusinessActivity;
   public partySliks = [];
@@ -26,19 +26,19 @@ export class CashCreditProposalService extends AbstractEntityService<IDpdlFinali
     this.resourceUrlCashCreditProposal = this.resourceUrl + '/cash-credit-proposals';
   }
 
-  cashCreditProposalApprovalByStatus(req?: any): Observable<HttpResponse<IDpdlFinalize[]>> {
+  cashCreditProposalApprovalByStatus(req?: any): Observable<HttpResponse<IDpdlFinalizeModel[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<IDpdlFinalize[]>(this.resourceUrl + '/cash-credit-proposals/by-status', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoadItemArray(res)));
+      .get<IDpdlFinalizeModel[]>(this.resourceUrl + '/cash-credit-proposals/by-status', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
   }
-  queryDelegationApplicationFilterBy(req?: any): Observable<HttpResponse<IDpdlFinalize[]>> {
+  queryDelegationApplicationFilterBy(req?: any): Observable<HttpResponse<IDpdlFinalizeModel[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<IDpdlFinalize[]>(this.resourceUrl + '/delegation-application/filterBy', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoadItemArray(res)));
+      .get<IDpdlFinalizeModel[]>(this.resourceUrl + '/delegation-application/filterBy', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
   }
 
   queryListOfViewStatusFilterBy(req?: any): Observable<HttpResponse<any[]>> {
@@ -48,45 +48,48 @@ export class CashCreditProposalService extends AbstractEntityService<IDpdlFinali
       .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
-  public addDelegation(entity: IDpdlFinalize, params?: any): Observable<HttpResponse<DelegationApplicationRequest>> {
+  public addDelegation(entity: IDpdlFinalizeModel, params?: any): Observable<HttpResponse<DelegationApplicationRequest>> {
     this.preSave(entity);
     const options = createRequestOption(params);
     return this.http
-      .post<IDpdlFinalize>(this.resourceUrl + '/delegation-application', entity, { observe: 'response', params: options })
-      .pipe(map((res: HttpResponse<IDpdlFinalize>) => this.convertDateFromServer(res)))
-      .pipe(map((res: HttpResponse<IDpdlFinalize>) => this.preLoadItem(res)));
+      .post<IDpdlFinalizeModel>(this.resourceUrl + '/delegation-application', entity, { observe: 'response', params: options })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel>) => this.preLoadItem(res)));
   }
 
-  public getMyApplication(idParty: string, idPositionType: string, req?: any): Observable<HttpResponse<IDpdlFinalize[]>> {
+  public getMyApplication(idParty: string, idPositionType: string, req?: any): Observable<HttpResponse<IDpdlFinalizeModel[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<IDpdlFinalize[]>(this.resourceUrl + '/cash-credit-proposal/my-application/' + idParty + '/position-type/' + idPositionType, {
-        params: options,
-        observe: 'response',
-      })
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoadItemArray(res)));
+      .get<IDpdlFinalizeModel[]>(
+        this.resourceUrl + '/cash-credit-proposal/my-application/' + idParty + '/position-type/' + idPositionType,
+        {
+          params: options,
+          observe: 'response',
+        }
+      )
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
   }
 
-  cashCreditProposalApproval(req?: any): Observable<HttpResponse<IDpdlFinalize[]>> {
+  cashCreditProposalApproval(req?: any): Observable<HttpResponse<IDpdlFinalizeModel[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<IDpdlFinalize[]>(this.resourceUrl + '/cash-credit-proposals/cp-status-approval', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoadItemArray(res)));
+      .get<IDpdlFinalizeModel[]>(this.resourceUrl + '/cash-credit-proposals/cp-status-approval', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
   }
 
-  searchCP(req?: any): Observable<HttpResponse<IDpdlFinalize[]>> {
+  searchCP(req?: any): Observable<HttpResponse<IDpdlFinalizeModel[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<IDpdlFinalize[]>(this.resourceUrl + '/_search/cash-credit-proposals', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoadItemArray(res)));
+      .get<IDpdlFinalizeModel[]>(this.resourceUrl + '/_search/cash-credit-proposals', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
   }
 
   public totalChanges: Subject<any> = new Subject();
 
-  protected isNew(entity: IDpdlFinalize): boolean {
+  protected isNew(entity: IDpdlFinalizeModel): boolean {
     return entity.id === undefined || entity.id === null;
   }
 
@@ -114,8 +117,8 @@ export class CashCreditProposalService extends AbstractEntityService<IDpdlFinali
     return result;
   }
 
-  protected convertDateArrayFromServer(res: HttpResponse<IDpdlFinalize[]>): HttpResponse<IDpdlFinalize[]> {
-    res.body.forEach((creditProposal: IDpdlFinalize) => {
+  protected convertDateArrayFromServer(res: HttpResponse<IDpdlFinalizeModel[]>): HttpResponse<IDpdlFinalizeModel[]> {
+    res.body.forEach((creditProposal: IDpdlFinalizeModel) => {
       //
       if (creditProposal.prospectPerson) {
         creditProposal.prospectPerson.dob = creditProposal.prospectPerson.dob ? new Date(creditProposal.prospectPerson.dob) : null;
@@ -130,7 +133,7 @@ export class CashCreditProposalService extends AbstractEntityService<IDpdlFinali
     return res;
   }
 
-  protected preSave(entity: IDpdlFinalize) {
+  protected preSave(entity: IDpdlFinalizeModel) {
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }
@@ -140,16 +143,16 @@ export class CashCreditProposalService extends AbstractEntityService<IDpdlFinali
     }
   }
 
-  public findByCif(cif: string): Observable<HttpResponse<IDpdlFinalize>> {
-    return this.http.get<IDpdlFinalize>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
+  public findByCif(cif: string): Observable<HttpResponse<IDpdlFinalizeModel>> {
+    return this.http.get<IDpdlFinalizeModel>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
   }
 
-  public findPersonTemplate(cif: string): Observable<HttpResponse<IDpdlFinalize>> {
-    return this.http.get<IDpdlFinalize>(this.resourceUrl + '/cif-person-template/' + cif, { observe: 'response' });
+  public findPersonTemplate(cif: string): Observable<HttpResponse<IDpdlFinalizeModel>> {
+    return this.http.get<IDpdlFinalizeModel>(this.resourceUrl + '/cif-person-template/' + cif, { observe: 'response' });
   }
 
-  public findPartyGroupTemplate(cif: string): Observable<HttpResponse<IDpdlFinalize>> {
-    return this.http.get<IDpdlFinalize>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
+  public findPartyGroupTemplate(cif: string): Observable<HttpResponse<IDpdlFinalizeModel>> {
+    return this.http.get<IDpdlFinalizeModel>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
   }
 
   public sendNotification(idApp: number): Observable<HttpResponse<any>> {
@@ -178,9 +181,9 @@ export class CashCreditProposalService extends AbstractEntityService<IDpdlFinali
     const options = createRequestOption(req);
     const url = this.resouceGridRetrive + cif;
     return this.http
-      .get<IDpdlFinalize[]>(url, { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<IDpdlFinalize[]>) => this.preLoadItemArray(res)));
+      .get<IDpdlFinalizeModel[]>(url, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
   }
 
   public getListCurency(page: number, size: number): Observable<HttpResponse<any>> {
