@@ -250,15 +250,12 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
         idParameterType: 'RANK',
         page: 0,
         size: 9999,
-        // sort: ['code', 'asc'],
       })
       .subscribe(res => {
         this.lovRank = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
       });
-
-    console.log('tes', this.lovRank);
   }
 
   public getFacilityType() {
