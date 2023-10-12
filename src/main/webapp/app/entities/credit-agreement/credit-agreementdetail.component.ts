@@ -1609,8 +1609,8 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'cp-status-approval') {
-      return 'Credit Proposal Approval';
+    if (value === 'credit-agreement') {
+      return 'Credit Agrement';
     } else {
       return 'Credit Agreement';
     }
