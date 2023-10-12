@@ -390,7 +390,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
 
         /* if (this.creditProposalOpinionHistoryComponent) {
-        this.creditProposalOpinionHistoryComponent.triggeredSave();
+          this.creditProposalOpinionHistoryComponent.triggeredSave();
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
 		} */
