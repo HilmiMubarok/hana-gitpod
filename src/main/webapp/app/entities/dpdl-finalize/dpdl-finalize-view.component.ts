@@ -19,6 +19,11 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDpdlFinalizeModel } from './dpdl-finalize.model';
 import { Subject } from 'rxjs';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
+import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
+import { ICollateral } from '../collateral/collateral.model';
+import { CollateralService } from '../collateral/collateral.service';
+import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-dpdl-finalize-view',
@@ -37,8 +42,18 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public headerTitle = 'select proposal type';
   public routeHelper: string;
   private id: number;
-
-  constructor(public dialog: MatDialog, public router: Router, public activatedRoute: ActivatedRoute) {
+  private collateral: ICollateral[] = [];
+  listGroupCollateral: any;
+  public collateralPropertyGroupData: ICollateralProperty[] = [];
+  private collateralProperties: ICollateralProperty[] = [];
+  constructor(
+    public dialog: MatDialog,
+    public router: Router,
+    public activatedRoute: ActivatedRoute,
+    protected collateralService: CollateralService,
+    protected collateralPropertyService: CollateralPropertyService,
+    private partyCifService: PartyCifService
+  ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -62,8 +77,78 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
   ngOnInit() {
     this.showTextMenu();
+    if (this.creditProposal.cif) {
+      this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
+  }
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+        size: 999,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i]);
+          }
+        }
+      });
+  }
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
   }
 
+  public cekCgpgData() {
+    for (let i = 0; i < this.collateralProperties.length; i++) {
+      if (this.collateralProperties[i].propertyType === 'GENERAL') {
+        this.saveCollateralProperty(this.collateralProperties[i]);
+      }
+    }
+  }
+
+  public saveCollateralProperty(property: ICollateralProperty) {
+    this.collateralPropertyService.save(property).subscribe(res => {});
+  }
+  public loadDataBy(): void {
+    const cifNumber = this.creditProposal.customerNumber;
+    this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
+      this.listGroupCollateral = res.body;
+      this.getAllColGroup();
+    });
+  }
+
+  private getAllColGroup() {
+    return new Promise((resolve, reject) => {
+      if (this.listGroupCollateral.length > 0) {
+        for (let j = 0; j < this.listGroupCollateral.length; j++) {
+          this.collateralService
+            .queryFilterBy({
+              idParty: this.listGroupCollateral[j].partyId,
+              isActive: true,
+            })
+            .subscribe(res => {
+              if (res.body) {
+                for (let i = 0; i < res.body.length; i++) {
+                  if (res.body[i].id) {
+                    this.collateralPropertyService.queryFilterBy({ idCollateral: res.body[i].id, page: 0, size: 9999 }).subscribe(res2 => {
+                      this.collateralPropertyGroupData = [...this.collateralPropertyGroupData, ...res2.body];
+                    });
+                  }
+                }
+              }
+              resolve(this.collateralPropertyGroupData);
+            });
+        }
+      }
+    });
+  }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
   }

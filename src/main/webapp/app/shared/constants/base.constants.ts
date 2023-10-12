@@ -2799,13 +2799,16 @@ export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
     id: 'compare-data',
     text: 'Compare Data',
   },
-  
 ];
 
 export const DPDL_FINALIZE: object[] = [
   {
     id: '',
     text: 'MENU',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
   },
   {
     id: 'compare-data',
