@@ -655,6 +655,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.textBoxHidden = true;
         this.statusDisabledOffering = true; // Menambahkan perubahan di sini
       }
+    } else if (this.parentPath === 'credit-agreement') {
+      this.textBoxHidden = false;
+      this.statusDisabledOffering = true;
+    } else if (this.parentPath === 'dpdl-finalize') {
+      this.textBoxHidden = false;
+      this.statusDisabledOffering = true;
     } else {
       this.textBoxHidden = true;
       this.statusDisabledOffering = true; // Menambahkan perubahan di sini

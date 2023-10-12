@@ -40,11 +40,11 @@
         ></e-card>
       </section>
     </div>
-    <!-- compare data -->
-    <div *ngIf="clickedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">
-      <e-card>
-        <jhi-agremeent-compare-revision-final [creditProposal]="creditProposal"> </jhi-agremeent-compare-revision-final>
-      </e-card>
+
+    <!-- loan facility detail -->
+    <div *ngIf="clickedMenu === 'loan-facility'">
+      <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
+      </jhi-credit-proposal-tab-loan-facility-detail>
     </div>
   </div>
 
