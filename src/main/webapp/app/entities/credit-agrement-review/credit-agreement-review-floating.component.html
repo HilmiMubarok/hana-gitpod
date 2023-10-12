@@ -27,15 +27,15 @@
       ></jhi-credit-proposal-memo-banding>
     </div>
     <!---Collateral Info-->
-    <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
+    <div *ngIf="clickedMenu === 'collateral-info'">
       <section class="wrapper-card">
         <e-card
           ><jhi-credit-proposal-collateral-info
-            [proposalType]="creditProposal.attributes.proposalType"
             #creditProposalCollateralInfoComponent
             [creditProposal]="creditProposal"
             [collateralProperties]="collateralProperties"
             [collateralPropertyGroupData]="collateralPropertyGroupData"
+            [parentSource]="'loan-analys'"
           >
           </jhi-credit-proposal-collateral-info
         ></e-card>

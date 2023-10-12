@@ -241,20 +241,19 @@
     </jhi-credit-proposal-tab-loan-facility-detail>
   </div>
 
-  <!--- collateral info -->
   <div *ngIf="clickedMenu === 'finalize-credit-agreement'">
     <jhi-finalize-credit-agreement> </jhi-finalize-credit-agreement>
   </div>
-
-  <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
+  <!--- collateral info -->
+  <div *ngIf="clickedMenu === 'collateral-info'">
     <section class="wrapper-card">
-      <e-card>
-        <jhi-credit-proposal-collateral-info
-          [proposalType]="creditProposal.attributes.proposalType"
+      <e-card
+        ><jhi-credit-proposal-collateral-info
           #creditProposalCollateralInfoComponent
           [creditProposal]="creditProposal"
           [collateralProperties]="collateralProperties"
           [collateralPropertyGroupData]="collateralPropertyGroupData"
+          [parentSource]="'loan-analys'"
         >
         </jhi-credit-proposal-collateral-info>
       </e-card>
