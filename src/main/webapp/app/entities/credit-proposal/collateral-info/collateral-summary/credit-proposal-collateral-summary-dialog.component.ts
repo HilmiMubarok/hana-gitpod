@@ -252,8 +252,9 @@ export class CreditProposalCollateralSummaryDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.lovRank = lodash.filter(res.body, o => o.statusId === 'ACTIVE');
-        this.lovRank.sort((a, b) => a.code - b.code);
+        this.lovRank = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 

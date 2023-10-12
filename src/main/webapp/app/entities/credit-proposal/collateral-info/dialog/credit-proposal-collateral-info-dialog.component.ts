@@ -7,7 +7,7 @@ import { CreditProposalService } from '../../credit-proposal.service';
 import { Observable, of } from 'rxjs';
 import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } from '../credit-proposal-collateral-info.model';
 import { ICreditProposal } from '../../credit-proposal.model';
-import lodash, { parseInt } from 'lodash';
+import lodash from 'lodash';
 import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
@@ -253,8 +253,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
         // sort: ['code', 'asc'],
       })
       .subscribe(res => {
-        this.lovRank = lodash.filter(res.body, o => o.statusId === 'ACTIVE');
-        this.lovRank.sort((a, b) => a.code - b.code);
+        this.lovRank = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
 
     console.log('tes', this.lovRank);
