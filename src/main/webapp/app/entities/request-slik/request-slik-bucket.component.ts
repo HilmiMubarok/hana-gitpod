@@ -188,7 +188,7 @@ export class RequestSlikBucketComponent implements OnInit {
   getRequestSliks(
     isBusinessSupport = this.isBusinessSupport,
     page = this.pageIndex,
-    size = 10,
+    size = this.pageSize,
     sort = 'dateCreate,desc',
     idPosition = this.getLocStor('POS')
   ) {
@@ -240,7 +240,7 @@ export class RequestSlikBucketComponent implements OnInit {
   }
 
   public clickedChip = '';
-  public chipClick(option): void {
+  public chipClick(option, page = this.pageIndex): void {
     this.isLoading = true;
 
     if (this.clickedChip === option) {
@@ -255,7 +255,7 @@ export class RequestSlikBucketComponent implements OnInit {
       this.clickedChip = option;
 
       // Get Data By Option
-      this.requestSlikBucketService.searchRequestSlikByStatus(option).subscribe({
+      this.requestSlikBucketService.searchRequestSlikByStatus(option, page, this.pageSize).subscribe({
         next: data => {
           if (data.length === 0) {
             this.dataSource = new MatTableDataSource([]);
@@ -312,16 +312,45 @@ export class RequestSlikBucketComponent implements OnInit {
   searchCif: string | number = '';
 
   paginate(event: any) {
+    console.table({
+      pageIndex: event.pageIndex,
+      pageSize: event.pageSize,
+      clicked: this.clickedChip,
+      search: this.searchCif,
+    });
     this.isLoading = true;
     const page = event.pageIndex;
-    const pageSize = event.pageSize;
+    const size = event.pageSize;
+    this.pageSize = size;
 
-    this.searchCif !== ''
-      ? this.searchReqSlik(this.searchCif)
-      : this.clickedChip !== ''
-      ? this.chipClick(this.clickedChip)
-      : this.getRequestSliks(this.isBusinessSupport, page, pageSize);
+    if (this.searchCif !== '') {
+      this.searchReqSlik(this.searchCif);
+    } else if (this.clickedChip !== '') {
+      this.requestSlikBucketService.searchRequestSlikByStatus(this.clickedChip, page, size).subscribe({
+        next: data => {
+          if (data.length === 0) {
+            this.dataSource = new MatTableDataSource([]);
+            this.isLoading = false;
+          }
+          data.data &&
+            data.data.length > 0 &&
+            Promise.all(data.data.map(item => this.loadItem(item).toPromise())).then(() => {
+              this.dataSource = new MatTableDataSource(data.data);
+              this.paginator.length = data.pageable.totalElements || 0;
+              this.isLoading = false;
+            });
+        },
+        error: err => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+          this.isLoading = false;
+          this.dataSource = new MatTableDataSource([]);
+        },
+      });
+    } else {
+      this.getRequestSliks(this.isBusinessSupport, page, size);
+    }
   }
 
   pageIndex = 0;
+  pageSize = 10;
 }
