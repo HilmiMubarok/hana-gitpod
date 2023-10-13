@@ -25,6 +25,11 @@
         [creditProposal]="creditProposal"
       ></jhi-credit-proposal-memo-banding>
     </div>
+
+    <!-- loan facility detail -->
+    <div *ngIf="clickedMenu === 'loan-facility'">
+      <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-loan-facility-detail>
+    </div>
     <!--Collateral Info-->
     <div *ngIf="clickedMenu === 'collateral-info'">
       <section class="wrapper-card">

@@ -2842,6 +2842,10 @@ export const DAR_REVISION: object[] = [
     text: 'MENU',
   },
   {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
     id: 'collateral-info',
     text: 'collateral info',
   },
@@ -2851,6 +2855,10 @@ export const DAR_REVISION_CHECKER: object[] = [
   {
     id: '',
     text: 'MENU',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
   },
   {
     id: 'collateral-info',
