@@ -2841,11 +2841,19 @@ export const DAR_REVISION: object[] = [
     id: '',
     text: 'MENU',
   },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
 ];
 
 export const DAR_REVISION_CHECKER: object[] = [
   {
     id: '',
     text: 'MENU',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
   },
 ];
