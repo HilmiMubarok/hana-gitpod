@@ -2834,6 +2834,10 @@ export const DPDL_FINALIZE: object[] = [
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
+  {
+    id: 'approval-sheet-internal-memo',
+    text: 'Approval Sheet Internal Memo',
+  },
 ];
 
 export const DAR_REVISION: object[] = [

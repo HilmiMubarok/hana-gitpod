@@ -52,6 +52,11 @@
       <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
       </jhi-credit-proposal-tab-loan-facility-detail>
     </div>
+
+    <!-- Approval Sheet Internal Memo -->
+    <div *ngIf="clickedMenu === 'approval-sheet-internal-memo'">
+      <jhi-approval-sheet-internal-memo> </jhi-approval-sheet-internal-memo>
+    </div>
   </div>
 
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
