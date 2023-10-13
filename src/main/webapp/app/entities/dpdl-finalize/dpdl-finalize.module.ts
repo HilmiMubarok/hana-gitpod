@@ -10,6 +10,8 @@ import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angula
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { DpdlFinalizeComponent } from './dpdl-finalize.component';
 import { DpdlFinalizeViewComponent } from './dpdl-finalize-view.component';
+import { ApprovalSheetInternalMemoComponent } from './approval-sheet-internal-memo/approval-sheet-internal-memo.component';
+import { ApprovalSheetInternalMemoDialogComponent } from './approval-sheet-internal-memo/dialog-approval-sheet/approval-sheet-internal-memo-dialog.component';
 
 // import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 // import { CreditProposalListComponent } from './credit-proposal-list.component';
@@ -64,6 +66,8 @@ import { DpdlFinalizeViewComponent } from './dpdl-finalize-view.component';
     // DpdlFinalizeModule,
     DpdlFinalizeComponent,
     DpdlFinalizeViewComponent,
+    ApprovalSheetInternalMemoComponent,
+    ApprovalSheetInternalMemoDialogComponent,
   ],
   entryComponents: [DpdlFinalizeComponent],
   providers: [PageService, ToolbarService, EditService],
