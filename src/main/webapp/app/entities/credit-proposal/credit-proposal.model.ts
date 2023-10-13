@@ -22,6 +22,7 @@ import { IApplicationProduct } from '../application-product/application-product.
 import { IMainFacility } from '../main-facility/main-facility.model';
 import { IPosition } from '@syncfusion/ej2-angular-grids';
 import { IPositions } from 'app/shared/integration/models/positions-page.model';
+import { ILoanAgreement } from '../loan-agreement/loan-agreement.model';
 
 export interface ICreditProposal extends ILoanApplication {
   credatedBy?: string;
@@ -56,6 +57,7 @@ export interface ICreditProposal extends ILoanApplication {
   annualSales?: number;
   capitalDeposit?: number;
   debtorCategory?: string;
+  agreements?: ILoanAgreement[] | [];
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -119,7 +121,8 @@ export class CreditProposal implements ICreditProposal {
     public intarnalId?: string,
     public bookingBranchId?: string,
     public bookingBranchName?: string,
-    public mainProducts?: IMainFacility[]
+    public mainProducts?: IMainFacility[],
+    public agreements?: ILoanAgreement[]
   ) {
     this.setCompliance = null;
     this.creditRatings = new Array<ICreditRating>();
