@@ -314,11 +314,13 @@ export class RequestSlikBucketComponent implements OnInit {
   paginate(event: any) {
     this.isLoading = true;
     const page = event.pageIndex;
+    const pageSize = event.pageSize;
+
     this.searchCif !== ''
       ? this.searchReqSlik(this.searchCif)
       : this.clickedChip !== ''
       ? this.chipClick(this.clickedChip)
-      : this.getRequestSliks(this.isBusinessSupport, page);
+      : this.getRequestSliks(this.isBusinessSupport, page, pageSize);
   }
 
   pageIndex = 0;
