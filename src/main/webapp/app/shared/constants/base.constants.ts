@@ -2819,10 +2819,6 @@ export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
 
 export const DPDL_FINALIZE: object[] = [
   {
-    id: '',
-    text: 'MENU',
-  },
-  {
     id: 'collateral-info',
     text: 'collateral info',
   },
@@ -2834,13 +2830,13 @@ export const DPDL_FINALIZE: object[] = [
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
+  {
+    id: 'approval-sheet-internal-memo',
+    text: 'Approval Sheet Internal Memo',
+  },
 ];
 
 export const DAR_REVISION: object[] = [
-  {
-    id: '',
-    text: 'MENU',
-  },
   {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
@@ -2852,10 +2848,6 @@ export const DAR_REVISION: object[] = [
 ];
 
 export const DAR_REVISION_CHECKER: object[] = [
-  {
-    id: '',
-    text: 'MENU',
-  },
   {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
