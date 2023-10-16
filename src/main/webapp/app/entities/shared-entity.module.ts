@@ -397,6 +397,7 @@ import { CreditProposalSummaryGenerateMemoBandingComponent } from './credit-prop
 import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposal/collateral-info/collateral-summary/credit-proposal-collateral-summary-dialog.component';
 import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compare-data-agremeent/dar-revision-final/agreement-compare-revision-final.component';
 import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
+import { FinalizeCreditAgreementComponent } from './credit-agreement/finalize-credit-agreement/finalize-credit-agreement.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -858,7 +859,8 @@ import { AgreementComparePreviousDarComponent } from './credit-agreement/compare
 
     // Aggrement Compare
     AgremeentCompareRevisionFinalComponent,
-        AgreementComparePreviousDarComponent
+        AgreementComparePreviousDarComponent,
+        FinalizeCreditAgreementComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1275,6 +1277,7 @@ import { AgreementComparePreviousDarComponent } from './credit-agreement/compare
     // Agreement Compare
     AgremeentCompareRevisionFinalComponent,
     AgreementComparePreviousDarComponent,
+    FinalizeCreditAgreementComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

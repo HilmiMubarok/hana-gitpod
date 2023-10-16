@@ -319,7 +319,7 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'Cerdit Agreement',
+    name: 'Credit Agreement',
     iconname: 'suitcase',
     children: [
       {
