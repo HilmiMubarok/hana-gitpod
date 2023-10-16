@@ -5,7 +5,6 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CreditAgreementComponent } from './credit-agreement.component';
 import { creditAgrementReviewRoute } from './credit-agreement.route';
 import { CreditAgreementDetailComponent } from './credit-agreementdetail.component';
-import { FinalizeCreditAgreementComponent } from './finalize-credit-agreement/finalize-credit-agreement.component';
 // import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
 // import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-cif-customer-info-debtor-data.component';
 // import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
@@ -27,7 +26,6 @@ import { FinalizeCreditAgreementComponent } from './finalize-credit-agreement/fi
   declarations: [
     CreditAgreementComponent,
     CreditAgreementDetailComponent,
-    FinalizeCreditAgreementComponent,
 
     // PartyCifUpdateComponent,
     // PartyCifCustomerInfoComponent,
