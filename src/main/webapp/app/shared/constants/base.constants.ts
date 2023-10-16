@@ -2801,7 +2801,7 @@ export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
   },
   {
     id: 'opinion',
-    text: 'Opinion',
+    text: 'Credit Opinion',
   },
   {
     id: 'compliance-recommendation',
@@ -2825,6 +2825,10 @@ export const DPDL_FINALIZE: object[] = [
   {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
   },
   {
     id: 'loan-facility',
