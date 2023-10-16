@@ -1,5 +1,6 @@
 export interface ILoanAgreement {
   id?: number | null;
+  attributes: any;
   agreementNumber?: string | null;
   dateAgreement?: Date | null;
   description?: string | null;

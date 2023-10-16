@@ -1,0 +1,33 @@
+<!-- src/app/form/form.component.html -->
+<form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayoutGap="10px">
+      <div fxFlex="50%">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Name</mat-label>
+          <input matInput placeholder="Name" [(ngModel)]="name" name="name">
+        </mat-form-field>
+      </div>
+      <div fxFlex="50%">
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Debitor/Pt Bank Hana Keb Indonesia</mat-label>
+          <input matInput placeholder="Debitor/Pt Bank Hana Keb Indonesia" [(ngModel)]="debitor"  name="debitor" >
+        </mat-form-field>
+      </div>
+    </div>
+  
+    <div fxLayout="row" fxLayoutGap="10px">
+      <div fxFlex="50%">
+        <mat-form-field appearance="outline">
+            <mat-label>Position</mat-label>
+            <mat-select (selectionChange)="onSelectPositon($event)">
+              <mat-option *ngFor="let item of ['Director', 'Commercial Head', 'Credit Legal Head']" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+    </div>
+    <button mat-raised-button (click)="cancel()" color="danger">Cancel</button>
+    <button mat-raised-button (click)="onSave()" color="primary">Save</button>
+  </form>
+  
