@@ -242,7 +242,7 @@
   </div>
 
   <div *ngIf="clickedMenu === 'finalize-credit-agreement'">
-    <jhi-finalize-credit-agreement> </jhi-finalize-credit-agreement>
+    <jhi-finalize-credit-agreement [creditProposal]="creditProposal"> </jhi-finalize-credit-agreement>
   </div>
   <!--- collateral info -->
   <div *ngIf="clickedMenu === 'collateral-info'">

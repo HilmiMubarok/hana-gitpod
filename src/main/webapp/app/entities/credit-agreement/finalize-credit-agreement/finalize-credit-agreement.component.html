@@ -9,12 +9,12 @@
         <div class="col-6">
             <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Offering Letter No</mat-label>
-                <input matInput type="text"/>
+                <input [value]="creditProposal.agreements.length > 0 ? creditProposal.agreements[0].agreementNumber : ''" matInput type="text"/>
               </mat-form-field>
 
                 <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Offering Letter Date</mat-label>
-                    <input [matDatepicker]="offeringLetterDate" matInput type="text"  />
+                    <input [value]="creditProposal.agreements.length > 0 ? creditProposal.agreements[0].dateAgreement : ''" [matDatepicker]="offeringLetterDate" matInput type="text"  />
                     <mat-datepicker-toggle matSuffix [for]="offeringLetterDate" ></mat-datepicker-toggle>
                     <mat-datepicker #offeringLetterDate ></mat-datepicker>
                     
@@ -25,7 +25,7 @@
         <div class="col-6">
             <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Debtor Name</mat-label>
-                <input matInput type="text" disabled/>
+                <input  matInput type="text" disabled/>
               </mat-form-field>
 
               <mat-form-field class="w-100" appearance="outline">
@@ -101,6 +101,8 @@
           >
           </mat-paginator> -->
         </mat-card-content>
+
+        <button  class="btn-lg text-uppercase " mat-raised-button (click)="openDialog()">ADD</button>
       </mat-card>
       
 

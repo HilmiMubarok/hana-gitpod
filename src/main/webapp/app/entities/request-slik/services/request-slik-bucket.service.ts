@@ -151,8 +151,10 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
     );
   }
 
-  searchRequestSlikByStatus(status: string): Observable<any> {
-    const options = { params: new HttpParams().set('status', status) };
+  searchRequestSlikByStatus(status: string, page: number, size: number): Observable<any> {
+    const options = {
+      params: new HttpParams().set('status', status).set('page', page).set('size', size).set('sort', 'dateCreate,desc'),
+    };
     return this.http.get<any>(`${this.resourceUrl}/bystatus`, options).pipe(
       switchMap(data => {
         if (data.data.content.length === 0) {
