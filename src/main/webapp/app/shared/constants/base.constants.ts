@@ -2831,6 +2831,10 @@ export const DPDL_FINALIZE: object[] = [
     text: 'Credit Opinion',
   },
   {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
