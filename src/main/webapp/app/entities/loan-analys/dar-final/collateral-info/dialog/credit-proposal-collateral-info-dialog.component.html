@@ -736,11 +736,19 @@
     >
     </jhi-mapping-facility-temp>
   </div>
-  <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+  <div>
+    <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
+  </div>
+  <div>
+    <jhi-paripasu-collateral-debitur [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-debitur>
+  </div>
+  <div *ngIf="parentSource === 'dec-offering'">
+    <jhi-certificate-info></jhi-certificate-info>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
-    <button mat-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
+    <button mat-button (click)="cancel()" class="confirm-button-no">Cancel</button>
     <button mat-button (click)="save()" class="confirm-button-no">Save</button>
   </section>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
