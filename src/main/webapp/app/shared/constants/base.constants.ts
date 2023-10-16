@@ -2774,7 +2774,7 @@ export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
   },
   {
     id: 'opinion',
-    text: 'Opinion',
+    text: 'Credit Opinion',
   },
   {
     id: 'compliance-recommendation',
