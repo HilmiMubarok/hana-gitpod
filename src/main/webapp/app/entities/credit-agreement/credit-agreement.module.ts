@@ -30,7 +30,6 @@ import { SignerPerjanjialKreditDialogComponent } from './finalize-credit-agreeme
     CreditAgreementDetailComponent,
     FinalizeCreditAgreementComponent,
     SignerPerjanjialKreditDialogComponent,
-
     // PartyCifUpdateComponent,
     // PartyCifCustomerInfoComponent,
     // PartyCifCustomerInfoDebtorDataComponent,
