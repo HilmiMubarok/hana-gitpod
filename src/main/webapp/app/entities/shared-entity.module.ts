@@ -398,6 +398,7 @@ import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposa
 import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compare-data-agremeent/dar-revision-final/agreement-compare-revision-final.component';
 import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
 import { FinalizeCreditAgreementComponent } from './credit-agreement/finalize-credit-agreement/finalize-credit-agreement.component';
+import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -860,7 +861,8 @@ import { FinalizeCreditAgreementComponent } from './credit-agreement/finalize-cr
     // Aggrement Compare
     AgremeentCompareRevisionFinalComponent,
         AgreementComparePreviousDarComponent,
-        FinalizeCreditAgreementComponent
+        FinalizeCreditAgreementComponent,
+        SignerPerjanjialKreditDialogComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1278,6 +1280,7 @@ import { FinalizeCreditAgreementComponent } from './credit-agreement/finalize-cr
     AgremeentCompareRevisionFinalComponent,
     AgreementComparePreviousDarComponent,
     FinalizeCreditAgreementComponent,
+    SignerPerjanjialKreditDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

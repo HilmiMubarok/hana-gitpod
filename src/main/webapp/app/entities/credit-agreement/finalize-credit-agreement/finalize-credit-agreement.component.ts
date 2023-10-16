@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['../credit-agreement.css'],
 })
 export class FinalizeCreditAgreementComponent {
+  public dataAgreement: any[] = [];
   public _creditProposal;
   @Input()
   get creditProposal() {
@@ -25,17 +26,29 @@ export class FinalizeCreditAgreementComponent {
   constructor(private dialog: MatDialog, public messageService: MessageService) {
     this.loading = false;
   }
+
+  selectedFile: File | null = null;
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    console.log('ompu', this.selectedFile);
+  }
+
   public openDialog() {
     const dialogRef = this.dialog.open(SignerPerjanjialKreditDialogComponent, {
       data: this.creditProposal.agreements.length > 0 ? this.creditProposal.agreements[0].attributes : '',
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== null) {
-        this.creditProposal.agreements.length > 0
-          ? (this.creditProposal.agreements[0].attributes = {
-              signerAgreement: result,
-            })
-          : this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Data Agreement is empty' });
+      if (result !== null && result !== undefined) {
+        if (this.creditProposal.agreements.length > 0) {
+          this.dataAgreement = [...this.dataAgreement, result];
+
+          this.creditProposal.agreements[0].attributes = {
+            signerAgreement: JSON.stringify(this.dataAgreement),
+          };
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Data Agreement is empty' });
+        }
       }
     });
   }

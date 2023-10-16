@@ -28,8 +28,7 @@ import { SignerPerjanjialKreditDialogComponent } from './finalize-credit-agreeme
   declarations: [
     CreditAgreementComponent,
     CreditAgreementDetailComponent,
-    FinalizeCreditAgreementComponent,
-    SignerPerjanjialKreditDialogComponent,
+
     // PartyCifUpdateComponent,
     // PartyCifCustomerInfoComponent,
     // PartyCifCustomerInfoDebtorDataComponent,

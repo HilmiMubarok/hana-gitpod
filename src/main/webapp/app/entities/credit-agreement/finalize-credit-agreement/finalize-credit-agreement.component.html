@@ -46,29 +46,29 @@
           <mat-card-title>Signer Perjanjian Kredit</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <table mat-table [dataSource]="data" class="w-100">
+          <table mat-table [dataSource]="dataAgreement" class="w-100">
             <ng-container matColumnDef="No">
               <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
               <td mat-cell *matCellDef="let element; let i = index" class="text-center">
-                {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+                {{ i + 1 }}.
               </td>
             </ng-container>
             <ng-container matColumnDef="Name">
               <th mat-header-cell *matHeaderCellDef class="text-center">Name</th>
               <td mat-cell *matCellDef="let element" class="text-left">
-              
+                {{element.name}}
               </td>
             </ng-container>
             <ng-container matColumnDef="Debitor">
               <th mat-header-cell *matHeaderCellDef class="text-center">Debitor / Pt Bank Hana Keb Indonesia</th>
               <td mat-cell *matCellDef="let element" class="text-left">
-              
+                {{element.debitor}}
               </td>
             </ng-container>
             <ng-container matColumnDef="Position">
               <th mat-header-cell *matHeaderCellDef class="text-center">Position</th>
               <td mat-cell *matCellDef="let element" class="text-center">
-               
+                {{element.position}}
               </td>
             </ng-container>
             <ng-container matColumnDef="Action">
