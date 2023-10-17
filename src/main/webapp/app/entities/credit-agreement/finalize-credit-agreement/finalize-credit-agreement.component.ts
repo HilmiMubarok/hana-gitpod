@@ -4,13 +4,15 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { MatDialog } from '@angular/material/dialog';
 import { SignerPerjanjialKreditDialogComponent } from './signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
 import { MessageService } from 'primeng/api';
+import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
   styleUrls: ['../credit-agreement.css'],
 })
-export class FinalizeCreditAgreementComponent {
+export class FinalizeCreditAgreementComponent implements OnInit {
   public dataAgreement: any[] = [];
+  public postalAdresss: IPostalAddress;
   public _creditProposal;
   @Input()
   get creditProposal() {
@@ -27,11 +29,20 @@ export class FinalizeCreditAgreementComponent {
     this.loading = false;
   }
 
+  ngOnInit(): void {
+    this.postalAdresss = this.creditProposal.addresses.find(function (e) {
+      return e.purposeTypeId === 'PRIMARY_LOCATION';
+    });
+  }
+
   selectedFile: File | null = null;
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
-    console.log('ompu', this.selectedFile);
+  }
+
+  public uploadFile() {
+    console.log('ok', this.selectedFile);
   }
 
   public openDialog() {
