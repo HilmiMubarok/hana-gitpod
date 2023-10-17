@@ -41,6 +41,34 @@
 </mat-card-content>
 </mat-card>
 
+<div class="wrapper-card mt-3">
+  <e-card *ngIf="creditProposal.partyTypeId === 'PERSON'" class="mb-3">
+    <jhi-credit-proposal-person
+      [item]="creditProposal.prospectPerson"
+      [deptorData]="creditProposal"
+      [partyCif]="partyCif"
+      mode="view"
+    ></jhi-credit-proposal-person>
+  </e-card>
+  <e-card *ngIf="creditProposal.partyTypeId !== 'PERSON'" class="mb-3">
+    <jhi-party-group-view [mode]="'view'" [item]="creditProposal"> </jhi-party-group-view
+  ></e-card>
+</div>
+<!-- </div> -->
+<div class="wrapper-card">
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Address</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <jhi-party-cif-customer-info-postal-address [disabled]="true" [creditProposal]="creditProposal" [partyPostalAddress]="postalAdresss">
+    </jhi-party-cif-customer-info-postal-address>
+  </div>
+</div>
+</div>
+
       <mat-card class="mt-3">
         <mat-card-header>
           <mat-card-title>Signer Perjanjian Kredit</mat-card-title>
@@ -106,6 +134,7 @@
       </mat-card>
       
 
+      
       <mat-card class="mt-3">
         <mat-card-header>
           <mat-card-title>Generate Draft Perjanjian Kredit</mat-card-title>
@@ -204,13 +233,13 @@
                 <mat-card-content>
         
                 <div class="row">
-                    <div class="col-3">
-                    <input type="file" class="btn"/>
-                    </div>
-        
-                    <div class="col-2">
-                        <button class="btn-lg text-uppercase button-styling mt-2" mat-raised-button>Upload</button>
-                    </div>
+                  <div class="col-3">
+                    <input type="file" class="btn" (change)="onFileSelected($event)" />
+                  </div>
+                
+                  <div class="col-2">
+                    <button class="btn-lg text-uppercase button-styling mt-2" mat-raised-button (click)="uploadFile()">Upload</button>
+                  </div>
                     </div>
         
                     <table mat-table [dataSource]="data" class="w-100 mt-3">
