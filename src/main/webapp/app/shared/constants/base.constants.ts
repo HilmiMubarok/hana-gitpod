@@ -2853,6 +2853,14 @@ export const DAR_REVISION: object[] = [
     id: 'collateral-info',
     text: 'collateral info',
   },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
 ];
 
 export const DAR_REVISION_CHECKER: object[] = [

@@ -244,9 +244,11 @@
         </e-card>
       </section>
     </div>
+
+    <!-- compliance recomendation -->
     <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
       <e-card> <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance></e-card>
-      <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry'">
+      <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'credit-agreement-review'">
         <e-card>
           <jhi-loan-analys-opinion-compliance-part
             #loanAnalysOpinionCompliancePartComponent

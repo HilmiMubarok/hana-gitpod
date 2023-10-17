@@ -79,6 +79,18 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     if (this.tempRouter === 'cc-checking') {
       this.isShowOpinionFieldInput = true;
     }
+    if (this.tempRouter === 'credit-agreement') {
+      this.disabledCompliance = true;
+    }
+    if (this.tempRouter === 'credit-agreement-review') {
+      this.disabledCompliance = true;
+    }
+    if (this.tempRouter === 'dar-revision') {
+      this.disabledCompliance = true;
+    }
+    if (this.tempRouter === 'dpdl-finalize') {
+      this.disabledCompliance = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -242,6 +254,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
       this.tempRouter === 'cc-inquiry'
     ) {
       this.disabledCompliance = true;
+      console.log('c', this.tempRouter);
     }
   }
 
