@@ -89,10 +89,10 @@ export class DpdlFinalizeViewComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'credit-agreement') {
-      return 'Credit Agrement';
+    if (value === 'dpdl-finalize') {
+      return 'Finalize DPDL';
     } else {
-      return 'Credit Agreement';
+      return 'Finalize DPDL';
     }
   }
 

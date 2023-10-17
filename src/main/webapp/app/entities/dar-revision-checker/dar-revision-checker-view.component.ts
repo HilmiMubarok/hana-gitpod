@@ -88,6 +88,15 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     this.loadDataBy();
     this.lovProposalType();
   }
+
+  getText(value: any): string {
+    if (value === 'dar-revision-checker') {
+      return 'DAR Revision Checker';
+    } else {
+      return 'DAR Revision Checker';
+    }
+  }
+
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
     this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
