@@ -2765,6 +2765,10 @@ export const DELEGATION: object[] = [
 
 export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
   {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
@@ -2791,6 +2795,10 @@ export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
 ];
 
 export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
   {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
