@@ -20,6 +20,8 @@ export class CPMemoBandingRemarkComponent implements OnInit, OnChanges {
 
   @Input() saveWordMinio: any;
 
+  @Input() isViewMode: Boolean = false;
+
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   customHeadersJWT;
@@ -69,7 +71,7 @@ export class CPMemoBandingRemarkComponent implements OnInit, OnChanges {
   }
 
   onDocumentChange() {
-    this.container.restrictEditing = false;
+    this.container.restrictEditing = this.isViewMode as boolean;
   }
 
   paramsIdGet;

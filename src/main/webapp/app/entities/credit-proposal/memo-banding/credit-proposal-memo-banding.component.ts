@@ -25,6 +25,8 @@ export class MemoBandingComponent implements OnInit {
   })
   cpMemoBandingRemarkComponent: CPMemoBandingRemarkComponent;
 
+  @Input() isViewMode: Boolean = false;
+
   ngOnInit(): void {
     // this.cpMemoBandingService.parseAttrCp(this.testData);
     // this.cpMemoBandingService.compareDeepData(this.d1, this.d2);

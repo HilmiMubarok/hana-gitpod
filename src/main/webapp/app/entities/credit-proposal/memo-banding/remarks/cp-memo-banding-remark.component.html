@@ -15,6 +15,11 @@
       (keyDown)="onKeyDown($event)"
       (documentChange)="onDocumentChange()"
       (created)="onCreate()"
+      [enableToolbar]="isViewMode === true ? false : true"
+      [enableEditor]="isViewMode === true ? false : true"
+      [disabled]="isViewMode"
+      [isReadOnly]="isViewMode"
+      [enableLocalPaste]="false"
     ></ejs-documenteditorcontainer>
   </div>
 </div>
