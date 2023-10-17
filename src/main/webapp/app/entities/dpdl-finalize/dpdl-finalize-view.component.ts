@@ -15,6 +15,7 @@ import {
   CP_APPROVAL_MENU_BELOW,
   DPDL_FINALIZE,
   BASIC_SUBMENU_CREDITPROPOSAL,
+  DPDL_FINALIZE_APPEAL,
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDpdlFinalizeModel } from './dpdl-finalize.model';
@@ -24,6 +25,8 @@ import { CollateralPropertyService } from '../collateral-property/collateral-pro
 import { ICollateral } from '../collateral/collateral.model';
 import { CollateralService } from '../collateral/collateral.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-dpdl-finalize-view',
@@ -46,13 +49,16 @@ export class DpdlFinalizeViewComponent implements OnInit {
   listGroupCollateral: any;
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   private collateralProperties: ICollateralProperty[] = [];
+  public proposType = [];
+
   constructor(
     public dialog: MatDialog,
     public router: Router,
     public activatedRoute: ActivatedRoute,
     protected collateralService: CollateralService,
     protected collateralPropertyService: CollateralPropertyService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    public generalParameterService: GeneralParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -70,9 +76,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
       }
     });
 
-    this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
-      ? [...DPDL_FINALIZE, { id: 'memo-banding', text: 'Memo Banding' }]
-      : DPDL_FINALIZE;
+    this.subMenu = this.creditProposal.attributes['previousOfferingLetter'] ? [...DPDL_FINALIZE_APPEAL] : DPDL_FINALIZE;
   }
 
   ngOnInit() {
@@ -80,7 +84,18 @@ export class DpdlFinalizeViewComponent implements OnInit {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
+
+    this.lovProposalType();
   }
+
+  getText(value: any): string {
+    if (value === 'dpdl-finalize') {
+      return 'Finalize DPDL';
+    } else {
+      return 'Finalize DPDL';
+    }
+  }
+
   private loadByPartyId(param: string): void {
     this.collateralService
       .queryFilterBy({
@@ -338,6 +353,26 @@ export class DpdlFinalizeViewComponent implements OnInit {
       }
     }
     // this.clickedMenu = 'basic-information';
+  }
+
+  public a = [];
+  public lovProposalType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.proposType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.proposType.length; i++) {
+          if (this.proposType[i].code === this.creditProposal.attributes['proposalType']) {
+            this.a = this.proposType[i].value;
+          }
+        }
+      });
   }
 
   public setMainMenuCp() {
