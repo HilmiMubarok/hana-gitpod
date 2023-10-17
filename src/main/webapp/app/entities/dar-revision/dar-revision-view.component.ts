@@ -16,6 +16,7 @@ import {
   DPDL_FINALIZE,
   BASIC_SUBMENU_CREDITPROPOSAL,
   DAR_REVISION,
+  DAR_REVISION_APPEAL,
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
@@ -25,6 +26,8 @@ import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { CollateralService } from '../collateral/collateral.service';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-dar-revision-view',
@@ -47,13 +50,16 @@ export class DarRevisionViewComponent implements OnInit {
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   private collateralProperties: ICollateralProperty[] = [];
   private collateral: ICollateral[] = [];
+  public proposType = [];
+
   constructor(
     public dialog: MatDialog,
     public router: Router,
     public activatedRoute: ActivatedRoute,
     protected collateralService: CollateralService,
     protected collateralPropertyService: CollateralPropertyService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    public generalParameterService: GeneralParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -71,9 +77,7 @@ export class DarRevisionViewComponent implements OnInit {
       }
     });
 
-    this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
-      ? [...DAR_REVISION, { id: 'memo-banding', text: 'Memo Banding' }]
-      : DAR_REVISION;
+    this.subMenu = this.creditProposal.attributes['previousOfferingLetter'] ? [...DAR_REVISION_APPEAL] : DAR_REVISION;
   }
 
   ngOnInit() {
@@ -83,6 +87,7 @@ export class DarRevisionViewComponent implements OnInit {
     }
 
     this.loadDataBy();
+    this.lovProposalType();
   }
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
@@ -372,6 +377,26 @@ export class DarRevisionViewComponent implements OnInit {
         }
       }
     }
+  }
+
+  public a = [];
+  public lovProposalType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.proposType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.proposType.length; i++) {
+          if (this.proposType[i].code === this.creditProposal.attributes['proposalType']) {
+            this.a = this.proposType[i].value;
+          }
+        }
+      });
   }
 
   public routeSubMenu(menu: object): void {
