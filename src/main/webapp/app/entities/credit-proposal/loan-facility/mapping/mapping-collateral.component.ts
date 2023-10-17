@@ -9,7 +9,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 @Component({
   selector: 'jhi-mapping-collateral',
@@ -32,6 +32,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   public mappingStatusHelper: any = [];
   public disableField: any;
   public field = false;
+  public parentPath = this.router.url.split('/')[1];
+  public selectedMenu: string;
 
   constructor(
     private router: Router,
@@ -43,8 +45,15 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       creditProposaldata: ICreditProposal;
       hideField: string;
     },
-    protected collateralPropertyService: CollateralPropertyService
+    protected collateralPropertyService: CollateralPropertyService,
+    protected activatedRoute: ActivatedRoute
   ) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.selectedMenu = subRoute;
+      }
+    });
     this.collateralInfo = this.data.collateralInfo;
     this.collateralProperties = [];
     this.applicationProductData = this.data.applicationProduct;
@@ -59,7 +68,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   ngOnInit(): void {
     const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
     this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
-	this.setUp();
+    this.setUp();
 
     if (this.applicationProductData.id === undefined) {
       this.disabled = true;
@@ -70,6 +79,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       this.loadData(i);
     }
     this.sableFeild();
+    console.log('ini parent path', this.parentPath);
   }
   public sableFeild() {
     if (
@@ -81,6 +91,18 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       this.creditProposalData.statusId === 'CP_ASSIGNMENT'
     ) {
       this.field = true;
+    }
+    // Codition Mapping Collateral Disabled From Binding Value in credit agreement
+    if (
+      this.parentPath === 'credit-agreement' ||
+      this.parentPath === 'credit-agreement-review' ||
+      this.parentPath === 'dpdl-finalize' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker'
+    ) {
+      if (this.selectedMenu === 'compare-data') {
+        this.field = true;
+      }
     }
   }
 
@@ -224,7 +246,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   private setUp(): void {
-	if (this.collateralData.length > 0) {
+    if (this.collateralData.length > 0) {
       for (let i = 0; i < this.collateralData.length; i++) {
         this.bindingValueHelper.push(0);
         this.mappingStatusHelper.push('no');
