@@ -2762,8 +2762,50 @@ export const DELEGATION: object[] = [
     label: 'Delegaition Application',
   },
 ];
+export const BASIC_SUBMENU_CREDITAGREEMENT_MEMO: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'finalize-credit-agreement',
+    text: 'Finalize Credit Agreement',
+  },
+];
 
 export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
   {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
@@ -2783,6 +2825,49 @@ export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
   {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'finalize-credit-agreement',
+    text: 'Finalize Credit Agreement',
+  },
+];
+
+export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
   },
   {
     id: 'finalize-credit-agreement',
@@ -2792,6 +2877,10 @@ export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
 
 export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
   {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
@@ -2810,6 +2899,10 @@ export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
   {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
   },
   {
     id: 'finalize-credit-agreement',
@@ -2819,12 +2912,16 @@ export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
 
 export const DPDL_FINALIZE: object[] = [
   {
-    id: 'collateral-info',
-    text: 'collateral info',
+    id: 'dar-summary',
+    text: 'DAR Summary',
   },
   {
-    id: 'compare-data',
-    text: 'Compare Data',
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
   },
   {
     id: 'opinion',
@@ -2835,8 +2932,47 @@ export const DPDL_FINALIZE: object[] = [
     text: 'Compliance Recommendation',
   },
   {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'approval-sheet-internal-memo',
+    text: 'Approval Sheet Internal Memo',
+  },
+];
+
+export const DPDL_FINALIZE_APPEAL: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
   },
   {
     id: 'approval-sheet-internal-memo',
@@ -2846,22 +2982,97 @@ export const DPDL_FINALIZE: object[] = [
 
 export const DAR_REVISION: object[] = [
   {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
   {
     id: 'collateral-info',
     text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
   },
 ];
 
 export const DAR_REVISION_CHECKER: object[] = [
   {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
   {
     id: 'collateral-info',
     text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+];
+
+export const DAR_REVISION_APPEAL: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
   },
 ];
