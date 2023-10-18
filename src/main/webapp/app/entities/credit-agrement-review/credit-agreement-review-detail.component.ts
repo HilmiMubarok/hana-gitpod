@@ -211,7 +211,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-    this.setMainMenuCp();
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
       ? [...BASIC_SUBMENU_CREDITEGREEMENTREVIEW, { id: 'memo-banding', text: 'Memo Banding' }]
@@ -220,9 +219,8 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     this.segmentType = SEGMENTS_TYPE;
 
     this.activeRoute = this.router.url.replace(/\//g, '');
-
+    this.clickedMenu = 'dar-summary';
     this.url = this.parentPath;
-    this.menuCreditAgrement();
     console.log('init', this.subMenu);
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -485,70 +483,11 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     // this.cpGroub();
   }
 
-  public setMainMenuCp() {
-    if (this.parentPath === 'credit-agreement-review') {
-      this.clickedMenu = 'dar-summary';
-    }
-  }
-
-  public menuCreditAgrement() {
-    if (this.parentPath === 'credit-agreement-review') {
-      if (
-        this.creditProposal.attributes.proposalType === ID_GREATER_15_BN ||
-        this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN ||
-        this.creditProposal.attributes.proposalType === ID_BACK_TO_BACK
-      ) {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [...BASIC_SUBMENU_CREDITEGREEMENTREVIEW, { id: 'memo-banding', text: 'Memo Banding' }];
-        }
-      }
-    }
-  }
   public goToSubMenu(menu: string): void {
     this.clickedMenu = menu;
   }
 
   public routeSubMenu(menu: object): void {
-    if (menu['id'] === ID_GREATER_15_BN) {
-      this.creditProposal.attributes.proposalType = ID_GREATER_15_BN;
-      if (this.creditProposal.attributes['previousOfferingLetter']) {
-        this.subMenu = [
-          {
-            id: 'dar-summary',
-            text: 'Credit Proposal Summary',
-          },
-          ...BASIC_SUBMENU_CREDITEGREEMENTREVIEW,
-          { id: 'memo-banding', text: 'Memo Banding' },
-        ];
-      }
-    }
-    if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
-      this.creditProposal.attributes.proposalType = ID_LOWER_EQUAL_15_BN;
-
-      if (this.creditProposal.attributes['previousOfferingLetter']) {
-        this.subMenu = [
-          {
-            id: 'dar-summary',
-            text: 'Credit Proposal Summary',
-          },
-          ...BASIC_SUBMENU_CREDITEGREEMENTREVIEW,
-          { id: 'memo-banding', text: 'Memo Banding' },
-        ];
-      }
-    }
-    if (menu['id'] === ID_BACK_TO_BACK) {
-      this.creditProposal.attributes.proposalType = ID_BACK_TO_BACK;
-      if (this.creditProposal.attributes['previousOfferingLetter']) {
-        this.subMenu = [
-          {
-            id: 'dar-summary',
-            text: 'Credit Proposal Summary',
-          },
-          ...BASIC_SUBMENU_CREDITEGREEMENTREVIEW,
-          { id: 'memo-banding', text: 'Memo Banding' },
-        ];
-      }
-    }
     this.routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
 

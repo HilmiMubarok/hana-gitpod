@@ -20,7 +20,7 @@ import {
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
-import { Subject } from 'rxjs';
+import { Subject, firstValueFrom, takeUntil } from 'rxjs';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { ICollateral } from '../collateral/collateral.model';
@@ -28,6 +28,13 @@ import { CollateralService } from '../collateral/collateral.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { Account } from 'app/core/auth/account.model';
+import { StorageService } from '../storage/storage.service';
+import { HttpClient } from '@angular/common/http';
+import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
+import { MessageService } from 'primeng/api';
+import { AccountService } from 'app/core/auth/account.service';
+import { formatBytes } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-dar-revision-checker-view',
@@ -51,6 +58,18 @@ export class DarRevisionCheckerViewComponent implements OnInit {
   private collateralProperties: ICollateralProperty[] = [];
   private collateral: ICollateral[] = [];
   public proposType = [];
+  public isHistoryExist: boolean;
+  private KEYG = 'credit_proposal/summary';
+  private BUCKET: string;
+  private ngUnsubscribe = new Subject();
+  public dataOfferingSPPK = [];
+  public postalAdresss;
+  public currentAccount: Account;
+  public title: string;
+  public lendingProgram = [];
+  public valueCpLendingProgram: [];
+  public activeRoute: string;
+
   constructor(
     public dialog: MatDialog,
     public router: Router,
@@ -58,7 +77,12 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     protected collateralService: CollateralService,
     protected collateralPropertyService: CollateralPropertyService,
     private partyCifService: PartyCifService,
-    public generalParameterService: GeneralParameterService
+    public generalParameterService: GeneralParameterService,
+    private storageService: StorageService,
+    private http: HttpClient,
+    public accountService: AccountService,
+    private lendingProgramParameterService: LendingProgramParameterService,
+    protected messageService: MessageService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -66,7 +90,8 @@ export class DarRevisionCheckerViewComponent implements OnInit {
       this.id = params['id'];
     });
 
-    this.setMainMenuCp();
+    this.activeRoute = this.router.url.replace(/\//g, '');
+    this.clickedMenu = 'dar-summary';
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -77,6 +102,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     });
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter'] ? [...DAR_REVISION_APPEAL] : DAR_REVISION_CHECKER;
+    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
   }
 
   ngOnInit() {
@@ -84,9 +110,25 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
-
-    this.loadDataBy();
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
+    this.lendingProgramParameter();
     this.lovProposalType();
+    const passSummary = {
+      strength: '',
+      opportunities: '',
+      weaknesses: '',
+      threats: '',
+    };
+    this.creditProposal.attributes['tabSummary'] = this.creditProposal.attributes.tabSummary
+      ? JSON.parse(this.creditProposal.attributes.tabSummary)
+      : passSummary;
+    this.postalAdresss = this.creditProposal.addresses.find(function (e) {
+      return e.purposeTypeId === 'PRIMARY_LOCATION';
+    });
+
+    this.getBucketNameSummary();
   }
 
   getText(value: any): string {
@@ -194,177 +236,6 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     this.parentSubject.next('red-clicked');
   }
 
-  public setSubmenu(event: Object): void {
-    if (event) {
-      if (event === ID_GREATER_15_BN) {
-        if (this.parentPath === 'cp-status-approval') {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-            ];
-          }
-        } else {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
-          }
-        }
-      } else if (event === ID_LOWER_EQUAL_15_BN) {
-        if (this.parentPath === 'cp-status-approval') {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-            ];
-          }
-        } else {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
-          }
-        }
-      } else if (event === ID_BACK_TO_BACK) {
-        if (this.parentPath === 'cp-status-approval') {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = [
-              {
-                id: 'credit-proposal-approval',
-                text: 'Credit Proposal Summary',
-              },
-              ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-              {
-                id: 'opinion',
-                text: 'Opinion',
-              },
-            ];
-          }
-        } else {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [
-              ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-              {
-                id: 'memo-banding',
-                text: 'Memo Banding',
-              },
-            ];
-          } else {
-            this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
-          }
-        }
-      } else {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [
-            ...PROPOSAL_TYPE,
-            {
-              id: 'memo-banding',
-              text: 'Memo Banding',
-            },
-          ];
-        } else {
-          this.subMenu = PROPOSAL_TYPE;
-        }
-      }
-    } else {
-      if (this.creditProposal.attributes['previousOfferingLetter']) {
-        this.subMenu = [
-          ...PROPOSAL_TYPE,
-          {
-            id: 'memo-banding',
-            text: 'Memo Banding',
-          },
-        ];
-      } else {
-        this.subMenu = PROPOSAL_TYPE;
-      }
-    }
-    // this.clickedMenu = 'basic-information';
-  }
-
-  public setMainMenuCp() {
-    if (this.parentPath === 'cp-status-approval') {
-      this.clickedMenu = 'credit-proposal-approval';
-    } else if (this.parentPath === 'credit-proposal-status') {
-      this.clickedMenu = 'basic-information';
-    }
-  }
-
   public goToSubMenu(menu: string): void {
     this.clickedMenu = menu;
   }
@@ -407,127 +278,25 @@ export class DarRevisionCheckerViewComponent implements OnInit {
       });
   }
 
+  public lendingProgramParameter() {
+    this.lendingProgramParameterService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.lendingProgram.length; i++) {
+          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+            this.valueCpLendingProgram = this.lendingProgram[i].description;
+          }
+        }
+      });
+  }
+
   public routeSubMenu(menu: object): void {
-    if (menu['id'] === ID_GREATER_15_BN) {
-      this.creditProposal.attributes.proposalType = ID_GREATER_15_BN;
-      if (this.parentPath === 'credit-proposal-status') {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN, { id: 'memo-banding', text: 'Memo Banding' }];
-        } else {
-          this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
-        }
-      } else {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [
-            {
-              id: 'credit-proposal-approval',
-              text: 'Credit Proposal Summary',
-            },
-            ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-            {
-              id: 'opinion',
-              text: 'Opinion',
-            },
-            {
-              id: 'memo-banding',
-              text: 'Memo Banding',
-            },
-          ];
-        } else {
-          this.subMenu = [
-            {
-              id: 'credit-proposal-approval',
-              text: 'Credit Proposal Summary',
-            },
-            ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-            {
-              id: 'opinion',
-              text: 'Opinion',
-            },
-          ];
-        }
-      }
-    }
-    if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
-      this.creditProposal.attributes.proposalType = ID_LOWER_EQUAL_15_BN;
-      if (this.parentPath === 'credit-proposal-status') {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN, { id: 'memo-banding', text: 'Memo Banding' }];
-        } else {
-          this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
-        }
-      } else {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [
-            {
-              id: 'credit-proposal-approval',
-              text: 'Credit Proposal Summary',
-            },
-            ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-            {
-              id: 'opinion',
-              text: 'Opinion',
-            },
-            {
-              id: 'memo-banding',
-              text: 'Memo Banding',
-            },
-          ];
-        } else {
-          this.subMenu = [
-            {
-              id: 'credit-proposal-approval',
-              text: 'Credit Proposal Summary',
-            },
-            ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-            {
-              id: 'opinion',
-              text: 'Opinion',
-            },
-          ];
-        }
-      }
-    }
-    if (menu['id'] === ID_BACK_TO_BACK) {
-      this.creditProposal.attributes.proposalType = ID_BACK_TO_BACK;
-      if (this.parentPath === 'credit-proposal-status') {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK, { id: 'memo-banding', text: 'Memo Banding' }];
-        } else {
-          this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
-        }
-      } else {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [
-            {
-              id: 'credit-proposal-approval',
-              text: 'Credit Proposal Summary',
-            },
-            ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-            {
-              id: 'opinion',
-              text: 'Opinion',
-            },
-            {
-              id: 'memo-banding',
-              text: 'Memo Banding',
-            },
-          ];
-        } else {
-          this.subMenu = [
-            {
-              id: 'credit-proposal-approval',
-              text: 'Credit Proposal Summary',
-            },
-            ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-            {
-              id: 'opinion',
-              text: 'Opinion',
-            },
-          ];
-        }
-      }
-    }
     this.routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
 
@@ -537,4 +306,76 @@ export class DarRevisionCheckerViewComponent implements OnInit {
       },
     });
   }
+  // Untuk Summary Generate
+  private getBucketNameSummary() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+
+      if (this.id) {
+        this.KEYG += `/${this.id}/`;
+      } else {
+        console.warn('Param id not found');
+      }
+
+      this.onRefresh();
+    });
+  }
+
+  private onRefresh(): void {
+    const obj = {
+      key: this.KEYG,
+    };
+    this.storageService
+      .getObjects(this.BUCKET, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        const temp: any[] = response?.body;
+        let i = 1;
+        const data: any[] = [];
+        temp.forEach((item: IObj) => {
+          data.push({
+            indexNum: i,
+            key: item.key,
+            appovallevel: item.name,
+            fileName: item.name,
+            metaData: item.metaData,
+            sizeFile: formatBytes(item.size),
+            tags: item.tags,
+            url: item.url,
+          });
+          i++;
+        });
+
+        this.dataOfferingSPPK = data;
+      });
+  }
+
+  private generate(): void {
+    this.generateFileOfferingSPPK().then(() => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'File Generated Successfully',
+      });
+      this.onRefresh();
+    });
+  }
+
+  private async generateFileOfferingSPPK(): Promise<void> {
+    const fileSPPK = await firstValueFrom(
+      this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+    );
+    const genrateSPPK = await firstValueFrom(
+      this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
+    );
+  }
+}
+interface IObj {
+  key?: string;
+  metaData?: any;
+  fileName?: string;
+  name?: string;
+  size?: number;
+  tags?: any;
+  url?: string;
 }
