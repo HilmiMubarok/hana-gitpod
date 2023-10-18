@@ -100,9 +100,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       this.parentPath === 'dar-revision' ||
       this.parentPath === 'dar-revision-checker'
     ) {
-      if (this.selectedMenu === 'compare-data') {
-        this.field = true;
-      }
+      // Default Disabled
+      this.field = true;
     }
   }
 

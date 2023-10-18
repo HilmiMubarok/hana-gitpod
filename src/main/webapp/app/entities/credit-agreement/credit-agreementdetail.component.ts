@@ -210,7 +210,6 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-    this.setMainMenuCp();
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
       ? [...BASIC_SUBMENU_CREDITAGREEMENT, { id: 'memo-banding', text: 'Memo Banding' }]
@@ -219,9 +218,9 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.segmentType = SEGMENTS_TYPE;
 
     this.activeRoute = this.router.url.replace(/\//g, '');
+    this.clickedMenu = 'dar-summary';
 
     this.url = this.parentPath;
-    this.menuCreditAgrement();
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -281,7 +280,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('cp-status-approval')) {
+    if (this.router.url.includes('credit-agreement')) {
       if (this.positionTypeId === 'BM') {
         if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
           this.conditionSave = true;
@@ -503,89 +502,11 @@ export class CreditAgreementDetailComponent implements OnInit {
     // this.cpGroub();
   }
 
-  public setSubmenu(event: Object): void {
-    if (event) {
-      if (this.parentPath === 'credit-agreement') {
-        if (
-          this.creditProposal.attributes.proposalType === ID_GREATER_15_BN ||
-          this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN ||
-          this.creditProposal.attributes.proposalType === ID_BACK_TO_BACK
-        ) {
-          if (this.creditProposal.attributes['previousOfferingLetter']) {
-            this.subMenu = [...BASIC_SUBMENU_CREDITAGREEMENT, { id: 'memo-banding', text: 'Memo Banding' }];
-          }
-        }
-      }
-    }
-    // this.clickedMenu = 'basic-information';
-  }
-
-  public setMainMenuCp() {
-    console.log('test', this.parentPath);
-    if (this.parentPath === 'credit-agreement') {
-      this.clickedMenu = 'dar-summary';
-    }
-  }
-
-  public menuCreditAgrement() {
-    if (this.parentPath === 'credit-agreement') {
-      if (
-        this.creditProposal.attributes.proposalType === ID_GREATER_15_BN ||
-        this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN ||
-        this.creditProposal.attributes.proposalType === ID_BACK_TO_BACK
-      ) {
-        if (this.creditProposal.attributes['previousOfferingLetter']) {
-          this.subMenu = [...BASIC_SUBMENU_CREDITAGREEMENT, { id: 'memo-banding', text: 'Memo Banding' }];
-        }
-      }
-    }
-  }
-
   public goToSubMenu(menu: string): void {
     this.clickedMenu = menu;
   }
 
   public routeSubMenu(menu: object): void {
-    if (menu['id'] === ID_GREATER_15_BN) {
-      this.creditProposal.attributes.proposalType = ID_GREATER_15_BN;
-      if (this.creditProposal.attributes['previousOfferingLetter']) {
-        this.subMenu = [
-          {
-            id: 'dar-summary',
-            text: 'Credit Proposal Summary',
-          },
-          ...BASIC_SUBMENU_CREDITAGREEMENT,
-          { id: 'memo-banding', text: 'Memo Banding' },
-        ];
-      }
-    }
-    if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
-      this.creditProposal.attributes.proposalType = ID_LOWER_EQUAL_15_BN;
-
-      if (this.creditProposal.attributes['previousOfferingLetter']) {
-        this.subMenu = [
-          {
-            id: 'dar-summary',
-            text: 'Credit Proposal Summary',
-          },
-          ...BASIC_SUBMENU_CREDITAGREEMENT,
-          { id: 'memo-banding', text: 'Memo Banding' },
-        ];
-      }
-    }
-    if (menu['id'] === ID_BACK_TO_BACK) {
-      this.creditProposal.attributes.proposalType = ID_BACK_TO_BACK;
-      if (this.creditProposal.attributes['previousOfferingLetter']) {
-        this.subMenu = [
-          {
-            id: 'dar-summary',
-            text: 'Credit Proposal Summary',
-          },
-          ...BASIC_SUBMENU_CREDITAGREEMENT,
-          { id: 'memo-banding', text: 'Memo Banding' },
-        ];
-      }
-    }
     this.routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
 
