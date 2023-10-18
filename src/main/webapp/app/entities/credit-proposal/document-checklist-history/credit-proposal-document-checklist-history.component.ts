@@ -338,7 +338,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
             ];
           }
 
-          this.file = [...this.file2, this.file3];
+          this.file = [...this.file2, ...this.file3];
           this.fileUrl = this.file;
           resolve();
         });
