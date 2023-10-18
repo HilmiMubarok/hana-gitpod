@@ -403,12 +403,12 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
   }
 
   getText(value: any) {
-    if (value === 'cp-status-approval') {
-      this.title = 'Credit Proposal Approval';
+    if (value === 'credit-agreement') {
+      this.title = 'Credit Agreement ';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'credit-proposal-status') {
-      this.title = 'Credit Proposal';
+    if (value === 'credit-agreement') {
+      this.title = 'Credit Agreement ';
       sessionStorage.setItem('appName', this.title);
     }
   }

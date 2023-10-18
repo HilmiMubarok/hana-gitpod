@@ -14,7 +14,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
             <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
-          <p class="e-card-sub-title menu-title-class">Credit Agreement Review</p>
+          <p class="e-card-sub-title menu-title-class">{{ headerTitle }}</p>
         </div>
       </div>
     </div>
@@ -323,6 +323,7 @@
               <jhi-credit-proposal-memo-banding
                 #CPMemoBandingRemarkComponent
                 [saveWordMinio]="saveWord"
+                [isViewMode]="true"
                 [creditProposal]="creditProposal"
               ></jhi-credit-proposal-memo-banding>
             </div>
@@ -389,6 +390,11 @@
                 >
                 </jhi-loan-analys-opinion>
               </e-card>
+            </div>
+
+            <!-- covenant-temp -->
+            <div *ngIf="clickedMenu === 'covenant-temp'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+              <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
             </div>
 
             <!-- compare data -->

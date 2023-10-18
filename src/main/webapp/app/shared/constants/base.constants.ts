@@ -2762,6 +2762,44 @@ export const DELEGATION: object[] = [
     label: 'Delegaition Application',
   },
 ];
+export const BASIC_SUBMENU_CREDITAGREEMENT_MEMO: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'finalize-credit-agreement',
+    text: 'Finalize Credit Agreement',
+  },
+];
 
 export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
   {
@@ -2787,6 +2825,49 @@ export const BASIC_SUBMENU_CREDITAGREEMENT: object[] = [
   {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'finalize-credit-agreement',
+    text: 'Finalize Credit Agreement',
+  },
+];
+
+export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
   },
   {
     id: 'finalize-credit-agreement',
@@ -2818,6 +2899,10 @@ export const BASIC_SUBMENU_CREDITEGREEMENTREVIEW: object[] = [
   {
     id: 'compare-data',
     text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
   },
   {
     id: 'finalize-credit-agreement',
