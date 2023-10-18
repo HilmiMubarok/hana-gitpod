@@ -230,7 +230,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
         this.showTextMenu();
       }
     });
-    this.isHistoryExist = this.creditProposal.attributes.previousHistory && this.parentPath !== 'credit-agreement-review' ? true : false;
+    this.isHistoryExist = this.creditProposal.attributes.previousHistory && this.parentPath !== 'review-pk' ? true : false;
     this.setTotalPlafond();
   }
 
@@ -407,7 +407,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
         }
 
         if (this.saveState === 'process') {
-          if (this.parentPath === 'credit-agreement-review') {
+          if (this.parentPath === 'review-pk') {
             this.saveApplicationRole();
           } else {
             this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
@@ -438,7 +438,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     });
 
     this.creditAgreementReviewService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-      const menuItemIdByRoute = this.router.url.includes('credit-proposal-status') ? 'CREDIT_PROPOSAL' : 'CREDIT_PROPOSAL_APPROVAL';
+      const menuItemIdByRoute = this.router.url.includes('review-pk') ? 'CREDIT_AGREEMENT' : 'REVIEW_CREDIT_AGREEMENT';
 
       this.ca = response.body;
 

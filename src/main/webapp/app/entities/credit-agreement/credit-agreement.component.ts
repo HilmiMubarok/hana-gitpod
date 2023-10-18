@@ -161,6 +161,7 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
       })
       .subscribe((res: any) => {
         this.statusCodesData = res.body;
+        console.log(this.statusCodesData, 'bisa');
       });
   }
 
@@ -175,7 +176,7 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
-    predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'finalize-pk';
 
     // if (this.activeRoute === 'credit-proposal-status') {
 
@@ -266,6 +267,7 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
     forCheckedItems = this.addStaticDob(data.body);
     forCheckedItems = this.addIdx(data.body);
     forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
+    console.log('data', forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
 
@@ -284,8 +286,8 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url !== '/cp-status-approval') {
-        this.getStatusListView('CREDIT_PROPOSAL_STATUS');
+      if (this.router.url === '/finalize-pk') {
+        this.getStatusListView('FINALIZE_CREDIT_AGREEMENT');
         if (this.clickedChip['statusId'] !== '') {
           this.cashCreditAgreementService
             .cashCreditProposalApprovalByStatus({
@@ -294,7 +296,7 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'CREDIT_PROPOSAL_STATUS',
+              appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
             })
             .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
             .subscribe({
@@ -309,38 +311,7 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'CREDIT_PROPOSAL_STATUS',
-            })
-            .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-        }
-      } else {
-        this.getStatusListView('CREDIT_PROPOSAL_APPROVAL');
-        if (this.clickedChip['statusId'] !== '') {
-          this.cashCreditAgreementService
-            .cashCreditProposalApproval({
-              page: this.page,
-              idStatus: this.clickedChip['statusId'],
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-            })
-            .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-          return;
-        } else {
-          this.cashCreditAgreementService
-            .cashCreditProposalApproval({
-              page: this.page,
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
+              appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
             })
             .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
             .subscribe({
@@ -349,6 +320,43 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
             });
         }
       }
+
+      // else {
+      //   this.getStatusListView('FINALIZE_CREDIT_AGREEMENT');
+      //   if (this.clickedChip['statusId'] !== '') {
+      //     this.cashCreditAgreementService
+      //       .cashCreditProposalApprovalByStatus({
+      //         page: this.page,
+      //         idStatus: this.clickedChip['statusId'],
+      //         idPosition: this.positionIdLocStor,
+      //         size: this.itemsPerPage,
+      //         sort: ['id,desc'],
+      //         appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
+      //       })
+      //       .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
+      //       .subscribe({
+      //         next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
+      //         error: (res: HttpErrorResponse) => this.onError(res.message),
+      //       });
+      //     return;
+      //   }
+
+      // else {
+      //   this.cashCreditAgreementService
+      //     .cashCreditProposalApprovalByStatus({
+      //       page: this.page,
+      //       idPosition: this.positionIdLocStor,
+      //       size: this.itemsPerPage,
+      //       sort: ['id,desc'],
+      //       appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
+      //     })
+      //     .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
+      //     .subscribe({
+      //       next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
+      //       error: (res: HttpErrorResponse) => this.onError(res.message),
+      //     });
+      // }
+      // }
     }
   }
 
@@ -403,12 +411,12 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
   }
 
   getText(value: any) {
-    if (value === 'credit-agreement') {
-      this.title = 'Credit Agreement ';
+    if (value === 'finalize-pk') {
+      this.title = 'Finalize Agreement ';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'credit-agreement') {
-      this.title = 'Credit Agreement ';
+    if (value === 'finalize-pk') {
+      this.title = 'FIinalize Agreement ';
       sessionStorage.setItem('appName', this.title);
     }
   }

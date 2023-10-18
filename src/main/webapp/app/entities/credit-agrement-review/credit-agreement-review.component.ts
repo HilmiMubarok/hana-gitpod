@@ -256,7 +256,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
-    predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'review-pk';
 
     // if (this.activeRoute === 'credit-proposal-status') {
 
@@ -365,8 +365,8 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url !== '/cp-status-approval') {
-        this.getStatusListView('CREDIT_PROPOSAL_STATUS');
+      if (this.router.url === '/review-pk') {
+        this.getStatusListView('REVIEW_CREDIT_AGREEMENT');
         if (this.clickedChip['statusId'] !== '') {
           this.cashCreditAgreementReviewService
             .cashCreditProposalApprovalByStatus({
@@ -375,7 +375,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'CREDIT_PROPOSAL_STATUS',
+              appMenuId: 'REVIEW_CREDIT_AGREEMENT',
             })
             .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoad(res)))
             .subscribe({
@@ -390,7 +390,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'CREDIT_PROPOSAL_STATUS',
+              appMenuId: 'REVIEW_CREDIT_AGREEMENT',
             })
             .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoad(res)))
             .subscribe({
@@ -399,7 +399,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
             });
         }
       } else {
-        this.getStatusListView('CREDIT_PROPOSAL_APPROVAL');
+        this.getStatusListView('REVIEW_CREDIT_AGREEMENT');
         if (this.clickedChip['statusId'] !== '') {
           this.cashCreditAgreementReviewService
             .cashCreditProposalApproval({
@@ -484,12 +484,12 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
   }
 
   getText(value: any) {
-    if (value === 'credit-agreement-review') {
-      this.title = 'Credit Agreement Review';
+    if (value === 'review-pk') {
+      this.title = 'Review Agreement';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'credit-agreement-review') {
-      this.title = 'Credit Agreement Review';
+    if (value === 'review-pk') {
+      this.title = 'Review Agreement';
       sessionStorage.setItem('appName', this.title);
     }
   }
