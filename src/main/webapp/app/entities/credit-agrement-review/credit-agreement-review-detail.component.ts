@@ -20,6 +20,7 @@ import {
   CP_APPROVAL_MENU_BTB,
   CP_APPROVAL_MENU_BELOW,
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW,
+  BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -213,7 +214,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     });
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
-      ? [...BASIC_SUBMENU_CREDITEGREEMENTREVIEW, { id: 'memo-banding', text: 'Memo Banding' }]
+      ? BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO
       : BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;

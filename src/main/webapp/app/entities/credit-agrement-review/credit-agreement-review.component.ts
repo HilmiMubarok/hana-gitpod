@@ -484,12 +484,12 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
   }
 
   getText(value: any) {
-    if (value === 'cp-status-approval') {
-      this.title = 'Credit Proposal Approval';
+    if (value === 'credit-agreement-review') {
+      this.title = 'Credit Agreement Review';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'credit-proposal-status') {
-      this.title = 'Credit Proposal';
+    if (value === 'credit-agreement-review') {
+      this.title = 'Credit Agreement Review';
       sessionStorage.setItem('appName', this.title);
     }
   }

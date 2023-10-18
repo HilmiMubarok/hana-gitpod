@@ -37,6 +37,7 @@ import { CreditTabSummary } from '../credit-proposal/credit-proposal-tab-summary
 import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-pricing.model';
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
 import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
+import { BasicInformation } from '../credit-proposal/basic-information/basic-information.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementReview> {
@@ -102,11 +103,11 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
               creditProposal.body.attributes['correspondence'] = JSON.parse(creditProposal.body.attributes['correspondence']);
             }
 
-            // if (!lodash.has(creditProposal.body.attributes, 'basicInformation')) {
-            //   creditProposal.body.attributes['basicInformation'] = new BasicInformation();
-            // } else {
-            //   creditProposal.body.attributes['basicInformation'] = JSON.parse(creditProposal.body.attributes['basicInformation']);
-            // }
+            if (!lodash.has(creditProposal.body.attributes, 'basicInformation')) {
+              creditProposal.body.attributes['basicInformation'] = new BasicInformation();
+            } else {
+              creditProposal.body.attributes['basicInformation'] = JSON.parse(creditProposal.body.attributes['basicInformation']);
+            }
 
             // if (!lodash.has(creditProposal.body.attributes, 'riksCriteria')) {
             //   creditProposal.body.attributes['riksCriteria'] = new RisksAcceptenceCriteria();
