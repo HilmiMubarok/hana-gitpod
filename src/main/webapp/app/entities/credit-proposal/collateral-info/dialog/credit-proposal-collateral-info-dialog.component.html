@@ -1429,13 +1429,14 @@
       </mat-card-content>
     </mat-card>
     <div>
-      <mat-label>Mapping to Facility</mat-label>
+      <mat-label class="header-title">Mapping to Facility</mat-label>
       <jhi-mapping-facility
         [collateralData]="collateral"
         [creditProposal]="creditProposal"
         (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"
         [isViewMode]="isViewMode"
         (changeButtonData)="changeDataMV()"
+        [group]="'group'"
       >
       </jhi-mapping-facility>
     </div>
