@@ -281,7 +281,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('review-pk')) {
+    if (this.router.url.includes('credit-agreement-review')) {
       if (this.positionTypeId === 'BM') {
         if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
           this.conditionSave = true;
@@ -659,7 +659,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.parentPath !== 'review-pk') {
+      if (this.parentPath !== 'credit-agreement-review') {
         if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
         }
@@ -682,7 +682,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
       }
 
       if (source === 'process') {
-        if (this.parentPath === 'review-pk') {
+        if (this.parentPath === 'credit-agreement-review') {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
@@ -718,11 +718,11 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'review-pk') {
+        if (this.router.url.split('/')[1] === 'credit-agreement-review') {
           this.saveUpdate('not-complete', source);
         }
 
-        if (this.router.url.split('/')[1] === 'review-pk') {
+        if (this.router.url.split('/')[1] === 'credit-agreement-review') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -1003,7 +1003,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     }
     const copyCreditProposal: ICreditAgreement = lodash.cloneDeep(this.creditProposal);
 
-    if (this.router.url.split('/')[1] === 'review-pk') {
+    if (this.router.url.split('/')[1] === 'credit-agreement-review') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
         if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
           copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(
@@ -1016,7 +1016,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     let tempHelper = 0;
     const tempRouter = this.router.url.split('/')[1];
 
-    if (tempRouter === 'review-pk') {
+    if (tempRouter === 'credit-agreement-review') {
       if (status === 'complete') {
         if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
           if (copyCreditProposal.notes.length > 0) {
@@ -1119,10 +1119,10 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'review-pk') {
-      return 'Review Agreement';
+    if (value === 'credit-agreement-review') {
+      return 'Credit Agreement Review';
     } else {
-      return ' Review Agreement';
+      return 'Credit Agreement Review';
     }
   }
 
@@ -1145,7 +1145,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
   }
 
   disabledProptype() {
-    if (this.parentPath === 'review-pk') {
+    if (this.parentPath === 'credit-agreement-review') {
       return true;
     }
     return false;

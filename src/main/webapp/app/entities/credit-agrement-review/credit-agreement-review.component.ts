@@ -60,6 +60,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
   private collateralProperties: ICollateralProperty[] = [];
   public iconTimeline: any;
   public statusCodesData: Object[] = [];
+  public statusCodesDataRes: Object[] = [];
   public account: Account;
   public viewButton: boolean;
   public activeRoute: string;
@@ -397,39 +398,38 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
         }
+      } else {
+        this.getStatusListView('REVIEW_CREDIT_AGREEMENT');
+        if (this.clickedChip['statusId'] !== '') {
+          this.cashCreditAgreementReviewService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idStatus: this.clickedChip['statusId'],
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditAgreementReview[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else {
+          this.cashCreditAgreementReviewService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditAgreementReview[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
       }
-      // else {
-      //   this.getStatusListView('REVIEW_CREDIT_AGREEMENT');
-      //   if (this.clickedChip['statusId'] !== '') {
-      //     this.cashCreditAgreementReviewService
-      //       .cashCreditProposalApproval({
-      //         page: this.page,
-      //         idStatus: this.clickedChip['statusId'],
-      //         idPosition: this.positionIdLocStor,
-      //         size: this.itemsPerPage,
-      //         sort: ['id,desc'],
-      //       })
-      //       .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoad(res)))
-      //       .subscribe({
-      //         next: (res: HttpResponse<ICreditAgreementReview[]>) => this.initDataForMatTable(res, res.headers),
-      //         error: (res: HttpErrorResponse) => this.onError(res.message),
-      //       });
-      //     return;
-      //   } else {
-      //     this.cashCreditAgreementReviewService
-      //       .cashCreditProposalApproval({
-      //         page: this.page,
-      //         idPosition: this.positionIdLocStor,
-      //         size: this.itemsPerPage,
-      //         sort: ['id,desc'],
-      //       })
-      //       .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoad(res)))
-      //       .subscribe({
-      //         next: (res: HttpResponse<ICreditAgreementReview[]>) => this.initDataForMatTable(res, res.headers),
-      //         error: (res: HttpErrorResponse) => this.onError(res.message),
-      //       });
-      //   }
-      // }
     }
   }
 
