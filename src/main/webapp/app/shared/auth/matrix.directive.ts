@@ -73,7 +73,9 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('la-analyst') &&
         !this.router.url.includes('confirmation') &&
         !this.router.url.includes('finalize') &&
-        !this.router.url.includes('cc-inquiry')
+        !this.router.url.includes('cc-inquiry') &&
+        !this.router.url.includes('review-pk') &&
+        !this.router.url.includes('finalize-pk')
       ) {
         if (this.status === 'OL_APPEAL') {
           if (
@@ -118,6 +120,21 @@ export class MatrixDirective implements OnInit, OnDestroy {
             }
           }
         }
+      }
+      if (this.router.url.includes('finalize-pk')) {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      } else {
+        this.defaultCpMatrixFull();
+      }
+
+      if (this.router.url.includes('review-pk')) {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      } else {
+        this.defaultCpMatrixFull();
       }
 
       if (this.router.url.includes('la-analyst')) {
