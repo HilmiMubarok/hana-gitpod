@@ -361,11 +361,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./collateral/collateral.module').then(m => m.LosgwCollateralModule),
       },
       {
-        path: 'credit-agreement',
+        path: 'finalize-pk',
         loadChildren: () => import('./credit-agreement/credit-agreement.module').then(m => m.LosgwCreditAgreementModule),
       },
       {
-        path: 'credit-agreement-review',
+        path: 'review-pk',
         loadChildren: () => import('./credit-agrement-review/credit-agreement-review.module').then(m => m.LosgwCreditAgreementReviewModule),
       },
       {

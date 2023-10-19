@@ -38,6 +38,9 @@ import { PurposePricing } from '../credit-proposal/propose-pricing/purpose-prici
 import { CpRacBelow } from '../credit-proposal/risk-criteria/below/risk-criteria-below.model';
 import { CpRacBack } from '../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { BasicInformation } from '../credit-proposal/basic-information/basic-information.model';
+import { Covenant } from '../credit-proposal/convenant/convenant.constant';
+import { BusinessActivity } from '../credit-proposal/busines-activity/busines-activity.model';
+import { RepaymentCapability } from '../credit-proposal/repayment-capability/repayment-capability.constant';
 
 @Injectable({ providedIn: 'root' })
 export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementReview> {
@@ -115,11 +118,11 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
             //   creditProposal.body.attributes['riksCriteria'] = JSON.parse(creditProposal.body.attributes['riksCriteria']);
             // }
 
-            // if (!lodash.has(creditProposal.body.attributes, 'businessActivity')) {
-            //   creditProposal.body.attributes['businessActivity'] = new BusinessActivity();
-            // } else {
-            //   creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
-            // }
+            if (!lodash.has(creditProposal.body.attributes, 'businessActivity')) {
+              creditProposal.body.attributes['businessActivity'] = new BusinessActivity();
+            } else {
+              creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
+            }
 
             // if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
             //   creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
@@ -127,11 +130,11 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
             //   creditProposal.body.attributes['guaranturAnalysis'] = JSON.parse(creditProposal.body.attributes['guaranturAnalysis']);
             // }
 
-            // if (!lodash.has(creditProposal.body.attributes, 'convenant')) {
-            //   creditProposal.body.attributes['convenant'] = new Covenant();
-            // } else {
-            //   creditProposal.body.attributes['convenant'] = JSON.parse(creditProposal.body.attributes['convenant']);
-            // }
+            if (!lodash.has(creditProposal.body.attributes, 'convenant')) {
+              creditProposal.body.attributes['convenant'] = new Covenant();
+            } else {
+              creditProposal.body.attributes['convenant'] = JSON.parse(creditProposal.body.attributes['convenant']);
+            }
 
             if (!lodash.has(creditProposal.body.attributes, 'bankAnalyst')) {
               creditProposal.body.attributes['bankAnalyst'] = [];
@@ -159,12 +162,12 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
               creditProposal.body.attributes['proposalType'] = '';
             }
 
-            // if (!lodash.has(creditProposal.body.attributes, 'repaymentCapability')) {
-            //   creditProposal.body.attributes['repaymentCapability'] = [];
-            //   creditProposal.body.attributes['repaymentCapability'].push(new RepaymentCapability());
-            // } else {
-            //   creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
-            // }
+            if (!lodash.has(creditProposal.body.attributes, 'repaymentCapability')) {
+              creditProposal.body.attributes['repaymentCapability'] = [];
+              creditProposal.body.attributes['repaymentCapability'].push(new RepaymentCapability());
+            } else {
+              creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
+            }
 
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
               creditProposal.body.attributes['facilityDetail'] = new Facility();
