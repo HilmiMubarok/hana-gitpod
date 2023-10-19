@@ -221,7 +221,6 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.clickedMenu = 'dar-summary';
-
     this.url = this.parentPath;
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -231,7 +230,8 @@ export class CreditAgreementDetailComponent implements OnInit {
         this.showTextMenu();
       }
     });
-    this.isHistoryExist = this.creditProposal.attributes.previousHistory && this.parentPath !== 'credit-agreement' ? true : false;
+    // this.isHistoryExist = this.creditProposal.attributes.previousHistory && this.parentPath !== 'finalize-pk' ? true : false;
+    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
     this.setTotalPlafond();
   }
 
@@ -282,7 +282,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('credit-agreement')) {
+    if (this.router.url.includes('finalize-pk')) {
       if (this.positionTypeId === 'BM') {
         if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
           this.conditionSave = true;
@@ -401,7 +401,7 @@ export class CreditAgreementDetailComponent implements OnInit {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
 
-        if (this.parentPath !== 'credit-agreement') {
+        if (this.parentPath !== 'finalize-pk') {
           if (this.proposalBasicInformationViewComponent) {
             this.proposalBasicInformationViewComponent.triggeredSave();
           }
@@ -428,7 +428,7 @@ export class CreditAgreementDetailComponent implements OnInit {
         }
 
         if (this.saveState === 'process') {
-          if (this.parentPath === 'credit-agreement') {
+          if (this.parentPath === 'finalize-pk') {
             this.saveApplicationRole();
           } else {
             this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
@@ -459,9 +459,10 @@ export class CreditAgreementDetailComponent implements OnInit {
     });
 
     this.creditAgreementService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-      const menuItemIdByRoute = this.router.url.includes('credit-proposal-status') ? 'CREDIT_PROPOSAL' : 'CREDIT_PROPOSAL_APPROVAL';
-
+      const menuItemIdByRoute = this.router.url.includes('finalize-pk') ? 'FINALIZE_CREDIT_AGREEMENT' : 'FINALIZE_CREDIT_AGREEMENT';
+      console.log('routes', menuItemIdByRoute);
       this.ca = response.body;
+      console.log('routes', this.ca);
 
       this.masterPermissionService
         .queryFilterBy({ menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.ca.statusId })
@@ -509,14 +510,9 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.routeHelper =
+    const routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
-
-    this.router.navigate([this.routeHelper], {
-      queryParams: {
-        subroute: menu['id'],
-      },
-    });
+    this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
   public previousState(): void {
@@ -680,7 +676,7 @@ export class CreditAgreementDetailComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.parentPath !== 'credit-agreement') {
+      if (this.parentPath !== 'finalize-pk') {
         if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
         }
@@ -703,7 +699,7 @@ export class CreditAgreementDetailComponent implements OnInit {
       }
 
       if (source === 'process') {
-        if (this.parentPath === 'credit-agreement') {
+        if (this.parentPath === 'finalize-pk') {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
@@ -739,10 +735,10 @@ export class CreditAgreementDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'credit-agreement') {
+        if (this.router.url.split('/')[1] === 'finalize-pk') {
           this.saveUpdate('not-complete', source);
         }
-        if (this.router.url.split('/')[1] === 'credit-agreement') {
+        if (this.router.url.split('/')[1] === 'finalize-pk') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -1036,7 +1032,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     }
     const copyCreditProposal: ICreditAgreement = lodash.cloneDeep(this.creditProposal);
 
-    if (this.router.url.split('/')[1] === 'credit-agreement') {
+    if (this.router.url.split('/')[1] === 'finalize-pk') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
         if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
           copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(
@@ -1049,7 +1045,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     let tempHelper = 0;
     const tempRouter = this.router.url.split('/')[1];
 
-    if (tempRouter === 'credit-agreement') {
+    if (tempRouter === 'finalize-pk') {
       if (status === 'complete') {
         if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
           if (copyCreditProposal.notes.length > 0) {
@@ -1167,7 +1163,7 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'credit-agreement') {
+    if (value === 'finalize-pk') {
       return 'Credit Agrement';
     } else {
       return 'Credit Agreement';

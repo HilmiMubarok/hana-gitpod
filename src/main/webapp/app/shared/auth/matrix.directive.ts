@@ -122,8 +122,10 @@ export class MatrixDirective implements OnInit, OnDestroy {
         }
       }
       if (this.router.url.includes('review-pk')) {
+        // if(this.status !== 'DRAFT'){
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
+          // }
         }
       }
 
@@ -575,7 +577,9 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'DEPT_HEAD' ||
         this.positionTypeId === 'SDH' ||
         this.positionTypeId === 'DH' ||
-        this.positionTypeId === 'BM'
+        this.positionTypeId === 'BM' ||
+        this.positionTypeId === 'CREDIT_LEGAL_LEAD' ||
+        this.positionTypeId === 'LEGAL_OFFICER'
       ) {
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
