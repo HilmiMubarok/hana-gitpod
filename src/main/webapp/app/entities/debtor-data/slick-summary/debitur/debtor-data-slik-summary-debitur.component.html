@@ -1,4 +1,14 @@
 <div *ngIf="mode === 'edit'" class="mb-3">
+  <button
+    style="float: right; margin-left: 10px"
+    mat-raised-button
+    color="primary"
+    class="btn-save-debtor"
+    (click)="openDialogUpload()"
+    [hidden]="isHideButtonCp"
+  >
+    Upload
+  </button>
   <a
     style="float: right"
     mat-raised-button
