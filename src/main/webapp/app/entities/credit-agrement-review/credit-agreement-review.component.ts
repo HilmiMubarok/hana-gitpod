@@ -505,7 +505,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
 
   public conditionButtonAddCP() {
     if (this.isRm()) {
-      if (this.parentPath === 'cp-status-approval') {
+      if (this.parentPath === 'review-pk') {
         if (this.account.authorities.length <= 2) {
           this.viewButton = false;
         } else {
@@ -515,14 +515,14 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
     }
 
     if (this.isBm()) {
-      if (this.parentPath === 'cp-status-approval') {
+      if (this.parentPath === 'review-pk') {
         if (this.account.authorities.length <= 2) {
           this.viewButton = true;
         }
       }
     }
     if (this.isSMEHead()) {
-      if (this.parentPath === 'cp-status-approval') {
+      if (this.parentPath === 'review-pk') {
         if (this.account.authorities.length <= 2) {
           this.viewButton = true;
         } else {
