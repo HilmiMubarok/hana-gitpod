@@ -34,7 +34,15 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   public collateralCGPG: ICollateral[];
   public collateralProperties: ICollateralProperty[] = [];
   public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
+  private _group: string;
 
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
   public bindingValueHelper: any = [];
   public mappingStatusHelper: any = [];
   constructor(
@@ -52,7 +60,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     this.collateralInfo = this.data.collateral;
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
-    this.setUp();
+    // this.setUp();
     this.checked = false;
     this.collateralProperties = this.data.collateralProperties;
   }
@@ -119,13 +127,15 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   public setCrossCollateral(index: number) {
     if (this.collateralData) {
       if (this.collateralData.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
-        if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-          const tempCollateralProductRelationObject = {
-            collateralId: this.collateralInfo.id,
-            bindingValue: this.bindingValueHelper[index],
-            applicationProduct: this.applicationProductData[index],
-          };
-          this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
+        if (this.group !== 'group') {
+          if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+            const tempCollateralProductRelationObject = {
+              collateralId: this.collateralInfo.id,
+              bindingValue: this.bindingValueHelper[index],
+              applicationProduct: this.applicationProductData[index],
+            };
+            this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
+          }
         }
       }
     }
