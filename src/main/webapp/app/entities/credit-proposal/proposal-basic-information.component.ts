@@ -24,6 +24,7 @@ import {
   CP_APPROVAL_MENU,
   CP_APPROVAL_MENU_BTB,
   CP_APPROVAL_MENU_BELOW,
+  COLLATERAL_TYPE
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -176,6 +177,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public permission: any;
   private position: any;
+  public collateralCgpg: ICollateral[] = [];
 
   constructor(
     private partyCifService: PartyCifService,
@@ -1668,16 +1670,23 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
       });
+	  if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+        this.collateralCgpg.push(collateral);
+      }
     }
   }
 
   public cekCgpgData() {
-    for (let i = 0; i < this.collateralProperties.length; i++) {
-      if (this.collateralProperties[i].propertyType === 'GENERAL') {
-        this.saveCollateralProperty(this.collateralProperties[i]);
+    if (this.collateralCgpg.length > 0) {
+      for (let i = 0; i < this.collateralCgpg.length; i++) {
+		const collateral = this.collateralProperties.find(obj => obj.collateralId === this.collateralCgpg[i].id && obj.external === false);
+        if (collateral) {
+          this.saveCollateralProperty(collateral);
+        }
       }
     }
   }
+
 
   public saveCollateralProperty(property: ICollateralProperty) {
     this.collateralPropertyService.save(property).subscribe(res => {});

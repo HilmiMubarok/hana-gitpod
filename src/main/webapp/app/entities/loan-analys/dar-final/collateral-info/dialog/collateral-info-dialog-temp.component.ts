@@ -139,6 +139,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
       certDueDate: any;
       ownerShip: string;
       matrikBindingType: string;
+      parentSource: string;
     }
   ) {
     this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
@@ -154,6 +155,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
+    this.parentSource = this.data.parentSource;
     this.matrikBindingType = this.data.matrikBindingType;
     for (let i = 1; i < 101; i++) {
       this.lovRank.push(i.toString());

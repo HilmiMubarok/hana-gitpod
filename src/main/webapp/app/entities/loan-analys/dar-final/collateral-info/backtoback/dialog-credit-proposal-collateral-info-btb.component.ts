@@ -67,7 +67,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
   public collateralProperty: ICollateralProperty;
   public collateralPropertyExternal: ICollateralProperty;
   public collateralDetailType: any;
-  public logoCcy = {};
+  public logoCcy;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -123,6 +123,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
       binding: ICreditProposalCollateralBinding;
       emptyField: IEmptyField;
       isViewMode: Boolean;
+      parentSource: string;
     }
   ) {
     this.creditProposal = this.data.cp;
@@ -136,6 +137,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
     this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
     this.isViewMode = this.data.isViewMode;
+    this.parentSource = this.data.parentSource;
     this.setManagementBrance();
     this.setBranches();
     this.loadByCollateral(this.collateral.id);

@@ -41,10 +41,12 @@
                 <mat-label>Collateral Value</mat-label>
                 <input matInput type="text" [value]="getCurrency() + ' ' + (countMVOriginal() | number)" disabled />
               </mat-form-field>
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Liquidation Value</mat-label>
-                <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
-              </mat-form-field>
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Liquidation Value</mat-label>
+                  <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+                </mat-form-field>
+              </section>
 
               <div class="form-group">
                 <ejs-textbox
@@ -110,7 +112,7 @@
               <div class="row">
                 <div class="col-4">
                   <div class="form-group">
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>CCY</mat-label>
                         <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)">
@@ -125,13 +127,13 @@
                 </div>
                 <div class="col-8">
                   <div class="form-group">
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Binding Value</mat-label>
                         <input currencyMask matInput type="text" [(ngModel)]="binding.bindingValue" [options]="logoCcy" />
                       </mat-form-field>
                     </section>
-                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+                    <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
                       <div class="fontsebled row">
                         <div class="col-4">Binding Value</div>
                         <div class="col-md-auto">:</div>
@@ -145,13 +147,13 @@
               </div>
 
               <div class="form-group">
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KURS</mat-label>
                     <input currencyMask matInput type="text" [(ngModel)]="binding.kurs" readOnly [options]="logoIdr" readOnly />
                   </mat-form-field>
                 </section>
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
                   <div class="fontsebled row">
                     <div class="col-4">KURS</div>
                     <div class="col-md-auto">:</div>
@@ -163,7 +165,7 @@
               </div>
 
               <div class="form-group">
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Binding Value eq to IDR</mat-label>
                     <input
@@ -176,7 +178,7 @@
                     />
                   </mat-form-field>
                 </section>
-                <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
                   <div class="fontsebled row">
                     <div class="col-4">Binding Value eq to IDR</div>
                     <div class="col-md-auto">:</div>
@@ -319,24 +321,33 @@
         </div>
         <div>
           <mat-label>Mapping to Facility</mat-label>
-          <jhi-mapping-facility
+          <jhi-mapping-facility-temp
             [collateralData]="collateral"
             [creditProposal]="creditProposal"
             (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"
           >
-          </jhi-mapping-facility>
+          </jhi-mapping-facility-temp>
         </div>
         <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
-        <mat-dialog-actions align="center" class="align-center">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
-            <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-            <button mat-button (click)="save()">Save</button>
-          </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
-            <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-          </section>
-        </mat-dialog-actions>
       </div>
     </div>
   </div>
+  <div>
+    <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
+  </div>
+  <div>
+    <jhi-paripasu-collateral-debitur [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-debitur>
+  </div>
+  <div *ngIf="parentSource === 'dec-offering'">
+    <jhi-certificate-info></jhi-certificate-info>
+  </div>
 </mat-dialog-content>
+<mat-dialog-actions align="center" class="align-center">
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+    <button mat-raised-button class="confirm-button-no" (click)="cancel()">Cancel</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+    <button mat-raised-button mat-dialog-close (click)="cancel()" class="confirm-button-no">Cancel</button>
+  </section>
+</mat-dialog-actions>
