@@ -579,7 +579,9 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'DH' ||
         this.positionTypeId === 'BM' ||
         this.positionTypeId === 'CREDIT_LEGAL_LEAD' ||
-        this.positionTypeId === 'LEGAL_OFFICER'
+        this.positionTypeId === 'LEGAL_OFFICER' ||
+        this.positionTypeId === 'CRO' ||
+        this.positionTypeId === 'CRC'
       ) {
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
