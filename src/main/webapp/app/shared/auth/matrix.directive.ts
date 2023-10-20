@@ -17,6 +17,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private status!: string;
   private readonly destroy$ = new Subject<void>();
   private positionTypeId: any;
+  private argsPath = this.router.url.split('/')[1];
 
   @Input()
   set jhiMatrixDir(value: string) {
@@ -72,7 +73,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('loan-committee-approval') &&
         !this.router.url.includes('la-analyst') &&
         !this.router.url.includes('confirmation') &&
-        !this.router.url.includes('finalize') &&
+        !this.argsPath.match(/finalize-pk/g) &&
+        !this.argsPath.match(/finalize/g) &&
         !this.router.url.includes('cc-inquiry') &&
         !this.router.url.includes('review-pk') &&
         !this.router.url.includes('dar-revision')
@@ -126,6 +128,12 @@ export class MatrixDirective implements OnInit, OnDestroy {
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
           // }
+        }
+      }
+      if (this.argsPath.match(/finalize-pk/g)) {
+        // if(this.status !== 'DRAFT'){
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
         }
       }
 
@@ -525,7 +533,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
         }
       }
 
-      if (this.router.url.includes('finalize')) {
+      if (this.argsPath.endsWith('finalize')) {
         if (this.jhiMatrixDirMenu !== 'dar-final') {
           if (this.positionTypeId === 'LEGAL_OFFICER') {
             if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
