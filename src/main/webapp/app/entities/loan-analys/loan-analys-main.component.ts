@@ -1024,7 +1024,8 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   private getTasks(): void {
-    this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
+    // this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
+	this.creditProposalProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS')}).subscribe(res => {
       this.tasks = res.body;
     });
   }

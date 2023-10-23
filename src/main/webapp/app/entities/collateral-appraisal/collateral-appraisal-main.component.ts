@@ -400,7 +400,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   private getTasks(): void {
-    this.collateralAppraisalProcessService.getTasks(this.id).subscribe(res => {
+    // this.collateralAppraisalProcessService.getTasks(this.id).subscribe(res => {
+	this.collateralAppraisalProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS')}).subscribe(res => {
       this.tasks = res.body;
     });
   }
