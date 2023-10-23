@@ -847,6 +847,8 @@ export class LoanAnalysMainComponent implements OnInit {
 
       case 'cc-review':
 		this.menuId = 'COMPLIANCE_CHECKING_REVIEW';
+		break;
+
       case 'cc-inquiry':
 		this.menuId = 'COMPLIANCE_CHECKING_INQUIRY';
         this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
