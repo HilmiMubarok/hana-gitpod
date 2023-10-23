@@ -956,7 +956,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   private getTasks(): void {
     // this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
-	this.creditProposalProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS')}).subscribe(res => {
+	this.creditProposalProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS'), idMenu: this.parentPath === 'credit-proposal-status' ? 'CREDIT_PROPOSAL_STATUS' : 'CREDIT_PROPOSAL_APPROVAL'}).subscribe(res => {
       this.tasks = res.body;
     });
   }
