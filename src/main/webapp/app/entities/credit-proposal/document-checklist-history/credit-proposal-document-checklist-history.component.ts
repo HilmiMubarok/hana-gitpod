@@ -18,6 +18,8 @@ import * as JSZip from 'jszip';
 import { DatePipe } from '@angular/common';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { Route, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'jhi-document-checklist-history',
   templateUrl: './credit-proposal-document-checklist-history.component.html',
@@ -204,7 +206,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
                       result[i].level = re.body;
 
                       const mergeArray: ILevel[] = result[i].level.map(item1 => {
-                        const file = this.file.find(item2 => item2.idFile === item1.id);
+                        const file = this.file.find(item2 => item2.key === item1.id);
                         return { ...item1, ...file };
                       });
 
@@ -244,6 +246,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
 
   public openDialog(element: IDocumentType = null, view: string, item: string, parentId: string): void {
     const predicate = { width: '80vw', data: {} };
+
     predicate.data['cpId'] = this.creditProposal.id;
     predicate.data['partyId'] = this.creditProposal.id;
     predicate.data['bucket'] = this.bucket;
@@ -268,7 +271,8 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
         }
         const downloadPromises = this.fileUrl.map(async (file, index) => {
           try {
-            const nameFile = file.name.split('/').length === 5 ? file.name.split('/')[4] : file.name.split('/')[5];
+            const nameFile = file.name.split('/').length === 7 ? file.name.split('/')[6] : file.name.split('/')[5];
+
             if (!nameFile.includes('los_logo.png')) {
               const fileContent = await downloadFile(file.url);
               zip.file(nameFile, fileContent);
@@ -308,41 +312,43 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
       const dataIDDOnly: Object = {
         key: `/cp/${id}/document/history/file-cp/`,
       };
-      this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
-        for (let index = 0; index < res1.body.length; index++) {
-          this.file2 = [
-            ...this.file2,
-            {
-              idFile: res1.body[index].tags.id,
-              url: res1.body[index].url,
-              name: res1.body[index].key,
-              remarks: res1.body[index].tags.remarks,
-              status: res1.body[index].tags.status,
-              dueDate: res1.body[index].tags.dueDate,
-            },
-          ];
-        }
 
-        this.storageService.getObjects(this.bucket, dataIDDOnly).subscribe((res2: any) => {
-          for (let index = 0; index < res2.body.length; index++) {
-            this.file3 = [
-              ...this.file3,
-              {
-                idFile: res2.body[index].tags.id,
-                url: res2.body[index].url,
-                name: res2.body[index].key,
-                remarks: res2.body[index].tags.remarks,
-                status: res2.body[index].tags.status,
-                dueDate: res2.body[index].tags.dueDate,
-              },
-            ];
+      forkJoin(this.storageService.getObjects(this.bucket, dataCpOnly), this.storageService.getObjects(this.bucket, dataIDDOnly))
+        .pipe(
+          map(([res1, res2]: [any, any]) => {
+            this.file2 = res1.body.map(item => ({
+              idFile: item.tags.id,
+              url: item.url,
+              name: item.key,
+              remarks: item.tags.remarks,
+              status: item.tags.status,
+              dueDate: item.tags.dueDate,
+              key: item.key.split('/')[5],
+            }));
+
+            this.file3 = res2.body.map(item => ({
+              idFile: item.tags.id,
+              url: item.url,
+              name: item.key,
+              remarks: item.tags.remarks,
+              status: item.tags.status,
+              dueDate: item.tags.dueDate,
+              key: item.key.split('/')[5],
+            }));
+          })
+        )
+        .subscribe(
+          () => {
+            this.file = [...this.file2, ...this.file3];
+            console.log('le', this.file);
+            this.fileUrl = this.file;
+
+            resolve();
+          },
+          (error: any) => {
+            reject(error);
           }
-
-          this.file = [...this.file2, ...this.file3];
-          this.fileUrl = this.file;
-          resolve();
-        });
-      });
+        );
     });
   }
 }
