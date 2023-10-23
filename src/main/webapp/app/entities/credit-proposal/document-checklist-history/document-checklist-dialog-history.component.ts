@@ -104,13 +104,13 @@ export class DocumentChecklistDialogHistoryComponent {
   private getFiles(id: number): void {
     if (this.data.parentId !== 'DOC_IDD') {
       const retrieveIDDNotDuplicated: Object = {
-        key: `/cp/${this.data.partyId}/document/history/file-cp/${this.files.id}`,
+        key: `/cp/${this.data.partyId}/document/history/file-cp/${this.files.key}`,
       };
 
       this.prosesGetDataByID(retrieveIDDNotDuplicated);
     } else {
       const retrieveIDDNotDuplicated: Object = {
-        key: `/cp/${this.data.partyId}/document/history/file-idd/${this.files.id}`,
+        key: `/cp/${this.data.partyId}/document/history/file-idd/${this.files.key}`,
       };
 
       this.prosesGetDataByID(retrieveIDDNotDuplicated);
@@ -385,7 +385,7 @@ export class DocumentChecklistDialogHistoryComponent {
             createdBy: null,
           };
           const files = new Date() + '-' + this.file[i].name.replace('&', '');
-          metaData.objectName = `/cp/${this.data.cpId}/document/file-cp/${this.files.id}/${files}`;
+          metaData.objectName = `/cp/${this.data.partyId}/document/history/file-cp/${this.files.id}/${files}`;
           metaData.entityId = this.data.cpId;
           metaData.id = this.files.id;
           metaData.status = this.files.status;
