@@ -79,10 +79,10 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     if (this.tempRouter === 'cc-checking') {
       this.isShowOpinionFieldInput = true;
     }
-    if (this.tempRouter === 'credit-agreement') {
+    if (this.tempRouter === 'finalize-pk') {
       this.disabledCompliance = true;
     }
-    if (this.tempRouter === 'credit-agreement-review') {
+    if (this.tempRouter === 'review-pk') {
       this.disabledCompliance = true;
     }
     if (this.tempRouter === 'dar-revision') {

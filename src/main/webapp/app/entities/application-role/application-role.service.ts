@@ -62,8 +62,10 @@ export class ApplicationRoleService extends AbstractEntityService<IApplicationRo
     return result;
   }
 
-  public getApprovalUser(id: number) {
+  public getApprovalUser(id: number, param?: any) {
+    const options = createRequestOption(param);
     return this.http.get<IApplicationRole[]>(this.resourceUrlNew + `/find-active/application/${id}`, {
+      params: options,
       observe: 'response',
     });
   }

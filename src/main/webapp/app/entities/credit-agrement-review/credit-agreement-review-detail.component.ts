@@ -1464,6 +1464,61 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
       this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
     );
   }
+  public setSubmenu(event: Object): void {
+    if (event) {
+      if (event === ID_GREATER_15_BN) {
+        if (this.parentPath === 'review-pk') {
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO;
+          } else {
+            this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
+          }
+        } else {
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO;
+          } else {
+            this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
+          }
+        }
+      } else if (event === ID_LOWER_EQUAL_15_BN) {
+        if (this.parentPath === 'cp-status-approval') {
+          if (this.creditProposal.attributes['previousOfferingLetter']) {
+            this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO;
+          } else {
+            this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
+          }
+        }
+      } else {
+        if (this.creditProposal.attributes['previousOfferingLetter']) {
+          this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO;
+        } else {
+          this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
+        }
+      }
+    } else if (event === ID_BACK_TO_BACK) {
+      if (this.parentPath === 'cp-status-approval') {
+        if (this.creditProposal.attributes['previousOfferingLetter']) {
+          this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO;
+        } else {
+          this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
+        }
+      } else {
+        if (this.creditProposal.attributes['previousOfferingLetter']) {
+          this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO;
+        } else {
+          this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
+        }
+      }
+    } else {
+      if (this.creditProposal.attributes['previousOfferingLetter']) {
+        this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO;
+      } else {
+        this.subMenu = BASIC_SUBMENU_CREDITEGREEMENTREVIEW;
+      }
+    }
+
+    // this.clickedMenu = 'basic-information';
+  }
 }
 interface IObj {
   key?: string;
