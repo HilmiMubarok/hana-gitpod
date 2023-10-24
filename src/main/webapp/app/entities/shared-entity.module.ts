@@ -399,9 +399,9 @@ import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compa
 import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
 import { FinalizeCreditAgreementComponent } from './credit-agreement/finalize-credit-agreement/finalize-credit-agreement.component';
 import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
+import { CreditProposalGeneratePkReportComponent } from './credit-proposal/generate-document-pk-report/credit-proposal-generate-pk-report.component';
 import { StandartConvenantComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
 import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-deviation/standart-deviation.component';
-
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
 @NgModule({
@@ -864,7 +864,8 @@ import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/ot
     AgremeentCompareRevisionFinalComponent,
         AgreementComparePreviousDarComponent,
         FinalizeCreditAgreementComponent,
-        SignerPerjanjialKreditDialogComponent,
+    SignerPerjanjialKreditDialogComponent,
+        CreditProposalGeneratePkReportComponent,
         StandartConvenantComponent,
         StandartDeviationComponent
   ],
@@ -1285,6 +1286,7 @@ import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/ot
     AgreementComparePreviousDarComponent,
     FinalizeCreditAgreementComponent,
     SignerPerjanjialKreditDialogComponent,
+    CreditProposalGeneratePkReportComponent,
     StandartConvenantComponent,
     StandartDeviationComponent,
   ],
