@@ -126,12 +126,15 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     const fullYear = new Date(this.person.dob);
     const year = fullYear.toISOString().split('T')[0];
 
-    this.staticDob = new Date(this.getStaticDate(this.person.dob));
+    this.staticDob = this.getStaticDate(this.person.dob);
   }
 
   private getStaticDate(date: any) {
-    const dateString = date.toString();
-    return dateString.substring(0, 4) + '/' + dateString.substring(5, 7) + '/' + dateString.substring(8, 10);
+    const dobDate = new Date(date);
+    const year = dobDate.getFullYear();
+    const month = (dobDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = dobDate.getDate().toString().padStart(2, '0');
+    return `${year}/${month}/${day}`;
   }
 
   public dataSource() {
