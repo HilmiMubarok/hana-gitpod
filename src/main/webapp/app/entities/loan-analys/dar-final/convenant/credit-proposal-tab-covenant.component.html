@@ -13,7 +13,7 @@
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="header-title">Standard Covenant</div>
-            <div class="e-card-sub-title"></div>
+            <div class="e-card-sub-title"><jhi-standart-covenant-temp></jhi-standart-covenant-temp></div>
           </div>
         </div>
         <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
@@ -85,6 +85,16 @@
     <div class="row">
       <div class="row card-layout">
         <!-- <div class="e-card"> -->
+  
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="header-title">Standart Deviation</div>
+              <div class="e-card-sub-title"></div>
+              <div class="card-content">
+              <jhi-standart-deviation></jhi-standart-deviation>
+              </div>
+            </div>
+          </div>
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="header-title">Other Deviation</div>
