@@ -9,8 +9,7 @@ import { OfferingLetterRoute } from './offering-letter.route';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route';
-import { OfferingLetterSignerPageComponent } from './offering-page/signer/signer-page.component';
-import { OfferingLetterSignerPageDialogComponent } from './offering-page/signer/dialog/signer-page-dialog.component';
+
 import { OfferingLetterOfferingPageComponent } from './offering-page/offering-page.component';
 import { OfferingLetterTabCovenantComponent } from './covenant-document/offering-letter-tab-covenant.component';
 import { OfferingLetterTabCovenantDeviationComponent } from './covenant-deviation/offering-letter-tab-covenant-deviation.component';
@@ -22,8 +21,6 @@ import { CertificateInfoDialogComponent } from './certificate-info/certificate-i
   declarations: [
     OfferingLetterComponent,
     OfferingLetterMainComponent,
-    OfferingLetterSignerPageComponent,
-    OfferingLetterSignerPageDialogComponent,
     OfferingLetterOfferingPageComponent,
     OfferingLetterTabCovenantComponent,
     OfferingLetterTabCovenantDeviationComponent,

@@ -13,7 +13,7 @@ export class SignerPerjanjialKreditDialogComponent {
   constructor(public dialogRef: MatDialogRef<SignerPerjanjialKreditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   public onSelectPositon(event: any) {
-    this.position = event.value;
+    this.debitor = event.value;
   }
 
   onSave(): void {
