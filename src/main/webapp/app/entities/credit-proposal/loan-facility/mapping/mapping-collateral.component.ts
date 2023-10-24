@@ -94,8 +94,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     }
     // Codition Mapping Collateral Disabled From Binding Value in credit agreement
     if (
-      this.parentPath === 'credit-agreement' ||
-      this.parentPath === 'credit-agreement-review' ||
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
       this.parentPath === 'dpdl-finalize' ||
       this.parentPath === 'dar-revision' ||
       this.parentPath === 'dar-revision-checker'

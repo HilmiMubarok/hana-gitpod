@@ -669,7 +669,7 @@
             <div class="form-group" *ngIf="parentSource === 'dec-offering'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Informasi Tambahan</mat-label>
-                <textarea matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan"></textarea>
+                <textarea matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" [disabled]="field"></textarea>
               </mat-form-field>
             </div>
             <!-- <div class="mb-2">

@@ -5,6 +5,7 @@ import { CertificateInfo, ICertificateInfo } from './certificate-info.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CertificateInfoDialogComponent } from './certificate-info-dialog.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-certificate-info',
@@ -15,8 +16,11 @@ export class CertificateInfoComponent implements OnInit {
   public dataItem: ICertificateInfo[] = [];
   public collateral: ICollateral;
   public creditProposal: ICreditProposal;
+  public field = false;
+  public parentPath = this.router.url.split('/')[1];
   public displayedColumns: string[] = ['no', 'buktiKepemilikan', 'jangkaWaktu', 'luasTanah', 'luasBangunan', 'action'];
   constructor(
+    private router: Router,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -35,8 +39,21 @@ export class CertificateInfoComponent implements OnInit {
     this.creditProposal = data.cp;
     this.collateral = data.collateral;
   }
-
+  public disableField() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'dpdl-finalize' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker' ||
+      this.creditProposal.statusId === 'OL_DISTRIBUTION'
+    ) {
+      // Default Disabled
+      this.field = true;
+    }
+  }
   ngOnInit(): void {
+    this.disableField();
     console.log('credit Proposal ', this.creditProposal.attributes['certificateInfoData']);
     console.log('ini collateral di certificate ', this.collateral);
   }

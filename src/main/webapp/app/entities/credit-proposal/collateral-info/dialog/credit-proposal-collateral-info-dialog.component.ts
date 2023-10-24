@@ -24,6 +24,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { Page } from '@syncfusion/ej2-angular-grids';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -127,8 +128,10 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   date = new FormControl(moment());
   public collateralGradings: string;
   public parentSource = '';
-
+  public field = false;
+  public parentPath = this.router.url.split('/')[1];
   constructor(
+    private router: Router,
     private dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
@@ -198,8 +201,20 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.lovInsuranceTypes();
     this.addLovRank();
     this.cekCurrency();
+    this.disableField();
   }
-
+  public disableField() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'dpdl-finalize' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker'
+    ) {
+      // Default Disabled
+      this.field = true;
+    }
+  }
   public getRole() {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.checkRole(newPos.positionTypeId);
