@@ -237,11 +237,10 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           // this.findCollateralProperty(collateral);
-
-          if (this.creditProposal.id) {
-            this.loadSummaryCollateral();
-          }
         }
+      }
+      if (this.creditProposal.id) {
+        this.loadSummaryCollateral();
       }
     }
   }
