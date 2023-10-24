@@ -25,6 +25,7 @@ import { CashCollateralService } from 'app/entities/cash-collateral/cash-collate
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -117,8 +118,11 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public noDocumentJaminan: string;
   public jenis: string;
   public parentSource = '';
+  public field = false;
+  public parentPath = this.router.url.split('/')[1];
 
   constructor(
+    private router: Router,
     private dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralPropertyService: CollateralPropertyService,
@@ -164,8 +168,20 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.setBranches();
     this.lovBindingType();
     this.cekCurrency();
+    this.disableField();
   }
-
+  public disableField() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'dpdl-finalize' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker'
+    ) {
+      // Default Disabled
+      this.field = true;
+    }
+  }
   public getRole() {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.checkRole(newPos.positionTypeId);
