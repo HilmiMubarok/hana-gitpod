@@ -81,6 +81,8 @@ export class OfferingLetterMainComponent implements OnInit {
   private KEYG = 'credit_proposal/summary';
   public isOpen = false;
 
+  private menuId = '';
+
   @Input('item')
   get item() {
     return this.creditProposal;
@@ -161,15 +163,19 @@ export class OfferingLetterMainComponent implements OnInit {
   private setTitleMenuByParentPath() {
     if (this.parentPath === 'distribution') {
       this.title = 'Offering Letter Distribution';
+	  this.menuId = 'DISTRIBUTION_OFFERING_LETTER';
     }
     if (this.parentPath === 'finalize') {
       this.title = 'Offering Letter Finalize';
+	  this.menuId = 'FINALIZE_OFFERING_LETTER';
     }
     if (this.parentPath === 'review') {
       this.title = 'Offering Letter Review';
+	  this.menuId = 'OFFERING_LETTER_REVIEW';
     }
     if (this.parentPath === 'confirmation') {
       this.title = 'Offering Letter Confirmation';
+	  this.menuId = 'OFFERING_LETTER_CONFIRMATION';
     }
   }
 
@@ -267,7 +273,8 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   private getTasks(): void {
-    this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
+    // this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
+	this.creditProposalProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS'), idMenu: this.menuId}).subscribe(res => {
       this.tasks = res.body;
     });
   }
