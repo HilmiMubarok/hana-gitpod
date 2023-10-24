@@ -656,9 +656,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.statusDisabledOffering = true; // Menambahkan perubahan di sini
       }
     } else if (
-      this.parentPath === 'credit-agreement' ||
+      this.parentPath === 'finalize-pk' ||
       this.parentPath === 'dpdl-finalize' ||
-      this.parentPath === 'credit-agreement-review' ||
+      this.parentPath === 'review-pk' ||
       this.parentPath === 'dar-revision' ||
       this.parentPath === 'dar-revision-checker'
     ) {

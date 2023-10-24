@@ -110,7 +110,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   onDocumentChange() {
     if (this.parentSource === '') {
       this.container_view_false.restrictEditing = true;
-    } else if (this.parentSource === 'loan-analys') {
+    } else if (this.parentSource === 'loan-analys' || this.parentSource === 'credit-agreement') {
       this.container_view_false_loan_analys.restrictEditing = true;
     }
   }
@@ -129,6 +129,13 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     this.removeTagRemaks();
     // this.setCurrency();
+  }
+
+  public remarkStatus() {
+    if (this.parentSource === 'credit-agreement' || this.parentSource === 'loan-analys') {
+      return true;
+    }
+    return false;
   }
 
   private getToken(cookieName: string) {
