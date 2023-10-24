@@ -319,18 +319,18 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'Credit Agreement',
+    name: 'Perjanjian Kredit',
     iconname: 'suitcase',
     children: [
       {
-        name: ' Finalize Credit Agreement',
+        name: ' Finalize Perjanjian Kredit',
         iconname: 'minus',
-        route: 'credit-agreement',
+        route: 'finalize-pk',
       },
       {
-        name: ' Credit Agreement Review',
+        name: ' Review Perjanjian Kredit',
         iconname: 'minus',
-        route: 'credit-agreement-review',
+        route: 'review-pk',
       },
     ],
   },
