@@ -168,8 +168,6 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.lovBindingType();
     this.loadData();
     this.getLovInsuranceType();
-    const data: IGroupCollateralChecklis = this.historyData().groupChecklisCollateral;
-    console.log('xx', data);
   }
   getLovInsuranceType() {
     this.generalParameterService
