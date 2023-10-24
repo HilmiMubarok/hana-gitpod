@@ -399,7 +399,9 @@ import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compa
 import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
 import { FinalizeCreditAgreementComponent } from './credit-agreement/finalize-credit-agreement/finalize-credit-agreement.component';
 import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
-
+import { CreditProposalGeneratePkReportComponent } from './credit-proposal/generate-document-pk-report/credit-proposal-generate-pk-report.component';
+import { StandartConvenantComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
+import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-deviation/standart-deviation.component';
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
 @NgModule({
@@ -862,7 +864,10 @@ import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finali
     AgremeentCompareRevisionFinalComponent,
         AgreementComparePreviousDarComponent,
         FinalizeCreditAgreementComponent,
-        SignerPerjanjialKreditDialogComponent,
+    SignerPerjanjialKreditDialogComponent,
+        CreditProposalGeneratePkReportComponent,
+        StandartConvenantComponent,
+        StandartDeviationComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1281,6 +1286,9 @@ import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finali
     AgreementComparePreviousDarComponent,
     FinalizeCreditAgreementComponent,
     SignerPerjanjialKreditDialogComponent,
+    CreditProposalGeneratePkReportComponent,
+    StandartConvenantComponent,
+    StandartDeviationComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

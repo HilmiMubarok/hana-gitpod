@@ -774,6 +774,15 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     }
     return false;
   }
+
+  public generateDocumentPk() {
+    const parentPath = this.router.url.split('/')[1];
+    console.log('bb', parentPath.match(/finalize-pk/g));
+    if (parentPath.match(/finalize-pk/g) || parentPath.match(/review-pk/g) || parentPath.match(/finalize-dpdl/g)) {
+      return true;
+    }
+    return false;
+  }
 }
 interface IObj {
   key?: string;
