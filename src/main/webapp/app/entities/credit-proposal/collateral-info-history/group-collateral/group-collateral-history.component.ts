@@ -168,6 +168,8 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.lovBindingType();
     this.loadData();
     this.getLovInsuranceType();
+    const data: IGroupCollateralChecklis = this.historyData().groupChecklisCollateral;
+    console.log('xx', data);
   }
   getLovInsuranceType() {
     this.generalParameterService
@@ -837,10 +839,30 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     return false;
   }
 
+  // public getDataCeklis(element) {
+  //   const data: IGroupCollateralChecklis = this.historyData().groupChecklisCollateral?.find(obj => obj.collateralId === element.id);
+  //   console.log('xx', data);
+  //   if (data) {
+  //     return data.checklis;
+  //   }
+  //   return false;
+  // }
+
   public getDataCeklis(element) {
-    const data: IGroupCollateralChecklis = this.historyData().groupChecklisCollateral?.find(obj => obj.collateralId === element.id);
-    if (data) {
-      return data.checklis;
+    // Objek History
+    const historyData = this.historyData();
+    if (historyData) {
+      // Tampung data History Group Checklist Collateral
+      const groupChecklisCollateral = historyData.groupChecklisCollateral;
+      // Jiaka Array atau ada data history grup checklist collateral
+      if (Array.isArray(groupChecklisCollateral)) {
+        // Find data berdasarkan collateral id
+        const data: IGroupCollateralChecklis = groupChecklisCollateral.find(obj => obj.collateralId === element.id);
+        console.log('xx', data);
+        if (data) {
+          return data.checklis;
+        }
+      }
     }
     return false;
   }
