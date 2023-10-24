@@ -403,6 +403,8 @@ import { CreditProposalGeneratePkReportComponent } from './credit-proposal/gener
 import { StandartConvenantComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
 import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-deviation/standart-deviation.component';
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
+import { OfferingLetterSignerPageComponent } from './offering-letter/offering-page/signer/signer-page.component';
+import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offering-page/signer/dialog/signer-page-dialog.component';
 
 @NgModule({
   imports: [
@@ -867,7 +869,9 @@ import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/ot
     SignerPerjanjialKreditDialogComponent,
         CreditProposalGeneratePkReportComponent,
         StandartConvenantComponent,
-        StandartDeviationComponent
+        StandartDeviationComponent,
+        OfferingLetterSignerPageComponent,
+OfferingLetterSignerPageDialogComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1289,6 +1293,8 @@ import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/ot
     CreditProposalGeneratePkReportComponent,
     StandartConvenantComponent,
     StandartDeviationComponent,
+    OfferingLetterSignerPageComponent,
+    OfferingLetterSignerPageDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,33 +1,51 @@
-<!-- src/app/form/form.component.html -->
-<form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-    <div fxLayout="row" fxLayoutGap="10px">
-      <div fxFlex="50%">
-        <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Name</mat-label>
-          <input matInput placeholder="Name" [(ngModel)]="name" name="name">
-        </mat-form-field>
-      </div>
-      <div fxFlex="50%">
-        <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Debitor/Pt Bank Hana Keb Indonesia</mat-label>
-          <input matInput placeholder="Debitor/Pt Bank Hana Keb Indonesia" [(ngModel)]="debitor"  name="debitor" >
-        </mat-form-field>
-      </div>
-    </div>
-  
-    <div fxLayout="row" fxLayoutGap="10px">
-      <div fxFlex="50%">
-        <mat-form-field appearance="outline">
-            <mat-label>Position</mat-label>
-            <mat-select (selectionChange)="onSelectPositon($event)">
-              <mat-option *ngFor="let item of ['Director', 'Commercial Head', 'Credit Legal Head']" [value]="item">
+<div class="style-close">
+  <button class="button-close" mat-button (click)="cancel()">X</button>
+</div>
+<h2 mat-dialog-title class="header-title">SIGNER</h2>
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <div class="col-6">
+      <div class="mb-2">
+        <section>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Debitor / Pt. Bank Keb Hana Indonesia</mat-label>
+            <mat-select [(ngModel)]="debitor" (selectionChange)="onSelectPositon($event.value)" >
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of ['Debitor', 'PT Keb Hana Bank Indonesia']" [value]="item">
                 {{ item }}
               </mat-option>
             </mat-select>
           </mat-form-field>
+        </section>
+      </div>
+
+      <div class="mb-2">
+        <section>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Position</mat-label>
+            <input matInput type="text" [(ngModel)]="position" />
+          </mat-form-field>
+        </section>
       </div>
     </div>
-    <button mat-raised-button (click)="cancel()" color="danger">Cancel</button>
-    <button mat-raised-button (click)="onSave()" color="primary">Save</button>
-  </form>
-  
+
+    <!-- batas -->
+    <div class="col-6">
+      <div class="mb-2">
+        <div class="row">
+    
+          <section id="name_debitor">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput type="text" [(ngModel)]="name"  />
+            </mat-form-field>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-button (click)="onSave()" >Save</button>
+</mat-dialog-actions>
