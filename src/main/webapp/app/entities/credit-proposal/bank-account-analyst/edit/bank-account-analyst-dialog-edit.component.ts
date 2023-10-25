@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -10,20 +10,29 @@ import * as _moment from 'moment';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { UomService } from 'app/entities/uom/uom.service';
+import { IUom } from 'app/entities/uom/uom.model';
+import { Observable, map, startWith } from 'rxjs';
+import { UOM_TYPE } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog-edit.component.html',
   styleUrls: ['../bank-account-analyst-dialog.component.css'],
 })
-export class CreditProposalBankAccountAnalystDialogEditComponent {
+export class CreditProposalBankAccountAnalystDialogEditComponent implements OnInit {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI', 'OTHERS'];
   public displayedColumns: string[] = ['date', 'debit', 'fqDebit', 'credit', 'fqCredit', 'lowest', 'highest', 'balance', 'action'];
   public creditProposal: ICreditProposal;
   public bankAccAnalyst: IBankAccountAnalyst;
   public bankAccAnalyst1: IBankAccountAnalyst;
   public edit: boolean;
-  public ccy: string[] = ['EUR', 'USD', 'IDR', 'KRW', 'CNY', 'CAD'];
+  // public ccy: string[] = ['EUR', 'USD', 'IDR', 'KRW', 'CNY', 'CAD', 'AUD'];
+  public ccy: IUom[];
+  public curen: string;
+  public ccyControl = new FormControl();
+  public filteredCcy: Observable<IUom[]>;
 
   public validBankControl = new FormControl('', [Validators.required]);
   public validAccountNo = new FormControl('', [Validators.required]);
@@ -38,7 +47,6 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
   public validCredit = new FormControl('', [Validators.required]);
   public validLowest = new FormControl('', [Validators.required]);
   public applicationProduct: IApplicationProduct;
-  public curen: string;
   public setData: string;
   public currencyName: number;
   public logoCcy;
@@ -49,7 +57,8 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; edit: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogEditComponent>,
     private _snackBar: MatSnackBar,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    private uomService: UomService
   ) {
     _dialog.disableClose = true;
     _dialog.backdropClick().subscribe(_ => {
@@ -62,6 +71,10 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     }
     this.edit = this.data.edit;
     this.creditProposal = this.data.creditProposal;
+  }
+
+  ngOnInit(): void {
+    this.loadCurrencyMeasure();
   }
 
   public onRemove(index: number): void {
@@ -326,34 +339,37 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     });
   }
 
-  public changeCurency(value: string) {
-    this.curen = value;
-    this.setData = new Date().toISOString().split('T')[0];
-    this.creditProposalService.getCurrency(value, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
-      this.currencyName = res.body[0]?.factor;
+  // public changeCurency(value: string) {
+  //   this.curen = value;
+  //   this.setData = new Date().toISOString().split('T')[0];
+  //   this.creditProposalService.getCurrency(value, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
+  //     this.currencyName = res.body[0]?.factor;
 
-      this.bankAccAnalyst.convert = res.body[0]?.factor;
-      if (value === 'IDR') {
-        this.conCcy = true;
-        this.logoCcy = { prefix: 'IDR', thousands: ',', decimal: ',', precision: 0 };
-      } else if (value === 'USD') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      } else if (value === 'EUR') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      } else if (value === 'KRW') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      } else if (value === 'CNY') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      } else if (value === 'CAD') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      }
-    });
-  }
+  //     this.bankAccAnalyst.convert = res.body[0]?.factor;
+  //     if (value === 'IDR') {
+  //       this.conCcy = true;
+  //       this.logoCcy = { prefix: 'IDR', thousands: ',', decimal: ',', precision: 0 };
+  //     } else if (value === 'USD') {
+  //       this.conCcy = true;
+  //       this.logoCcy = {};
+  //     } else if (value === 'EUR') {
+  //       this.conCcy = true;
+  //       this.logoCcy = {};
+  //     } else if (value === 'KRW') {
+  //       this.conCcy = true;
+  //       this.logoCcy = {};
+  //     } else if (value === 'CNY') {
+  //       this.conCcy = true;
+  //       this.logoCcy = {};
+  //     } else if (value === 'CAD') {
+  //       this.conCcy = true;
+  //       this.logoCcy = {};
+  //     } else if (value === 'AUD') {
+  //       this.conCcy = true;
+  //       this.logoCcy = {};
+  //     }
+  //   });
+  // }
 
   // cancel confrimation dialog
   public openCancelDialog(): void {
@@ -370,5 +386,52 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
         this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst1, action: 'cancel' });
       }
     });
+  }
+
+  private _filterCcy(value: string): IUom[] {
+    const filterValue = value.toLowerCase();
+    const filtered = this.ccy.filter(
+      ccy => ccy.abbreviation.toLowerCase().includes(filterValue) || ccy.description.toLowerCase().includes(filterValue)
+    );
+    return filtered;
+  }
+
+  filteredCurrency() {
+    this.filteredCcy = this.ccyControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterCcy(value))
+    );
+  }
+
+  public changeCurency(value: MatAutocompleteSelectedEvent) {
+    this.curen = value.option.value;
+    this.setData = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(this.curen, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      this.bankAccAnalyst.convert = res.body[0]?.factor;
+
+      if (this.curen === 'IDR') {
+        this.conCcy = true;
+        this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
+      } else {
+        this.conCcy = true;
+        this.logoCcy = {};
+      }
+    });
+  }
+
+  private loadCurrencyMeasure(): void {
+    this.uomService
+      .queryFilterBy({
+        idUomType: UOM_TYPE.CURRENCY,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.ccy = res.body;
+        // Mengurutkan secara ascending berdasarkan abbreviation
+        this.ccy.sort((a, b) => a.abbreviation.localeCompare(b.abbreviation));
+        this.filteredCurrency();
+      });
   }
 }

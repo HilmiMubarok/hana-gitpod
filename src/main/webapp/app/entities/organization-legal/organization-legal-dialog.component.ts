@@ -11,6 +11,7 @@ import { FormControl } from '@angular/forms';
 import { Input } from '@syncfusion/ej2-angular-inputs';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { OrganizationLegalService } from './organization-legal.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -52,7 +53,8 @@ export class OrganizationLegalDialogComponent implements OnInit {
       deedNumber: any;
       deedDates: any;
     },
-    private _dialog: MatDialogRef<OrganizationLegalDialogComponent>
+    private _dialog: MatDialogRef<OrganizationLegalDialogComponent>,
+    protected organizationLegalService: OrganizationLegalService
   ) {
     this.organizationLegal = this.data.organizationLegal;
     if (this.organizationLegal.deedEstablishNum === '' || this.organizationLegal.deedEstablishNum === undefined) {
@@ -67,6 +69,7 @@ export class OrganizationLegalDialogComponent implements OnInit {
     });
     this.changeNumber();
     this.changeDate();
+    this.loadOrganization();
   }
   // IDD organization Legal
   public checkRole(param): void {
@@ -117,5 +120,35 @@ export class OrganizationLegalDialogComponent implements OnInit {
         this._dialog.close();
       }
     });
+  }
+
+  public deedEstablishNo: any;
+  public deedEstablishDate: any;
+  public siup: any;
+  public deedEstablishPlace: any;
+  public deedEstablishNota: any;
+  public rcntNo: any;
+  public rcntDate: any;
+
+  public loadOrganization(): void {
+    this.organizationLegalService
+      .queryFilterBy({
+        idOrganization: this.organizationLegal.organizationId,
+        page: 0,
+        size: 9999,
+        sort: ['id,desc'],
+      })
+      .subscribe(res => {
+        const dataOrganiztionLegal = res.body.find(e => e.id === this.organizationLegal.id);
+
+        this.deedEstablishNo = dataOrganiztionLegal.deedEstablishNum;
+        this.deedEstablishDate = dataOrganiztionLegal.deedEstablishDate;
+        this.siup = dataOrganiztionLegal.siupNumber;
+        this.deedEstablishDate = dataOrganiztionLegal.deedEstablishDate;
+        this.deedEstablishPlace = dataOrganiztionLegal.establishPlace;
+        this.deedEstablishNota = dataOrganiztionLegal.establishNotary;
+        this.rcntNo = dataOrganiztionLegal.deedRecentChangeNumber;
+        this.rcntDate = dataOrganiztionLegal.deedRecentChangeDate;
+      });
   }
 }

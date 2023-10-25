@@ -10,6 +10,7 @@ import { LendingProgramParameterService } from '../lending-program-parameter/len
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import {
+  COLLATERAL_TYPE,
   SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
   SUBMENU_LOAN_ANALYS_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_CC_CHECKING,
@@ -86,6 +87,7 @@ export class LoanAnalysMainComponent implements OnInit {
   })
   creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
 
+  public collateralCgpg: ICollateral[] = [];
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
 
@@ -191,7 +193,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
     switch (this.parentPath) {
       case 'la-distribution':
-		this.menuId = 'LOAN_ANALYSIS_DISTRIBUTION';
+        this.menuId = 'LOAN_ANALYSIS_DISTRIBUTION';
         if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
           if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
             // Above
@@ -338,7 +340,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-SME-CRC':
-		this.menuId = 'LOAN_ANALYSIS_SME_CREDIT_REVIEW_CHECKER';
+        this.menuId = 'LOAN_ANALYSIS_SME_CREDIT_REVIEW_CHECKER';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -392,7 +394,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'cc-distribution':
-		this.menuId = 'COMPLIANCE_CHECKING_DISTRIBUTION';
+        this.menuId = 'COMPLIANCE_CHECKING_DISTRIBUTION';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -419,7 +421,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-analyst':
-		this.menuId = 'LOAN_ANALYSIS';
+        this.menuId = 'LOAN_ANALYSIS';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -478,7 +480,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-approval':
-		this.menuId = 'LOAN_APPROVAL';
+        this.menuId = 'LOAN_APPROVAL';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -505,7 +507,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-approval-inquiry':
-		this.menuId = 'LOAN_APPROVAL_INQUIRY';
+        this.menuId = 'LOAN_APPROVAL_INQUIRY';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -555,7 +557,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'dar-final':
-		this.menuId = 'DAR_FINALIZATION';
+        this.menuId = 'DAR_FINALIZATION';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -629,7 +631,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'dar-notif':
-		this.menuId = 'DAR_NOTIFICATION';
+        this.menuId = 'DAR_NOTIFICATION';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -738,7 +740,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'dar-checker':
-		this.menuId = 'FINAL_DAR_CHECKER';
+        this.menuId = 'FINAL_DAR_CHECKER';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -765,7 +767,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'loan-committee-approval':
-		this.menuId = 'LOAN_KOMITE_APPROVAL';
+        this.menuId = 'LOAN_KOMITE_APPROVAL';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -839,25 +841,25 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'cc-checking':
-		this.menuId = 'COMPLIANCE_CHECKING';
+        this.menuId = 'COMPLIANCE_CHECKING';
         this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
           ? [...SUBMENU_LOAN_ANALYS_CC_CHECKING, { id: 'memo-banding', text: 'Memo Banding' }]
           : SUBMENU_LOAN_ANALYS_CC_CHECKING;
         break;
 
       case 'cc-review':
-		this.menuId = 'COMPLIANCE_CHECKING_REVIEW';
-		break;
+        this.menuId = 'COMPLIANCE_CHECKING_REVIEW';
+        break;
 
       case 'cc-inquiry':
-		this.menuId = 'COMPLIANCE_CHECKING_INQUIRY';
+        this.menuId = 'COMPLIANCE_CHECKING_INQUIRY';
         this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
           ? [...SUBMENU_LOAN_ANALYS_CC_REVIEW, { id: 'memo-banding', text: 'Memo Banding' }]
           : SUBMENU_LOAN_ANALYS_CC_REVIEW;
         break;
 
       case 'loan-analys-and-approval-monitoring':
-		this.menuId = 'LOAN_ANALYST_AND_APPROVAL_MONITORING';
+        this.menuId = 'LOAN_ANALYST_AND_APPROVAL_MONITORING';
         if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
           // Above
           if (this.creditProposal.attributes['previousOfferingLetter']) {
@@ -1043,7 +1045,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   private getTasks(): void {
     // this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
-	this.creditProposalProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS'), idMenu: this.menuId}).subscribe(res => {
+    this.creditProposalProcessService.getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.menuId }).subscribe(res => {
       this.tasks = res.body;
     });
   }
@@ -2216,19 +2218,32 @@ export class LoanAnalysMainComponent implements OnInit {
       });
   }
 
-  // find collateral property
   public findCollateralProperty(collateral: ICollateral): void {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
       });
+      if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+        this.collateralCgpg.push(collateral);
+      }
     }
   }
 
   public cekCgpgData() {
-    for (let i = 0; i < this.collateralProperties.length; i++) {
-      this.saveCollateralProperty(this.collateralProperties[i]);
+    if (this.collateralCgpg.length > 0) {
+      for (let i = 0; i < this.collateralCgpg.length; i++) {
+        const collateral = this.collateralProperties.find(obj => obj.collateralId === this.collateralCgpg[i].id && obj.external === false);
+        if (collateral) {
+          this.saveCollateralProperty(collateral);
+        }
+      }
     }
+
+    // for (let i = 0; i < this.collateralProperties.length; i++) {
+    //   if (this.collateralProperties[i].propertyType === 'GENERAL') {
+    //     this.saveCollateralProperty(this.collateralProperties[i]);
+    //   }
+    // }
   }
 
   public saveCollateralProperty(property: ICollateralProperty) {
