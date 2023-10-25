@@ -8,7 +8,7 @@ import {
 } from '../../../application-product/application-product.model';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import lodash from 'lodash';
+import lodash, { filter } from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { CreditProposalLoanFacilityDialogComponent } from '../dialog/loan-facility-dialog.component';
 import { Router } from '@angular/router';
@@ -25,6 +25,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { GeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import moment from 'moment';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -103,7 +104,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     public _router: Router,
     private creditProposalService: CreditProposalService,
     private changeDetectorRefs: ChangeDetectorRef,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    private messageService: MessageService
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
@@ -538,6 +540,33 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
       return value + '%';
     } else {
       return '0%';
+    }
+  }
+
+  public cekFacilityRelation(element) {
+    let statDelete = true;
+    if (this.creditProposal.collateralProductRelations.length > 0) {
+      for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+        const data: ICollateralProductRelation[] = this.creditProposal.collateralProductRelations.filter(
+          obj => obj.applicationProduct.nomorUrutFasilitas === element.nomorUrutFasilitas
+        );
+        if (data.length > 0) {
+          statDelete = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'please check collateral info - tab cross collateral mapping to facility',
+          });
+          break;
+        }
+      }
+      if (statDelete) {
+        this.onDelete(element);
+      }
+    } else {
+      if (statDelete) {
+        this.onDelete(element);
+      }
     }
   }
 }

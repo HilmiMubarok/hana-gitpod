@@ -23,6 +23,7 @@ import { LoanFacilityDialogTempComponent } from '../dialog/loan-facility-dialog.
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import moment from 'moment';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-loan-facility-detail-grid-temp',
@@ -98,7 +99,8 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
     public dialog: MatDialog,
     public _router: Router,
     private creditProposalService: CreditProposalService,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    private messageService: MessageService
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
@@ -645,5 +647,32 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
     const getDate = data.applicationProduct.maturityDate;
     const staticDate = moment(new Date(getDate)).format().substring(0, 19) + 'Z';
     return staticDate;
+  }
+
+  public cekFacilityRelation(element) {
+    let statDelete = true;
+    if (this.creditProposal.collateralProductRelations.length > 0) {
+      for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+        const data: ICollateralProductRelation[] = this.creditProposal.collateralProductRelations.filter(
+          obj => obj.applicationProduct.nomorUrutFasilitas === element.nomorUrutFasilitas
+        );
+        if (data.length > 0) {
+          statDelete = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'please check collateral info - tab cross collateral mapping to facility',
+          });
+          break;
+        }
+      }
+      if (statDelete) {
+        this.onDelete(element);
+      }
+    } else {
+      if (statDelete) {
+        this.onDelete(element);
+      }
+    }
   }
 }
