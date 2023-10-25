@@ -88,13 +88,12 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>CCY</mat-label>
-            <!-- <input matInput type="text" maxlength="3" [(ngModel)]="bankAccAnalyst.ccy" required /> -->
-            <mat-select [(ngModel)]="bankAccAnalyst.ccy" name="selccy" (ngModelChange)="changeCurency($event)" required>
-              <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of ccy" [value]="item">
-                {{ item }}
+            <input matInput [formControl]="ccyControl" [matAutocomplete]="ccyAuto" [(ngModel)]="bankAccAnalyst.ccy" />
+            <mat-autocomplete #ccyAuto="matAutocomplete" (optionSelected)="changeCurency($event)">
+              <mat-option *ngFor="let item of filteredCcy | async" [value]="item.abbreviation">
+                {{ item.abbreviation }} - {{ item.description }}
               </mat-option>
-            </mat-select>
+            </mat-autocomplete>
 
             <mat-error *ngIf="validCcy.hasError('required')">CCY is Required</mat-error>
           </mat-form-field>

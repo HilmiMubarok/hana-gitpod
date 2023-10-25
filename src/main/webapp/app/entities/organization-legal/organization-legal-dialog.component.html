@@ -14,7 +14,7 @@
             <div class="col">Deed Of Establishment No</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ organizationLegal.deedEstablishNum }}
+              {{ deedEstablishNo }}
             </div>
           </div>
         </section>
@@ -41,7 +41,7 @@
             <div class="col">Deed Of Establishment Date</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ organizationLegal.deedEstablishDate }}
+              {{ deedEstablishDate | date: 'YYY/MM/dd' }}
             </div>
           </div>
         </section>
@@ -60,7 +60,7 @@
             <div class="col">Deed Of RCNT No</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ organizationLegal.deedRecentChangeNumber }}
+              {{ rcntNo }}
             </div>
           </div>
         </section>
@@ -85,7 +85,7 @@
             <div class="col">Deed Of RCNT Date</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ organizationLegal.deedRecentChangeNumber }}
+              {{ rcntDate | date: 'YYY/MM/dd' }}
             </div>
           </div>
         </section>
@@ -104,7 +104,7 @@
             <div class="col">SIUP</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ organizationLegal.siupNumber }}
+              {{ siup }}
             </div>
           </div>
         </section>
@@ -121,7 +121,7 @@
             <div class="col">Deed of Establish Place</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ organizationLegal.establishPlace }}
+              {{ deedEstablishPlace }}
             </div>
           </div>
         </section>
@@ -138,7 +138,7 @@
             <div class="col">Deed of Establish Nota</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ organizationLegal.establishPlace }}
+              {{ deedEstablishNota }}
             </div>
           </div>
         </section>

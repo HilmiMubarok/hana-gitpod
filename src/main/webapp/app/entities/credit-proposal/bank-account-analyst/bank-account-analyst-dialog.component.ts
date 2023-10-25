@@ -9,21 +9,29 @@ import { IApplicationProduct } from 'app/entities/application-product/applicatio
 import { getCurrencySymbol } from '@angular/common';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import lodash from 'lodash';
+import { UomService } from 'app/entities/uom/uom.service';
+import { UOM_TYPE } from 'app/shared/constants/base.constants';
+import { IUom } from 'app/entities/uom/uom.model';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog.component.html',
   styleUrls: ['./bank-account-analyst-dialog.component.css'],
 })
-export class CreditProposalBankAccountAnalystDialogComponent {
+export class CreditProposalBankAccountAnalystDialogComponent implements OnInit {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI', 'OTHERS'];
   public displayedColumns: string[] = ['date', 'debit', 'fqDebit', 'credit', 'fqCredit', 'lowest', 'highest', 'balance', 'action'];
   public creditProposal: ICreditProposal;
   public applicationProduct: IApplicationProduct;
   public bankAccAnalyst: IBankAccountAnalyst;
   public view: boolean;
-  public ccy: string[] = ['EUR', 'USD', 'IDR', 'KRW', 'CNY', 'CAD'];
+  // public ccy: string[] = ['EUR', 'USD', 'IDR', 'KRW', 'CNY', 'CAD','AUD'];
+  public ccy: IUom[];
   public curen: string;
+  public ccyControl = new FormControl();
+  public filteredCcy: Observable<IUom[]>;
 
   public validBankControl = new FormControl('', [Validators.required]);
   public validAccountNo = new FormControl('', [Validators.required]);
@@ -52,7 +60,8 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
     private _snackBar: MatSnackBar,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    private uomService: UomService
   ) {
     _dialog.disableClose = true;
     _dialog.backdropClick().subscribe(_ => {
@@ -64,6 +73,10 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     }
     this.view = this.data.view;
     this.creditProposal = this.data.creditProposal;
+  }
+
+  ngOnInit(): void {
+    this.loadCurrencyMeasure();
   }
 
   public onRemove(index: number): void {
@@ -342,31 +355,50 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     });
   }
 
-  public changeCurency(value: string) {
-    this.curen = value;
+  private _filterCcy(value: string): IUom[] {
+    const filterValue = value.toLowerCase();
+    const filtered = this.ccy.filter(
+      ccy => ccy.abbreviation.toLowerCase().includes(filterValue) || ccy.description.toLowerCase().includes(filterValue)
+    );
+    return filtered;
+  }
+
+  filteredCurrency() {
+    this.filteredCcy = this.ccyControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterCcy(value))
+    );
+  }
+
+  public changeCurency(value: MatAutocompleteSelectedEvent) {
+    this.curen = value.option.value;
     this.setData = new Date().toISOString().split('T')[0];
-    this.creditProposalService.getCurrency(value, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
+    this.creditProposalService.getCurrency(this.curen, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
       this.currencyName = res.body[0]?.factor;
       this.bankAccAnalyst.convert = res.body[0]?.factor;
-      if (value === 'IDR') {
+
+      if (this.curen === 'IDR') {
         this.conCcy = true;
         this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
-      } else if (value === 'USD') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      } else if (value === 'EUR') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      } else if (value === 'KRW') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      } else if (value === 'CNY') {
-        this.conCcy = true;
-        this.logoCcy = {};
-      } else if (value === 'CAD') {
+      } else {
         this.conCcy = true;
         this.logoCcy = {};
       }
     });
+  }
+
+  private loadCurrencyMeasure(): void {
+    this.uomService
+      .queryFilterBy({
+        idUomType: UOM_TYPE.CURRENCY,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.ccy = res.body;
+        // Mengurutkan secara ascending berdasarkan abbreviation
+        this.ccy.sort((a, b) => a.abbreviation.localeCompare(b.abbreviation));
+        this.filteredCurrency();
+      });
   }
 }
