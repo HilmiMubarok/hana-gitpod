@@ -587,6 +587,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
     }
     if (this.jhiMatrixDirMenu === 'cp-and-memo') {
+      const route = this.router.url.split('?')[1];
       if (
         this.positionTypeId === 'SME_HEAD' ||
         this.positionTypeId === 'DEPT_HEAD' ||
@@ -600,8 +601,20 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'CRC2' ||
         this.positionTypeId === 'LEGALOFFICER_OUTREGION'
       ) {
-        if (this.jhiMatrixDirElementType === '') {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        if (this.argsPath.match(/dar-revision/g)) {
+          if (route.includes('loan-facility')) {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else {
+          if (this.jhiMatrixDirElementType === '') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
         }
       } else {
         if (this.positionTypeId === 'RM') {
