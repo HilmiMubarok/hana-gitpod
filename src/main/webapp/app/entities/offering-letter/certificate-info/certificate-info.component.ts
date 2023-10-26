@@ -17,6 +17,7 @@ export class CertificateInfoComponent implements OnInit {
   public collateral: ICollateral;
   public creditProposal: ICreditProposal;
   public field = false;
+  public filter: ICertificateInfo[];
   public parentPath = this.router.url.split('/')[1];
   public displayedColumns: string[] = ['no', 'buktiKepemilikan', 'jangkaWaktu', 'luasTanah', 'luasBangunan', 'action'];
   constructor(
@@ -28,23 +29,16 @@ export class CertificateInfoComponent implements OnInit {
       collateral: ICollateral;
     }
   ) {
-    if (data.cp.attributes['certificateInfoData']) {
-      if (data.cp.attributes['certificateInfoData'].length > 0) {
-        const filter: ICertificateInfo[] = data.cp.attributes['certificateInfoData'].filter(obj => obj.id === data.collateral.id);
-        if (filter) {
-          this.dataItem = filter;
-        }
-      }
-    }
     this.creditProposal = data.cp;
     this.collateral = data.collateral;
+    this.disableField();
   }
   public disableField() {
     if (
       this.parentPath === 'finalize-pk' ||
       this.parentPath === 'review-pk' ||
       this.parentPath === 'dpdl-finalize' ||
-      this.parentPath === 'dar-revision' ||
+      // this.parentPath === 'dar-revision' ||
       this.parentPath === 'dar-revision-checker' ||
       this.creditProposal.statusId === 'OL_DISTRIBUTION'
     ) {
@@ -53,7 +47,15 @@ export class CertificateInfoComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.disableField();
+    if (this.data.cp.attributes['certificateInfoData']) {
+      if (this.data.cp.attributes['certificateInfoData'].length > 0) {
+        this.filter = this.data.cp.attributes['certificateInfoData'].filter(obj => obj.id === this.data.collateral.id);
+        if (this.filter) {
+          this.dataItem = this.filter;
+        }
+      }
+    }
+    console.log('parentPath', this.parentPath);
     console.log('credit Proposal ', this.creditProposal.attributes['certificateInfoData']);
     console.log('ini collateral di certificate ', this.collateral);
   }

@@ -50,6 +50,19 @@
                 [isReadOnly]="true"
               ></ejs-documenteditorcontainer>
             </section>
+            <section *ngIf="parentSource === 'dec-offering'">
+              <ejs-documenteditorcontainer
+                #document_editor_container
+                [headers]="customHeadersJWT"
+                [enableToolbar]="false"
+                [enableLocalPaste]="false"
+                height="100vh"
+                style="display: block"
+                (documentChange)="onDocumentChange()"
+                [enableEditor]="false"
+                [isReadOnly]="true"
+              ></ejs-documenteditorcontainer>
+            </section>
           </div>
         </div>
       </div>
