@@ -281,8 +281,8 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url !== '/cp-status-approval') {
-        this.getStatusListView('CREDIT_PROPOSAL_STATUS');
+      if (this.router.url === '/finalize-dpdl') {
+        this.getStatusListView('FINALIZE_DPDL');
         if (this.clickedChip['statusId'] !== '') {
           this.cashCreditProposalService
             .cashCreditProposalApprovalByStatus({
@@ -291,7 +291,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'CREDIT_PROPOSAL_STATUS',
+              appMenuId: 'FINALIZE_DPDL',
             })
             .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -306,38 +306,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'CREDIT_PROPOSAL_STATUS',
-            })
-            .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IDpdlFinalizeModel[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-        }
-      } else {
-        this.getStatusListView('CREDIT_PROPOSAL_APPROVAL');
-        if (this.clickedChip['statusId'] !== '') {
-          this.cashCreditProposalService
-            .cashCreditProposalApproval({
-              page: this.page,
-              idStatus: this.clickedChip['statusId'],
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-            })
-            .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IDpdlFinalizeModel[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-          return;
-        } else {
-          this.cashCreditProposalService
-            .cashCreditProposalApproval({
-              page: this.page,
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
+              appMenuId: 'FINALIZE_DPDL',
             })
             .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -400,7 +369,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
   }
 
   getText(value: any) {
-    if (value === 'dpdl-finalize') {
+    if (value === 'finalize-dpdl') {
       this.title = 'Finalize DPDL';
       sessionStorage.setItem('appName', this.title);
     }
@@ -421,7 +390,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
 
   public conditionButtonAddCP() {
     if (this.isRm()) {
-      if (this.parentPath === 'cp-status-approval') {
+      if (this.parentPath === 'finalize-dpdl') {
         if (this.account.authorities.length <= 2) {
           this.viewButton = false;
         } else {
@@ -431,14 +400,14 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
     }
 
     if (this.isBm()) {
-      if (this.parentPath === 'cp-status-approval') {
+      if (this.parentPath === 'finalize-dpdl') {
         if (this.account.authorities.length <= 2) {
           this.viewButton = true;
         }
       }
     }
     if (this.isSMEHead()) {
-      if (this.parentPath === 'cp-status-approval') {
+      if (this.parentPath === 'finalize-dpdl') {
         if (this.account.authorities.length <= 2) {
           this.viewButton = true;
         } else {

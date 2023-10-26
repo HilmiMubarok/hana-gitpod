@@ -358,7 +358,7 @@
               <e-card>
                 <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
               </e-card>
-              <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'dpdl-finalize'">
+              <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-dpdl'">
                 <e-card>
                   <jhi-loan-analys-opinion-compliance-part
                     #loanAnalysOpinionCompliancePartComponent
@@ -417,7 +417,7 @@
   </div>
 
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
-    <div class="header-sub-menu"><label style="margin-top: 1rem">Dpdl Finalize :</label></div>
+    <div class="header-sub-menu"><label style="margin-top: 1rem">Finalize Dpdl :</label></div>
 
     <mat-list role="list" class="list-styling">
       <div *ngFor="let item of subMenu">

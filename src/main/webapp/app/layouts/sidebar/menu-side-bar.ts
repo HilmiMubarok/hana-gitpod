@@ -341,7 +341,7 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       {
         name: ' Finalize DPDL',
         iconname: 'minus',
-        route: 'dpdl-finalize',
+        route: 'finalize-dpdl',
       },
     ],
   },

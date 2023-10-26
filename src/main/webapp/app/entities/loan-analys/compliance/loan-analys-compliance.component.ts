@@ -88,7 +88,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     if (this.tempRouter === 'dar-revision') {
       this.disabledCompliance = true;
     }
-    if (this.tempRouter === 'dpdl-finalize') {
+    if (this.tempRouter === 'finalize-dpdl') {
       this.disabledCompliance = true;
     }
     if (this.tempRouter === 'dar-revision-checker') {
