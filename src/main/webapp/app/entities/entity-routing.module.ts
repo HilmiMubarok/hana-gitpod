@@ -559,7 +559,7 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./menu-access/menu-access.module').then(m => m.LosgwMenuAccessModule),
       },
       {
-        path: 'dpdl-finalize',
+        path: 'finalize-dpdl',
         loadChildren: () => import('./dpdl-finalize/dpdl-finalize.module').then(m => m.DpdlFinalizeModule),
       },
       {

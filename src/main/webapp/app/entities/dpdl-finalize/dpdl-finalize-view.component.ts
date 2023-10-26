@@ -131,7 +131,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'dpdl-finalize') {
+    if (value === 'finalize-dpdl') {
       return 'Finalize DPDL';
     } else {
       return 'Finalize DPDL';
