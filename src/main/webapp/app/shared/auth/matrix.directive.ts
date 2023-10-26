@@ -77,7 +77,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.argsPath.match(/finalize/g) &&
         !this.router.url.includes('cc-inquiry') &&
         !this.router.url.includes('review-pk') &&
-        !this.router.url.includes('dar-revision')
+        !this.router.url.includes('dar-revision') &&
+        !this.router.url.includes('finalize-dpdl')
       ) {
         if (this.status === 'OL_APPEAL') {
           if (
@@ -132,6 +133,12 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
       if (this.argsPath.match(/finalize-pk/g)) {
         // if(this.status !== 'DRAFT'){
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+
+      if (this.router.url.includes('finalize-dpdl')) {
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
         }
@@ -589,7 +596,9 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'CREDIT_LEGAL_LEAD' ||
         this.positionTypeId === 'LEGAL_OFFICER' ||
         this.positionTypeId === 'CRO' ||
-        this.positionTypeId === 'CRC'
+        this.positionTypeId === 'CRC' ||
+        this.positionTypeId === 'CRC2' ||
+        this.positionTypeId === 'LEGALOFFICER_OUTREGION'
       ) {
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
