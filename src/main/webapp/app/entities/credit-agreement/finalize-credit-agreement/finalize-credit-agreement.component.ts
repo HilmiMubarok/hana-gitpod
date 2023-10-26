@@ -67,4 +67,5 @@ export class FinalizeCreditAgreementComponent implements OnInit {
 
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
+  public displayRevewHistory = ['no', 'approveName', 'position', 'date', 'action'];
 }
