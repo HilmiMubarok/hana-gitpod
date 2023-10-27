@@ -35,7 +35,7 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
   public menuName: any;
 
   public customHeadersJWT: any;
-
+  public parentPath = this.router.url.split('/')[1];
   private bucket: string;
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
@@ -44,7 +44,7 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
 
   constructor(protected activatedRoute: ActivatedRoute, private router: Router, private storageService: StorageService) {
     this.bucket = '';
-    if (this.router.url.split('/')[1] === 'cp-status-approval') {
+    if (this.parentPath === 'cp-status-approval') {
       this.parentSource = 'loan-analys';
     }
   }
@@ -102,7 +102,7 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
   }
 
   onDocumentChange() {
-    this.container.restrictEditing = true;
+    this.container.restrictEditing = this.parentPath !== 'dar-revision' && true;
   }
 
   public tools: object = {

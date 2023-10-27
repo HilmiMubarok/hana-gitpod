@@ -145,8 +145,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
 
       if (this.router.url.includes('dar-revision')) {
-        if (this.jhiMatrixDirElementType === '') {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        if (this.router.url.includes('collateral-info')) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else {
+          if (this.jhiMatrixDirElementType === '') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
         }
       }
 
@@ -602,7 +608,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'LEGALOFFICER_OUTREGION'
       ) {
         if (this.argsPath.match(/dar-revision/g)) {
-          if (route.includes('loan-facility')) {
+          if (route.includes('loan-facility') || route.includes('collateral-info')) {
             if (this.jhiMatrixDirElementType === 'input') {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
@@ -719,18 +725,18 @@ export class MatrixDirective implements OnInit, OnDestroy {
     }
 
     /* if(lodash.indexOf(this.authorities, 'ROLE_RM') >= 0){
-	  if(this.matrixDirElementType === 'input'){
-		this.roleRMMatrixInput();
-	  }else{
-		this.roleRMMatrixLabel();
-	  }
-	}else{
-	  if(this.matrixDirElementType === 'input'){
-		this.roleOtherMatrixInput();
-	  }else{
-		this.roleOtherMatrixLabel();
-	  }
-	} */
+    if(this.matrixDirElementType === 'input'){
+    this.roleRMMatrixInput();
+    }else{
+    this.roleRMMatrixLabel();
+    }
+  }else{
+    if(this.matrixDirElementType === 'input'){
+    this.roleOtherMatrixInput();
+    }else{
+    this.roleOtherMatrixLabel();
+    }
+  } */
   }
 
   private defaultCpMatrixFull() {
