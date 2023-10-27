@@ -777,7 +777,12 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   public generateDocumentPk() {
     const parentPath = this.router.url.split('/')[1];
-    if (parentPath.match(/finalize-pk/g) || parentPath.match(/review-pk/g) || parentPath.match(/finalize-dpdl/g)) {
+    if (
+      parentPath.match(/finalize-pk/g) ||
+      parentPath.match(/review-pk/g) ||
+      parentPath.match(/finalize-dpdl/g) ||
+      parentPath.match(/review-dpdl/g)
+    ) {
       return true;
     }
     return false;

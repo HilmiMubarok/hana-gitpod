@@ -34,6 +34,8 @@ import { LendingProgramParameterService } from '../lending-program-parameter/len
 import { Account } from 'app/core/auth/account.model';
 import { formatBytes } from 'app/shared/helper/utils';
 import { MessageService } from 'primeng/api';
+import { IProcessTask } from 'app/shared/model/process-task.model';
+import { DpdlFinalizeProcessSercvice } from './dpdl-finalize-process.service';
 
 @Component({
   selector: 'jhi-dpdl-finalize-view',
@@ -68,6 +70,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public lendingProgram = [];
   public valueCpLendingProgram: [];
   public activeRoute: string;
+  public tasks: IProcessTask[] = new Array<IProcessTask>();
 
   constructor(
     public dialog: MatDialog,
@@ -81,7 +84,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
     private http: HttpClient,
     public accountService: AccountService,
     private lendingProgramParameterService: LendingProgramParameterService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected dpdlFinalizeProcessSercvice: DpdlFinalizeProcessSercvice
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -128,13 +132,14 @@ export class DpdlFinalizeViewComponent implements OnInit {
     });
 
     this.getBucketNameSummary();
+    this.getTasks();
   }
 
   getText(value: any): string {
     if (value === 'finalize-dpdl') {
       return 'Finalize DPDL';
     } else {
-      return 'Finalize DPDL';
+      return 'Review DPDL';
     }
   }
 
@@ -367,6 +372,12 @@ export class DpdlFinalizeViewComponent implements OnInit {
     const genrateSPPK = await firstValueFrom(
       this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
     );
+  }
+
+  private getTasks(): void {
+    this.dpdlFinalizeProcessSercvice.getTasks(this.id).subscribe(res => {
+      this.tasks = res.body;
+    });
   }
 }
 interface IObj {
