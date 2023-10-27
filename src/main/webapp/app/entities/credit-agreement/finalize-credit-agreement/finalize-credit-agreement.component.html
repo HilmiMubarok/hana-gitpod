@@ -41,33 +41,6 @@
 </mat-card-content>
 </mat-card>
 
-<div class="wrapper-card mt-3">
-  <e-card *ngIf="creditProposal.partyTypeId === 'PERSON'" class="mb-3">
-    <jhi-credit-proposal-person
-      [item]="creditProposal.prospectPerson"
-      [deptorData]="creditProposal"
-      [partyCif]="partyCif"
-      mode="view"
-    ></jhi-credit-proposal-person>
-  </e-card>
-  <e-card *ngIf="creditProposal.partyTypeId !== 'PERSON'" class="mb-3">
-    <jhi-party-group-view [mode]="'view'" [item]="creditProposal"> </jhi-party-group-view
-  ></e-card>
-</div>
-<!-- </div> -->
-<div class="wrapper-card">
-<div class="e-card mb-5">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Address</div>
-    </div>
-  </div>
-  <div class="e-card-content">
-    <jhi-party-cif-customer-info-postal-address [disabled]="true" [creditProposal]="creditProposal" [partyPostalAddress]="postalAdresss">
-    </jhi-party-cif-customer-info-postal-address>
-  </div>
-</div>
-</div>
 
       <mat-card class="mt-3">
         <mat-card-header>
@@ -305,7 +278,7 @@
 
 
 
-                    <mat-card class="mt-3">
+                    <mat-card class="mt-3" *ngIf="creditProposal.statusCode === 'PK_REVIEW_LEAD' || creditProposal.statusCode === 'PK_GENERATED' || creditProposal.statusCode === 'PK_REVIEW_TEAMLEAD'">
                       <mat-card-header>
                         <mat-card-title>Review History</mat-card-title>
                       </mat-card-header>
@@ -360,6 +333,8 @@
                               (page)="loadDataLazy($event)"
                             >
                             </mat-paginator> -->
+
+                            <button (click)="addReviewHistory()" class="btn-lg text-uppercase button-styling mt-2" mat-raised-button>Add</button>
                           </mat-card-content>
                           </mat-card>
 
