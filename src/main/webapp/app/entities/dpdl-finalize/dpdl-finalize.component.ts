@@ -314,6 +314,39 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
         }
+      } else {
+        this.getStatusListView('CREDIT_PROPOSAL_STATUS');
+        if (this.clickedChip['statusId'] !== '') {
+          this.cashCreditProposalService
+            .cashCreditProposalApprovalByStatus({
+              page: this.page,
+              idStatus: this.clickedChip['statusId'],
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+              appMenuId: 'CREDIT_PROPOSAL_STATUS',
+            })
+            .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<IDpdlFinalizeModel[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else {
+          this.cashCreditProposalService
+            .cashCreditProposalApprovalByStatus({
+              page: this.page,
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+              appMenuId: 'CREDIT_PROPOSAL_STATUS',
+            })
+            .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<IDpdlFinalizeModel[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
       }
     }
   }
@@ -373,10 +406,10 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
       this.title = 'Finalize DPDL';
       sessionStorage.setItem('appName', this.title);
     }
-    // if (value === 'credit-proposal-status') {
-    //   this.title = 'Credit Proposal';
-    //   sessionStorage.setItem('appName', this.title);
-    // }
+    if (value === 'review-dpdl') {
+      this.title = 'Review DPDL';
+      sessionStorage.setItem('appName', this.title);
+    }
   }
 
   private checkLogin() {

@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
             <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
-          <p class="e-card-sub-title menu-title-class">DAR Revision Checker</p>
+          <p class="e-card-sub-title menu-title-class">{{ headerTitle }}</p>
         </div>
       </div>
     </div>
@@ -26,11 +26,6 @@
 
       <section class="wrapper-card">
         <e-card class="mb-3">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">Dar Revision</div>
-            </div>
-          </div>
           <div class="mb-3">
             <div class="row">
               <div class="col-md-6">
@@ -407,10 +402,28 @@
         </div>
       </div>
     </div>
+
+    <!-- PART ACTION -->
+    <div class="e-card-actions mx-auto mb-5 mt-3">
+      <div>
+        <button
+          mat-raised-button
+          *ngFor="let task of tasks"
+          (click)="processTask(task)"
+          class="btn-lg text-uppercase button-styling"
+          style="margin-left: 5px"
+        >
+          {{ task.caption }}
+        </button>
+
+        <!-- <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button> -->
+      </div>
+    </div>
+    <!-- End Action -->
   </div>
 
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
-    <div class="header-sub-menu"><label style="margin-top: 1rem">Dpdl Finalize :</label></div>
+    <div class="header-sub-menu"><label style="margin-top: 1rem">Dar Revision Checker :</label></div>
 
     <mat-list role="list" class="list-styling">
       <div *ngFor="let item of subMenu">

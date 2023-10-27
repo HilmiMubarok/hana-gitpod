@@ -343,6 +343,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'finalize-dpdl',
       },
+      {
+        name: ' Review DPDL',
+        iconname: 'minus',
+        route: 'review-dpdl',
+      },
     ],
   },
   // {

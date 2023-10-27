@@ -35,6 +35,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 import { MessageService } from 'primeng/api';
 import { formatBytes } from 'app/shared/helper/utils';
+import { CreditProposalProcessService } from '../credit-proposal/credit-proposal-process.service';
+import { IProcessTask } from 'app/shared/model/process-task.model';
 
 @Component({
   selector: 'jhi-dar-revision-view',
@@ -69,6 +71,7 @@ export class DarRevisionViewComponent implements OnInit {
   public lendingProgram = [];
   public valueCpLendingProgram: [];
   public activeRoute: string;
+  public tasks: IProcessTask[] = new Array<IProcessTask>();
 
   constructor(
     public dialog: MatDialog,
@@ -82,7 +85,8 @@ export class DarRevisionViewComponent implements OnInit {
     private http: HttpClient,
     public accountService: AccountService,
     private lendingProgramParameterService: LendingProgramParameterService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    private creditProposalProcessService: CreditProposalProcessService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -131,6 +135,7 @@ export class DarRevisionViewComponent implements OnInit {
     });
 
     this.getBucketNameSummary();
+    this.getTasks();
   }
 
   getText(value: any): string {
@@ -370,6 +375,12 @@ export class DarRevisionViewComponent implements OnInit {
     const genrateSPPK = await firstValueFrom(
       this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
     );
+  }
+
+  private getTasks(): void {
+    this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
+      this.tasks = res.body;
+    });
   }
 }
 interface IObj {
