@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SignerPerjanjialKreditDialogComponent } from './signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
 import { MessageService } from 'primeng/api';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
+import { ReviewHistoryDialogComponent } from '../review-history-dialog/review-history-dialog.component';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
@@ -68,4 +69,19 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
   public displayRevewHistory = ['no', 'approveName', 'position', 'date', 'action'];
+
+  public addReviewHistory(): void {
+    const dialogRef = this.dialog.open(ReviewHistoryDialogComponent, {
+      data: {
+        title: 'Hello Dialog',
+        message: 'This is a message from the main component!',
+      },
+      width: '100vh',
+      height: '100vh',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed with result:', result);
+    });
+  }
 }
