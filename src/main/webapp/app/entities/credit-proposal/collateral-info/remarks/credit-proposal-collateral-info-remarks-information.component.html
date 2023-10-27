@@ -54,13 +54,18 @@
               <ejs-documenteditorcontainer
                 #document_editor_container
                 [headers]="customHeadersJWT"
-                [enableToolbar]="false"
+                [enableToolbar]="parentPath === 'dar-revision' ? true : false"
+                [isReadOnly]="parentPath === 'dar-revision' ? false : true"
+                [disabled]="parentPath === 'dar-revision' ? false : true"
+                [enableEditor]="parentPath === 'dar-revision' ? true : false"
                 [enableLocalPaste]="false"
                 height="100vh"
                 style="display: block"
+                [spellcheck]="false"
+                [enableSpellCheck]="false"
+                (keyDown)="onKeyDown($event)"
                 (documentChange)="onDocumentChange()"
-                [enableEditor]="false"
-                [isReadOnly]="true"
+                (created)="onCreate()"
               ></ejs-documenteditorcontainer>
             </section>
           </div>
