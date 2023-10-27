@@ -281,7 +281,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('credit-agreement-review')) {
+    if (this.router.url.includes('review-pk')) {
       if (this.positionTypeId === 'BM') {
         if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
           this.conditionSave = true;
@@ -659,7 +659,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.parentPath !== 'credit-agreement-review') {
+      if (this.parentPath !== 'review-pk') {
         if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
         }
@@ -682,7 +682,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
       }
 
       if (source === 'process') {
-        if (this.parentPath === 'credit-agreement-review') {
+        if (this.parentPath === 'review-pk') {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
@@ -718,11 +718,11 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'credit-agreement-review') {
+        if (this.router.url.split('/')[1] === 'review-pk') {
           this.saveUpdate('not-complete', source);
         }
 
-        if (this.router.url.split('/')[1] === 'credit-agreement-review') {
+        if (this.router.url.split('/')[1] === 'review-pk') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -1003,7 +1003,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     }
     const copyCreditProposal: ICreditAgreement = lodash.cloneDeep(this.creditProposal);
 
-    if (this.router.url.split('/')[1] === 'credit-agreement-review') {
+    if (this.router.url.split('/')[1] === 'review-pk') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
         if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
           copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(
@@ -1016,7 +1016,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     let tempHelper = 0;
     const tempRouter = this.router.url.split('/')[1];
 
-    if (tempRouter === 'credit-agreement-review') {
+    if (tempRouter === 'review-pk') {
       if (status === 'complete') {
         if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
           if (copyCreditProposal.notes.length > 0) {
@@ -1046,8 +1046,14 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
+    copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
+    copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
+    copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
+    copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
     copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
+    copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
     copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
+    copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
     copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
     copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
     copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
@@ -1057,7 +1063,15 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
     copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
     copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
+    copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
+    copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
+    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
     copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
+    copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
+    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
+    copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
+    copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
     copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
     copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
     copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
@@ -1065,6 +1079,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
     copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
     copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
+    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
     copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
@@ -1119,7 +1134,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'credit-agreement-review') {
+    if (value === 'review-pk') {
       return 'Credit Agreement Review';
     } else {
       return 'Credit Agreement Review';
@@ -1145,7 +1160,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
   }
 
   disabledProptype() {
-    if (this.parentPath === 'credit-agreement-review') {
+    if (this.parentPath === 'review-pk') {
       return true;
     }
     return false;

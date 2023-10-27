@@ -41,6 +41,8 @@ import { BasicInformation } from '../credit-proposal/basic-information/basic-inf
 import { Covenant } from '../credit-proposal/convenant/convenant.constant';
 import { BusinessActivity } from '../credit-proposal/busines-activity/busines-activity.model';
 import { RepaymentCapability } from '../credit-proposal/repayment-capability/repayment-capability.constant';
+import { Guarantour } from '../credit-proposal/guarantour/guarantour.model';
+import { RisksAcceptenceCriteria } from '../credit-proposal/risk-criteria/risk-criteria.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementReview> {
@@ -68,6 +70,7 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
                 }
               }
             }
+
             if (!lodash.has(creditProposal.body.attributes, 'insurance')) {
               creditProposal.body.attributes['insurance'] = [];
             } else {
@@ -112,11 +115,11 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
               creditProposal.body.attributes['basicInformation'] = JSON.parse(creditProposal.body.attributes['basicInformation']);
             }
 
-            // if (!lodash.has(creditProposal.body.attributes, 'riksCriteria')) {
-            //   creditProposal.body.attributes['riksCriteria'] = new RisksAcceptenceCriteria();
-            // } else {
-            //   creditProposal.body.attributes['riksCriteria'] = JSON.parse(creditProposal.body.attributes['riksCriteria']);
-            // }
+            if (!lodash.has(creditProposal.body.attributes, 'riksCriteria')) {
+              creditProposal.body.attributes['riksCriteria'] = new RisksAcceptenceCriteria();
+            } else {
+              creditProposal.body.attributes['riksCriteria'] = JSON.parse(creditProposal.body.attributes['riksCriteria']);
+            }
 
             if (!lodash.has(creditProposal.body.attributes, 'businessActivity')) {
               creditProposal.body.attributes['businessActivity'] = new BusinessActivity();
@@ -124,11 +127,11 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
               creditProposal.body.attributes['businessActivity'] = JSON.parse(creditProposal.body.attributes['businessActivity']);
             }
 
-            // if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
-            //   creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
-            // } else {
-            //   creditProposal.body.attributes['guaranturAnalysis'] = JSON.parse(creditProposal.body.attributes['guaranturAnalysis']);
-            // }
+            if (!lodash.has(creditProposal.body.attributes, 'guaranturAnalysis')) {
+              creditProposal.body.attributes['guaranturAnalysis'] = new Guarantour();
+            } else {
+              creditProposal.body.attributes['guaranturAnalysis'] = JSON.parse(creditProposal.body.attributes['guaranturAnalysis']);
+            }
 
             if (!lodash.has(creditProposal.body.attributes, 'convenant')) {
               creditProposal.body.attributes['convenant'] = new Covenant();
@@ -402,6 +405,7 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
                 creditProposal.body.attributes['dataAssignToLegalOfficer']
               );
             }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
