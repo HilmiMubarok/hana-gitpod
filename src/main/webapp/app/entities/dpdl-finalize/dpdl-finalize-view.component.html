@@ -358,7 +358,14 @@
               <e-card>
                 <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
               </e-card>
-              <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-dpdl'">
+              <div
+                *ngIf="
+                  parentPath === 'cc-review' ||
+                  parentPath === 'cc-inquiry' ||
+                  parentPath === 'finalize-dpdl' ||
+                  parentPath === 'review-dpdl'
+                "
+              >
                 <e-card>
                   <jhi-loan-analys-opinion-compliance-part
                     #loanAnalysOpinionCompliancePartComponent
