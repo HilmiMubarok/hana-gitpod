@@ -520,7 +520,8 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   private getTasks(): void {
-    this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
+    // this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
+	this.creditAgreementProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS'), idMenu: this.parentPath }).subscribe(res => {
       this.tasks = res.body;
     });
   }
