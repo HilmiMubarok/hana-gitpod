@@ -143,14 +143,14 @@ export class LoanAnalysOpinionComponent implements OnInit {
     protected reportUtils: ReportUtilService
   ) {
     this.tempRouter = this.router.url.split('/')[1];
-    if (
+    /* if (
       this.tempRouter === 'la-analyst' ||
       this.tempRouter === 'la-SME-CRC' ||
       this.tempRouter === 'la-approval' ||
       this.tempRouter === 'loan-committee-approval'
     ) {
       this.isShowOpinionFieldInput = true;
-    }
+    } */
     this.uuid = uuid.v4();
 
     this.approvalUserData = [];
@@ -171,12 +171,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
     });
   }
 
-  public filterPositionLogin() {
-    if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
-      this.refresh();
-    }
-
-    this.positionService.findByLogin().subscribe(posisi => {
+  public filterPositionLogin(cpData: any): void {
+    /* this.positionService.findByLogin().subscribe(posisi => {
       this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.positionUserId = this.positionLogin[i].id;
@@ -188,10 +184,43 @@ export class LoanAnalysOpinionComponent implements OnInit {
         positionUserDescription: this.positionUserDescription,
       };
       this.positionLoginEmit.emit(this.positionUserId);
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        this.refresh();
-      }
-    });
+	  this.refresh();
+    }); */
+
+	if (
+      this.tempRouter === 'la-analyst' ||
+      this.tempRouter === 'la-SME-CRC' ||
+      this.tempRouter === 'la-approval' ||
+      this.tempRouter === 'loan-committee-approval'
+    ) {
+	  let i = 0;
+	  let whileBreakerHelper = false;
+
+	  const pos = this.getToken('POS');
+	  const posO = this.getToken('POSO');
+	  const posOD = this.getToken('POSOD');
+
+	  this.positionUserId = pos;
+	  this.positionUserDescription = posOD;
+
+	  this.cacheData = {
+        userId: this.userId,
+        positionUserId: this.positionUserId,
+        positionUserDescription: this.positionUserDescription,
+      };
+
+	  this.positionLoginEmit.emit(this.positionUserId);
+
+	  while (!whileBreakerHelper && i < cpData.listOfPic.length) {
+		if (cpData.listOfPic[i].roleId === posO) {
+		  this.isShowOpinionFieldInput = true;
+
+		  whileBreakerHelper = true;
+		  i = cpData.listOfPic.length - 1;
+		}
+		i++;
+	  }
+    }
   }
 
   public getLogin() {
@@ -202,7 +231,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
         positionUserId: this.positionUserId,
         positionUserDescription: this.positionUserDescription,
       };
-      this.filterPositionLogin();
+      // this.filterPositionLogin();
+	  this.refresh();
     });
   }
 
@@ -257,6 +287,21 @@ export class LoanAnalysOpinionComponent implements OnInit {
         }
       }
     });
+  }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   ngOnInit(): void {
@@ -319,21 +364,6 @@ export class LoanAnalysOpinionComponent implements OnInit {
     this.getWhoAmI().then(res => {
       this.loadApprovalUser();
     });
-  }
-
-  private getToken(cookieName: string) {
-    let result = null;
-    const cookies: string[] = document.cookie.split(';');
-
-    cookies.forEach(o => {
-      const cookie: string[] = o.split('=');
-      const name: string = cookie[0].trim();
-      if (name === cookieName) {
-        result = cookie[1];
-      }
-    });
-
-    return result;
   }
 
   public change(event: string) {
@@ -862,6 +892,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
+	  this.filterPositionLogin(res.body);
       this.notes = res.body.notes;
 
       if (this.notes) {
