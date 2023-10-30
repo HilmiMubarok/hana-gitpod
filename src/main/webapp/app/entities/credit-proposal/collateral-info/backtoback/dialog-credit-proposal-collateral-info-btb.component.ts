@@ -175,7 +175,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       this.parentPath === 'finalize-pk' ||
       this.parentPath === 'review-pk' ||
       this.parentPath === 'dpdl-finalize' ||
-      this.parentPath === 'dar-revision' ||
+      // this.parentPath === 'dar-revision' ||
       this.parentPath === 'dar-revision-checker'
     ) {
       // Default Disabled

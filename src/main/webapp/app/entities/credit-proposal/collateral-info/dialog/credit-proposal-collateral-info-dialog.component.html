@@ -728,9 +728,11 @@
         <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
       </div>
     </section>
-    <div class="form-group" *ngIf="parentSource === 'dec-offering'">
-      <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-      <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+    <div *ngIf="parentPath === 'dar-revision'" hidden>
+      <div class="form-group" *ngIf="parentSource === 'dec-offering'">
+        <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+        <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+      </div>
     </div>
   </mat-dialog-actions>
 </div>

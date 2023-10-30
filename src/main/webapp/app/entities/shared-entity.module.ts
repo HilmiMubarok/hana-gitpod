@@ -405,7 +405,7 @@ import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/ot
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 import { OfferingLetterSignerPageComponent } from './offering-letter/offering-page/signer/signer-page.component';
 import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offering-page/signer/dialog/signer-page-dialog.component';
-
+import { ReviewHistoryDialogComponent } from './credit-agreement/review-history-dialog/review-history-dialog.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -871,7 +871,8 @@ import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offer
         StandartConvenantComponent,
         StandartDeviationComponent,
         OfferingLetterSignerPageComponent,
-OfferingLetterSignerPageDialogComponent
+OfferingLetterSignerPageDialogComponent,
+ReviewHistoryDialogComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1295,6 +1296,7 @@ OfferingLetterSignerPageDialogComponent
     StandartDeviationComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
+    ReviewHistoryDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
