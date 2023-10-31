@@ -13,8 +13,18 @@ import { ReviewHistoryDialogComponent } from '../review-history-dialog/review-hi
 })
 export class FinalizeCreditAgreementComponent implements OnInit {
   public dataAgreement: any[] = [];
+  public approvalDebtor: any[] = [1];
   public postalAdresss: IPostalAddress;
+  public valueApprovalDebtor: any[];
+  selectedConditions: any[] = []; // Initialize as needed
+  approvalDebtorOptions: string[] = [
+    'Persetujuan suami dan istri',
+    'Persetujuan suami atau istri dengan surat tertulis',
+    'Persetujuan belum menikah dengan surat pernyataan',
+    'Persetujuan dengan surat perjanjian atau pisah harta',
+  ];
   public _creditProposal;
+  selectedCondition: any = '';
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -70,6 +80,39 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
   public displayRevewHistory = ['no', 'approveName', 'position', 'date', 'action'];
 
+  addApproval() {
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      if (this.approvalDebtor.length < 1) {
+        this.approvalDebtor.push({});
+        this.selectedConditions.push('');
+      }
+    } else {
+      if (this.approvalDebtor.length < 2) {
+        this.approvalDebtor.push({});
+        this.selectedConditions.push('');
+      }
+    }
+  }
+
+  deleteApproval(index: number) {
+    if (this.approvalDebtor.length > 1) {
+      this.approvalDebtor.splice(index, 1);
+      this.selectedConditions.splice(index, 1);
+    }
+  }
+
+  onSelectApprovalCondition(selectedValue: any, index: any) {
+    // Handle the change event here
+    console.log(`Selected value at index ${index}:`, selectedValue);
+    // You can do more with the selected value if needed
+  }
+
+  getAvailableOptions(index: number): string[] {
+    // Exclude options already selected in previous mat-select instances
+    const selectedOptions = this.selectedConditions.slice(0, index);
+    return this.approvalDebtorOptions.filter(option => !selectedOptions.includes(option));
+  }
+
   public addReviewHistory(): void {
     const dialogRef = this.dialog.open(ReviewHistoryDialogComponent, {
       data: {
@@ -84,4 +127,6 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       console.log('Dialog closed with result:', result);
     });
   }
+
+  public addRow() {}
 }
