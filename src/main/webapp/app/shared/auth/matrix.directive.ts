@@ -145,7 +145,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
 
       if (this.router.url.includes('dar-revision')) {
-        if (this.router.url.includes('collateral-info')) {
+        if (this.router.url.includes('loan-facility') || this.router.url.includes('collateral-info')) {
           if (this.jhiMatrixDirElementType === 'input') {
             this.viewContainerRef.createEmbeddedView(this.templateRef);
           }
