@@ -8,16 +8,21 @@
       <div class="row">
         <div class="col-6">
             <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Offering Letter No</mat-label>
+                <mat-label>Credit Agreement Number</mat-label>
                 <input [value]="creditProposal.agreements.length > 0 ? creditProposal.agreements[0].agreementNumber : ''" matInput type="text"/>
               </mat-form-field>
 
                 <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Offering Letter Date</mat-label>
+                    <mat-label>Credit Agreement Date</mat-label>
                     <input [value]="creditProposal.agreements.length > 0 ? creditProposal.agreements[0].dateAgreement : ''" [matDatepicker]="offeringLetterDate" matInput type="text"  />
                     <mat-datepicker-toggle matSuffix [for]="offeringLetterDate" ></mat-datepicker-toggle>
                     <mat-datepicker #offeringLetterDate ></mat-datepicker>
                     
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Credit Agreement Place</mat-label>
+                    <input matInput type="text"/>
                   </mat-form-field>
         </div>
 
@@ -40,6 +45,37 @@
 </div>
 </mat-card-content>
 </mat-card>
+
+
+    <mat-card class="mt-3">
+      <mat-card-header>
+        <mat-card-title>Approval Debtor Conditions</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="row" *ngFor="let item of approvalDebtor; let i = index">
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Status</mat-label>
+              <mat-select [(ngModel)]="selectedConditions[i]" (ngModelChange)="onSelectApprovalCondition($event, i)">
+                <mat-option value="">Please Select Conditions</mat-option>
+                <mat-option *ngFor="let condition of getAvailableOptions(i)" [value]="condition">
+                  {{ condition }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        
+          <div class="col-3 mt-3" >
+            <mat-icon *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length < 2" (click)="addApproval()">add</mat-icon>
+            <mat-icon *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length > 1" (click)="deleteApproval(i)">delete</mat-icon>
+         
+          </div>
+        </div>
+        
+
+    </mat-card-content>
+    </mat-card>
 
 
       <mat-card class="mt-3">
