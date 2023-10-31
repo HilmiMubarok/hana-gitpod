@@ -897,8 +897,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
       if (this.notes) {
         if (this.notes.length > 0) {
-          // this.notes.sort((a, b) => (a.id > b.id ? 1 : -1));
-		  this.notes.sort((a, b) => b.id - a.id);
+          this.notes.sort((a, b) => (a.id > b.id ? 1 : -1));
           this.notes = lodash.uniqBy(this.notes, 'positionId');
         }
       }

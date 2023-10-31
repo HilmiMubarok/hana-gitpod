@@ -1392,6 +1392,7 @@ export class LoanAnalysMainComponent implements OnInit {
               }
             }
 
+			console.log('tempHelper : ', tempHelper);
             if (tempHelper === 0) {
               copyCreditProposal.notes.push(
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
