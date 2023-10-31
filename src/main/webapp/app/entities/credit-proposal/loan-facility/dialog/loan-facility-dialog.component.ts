@@ -659,11 +659,13 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.parentPath === 'finalize-pk' ||
       this.parentPath === 'finalize-dpdl' ||
       this.parentPath === 'review-pk' ||
-      this.parentPath === 'dar-revision' ||
       this.parentPath === 'dar-revision-checker'
     ) {
       this.textBoxHidden = false;
       this.statusDisabledOffering = true;
+    } else if (this.parentPath === 'dar-revision') {
+      this.textBoxHidden = false;
+      this.statusDisabledOffering = false;
     } else {
       this.textBoxHidden = true;
       this.statusDisabledOffering = true; // Menambahkan perubahan di sini
