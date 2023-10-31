@@ -658,6 +658,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     } else if (
       this.parentPath === 'finalize-pk' ||
       this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
       this.parentPath === 'review-pk' ||
       this.parentPath === 'dar-revision-checker'
     ) {
