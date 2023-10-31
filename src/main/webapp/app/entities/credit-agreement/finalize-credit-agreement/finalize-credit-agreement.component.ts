@@ -119,7 +119,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
         title: 'Hello Dialog',
         message: 'This is a message from the main component!',
       },
-      width: '100vh',
+      width: '200vh',
       height: '100vh',
     });
 
