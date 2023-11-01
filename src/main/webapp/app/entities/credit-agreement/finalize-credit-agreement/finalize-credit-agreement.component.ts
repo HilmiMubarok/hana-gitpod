@@ -17,12 +17,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public postalAdresss: IPostalAddress;
   public valueApprovalDebtor: any[];
   selectedConditions: any[] = []; // Initialize as needed
-  approvalDebtorOptions: string[] = [
-    'Persetujuan suami dan istri',
-    'Persetujuan suami atau istri dengan surat tertulis',
-    'Persetujuan belum menikah dengan surat pernyataan',
-    'Persetujuan dengan surat perjanjian atau pisah harta',
-  ];
+  approvalDebtorOptions: string[];
+  selectedOptions: string[] = [];
   public _creditProposal;
   selectedCondition: any = '';
   @Input()
@@ -44,6 +40,21 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+
+    this.approvalDebtorOptions =
+      this.creditProposal.customerType === 'PERSONAL'
+        ? [
+            'Hadir untuk memberikan persetujuan',
+            'Persetujuan pasangan dengan surat persetujuan',
+            'Debitur belum menikah',
+            'Debitur pisah harta dengan pasangan',
+          ]
+        : [
+            'Dewan komisaris hadir memberikan persetujuan',
+            'Persetujuan dewan komisaris dengan surat persetujuan',
+            'Persetujuan rapat umum pemegang saham (RUPS)',
+            'Tidak memerlukan persetujuan atas anggaran dasar',
+          ];
   }
 
   selectedFile: File | null = null;
@@ -98,12 +109,13 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     if (this.approvalDebtor.length > 1) {
       this.approvalDebtor.splice(index, 1);
       this.selectedConditions.splice(index, 1);
+      this.selectedOptions.splice(index, 1);
     }
   }
 
   onSelectApprovalCondition(selectedValue: any, index: any) {
     // Handle the change event here
-    console.log(`Selected value at index ${index}:`, selectedValue);
+    this.selectedOptions[index] = selectedValue;
     // You can do more with the selected value if needed
   }
 
