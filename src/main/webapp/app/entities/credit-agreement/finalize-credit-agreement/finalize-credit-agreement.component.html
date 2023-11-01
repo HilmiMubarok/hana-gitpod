@@ -30,7 +30,7 @@
         <div class="col-6">
             <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Debtor Name</mat-label>
-                <input  matInput type="text" disabled/>
+                <input  matInput type="text" />
               </mat-form-field>
 
               <mat-form-field class="w-100" appearance="outline">
@@ -71,7 +71,90 @@
             <mat-icon *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length > 1" (click)="deleteApproval(i)">delete</mat-icon>
          
           </div>
+
+
+          <div *ngFor="let selectedOption of selectedOptions">
+            <div *ngIf="selectedOption === selectedConditions[i]">
+              <div *ngIf="selectedOption === 'Persetujuan pasangan dengan surat persetujuan' || selectedOption === 'Debitur belum menikah' || selectedOption === 'Persetujuan rapat umum pemegang saham (RUPS)'">
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Letter Of Date</mat-label>
+                      <input [matDatepicker]="letterOfDate" matInput type="text"  />
+                      <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
+                      <mat-datepicker #letterOfDate></mat-datepicker>
+                    </mat-form-field>
+                 </div>
+                </div>
+              </div>
+
+              <div *ngIf="selectedOption === 'Debitur pisah harta dengan pasangan'">
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Letter Of Name</mat-label>
+                      <input matInput type="text"  />
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Letter Of Date</mat-label>
+                      <input [matDatepicker]="letterOfDate" matInput type="text"  />
+                      <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
+                      <mat-datepicker #letterOfDate></mat-datepicker>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Notary Public Name</mat-label>
+                      <input matInput type="text"  />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-6">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Notary Public Place</mat-label>
+                      <input matInput type="text"  />
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Civil Registry Document Number</mat-label>
+                      <input matInput type="text"  />
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Civil Registration Number</mat-label>
+                      <input matInput type="text"  />
+                    </mat-form-field>
+                  </div>
+              </div>
+              </div>
+
+              <div *ngIf="selectedOption === 'Persetujuan dewan komisaris dengan surat persetujuan'">
+                <div class="col-6">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Letter Of Name</mat-label>
+                    <input matInput type="text"  />
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Letter Of Number</mat-label>
+                    <input matInput type="text"  />
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Letter Of Date</mat-label>
+                    <input [matDatepicker]="letterOfDate" matInput type="text"  />
+                    <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
+                    <mat-datepicker #letterOfDate></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+         
         </div>
+
+  
         
 
     </mat-card-content>
