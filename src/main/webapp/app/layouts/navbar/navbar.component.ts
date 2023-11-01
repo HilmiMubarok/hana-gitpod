@@ -33,6 +33,8 @@ export class NavbarComponent implements OnInit {
   public internalName: string;
   public isPositionMoreThan1 = false;
   private cNamePos = 'POS';
+  private cNamePosO = 'POSO';
+  private cNamePosOD = 'POSOD';
   private cNameInt = 'INT';
   private durationInSecond: Number = 2;
   protected horizontalPosition: MatSnackBarHorizontalPosition = 'right';
@@ -101,6 +103,8 @@ export class NavbarComponent implements OnInit {
 
       this.positionName = 'Not Registered Position';
       this.setCookie(this.cNamePos, '', this.positionName);
+	  this.setCookie(this.cNamePosO, '', this.positionName);
+	  this.setCookie(this.cNamePosOD, '', this.positionName);
 
       this.internalName = 'Not Registered Internal';
       this.setCookie(this.cNameInt, '', this.internalName);
@@ -148,6 +152,8 @@ export class NavbarComponent implements OnInit {
 
         if (positionId !== '' && positionTypeDescription !== '') {
           this.setCookie(this.cNamePos, positionId, positionTypeDescription);
+		  this.setCookie(this.cNamePosO, positionTypeId, positionTypeDescription);
+		  this.setCookie(this.cNamePosOD, positionTypeDescription, positionTypeDescription);
         }
 
         if (internalId !== '' && internalName !== '') {
@@ -214,6 +220,8 @@ export class NavbarComponent implements OnInit {
         item.fn = () => {
           const posN = lodash.clone(this.positionName);
           this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
+		  this.setCookie(this.cNamePosO, position.positionTypeId, position.positionTypeDescription);
+		  this.setCookie(this.cNamePosOD, position.positionTypeDescription, position.positionTypeDescription);
           this.setCookie(this.cNameInt, position.internalId, position.internalName);
           this.templateService.changePosInt(position.positionTypeId);
           this.templateService.changePosIntObject(position);
