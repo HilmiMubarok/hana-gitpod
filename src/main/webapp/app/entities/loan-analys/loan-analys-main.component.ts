@@ -1367,9 +1367,10 @@ export class LoanAnalysMainComponent implements OnInit {
 
           tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
 
+		  console.log('in if here');
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-              if (Number(copyCreditProposal.notes[i].positionId) === this.positionLoginFromEmit) {
+              if (Number(copyCreditProposal.notes[i].positionId) === Number(this.positionLoginFromEmit)) {
 				console.log('in again');
                 if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
                   copyCreditProposal.notes[i].applicationId = this.id;
