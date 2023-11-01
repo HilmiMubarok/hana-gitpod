@@ -75,7 +75,7 @@
 
           <div *ngFor="let selectedOption of selectedOptions">
             <div *ngIf="selectedOption === selectedConditions[i]">
-              <div *ngIf="selectedOption === 'Persetujuan pasangan dengan surat persetujuan' || selectedOption === 'Debitur belum menikah' || selectedOption === 'Persetujuan rapat umum pemegang saham (RUPS)'">
+              <div *ngIf="selectedOption === 'Persetujuan pasangan dengan surat persetujuan' || selectedOption === 'Debitur belum menikah'">
                 <div class="row">
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
@@ -86,6 +86,23 @@
                     </mat-form-field>
                  </div>
                 </div>
+              </div>
+
+              <div *ngIf="selectedOption === 'Persetujuan rapat umum pemegang saham (RUPS)'">
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Letter Of Name</mat-label>
+                      <input matInput type="text"  />
+                    </mat-form-field>
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Letter Of Date</mat-label>
+                      <input [matDatepicker]="letterOfDate" matInput type="text"  />
+                      <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
+                      <mat-datepicker #letterOfDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+              </div>
               </div>
 
               <div *ngIf="selectedOption === 'Debitur pisah harta dengan pasangan'">
@@ -122,8 +139,10 @@
                     </mat-form-field>
 
                     <mat-form-field class="w-100" appearance="outline">
-                      <mat-label>Civil Registration Number</mat-label>
-                      <input matInput type="text"  />
+                      <mat-label>Civil Regristation Date</mat-label>
+                      <input [matDatepicker]="civilRegristationDate" matInput type="text"  />
+                      <mat-datepicker-toggle matSuffix [for]="civilRegristationDate"></mat-datepicker-toggle>
+                      <mat-datepicker #civilRegristationDate></mat-datepicker>
                     </mat-form-field>
                   </div>
               </div>
