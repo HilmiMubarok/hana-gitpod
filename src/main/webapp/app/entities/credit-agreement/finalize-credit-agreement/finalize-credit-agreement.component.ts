@@ -6,6 +6,7 @@ import { SignerPerjanjialKreditDialogComponent } from './signer-perjanjian-kredi
 import { MessageService } from 'primeng/api';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { ReviewHistoryDialogComponent } from '../review-history-dialog/review-history-dialog.component';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
@@ -17,7 +18,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public postalAdresss: IPostalAddress;
   public valueApprovalDebtor: any[];
   selectedConditions: any[] = []; // Initialize as needed
-  approvalDebtorOptions: string[];
+  selectedConditionsValue: any = [];
+  approvalDebtorOptions: string[] = [];
   selectedOptions: string[] = [];
   public _creditProposal;
   selectedCondition: any = '';
@@ -32,7 +34,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public data = [];
   public loading: boolean;
 
-  constructor(private dialog: MatDialog, public messageService: MessageService) {
+  constructor(private dialog: MatDialog, public messageService: MessageService, public generalParameterService: GeneralParameterService) {
     this.loading = false;
   }
 
@@ -40,21 +42,39 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+    this.approvalConditionStatus();
+  }
 
-    this.approvalDebtorOptions =
-      this.creditProposal.customerType === 'PERSONAL'
-        ? [
-            'Hadir untuk memberikan persetujuan',
-            'Persetujuan pasangan dengan surat persetujuan',
-            'Debitur belum menikah',
-            'Debitur pisah harta dengan pasangan',
-          ]
-        : [
-            'Dewan komisaris hadir memberikan persetujuan',
-            'Persetujuan dewan komisaris dengan surat persetujuan',
-            'Persetujuan rapat umum pemegang saham (RUPS)',
-            'Tidak memerlukan persetujuan atas anggaran dasar',
-          ];
+  public approvalConditionStatus() {
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.generalParameterService
+        .queryFilterBy({
+          idParameterType: 'APPROVAL_DEBTOR_PERSONAL',
+          page: 0,
+          size: 9999,
+        })
+        .subscribe((res: any) => {
+          this.selectedConditionsValue = res.body;
+          console.log('bvv', res.body);
+          for (let i = 0; i < res.body.length; i++) {
+            this.approvalDebtorOptions = [...this.approvalDebtorOptions, res.body[i].value];
+          }
+        });
+    } else {
+      this.generalParameterService
+        .queryFilterBy({
+          idParameterType: 'APPROVAL_DEBTOR_CORPORATE',
+          page: 0,
+          size: 9999,
+        })
+        .subscribe((res: any) => {
+          this.selectedConditionsValue = res.body;
+          console.log('bvv', res.body);
+          for (let i = 0; i < res.body.length; i++) {
+            this.approvalDebtorOptions = [...this.approvalDebtorOptions, res.body[i].value];
+          }
+        });
+    }
   }
 
   selectedFile: File | null = null;
@@ -115,8 +135,14 @@ export class FinalizeCreditAgreementComponent implements OnInit {
 
   onSelectApprovalCondition(selectedValue: any, index: any) {
     // Handle the change event here
-    this.selectedOptions[index] = selectedValue;
+    const filter = this.selectedConditionsValue.filter((data: any) => data.value === selectedValue);
+    this.selectedOptions[index] = filter[0].id;
     // You can do more with the selected value if needed
+  }
+
+  public selectedConditionId(name: string) {
+    const filter = this.selectedConditionsValue.filter((data: any) => data.value === name);
+    return filter.length > 0 ? filter[0].id : '';
   }
 
   getAvailableOptions(index: number): string[] {

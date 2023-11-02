@@ -67,15 +67,16 @@
           </div>
         
           <div class="col-3 mt-3" >
+        
             <mat-icon *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length < 2" (click)="addApproval()">add</mat-icon>
-            <mat-icon *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length > 1" (click)="deleteApproval(i)">delete</mat-icon>
+            <mat-icon [hidden]="i ===0" *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length > 1" (click)="deleteApproval(i)">delete</mat-icon>
          
           </div>
 
 
           <div *ngFor="let selectedOption of selectedOptions">
-            <div *ngIf="selectedOption === selectedConditions[i]">
-              <div *ngIf="selectedOption === 'Persetujuan pasangan dengan surat persetujuan' || selectedOption === 'Debitur belum menikah'">
+            <div *ngIf="selectedOption === selectedConditionId(selectedConditions[i])">
+              <div *ngIf="selectedOption === 28002 || selectedOption === 28003">
                 <div class="row">
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
@@ -88,7 +89,7 @@
                 </div>
               </div>
 
-              <div *ngIf="selectedOption === 'Persetujuan rapat umum pemegang saham (RUPS)'">
+              <div *ngIf="selectedOption === 28007">
                 <div class="row">
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
@@ -105,7 +106,7 @@
               </div>
               </div>
 
-              <div *ngIf="selectedOption === 'Debitur pisah harta dengan pasangan'">
+              <div *ngIf="selectedOption === 28004">
                 <div class="row">
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
@@ -148,7 +149,7 @@
               </div>
               </div>
 
-              <div *ngIf="selectedOption === 'Persetujuan dewan komisaris dengan surat persetujuan'">
+              <div *ngIf="selectedOption === 28006">
                 <div class="col-6">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Letter Of Name</mat-label>

@@ -1369,8 +1369,8 @@ export class LoanAnalysMainComponent implements OnInit {
 
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-              if (copyCreditProposal.notes[i].positionId == this.positionLoginFromEmit) {
-				console.log('in again');
+              if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
+                console.log('in again');
                 if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
                   copyCreditProposal.notes[i].applicationId = this.id;
                   copyCreditProposal.notes[i].message = '';
