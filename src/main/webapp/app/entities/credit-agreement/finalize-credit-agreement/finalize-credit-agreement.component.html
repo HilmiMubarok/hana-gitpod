@@ -56,10 +56,10 @@
         <div class="row" *ngFor="let item of approvalDebtor; let i = index">
           <div class="col-6">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Status</mat-label>
-              <mat-select [(ngModel)]="selectedConditions[i]" (ngModelChange)="onSelectApprovalCondition($event, i)">
+              <mat-label>Status </mat-label>
+              <mat-select  [(ngModel)]="selectedConditions[i]" (ngModelChange)="onSelectApprovalCondition($event, i)">
                 <mat-option value="">Please Select Conditions</mat-option>
-                <mat-option *ngFor="let condition of getAvailableOptions(i)" [value]="condition">
+                <mat-option *ngFor="let condition of getAvailableOptions(i)" [value]="condition" >
                   {{ condition }}
                 </mat-option>
               </mat-select>
@@ -72,15 +72,12 @@
             <mat-icon [hidden]="i ===0" *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length > 1" (click)="deleteApproval(i)">delete</mat-icon>
          
           </div>
-
-
-          <div *ngFor="let selectedOption of selectedOptions">
-            <div *ngIf="selectedOption === selectedConditionId(selectedConditions[i])">
-              <div *ngIf="selectedOption === 28002 || selectedOption === 28003">
+         
+              <div *ngIf="selectedConditionId(selectedConditions[i])  === 28002 || selectedConditionId(selectedConditions[i])  === 28003">
                 <div class="row">
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
-                      <mat-label>Letter Of Date</mat-label>
+                      <mat-label>Letter Of Date </mat-label>
                       <input [matDatepicker]="letterOfDate" matInput type="text"  />
                       <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
                       <mat-datepicker #letterOfDate></mat-datepicker>
@@ -89,7 +86,7 @@
                 </div>
               </div>
 
-              <div *ngIf="selectedOption === 28007">
+              <div *ngIf="selectedConditionId(selectedConditions[i])  === 28007">
                 <div class="row">
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
@@ -106,7 +103,7 @@
               </div>
               </div>
 
-              <div *ngIf="selectedOption === 28004">
+              <div *ngIf="selectedConditionId(selectedConditions[i])  === 28004">
                 <div class="row">
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
@@ -149,7 +146,7 @@
               </div>
               </div>
 
-              <div *ngIf="selectedOption === 28006">
+              <div *ngIf="selectedConditionId(selectedConditions[i])  === 28006">
                 <div class="col-6">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Letter Of Name</mat-label>
@@ -169,8 +166,8 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div>
-          </div>
+      
+       
          
         </div>
 
