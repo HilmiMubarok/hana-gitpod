@@ -78,7 +78,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('cc-inquiry') &&
         !this.router.url.includes('review-pk') &&
         !this.router.url.includes('dar-revision') &&
-        !this.router.url.includes('finalize-dpdl')
+        !this.router.url.includes('finalize-dpdl') &&
+        !this.router.url.includes('review-dpdl')
       ) {
         if (this.status === 'OL_APPEAL') {
           if (
@@ -139,6 +140,12 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
 
       if (this.router.url.includes('finalize-dpdl')) {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+
+      if (this.router.url.includes('review-dpdl')) {
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
         }

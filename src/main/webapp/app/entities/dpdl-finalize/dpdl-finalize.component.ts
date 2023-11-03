@@ -315,7 +315,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
             });
         }
       } else {
-        this.getStatusListView('CREDIT_PROPOSAL_STATUS');
+        this.getStatusListView('REVIEW_DPDL');
         if (this.clickedChip['statusId'] !== '') {
           this.cashCreditProposalService
             .cashCreditProposalApprovalByStatus({
@@ -324,7 +324,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'CREDIT_PROPOSAL_STATUS',
+              appMenuId: 'REVIEW_DPDL',
             })
             .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -339,7 +339,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'CREDIT_PROPOSAL_STATUS',
+              appMenuId: 'REVIEW_DPDL',
             })
             .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
