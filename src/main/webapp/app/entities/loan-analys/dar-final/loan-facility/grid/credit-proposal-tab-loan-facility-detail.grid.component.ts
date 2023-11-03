@@ -1,16 +1,9 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CollateralAttribute } from 'app/entities/collateral/collateral.model';
-import {
-  CollateralProductRelation,
-  ICollateralProductRelation,
-} from 'app/entities/collateral-product-relation/collateral-product-relation.model';
+import { ICollateralProductRelation } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
-import { IProduct } from 'app/entities/product/product.model';
 import { PageEvent } from '@angular/material/paginator';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import {
@@ -24,14 +17,23 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import moment from 'moment';
 import { MessageService } from 'primeng/api';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-loan-facility-detail-grid-temp',
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
   styleUrls: ['./loan.scss'],
 })
-export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
+export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges, OnDestroy {
   public dataParty = [];
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 
   @Input() isViewMode: Boolean = false;
   public _creditProposal: ICreditProposal;
@@ -99,7 +101,6 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
     public dialog: MatDialog,
     public _router: Router,
     private creditProposalService: CreditProposalService,
-    private changeDetectorRefs: ChangeDetectorRef,
     private messageService: MessageService
   ) {
     this.applicationProduct = new ApplicationProduct();
@@ -110,7 +111,16 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      this.dataProduct = this.creditProposal.products;
+      this.dataProduct = (() => {
+        if (this.creditProposal.attributes.darRevHistory) {
+          const parsedData = parsePreviousAtrribute(this.creditProposal);
+
+          return parsedData['darRevHistory'].products;
+        }
+        return this.creditProposal.products;
+      })();
+
+      console.log('Data Product', { product: this.dataProduct, parsed: parsePreviousAtrribute(this.creditProposal) });
     }
   }
 
@@ -135,28 +145,6 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
   }
-  partyCifFunc() {
-    if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
-      for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.dataParty.push(this.creditProposal.products[i]);
-      }
-    } else {
-      for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.dataParty.push(this.creditProposal.products[i]);
-      }
-      this.creditProposal.attributes['loanHobbies'] = 'false';
-      this.partyCifService
-        .queryFilterBy({
-          page: 0,
-          size: 1,
-          idParty: this._creditProposal.cif.partyId,
-          sort: ['desc'],
-        })
-        .subscribe((response: any) => {
-          this.dataFunc(response);
-        });
-    }
-  }
 
   public getCurrency(element: IApplicationProduct) {
     if (element.provisionFeeType === 'Amount IDR') {
@@ -179,118 +167,124 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
   public currency() {
     if (this.applicationProduct.currencyId !== 'IDR') {
       const setDate = new Date().toISOString().split('T')[0];
-      this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-        this.kurs = res.body[0]?.factor;
-      });
+      this.creditProposalService
+        .getCurrency('USD', 'IDR', setDate.replace(/-/g, ''))
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.kurs = res.body[0]?.factor;
+        });
     }
   }
 
   dataFunc(response: any) {
-    this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
-      const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-      const dataParty = [];
-      const aYear = [];
-      for (let i = 0; i < cpFacility.length; i++) {
-        const date2 = new Date(cpFacility[i].FILN10_TOT_EXP_IL);
-        const date1 = new Date(cpFacility[i].FXFIG_TRX_DT);
-        aYear.push(Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)));
-        const data = {
-          adminFee: '0',
-          adminFeeRateAmountType: '',
-          applicationType: 'Existing',
-          availableLimit: cpFacility[i].AVAILABLE_LIMIT === undefined ? 0 : cpFacility[i].AVAILABLE_LIMIT,
-          availablePeriod: '',
-          availablePeriodType: '',
-          changes: '0',
-          commitedLine: 'false',
-          currency: cpFacility[i].LNB_BASE_LON_CCY,
-          currentInterestRate: cpFacility[i].FILN11_SPREAD_RT,
-          // dateOS: '2022-11-24T10:57:14.435Z',
-          dateOS: this.creditProposal.debtorData.lastSynchDate,
-          disbursementCondition: '',
-          facilityType: cpFacility[i].FACILITY_TYPE,
-          gracePeriod: '0',
-          gracePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB,
-          indexFacilityMain: '',
-          indexRate: '0',
-          initialLimit: cpFacility[i].FILN10_CONTRACT_AMT,
-          installmentMethod: 'Maturity Repayment',
-          instalmentEstimation: '0',
-          interestRatePeriod: cpFacility[i].FILN10_ROLL_GAP,
-          interestRatePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB_NM,
-          interestRateType: cpFacility[i].FIX_FLT_GB_NM,
-          keterangan: '',
-          kurs: this.kurs,
-          loanPurpose: '',
-          loanType: cpFacility[i].FILN11_COM_NM,
-          maturity: '0',
-          maturityDate: new Date(cpFacility[i].FILN10_TOT_EXP_IL).toISOString(),
-          maturityPeriodType: (cpFacility[i].FILN10_ROLL_GAP_GB_NM = cpFacility[i].PERIOD_TYPE),
-          memoDate: '2022-11-24T10:57:14.435Z',
-          memoNo: '',
-          nomorUrutFasilitas: i + 1,
-          outstanding: cpFacility[i].LNB_BASE_LON_JAN,
-          principalFrequency: '0',
-          principalFrequencyPeriodType: '',
-          provitionFee: '0',
-          provitionFeeRateAmountType: '',
-          remark: '',
-          restructMethod: '',
-          restructuredStatus: 'false',
-          spreadOfMargin: '0',
-          subLimit: 'false',
-          subLimitFromExitingFacility: '',
-          sublimitFromExistingFacility: '',
-          totalPlafond: cpFacility[i].FILN10_CONTRACT_AMT,
-          totalRate: '0',
-          hobbies: true,
-          loanAccount: cpFacility[i].LNB_BASE_AGR_REF_NO,
-          firstDisbursementDate: new Date(cpFacility[i].FXFIG_TRX_DT).toISOString(),
-        };
+    this.partyCifService
+      .find('cif/retrieve-cp-facility/' + response.body[0].customerNumber)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: any) => {
+        const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+        const dataParty = [];
+        const aYear = [];
+        for (let i = 0; i < cpFacility.length; i++) {
+          const date2 = new Date(cpFacility[i].FILN10_TOT_EXP_IL);
+          const date1 = new Date(cpFacility[i].FXFIG_TRX_DT);
+          aYear.push(Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)));
+          const data = {
+            adminFee: '0',
+            adminFeeRateAmountType: '',
+            applicationType: 'Existing',
+            availableLimit: cpFacility[i].AVAILABLE_LIMIT === undefined ? 0 : cpFacility[i].AVAILABLE_LIMIT,
+            availablePeriod: '',
+            availablePeriodType: '',
+            changes: '0',
+            commitedLine: 'false',
+            currency: cpFacility[i].LNB_BASE_LON_CCY,
+            currentInterestRate: cpFacility[i].FILN11_SPREAD_RT,
+            // dateOS: '2022-11-24T10:57:14.435Z',
+            dateOS: this.creditProposal.debtorData.lastSynchDate,
+            disbursementCondition: '',
+            facilityType: cpFacility[i].FACILITY_TYPE,
+            gracePeriod: '0',
+            gracePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB,
+            indexFacilityMain: '',
+            indexRate: '0',
+            initialLimit: cpFacility[i].FILN10_CONTRACT_AMT,
+            installmentMethod: 'Maturity Repayment',
+            instalmentEstimation: '0',
+            interestRatePeriod: cpFacility[i].FILN10_ROLL_GAP,
+            interestRatePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB_NM,
+            interestRateType: cpFacility[i].FIX_FLT_GB_NM,
+            keterangan: '',
+            kurs: this.kurs,
+            loanPurpose: '',
+            loanType: cpFacility[i].FILN11_COM_NM,
+            maturity: '0',
+            maturityDate: new Date(cpFacility[i].FILN10_TOT_EXP_IL).toISOString(),
+            maturityPeriodType: (cpFacility[i].FILN10_ROLL_GAP_GB_NM = cpFacility[i].PERIOD_TYPE),
+            memoDate: '2022-11-24T10:57:14.435Z',
+            memoNo: '',
+            nomorUrutFasilitas: i + 1,
+            outstanding: cpFacility[i].LNB_BASE_LON_JAN,
+            principalFrequency: '0',
+            principalFrequencyPeriodType: '',
+            provitionFee: '0',
+            provitionFeeRateAmountType: '',
+            remark: '',
+            restructMethod: '',
+            restructuredStatus: 'false',
+            spreadOfMargin: '0',
+            subLimit: 'false',
+            subLimitFromExitingFacility: '',
+            sublimitFromExistingFacility: '',
+            totalPlafond: cpFacility[i].FILN10_CONTRACT_AMT,
+            totalRate: '0',
+            hobbies: true,
+            loanAccount: cpFacility[i].LNB_BASE_AGR_REF_NO,
+            firstDisbursementDate: new Date(cpFacility[i].FXFIG_TRX_DT).toISOString(),
+          };
 
-        dataParty.push(data);
-      }
-      const appProduct: IApplicationProduct = this.applicationProduct;
-      let idx: number;
-      if (!this.applicationProduct.id) {
-        idx = lodash.findIndex(this.creditProposal.products, function (o) {
-          return o.uniqueKey === appProduct.uniqueKey;
-        });
+          dataParty.push(data);
+        }
+        const appProduct: IApplicationProduct = this.applicationProduct;
+        let idx: number;
+        if (!this.applicationProduct.id) {
+          idx = lodash.findIndex(this.creditProposal.products, function (o) {
+            return o.uniqueKey === appProduct.uniqueKey;
+          });
 
-        const countDataHobbies = [];
-        for (let i = 0; i < this.dataParty.length; i++) {
-          if (this.dataParty[i].attributes !== undefined) {
-            if (this.dataParty[i].attributes['hobbies'] !== undefined) {
-              if (this.dataParty[i].attributes['hobbies'] === 'true' || this.dataParty[i].attributes['hobbies'] === true) {
-                countDataHobbies.push(this.dataParty[i]);
+          const countDataHobbies = [];
+          for (let i = 0; i < this.dataParty.length; i++) {
+            if (this.dataParty[i].attributes !== undefined) {
+              if (this.dataParty[i].attributes['hobbies'] !== undefined) {
+                if (this.dataParty[i].attributes['hobbies'] === 'true' || this.dataParty[i].attributes['hobbies'] === true) {
+                  countDataHobbies.push(this.dataParty[i]);
+                }
               }
             }
           }
-        }
 
-        if (countDataHobbies.length < 1) {
-          for (let i = 0; i < dataParty.length; i++) {
-            const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-            copyApplicationProduct.applicationId = this.creditProposal.id;
-            this.applicationProduct = {
-              attributes: dataParty[i],
-            };
+          if (countDataHobbies.length < 1) {
+            for (let i = 0; i < dataParty.length; i++) {
+              const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
+              copyApplicationProduct.applicationId = this.creditProposal.id;
+              this.applicationProduct = {
+                attributes: dataParty[i],
+              };
 
-            this.dataParty = [...this.dataParty, this.applicationProduct];
-            this.length = this.dataParty.length;
-          }
+              this.dataParty = [...this.dataParty, this.applicationProduct];
+              this.length = this.dataParty.length;
+            }
 
-          this.creditProposal.attributes['loanHobbies'] = 'true';
-          this.creditProposal.products = this.dataParty;
-        } else {
-          if (dataParty.length > 0) {
             this.creditProposal.attributes['loanHobbies'] = 'true';
+            this.creditProposal.products = this.dataParty;
           } else {
-            this.creditProposal.attributes['loanHobbies'] = 'false';
+            if (dataParty.length > 0) {
+              this.creditProposal.attributes['loanHobbies'] = 'true';
+            } else {
+              this.creditProposal.attributes['loanHobbies'] = 'false';
+            }
           }
         }
-      }
-    });
+      });
   }
 
   public openDialog(param: IApplicationProduct = null): void {
@@ -333,18 +327,21 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
         collateralInfo: this.collaterallInfo,
       },
     });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (res.applicationProduct.maturityDate) {
-          this.applicationProduct.maturityDate = this.setDate(res);
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if (res) {
+          if (res.applicationProduct.maturityDate) {
+            this.applicationProduct.maturityDate = this.setDate(res);
+          }
+          this.applicationProduct = res.applicationProduct;
+          this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
+          this.onSave(true);
+        } else {
+          this.onSave(false);
         }
-        this.applicationProduct = res.applicationProduct;
-        this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
-        this.onSave(true);
-      } else {
-        this.onSave(false);
-      }
-    });
+      });
   }
 
   public onSave(mark: boolean): void {
@@ -415,26 +412,21 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
       },
       panelClass: 'custom-dialog-container-delete',
     });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        const dataGrid = this.creditProposal.products.filter(obj => obj.nomorUrutFasilitas !== element.nomorUrutFasilitas);
-        this.dataProduct = dataGrid;
-        this.creditProposal.products = this.dataProduct;
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if (res) {
+          const dataGrid = this.creditProposal.products.filter(obj => obj.nomorUrutFasilitas !== element.nomorUrutFasilitas);
+          this.dataProduct = dataGrid;
+          this.creditProposal.products = this.dataProduct;
 
-        this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
-        this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
-        this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
-      }
-    });
+          this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
+          this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
+          this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
+        }
+      });
   }
-
-  // public onDelete(element: IApplicationProduct) {
-  //   const dataGrid = this.creditProposal.products.filter(
-  //     ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
-  //   );
-  //   this.dataParty = dataGrid;
-  //   this.creditProposal.products = this.dataParty;
-  // }
 
   public parseStringToInt(data: string): number {
     return parseInt(data, 10);
