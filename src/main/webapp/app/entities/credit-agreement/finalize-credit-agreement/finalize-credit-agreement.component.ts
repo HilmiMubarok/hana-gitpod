@@ -55,7 +55,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
         })
         .subscribe((res: any) => {
           this.selectedConditionsValue = res.body;
-          console.log('bvv', res.body);
+
           for (let i = 0; i < res.body.length; i++) {
             this.approvalDebtorOptions = [...this.approvalDebtorOptions, res.body[i].value];
           }
@@ -69,7 +69,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
         })
         .subscribe((res: any) => {
           this.selectedConditionsValue = res.body;
-          console.log('bvv', res.body);
+
           for (let i = 0; i < res.body.length; i++) {
             this.approvalDebtorOptions = [...this.approvalDebtorOptions, res.body[i].value];
           }
@@ -135,6 +135,13 @@ export class FinalizeCreditAgreementComponent implements OnInit {
 
   onSelectApprovalCondition(selectedValue: any, index: any) {
     // Handle the change event here
+
+    if (this.selectedConditions[0] === this.selectedConditions[1]) {
+      this.approvalDebtor.splice(1, 1);
+      this.selectedConditions.splice(1, 1);
+      this.selectedOptions.splice(1, 1);
+    }
+
     const filter = this.selectedConditionsValue.filter((data: any) => data.value === selectedValue);
     this.selectedOptions[index] = filter[0].id;
     // You can do more with the selected value if needed
@@ -147,6 +154,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
 
   getAvailableOptions(index: number): string[] {
     // Exclude options already selected in previous mat-select instances
+
     const selectedOptions = this.selectedConditions.slice(0, index);
     return this.approvalDebtorOptions.filter(option => !selectedOptions.includes(option));
   }
