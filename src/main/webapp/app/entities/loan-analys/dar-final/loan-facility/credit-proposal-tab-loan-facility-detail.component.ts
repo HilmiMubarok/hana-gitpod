@@ -1,12 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
   DocumentEditorKeyDownEventArgs,
-  EditorService,
-  SelectionService,
-  SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -18,13 +15,20 @@ import {
   IApplicationProduct,
 } from 'app/entities/application-product/application-product.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-loan-facility-detail-temp',
   templateUrl: './loan-facility-detail-temp.component.html',
   styleUrls: ['./credit-proposal-tab-loan-facility-detail.css'],
 })
-export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
+export class LoanFacilityDetailTempComponent implements OnInit, OnChanges, OnDestroy {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
@@ -48,7 +52,6 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
-  private ngUnsubscribe = new Subject();
   private BUCKET: string;
   private paramsIdGet: string;
   private fileGet: File;
@@ -161,10 +164,13 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   }
   // WORD
   public getWord() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET = val.body['bucket'];
-      this.getContainer();
-    });
+    this.storageService
+      .getBucketName()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(val => {
+        this.BUCKET = val.body['bucket'];
+        this.getContainer();
+      });
   }
 
   private getContainer(): void {
@@ -178,12 +184,12 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
 
     this.storageService
       .getObjects(this.BUCKET, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
+            .pipe(takeUntil(this.destroy$))
             .subscribe(res => {
               this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-loan-facility-sfdt.sfdt');
               const fileReader: FileReader = new FileReader();
@@ -293,7 +299,14 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = (() => {
+      if (this.creditProposal.attributes.darRevHistory) {
+        const parsedData = parsePreviousAtrribute(this.creditProposal);
+
+        return parsedData['darRevHistory'].products.filter(obj => obj.subLimit === false);
+      }
+      return this.creditProposal.products.filter(obj => obj.subLimit === false);
+    })();
 
     if (dataFilter.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -354,7 +367,14 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = (() => {
+      if (this.creditProposal.attributes.darRevHistory) {
+        const parsedData = parsePreviousAtrribute(this.creditProposal);
+
+        return parsedData['darRevHistory'].products.filter(obj => obj.subLimit === false);
+      }
+      return this.creditProposal.products.filter(obj => obj.subLimit === false);
+    })();
 
     if (dataFilter.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -415,7 +435,14 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = (() => {
+      if (this.creditProposal.attributes.darRevHistory) {
+        const parsedData = parsePreviousAtrribute(this.creditProposal);
+
+        return parsedData['darRevHistory'].products.filter(obj => obj.subLimit === false);
+      }
+      return this.creditProposal.products.filter(obj => obj.subLimit === false);
+    })();
 
     if (dataFilter.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -490,7 +517,14 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+    const dataFilter = (() => {
+      if (this.creditProposal.attributes.darRevHistory) {
+        const parsedData = parsePreviousAtrribute(this.creditProposal);
+
+        return parsedData['darRevHistory'].products.filter(obj => obj.subLimit === false);
+      }
+      return this.creditProposal.products.filter(obj => obj.subLimit === false);
+    })();
 
     if (dataFilter.length > 0) {
       if (value === 'USD' || value === 'both') {
