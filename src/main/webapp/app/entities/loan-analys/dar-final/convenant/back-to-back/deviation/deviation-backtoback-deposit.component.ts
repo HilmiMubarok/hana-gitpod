@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBackToBackDeposit } from '../../convenant.constant';
 import lodash from 'lodash';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-deviation-back-to-back-deposit',
@@ -52,18 +53,16 @@ export class DeviationBackToBackDepositComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length !== 0) {
-      const deletedItem = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.filter(
-        item => item.status !== 'Applied'
-      );
-      this.standardDataGridBackToBackDeposit = deletedItem;
-      for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].justification;
-      }
-    } else {
-      this.standardDataGridBackToBackDeposit = [];
+    const convenant = this.creditProposalItem.attributes['darRevHistory']
+      ? parsePreviousAtrribute(this.creditProposalItem)['convenant']
+      : this.creditProposalItem.attributes['convenant'];
+
+    this.standardDataGridBackToBackDeposit = convenant.standardDataGridBackToBackDeposit.filter(item => item.status !== 'Applied');
+
+    for (let i = 0; i < this.standardDataGridBackToBackDeposit.length; i++) {
+      this.statusValue[i] = this.standardDataGridBackToBackDeposit[i].status;
+      this.deviation[i] = this.standardDataGridBackToBackDeposit[i].deviation;
+      this.justification[i] = this.standardDataGridBackToBackDeposit[i].justification;
     }
   }
 }
