@@ -12,6 +12,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-other-covenant-temp',
   templateUrl: './credit-proposal-other-covenant.component.html',
@@ -55,7 +56,15 @@ export class OtherCovenantTempComponent implements OnInit {
     this.filterStatus = [];
   }
 
+  data;
+
   ngOnInit() {
+    if (this.creditProposalItem.attributes['darRevHistory']) {
+      const parsed = parsePreviousAtrribute(this.creditProposalItem);
+      this.data = parsed['darRevHistory'].convenant.otherCovenant;
+    } else {
+      this.data = this.creditProposalItem.attributes['convenant'].otherCovenant;
+    }
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.isOtherDeviation && this.displayColumns.pop();
     this.isOtherDeviation && this.filterDeviation();
@@ -223,14 +232,32 @@ export class OtherCovenantTempComponent implements OnInit {
     });
   }
 
-  public filterDeviation() {
-    if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['convenant']['otherCovenant'].length; i++) {
-        if (this.creditProposalItem.attributes['convenant']['otherCovenant'][i].status !== 'Applied') {
-          this.filterStatus = [...this.filterStatus, this.creditProposalItem.attributes['convenant']['otherCovenant'][i]];
+  public filterDeviatiosn() {
+    if (this.creditProposalItem.attributes['darRevHistory']) {
+      const parsed = parsePreviousAtrribute(this.creditProposalItem);
+
+      for (let i = 0; i < parsed['darRevHistory'].convenant.otherCovenant.length; i++) {
+        if (parsed['darRevHistory'].convenant.otherCovenant[i].status !== 'Applied') {
+          this.filterStatus = [...this.filterStatus, parsed['darRevHistory'].convenant.otherCovenant[i]];
+        }
+      }
+    } else {
+      if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['convenant']['otherCovenant'].length; i++) {
+          if (this.creditProposalItem.attributes['convenant']['otherCovenant'][i].status !== 'Applied') {
+            this.filterStatus = [...this.filterStatus, this.creditProposalItem.attributes['convenant']['otherCovenant'][i]];
+          }
         }
       }
     }
+  }
+
+  public filterDeviation() {
+    const otherCovenant = this.creditProposalItem.attributes['darRevHistory']
+      ? parsePreviousAtrribute(this.creditProposalItem)['darRevHistory'].convenant.otherCovenant
+      : this.creditProposalItem.attributes['convenant']['otherCovenant'];
+
+    this.filterStatus = otherCovenant.filter(item => item.status !== 'Applied');
   }
 
   public folders = [];

@@ -1,12 +1,6 @@
 <div *ngIf="isOtherDeviation === false">
   <div class="table-responsive-material">
-    <table
-      mat-table
-      id="tblOtherCovenant"
-      *ngIf="creditProposalItem && !loading"
-      [dataSource]="creditProposalItem.attributes['convenant'].otherCovenant"
-      class="w-100"
-    >
+    <table mat-table id="tblOtherCovenant" *ngIf="creditProposalItem && !loading" [dataSource]="data" class="w-100">
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>No</th>
         <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
