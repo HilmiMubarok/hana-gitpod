@@ -232,26 +232,6 @@ export class OtherCovenantTempComponent implements OnInit {
     });
   }
 
-  public filterDeviatiosn() {
-    if (this.creditProposalItem.attributes['darRevHistory']) {
-      const parsed = parsePreviousAtrribute(this.creditProposalItem);
-
-      for (let i = 0; i < parsed['darRevHistory'].convenant.otherCovenant.length; i++) {
-        if (parsed['darRevHistory'].convenant.otherCovenant[i].status !== 'Applied') {
-          this.filterStatus = [...this.filterStatus, parsed['darRevHistory'].convenant.otherCovenant[i]];
-        }
-      }
-    } else {
-      if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
-        for (let i = 0; i < this.creditProposalItem.attributes['convenant']['otherCovenant'].length; i++) {
-          if (this.creditProposalItem.attributes['convenant']['otherCovenant'][i].status !== 'Applied') {
-            this.filterStatus = [...this.filterStatus, this.creditProposalItem.attributes['convenant']['otherCovenant'][i]];
-          }
-        }
-      }
-    }
-  }
-
   public filterDeviation() {
     const otherCovenant = this.creditProposalItem.attributes['darRevHistory']
       ? parsePreviousAtrribute(this.creditProposalItem)['darRevHistory'].convenant.otherCovenant
