@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -19,13 +19,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { IEmptyField } from 'app/entities/credit-proposal/collateral-info/backtoback/empty-field.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-btb-grid-dar-final',
   templateUrl: './credit-proposal-collateral-info-btb.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
+export class CollateralInfoBTPDarFinalComponent
+  extends AbstractEntityMaterialComponent<ICollateral>
+  implements OnChanges, OnInit, OnDestroy
+{
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -38,6 +42,12 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     'crossCollateral',
     'action',
   ];
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 
   public biddingValueCoverage: number;
   public biddingValueSum: number;
@@ -62,6 +72,14 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   private _collateralProperties: ICollateralProperty[];
 
   @Input() isViewMode?: Boolean = false;
+
+  public dynamicCollateral() {
+    if (this.creditProposal.attributes['darRevHistory']) {
+      return parsePreviousAtrribute(this.creditProposal)['darRevHistory'].collaterals;
+    } else {
+      return this.creditProposal.collaterals;
+    }
+  }
 
   @Input()
   get creditProposal() {
@@ -131,6 +149,7 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
         page: this.page,
         size: 999,
       })
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         const filter: ICollateral[] = res.body.filter(function (o) {
           return (
@@ -150,9 +169,9 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
+      if (this.dynamicCollateral().length > 0) {
+        for (let i = 0; i < this.dynamicCollateral().length; i++) {
+          const collateral = this.dynamicCollateral()[i];
           this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -165,8 +184,8 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     this.collateralStartState = lodash.cloneDeep(value);
     this.creditProposalStartState = lodash.cloneDeep(this.creditProposal);
     let cp = {};
-    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
-      if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
+    for (let index = 0; index < this.dynamicCollateral().length; index++) {
+      if (this.dynamicCollateral()[index].collateralId === value.collateralId) {
         cp = this.creditProposal;
       }
     }
@@ -185,13 +204,13 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     const dialogRef = this.dialog.open(CollateralInfoDialogBTBDarFinalComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
+        const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), function (o: ICollateral) {
           return o.id === res['collateral'].id;
         });
         this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         if (collateralIdx > -1) {
-          this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-          const filter: ICollateral[] = this.creditProposal.collaterals.filter(function (o) {
+          this.dynamicCollateral()[collateralIdx] = res['collateral'];
+          const filter: ICollateral[] = this.dynamicCollateral().filter(function (o) {
             return (
               o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
               o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
@@ -229,10 +248,10 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
           this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
         }
       } else {
-        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
+        const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), (o: ICollateral) => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
-          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-          const filter: ICollateral[] = this.creditProposal.collaterals.filter(function (o) {
+          this.dynamicCollateral()[collateralIdx] = this.collateralStartState;
+          const filter: ICollateral[] = this.dynamicCollateral().filter(function (o) {
             return (
               o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
               o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
@@ -313,9 +332,12 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
 
   public findCollateralProperty(collateral: ICollateral): void {
     if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
+      this.collateralPropertyService
+        .queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.collateralProperties = [...this.collateralProperties, ...res.body];
+        });
     }
   }
 
@@ -431,12 +453,12 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   public slideChange($event) {
     if (this.isChecked === true) {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
-      if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+      if (this.dynamicCollateral()?.length > 0 && this.creditProposal.products?.length > 0) {
+        for (let i = 0; i < this.dynamicCollateral().length; i++) {
           for (let j = 0; j < this.creditProposal.products.length; j++) {
             if ($event === true) {
               const tempCollateralProductRelationObject = {
-                collateralId: this.creditProposal.collaterals[i].id,
+                collateralId: this.dynamicCollateral()[i].id,
                 bindingValue: 0,
                 applicationProduct: this.creditProposal.products[j],
               };
@@ -450,7 +472,7 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
       if (this.creditProposal.collateralProductRelations.length > 0) {
         for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
           if (
-            this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
+            this.creditProposal.collateralProductRelations[i].collateralId === this.dynamicCollateral()[i]?.id &&
             this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
           ) {
             this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
@@ -541,9 +563,12 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   }
 
   public setCertyficateType() {
-    this.partyCifService.getCertificate().subscribe(res => {
-      this.certificateType = res.body;
-    });
+    this.partyCifService
+      .getCertificate()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        this.certificateType = res.body;
+      });
   }
 
   public findCertyficate(collateral) {

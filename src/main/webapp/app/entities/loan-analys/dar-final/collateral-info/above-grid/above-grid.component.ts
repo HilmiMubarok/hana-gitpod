@@ -1,10 +1,9 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
-import { CollateralAppraisal, ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
 import {
   CreditProposalCollateralBinding,
@@ -13,7 +12,6 @@ import {
   ICreditProposalCollateralInsurance,
 } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,13 +21,18 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { CollateralInfoDialogTempComponent } from '../dialog/collateral-info-dialog-temp.component';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-above-grid-dar-final',
   templateUrl: './above-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit, AfterViewInit {
+export class AboveGridDarFinalComponent
+  extends AbstractEntityMaterialComponent<ICollateral>
+  implements OnChanges, OnInit, AfterViewInit, OnDestroy
+{
   public displayedColumns: string[] = [
     'no',
     // 'id',
@@ -74,6 +77,13 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
+  }
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   @Input()
@@ -168,15 +178,18 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   @ViewChild('paginator2') paginator2: MatPaginator;
 
   private loadByPartyId(param: string): void {
+    console.log('Load by party id');
     this.collateralService
       .queryFilterBy({
         idParty: param,
         isActive: true,
         size: 999,
       })
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.getBindingCalculate(res.body);
         this.dataCollateral = res.body;
+        console.log({ resbody: res.body });
         this.dataItem = new MatTableDataSource(res.body);
         this.dataItem.paginator = this.paginator;
       });
@@ -185,9 +198,9 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
+      if (this.dynamicCollateral().length > 0) {
+        for (let i = 0; i < this.dynamicCollateral().length; i++) {
+          const collateral = this.dynamicCollateral()[i];
           this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -197,11 +210,19 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
     }
   }
 
+  public dynamicCollateral() {
+    if (this.creditProposal.attributes['darRevHistory']) {
+      return parsePreviousAtrribute(this.creditProposal)['darRevHistory'].collaterals;
+    } else {
+      return this.creditProposal.collaterals;
+    }
+  }
+
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
-    for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-      a = lodash.concat(a, this.creditProposal.collaterals[i]);
+    for (let i = 0; i < this.dynamicCollateral().length; i++) {
+      a = lodash.concat(a, this.dynamicCollateral()[i]);
     }
     this.collateral = new MatTableDataSource(a);
     this.collateral.paginator = this.paginator2;
@@ -211,8 +232,8 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
     this.collateralStartState = lodash.cloneDeep(element);
     this.creditProposalStartState = lodash.cloneDeep(this.creditProposal);
     let cp = {};
-    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
-      if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
+    for (let index = 0; index < this.dynamicCollateral().length; index++) {
+      if (this.dynamicCollateral()[index].collateralId === element.collateralId) {
         cp = this.creditProposal;
       }
     }
@@ -238,12 +259,12 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
     const dialogRef = this.dialog.open(CollateralInfoDialogTempComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
+        const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), function (o: ICollateral) {
           return o.id === res['collateral'].id;
         });
         if (collateralIdx > -1) {
-          this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          this.dynamicCollateral()[collateralIdx] = res['collateral'];
+          const filter = this.dynamicCollateral().filter(obj => obj.statusId !== 'CANCEL');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -274,10 +295,10 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
         }
         this.loadByPartyId(this.creditProposal.cif.partyId);
       } else {
-        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
+        const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), (o: ICollateral) => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
-          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          this.dynamicCollateral()[collateralIdx] = this.collateralStartState;
+          const filter = this.dynamicCollateral().filter(obj => obj.statusId !== 'CANCEL');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -301,7 +322,6 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   countKJJPLV(collateral: ICollateral) {
     let result: number;
     let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
     result = 0;
 
     if (collateral.collateralTypeId) {
@@ -385,9 +405,12 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
 
   public findCollateralProperty(collateral: ICollateral): void {
     if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
+      this.collateralPropertyService
+        .queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.collateralProperties = [...this.collateralProperties, ...res.body];
+        });
     }
   }
 
@@ -408,7 +431,6 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   public countLV(collateral: ICollateral): number {
     let result: number;
     let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
     result = 0;
 
     if (collateral.collateralTypeId) {
@@ -481,9 +503,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   }
 
   public countMV(collateral: ICollateral): number {
-    let result: number;
     let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
     // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
@@ -517,7 +537,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   }
 
   fungsiSumcredit(value: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>(resolve => {
       let result: number;
       let dolar: number;
       let filterIdr = [];
@@ -586,9 +606,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   }
 
   public countMVOriginal(collateral: ICollateral): number {
-    let result: string;
     let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
     // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
@@ -711,10 +729,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   // get Ownership
   public getOwnerShip(collateral: ICollateral) {
     let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
-    let string1: string;
     let string2: string;
-    let result: string;
 
     // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
@@ -747,7 +762,6 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   public getExpiry(collateral: ICollateral) {
     let result: any;
     let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
 
     // console.log("collateral in above grid",collateral);
     if (
@@ -807,21 +821,16 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
     return result;
   }
 
-  public openResult(element: ICollateral) {
-    const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
-      width: '80vw',
-      data: { collateral: element },
-    });
-  }
+  public openResult(element: ICollateral) {}
   public slideChange($event) {
     if (this.isChecked === true) {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
-      if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+      if (this.dynamicCollateral()?.length > 0 && this.creditProposal.products?.length > 0) {
+        for (let i = 0; i < this.dynamicCollateral().length; i++) {
           for (let j = 0; j < this.creditProposal.products.length; j++) {
             if ($event === true) {
               const tempCollateralProductRelationObject = {
-                collateralId: this.creditProposal.collaterals[i].id,
+                collateralId: this.dynamicCollateral()[i].id,
                 bindingValue: 0,
                 applicationProduct: this.creditProposal.products[j],
               };
@@ -835,7 +844,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
       if (this.creditProposal.collateralProductRelations.length > 0) {
         for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
           if (
-            this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
+            this.creditProposal.collateralProductRelations[i].collateralId === this.dynamicCollateral()[i]?.id &&
             this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
           ) {
             this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
@@ -864,9 +873,12 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   }
 
   public setCertyficateType() {
-    this.partyCifService.getCertificate().subscribe(res => {
-      this.certificateType = res.body;
-    });
+    this.partyCifService
+      .getCertificate()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        this.certificateType = res.body;
+      });
   }
 
   public findCertyficate(collateral) {
