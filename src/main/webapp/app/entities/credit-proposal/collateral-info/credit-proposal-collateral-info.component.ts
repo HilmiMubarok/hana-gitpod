@@ -125,7 +125,12 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
       // this.router.url.split('/')[1] === 'loan-analys-and-approval-monitoring' ||
       this.router.url.split('/')[1] === 'finalize' ||
       this.router.url.split('/')[1] === 'review' ||
-      this.router.url.split('/')[1] === 'confirmation'
+      this.router.url.split('/')[1] === 'confirmation' ||
+      this.router.url.split('/')[1] === 'finalize-pk' ||
+      this.router.url.split('/')[1] === 'review-pk' ||
+      this.router.url.split('/')[1] === 'dpdl-finalize' ||
+      this.router.url.split('/')[1] === 'dar-revision' ||
+      this.router.url.split('/')[1] === 'dar-revision-checker'
     ) {
       this.customPath = true;
     }
