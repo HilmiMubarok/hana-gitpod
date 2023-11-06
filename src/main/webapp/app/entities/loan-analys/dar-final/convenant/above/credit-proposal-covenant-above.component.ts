@@ -1,28 +1,30 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { dataCovenantAbove } from '../convenant.constant';
 import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-covenant-dar-above',
   templateUrl: './credit-proposal-covenant-above.component.html',
   styleUrls: ['../back-to-back/covenant-backtoback.css'],
 })
-export class DarCovenantAboveComponent implements OnInit {
+export class DarCovenantAboveComponent implements OnInit, OnDestroy {
   public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
   attributes: any;
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  // public standardDataGridAbove: any = dataCovenantAbove;
   public standardDataGridAbove: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
   public deviation: any = [];
   public justification: any = [];
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() isViewMode: Boolean = false;
 
@@ -54,56 +56,65 @@ export class DarCovenantAboveComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.LovCovenantAbove();
+    this.loadCovenantAbove();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   public getStandardDataGridAbove() {
-    if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].justification;
-      }
-    } else {
-      for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
-        this.statusValue[i] = 'Applied';
-        this.creditProposalItem.attributes['convenant'].standardDataGridAbove.status = this.statusValue[i];
-      }
+    const parsed = parsePreviousAtrribute(this.creditProposalItem);
+    const darRevHistory = parsed['darRevHistory']?.convenant?.standardDataGridAbove || [];
+    const convenant = this.creditProposalItem.attributes['convenant']?.standardDataGridAbove || [];
+
+    const data = darRevHistory.length !== 0 ? darRevHistory : convenant;
+
+    data.forEach((item, i) => {
+      this.statusValue[i] = item.status;
+      this.deviation[i] = item.deviation;
+      this.justification[i] = item.justification;
+    });
+
+    if (data.length === 0) {
+      this.statusValue = Array(this.standardDataGridAbove.length).fill('Applied');
       this.creditProposalItem.attributes['convenant'].standardDataGridAbove = this.standardDataGridAbove;
     }
   }
 
-  public LovCovenantAbove() {
+  public loadCovenantAbove() {
     this.generalParameterService
       .queryFilterBy({
         idParameterType: 'COVENANT_ABOVE_STANDARD',
         page: 0,
         size: 9999,
       })
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
-        // res.body.forEach(data => {
-        //   this.dataAbove.push(new ConvenantNew(data.id, data.value, 'Applied', '', ''));
-        // });
+        const activeData = res.body.filter(o => o.statusId === 'ACTIVE');
+        const gridAbove = activeData.map((data, i) => ({
+          id: i,
+          covenant: data.value,
+          status: 'Applied',
+          deviation: '',
+          justification: '',
+        }));
 
-        // for(let i = 0; i < res.body.length; i++){
-        //   console.log('xxx',res.body[i])
-        // }
-        const data = lodash.filter(res.body, function (o) {
-          return o.statusId === 'ACTIVE';
-        });
-        const gridAbove = [];
-        for (let i = 0; i < data.length; i++) {
-          const num = i;
-          gridAbove[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
-        }
-        this.standardDataGridAbove = gridAbove;
         this.getStandardDataGridAbove();
+        this.standardDataGridAbove = gridAbove;
 
-        if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0) {
-          this.creditProposalItem.attributes['convenant'].standardDataGridAbove = this.standardDataGridAbove;
+        const parsed = parsePreviousAtrribute(this.creditProposalItem);
+        const parsedConvenant = parsed['darRevHistory']?.convenant?.standardDataGridAbove;
+
+        if (parsedConvenant) {
+          this.standardDataGridAbove = parsedConvenant;
         } else {
-          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
-            this.standardDataGridAbove = this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
+          const creditProposalConvenant = this.creditProposalItem.attributes['convenant']?.standardDataGridAbove;
+          if (creditProposalConvenant && creditProposalConvenant.length === 0) {
+            this.creditProposalItem.attributes['convenant'].standardDataGridAbove = this.standardDataGridAbove;
+          } else if (creditProposalConvenant) {
+            this.standardDataGridAbove = creditProposalConvenant;
           }
         }
       });
