@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantAbove } from '../../convenant.constant';
 import lodash from 'lodash';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-proposal-deviation-dar-above',
@@ -48,16 +49,16 @@ export class CreditProposalDeviationDarAboveComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length !== 0) {
-      const deletedItem = this.creditProposalItem.attributes['convenant'].standardDataGridAbove.filter(item => item.status !== 'Applied');
-      this.standardDataGridAbove = deletedItem;
-      for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].justification;
-      }
-    } else {
-      this.standardDataGridAbove = [];
+    const convenant = this.creditProposalItem.attributes['darRevHistory']
+      ? parsePreviousAtrribute(this.creditProposalItem)['convenant']
+      : this.creditProposalItem.attributes['convenant'];
+
+    this.standardDataGridAbove = convenant.standardDataGridAbove.filter(item => item.status !== 'Applied');
+
+    for (let i = 0; i < this.standardDataGridAbove.length; i++) {
+      this.statusValue[i] = this.standardDataGridAbove[i].status;
+      this.deviation[i] = this.standardDataGridAbove[i].deviation;
+      this.justification[i] = this.standardDataGridAbove[i].justification;
     }
   }
 }
