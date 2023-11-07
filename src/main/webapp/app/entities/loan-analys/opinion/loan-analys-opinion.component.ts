@@ -432,7 +432,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
     this.uuid = uuid.v4();
     this.uuidPath.emit(this.uuid);
 
-	this.applicationRoleEmit(event.value);
+	this.applicationRoleEmit.emit(event.value);
 
     /* for (let i = 0; i < this.approvalUserData.length; i++) {
       if (event.value === this.approvalUserData[i].partyId) {
