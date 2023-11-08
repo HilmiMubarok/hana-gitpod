@@ -165,33 +165,29 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
 
   public cifNumber: any;
-
   public updateFromHobis(data: any): void {
     this.cifNumber = data.customerId;
     if (this.cifNumber !== undefined) {
-      this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
-        if (res.status === 200) {
-          for (let i = 0; i < this.partyCifs.length; i++) {
-            this.partyCifs[i] = res.body;
+      this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe({
+        next: res => {
+          if (res.body) {
+            for (let i = 0; i < this.partyCifs.length; i++) {
+              this.partyCifs[i] = res.body;
+            }
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'SYNC Update From Hobis Successful!',
+            });
           }
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'SYNC Update From Hobis Successful!',
-          });
-        } else if (res.status === 500) {
+        },
+        error: (res: HttpErrorResponse) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Update Data From HOBIS Failed!',
+            detail: res.error.title,
           });
-        } else if (res.status === 404) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Data From HOBIS Not Found!',
-          });
-        }
+        },
       });
     }
   }
