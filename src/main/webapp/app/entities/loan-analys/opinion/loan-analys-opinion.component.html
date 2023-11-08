@@ -45,7 +45,7 @@
           <mat-label>Approval User</mat-label>
           <mat-select (selectionChange)="setApproval($event)">
             <mat-option *ngFor="let item of approvalUserData" [value]="item">
-              {{ item.partyName }}
+              {{ item.partyName }} - {{ item.roleDescription }}
             </mat-option>
           </mat-select>
         </mat-form-field>

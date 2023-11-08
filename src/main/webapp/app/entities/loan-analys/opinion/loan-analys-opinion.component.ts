@@ -129,6 +129,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public typeOfPosition: any;
 
+  private isChooseApprovalUser = false;
+
   constructor(
     protected datePipe: DatePipe,
     protected dialog: MatDialog,
@@ -431,6 +433,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public setApproval(event: any) {
     this.uuid = uuid.v4();
     this.uuidPath.emit(this.uuid);
+
+	this.isChooseApprovalUser = true;
 
 	this.applicationRoleEmit.emit(event.value);
 
@@ -772,7 +776,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public triggeredSaveValidate(): void {
     if (this.source === '') {
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        if (this.nameLoanComitee) {
+		// if (this.nameLoanComitee) {
+        if (this.isChooseApprovalUser) {
           this.validate();
         } else {
           this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
