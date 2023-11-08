@@ -15,9 +15,7 @@ function setupProxy({ tls }) {
         '/httpbin',
         '/strapi',
       ],
-      // target: `http${tls ? 's' : ''}://localhost:8190`,
-      target: `http${tls ? 's' : ''}://34.101.37.193:8190`,
-      // target: `http${tls ? 's' : ''}://192.168.88.171:8080`,
+      target: `http${tls ? 's' : ''}://localhost:8190`,
       secure: false,
       changeOrigin: tls,
       headers: {

@@ -19,7 +19,7 @@
         <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
           <div class="card-content">
             <jhi-covenant-dar-above
-              [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+              [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
               [creditProposalItem]="creditProposalItem"
             >
             </jhi-covenant-dar-above>
@@ -29,7 +29,7 @@
         <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
           <div class="card-content">
             <jhi-covenant-below-temp
-              [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+              [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
               [creditProposalItem]="creditProposalItem"
             >
             </jhi-covenant-below-temp>
@@ -38,14 +38,14 @@
         <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
           <div class="card-content">
             <jhi-dar-covenant-back-to-back-general
-              [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+              [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
               [creditProposalItem]="creditProposalItem"
             >
             </jhi-dar-covenant-back-to-back-general>
           </div>
           <div class="card-content">
             <jhi-dar-covenant-back-to-back-deposit
-              [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+              [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
               [creditProposalItem]="creditProposalItem"
             >
             </jhi-dar-covenant-back-to-back-deposit>
@@ -66,7 +66,7 @@
             <div class="e-card-sub-title"></div>
             <div class="card-content">
               <jhi-other-covenant-temp
-                [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+                [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
                 [creditProposalItem]="creditProposalItem"
               ></jhi-other-covenant-temp>
             </div>
@@ -89,7 +89,7 @@
     </div>
     <div class="card-content">
       <jhi-credit-proposal-deviation-dar-above
-        [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+        [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
         [creditProposalItem]="creditProposalItem"
       >
       </jhi-credit-proposal-deviation-dar-above>
@@ -105,7 +105,7 @@
     </div>
     <div class="card-content">
       <jhi-deviation-below-temp
-        [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+        [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
         [creditProposalItem]="creditProposalItem"
       >
       </jhi-deviation-below-temp>
@@ -114,12 +114,12 @@
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
     <div class="card-content">
       <jhi-credit-proposal-tab-deviation-back-to-back-general
-        [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+        [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
         [creditProposalItem]="creditProposalItem"
       >
       </jhi-credit-proposal-tab-deviation-back-to-back-general>
       <jhi-credit-proposal-tab-deviation-back-to-back-deposit
-        [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+        [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
         [creditProposalItem]="creditProposalItem"
       >
       </jhi-credit-proposal-tab-deviation-back-to-back-deposit>
@@ -137,7 +137,7 @@
             <div class="card-content">
               <jhi-other-covenant-temp
                 [isOtherDeviation]="true"
-                [isViewMode]="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposalItem.statusId)"
+                [isViewMode]="!creditProposalItem.statusId.includes(['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'])"
                 [creditProposalItem]="creditProposalItem"
               ></jhi-other-covenant-temp>
             </div>
