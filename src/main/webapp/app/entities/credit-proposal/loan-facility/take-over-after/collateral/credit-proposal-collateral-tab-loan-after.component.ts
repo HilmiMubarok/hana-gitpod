@@ -94,7 +94,12 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   }
 
   public deleteButtonStats() {
-    if (this.parentPath === 'review-pk' || this.parentPath === 'finalize-pk') {
+    if (
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl'
+    ) {
       return true;
     }
     return false;
