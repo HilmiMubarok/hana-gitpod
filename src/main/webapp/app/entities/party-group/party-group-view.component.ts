@@ -243,7 +243,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
         this.initialize();
-        this.myFunction();
+        // this.myFunction();
       }
       if (this.item) {
         this.prepareView();
@@ -411,7 +411,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     // this.cc1 =  this.creditProposal.products.filter(product => mortCodes.includes(product.productCode));
     // }
   }
-
   public myFunction() {
     this.getProduct();
     if (this.item.applicationTypeId === 'SME') {
