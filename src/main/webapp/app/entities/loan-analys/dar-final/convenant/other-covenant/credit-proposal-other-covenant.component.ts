@@ -67,6 +67,7 @@ export class OtherCovenantTempComponent implements OnInit {
     }
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
 
+    this.isOtherDeviation && this.displayColumns.pop();
     this.isOtherDeviation && this.filterDeviation();
 
     this.partyCifService.findCollateral(this.creditProposalItem.cif.customerId, 'R201').subscribe((find: any) => {
@@ -220,6 +221,7 @@ export class OtherCovenantTempComponent implements OnInit {
           ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
           res,
         ];
+        this.data = this.creditProposalItem.attributes['convenant']['otherCovenant'];
       }
     });
   }
@@ -434,6 +436,7 @@ export class OtherCovenantTempComponent implements OnInit {
         const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
         this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
         this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+        this.data = this.creditProposalItem.attributes['convenant']['otherCovenant'];
       }
     });
   }
