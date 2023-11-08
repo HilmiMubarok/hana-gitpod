@@ -49,11 +49,15 @@ export class CreditProposalDeviationDarAboveComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const convenant = this.creditProposalItem.attributes['darRevHistory']
-      ? parsePreviousAtrribute(this.creditProposalItem)['convenant']
-      : this.creditProposalItem.attributes['convenant'];
+    const parsed = parsePreviousAtrribute(this.creditProposalItem);
 
-    this.standardDataGridAbove = convenant.standardDataGridAbove.filter(item => item.status !== 'Applied');
+    this.standardDataGridAbove = (() => {
+      if (this.creditProposalItem.attributes['darRevHistory']) {
+        return parsed['darRevHistory']['convenant'].standardDataGridAbove.filter(item => item.status !== 'Applied');
+      } else {
+        return this.creditProposalItem.attributes['convenant'].standardDataGridAbove.filter(item => item.status !== 'Applied');
+      }
+    })();
 
     for (let i = 0; i < this.standardDataGridAbove.length; i++) {
       this.statusValue[i] = this.standardDataGridAbove[i].status;

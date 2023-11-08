@@ -50,11 +50,15 @@ export class CreditProposalDeviationBelowTempComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const convenant = this.creditProposalItem.attributes['darRevHistory']
-      ? parsePreviousAtrribute(this.creditProposalItem)['convenant']
-      : this.creditProposalItem.attributes['convenant'];
+    const parsed = parsePreviousAtrribute(this.creditProposalItem);
 
-    this.standardCovenant = convenant.standardDataGridAbove.filter(item => item.status !== 'Applied');
+    this.standardCovenant = (() => {
+      if (this.creditProposalItem.attributes['darRevHistory']) {
+        return parsed['darRevHistory']['convenant'].standardCovenant.filter(item => item.status !== 'Applied');
+      } else {
+        return this.creditProposalItem.attributes['convenant'].standardCovenant.filter(item => item.status !== 'Applied');
+      }
+    })();
 
     for (let i = 0; i < this.standardCovenant.length; i++) {
       this.statusValue[i] = this.standardCovenant[i].status;

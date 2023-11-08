@@ -53,11 +53,15 @@ export class DeviationBackToBackGeneralComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const convenant = this.creditProposalItem.attributes['darRevHistory']
-      ? parsePreviousAtrribute(this.creditProposalItem)['convenant']
-      : this.creditProposalItem.attributes['convenant'];
+    const parsed = parsePreviousAtrribute(this.creditProposalItem);
 
-    this.standardDataGridBackToBackGeneral = convenant.standardDataGridBackToBackGeneral.filter(item => item.status !== 'Applied');
+    this.standardDataGridBackToBackGeneral = (() => {
+      if (this.creditProposalItem.attributes['darRevHistory']) {
+        return parsed['darRevHistory']['convenant'].standardDataGridBackToBackGeneral.filter(item => item.status !== 'Applied');
+      } else {
+        return this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.filter(item => item.status !== 'Applied');
+      }
+    })();
 
     for (let i = 0; i < this.standardDataGridBackToBackGeneral.length; i++) {
       this.statusValue[i] = this.standardDataGridBackToBackGeneral[i].status;
