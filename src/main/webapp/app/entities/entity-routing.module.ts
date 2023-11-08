@@ -368,6 +368,16 @@ import { RouterModule } from '@angular/router';
         path: 'review-pk',
         loadChildren: () => import('./credit-agrement-review/credit-agreement-review.module').then(m => m.LosgwCreditAgreementReviewModule),
       },
+
+      {
+        path: 'finalize-dppk',
+        loadChildren: () => import('./dppk-finalize/dppk-finalize.module').then(m => m.LosgwIDppkFinalizeModule),
+      },
+      // {
+      //   path: 'review-dppk',
+      //   loadChildren: () => import('./dppk-review/dppk-review.module').then(m => m.LosgwIDppkReviewModule),
+      // },
+
       {
         path: 'credit-proposal-status',
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
