@@ -13,6 +13,7 @@ import { DocumentTypeService } from 'app/entities/document-type/document-type.se
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-other-covenant-temp',
   templateUrl: './credit-proposal-other-covenant.component.html',
@@ -50,11 +51,20 @@ export class OtherCovenantTempComponent implements OnInit {
     public dialog: MatDialog,
     public storageService: StorageService,
     private partyCifService: PartyCifService,
-    private documentTypeService: DocumentTypeService
+    private documentTypeService: DocumentTypeService,
+    private router: Router
   ) {
     this.loading = false;
     this.filterStatus = [];
   }
+
+  isOnPK = (() => {
+    if (['review-pk', 'finalize-pk'].includes(this.router.url.split('/')[1])) {
+      return true;
+    } else {
+      return false;
+    }
+  })();
 
   data;
 
@@ -67,7 +77,12 @@ export class OtherCovenantTempComponent implements OnInit {
     }
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
 
-    this.isOtherDeviation && this.displayColumns.pop();
+    if (this.isOtherDeviation) {
+      if (!this.isOnPK) {
+        this.displayColumns.pop();
+      }
+    }
+
     this.isOtherDeviation && this.filterDeviation();
 
     this.partyCifService.findCollateral(this.creditProposalItem.cif.customerId, 'R201').subscribe((find: any) => {
