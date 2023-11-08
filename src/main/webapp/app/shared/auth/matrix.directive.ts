@@ -75,6 +75,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('confirmation') &&
         !this.argsPath.match(/finalize-pk/g) &&
         !this.argsPath.match(/finalize/g) &&
+        !this.argsPath.match(/finalize-dppk/g) &&
         !this.router.url.includes('cc-inquiry') &&
         !this.router.url.includes('review-pk') &&
         !this.router.url.includes('dar-revision') &&
@@ -133,6 +134,12 @@ export class MatrixDirective implements OnInit, OnDestroy {
         }
       }
       if (this.argsPath.match(/finalize-pk/g)) {
+        // if(this.status !== 'DRAFT'){
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+      if (this.argsPath.match(/finalize-dppk/g)) {
         // if(this.status !== 'DRAFT'){
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);

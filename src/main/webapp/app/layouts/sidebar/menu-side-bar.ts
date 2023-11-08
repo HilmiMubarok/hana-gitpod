@@ -350,6 +350,22 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       },
     ],
   },
+  {
+    name: 'Daftar Pengecekan Pencairan Kredit',
+    iconname: 'suitcase',
+    children: [
+      {
+        name: ' Finalize DPPK',
+        iconname: 'minus',
+        route: 'finalize-dppk',
+      },
+      // {
+      //   name: ' Review DPPK',
+      //   iconname: 'minus',
+      //   route: 'review-dppk',
+      // },
+    ],
+  },
   // {
   //   name: 'MIS Report',
   //   iconname: 'file-lines',
