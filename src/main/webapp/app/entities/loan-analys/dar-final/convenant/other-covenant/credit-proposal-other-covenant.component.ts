@@ -66,7 +66,7 @@ export class OtherCovenantTempComponent implements OnInit {
       this.data = this.creditProposalItem.attributes['convenant'].otherCovenant;
     }
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
-    this.isOtherDeviation === false && this.displayColumns.pop();
+
     this.isOtherDeviation && this.filterDeviation();
 
     this.partyCifService.findCollateral(this.creditProposalItem.cif.customerId, 'R201').subscribe((find: any) => {
