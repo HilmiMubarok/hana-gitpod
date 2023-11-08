@@ -215,6 +215,12 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       this.field = true;
     }
   }
+  public hiddenPath() {
+    if (this.parentPath === 'dar-revision') {
+      return true;
+    }
+    return false;
+  }
   public getRole() {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.checkRole(newPos.positionTypeId);
