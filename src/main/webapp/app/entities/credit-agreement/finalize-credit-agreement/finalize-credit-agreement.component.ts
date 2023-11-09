@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -7,12 +7,21 @@ import { MessageService } from 'primeng/api';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { ReviewHistoryDialogComponent } from '../review-history-dialog/review-history-dialog.component';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import {
+  DocumentEditorComponent,
+  DocumentEditorContainerComponent,
+  DocumentEditorKeyDownEventArgs,
+} from '@syncfusion/ej2-angular-documenteditor';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
   styleUrls: ['../credit-agreement.css'],
 })
 export class FinalizeCreditAgreementComponent implements OnInit {
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
+  @ViewChild('document_editor')
+  public documentEditor: DocumentEditorComponent;
   public dataAgreement: any[] = [];
   public approvalDebtor: any[] = [1];
   public postalAdresss: IPostalAddress;
@@ -75,6 +84,24 @@ export class FinalizeCreditAgreementComponent implements OnInit {
           }
         });
     }
+  }
+
+  public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
+    const keyCode: string = args.event.key;
+    const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
+    // 67 is the character code for 'C'
+    console.log('keycode', keyCode);
+    console.log('isCtrlKey', isCtrlKey);
+    if (isCtrlKey && keyCode === '86') {
+      // To prevent copy operation set isHandled to true
+      args.isHandled = true;
+      console.log('ini paste');
+    }
+  }
+
+  onCreate(): void {
+    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   selectedFile: File | null = null;
