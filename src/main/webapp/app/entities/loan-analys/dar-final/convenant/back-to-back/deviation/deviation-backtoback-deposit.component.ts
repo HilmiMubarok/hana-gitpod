@@ -53,11 +53,15 @@ export class DeviationBackToBackDepositComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const convenant = this.creditProposalItem.attributes['darRevHistory']
-      ? parsePreviousAtrribute(this.creditProposalItem)['convenant']
-      : this.creditProposalItem.attributes['convenant'];
+    const parsed = parsePreviousAtrribute(this.creditProposalItem);
 
-    this.standardDataGridBackToBackDeposit = convenant.standardDataGridBackToBackDeposit.filter(item => item.status !== 'Applied');
+    this.standardDataGridBackToBackDeposit = (() => {
+      if (this.creditProposalItem.attributes['darRevHistory']) {
+        return parsed['darRevHistory']['convenant'].standardDataGridBackToBackDeposit.filter(item => item.status !== 'Applied');
+      } else {
+        return this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.filter(item => item.status !== 'Applied');
+      }
+    })();
 
     for (let i = 0; i < this.standardDataGridBackToBackDeposit.length; i++) {
       this.statusValue[i] = this.standardDataGridBackToBackDeposit[i].status;

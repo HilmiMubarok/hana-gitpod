@@ -21,8 +21,8 @@ import {
   CP_APPROVAL_MENU_BELOW,
   BASIC_SUBMENU_CREDITAGREEMENT,
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
-  BASIC_SUBMENU_DPPK_MEMO,
-  BASIC_SUBMENU_DPPK,
+  BASIC_SUBMENU_DPPK_REVIEW_MEMO,
+  BASIC_SUBMENU_DPPK_REVIEW,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -63,18 +63,16 @@ import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-
 import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
 import { HttpClient } from '@angular/common/http';
 import { formatBytes } from 'app/shared/helper/utils';
-import { IDppkFinalize } from './dppk-finalize.model';
-import { DppkFinalizeService } from './dppk-finalize.service';
-import { DppkFinalizeProcessService } from './dppk-finalize-process.service';
-import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
+import { IDppkReview } from './dppk-review.model';
+import { DppkReviewProcessService } from './dppk-review-process.service';
+import { DppkReviewService } from './dppk-review.service';
 
 @Component({
-  selector: 'jhi-dppk-finalize-floating',
-  templateUrl: './dppk-finalize-floating.component.html',
-  styleUrls: ['./dppk-finalize.css'],
+  selector: 'jhi-dppk-review-floating',
+  templateUrl: './dppk-review-floating.component.html',
+  styleUrls: ['./dppk-review.css'],
 })
-export class DppkFinalizeDetailComponent implements OnInit {
+export class DppkReviewDetailComponent implements OnInit {
   @ViewChild('creditProposalTabBusinessActivityComponent', {
     static: false,
   })
@@ -132,8 +130,8 @@ export class DppkFinalizeDetailComponent implements OnInit {
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
 
-  public creditProposal: IDppkFinalize;
-  public creditProposalStartState: IDppkFinalize;
+  public creditProposal: IDppkReview;
+  public creditProposalStartState: IDppkReview;
 
   public proposalType: object[];
 
@@ -163,7 +161,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
   public isHistoryExist: boolean;
-  public ca: IDppkFinalize;
+  public ca: IDppkReview;
   public saveWord: Boolean = false;
   public saveWordOpinionCondition: Boolean = false;
   public dataChil: any;
@@ -189,8 +187,8 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
   constructor(
     private partyCifService: PartyCifService,
-    private dppkFinalizeService: DppkFinalizeService,
-    private dppkFinalizeProcessService: DppkFinalizeProcessService,
+    private dppkReviewService: DppkReviewService,
+    private dppkReviewProcessService: DppkReviewProcessService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected messageService: MessageService,
@@ -218,8 +216,8 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
       ? // ? [...BASIC_SUBMENU_CREDITAGREEMENT, { id: 'memo-banding', text: 'Memo Banding' }]
-        BASIC_SUBMENU_DPPK_MEMO
-      : BASIC_SUBMENU_DPPK;
+        BASIC_SUBMENU_DPPK_REVIEW_MEMO
+      : BASIC_SUBMENU_DPPK_REVIEW;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
 
@@ -286,7 +284,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('dppk-finalize')) {
+    if (this.router.url.includes('review-dppk')) {
       if (this.positionTypeId === 'BM') {
         if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
           this.conditionSave = true;
@@ -384,7 +382,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
     if (this.creditProposal.id) {
-      this.dppkFinalizeService.update(this.preSave(statusPreSave)).subscribe(res => {
+      this.dppkReviewService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
 
         if (this.creditProposalTabBusinessActivityComponent) {
@@ -405,7 +403,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
 
-        if (this.parentPath !== 'finalize-dppk') {
+        if (this.parentPath !== 'review-dppk') {
           if (this.proposalBasicInformationViewComponent) {
             this.proposalBasicInformationViewComponent.triggeredSave();
           }
@@ -432,10 +430,10 @@ export class DppkFinalizeDetailComponent implements OnInit {
         }
 
         if (this.saveState === 'process') {
-          if (this.parentPath === 'finalize-dppk') {
+          if (this.parentPath === 'review-dppk') {
             this.saveApplicationRole();
           } else {
-            this.dppkFinalizeProcessService.processTask(this.resAttr).subscribe(() => {
+            this.dppkReviewProcessService.processTask(this.resAttr).subscribe(() => {
               this.router.navigate([this.router.url.split('/')[1]]);
             });
           }
@@ -462,8 +460,8 @@ export class DppkFinalizeDetailComponent implements OnInit {
       this.currentAccount = account;
     });
 
-    this.dppkFinalizeService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-      const menuItemIdByRoute = this.router.url.includes('dppk-finalize') ? 'FINALIZE_CREDIT_AGREEMENT' : 'FINALIZE_CREDIT_AGREEMENT';
+    this.dppkReviewService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
+      const menuItemIdByRoute = this.router.url.includes('review-dppk') ? 'FINALIZE_DPPK' : 'FINALIZE_DPPK';
       console.log('routes', menuItemIdByRoute);
       this.ca = response.body;
       console.log('routes', this.ca);
@@ -525,11 +523,9 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
   private getTasks(): void {
     // this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
-    this.dppkFinalizeProcessService
-      .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
-      .subscribe(res => {
-        this.tasks = res.body;
-      });
+    this.dppkReviewProcessService.getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath }).subscribe(res => {
+      this.tasks = res.body;
+    });
   }
 
   public processTask(task: IProcessTask): void {
@@ -581,7 +577,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
   private saveApplicationRole(): void {
     this.saveWord = false;
-    this.dppkFinalizeProcessService.processTask(this.resAttr).subscribe(() => {
+    this.dppkReviewProcessService.processTask(this.resAttr).subscribe(() => {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
   }
@@ -657,7 +653,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.dppkFinalizeService.update(this.preSave(status)).subscribe(res => {
+    this.dppkReviewService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
 
@@ -683,7 +679,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.parentPath !== 'finalize-dppk') {
+      if (this.parentPath !== 'review-dppk') {
         if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
         }
@@ -706,11 +702,11 @@ export class DppkFinalizeDetailComponent implements OnInit {
       }
 
       if (source === 'process') {
-        if (this.parentPath === 'finalize-dppk') {
+        if (this.parentPath === 'review-dppk') {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
-          this.dppkFinalizeProcessService.processTask(this.resAttr).subscribe(() => {
+          this.dppkReviewProcessService.processTask(this.resAttr).subscribe(() => {
             this.router.navigate([this.router.url.split('/')[1]]);
           });
         }
@@ -742,10 +738,10 @@ export class DppkFinalizeDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'finalize-dppk') {
+        if (this.router.url.split('/')[1] === 'review-dppk') {
           this.saveUpdate('not-complete', source);
         }
-        if (this.router.url.split('/')[1] === 'finalize-dppk') {
+        if (this.router.url.split('/')[1] === 'review-dppk') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -1033,13 +1029,13 @@ export class DppkFinalizeDetailComponent implements OnInit {
       });
   }
 
-  private preSave(status: string): IDppkFinalize {
-    for (let i = 0; i < this.dppkFinalizeService.partySliks.length; i++) {
-      this.creditProposal.sliks = [...this.creditProposal.sliks, this.dppkFinalizeService.partySliks[i]];
+  private preSave(status: string): IDppkReview {
+    for (let i = 0; i < this.dppkReviewService.partySliks.length; i++) {
+      this.creditProposal.sliks = [...this.creditProposal.sliks, this.dppkReviewService.partySliks[i]];
     }
-    const copyCreditProposal: IDppkFinalize = lodash.cloneDeep(this.creditProposal);
+    const copyCreditProposal: IDppkReview = lodash.cloneDeep(this.creditProposal);
 
-    if (this.router.url.split('/')[1] === 'finalize-dppk') {
+    if (this.router.url.split('/')[1] === 'review-dppk') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
         if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
           copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(
@@ -1052,7 +1048,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
     let tempHelper = 0;
     const tempRouter = this.router.url.split('/')[1];
 
-    if (tempRouter === 'finalize-dppk') {
+    if (tempRouter === 'review-dppk') {
       if (status === 'complete') {
         if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
           if (copyCreditProposal.notes.length > 0) {
@@ -1170,10 +1166,10 @@ export class DppkFinalizeDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'finalize-dppk') {
-      return 'DPPK Finalize';
+    if (value === 'review-dppk') {
+      return 'DPPK Review';
     } else {
-      return 'DPPK Finalize';
+      return 'DPPK Review';
     }
   }
 
@@ -1214,163 +1210,23 @@ export class DppkFinalizeDetailComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
         if (this.collateral.length > 0) {
           for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
+            this.findCollateralProperty(this.collateral[i]);
           }
         }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
+  public findCollateralProperty(collateral: ICollateral): void {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
       });
-    }
-  }
-
-  public setCertificate(collateral) {
-    if (!this.creditProposal.attributes['syncCertificate']) {
-      this.creditProposal.attributes['syncCertificate'] = 'true';
-      this.creditProposal.attributes['certificateInfoData'] = [];
-      if (collateral.length > 0) {
-        for (let i = 0; i < collateral.length; i++) {
-          if (collateral[i].collateralTypeId === 'REALESTATE') {
-            if (collateral[i].attributes['landCertificates']) {
-              collateral[i].attributes['landCertificates'] = JSON.parse(collateral[i].attributes['landCertificates']);
-              if (collateral[i].attributes['landCertificates'].length > 0) {
-                for (let j = 0; j < collateral[i].attributes['landCertificates'].length; j++) {
-                  const certificate: ICertificateInfo = {};
-                  certificate.id = collateral[i].id;
-                  certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
-                  certificate.jangkaWaktuKepemilikan = collateral[i].attributes['landCertificates'][j].certDueDate;
-                  this.creditProposal.attributes['certificateInfoData'].push(certificate);
-                }
-              }
-            }
-          }
-          if (collateral[i].collateralTypeId === 'VEHICLE') {
-            this.collateralPropertyService
-              .queryFilterBy({
-                idCollateral: collateral[i].id,
-                size: 9999,
-                page: 0,
-                idPropertyType: CollateralPropertyType.VEHICLE,
-              })
-              .subscribe(res => {
-                if (res.body) {
-                  for (let j = 0; j < res.body.length; j++) {
-                    const certificate: ICertificateInfo = {};
-                    certificate.id = collateral[i].id;
-                    certificate.buktiKepemilikan = res.body[j].bpkbNum;
-                    this.creditProposal.attributes['certificateInfoData'].push(certificate);
-                  }
-                }
-              });
-          }
-          if (collateral[i].collateralTypeId === 'MACHINE') {
-            this.collateralPropertyService
-              .queryFilterBy({
-                idCollateral: collateral[i].id,
-                page: 0,
-                size: 9999,
-                idPropertyType: CollateralPropertyType.MACHINE,
-              })
-              .subscribe(res => {
-                if (res.body) {
-                  for (let j = 0; j < res.body.length; j++) {
-                    const certificate: ICertificateInfo = {};
-                    certificate.id = collateral[i].id;
-                    certificate.buktiKepemilikan = res.body[j].machineDocType + ' ' + res.body[j].machineDocNum;
-                    this.creditProposal.attributes['certificateInfoData'].push(certificate);
-                  }
-                }
-              });
-          }
-          if (collateral[i].collateralTypeId === 'DEPOSIT') {
-            const certificate: ICertificateInfo = {};
-            certificate.id = collateral[i].id;
-            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
-            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
-            this.creditProposal.attributes['certificateInfoData'].push(certificate);
-          }
-          if (collateral[i].collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
-            const certificate: ICertificateInfo = {};
-            certificate.id = collateral[i].id;
-            certificate.buktiKepemilikan = collateral[i].collateralNumber + ' ' + this.findProperty('buktiKepemilikan', collateral[i]);
-            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
-            this.creditProposal.attributes['certificateInfoData'].push(certificate);
-          }
-          if (collateral[i].collateralTypeId === 'SECURITIES') {
-            const certificate: ICertificateInfo = {};
-            certificate.id = collateral[i].id;
-            certificate.buktiKepemilikan = this.findProperty('buktiKepemilikan', collateral[i]);
-            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
-            this.creditProposal.attributes['certificateInfoData'].push(certificate);
-          }
-          if (collateral[i].collateralTypeId === 'LETTER_OF_GUARANTY') {
-            const certificate: ICertificateInfo = {};
-            certificate.id = collateral[i].id;
-            certificate.buktiKepemilikan = collateral[i].collateralNumber;
-            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
-            this.creditProposal.attributes['certificateInfoData'].push(certificate);
-          }
-        }
-      }
-      if (this.creditProposal.attributes['certificateInfoData']) {
-        for (let i = 0; i < this.creditProposal.attributes['certificateInfoData'].length; i++) {
-          this.creditProposal.attributes['certificateInfoData'][i].index = i;
-        }
-      }
-    } else {
-      this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
-    }
-  }
-
-  public findProperty(type: string, collateral: ICollateral) {
-    let data: ICollateralProperty;
-    if (collateral.collateralTypeId) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data) {
-        if (type === 'buktiKepemilikan') {
-          if (collateral.collateralTypeId === 'SECURITIES') {
-            return data.attributes.securityName;
-          }
-          if (collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
-            return data.attributes.certificateType;
-          }
-        }
-        if (type === 'jangkaWaktu') {
-          if (collateral.collateralTypeId === 'DEPOSIT') {
-            return data.attributes.maturityDate;
-          }
-          if (collateral.collateralTypeId === 'SECURITIES') {
-            return data.attributes.maturityDate;
-          }
-          if (collateral.collateralTypeId === 'OTHER') {
-            return data.attributes.maturityDate;
-          }
-          if (collateral.collateralTypeId === 'LETTER_OF_GUARANTY') {
-            return data.attributes.requisitionExpiry;
-          }
-          if (collateral.collateralTypeId === 'PERSONAL_PROPERTY') {
-            return data.attributes.maturityDate;
-          }
-          if (collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
-            return data.certificateExpiryDate;
-          }
-        }
-      }
-      return '';
     }
   }
 
