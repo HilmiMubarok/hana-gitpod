@@ -16,7 +16,6 @@ export class CertificateInfoComponent implements OnInit {
   public dataItem: ICertificateInfo[] = [];
   public collateral: ICollateral;
   public creditProposal: ICreditProposal;
-  public field = false;
   public filter: ICertificateInfo[];
   public parentPath = this.router.url.split('/')[1];
   public displayedColumns: string[] = ['no', 'buktiKepemilikan', 'jangkaWaktu', 'luasTanah', 'luasBangunan', 'action'];
@@ -31,20 +30,6 @@ export class CertificateInfoComponent implements OnInit {
   ) {
     this.creditProposal = data.cp;
     this.collateral = data.collateral;
-    this.disableField();
-  }
-  public disableField() {
-    if (
-      this.parentPath === 'finalize-pk' ||
-      this.parentPath === 'review-pk' ||
-      this.parentPath === 'dpdl-finalize' ||
-      // this.parentPath === 'dar-revision' ||
-      this.parentPath === 'dar-revision-checker' ||
-      this.creditProposal.statusId === 'OL_DISTRIBUTION'
-    ) {
-      // Default Disabled
-      this.field = true;
-    }
   }
   ngOnInit(): void {
     if (this.creditProposal.attributes['certificateInfoData']) {

@@ -115,7 +115,11 @@ export class DppkFinalizeService extends AbstractEntityService<IDppkFinalize> {
         entity.attributes['collateralInfoGroupTotalMvLv'] = JSON.stringify(entity.attributes['collateralInfoGroupTotalMvLv']);
       }
     }
-
+    if (entity.attributes['certificateInfoData']) {
+      if (typeof entity.attributes['certificateInfoData'] !== 'string') {
+        entity.attributes['certificateInfoData'] = JSON.stringify(entity.attributes['certificateInfoData']);
+      }
+    }
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }
