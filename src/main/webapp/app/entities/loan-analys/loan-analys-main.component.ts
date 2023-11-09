@@ -1368,10 +1368,15 @@ export class LoanAnalysMainComponent implements OnInit {
 
           tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
 
+		  console.log('this.applicationRoleFromEmit : ', this.applicationRoleFromEmit);
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
 			  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
+				console.log('in loan committee approval');
 				if (copyCreditProposal.notes[i].positionTypeId === this.applicationRoleFromEmit.roleId && copyCreditProposal.notes[i].partyId === this.applicationRoleFromEmit.partyId) {
+				  console.log('copyCreditProposal.notes[i] : ', copyCreditProposal.notes[i]);
+				  console.log('copyCreditProposal.notes[i].positionTypeId : ', copyCreditProposal.notes[i].positionTypeId);
+				  console.log('copyCreditProposal.notes[i].partyId : ', copyCreditProposal.notes[i].partyId);
 				  copyCreditProposal.notes[i].applicationId = this.id;
 				  copyCreditProposal.notes[i].message = '';
 				  // copyCreditProposal.notes[i].recomendation = this.recomendation;
@@ -1511,6 +1516,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   setApplicationRole(newItem: any) {
+	console.log('newItem : ', newItem);
     this.applicationRoleFromEmit = newItem;
   }
 
