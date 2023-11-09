@@ -436,8 +436,6 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
 	this.isChooseApprovalUser = true;
 
-	console.log('event.value @opinion : ', event.value);
-
 	this.applicationRoleEmit.emit(event.value);
 
     /* for (let i = 0; i < this.approvalUserData.length; i++) {
