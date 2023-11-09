@@ -10,7 +10,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 @Component({
   selector: 'jhi-agreement-compare-previous-dar',
   templateUrl: './agreement-compare-previous-dar.component.html',
-  // styleUrls: ['../loan-analys-previous-dar.css'],
+  styleUrls: ['../compare-data-agremeent.css'],
 })
 export class AgreementComparePreviousDarComponent implements OnInit {
   private id: number;
