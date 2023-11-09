@@ -3152,84 +3152,68 @@ export const BASIC_SUBMENU_DPPK: object[] = [
     text: 'Covenant & Document Checklist',
   },
 ];
-// export const BASIC_SUBMENU_DPPK_REVIEW: object[] = [
-//   {
-//     id: 'dar-summary',
-//     text: 'DAR Summary',
-//   },
-//   {
-//     id: 'loan-facility',
-//     text: 'Loan Facility Detail',
-//   },
-//   {
-//     id: 'dppk',
-//     text: 'DPPK Finalize',
-//   },
-//   {
-//     id: 'internal_memo',
-//     text: 'Internal Memo',
-//   },
-//   {
-//     id: 'collateral-info',
-//     text: 'collateral info',
-//   },
-//   {
-//     id: 'opinion',
-//     text: 'Credit Opinion',
-//   },
-//   {
-//     id: 'compliance-recommendation',
-//     text: 'Compliance Recommendation',
-//   },
-//   {
-//     id: 'compare-data',
-//     text: 'Compare Data',
-//   },
-//   {
-//     id: 'covenant-temp',
-//     text: 'Covenant & Document Checklist',
-//   },
-// ];
+export const BASIC_SUBMENU_DPPK_REVIEW: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+];
 
-// export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
-//   {
-//     id: 'dar-summary',
-//     text: 'DAR Summary',
-//   },
-//   {
-//     id: 'loan-facility',
-//     text: 'Loan Facility Detail',
-//   },
-//   {
-//     id: 'dppk',
-//     text: 'DPPK Finalize',
-//   },
-//   {
-//     id: 'internal_memo',
-//     text: 'Internal Memo',
-//   },
-//   {
-//     id: 'collateral-info',
-//     text: 'collateral info',
-//   },
-//   {
-//     id: 'opinion',
-//     text: 'Credit Opinion',
-//   },
-//   {
-//     id: 'compliance-recommendation',
-//     text: 'Compliance Recommendation',
-//   },
-//   {
-//     id: 'memo-banding',
-//     text: 'Memo Banding',
-//   },
-//   {
-//     id: 'compare-data',
-//     text: 'Compare Data',
-//   },
-//   {
-//     id: 'covenant-temp',
-//     text: 'Covenant & Document Checklist',
-//   },
-// ];
+export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+];

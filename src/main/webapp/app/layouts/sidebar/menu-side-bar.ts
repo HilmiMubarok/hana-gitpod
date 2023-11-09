@@ -359,11 +359,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'finalize-dppk',
       },
-      // {
-      //   name: ' Review DPPK',
-      //   iconname: 'minus',
-      //   route: 'review-dppk',
-      // },
+      {
+        name: ' Review DPPK',
+        iconname: 'minus',
+        route: 'review-dppk',
+      },
     ],
   },
   // {
