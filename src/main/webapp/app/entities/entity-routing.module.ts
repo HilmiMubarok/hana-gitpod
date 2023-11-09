@@ -373,10 +373,10 @@ import { RouterModule } from '@angular/router';
         path: 'finalize-dppk',
         loadChildren: () => import('./dppk-finalize/dppk-finalize.module').then(m => m.LosgwIDppkFinalizeModule),
       },
-      // {
-      //   path: 'review-dppk',
-      //   loadChildren: () => import('./dppk-review/dppk-review.module').then(m => m.LosgwIDppkReviewModule),
-      // },
+      {
+        path: 'review-dppk',
+        loadChildren: () => import('./dppk-review/dppk-review.module').then(m => m.LosgwIDppkReviewModule),
+      },
 
       {
         path: 'credit-proposal-status',
