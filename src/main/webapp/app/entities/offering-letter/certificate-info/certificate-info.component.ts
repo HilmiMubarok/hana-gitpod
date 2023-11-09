@@ -47,9 +47,9 @@ export class CertificateInfoComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    if (this.data.cp.attributes['certificateInfoData']) {
-      if (this.data.cp.attributes['certificateInfoData'].length > 0) {
-        this.filter = this.data.cp.attributes['certificateInfoData'].filter(obj => obj.id === this.data.collateral.id);
+    if (this.creditProposal.attributes['certificateInfoData']) {
+      if (this.creditProposal.attributes['certificateInfoData'].length > 0) {
+        this.filter = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
         if (this.filter) {
           this.dataItem = this.filter;
         }
