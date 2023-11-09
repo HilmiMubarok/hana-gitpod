@@ -856,7 +856,6 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
       if (Array.isArray(groupChecklisCollateral)) {
         // Find data berdasarkan collateral id
         const data: IGroupCollateralChecklis = groupChecklisCollateral.find(obj => obj.collateralId === element.id);
-        console.log('xx', data);
         if (data) {
           return data.checklis;
         }

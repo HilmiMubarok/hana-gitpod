@@ -12,7 +12,7 @@ import { LoanAnalysService } from 'app/entities/loan-analys/loan-analys.service'
 @Component({
   selector: 'jhi-agremeent-compare-revision-final',
   templateUrl: './agreement-compare-revision-final.component.html',
-  // styleUrls: ['../loan-analys-previous-dar.css'],
+  styleUrls: ['../compare-data-agremeent.css'],
 })
 export class AgremeentCompareRevisionFinalComponent implements OnInit {
   public selectedMenu: string;
