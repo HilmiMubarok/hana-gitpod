@@ -31,7 +31,11 @@
             <button mat-icon-button (click)="openDialog(element)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="onDelete(element)">
+            <button
+              mat-icon-button
+              (click)="onDelete(element)"
+              [hidden]="parentPath === 'dar-revision' || parentPath === 'finalize' ? false : true"
+            >
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -45,7 +49,14 @@
       <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
 
       <div align="right" class="mt-5 align-right">
-        <button mat-raised-button (click)="openDialog()" class="button-styling" [hidden]="field">Add Certificate Info</button>
+        <button
+          mat-raised-button
+          (click)="openDialog()"
+          class="button-styling"
+          [hidden]="parentPath === 'dar-revision' || parentPath === 'finalize' ? false : true"
+        >
+          Add Certificate Info
+        </button>
       </div>
     </div>
   </mat-card-content>

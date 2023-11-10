@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { ICertificateInfo } from './certificate-info.model';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-certificate-info-dialog',
   templateUrl: './certificate-info-dialog.component.html',
@@ -10,8 +10,9 @@ import { ICertificateInfo } from './certificate-info.model';
 })
 export class CertificateInfoDialogComponent {
   public certificateInfo: ICertificateInfo;
-
+  public parentPath = this.router.url.split('/')[1];
   constructor(
+    private router: Router,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
