@@ -32,8 +32,8 @@
           <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
             <div class="card-content">
               <jhi-credit-proposal-tab-covenant-below-history
-                [isOnCompareData]="isOnCompareData"
-                [isCompareDar]="isCompareDar"
+                [isOnCreditAgreement]="isOnCreditAgreement"
+                [creditAgreement]="creditAgreement"
                 [isViewMode]="isViewMode"
                 [creditProposalItem]="creditProposalItem"
               >
@@ -105,8 +105,8 @@
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
     <div class="card-content">
       <jhi-credit-proposal-deviation-below-history
-        [isOnCompareData]="isOnCompareData"
-        [isCompareDar]="isCompareDar"
+        [isOnCreditAgreement]="isOnCreditAgreement"
+        [creditAgreement]="creditAgreement"
         [isViewMode]="isViewMode"
         [creditProposalItem]="creditProposalItem"
       >
