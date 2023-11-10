@@ -109,7 +109,8 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
       this.parentPath === 'finalize-dpdl' ||
       this.parentPath === 'review-dpdl' ||
       this.parentPath === 'distribution' ||
-      this.parentPath === 'review'
+      this.parentPath === 'review' ||
+      this.parentPath === 'finalize'
     ) {
       return true;
     } else if (this.parentPath === 'dar-final' || this.parentPath === 'loan-committee-approval') {
@@ -128,7 +129,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
       }
       return true;
     }
-    return true;
+    return false;
   }
 
   private loadByPartyId(param: string): void {
