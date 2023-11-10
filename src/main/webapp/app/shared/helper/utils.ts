@@ -11,7 +11,13 @@ export function formatBytes(bytes: number, decimals?: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-export function parsePreviousAtrribute(cp: ICreditProposal) {
+interface IParsePreviousAtrribute {
+  previousReturn?: any;
+  previousHistory?: any;
+  darRevHistory?: any;
+}
+
+export function parsePreviousAtrribute(cp: ICreditProposal): IParsePreviousAtrribute {
   const parsedAttribute = {};
 
   const attributes = ['previousReturn', 'previousHistory', 'darRevHistory'];
