@@ -112,6 +112,11 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
       this.parentPath === 'review'
     ) {
       return true;
+    } else if (this.parentPath === 'dar-final' || this.parentPath === 'loan-committee-approval') {
+      if (this.clikedMenu !== 'loan-facility-detail') {
+        return true;
+      }
+      return false;
     }
     return false;
   }
