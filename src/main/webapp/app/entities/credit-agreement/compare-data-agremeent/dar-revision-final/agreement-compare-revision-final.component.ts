@@ -1,20 +1,18 @@
-import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { LoanAnalysService } from 'app/entities/loan-analys/loan-analys.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-agremeent-compare-revision-final',
   templateUrl: './agreement-compare-revision-final.component.html',
   styleUrls: ['../compare-data-agremeent.css'],
 })
-export class AgremeentCompareRevisionFinalComponent implements OnInit {
+export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy {
   public selectedMenu: string;
   public menuCovenant = 'COVENANT';
   public menuDeviation = 'DEVIATION';
@@ -25,53 +23,18 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit {
   public menuItemsAll: MenuItemModel[] = [{ text: 'DAR REVISION FINAL' }, { text: 'PREVIOUS DAR' }];
   ngOnInit(): void {
     this.selectedMenu = 'DAR REVISION FINAL';
-    this.selectedMenu === 'DAR REVISION FINAL' && this.getDarData();
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
   }
 
-  constructor(
-    private loanAnalysService: LoanAnalysService,
-    private collateralService: CollateralService,
-    private collateralPropertyService: CollateralPropertyService
-  ) {}
-
-  public getDarData() {
-    this.loanAnalysService
-      .getLaDarCheckerNotif(this.creditProposal.customerId.toString(), {
-        page: 0,
-        size: 999,
-      })
-      .subscribe(res => this.getDataToCompare(res.body));
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
-  public getDataToCompare(data: any) {
-    // if data length === 0, then set this.dataToCompare = {}
-    // if data length === 1, then set this.dataToCompare = data[0]
-    // if data length > 1, then set this.dataToCompare = newest data by createdDate
-    if (data.length === 0) {
-      this.dataToCompare = {};
-    } else {
-      data.filter((item, index) => {
-        if (index === 0) {
-          this.dataToCompare = item;
-          this.isDataToCompareExist = true;
-        } else {
-          if (item.createdDate > this.dataToCompare.createdDate) {
-            this.dataToCompare = item;
-            this.isDataToCompareExist = true;
-          }
-        }
-      });
-    }
-
-    console.log('res', {
-      ori: data,
-      final: this.dataToCompare,
-      isExist: this.isDataToCompareExist,
-    });
-  }
+  constructor(private collateralService: CollateralService, private collateralPropertyService: CollateralPropertyService) {}
 
   public setMenu(value): void {
     this.selectedMenu = value.item.properties.text;
@@ -103,6 +66,7 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit {
         idParty: param,
         isActive: true,
       })
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.collateral = res.body;
         if (this.collateral.length > 0) {
@@ -116,9 +80,12 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit {
   // find collateral property
   public findCollateralProperty(collateral: ICollateral): void {
     if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
+      this.collateralPropertyService
+        .queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.collateralProperties = [...this.collateralProperties, ...res.body];
+        });
     }
   }
 }

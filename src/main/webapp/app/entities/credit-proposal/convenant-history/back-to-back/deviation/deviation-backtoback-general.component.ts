@@ -32,6 +32,9 @@ export class DeviationBackToBackGeneralHistoryComponent implements OnInit {
 
   @Input() isCompareDar: Boolean = false;
 
+  @Input() isOnCreditAgreement: Boolean = false;
+  @Input() creditAgreement: string;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -62,18 +65,26 @@ export class DeviationBackToBackGeneralHistoryComponent implements OnInit {
   }
 
   public historyData() {
-    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
-    if (this.isOnCompareData) {
-      if (this.isCompareDar) {
-        // compare dar not done yet
+    const { isOnCompareData, isCompareDar, isOnCreditAgreement, creditAgreement } = this;
+    const { previousReturn, previousHistory, darRevHistory } = parsePreviousAtrribute(this.creditProposalItem);
+
+    if (isOnCompareData) {
+      if (isCompareDar) {
         return this.creditProposalItem.attributes;
       } else {
-        // compare data => previous proposal
-        return this.parsedData.previousReturn;
+        return previousReturn;
       }
     } else {
-      // loan analys => menu cp
-      return this.parsedData.previousHistory;
+      if (isOnCreditAgreement) {
+        if (creditAgreement === 'FINAL CP') {
+          return previousHistory;
+        } else if (creditAgreement === 'PREVIOUS DAR') {
+          return darRevHistory;
+        } else if (creditAgreement === 'DAR REVISION') {
+          return this.creditProposalItem.attributes;
+        }
+      }
+      return previousHistory;
     }
   }
   ngOnInit(): void {

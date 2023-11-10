@@ -37,6 +37,9 @@ export class CreditProposalTabCovenantHistoryComponent implements OnInit {
   @Input() isOnCompareData: Boolean = false;
   @Input() isCompareDar: Boolean = false;
 
+  @Input() isOnCreditAgreement: Boolean = false;
+  @Input() creditAgreement: string;
+
   public finalData: any;
 
   public selectMenuItem(args: MenuEventArgs): void {
