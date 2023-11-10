@@ -3,6 +3,8 @@ export interface INotes {
   applicationId?: number;
   positionId?: number;
   positionTypeDescription?: string;
+  partyId?: string;
+  positionTypeId?: string;
   employeeFirstName?: string;
   employeeLastName?: string;
   createDate?: string;
@@ -25,6 +27,8 @@ export class Notes implements INotes {
 	public applicationId?: number,
 	public positionId?: number,
 	public positionTypeDescription?: string,
+	public partyId?: string,
+	public positionTypeId?: string,
 	public employeeFirstName?: string,
 	public employeeLastName?: string,
 	public createDate?: string,

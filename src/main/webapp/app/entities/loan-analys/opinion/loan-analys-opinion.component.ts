@@ -69,6 +69,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
   @Output() uuidPath = new EventEmitter<string>();
   @Output() newItemEvent = new EventEmitter<string>();
   @Output() positionLoginEmit = new EventEmitter<number>();
+  @Output() applicationRoleEmit = new EventEmitter<any>();
 
   @Output() opinionFileSfdt = new EventEmitter<any>();
   @Output() opinionFileWord = new EventEmitter<File>();
@@ -127,6 +128,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public fileTypeList = { typeOfPosition: ['Business Unit Opinion', 'Reviewer Opinion'] };
 
   public typeOfPosition: any;
+
+  private isChooseApprovalUser = false;
 
   constructor(
     protected datePipe: DatePipe,
@@ -431,7 +434,11 @@ export class LoanAnalysOpinionComponent implements OnInit {
     this.uuid = uuid.v4();
     this.uuidPath.emit(this.uuid);
 
-    for (let i = 0; i < this.approvalUserData.length; i++) {
+	this.isChooseApprovalUser = true;
+
+	this.applicationRoleEmit.emit(event.value);
+
+    /* for (let i = 0; i < this.approvalUserData.length; i++) {
       if (event.value === this.approvalUserData[i].partyId) {
         this.userId = this.approvalUserData[i].partyName;
         this.nameLoanComitee = this.userId;
@@ -439,16 +446,16 @@ export class LoanAnalysOpinionComponent implements OnInit {
       }
     }
 
-    this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
-      if (res.body.length > 0) {
-        this.cacheData = {
-          userId: this.userId,
-          positionUserId: this.positionUserId,
-          positionUserDescription: this.positionUserDescription,
-        };
-        this.positionLoginEmit.emit(res.body[0].id);
-      }
-    });
+	this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
+	  if (res.body.length > 0) {
+		this.cacheData = {
+		  userId: this.userId,
+		  positionUserId: this.positionUserId,
+		  positionUserDescription: this.positionUserDescription,
+		};
+		this.positionLoginEmit.emit(res.body[0].id);
+	  }
+	}); */	
   }
 
   public onDocumentChange() {
@@ -769,7 +776,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public triggeredSaveValidate(): void {
     if (this.source === '') {
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        if (this.nameLoanComitee) {
+		// if (this.nameLoanComitee) {
+        if (this.isChooseApprovalUser) {
           this.validate();
         } else {
           this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
