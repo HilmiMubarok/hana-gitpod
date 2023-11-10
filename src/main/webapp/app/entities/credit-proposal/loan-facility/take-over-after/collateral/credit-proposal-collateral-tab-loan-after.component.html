@@ -108,7 +108,7 @@
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling" style="margin-right: 1.4rem">ADD</button>
     </section>
-    <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
+    <section *ngIf="addButtonStats()">
       <div align="right" class="mt-3 align-right">
         <button mat-raised-button (click)="openDialog(data, 'edit')" class="button-styling" style="margin-right: 1.4rem">ADD</button>
       </div>

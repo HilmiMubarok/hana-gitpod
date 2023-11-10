@@ -21,7 +21,7 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after',
@@ -46,6 +46,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   private _creditProposal: ICreditProposal;
   @ViewChild('paginator') paginator: MatPaginator;
   public selectedMenu: string;
+  public clikedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -60,6 +61,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
   }
 
   constructor(
+    protected activatedRoute: ActivatedRoute,
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
@@ -72,6 +74,13 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
     this.parentPath = this.router.url.split('/')[1];
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.clikedMenu = subRoute;
+      }
+    });
   }
   ngOnInit(): void {
     if (this.creditProposal.attributes['collateralAfterData']) {
@@ -98,11 +107,23 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges,
       this.parentPath === 'review-pk' ||
       this.parentPath === 'finalize-pk' ||
       this.parentPath === 'finalize-dpdl' ||
-      this.parentPath === 'review-dpdl'
+      this.parentPath === 'review-dpdl' ||
+      this.parentPath === 'distribution' ||
+      this.parentPath === 'review'
     ) {
       return true;
     }
     return false;
+  }
+
+  public addButtonStats() {
+    if (this.parentPath === 'dar-final' || this.parentPath === 'loan-committee-approval') {
+      if (this.clikedMenu !== 'loan-facility-detail') {
+        return false;
+      }
+      return true;
+    }
+    return true;
   }
 
   private loadByPartyId(param: string): void {
