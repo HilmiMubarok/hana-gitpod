@@ -126,6 +126,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public uuidPath: any;
   public recomendation: string;
   public positionLoginFromEmit: number;
+  public applicationRoleFromEmit: any;
   public opinionType = '';
   public isAssignedTo: Boolean = false;
 
@@ -1372,27 +1373,29 @@ export class LoanAnalysMainComponent implements OnInit {
 
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-              if (Number(copyCreditProposal.notes[i].positionId) === Number(this.positionLoginFromEmit)) {
-                if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
-                  copyCreditProposal.notes[i].applicationId = this.id;
-                  copyCreditProposal.notes[i].message = '';
-                  // copyCreditProposal.notes[i].recomendation = this.recomendation;
-                  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
-                  copyCreditProposal.notes[i].path = this.uuidPath;
-                  copyCreditProposal.notes[i].updateAction = true;
-                  copyCreditProposal.notes[i].type = tempOpinionType;
-                  tempHelper = tempHelper + 1;
-                } else {
-                  copyCreditProposal.notes[i].applicationId = this.id;
-                  copyCreditProposal.notes[i].message = '';
-                  // copyCreditProposal.notes[i].recomendation = this.recomendation;
-                  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
-                  copyCreditProposal.notes[i].path = this.uuidPath;
-                  copyCreditProposal.notes[i].updateAction = true;
-                  copyCreditProposal.notes[i].type = tempOpinionType;
-                  tempHelper = tempHelper + 1;
-                }
-              }
+			  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
+				if (copyCreditProposal.notes[i].positionTypeId === this.applicationRoleFromEmit.roleId && copyCreditProposal.notes[i].partyId === this.applicationRoleFromEmit.partyId) {
+				  copyCreditProposal.notes[i].applicationId = this.id;
+				  copyCreditProposal.notes[i].message = '';
+				  // copyCreditProposal.notes[i].recomendation = this.recomendation;
+				  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
+				  copyCreditProposal.notes[i].path = this.uuidPath;
+				  copyCreditProposal.notes[i].updateAction = true;
+				  copyCreditProposal.notes[i].type = tempOpinionType;
+				  tempHelper = tempHelper + 1;
+				}
+			  } else {
+				if (Number(copyCreditProposal.notes[i].positionId) === Number(this.positionLoginFromEmit)) {
+				  copyCreditProposal.notes[i].applicationId = this.id;
+				  copyCreditProposal.notes[i].message = '';
+				  // copyCreditProposal.notes[i].recomendation = this.recomendation;
+				  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
+				  copyCreditProposal.notes[i].path = this.uuidPath;
+				  copyCreditProposal.notes[i].updateAction = true;
+				  copyCreditProposal.notes[i].type = tempOpinionType;
+				  tempHelper = tempHelper + 1;
+				}
+			  }
             }
 
             if (tempHelper === 0) {
@@ -1508,6 +1511,10 @@ export class LoanAnalysMainComponent implements OnInit {
 
   setPositionLogin(newItem: number) {
     this.positionLoginFromEmit = newItem;
+  }
+
+  setApplicationRole(newItem: any) {
+    this.applicationRoleFromEmit = newItem;
   }
 
   setPositionLoginCompliance(newItem: number) {

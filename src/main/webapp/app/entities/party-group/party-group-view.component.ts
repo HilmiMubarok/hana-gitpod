@@ -231,19 +231,11 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
       if (changes['id'].isFirstChange()) {
         this.initialize();
       }
-      // if (this.id) {
-      //   this.item = new PartyGroup();
-      //   this.partyGroupService.find(this.id).subscribe(result => {
-      //     this.item = result.body;
-      //     this.prepareView();
-      //   });
-      // }
     }
 
     if (changes['item']) {
       if (changes['item'].isFirstChange()) {
         this.initialize();
-        this.myFunction();
       }
       if (this.item) {
         this.prepareView();
@@ -288,20 +280,10 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
   }
 
   initialize() {
-    // this.partyTypeService.loadCacheAll().subscribe((res: IPartyType[]) => (this.partytypes = res || []));
-
     this.postalAddressService.loadCacheAll().subscribe((res: IPostalAddress[]) => (this.postaladdresses = res || []));
   }
 
   prepareView() {}
-
-  // get partyGroup() {
-  //   return this.item;
-  // }
-
-  // set partyGroup(partyGroup: IPartyGroup) {
-  //   this.item = partyGroup;
-  // }
 
   trackPartyTypeById(index: number, item: IPartyType) {
     return item.id;
@@ -339,7 +321,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
       .filterTableData({
         idProductType: 'MORT',
         page: 0,
-        // sort: this.sortData(),
         size: 9999,
       })
       .subscribe(res => {
@@ -353,21 +334,8 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
   }
 
   public totalPlafond: number;
+
   public functionCek() {
-    // const mortCodes = [
-    //   '030300001001',
-    //   '030300001003',
-    //   '030300001002',
-    //   '030100001003',
-    //   '030300001004',
-    //   '030300001005',
-    //   '030300002001',
-    //   '030300002002',
-    //   '030300002003',
-    //   '030300003001',
-    //   '030300004001',
-    //   '030300006001',
-    // ];
     if (this.item.products.length > 0) {
       let element: IApplicationProduct[] = [];
       const jumlahPlafond = [];
@@ -398,18 +366,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
       }
 
       this.totalPlafond = result + dolar;
-
-      // for (let i = 0; i < element.length; i++) {
-      //   data.push(element[i].totalPlafond);
-      // }
-      // this.totalPlafond = data.reduce((acc, curr) => acc + curr, 0);
     }
-
-    // if (this.parsedAttr.previousHistory) {
-    // this.cc1 =  this.parsedAttr.previousHistory.products.filter(product => mortCodes.includes(product.productCode));
-    // } else {
-    // this.cc1 =  this.creditProposal.products.filter(product => mortCodes.includes(product.productCode));
-    // }
   }
 
   public myFunction() {
