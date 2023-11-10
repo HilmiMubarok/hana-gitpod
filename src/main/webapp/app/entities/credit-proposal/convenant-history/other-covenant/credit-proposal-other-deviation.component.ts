@@ -34,18 +34,32 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
 
   @Input() isCompareDar: Boolean = false;
 
+  @Input() isOnCreditAgreement: Boolean = false;
+  @Input() creditAgreement: string;
+
   public parsedData: any;
 
   public historyData() {
-    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
-    if (this.isOnCompareData) {
-      if (this.isCompareDar) {
+    const { isOnCompareData, isCompareDar, isOnCreditAgreement, creditAgreement } = this;
+    const { previousReturn, previousHistory, darRevHistory } = parsePreviousAtrribute(this.creditProposalItem);
+
+    if (isOnCompareData) {
+      if (isCompareDar) {
         return this.creditProposalItem.attributes;
       } else {
-        return this.parsedData.previousReturn;
+        return previousReturn;
       }
     } else {
-      return this.parsedData.previousHistory;
+      if (isOnCreditAgreement) {
+        if (creditAgreement === 'FINAL CP') {
+          return previousHistory;
+        } else if (creditAgreement === 'PREVIOUS DAR') {
+          return darRevHistory;
+        } else if (creditAgreement === 'DAR REVISION') {
+          return this.creditProposalItem.attributes;
+        }
+      }
+      return previousHistory;
     }
   }
 
