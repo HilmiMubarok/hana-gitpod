@@ -1,23 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { dataCovenantBackToBackDeposit } from '../convenant.constant';
 import lodash from 'lodash';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { Subject, map, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-back-to-back-deposit-history',
   templateUrl: './covenant-backtoback-deposit.component.html',
   styleUrls: ['./covenant-backtoback.css'],
 })
-export class CovenantBackToBackDepositHistoryComponent implements OnInit {
+export class CovenantBackToBackDepositHistoryComponent implements OnInit, OnDestroy {
   public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
   attributes: any;
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  // public standardDataGridBackToBackDeposit: any = dataCovenantBackToBackDeposit;
   public standardDataGridBackToBackDeposit: any = [];
 
   public covenant?: string;
@@ -30,6 +29,9 @@ export class CovenantBackToBackDepositHistoryComponent implements OnInit {
   @Input() isOnCompareData: Boolean = false;
 
   @Input() isCompareDar: Boolean = false;
+
+  @Input() isOnCreditAgreement: Boolean = false;
+  @Input() creditAgreement: string;
 
   @Input()
   get creditProposalItem() {
@@ -64,25 +66,37 @@ export class CovenantBackToBackDepositHistoryComponent implements OnInit {
 
   public parseAttr: any;
   public historyData() {
-    this.parseAttr = parsePreviousAtrribute(this.creditProposalItem);
-    if (this.isOnCompareData) {
-      if (this.isCompareDar) {
-        // compare dar not done yet
+    const { isOnCompareData, isCompareDar, isOnCreditAgreement, creditAgreement } = this;
+    const { previousReturn, previousHistory, darRevHistory } = parsePreviousAtrribute(this.creditProposalItem);
+
+    if (isOnCompareData) {
+      if (isCompareDar) {
         return this.creditProposalItem.attributes;
       } else {
-        // previous proposal
-        return this.parseAttr.previousReturn;
+        return previousReturn;
       }
     } else {
-      // previous history => loan analys menu cp
-      return this.parseAttr.previousHistory;
+      if (isOnCreditAgreement) {
+        if (creditAgreement === 'FINAL CP') {
+          return previousHistory;
+        } else if (creditAgreement === 'PREVIOUS DAR') {
+          return darRevHistory;
+        } else if (creditAgreement === 'DAR REVISION') {
+          return this.creditProposalItem.attributes;
+        }
+      }
+      return previousHistory;
     }
   }
 
   ngOnInit(): void {
-    this.LovCovenantBtbDeposit();
+    this.loadCovenantBtbDeposit();
+  }
 
-    // console.log('proposal-type', this.creditProposalItem[])
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   historyBtbDeposit() {
@@ -99,24 +113,57 @@ export class CovenantBackToBackDepositHistoryComponent implements OnInit {
     }
   }
 
-  public LovCovenantBtbDeposit() {
+  public loadCovenantBtbDeposit() {
     this.generalParameterService
       .queryFilterBy({
         idParameterType: 'COVENANT_BTB_TERMS_CONDITION',
         page: 0,
         size: 9999,
       })
-      .subscribe(res => {
-        const data = lodash.filter(res.body, function (o) {
-          return o.statusId === 'ACTIVE';
-        });
-        const gridDeposit = [];
-        for (let i = 0; i < data.length; i++) {
-          const num = i;
-          gridDeposit[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
-        }
-        this.standardDataGridBackToBackDeposit = gridDeposit;
-        this.historyBtbDeposit();
-      });
+      .pipe(
+        takeUntil(this.destroy$),
+        map(res => {
+          const activeData = res.body.filter(o => o.statusId === 'ACTIVE');
+          const gridBelow = activeData.map((data, i) => ({
+            id: i,
+            covenant: data.value,
+            status: 'Applied',
+            deviation: '',
+            justification: '',
+          }));
+
+          this.historyBtbDeposit();
+          this.standardDataGridBackToBackDeposit = gridBelow;
+
+          return parsePreviousAtrribute(this.creditProposalItem);
+        }),
+        tap(parsed => {
+          const data = {
+            finalCP: parsed['previousHistory']?.convenant?.standardDataGridBackToBackDeposit,
+            previousDar: parsed['darRevHistory']?.convenant?.standardDataGridBackToBackDeposit,
+            darRevision: this.standardDataGridBackToBackDeposit,
+          };
+
+          if (this.isOnCreditAgreement) {
+            if (this.creditAgreement === 'FINAL CP') {
+              this.standardDataGridBackToBackDeposit = data.finalCP;
+            }
+            if (this.creditAgreement === 'PREVIOUS DAR') {
+              this.standardDataGridBackToBackDeposit = data.previousDar;
+            }
+            if (this.creditAgreement === 'DAR REVISION') {
+              this.standardDataGridBackToBackDeposit = data.darRevision;
+            }
+          } else {
+            const creditProposalConvenant = this.creditProposalItem.attributes['convenant']?.standardDataGridBackToBackDeposit;
+            if (creditProposalConvenant && creditProposalConvenant.length === 0) {
+              this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = this.standardDataGridBackToBackDeposit;
+            } else if (creditProposalConvenant) {
+              this.standardDataGridBackToBackDeposit = creditProposalConvenant;
+            }
+          }
+        })
+      )
+      .subscribe();
   }
 }

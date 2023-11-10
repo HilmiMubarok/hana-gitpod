@@ -43,8 +43,8 @@
           <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
             <div class="card-content">
               <jhi-credit-proposal-tab-covenant-back-to-back-general-history
-                [isOnCompareData]="isOnCompareData"
-                [isCompareDar]="isCompareDar"
+                [isOnCreditAgreement]="isOnCreditAgreement"
+                [creditAgreement]="creditAgreement"
                 [isViewMode]="isViewMode"
                 [creditProposalItem]="creditProposalItem"
               >
@@ -52,8 +52,8 @@
             </div>
             <div class="card-content">
               <jhi-credit-proposal-tab-covenant-back-to-back-deposit-history
-                [isOnCompareData]="isOnCompareData"
-                [isCompareDar]="isCompareDar"
+                [isOnCreditAgreement]="isOnCreditAgreement"
+                [creditAgreement]="creditAgreement"
                 [isViewMode]="isViewMode"
                 [creditProposalItem]="creditProposalItem"
               >
@@ -116,15 +116,15 @@
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
     <div class="card-content">
       <jhi-credit-proposal-tab-deviation-back-to-back-general-history
-        [isOnCompareData]="isOnCompareData"
-        [isCompareDar]="isCompareDar"
+        [isOnCreditAgreement]="isOnCreditAgreement"
+        [creditAgreement]="creditAgreement"
         [isViewMode]="isViewMode"
         [creditProposalItem]="creditProposalItem"
       >
       </jhi-credit-proposal-tab-deviation-back-to-back-general-history>
       <jhi-credit-proposal-tab-deviation-back-to-back-deposit-history
-        [isOnCompareData]="isOnCompareData"
-        [isCompareDar]="isCompareDar"
+        [isOnCreditAgreement]="isOnCreditAgreement"
+        [creditAgreement]="creditAgreement"
         [isViewMode]="isViewMode"
         [creditProposalItem]="creditProposalItem"
       >
