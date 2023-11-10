@@ -105,16 +105,15 @@
   </div>
   <div>
     <jhi-credit-proposal-tab-covenant-history
-      *ngIf="isDataToCompareExist"
-      [isOnCompareData]="true"
-      [isCompareDar]="true"
+      [isOnCreditAgreement]="true"
+      [creditAgreement]="'DAR REVISION'"
       [isViewMode]="true"
       [takeOutCompare]="true"
-      [creditProposalItem]="dataToCompare"
+      [creditProposalItem]="creditProposal"
       [setActiveMenu]="menuCovenant"
     >
     </jhi-credit-proposal-tab-covenant-history>
-    <div class="e-card" *ngIf="!isDataToCompareExist">
+    <!-- <div class="e-card" *ngIf="!isDataToCompareExist">
       <div class="e-card-header">
         <div class="e-card-header-caption">
           <div class="e-card-header-title">Standard Covenant</div>
@@ -123,7 +122,7 @@
       <div class="alert alert-warning m-3" role="alert">
         <span style="font-weight: bold">No previous data was found!</span>
       </div>
-    </div>
+    </div> -->
   </div>
   <div class="e-card-actions"></div>
 
@@ -133,21 +132,14 @@
 
   <div>
     <jhi-credit-proposal-tab-covenant-history
-      *ngIf="creditProposal.attributes['previousHistory']"
       [takeOutCompare]="true"
       [isViewMode]="true"
       [creditProposalItem]="creditProposal"
       [setActiveMenu]="menuCovenant"
-      [isOnOffering]="true"
+      [isOnCreditAgreement]="true"
+      [creditAgreement]="'FINAL CP'"
     >
     </jhi-credit-proposal-tab-covenant-history>
-    <jhi-credit-proposal-tab-covenant
-      [isViewMode]="true"
-      *ngIf="!creditProposal.attributes['previousHistory']"
-      [setActiveMenu]="menuCovenant"
-      [creditProposalItem]="creditProposal"
-    >
-    </jhi-credit-proposal-tab-covenant>
   </div>
 
   <div class="e-card-actions"></div>
@@ -159,16 +151,15 @@
     </div>
     <div>
       <jhi-credit-proposal-tab-covenant-history
-        *ngIf="isDataToCompareExist"
-        [isOnCompareData]="true"
-        [isCompareDar]="true"
+        [isOnCreditAgreement]="true"
+        [creditAgreement]="'DAR REVISION'"
         [isViewMode]="true"
         [takeOutCompare]="true"
-        [creditProposalItem]="dataToCompare"
+        [creditProposalItem]="creditProposal"
         [setActiveMenu]="menuDeviation"
       >
       </jhi-credit-proposal-tab-covenant-history>
-      <div class="e-card" *ngIf="!isDataToCompareExist">
+      <!-- <div class="e-card" *ngIf="!isDataToCompareExist">
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="e-card-header-title">Deviation</div>
@@ -177,7 +168,7 @@
         <div class="alert alert-warning m-3" role="alert">
           <span style="font-weight: bold">No previous data was found!</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="e-card-actions"></div>
@@ -186,24 +177,15 @@
     <div class="e-card-header-title">FINAL CP</div>
   </div>
 
-  <div>
-    <jhi-credit-proposal-tab-covenant-history
-      *ngIf="creditProposal.attributes['previousHistory']"
-      [takeOutCompare]="true"
-      [isViewMode]="true"
-      [creditProposalItem]="creditProposal"
-      [setActiveMenu]="menuDeviation"
-      [isOnOffering]="true"
-    >
-    </jhi-credit-proposal-tab-covenant-history>
-    <jhi-credit-proposal-tab-covenant
-      [isViewMode]="true"
-      *ngIf="!creditProposal.attributes['previousHistory']"
-      [setActiveMenu]="menuDeviation"
-      [creditProposalItem]="creditProposal"
-    >
-    </jhi-credit-proposal-tab-covenant>
-  </div>
+  <jhi-credit-proposal-tab-covenant-history
+    [takeOutCompare]="true"
+    [isViewMode]="true"
+    [isOnCreditAgreement]="true"
+    [creditAgreement]="'FINAL CP'"
+    [creditProposalItem]="creditProposal"
+    [setActiveMenu]="menuDeviation"
+  >
+  </jhi-credit-proposal-tab-covenant-history>
 
   <div class="e-card-actions"></div>
 </div>
