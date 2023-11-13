@@ -625,9 +625,12 @@ export class DarRevisionCheckerViewComponent implements OnInit {
   }
 
   private getTasks(): void {
-    this.darRevisionCheckerProsesService.getTasks(this.id).subscribe(res => {
-      this.tasks = res.body;
-    });
+    // this.darRevisionCheckerProsesService.getTasks(this.id).subscribe(res => {
+    this.darRevisionCheckerProsesService
+      .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
+      .subscribe(res => {
+        this.tasks = res.body;
+      });
   }
 
   private getPositionTypeId(): void {
