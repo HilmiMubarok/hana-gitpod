@@ -5,8 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
-import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { IDarRevisionCheckerModel } from './dar-revision-checker.model';
+import { DarRevisionCheckerService } from './dar-revison-checker.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { faBullseye, faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,7 +20,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
-import { CashCreditProposalService } from '../credit-proposal/cash-credit-proposal.service';
+import { CashDarRevisionCheckerService } from './cash-dar-revision-checker.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
@@ -46,7 +46,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
     ]),
   ],
 })
-export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
+export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent<IDarRevisionCheckerModel> implements OnInit {
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: any;
@@ -114,16 +114,16 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
   ];
   constructor(
     private accountService: AccountService,
-    private creditProposalService: CreditProposalService,
+    private darRevisionCheckerService: DarRevisionCheckerService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    private cashCreditProposalService: CashCreditProposalService,
+    private cashDarRevisionCheckerService: CashDarRevisionCheckerService,
     private templateService: TemplateService
   ) {
-    super(_snackBar, creditProposalService);
+    super(_snackBar, darRevisionCheckerService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -150,7 +150,7 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
   }
 
   public getStatusListView(appMenu: string) {
-    this.cashCreditProposalService
+    this.cashDarRevisionCheckerService
       .queryListOfViewStatusFilterBy({
         page: 0,
         size: 9999,
@@ -180,11 +180,11 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
       predicate['target'] = 'credit_proposal_approval';
     }
 
-    this.cashCreditProposalService
+    this.cashDarRevisionCheckerService
       .searchCP(predicate)
-      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+      .pipe(map((res: HttpResponse<IDarRevisionCheckerModel[]>) => this.preLoad(res)))
       .subscribe({
-        next: (res: HttpResponse<ICreditProposal[]>) => {
+        next: (res: HttpResponse<IDarRevisionCheckerModel[]>) => {
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -222,7 +222,7 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
     }
   }
 
-  private checkReturnStatusDescription(data: ICreditProposal[]) {
+  private checkReturnStatusDescription(data: IDarRevisionCheckerModel[]) {
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
         data[i].statusDescription =
@@ -284,7 +284,7 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
       if (this.router.url === '/dar-revision-checker') {
         this.getStatusListView('DAR_REVISION_CHECKER');
         if (this.clickedChip['statusId'] !== '') {
-          this.cashCreditProposalService
+          this.cashDarRevisionCheckerService
             .cashCreditProposalApprovalByStatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
@@ -293,14 +293,14 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
               sort: ['id,desc'],
               appMenuId: 'DAR_REVISION_CHECKER',
             })
-            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<IDarRevisionCheckerModel[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<IDarRevisionCheckerModel[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
           return;
         } else {
-          this.cashCreditProposalService
+          this.cashDarRevisionCheckerService
             .cashCreditProposalApprovalByStatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
@@ -308,9 +308,9 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
               sort: ['id,desc'],
               appMenuId: 'DAR_REVISION_CHECKER',
             })
-            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<IDarRevisionCheckerModel[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<IDarRevisionCheckerModel[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
         }
@@ -358,7 +358,7 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
     return result;
   }
 
-  public showTimeLine(element: ICreditProposal): void {
+  public showTimeLine(element: IDarRevisionCheckerModel): void {
     this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',

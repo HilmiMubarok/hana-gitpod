@@ -19,7 +19,7 @@ import {
   DAR_REVISION_APPEAL,
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { IDarRevisionCheckerModel } from './dar-revision-checker.model';
 import { Subject, firstValueFrom, takeUntil } from 'rxjs';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
@@ -36,9 +36,9 @@ import { MessageService } from 'primeng/api';
 import { AccountService } from 'app/core/auth/account.service';
 import { formatBytes } from 'app/shared/helper/utils';
 import { IProcessTask } from 'app/shared/model/process-task.model';
-import { CreditProposalProcessService } from '../credit-proposal/credit-proposal-process.service';
+import { DarRevisionCheckerProsesService } from './dar-revision-checker-process.service';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
-import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { DarRevisionCheckerService } from './dar-revison-checker.service';
 import { CreditProposalTabBusinessActivityComponent } from '../credit-proposal/busines-activity/credit-proposal-tab-business-activity.component';
 import { CPMemoBandingRemarkComponent } from '../credit-proposal/memo-banding/remarks/cp-memo-banding-remark.component';
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
@@ -119,8 +119,8 @@ export class DarRevisionCheckerViewComponent implements OnInit {
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
 
-  public creditProposal: ICreditProposal;
-  public creditProposalStartState: ICreditProposal;
+  public creditProposal: IDarRevisionCheckerModel;
+  public creditProposalStartState: IDarRevisionCheckerModel;
 
   public proposalType: object[];
 
@@ -151,7 +151,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
   private KEYG = 'credit_proposal/summary';
   public isHistoryExist: boolean;
-  public cp: ICreditProposal;
+  public cp: IDarRevisionCheckerModel;
   public saveWord: Boolean = false;
   public saveWordOpinionCondition: Boolean = false;
   public dataChil: any;
@@ -191,9 +191,9 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     public accountService: AccountService,
     private lendingProgramParameterService: LendingProgramParameterService,
     protected messageService: MessageService,
-    private creditProposalProcessService: CreditProposalProcessService,
+    private darRevisionCheckerProsesService: DarRevisionCheckerProsesService,
     public templateService: TemplateService,
-    public creditProposalService: CreditProposalService
+    public darRevisionCheckerService: DarRevisionCheckerService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -625,7 +625,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
   }
 
   private getTasks(): void {
-    this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
+    this.darRevisionCheckerProsesService.getTasks(this.id).subscribe(res => {
       this.tasks = res.body;
     });
   }
@@ -717,7 +717,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
     if (this.creditProposal.id) {
-      this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
+      this.darRevisionCheckerService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
 
         if (this.creditProposalTabBusinessActivityComponent) {
@@ -768,7 +768,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
           if (this.parentPath === 'dar-revision-checker') {
             this.saveApplicationRole();
           } else {
-            this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+            this.darRevisionCheckerProsesService.processTask(this.resAttr).subscribe(() => {
               this.router.navigate([this.router.url.split('/')[1]]);
             });
           }
@@ -785,7 +785,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+    this.darRevisionCheckerService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
 
@@ -838,7 +838,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
-          this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+          this.darRevisionCheckerProsesService.processTask(this.resAttr).subscribe(() => {
             this.router.navigate([this.router.url.split('/')[1]]);
           });
         }
@@ -1081,7 +1081,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
           }
         }
       } else {
-        /* this.creditProposalService.create(this.preSave()).subscribe(res => {
+        /* this.darRevisionCheckerService.create(this.preSave()).subscribe(res => {
           this.creditProposal.collaterals = res.body.collaterals;
           this.creditProposal.products = res.body.products;
           if (this.creditProposalTabBusinessActivityComponent) {
@@ -1114,7 +1114,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
             if (this.parentPath === 'dar-revision-checker') {
               this.saveApplicationRole();
             } else {
-              this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+              this.darRevisionCheckerProsesService.processTask(this.resAttr).subscribe(() => {
                 this.router.navigate([this.router.url.split('/')[1]]);
               });
             }
@@ -1251,11 +1251,11 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     });
   }
 
-  private preSave(status: string): ICreditProposal {
-    for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
-      this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
+  private preSave(status: string): IDarRevisionCheckerModel {
+    for (let i = 0; i < this.darRevisionCheckerService.partySliks.length; i++) {
+      this.creditProposal.sliks = [...this.creditProposal.sliks, this.darRevisionCheckerService.partySliks[i]];
     }
-    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+    const copyCreditProposal: IDarRevisionCheckerModel = lodash.cloneDeep(this.creditProposal);
 
     if (this.router.url.split('/')[1] === 'dar-revision-checker') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
@@ -1364,7 +1364,7 @@ export class DarRevisionCheckerViewComponent implements OnInit {
 
   private saveApplicationRole(): void {
     this.saveWord = false;
-    this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+    this.darRevisionCheckerProsesService.processTask(this.resAttr).subscribe(() => {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
   }
