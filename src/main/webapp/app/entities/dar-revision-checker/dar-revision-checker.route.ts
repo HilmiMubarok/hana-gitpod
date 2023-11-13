@@ -8,8 +8,8 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
-import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
-import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { IDarRevisionCheckerModel, DarRevisionCheckerModel } from './dar-revision-checker.model';
+import { DarRevisionCheckerService } from './dar-revison-checker.service';
 import lodash from 'lodash';
 import { BankAccountAnalystMessage } from '../credit-proposal/bank-account-analyst/bank-account-analyst.model';
 import { BasicInformation } from '../credit-proposal/basic-information/basic-information.model';
@@ -92,15 +92,15 @@ import { DarRevisionCheckerViewComponent } from './dar-revision-checker-view.com
 // import { CollateralSummary } from './collateral-info/collateral-summary/collateral-summary-total.model';
 
 @Injectable({ providedIn: 'root' })
-export class DarRevisionCheckerRoute implements Resolve<ICreditProposal> {
-  constructor(private service: CreditProposalService, private router: Router) {}
+export class DarRevisionCheckerRoute implements Resolve<IDarRevisionCheckerModel> {
+  constructor(private service: DarRevisionCheckerService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ICreditProposal> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IDarRevisionCheckerModel> | Observable<never> {
     const useTemplate = 'PERSON';
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
+        mergeMap((creditProposal: HttpResponse<DarRevisionCheckerModel>) => {
           if (creditProposal.body) {
             if (creditProposal.body.collaterals.length > 0) {
               for (let i = 0; i < creditProposal.body.collaterals.length; i++) {
@@ -488,7 +488,7 @@ export class DarRevisionCheckerRoute implements Resolve<ICreditProposal> {
     }
     if (useTemplate) {
       return this.service.template(useTemplate).pipe(
-        map((res: HttpResponse<ICreditProposal>) => res.body),
+        map((res: HttpResponse<IDarRevisionCheckerModel>) => res.body),
         mergeMap(res => {
           if (res) {
             return of(res);
@@ -499,7 +499,7 @@ export class DarRevisionCheckerRoute implements Resolve<ICreditProposal> {
         })
       );
     }
-    const newItem = new CreditProposal();
+    const newItem = new DarRevisionCheckerModel();
     const applicationTypeId = route.queryParams['applicationTypeId'] ? route.queryParams['applicationTypeId'] : null;
     if (applicationTypeId) {
       newItem.applicationTypeId = applicationTypeId;
@@ -525,7 +525,7 @@ export class DarRevisionCheckerRoute implements Resolve<ICreditProposal> {
   }
 }
 
-export const creditProposalRoute: Routes = [
+export const darRevisionCheckerRoute: Routes = [
   // {
   //   path: 'v2',
   //   component: CreditProposalLoanApplicationComponent,
