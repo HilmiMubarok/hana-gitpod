@@ -252,8 +252,21 @@
         <section class="wrapper-card mb-3">
           <e-card>
             <mat-card-content>
-              <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="false" [creditProposal]="creditProposal">
-              </jhi-credit-proposal-tab-loan-facility-detail>
+              <!--
+                Jika status bukan dar final / loan committe
+                Cek dulu apakah punya history darRevHistory atau tidak
+              -->
+              <div *ngIf="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposal.statusId); else entity">
+                <!-- Cek history -->
+                <ng-container *ngIf="isDarRevHistoryExist; else entity">
+                  <jhi-loan-facility-detail-temp [creditProposal]="creditProposal"></jhi-loan-facility-detail-temp>
+                </ng-container>
+              </div>
+
+              <ng-template #entity>
+                <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [creditProposal]="creditProposal">
+                </jhi-credit-proposal-tab-loan-facility-detail>
+              </ng-template>
             </mat-card-content>
           </e-card>
         </section>
@@ -270,15 +283,28 @@
         <section class="wrapper-card mb-3">
           <e-card>
             <mat-card-content>
-              <jhi-credit-proposal-collateral-info
-                #creditProposalCollateralInfoComponent
-                [creditProposal]="creditProposal"
-                [collateralProperties]="collateralProperties"
-                [source]="'summaryAll'"
-                [parentSource]="'loan-analys'"
-                [isViewMode]="true"
-              >
-              </jhi-credit-proposal-collateral-info>
+              <!--
+                Jika status bukan dar final / loan committe
+                Cek dulu apakah punya history darRevHistory atau tidak
+              -->
+              <div *ngIf="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposal.statusId); else entityCollateral">
+                <!-- Cek history -->
+                <ng-container *ngIf="isDarRevHistoryExist; else entityCollateral">
+                  <p>History</p>
+                  <jhi-collateral-info-dar-final [isViewMode]="true" [creditProposal]="creditProposal"></jhi-collateral-info-dar-final>
+                </ng-container>
+              </div>
+              <ng-template #entityCollateral>
+                <jhi-credit-proposal-collateral-info
+                  #creditProposalCollateralInfoComponent
+                  [creditProposal]="creditProposal"
+                  [collateralProperties]="collateralProperties"
+                  [source]="'summaryAll'"
+                  [parentSource]="'loan-analys'"
+                  [isViewMode]="true"
+                >
+                </jhi-credit-proposal-collateral-info>
+              </ng-template>
             </mat-card-content>
           </e-card>
         </section>
@@ -521,7 +547,7 @@
             #loanAnalysOpinionComponent
             (uuidPath)="setUuidPath($event)"
             (positionLoginEmit)="setPositionLogin($event)"
-			(applicationRoleEmit)="setApplicationRole($event)"
+            (applicationRoleEmit)="setApplicationRole($event)"
             (newItemEvent)="setOpinionRecomendation($event)"
             (isAllowSave)="setIsAllowSave($event)"
             (opinionFileSfdt)="setOpinionFileSfdt($event)"
