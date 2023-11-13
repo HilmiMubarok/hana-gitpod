@@ -121,6 +121,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public cp: ICreditProposal;
   public isShow = false;
   public isHistoryExist: boolean;
+  public isDarRevHistoryExist: boolean;
   public darRouter: boolean;
 
   public uuidPath: any;
@@ -188,6 +189,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+    this.isDarRevHistoryExist = this.creditProposal.attributes.darRevHistory ? true : false;
     this.sourceSlikChecking = this.creditProposal.statusId === 'CP_ASSIGNMENT' ? 'edit' : 'loan';
     this.darRouter = this.router.url.split('/').indexOf('dar-notif') > -1;
     this.url = this.parentPath;
@@ -1373,29 +1375,32 @@ export class LoanAnalysMainComponent implements OnInit {
 
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-			  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
-				if (copyCreditProposal.notes[i].positionTypeId === this.applicationRoleFromEmit.roleId && copyCreditProposal.notes[i].partyId === this.applicationRoleFromEmit.partyId) {
-				  copyCreditProposal.notes[i].applicationId = this.id;
-				  copyCreditProposal.notes[i].message = '';
-				  // copyCreditProposal.notes[i].recomendation = this.recomendation;
-				  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
-				  copyCreditProposal.notes[i].path = this.uuidPath;
-				  copyCreditProposal.notes[i].updateAction = true;
-				  copyCreditProposal.notes[i].type = tempOpinionType;
-				  tempHelper = tempHelper + 1;
-				}
-			  } else {
-				if (Number(copyCreditProposal.notes[i].positionId) === Number(this.positionLoginFromEmit)) {
-				  copyCreditProposal.notes[i].applicationId = this.id;
-				  copyCreditProposal.notes[i].message = '';
-				  // copyCreditProposal.notes[i].recomendation = this.recomendation;
-				  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
-				  copyCreditProposal.notes[i].path = this.uuidPath;
-				  copyCreditProposal.notes[i].updateAction = true;
-				  copyCreditProposal.notes[i].type = tempOpinionType;
-				  tempHelper = tempHelper + 1;
-				}
-			  }
+              if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
+                if (
+                  copyCreditProposal.notes[i].positionTypeId === this.applicationRoleFromEmit.roleId &&
+                  copyCreditProposal.notes[i].partyId === this.applicationRoleFromEmit.partyId
+                ) {
+                  copyCreditProposal.notes[i].applicationId = this.id;
+                  copyCreditProposal.notes[i].message = '';
+                  // copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
+                  copyCreditProposal.notes[i].path = this.uuidPath;
+                  copyCreditProposal.notes[i].updateAction = true;
+                  copyCreditProposal.notes[i].type = tempOpinionType;
+                  tempHelper = tempHelper + 1;
+                }
+              } else {
+                if (Number(copyCreditProposal.notes[i].positionId) === Number(this.positionLoginFromEmit)) {
+                  copyCreditProposal.notes[i].applicationId = this.id;
+                  copyCreditProposal.notes[i].message = '';
+                  // copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
+                  copyCreditProposal.notes[i].path = this.uuidPath;
+                  copyCreditProposal.notes[i].updateAction = true;
+                  copyCreditProposal.notes[i].type = tempOpinionType;
+                  tempHelper = tempHelper + 1;
+                }
+              }
             }
 
             if (tempHelper === 0) {
