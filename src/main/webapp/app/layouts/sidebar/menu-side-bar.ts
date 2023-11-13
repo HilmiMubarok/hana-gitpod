@@ -335,7 +335,7 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'DPDL',
+    name: 'Daftar Pengecekan Dokumen Legal',
     iconname: 'suitcase',
     children: [
       {
