@@ -8,8 +8,9 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
-import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
-import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+// import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
+import { IDarRevisionModel, DarRevisionModel } from './dar-revision.model';
+import { DarRevisionService } from './dar-revison.service';
 import { DarRevisionComponent } from './dar-revision.component';
 import lodash from 'lodash';
 import { BankAccountAnalystMessage } from '../credit-proposal/bank-account-analyst/bank-account-analyst.model';
@@ -92,15 +93,15 @@ import { DarRevisionViewComponent } from './dar-revision-view.component';
 // import { CollateralSummary } from './collateral-info/collateral-summary/collateral-summary-total.model';
 
 @Injectable({ providedIn: 'root' })
-export class DarRevisionRoute implements Resolve<ICreditProposal> {
-  constructor(private service: CreditProposalService, private router: Router) {}
+export class DarRevisionRoute implements Resolve<IDarRevisionModel> {
+  constructor(private service: DarRevisionService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ICreditProposal> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IDarRevisionModel> | Observable<never> {
     const useTemplate = 'PERSON';
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((creditProposal: HttpResponse<CreditProposal>) => {
+        mergeMap((creditProposal: HttpResponse<IDarRevisionModel>) => {
           if (creditProposal.body) {
             if (creditProposal.body.collaterals.length > 0) {
               for (let i = 0; i < creditProposal.body.collaterals.length; i++) {
@@ -488,7 +489,7 @@ export class DarRevisionRoute implements Resolve<ICreditProposal> {
     }
     if (useTemplate) {
       return this.service.template(useTemplate).pipe(
-        map((res: HttpResponse<ICreditProposal>) => res.body),
+        map((res: HttpResponse<IDarRevisionModel>) => res.body),
         mergeMap(res => {
           if (res) {
             return of(res);
@@ -499,7 +500,7 @@ export class DarRevisionRoute implements Resolve<ICreditProposal> {
         })
       );
     }
-    const newItem = new CreditProposal();
+    const newItem = new DarRevisionModel();
     const applicationTypeId = route.queryParams['applicationTypeId'] ? route.queryParams['applicationTypeId'] : null;
     if (applicationTypeId) {
       newItem.applicationTypeId = applicationTypeId;
@@ -525,7 +526,7 @@ export class DarRevisionRoute implements Resolve<ICreditProposal> {
   }
 }
 
-export const creditProposalRoute: Routes = [
+export const darRevisionRoute: Routes = [
   // {
   //   path: 'v2',
   //   component: CreditProposalLoanApplicationComponent,

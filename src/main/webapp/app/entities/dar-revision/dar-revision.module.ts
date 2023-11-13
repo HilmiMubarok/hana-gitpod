@@ -2,7 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { creditProposalRoute } from './dar-revision.route';
+import { darRevisionRoute } from './dar-revision.route';
 // import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
 // import { CreditProposalComponent } from './credit-proposal.component';
 
@@ -36,7 +36,7 @@ import { DarRevisionViewComponent } from './dar-revision-view.component';
 // import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-facility/main-facility-child-history.component';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(darRevisionRoute)],
   declarations: [
     // CreditProposalComponent,
     // CreditProposalUpdateCustomComponent,
