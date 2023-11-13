@@ -30,12 +30,12 @@
         <div class="col-6">
             <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Debtor Name</mat-label>
-                <input  matInput type="text" />
+                <input [value]="creditProposal.prospectPerson === null ? creditProposal.prospectOrganization.name : creditProposal.prospectPerson.name" matInput type="text" />
               </mat-form-field>
 
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Address</mat-label>
-                <textarea matInput cssClass="e-outline" class="text-area-input"
+                <textarea [value]="creditProposal.agreements.length > 0  ? creditProposal.agreements[0].attributes.address !== undefined ? creditProposal.agreements[0].attributes.address : '' : ''" matInput cssClass="e-outline" class="text-area-input"
                 id="multiline-always"
                 name="typeAlways" ></textarea>
               </mat-form-field>
