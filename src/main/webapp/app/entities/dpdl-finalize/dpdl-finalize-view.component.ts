@@ -152,6 +152,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public recomendation: string;
   public sectorIndustry = [];
   public uuidPath: any;
+  public dataLand: any;
+  public dataBuilding: any;
 
   constructor(
     public dialog: MatDialog,
@@ -268,6 +270,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
                   certificate.id = collateral[i].id;
                   certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
                   certificate.jangkaWaktuKepemilikan = collateral[i].attributes['landCertificates'][j].certDueDate;
+                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i]);
+                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i]);
                   this.creditProposal.attributes['certificateInfoData'].push(certificate);
                 }
               }
@@ -350,6 +354,25 @@ export class DpdlFinalizeViewComponent implements OnInit {
       this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
     }
   }
+  public findPropertyLand(type: string, collateral: ICollateral) {
+    this.dataLand = lodash.find(this.collateralProperties, function (o) {
+      return o.propertyType === 'LAND' && o.collateralId === collateral.id && o.external === false;
+    });
+    this.dataBuilding = lodash.find(this.collateralProperties, function (o) {
+      return o.propertyType === 'BUILDING' && o.collateralId === collateral.id && o.external === false;
+    });
+    if (this.dataLand) {
+      if (type === 'luasTanah') {
+        return this.dataLand.landSizePerCertificate;
+      }
+    }
+    if (this.dataBuilding) {
+      if (type === 'luasBangunan') {
+        return this.countTotalArea(this.dataBuilding.attributes['floors']);
+      }
+    }
+    return '';
+  }
 
   public findProperty(type: string, collateral: ICollateral) {
     let data: ICollateralProperty;
@@ -357,6 +380,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
+      console.log('properties ', this.collateralProperties);
+      console.log('ini data ', data);
       if (data) {
         if (type === 'buktiKepemilikan') {
           if (collateral.collateralTypeId === 'SECURITIES') {
@@ -389,6 +414,21 @@ export class DpdlFinalizeViewComponent implements OnInit {
       }
       return '';
     }
+  }
+  public countTotalArea(data: string): Number {
+    let total: number;
+    total = 0;
+
+    if (data) {
+      const _data = JSON.parse(data);
+      if (_data.length > 0) {
+        for (let i = 0; i < _data.length; i++) {
+          total = total + parseInt(_data[i]['area'], 10);
+        }
+      }
+    }
+
+    return total;
   }
 
   public cekCgpgData() {
