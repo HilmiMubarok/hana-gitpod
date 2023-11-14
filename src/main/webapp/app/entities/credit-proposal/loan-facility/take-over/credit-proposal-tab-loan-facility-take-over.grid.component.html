@@ -67,6 +67,12 @@
       <button mat-raised-button hidden (click)="openDialog()" class="button-styling">ADD</button>
     </div>
   </section>
+
+  <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
+    <div align="right" class="mt-5 align-right">
+      <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
+    </div>
+  </section>
 </section>
 
 <!-- Loan Analys -->
