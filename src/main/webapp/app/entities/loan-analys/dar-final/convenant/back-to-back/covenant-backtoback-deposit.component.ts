@@ -4,6 +4,7 @@ import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { Subject, takeUntil } from 'rxjs';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-dar-covenant-back-to-back-deposit',
@@ -38,7 +39,7 @@ export class DarCovenantBackToBackDepositComponent implements OnInit, OnDestroy 
     this._creditProposalItem = item;
   }
 
-  constructor(private generalParameterService: GeneralParameterService) {}
+  constructor(private generalParameterService: GeneralParameterService, private router: Router) {}
 
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardDataGridBackToBackDeposit.length; i++) {
@@ -70,21 +71,29 @@ export class DarCovenantBackToBackDepositComponent implements OnInit, OnDestroy 
   }
 
   public getBackToBackDeposit() {
-    const parsed = parsePreviousAtrribute(this.creditProposalItem);
-    const darRevHistory = parsed['darRevHistory']?.convenant?.standardDataGridBackToBackDeposit || [];
-    const convenant = this.creditProposalItem.attributes['convenant']?.standardDataGridBackToBackDeposit || [];
+    if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {
+      const parsed = parsePreviousAtrribute(this.creditProposalItem);
+      const darRevHistory = parsed['darRevHistory']?.convenant?.standardDataGridBackToBackDeposit;
 
-    const data = darRevHistory.length !== 0 ? darRevHistory : convenant;
-
-    data.forEach((item, i) => {
-      this.statusValue[i] = item.status;
-      this.deviation[i] = item.deviation;
-      this.justification[i] = item.justification;
-    });
-
-    if (data.length === 0) {
-      this.statusValue = Array(this.standardDataGridBackToBackDeposit.length).fill('Applied');
-      this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = this.standardDataGridBackToBackDeposit;
+      for (let i = 0; i < darRevHistory.length; i++) {
+        this.statusValue[i] = darRevHistory[i].status;
+        this.deviation[i] = darRevHistory[i].deviation;
+        this.justification[i] = darRevHistory[i].justification;
+      }
+    } else {
+      if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = 'Applied';
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.status = this.statusValue[i];
+        }
+        this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = this.standardDataGridBackToBackDeposit;
+      }
     }
   }
 
@@ -98,28 +107,26 @@ export class DarCovenantBackToBackDepositComponent implements OnInit, OnDestroy 
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         const activeData = res.body.filter(o => o.statusId === 'ACTIVE');
-        const gridBelow = activeData.map((data, i) => ({
-          id: i,
-          covenant: data.value,
-          status: 'Applied',
-          deviation: '',
-          justification: '',
-        }));
+        const gridAbove = [];
+        for (let i = 0; i < activeData.length; i++) {
+          const num = i;
+          gridAbove[i] = { id: num, covenant: activeData[i].value, status: 'Applied', deviation: '', justification: '' };
+        }
 
+        this.standardDataGridBackToBackDeposit = gridAbove;
         this.getBackToBackDeposit();
-        this.standardDataGridBackToBackDeposit = gridBelow;
 
-        const parsed = parsePreviousAtrribute(this.creditProposalItem);
-        const parsedConvenant = parsed['darRevHistory']?.convenant?.standardDataGridBackToBackDeposit;
-
-        if (parsedConvenant) {
+        if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {
+          const parsed = parsePreviousAtrribute(this.creditProposalItem);
+          const parsedConvenant = parsed['darRevHistory']?.convenant?.standardDataGridBackToBackDeposit;
           this.standardDataGridBackToBackDeposit = parsedConvenant;
         } else {
-          const creditProposalConvenant = this.creditProposalItem.attributes['convenant']?.standardDataGridBackToBackDeposit;
-          if (creditProposalConvenant && creditProposalConvenant.length === 0) {
+          if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length === 0) {
             this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = this.standardDataGridBackToBackDeposit;
-          } else if (creditProposalConvenant) {
-            this.standardDataGridBackToBackDeposit = creditProposalConvenant;
+          } else {
+            for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length; i++) {
+              this.standardDataGridBackToBackDeposit = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit;
+            }
           }
         }
       });
