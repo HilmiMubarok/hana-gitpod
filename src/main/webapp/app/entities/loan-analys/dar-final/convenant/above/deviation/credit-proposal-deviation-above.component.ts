@@ -3,6 +3,7 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { dataCovenantAbove } from '../../convenant.constant';
 import lodash from 'lodash';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-deviation-dar-above',
@@ -32,6 +33,8 @@ export class CreditProposalDeviationDarAboveComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
+  constructor(private router: Router) {}
+
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.copystandardDataGridAbove.length; i++) {
       if (i === Number(data.index)) {
@@ -51,18 +54,26 @@ export class CreditProposalDeviationDarAboveComponent implements OnInit {
   ngOnInit(): void {
     const parsed = parsePreviousAtrribute(this.creditProposalItem);
 
-    this.standardDataGridAbove = (() => {
-      if (this.creditProposalItem.attributes['darRevHistory']) {
-        return parsed['darRevHistory']['convenant'].standardDataGridAbove.filter(item => item.status !== 'Applied');
-      } else {
-        return this.creditProposalItem.attributes['convenant'].standardDataGridAbove.filter(item => item.status !== 'Applied');
+    if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {
+      const deleted = parsed['darRevHistory']['convenant'].standardDataGridAbove.filter(item => item.status !== 'Applied');
+      this.standardDataGridAbove = deleted;
+      for (let i = 0; i < parsed['darRevHistory']['convenant'].standardDataGridAbove.length; i++) {
+        this.statusValue[i] = this.standardDataGridAbove[i].status;
+        this.deviation[i] = this.standardDataGridAbove[i].deviation;
+        this.justification[i] = this.standardDataGridAbove[i].justification;
       }
-    })();
+    } else {
+      const deleted = this.creditProposalItem.attributes['convenant'].standardDataGridAbove.filter(item => item.status !== 'Applied');
+      this.standardDataGridAbove = deleted;
+      for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
+        this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].status;
+        this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].deviation;
+        this.justification[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].justification;
+      }
+    }
 
-    for (let i = 0; i < this.standardDataGridAbove.length; i++) {
-      this.statusValue[i] = this.standardDataGridAbove[i].status;
-      this.deviation[i] = this.standardDataGridAbove[i].deviation;
-      this.justification[i] = this.standardDataGridAbove[i].justification;
+    if (this.standardDataGridAbove.length === 0) {
+      this.standardDataGridAbove = [];
     }
   }
 }
