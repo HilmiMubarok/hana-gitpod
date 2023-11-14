@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AccountService } from 'app/core/auth/account.service';
 
 import lodash from 'lodash';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PositionService } from 'app/entities/position/position.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 
@@ -34,7 +34,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
     private templateRef: TemplateRef<any>,
     private viewContainerRef: ViewContainerRef,
     private positionService: PositionService,
-    private templateService: TemplateService
+    private templateService: TemplateService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -606,8 +607,10 @@ export class MatrixDirective implements OnInit, OnDestroy {
         }
       }
     }
+
     if (this.jhiMatrixDirMenu === 'cp-and-memo') {
-      const route = this.router.url.split('?')[1];
+      const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
+      const subroutes = queryParam.get('subroute');
       if (
         this.positionTypeId === 'SME_HEAD' ||
         this.positionTypeId === 'DEPT_HEAD' ||
@@ -622,7 +625,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'LEGALOFFICER_OUTREGION'
       ) {
         if (this.argsPath.match(/dar-revision/g)) {
-          if (route.includes('loan-facility') || route.includes('collateral-info')) {
+          if (subroutes === 'loan-facility' || subroutes === 'collateral-info') {
             if (this.jhiMatrixDirElementType === 'input') {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
