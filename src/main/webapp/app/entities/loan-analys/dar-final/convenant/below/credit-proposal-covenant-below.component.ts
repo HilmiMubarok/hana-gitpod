@@ -65,21 +65,29 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit, OnDestr
   }
 
   public getStandardDataGridBelow() {
-    const parsed = parsePreviousAtrribute(this.creditProposalItem);
-    const darRevHistory = parsed['darRevHistory']?.convenant?.standardCovenant || [];
-    const convenant = this.creditProposalItem.attributes['convenant']?.standardCovenant || [];
+    if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {
+      const parsed = parsePreviousAtrribute(this.creditProposalItem);
+      const darRevHistory = parsed['darRevHistory']?.convenant?.standardCovenant;
 
-    const data = darRevHistory.length !== 0 ? darRevHistory : convenant;
-
-    data.forEach((item, i) => {
-      this.statusValue[i] = item.status;
-      this.deviation[i] = item.deviation;
-      this.justification[i] = item.justification;
-    });
-
-    if (data.length === 0) {
-      this.statusValue = Array(this.standardCovenant.length).fill('Applied');
-      this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
+      for (let i = 0; i < darRevHistory.length; i++) {
+        this.statusValue[i] = darRevHistory[i].status;
+        this.deviation[i] = darRevHistory[i].deviation;
+        this.justification[i] = darRevHistory[i].justification;
+      }
+    } else {
+      if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
+        for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
+          this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].status;
+          this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation;
+          this.justification[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification;
+        }
+      } else {
+        for (let i = 0; i <= this.standardCovenant.length; i++) {
+          this.statusValue[i] = 'Applied';
+          this.creditProposalItem.attributes['convenant'].standardCovenant.status = this.statusValue[i];
+        }
+        this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
+      }
     }
   }
 
