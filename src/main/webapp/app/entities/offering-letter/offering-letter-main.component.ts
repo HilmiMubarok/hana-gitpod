@@ -80,7 +80,8 @@ export class OfferingLetterMainComponent implements OnInit {
   public proposType = [];
   private KEYG = 'credit_proposal/summary';
   public isOpen = false;
-
+  public dataBuilding: any;
+  public dataLand: any;
   private menuId = '';
 
   @Input('item')
@@ -163,19 +164,19 @@ export class OfferingLetterMainComponent implements OnInit {
   private setTitleMenuByParentPath() {
     if (this.parentPath === 'distribution') {
       this.title = 'Offering Letter Distribution';
-	  this.menuId = 'DISTRIBUTION_OFFERING_LETTER';
+      this.menuId = 'DISTRIBUTION_OFFERING_LETTER';
     }
     if (this.parentPath === 'finalize') {
       this.title = 'Offering Letter Finalize';
-	  this.menuId = 'FINALIZE_OFFERING_LETTER';
+      this.menuId = 'FINALIZE_OFFERING_LETTER';
     }
     if (this.parentPath === 'review') {
       this.title = 'Offering Letter Review';
-	  this.menuId = 'OFFERING_LETTER_REVIEW';
+      this.menuId = 'OFFERING_LETTER_REVIEW';
     }
     if (this.parentPath === 'confirmation') {
       this.title = 'Offering Letter Confirmation';
-	  this.menuId = 'OFFERING_LETTER_CONFIRMATION';
+      this.menuId = 'OFFERING_LETTER_CONFIRMATION';
     }
   }
 
@@ -274,7 +275,7 @@ export class OfferingLetterMainComponent implements OnInit {
 
   private getTasks(): void {
     // this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
-	this.creditProposalProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS'), idMenu: this.menuId}).subscribe(res => {
+    this.creditProposalProcessService.getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.menuId }).subscribe(res => {
       this.tasks = res.body;
     });
   }
@@ -609,6 +610,8 @@ export class OfferingLetterMainComponent implements OnInit {
                   certificate.id = collateral[i].id;
                   certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
                   certificate.jangkaWaktuKepemilikan = collateral[i].attributes['landCertificates'][j].certDueDate;
+                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i]);
+                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i]);
                   this.creditProposal.attributes['certificateInfoData'].push(certificate);
                 }
               }
@@ -691,6 +694,25 @@ export class OfferingLetterMainComponent implements OnInit {
       this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
     }
   }
+  public findPropertyLand(type: string, collateral: ICollateral) {
+    this.dataLand = lodash.find(this.collateralProperties, function (o) {
+      return o.propertyType === 'LAND' && o.collateralId === collateral.id && o.external === false;
+    });
+    this.dataBuilding = lodash.find(this.collateralProperties, function (o) {
+      return o.propertyType === 'BUILDING' && o.collateralId === collateral.id && o.external === false;
+    });
+    if (this.dataLand) {
+      if (type === 'luasTanah') {
+        return this.dataLand.landSizePerCertificate;
+      }
+    }
+    if (this.dataBuilding) {
+      if (type === 'luasBangunan') {
+        return this.countTotalArea(this.dataBuilding.attributes['floors']);
+      }
+    }
+    return '';
+  }
 
   public findProperty(type: string, collateral: ICollateral) {
     let data: ICollateralProperty;
@@ -733,7 +755,21 @@ export class OfferingLetterMainComponent implements OnInit {
       return '';
     }
   }
+  public countTotalArea(data: string): Number {
+    let total: number;
+    total = 0;
 
+    if (data) {
+      const _data = JSON.parse(data);
+      if (_data.length > 0) {
+        for (let i = 0; i < _data.length; i++) {
+          total = total + parseInt(_data[i]['area'], 10);
+        }
+      }
+    }
+
+    return total;
+  }
   public previousState(): void {
     window.history.back();
   }

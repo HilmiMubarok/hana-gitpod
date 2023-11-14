@@ -98,7 +98,9 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       this.parentPath === 'review-pk' ||
       this.parentPath === 'finalize-dpdl' ||
       // this.parentPath === 'dar-revision' ||
-      this.parentPath === 'dar-revision-checker'
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dppk'
     ) {
       // Default Disabled
       this.field = true;
