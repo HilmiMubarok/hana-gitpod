@@ -1,0 +1,388 @@
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { STATUS_LOV_PARAMETER, STATUS_PARAMETER } from 'app/shared/constants/status.constants';
+import { IGeneralParameter } from '../general-parameter/general-parameter.model';
+import { GeneralParameterService } from '../general-parameter/general-parameter.service';
+import { MessageService } from 'primeng/api';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import {
+  DocumentEditorComponent,
+  DocumentEditorContainerComponent,
+  DocumentEditorKeyDownEventArgs,
+} from '@syncfusion/ej2-angular-documenteditor';
+import { Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StorageService } from 'app/entities/storage/storage.service';
+
+@Component({
+  selector: 'jhi-credit-agreement-clausal-dialog',
+  templateUrl: './master-credit-agreement-clausal.component-dialog.html',
+  styleUrls: ['./master-credit-agreement-clausal.css'],
+})
+export class MasterCreditAgreementClausalDialogComponent implements OnInit {
+  public generalParameter: IGeneralParameter;
+  public statusValue = [
+    {
+      statusId: 'ACTIVE',
+      statusDescription: 'Active',
+      statusCode: 'ACTIVE',
+    },
+    {
+      statusId: 'NON_ACTIVE',
+      statusDescription: 'Non Active',
+      statusCode: 'NON_ACTIVE',
+    },
+  ];
+
+  @ViewChild('document_editor_containers')
+  public containers: DocumentEditorContainerComponent;
+
+  private ngUnsubscribe = new Subject();
+  private paramsIdGet: string;
+  private fileGet: File;
+  public customHeadersJWT: any;
+  private bucket: string;
+  private getKey: string;
+  public clausalCode: string;
+  private nameFileSfdt: string;
+  private nameFileDocs: string;
+  constructor(
+    private dialog: MatDialog,
+    protected messageService: MessageService,
+    private router: Router,
+    protected activatedRoute: ActivatedRoute,
+    private storageService: StorageService,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      generalParameter: IGeneralParameter;
+    },
+    private _dialog: MatDialogRef<MasterCreditAgreementClausalDialogComponent>,
+    protected generalParameterService: GeneralParameterService
+  ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
+    this.generalParameter = this.data.generalParameter;
+  }
+  ngOnInit(): void {
+    this.getcustomJWT();
+  }
+
+  public onSave(): void {
+    this.validate()
+      .then(() => this.save())
+      .then(() => this.triggeredSave());
+  }
+
+  public save() {
+    if (this.generalParameter.id) {
+      // update
+      this.generalParameterService.update(this.generalParameter).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+        this._dialog.close(res.body);
+      });
+    } else {
+      // create
+      this.generalParameterService.create(this.generalParameter).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+        this._dialog.close(res.body);
+      });
+    }
+  }
+
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  public checkMustValidated() {
+    const mustValidate = {
+      code: true,
+      value: true,
+    };
+
+    if (!this.generalParameter.code) {
+      this._showNotification('error', 'Masukkan Code terlebih dahulu');
+      mustValidate.code = false;
+    }
+
+    if (!this.generalParameter.value) {
+      this._showNotification('error', 'Masukkan Description terlebih dahulu');
+      mustValidate.value = false;
+    }
+
+    return this._validateProcess(mustValidate);
+  }
+
+  public validateMasterLov(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Master Product Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateMasterLov().then(() => resolve(true));
+    });
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
+  }
+
+  /**
+   * EJ2 Document
+   */
+
+  // private updateGeneralParameterCode(): void {
+  //   if (this.generalParameter.code) {
+  //     const code = this.generalParameter.code;
+  //     // Replace spaces with hyphens and convert to lowercase
+  //     this.clausalCode = code.replace(/\s+/g, '-').toLowerCase();
+  //     this.getKey = 'template/credit-agreement/clausal/' + this.clausalCode;
+  //     this.nameFileSfdt = 'credit-agreement-clausal-' + this.clausalCode + '.sfdt';
+  //     this.nameFileDocs = 'credit-agreement-clausal-' + this.clausalCode + '.docs';
+  //   }
+  // }
+
+  /**
+   * Replaces certain characters in a string with their corresponding representations.
+   *
+   * @param {string} code - The input string to be modified.
+   * @return {string} The modified string with replaced characters.
+   */
+  private changeCharacter(code: string): string {
+    // Ganti karakter
+    const replacements = {
+      '&': 'and',
+      '%': 'percent',
+      '^': 'caret',
+      '*': 'asterisk',
+      '@': 'at',
+      '#': 'hash',
+      '!': 'exclamation',
+      '(': 'open-parenthesis',
+      ')': 'close-parenthesis',
+      '+': 'plus',
+      '=': 'equal',
+      '`': 'backtick',
+      '-': '-',
+      '?': 'question-mark',
+      '<': 'less-than',
+      '>': 'greater-than',
+      '/': 'slash',
+      '\\': 'backslash',
+    };
+
+    //  penggantian karakter
+    return code.replace(/[&%^*@#!()+=`\-?<>/\\]/g, (match: string) => replacements[match] || match);
+  }
+
+  /**
+   * Updates the general parameter code.
+   *
+   * @returns {void} - This function does not return a value.
+   */
+  private updateGeneralParameterCode(): void {
+    if (this.generalParameter.code) {
+      this.clausalCode = this.generalParameter.code.replace(/\s+/g, '-').toLowerCase();
+      this.clausalCode = this.changeCharacter(this.clausalCode);
+      this.getKey = `template/credit-agreement/clausal/${this.clausalCode}`;
+      this.nameFileSfdt = `credit-agreement-clausal-${this.clausalCode}.sfdt`;
+      this.nameFileDocs = `credit-agreement-clausal-${this.clausalCode}.docs`;
+    }
+  }
+
+  /**
+   * Retrieves the bucket name from the storage service and sets it
+   * to the 'bucket' property. It also logs the 'containers' and calls
+   * the 'getContainers' function.
+   *
+   * @param {type} paramName - description of parameter
+   * @return {type} description of return value
+   */
+  private getBucket() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.bucket = val.body['bucket'];
+      console.log('ini container', this.containers);
+      this.getContainers();
+    });
+  }
+
+  /**
+   * Generates a custom JWT token.
+   *
+   * @return {void} Does not return a value.
+   */
+  public getcustomJWT() {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+    this.updateGeneralParameterCode();
+    this.getBucket();
+  }
+
+  /**
+   * Retrieves the value of a token from the specified cookie.
+   *
+   * @param {string} cookieName - The name of the cookie to retrieve the token from.
+   * @return {any} The value of the token if found, otherwise null.
+   */
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+    return result;
+  }
+
+  /**
+   * A description of the entire function.
+   *
+   * @param {type} paramName - description of parameter
+   * @return {type} description of return value
+   */
+  public onDocumentChangePa() {
+    this.containers.restrictEditing = true;
+  }
+
+  /**
+   * Retrieves the containers.
+   *
+   * @private
+   * @return {void}
+   */
+  private getContainers(): void {
+    const obj = {
+      key: this.getKey + '/sfdt',
+    };
+    this.storageService
+      .getObjects(this.bucket, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        if (response.body.length > 0) {
+          this.storageService
+            .fileBlob(response.body[response.body.length - 1]['url'])
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              this.fileGet = new File([res.body], this.nameFileSfdt);
+              console.log('file', this.fileGet);
+              const fileReader: FileReader = new FileReader();
+              fileReader.onload = (e: any) => {
+                const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+                const contents: string = e.target.result;
+                docEditor.open(contents);
+              };
+              fileReader.readAsText(this.fileGet);
+            });
+        }
+      });
+  }
+
+  /**
+   * Initializes the onCreate function.
+   *
+   * @return {void} This function does not return anything.
+   */
+  onCreate(): void {
+    this.containers.serviceUrl = '/services/los/api/wordeditor/';
+  }
+
+  /**
+   * Handles the key down event for the document editor.
+   *
+   * @param {DocumentEditorKeyDownEventArgs} args - The event arguments for the key down event.
+   * @return {void} This function does not return a value.
+   */
+  public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
+    const keyCode: string = args.event.key;
+    const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
+    // 67 is the character code for 'C'
+    console.log('keycode', keyCode);
+    console.log('isCtrlKey', isCtrlKey);
+    if (isCtrlKey && keyCode === '86') {
+      // To prevent copy operation set isHandled to true
+      args.isHandled = true;
+    }
+  }
+
+  /**
+   * Triggers a save operation for the document.
+   *
+   * @return {void} This function does not return a value.
+   */
+  public triggeredSave(): void {
+    const key = this.getKey;
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+    if (docEditor !== undefined) {
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        // const fileName = 'credit-proposal-remark-' + this.codeClausual + '-project-analysis-' + fileType + '.docs';
+        const fileName = this.nameFileDocs;
+        const metaData = {
+          objectName: `${key}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = this.nameFileSfdt;
+        const metaData = {
+          objectName: `${key}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+    }
+  }
+}

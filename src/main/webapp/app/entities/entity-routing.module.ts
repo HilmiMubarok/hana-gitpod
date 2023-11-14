@@ -584,6 +584,13 @@ import { RouterModule } from '@angular/router';
         path: 'dar-revision-checker',
         loadChildren: () => import('./dar-revision-checker/dar-revision-checker.module').then(m => m.DarRevisionCheckerModule),
       },
+      {
+        path: 'master-credit-agreement-clausal',
+        loadChildren: () =>
+          import('./master-parameter/master-credit-agreement-clausal/master-credit-agreement-clausal.module').then(
+            m => m.LosgwMasterCreditAgreementClausalModule
+          ),
+      },
     ]),
   ],
 })

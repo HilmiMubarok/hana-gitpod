@@ -58,9 +58,11 @@ export class AbstractEntityService<T> {
   }
 
   protected preLoadItemArray(res: HttpResponse<T[]>): HttpResponse<T[]> {
-    res.body.forEach(item => {
-      this.itemPreLoad(item);
-    });
+    if (res.body && Array.isArray(res.body)) {
+      res.body.forEach(item => {
+        this.itemPreLoad(item);
+      });
+    }
     return res;
   }
 

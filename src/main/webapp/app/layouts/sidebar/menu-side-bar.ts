@@ -114,6 +114,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'master-compliance-checklist',
       },
+      {
+        name: 'Credit Agreement Clausal',
+        iconname: 'minus',
+        route: 'master-credit-agreement-clausal',
+      },
     ],
   },
   {

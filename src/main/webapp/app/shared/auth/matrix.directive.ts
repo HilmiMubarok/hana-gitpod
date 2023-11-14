@@ -634,6 +634,30 @@ export class MatrixDirective implements OnInit, OnDestroy {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
           }
+          // Condition For Loan Analyst
+        } else if (this.argsPath.match(/dar-final/g) || this.argsPath.match(/loan-committee-approval/g)) {
+          if (subroutes === 'loan-facility-detail') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+          // Condition For Credit Proposal
+        } else if (this.argsPath.match(/credit-proposal/g)) {
+          if (subroutes === 'loan-facility-detail') {
+            if (this.status === 'DRAFT') {
+              if (this.jhiMatrixDirElementType === 'input') {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              }
+            } else {
+              if (this.jhiMatrixDirElementType === '') {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              }
+            }
+          }
         } else {
           if (this.jhiMatrixDirElementType === '') {
             this.viewContainerRef.createEmbeddedView(this.templateRef);
