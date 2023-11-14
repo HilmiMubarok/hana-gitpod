@@ -3,6 +3,7 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { dataCovenantBackToBackDeposit } from '../../convenant.constant';
 import lodash from 'lodash';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-deviation-back-to-back-deposit',
@@ -52,21 +53,33 @@ export class DeviationBackToBackDepositComponent implements OnInit {
     );
   }
 
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
     const parsed = parsePreviousAtrribute(this.creditProposalItem);
 
-    this.standardDataGridBackToBackDeposit = (() => {
-      if (this.creditProposalItem.attributes['darRevHistory']) {
-        return parsed['darRevHistory']['convenant'].standardDataGridBackToBackDeposit.filter(item => item.status !== 'Applied');
-      } else {
-        return this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.filter(item => item.status !== 'Applied');
+    if (!['CP_DAR_FINAL'].includes(this.creditProposalItem.statusId) && ['dar-final'].includes(this.router.url.split('/')[1])) {
+      const deleted = parsed['darRevHistory']['convenant'].standardDataGridBackToBackDeposit.filter(item => item.status !== 'Applied');
+      this.standardDataGridBackToBackDeposit = deleted;
+      for (let i = 0; i < parsed['darRevHistory']['convenant'].standardDataGridBackToBackDeposit.length; i++) {
+        this.statusValue[i] = this.standardDataGridBackToBackDeposit[i].status;
+        this.deviation[i] = this.standardDataGridBackToBackDeposit[i].deviation;
+        this.justification[i] = this.standardDataGridBackToBackDeposit[i].justification;
       }
-    })();
+    } else {
+      const deleted = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.filter(
+        item => item.status !== 'Applied'
+      );
+      this.standardDataGridBackToBackDeposit = deleted;
+      for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length; i++) {
+        this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].status;
+        this.deviation[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].deviation;
+        this.justification[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].justification;
+      }
+    }
 
-    for (let i = 0; i < this.standardDataGridBackToBackDeposit.length; i++) {
-      this.statusValue[i] = this.standardDataGridBackToBackDeposit[i].status;
-      this.deviation[i] = this.standardDataGridBackToBackDeposit[i].deviation;
-      this.justification[i] = this.standardDataGridBackToBackDeposit[i].justification;
+    if (this.standardDataGridBackToBackDeposit.length === 0) {
+      this.standardDataGridBackToBackDeposit = [];
     }
   }
 }
