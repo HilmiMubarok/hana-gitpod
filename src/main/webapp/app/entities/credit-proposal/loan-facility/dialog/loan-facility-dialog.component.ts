@@ -610,6 +610,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
   // Condition Field in Offering Letter
   public conditionFieldInOfferingLetter() {
+    const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
+    const subroutes = queryParam.get('subroute');
     // Condition Offering Letter in Route Finalize
     if (this.parentPath === 'finalize') {
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
@@ -665,8 +667,13 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.textBoxHidden = false;
       this.statusDisabledOffering = true;
     } else if (this.parentPath === 'dar-revision') {
-      this.textBoxHidden = false;
-      this.statusDisabledOffering = false;
+      if (subroutes === 'loan-facility') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = false;
+      } else {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      }
     } else {
       this.textBoxHidden = true;
       this.statusDisabledOffering = true; // Menambahkan perubahan di sini
