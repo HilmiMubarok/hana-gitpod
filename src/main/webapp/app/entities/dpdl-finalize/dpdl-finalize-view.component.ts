@@ -639,9 +639,15 @@ export class DpdlFinalizeViewComponent implements OnInit {
   }
 
   private getTasks(): void {
-    this.dpdlFinalizeProcessSercvice.getTasks(this.id).subscribe(res => {
-      this.tasks = res.body;
-    });
+    // this.dpdlFinalizeProcessSercvice.getTasks(this.id).subscribe(res => {
+    this.dpdlFinalizeProcessSercvice
+      .getTasksByPos(this.id, {
+        idPosition: this.getLocStor('POS'),
+        idMenu: this.parentPath === 'finalize-dpdl' ? 'FINALIZE_DPDL' : 'REVIEW_DPDL',
+      })
+      .subscribe(res => {
+        this.tasks = res.body;
+      });
   }
 
   private getPositionTypeId(): void {
