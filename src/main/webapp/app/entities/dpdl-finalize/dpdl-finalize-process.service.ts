@@ -4,6 +4,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { Observable } from 'rxjs';
+import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class DpdlFinalizeProcessSercvice {
@@ -14,6 +15,11 @@ export class DpdlFinalizeProcessSercvice {
 
   public getTasks(id: any): Observable<HttpResponse<IProcessTask[]>> {
     return this.http.get<IProcessTask[]>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  public getTasksByPos(id: any, req?: any): Observable<HttpResponse<IProcessTask[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<IProcessTask[]>(`${this.resourceUrl}/${id}`, { params: options, observe: 'response' });
   }
 
   public processTask(task: IProcessTask): Observable<HttpResponse<object>> {

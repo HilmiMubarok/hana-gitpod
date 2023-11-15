@@ -286,69 +286,9 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
   }
   public conditionSaveBtn() {
     if (this.router.url.includes('review-pk')) {
-      if (this.positionTypeId === 'BM') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'SME_HEAD') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'SDH') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'DH') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'DEPT_HEAD') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_DEPTHEAD') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-    } else {
-      if (this.positionTypeId === 'RM') {
-        if (
-          this.creditProposal.statusId === 'DRAFT' ||
-          this.creditProposal.statusId === 'CP_RETURN_TO_RM' ||
-          this.creditProposal.statusId === 'CP_RETURN_TO_CR' ||
-          this.creditProposal.statusId === 'RETURN_TO_RM_CRA' ||
-          this.creditProposal.statusId === 'OL_APPEAL'
-        ) {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      } else {
-        this.conditionSave = false;
-      }
+      this.conditionSave = true;
     }
   }
-
-  // private getBucketNameSummary() {
-  //   this.storageService.getBucketName().subscribe(val => {
-  //     this.BUCKET = val.body['bucket'];
-  //   });
-  // }
 
   setUuidPath(newItem: string) {
     this.uuidPath = newItem;
@@ -725,9 +665,9 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'review-pk') {
-          this.saveUpdate('not-complete', source);
-        }
+        // if (this.router.url.split('/')[1] === 'review-pk') {
+        //   this.saveUpdate('not-complete', source);
+        // }
 
         if (this.router.url.split('/')[1] === 'review-pk') {
           if (this.creditProposalOpinionHistoryComponent) {
