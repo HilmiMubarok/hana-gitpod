@@ -18,10 +18,20 @@ export class AgreementComparePreviousDarComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public creditProposalItem: ICreditProposal;
   public collateral: ICollateral[] = [];
-  public collateralProperties: ICollateralProperty[] = [];
 
   public menuCovenant = 'COVENANT';
   public menuDeviation = 'DEVIATION';
+
+  _collateralProperties: ICollateralProperty[];
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperties;
+  }
+
+  set collateralProperties(param: ICollateralProperty[]) {
+    this._collateralProperties = param;
+  }
 
   @Input()
   get creditProposal() {

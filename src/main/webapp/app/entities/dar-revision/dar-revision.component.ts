@@ -178,6 +178,8 @@ export class DarRevisionComponent extends AbstractEntityMaterialComponent<IDarRe
       predicate['target'] = 'credit_proposal_status';
     } else if (this.activeRoute === 'cp-status-approval') {
       predicate['target'] = 'credit_proposal_approval';
+    } else if (this.activeRoute === 'dar-revision') {
+      predicate['target'] = 'dar_revision';
     }
 
     this.cashDarRevisionService
