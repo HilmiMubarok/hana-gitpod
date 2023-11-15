@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CreditProposalCollateralInfoRemarksInformationComponent } from '../collateral-info/remarks/credit-proposal-collateral-info-remarks-information.component';
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from '../collateral-info/remarks/credit-proposal-collateral-info-remarks-checklist.component';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-collateral-info-history',
@@ -43,9 +44,19 @@ export class CollateralInfoHistoryComponent implements OnInit {
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
+    console.log({ args, s: this.selectedMenu });
+  }
+
+  private _collateralProperty: ICollateralProperty[];
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
   }
 
   ngOnInit(): void {

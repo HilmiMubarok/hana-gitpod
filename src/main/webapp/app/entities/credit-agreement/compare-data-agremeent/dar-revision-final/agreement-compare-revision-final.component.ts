@@ -19,7 +19,6 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
   public dataToCompare: any;
   public isDataToCompareExist: Boolean = false;
   public collateral: ICollateral[] = [];
-  public collateralProperties: ICollateralProperty[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'DAR REVISION FINAL' }, { text: 'PREVIOUS DAR' }];
   ngOnInit(): void {
     this.selectedMenu = 'DAR REVISION FINAL';
@@ -58,6 +57,16 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
 
   set creditProposal(param: ICreditProposal) {
     this._creditProposal = param;
+  }
+
+  _collateralProperties: ICollateralProperty[];
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperties;
+  }
+
+  set collateralProperties(param: ICollateralProperty[]) {
+    this._collateralProperties = param;
   }
 
   private loadByPartyId(param: string): void {

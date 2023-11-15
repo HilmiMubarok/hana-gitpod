@@ -7,7 +7,7 @@
       [items]="menuItems"
       (select)="selectMenuItem($event)"
     ></ejs-menu>
-    <div [hidden]="selectedMenu === 'CHECKLIST'">
+    <div [hidden]="selectedMenu === 'CHECKLIST' || selectedMenu === 'SUMMARY'">
       <jhi-above-grid-history
         [creditProposal]="creditProposal"
         [isOnCompareData]="isOnCompareData"
@@ -38,6 +38,15 @@
           >
           </jhi-credit-proposal-collateral-info-remarks-checklist>
         </div>
+      </div>
+    </div>
+    <div *ngIf="selectedMenu === 'SUMMARY'">
+      <div class="card-content">
+        <jhi-summary-grid
+          [creditProposal]="creditProposal"
+          [collateralProperties]="collateralProperties"
+          [group]="'group'"
+        ></jhi-summary-grid>
       </div>
     </div>
   </div>
@@ -86,7 +95,7 @@
       [items]="menuItems"
       (select)="selectMenuItem($event)"
     ></ejs-menu>
-    <div [hidden]="selectedMenu === 'CHECKLIST'">
+    <div [hidden]="selectedMenu === 'CHECKLIST' || selectedMenu === 'SUMMARY'">
       <jhi-above-grid-history
         [isOnCompareData]="isOnCompareData"
         [isCompareDar]="isCompareDar"
@@ -104,6 +113,15 @@
           [isViewMode]="isViewMode"
         >
         </jhi-collateral-info-checklist-history>
+      </div>
+    </div>
+    <div *ngIf="selectedMenu === 'SUMMARY'">
+      <div class="card-content">
+        <jhi-summary-grid
+          [creditProposal]="creditProposal"
+          [collateralProperties]="collateralProperties"
+          [group]="'group'"
+        ></jhi-summary-grid>
       </div>
     </div>
   </div>
