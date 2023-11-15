@@ -34,6 +34,14 @@ const routerOptions: ExtraOptions = {
           loadChildren: () => import('./options/options-routing.module').then(m => m.OptionsRoutingModule),
         },
         {
+          path: 'for-developer',
+          data: {
+            authorities: [Authority.DEVELOPER],
+          },
+          canActivate: [UserRouteAccessService],
+          loadChildren: () => import('./developer/developer.module').then(m => m.DeveloperModule),
+        },
+        {
           path: '',
           loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
         },
