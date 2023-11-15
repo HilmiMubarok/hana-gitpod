@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { firstValueFrom } from 'rxjs';
 
-@Component({ selector: 'jhi-for-developer-show-diagram-state-dialog', templateUrl: './diagram-state-dialog.component.html' })
+@Component({ selector: 'jhi-developer-area-show-diagram-state-dialog', templateUrl: './diagram-state-dialog.component.html' })
 export class DeveloperShowDiagramStateDialogComponent implements OnInit {
   private id: number;
   public diagram: any;

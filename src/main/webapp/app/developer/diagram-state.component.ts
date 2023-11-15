@@ -8,7 +8,7 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 
 @Component({
-  selector: 'jhi-for-developer-show-diagram-state',
+  selector: 'jhi-developer-area-show-diagram-state',
   templateUrl: './diagram-state.component.html',
 })
 export class DeveloperShowDiagramStateComponent implements OnInit {

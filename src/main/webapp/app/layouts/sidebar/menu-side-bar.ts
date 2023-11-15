@@ -3,13 +3,13 @@ import { ISidebarMenuModel } from './sidebar.model';
 // developer menu
 export const DEVELOPER_MENU: ISidebarMenuModel[] = [
   {
-    name: 'For Developer',
+    name: 'Developer Area',
     iconname: 'stethoscope',
     children: [
       {
         name: 'Sample of Show Diagram State',
         iconname: 'minus',
-        route: 'for-developer/show-diagram-state',
+        route: 'developer-area/show-diagram-state',
       },
     ],
   },
