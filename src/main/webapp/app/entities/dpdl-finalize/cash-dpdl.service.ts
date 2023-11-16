@@ -15,7 +15,7 @@ import { ILoanApplication } from '../loan-application/loan-application.model';
 import { IDpdlFinalizeModel } from './dpdl-finalize.model';
 
 @Injectable({ providedIn: 'root' })
-export class CashCreditProposalService extends AbstractEntityService<IDpdlFinalizeModel> {
+export class CashDpdlService extends AbstractEntityService<IDpdlFinalizeModel> {
   private resourceUrlCashCreditProposal: string;
   public statRemarkBusinessActivity;
   public partySliks = [];
@@ -24,6 +24,22 @@ export class CashCreditProposalService extends AbstractEntityService<IDpdlFinali
     this.statRemarkBusinessActivity = '';
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api');
     this.resourceUrlCashCreditProposal = this.resourceUrl + '/cash-credit-proposals';
+  }
+
+  dpdlFinalize(req?: any): Observable<HttpResponse<IDpdlFinalizeModel[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IDpdlFinalizeModel[]>(this.resourceUrl + '/cash-credit-proposal/finalize-dpdl', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
+  }
+
+  dpdlReview(req?: any): Observable<HttpResponse<IDpdlFinalizeModel[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IDpdlFinalizeModel[]>(this.resourceUrl + '/cash-credit-proposal/review-dpdl', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoadItemArray(res)));
   }
 
   cashCreditProposalApprovalByStatus(req?: any): Observable<HttpResponse<IDpdlFinalizeModel[]>> {
