@@ -60,6 +60,7 @@
         [takeOutCompare]="true"
         [isViewMode]="true"
         [creditProposal]="creditProposal"
+        [collateralPropertyGroupData]="collateralPropertyGroupData"
       >
       </jhi-credit-proposal-collateral-info>
     </div>
@@ -88,6 +89,7 @@
       [isViewMode]="true"
       [creditProposal]="creditProposal"
       [collateralProperties]="collateralProperties"
+      [collateralPropertyGroupData]="collateralPropertyGroupData"
     >
     </jhi-collateral-info-history>
 
@@ -233,5 +235,10 @@
 </div>
 
 <div *ngIf="selectedMenu === 'PREVIOUS DAR'">
-  <jhi-agreement-compare-previous-dar [creditProposal]="creditProposal"> </jhi-agreement-compare-previous-dar>
+  <jhi-agreement-compare-previous-dar
+    [creditProposal]="creditProposal"
+    [collateralProperties]="collateralProperties"
+    [collateralPropertyGroupData]="collateralPropertyGroupData"
+  >
+  </jhi-agreement-compare-previous-dar>
 </div>

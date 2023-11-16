@@ -60,6 +60,8 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
   }
 
   _collateralProperties: ICollateralProperty[];
+  _collateralPropertyGroupData: ICollateralProperty[];
+
   @Input()
   get collateralProperties() {
     return this._collateralProperties;
@@ -67,6 +69,15 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
 
   set collateralProperties(param: ICollateralProperty[]) {
     this._collateralProperties = param;
+  }
+
+  @Input()
+  get collateralPropertyGroupData() {
+    return this._collateralPropertyGroupData;
+  }
+
+  set collateralPropertyGroupData(param: ICollateralProperty[]) {
+    this._collateralPropertyGroupData = param;
   }
 
   private loadByPartyId(param: string): void {
