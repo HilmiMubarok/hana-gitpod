@@ -43,6 +43,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { MatListModule } from '@angular/material/list';
     MatTreeModule,
     MatDividerModule,
     MatListModule,
+    MatAutocompleteModule,
 
     // syncfusion
     MenuAllModule,

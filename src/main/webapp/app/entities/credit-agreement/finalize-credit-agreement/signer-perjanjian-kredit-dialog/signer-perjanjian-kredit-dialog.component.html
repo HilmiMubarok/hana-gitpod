@@ -23,7 +23,13 @@
         <section>
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Position</mat-label>
-            <input matInput type="text" [(ngModel)]="position" />
+            <input matInput type="text" [(ngModel)]="position" matInput [formControl]="myOption" [matAutocomplete]="auto"/>
+
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </section>
       </div>
@@ -34,12 +40,16 @@
       <div class="mb-2">
         <div class="row">
     
-          <section id="name_debitor">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Name</mat-label>
-              <input matInput type="text" [(ngModel)]="name"  />
-            </mat-form-field>
-          </section>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" matInput [formControl]="myName" [matAutocomplete]="name"/>
+
+            <mat-autocomplete autoActiveFirstOption #name="matAutocomplete">
+              <mat-option *ngFor="let nama of filteredName | async" [value]="nama">
+                {{nama}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
       </div>
     </div>
