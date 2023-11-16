@@ -290,13 +290,12 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
         this.getStatusListView('FINALIZE_CREDIT_AGREEMENT');
         if (this.clickedChip['statusId'] !== '') {
           this.cashCreditAgreementService
-            .cashCreditProposalApprovalByStatus({
+            .creditAgreementBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
             })
             .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
             .subscribe({
@@ -306,12 +305,42 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
           return;
         } else {
           this.cashCreditAgreementService
-            .cashCreditProposalApprovalByStatus({
+            .creditAgreementBystatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
+            })
+            .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else {
+        this.getStatusListView('FINALIZE_CREDIT_AGREEMENT');
+        if (this.clickedChip['statusId'] !== '') {
+          this.cashCreditAgreementService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idStatus: this.clickedChip['statusId'],
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else {
+          this.cashCreditAgreementService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
             })
             .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
             .subscribe({
@@ -320,43 +349,6 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
             });
         }
       }
-
-      // else {
-      //   this.getStatusListView('FINALIZE_CREDIT_AGREEMENT');
-      //   if (this.clickedChip['statusId'] !== '') {
-      //     this.cashCreditAgreementService
-      //       .cashCreditProposalApprovalByStatus({
-      //         page: this.page,
-      //         idStatus: this.clickedChip['statusId'],
-      //         idPosition: this.positionIdLocStor,
-      //         size: this.itemsPerPage,
-      //         sort: ['id,desc'],
-      //         appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
-      //       })
-      //       .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
-      //       .subscribe({
-      //         next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
-      //         error: (res: HttpErrorResponse) => this.onError(res.message),
-      //       });
-      //     return;
-      //   }
-
-      // else {
-      //   this.cashCreditAgreementService
-      //     .cashCreditProposalApprovalByStatus({
-      //       page: this.page,
-      //       idPosition: this.positionIdLocStor,
-      //       size: this.itemsPerPage,
-      //       sort: ['id,desc'],
-      //       appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
-      //     })
-      //     .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
-      //     .subscribe({
-      //       next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
-      //       error: (res: HttpErrorResponse) => this.onError(res.message),
-      //     });
-      // }
-      // }
     }
   }
 

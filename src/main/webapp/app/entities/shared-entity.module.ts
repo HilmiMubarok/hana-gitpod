@@ -406,6 +406,20 @@ import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/ot
 import { OfferingLetterSignerPageComponent } from './offering-letter/offering-page/signer/signer-page.component';
 import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offering-page/signer/dialog/signer-page-dialog.component';
 import { ReviewHistoryDialogComponent } from './credit-agreement/review-history-dialog/review-history-dialog.component';
+import { AboveGridDarFinalComponent } from './loan-analys/dar-final/collateral-info/above-grid/above-grid.component';
+import { CollateralInfoBTPDarFinalComponent } from './loan-analys/dar-final/collateral-info/backtoback/credit-proposal-collateral-info-btb.component';
+import { CollateralInfoDialogBTBDarFinalComponent } from './loan-analys/dar-final/collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
+import { BellowGridDarFinalComponent } from './loan-analys/dar-final/collateral-info/bellow-grid/bellow-grid.component';
+import { CollateralInfoDarFinalComponent } from './loan-analys/dar-final/collateral-info/credit-proposal-collateral-info.component';
+import { CollateralInfoDialogTempComponent } from './loan-analys/dar-final/collateral-info/dialog/collateral-info-dialog-temp.component';
+import { LoanFacilityDetailTempComponent } from './loan-analys/dar-final/loan-facility/credit-proposal-tab-loan-facility-detail.component';
+import { LoanFacilityDialogTempComponent } from './loan-analys/dar-final/loan-facility/dialog/loan-facility-dialog.component';
+import { LoanFacilityDetailGridTempComponent } from './loan-analys/dar-final/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';
+import { MainFacilityChildDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-child-dar.component';
+import { MainFacilityDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dar.component';
+import { MainFacilityDialogDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dialog-dar.component';
+import { CreditProposalMappingCollateralTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-collateral.component';
+import { MappingFacilityTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-facility.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -872,7 +886,23 @@ import { ReviewHistoryDialogComponent } from './credit-agreement/review-history-
         StandartDeviationComponent,
         OfferingLetterSignerPageComponent,
 OfferingLetterSignerPageDialogComponent,
-ReviewHistoryDialogComponent
+ReviewHistoryDialogComponent,
+
+// DAR
+LoanFacilityDetailTempComponent,
+    LoanFacilityDetailGridTempComponent,
+    LoanFacilityDialogTempComponent,
+    CreditProposalMappingCollateralTempComponent,
+    CollateralInfoDarFinalComponent,
+    AboveGridDarFinalComponent,
+    BellowGridDarFinalComponent,
+    CollateralInfoBTPDarFinalComponent,
+    CollateralInfoDialogBTBDarFinalComponent,
+    CollateralInfoDialogTempComponent,
+    MappingFacilityTempComponent,
+MainFacilityDarComponent,
+    MainFacilityChildDarComponent,
+    MainFacilityDialogDarComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1297,6 +1327,22 @@ ReviewHistoryDialogComponent
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
     ReviewHistoryDialogComponent,
+
+    // DAR
+    LoanFacilityDetailTempComponent,
+    LoanFacilityDetailGridTempComponent,
+    LoanFacilityDialogTempComponent,
+    CreditProposalMappingCollateralTempComponent,
+    CollateralInfoDarFinalComponent,
+    AboveGridDarFinalComponent,
+    BellowGridDarFinalComponent,
+    CollateralInfoBTPDarFinalComponent,
+    CollateralInfoDialogBTBDarFinalComponent,
+    CollateralInfoDialogTempComponent,
+    MappingFacilityTempComponent,
+    MainFacilityDarComponent,
+    MainFacilityChildDarComponent,
+    MainFacilityDialogDarComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

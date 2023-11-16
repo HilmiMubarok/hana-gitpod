@@ -41,6 +41,17 @@ export class CashCreditAgreementReviewService extends AbstractEntityService<ICre
       .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoadItemArray(res)));
   }
 
+  creditAgreementBystatus(req?: any): Observable<HttpResponse<ICreditAgreementReview[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ICreditAgreementReview[]>(this.resourceUrl + '/cash-credit-proposal/review-credit-agreement', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoadItemArray(res)));
+  }
+
   queryListOfViewStatusFilterBy(req?: any): Observable<HttpResponse<any[]>> {
     const options = createRequestOption(req);
     return this.http

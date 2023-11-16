@@ -46,6 +46,7 @@ import {
   SLIK_MENU_BUSINESS_SUPPORT,
   DASHBOARD,
   FORBIDDEN_MENU,
+  DEVELOPER_MENU,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 import { LoginService } from 'app/login/login.service';
@@ -132,6 +133,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public dataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   public dataSourceConfig: any = new MatTreeFlatDataSource(this.treeControlConfig, this.treeFlattenerConfig);
   public forbiddenDataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  public developerDataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   private convertDateArrayFromServer(res: HttpResponse<any[]>): HttpResponse<any[]> {
     return res;
@@ -237,6 +239,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.sidebarState = newState;
     });
     this.forbiddenDataSource.data = FORBIDDEN_MENU;
+    this.developerDataSource.data = DEVELOPER_MENU;
   }
 
   ngAfterViewInit(): void {

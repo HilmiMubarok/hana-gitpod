@@ -1,0 +1,26 @@
+<div class="row remove-row-scroll">
+  <div class="e-card">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Application Number</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of loanApplications; let i = index">
+            <td>{{ i + 1 }}.</td>
+            <td>{{ item.applicationNumber }}</td>
+            <td>{{ item.statusDescription }}</td>
+            <td>
+              <button class="btn btn-primary" (click)="showDiagram(item.id)">Diagram</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -161,8 +161,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
       if (this.router.url.includes('dar-revision')) {
         if (this.router.url.includes('loan-facility') || this.router.url.includes('collateral-info')) {
-          if (this.jhiMatrixDirElementType === 'input') {
-            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          if (this.router.url.includes('dar-revision-checker')) {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
           }
         } else {
           if (this.jhiMatrixDirElementType === '') {
@@ -625,15 +631,24 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'LEGALOFFICER_OUTREGION'
       ) {
         if (this.argsPath.match(/dar-revision/g)) {
-          if (subroutes === 'loan-facility' || subroutes === 'collateral-info') {
-            if (this.jhiMatrixDirElementType === 'input') {
-              this.viewContainerRef.createEmbeddedView(this.templateRef);
+          if (this.router.url.includes('dar-revision-checker')) {
+            if (subroutes === 'loan-facility' || subroutes === 'collateral-info') {
+              if (this.jhiMatrixDirElementType === '') {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              }
             }
           } else {
-            if (this.jhiMatrixDirElementType === '') {
-              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            if (subroutes === 'loan-facility' || subroutes === 'collateral-info') {
+              if (this.jhiMatrixDirElementType === 'input') {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              }
+            } else {
+              if (this.jhiMatrixDirElementType === '') {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              }
             }
           }
+
           // Condition For Loan Analyst
         } else if (this.argsPath.match(/dar-final/g) || this.argsPath.match(/loan-committee-approval/g)) {
           if (subroutes === 'loan-facility-detail') {

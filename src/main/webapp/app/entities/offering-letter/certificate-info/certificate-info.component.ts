@@ -40,9 +40,6 @@ export class CertificateInfoComponent implements OnInit {
         }
       }
     }
-    console.log('parentPath', this.parentPath);
-    console.log('credit Proposal ', this.creditProposal.attributes['certificateInfoData']);
-    console.log('ini collateral di certificate ', this.collateral);
   }
 
   public openDialog(params?: ICertificateInfo) {
@@ -59,18 +56,15 @@ export class CertificateInfoComponent implements OnInit {
       if (!data.id) {
         data.id = this.collateral.id;
         if (this.creditProposal.attributes['certificateInfoData'].length !== 0) {
-          data.index =
-            this.creditProposal.attributes['certificateInfoData'][this.creditProposal.attributes['certificateInfoData'].length - 1] + 1;
+          data.index = this.creditProposal.attributes['certificateInfoData'].length + 1;
         } else {
           data.index = this.creditProposal.attributes['certificateInfoData'][0];
         }
-        console.log('index index index', data.index);
         this.creditProposal.attributes['certificateInfoData'].push(data);
         this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
       }
     });
   }
-
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',

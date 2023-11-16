@@ -41,6 +41,27 @@ export class CashCreditAgreementService extends AbstractEntityService<ICreditAgr
       .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoadItemArray(res)));
   }
 
+  creditAgreementBystatus(req?: any): Observable<HttpResponse<ICreditAgreement[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ICreditAgreement[]>(this.resourceUrl + '/cash-credit-proposal/finalize-credit-agreement', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoadItemArray(res)));
+  }
+
+  cashOrganizationManagements(type: string, attributeKey: string, attributeValue: string): Observable<HttpResponse<ICreditAgreement[]>> {
+    return this.http
+      .get<ICreditAgreement[]>(
+        this.resourceUrl + `/cash-organization-managements/${type}/attribute?attributeKey=${attributeKey}&attributeValue=${attributeValue}`,
+        { observe: 'response' }
+      )
+      .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoadItemArray(res)));
+  }
+
   queryListOfViewStatusFilterBy(req?: any): Observable<HttpResponse<any[]>> {
     const options = createRequestOption(req);
     return this.http

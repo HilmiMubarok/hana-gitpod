@@ -1,5 +1,20 @@
 import { ISidebarMenuModel } from './sidebar.model';
 
+// developer menu
+export const DEVELOPER_MENU: ISidebarMenuModel[] = [
+  {
+    name: 'Developer Area',
+    iconname: 'stethoscope',
+    children: [
+      {
+        name: 'Sample of Show Diagram State',
+        iconname: 'minus',
+        route: 'developer-area/show-diagram-state',
+      },
+    ],
+  },
+];
+
 // Forbidden Menu
 export const FORBIDDEN_MENU: ISidebarMenuModel[] = [
   {

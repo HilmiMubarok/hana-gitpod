@@ -130,6 +130,10 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     }
   }
 
+  public getTaskDiagram(id: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.resourceUrl}/diagram-task/${id}`, { observe: 'response', responseType: 'blob' });
+  }
+
   public findByCif(cif: string): Observable<HttpResponse<ICreditProposal>> {
     return this.http.get<ICreditProposal>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
   }
