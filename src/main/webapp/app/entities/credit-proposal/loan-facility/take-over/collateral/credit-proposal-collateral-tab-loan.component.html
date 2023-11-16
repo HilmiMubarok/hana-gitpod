@@ -112,7 +112,7 @@
             <button mat-icon-button (click)="openDialog(element)">
               <mat-icon>remove_red_eye</mat-icon>
             </button>
-            <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
               <button mat-icon-button (click)="onDelete(element)">
                 <mat-icon>delete</mat-icon>
               </button>
@@ -128,7 +128,7 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
       </table>
     </div>
-    <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
       <div align="right" class="mt-3 align-right">
         <button mat-raised-button (click)="openDialog()" class="button-styling" style="margin-right: 0.6rem">ADD</button>
       </div>
