@@ -116,7 +116,10 @@ export class FinalizeCreditAgreementComponent implements OnInit {
 
   public openDialog() {
     const dialogRef = this.dialog.open(SignerPerjanjialKreditDialogComponent, {
-      data: this.creditProposal.agreements.length > 0 ? this.creditProposal.agreements[0].attributes : '',
+      data: {
+        agreement: this.creditProposal.agreements.length > 0 ? this.creditProposal.agreements[0].attributes : '',
+        creditProposal: this.creditProposal,
+      },
       width: '120vh', // Ganti nilai ini sesuai kebutuhan lebar dialog
     });
     dialogRef.afterClosed().subscribe(result => {
