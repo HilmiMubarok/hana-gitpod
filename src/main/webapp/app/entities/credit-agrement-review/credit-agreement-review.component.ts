@@ -369,13 +369,12 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
         this.getStatusListView('REVIEW_CREDIT_AGREEMENT');
         if (this.clickedChip['statusId'] !== '') {
           this.cashCreditAgreementReviewService
-            .cashCreditProposalApprovalByStatus({
+            .creditAgreementBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'REVIEW_CREDIT_AGREEMENT',
             })
             .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoad(res)))
             .subscribe({
@@ -385,12 +384,11 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
           return;
         } else {
           this.cashCreditAgreementReviewService
-            .cashCreditProposalApprovalByStatus({
+            .creditAgreementBystatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'REVIEW_CREDIT_AGREEMENT',
             })
             .pipe(map((res: HttpResponse<ICreditAgreementReview[]>) => this.preLoad(res)))
             .subscribe({
