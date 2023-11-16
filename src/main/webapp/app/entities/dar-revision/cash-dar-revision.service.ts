@@ -84,6 +84,14 @@ export class CashDarRevisionService extends AbstractEntityService<IDarRevisionMo
       .pipe(map((res: HttpResponse<IDarRevisionModel[]>) => this.preLoadItemArray(res)));
   }
 
+  darRevision(req?: any): Observable<HttpResponse<IDarRevisionModel[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IDarRevisionModel[]>(this.resourceUrl + '/cash-credit-proposal/dar-revision', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IDarRevisionModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDarRevisionModel[]>) => this.preLoadItemArray(res)));
+  }
+
   public totalChanges: Subject<any> = new Subject();
 
   protected isNew(entity: IDarRevisionModel): boolean {

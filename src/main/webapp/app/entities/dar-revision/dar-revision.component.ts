@@ -287,13 +287,13 @@ export class DarRevisionComponent extends AbstractEntityMaterialComponent<IDarRe
         this.getStatusListView('DAR_REVISION');
         if (this.clickedChip['statusId'] !== '') {
           this.cashDarRevisionService
-            .cashCreditProposalApprovalByStatus({
+            .darRevision({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'DAR_REVISION',
+              // appMenuId: 'DAR_REVISION',
             })
             .pipe(map((res: HttpResponse<IDarRevisionModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -303,12 +303,12 @@ export class DarRevisionComponent extends AbstractEntityMaterialComponent<IDarRe
           return;
         } else {
           this.cashDarRevisionService
-            .cashCreditProposalApprovalByStatus({
+            .darRevision({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'DAR_REVISION',
+              // appMenuId: 'DAR_REVISION',
             })
             .pipe(map((res: HttpResponse<IDarRevisionModel[]>) => this.preLoad(res)))
             .subscribe({

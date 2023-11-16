@@ -285,13 +285,13 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
         this.getStatusListView('DAR_REVISION_CHECKER');
         if (this.clickedChip['statusId'] !== '') {
           this.cashDarRevisionCheckerService
-            .cashCreditProposalApprovalByStatus({
+            .darRevisionCheckerReview({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'DAR_REVISION_CHECKER',
+              // appMenuId: 'DAR_REVISION_CHECKER',
             })
             .pipe(map((res: HttpResponse<IDarRevisionCheckerModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -301,12 +301,12 @@ export class DarRevisionCheckerComponent extends AbstractEntityMaterialComponent
           return;
         } else {
           this.cashDarRevisionCheckerService
-            .cashCreditProposalApprovalByStatus({
+            .darRevisionCheckerReview({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'DAR_REVISION_CHECKER',
+              // appMenuId: 'DAR_REVISION_CHECKER',
             })
             .pipe(map((res: HttpResponse<IDarRevisionCheckerModel[]>) => this.preLoad(res)))
             .subscribe({

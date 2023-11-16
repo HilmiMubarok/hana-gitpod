@@ -26,6 +26,17 @@ export class CashDarRevisionCheckerService extends AbstractEntityService<IDarRev
     this.resourceUrlCashCreditProposal = this.resourceUrl + '/cash-credit-proposals';
   }
 
+  darRevisionCheckerReview(req?: any): Observable<HttpResponse<IDarRevisionCheckerModel[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IDarRevisionCheckerModel[]>(this.resourceUrl + '/cash-credit-proposal/dar-revision-checker', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<IDarRevisionCheckerModel[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDarRevisionCheckerModel[]>) => this.preLoadItemArray(res)));
+  }
+
   cashCreditProposalApprovalByStatus(req?: any): Observable<HttpResponse<IDarRevisionCheckerModel[]>> {
     const options = createRequestOption(req);
     return this.http
