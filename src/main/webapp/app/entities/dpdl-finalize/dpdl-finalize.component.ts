@@ -20,7 +20,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
-import { CashCreditProposalService } from './cash-credit-proposal.service';
+import { CashDpdlService } from './cash-dpdl.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
@@ -120,7 +120,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    private cashCreditProposalService: CashCreditProposalService,
+    private cashDpdlService: CashDpdlService,
     private templateService: TemplateService
   ) {
     super(_snackBar, creditProposalService);
@@ -150,7 +150,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
   }
 
   public getStatusListView(appMenu: string) {
-    this.cashCreditProposalService
+    this.cashDpdlService
       .queryListOfViewStatusFilterBy({
         page: 0,
         size: 9999,
@@ -180,7 +180,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
       predicate['target'] = 'credit_proposal_approval';
     }
 
-    this.cashCreditProposalService
+    this.cashDpdlService
       .searchCP(predicate)
       .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
       .subscribe({
@@ -284,14 +284,14 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
       if (this.router.url === '/finalize-dpdl') {
         this.getStatusListView('FINALIZE_DPDL');
         if (this.clickedChip['statusId'] !== '') {
-          this.cashCreditProposalService
-            .cashCreditProposalApprovalByStatus({
+          this.cashDpdlService
+            .dpdlFinalize({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'FINALIZE_DPDL',
+              // appMenuId: 'FINALIZE_DPDL',
             })
             .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -300,13 +300,13 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
             });
           return;
         } else {
-          this.cashCreditProposalService
+          this.cashDpdlService
             .cashCreditProposalApprovalByStatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'FINALIZE_DPDL',
+              // appMenuId: 'FINALIZE_DPDL',
             })
             .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -317,14 +317,14 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
       } else {
         this.getStatusListView('REVIEW_DPDL');
         if (this.clickedChip['statusId'] !== '') {
-          this.cashCreditProposalService
-            .cashCreditProposalApprovalByStatus({
+          this.cashDpdlService
+            .dpdlReview({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'REVIEW_DPDL',
+              // appMenuId: 'REVIEW_DPDL',
             })
             .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -333,13 +333,13 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
             });
           return;
         } else {
-          this.cashCreditProposalService
+          this.cashDpdlService
             .cashCreditProposalApprovalByStatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'REVIEW_DPDL',
+              // appMenuId: 'REVIEW_DPDL',
             })
             .pipe(map((res: HttpResponse<IDpdlFinalizeModel[]>) => this.preLoad(res)))
             .subscribe({
