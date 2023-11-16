@@ -116,7 +116,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   ngOnInit(): void {
-    console.log('parent source ', this.parentSource);
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
@@ -133,7 +132,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   public remarkStatus() {
-    if (this.parentSource === 'credit-agreement' || this.parentSource === 'loan-analys' || this.parentSource === 'darRevision') {
+    if (
+      this.parentSource === 'credit-agreement' ||
+      this.parentSource === 'loan-analys' ||
+      this.parentSource === 'darRevision' ||
+      this.parentSource === 'dar-revision-checker'
+    ) {
       return true;
     }
     return false;
