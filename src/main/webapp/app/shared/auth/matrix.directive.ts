@@ -632,7 +632,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
       ) {
         if (this.argsPath.match(/dar-revision/g)) {
           if (this.router.url.includes('dar-revision-checker')) {
-            if (subroutes === 'loan-facility') {
+            if (subroutes === 'loan-facility' || subroutes === 'collateral-info') {
               if (this.jhiMatrixDirElementType === '') {
                 this.viewContainerRef.createEmbeddedView(this.templateRef);
               }
