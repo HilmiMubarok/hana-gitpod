@@ -23,6 +23,7 @@ export class AgreementComparePreviousDarComponent implements OnInit {
   public menuDeviation = 'DEVIATION';
 
   _collateralProperties: ICollateralProperty[];
+  _collateralPropertyGroupData: ICollateralProperty[];
 
   @Input()
   get collateralProperties() {
@@ -31,6 +32,15 @@ export class AgreementComparePreviousDarComponent implements OnInit {
 
   set collateralProperties(param: ICollateralProperty[]) {
     this._collateralProperties = param;
+  }
+
+  @Input()
+  get collateralPropertyGroupData() {
+    return this._collateralPropertyGroupData;
+  }
+
+  set collateralPropertyGroupData(param: ICollateralProperty[]) {
+    this._collateralPropertyGroupData = param;
   }
 
   @Input()
