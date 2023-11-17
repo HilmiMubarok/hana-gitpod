@@ -984,42 +984,75 @@
       </section>
       <div class="mb-2">
         <div [hidden]="textBoxHidden">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>loan purpose (For Legal)</mat-label>
-            <textarea
-              matInput
-              type="multiline"
-              style="height: 100px"
-              [disabled]="statusDisabledOffering"
-              [(ngModel)]="applicationProduct.attributes['loanPurposeLegal']"
-            ></textarea>
-          </mat-form-field>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>loan purpose (For Legal)</mat-label>
+              <textarea
+                matInput
+                type="multiline"
+                style="height: 100px"
+                [disabled]="statusDisabledOffering"
+                [(ngModel)]="applicationProduct.attributes['loanPurposeLegal']"
+              ></textarea>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">loan purpose (For Legal)</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ applicationProduct.attributes['loanPurposeLegal'] }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
       <div class="mb-2">
         <div [hidden]="textBoxHidden">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Grace period since</mat-label>
-            <input
-              matInput
-              [(ngModel)]="applicationProduct.attributes['gracePeriodSince']"
-              type="text"
-              [disabled]="statusDisabledOffering"
-            />
-          </mat-form-field>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Grace period since</mat-label>
+              <input
+                matInput
+                [(ngModel)]="applicationProduct.attributes['gracePeriodSince']"
+                type="text"
+                [disabled]="statusDisabledOffering"
+              />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Grace period since</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ applicationProduct.attributes['gracePeriodSince'] }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
       <div class="mb-2">
         <div [hidden]="textBoxHidden">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Availability period since</mat-label>
-            <input
-              matInput
-              [(ngModel)]="applicationProduct.attributes['availabPeriodSince']"
-              type="text"
-              [disabled]="statusDisabledOffering"
-            />
-          </mat-form-field>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Availability period since</mat-label>
+              <input
+                matInput
+                [(ngModel)]="applicationProduct.attributes['availabPeriodSince']"
+                type="text"
+                [disabled]="statusDisabledOffering"
+              />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Availability period since</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ applicationProduct.attributes['availabPeriodSince'] }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
@@ -1028,81 +1061,102 @@
   <div class="row mb-5">
     <div class="form-group" class="col-md-6">
       <div [hidden]="textBoxHidden">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Late Payment Fee</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <input
-                matInput
-                type="text"
-                class="example-right-align"
-                [(ngModel)]="applicationProduct.latePaymentFee"
-                [disabled]="statusDisabledOffering"
-              />
-              <!-- <div matSuffix>&nbsp;%</div> -->
-            </mat-form-field>
+        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Late Payment Fee</mat-label>
+            <input
+              matInput
+              type="text"
+              class="example-right-align"
+              [(ngModel)]="applicationProduct.latePaymentFee"
+              [disabled]="statusDisabledOffering"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Late Payment Fee</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.latePaymentFee }}
+            </div>
           </div>
-        </div>
+        </section>
       </div>
 
       <div class="form-group" [hidden]="textBoxHidden">
-        <div class="fontsebled row py-1">
-          <div class="col-3">The Prime Lending Rate</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <input
-                matInput
-                type="number"
-                class="example-right-align"
-                [(ngModel)]="applicationProduct.primeLandingRate"
-                [disabled]="statusDisabledOffering"
-              />
-              <!-- <span matSuffix>&nbsp;%</span> -->
-            </mat-form-field>
+        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>The Prime Lending Rate</mat-label>
+            <input
+              matInput
+              type="number"
+              class="example-right-align"
+              [(ngModel)]="applicationProduct.primeLandingRate"
+              [disabled]="statusDisabledOffering"
+            />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-1">
+            <div class="col-3">The Prime Lending Rate</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.primeLandingRate }}
+            </div>
           </div>
-        </div>
+        </section>
       </div>
 
       <div class="form-group" [hidden]="textBoxHidden">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Early Repayment Penalty</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <input
-                matInput
-                type="number"
-                class="example-right-align"
-                [(ngModel)]="applicationProduct.earlyRepaymentPenalty"
-                [disabled]="statusDisabledOffering"
-              />
-              <span matSuffix>&nbsp;%</span>
-            </mat-form-field>
+        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Early Repayment Penalty</mat-label>
+            <input
+              matInput
+              type="number"
+              class="example-right-align"
+              [(ngModel)]="applicationProduct.earlyRepaymentPenalty"
+              [disabled]="statusDisabledOffering"
+            />
+            <span matSuffix>&nbsp;%</span>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Early Repayment Penalty</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.earlyRepaymentPenalty }}
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
 
     <div class="col-md-6">
       <div class="form-group" [hidden]="textBoxHidden">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Payment Obligations</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Payment Obligations</mat-label>
-              <textarea
-                matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                [(ngModel)]="applicationProduct.attributes['paymentObligation']"
-                [disabled]="statusDisabledOffering"
-              ></textarea>
-            </mat-form-field>
+        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Payment Obligations</mat-label>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              [(ngModel)]="applicationProduct.attributes['paymentObligation']"
+              [disabled]="statusDisabledOffering"
+            ></textarea>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Payment Obligations</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.attributes['paymentObligation'] }}
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   </div>
