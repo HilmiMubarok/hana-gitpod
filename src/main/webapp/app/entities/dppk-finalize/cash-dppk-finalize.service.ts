@@ -41,6 +41,17 @@ export class CashDppkFinalizeService extends AbstractEntityService<IDppkFinalize
       .pipe(map((res: HttpResponse<IDppkFinalize[]>) => this.preLoadItemArray(res)));
   }
 
+  finalizeDppkBystatus(req?: any): Observable<HttpResponse<IDppkFinalize[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IDppkFinalize[]>(this.resourceUrl + '/cash-credit-proposal/finalize-dppk', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<IDppkFinalize[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDppkFinalize[]>) => this.preLoadItemArray(res)));
+  }
+
   queryListOfViewStatusFilterBy(req?: any): Observable<HttpResponse<any[]>> {
     const options = createRequestOption(req);
     return this.http
