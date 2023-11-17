@@ -115,6 +115,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     }
   }
 
+  remarkDisable() {
+    this.container_view_false.restrictEditing = true;
+  }
+
   ngOnInit(): void {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];

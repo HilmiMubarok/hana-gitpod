@@ -386,17 +386,38 @@
       </section>
       <section *ngIf="remarkStatus()">
         <mat-label>REMARKS</mat-label>
-        <ejs-documenteditorcontainer
-          #document_editor_container_view_false_loan_analys
-          [headers]="customHeadersJWT"
-          [enableToolbar]="false"
-          [enableLocalPaste]="false"
-          height="100vh"
-          style="display: block"
-          (documentChange)="onDocumentChange()"
-          [enableEditor]="false"
-          [isReadOnly]="true"
-        ></ejs-documenteditorcontainer>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <h1>enable harusnya</h1>
+          <ejs-documenteditorcontainer
+            #document_editor_container_view_false
+            [headers]="customHeadersJWT"
+            [enableToolbar]="true"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (keyDown)="onKeyDown($event)"
+            (created)="onCreate()"
+            [enableEditor]="true"
+            [isReadOnly]="false"
+          ></ejs-documenteditorcontainer>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <h1>disable harusnya</h1>
+          <ejs-documenteditorcontainer
+            #document_editor_container_view_false
+            [headers]="customHeadersJWT"
+            [enableToolbar]="false"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            (documentChange)="remarkDisable()"
+            [enableEditor]="false"
+            [isReadOnly]="true"
+            disabled
+          ></ejs-documenteditorcontainer>
+        </section>
       </section>
     </div>
   </div>
