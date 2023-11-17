@@ -290,7 +290,6 @@
               <div *ngIf="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposal.statusId); else entityCollateral">
                 <!-- Cek history -->
                 <ng-container *ngIf="isDarRevHistoryExist; else entityCollateral">
-                  <p>History</p>
                   <jhi-collateral-info-dar-final [isViewMode]="true" [creditProposal]="creditProposal"></jhi-collateral-info-dar-final>
                 </ng-container>
               </div>
