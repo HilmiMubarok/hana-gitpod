@@ -166,8 +166,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
           } else {
-            if (this.jhiMatrixDirElementType === 'input') {
-              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            if (this.status !== 'PK_DAR_REVISION') {
+              if (this.jhiMatrixDirElementType === '') {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              }
+            } else {
+              if (this.jhiMatrixDirElementType === 'input') {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              }
             }
           }
         } else {
@@ -639,8 +645,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
             }
           } else {
             if (subroutes === 'loan-facility' || subroutes === 'collateral-info') {
-              if (this.jhiMatrixDirElementType === 'input') {
-                this.viewContainerRef.createEmbeddedView(this.templateRef);
+              if (this.status !== 'PK_DAR_REVISION') {
+                if (this.jhiMatrixDirElementType === '') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              } else {
+                if (this.jhiMatrixDirElementType === 'input') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
               }
             } else {
               if (this.jhiMatrixDirElementType === '') {
