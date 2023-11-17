@@ -745,9 +745,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
       if (this.creditProposal.id) {
         if (this.router.url.split('/')[1] === 'finalize-dppk') {
-          this.saveUpdate('not-complete', source);
-        }
-        if (this.router.url.split('/')[1] === 'finalize-dppk') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -803,13 +800,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
                       } else {
                         ++countValidate;
                       }
-
-                      /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
                     }
                   } else {
                     // toast opinion empty
@@ -827,17 +817,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
                         const fileReaderCondition: FileReader = new FileReader();
                         fileReaderCondition.onload = (eCondition: any) => {
                           const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-                          /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
 
                           if (
                             testSfdtFileCondition.sections[0].blocks[0].inlines ||
