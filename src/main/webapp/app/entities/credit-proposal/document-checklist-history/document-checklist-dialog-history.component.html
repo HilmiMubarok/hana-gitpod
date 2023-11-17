@@ -55,6 +55,15 @@
               <img src="../../../../content/images/acc.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
 
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1 || f.name.split('.').indexOf('ZIP') > -1">
+              <img src="../../../../content/images/zip-image.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1 || f.name.split('.').indexOf('RAR') > -1">
+              <img src="../../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
             <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp4') > -1 || f.name.split('.').indexOf('MP4') > -1">
               <img src="../../../../content/images/mp4.png" width="100%" height="100%" />
             </ngx-dropzone-label>
@@ -240,6 +249,23 @@
 
           <div *ngIf="item.name.split('.').indexOf('mp4') > -1 || item.name.split('.').indexOf('MP4') > -1">
             <img width="300px" src="../../../../content/images/mp4.png" />
+
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+
+
+          <div *ngIf="item.name.split('.').indexOf('zip') > -1 || item.name.split('.').indexOf('ZIP') > -1">
+            <img width="300px" src="../../../../content/images/zip-image.jpg" />
+
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+
+          <div *ngIf="item.name.split('.').indexOf('rar') > -1 || item.name.split('.').indexOf('RAR') > -1">
+            <img width="300px" src="../../../../content/images/WinRAR-logo.jpg" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>

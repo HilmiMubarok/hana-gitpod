@@ -100,6 +100,15 @@
               <img src="../../../../content/images/word.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1 || f.name.split('.').indexOf('ZIP') > -1 || f.name.split('.').indexOf('DOC') > -1 || f.name.split('.').indexOf('DOCX') > -1">
+              <img src="../../../../content/images/zip-image.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1 || f.name.split('.').indexOf('RAR') > -1 || f.name.split('.').indexOf('DOC') > -1 || f.name.split('.').indexOf('DOCX') > -1">
+              <img src="../../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+
             <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('aac') > -1 || f.name.split('.').indexOf('AAC') > -1">
               <img src="../../../../content/images/acc.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
@@ -273,6 +282,20 @@
 
           <div *ngIf="item.name.split('.').indexOf('xlsx') > -1 || item.name.split('.').indexOf('xls') > -1 || item.name.split('.').indexOf('XLXS') > -1 || item.name.split('.').indexOf('XLS') > -1" style="width: 300px">
             <img width="300px" src="../../../../content/images/excel.png" />
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+
+          <div *ngIf="item.name.split('.').indexOf('zip') > -1 || item.name.split('.').indexOf('ZIP') > -1" style="width: 300px">
+            <img width="300px" src="../../../../content/images/zip-image.jpg" />
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+
+          <div *ngIf="item.name.split('.').indexOf('rar') > -1 || item.name.split('.').indexOf('RAR') > -1" style="width: 300px">
+            <img width="300px" src="../../../../content/images/WinRAR-logo.jpg" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
