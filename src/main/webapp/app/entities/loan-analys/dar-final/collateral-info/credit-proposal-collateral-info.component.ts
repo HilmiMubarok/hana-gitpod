@@ -11,6 +11,7 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 export class CollateralInfoDarFinalComponent implements OnInit {
   private _creditProposal: ICreditProposal;
   private _collateralProperties: ICollateralProperty[];
+  private _collateralPropertyGroupData: ICollateralProperty[]
 
   public selectedMenu: string;
   public menuItemx: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'SUMMARY' }];
@@ -26,6 +27,14 @@ export class CollateralInfoDarFinalComponent implements OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralPropertyGroupData() {
+    return this._collateralPropertyGroupData;
+  }
+  set collateralPropertyGroupData(item: ICollateralProperty[]) {
+    this._collateralPropertyGroupData = item;
   }
 
   @Input()
