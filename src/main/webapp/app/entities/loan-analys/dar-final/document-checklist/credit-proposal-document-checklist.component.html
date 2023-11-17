@@ -44,13 +44,7 @@
             <button *ngIf="item.parentId === 'DOC_LA' && matrix === true" mat-icon-button (click)="openDialog(element, 'add', item.description)">
               <mat-icon>create</mat-icon>
             </button>
-            <button
-              *ngIf="creditProposal.statusId === 'CP_LOAN_COMMITTEE' && item.parentId !== 'DOC_IDD' && item.parentId !== 'DOC_LA'"
-              mat-icon-button
-              (click)="openDialog(element, 'add', item.description)"
-            >
-              <mat-icon>create</mat-icon>
-            </button>
+           
 
             <button
               *ngIf="creditProposal.statusId === 'CP_DAR_FINAL' && item.parentId !== 'DOC_IDD'"
