@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Diagram</h2>
+<mat-dialog-content>
+  <mat-progress-spinner *ngIf="loading" color="warn" mode="indeterminate"> </mat-progress-spinner>
+  <img [src]="diagram" *ngIf="!loading" />
+</mat-dialog-content>
+<mat-dialog-actions align="center" style="text-align: center; margin: 0 auto">
+  <button mat-button mat-dialog-close class="confirm-button-no">Close</button>
+</mat-dialog-actions>

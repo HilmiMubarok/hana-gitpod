@@ -344,5 +344,9 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
       .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
   }
 
+  public getTaskDiagram(id: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.resourceUrl}/cash-survey-appraisals/diagram-task/${id}`, { observe: 'response', responseType: 'blob' });
+  }
+
   protected preSave(entity: ISurveyAppraisals) {}
 }
