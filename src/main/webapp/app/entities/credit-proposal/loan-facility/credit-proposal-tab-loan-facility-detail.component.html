@@ -387,7 +387,6 @@
       <section *ngIf="remarkStatus()">
         <mat-label>REMARKS</mat-label>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-          <h1>enable harusnya</h1>
           <ejs-documenteditorcontainer
             #document_editor_container_view_false
             [headers]="customHeadersJWT"
@@ -404,7 +403,6 @@
           ></ejs-documenteditorcontainer>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-          <h1>disable harusnya</h1>
           <ejs-documenteditorcontainer
             #document_editor_container_view_false
             [headers]="customHeadersJWT"
