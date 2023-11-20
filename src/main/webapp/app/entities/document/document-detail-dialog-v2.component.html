@@ -54,6 +54,20 @@
           </div>
         </div>
 
+        <div *ngIf="item.key.split('.').indexOf('rar') > -1" style="width: 300px">
+          <img width="300px" src="../../../content/images/WinRAR-logo.jpg" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
+        <div *ngIf="item.key.split('.').indexOf('zip') > -1" style="width: 300px">
+          <img width="300px" src="../../../content/images/zip-image.jpg" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
         <div *ngIf="item.key.split('.').indexOf('tiff') > -1" style="width: 300px">
           <img width="300px" src="../../../content/images/tiff.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
