@@ -142,6 +142,7 @@
                   <fa-icon [icon]="iconTimeline"></fa-icon>
                 </button>
               </td>
+              <jhi-developer-area-show-diagram-state-multiple [elementData]="element"> </jhi-developer-area-show-diagram-state-multiple>
             </ng-container>
             <ng-container matColumnDef="expand">
               <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
@@ -158,6 +159,7 @@
                   <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
                   <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
                 </button>
+                <jhi-developer-area-show-diagram-state-multiple [elementData]="element"> </jhi-developer-area-show-diagram-state-multiple>
               </td>
             </ng-container>
 
