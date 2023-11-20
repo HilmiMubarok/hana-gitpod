@@ -984,7 +984,7 @@
       </section>
       <div class="mb-2">
         <div [hidden]="textBoxHidden">
-          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <section *ngIf="!statusDisabledOffering">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>loan purpose (For Legal)</mat-label>
               <textarea
@@ -996,7 +996,7 @@
               ></textarea>
             </mat-form-field>
           </section>
-          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <section *ngIf="statusDisabledOffering">
             <div class="fontsebled row py-1">
               <div class="col-3">loan purpose (For Legal)</div>
               <div class="col-md-auto">:</div>
@@ -1009,7 +1009,7 @@
       </div>
       <div class="mb-2">
         <div [hidden]="textBoxHidden">
-          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <section *ngIf="!statusDisabledOffering">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Grace period since</mat-label>
               <input
@@ -1020,7 +1020,7 @@
               />
             </mat-form-field>
           </section>
-          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <section *ngIf="statusDisabledOffering">
             <div class="fontsebled row py-1">
               <div class="col-3">Grace period since</div>
               <div class="col-md-auto">:</div>
@@ -1033,7 +1033,7 @@
       </div>
       <div class="mb-2">
         <div [hidden]="textBoxHidden">
-          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <section *ngIf="!statusDisabledOffering">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Availability period since</mat-label>
               <input
@@ -1044,7 +1044,7 @@
               />
             </mat-form-field>
           </section>
-          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <section *ngIf="statusDisabledOffering">
             <div class="fontsebled row py-1">
               <div class="col-3">Availability period since</div>
               <div class="col-md-auto">:</div>
@@ -1061,7 +1061,7 @@
   <div class="row mb-5">
     <div class="form-group" class="col-md-6">
       <div [hidden]="textBoxHidden">
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <section *ngIf="statusDisabledOffering">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Late Payment Fee</mat-label>
             <input
@@ -1073,7 +1073,7 @@
             />
           </mat-form-field>
         </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <section *ngIf="statusDisabledOffering">
           <div class="fontsebled row py-1">
             <div class="col-3">Late Payment Fee</div>
             <div class="col-md-auto">:</div>
@@ -1085,7 +1085,7 @@
       </div>
 
       <div class="form-group" [hidden]="textBoxHidden">
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <section *ngIf="!statusDisabledOffering">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>The Prime Lending Rate</mat-label>
             <input
@@ -1097,7 +1097,7 @@
             />
           </mat-form-field>
         </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <section *ngIf="statusDisabledOffering">
           <div class="fontsebled row py-1">
             <div class="col-3">The Prime Lending Rate</div>
             <div class="col-md-auto">:</div>
@@ -1109,7 +1109,7 @@
       </div>
 
       <div class="form-group" [hidden]="textBoxHidden">
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <section *ngIf="!statusDisabledOffering">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Early Repayment Penalty</mat-label>
             <input
@@ -1122,7 +1122,7 @@
             <span matSuffix>&nbsp;%</span>
           </mat-form-field>
         </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <section *ngIf="statusDisabledOffering">
           <div class="fontsebled row py-1">
             <div class="col-3">Early Repayment Penalty</div>
             <div class="col-md-auto">:</div>
@@ -1136,7 +1136,7 @@
 
     <div class="col-md-6">
       <div class="form-group" [hidden]="textBoxHidden">
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <section *ngIf="!statusDisabledOffering">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Payment Obligations</mat-label>
             <textarea
@@ -1148,7 +1148,7 @@
             ></textarea>
           </mat-form-field>
         </section>
-        <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <section *ngIf="statusDisabledOffering">
           <div class="fontsebled row py-1">
             <div class="col-3">Payment Obligations</div>
             <div class="col-md-auto">:</div>
