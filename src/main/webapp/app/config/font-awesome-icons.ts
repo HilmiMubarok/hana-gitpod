@@ -1,4 +1,5 @@
 import {
+  faChartBar,
   faExclamationTriangle,
   faArrowCircleLeft,
   faArrowLeft,
@@ -78,6 +79,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontAwesomeIcons = [
+  faChartBar,
   faStethoscope,
   faExclamationTriangle,
   faArrowCircleLeft,

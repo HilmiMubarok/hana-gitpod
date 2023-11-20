@@ -420,6 +420,8 @@ import { MainFacilityDarComponent } from './loan-analys/dar-final/loan-facility/
 import { MainFacilityDialogDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dialog-dar.component';
 import { CreditProposalMappingCollateralTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-collateral.component';
 import { MappingFacilityTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-facility.component';
+import { DeveloperShowDiagramStateMultipleComponent } from 'app/developer/reuseable/diagram-state-multiple.component';
+import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/reuseable/dialog/diagram-state-multiple-dialog.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -903,6 +905,10 @@ LoanFacilityDetailTempComponent,
 MainFacilityDarComponent,
     MainFacilityChildDarComponent,
     MainFacilityDialogDarComponent,
+
+    // DEV
+    DeveloperShowDiagramStateMultipleComponent,
+    DeveloperShowDiagramStateMultipleDialogComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1343,6 +1349,10 @@ MainFacilityDarComponent,
     MainFacilityDarComponent,
     MainFacilityChildDarComponent,
     MainFacilityDialogDarComponent,
+
+    // DEV
+    DeveloperShowDiagramStateMultipleComponent,
+    DeveloperShowDiagramStateMultipleDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
