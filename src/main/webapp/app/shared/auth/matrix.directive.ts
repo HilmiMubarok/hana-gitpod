@@ -28,6 +28,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
   @Input() jhiMatrixDirMenu: string;
   @Input() jhiMatrixDirSubMenu: string;
 
+  public routeEdit = this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3];
+
   constructor(
     private accountService: AccountService,
     private router: Router,
@@ -638,7 +640,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
       ) {
         if (this.argsPath.match(/dar-revision/g)) {
           if (this.router.url.includes('dar-revision-checker')) {
-            if (subroutes === 'loan-facility' || subroutes === 'collateral-info') {
+            if (subroutes === 'loan-facility' || subroutes === 'collateral-info' || subroutes === 'dar-summary' || this.routeEdit) {
               if (this.jhiMatrixDirElementType === '') {
                 this.viewContainerRef.createEmbeddedView(this.templateRef);
               }
