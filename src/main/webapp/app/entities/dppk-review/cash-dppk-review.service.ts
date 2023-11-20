@@ -40,6 +40,16 @@ export class CashDppkReviewService extends AbstractEntityService<IDppkReview> {
       .pipe(map((res: HttpResponse<IDppkReview[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoadItemArray(res)));
   }
+  reviewDppkBystatus(req?: any): Observable<HttpResponse<IDppkReview[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IDppkReview[]>(this.resourceUrl + '/cash-credit-proposal/review-dppk', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<IDppkReview[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoadItemArray(res)));
+  }
 
   queryListOfViewStatusFilterBy(req?: any): Observable<HttpResponse<any[]>> {
     const options = createRequestOption(req);

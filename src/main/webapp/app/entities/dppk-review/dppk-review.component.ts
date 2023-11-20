@@ -277,16 +277,15 @@ export class DppkReviewComponent extends AbstractEntityMaterialComponent<IDppkRe
       this.router.navigate(['']);
     } else {
       if (this.router.url === '/review-dppk') {
-        this.getStatusListView('FINALIZE_DPPK');
+        this.getStatusListView('REVIEW_DPPK');
         if (this.clickedChip['statusId'] !== '') {
           this.cashDppkReviewService
-            .cashCreditProposalApprovalByStatus({
+            .reviewDppkBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'FINALIZE_DPPK',
             })
             .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoad(res)))
             .subscribe({
@@ -296,12 +295,42 @@ export class DppkReviewComponent extends AbstractEntityMaterialComponent<IDppkRe
           return;
         } else {
           this.cashDppkReviewService
-            .cashCreditProposalApprovalByStatus({
+            .reviewDppkBystatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'FINALIZE_DPPK',
+            })
+            .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<IDppkReview[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else {
+        this.getStatusListView('REVIEW_DPPK');
+        if (this.clickedChip['statusId'] !== '') {
+          this.cashDppkReviewService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idStatus: this.clickedChip['statusId'],
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<IDppkReview[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else {
+          this.cashDppkReviewService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
             })
             .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoad(res)))
             .subscribe({
@@ -310,43 +339,6 @@ export class DppkReviewComponent extends AbstractEntityMaterialComponent<IDppkRe
             });
         }
       }
-
-      // else {
-      //   this.getStatusListView('FINALIZE_CREDIT_AGREEMENT');
-      //   if (this.clickedChip['statusId'] !== '') {
-      //     this.cashCreditAgreementService
-      //       .cashCreditProposalApprovalByStatus({
-      //         page: this.page,
-      //         idStatus: this.clickedChip['statusId'],
-      //         idPosition: this.positionIdLocStor,
-      //         size: this.itemsPerPage,
-      //         sort: ['id,desc'],
-      //         appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
-      //       })
-      //       .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
-      //       .subscribe({
-      //         next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
-      //         error: (res: HttpErrorResponse) => this.onError(res.message),
-      //       });
-      //     return;
-      //   }
-
-      // else {
-      //   this.cashCreditAgreementService
-      //     .cashCreditProposalApprovalByStatus({
-      //       page: this.page,
-      //       idPosition: this.positionIdLocStor,
-      //       size: this.itemsPerPage,
-      //       sort: ['id,desc'],
-      //       appMenuId: 'FINALIZE_CREDIT_AGREEMENT',
-      //     })
-      //     .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoad(res)))
-      //     .subscribe({
-      //       next: (res: HttpResponse<ICreditAgreement[]>) => this.initDataForMatTable(res, res.headers),
-      //       error: (res: HttpErrorResponse) => this.onError(res.message),
-      //     });
-      // }
-      // }
     }
   }
 
