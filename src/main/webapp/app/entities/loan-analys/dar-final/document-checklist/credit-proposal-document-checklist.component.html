@@ -49,6 +49,14 @@
               >
                 <mat-icon>create</mat-icon>
               </button>
+
+              <button
+                *ngIf="item.parentId !== 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM'"
+                mat-icon-button
+                (click)="openDialog(element, 'add', item.description)"
+              >
+                <mat-icon>create</mat-icon>
+              </button>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <button
                   *ngIf="item.parentId !== 'DOC_IDD' && item.parentId !== 'DOC_LA' && creditProposal.statusCode !== 'PK_RETURN_TO_RM'"
