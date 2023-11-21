@@ -301,7 +301,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
           return;
         } else {
           this.cashDpdlService
-            .cashCreditProposalApprovalByStatus({
+            .dpdlFinalize({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
@@ -334,7 +334,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
           return;
         } else {
           this.cashDpdlService
-            .cashCreditProposalApprovalByStatus({
+            .dpdlReview({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
