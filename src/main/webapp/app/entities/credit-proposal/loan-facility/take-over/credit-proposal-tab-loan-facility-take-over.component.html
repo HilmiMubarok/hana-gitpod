@@ -174,14 +174,14 @@
         <div class="col-6">
           <section *ngIf="!view">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Facility Type dar final tidak view</mat-label>
+              <mat-label>Facility Type</mat-label>
               <input matInput type="text" [(ngModel)]="facilityTakeOver.facilityTypeBank" />
             </mat-form-field>
           </section>
 
           <section *ngIf="view">
             <div class="fontsebled row">
-              <div class="col-3">Facility Type dar final view</div>
+              <div class="col-3">Facility Type</div>
               <div class="col-md-auto" style="margin-left: -7px">:</div>
               <div class="col">
                 {{ facilityTakeOver.facilityTypeBank }}
