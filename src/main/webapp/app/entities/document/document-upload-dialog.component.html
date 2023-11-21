@@ -61,6 +61,14 @@
                 <img src="../../../content/images/csv.png" width="100%" height="100%" />
               </ngx-dropzone-label>
 
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1">
+                <img src="../../../content/images/zip-image.jpg" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1">
+                <img src="../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
               <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
                 <img src="../../../content/images/mp3.png" width="100%" height="100%" />
               </ngx-dropzone-label>
@@ -220,6 +228,14 @@
                 <img src="../../../content/images/pdf.png" width="100%" height="100%" />
               </ngx-dropzone-label>
 
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1">
+                <img src="../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1">
+                <img src="../../../content/images/zip-image.jpg" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
               <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('pptx') > -1">
                 <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
               </ngx-dropzone-label>
@@ -348,6 +364,16 @@
           <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('pptx') > -1">
             <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
           </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1">
+            <img src="../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1">
+            <img src="../../../content/images/zip-image.jpg" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+
           <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
             <img src="../../../content/images/csv.png" width="100%" height="100%" />
           </ngx-dropzone-label>
@@ -414,6 +440,10 @@
               <img width="150px" src="../../../content/images/tiff.png" *ngIf="item.key.split('.').indexOf('tiff') > -1" />
 
               <img width="150px" src="../../../content/images/mp3.png" *ngIf="item.key.split('.').indexOf('mp3') > -1" />
+
+              <img width="150px" src="../../../content/images/WinRAR-logo.jpg" *ngIf="item.key.split('.').indexOf('rar') > -1" />
+
+              <img width="150px" src="../../../content/images/zip-image.jpg" *ngIf="item.key.split('.').indexOf('zip') > -1" />
 
               <img
                 (click)="donwload(item.url)"
