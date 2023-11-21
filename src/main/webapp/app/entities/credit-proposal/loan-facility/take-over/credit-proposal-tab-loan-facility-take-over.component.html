@@ -315,11 +315,14 @@
           </section>
         </div>
         <mat-dialog-actions align="center" class="align-center">
-          <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
-          <button mat-raised-button (click)="Onsave()" class="confirm-button-yes">Save</button>
+          <section *ngIf="!view">
+            <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
+            <button mat-raised-button (click)="Onsave()" class="confirm-button-yes">Save</button>
+          </section>
+
           <section *ngIf="view">
             <div class="mt-3 text-center">
-              <button mat-raised-button class="confirm-button-yes" hidden (click)="Onsave()">Save</button>
+              <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
             </div>
           </section>
         </mat-dialog-actions>

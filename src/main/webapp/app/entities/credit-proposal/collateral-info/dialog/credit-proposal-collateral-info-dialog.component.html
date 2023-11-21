@@ -724,7 +724,7 @@
       <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-      <div class="form-group" *ngIf="parentSource !== 'dec-offering'">
+      <div class="form-group">
         <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
       </div>
     </section>
@@ -1407,7 +1407,7 @@
               <div class="form-group" *ngIf="parentSource === 'dec-offering'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Informasi Tambahan</mat-label>
-                  <input matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" />
+                  <input matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" [disabled]="field" />
                 </mat-form-field>
               </div>
             </div>
