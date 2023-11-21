@@ -208,6 +208,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       this.parentPath === 'finalize-pk' ||
       this.parentPath === 'review-pk' ||
       this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
       // this.parentPath === 'dar-revision' ||
       this.parentPath === 'dar-revision-checker' ||
       this.parentPath === 'finalize-dppk' ||
