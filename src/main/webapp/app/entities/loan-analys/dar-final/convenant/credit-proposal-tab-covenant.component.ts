@@ -3,6 +3,7 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { dataCovenantBelow, dataCovenantBackToBackDeposit, dataCovenantBackToBackGeneral, dataCovenantAbove } from './convenant.constant';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-covenant-temp',
@@ -37,6 +38,24 @@ export class CovenantTempComponent implements OnInit {
 
   public finalData: any;
 
+  constructor(private router: Router) {}
+
+  get viewMode(): Boolean {
+    const cpStatus = this.creditProposalItem.statusId;
+
+    const enabledStatus = ['CP_DAR_FINAL', 'CP_LOAN_COMMITTE', 'PK_DAR_REVISION'];
+
+    if (enabledStatus.includes(cpStatus)) {
+      if (this.router.url.split('subroute=')[1] === 'compare-data') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -44,6 +63,7 @@ export class CovenantTempComponent implements OnInit {
   @Input() setActiveMenu: string;
   @Input() isViewMode: Boolean = false;
   @Input() isOnOffering: Boolean = false;
+  @Input() takeOutCompare: Boolean = false;
 
   @Input()
   get creditProposalItem() {
