@@ -11,7 +11,7 @@ export function formatBytes(bytes: number, decimals?: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-interface IParsePreviousAtrribute {
+export interface IParsePreviousAtrribute {
   previousReturn?: any;
   previousHistory?: any;
   darRevHistory?: any;
