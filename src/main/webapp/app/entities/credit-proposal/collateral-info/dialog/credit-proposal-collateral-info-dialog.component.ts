@@ -219,7 +219,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     }
   }
   public hiddenPath() {
-    if (this.parentPath === 'dar-revision' || this.parentPath === 'dar-revision-checker') {
+    if (this.parentPath !== 'finalize') {
       return true;
     }
     return false;
