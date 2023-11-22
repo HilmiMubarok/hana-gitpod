@@ -1,8 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SharedModule } from 'app/shared/shared.module';
 import { SharedEntityModule } from '../shared-entity.module';
-import { CompareDataComponent } from './compare-data.component';
 import { CompareDataService } from './services/compare-data.service';
 
 @NgModule({
@@ -10,8 +8,8 @@ import { CompareDataService } from './services/compare-data.service';
     // Loan Facility
     // Collateral
     // Covenant
-
-    CompareDataComponent,
+    // CompareDataComponent,
+    // CompareDataNotFoundComponent,
   ],
   imports: [
     // your other modules here
@@ -20,8 +18,8 @@ import { CompareDataService } from './services/compare-data.service';
   ],
   exports: [
     // components that you want to make available to other modules
-
-    CompareDataComponent,
+    // CompareDataComponent,
+    // CompareDataNotFoundComponent,
   ],
   providers: [
     // your services here

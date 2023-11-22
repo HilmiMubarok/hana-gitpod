@@ -10,7 +10,6 @@ import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angula
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { DarRevisionComponent } from './dar-revision.component';
 import { DarRevisionViewComponent } from './dar-revision-view.component';
-import {CompareDataModule} from "../compare-data/compare-data.module";
 
 // import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 // import { CreditProposalListComponent } from './credit-proposal-list.component';
@@ -37,7 +36,7 @@ import {CompareDataModule} from "../compare-data/compare-data.module";
 // import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-facility/main-facility-child-history.component';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(darRevisionRoute), CompareDataModule],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(darRevisionRoute)],
   declarations: [
     // CreditProposalComponent,
     // CreditProposalUpdateCustomComponent,

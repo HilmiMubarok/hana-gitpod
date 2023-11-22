@@ -1,0 +1,109 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Main Facility</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-main-facility [creditProposal]="creditProposal"></jhi-main-facility>
+    </div>
+  </div>
+
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Facility Details</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-compare-data-loan-facility-grid [dataFrom]="dataFrom"></jhi-compare-data-loan-facility-grid>
+    </div>
+
+    <div class="row mb-3 mt-3">
+      <div class="col-4">
+        <label class="labelTotal">Total In IDR</label>
+
+        <div class="fontsebled row">
+          <div class="col-5">Total Initial Limit (IDR)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumInitialLimit('IDR') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Total Changes (IDR)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumTotalChange('IDR') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Total O/S (IDR)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumTotalOS('IDR') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Sub Total Plafond (IDR)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumTotalCredit('IDR') | number }}</div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <label class="labelTotal">Total In USD</label>
+        <div class="fontsebled row">
+          <div class="col-5">Total Initial Limit (USD)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">USD. {{ sumInitialLimit('USD') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Total Changes (IDR)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumTotalChange('USD') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Total O/S (USD)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">USD. {{ sumTotalOS('USD') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Sub Total Plafond (USD)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">USD. {{ sumTotalCredit('USD') | number }}</div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <label class="labelTotal">Total Eq to IDR</label>
+        <div class="fontsebled row">
+          <div class="col-5">Total Initial Limit Eq to IDR</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumInitialLimit('both') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Total Changes (IDR)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumTotalChange('both') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Total O/S Eq to IDR</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumTotalOS('both') | number }}</div>
+        </div>
+
+        <div class="fontsebled row">
+          <div class="col-5">Sub Total Plafond Eq to IDR</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">IDR. {{ sumTotalCredit('both') | number }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
