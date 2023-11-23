@@ -163,3 +163,55 @@ body.tailwind-dark .e-dashboardlayout.e-control .e-panel {
 #date-range .p-dropdown-panel {
   max-width: 0vw;
 }
+
+.status-carousel .p-carousel {
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+/* .status-carousel .p-carousel-header {
+  background-color: rgba(147, 201, 199, 1) !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+
+  border: none !important;
+  height: 50px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+.status-wrapper .mat-card {
+  padding: 0 !important;
+}
+
+.status-wrapper .p-carousel-item {
+  height: fit-content !important;
+}
+.status-wrapper .p-carousel-item > div {
+  padding: 0 !important;
+}
+.status-card {
+  border-top-left-radius: 5%;
+  border-top-right-radius: 5%;
+  width: 13rem;
+  height: 10rem;
+
+  background: #fff;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+}
+
+.status-card .mat-card-header {
+  background-color: rgba(147, 201, 199, 1) !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+
+  border: none !important;
+  height: 50px !important;
+  display: flex;
+  align-items: center;
+  margin: auto;
+}
+.status-card .mat-card-header > .mat-card-header-text {
+  margin: 0 37px;
+}
