@@ -78,7 +78,7 @@
                 </section>
   
                   <button
-                      *ngIf="creditProposal.statusCode === 'PK_RETURN_TO_RM' && matrix !== true && item.parentId !== 'DOC_LA'"
+                      *ngIf="creditProposal.statusCode === 'PK_RETURN_TO_RM' && matrix !== true && item.parentId !== 'DOC_LA' && item.parentId !== 'DOC_IDD'"
                       mat-icon-button
                       (click)="openDialog(element, 'add', item.description)"
                     >
