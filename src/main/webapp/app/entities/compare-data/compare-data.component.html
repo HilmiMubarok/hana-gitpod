@@ -1,7 +1,5 @@
 <!--Tab menu Dar Revision Final dan Previous DAR-->
-
 <ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItemsAll" (select)="setMenu($event)"></ejs-menu>
-
 <!--END Tab menu Dar Revision Final dan Previous DAR-->
 
 <!-- Dar Revision Final-->
@@ -12,26 +10,18 @@
   </div>
 
   <!-- Get Entity. if (darRevHistory) get Entity, else empty-->
-  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else darRevisionFacilityEmpty">
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else LoanFacilityNotFound">
     <jhi-compare-data-loan-facility [dataFrom]="'entity'"></jhi-compare-data-loan-facility>
   </ng-container>
-
-  <ng-template #darRevisionFacilityEmpty>
-    <jhi-compare-data-not-found headerTitle="Facility Details"></jhi-compare-data-not-found>
-  </ng-template>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; margin-bottom: 16px; color: #008881">
     <div class="e-card-header-title">FINAL CP</div>
   </div>
 
   <!--Get Previous History, else empty-->
-  <ng-container *ngIf="creditProposal.attributes['previousHistory']; else finalCpFacilityEmpty">
+  <ng-container *ngIf="creditProposal.attributes['previousHistory']; else LoanFacilityNotFound">
     <jhi-compare-data-loan-facility [dataFrom]="'previousHistory'"></jhi-compare-data-loan-facility>
   </ng-container>
-
-  <ng-template #finalCpFacilityEmpty>
-    <jhi-compare-data-not-found headerTitle="Facility Details"></jhi-compare-data-not-found>
-  </ng-template>
 
   <!--  End Loan Facility -->
 
@@ -41,26 +31,18 @@
   </div>
 
   <!-- Get Entity. if (darRevHistory) get Entity, else empty-->
-  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else darRevisionCovenantEmpty">
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else CovenantNotFound">
     <jhi-compare-data-covenant [dataFrom]="'entity'" [setActiveMenu]="'COVENANT'"></jhi-compare-data-covenant>
   </ng-container>
-
-  <ng-template #darRevisionCovenantEmpty>
-    <jhi-compare-data-not-found headerTitle="Covenant"></jhi-compare-data-not-found>
-  </ng-template>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; margin-bottom: 16px; color: #008881">
     <div class="e-card-header-title">FINAL CP</div>
   </div>
 
   <!--Get Previous History, else empty-->
-  <ng-container *ngIf="creditProposal.attributes['previousHistory']; else finalCpFacilityEmpty">
-    <jhi-compare-data-covenant [dataFrom]="'previousHistory'"></jhi-compare-data-covenant>
+  <ng-container *ngIf="creditProposal.attributes['previousHistory']; else CovenantNotFound">
+    <jhi-compare-data-covenant [dataFrom]="'previousHistory'" [setActiveMenu]="'COVENANT'"></jhi-compare-data-covenant>
   </ng-container>
-
-  <ng-template #finalCpFacilityEmpty>
-    <jhi-compare-data-not-found headerTitle="Covenant"></jhi-compare-data-not-found>
-  </ng-template>
 
   <!-- End Covenant -->
 </ng-container>
@@ -70,7 +52,69 @@
 <!--Previous DAR-->
 
 <ng-template #previousDar>
-  <h1>Previous DAR</h1>
+  <!--  Loan Facility -->
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; margin-bottom: 16px; color: #008881">
+    <div class="e-card-header-title">PREVIOUS DAR</div>
+  </div>
+
+  <!-- if darRevHistory → darRevHistory, else entity -->
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else LoanFacilityEntity">
+    <jhi-compare-data-loan-facility [dataFrom]="'darRevHistory'"></jhi-compare-data-loan-facility>
+  </ng-container>
+
+  <ng-template #LoanFacilityEntity>
+    <jhi-compare-data-loan-facility [dataFrom]="'entity'"></jhi-compare-data-loan-facility>
+  </ng-template>
+
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; margin-bottom: 16px; color: #008881">
+    <div class="e-card-header-title">DAR REVISION</div>
+  </div>
+
+  <!-- Get Entity. if (darRevHistory) get Entity, else empty-->
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else LoanFacilityNotFound">
+    <jhi-compare-data-loan-facility [dataFrom]="'entity'"></jhi-compare-data-loan-facility>
+  </ng-container>
+
+  <!--  End Loan Facility -->
+
+  <!-- Covenant -->
+
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; margin-bottom: 16px; color: #008881">
+    <div class="e-card-header-title">PREVIOUS DAR</div>
+  </div>
+
+  <!-- if darRevHistory → darRevHistory, else entity -->
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else CovenantEntity">
+    <jhi-compare-data-covenant [dataFrom]="'darRevHistory'" [setActiveMenu]="'COVENANT'"></jhi-compare-data-covenant>
+  </ng-container>
+
+  <ng-template #CovenantEntity>
+    <jhi-compare-data-loan-covenant [dataFrom]="'entity'" [setActiveMenu]="'COVENANT'"></jhi-compare-data-loan-covenant>
+  </ng-template>
+
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+    <div class="e-card-header-title">DAR REVISION</div>
+  </div>
+
+  <!-- Get Entity. if (darRevHistory) get Entity, else empty-->
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else CovenantNotFound">
+    <jhi-compare-data-covenant [dataFrom]="'entity'" [setActiveMenu]="'COVENANT'"></jhi-compare-data-covenant>
+  </ng-container>
+
+  <!-- End Covenant -->
 </ng-template>
 
 <!--End Previous DAR-->
+
+<!-- Templates -->
+<ng-template #LoanFacilityNotFound>
+  <jhi-compare-data-not-found headerTitle="Loan Facility Details"></jhi-compare-data-not-found>
+</ng-template>
+
+<ng-template #CollateralNotFound>
+  <jhi-compare-data-not-found headerTitle="Collateral"></jhi-compare-data-not-found>
+</ng-template>
+
+<ng-template #CovenantNotFound>
+  <jhi-compare-data-not-found headerTitle="Covenant"></jhi-compare-data-not-found>
+</ng-template>
