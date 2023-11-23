@@ -3,7 +3,15 @@ import { CompareDataService } from '../../services/compare-data.service';
 import { ICreditProposal } from '../../../credit-proposal/credit-proposal.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { IApplicationProduct } from '../../../application-product/application-product.model';
+import {
+  ApplicationProduct,
+  ApplicationProductAttribute,
+  IApplicationProduct,
+  IApplicationProductAttribute,
+} from '../../../application-product/application-product.model';
+import lodash from 'lodash';
+import { MatDialog } from '@angular/material/dialog';
+import { CompareDataLoanFacilityDialogComponent } from '../dialog/compare-data-loan-facility-dialog.component';
 
 @Component({
   selector: 'jhi-compare-data-loan-facility-grid',
@@ -15,6 +23,8 @@ export class CompareDataLoanFacilityGridComponent implements OnInit, OnChanges, 
 
   public creditProposal!: ICreditProposal;
   public dataProduct: IApplicationProduct[];
+  public applicationProduct: IApplicationProduct;
+  public collaterallInfo: any;
   public displayColumns: string[] = [
     'no',
     'approvalNo',
@@ -36,18 +46,21 @@ export class CompareDataLoanFacilityGridComponent implements OnInit, OnChanges, 
     'action',
   ];
 
-  constructor(private compareDataService: CompareDataService) {
+  constructor(private compareDataService: CompareDataService, public dialog: MatDialog) {
     this.compareDataService.creditProposal.pipe(takeUntil(this.#destroy)).subscribe((data: ICreditProposal): void => {
       this.creditProposal = data;
       this.dataProduct = this.creditProposal.products;
       console.log('creditProposal grid', this.creditProposal);
     });
+    this.applicationProduct = new ApplicationProduct();
+    this.applicationProduct.attributes = new ApplicationProductAttribute();
   }
 
   ngOnInit(): void {
     console.error('creditProposal grid', this.creditProposal);
     this.getHistoryAttributes();
     this.dataProduct = this.cpDynamicAttributeData.products;
+    this.collaterallInfo = this.cpDynamicAttributeData.collaterals;
   }
 
   #destroy: Subject<boolean> = new Subject<boolean>();
@@ -146,5 +159,43 @@ export class CompareDataLoanFacilityGridComponent implements OnInit, OnChanges, 
       return '%p.a';
     }
     return '';
+  }
+
+  public openDialog(param: IApplicationProduct = null): void {
+    if (param) {
+      this.applicationProduct = param;
+    } else {
+      this.applicationProduct = new ApplicationProduct();
+      const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
+      const nomorUrutFasilitasUnsorted = [];
+      if (this.creditProposal.products) {
+        if (this.creditProposal.products.length > 0) {
+          for (let i = 0; i < this.creditProposal.products.length; i++) {
+            nomorUrutFasilitasUnsorted.push(this.creditProposal.products[i].nomorUrutFasilitas);
+          }
+          const nomorUrutFasilitasSorted = nomorUrutFasilitasUnsorted.sort((a, b) => (a > b ? 1 : -1));
+          if (nomorUrutFasilitasSorted) {
+            if (nomorUrutFasilitasSorted.length > 0) {
+              this.applicationProduct.nomorUrutFasilitas = Number(nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1]) + 1;
+            }
+          }
+        } else if (this.creditProposal.products.length === 0) {
+          this.applicationProduct.nomorUrutFasilitas = 1;
+        }
+      }
+      this.applicationProduct.attributes = attr;
+    }
+
+    const dialogRef = this.dialog.open(CompareDataLoanFacilityDialogComponent, {
+      width: '80vw',
+
+      data: {
+        item: this.creditProposal,
+        creditProposaldata: this.creditProposal,
+        applicationProduct: this.applicationProduct,
+        collateralInfo: this.collaterallInfo,
+      },
+    });
+    dialogRef.afterClosed().subscribe();
   }
 }

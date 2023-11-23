@@ -424,9 +424,8 @@ import { DeveloperShowDiagramStateMultipleComponent } from 'app/developer/reusea
 import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/reuseable/dialog/diagram-state-multiple-dialog.component';
 import { CompareDataComponent, CompareDataNotFoundComponent } from './compare-data/compare-data.component';
 import { CompareDataLoanFacilityComponent } from './compare-data/loan-facility/compare-data-loan-facility.component';
-import {
-  CompareDataLoanFacilityGridComponent
-} from "./compare-data/loan-facility/grid/compare-data-loan-facility-grid.component";
+import { CompareDataLoanFacilityGridComponent } from './compare-data/loan-facility/grid/compare-data-loan-facility-grid.component';
+import { CompareDataLoanFacilityDialogComponent } from './compare-data/loan-facility/dialog/compare-data-loan-facility-dialog.component';
 
 @NgModule({
   imports: [
@@ -920,7 +919,8 @@ import {
     CompareDataComponent,
     CompareDataNotFoundComponent,
     CompareDataLoanFacilityComponent,
-    CompareDataLoanFacilityGridComponent
+    CompareDataLoanFacilityGridComponent,
+    CompareDataLoanFacilityDialogComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -931,6 +931,7 @@ import {
     CompareDataNotFoundComponent,
     CompareDataLoanFacilityComponent,
     CompareDataLoanFacilityGridComponent,
+    CompareDataLoanFacilityDialogComponent,
 
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
