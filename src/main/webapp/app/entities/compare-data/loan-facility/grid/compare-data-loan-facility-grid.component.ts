@@ -50,14 +50,12 @@ export class CompareDataLoanFacilityGridComponent implements OnInit, OnChanges, 
     this.compareDataService.creditProposal.pipe(takeUntil(this.#destroy)).subscribe((data: ICreditProposal): void => {
       this.creditProposal = data;
       this.dataProduct = this.creditProposal.products;
-      console.log('creditProposal grid', this.creditProposal);
     });
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
   }
 
   ngOnInit(): void {
-    console.error('creditProposal grid', this.creditProposal);
     this.getHistoryAttributes();
     this.dataProduct = this.cpDynamicAttributeData.products;
     this.collaterallInfo = this.cpDynamicAttributeData.collaterals;
