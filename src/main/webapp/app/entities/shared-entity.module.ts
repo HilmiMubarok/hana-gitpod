@@ -426,6 +426,8 @@ import { CompareDataComponent, CompareDataNotFoundComponent } from './compare-da
 import { CompareDataLoanFacilityComponent } from './compare-data/loan-facility/compare-data-loan-facility.component';
 import { CompareDataLoanFacilityGridComponent } from './compare-data/loan-facility/grid/compare-data-loan-facility-grid.component';
 import { CompareDataLoanFacilityDialogComponent } from './compare-data/loan-facility/dialog/compare-data-loan-facility-dialog.component';
+import { CompareDataCovenantComponent } from './compare-data/covenant/compare-data-covenant.component';
+import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/compare-data-covenant-grid.component';
 
 @NgModule({
   imports: [
@@ -920,7 +922,9 @@ import { CompareDataLoanFacilityDialogComponent } from './compare-data/loan-faci
     CompareDataNotFoundComponent,
     CompareDataLoanFacilityComponent,
     CompareDataLoanFacilityGridComponent,
-    CompareDataLoanFacilityDialogComponent
+    CompareDataLoanFacilityDialogComponent,
+    CompareDataCovenantComponent,
+    CompareDataCovenantGridComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -932,6 +936,8 @@ import { CompareDataLoanFacilityDialogComponent } from './compare-data/loan-faci
     CompareDataLoanFacilityComponent,
     CompareDataLoanFacilityGridComponent,
     CompareDataLoanFacilityDialogComponent,
+    CompareDataCovenantComponent,
+    CompareDataCovenantGridComponent,
 
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
