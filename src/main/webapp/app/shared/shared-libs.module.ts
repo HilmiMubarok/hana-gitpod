@@ -33,6 +33,7 @@ import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
+import { CarouselModule } from 'primeng/carousel';
 
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -238,6 +239,7 @@ import { MatMenuModule } from '@angular/material/menu';
     BadgeModule,
     DropdownModule,
     CheckboxModule,
+    CarouselModule,
 
     // ngx
     TabsModule,

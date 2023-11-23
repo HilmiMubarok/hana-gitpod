@@ -1,109 +1,22 @@
-<div class="control-section">
-  <div class="col-lg-8 w-100" id="status_slides_container">
-    <ejs-dashboardlayout
-      id="status_slides_dashboard"
-      #predefine_dashboard
-      columns="12"
-      [cellSpacing]="cellSpacing"
-      [cellAspectRatio]="aspectRatio"
-      [allowDragging]="false"
-      [allowPushing]="false"
-      [allowResizing]="false"
-      [allowFloating]="false"
-    >
-      <e-panels>
-        <!-- Status -->
-        <!-- status 1 -->
-        <e-panel [id]="'status_1'" [sizeX]="1.7" [sizeY]="1.7" [row]="0" [col]="0">
-          <ng-template #header>
-            <div>Status 1</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData[0]"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel>
-        <!-- status 2 -->
-        <e-panel [id]="'status_2'" [sizeX]="1.7" [sizeY]="1.7" [row]="0" [col]="1.7">
-          <ng-template #header>
-            <div>Status 2</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData[1]"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel>
-        <!-- status 3 -->
-        <e-panel [id]="'status_3'" [sizeX]="1.7" [sizeY]="1.7" [row]="0" [col]="3.4">
-          <ng-template #header>
-            <div>Status 3</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData[2]"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel>
-        <!-- status 4 -->
-        <e-panel [id]="'status_4'" [sizeX]="1.7" [sizeY]="1.7" [row]="0" [col]="5.1">
-          <ng-template #header>
-            <div>Status 4</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData[3]"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel>
-        <!-- status 5 -->
-        <e-panel [id]="'status_5'" [sizeX]="1.7" [sizeY]="1.7" [row]="0" [col]="6.8">
-          <ng-template #header>
-            <div>Status 5</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData[4]"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel>
-        <!-- status 6 -->
-        <e-panel [id]="'status_6'" [sizeX]="1.7" [sizeY]="1.7" [row]="0" [col]="8.5">
-          <ng-template #header>
-            <div>Status 6</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData[5]"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel>
-        <!-- status 7 -->
-        <e-panel [id]="'status_7'" [sizeX]="1.7" [sizeY]="1.7" [row]="0" [col]="10.2">
-          <ng-template #header>
-            <div>Status 7</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData[6]"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel>
-        <!-- status 8 -->
-        <!-- <e-panel [id]="'status_8'" [sizeX]="1.7" [sizeY]="1.7" [row]="0" [col]="12">
-          <ng-template #header>
-            <div>Status 8</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel> -->
-        <!-- status 9 -->
-        <!-- <e-panel [id]="'status_9'" [sizeX]="1.5" [sizeY]="1.5" [row]="0" [col]="12">
-          <ng-template #header>
-            <div>Status 9</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel> -->
-        <!-- status 10 -->
-        <!-- <e-panel [id]="'status_10'" [sizeX]="1.5" [sizeY]="1.5" [row]="0" [col]="9">
-          <ng-template #header>
-            <div>Status 10</div>
-          </ng-template>
-          <ng-template #content>
-            <jhi-progress-status-bar [dataSource]="passedData"></jhi-progress-status-bar>
-          </ng-template>
-        </e-panel> -->
-      </e-panels>
-    </ejs-dashboardlayout>
-  </div>
+<div class="status-wrapper">
+  <p-carousel
+    [value]="passedData"
+    [numVisible]="6"
+    [numScroll]="2"
+    [circular]="false"
+    [responsiveOptions]="responsiveOptions"
+    class="status-carousel"
+  >
+    <!-- <ng-template pTemplate="header"> Status </ng-template> -->
+    <ng-template let-datas pTemplate="item" let-i="index">
+      <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+        <mat-card class="status-card">
+          <mat-card-header> {{ datas.title }} </mat-card-header>
+          <mat-card-content style="margin-top: -0.3rem">
+            <jhi-progress-status-bar [dataSource]="datas"></jhi-progress-status-bar>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </p-carousel>
 </div>
