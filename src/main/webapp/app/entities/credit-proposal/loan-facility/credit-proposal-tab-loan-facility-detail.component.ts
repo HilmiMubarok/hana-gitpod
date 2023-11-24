@@ -116,7 +116,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   remarkDisable() {
-    if (this.parentSource === 'darRevision') {
+    if (this.parentSource === 'dar-revision-checker') {
       this.container_view_false.restrictEditing = true;
     }
   }
@@ -348,7 +348,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
               fileReader.onload = (e: any) => {
                 let docEditor: any;
 
-                if (this.parentSource === '' || this.parentSource === 'credit-proposal' || this.parentSource === 'darRevision') {
+                if (
+                  this.parentSource === '' ||
+                  this.parentSource === 'credit-proposal' ||
+                  this.parentSource === 'darRevision' ||
+                  this.parentSource === 'dar-revision-checker'
+                ) {
                   docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
                 } else if (this.parentSource === 'loan-analys') {
                   docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
