@@ -77,6 +77,7 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
   public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   @Input() dataFrom: string;
+  @Input() isDeviation: Boolean = false;
 
   constructor(private compareDataService: CompareDataService, private generalParameterService: GeneralParameterService) {
     this.compareDataService.creditProposal.pipe(takeUntil(this.destroy$)).subscribe(creditProposal => {
@@ -137,7 +138,21 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
         this._checkIfDataisAvailableInAttribute(this.proposalType, res);
       });
   }
-  private _initCovenantBelowData(): void {}
+  private _initCovenantBelowData(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVENANT_BELOW_STANDARD',
+        page: 0,
+        size: 9999,
+      })
+      .pipe(
+        takeUntil(this.destroy$),
+        map(filterActive => filterActive.body.filter(o => o.statusId === 'ACTIVE'))
+      )
+      .subscribe(res => {
+        this._checkIfDataisAvailableInAttribute(this.proposalType, res);
+      });
+  }
   private _initCovenantBackToBackData(): void {}
 
   private _checkIfDataisAvailableInAttribute(proposalType: string, res: Array<any>): void {
@@ -145,21 +160,42 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
       case 'Total Exposure > IDR 15 Bio':
         if (this.cpDynamicAttributeData.convenant.standardDataGridAbove.length === 0) {
           // Create covenant data from res
-          this.covenantData = res.map((item, index) => ({
-            id: index,
-            covenant: item.value,
-            status: 'Applied',
-            deviation: '',
-            justification: '',
-          }));
+          this.covenantData = this.isDeviation
+            ? []
+            : res.map((item, index) => ({
+                id: index,
+                covenant: item.value,
+                status: 'Applied',
+                deviation: '',
+                justification: '',
+              }));
         } else {
           // Use attribute data to covenantData
-          this.covenantData = this.cpDynamicAttributeData.convenant.standardDataGridAbove;
+          this.covenantData = this.isDeviation
+            ? this.cpDynamicAttributeData.convenant.standardDataGridAbove.filter(o => o.status !== 'Applied')
+            : this.cpDynamicAttributeData.convenant.standardDataGridAbove;
         }
         this.loading$.next(false);
 
         break;
       case 'Total Exposure <= IDR 15 Bio':
+        if (this.cpDynamicAttributeData.convenant.standardCovenant.length === 0) {
+          // Create covenant data from res
+          this.covenantData = this.isDeviation
+            ? []
+            : res.map((item, index) => ({
+                id: index,
+                covenant: item.value,
+                status: 'Applied',
+                deviation: '',
+                justification: '',
+              }));
+        } else {
+          // Use attribute data to covenantData
+          this.covenantData = this.isDeviation
+            ? this.cpDynamicAttributeData.convenant.standardCovenant.filter(o => o.status !== 'Applied')
+            : this.cpDynamicAttributeData.convenant.standardCovenant;
+        }
         break;
       default:
         break;

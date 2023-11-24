@@ -30,4 +30,36 @@
     </div>
   </div>
 </ng-container>
-<ng-template #deviation></ng-template>
+
+<ng-template #deviation>
+  <div class="e-sample-resize-container e-card-resize-container mb-5">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Standard Deviation</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <jhi-compare-data-covenant-grid [dataFrom]="dataFrom" [isDeviation]="true"></jhi-compare-data-covenant-grid>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Other Deviation</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <jhi-compare-data-covenant-other [dataFrom]="dataFrom" [isDeviation]="true"></jhi-compare-data-covenant-other>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

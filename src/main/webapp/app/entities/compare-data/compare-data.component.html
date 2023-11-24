@@ -45,6 +45,27 @@
   </ng-container>
 
   <!-- End Covenant -->
+
+  <!-- Deviation -->
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+    <div class="e-card-header-title">DAR REVISION</div>
+  </div>
+
+  <!-- Get Entity. if (darRevHistory) get Entity, else empty-->
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else DeviationNotFound">
+    <jhi-compare-data-covenant [dataFrom]="'entity'" [setActiveMenu]="'DEVIATION'"></jhi-compare-data-covenant>
+  </ng-container>
+
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; margin-bottom: 16px; color: #008881">
+    <div class="e-card-header-title">FINAL CP</div>
+  </div>
+
+  <!--Get Previous History, else empty-->
+  <ng-container *ngIf="creditProposal.attributes['previousHistory']; else DeviationNotFound">
+    <jhi-compare-data-covenant [dataFrom]="'previousHistory'" [setActiveMenu]="'DEVIATION'"></jhi-compare-data-covenant>
+  </ng-container>
+
+  <!-- End Deviation -->
 </ng-container>
 
 <!--End Dar Revision Final-->
@@ -89,7 +110,7 @@
   </ng-container>
 
   <ng-template #CovenantEntity>
-    <jhi-compare-data-loan-covenant [dataFrom]="'entity'" [setActiveMenu]="'COVENANT'"></jhi-compare-data-loan-covenant>
+    <jhi-compare-data-covenant [dataFrom]="'entity'" [setActiveMenu]="'COVENANT'"></jhi-compare-data-covenant>
   </ng-template>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
@@ -104,6 +125,29 @@
   <!-- End Covenant -->
 
   <!-- Deviation -->
+
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; margin-bottom: 16px; color: #008881">
+    <div class="e-card-header-title">PREVIOUS DAR</div>
+  </div>
+
+  <!-- if darRevHistory → darRevHistory, else entity -->
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else CovenantEntity">
+    <jhi-compare-data-covenant [dataFrom]="'darRevHistory'" [setActiveMenu]="'DEVIATION'"></jhi-compare-data-covenant>
+  </ng-container>
+
+  <ng-template #CovenantEntity>
+    <jhi-compare-data-covenant [dataFrom]="'entity'" [setActiveMenu]="'DEVIATION'"></jhi-compare-data-covenant>
+  </ng-template>
+
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+    <div class="e-card-header-title">DAR REVISION</div>
+  </div>
+
+  <!-- Get Entity. if (darRevHistory) get Entity, else empty-->
+  <ng-container *ngIf="creditProposal.attributes['darRevHistory']; else DeviationNotFound">
+    <jhi-compare-data-covenant [dataFrom]="'entity'" [setActiveMenu]="'DEVIATION'"></jhi-compare-data-covenant>
+  </ng-container>
+
   <!-- End Deviation -->
 </ng-template>
 
@@ -120,4 +164,8 @@
 
 <ng-template #CovenantNotFound>
   <jhi-compare-data-not-found headerTitle="Covenant"></jhi-compare-data-not-found>
+</ng-template>
+
+<ng-template #DeviationNotFound>
+  <jhi-compare-data-not-found headerTitle="Deviation"></jhi-compare-data-not-found>
 </ng-template>
