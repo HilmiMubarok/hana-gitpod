@@ -428,6 +428,8 @@ import { CompareDataLoanFacilityGridComponent } from './compare-data/loan-facili
 import { CompareDataLoanFacilityDialogComponent } from './compare-data/loan-facility/dialog/compare-data-loan-facility-dialog.component';
 import { CompareDataCovenantComponent } from './compare-data/covenant/compare-data-covenant.component';
 import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/compare-data-covenant-grid.component';
+import { CompareDataCovenantOtherComponent } from './compare-data/covenant/other/compare-data-covenant-other.component';
+import { CompareDataCovenantOtherDialogComponent } from './compare-data/covenant/other/dialog/compare-data-covenant-other-dialog.component';
 
 @NgModule({
   imports: [
@@ -925,6 +927,8 @@ import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/c
     CompareDataLoanFacilityDialogComponent,
     CompareDataCovenantComponent,
     CompareDataCovenantGridComponent,
+    CompareDataCovenantOtherComponent,
+    CompareDataCovenantOtherDialogComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -938,6 +942,8 @@ import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/c
     CompareDataLoanFacilityDialogComponent,
     CompareDataCovenantComponent,
     CompareDataCovenantGridComponent,
+    CompareDataCovenantOtherComponent,
+    CompareDataCovenantOtherDialogComponent,
 
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,

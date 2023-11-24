@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { CompareDataService } from '../../services/compare-data.service';
-import { Subject, map, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, map, takeUntil } from 'rxjs';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
@@ -18,6 +18,51 @@ interface CovenantData {
   selector: 'jhi-compare-data-covenant-grid',
   templateUrl: './compare-data-covenant-grid.component.html',
   styleUrls: ['../../../credit-proposal/convenant/back-to-back/covenant-backtoback.css'],
+  styles: [
+    `
+      .loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .loading {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+      }
+
+      .loading-text {
+        margin-top: 16px;
+        font-size: 20px;
+        color: #3498db;
+      }
+
+      /* Safari */
+      @-webkit-keyframes spin {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    `,
+  ],
 })
 export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDestroy {
   public creditProposal: ICreditProposal;
@@ -29,6 +74,7 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
   public covenantBackToBackData: CovenantData[] = [];
   public cpDynamicAttributeData: any;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   @Input() dataFrom: string;
 
@@ -72,7 +118,7 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
     } else if (this.dataFrom === 'darRevHistory') {
       this.cpDynamicAttributeData = this.creditProposal.attributes.darRevHistory;
     } else {
-      this.cpDynamicAttributeData = this.creditProposal;
+      this.cpDynamicAttributeData = this.creditProposal.attributes;
     }
   }
 
@@ -97,7 +143,7 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
   private _checkIfDataisAvailableInAttribute(proposalType: string, res: Array<any>): void {
     switch (proposalType) {
       case 'Total Exposure > IDR 15 Bio':
-        if (this.cpDynamicAttributeData.attributes.convenant.standardDataGridAbove.length === 0) {
+        if (this.cpDynamicAttributeData.convenant.standardDataGridAbove.length === 0) {
           // Create covenant data from res
           this.covenantData = res.map((item, index) => ({
             id: index,
@@ -108,8 +154,9 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
           }));
         } else {
           // Use attribute data to covenantData
-          this.covenantData = this.cpDynamicAttributeData.attributes.convenant.standardDataGridAbove;
+          this.covenantData = this.cpDynamicAttributeData.convenant.standardDataGridAbove;
         }
+        this.loading$.next(false);
 
         break;
       case 'Total Exposure <= IDR 15 Bio':

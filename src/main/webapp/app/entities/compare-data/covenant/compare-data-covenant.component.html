@@ -10,7 +10,21 @@
         </div>
 
         <div class="card-content">
-          <jhi-compare-data-covenant-grid></jhi-compare-data-covenant-grid>
+          <jhi-compare-data-covenant-grid [dataFrom]="dataFrom"></jhi-compare-data-covenant-grid>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Other Covenant</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <jhi-compare-data-covenant-other [dataFrom]="dataFrom"></jhi-compare-data-covenant-other>
         </div>
       </div>
     </div>
