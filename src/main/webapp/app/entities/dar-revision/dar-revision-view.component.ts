@@ -55,6 +55,7 @@ import { INotes, Notes } from '../notes/notes.model';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
+import { CreditProposalTabLoanFacilityDetailComponent } from '../credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
 @Component({
   selector: 'jhi-dar-revision-view',
   templateUrl: './dar-revision-view.component.html',
@@ -75,6 +76,11 @@ export class DarRevisionViewComponent implements OnInit {
     static: false,
   })
   creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
+
+  @ViewChild('creditProposalTabLoanFacilityDetailComponent', {
+    static: false,
+  })
+  creditProposalTabLoanFacilityDetailComponent: CreditProposalTabLoanFacilityDetailComponent;
 
   @ViewChild('creditProposalCollateralInfoHistoryComponent', {
     static: false,
@@ -795,6 +801,10 @@ export class DarRevisionViewComponent implements OnInit {
           this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
         }
 
+        if (this.creditProposalTabLoanFacilityDetailComponent) {
+          this.creditProposalTabLoanFacilityDetailComponent.triggeredSave();
+        }
+
         if (this.remaksComponent) {
           this.remaksComponent.triggeredSave();
         }
@@ -866,6 +876,10 @@ export class DarRevisionViewComponent implements OnInit {
 
       if (this.creditProposalCollateralInfoComponent) {
         this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+      }
+
+      if (this.creditProposalTabLoanFacilityDetailComponent) {
+        this.creditProposalTabLoanFacilityDetailComponent.triggeredSave();
       }
 
       if (this.creditProposalCollateralInfoHistoryComponent) {

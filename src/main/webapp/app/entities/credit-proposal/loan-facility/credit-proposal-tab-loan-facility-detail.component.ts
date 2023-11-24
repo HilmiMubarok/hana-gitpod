@@ -116,7 +116,9 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   remarkDisable() {
-    this.container_view_false.restrictEditing = true;
+    if (this.parentSource === 'darRevision') {
+      this.container_view_false.restrictEditing = true;
+    }
   }
 
   ngOnInit(): void {
@@ -138,12 +140,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public remarkStatus() {
     const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
     const subroutes = queryParam.get('subroute');
-    if (
-      this.parentSource === 'credit-agreement' ||
-      this.parentSource === 'loan-analys' ||
-      this.parentSource === 'darRevision' ||
-      this.parentSource === 'dar-revision-checker'
-    ) {
+    if (this.parentSource === 'credit-agreement' || this.parentSource === 'darRevision' || this.parentSource === 'dar-revision-checker') {
       if (subroutes === 'loan-facility') {
         return true;
       }
@@ -351,7 +348,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
               fileReader.onload = (e: any) => {
                 let docEditor: any;
 
-                if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
+                if (this.parentSource === '' || this.parentSource === 'credit-proposal' || this.parentSource === 'darRevision') {
                   docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
                 } else if (this.parentSource === 'loan-analys') {
                   docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
@@ -396,7 +393,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     let docEditor: any;
 
-    if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
+    if (this.parentSource === '' || this.parentSource === 'credit-proposal' || this.parentSource === 'darRevision') {
       docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
     } else if (this.parentSource === 'loan-analys') {
       docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;

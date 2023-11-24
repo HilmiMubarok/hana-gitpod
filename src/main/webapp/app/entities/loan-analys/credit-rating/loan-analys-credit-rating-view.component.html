@@ -12,7 +12,7 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-                <ejs-textbox
+              <ejs-textbox
                 *ngIf="creditRatings.creditRating !== null"
                 [(ngModel)]="creditRatings.creditRating"
                 placeholder="Credit Rating"
@@ -38,7 +38,7 @@
               <!-- <div class="form-space"> -->
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Internal Maksimum LLL (%)</mat-label>
-                <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL">
+                <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL" [disabled]="true">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
                     {{ item.value }}

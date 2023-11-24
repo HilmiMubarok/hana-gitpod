@@ -24,42 +24,20 @@ export class StatusSlidesComponent {
   public aspectRatio: any = 100 / 85;
   public headerCount = 1;
   public count = 8;
-
+  public responsiveOptions: any[] | undefined;
   public passedData: any = [
-    {
-      totalStatus: 123,
-      totalSumStatus: 45.12,
-      icon: 'envelope-open',
-    },
-    {
-      totalStatus: 23,
-      totalSumStatus: 25.66,
-      icon: 'wallet',
-    },
-    {
-      totalStatus: 53,
-      totalSumStatus: 15.49,
-      icon: 'tasks',
-    },
-    {
-      totalStatus: 23,
-      totalSumStatus: 75.44,
-      icon: 'calendar-plus',
-    },
-    {
-      totalStatus: 9,
-      totalSumStatus: 5.61,
-      icon: 'calendar-check',
-    },
-    {
-      totalStatus: 135,
-      totalSumStatus: 120.12,
-      icon: 'minus-square',
-    },
-    {
-      totalStatus: 78,
-      totalSumStatus: 88.47,
-      icon: 'print',
-    },
+    { title: 'Status 1', totalStatus: 123, totalSumStatus: 45.12, icon: 'envelope-open' },
+    { title: 'Status 2', totalStatus: 23, totalSumStatus: 25.66, icon: 'wallet' },
+    { title: 'Status 3', totalStatus: 53, totalSumStatus: 15.49, icon: 'tasks' },
+    { title: 'Status 4', totalStatus: 23, totalSumStatus: 75.44, icon: 'calendar-plus' },
+    { title: 'Status 5', totalStatus: 9, totalSumStatus: 5.61, icon: 'calendar-check' },
+    { title: 'Status 6', totalStatus: 135, totalSumStatus: 120.12, icon: 'minus-square' },
+    { title: 'Status 7', totalStatus: 78, totalSumStatus: 88.47, icon: 'print' },
+    { title: 'Status 8', totalStatus: 78, totalSumStatus: 88.47, icon: 'print' },
+    { title: 'Status 9', totalStatus: 78, totalSumStatus: 88.47, icon: 'print' },
+    { title: 'Status 10', totalStatus: 78, totalSumStatus: 88.47, icon: 'print' },
+    { title: 'Status 11', totalStatus: 78, totalSumStatus: 88.47, icon: 'print' },
+    { title: 'Status 12', totalStatus: 78, totalSumStatus: 88.47, icon: 'print' },
+    { title: 'Status 13', totalStatus: 78, totalSumStatus: 88.47, icon: 'print' },
   ];
 }
