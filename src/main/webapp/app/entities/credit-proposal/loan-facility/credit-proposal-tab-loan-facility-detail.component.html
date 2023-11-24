@@ -384,6 +384,22 @@
           ></ejs-documenteditorcontainer>
         </section>
       </section>
+
+      <section *ngIf="parentSource === 'loan-analys'">
+        <mat-label>REMARKS</mat-label>
+        <ejs-documenteditorcontainer
+          #document_editor_container_view_false_loan_analys
+          [headers]="customHeadersJWT"
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          (documentChange)="onDocumentChange()"
+          [enableEditor]="false"
+          [isReadOnly]="true"
+        ></ejs-documenteditorcontainer>
+      </section>
+
       <section *ngIf="remarkStatus()">
         <mat-label>REMARKS</mat-label>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">

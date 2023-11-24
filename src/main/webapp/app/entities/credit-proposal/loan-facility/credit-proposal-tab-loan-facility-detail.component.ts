@@ -140,12 +140,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public remarkStatus() {
     const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
     const subroutes = queryParam.get('subroute');
-    if (
-      this.parentSource === 'credit-agreement' ||
-      this.parentSource === 'loan-analys' ||
-      this.parentSource === 'darRevision' ||
-      this.parentSource === 'dar-revision-checker'
-    ) {
+    if (this.parentSource === 'credit-agreement' || this.parentSource === 'darRevision' || this.parentSource === 'dar-revision-checker') {
       if (subroutes === 'loan-facility') {
         return true;
       }
