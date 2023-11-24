@@ -359,10 +359,13 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
         data[i]['proposalType'] = !lodash.has(data[i].attributes, 'proposalType') ? data[i].attributes.proposalType : '';
 
         // data[i]['rmName'] = data[i].rm ? data[i].rm.partyName : '';
-        data[i]['rmName'] = data[i].rm ? data[i].rm.employeeFirstName + data[i].rm.employeeLastName : '';
+        // data[i]['rmName'] = data[i].rm ? data[i].rm.employeeFirstName + data[i].rm.employeeLastName : '';
+        data[i]['rmName'] = data[i].ownerPosition
+          ? data[i].ownerPosition.employeeFirstName + ' ' + data[i].ownerPosition.employeeLastName
+          : '';
 
-        if (data[i].rm) {
-          this.findPositionByIdParty(data[i].rm.partyId).then(res => {
+        if (data[i].ownerPosition) {
+          this.findPositionByIdParty(data[i].ownerPosition.partyId).then(res => {
             data[i]['rmBranch'] = res;
           });
         }
