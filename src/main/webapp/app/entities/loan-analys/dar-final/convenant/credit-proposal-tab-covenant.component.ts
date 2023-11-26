@@ -43,7 +43,7 @@ export class CovenantTempComponent implements OnInit {
   get viewMode(): Boolean {
     const cpStatus = this.creditProposalItem.statusId;
 
-    const enabledStatus = ['CP_DAR_FINAL', 'CP_LOAN_COMMITTE', 'PK_DAR_REVISION'];
+    const enabledStatus = ['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE', 'PK_DAR_REVISION'];
 
     if (enabledStatus.includes(cpStatus)) {
       if (this.router.url.split('subroute=')[1] === 'compare-data') {
