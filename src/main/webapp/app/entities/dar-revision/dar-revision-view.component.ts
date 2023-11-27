@@ -266,7 +266,7 @@ export class DarRevisionViewComponent implements OnInit {
     const cifNumber = this.creditProposal.customerNumber;
     this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
       this.listGroupCollateral = res.body;
-      this.getAllColGroup().then(coll => console.log('collateralPropertyGroupData parent', coll));
+      this.getAllColGroup();
     });
   }
 
