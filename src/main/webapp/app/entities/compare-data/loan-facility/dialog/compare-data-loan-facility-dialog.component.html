@@ -1,0 +1,366 @@
+<!--
+TODO :
+  - Remarks ✅
+  - Early Repayment Penalty ✅
+  - Payment Obligations ✅
+-->
+<h2 mat-dialog-title class="header-title">Facility Detail</h2>
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <div class="col-6">
+      <div class="fontsebled row py-1">
+        <div class="col-3">Loan Account</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">{{ applicationProduct.agreementNumber }}</div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Index Facility</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.nomorUrutFasilitas }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Application Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.applicationType }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Facility Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.productTypeId }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Loan Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.productName }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">Facility Category / Appl Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.categoryId }}
+        </div>
+      </div>
+      <div [hidden]="facilityType === 'OD'" class="fontsebled row py-1">
+        <div class="col-3">Installment Method</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ installmentMethodValue }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Tenor</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.tenor }}
+        </div>
+      </div>
+      <div class="fontsebled row">
+        <div class="col-3">Period Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.periodType }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">Maturity Date</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.maturityDate | date: 'yyyy/MM/dd' }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Sub-Limit</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ printElement(applicationProduct.subLimit) }}
+        </div>
+      </div>
+      <div class="fontsebled row">
+        <div class="col-3">Sublimit From Existing Facility</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.sublimitFromExistingFacility }}
+        </div>
+      </div>
+      <div class="fontsebled row">
+        <div class="col-3">Index Facility Main</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.indexFacilityMain }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">Comitted Line</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ printElement(applicationProduct.commitedLine) }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Currency</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.currencyId }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Kurs</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.kurs }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Initial Limit</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.initialLimit | number }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Outstanding</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.outstanding | number }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Date O/S</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.dateOS | date: 'yyyy/MM/dd' }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Changes</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.changes | number }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Total Plafond</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.totalPlafond | number }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Restruct Status</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ printElement(applicationProduct.restructStatus) }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Restruct Method</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ restructMethodValue }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Description</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.attributes['keterangan'] }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Disbursement Condition</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.attributes['disbursementCondition'] }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">REMARKS</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.attributes['remark'] }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="fontsebled row py-1">
+        <div class="col-3">Interest Rate Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.rateTypeName }}
+        </div>
+        <div class="col-3">Current Interest Rate</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.currentInterestRate }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Proposed Rate / Spread</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ (applicationProduct.pricingRate != null ? applicationProduct.pricingRate : 0) + ' %' }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Reference Rate Period</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.intResetFrequency }}
+        </div>
+        <div class="col-3">Period Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.intResetPeriod }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">Provision Fee</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.provisionFeeAmount | number }}
+        </div>
+        <div class="col-3">Rate / Amount Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.provisionFeeType }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Admin Fee</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.adminFeeAmount | number }}
+        </div>
+        <div class="col-3">Rate / Amount Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.adminFeeType }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
+        <div class="col-3">Grace Period</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.gracePeriod }}
+        </div>
+        <div class="col-3">Period Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.gracePeriodType }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">Available Period</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.availablePeriod }}
+        </div>
+        <div class="col-3">Period Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.availablePeriodType }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">Index Rate</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.indexRateStr }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">Loan Purpose</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.attributes['loanPurpose'] }}
+        </div>
+      </div>
+      <div class="mb-2">
+        <div class="fontsebled row py-1">
+          <div class="col-3">loan purpose (For Legal)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['loanPurposeLegal'] }}
+          </div>
+        </div>
+      </div>
+      <div class="mb-2">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Grace period since</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['gracePeriodSince'] }}
+          </div>
+        </div>
+      </div>
+      <div class="mb-2">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Availability period since</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['availabPeriodSince'] }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="form-group" class="col-md-6">
+      <div class="fontsebled row py-1">
+        <div class="col-3">Late Payment Fee</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.latePaymentFee }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">The Prime Lending Rate</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.primeLandingRate }}
+        </div>
+      </div>
+
+      <div class="fontsebled row py-1">
+        <div class="col-3">Early Repayment Penalty</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.earlyRepaymentPenalty }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="fontsebled row py-1">
+        <div class="col-3">Payment Obligations</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.attributes['paymentObligation'] }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-label>Mapping to Collateral</mat-label>
+  <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="align-center">
+  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+</mat-dialog-actions>

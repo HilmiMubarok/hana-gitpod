@@ -422,6 +422,15 @@ import { CreditProposalMappingCollateralTempComponent } from './loan-analys/dar-
 import { MappingFacilityTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-facility.component';
 import { DeveloperShowDiagramStateMultipleComponent } from 'app/developer/reuseable/diagram-state-multiple.component';
 import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/reuseable/dialog/diagram-state-multiple-dialog.component';
+import { CompareDataComponent, CompareDataNotFoundComponent } from './compare-data/compare-data.component';
+import { CompareDataLoanFacilityComponent } from './compare-data/loan-facility/compare-data-loan-facility.component';
+import { CompareDataLoanFacilityGridComponent } from './compare-data/loan-facility/grid/compare-data-loan-facility-grid.component';
+import { CompareDataLoanFacilityDialogComponent } from './compare-data/loan-facility/dialog/compare-data-loan-facility-dialog.component';
+import { CompareDataCovenantComponent } from './compare-data/covenant/compare-data-covenant.component';
+import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/compare-data-covenant-grid.component';
+import { CompareDataCovenantOtherComponent } from './compare-data/covenant/other/compare-data-covenant-other.component';
+import { CompareDataCovenantOtherDialogComponent } from './compare-data/covenant/other/dialog/compare-data-covenant-other-dialog.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -462,7 +471,7 @@ import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
-	PartyCifCustomerInfoPostalAddressEnCifWhComponent,
+    PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
@@ -714,9 +723,9 @@ import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/
     GroupCollateralComponent,
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
-	LoanAnalysOpinionCompliancePartComponent,
+    LoanAnalysOpinionCompliancePartComponent,
     LoanAnalysDialogOpinionComponent,
-	LoanAnalysDialogOpinionCompliancePartComponent,
+    LoanAnalysDialogOpinionCompliancePartComponent,
     CollateralAppraisalPersonViewComponent,
     CollateralAppraisalPartyGroupViewComponent,
     AssignToComponent,
@@ -832,22 +841,22 @@ import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/
     DocumentChecklistTempComponent,
     DocumentChecklistDialogTempComponent,
     CreditProposalDeviationDarAboveComponent,
-        ApproveFinalComponent,
-        CollateralPropertyPersonalCorporateGuaranteeComponent,
-        // cross idd //
-        ParipasuCollateralIddDebtorComponent,
-        ParipasuCollateralIddComponent,
+    ApproveFinalComponent,
+    CollateralPropertyPersonalCorporateGuaranteeComponent,
+    // cross idd //
+    ParipasuCollateralIddDebtorComponent,
+    ParipasuCollateralIddComponent,
 
-        GroupCollateralInfoComponent,
-        GroupCollateralListComponent,
-        // cross cp //
-        ParipasuCollateralGroupComponent,
-        ParipasuCollateralDebiturComponent,
-        GroupCollateralListCpComponent,
-        SummaryGridComponent,
-        InsuranceInformationIddComponent,
+    GroupCollateralInfoComponent,
+    GroupCollateralListComponent,
+    // cross cp //
+    ParipasuCollateralGroupComponent,
+    ParipasuCollateralDebiturComponent,
+    GroupCollateralListCpComponent,
+    SummaryGridComponent,
+    InsuranceInformationIddComponent,
 
-                // cross appraisal //
+    // cross appraisal //
     GroupCollateralListAppraisalComponent,
     GroupCollateralAppraisalComponent,
     SummaryGridBtbComponent,
@@ -855,43 +864,43 @@ import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/
     // cross dar //
     GroupCollateralDarComponent,
     GroupCollateralListDarComponent,
-        MainFacilityInfoComponent,
-        MainFacilityInfoChildComponent,
-        MainFacilityComponent,
-        MainFacilityChildComponent,
-        DebtorInformationComponent,
-        MainFacilityHistoryComponent,
-        MainFacilityChildHistoryComponent,
-        CertificateInfoComponent,
-        CpMemoBandingLoanFacilityComponent,
-        CpMemoBandingCollateralComponent,
-        CpMemoBandingCollateralAboveComponent,
-        CPMemoBandingStandardCovenantComponent,
-        CPMemoBandingCovenantAboveComponent,
-        CPMemoBandingCovenantBelowComponent,
-        CPMemoBandingCovenantBackToBackDepositComponent,
-        CPMemoBandingCovenantBackToBackGeneralComponent,
-        CpMemoBandingOtherCovenantComponent,
-        CPMemoBandingRemarkComponent,
-        CPMemoBandingCollateralBacktobackComponent,
-        MemoBandingComponent,
-        CreditProposalSummaryGenerateMemoBandingComponent,
+    MainFacilityInfoComponent,
+    MainFacilityInfoChildComponent,
+    MainFacilityComponent,
+    MainFacilityChildComponent,
+    DebtorInformationComponent,
+    MainFacilityHistoryComponent,
+    MainFacilityChildHistoryComponent,
+    CertificateInfoComponent,
+    CpMemoBandingLoanFacilityComponent,
+    CpMemoBandingCollateralComponent,
+    CpMemoBandingCollateralAboveComponent,
+    CPMemoBandingStandardCovenantComponent,
+    CPMemoBandingCovenantAboveComponent,
+    CPMemoBandingCovenantBelowComponent,
+    CPMemoBandingCovenantBackToBackDepositComponent,
+    CPMemoBandingCovenantBackToBackGeneralComponent,
+    CpMemoBandingOtherCovenantComponent,
+    CPMemoBandingRemarkComponent,
+    CPMemoBandingCollateralBacktobackComponent,
+    MemoBandingComponent,
+    CreditProposalSummaryGenerateMemoBandingComponent,
     CreditProposalCollateralSummaryDialogComponent,
 
     // Aggrement Compare
     AgremeentCompareRevisionFinalComponent,
-        AgreementComparePreviousDarComponent,
-        FinalizeCreditAgreementComponent,
+    AgreementComparePreviousDarComponent,
+    FinalizeCreditAgreementComponent,
     SignerPerjanjialKreditDialogComponent,
-        CreditProposalGeneratePkReportComponent,
-        StandartConvenantComponent,
-        StandartDeviationComponent,
-        OfferingLetterSignerPageComponent,
-OfferingLetterSignerPageDialogComponent,
-ReviewHistoryDialogComponent,
+    CreditProposalGeneratePkReportComponent,
+    StandartConvenantComponent,
+    StandartDeviationComponent,
+    OfferingLetterSignerPageComponent,
+    OfferingLetterSignerPageDialogComponent,
+    ReviewHistoryDialogComponent,
 
 // DAR
-LoanFacilityDetailTempComponent,
+    LoanFacilityDetailTempComponent,
     LoanFacilityDetailGridTempComponent,
     LoanFacilityDialogTempComponent,
     CreditProposalMappingCollateralTempComponent,
@@ -902,17 +911,40 @@ LoanFacilityDetailTempComponent,
     CollateralInfoDialogBTBDarFinalComponent,
     CollateralInfoDialogTempComponent,
     MappingFacilityTempComponent,
-MainFacilityDarComponent,
+    MainFacilityDarComponent,
     MainFacilityChildDarComponent,
     MainFacilityDialogDarComponent,
 
     // DEV
     DeveloperShowDiagramStateMultipleComponent,
     DeveloperShowDiagramStateMultipleDialogComponent,
+
+    //   New Compare Data
+    CompareDataComponent,
+    CompareDataNotFoundComponent,
+    CompareDataLoanFacilityComponent,
+    CompareDataLoanFacilityGridComponent,
+    CompareDataLoanFacilityDialogComponent,
+    CompareDataCovenantComponent,
+    CompareDataCovenantGridComponent,
+    CompareDataCovenantOtherComponent,
+    CompareDataCovenantOtherDialogComponent
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
+
+    //   New Compare Data
+    CompareDataComponent,
+    CompareDataNotFoundComponent,
+    CompareDataLoanFacilityComponent,
+    CompareDataLoanFacilityGridComponent,
+    CompareDataLoanFacilityDialogComponent,
+    CompareDataCovenantComponent,
+    CompareDataCovenantGridComponent,
+    CompareDataCovenantOtherComponent,
+    CompareDataCovenantOtherDialogComponent,
+
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,

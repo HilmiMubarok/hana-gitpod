@@ -118,7 +118,7 @@ export class DarRevisionViewComponent implements OnInit {
   public listGroupCollateral: any;
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   public listLoanType: any;
-  private collateralProperties: ICollateralProperty[] = [];
+  protected collateralProperties: ICollateralProperty[] = [];
   private collateral: ICollateral[] = [];
   private id: number;
   public clickedMenu: string;
@@ -251,6 +251,7 @@ export class DarRevisionViewComponent implements OnInit {
     this.getBucketNameSummary();
     this.getTasks();
     this.getPositionTypeId();
+    this.loadDataBy();
   }
 
   getText(value: any): string {

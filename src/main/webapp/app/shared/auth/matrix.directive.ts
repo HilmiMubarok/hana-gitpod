@@ -602,21 +602,30 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
 
       if (this.jhiMatrixDirMenu === 'dar-final') {
-        if (this.positionTypeId === 'CRO') {
-          if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
-            if (this.status === 'CP_CC_ANALYST') {
-              this.defaultCpMatrixFull();
-            } else {
-              if (this.jhiMatrixDirElementType === '') {
-                this.viewContainerRef.createEmbeddedView(this.templateRef);
-              }
-            }
-          } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
-            this.checkOnDarFinal();
-          }
+        const isInCompareData = this.router.url.split('?subroute=')[1];
+
+        if (isInCompareData === 'compare-data') {
+          return;
+          // if (this.jhiMatrixDirElementType === '') {
+          //   this.viewContainerRef.createEmbeddedView(this.templateRef);
+          // }
         } else {
-          if (this.jhiMatrixDirElementType === '') {
-            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          if (this.positionTypeId === 'CRO') {
+            if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+              if (this.status === 'CP_CC_ANALYST') {
+                this.defaultCpMatrixFull();
+              } else {
+                if (this.jhiMatrixDirElementType === '') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              }
+            } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+              this.checkOnDarFinal();
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
           }
         }
       }
