@@ -430,6 +430,7 @@ import { CompareDataCovenantComponent } from './compare-data/covenant/compare-da
 import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/compare-data-covenant-grid.component';
 import { CompareDataCovenantOtherComponent } from './compare-data/covenant/other/compare-data-covenant-other.component';
 import { CompareDataCovenantOtherDialogComponent } from './compare-data/covenant/other/dialog/compare-data-covenant-other-dialog.component';
+import { LoanPurposeComponent } from './loan-purpose/loan-purpose.component';
 
 @NgModule({
   imports: [
@@ -928,11 +929,15 @@ import { CompareDataCovenantOtherDialogComponent } from './compare-data/covenant
     CompareDataCovenantComponent,
     CompareDataCovenantGridComponent,
     CompareDataCovenantOtherComponent,
-    CompareDataCovenantOtherDialogComponent
+    CompareDataCovenantOtherDialogComponent,
+
+    LoanPurposeComponent,
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
+
+    LoanPurposeComponent,
 
     //   New Compare Data
     CompareDataComponent,
