@@ -15,14 +15,6 @@ import { IApplicationProduct } from '../application-product/application-product.
       </div>
     </div>
   `,
-  styles: [
-    `
-      // ul list style "-"
-      ul {
-        list-style-type: '- ';
-      }
-    `,
-  ],
 })
 export class LoanPurposeComponent implements OnChanges {
   @Input() products: IApplicationProduct[];
