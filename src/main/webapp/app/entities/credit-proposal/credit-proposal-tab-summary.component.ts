@@ -27,6 +27,7 @@ import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-
 import { Router } from '@angular/router';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { AccountService } from 'app/core/auth/account.service';
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
   templateUrl: './credit-proposal-tab-summary.component.html',
@@ -39,7 +40,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   private ngUnsubscribe = new Subject();
   public state: string;
   public dialogVisible: false;
-  public data: object[];
+  public data = [];
   public myBusinessGroupCPFacility: ICPFacilityTable[];
   public dataSource = [];
   public parsedAttr;
@@ -73,6 +74,8 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   @Input() saveWord: any;
   approvalStatus: string;
+  public notCreatedBy = true;
+  currentAccount: any;
   @Input()
   get sourceComponent() {
     return this.viewButton;
@@ -80,7 +83,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   set sourceComponent(item: any) {
     this.viewButton = item;
   }
-
   @Input() fileDar: any;
   @Input() fileCompliance: any;
   @Input() fileSPPK: any;
@@ -95,12 +97,18 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     protected messageService: MessageService,
     private http: HttpClient,
     public partyCifService: PartyCifService,
-    private router: Router
+    private router: Router,
+    public accountService: AccountService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     // Loan Analys Generate Dar And SPPK
     if (changes.fileDar) {
+      for (let i = 0; this.fileDar.length; i++) {
+        if (this.fileDar[i].tags['createDate'] === this.currentAccount.login) {
+          this.notCreatedBy = false;
+        }
+      }
       this.data = this.fileDar;
     }
     // Loan Analys Generate Compliance
@@ -114,6 +122,9 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+    });
     this.creditRatingCondition();
     this.conditionApprovalUser();
     const token = this.getToken('XSRF-TOKEN');
