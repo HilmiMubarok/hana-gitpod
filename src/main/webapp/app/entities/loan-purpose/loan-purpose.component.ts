@@ -3,7 +3,7 @@ import { IApplicationProduct } from '../application-product/application-product.
 
 @Component({
   selector: 'jhi-loan-purpose',
-  template: ` Loan Purpose: {{ applicationTypes }} `,
+  template: ` Loan Purpose : {{ applicationTypes }} `,
 })
 export class LoanPurposeComponent implements OnChanges {
   @Input() products: IApplicationProduct[];
