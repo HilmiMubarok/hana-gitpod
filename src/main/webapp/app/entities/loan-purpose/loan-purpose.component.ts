@@ -30,11 +30,9 @@ export class LoanPurposeComponent implements OnChanges {
 
   // Get application type of all products
   getApplicationType(): string[] {
-    const applicationTypes: string[] = [];
-
-    for (const product of this.products.filter(item => item.applicationType !== 'Existing')) {
-      applicationTypes.push(product.applicationType);
-    }
+    const applicationTypes: string[] = Array.from(
+      new Set(this.products.filter(item => item.applicationType !== 'Existing').map(item => item.applicationType))
+    );
 
     return applicationTypes;
   }
