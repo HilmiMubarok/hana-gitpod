@@ -162,6 +162,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public isOpen = false;
 
   private menuId = '';
+  public isDocDar: boolean;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -1130,6 +1131,21 @@ export class LoanAnalysMainComponent implements OnInit {
             detail: 'Please press button approval status before submit!',
             life: 3000,
           });
+        } else if (
+          this.creditProposal.statusId === 'CP_DAR_FINAL' ||
+          (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && _res.caption === 'Submit')
+        ) {
+          this.validateDar()
+            .then(() => {
+              this.onSave('process');
+            })
+            .catch(() => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Please Generate DAR before submit',
+              });
+            });
         } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && _res.caption === 'Submit') {
           this.validate()
             .then(() => {
@@ -1847,13 +1863,13 @@ export class LoanAnalysMainComponent implements OnInit {
               fileReader.onload = (e: any) => {
                 const testSfdtFile = JSON.parse(fileReader.result as string);
                 /* if (testSfdtFile.sections[0].blocks) {
-				  if (testSfdtFile.sections[0].blocks.length > 0) {
-					++countValidate;
-				  }
-				} else {
-				  // toast opinion empty
-				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-				} */
+          if (testSfdtFile.sections[0].blocks.length > 0) {
+          ++countValidate;
+          }
+        } else {
+          // toast opinion empty
+          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+        } */
 
                 if (
                   testSfdtFile.sections[0].blocks[0].inlines ||
@@ -1903,11 +1919,11 @@ export class LoanAnalysMainComponent implements OnInit {
                     }
 
                     /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-					  ++countValidate;
-					} else {
-					  // toast opinion empty
-					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					} */
+            ++countValidate;
+          } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+          } */
                   }
                 } else {
                   // toast opinion empty
@@ -1926,16 +1942,16 @@ export class LoanAnalysMainComponent implements OnInit {
                       fileReaderCondition.onload = (eCondition: any) => {
                         const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
                         /* if (testSfdtFileCondition.sections[0].blocks) {
-						  if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							++countValidate;
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  }
-						} else {
-						  // toast condition empty
-						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						} */
+              if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+              ++countValidate;
+              } else {
+              // toast condition empty
+              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              }
+            } else {
+              // toast condition empty
+              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+            } */
 
                         if (
                           testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -1985,11 +2001,11 @@ export class LoanAnalysMainComponent implements OnInit {
                             }
 
                             /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							} */
+                ++countValidate;
+              } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              } */
                           }
                         }
 
@@ -2158,13 +2174,22 @@ export class LoanAnalysMainComponent implements OnInit {
         });
         if (this.parentPath === 'loan-committee-approval' || this.parentPath === 'dar-final') {
           this.dataFileDar = data;
+          this.isDocDar = true;
         }
         if (this.parentPath === 'cc-inquiry') {
           this.dataFileCompliance = data;
         }
       });
   }
-
+  public validateDar() {
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.isDocDar) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  }
   private generate(): void {
     this.generateFileSppkDar().then(() => {
       this.messageService.add({
@@ -2175,7 +2200,6 @@ export class LoanAnalysMainComponent implements OnInit {
       this.onRefresh();
     });
   }
-
   private async generateFileSppkDar(): Promise<void> {
     if (
       this.parentPath === 'loan-committee-approval' ||
