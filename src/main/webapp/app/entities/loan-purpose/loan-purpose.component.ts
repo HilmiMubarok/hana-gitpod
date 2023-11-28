@@ -4,7 +4,7 @@ import { IApplicationProduct } from '../application-product/application-product.
 @Component({
   selector: 'jhi-loan-purpose',
   template: `
-    <p>Loan Purpose:</p>
+    <p>Loan Purpose :</p>
     <div class="container">
       <div class="row">
         <div *ngFor="let productArray of applicationTypes" class="col-6">
