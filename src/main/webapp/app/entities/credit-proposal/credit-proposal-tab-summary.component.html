@@ -135,7 +135,8 @@
       <jhi-loan-facility-approve-level-note [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level-note>
     </ng-container>
     <ng-container *ngIf="approvalUser">
-      <jhi-loan-facility-approve-level [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level>
+      <jhi-loan-facility-approve-level-reporting [creditProposal]="item" *ngIf="viewButton === 'loan'">
+      </jhi-loan-facility-approve-level-reporting>
     </ng-container>
   </section>
 
