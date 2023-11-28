@@ -190,39 +190,39 @@ export class LoanAnalysOpinionComponent implements OnInit {
 	  this.refresh();
     }); */
 
-	if (
+    if (
       this.tempRouter === 'la-analyst' ||
       this.tempRouter === 'la-SME-CRC' ||
       this.tempRouter === 'la-approval' ||
       this.tempRouter === 'loan-committee-approval'
     ) {
-	  let i = 0;
-	  let whileBreakerHelper = false;
+      let i = 0;
+      let whileBreakerHelper = false;
 
-	  const pos = this.getToken('POS');
-	  const posO = this.getToken('POSO');
-	  const posOD = this.getToken('POSOD');
+      const pos = this.getToken('POS');
+      const posO = this.getToken('POSO');
+      const posOD = this.getToken('POSOD');
 
-	  this.positionUserId = pos;
-	  this.positionUserDescription = posOD;
+      this.positionUserId = pos;
+      this.positionUserDescription = posOD;
 
-	  this.cacheData = {
+      this.cacheData = {
         userId: this.userId,
         positionUserId: this.positionUserId,
         positionUserDescription: this.positionUserDescription,
       };
 
-	  this.positionLoginEmit.emit(this.positionUserId);
+      this.positionLoginEmit.emit(this.positionUserId);
 
-	  while (!whileBreakerHelper && i < cpData.listOfPic.length) {
-		if (cpData.listOfPic[i].roleId === posO) {
-		  this.isShowOpinionFieldInput = true;
+      while (!whileBreakerHelper && i < cpData.listOfPic.length) {
+        if (cpData.listOfPic[i].roleId === posO) {
+          this.isShowOpinionFieldInput = true;
 
-		  whileBreakerHelper = true;
-		  i = cpData.listOfPic.length - 1;
-		}
-		i++;
-	  }
+          whileBreakerHelper = true;
+          i = cpData.listOfPic.length - 1;
+        }
+        i++;
+      }
     }
   }
 
@@ -235,7 +235,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
         positionUserDescription: this.positionUserDescription,
       };
       // this.filterPositionLogin();
-	  this.refresh();
+      this.refresh();
     });
   }
 
@@ -434,9 +434,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
     this.uuid = uuid.v4();
     this.uuidPath.emit(this.uuid);
 
-	this.isChooseApprovalUser = true;
+    this.isChooseApprovalUser = true;
 
-	this.applicationRoleEmit.emit(event.value);
+    this.applicationRoleEmit.emit(event.value);
 
     /* for (let i = 0; i < this.approvalUserData.length; i++) {
       if (event.value === this.approvalUserData[i].partyId) {
@@ -455,7 +455,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 		};
 		this.positionLoginEmit.emit(res.body[0].id);
 	  }
-	}); */	
+	}); */
   }
 
   public onDocumentChange() {
@@ -569,13 +569,11 @@ export class LoanAnalysOpinionComponent implements OnInit {
           if (
             testSfdtFile.sections[0].blocks[0].inlines ||
             testSfdtFile.sections[0].blocks[0].columnCount ||
-            testSfdtFile.sections[0].blocks[0].paragraphFormat ||
             testSfdtFile.sections[0].blocks[0].grid ||
             testSfdtFile.sections[0].blocks[0].rows ||
             testSfdtFile.sections[0].blocks[0].tableFormat
           ) {
             if (
-              testSfdtFile.sections[0].blocks[0].paragraphFormat ||
               testSfdtFile.sections[0].blocks[0].grid ||
               testSfdtFile.sections[0].blocks[0].rows ||
               testSfdtFile.sections[0].blocks[0].tableFormat
@@ -631,6 +629,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
           if (this.recomendasi) {
             ++this.countValidate;
+
             if (this.recomendasi === 'Recommend With Condition' || this.recomendasi === 'Approved With Condition') {
               const docEditor_condition = this.container_condition?.documentEditor as DocumentEditorComponent;
 
@@ -657,13 +656,11 @@ export class LoanAnalysOpinionComponent implements OnInit {
                     if (
                       testSfdtFileCondition.sections[0].blocks[0].inlines ||
                       testSfdtFileCondition.sections[0].blocks[0].columnCount ||
-                      testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
                       testSfdtFileCondition.sections[0].blocks[0].grid ||
                       testSfdtFileCondition.sections[0].blocks[0].rows ||
                       testSfdtFileCondition.sections[0].blocks[0].tableFormat
                     ) {
                       if (
-                        testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
                         testSfdtFileCondition.sections[0].blocks[0].grid ||
                         testSfdtFileCondition.sections[0].blocks[0].rows ||
                         testSfdtFileCondition.sections[0].blocks[0].tableFormat
@@ -722,8 +719,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
               });
             } else {
               if (this.countValidate === 2) {
-                this.isAllowSave.emit(true);
-                this.saveValidate();
+                this.isAllowSave.emit(false);
+                // this.saveValidate();
               } else {
                 this.isAllowSave.emit(false);
               }
@@ -776,7 +773,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public triggeredSaveValidate(): void {
     if (this.source === '') {
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-		// if (this.nameLoanComitee) {
+        // if (this.nameLoanComitee) {
         if (this.isChooseApprovalUser) {
           this.validate();
         } else {
@@ -900,7 +897,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-	  this.filterPositionLogin(res.body);
+      this.filterPositionLogin(res.body);
       this.notes = res.body.notes;
 
       if (this.notes) {
