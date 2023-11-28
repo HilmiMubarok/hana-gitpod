@@ -4,7 +4,7 @@ import { IApplicationProduct } from '../application-product/application-product.
 @Component({
   selector: 'jhi-loan-purpose',
   template: `
-    <p>Loan Purpose:</p>
+    <p>Loan Purpose :</p>
     <div class="container">
       <div class="row">
         <div *ngFor="let productArray of applicationTypes" class="col-6">
@@ -30,11 +30,9 @@ export class LoanPurposeComponent implements OnChanges {
 
   // Get application type of all products
   getApplicationType(): string[] {
-    const applicationTypes: string[] = [];
-
-    for (const product of this.products.filter(item => item.applicationType !== 'Existing')) {
-      applicationTypes.push(product.applicationType);
-    }
+    const applicationTypes: string[] = Array.from(
+      new Set(this.products.filter(item => item.applicationType !== 'Existing').map(item => item.applicationType))
+    );
 
     return applicationTypes;
   }
