@@ -112,19 +112,20 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
       .subscribe(res => {
         this.data = res.body;
         if (this.data.length > 0) {
-          const index = this.data.length - 1;
-          if (this.data[index].id === this.creditProposal.approvalLcDefault) {
-            this.relationTypes = [];
-          } else {
-            this.relationTypes = lodash.filter(
-              this.data,
-              o => o.id !== this.creditProposal.approvalLcDefault && o.id > this.creditProposal.approvalLcDefault
-            );
-          }
+          // const index = this.data.length - 1;
+          // if (this.data[index].id === this.creditProposal.approvalLcDefault) {
+          //   this.relationTypes = [];
+          // } else {
+          this.relationTypes = lodash.filter(
+            this.data,
+            o => o.id !== this.creditProposal.approvalLcDefault
+            // && o.id > this.creditProposal.approvalLcDefault
+          );
+          // }
 
           if (this.creditProposal.approvalLc === this.creditProposal.approvalLcDefault) {
             // Condition Selected Approval Matriks
-            // Jika Nelum Dipilih Approval Matriks atau value Approval LC dan Defaultnya sama maka grid approval matriks akan dikosongkan
+            // Jika Belum Dipilih Approval Matriks atau value Approval LC dan Defaultnya sama maka grid approval matriks akan dikosongkan
             if (this.relationTypes.length > 0) {
               for (const relationType of this.relationTypes) {
                 this.selectedRelationType = relationType.id;

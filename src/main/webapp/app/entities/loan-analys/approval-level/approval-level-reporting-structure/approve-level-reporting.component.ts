@@ -11,8 +11,8 @@ import { IPositionReportingStructure } from 'app/entities/position-reporting-str
 import { RelationTypeService } from 'app/entities/relation-type/relation-type.service';
 import { LoanAnalysService } from '../../loan-analys.service';
 @Component({
-  selector: 'jhi-loan-facility-approve-level',
-  templateUrl: './approve-level.component.html',
+  selector: 'jhi-loan-facility-approve-level-reporting',
+  templateUrl: './approve-level-reporting.component.html',
   styleUrls: ['../approve-level.css'],
   animations: [
     trigger('detailExpand', [
@@ -33,7 +33,10 @@ import { LoanAnalysService } from '../../loan-analys.service';
     ]),
   ],
 })
-export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComponent<IPositionReportingStructure> implements OnInit {
+export class LoanFacilityAproveLevelReportingComponent
+  extends AbstractEntityMaterialComponent<IPositionReportingStructure>
+  implements OnInit
+{
   public displayColumns: string[] = ['approval_name', 'position', 'alternatename'];
   public idRelationType: string;
   public idApp: any;
