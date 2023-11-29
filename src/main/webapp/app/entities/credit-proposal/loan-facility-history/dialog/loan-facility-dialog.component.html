@@ -187,6 +187,25 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input [matDatepicker]="startDate" matInput [(ngModel)]="applicationProduct.startDateContract" />
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+            <mat-datepicker #startDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Start Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.startDateContract | date: 'yyyy/MM/dd' }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
           <div class="row">
             <div class="col-8">
@@ -222,6 +241,26 @@
           <div class="col-md-auto">:</div>
           <div class="col">
             {{ applicationProduct.periodType }}
+          </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input [matDatepicker]="endDate" matInput [(ngModel)]="applicationProduct.thruDateContract" />
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker #endDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">End Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.thruDateContract | date: 'yyyy/MM/dd' }}
           </div>
         </div>
       </section>

@@ -93,6 +93,46 @@
     </div>
   </section>
 
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="form-group">
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Type</mat-label>
+            <input matInput type="text" [(ngModel)]="nilaiRac.facilityType" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div class="fontsebled row">
+      <div class="col-3">Facility Type</div>
+      <div class="col-md-auto">:</div>
+      <div class="col col-lg-3">{{ nilaiRac.facilityType}}</div>
+    </div>
+  </section>
+
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="form-group">
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Total Plafond</mat-label>
+            <input matInput type="text" [(ngModel)]="nilaiRac.totalPlafond" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div class="fontsebled row">
+      <div class="col-3">Total Plafond</div>
+      <div class="col-md-auto">:</div>
+      <div class="col col-lg-3">{{ nilaiRac.totalPlafond}}</div>
+    </div>
+  </section>
+
   <mat-dialog-actions align="center" class="align-center">
     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()" style="margin-right: 15px">Close</button>

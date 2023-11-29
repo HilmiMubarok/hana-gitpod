@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IPartyCif } from '../party-cif/party-cif.model';
 import { LoginService } from 'app/login/login.service';
 import { Router } from '@angular/router';
+import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-credit-proposal-new-dialog',
@@ -12,6 +13,7 @@ export class CreditProposalNewDialogComponent {
   public partyCif: IPartyCif;
   public internalIdLocStor: string;
   public positionIdLocStor: string;
+  private updatedPartyCif: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -20,7 +22,8 @@ export class CreditProposalNewDialogComponent {
     },
     private _dialog: MatDialogRef<CreditProposalNewDialogComponent>,
     private loginService: LoginService,
-    protected router: Router
+    protected router: Router,
+    protected partyCifService: PartyCifService
   ) {
     this.partyCif = this.data.partyCif;
   }
@@ -35,7 +38,7 @@ export class CreditProposalNewDialogComponent {
       if (!this.internalIdLocStor) {
         this.logout();
       } else {
-        this._dialog.close(this.partyCif);
+        this.fetchDataBeforeCreateFromHobies();
       }
     }
   }
@@ -58,5 +61,22 @@ export class CreditProposalNewDialogComponent {
     });
 
     return result;
+  }
+
+  private fetchDataBeforeCreateFromHobies(): void {
+    const promise = new Promise<void>((resolve, reject) => {
+      const cifNumber = this.partyCif.customerNumber;
+      if (cifNumber !== undefined) {
+        this.partyCifService.syncUpdateHobis(cifNumber).subscribe(res => {
+          this.updatedPartyCif = res.body;
+          resolve(this.updatedPartyCif.customer);
+        });
+      } else {
+        reject;
+      }
+    });
+    promise.then(res => {
+      this._dialog.close(res);
+    });
   }
 }

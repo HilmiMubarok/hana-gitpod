@@ -21,6 +21,7 @@ export class CreditProposalRacNilaiPembelianAddComponent {
     nilaiPembelian: '',
     jenisJaminan: '',
     facilityType: '',
+    totalPlafond: '',
     id: '',
     lovBelow: {},
   };
@@ -56,6 +57,7 @@ export class CreditProposalRacNilaiPembelianAddComponent {
     this.nilaiRacA['nilaiPembelian'] = this.nilaiRac.nilaiPembelian;
     this.nilaiRacA['jenisJaminan'] = this.nilaiRac.jenisJaminan;
     this.nilaiRacA['facilityType'] = this.nilaiRac.facilityType;
+    this.nilaiRacA['totalPlafond'] = this.nilaiRac.totalPlafond;
     this.nilaiRacA['keteranganJaminan'] = this.nilaiRac.keteranganJaminan;
     this.nilaiRacA['id'] = this.nilaiRac.id;
     this.nilaiRacA['ccy'] = this.nilaiRac.ccy['id'];
