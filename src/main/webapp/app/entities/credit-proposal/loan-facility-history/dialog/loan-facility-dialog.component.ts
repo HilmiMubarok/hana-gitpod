@@ -37,6 +37,7 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
   public rateType: string;
   public dateIndex: number;
   public facilityType: string;
+  public dataTrhu: any;
   @Input()
   get collateral() {
     return this._collateral;
@@ -919,6 +920,26 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
       if (event === '') {
         this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
       }
+    }
+  }
+
+  public tenorChange() {
+    if (this.applicationProduct.periodType) {
+      switch (this.applicationProduct.periodType) {
+        case 'Week':
+          this.dataTrhu = new Date();
+          this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 7);
+          break;
+        case 'Month':
+          this.dataTrhu = new Date();
+          this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 30);
+          break;
+        case 'Year':
+          this.dataTrhu = new Date();
+          this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 365);
+          break;
+      }
+      this.applicationProduct.thruDateContract = this.dataTrhu;
     }
   }
 }
