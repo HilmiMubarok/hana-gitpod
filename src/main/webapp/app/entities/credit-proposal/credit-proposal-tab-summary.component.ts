@@ -35,7 +35,7 @@ import { AccountService } from 'app/core/auth/account.service';
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
-  public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
+  public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'docType', 'sizeFile', 'action'];
   public currencyMaster: number;
   private ngUnsubscribe = new Subject();
   public state: string;
@@ -86,7 +86,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   @Input() fileDar: any;
   @Input() fileCompliance: any;
   @Input() fileSPPK: any;
-
+  @Input() fileLadist: any;
   constructor(
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
@@ -114,6 +114,10 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     // Loan Analys Generate Compliance
     if (changes.fileCompliance) {
       this.data = this.fileCompliance;
+    }
+    // CP generate La Distribution
+    if (changes.fileLadist) {
+      this.data = this.fileLadist;
     }
     // Offering Latter Generate SPPK
     if (changes.fileSPPK) {
