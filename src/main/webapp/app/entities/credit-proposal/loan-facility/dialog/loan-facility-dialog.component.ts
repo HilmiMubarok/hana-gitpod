@@ -73,6 +73,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public revolving: Boolean;
   public logoProvisonFee = {};
   public logoAdminFee = {};
+  public dataTrhu: Date;
 
   @Input()
   get collateral() {
@@ -1012,5 +1013,25 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     return new Promise((resolve, reject) => {
       this.validateLoanFacility().then(() => resolve(true));
     });
+  }
+
+  public tenorChange() {
+    if (this.applicationProduct.periodType) {
+      switch (this.applicationProduct.periodType) {
+        case 'Week':
+          this.dataTrhu = new Date();
+          this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 7);
+          break;
+        case 'Month':
+          this.dataTrhu = new Date();
+          this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 30);
+          break;
+        case 'Year':
+          this.dataTrhu = new Date();
+          this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 365);
+          break;
+      }
+      this.applicationProduct.thruDateContract = this.dataTrhu;
+    }
   }
 }
