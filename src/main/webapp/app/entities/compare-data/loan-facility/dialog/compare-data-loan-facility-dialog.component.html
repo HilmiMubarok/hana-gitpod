@@ -57,6 +57,13 @@ TODO :
         </div>
       </div>
       <div class="fontsebled row py-1">
+        <div class="col-3">Start Date</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.startDateContract | date: 'yyyy/MM/dd' }}
+        </div>
+      </div>
+      <div class="fontsebled row py-1">
         <div class="col-3">Tenor</div>
         <div class="col-md-auto">:</div>
         <div class="col">
@@ -70,7 +77,13 @@ TODO :
           {{ applicationProduct.periodType }}
         </div>
       </div>
-
+      <div class="fontsebled row py-1">
+        <div class="col-3">End Date</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ applicationProduct.thruDateContract | date: 'yyyy/MM/dd' }}
+        </div>
+      </div>
       <div class="fontsebled row py-1">
         <div class="col-3">Maturity Date</div>
         <div class="col-md-auto">:</div>

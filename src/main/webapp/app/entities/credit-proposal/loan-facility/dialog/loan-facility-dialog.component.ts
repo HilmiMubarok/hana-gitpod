@@ -1019,25 +1019,16 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (this.applicationProduct.periodType) {
       switch (this.applicationProduct.periodType) {
         case 'Week':
-          console.log('tenor type ', this.applicationProduct.periodType);
           this.dataTrhu = new Date();
-          console.log('tenor berubah');
           this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 7);
-          console.log('data trhu ', this.dataTrhu);
           break;
         case 'Month':
-          console.log('tenor type ', this.applicationProduct.periodType);
           this.dataTrhu = new Date();
-          console.log('tenor berubah');
           this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 30);
-          console.log('data trhu ', this.dataTrhu);
           break;
         case 'Year':
-          console.log('tenor type ', this.applicationProduct.periodType);
           this.dataTrhu = new Date();
-          console.log('tenor berubah');
           this.dataTrhu.setDate(new Date(this.applicationProduct.startDateContract).getDate() + this.applicationProduct.tenor * 365);
-          console.log('data trhu ', this.dataTrhu);
           break;
       }
       this.applicationProduct.thruDateContract = this.dataTrhu;

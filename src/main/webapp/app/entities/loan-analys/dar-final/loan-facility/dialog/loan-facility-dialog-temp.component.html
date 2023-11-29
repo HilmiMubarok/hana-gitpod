@@ -187,18 +187,37 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input [matDatepicker]="startDate" matInput [(ngModel)]="applicationProduct.startDateContract" />
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+            <mat-datepicker #startDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Start Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.startDateContract | date: 'yyyy/MM/dd' }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
           <div class="row">
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Tenor</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.tenor" />
+                <input matInput type="number" [(ngModel)]="applicationProduct.tenor" (change)="tenorChange()" />
               </mat-form-field>
             </div>
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Period Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.periodType">
+                <mat-select [(ngModel)]="applicationProduct.periodType" (selectionChange)="tenorChange()">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
                     {{ item }}
@@ -222,6 +241,25 @@
           <div class="col-md-auto">:</div>
           <div class="col">
             {{ applicationProduct.periodType }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input [matDatepicker]="endDate" matInput [(ngModel)]="applicationProduct.thruDateContract" />
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker #endDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">End Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.thruDateContract | date: 'yyyy/MM/dd' }}
           </div>
         </div>
       </section>
