@@ -723,7 +723,16 @@ export class LoanAnalysOpinionComponent implements OnInit {
                 // this.saveValidate();
               } else {
                 this.isAllowSave.emit(false);
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Warning',
+                  detail: 'Condition Empty! All data will be save except data at tab opinion',
+                });
               }
+            }
+            if (this.recomendasi === 'Recommend as Propose' || this.recomendasi === 'Not Recommend') {
+              this.isAllowSave.emit(true);
+              this.saveValidate();
             }
           } else {
             this.isAllowSave.emit(false);
@@ -732,6 +741,11 @@ export class LoanAnalysOpinionComponent implements OnInit {
               severity: 'info',
               summary: 'Warning',
               detail: 'Recommendation Empty! All data will be save except data at tab opinion',
+            });
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Warning',
+              detail: 'Condition Empty! All data will be save except data at tab opinion',
             });
           }
         };

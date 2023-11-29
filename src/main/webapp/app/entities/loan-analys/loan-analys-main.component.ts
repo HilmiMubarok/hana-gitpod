@@ -2029,7 +2029,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   this.messageService.add({
                     severity: 'info',
                     summary: 'Warning',
-                    detail: 'rRecommendation Empty! All data will be save except data at tab opinion',
+                    detail: 'Recommendation Empty! All data will be save except data at tab opinion',
                   });
                   this.saveUpdate('not-complete', source);
                 }
