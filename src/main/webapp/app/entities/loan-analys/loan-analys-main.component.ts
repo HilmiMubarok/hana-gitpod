@@ -163,6 +163,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   private menuId = '';
   public isDocDar: boolean;
+  dataFileLaDistrib: any[];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -2174,10 +2175,14 @@ export class LoanAnalysMainComponent implements OnInit {
         });
         if (this.parentPath === 'loan-committee-approval' || this.parentPath === 'dar-final') {
           this.dataFileDar = data;
+          console.log('dataFileDar', this.dataFileDar);
           this.isDocDar = true;
         }
         if (this.parentPath === 'cc-inquiry') {
           this.dataFileCompliance = data;
+        }
+        if (this.parentPath === 'la-distribution') {
+          this.dataFileLaDistrib = data;
         }
       });
   }
