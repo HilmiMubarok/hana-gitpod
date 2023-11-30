@@ -17,7 +17,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
         <div class="col-3">Category</div>
         <div class="col-md-auto">:</div>
         <div class="col">
-          {{ otherCovenant.category }}
+          {{ otherCovenant.categoryName }}
         </div>
       </div>
       <div class="fontsebled row">
