@@ -1708,10 +1708,33 @@ export class LoanAnalysMainComponent implements OnInit {
 
   private saveUpdate(status: string, source: string): void {
     if (status === 'not-complete-not-visit') {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Opinion Empty! All data will be save except data at tab opinion',
+      this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+        this.creditProposal.products = res.body.products;
+        this.creditProposal.notes = res.body.notes;
+
+        const tempRouterA = this.router.url.split('/')[1];
+
+        if (tempRouterA === 'cc-review') {
+          if (this.loanAnalysOpinionCompliancePartComponent) {
+            this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+            this.loanAnalysOpinionCompliancePartComponent.refresh();
+            this.loanAnalysOpinionCompliancePartComponent.onCreate();
+          }
+        }
+
+        if (this.selectedMenu === 'loan-facility') {
+          if (this.loanFacilityDetailTempComponent) {
+            this.loanFacilityDetailTempComponent.triggeredSave();
+            this.loanFacilityDetailTempComponent.onCreate();
+          }
+        }
+
+        this.saveDoc = true;
+        this.saveApplicationRole(source);
+        // this.messageService.add({
+        //   severity: 'error',
+        //   summary: 'Warning',
+        //   detail: ' Empty0! All data will be save except data at tab opinion',
       });
       // this.creditProposalService.update(this.preSave(status)).subscribe(res => {
       //   this.creditProposal.products = res.body.products;
