@@ -162,6 +162,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public isOpen = false;
 
   private menuId = '';
+
   public isDocDar: boolean;
   dataFileLaDistrib: any[];
 

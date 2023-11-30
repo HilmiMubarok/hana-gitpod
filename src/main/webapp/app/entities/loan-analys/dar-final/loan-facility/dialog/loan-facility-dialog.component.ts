@@ -65,6 +65,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   public revolving: Boolean;
   public othersDescStat: Boolean = true;
   public dataTrhu: any;
+  public lovDisbursementLegalList = [];
 
   @Input()
   get collateral() {
@@ -290,6 +291,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     this.rateType = this.data.applicationProduct.rateTypeName;
     this.dateIndex = this.data.applicationProduct.intResetFrequency;
     this.indexRateServiceFun();
+    this.lovDisbursementLegal();
   }
 
   ngOnInit(): void {
@@ -825,7 +827,25 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         });
       this.applicationProduct.productId = data.id;
       this.calTotalPlafond(data.revolving);
+      const disbursementLegal = this.lovDisbursementLegalList.find(obj => obj.code === data.code);
+      if (disbursementLegal) {
+        this.applicationProduct.attributes['disbursementLegalRemark'] = disbursementLegal.value;
+      }
     }
+  }
+
+  public lovDisbursementLegal() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'DISBURSEMENT_CONDITION_LEGAL',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lovDisbursementLegalList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   public getSpread() {

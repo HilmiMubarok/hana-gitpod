@@ -272,6 +272,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   // Code Lov get General Parameter  List Of Value Improvement Phase 1
   public interestTypeList = [];
   public installmentMethodList = [];
+  public lovDisbursementLegalList = [];
   public restructList = [];
   public installmentMethodValue: string;
   public restructMethodValue: string;
@@ -319,6 +320,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.rateType = this.data.applicationProduct.rateTypeName;
     this.dateIndex = this.data.applicationProduct.intResetFrequency;
     this.indexRateServiceFun();
+    this.lovDisbursementLegal();
   }
 
   ngOnInit(): void {
@@ -898,7 +900,25 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         });
       this.applicationProduct.productId = data.id;
       this.calTotalPlafond(data.revolving);
+      const disbursementLegal = this.lovDisbursementLegalList.find(obj => obj.code === data.code);
+      if (disbursementLegal) {
+        this.applicationProduct.attributes['disbursementLegalRemark'] = disbursementLegal.value;
+      }
     }
+  }
+
+  public lovDisbursementLegal() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'DISBURSEMENT_CONDITION_LEGAL',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lovDisbursementLegalList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   public setPeriodeType() {
