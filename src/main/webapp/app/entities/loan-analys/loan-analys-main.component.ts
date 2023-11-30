@@ -2175,7 +2175,6 @@ export class LoanAnalysMainComponent implements OnInit {
         });
         if (this.parentPath === 'loan-committee-approval' || this.parentPath === 'dar-final') {
           this.dataFileDar = data;
-          console.log('dataFileDar', this.dataFileDar);
           this.isDocDar = true;
         }
         if (this.parentPath === 'cc-inquiry') {
@@ -2217,6 +2216,11 @@ export class LoanAnalysMainComponent implements OnInit {
       );
       const fileSPPK = await firstValueFrom(
         this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+      );
+    }
+    if (this.parentPath === 'la-distribution') {
+      const fileLadist = await firstValueFrom(
+        this.http.get('/services/report/api/report/credit-proposal_v2/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
       );
     }
     if (this.parentPath === 'cc-inquiry') {
