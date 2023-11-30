@@ -1322,16 +1322,18 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   public previousState(): void {
     window.history.back();
   }
-  showTextMenu() {
-    let menuList = [];
-    menuList = [...this.subMenu];
-    for (let i = 0; i < menuList.length; i++) {
-      if (this.clickedMenu === menuList[i].id) {
-        return menuList[i].label;
-      } else {
-        for (let y = 0; y < menuList[i].child?.length; y++) {
-          if (this.clickedMenu === menuList[i].child[y].id) {
-            return menuList[i].child[y].label;
+  public showTextMenu(): void {
+    if (this.subMenu.length > 1) {
+      let menuList = [];
+      menuList = [...this.subMenu];
+      for (let i = 0; i < menuList.length; i++) {
+        if (this.clickedMenu === menuList[i].id) {
+          return menuList[i].label;
+        } else {
+          for (let y = 0; y < menuList[i].child?.length; y++) {
+            if (this.clickedMenu === menuList[i].child[y].id) {
+              return menuList[i].child[y].label;
+            }
           }
         }
       }
