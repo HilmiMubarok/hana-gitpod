@@ -163,6 +163,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   private menuId = '';
   public isDocDar: boolean;
+  dataFileLaDistrib: any[];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -2179,6 +2180,9 @@ export class LoanAnalysMainComponent implements OnInit {
         if (this.parentPath === 'cc-inquiry') {
           this.dataFileCompliance = data;
         }
+        if (this.parentPath === 'la-distribution') {
+          this.dataFileLaDistrib = data;
+        }
       });
   }
   public validateDar() {
@@ -2212,6 +2216,11 @@ export class LoanAnalysMainComponent implements OnInit {
       );
       const fileSPPK = await firstValueFrom(
         this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+      );
+    }
+    if (this.parentPath === 'la-distribution') {
+      const fileLadist = await firstValueFrom(
+        this.http.get('/services/report/api/report/credit-proposal_v2/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
       );
     }
     if (this.parentPath === 'cc-inquiry') {

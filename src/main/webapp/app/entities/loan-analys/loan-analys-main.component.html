@@ -318,6 +318,7 @@
               <jhi-credit-proposal-tab-summary
                 [fileDar]="dataFileDar"
                 [fileCompliance]="dataFileCompliance"
+                [fileLadist]="dataFileLaDistrib"
                 [source]="'summaryAll'"
                 [item]="creditProposal"
                 [sourceComponent]="'loan'"
@@ -662,6 +663,16 @@
         (click)="generate()"
       >
         Generate DAR
+      </button>
+      <!---Generate CP-->
+      <button
+        mat-raised-button
+        *ngIf="parentPath === 'la-distribution'"
+        class="btn-lg text-uppercase button-styling"
+        style="margin-right: 20px"
+        (click)="generate()"
+      >
+        Generate CP
       </button>
 
       <button
