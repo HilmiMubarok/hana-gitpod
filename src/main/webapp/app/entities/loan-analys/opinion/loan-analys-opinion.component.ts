@@ -587,7 +587,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                 this.messageService.add({
                   severity: 'info',
                   summary: 'Warning',
-                  detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                  detail: 'Please input opinion first before submit or save the data',
                 });
               }
             } else if (testSfdtFile.sections[0].blocks[0].inlines) {
@@ -605,7 +605,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                 this.messageService.add({
                   severity: 'info',
                   summary: 'Warning',
-                  detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                  detail: 'Please input opinion first before submit or save the data',
                 });
               } else {
                 ++this.countValidate;
@@ -623,14 +623,19 @@ export class LoanAnalysOpinionComponent implements OnInit {
             this.messageService.add({
               severity: 'info',
               summary: 'Warning',
-              detail: 'Opinion Empty! All data will be save except data at tab opinion',
+              detail: 'Please input opinion first before submit or save the data',
             });
           }
 
           if (this.recomendasi) {
             ++this.countValidate;
 
-            if (this.recomendasi === 'Recommend With Condition' || this.recomendasi === 'Approved With Condition') {
+            if (
+              this.recomendasi === 'Recommend With Condition' ||
+              this.recomendasi === 'Approved With Condition' ||
+              this.recomendasi === 'Recommend as Propose' ||
+              this.recomendasi === 'Not Recommend'
+            ) {
               const docEditor_condition = this.container_condition?.documentEditor as DocumentEditorComponent;
 
               docEditor_condition.saveAsBlob('Sfdt').then((exportedDocumentCondition: Blob) => {
@@ -674,7 +679,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                           this.messageService.add({
                             severity: 'info',
                             summary: 'Warning',
-                            detail: 'Condition Empty! All data will be save except data at tab opinion',
+                            detail: 'Please input condition first before submit or save the data',
                           });
                         }
                       } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
@@ -692,7 +697,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                           this.messageService.add({
                             severity: 'info',
                             summary: 'Warning',
-                            detail: 'Condition Empty! All data will be save except data at tab opinion',
+                            detail: 'Please input condition first before submit or save the data',
                           });
                         } else {
                           ++this.countValidate;
@@ -726,26 +731,34 @@ export class LoanAnalysOpinionComponent implements OnInit {
                 this.messageService.add({
                   severity: 'info',
                   summary: 'Warning',
-                  detail: 'Condition Empty! All data will be save except data at tab opinion',
+                  detail: 'Please input condition first before submit or save the data',
                 });
               }
             }
-            if (this.recomendasi === 'Recommend as Propose' || this.recomendasi === 'Not Recommend') {
-              this.isAllowSave.emit(true);
-              this.saveValidate();
-            }
+            // if (this.recomendasi === 'Recommend as Propose' || this.recomendasi === 'Not Recommend') {
+            //   this.isAllowSave.emit(false);
+            //   // this.saveValidate();
+            // } else {
+            //   this.isAllowSave.emit(false);
+            //   this.messageService.add({
+            //     severity: 'info',
+            //     summary: 'Warning',
+            //     detail: 'Condition',
+            //   });
+            // }
           } else {
             this.isAllowSave.emit(false);
             // toast recomendation empty
             this.messageService.add({
               severity: 'info',
               summary: 'Warning',
-              detail: 'Recommendation Empty! All data will be save except data at tab opinion',
+              detail: 'Please input recomendation first before submit or save the data',
             });
+
             this.messageService.add({
               severity: 'info',
               summary: 'Warning',
-              detail: 'Condition Empty! All data will be save except data at tab opinion',
+              detail: 'Please input condition first before submit or save the data',
             });
           }
         };
