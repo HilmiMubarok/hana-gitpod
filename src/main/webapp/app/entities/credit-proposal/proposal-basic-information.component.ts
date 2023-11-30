@@ -956,9 +956,14 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   private getTasks(): void {
     // this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
-	this.creditProposalProcessService.getTasksByPos(this.id, {idPosition: this.getLocStor('POS'), idMenu: this.parentPath === 'credit-proposal-status' ? 'CREDIT_PROPOSAL_STATUS' : 'CREDIT_PROPOSAL_APPROVAL'}).subscribe(res => {
-      this.tasks = res.body;
-    });
+    this.creditProposalProcessService
+      .getTasksByPos(this.id, {
+        idPosition: this.getLocStor('POS'),
+        idMenu: this.parentPath === 'credit-proposal-status' ? 'CREDIT_PROPOSAL_STATUS' : 'CREDIT_PROPOSAL_APPROVAL',
+      })
+      .subscribe(res => {
+        this.tasks = res.body;
+      });
   }
 
   public processTask(task: IProcessTask): void {
@@ -985,7 +990,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
-        this.save('process');
+        this.validate().then(() => this.save('process'));
       }
     });
   }
@@ -1910,5 +1915,54 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     return result + dolar;
+  }
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  public checkMustValidated() {
+    const mustValidate = {
+      code: true,
+      value: true,
+    };
+
+    if (!this.creditProposal.capitalDeposit) {
+      this._showNotification('error', 'Masukkan modal disetor terlebih dahulu');
+      mustValidate.code = false;
+    }
+
+    if (!this.creditProposal.annualSales) {
+      this._showNotification('error', 'Masukkan Penjualan Tahunan terlebih dahulu');
+      mustValidate.value = false;
+    }
+
+    return this._validateProcess(mustValidate);
+  }
+
+  public validateMasterLov(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Master Product Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateMasterLov().then(() => resolve(true));
+    });
   }
 }
