@@ -24,6 +24,7 @@ export class CreditProposalRacNilaiPembelianEditComponent {
     nilaiPembelian: '',
     jenisJaminan: '',
     facilityType: '',
+    totalPlafond: '',
     id: '',
     lovBelow: {},
   };
@@ -50,13 +51,13 @@ export class CreditProposalRacNilaiPembelianEditComponent {
     this.edit = this.data.edit;
     this.nilaiRac = this.data.lovBelow;
     this.loadCurrencyMeasure();
-    console.log('ini nilai ', this.nilaiRac);
   }
 
   public save(): void {
     this.nilaiRacA['nilaiPembelian'] = this.nilaiRac['nilaiPembelian'];
     this.nilaiRacA['jenisJaminan'] = this.nilaiRac.jenisJaminan;
     this.nilaiRacA['facilityType'] = this.nilaiRac.facilityType;
+    this.nilaiRacA['totalPlafond'] = this.nilaiRac.totalPlafond;
     this.nilaiRacA['keteranganJaminan'] = this.nilaiRac.keteranganJaminan;
     this.nilaiRacA['id'] = this.nilaiRac.id;
     this.nilaiRacA['ccy'] = this.amountCcy['id'];

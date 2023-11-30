@@ -8,6 +8,7 @@ export interface INilaiRac {
   jenisJaminan?: string;
   keteranganJaminan?: string;
   lovBelow?: any;
+  totalPlafond?: string;
 }
 
 export class NilaiRac {
@@ -18,7 +19,8 @@ export class NilaiRac {
     public facilityType?: string,
     public jenisJaminan?: string,
     public keteranganJaminan?: string,
-    public lovBelow?: string
+    public lovBelow?: string,
+    public totalPlafond?: string
   ) {
     this.id = uuid.v4();
     this.nilaiPembelian = '';
@@ -26,5 +28,6 @@ export class NilaiRac {
     this.facilityType = '';
     this.jenisJaminan = '';
     this.keteranganJaminan = '';
+    this.totalPlafond = '';
   }
 }

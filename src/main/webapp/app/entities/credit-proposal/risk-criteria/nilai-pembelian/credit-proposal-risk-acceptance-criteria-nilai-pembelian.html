@@ -55,6 +55,14 @@
           <th mat-header-cell *matHeaderCellDef>Keterangan Jaminan</th>
           <td mat-cell *matCellDef="let element">{{ element.keteranganJaminan }}</td>
         </ng-container>
+        <ng-container matColumnDef="FacilityType">
+          <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
+        </ng-container>
+        <ng-container matColumnDef="TotalPlafond">
+          <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
+          <td mat-cell *matCellDef="let element">{{ element.totalPlafond }}</td>
+        </ng-container>
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
