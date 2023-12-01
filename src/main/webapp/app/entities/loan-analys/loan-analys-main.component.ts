@@ -2047,7 +2047,23 @@ export class LoanAnalysMainComponent implements OnInit {
               this.saveUpdate('not-complete', source);
             }
           } else {
-            this.saveUpdate('not-complete-not-visit', source);
+            // this.saveUpdate('not-complete-not-visit', source);
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Warning',
+              detail: 'Please input opinion first before submit or save the data',
+            });
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Warning',
+              detail: 'Please input recomendation first before submit or save the data',
+            });
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Warning',
+              detail: 'Please input condition first before submit or save the data',
+            });
+            this.saveUpdate('not-complete', source);
           }
         }
       } else {
