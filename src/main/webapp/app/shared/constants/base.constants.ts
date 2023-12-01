@@ -3218,3 +3218,8 @@ export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
     text: 'Covenant & Document Checklist',
   },
 ];
+
+export enum DOCUMENT_TYPE_GENERATE_DOCUMENT {
+  DAR = 'DOC_GENERATE_DAR',
+  CP = 'DOC_GENERATE_CREDIT_PROPOSAL_MARK_II',
+}
