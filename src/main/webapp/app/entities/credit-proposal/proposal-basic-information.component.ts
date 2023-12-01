@@ -986,11 +986,14 @@ export class ProposalBasicInformationComponent implements OnInit {
             change = change + Number(this.creditProposal.products[i].attributes.changes);
           }
         }
-
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
-        this.validate().then(() => this.save('process'));
+        if (task.name === 'submit') {
+          this.validate().then(() => this.save('process'));
+        } else {
+          this.save('process');
+        }
       }
     });
   }
