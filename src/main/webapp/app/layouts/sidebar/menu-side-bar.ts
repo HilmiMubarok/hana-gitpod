@@ -134,6 +134,16 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'master-credit-agreement-clausal',
       },
+      {
+        name: 'Company Type',
+        iconname: 'minus',
+        route: 'master-company-type',
+      },
+      {
+        name: 'Financial Institution',
+        iconname: 'minus',
+        route: 'master-financial-institution',
+      },
     ],
   },
   {
