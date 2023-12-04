@@ -634,7 +634,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
               this.recomendasi === 'Recommend With Condition' ||
               this.recomendasi === 'Approved With Condition' ||
               this.recomendasi === 'Recommend as Propose' ||
-              this.recomendasi === 'Not Recommend'
+              this.recomendasi === 'Not Recommend' ||
+              this.recomendasi === 'Approved as Propose' ||
+              this.recomendasi === 'Not Approved'
             ) {
               const docEditor_condition = this.container_condition?.documentEditor as DocumentEditorComponent;
 
@@ -944,7 +946,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
         this.tempRouter === 'cc-inquiry' ||
         this.tempRouter === 'finalize' ||
         this.tempRouter === 'review' ||
-        this.tempRouter === 'confirmation'
+        this.tempRouter === 'confirmation' ||
+        this.tempRouter === 'finalize-pk'
       ) {
         if (this.notes) {
           if (this.notes.length > 0) {

@@ -467,17 +467,19 @@ export class OfferingLetterMainComponent implements OnInit {
     return this.title;
   }
 
-  showTextMenu() {
-    const menuList = [];
-    menuList.push(this.subMenu);
-    for (let i = 0; i < menuList.length; i++) {
-      for (let x = 0; x < menuList[i].length; x++) {
-        if (this.selectedMenu === menuList[i][x].id) {
-          return menuList[i][x].text;
-        } else {
-          for (let y = 0; y < menuList[i][x].child?.length; y++) {
-            if (this.selectedMenu === menuList[i][x].child[y].id) {
-              return menuList[i][x].child[y].text;
+  public showTextMenu(): void {
+    if (this.subMenu.length > 1) {
+      const menuList = [];
+      menuList.push(this.subMenu);
+      for (let i = 0; i < menuList.length; i++) {
+        for (let x = 0; x < menuList[i].length; x++) {
+          if (this.selectedMenu === menuList[i][x].id) {
+            return menuList[i][x].text;
+          } else {
+            for (let y = 0; y < menuList[i][x].child?.length; y++) {
+              if (this.selectedMenu === menuList[i][x].child[y].id) {
+                return menuList[i][x].child[y].text;
+              }
             }
           }
         }

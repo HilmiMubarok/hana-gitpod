@@ -2070,7 +2070,23 @@ export class LoanAnalysMainComponent implements OnInit {
               this.saveUpdate('not-complete', source);
             }
           } else {
-            this.saveUpdate('not-complete-not-visit', source);
+            // this.saveUpdate('not-complete-not-visit', source);
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Warning',
+              detail: 'Please input opinion first before submit or save the data',
+            });
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Warning',
+              detail: 'Please input recomendation first before submit or save the data',
+            });
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Warning',
+              detail: 'Please input condition first before submit or save the data',
+            });
+            this.saveUpdate('not-complete', source);
           }
         }
       } else {
@@ -2136,16 +2152,18 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   showTextMenu() {
-    const menuList = [];
-    menuList.push(this.subMenu);
-    for (let i = 0; i < menuList.length; i++) {
-      for (let x = 0; x < menuList[i].length; x++) {
-        if (this.selectedMenu === menuList[i][x].id) {
-          return menuList[i][x].text;
-        } else {
-          for (let y = 0; y < menuList[i][x].child?.length; y++) {
-            if (this.selectedMenu === menuList[i][x].child[y].id) {
-              return menuList[i][x].child[y].text;
+    if (this.subMenu.length > 1) {
+      const menuList = [];
+      menuList.push(this.subMenu);
+      for (let i = 0; i < menuList.length; i++) {
+        for (let x = 0; x < menuList[i].length; x++) {
+          if (this.selectedMenu === menuList[i][x].id) {
+            return menuList[i][x].text;
+          } else {
+            for (let y = 0; y < menuList[i][x].child?.length; y++) {
+              if (this.selectedMenu === menuList[i][x].child[y].id) {
+                return menuList[i][x].child[y].text;
+              }
             }
           }
         }

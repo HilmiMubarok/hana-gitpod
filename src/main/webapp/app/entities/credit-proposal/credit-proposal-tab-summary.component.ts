@@ -74,7 +74,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   @Input() saveWord: any;
   approvalStatus: string;
-  public notCreatedBy = true;
+  public notCreatedBy: boolean;
   currentAccount: any;
   @Input()
   get sourceComponent() {
@@ -104,11 +104,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // Loan Analys Generate Dar And SPPK
     if (changes.fileDar) {
-      for (let i = 0; this.fileDar.length; i++) {
-        if (this.fileDar[i].tags['createDate'] === this.currentAccount.login) {
-          this.notCreatedBy = false;
-        }
-      }
       this.data = this.fileDar;
     }
     // Loan Analys Generate Compliance
@@ -135,7 +130,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-
     this.getBucketNameSummary();
     this.triggeredSave();
     const setDate = new Date().toISOString().split('T')[0];

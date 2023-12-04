@@ -70,15 +70,16 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
   public isShowOpinionFieldInput = false;
 
   private uuid: any;
+  public positionLocStor: number;
 
   constructor(
-	protected datePipe: DatePipe,
+    protected datePipe: DatePipe,
     protected dialog: MatDialog,
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected storageService: StorageService,
-	protected creditProposalService: CreditProposalService,
+    protected creditProposalService: CreditProposalService,
     protected positionService: PositionService
   ) {
     const tempRouter = this.router.url.split('/')[1];
@@ -87,7 +88,22 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
     }
     this.uuid = uuid.v4();
   }
-  
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   private getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
@@ -95,28 +111,29 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
   }
 
   public filterPositionLogin() {
-    this.positionService.findByLogin().subscribe(posisi => {
-	  let tempLoginId = 0;
+    // this.positionService.findByLogin().subscribe(posisi => {
+    // let tempLoginId = 0;
 
-      this.positionLogin = posisi.body;
+    //   // for (let i = 0; i < this.positionLogin.length; i++) {
+    //   //   tempLoginId = this.positionLogin[i].id;
+    //   // }
 
-      for (let i = 0; i < this.positionLogin.length; i++) {
-		tempLoginId = this.positionLogin[i].id;
-      }
-
-      this.positionLoginEmitCompliance.emit(tempLoginId);
-	  this.refresh();
-    });
+    //   this.positionLoginEmitCompliance.emit(tempLoginId);
+    //   this.refresh();
+    // });
+    this.positionLoginEmitCompliance.emit(this.positionLocStor);
+    this.refresh();
   }
 
   ngOnInit(): void {
+    this.positionLocStor = this.getLocStor('POS');
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
     this.typeOpinion.emit('compliance');
     this.uuidPath.emit(this.uuid);
 
-	this.getWord();
+    this.getWord();
     this.filterPositionLogin();
   }
 
@@ -216,19 +233,19 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
 
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-	  this.notes = res.body.notes;
+      this.notes = res.body.notes;
 
-	  if (this.notes) {
-		if (this.notes.length > 0) {
-		  this.notes.sort((a, b) => (a.id > b.id) ? 1 : -1);
-		}
-	  }
+      if (this.notes) {
+        if (this.notes.length > 0) {
+          this.notes.sort((a, b) => (a.id > b.id ? 1 : -1));
+        }
+      }
 
-	  if (this.notes) {
-		if (this.notes.length > 0) {
-		  this.notes = this.notes.filter((note) => note.type === 'compliance');
-		}
-	  }
+      if (this.notes) {
+        if (this.notes.length > 0) {
+          this.notes = this.notes.filter(note => note.type === 'compliance');
+        }
+      }
     });
   }
 

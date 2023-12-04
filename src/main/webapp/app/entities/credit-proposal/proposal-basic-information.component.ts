@@ -986,11 +986,14 @@ export class ProposalBasicInformationComponent implements OnInit {
             change = change + Number(this.creditProposal.products[i].attributes.changes);
           }
         }
-
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
-        this.validate().then(() => this.save('process'));
+        if (task.name === 'submit') {
+          this.validate().then(() => this.save('process'));
+        } else {
+          this.save('process');
+        }
       }
     });
   }
@@ -1623,16 +1626,18 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public showTextMenu(): void {
-    const menuList = [];
-    menuList.push(this.subMenu);
-    for (let i = 0; i < menuList.length; i++) {
-      for (let x = 0; x < menuList[i].length; x++) {
-        if (this.clickedMenu === menuList[i][x].id) {
-          this.headerTitle = menuList[i][x].text;
-        } else {
-          for (let y = 0; y < menuList[i][x].child?.length; y++) {
-            if (this.clickedMenu === menuList[i][x].child[y].id) {
-              this.headerTitle = menuList[i][x].child[y].text;
+    if (this.subMenu.length > 1) {
+      const menuList = [];
+      menuList.push(this.subMenu);
+      for (let i = 0; i < menuList.length; i++) {
+        for (let x = 0; x < menuList[i].length; x++) {
+          if (this.clickedMenu === menuList[i][x].id) {
+            this.headerTitle = menuList[i][x].text;
+          } else {
+            for (let y = 0; y < menuList[i][x].child?.length; y++) {
+              if (this.clickedMenu === menuList[i][x].child[y].id) {
+                this.headerTitle = menuList[i][x].child[y].text;
+              }
             }
           }
         }
