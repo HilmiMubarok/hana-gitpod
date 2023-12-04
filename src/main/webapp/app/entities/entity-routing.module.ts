@@ -591,6 +591,18 @@ import { RouterModule } from '@angular/router';
             m => m.LosgwMasterCreditAgreementClausalModule
           ),
       },
+      {
+        path: 'master-company-type',
+        loadChildren: () =>
+          import('./master-parameter/master-company-type/master-company-type.module').then(m => m.LosgwMasterCompanyTypeModule),
+      },
+      {
+        path: 'master-financial-institution',
+        loadChildren: () =>
+          import('./master-parameter/financial-institution/master-financial-institution.module').then(
+            m => m.LosgwMasterFinancialInstitutionModule
+          ),
+      },
     ]),
   ],
 })
