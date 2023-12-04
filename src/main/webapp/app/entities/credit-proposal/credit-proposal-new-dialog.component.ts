@@ -71,13 +71,7 @@ export class CreditProposalNewDialogComponent {
       if (cifNumber !== undefined) {
         this.partyCifService.syncCollateralHobis(cifNumber).subscribe(res => {
           if (!res) {
-            reject(
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'unable to sync',
-              })
-            );
+            reject();
           } else {
             this.updatedPartyCif = res.body;
             resolve(this.updatedPartyCif);
@@ -85,9 +79,17 @@ export class CreditProposalNewDialogComponent {
         });
       }
     });
-    promise.then(res => {
-      // console.log(res);
-      this._dialog.close(res);
-    });
+    promise
+      .then(res => {
+        // console.log(res);
+        this._dialog.close(res);
+      })
+      .catch(error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Unable to Sync to Hobies',
+        });
+      });
   }
 }
