@@ -62,12 +62,13 @@ export class ApproveFinalComponent implements OnInit {
     }
   }
   public disabledStatus() {
-    this.patch = this.router.url.split('/')[1];
-    if (this.patch === 'dar-final' || this.patch === 'loan-committee-approval') {
-      this.disabled = false;
-    } else {
-      this.disabled = true;
-    }
+    this.disabled = true;
+    // this.patch = this.router.url.split('/')[1];
+    // if (this.patch === 'dar-final' || this.patch === 'loan-committee-approval') {
+    //   this.disabled = false;
+    // } else {
+    //   this.disabled = true;
+    // }
   }
   public hidePleaseSelect() {
     this.patch = this.router.url.split('/')[1];
