@@ -31,6 +31,18 @@
             {{ element.person.dob | formatMediumDate }}
           </td>
         </ng-container>
+        <ng-container matColumnDef="pob">
+          <th mat-header-cell *matHeaderCellDef>Place of Birth</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.person.pob }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="mothersName">
+          <th mat-header-cell *matHeaderCellDef>Mother's Maiden Name</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.person.mothersName }}
+          </td>
+        </ng-container>
         <ng-container matColumnDef="address">
           <th mat-header-cell *matHeaderCellDef>Address</th>
           <td mat-cell *matCellDef="let element">
@@ -121,6 +133,18 @@
           <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
           <td mat-cell *matCellDef="let element">
             {{ element.person.dob | formatMediumDate }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="pob">
+          <th mat-header-cell *matHeaderCellDef>Place of Birth</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.person.pob }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="mothersName">
+          <th mat-header-cell *matHeaderCellDef>Mother's Maiden Name</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.person.mothersName }}
           </td>
         </ng-container>
         <ng-container matColumnDef="address">
