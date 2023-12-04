@@ -2070,6 +2070,7 @@ export class LoanAnalysMainComponent implements OnInit {
               this.saveUpdate('not-complete', source);
             }
           } else {
+            // this.saveUpdate('not-complete-not-visit', source);
             this.messageService.add({
               severity: 'info',
               summary: 'Warning',
