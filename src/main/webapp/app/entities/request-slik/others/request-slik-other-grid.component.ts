@@ -154,8 +154,8 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
     this.displayedColumns =
       this.requestSlik.status === this.reqSlikStatus.VERIFY || this.requestSlik.status === this.reqSlikStatus.COMPLETE
-        ? ['no', 'fullname', 'idCard', 'dob', 'address', 'pep']
-        : ['no', 'fullname', 'idCard', 'dob', 'address', 'pep', 'action'];
+        ? ['no', 'fullname', 'idCard', 'dob', 'pob', 'mothersName', 'address', 'pep']
+        : ['no', 'fullname', 'idCard', 'dob', 'pob', 'mothersName', 'address', 'pep', 'action'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 

@@ -204,8 +204,8 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
 
     this.displayedColumns =
       this.requestSlik.status === this.reqSlikStatus.VERIFY || this.requestSlik.status === this.reqSlikStatus.COMPLETE
-        ? ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep']
-        : ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep', 'select'];
+        ? ['no', 'fullname', 'position', 'idCard', 'dob', 'pob', 'mothersName', 'address', 'npwp', 'pep']
+        : ['no', 'fullname', 'position', 'idCard', 'dob', 'pob', 'mothersName', 'address', 'npwp', 'pep', 'select'];
     // this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
