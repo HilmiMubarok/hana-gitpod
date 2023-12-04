@@ -4,6 +4,7 @@ import { IPartyCif } from '../party-cif/party-cif.model';
 import { LoginService } from 'app/login/login.service';
 import { Router } from '@angular/router';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-credit-proposal-new-dialog',
@@ -23,7 +24,8 @@ export class CreditProposalNewDialogComponent {
     private _dialog: MatDialogRef<CreditProposalNewDialogComponent>,
     private loginService: LoginService,
     protected router: Router,
-    protected partyCifService: PartyCifService
+    protected partyCifService: PartyCifService,
+    private messageService: MessageService
   ) {
     this.partyCif = this.data.partyCif;
   }
@@ -67,15 +69,24 @@ export class CreditProposalNewDialogComponent {
     const promise = new Promise<void>((resolve, reject) => {
       const cifNumber = this.partyCif.customerNumber;
       if (cifNumber !== undefined) {
-        this.partyCifService.syncUpdateHobis(cifNumber).subscribe(res => {
-          this.updatedPartyCif = res.body;
-          resolve(this.updatedPartyCif.customer);
+        this.partyCifService.syncCollateralHobis(cifNumber).subscribe(res => {
+          if (!res) {
+            reject(
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'unable to sync',
+              })
+            );
+          } else {
+            this.updatedPartyCif = res.body;
+            resolve(this.updatedPartyCif);
+          }
         });
-      } else {
-        reject;
       }
     });
     promise.then(res => {
+      // console.log(res);
       this._dialog.close(res);
     });
   }
