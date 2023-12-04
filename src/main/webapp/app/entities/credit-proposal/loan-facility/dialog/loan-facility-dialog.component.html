@@ -1019,30 +1019,6 @@
           </div>
         </div>
       </section>
-      <div [hidden]="textBoxHidden">
-        <section *ngIf="!statusDisabledOffering">
-          <div class="mb-2">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Disbursement Condition (Legal)</mat-label>
-              <textarea
-                matInput
-                type="multiline"
-                style="height: 100px"
-                [(ngModel)]="applicationProduct.attributes['disbursementLegalRemark']"
-              ></textarea>
-            </mat-form-field>
-          </div>
-        </section>
-        <section *ngIf="statusDisabledOffering">
-          <div class="fontsebled row py-1">
-            <div class="col-3">Disbursement Condition (Legal)</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ applicationProduct.attributes['loanPurpose'] }}
-            </div>
-          </div>
-        </section>
-      </div>
       <div class="mb-2">
         <div [hidden]="textBoxHidden">
           <section *ngIf="!statusDisabledOffering">
@@ -1115,6 +1091,31 @@
             </div>
           </section>
         </div>
+      </div>
+
+      <div [hidden]="textBoxHidden">
+        <section *ngIf="!statusDisabledOffering">
+          <div class="mb-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Disbursement Condition (Legal)</mat-label>
+              <textarea
+                matInput
+                type="multiline"
+                style="height: 100px"
+                [(ngModel)]="applicationProduct.attributes['disbursementLegalRemark']"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </section>
+        <section *ngIf="statusDisabledOffering">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Disbursement Condition (Legal)</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.attributes['disbursementLegalRemark'] }}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </div>
