@@ -11,9 +11,12 @@ import {
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
+import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
@@ -101,10 +104,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     protected actRoute: ActivatedRoute,
     private router: Router,
     private storageService: StorageService,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
+    this.loadFinancialInstitution();
   }
 
   onDocumentChange() {
@@ -726,5 +731,56 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   // setCurrency
   setCurrency() {
     this.ccy = this.creditProposal.products[0].currencyId;
+  }
+
+  // kebutuhan untuk auto complete previous bank
+  private loadFinancialInstitution(): void {
+    this.masterFinancialInstitutionService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataMasterFinancialInstitution = res.body;
+        this.filteredMVOri();
+        this.MVOriCcy = this.dataMasterFinancialInstitution.find(
+          obj => obj.code === this.creditProposal.attributes['facilityDetail'].previousBank
+        );
+      });
+  }
+
+  public myControlMVOri = new FormControl();
+  public dataMasterFinancialInstitution: IMasterFinancialInstitution[];
+  public filteredOptionsMVOri: Observable<IMasterFinancialInstitution[]>;
+  public MVOriCcy: IMasterFinancialInstitution;
+
+  filteredMVOri() {
+    this.filteredOptionsMVOri = this.myControlMVOri.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVOri(name as string) : this.dataMasterFinancialInstitution.slice();
+      })
+    );
+  }
+
+  displayFnMVOri(item: IMasterFinancialInstitution): string {
+    return item && item.description ? item.description : '';
+  }
+
+  private _filterMVOri(description: string): IMasterFinancialInstitution[] {
+    const filterValue = description.toLowerCase();
+    return this.dataMasterFinancialInstitution.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  getDataBank() {
+    this.creditProposal.attributes['facilityDetail'].previousBank = this.MVOriCcy.code;
+  }
+
+  getDataBankView() {
+    if (this.MVOriCcy) {
+      return this.MVOriCcy.description;
+    }
+    return this.creditProposal.attributes['facilityDetail'].previousBank;
   }
 }
