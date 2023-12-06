@@ -16,6 +16,8 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 })
 export class CreditProposalRacNilaiPembelianEditComponent {
   public nilaiRac: INilaiRac;
+  private provisionFormat = '0,.00';
+  public logoProvisonFee = '0,.00';
   public edit: boolean;
   public filteredOptionsCurrency: Observable<IUom[]>;
   public myControlCurrency = new FormControl();
@@ -112,5 +114,21 @@ export class CreditProposalRacNilaiPembelianEditComponent {
         this._dialog.close();
       }
     });
+  }
+  public updateFormat(type, event) {
+    if (type === 'Plafond') {
+      if (event === '%p.a') {
+        this.logoProvisonFee = this.provisionFormat;
+      }
+      if (event === 'Amount IDR') {
+        this.logoProvisonFee = 'IDR ' + this.provisionFormat;
+      }
+      if (event === 'Amount USD') {
+        this.logoProvisonFee = 'USD ' + this.provisionFormat;
+      }
+      if (event === '' || event === undefined) {
+        this.logoProvisonFee = '';
+      }
+    }
   }
 }

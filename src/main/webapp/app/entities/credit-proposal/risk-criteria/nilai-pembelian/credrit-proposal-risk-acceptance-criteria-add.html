@@ -83,10 +83,25 @@
     <div class="form-group">
       <div class="col">
         <div class="mb-2">
-          <mat-form-field class="w-100" appearance="outline">
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <mat-label>Total Plafond</mat-label>
-            <input matInput type="text" [(ngModel)]="nilaiRac.totalPlafond" />
-          </mat-form-field>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="nilaiRac.totalPlafond"
+              currencyMask
+              maxlength="16"
+              format="{{ logoProvisonFee }}"
+            />
+          </mat-form-field> -->
+          <ejs-numerictextbox
+            [(ngModel)]="nilaiRac.totalPlafond"
+            cssClass="e-outline"
+            placeholder="Total Plafond"
+            format="{{ logoProvisonFee }}"
+            maxLength="16"
+            style="height: 4em"
+          ></ejs-numerictextbox>
         </div>
       </div>
     </div>
