@@ -37,10 +37,16 @@
       </section>
     </div>
     <div class="form-group">
+      <!-- <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Company Type xxx</mat-label>
+          <input matInput type="text" [(ngModel)]="partyGroup.companyType" [disabled]="disabledData" />
+        </mat-form-field>
+      </section> -->
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Company Type</mat-label>
-          <input matInput type="text" [(ngModel)]="partyGroup.companyType" [disabled]="disabledData" />
+          <mat-label>Company Type xxx</mat-label>
+          <input matInput type="text" [(ngModel)]="companyTypeValue" [disabled]="disabledData" />
         </mat-form-field>
       </section>
       <section *jhiMatrixDirIDD="''">
@@ -48,7 +54,7 @@
           <div class="col">Company type</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ partyGroup.companyType }}
+            {{ companyTypeValue }}
           </div>
         </div>
       </section>

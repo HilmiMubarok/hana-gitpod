@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MasterCompanyTypeService } from 'app/entities/master-parameter/master-company-type/master-company-type.service';
 import { IOrganizationManagement } from 'app/entities/organization-management/organization-management.model';
 import { PartyGroup } from 'app/entities/party-group/party-group.model';
 import { IPartyGroup } from 'app/entities/party-group/party-group.model';
@@ -55,7 +56,7 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
 
   public countryCode: string;
   public disabledData;
-  constructor() {
+  constructor(protected masterCompanyTypeService: MasterCompanyTypeService) {
     super();
     this.countryCode = '';
   }
@@ -70,6 +71,7 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
         this.disabledData = true;
       }
     }
+    this.getCompanyType();
   }
 
   private preSetData(param: IPartyGroup) {
@@ -86,5 +88,29 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
       return true;
     }
     return false;
+  }
+
+  public companyTypeData: any;
+  companyTypeValue;
+  public getCompanyType() {
+    this.masterCompanyTypeService
+      .query({
+        // idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.companyTypeData = res.body;
+        if (this.companyTypeData) {
+          let element: string;
+          for (let i = 0; i < this.companyTypeData.length; i++) {
+            if (this.partyGroup.companyType === this.companyTypeData[i].code) {
+              element = this.companyTypeData[i].name;
+            }
+          }
+          this.companyTypeValue = element;
+          //  this.partyGroup.companyType =
+        }
+      });
   }
 }
