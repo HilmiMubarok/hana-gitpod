@@ -902,7 +902,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.calTotalPlafond(data.revolving);
       const disbursementLegal = this.lovDisbursementLegalList.find(obj => obj.code === data.code);
       if (disbursementLegal) {
-        this.applicationProduct.attributes['disbursementLegalRemark'] = disbursementLegal.value;
+        this.applicationProduct.attributes['paymentObligation'] = disbursementLegal.value;
       }
     }
   }
