@@ -446,10 +446,21 @@
   <div class="row">
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
       <div class="col-6">
-        <mat-header></mat-header>
-        <mat-label style="margin-left: 13px">Previous Bank</mat-label>
-        <mat-form-field appearance="outline" style="width: 96% !important">
-          <input matInput type="text" [(ngModel)]="creditProposal.attributes['facilityDetail'].previousBank" />
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Previous Bank</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVOri"
+            [matAutocomplete]="autoOri"
+            [(ngModel)]="MVOriCcy"
+            (ngModelChange)="getDataBank()"
+          />
+          <mat-autocomplete #autoOri="matAutocomplete" [displayWith]="displayFnMVOri">
+            <mat-option *ngFor="let option of filteredOptionsMVOri | async" [value]="option">
+              {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
       </div>
     </section>
@@ -458,7 +469,7 @@
         <div class="col-2">Previous Bank</div>
         <div class="col-md-auto">:</div>
         <div class="col">
-          {{ creditProposal.attributes['facilityDetail'].previousBank }}
+          {{ getDataBankView() }}
         </div>
       </div>
     </section>
