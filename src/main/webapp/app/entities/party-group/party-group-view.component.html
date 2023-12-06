@@ -52,7 +52,7 @@
                   </div> -->
                 <div class="col-sm-6">
                   <div class="my-3">
-                    <jhi-credit-proposal-branch [creditProposal]="item" [menu]="parentPath"></jhi-credit-proposal-branch>
+                    <jhi-credit-proposal-branch [creditProposal]="item" [menu]="parentPath"> </jhi-credit-proposal-branch>
                   </div>
                   <div class="my-3">
                     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -112,9 +112,19 @@
                     </section>
                   </div>
                   <div class="my-3">
-                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                       <ejs-textbox
                         [(ngModel)]="item.prospectOrganization.companyType"
+                        placeholder="Company Type"
+                        floatLabelType="Auto"
+                        readonly
+                        cssClass="e-outline"
+                      >
+                      </ejs-textbox>
+                    </section> -->
+                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                      <ejs-textbox
+                        [(ngModel)]="companyTypeValue"
                         placeholder="Company Type"
                         floatLabelType="Auto"
                         readonly
@@ -126,7 +136,7 @@
                       <div class="fontsebled row">
                         <div class="col">Company Type</div>
                         <div class="col-md-auto">:</div>
-                        <div class="col">{{ item.prospectOrganization.companyType }}</div>
+                        <div class="col">{{ companyTypeValue }}</div>
                       </div>
                     </section>
                   </div>
