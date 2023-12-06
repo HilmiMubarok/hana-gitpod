@@ -333,8 +333,19 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     });
   }
 
-  public navigateToDarChecker(id): void {
-    const path = 'confirmation';
+  private checkDataStatus(statusId: string): boolean {
+    const statusList = ['CP_DAR_FINAL', 'CP_CC_DISTRIBUTION', 'CP_CC_ANALYST', 'CP_CC_DEPT_HEAD', 'CP_CC_DIV_HEAD', 'CP_CC_DIRECTOR'];
+    const args = statusList.includes(statusId);
+    if (args) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public navigateToDarChecker(id: number, statusId: string): void {
+    const toLoan: boolean = this.checkDataStatus(statusId);
+    const path = toLoan ? 'confirmation' : 'history-proposal';
     this.router.navigate([path + '/' + id + '/edit']);
   }
 
