@@ -488,6 +488,13 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./offering-letter/offering-letter.module').then(m => m.LosgwOfferingLetterModule),
       },
       {
+        path: 'history-proposal',
+        loadChildren: () =>
+          import('./party-cif/decision-approval-report/dar-checker-confirmation/dar-checker-confirmation.module').then(
+            m => m.LosgwConfirmationDecisionApprovalReportModule
+          ),
+      },
+      {
         path: 'account',
         loadChildren: () => import('./account/account.module').then(m => m.LosgwAccountModule),
       },

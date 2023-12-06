@@ -802,8 +802,8 @@ export const SUBMENU_PARTY_CIF: object[] = [
     text: 'SLIK Checking',
   },
   {
-    id: 'decision-approval-report',
-    text: 'decision approval report',
+    id: 'history-proposal',
+    text: 'History Proposal',
   },
 ];
 
