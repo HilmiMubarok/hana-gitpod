@@ -1054,4 +1054,16 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.applicationProduct.thruDateContract = this.dataTrhu;
     }
   }
+
+  // for disbursement checkliss condition
+  public disableRemarkDisbursement = true;
+  checklisDisbursement() {
+    if (
+      this.applicationProduct.attributes['disbursementChecklisCon'] === 'true' ||
+      this.applicationProduct.attributes['disbursementChecklisCon'] === true
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
