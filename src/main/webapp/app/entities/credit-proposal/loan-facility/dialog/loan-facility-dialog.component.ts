@@ -902,7 +902,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.calTotalPlafond(data.revolving);
       const disbursementLegal = this.lovDisbursementLegalList.find(obj => obj.code === data.code);
       if (disbursementLegal) {
-        this.applicationProduct.attributes['disbursementLegalRemark'] = disbursementLegal.value;
+        this.applicationProduct.attributes['paymentObligation'] = disbursementLegal.value;
       }
     }
   }
@@ -1053,5 +1053,17 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       }
       this.applicationProduct.thruDateContract = this.dataTrhu;
     }
+  }
+
+  // for disbursement checkliss condition
+  public disableRemarkDisbursement = true;
+  checklisDisbursement() {
+    if (
+      this.applicationProduct.attributes['disbursementChecklisCon'] === 'true' ||
+      this.applicationProduct.attributes['disbursementChecklisCon'] === true
+    ) {
+      return true;
+    }
+    return false;
   }
 }

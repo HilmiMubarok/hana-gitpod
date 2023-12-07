@@ -29,6 +29,7 @@ import { MasterProductParameterService } from '../master-parameter/master-produc
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IApplicationProduct } from '../application-product/application-product.model';
+import { MasterCompanyTypeService } from '../master-parameter/master-company-type/master-company-type.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -219,11 +220,13 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     protected eventManager: EventManager,
     public account: AccountService,
     protected generalParameterService: GeneralParameterService,
-    protected creditProposalService: CreditProposalService
+    protected creditProposalService: CreditProposalService,
+    protected masterCompanyTypeService: MasterCompanyTypeService
   ) {
     super(creditProposalService, messageService, elementRef, dataUtils, account, eventManager);
     this.lovCallreport();
     this.getLov();
+    this.getCompanyType();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -456,5 +459,29 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+
+  public companyTypeData: any;
+  companyTypeValue;
+  public getCompanyType() {
+    this.masterCompanyTypeService
+      .query({
+        // idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.companyTypeData = res.body;
+        if (this.companyTypeData) {
+          let element: string;
+          for (let i = 0; i < this.companyTypeData.length; i++) {
+            if (this.item.prospectOrganization.companyType === this.companyTypeData[i].code) {
+              element = this.companyTypeData[i].name;
+            }
+          }
+          this.companyTypeValue = element;
+          //  this.partyGroup.companyType =
+        }
+      });
   }
 }

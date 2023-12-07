@@ -320,16 +320,30 @@
         <div class="col-6">
           <mat-label>Previous Bank</mat-label>
           <mat-form-field class="w-100" appearance="outline">
-            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+            <input matInput type="text" [value]="getDataBankView()" />
           </mat-form-field>
         </div>
       </section>
       <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
         <div class="col-6">
-          <mat-label>Previous Bank</mat-label>
-          <mat-form-field class="w-100" appearance="outline">
-            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
-          </mat-form-field>
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Previous Bank</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="myControlMVOri"
+                [matAutocomplete]="autoOri"
+                [(ngModel)]="MVOriCcy"
+                (ngModelChange)="getDataBank()"
+              />
+              <mat-autocomplete #autoOri="matAutocomplete" [displayWith]="displayFnMVOri">
+                <mat-option *ngFor="let option of filteredOptionsMVOri | async" [value]="option">
+                  {{ option.description }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
         </div>
       </section>
       <section
@@ -344,7 +358,7 @@
         <div class="col-6">
           <mat-label>Previous Bank</mat-label>
           <mat-form-field class="w-100" appearance="outline">
-            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" disabled />
+            <input matInput type="text" [value]="getDataBankView()" disabled />
           </mat-form-field>
         </div>
       </section>
@@ -390,7 +404,7 @@
         <div class="col-6">
           <mat-label>Previous Bank</mat-label>
           <mat-form-field class="w-100" appearance="outline">
-            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+            <input matInput type="text" [value]="getDataBankView()" />
           </mat-form-field>
         </div>
       </section>

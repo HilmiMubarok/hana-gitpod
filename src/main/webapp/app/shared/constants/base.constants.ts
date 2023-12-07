@@ -802,8 +802,8 @@ export const SUBMENU_PARTY_CIF: object[] = [
     text: 'SLIK Checking',
   },
   {
-    id: 'decision-approval-report',
-    text: 'decision approval report',
+    id: 'history-proposal',
+    text: 'History Proposal',
   },
 ];
 
@@ -3222,4 +3222,5 @@ export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
 export enum DOCUMENT_TYPE_GENERATE_DOCUMENT {
   DAR = 'DOC_GENERATE_DAR',
   CP = 'DOC_GENERATE_CREDIT_PROPOSAL_MARK_II',
+  SPPK = 'DOC_GENERATE_SPPK',
 }

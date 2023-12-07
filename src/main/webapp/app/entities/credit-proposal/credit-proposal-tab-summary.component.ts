@@ -28,6 +28,7 @@ import { Router } from '@angular/router';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { AccountService } from 'app/core/auth/account.service';
+import { DOCUMENT_TYPE_GENERATE_DOCUMENT } from 'app/shared/constants/base.constants';
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
   templateUrl: './credit-proposal-tab-summary.component.html',
@@ -796,7 +797,20 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     }
     return false;
   }
+  public hiddenButton(element) {
+    if (
+      (element.tags.createBy === this.currentAccount.login && element.tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.DAR) ||
+      element.tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.SPPK
+    ) {
+      return false;
+    }
+    if (element.tags.createBy === this.currentAccount.login && element.tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.CP) {
+      return false;
+    }
+    return true;
+  }
 }
+
 interface IObj {
   key?: string;
   metaData?: any;
