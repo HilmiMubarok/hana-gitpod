@@ -59,16 +59,18 @@ export class ApproveFinalComponent implements OnInit {
       this.patch === 'la-approval-inquiry'
     ) {
       this.view = true;
+    } else if (this.creditProposal.attributes['approvalStatus'].length === 0) {
+      this.view = true;
     }
   }
   public disabledStatus() {
-    // this.disabled = true;
-    this.patch = this.router.url.split('/')[1];
-    if (this.patch === 'dar-final' || this.patch === 'loan-committee-approval') {
-      this.disabled = false;
-    } else {
-      this.disabled = true;
-    }
+    this.disabled = true;
+    // this.patch = this.router.url.split('/')[1];
+    // if (this.patch === 'dar-final' || this.patch === 'loan-committee-approval') {
+    //   this.disabled = false;
+    // } else {
+    //   this.disabled = true;
+    // }
   }
   public hidePleaseSelect() {
     this.patch = this.router.url.split('/')[1];
