@@ -1095,21 +1095,33 @@
 
       <div [hidden]="textBoxHidden">
         <section *ngIf="!statusDisabledOffering">
+          <mat-checkbox [checked]="checklisDisbursement()" [(ngModel)]="applicationProduct.attributes['disbursementChecklisCon']"
+            >Check disbursement condition (Only if requested by legal)</mat-checkbox
+          >
+        </section>
+        <section *ngIf="statusDisabledOffering">
+          <mat-checkbox [checked]="checklisDisbursement()" disabled>Check disbursement condition (Only if requested by legal)</mat-checkbox>
+        </section>
+      </div>
+
+      <div [hidden]="textBoxHidden">
+        <section *ngIf="!statusDisabledOffering">
           <div class="mb-2">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Disbursement Condition (Legal)</mat-label>
+              <mat-label>Disbursement Condition (For Legal)</mat-label>
               <textarea
                 matInput
                 type="multiline"
                 style="height: 100px"
                 [(ngModel)]="applicationProduct.attributes['disbursementLegalRemark']"
+                [disabled]="!checklisDisbursement()"
               ></textarea>
             </mat-form-field>
           </div>
         </section>
         <section *ngIf="statusDisabledOffering">
           <div class="fontsebled row py-1">
-            <div class="col-3">Disbursement Condition (Legal)</div>
+            <div class="col-3">Disbursement Condition (For Legal)</div>
             <div class="col-md-auto">:</div>
             <div class="col">
               {{ applicationProduct.attributes['disbursementLegalRemark'] }}
