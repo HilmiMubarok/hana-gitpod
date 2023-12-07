@@ -9,8 +9,8 @@
 
 <div class="mb-3">
   <div [hidden]="selectedMenu !== 'BUSINESS ACTIVITY'">
+    <div class="e-card-header-title">Business Activity</div>
     <div class="e-card-content">
-      <div class="e-card-header-title">Business Activity</div>
       <div class="form-space">
         <div class="row my-3">
           <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -191,8 +191,8 @@
             >
             </ejs-documenteditorcontainer>
           </section>
-          <div class="row my-3">
-            <div class="col">
+          <div class="row mt-3 mb-5">
+            <div class="col mt-5">
               <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [multiline]="true"
