@@ -1,5 +1,5 @@
 <!-- <h2 mat-dialog-title class="sub-header">Building Detail</h2> -->
-<mat-card-header-subtitle>Building Detail</mat-card-header-subtitle>
+<mat-card-header-subtitle>Building Detail ZZ</mat-card-header-subtitle>
 <mat-dialog-content>
   <div class="row">
     <!-- LEFT SIDE -->
@@ -252,6 +252,26 @@
           placeholder="IMB Area"
           floatLabelType="Always"
           [(ngModel)]="collateralProp.imbArea"
+          [validateDecimalOnType]="true"
+          decimals="2"
+          format="n2"
+          min="0"
+          [disabled]="hideordisable()"
+          [disabled]="hiddenRmAdmin"
+        >
+        </ejs-numerictextbox>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>IMB Area</mat-label>
+          <input matInput type="number" [(ngModel)]="collateralProp.imbArea" required/>
+        </mat-form-field> -->
+      </section>
+      <section class="mt-2">
+        <ejs-numerictextbox
+          cssClass="e-outline"
+          type="text"
+          placeholder="Tata Kota Area"
+          floatLabelType="Always"
+          [(ngModel)]="collateralProp.propertyAreaTataKota"
           [validateDecimalOnType]="true"
           decimals="2"
           format="n2"
