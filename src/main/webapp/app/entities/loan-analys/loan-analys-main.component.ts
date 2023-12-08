@@ -1135,7 +1135,8 @@ export class LoanAnalysMainComponent implements OnInit {
           //   });
         } else if (
           this.creditProposal.statusId === 'CP_DAR_FINAL' ||
-          (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && _res.caption === 'Submit')
+          (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && _res.caption === 'Approved as Condition') ||
+          _res.caption === 'Approved as Proposed'
         ) {
           this.creditProposal.attributes['approvalStatus'] = task.caption;
           this.validateDar()
@@ -1146,7 +1147,7 @@ export class LoanAnalysMainComponent implements OnInit {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
-                detail: 'Please Generate DAR before submit',
+                detail: 'Please Generate DAR before Approved',
               });
             });
         } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && _res.caption === 'Submit') {
@@ -2218,7 +2219,6 @@ export class LoanAnalysMainComponent implements OnInit {
         });
         if (this.parentPath === 'loan-committee-approval' || this.parentPath === 'dar-final') {
           this.dataFileDar = data;
-          this.isDocDar = true;
         }
         if (this.parentPath === 'cc-inquiry') {
           this.dataFileCompliance = data;
@@ -2254,6 +2254,7 @@ export class LoanAnalysMainComponent implements OnInit {
       this.parentPath === 'dar-final' ||
       this.parentPath === 'dar-notif'
     ) {
+      this.isDocDar = true;
       const fileDar = await firstValueFrom(
         this.http.get('/services/report/api/report/dar/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
       );
