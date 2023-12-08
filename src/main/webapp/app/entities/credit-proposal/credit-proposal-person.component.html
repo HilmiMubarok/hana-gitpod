@@ -730,6 +730,7 @@
               <!-- <div class="form-space"> -->
               <div color="#A3A3A3" class="e-headertext">Customer Status</div>
             </div>
+
             <div class="col-2">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-radiobutton
@@ -739,15 +740,11 @@
                   label="New"
                 ></ejs-radiobutton>
               </section>
-              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-radiobutton
-                  [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
-                  [value]="'New'"
-                  name="customer"
-                  label="New"
-                  readonly
-                ></ejs-radiobutton>
-              </section>
+
+              <!-- <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <ejs-radiobutton [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus" [value]="'New'"
+                  name="customer" label="New" readonly></ejs-radiobutton>
+              </section> -->
               <!-- </div> -->
             </div>
             <div class="col-2">
@@ -759,17 +756,21 @@
                   label="Existing"
                 ></ejs-radiobutton>
               </section>
-              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-radiobutton
-                  [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
-                  [value]="'Existing'"
-                  name="customer"
-                  label="Existing"
-                  readonly
-                ></ejs-radiobutton>
-              </section>
+              <!-- <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <ejs-radiobutton [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
+                  [value]="'Existing'" name="customer" label="Existing" readonly></ejs-radiobutton>
+              </section> -->
               <!-- </div> -->
             </div>
+            <!-- <div class="col"> -->
+            <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col"></div>
+                <div class="col-md-auto">:</div>
+                <div class="col">{{ deptorData.attributes['basicInformation'].customerStatus }}</div>
+              </div>
+            </section>
+            <!-- </div> -->
             <div class="col-6">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
@@ -784,9 +785,9 @@
               </section>
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <div class="fontsebled row">
-                  <div class="col-4">Call Report Category</div>
+                  <div class="col">Call Report Category</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-4">
+                  <div class="col">
                     {{ callReportCategory }}
                   </div>
                 </div>
