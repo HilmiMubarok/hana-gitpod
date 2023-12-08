@@ -21,6 +21,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
   @Input() collateralAppraisal: ICollateralAppraisal;
   public dataCollateralAppraisal: ICollateralAppraisal;
   public totalLandArea: number;
+  public totalAreaTataKotaBuilding: number;
   public totalMarketValueIMB: number;
   public totalMarketValueTataKota: number;
   public totalMarketValueBuilding: number;
@@ -56,7 +57,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
 
   public marketValueLandRound: number;
   public marketValueBuildingRound: number;
-
+  public totalCountAreaLand: number;
+  public certificates: ICollateralLandAttribute[];
   constructor(
     public dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
@@ -202,8 +204,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
         this.countAllTotalAndLiquid();
         this.cekData();
         this.getTotalAreaCertificate();
-        console.log('collateral', this.collateral);
-        console.log('collateral Appraisal', this.collateralAppraisal);
+        this.countTotalAreaTataKotaBuilding();
       });
   }
 
@@ -369,10 +370,15 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueTataKotaPerMeter && this.countTotalArea(param[i]) && param[i].propertyPercentageTataKota / 100) {
+        // if (param[i].propertyMarketValueTataKotaPerMeter && this.countTotalArea(param[i]) && param[i].propertyPercentageTataKota / 100) {
+        //   result =
+        //     result +
+        //     param[i].propertyMarketValueTataKotaPerMeter * this.countTotalArea(param[i]) * (param[i].propertyPercentageTataKota / 100);
+        // }
+        if (param[i].propertyMarketValueTataKotaPerMeter && this.totalAreaTataKotaBuilding / 100) {
           result =
             result +
-            param[i].propertyMarketValueTataKotaPerMeter * this.countTotalArea(param[i]) * (param[i].propertyPercentageTataKota / 100);
+            param[i].propertyMarketValueTataKotaPerMeter * this.totalAreaTataKotaBuilding * (param[i].propertyPercentageTataKota / 100);
         }
       }
       return result;
@@ -401,8 +407,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueTataKotaPerMeter) {
-          result = result + param[i].propertyMarketValueTataKotaPerMeter * this.countTotalArea(param[i]);
+        if (param[i].propertyMarketValueTataKotaPerMeter && this.totalAreaTataKotaBuilding) {
+          result = result + param[i].propertyMarketValueTataKotaPerMeter * this.totalAreaTataKotaBuilding;
         }
       }
 
@@ -513,9 +519,6 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
     return Number(num);
   }
 
-  public totalCountAreaLand: number;
-  public certificates: ICollateralLandAttribute[];
-
   public countTotalLandArea(val1: number | 0, val2: number | 0, val3: number | 0): number {
     return val3 - val2 - val1;
   }
@@ -560,5 +563,22 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
       }
     }
     return this.totalCountAreaLand;
+  }
+
+  public countTotalAreaTataKotaBuilding() {
+    this.totalAreaTataKotaBuilding = 0;
+    // let total: number;
+    // total = 0;
+
+    if (this.collateralProperties.length > 0) {
+      for (let i = 0; i < this.collateralProperties.length; i++) {
+        const item: ICollateralProperty = this.collateralProperties[i];
+        if (item.propertyAreaTataKota !== undefined) {
+          this.totalAreaTataKotaBuilding = this.totalAreaTataKotaBuilding + item.propertyAreaTataKota;
+        }
+      }
+    }
+    console.log('totalAreaTataKotaBuilding', this.totalAreaTataKotaBuilding);
+    return this.totalAreaTataKotaBuilding;
   }
 }
