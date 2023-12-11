@@ -15,12 +15,13 @@ export interface IParsePreviousAtrribute {
   previousReturn?: any;
   previousHistory?: any;
   darRevHistory?: any;
+  previousOfferingLetter?: any;
 }
 
 export function parsePreviousAtrribute(cp: ICreditProposal): IParsePreviousAtrribute {
   const parsedAttribute = {};
 
-  const attributes = ['previousReturn', 'previousHistory', 'darRevHistory'];
+  const attributes = ['previousReturn', 'previousHistory', 'darRevHistory', 'previousOfferingLetter'];
   const subAttributes = [
     'binding',
     'convenant',
