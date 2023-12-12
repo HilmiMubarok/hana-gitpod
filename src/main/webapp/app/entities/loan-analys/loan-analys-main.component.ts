@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import {
   COLLATERAL_TYPE,
+  DOCUMENT_TYPE_GENERATE_DOCUMENT,
   SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
   SUBMENU_LOAN_ANALYS_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_CC_CHECKING,
@@ -165,6 +166,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public isDocDar: boolean;
   dataFileLaDistrib: any[];
+  dataFile: any;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -1036,7 +1038,20 @@ export class LoanAnalysMainComponent implements OnInit {
     }
     this.loadByPartyId(this.creditProposal.cif.partyId);
   }
-
+  private checkIsDoc() {
+    if (this.dataFileDar.length > 0) {
+      for (let i = 0; i < this.dataFileDar.length; i++) {
+        if (
+          this.dataFileDar[i].tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.DAR ||
+          this.dataFileDar[i].tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.SPPK
+        ) {
+          this.isDocDar = true;
+        } else {
+          this.isDocDar = false;
+        }
+      }
+    }
+  }
   private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
@@ -1078,7 +1093,6 @@ export class LoanAnalysMainComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
-
         if (
           this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
           this.creditProposal.attributes['approvalStatus'] === 'Reject' &&
@@ -1870,7 +1884,6 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public onSave(source: string): void {
     this.saveState = source;
-
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
     }
@@ -2219,6 +2232,8 @@ export class LoanAnalysMainComponent implements OnInit {
         });
         if (this.parentPath === 'loan-committee-approval' || this.parentPath === 'dar-final') {
           this.dataFileDar = data;
+          // check condition and data
+          this.checkIsDoc();
         }
         if (this.parentPath === 'cc-inquiry') {
           this.dataFileCompliance = data;
@@ -2254,7 +2269,6 @@ export class LoanAnalysMainComponent implements OnInit {
       this.parentPath === 'dar-final' ||
       this.parentPath === 'dar-notif'
     ) {
-      this.isDocDar = true;
       const fileDar = await firstValueFrom(
         this.http.get('/services/report/api/report/dar/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
       );
@@ -2273,7 +2287,18 @@ export class LoanAnalysMainComponent implements OnInit {
       );
     }
   }
-
+  // delete data from child
+  public getDataDar(data: any): void {
+    this.dataFile = data;
+    for (let i = 0; i < this.dataFileDar.length; i++) {
+      if (
+        this.dataFileDar[i].tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.DAR ||
+        this.dataFileDar[i].tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.SPPK
+      ) {
+        this.isDocDar = false;
+      }
+    }
+  }
   public lendingProgram = [];
   public valueCpLendingProgram: [];
   public lendingProgramParameter() {

@@ -29,6 +29,7 @@ import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { AccountService } from 'app/core/auth/account.service';
 import { DOCUMENT_TYPE_GENERATE_DOCUMENT } from 'app/shared/constants/base.constants';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
   templateUrl: './credit-proposal-tab-summary.component.html',
@@ -41,7 +42,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   private ngUnsubscribe = new Subject();
   public state: string;
   public dialogVisible: false;
-  public data = [];
+  public data: any = new MatTableDataSource<object[]>();
   public myBusinessGroupCPFacility: ICPFacilityTable[];
   public dataSource = [];
   public parsedAttr;
@@ -77,6 +78,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   approvalStatus: string;
   public notCreatedBy: boolean;
   currentAccount: any;
+  @Output() outputDataDar = new EventEmitter();
   @Input()
   get sourceComponent() {
     return this.viewButton;
@@ -672,7 +674,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
       if (res.body.length > 0) {
         const data = Object.assign({}, res.body[0]);
-        this.onEdit(data);
+        // this.onEdit(data);
       } else {
         this.isDataExist = false;
       }
@@ -692,9 +694,9 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(respond => {
       if (respond) {
         this.storageService.deleteFile(this.BUCKET, data.key).subscribe(res => {
+          this.outputDataDar.emit(data);
           this.getFile(this._item.id);
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File ' + data.fileName + ' Delete Successfully' });
-
           this.onRefresh();
         });
       }
