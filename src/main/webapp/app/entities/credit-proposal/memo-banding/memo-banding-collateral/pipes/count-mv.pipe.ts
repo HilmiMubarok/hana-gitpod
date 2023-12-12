@@ -8,7 +8,6 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 export class CountMVPipe implements PipeTransform {
   transform(collateral: ICollateral, collateralProperties: ICollateralProperty[]): number {
     let data: ICollateralProperty;
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
