@@ -8,6 +8,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { memoBandingData } from './memo-banding';
 import { CPMemoBandingRemarkComponent } from './remarks/cp-memo-banding-remark.component';
+import { MemoBandingCollateralService } from './memo-banding-collateral/memo-banding-collateral.service';
 
 @Component({
   selector: 'jhi-credit-proposal-memo-banding',
@@ -17,7 +18,8 @@ export class MemoBandingComponent implements OnInit {
   constructor(
     private cpMemoBandingService: CpMemoBandingService,
     private collateralService: CollateralService,
-    private collateralPropertyService: CollateralPropertyService
+    private collateralPropertyService: CollateralPropertyService,
+    private memoBandingCollateralService: MemoBandingCollateralService
   ) {}
 
   @ViewChild('cpMemoBandingRemarkComponent', {
@@ -111,6 +113,9 @@ export class MemoBandingComponent implements OnInit {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
+
+        // Set collateral properties to collateral service
+        this.memoBandingCollateralService.setCollateralProperties(this.collateralProperties);
       });
     }
   }

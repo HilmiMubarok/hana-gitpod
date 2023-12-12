@@ -431,6 +431,18 @@ import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/c
 import { CompareDataCovenantOtherComponent } from './compare-data/covenant/other/compare-data-covenant-other.component';
 import { CompareDataCovenantOtherDialogComponent } from './compare-data/covenant/other/dialog/compare-data-covenant-other-dialog.component';
 import { LoanPurposeComponent } from './loan-purpose/loan-purpose.component';
+import { MemoBandingCollateralAboveBeforeComponent } from './credit-proposal/memo-banding/memo-banding-collateral/above/cp-memo-banding-collateral-above-before.component';
+import { CountMVOriginalPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-mv-original.pipe';
+import { GetCurrencyPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-currency.pipe';
+import { CountMVPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-mv.pipe';
+import { CustomPercentagePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/percentage.pipe';
+import { CountLVPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-lv.pipe';
+import { CountKjjpMvPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-kjjp-mv.pipe';
+import { CountKjjpLvPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-kjjp-lv.pipe';
+import { GetMarketabilityPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-marketability.pipe';
+import { GetOwnershipPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-ownership.pipe';
+import { GetExpiryPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-expiry.pipe';
+import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-binding-type.pipe';
 
 @NgModule({
   imports: [
@@ -932,12 +944,44 @@ import { LoanPurposeComponent } from './loan-purpose/loan-purpose.component';
     CompareDataCovenantOtherDialogComponent,
 
     LoanPurposeComponent,
+
+    // Memo Banding Collateral
+    MemoBandingCollateralAboveBeforeComponent,
+
+    // pipes memo banding collateral
+    CountMVOriginalPipe,
+    GetCurrencyPipe,
+    CountMVPipe,
+    CustomPercentagePipe,
+    CountLVPipe,
+    CountKjjpMvPipe,
+    CountKjjpLvPipe,
+    GetMarketabilityPipe,
+    GetOwnershipPipe,
+    GetExpiryPipe,
+    GetBindingTypePipe,
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
 
     LoanPurposeComponent,
+
+    // Memo Banding Collateral
+    MemoBandingCollateralAboveBeforeComponent,
+
+    // pipes memo banding collateral
+    CountMVOriginalPipe,
+    GetCurrencyPipe,
+    CountMVPipe,
+    CustomPercentagePipe,
+    CountLVPipe,
+    CountKjjpMvPipe,
+    CountKjjpLvPipe,
+    GetMarketabilityPipe,
+    GetOwnershipPipe,
+    GetExpiryPipe,
+    GetBindingTypePipe,
 
     //   New Compare Data
     CompareDataComponent,
