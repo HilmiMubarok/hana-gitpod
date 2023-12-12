@@ -201,6 +201,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
   }
 
   public save(): void {
+    this.filesdueDate = this.datePipe.transform(this.filesdueDate, 'yyyy-MM-dd');
     if (this.filesStatus === '' || this.filesStatus === undefined || this.filesStatus === null) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'status is required' });
     } else {
