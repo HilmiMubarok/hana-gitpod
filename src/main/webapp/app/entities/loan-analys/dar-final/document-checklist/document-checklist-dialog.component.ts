@@ -213,6 +213,7 @@ export class DocumentChecklistDialogTempComponent {
   public progressSave = false;
 
   public save(): void {
+    this.filesdueDate = this.datePipe.transform(this.filesdueDate, 'yyyy-MM-dd');
     if (this.filesStatus === null || this.filesStatus === undefined || this.filesStatus === '') {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'status is required' });
     } else {
