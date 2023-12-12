@@ -437,6 +437,12 @@ import { GetCurrencyPipe } from './credit-proposal/memo-banding/memo-banding-col
 import { CountMVPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-mv.pipe';
 import { CustomPercentagePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/percentage.pipe';
 import { CountLVPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-lv.pipe';
+import { CountKjjpMvPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-kjjp-mv.pipe';
+import { CountKjjpLvPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-kjjp-lv.pipe';
+import { GetMarketabilityPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-marketability.pipe';
+import { GetOwnershipPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-ownership.pipe';
+import { GetExpiryPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-expiry.pipe';
+import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-binding-type.pipe';
 
 @NgModule({
   imports: [
@@ -948,6 +954,12 @@ import { CountLVPipe } from './credit-proposal/memo-banding/memo-banding-collate
     CountMVPipe,
     CustomPercentagePipe,
     CountLVPipe,
+    CountKjjpMvPipe,
+    CountKjjpLvPipe,
+    GetMarketabilityPipe,
+    GetOwnershipPipe,
+    GetExpiryPipe,
+    GetBindingTypePipe,
   ],
   exports: [
     ...entityDialogModule,
@@ -964,6 +976,12 @@ import { CountLVPipe } from './credit-proposal/memo-banding/memo-banding-collate
     CountMVPipe,
     CustomPercentagePipe,
     CountLVPipe,
+    CountKjjpMvPipe,
+    CountKjjpLvPipe,
+    GetMarketabilityPipe,
+    GetOwnershipPipe,
+    GetExpiryPipe,
+    GetBindingTypePipe,
 
     //   New Compare Data
     CompareDataComponent,

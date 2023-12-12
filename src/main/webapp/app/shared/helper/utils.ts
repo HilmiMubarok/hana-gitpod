@@ -33,6 +33,8 @@ export function parsePreviousAtrribute(cp: ICreditProposal): IParsePreviousAtrri
     'groupChecklisCollateral',
     'collateralPrevious',
     'creditProposalCollateralData',
+    'coverageTotal',
+    'collateralSummary'
   ];
 
   for (const attribute of attributes) {
