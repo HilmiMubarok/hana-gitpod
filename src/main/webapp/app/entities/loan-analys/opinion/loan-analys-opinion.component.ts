@@ -769,10 +769,14 @@ export class LoanAnalysOpinionComponent implements OnInit {
     });
   }
 
-  private validate(): void {
+  private validate(source: string): void {
     this.countValidate = 0;
 
-    this.checkSfdtFile();
+    if (source === 'default') {
+      this.checkSfdtFile();
+    } else {
+      this.isAllowSave.emit(true);
+    }
 
     /* this.checkSfdtFile('opinion').then(() => {
 	  console.log('validate in after check opinion');
@@ -799,19 +803,21 @@ export class LoanAnalysOpinionComponent implements OnInit {
     }); */
   }
 
-  public triggeredSaveValidate(): void {
-    if (this.source === '') {
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        // if (this.nameLoanComitee) {
-        if (this.isChooseApprovalUser) {
-          this.validate();
-        } else {
-          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
-        }
-      } else {
-        this.validate();
-      }
-    }
+  public triggeredSaveValidate(source: string): void {
+    this.validate(source);
+    // if (this.source === '') {
+    //   if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+    //     // if (this.nameLoanComitee) {
+
+    //     if (this.isChooseApprovalUser) {
+    //       this.validate();
+    //     } else {
+    //       this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
+    //     }
+    //   } else {
+    //     this.validate();
+    //   }
+    // }
   }
 
   private saveFile(): void {
