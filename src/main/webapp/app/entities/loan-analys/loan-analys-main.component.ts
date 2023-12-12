@@ -1607,7 +1607,6 @@ export class LoanAnalysMainComponent implements OnInit {
         if (statusPreSave === 'complete') {
           this.refractorSaveForIsAllowSave(statusPreSave);
         } else {
-          // message ada remark / recommendation kosong
           this.messageService.add({
             severity: 'info',
             summary: 'Warning',
@@ -1626,7 +1625,6 @@ export class LoanAnalysMainComponent implements OnInit {
             }
 
             if (nullEmptyHelper > 0) {
-              // message data kosong, isi dulu
               this.messageService.add({
                 severity: 'info',
                 summary: 'Warning',
@@ -1642,7 +1640,6 @@ export class LoanAnalysMainComponent implements OnInit {
 
             if (laDataSelf.length === 1) {
               if (laDataSelf['recomendation'] === '' || laDataSelf['recomendation'] === null) {
-                // message data kosong, isi dulu
                 this.messageService.add({
                   severity: 'info',
                   summary: 'Warning',
@@ -1652,7 +1649,6 @@ export class LoanAnalysMainComponent implements OnInit {
                 this.refractorSaveForIsAllowSave(statusPreSave);
               }
             } else {
-              // message data kosong, isi dulu
               this.messageService.add({
                 severity: 'info',
                 summary: 'Warning',
@@ -1660,7 +1656,6 @@ export class LoanAnalysMainComponent implements OnInit {
               });
             }
           } else {
-            // message data kosong, isi dulu
             this.messageService.add({
               severity: 'info',
               summary: 'Warning',
@@ -1952,7 +1947,6 @@ export class LoanAnalysMainComponent implements OnInit {
         }
       } else if (source === 'process') {
         if (!caption.includes('return') && !caption.includes('Return')) {
-          // validasi
           if (tempRouter === 'loan-committee-approval') {
             if (this.loanAnalysOpinionComponent) {
               this.loanAnalysOpinionComponent.triggeredSaveValidate(source);
@@ -1967,7 +1961,6 @@ export class LoanAnalysMainComponent implements OnInit {
                 }
 
                 if (nullEmptyHelper !== 0) {
-                  // message data kosong, isi dulu balik
                   this.messageService.add({
                     severity: 'info',
                     summary: 'Warning',
@@ -1987,7 +1980,6 @@ export class LoanAnalysMainComponent implements OnInit {
 
                 if (laDataSelf.length === 1) {
                   if (laDataSelf['recomendation'] === '' || laDataSelf['recomendation'] === null) {
-                    // message data kosong, isi dulu
                     this.messageService.add({
                       severity: 'info',
                       summary: 'Warning',
@@ -1997,7 +1989,6 @@ export class LoanAnalysMainComponent implements OnInit {
                     this.saveUpdate('complete-not-visit', source);
                   }
                 } else {
-                  // message data kosong, isi dulu
                   this.messageService.add({
                     severity: 'info',
                     summary: 'Warning',
@@ -2005,7 +1996,6 @@ export class LoanAnalysMainComponent implements OnInit {
                   });
                 }
               } else {
-                // message data kosong, isi dulu
                 this.messageService.add({
                   severity: 'info',
                   summary: 'Warning',
