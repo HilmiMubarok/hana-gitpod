@@ -2135,6 +2135,8 @@ export class LoanAnalysMainComponent implements OnInit {
         });
         if (this.parentPath === 'loan-committee-approval' || this.parentPath === 'dar-final') {
           this.dataFileDar = data;
+          // check condition and data
+          this.checkIsDoc();
         }
         if (this.parentPath === 'cc-inquiry') {
           this.dataFileCompliance = data;
@@ -2170,7 +2172,6 @@ export class LoanAnalysMainComponent implements OnInit {
       this.parentPath === 'dar-final' ||
       this.parentPath === 'dar-notif'
     ) {
-      this.isDocDar = true;
       const fileDar = await firstValueFrom(
         this.http.get('/services/report/api/report/dar/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
       );
