@@ -1128,7 +1128,7 @@ export class LoanAnalysMainComponent implements OnInit {
         } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && _res.caption === 'Submit') {
           this.validate()
             .then(() => {
-              this.onSave('process');
+              this.onSave('process', _res.caption);
             })
             .catch(() => {
               this.messageService.add({
@@ -1138,7 +1138,7 @@ export class LoanAnalysMainComponent implements OnInit {
               });
             });
         } else {
-          this.onSave('process');
+          this.onSave('process', _res.caption);
         }
       }
     });
@@ -1370,29 +1370,32 @@ export class LoanAnalysMainComponent implements OnInit {
 
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-			  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
-				if (copyCreditProposal.notes[i].positionTypeId === this.applicationRoleFromEmit.roleId && copyCreditProposal.notes[i].partyId === this.applicationRoleFromEmit.partyId) {
-				  copyCreditProposal.notes[i].applicationId = this.id;
-				  copyCreditProposal.notes[i].message = '';
-				  // copyCreditProposal.notes[i].recomendation = this.recomendation;
-				  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
-				  copyCreditProposal.notes[i].path = this.uuidPath;
-				  copyCreditProposal.notes[i].updateAction = true;
-				  copyCreditProposal.notes[i].type = tempOpinionType;
-				  tempHelper = tempHelper + 1;
-				}
-			  } else {
-				if (Number(copyCreditProposal.notes[i].positionId) === Number(this.positionLoginFromEmit)) {
-				  copyCreditProposal.notes[i].applicationId = this.id;
-				  copyCreditProposal.notes[i].message = '';
-				  // copyCreditProposal.notes[i].recomendation = this.recomendation;
-				  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
-				  copyCreditProposal.notes[i].path = this.uuidPath;
-				  copyCreditProposal.notes[i].updateAction = true;
-				  copyCreditProposal.notes[i].type = tempOpinionType;
-				  tempHelper = tempHelper + 1;
-				}
-			  }
+              if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
+                if (
+                  copyCreditProposal.notes[i].positionTypeId === this.applicationRoleFromEmit.roleId &&
+                  copyCreditProposal.notes[i].partyId === this.applicationRoleFromEmit.partyId
+                ) {
+                  copyCreditProposal.notes[i].applicationId = this.id;
+                  copyCreditProposal.notes[i].message = '';
+                  // copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
+                  copyCreditProposal.notes[i].path = this.uuidPath;
+                  copyCreditProposal.notes[i].updateAction = true;
+                  copyCreditProposal.notes[i].type = tempOpinionType;
+                  tempHelper = tempHelper + 1;
+                }
+              } else {
+                if (Number(copyCreditProposal.notes[i].positionId) === Number(this.positionLoginFromEmit)) {
+                  copyCreditProposal.notes[i].applicationId = this.id;
+                  copyCreditProposal.notes[i].message = '';
+                  // copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
+                  copyCreditProposal.notes[i].path = this.uuidPath;
+                  copyCreditProposal.notes[i].updateAction = true;
+                  copyCreditProposal.notes[i].type = tempOpinionType;
+                  tempHelper = tempHelper + 1;
+                }
+              }
             }
 
             if (tempHelper === 0) {
@@ -1538,55 +1541,144 @@ export class LoanAnalysMainComponent implements OnInit {
     this.conditionFileWord = file;
   }
 
+  private refractorSaveForIsAllowSave(statusPreSave: string): void {
+    this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
+      this.creditProposal.notes = res.body.notes;
+
+      this.loanAnalysOpinionComponent.refresh();
+
+      // if (this.loanAnalysOpinionComponent) {
+      // this.loanAnalysOpinionComponent.refresh();
+      // }
+
+      this.saveApplicationRole(this.saveState);
+    });
+  }
+
   setIsAllowSave(status: boolean) {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
+    const tempRouter = this.router.url.split('/')[1];
+
+    const laData = this.creditProposal.notes.filter(note => note.type === 'loan_analysis');
+    const lcaData = this.creditProposal.notes.filter(note => note.type === 'loan_committee');
+
     if (this.creditProposal.id) {
-      /* let isAllowedSaveWith2StepVerification = false;
-      if (
-        this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
-        (this.parentPath === 'la-analyst' ||
-          this.parentPath === 'la-SME-CRC' ||
-          this.parentPath === 'la-approval' ||
-          this.parentPath === 'loan-committee-approval')
-      ) {
-        isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
-      } else {
-        isAllowedSaveWith2StepVerification = true;
-      }
-
-      if (isAllowedSaveWith2StepVerification) {
-        this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
-          this.creditProposal.notes = res.body.notes;
-
-          if (this.loanAnalysOpinionComponent) {
-            this.loanAnalysOpinionComponent.refresh();
-          }
-
-          this.saveApplicationRole(this.saveState);
-        });
-      } else {
-        if (this.recomendation) {
+      if (this.saveState === 'default') {
+        if (statusPreSave === 'complete') {
+          this.refractorSaveForIsAllowSave(statusPreSave);
+        } else {
           this.messageService.add({
             severity: 'info',
             summary: 'Warning',
-            detail:
-              'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu',
+            detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
           });
         }
-      } */
+      } else {
+        if (tempRouter === 'loan-committee-approval') {
+          if (lcaData.length > 0) {
+            let nullEmptyHelper = 0;
 
-      this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
-        this.creditProposal.notes = res.body.notes;
+            for (let i = 0; i < lcaData.length; i++) {
+              if (lcaData[i]['recomendation'] === '' || lcaData[i]['recomendation'] === null) {
+                ++nullEmptyHelper;
+              }
+            }
 
-        if (this.loanAnalysOpinionComponent) {
-          this.loanAnalysOpinionComponent.refresh();
+            if (nullEmptyHelper > 0) {
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Warning',
+                detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+              });
+            } else {
+              this.refractorSaveForIsAllowSave(statusPreSave);
+            }
+          }
+        } else if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval') {
+          if (laData.length > 0) {
+            const laDataSelf = laData.filter(note => Number(note.positionId) === Number(this.getLocStor('POS')));
+
+            if (laDataSelf.length === 1) {
+              if (laDataSelf['recomendation'] === '' || laDataSelf['recomendation'] === null) {
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Warning',
+                  detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+                });
+              } else {
+                this.refractorSaveForIsAllowSave(statusPreSave);
+              }
+            } else {
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Warning',
+                detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+              });
+            }
+          } else {
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Warning',
+              detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+            });
+          }
+        } else {
+          this.refractorSaveForIsAllowSave(statusPreSave);
         }
-
-        this.saveApplicationRole(this.saveState);
-      });
+      }
     }
   }
+
+  // setIsAllowSave(status: boolean) {
+  //   const statusPreSave = status ? 'complete' : 'not-complete';
+
+  //   if (this.creditProposal.id) {
+  //     /* let isAllowedSaveWith2StepVerification = false;
+  //     if (
+  //       this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
+  //       (this.parentPath === 'la-analyst' ||
+  //         this.parentPath === 'la-SME-CRC' ||
+  //         this.parentPath === 'la-approval' ||
+  //         this.parentPath === 'loan-committee-approval')
+  //     ) {
+  //       isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
+  //     } else {
+  //       isAllowedSaveWith2StepVerification = true;
+  //     }
+
+  //     if (isAllowedSaveWith2StepVerification) {
+  //       this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
+  //         this.creditProposal.notes = res.body.notes;
+
+  //         if (this.loanAnalysOpinionComponent) {
+  //           this.loanAnalysOpinionComponent.refresh();
+  //         }
+
+  //         this.saveApplicationRole(this.saveState);
+  //       });
+  //     } else {
+  //       if (this.recomendation) {
+  //         this.messageService.add({
+  //           severity: 'info',
+  //           summary: 'Warning',
+  //           detail:
+  //             'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu',
+  //         });
+  //       }
+  //     } */
+
+  //     this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
+  //       this.creditProposal.notes = res.body.notes;
+
+  //       if (this.loanAnalysOpinionComponent) {
+  //         this.loanAnalysOpinionComponent.refresh();
+  //       }
+
+  //       this.saveApplicationRole(this.saveState);
+  //     });
+  //   }
+  // }
 
   private saveFile(): void {
     const formDataOpinionSfdt = new FormData();
@@ -1813,9 +1905,8 @@ export class LoanAnalysMainComponent implements OnInit {
     }
   }
 
-  public onSave(source: string): void {
+  public onSave(source: string, caption: string): void {
     this.saveState = source;
-
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
     }
@@ -1823,215 +1914,313 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposal.id) {
       const tempRouter = this.router.url.split('/')[1];
 
-      if (
-        tempRouter === 'la-analyst' ||
-        tempRouter === 'la-SME-CRC' ||
-        tempRouter === 'la-approval' ||
-        tempRouter === 'loan-committee-approval'
-      ) {
+      const laData = this.creditProposal.notes.filter(note => note.type === 'loan_analysis');
+
+      const lcaData = this.creditProposal.notes.filter(note => note.type === 'loan_committee');
+      if (source === 'default') {
         if (this.loanAnalysOpinionComponent) {
-          this.loanAnalysOpinionComponent.triggeredSaveValidate();
-        } else {
-          let countValidate = 0;
-          if (this.positionLoginFromEmit) {
-            if (this.opinionFileSfdt && this.opinionFileWord) {
-              const fileReader: FileReader = new FileReader();
-              fileReader.onload = (e: any) => {
-                const testSfdtFile = JSON.parse(fileReader.result as string);
-                /* if (testSfdtFile.sections[0].blocks) {
-				  if (testSfdtFile.sections[0].blocks.length > 0) {
-					++countValidate;
-				  }
-				} else {
-				  // toast opinion empty
-				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-				} */
-
-                if (
-                  testSfdtFile.sections[0].blocks[0].inlines ||
-                  testSfdtFile.sections[0].blocks[0].columnCount ||
-                  testSfdtFile.sections[0].blocks[0].paragraphFormat ||
-                  testSfdtFile.sections[0].blocks[0].grid ||
-                  testSfdtFile.sections[0].blocks[0].rows ||
-                  testSfdtFile.sections[0].blocks[0].tableFormat
-                ) {
-                  if (
-                    testSfdtFile.sections[0].blocks[0].paragraphFormat ||
-                    testSfdtFile.sections[0].blocks[0].grid ||
-                    testSfdtFile.sections[0].blocks[0].rows ||
-                    testSfdtFile.sections[0].blocks[0].tableFormat
-                  ) {
-                    ++countValidate;
-                  } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
-                    if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
-                      ++countValidate;
-                    } else {
-                      // toast opinion empty
-                      this.messageService.add({
-                        severity: 'info',
-                        summary: 'Warning',
-                        detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                      });
-                    }
-                  } else if (testSfdtFile.sections[0].blocks[0].inlines) {
-                    let isEmpty = true;
-                    testSfdtFile.sections[0].blocks.forEach(block => {
-                      if (block.inlines) {
-                        if (block.inlines.length > 0) {
-                          isEmpty = false;
-                        }
-                      }
-                    });
-
-                    if (isEmpty) {
-                      // toast opinion empty
-                      this.messageService.add({
-                        severity: 'info',
-                        summary: 'Warning',
-                        detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                      });
-                    } else {
-                      ++countValidate;
-                    }
-
-                    /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-					  ++countValidate;
-					} else {
-					  // toast opinion empty
-					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					} */
-                  }
-                } else {
-                  // toast opinion empty
-                  this.messageService.add({
-                    severity: 'info',
-                    summary: 'Warning',
-                    detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                  });
-                }
-
-                if (this.recomendation) {
-                  ++countValidate;
-                  if (this.recomendation === 'Recommend With Condition' || this.recomendation === 'Approved With Condition') {
-                    if (this.conditionFileSfdt && this.conditionFileWord) {
-                      const fileReaderCondition: FileReader = new FileReader();
-                      fileReaderCondition.onload = (eCondition: any) => {
-                        const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-                        /* if (testSfdtFileCondition.sections[0].blocks) {
-						  if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							++countValidate;
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  }
-						} else {
-						  // toast condition empty
-						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						} */
-
-                        if (
-                          testSfdtFileCondition.sections[0].blocks[0].inlines ||
-                          testSfdtFileCondition.sections[0].blocks[0].columnCount ||
-                          testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
-                          testSfdtFileCondition.sections[0].blocks[0].grid ||
-                          testSfdtFileCondition.sections[0].blocks[0].rows ||
-                          testSfdtFileCondition.sections[0].blocks[0].tableFormat
-                        ) {
-                          if (
-                            testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
-                            testSfdtFileCondition.sections[0].blocks[0].grid ||
-                            testSfdtFileCondition.sections[0].blocks[0].rows ||
-                            testSfdtFileCondition.sections[0].blocks[0].tableFormat
-                          ) {
-                            ++countValidate;
-                          } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
-                            if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
-                              ++countValidate;
-                            } else {
-                              // toast condition empty
-                              this.messageService.add({
-                                severity: 'info',
-                                summary: 'Warning',
-                                detail: 'Condition Empty! All data will be save except data at tab opinion',
-                              });
-                            }
-                          } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
-                            let isEmpty = true;
-                            testSfdtFileCondition.sections[0].blocks.forEach(block => {
-                              if (block.inlines) {
-                                if (block.inlines.length > 0) {
-                                  isEmpty = false;
-                                }
-                              }
-                            });
-
-                            if (isEmpty) {
-                              // toast condition empty
-                              this.messageService.add({
-                                severity: 'info',
-                                summary: 'Warning',
-                                detail: 'Condition Empty! All data will be save except data at tab opinion',
-                              });
-                            } else {
-                              ++countValidate;
-                            }
-
-                            /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							} */
-                          }
-                        }
-
-                        if (countValidate === 3) {
-                          this.saveUpdate('complete', source);
-                        } else {
-                          this.saveUpdate('not-complete', source);
-                        }
-                      };
-                      fileReaderCondition.readAsText(this.conditionFileSfdt);
-                    }
-                  } else {
-                    if (countValidate === 2) {
-                      this.saveUpdate('complete', source);
-                    } else {
-                      this.saveUpdate('not-complete', source);
-                    }
-                  }
-                } else {
-                  // toast recomendation empty
-                  this.messageService.add({
-                    severity: 'info',
-                    summary: 'Warning',
-                    detail: 'Recommendation Empty! All data will be save except data at tab opinion',
-                  });
-                  this.saveUpdate('not-complete', source);
-                }
-              };
-              fileReader.readAsText(this.opinionFileSfdt);
+          if (tempRouter === 'loan-committee-approval') {
+            if (this.applicationRoleFromEmit) {
+              this.loanAnalysOpinionComponent.triggeredSaveValidate(source);
             } else {
-              // toast opinion empty
-              this.messageService.add({
-                severity: 'info',
-                summary: 'Warning',
-                detail: 'Opinion Empty! All data will be save except data at tab opinion',
-              });
-              this.saveUpdate('not-complete', source);
+              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
+            }
+          } else {
+            this.loanAnalysOpinionComponent.triggeredSaveValidate(source);
+          }
+        } else {
+          this.saveUpdate('not-complete-not-visit', source);
+        }
+      } else if (source === 'process') {
+        if (!caption.includes('return') && !caption.includes('Return')) {
+          if (tempRouter === 'loan-committee-approval') {
+            if (this.loanAnalysOpinionComponent) {
+              this.loanAnalysOpinionComponent.triggeredSaveValidate(source);
+            } else {
+              if (lcaData.length > 0) {
+                let nullEmptyHelper = 0;
+
+                for (let i = 0; i < lcaData.length; i++) {
+                  if (lcaData[i]['recomendation'] === '' || lcaData[i]['recomendation'] === null) {
+                    ++nullEmptyHelper;
+                  }
+                }
+
+                if (nullEmptyHelper !== 0) {
+                  this.messageService.add({
+                    severity: 'info',
+                    summary: 'Warning',
+                    detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+                  });
+                } else {
+                  this.saveUpdate('complete-not-visit', source);
+                }
+              }
+            }
+          } else if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval') {
+            if (this.loanAnalysOpinionComponent) {
+              this.loanAnalysOpinionComponent.triggeredSaveValidate(source);
+            } else {
+              if (laData.length > 0) {
+                const laDataSelf = laData.filter(note => Number(note.positionId) === Number(this.getLocStor('POS')));
+
+                if (laDataSelf.length === 1) {
+                  if (laDataSelf['recomendation'] === '' || laDataSelf['recomendation'] === null) {
+                    this.messageService.add({
+                      severity: 'info',
+                      summary: 'Warning',
+                      detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+                    });
+                  } else {
+                    this.saveUpdate('complete-not-visit', source);
+                  }
+                } else {
+                  this.messageService.add({
+                    severity: 'info',
+                    summary: 'Warning',
+                    detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+                  });
+                }
+              } else {
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Warning',
+                  detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+                });
+              }
             }
           } else {
             this.saveUpdate('not-complete-not-visit', source);
           }
+        } else {
+          this.saveUpdate('complete-not-visit', source);
         }
-      } else {
-        this.saveUpdate('not-complete-not-visit', source);
       }
     }
     this.saveWord = true;
     this.saveWordOpinionCondition = true;
     this.cekCgpgData();
   }
+
+  // public onSave(source: string): void {
+  //   this.saveState = source;
+
+  //   for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
+  //     this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
+  //   }
+
+  //   if (this.creditProposal.id) {
+  //     const tempRouter = this.router.url.split('/')[1];
+
+  //     if (
+  //       tempRouter === 'la-analyst' ||
+  //       tempRouter === 'la-SME-CRC' ||
+  //       tempRouter === 'la-approval' ||
+  //       tempRouter === 'loan-committee-approval'
+  //     ) {
+  //       if (this.loanAnalysOpinionComponent) {
+  //         this.loanAnalysOpinionComponent.triggeredSaveValidate();
+  //       } else {
+  //         let countValidate = 0;
+  //         if (this.positionLoginFromEmit) {
+  //           if (this.opinionFileSfdt && this.opinionFileWord) {
+  //             const fileReader: FileReader = new FileReader();
+  //             fileReader.onload = (e: any) => {
+  //               const testSfdtFile = JSON.parse(fileReader.result as string);
+  //               /* if (testSfdtFile.sections[0].blocks) {
+  // 			  if (testSfdtFile.sections[0].blocks.length > 0) {
+  // 				++countValidate;
+  // 			  }
+  // 			} else {
+  // 			  // toast opinion empty
+  // 			  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+  // 			} */
+
+  //               if (
+  //                 testSfdtFile.sections[0].blocks[0].inlines ||
+  //                 testSfdtFile.sections[0].blocks[0].columnCount ||
+  //                 testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+  //                 testSfdtFile.sections[0].blocks[0].grid ||
+  //                 testSfdtFile.sections[0].blocks[0].rows ||
+  //                 testSfdtFile.sections[0].blocks[0].tableFormat
+  //               ) {
+  //                 if (
+  //                   testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+  //                   testSfdtFile.sections[0].blocks[0].grid ||
+  //                   testSfdtFile.sections[0].blocks[0].rows ||
+  //                   testSfdtFile.sections[0].blocks[0].tableFormat
+  //                 ) {
+  //                   ++countValidate;
+  //                 } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
+  //                   if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+  //                     ++countValidate;
+  //                   } else {
+  //                     // toast opinion empty
+  //                     this.messageService.add({
+  //                       severity: 'info',
+  //                       summary: 'Warning',
+  //                       detail: 'Opinion Empty! All data will be save except data at tab opinion',
+  //                     });
+  //                   }
+  //                 } else if (testSfdtFile.sections[0].blocks[0].inlines) {
+  //                   let isEmpty = true;
+  //                   testSfdtFile.sections[0].blocks.forEach(block => {
+  //                     if (block.inlines) {
+  //                       if (block.inlines.length > 0) {
+  //                         isEmpty = false;
+  //                       }
+  //                     }
+  //                   });
+
+  //                   if (isEmpty) {
+  //                     // toast opinion empty
+  //                     this.messageService.add({
+  //                       severity: 'info',
+  //                       summary: 'Warning',
+  //                       detail: 'Opinion Empty! All data will be save except data at tab opinion',
+  //                     });
+  //                   } else {
+  //                     ++countValidate;
+  //                   }
+
+  //                   /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+  // 				  ++countValidate;
+  // 				} else {
+  // 				  // toast opinion empty
+  // 				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+  // 				} */
+  //                 }
+  //               } else {
+  //                 // toast opinion empty
+  //                 this.messageService.add({
+  //                   severity: 'info',
+  //                   summary: 'Warning',
+  //                   detail: 'Opinion Empty! All data will be save except data at tab opinion',
+  //                 });
+  //               }
+
+  //               if (this.recomendation) {
+  //                 ++countValidate;
+  //                 if (this.recomendation === 'Recommend With Condition' || this.recomendation === 'Approved With Condition') {
+  //                   if (this.conditionFileSfdt && this.conditionFileWord) {
+  //                     const fileReaderCondition: FileReader = new FileReader();
+  //                     fileReaderCondition.onload = (eCondition: any) => {
+  //                       const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+  //                       /* if (testSfdtFileCondition.sections[0].blocks) {
+  // 					  if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+  // 						++countValidate;
+  // 					  } else {
+  // 						// toast condition empty
+  // 						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+  // 					  }
+  // 					} else {
+  // 					  // toast condition empty
+  // 					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+  // 					} */
+
+  //                       if (
+  //                         testSfdtFileCondition.sections[0].blocks[0].inlines ||
+  //                         testSfdtFileCondition.sections[0].blocks[0].columnCount ||
+  //                         testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+  //                         testSfdtFileCondition.sections[0].blocks[0].grid ||
+  //                         testSfdtFileCondition.sections[0].blocks[0].rows ||
+  //                         testSfdtFileCondition.sections[0].blocks[0].tableFormat
+  //                       ) {
+  //                         if (
+  //                           testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+  //                           testSfdtFileCondition.sections[0].blocks[0].grid ||
+  //                           testSfdtFileCondition.sections[0].blocks[0].rows ||
+  //                           testSfdtFileCondition.sections[0].blocks[0].tableFormat
+  //                         ) {
+  //                           ++countValidate;
+  //                         } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+  //                           if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+  //                             ++countValidate;
+  //                           } else {
+  //                             // toast condition empty
+  //                             this.messageService.add({
+  //                               severity: 'info',
+  //                               summary: 'Warning',
+  //                               detail: 'Condition Empty! All data will be save except data at tab opinion',
+  //                             });
+  //                           }
+  //                         } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+  //                           let isEmpty = true;
+  //                           testSfdtFileCondition.sections[0].blocks.forEach(block => {
+  //                             if (block.inlines) {
+  //                               if (block.inlines.length > 0) {
+  //                                 isEmpty = false;
+  //                               }
+  //                             }
+  //                           });
+
+  //                           if (isEmpty) {
+  //                             // toast condition empty
+  //                             this.messageService.add({
+  //                               severity: 'info',
+  //                               summary: 'Warning',
+  //                               detail: 'Condition Empty! All data will be save except data at tab opinion',
+  //                             });
+  //                           } else {
+  //                             ++countValidate;
+  //                           }
+
+  //                           /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+  // 						  ++countValidate;
+  // 						} else {
+  // 						  // toast condition empty
+  // 						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+  // 						} */
+  //                         }
+  //                       }
+
+  //                       if (countValidate === 3) {
+  //                         this.saveUpdate('complete', source);
+  //                       } else {
+  //                         this.saveUpdate('not-complete', source);
+  //                       }
+  //                     };
+  //                     fileReaderCondition.readAsText(this.conditionFileSfdt);
+  //                   }
+  //                 } else {
+  //                   if (countValidate === 2) {
+  //                     this.saveUpdate('complete', source);
+  //                   } else {
+  //                     this.saveUpdate('not-complete', source);
+  //                   }
+  //                 }
+  //               } else {
+  //                 // toast recomendation empty
+  //                 this.messageService.add({
+  //                   severity: 'info',
+  //                   summary: 'Warning',
+  //                   detail: 'Recommendation Empty! All data will be save except data at tab opinion',
+  //                 });
+  //                 this.saveUpdate('not-complete', source);
+  //               }
+  //             };
+  //             fileReader.readAsText(this.opinionFileSfdt);
+  //           } else {
+  //             // toast opinion empty
+  //             this.messageService.add({
+  //               severity: 'info',
+  //               summary: 'Warning',
+  //               detail: 'Opinion Empty! All data will be save except data at tab opinion',
+  //             });
+  //             this.saveUpdate('not-complete', source);
+  //           }
+  //         } else {
+  //           this.saveUpdate('not-complete-not-visit', source);
+  //         }
+  //       }
+  //     } else {
+  //       this.saveUpdate('not-complete-not-visit', source);
+  //     }
+  //   }
+  //   this.saveWord = true;
+  //   this.saveWordOpinionCondition = true;
+  //   this.cekCgpgData();
+  // }
 
   public getTitle(): void {
     this.appName = sessionStorage.getItem('appName');
