@@ -204,7 +204,6 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
         this.countAllTotalAndLiquid();
         this.cekData();
         this.getTotalAreaCertificate();
-        this.countTotalAreaTataKotaBuilding();
       });
   }
 
@@ -375,10 +374,10 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
         //     result +
         //     param[i].propertyMarketValueTataKotaPerMeter * this.countTotalArea(param[i]) * (param[i].propertyPercentageTataKota / 100);
         // }
-        if (param[i].propertyMarketValueTataKotaPerMeter && this.totalAreaTataKotaBuilding / 100) {
+        if (param[i].propertyMarketValueTataKotaPerMeter && param[i].propertyAreaTataKota / 100) {
           result =
             result +
-            param[i].propertyMarketValueTataKotaPerMeter * this.totalAreaTataKotaBuilding * (param[i].propertyPercentageTataKota / 100);
+            param[i].propertyMarketValueTataKotaPerMeter * param[i].propertyAreaTataKota * (param[i].propertyPercentageTataKota / 100);
         }
       }
       return result;
@@ -407,8 +406,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueTataKotaPerMeter && this.totalAreaTataKotaBuilding) {
-          result = result + param[i].propertyMarketValueTataKotaPerMeter * this.totalAreaTataKotaBuilding;
+        if (param[i].propertyMarketValueTataKotaPerMeter && param[i].propertyAreaTataKota) {
+          result = result + param[i].propertyMarketValueTataKotaPerMeter * param[i].propertyAreaTataKota;
         }
       }
 
@@ -563,22 +562,5 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
       }
     }
     return this.totalCountAreaLand;
-  }
-
-  public countTotalAreaTataKotaBuilding() {
-    this.totalAreaTataKotaBuilding = 0;
-    // let total: number;
-    // total = 0;
-
-    if (this.collateralProperties.length > 0) {
-      for (let i = 0; i < this.collateralProperties.length; i++) {
-        const item: ICollateralProperty = this.collateralProperties[i];
-        if (item.propertyAreaTataKota !== undefined) {
-          this.totalAreaTataKotaBuilding = this.totalAreaTataKotaBuilding + item.propertyAreaTataKota;
-        }
-      }
-    }
-    console.log('totalAreaTataKotaBuilding', this.totalAreaTataKotaBuilding);
-    return this.totalAreaTataKotaBuilding;
   }
 }
