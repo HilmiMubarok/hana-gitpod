@@ -2,22 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { PARAMETER_TYPE } from 'app/shared/constants/base.constants';
-import { GeneralParameter, IGeneralParameter } from '../general-parameter/general-parameter.model';
-import { GeneralParameterService } from '../general-parameter/general-parameter.service';
-import lodash from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
 import { MasterCreditAgreementClausalDialogComponent } from './master-credit-agreement-clausal-dialog.component';
+import { IMasterCreditAgreementClausal, MasterCreditAgreementClausal } from './master-credit-agreement-clausal.model';
+import { MasterCreditAgreementClausalService } from './master-credit-agreement-clausal.service';
 
 @Component({
   selector: 'jhi-credit-agreement-clausal',
   templateUrl: './master-credit-agreement-clausal.component.html',
   styleUrls: ['./master-credit-agreement-clausal.css'],
 })
-export class MasterCreditAgreementClausalComponent extends AbstractEntityMaterialComponent<IGeneralParameter> implements OnInit {
-  public displayColumns: string[] = ['no', 'code', 'value', 'status', 'action'];
-  constructor(protected _snackbar: MatSnackBar, protected generalParameterService: GeneralParameterService, protected dialog: MatDialog) {
-    super(_snackbar, generalParameterService);
+export class MasterCreditAgreementClausalComponent
+  extends AbstractEntityMaterialComponent<IMasterCreditAgreementClausal>
+  implements OnInit
+{
+  public displayColumns: string[] = ['no', 'code', 'parameterCategoryDescription', 'description', 'status', 'action'];
+  constructor(
+    protected _snackbar: MatSnackBar,
+    protected masterCreditAgreementClausalService: MasterCreditAgreementClausalService,
+    protected dialog: MatDialog
+  ) {
+    super(_snackbar, masterCreditAgreementClausalService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'id';
@@ -28,18 +33,17 @@ export class MasterCreditAgreementClausalComponent extends AbstractEntityMateria
   }
 
   private loadAll(): void {
-    this.generalParameterService
-      .queryFilterBy({
-        idParameterType: PARAMETER_TYPE.CREDIT_AGREEMENT_CLAUSAL,
+    this.masterCreditAgreementClausalService
+      .query({
         page: 0,
         size: 9999,
-        sort: this.sortData(),
+        sort: ['sequence', 'asc'],
       })
       .subscribe(res => {
-        let data = res.body || [];
-        data = lodash.filter(res.body, function (o) {
-          return o.statusId === 'ACTIVE';
-        });
+        const data = res.body || [];
+        // data = lodash.filter(res.body, function (o) {
+        //   return o.statusId === 'ACTIVE';
+        // });
         this.items = new MatTableDataSource(data);
 
         this.items.paginator = this.paginator;
@@ -50,10 +54,11 @@ export class MasterCreditAgreementClausalComponent extends AbstractEntityMateria
     this.loadAll();
   }
 
-  public openDialog(element: IGeneralParameter = null): void {
-    let predicate: IGeneralParameter;
-    predicate = new GeneralParameter();
-    predicate.parameterTypeId = PARAMETER_TYPE.CREDIT_AGREEMENT_CLAUSAL;
+  public openDialog(element: IMasterCreditAgreementClausal = null): void {
+    let predicate: IMasterCreditAgreementClausal;
+    predicate = new MasterCreditAgreementClausal();
+    predicate.parameterCategoryId = '';
+    predicate.statusId = '';
 
     if (element) {
       predicate = element;
@@ -62,17 +67,17 @@ export class MasterCreditAgreementClausalComponent extends AbstractEntityMateria
     const dialogRef = this.dialog.open(MasterCreditAgreementClausalDialogComponent, {
       width: '100%',
       data: {
-        generalParameter: predicate,
+        masterCreditAgreementClausal: predicate,
       },
     });
-    dialogRef.afterClosed().subscribe((res: IGeneralParameter) => {
+    dialogRef.afterClosed().subscribe((res: IMasterCreditAgreementClausal) => {
       if (res) {
         if (res.id) {
-          this.generalParameterService.update(res).subscribe(_res => {
+          this.masterCreditAgreementClausalService.update(res).subscribe(_res => {
             this.loadAll();
           });
         } else {
-          this.generalParameterService.create(res).subscribe(_res => {
+          this.masterCreditAgreementClausalService.create(res).subscribe(_res => {
             this.loadAll();
           });
         }
