@@ -5,7 +5,6 @@ import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } fr
 import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
-import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -24,6 +23,7 @@ import {
 import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { MemoBandingCollateralService } from '../memo-banding-collateral.service';
 @Component({
   selector: 'jhi-cp-memo-banding-collateral-above',
   templateUrl: './cp-memo-banding-collateral-above.component.html',
@@ -32,7 +32,6 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit, AfterViewInit {
   public displayedColumns: string[] = [
     'no',
-    // 'id',
     'collateralType',
     'collateralAddress',
     'mvInternalOriginal',
@@ -60,8 +59,6 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
   public certificateType: any;
   public dataItem: any;
   public dataCertyficate: any;
-  private bindingTypeVal: any;
-  private facilityTypes: any;
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
@@ -95,7 +92,6 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
   }
 
   public presentage(value: string, status: string) {
-    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       if (status === 'mv') {
@@ -164,13 +160,17 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     private partyCifService: PartyCifService,
     private generalParameterService: GeneralParameterService,
     private cpMemoBandingservice: CpMemoBandingService,
-    private collateralPropertyService: CollateralPropertyService
+    private collateralPropertyService: CollateralPropertyService,
+    private memoBandingCollateralService: MemoBandingCollateralService
   ) {
-    this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
-    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+    this.memoBandingCollateralService.collaterals.subscribe(collaterals => {
+      this.dataBefore = collaterals;
+    });
   }
+
+  dataBefore: ICollateral[];
 
   parsed;
   filtered;
@@ -188,20 +188,17 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
+
     this.setCertyficateType();
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
 
-    this.fungsiSumcredit('both').then(() => {
-      this.dataItem = new MatTableDataSource(
-        this.cpMemoBandingservice.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals)
-      );
-      // console.log('dataItem', {
-      //   data: this.dataItem,
-      //   compared: this.cpMemoBandingservice.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals),
-      // });
-    });
+    // this.fungsiSumcredit('both').then(() => {
+    //   this.dataItem = new MatTableDataSource(
+    //     this.cpMemoBandingservice.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals)
+    //   );
+    // });
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -214,18 +211,10 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
 
-      // const dataBefore = this.cpMemoBandingservice.mapDataCollateral(
-      //   this.filtered,
-      //   this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
+      // this.dataItem = new MatTableDataSource(
+      //   this.cpMemoBandingservice.compareDeepDataNew(this.filtered, this.dataCollateral, 'collateral-info')
       // );
-      // const dataAfter = this.cpMemoBandingservice.mapDataCollateral(
-      //   res.body,
-      //   this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
-      // );
-
-      this.dataItem = new MatTableDataSource(
-        this.cpMemoBandingservice.compareDeepDataNew(this.filtered, this.dataCollateral, 'collateral-info')
-      );
+      this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareCollateralInfo(this.dataBefore, this.dataCollateral));
 
       // this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
@@ -248,39 +237,6 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     }
   }
 
-  private loadByPartyId(param: string): void {
-    this.collateralService
-      .queryFilterBy({
-        idParty: param,
-        isActive: true,
-      })
-      .subscribe(res => {
-        // console.log('Load by party id', res.body);
-        this.dataCollateral = res.body;
-        // this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(this.filtered, res.body, 'collateral-info'));
-        const dataBefore = this.cpMemoBandingservice.mapDataCollateral(
-          this.filtered,
-          this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
-        );
-        const dataAfter = this.cpMemoBandingservice.mapDataCollateral(
-          res.body,
-          this.collateralProperties.filter(obj => obj.propertyType === 'GENERAL')
-        );
-
-        this.dataItem = new MatTableDataSource(this.cpMemoBandingservice.compareDeepDataNew(dataBefore, dataAfter, 'collateral-info'));
-
-        console.log(`ajsdg ${Math.random()}`, {
-          dataBefore,
-          dataAfter,
-          compared: this.cpMemoBandingservice.compareDeepDataNew(dataBefore, dataAfter, 'collateral-info'),
-        });
-        // const data = this.cpMemoBandingservice.compareDeepDataNew(dataBefore, dataAfter, 'collateral-info');
-
-        // console.log('ajsdg', data);
-        this.getBindingCalculate(res.body);
-      });
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     // if (changes['collateralProperties']) {
@@ -297,7 +253,6 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     if (changes['creditProposal']) {
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
           // this.findCollateralProperty(collateral);
 
           if (this.creditProposal.id) {
@@ -662,7 +617,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
   }
 
   fungsiSumcredit(value: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>(resolve => {
       let result: number;
       let dolar: number;
       let filterIdr = [];
@@ -731,9 +686,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
   }
 
   public countMVOriginal(collateral: ICollateral): number {
-    let result: string;
     let data: ICollateralProperty;
-    let datas: ICollateralProperty[];
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
