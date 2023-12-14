@@ -190,39 +190,39 @@ export class LoanAnalysOpinionComponent implements OnInit {
 	  this.refresh();
     }); */
 
-	if (
+    if (
       this.tempRouter === 'la-analyst' ||
       this.tempRouter === 'la-SME-CRC' ||
       this.tempRouter === 'la-approval' ||
       this.tempRouter === 'loan-committee-approval'
     ) {
-	  let i = 0;
-	  let whileBreakerHelper = false;
+      let i = 0;
+      let whileBreakerHelper = false;
 
-	  const pos = this.getToken('POS');
-	  const posO = this.getToken('POSO');
-	  const posOD = this.getToken('POSOD');
+      const pos = this.getToken('POS');
+      const posO = this.getToken('POSO');
+      const posOD = this.getToken('POSOD');
 
-	  this.positionUserId = pos;
-	  this.positionUserDescription = posOD;
+      this.positionUserId = pos;
+      this.positionUserDescription = posOD;
 
-	  this.cacheData = {
+      this.cacheData = {
         userId: this.userId,
         positionUserId: this.positionUserId,
         positionUserDescription: this.positionUserDescription,
       };
 
-	  this.positionLoginEmit.emit(this.positionUserId);
+      this.positionLoginEmit.emit(this.positionUserId);
 
-	  while (!whileBreakerHelper && i < cpData.listOfPic.length) {
-		if (cpData.listOfPic[i].roleId === posO) {
-		  this.isShowOpinionFieldInput = true;
+      while (!whileBreakerHelper && i < cpData.listOfPic.length) {
+        if (cpData.listOfPic[i].roleId === posO) {
+          this.isShowOpinionFieldInput = true;
 
-		  whileBreakerHelper = true;
-		  i = cpData.listOfPic.length - 1;
-		}
-		i++;
-	  }
+          whileBreakerHelper = true;
+          i = cpData.listOfPic.length - 1;
+        }
+        i++;
+      }
     }
   }
 
@@ -235,7 +235,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
         positionUserDescription: this.positionUserDescription,
       };
       // this.filterPositionLogin();
-	  this.refresh();
+      this.refresh();
     });
   }
 
@@ -434,9 +434,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
     this.uuid = uuid.v4();
     this.uuidPath.emit(this.uuid);
 
-	this.isChooseApprovalUser = true;
+    this.isChooseApprovalUser = true;
 
-	this.applicationRoleEmit.emit(event.value);
+    this.applicationRoleEmit.emit(event.value);
 
     /* for (let i = 0; i < this.approvalUserData.length; i++) {
       if (event.value === this.approvalUserData[i].partyId) {
@@ -455,7 +455,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 		};
 		this.positionLoginEmit.emit(res.body[0].id);
 	  }
-	}); */	
+	}); */
   }
 
   public onDocumentChange() {
@@ -743,10 +743,44 @@ export class LoanAnalysOpinionComponent implements OnInit {
     });
   }
 
-  private validate(): void {
+  // private validate(): void {
+  //   this.countValidate = 0;
+
+  //   this.checkSfdtFile();
+
+  //   /* this.checkSfdtFile('opinion').then(() => {
+  //   console.log('validate in after check opinion');
+  //   if (this.recomendasi) {
+  // 	console.log('validate in recomendation detected');
+  // 	++this.countValidate;
+  // 	if (this.recomendasi === 'Recommend With Condition' || this.recomendasi === 'Approved With Condition') {
+  // 	  this.checkSfdtFile('condition').then();
+  // 	} else {
+  // 	  console.log('validate in complete');
+  // 	  if (this.countValidate === 2) {
+  // 		console.log('validate in complete0');
+  // 		this.isAllowSave.emit(true);
+  // 		this.saveValidate();
+  // 	  } else {
+  // 		this.isAllowSave.emit(false);
+  // 	  }
+  // 	}
+  //   } else {
+  // 	this.isAllowSave.emit(false);
+  // 	// toast recomendation empty
+  // 	console.log('toast recomendation empty');
+  //   }
+  //   }); */
+  // }
+
+  private validate(source: string): void {
     this.countValidate = 0;
 
-    this.checkSfdtFile();
+    if (source === 'default') {
+      this.checkSfdtFile();
+    } else {
+      this.isAllowSave.emit(true);
+    }
 
     /* this.checkSfdtFile('opinion').then(() => {
 	  console.log('validate in after check opinion');
@@ -773,19 +807,36 @@ export class LoanAnalysOpinionComponent implements OnInit {
     }); */
   }
 
-  public triggeredSaveValidate(): void {
-    if (this.source === '') {
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-		// if (this.nameLoanComitee) {
-        if (this.isChooseApprovalUser) {
-          this.validate();
-        } else {
-          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
-        }
-      } else {
-        this.validate();
-      }
-    }
+  // public triggeredSaveValidate(): void {
+  //   if (this.source === '') {
+  //     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+  //       // if (this.nameLoanComitee) {
+  //       if (this.isChooseApprovalUser) {
+  //         this.validate();
+  //       } else {
+  //         this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
+  //       }
+  //     } else {
+  //       this.validate();
+  //     }
+  //   }
+  // }
+
+  public triggeredSaveValidate(source: string): void {
+    this.validate(source);
+    // if (this.source === '') {
+    //   if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+    //     // if (this.nameLoanComitee) {
+
+    //     if (this.isChooseApprovalUser) {
+    //       this.validate();
+    //     } else {
+    //       this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
+    //     }
+    //   } else {
+    //     this.validate();
+    //   }
+    // }
   }
 
   private saveFile(): void {
@@ -900,7 +951,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-	  this.filterPositionLogin(res.body);
+      this.filterPositionLogin(res.body);
       this.notes = res.body.notes;
 
       if (this.notes) {
