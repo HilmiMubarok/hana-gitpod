@@ -1,8 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { STATUS_LOV_PARAMETER, STATUS_PARAMETER } from 'app/shared/constants/status.constants';
-import { IGeneralParameter } from '../general-parameter/general-parameter.model';
-import { GeneralParameterService } from '../general-parameter/general-parameter.service';
 import { MessageService } from 'primeng/api';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import {
@@ -13,14 +10,18 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { IMasterCreditAgreementClausal } from './master-credit-agreement-clausal.model';
+import { MasterCreditAgreementClausalService } from './master-credit-agreement-clausal.service';
 
 @Component({
   selector: 'jhi-credit-agreement-clausal-dialog',
-  templateUrl: './master-credit-agreement-clausal.component-dialog.html',
+  templateUrl: './master-credit-agreement-clausal-dialog.component.html',
   styleUrls: ['./master-credit-agreement-clausal.css'],
 })
 export class MasterCreditAgreementClausalDialogComponent implements OnInit {
-  public generalParameter: IGeneralParameter;
+  @ViewChild('document_editor_containers')
+  public containers: DocumentEditorContainerComponent;
+  public masterCreditAgreementClausal: IMasterCreditAgreementClausal;
   public statusValue = [
     {
       statusId: 'ACTIVE',
@@ -33,19 +34,22 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
       statusCode: 'NON_ACTIVE',
     },
   ];
-
-  @ViewChild('document_editor_containers')
-  public containers: DocumentEditorContainerComponent;
+  public parameterCategory = [
+    {
+      parameterCategoryId: 'NEW',
+      parameterCategoryDescription: 'New',
+    },
+    {
+      parameterCategoryId: 'ADENDUM',
+      parameterCategoryDescription: 'Adendum',
+    },
+  ];
 
   private ngUnsubscribe = new Subject();
-  private paramsIdGet: string;
   private fileGet: File;
   public customHeadersJWT: any;
   private bucket: string;
   private getKey: string;
-  public clausalCode: string;
-  private nameFileSfdt: string;
-  private nameFileDocs: string;
   constructor(
     private dialog: MatDialog,
     protected messageService: MessageService,
@@ -54,51 +58,55 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
     private storageService: StorageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      generalParameter: IGeneralParameter;
+      masterCreditAgreementClausal: IMasterCreditAgreementClausal;
     },
     private _dialog: MatDialogRef<MasterCreditAgreementClausalDialogComponent>,
-    protected generalParameterService: GeneralParameterService
+    protected masterCreditAgreementClausalService: MasterCreditAgreementClausalService
   ) {
     _dialog.disableClose = true;
     _dialog.backdropClick().subscribe(_ => {
       this.openCancelDialog();
     });
-    this.generalParameter = this.data.generalParameter;
+    this.masterCreditAgreementClausal = this.data.masterCreditAgreementClausal;
   }
   ngOnInit(): void {
     this.getcustomJWT();
   }
 
   public onSave(): void {
-    this.validate()
-      .then(() => this.save())
-      .then(() => this.triggeredSave());
+    this.validate().then(() => this.save());
   }
 
   public save() {
-    if (this.generalParameter.id) {
+    if (this.masterCreditAgreementClausal.id) {
       // update
-      this.generalParameterService.update(this.generalParameter).subscribe(res => {
+      this.masterCreditAgreementClausalService.update(this.masterCreditAgreementClausal).subscribe(res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Save Success',
         });
+        this.triggeredSave();
         this._dialog.close(res.body);
       });
     } else {
       // create
-      this.generalParameterService.create(this.generalParameter).subscribe(res => {
+      this.masterCreditAgreementClausalService.create(this.masterCreditAgreementClausal).subscribe(res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Save Success',
         });
+        this.triggeredSave();
+
         this._dialog.close(res.body);
       });
     }
   }
 
+  /**
+   * Validation
+   */
   private _validateProcess(toValidate: object) {
     let isAllTrue = true;
     for (const key in toValidate) {
@@ -121,17 +129,30 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
   public checkMustValidated() {
     const mustValidate = {
       code: true,
-      value: true,
+      parameterCategoryId: true,
+      sequence: true,
+      statusId: true,
+      description: true,
     };
-
-    if (!this.generalParameter.code) {
+    if (!this.masterCreditAgreementClausal.sequence) {
+      this._showNotification('error', 'Masukkan Sequence terlebih dahulu');
+      mustValidate.sequence = false;
+    }
+    if (!this.masterCreditAgreementClausal.code) {
       this._showNotification('error', 'Masukkan Code terlebih dahulu');
       mustValidate.code = false;
     }
-
-    if (!this.generalParameter.value) {
+    if (!this.masterCreditAgreementClausal.description) {
       this._showNotification('error', 'Masukkan Description terlebih dahulu');
-      mustValidate.value = false;
+      mustValidate.description = false;
+    }
+    if (!this.masterCreditAgreementClausal.parameterCategoryId) {
+      this._showNotification('error', 'Masukkan Category terlebih dahulu');
+      mustValidate.parameterCategoryId = false;
+    }
+    if (!this.masterCreditAgreementClausal.statusId) {
+      this._showNotification('error', 'Masukkan Status terlebih dahulu');
+      mustValidate.statusId = false;
     }
 
     return this._validateProcess(mustValidate);
@@ -139,7 +160,7 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
 
   public validateMasterLov(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.checkMustValidated() && resolve('Master Product Validated');
+      this.checkMustValidated() && resolve('Master Credit Agreement Clausal Validated');
     });
   }
 
@@ -149,7 +170,15 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
     });
   }
 
-  // cancel confrimation dialog
+  /**
+   * End Validation
+   */
+
+  /**
+   * Opens the cancel dialog.
+   *
+   * @return {void}
+   */
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
@@ -170,24 +199,64 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
    * EJ2 Document
    */
 
-  // private updateGeneralParameterCode(): void {
-  //   if (this.generalParameter.code) {
-  //     const code = this.generalParameter.code;
-  //     // Replace spaces with hyphens and convert to lowercase
-  //     this.clausalCode = code.replace(/\s+/g, '-').toLowerCase();
-  //     this.getKey = 'template/credit-agreement/clausal/' + this.clausalCode;
-  //     this.nameFileSfdt = 'credit-agreement-clausal-' + this.clausalCode + '.sfdt';
-  //     this.nameFileDocs = 'credit-agreement-clausal-' + this.clausalCode + '.docs';
-  //   }
-  // }
+  /**
+   * Updates the general parameter code.
+   *
+   * @returns {void} - This function does not return a value.
+   */
+
+  /**
+   * Retrieves the bucket name from the storage service and sets it
+   * to the 'bucket' property. It also logs the 'containers' and calls
+   * the 'getContainers' function.
+   *
+   * @param {type} paramName - description of parameter
+   * @return {type} description of return value
+   */
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
+  /**
+   * Generates a custom JWT token.
+   *
+   * @return {void} Does not return a value.
+   */
+  public getcustomJWT() {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
+    this.getKey = `template/credit-agreement/clausal/${this.formatCode(this.masterCreditAgreementClausal.code)}/sfdt`;
+    this.getBucket().then(res => {
+      this.getContainers();
+    });
+  }
+
+  /**
+   * Formats the given code by replacing spaces with dashes and converting to lowercase if the code contains whitespace or special characters.
+   *
+   * @param {string} code - The code to format.
+   * @return {string} - The formatted code.
+   */
+  private formatCode(code: string): string {
+    if (/\s/.test(code) || /[&%^*@#!()+=`\-?<>/\\]/.test(code)) {
+      return this.changeCharacter(code.replace(/\s+/g, '-').toLowerCase());
+    } else {
+      return code;
+    }
+  }
 
   /**
    * Replaces certain characters in a string with their corresponding representations.
    *
    * @param {string} code - The input string to be modified.
    * @return {string} The modified string with replaced characters.
-   */
-  private changeCharacter(code: string): string {
+   */ private changeCharacter(code: string): string {
     // Ganti karakter
     const replacements = {
       '&': 'and',
@@ -210,51 +279,8 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
       '\\': 'backslash',
     };
 
-    //  penggantian karakter
+    // Penggantian karakter
     return code.replace(/[&%^*@#!()+=`\-?<>/\\]/g, (match: string) => replacements[match] || match);
-  }
-
-  /**
-   * Updates the general parameter code.
-   *
-   * @returns {void} - This function does not return a value.
-   */
-  private updateGeneralParameterCode(): void {
-    if (this.generalParameter.code) {
-      this.clausalCode = this.generalParameter.code.replace(/\s+/g, '-').toLowerCase();
-      this.clausalCode = this.changeCharacter(this.clausalCode);
-      this.getKey = `template/credit-agreement/clausal/${this.clausalCode}`;
-      this.nameFileSfdt = `credit-agreement-clausal-${this.clausalCode}.sfdt`;
-      this.nameFileDocs = `credit-agreement-clausal-${this.clausalCode}.docs`;
-    }
-  }
-
-  /**
-   * Retrieves the bucket name from the storage service and sets it
-   * to the 'bucket' property. It also logs the 'containers' and calls
-   * the 'getContainers' function.
-   *
-   * @param {type} paramName - description of parameter
-   * @return {type} description of return value
-   */
-  private getBucket() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.bucket = val.body['bucket'];
-      console.log('ini container', this.containers);
-      this.getContainers();
-    });
-  }
-
-  /**
-   * Generates a custom JWT token.
-   *
-   * @return {void} Does not return a value.
-   */
-  public getcustomJWT() {
-    const token = this.getToken('XSRF-TOKEN');
-    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
-    this.updateGeneralParameterCode();
-    this.getBucket();
   }
 
   /**
@@ -295,7 +321,7 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
    */
   private getContainers(): void {
     const obj = {
-      key: this.getKey + '/sfdt',
+      key: `template/credit-agreement/clausal/${this.formatCode(this.masterCreditAgreementClausal.code)}/sfdt`,
     };
     this.storageService
       .getObjects(this.bucket, obj)
@@ -306,7 +332,10 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
             .fileBlob(response.body[response.body.length - 1]['url'])
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-              this.fileGet = new File([res.body], this.nameFileSfdt);
+              this.fileGet = new File(
+                [res.body],
+                `credit-agreement-clausal-${this.formatCode(this.masterCreditAgreementClausal.code)}.sfdt`
+              );
               console.log('file', this.fileGet);
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -353,7 +382,7 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
    * @return {void} This function does not return a value.
    */
   public triggeredSave(): void {
-    const key = this.getKey;
+    const key = `template/credit-agreement/clausal/${this.formatCode(this.masterCreditAgreementClausal.code)}`;
 
     const timeStamp = Math.floor(Date.now() / 1000);
 
@@ -362,7 +391,7 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
       docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
         const fileType = 'word';
         // const fileName = 'credit-proposal-remark-' + this.codeClausual + '-project-analysis-' + fileType + '.docs';
-        const fileName = this.nameFileDocs;
+        const fileName = `credit-agreement-clausal-${this.formatCode(this.masterCreditAgreementClausal.code)}.docs`;
         const metaData = {
           objectName: `${key}/${fileType}/${fileName}`,
         };
@@ -374,7 +403,7 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
 
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
         const fileType = 'sfdt';
-        const fileName = this.nameFileSfdt;
+        const fileName = `credit-agreement-clausal-${this.formatCode(this.masterCreditAgreementClausal.code)}.sfdt`;
         const metaData = {
           objectName: `${key}/${fileType}/${fileName}`,
         };

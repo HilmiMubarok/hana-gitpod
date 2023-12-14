@@ -4,20 +4,37 @@
     <div class="col-12">
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Sequence</mat-label>
+          <input matInput type="number" [(ngModel)]="masterCreditAgreementClausal.sequence" required />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field appearance="outline" class="w-100 pr-1">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="masterCreditAgreementClausal.parameterCategoryId" required>
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of parameterCategory" [value]="item.parameterCategoryId">
+              {{ item.parameterCategoryDescription }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
           <mat-label>Code</mat-label>
-          <input matInput type="text" [(ngModel)]="generalParameter.code" />
+          <input matInput type="text" [(ngModel)]="masterCreditAgreementClausal.code" required />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Description</mat-label>
-          <input matInput type="text" [(ngModel)]="generalParameter.value" />
+          <input matInput type="text" [(ngModel)]="masterCreditAgreementClausal.description" required />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100 pr-1">
           <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="generalParameter.statusId">
+          <mat-select [(ngModel)]="masterCreditAgreementClausal.statusId" required>
             <mat-option value="">- Please Select -</mat-option>
             <mat-option *ngFor="let item of statusValue" [value]="item.statusId"> {{ item.statusDescription }} </mat-option>
           </mat-select>
