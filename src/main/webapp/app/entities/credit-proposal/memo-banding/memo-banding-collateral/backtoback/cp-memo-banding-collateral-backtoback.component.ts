@@ -117,11 +117,11 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
   parsed;
   ngOnInit() {
     this.parsed = this.cpMemoBandingService.parsePrevOfferingLetter(this.creditProposal);
-    this.fungsiSumcredit('both').then(() => {
-      this.dataItem = new MatTableDataSource(
-        this.cpMemoBandingService.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals)
-      );
-    });
+    // this.fungsiSumcredit('both').then(() => {
+    //   this.dataItem = new MatTableDataSource(
+    //     this.cpMemoBandingService.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals)
+    //   );
+    // });
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
