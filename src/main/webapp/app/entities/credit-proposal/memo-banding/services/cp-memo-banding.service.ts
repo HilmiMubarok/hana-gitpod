@@ -40,14 +40,21 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
     return true;
   }
 
+  // Loan Facility
   compareObjectsLoanFacility(obj1, obj2, customizer) {
     const keys = Object.keys(customizer);
 
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
 
-      if (obj1[key] !== obj2[key]) {
-        return false;
+      if (key === 'collateralAddress') {
+        if (obj1[key]['address1'] !== obj2[key]['address1']) {
+          return false;
+        }
+      } else {
+        if (obj1[key] !== obj2[key]) {
+          return false;
+        }
       }
     }
 
@@ -97,6 +104,41 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
 
   comparedData$ = new BehaviorSubject<any[]>([]);
   comparedData = this.comparedData$.asObservable();
+
+  // Collateral Info
+  compareCollateralInfo(firstData, secondData) {
+    const customizer = {
+      jenisCollateral: true,
+      collateralAddress: true,
+      nomorSertifikat: true,
+      mvInternal: true,
+      mvExternal: true,
+      lvInternal: true,
+      lvExternal: true,
+    };
+
+    const comparedData = [];
+
+    secondData.forEach(data => {
+      const matchingData = firstData.find(d => d.id === data.id);
+      const appealStatus = matchingData
+        ? this.compareObjectsLoanFacility(data, matchingData, customizer)
+          ? 'Not Changed'
+          : 'Changed'
+        : 'Added';
+      comparedData.push({ ...data, appealStatus });
+    });
+
+    const removedData = firstData.filter(data => !secondData.some(d => d.id === data.id));
+    removedData.forEach(data => comparedData.push({ ...data, appealStatus: 'Removed' }));
+
+    this.comparedCollateralInfoData$.next(_.sortBy(comparedData, ['id']));
+
+    return comparedData;
+  }
+
+  comparedCollateralInfoData$ = new BehaviorSubject<any[]>([]);
+  comparedCollateralInfoData = this.comparedCollateralInfoData$.asObservable();
 
   compareDeepDataNew(firstData, secondData, where) {
     // console.log('Data', { firstData, secondData });

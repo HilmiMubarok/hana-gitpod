@@ -59,7 +59,7 @@ import {
         <ng-container matColumnDef="liquidValue">
           <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px" class="grid-index-right">LV (internal) (Equivalen to IDR)</th>
           <td mat-cell *matCellDef="let element" class="grid-index-right">
-            sd{{ element | countLV: collateralProperties | currency: 'IDR ':'symbol':'1.0-0' }}
+            {{ element | countLV: collateralProperties | currency: 'IDR ':'symbol':'1.0-0' }}
           </td>
           <td mat-footer-cell *matFooterCellDef class="grid-index-right">
             <p>{{ countTotalLVBefore | currency: 'IDR ':'symbol':'1.0-0' }}</p>
