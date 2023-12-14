@@ -47,7 +47,7 @@
             <div *ngIf="!isOnMemoBanding">
               <div>
                 <button
-                  *ngIf="item.parentId === 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && router.url.includes('credit-proposal-status') && router.url.includes('cp-status-approval')"
+                  *ngIf="item.parentId === 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && isViewMode === false"
                   mat-icon-button
                   (click)="openDialog(element, 'add', item.description)"
                 >
@@ -55,7 +55,7 @@
                 </button>
   
                 <button
-                  *ngIf="item.parentId !== 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && router.url.includes('credit-proposal-status') && router.url.includes('cp-status-approval')"
+                  *ngIf="item.parentId !== 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && isViewMode === false"
                   mat-icon-button
                   (click)="openDialog(element, 'add', item.description)"
                 >
@@ -63,7 +63,7 @@
                 </button>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <button
-                    *ngIf="item.parentId !== 'DOC_IDD' && item.parentId !== 'DOC_LA' && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && router.url.includes('credit-proposal-status') && router.url.includes('cp-status-approval')"
+                    *ngIf="item.parentId !== 'DOC_IDD' && item.parentId !== 'DOC_LA' && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && isViewMode === false"
                     mat-icon-button
                     (click)="openDialog(element, 'add', item.description)"
                   >
@@ -78,7 +78,7 @@
                 </section>
   
                   <button
-                      *ngIf="creditProposal.statusCode === 'PK_RETURN_TO_RM' && matrix !== true && item.parentId !== 'DOC_LA' && item.parentId !== 'DOC_IDD' && router.url.includes('credit-proposal-status') && router.url.includes('cp-status-approval')"
+                      *ngIf="creditProposal.statusCode === 'PK_RETURN_TO_RM' && matrix !== true && item.parentId !== 'DOC_LA' && item.parentId !== 'DOC_IDD' && isViewMode === false"
                       mat-icon-button
                       (click)="openDialog(element, 'add', item.description)"
                     >

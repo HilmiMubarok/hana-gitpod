@@ -35,6 +35,7 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public otherStatus?: string;
   public otherDeviation?: string;
   public otherJustification?: string;
+  public _isViewMode: boolean;
 
   public finalData: any;
   public compareData: boolean;
@@ -48,7 +49,7 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   }
 
   @Input() setActiveMenu: string;
-  @Input() isViewMode: Boolean = false;
+
   @Input() isOnOffering: Boolean = false;
 
   @Input()
@@ -58,6 +59,15 @@ export class CreditProposalTabCovenantComponent implements OnInit {
 
   set creditProposalItem(item: any) {
     this._creditProposalItem = item;
+  }
+
+  @Input()
+  get isViewMode() {
+    return this._isViewMode;
+  }
+
+  set isViewMode(item: boolean) {
+    this._isViewMode = item;
   }
 
   ngOnInit(): void {
