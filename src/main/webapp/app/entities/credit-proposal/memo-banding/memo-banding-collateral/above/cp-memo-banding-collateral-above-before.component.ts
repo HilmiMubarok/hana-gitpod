@@ -384,12 +384,6 @@ export class MemoBandingCollateralAboveBeforeComponent implements OnInit, OnChan
       this.creditProposal = changes.creditProposal.currentValue;
       this.memoBandingCollateralService.getParsedCollateral(this.creditProposal);
       this.previousOfferingLetterAttribute = parsePreviousAtrribute(this.creditProposal).previousOfferingLetter;
-      console.group('previousOfferingLetterAttribute');
-      console.log('previousOfferingLetterAttribute', this.previousOfferingLetterAttribute);
-      console.log('collaterals', this.previousOfferingLetterAttribute.collaterals);
-      console.log('binding', this.previousOfferingLetterAttribute.binding);
-      console.log('insurance', this.previousOfferingLetterAttribute.insurance);
-      console.groupEnd();
     }
   }
 

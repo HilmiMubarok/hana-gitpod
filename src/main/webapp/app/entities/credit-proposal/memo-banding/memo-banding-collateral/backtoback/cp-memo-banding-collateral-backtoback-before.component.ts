@@ -63,39 +63,6 @@ import {
             <p>{{ countTotalLVBefore / totalPlafond | customPercentage: 'lv':previousOfferingLetterAttribute }}</p>
           </td>
         </ng-container>
-        <!-- <ng-container matColumnDef="mValueKjjp">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">MV (KJJP)</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">
-            {{ element | countKjjpMv: collateralProperties | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            <p>{{ ountTotalMVKJJPBefore | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            <p>{{ (countTotalMVKJJPBefore / totalPlafond) * 100 | customPercentage: 'mvKjjp':previousOfferingLetterAttribute }}</p>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="lValueKjjp">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">LV (KJJP)</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">
-            {{ element | countKjjpLv: collateralProperties | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            <p>{{ countTotalLVKJJPBefore | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            <p>{{ countTotalLVKJJPBefore / totalPlafond | customPercentage: 'lvKjjp':previousOfferingLetterAttribute }}</p>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="marketability">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Marketability</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">
-            {{ element | getMarketability: collateralProperties }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
-        </ng-container>
-        <ng-container matColumnDef="occupancy">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Occupancy</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.occupancy }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
-        </ng-container> -->
         <ng-container matColumnDef="ownership">
           <th mat-header-cell *matHeaderCellDef class="grid-index-left">Ownership</th>
           <td mat-cell *matCellDef="let element" class="grid-index-left">
@@ -110,20 +77,6 @@ import {
           </td>
           <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
         </ng-container>
-        <!-- <ng-container matColumnDef="insuredtype">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Insurance Type</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">
-            {{ getInsuranceType(_getInsurance(element).insuranceType) }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
-        </ng-container>
-        <ng-container matColumnDef="insuredAmount">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Insured Amount</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">
-            {{ _getInsurance(element).insuranceAmount | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
-        </ng-container> -->
         <ng-container matColumnDef="bindingType">
           <th mat-header-cell *matHeaderCellDef class="grid-index-left">Binding Type</th>
           <td mat-cell *matCellDef="let element" class="grid-index-left">
@@ -375,12 +328,6 @@ export class MemoBandingCollateralBackToBackBeforeComponent implements OnInit, O
       this.creditProposal = changes.creditProposal.currentValue;
       this.memoBandingCollateralService.getParsedCollateral(this.creditProposal);
       this.previousOfferingLetterAttribute = parsePreviousAtrribute(this.creditProposal).previousOfferingLetter;
-      console.group('previousOfferingLetterAttribute');
-      console.log('previousOfferingLetterAttribute', this.previousOfferingLetterAttribute);
-      console.log('collaterals', this.previousOfferingLetterAttribute.collaterals);
-      console.log('binding', this.previousOfferingLetterAttribute.binding);
-      console.log('insurance', this.previousOfferingLetterAttribute.insurance);
-      console.groupEnd();
     }
   }
 
