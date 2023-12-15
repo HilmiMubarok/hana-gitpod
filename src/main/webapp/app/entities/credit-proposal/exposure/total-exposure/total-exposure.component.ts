@@ -912,4 +912,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
     return result + dolar;
   }
+  public getPricingRate(value) {
+    if (value) {
+      return value + '%';
+    } else {
+      return '0%';
+    }
+  }
 }

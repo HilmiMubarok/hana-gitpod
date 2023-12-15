@@ -340,4 +340,11 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit, AfterView
       return false;
     }
   }
+  public getPricingRate(value) {
+    if (value) {
+      return value + '%';
+    } else {
+      return '0%';
+    }
+  }
 }

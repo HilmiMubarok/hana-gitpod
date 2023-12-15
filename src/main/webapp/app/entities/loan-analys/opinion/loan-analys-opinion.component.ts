@@ -569,11 +569,13 @@ export class LoanAnalysOpinionComponent implements OnInit {
           if (
             testSfdtFile.sections[0].blocks[0].inlines ||
             testSfdtFile.sections[0].blocks[0].columnCount ||
+            testSfdtFile.sections[0].blocks[0].paragraphFormat ||
             testSfdtFile.sections[0].blocks[0].grid ||
             testSfdtFile.sections[0].blocks[0].rows ||
             testSfdtFile.sections[0].blocks[0].tableFormat
           ) {
             if (
+              testSfdtFile.sections[0].blocks[0].paragraphFormat ||
               testSfdtFile.sections[0].blocks[0].grid ||
               testSfdtFile.sections[0].blocks[0].rows ||
               testSfdtFile.sections[0].blocks[0].tableFormat
@@ -587,7 +589,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                 this.messageService.add({
                   severity: 'info',
                   summary: 'Warning',
-                  detail: 'Please input opinion first before submit or save the data',
+                  detail: 'Opinion Empty! All data will be save except data at tab opinion',
                 });
               }
             } else if (testSfdtFile.sections[0].blocks[0].inlines) {
@@ -605,7 +607,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                 this.messageService.add({
                   severity: 'info',
                   summary: 'Warning',
-                  detail: 'Please input opinion first before submit or save the data',
+                  detail: 'Opinion Empty! All data will be save except data at tab opinion',
                 });
               } else {
                 ++this.countValidate;
@@ -623,13 +625,12 @@ export class LoanAnalysOpinionComponent implements OnInit {
             this.messageService.add({
               severity: 'info',
               summary: 'Warning',
-              detail: 'Please input opinion first before submit or save the data',
+              detail: 'Opinion Empty! All data will be save except data at tab opinion',
             });
           }
 
           if (this.recomendasi) {
             ++this.countValidate;
-
             if (
               this.recomendasi === 'Recommend With Condition' ||
               this.recomendasi === 'Approved With Condition' ||
@@ -663,11 +664,13 @@ export class LoanAnalysOpinionComponent implements OnInit {
                     if (
                       testSfdtFileCondition.sections[0].blocks[0].inlines ||
                       testSfdtFileCondition.sections[0].blocks[0].columnCount ||
+                      testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
                       testSfdtFileCondition.sections[0].blocks[0].grid ||
                       testSfdtFileCondition.sections[0].blocks[0].rows ||
                       testSfdtFileCondition.sections[0].blocks[0].tableFormat
                     ) {
                       if (
+                        testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
                         testSfdtFileCondition.sections[0].blocks[0].grid ||
                         testSfdtFileCondition.sections[0].blocks[0].rows ||
                         testSfdtFileCondition.sections[0].blocks[0].tableFormat
@@ -681,7 +684,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                           this.messageService.add({
                             severity: 'info',
                             summary: 'Warning',
-                            detail: 'Please input condition first before submit or save the data',
+                            detail: 'Condition Empty! All data will be save except data at tab opinion',
                           });
                         }
                       } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
@@ -699,7 +702,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                           this.messageService.add({
                             severity: 'info',
                             summary: 'Warning',
-                            detail: 'Please input condition first before submit or save the data',
+                            detail: 'Condition Empty! All data will be save except data at tab opinion',
                           });
                         } else {
                           ++this.countValidate;
@@ -726,41 +729,19 @@ export class LoanAnalysOpinionComponent implements OnInit {
               });
             } else {
               if (this.countValidate === 2) {
-                this.isAllowSave.emit(false);
-                // this.saveValidate();
+                this.isAllowSave.emit(true);
+                this.saveValidate();
               } else {
                 this.isAllowSave.emit(false);
-                this.messageService.add({
-                  severity: 'info',
-                  summary: 'Warning',
-                  detail: 'Please input condition first before submit or save the data',
-                });
               }
             }
-            // if (this.recomendasi === 'Recommend as Propose' || this.recomendasi === 'Not Recommend') {
-            //   this.isAllowSave.emit(false);
-            //   // this.saveValidate();
-            // } else {
-            //   this.isAllowSave.emit(false);
-            //   this.messageService.add({
-            //     severity: 'info',
-            //     summary: 'Warning',
-            //     detail: 'Condition',
-            //   });
-            // }
           } else {
             this.isAllowSave.emit(false);
             // toast recomendation empty
             this.messageService.add({
               severity: 'info',
               summary: 'Warning',
-              detail: 'Please input recomendation first before submit or save the data',
-            });
-
-            this.messageService.add({
-              severity: 'info',
-              summary: 'Warning',
-              detail: 'Please input condition first before submit or save the data',
+              detail: 'Recommendation Empty! All data will be save except data at tab opinion',
             });
           }
         };
@@ -768,6 +749,36 @@ export class LoanAnalysOpinionComponent implements OnInit {
       }
     });
   }
+
+  // private validate(): void {
+  //   this.countValidate = 0;
+
+  //   this.checkSfdtFile();
+
+  //   /* this.checkSfdtFile('opinion').then(() => {
+  //   console.log('validate in after check opinion');
+  //   if (this.recomendasi) {
+  // 	console.log('validate in recomendation detected');
+  // 	++this.countValidate;
+  // 	if (this.recomendasi === 'Recommend With Condition' || this.recomendasi === 'Approved With Condition') {
+  // 	  this.checkSfdtFile('condition').then();
+  // 	} else {
+  // 	  console.log('validate in complete');
+  // 	  if (this.countValidate === 2) {
+  // 		console.log('validate in complete0');
+  // 		this.isAllowSave.emit(true);
+  // 		this.saveValidate();
+  // 	  } else {
+  // 		this.isAllowSave.emit(false);
+  // 	  }
+  // 	}
+  //   } else {
+  // 	this.isAllowSave.emit(false);
+  // 	// toast recomendation empty
+  // 	console.log('toast recomendation empty');
+  //   }
+  //   }); */
+  // }
 
   private validate(source: string): void {
     this.countValidate = 0;
@@ -802,6 +813,21 @@ export class LoanAnalysOpinionComponent implements OnInit {
 	  }
     }); */
   }
+
+  // public triggeredSaveValidate(): void {
+  //   if (this.source === '') {
+  //     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+  //       // if (this.nameLoanComitee) {
+  //       if (this.isChooseApprovalUser) {
+  //         this.validate();
+  //       } else {
+  //         this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User Selection' });
+  //       }
+  //     } else {
+  //       this.validate();
+  //     }
+  //   }
+  // }
 
   public triggeredSaveValidate(source: string): void {
     this.validate(source);
