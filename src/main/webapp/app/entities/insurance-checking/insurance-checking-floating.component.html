@@ -1,4 +1,5 @@
 <mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
+  <!-- Start Card -->
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
@@ -13,23 +14,24 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
             <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
+          <!-- <p class="e-card-sub-title menu-title-class">Credit Agreement</p> -->
           <p class="e-card-sub-title menu-title-class">{{ headerTitle }}</p>
         </div>
       </div>
     </div>
-    <div style="margin: 1rem">
+    <!-- Start Margin Bottom -->
+    <div style="margin-bottom: 1rem">
       <div class="mb-3">
-        <jhi-debtor-information
-          [cifNumber]="creditProposal.customerNumber"
-          [customerName]="creditProposal.cif.name"
-        ></jhi-debtor-information>
+        <jhi-debtor-information [cifNumber]="creditProposal.customerNumber" [customerName]="creditProposal.cif.name">
+        </jhi-debtor-information>
       </div>
-      <!-- PART 1 -->
+
+      <!-- Start Section Proposal Info -->
       <section class="wrapper-card">
         <e-card class="mb-3">
           <div class="e-card-header">
             <div class="e-card-header-caption">
-              <div class="e-card-header-title">Credit Proposal</div>
+              <div class="e-card-header-title">Finalize DPPK</div>
             </div>
           </div>
           <div class="mb-3">
@@ -43,7 +45,7 @@
                     <section *jhiMatrixDirMPS="'input'; permission: permission">Directive Input RM</section>
                     <section *jhiMatrixDirMPS="'label'; permission: permission">Directive Label RM</section>
                   </section>
-                  <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.applicationNumber"
@@ -60,7 +62,7 @@
                         {{ creditProposal.applicationNumber }}
                       </div>
                     </div>
-                  </section> -->
+                  </section>
                 </div>
                 <div class="form-group">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -228,255 +230,199 @@
           </div>
         </e-card>
       </section>
-
-      <!-- PART 2 -->
-
+      <!-- End Section Proposal Info -->
       <div>
         <div class="row">
-          <div class="col-12">
-            <!-- Ketika Ke proposal Type -->
-            <div *ngIf="parentPath === 'credit-proposal-status'">
-              <jhi-credit-proposal-basic-information
-                [creditProposal]="creditProposal"
-                *ngIf="
-                  clickedMenu === 'Total Exposure > IDR 15 Bio' ||
-                  clickedMenu === 'Total Exposure <= IDR 15 Bio' ||
-                  clickedMenu === 'Total Exposure Back to Back'
-                "
-              >
-              </jhi-credit-proposal-basic-information>
-            </div>
-
-            <div *ngIf="clickedMenu === 'basic-information'">
-              <section class="wrapper-card">
-                ><jhi-credit-proposal-basic-information [creditProposal]="creditProposal" #proposalBasicInformationViewComponent>
-                </jhi-credit-proposal-basic-information>
-              </section>
-            </div>
-
-            <div *ngIf="parentPath === 'cp-status-approval'" class="wrapper-card">
-              <div
-                *ngIf="
-                  clickedMenu === 'credit-proposal-approval' ||
-                  clickedMenu === 'Total Exposure > IDR 15 Bio' ||
-                  clickedMenu === 'Total Exposure <= IDR 15 Bio' ||
-                  clickedMenu === 'Total Exposure Back to Back'
-                "
-              >
-                <jhi-credit-proposal-basic-information
-                  [creditProposal]="creditProposal"
-                  #proposalBasicInformationViewComponent
-                ></jhi-credit-proposal-basic-information>
+          <div class="col-md-12">
+            <!-- Start Dar Summary -->
+            <div *ngIf="clickedMenu === 'dar-summary'" class="wrapper-card">
+              <!-- RM -->
+              <div class="wrapper-card">
                 <e-card class="mb-3">
-                  <jhi-credit-proposal-tab-loan-facility-detail
-                    *ngIf="!isHistoryExist"
-                    [parentSource]="'summaryAll'"
-                    [creditProposal]="creditProposal"
-                  ></jhi-credit-proposal-tab-loan-facility-detail
-                ></e-card>
-                <jhi-loan-facility-detail-history [parentSource]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
-                </jhi-loan-facility-detail-history
-                ><e-card class="mb-3">
-                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure
-                ></e-card>
-                <e-card class="mb-3">
-                  <jhi-credit-proposal-collateral-info
-                    [source]="'summaryAll'"
-                    *ngIf="!isHistoryExist"
-                    [creditProposal]="creditProposal"
-                    [collateralProperties]="collateralProperties"
-                    [collateralPropertyGroupData]="collateralPropertyGroupData"
-                  >
-                  </jhi-credit-proposal-collateral-info
-                ></e-card>
-                <jhi-collateral-info-history
-                  #creditProposalCollateralInfoHistoryComponent
-                  [source]="'summaryAll'"
-                  *ngIf="isHistoryExist"
-                  [creditProposal]="creditProposal"
-                >
-                </jhi-collateral-info-history>
-
-                <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>
+                  <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"> </jhi-credit-proposal-personal-info>
+                </e-card>
               </div>
-            </div>
 
-            <div *ngIf="clickedMenu === 'business-activity'">
-              <section class="wrapper-card">
-                <e-card
-                  ><jhi-credit-proposal-busines-activity
-                    #creditProposalTabBusinessActivityComponent
-                    [creditProposalItem]="creditProposal"
-                    [projectAnalysis]="subMenuItems"
-                  >
-                  </jhi-credit-proposal-busines-activity
-                ></e-card>
-              </section>
-            </div>
-
-            <div *ngIf="clickedMenu === 'slik-checking'">
-              <section class="wrapper-card">
-                <e-card> <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary></e-card>
-              </section>
-            </div>
-
-            <jhi-credit-proposal-bank-account-analyst *ngIf="clickedMenu === 'bank-account-analyst'" [creditProposal]="creditProposal">
-            </jhi-credit-proposal-bank-account-analyst>
-
-            <div *ngIf="clickedMenu === 'financial-statement'">
-              <section class="wrapper-card">
+              <!-- Customer info -->
+              <section class="mb-3 wrapper-card">
                 <e-card>
-                  <jhi-repayment-spreadsheet
-                    [creditProposalItem]="creditProposal"
-                    [jhifilter]="creditProposal.attributes.proposalType"
-                    [saveWordMinio]="saveWord"
+                  <jhi-credit-proposal-person
+                    *ngIf="creditProposal.partyTypeId === 'PERSON'"
+                    [item]="creditProposal.prospectPerson"
+                    [deptorData]="creditProposal"
+                    [partyCif]="partyCif"
+                    mode="view"
                   >
-                  </jhi-repayment-spreadsheet>
+                  </jhi-credit-proposal-person>
+
+                  <jhi-party-group-view
+                    [mode]="'view'"
+                    *ngIf="creditProposal.partyTypeId !== 'PERSON'"
+                    [item]="creditProposal"
+                  ></jhi-party-group-view>
                 </e-card>
               </section>
-            </div>
 
-            <div *ngIf="clickedMenu === 'risk-acceptance-criteria'">
-              <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
-            </div>
-
-            <div *ngIf="clickedMenu === 'management-information'" class="mt-3">
-              <jhi-credit-proposal-management-info
-                #creditProposaTabManagementInfoComponent
-                [creditProposalItem]="creditProposal"
-              ></jhi-credit-proposal-management-info>
-            </div>
-
-            <div *ngIf="clickedMenu === 'loan-facility-detail'">
-              <section class="wrapper-card">
-                <e-card
-                  ><jhi-credit-proposal-tab-loan-facility-detail
-                    *ngIf="!isHistoryExist"
-                    [saveWord]="saveWord"
+              <!-- Postal address -->
+              <div class="wrapper-card">
+                <e-card class="mb-3">
+                  <jhi-party-cif-customer-info-postal-address
+                    [disabled]="true"
                     [creditProposal]="creditProposal"
-                    [parentSource]="'credit-proposal'"
-                    [parentSourceSub]="'from-click-menu'"
-                  ></jhi-credit-proposal-tab-loan-facility-detail>
-                  <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
-                  </jhi-loan-facility-detail-history
-                ></e-card>
-              </section>
-            </div>
+                    [partyPostalAddress]="postalAdresss"
+                  >
+                  </jhi-party-cif-customer-info-postal-address>
+                </e-card>
+              </div>
 
-            <div *ngIf="clickedMenu === 'group-guarantour-analyst'">
-              <section class="wrapper-card">
-                <e-card
-                  ><jhi-credit-proposal-group-guarantor-analysis
-                    [saveWordMinio]="saveWord"
-                    [creditProposalItem]="creditProposal"
-                  ></jhi-credit-proposal-group-guarantor-analysis
-                ></e-card>
-              </section>
-            </div>
+              <!-- Loan facility -->
+              <div class="wrapper-card">
+                <e-card class="mb-3">
+                  <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
+                  </jhi-credit-proposal-tab-loan-facility-detail>
+                </e-card>
+              </div>
 
-            <div *ngIf="clickedMenu === 'trade-checking'">
-              <section class="wrapper-card mb-4">
-                <e-card>
-                  <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"> </jhi-credit-proposal-trade-checking
-                ></e-card>
-              </section>
-              <section class="wrapper-card mb-4">
-                <e-card
-                  ><jhi-credit-proposal-trade-checking-remarks #remaksComponent [creditProposal]="creditProposal">
-                  </jhi-credit-proposal-trade-checking-remarks
-                ></e-card>
-              </section>
-            </div>
+              <!-- Tab Exposure -->
+              <div class="wrapper-card">
+                <e-card class="mb-3">
+                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
+                </e-card>
+              </div>
 
-            <div *ngIf="clickedMenu === 'summary'">
-              <jhi-credit-proposal-tab-summary
-                [item]="creditProposal"
-                [sourceComponent]="'cp'"
-                #CreditProposalTabSummaryComponent
-              ></jhi-credit-proposal-tab-summary>
-              <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
-            </div>
-
-            <div *ngIf="clickedMenu === 'opinion'">
-              <jhi-credit-proposal-opinion-history
-                #creditProposalOpinionHistoryComponent
-                (uuidPath)="setUuidPath($event)"
-                (newItemEvent)="setOpinionRecomendation($event)"
-                (posLog)="setPositionLogin($event)"
-                (isAllowSave)="setIsAllowSave($event)"
-                (opinionFileSfdt)="setOpinionFileSfdt($event)"
-                (opinionFileWord)="setOpinionFileWord($event)"
-                (conditionFileSfdt)="setConditionFileSfdt($event)"
-                (conditionFileWord)="setConditionFileWord($event)"
-                [creditProposalItem]="creditProposal"
-                [notifyChild]="parentSubject"
-              ></jhi-credit-proposal-opinion-history>
-              <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
-            </div>
-
-            <div *ngIf="clickedMenu === 'convenant-tbo'">
-              <section class="wrapper-card">
-                <e-card
-                  ><jhi-credit-proposal-tab-covenant [isViewMode]="false" [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant
-                ></e-card>
-              </section>
-            </div>
-
-            <div *ngIf="clickedMenu === 'exposure'">
-              <section class="wrapper-card">
-                <e-card><jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure></e-card>
-              </section>
-            </div>
-
-            <div *ngIf="clickedMenu === 'credit-rating'">
-              <jhi-credit-rating-view [mode]="'view'" [creditProposalItem]="creditProposal"></jhi-credit-rating-view>
-            </div>
-
-            <jhi-credit-proposal-repayment-capability
-              *ngIf="clickedMenu === 'repayment-capability'"
-              [creditProposal]="creditProposal"
-            ></jhi-credit-proposal-repayment-capability>
-
-            <div *ngIf="clickedMenu === 'propose-pricing'">
-              <section class="wrapper-card">
-                <e-card>
-                  <jhi-credit-proposal-propose-pricing [saveWordMinio]="saveWord" [creditProposal]="creditProposal">
-                  </jhi-credit-proposal-propose-pricing
-                ></e-card>
-              </section>
-            </div>
-
-            <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
-              <section class="wrapper-card">
-                <e-card
-                  ><jhi-credit-proposal-collateral-info
-                    [proposalType]="creditProposal.attributes.proposalType"
+              <!-- Collateral info -->
+              <div class="wrapper-card">
+                <e-card class="mb-3">
+                  <jhi-credit-proposal-collateral-info
                     #creditProposalCollateralInfoComponent
                     [creditProposal]="creditProposal"
                     [collateralProperties]="collateralProperties"
-                    [collateralPropertyGroupData]="collateralPropertyGroupData"
+                    [source]="'summaryAll'"
+                    [parentSource]="'loan-analys'"
+                    [isViewMode]="true"
                   >
-                  </jhi-credit-proposal-collateral-info
-                ></e-card>
-              </section>
-            </div>
+                  </jhi-credit-proposal-collateral-info>
+                </e-card>
+              </div>
 
+              <!-- Document: summary gabung -->
+              <div class="wrapper-card">
+                <e-card class="mb-3">
+                  <jhi-credit-proposal-tab-summary
+                    [fileDar]="dataFileDar"
+                    [fileCompliance]="dataFileCompliance"
+                    [source]="'summaryAll'"
+                    [fileSPPK]="dataOfferingSPPK"
+                    [item]="creditProposal"
+                    [sourceComponent]="'loan'"
+                  >
+                  </jhi-credit-proposal-tab-summary>
+                  <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
+                </e-card>
+              </div>
+            </div>
+            <!-- End Dar Summary -->
+            <!-- Memo Banding -->
             <div *ngIf="clickedMenu === 'memo-banding'">
               <jhi-credit-proposal-memo-banding
                 #CPMemoBandingRemarkComponent
                 [saveWordMinio]="saveWord"
                 [creditProposal]="creditProposal"
+                [isViewMode]="true"
               ></jhi-credit-proposal-memo-banding>
             </div>
 
-            <jhi-collateral-info-history
-              *ngIf="clickedMenu === 'collateral-info' && isHistoryExist"
-              [creditProposal]="creditProposal"
-            ></jhi-collateral-info-history>
+            <!-- loan facility detail -->
+            <div *ngIf="clickedMenu === 'loan-facility'">
+              <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
+              </jhi-credit-proposal-tab-loan-facility-detail>
+            </div>
+
+            <!-- <div *ngIf="clickedMenu === 'dpdl'">
+              
+            </div>
+            <div *ngIf="clickedMenu === 'internal_memo'">
+              
+            </div> -->
+
+            <div *ngIf="clickedMenu === 'finalize-credit-agreement'">
+              <jhi-finalize-credit-agreement [creditProposal]="creditProposal"> </jhi-finalize-credit-agreement>
+            </div>
+            <!--- collateral info -->
+            <div *ngIf="clickedMenu === 'collateral-info'">
+              <section class="wrapper-card">
+                <e-card>
+                  <jhi-credit-proposal-collateral-info
+                    #creditProposalCollateralInfoComponent
+                    [creditProposal]="creditProposal"
+                    [collateralProperties]="collateralProperties"
+                    [collateralPropertyGroupData]="collateralPropertyGroupData"
+                    [parentSource]="'dec-offering'"
+                    [isViewMode]="true"
+                  >
+                  </jhi-credit-proposal-collateral-info>
+                </e-card>
+              </section>
+            </div>
+
+            <!-- compliance recomendation -->
+            <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+              <e-card>
+                <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
+              </e-card>
+              <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk'">
+                <e-card>
+                  <jhi-loan-analys-opinion-compliance-part
+                    #loanAnalysOpinionCompliancePartComponent
+                    (uuidPath)="setUuidPathCompliance($event)"
+                    (positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
+                    (typeOpinion)="setTypeOpinion($event)"
+                    [creditProposalItem]="creditProposal"
+                  >
+                  </jhi-loan-analys-opinion-compliance-part>
+                </e-card>
+              </div>
+            </div>
+
+            <!-- opinion -->
+            <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+              <e-card>
+                <jhi-loan-analys-opinion
+                  #loanAnalysOpinionComponent
+                  (uuidPath)="setUuidPath($event)"
+                  (positionLoginEmit)="setPositionLogin($event)"
+                  (newItemEvent)="setOpinionRecomendation($event)"
+                  (isAllowSave)="setIsAllowSave($event)"
+                  (opinionFileSfdt)="setOpinionFileSfdt($event)"
+                  (opinionFileWord)="setOpinionFileWord($event)"
+                  (conditionFileSfdt)="setConditionFileSfdt($event)"
+                  (conditionFileWord)="setConditionFileWord($event)"
+                  [creditProposalItem]="creditProposal"
+                  [notifyChild]="parentSubject"
+                >
+                </jhi-loan-analys-opinion>
+              </e-card>
+            </div>
+            <!-- covenant-temp -->
+            <div *ngIf="clickedMenu === 'covenant-temp'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+              <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+            </div>
+
+            <!-- compare data -->
+            <div *ngIf="clickedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+              <e-card>
+                <jhi-compare-data
+                  [creditProposal]="creditProposal"
+                  [collateralProperties]="collateralProperties"
+                  [collateralPropertyGroupData]="collateralPropertyGroupData"
+                ></jhi-compare-data>
+              </e-card>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- End Marginm Bottom -->
 
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
@@ -494,10 +440,13 @@
         <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
     </div>
+    <!-- End Action -->
   </div>
+  <!-- End Card -->
 
+  <!-- Start Sidenav -->
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
-    <div class="header-sub-menu"><label style="margin-top: 1rem">Credit Proposal :</label></div>
+    <div class="header-sub-menu"><label style="margin-top: 1rem">Insurance</label></div>
 
     <mat-list role="list" class="list-styling">
       <div *ngFor="let item of subMenu">
@@ -524,6 +473,8 @@
       </div>
     </mat-list>
   </mat-sidenav>
+  <!-- End Sidenav -->
+
   <button
     matTooltip="Click this for show sub menu of Credit Proposal"
     [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"

@@ -40,6 +40,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
   public collateralProperty: any;
   public dataArray: IDocumentType[];
   public matrix: boolean;
+  public _isViewMode: boolean;
   datePipe: DatePipe = new DatePipe('en-US');
   @Input() isOnMemoBanding: Boolean = false;
   constructor(
@@ -56,6 +57,15 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
+  }
+
+  @Input()
+  get isViewMode() {
+    return this._isViewMode;
+  }
+
+  set isViewMode(item: boolean) {
+    this._isViewMode = item;
   }
 
   public checkMatrixLA() {

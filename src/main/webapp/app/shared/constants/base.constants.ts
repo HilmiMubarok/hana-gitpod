@@ -3218,6 +3218,26 @@ export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
     text: 'Covenant & Document Checklist',
   },
 ];
+export const BASIC_SUBMENU_INSURANCE_CHECKING_MEMO: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: '',
+    text: 'Insurance information',
+  },
+];
+export const BASIC_SUBMENU_REVIEW_INSURANCE_MEMO: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+  {
+    id: '',
+    text: 'Insurance information',
+  },
+];
 
 export enum DOCUMENT_TYPE_GENERATE_DOCUMENT {
   DAR = 'DOC_GENERATE_DAR',

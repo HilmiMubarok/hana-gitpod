@@ -380,19 +380,20 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       },
     ],
   },
+
   {
-    name: 'Daftar Pengecekan Pencairan Kredit',
+    name: 'DPPK Insurance',
     iconname: 'suitcase',
     children: [
       {
-        name: ' Finalize DPPK',
+        name: ' Insurance Checking',
         iconname: 'minus',
-        route: 'finalize-dppk',
+        route: 'insurance-checking',
       },
       {
         name: ' Review DPPK',
         iconname: 'minus',
-        route: 'review-dppk',
+        route: 'review-insurance',
       },
     ],
   },

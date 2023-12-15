@@ -8,6 +8,7 @@ import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property-dialog',
   templateUrl: './collateral-appraisal-valuation-property-dialog.component.html',
@@ -15,7 +16,12 @@ import { TemplateService } from 'app/layouts/template/template.service';
 })
 export class CollateralAppraisalValuationPropertyDialogComponent implements OnInit {
   public collateralProp: ICollateralProperty;
+  public collateralProperties: ICollateralProperty[];
   public collateralAppraisal: ICollateralAppraisal;
+  public certificates: ICollateralLandAttribute[];
+  public totalCountAreaLand: number;
+  public totalAreaTataKotaBuilding: number;
+
   constructor(
     private templateService: TemplateService,
     private dialog: MatDialog,
@@ -28,6 +34,10 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
   }
   ngOnInit(): void {
     this.getRole();
+    this.cekData();
+    this.getTotalAreaCertificate();
+    // this.countTotalAreaTataKotaBuilding();
+
     if (this.collateralProp.propertyType === CollateralPropertyType.LAND) {
       this.calTotalmarket();
       this.calTotalmarketTataKotaLand();
@@ -114,31 +124,41 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
   public calTotalmarket(): Number {
     this.collateralProp.propertyMarketValueIMB =
       this.collateralProp.landSizePerCertificate * this.collateralProp.propertyMarketValueIMBPerMeter;
+
     return this.collateralProp.propertyMarketValueIMB;
   }
 
   public calTotalmarketTataKotaLand(): Number {
-    this.collateralProp.propertyMarketValueTataKota =
-      this.collateralProp.landSizePerCertificate * this.collateralProp.propertyMarketValueTataKotaPerMeter;
+    const totalAreaCertificate =
+      this.totalCountAreaLand - this.collateralAppraisal.collateral.truncatedArea - this.collateralAppraisal.collateral.publicFacilities;
+    // this.collateralProp.propertyMarketValueTataKota =
+    //   this.collateralProp.landSizePerCertificate * this.collateralProp.propertyMarketValueTataKotaPerMeter;
+    this.collateralProp.propertyMarketValueTataKota = this.collateralProp.propertyMarketValueTataKotaPerMeter * totalAreaCertificate;
+
     return this.collateralProp.propertyMarketValueTataKota;
   }
 
   public calTotalmarketIMBBuilding(): Number {
     this.collateralProp.propertyMarketValueIMB = this.collateralProp.propertyMarketValueIMBPerMeter * this.collateralProp.imbArea;
+
     return this.collateralProp.propertyMarketValueIMB;
   }
   public calTotalmarketTataKotaBuilding(): Number {
-    this.collateralProp.propertyMarketValueTataKota = this.collateralProp.propertyMarketValueTataKotaPerMeter * this.countTotalArea();
+    // this.collateralProp.propertyMarketValueTataKota = this.collateralProp.propertyMarketValueTataKotaPerMeter * this.countTotalArea();
+    this.collateralProp.propertyMarketValueTataKota =
+      this.collateralProp.propertyMarketValueTataKotaPerMeter * this.collateralProp.propertyAreaTataKota;
     return this.collateralProp.propertyMarketValueTataKota;
   }
 
   public calTotalmarketValueLand(): Number {
     this.collateralProp.propertyMarketValue = this.collateralProp.landSizePerCertificate * this.collateralProp.propertyMarketValuePerMeter;
+
     return this.collateralProp.propertyMarketValue;
   }
 
   public calTotalmarketValueBilding(): Number {
     this.collateralProp.propertyMarketValue = this.countTotalArea() * this.collateralProp.propertyMarketValuePerMeter;
+
     return this.collateralProp.propertyMarketValue;
   }
 
@@ -156,5 +176,47 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
         this._dialog.close(this.collateralProp);
       }
     });
+  }
+
+  public cekData() {
+    if (typeof this.collateralAppraisal.collateral.attributes['landCertificates'] === 'string') {
+      let data = '';
+      let i = 0;
+      while (typeof data === 'string') {
+        data = JSON.parse(this.collateralAppraisal.collateral.attributes['landCertificates']);
+        console.log(data, 'parse ke', i);
+        i++;
+        if (i > 1000) {
+          this.collateralAppraisal.collateral.attributes['landCertificates'] = [];
+          this.certificates = this.collateralAppraisal.collateral.attributes['landCertificates'];
+          break;
+        } else if (typeof data !== 'string') {
+          if (JSON.parse(this.collateralAppraisal.collateral.attributes['landCertificates']).length > 0) {
+            this.certificates = data;
+          } else {
+            this.collateralAppraisal.collateral.attributes['landCertificates'] = [];
+            this.certificates = this.collateralAppraisal.collateral.attributes['landCertificates'];
+          }
+        }
+      }
+    } else if (
+      typeof this.collateralAppraisal.collateral.attributes['landCertificates'] !== 'string' &&
+      typeof this.collateralAppraisal.collateral.attributes['landCertificates'] === 'object'
+    ) {
+      console.log(this.collateralAppraisal.collateral.attributes['landCertificates']);
+      this.certificates = this.collateralAppraisal.collateral.attributes['landCertificates'];
+    }
+  }
+
+  public getTotalAreaCertificate() {
+    this.totalCountAreaLand = 0;
+    if (this.certificates?.length > 0) {
+      for (let j = 0; j < this.certificates.length; j++) {
+        if (this.certificates.length !== undefined) {
+          this.totalCountAreaLand = this.totalCountAreaLand + Number(this.certificates[j].certArea);
+        }
+      }
+    }
+    return this.totalCountAreaLand;
   }
 }
