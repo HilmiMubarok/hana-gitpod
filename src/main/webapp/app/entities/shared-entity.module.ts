@@ -443,6 +443,7 @@ import { GetMarketabilityPipe } from './credit-proposal/memo-banding/memo-bandin
 import { GetOwnershipPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-ownership.pipe';
 import { GetExpiryPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-expiry.pipe';
 import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-binding-type.pipe';
+import { MemoBandingCollateralBackToBackBeforeComponent } from './credit-proposal/memo-banding/memo-banding-collateral/backtoback/cp-memo-banding-collateral-backtoback-before.component';
 
 @NgModule({
   imports: [
@@ -947,6 +948,7 @@ import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-
 
     // Memo Banding Collateral
     MemoBandingCollateralAboveBeforeComponent,
+    MemoBandingCollateralBackToBackBeforeComponent,
 
     // pipes memo banding collateral
     CountMVOriginalPipe,
@@ -969,6 +971,7 @@ import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-
 
     // Memo Banding Collateral
     MemoBandingCollateralAboveBeforeComponent,
+    MemoBandingCollateralBackToBackBeforeComponent,
 
     // pipes memo banding collateral
     CountMVOriginalPipe,

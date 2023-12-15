@@ -16,18 +16,15 @@ import {
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 
 @Component({
-  selector: 'jhi-memo-banding-collateral-above-before',
+  selector: 'jhi-memo-banding-collateral-backtoback-before',
   styleUrls: ['../../../collateral-info/collateral-info-cp.style.scss'],
   template: `
     <div class="table-responsive-material">
       <table mat-table [dataSource]="collaterals$ | async" class="w-100">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right rounding-table-left">No</th>
-          <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            <p>Total</p>
-            <p>Collateral Coverage</p>
-          </td>
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
         </ng-container>
         <ng-container matColumnDef="collateralType">
           <th mat-header-cell *matHeaderCellDef class="rounding-table-">Collateral Type</th>
@@ -66,39 +63,6 @@ import {
             <p>{{ countTotalLVBefore / totalPlafond | customPercentage: 'lv':previousOfferingLetterAttribute }}</p>
           </td>
         </ng-container>
-        <ng-container matColumnDef="mValueKjjp">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">MV (KJJP)</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">
-            {{ element | countKjjpMv: collateralProperties | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            <p>{{ ountTotalMVKJJPBefore | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            <p>{{ (countTotalMVKJJPBefore / totalPlafond) * 100 | customPercentage: 'mvKjjp':previousOfferingLetterAttribute }}</p>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="lValueKjjp">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">LV (KJJP)</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">
-            {{ element | countKjjpLv: collateralProperties | currency: 'IDR ':'symbol':'1.0-0' }}
-          </td>
-
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            <p>{{ countTotalLVKJJPBefore | currency: 'IDR ':'symbol':'1.0-0' }}</p>
-            <p>{{ countTotalLVKJJPBefore / totalPlafond | customPercentage: 'lvKjjp':previousOfferingLetterAttribute }}</p>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="marketability">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Marketability</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">
-            {{ element | getMarketability: collateralProperties }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
-        </ng-container>
-        <ng-container matColumnDef="occupancy">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Occupancy</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.occupancy }}</td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
-        </ng-container>
         <ng-container matColumnDef="ownership">
           <th mat-header-cell *matHeaderCellDef class="grid-index-left">Ownership</th>
           <td mat-cell *matCellDef="let element" class="grid-index-left">
@@ -110,20 +74,6 @@ import {
           <th mat-header-cell *matHeaderCellDef class="grid-index-right">Certificate Due Date</th>
           <td mat-cell *matCellDef="let element" class="grid-index-right">
             {{ element | getExpiry: collateralProperties | date: 'yyyy/MM/dd' }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
-        </ng-container>
-        <ng-container matColumnDef="insuredtype">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Insurance Type</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-left">
-            {{ getInsuranceType(_getInsurance(element).insuranceType) }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
-        </ng-container>
-        <ng-container matColumnDef="insuredAmount">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Insured Amount</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-right">
-            {{ _getInsurance(element).insuranceAmount | currency: 'IDR ':'symbol':'1.0-0' }}
           </td>
           <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
         </ng-container>
@@ -172,7 +122,7 @@ import {
     </div>
   `,
 })
-export class MemoBandingCollateralAboveBeforeComponent implements OnInit, OnChanges, OnDestroy {
+export class MemoBandingCollateralBackToBackBeforeComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private memoBandingCollateralService: MemoBandingCollateralService,
     private partyCifService: PartyCifService,
@@ -203,14 +153,8 @@ export class MemoBandingCollateralAboveBeforeComponent implements OnInit, OnChan
     'mvInternalOriginal',
     'marketValue',
     'liquidValue',
-    'mValueKjjp',
-    'lValueKjjp',
-    'marketability',
-    'occupancy',
     'ownership',
     'certificateDueDate',
-    'insuredtype',
-    'insuredAmount',
     'bindingType',
     'bindingValue',
     'collateralStatus',
