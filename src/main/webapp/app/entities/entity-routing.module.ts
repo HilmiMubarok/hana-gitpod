@@ -377,6 +377,14 @@ import { RouterModule } from '@angular/router';
         path: 'review-dppk',
         loadChildren: () => import('./dppk-review/dppk-review.module').then(m => m.LosgwIDppkReviewModule),
       },
+      {
+        path: 'insurance-checking',
+        loadChildren: () => import('./insurance-checking/insurance-checking.module').then(m => m.LosgwInsuranceCheckingModule),
+      },
+      {
+        path: 'review-insurance',
+        loadChildren: () => import('./review-insurance/review-insurance.module').then(m => m.LosgwIReviewInsuranceModule),
+      },
 
       {
         path: 'credit-proposal-status',
