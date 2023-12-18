@@ -12,6 +12,8 @@ import {
   DocumentEditorContainerComponent,
   DocumentEditorKeyDownEventArgs,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { CreditAgreementService } from '../credit-agreement.service';
+import { ClausalPkDialogComponent } from './clausal-pk-dialog/clausal-pk-dialog.component';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
@@ -30,6 +32,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   selectedConditionsValue: any = [];
   approvalDebtorOptions: string[] = [];
   selectedOptions: string[] = [];
+  public dataClausal: any[];
   public _creditProposal;
   selectedCondition: any = '';
   @Input()
@@ -43,15 +46,32 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public data = [];
   public loading: boolean;
 
-  constructor(private dialog: MatDialog, public messageService: MessageService, public generalParameterService: GeneralParameterService) {
+  constructor(
+    private dialog: MatDialog,
+    public messageService: MessageService,
+    public generalParameterService: GeneralParameterService,
+    public creditAgreementService: CreditAgreementService
+  ) {
     this.loading = false;
   }
 
   ngOnInit(): void {
+    this.getClausalAgreement();
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
     this.approvalConditionStatus();
+  }
+
+  public getClausalAgreement() {
+    this.creditAgreementService
+      .retriveClausalAgreementData(this.creditProposal.agreements.length > 0 ? this.creditProposal.agreements[0].id : 0, {
+        page: 0,
+        size: 9999,
+      })
+      .subscribe((res: any) => {
+        this.dataClausal = res.body;
+      });
   }
 
   public approvalConditionStatus() {
@@ -99,6 +119,20 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     }
   }
 
+  public addClausalDialog() {
+    const dialogRef = this.dialog.open(ClausalPkDialogComponent, {
+      width: '120vh',
+      data: {
+        /* Kirim data jika diperlukan */
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog ditutup', result);
+      // Tambahkan logika penutupan dialog jika diperlukan
+    });
+  }
+
   onCreate(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container.serviceUrl = '/services/los/api/wordeditor/';
@@ -140,6 +174,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
   public displayRevewHistory = ['no', 'approveName', 'position', 'date', 'action'];
+  public displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
+  public displayColumnsGenerateDraftCreditAgreement = ['no', 'filename', 'date', 'createdby', 'sizefile', 'action'];
 
   addApproval() {
     if (this.creditProposal.customerType === 'PERSONAL') {
