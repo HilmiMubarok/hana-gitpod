@@ -23,6 +23,7 @@ import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { MemoBandingCollateralService } from '../memo-banding-collateral.service';
 
 @Component({
   selector: 'jhi-cp-memo-banding-collateral-backtoback',
@@ -105,23 +106,29 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
     private collateralService: CollateralService,
     private partyCifService: PartyCifService,
     private generalParameterService: GeneralParameterService,
-    private cpMemoBandingService: CpMemoBandingService
+    private cpMemoBandingService: CpMemoBandingService,
+    private memoBandingCollateralService: MemoBandingCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
     this.page = 0;
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+    this.memoBandingCollateralService.collaterals.subscribe(collaterals => {
+      this.dataBefore = collaterals;
+    });
   }
+
+  dataBefore: ICollateral[];
 
   parsed;
   ngOnInit() {
     this.parsed = this.cpMemoBandingService.parsePrevOfferingLetter(this.creditProposal);
-    this.fungsiSumcredit('both').then(() => {
-      this.dataItem = new MatTableDataSource(
-        this.cpMemoBandingService.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals)
-      );
-    });
+    // this.fungsiSumcredit('both').then(() => {
+    //   this.dataItem = new MatTableDataSource(
+    //     this.cpMemoBandingService.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals)
+    //   );
+    // });
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
@@ -150,7 +157,9 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
           o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
         );
       });
-      this.dataItem = new MatTableDataSource(this.dataCollateral);
+      this.dataItem = new MatTableDataSource(this.cpMemoBandingService.compareCollateralInfo(this.dataBefore, this.dataCollateral));
+      // this.dataItem = new MatTableDataSource(this.dataCollateral);
+
       this.dataItem.paginator = this.paginator;
       this.mapCollateralProperty(this.dataCollateral);
       this.getBindingCalculate(this.dataCollateral);

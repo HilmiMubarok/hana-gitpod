@@ -44,7 +44,7 @@ export class MenuAccessStatusDialogComponent implements OnInit {
   public statusDescription: string;
 
   private getListMenuItem(): void {
-    const a = ['CREDIT_PROPOSAL', 'SLIK', 'COLLATERALAPPRAISAL', 'COLLATERAL_APPRAISAL'];
+    const a = ['CREDIT_PROPOSAL', 'SLIK', 'COLLATERALAPPRAISAL', 'COLLATERAL_APPRAISAL', 'INSURANCE_AGREEMENT'];
     this.menuAccessStatusAddService
       .getListMenuItem({
         idStatusType: a,
