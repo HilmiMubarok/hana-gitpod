@@ -8,7 +8,7 @@ import { CreditAgreementService } from '../../credit-agreement.service';
 })
 export class ClausalPkDialogComponent {
   public loading: boolean;
-  dataClausalAgreement: any[];
+  public dataClausalAgreement: any[] = [];
 
   public clausalAgreement: any[];
   constructor(
@@ -37,13 +37,14 @@ export class ClausalPkDialogComponent {
   }
 
   public onCheckboxChange(event: any, element: any) {
-    if (event.checked) {
-      this.clausalAgreement.push(element);
+    if (event.checked === true) {
+      this.dataClausalAgreement.push(element);
+    } else if (event.checked === false) {
+      this.dataClausalAgreement = this.dataClausalAgreement.filter((data: any) => data.id !== element.id);
     }
   }
 
   public saveClausal() {
-    console.log('ompu', this.clausalAgreement);
     // this.creditAgreementService.saveClausalAgreement(this.dataClausalAgreement).subscribe(() => {
     // })
   }
