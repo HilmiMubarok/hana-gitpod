@@ -108,7 +108,7 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
   // Collateral Info
   compareCollateralInfo(firstData, secondData) {
     const customizer = {
-      jenisCollateral: true,
+      collateralTypeDescription: true,
       collateralAddress: true,
       nomorSertifikat: true,
       mvInternal: true,
