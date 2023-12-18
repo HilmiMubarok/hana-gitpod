@@ -155,6 +155,14 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
     return this.http.get<any[]>(this.resourceCurrency + '/filterBy?', { params, observe: 'response' });
   }
 
+  public retriveClausalAgreementData(id?: number, req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausals/agreement/${id}`, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
+  }
+
   public getRetriveData(cif: string): Observable<HttpResponse<any>> {
     return this.http.get<any>(this.resourceRetrive + '/find-fin-analysis/' + cif, { observe: 'response' });
   }
@@ -170,6 +178,23 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
   public getListCurency(page: number, size: number): Observable<HttpResponse<any>> {
     const params = new HttpParams().set('page', page).set('size', size);
     return this.http.get<any>(this.resourcelistCurrency + '/uoms', { params, observe: 'response' });
+  }
+
+  public getClausalParameterAll(req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausal-parameters`, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
+  }
+
+  public saveClausalAgreement(entity: any, params?: any): Observable<HttpResponse<any>> {
+    this.preSave(entity);
+    const options = createRequestOption(params);
+    return this.http
+      .post<any>(MICROSERVICENAME.LOS + `/api/agreement-clausals`, entity, { observe: 'response', params: options })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
 
   // settotal

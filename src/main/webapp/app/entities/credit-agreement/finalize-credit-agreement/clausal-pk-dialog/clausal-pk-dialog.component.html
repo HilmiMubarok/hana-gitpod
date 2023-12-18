@@ -1,0 +1,63 @@
+<div class="wrapper-card">
+    <e-card class="mb-3">
+      <mat-card-subtitle class="mat-card-header-text">Add Clausal (PK NEW)</mat-card-subtitle>
+
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Category</mat-label>
+        <mat-select
+        
+        >
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of ['New', 'Addendum']" >
+            {{ item }}
+          </mat-option>
+          
+        </mat-select>
+      </mat-form-field>
+
+      <mat-label>Clausal Agreement</mat-label>
+      <table mat-table [dataSource]="clausalAgreement" class="w-100">
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Code</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{element.code}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Category</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+           {{element.parameterCategoryDescription}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{element.description}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Select All <mat-checkbox> </mat-checkbox></th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <section class="mt-2">
+              <mat-checkbox (change)="onCheckboxChange($event, element)"> </mat-checkbox>
+             
+            </section>
+          </td>
+        </ng-container>
+      
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayColumnsCreditAgreementClausal.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumnsCreditAgreementClausal"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayColumnsCreditAgreementClausal"></tr>
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+
+      
+      <button mat-button (click)="saveClausal()" >Save</button>
+    </e-card>
+  </div>
+  

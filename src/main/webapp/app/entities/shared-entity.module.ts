@@ -444,7 +444,7 @@ import { GetOwnershipPipe } from './credit-proposal/memo-banding/memo-banding-co
 import { GetExpiryPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-expiry.pipe';
 import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-binding-type.pipe';
 import { MemoBandingCollateralBackToBackBeforeComponent } from './credit-proposal/memo-banding/memo-banding-collateral/backtoback/cp-memo-banding-collateral-backtoback-before.component';
-
+import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -912,6 +912,7 @@ import { MemoBandingCollateralBackToBackBeforeComponent } from './credit-proposa
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
     ReviewHistoryDialogComponent,
+    ClausalPkDialogComponent,
 
 // DAR
     LoanFacilityDetailTempComponent,
@@ -1417,6 +1418,7 @@ import { MemoBandingCollateralBackToBackBeforeComponent } from './credit-proposa
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
     ReviewHistoryDialogComponent,
+    ClausalPkDialogComponent,
 
     // DAR
     LoanFacilityDetailTempComponent,
