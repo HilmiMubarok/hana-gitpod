@@ -388,12 +388,12 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       {
         name: ' Insurance Checking',
         iconname: 'minus',
-        route: 'insurance-checking',
+        route: 'insurance-check',
       },
       {
-        name: ' Review DPPK',
+        name: ' Insurance Review',
         iconname: 'minus',
-        route: 'review-insurance',
+        route: 'insurance-review',
       },
     ],
   },

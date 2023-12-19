@@ -329,7 +329,8 @@ export class ProposalBasicInformationComponent implements OnInit {
           this.creditProposal.statusId === 'CP_RETURN_TO_RM' ||
           this.creditProposal.statusId === 'CP_RETURN_TO_CR' ||
           this.creditProposal.statusId === 'RETURN_TO_RM_CRA' ||
-          this.creditProposal.statusId === 'OL_APPEAL'
+          this.creditProposal.statusId === 'OL_APPEAL' ||
+          this.creditProposal.statusId === 'RETURN_TO_RM_LEGAL'
         ) {
           this.conditionSave = true;
         } else {
