@@ -173,7 +173,7 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
-    predicate['target'] = 'finalize-dppk';
+    predicate['target'] = 'insurance-review';
 
     this.cashReviewInsuranceService
       .searchCP(predicate)
@@ -277,8 +277,8 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url === '/finalize-dppk') {
-        this.getStatusListView('FINALIZE_DPPK');
+      if (this.router.url === 'insurance-review') {
+        this.getStatusListView('INSURANCE_REVIEW');
         if (this.clickedChip['statusId'] !== '') {
           this.cashReviewInsuranceService
             .ReviewInsuranceBystatus({
@@ -314,12 +314,13 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
         this.getStatusListView('INSURANCE_REVIEW');
         if (this.clickedChip['statusId'] !== '') {
           this.cashReviewInsuranceService
-            .cashCreditProposalApproval({
+            .ReviewInsuranceBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'INSURANCE_REVIEW',
             })
             .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
             .subscribe({
@@ -329,7 +330,7 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
           return;
         } else {
           this.cashReviewInsuranceService
-            .cashCreditProposalApproval({
+            .ReviewInsuranceBystatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
@@ -396,12 +397,12 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
   }
 
   getText(value: any) {
-    if (value === 'finalize-dppk') {
-      this.title = 'DPPK Finalize ';
+    if (value === 'insurance-review') {
+      this.title = 'INSURANCE_REVIEW ';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'finalize-dppk') {
-      this.title = 'DPPK Finalize  ';
+    if (value === 'insurance-review') {
+      this.title = 'INSURANCE_REVIEW';
       sessionStorage.setItem('appName', this.title);
     }
   }
