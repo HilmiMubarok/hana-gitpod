@@ -445,6 +445,7 @@ import { GetExpiryPipe } from './credit-proposal/memo-banding/memo-banding-colla
 import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-binding-type.pipe';
 import { MemoBandingCollateralBackToBackBeforeComponent } from './credit-proposal/memo-banding/memo-banding-collateral/backtoback/cp-memo-banding-collateral-backtoback-before.component';
 import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog.component';
+import { ClausalPkDialogComponentEditComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog-edit.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -913,6 +914,7 @@ import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agr
     OfferingLetterSignerPageDialogComponent,
     ReviewHistoryDialogComponent,
     ClausalPkDialogComponent,
+    
 
 // DAR
     LoanFacilityDetailTempComponent,
@@ -933,6 +935,7 @@ import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agr
     // DEV
     DeveloperShowDiagramStateMultipleComponent,
     DeveloperShowDiagramStateMultipleDialogComponent,
+    ClausalPkDialogComponentEditComponent,
 
     //   New Compare Data
     CompareDataComponent,
@@ -1439,6 +1442,7 @@ import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agr
     // DEV
     DeveloperShowDiagramStateMultipleComponent,
     DeveloperShowDiagramStateMultipleDialogComponent,
+    ClausalPkDialogComponentEditComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

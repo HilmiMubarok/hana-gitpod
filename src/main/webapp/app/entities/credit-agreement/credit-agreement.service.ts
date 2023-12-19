@@ -11,6 +11,7 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import moment from 'moment';
 import { createRequestOption } from 'app/core/request/request-util';
+import { ICreditAgreementClausal } from './finalize-credit-agreement/agreement-clausal.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditAgreementService extends AbstractEntityService<ICreditAgreement> {
@@ -189,10 +190,17 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
   }
 
   public saveClausalAgreement(entity: any, params?: any): Observable<HttpResponse<any>> {
-    this.preSave(entity);
     const options = createRequestOption(params);
     return this.http
       .post<any>(MICROSERVICENAME.LOS + `/api/agreement-clausals`, entity, { observe: 'response', params: options })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
+  }
+
+  public updateClausalAgreement(entity: any, params?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(params);
+    return this.http
+      .put<any>(MICROSERVICENAME.LOS + `/api/agreement-clausals`, entity, { observe: 'response', params: options })
       .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
