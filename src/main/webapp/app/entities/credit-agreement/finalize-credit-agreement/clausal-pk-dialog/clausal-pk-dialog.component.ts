@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CreditAgreementService } from '../../credit-agreement.service';
+import { CreditAgreementClausal, ICreditAgreementClausal } from '../agreement-clausal.model';
 
 @Component({
   selector: 'jhi-clausal-pk-dialog',
@@ -9,6 +10,7 @@ import { CreditAgreementService } from '../../credit-agreement.service';
 export class ClausalPkDialogComponent {
   public loading: boolean;
   public dataClausalAgreement: any[] = [];
+  public agreementClausal: ICreditAgreementClausal = new CreditAgreementClausal();
 
   public clausalAgreement: any[];
   constructor(
@@ -36,6 +38,16 @@ export class ClausalPkDialogComponent {
       });
   }
 
+  hasSameAgreementId(element: any): boolean {
+    const data = this.data.dataClausal.filter((res: any) => res.agreementClausalParameterId === element.id);
+
+    if (data.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public onCheckboxChange(event: any, element: any) {
     if (event.checked === true) {
       this.dataClausalAgreement.push(element);
@@ -45,7 +57,18 @@ export class ClausalPkDialogComponent {
   }
 
   public saveClausal() {
-    // this.creditAgreementService.saveClausalAgreement(this.dataClausalAgreement).subscribe(() => {
-    // })
+    for (let i = 0; i < this.dataClausalAgreement.length; i++) {
+      this.agreementClausal = {
+        ...this.agreementClausal,
+        agreementClausalParameterId: this.dataClausalAgreement[i].id,
+        id: null,
+        category: this.agreementClausal.category,
+        agreementId: this.data.agreement.length > 0 ? this.data.agreement[0].id : 0,
+      };
+
+      this.creditAgreementService.saveClausalAgreement(this.agreementClausal).subscribe(() => {
+        this.dialogRef.close();
+      });
+    }
   }
 }

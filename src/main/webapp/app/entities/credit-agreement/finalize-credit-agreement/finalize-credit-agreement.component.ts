@@ -14,16 +14,13 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 import { CreditAgreementService } from '../credit-agreement.service';
 import { ClausalPkDialogComponent } from './clausal-pk-dialog/clausal-pk-dialog.component';
+import { ClausalPkDialogComponentEditComponent } from './clausal-pk-dialog/clausal-pk-dialog-edit.component';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
   styleUrls: ['../credit-agreement.css'],
 })
 export class FinalizeCreditAgreementComponent implements OnInit {
-  @ViewChild('document_editor_container')
-  public container: DocumentEditorContainerComponent;
-  @ViewChild('document_editor')
-  public documentEditor: DocumentEditorComponent;
   public dataAgreement: any[] = [];
   public approvalDebtor: any[] = [1];
   public postalAdresss: IPostalAddress;
@@ -71,6 +68,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       })
       .subscribe((res: any) => {
         this.dataClausal = res.body;
+        console.log('lk', this.dataClausal);
       });
   }
 
@@ -106,36 +104,32 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     }
   }
 
-  public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
-    const keyCode: string = args.event.key;
-    const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
-    // 67 is the character code for 'C'
-    console.log('keycode', keyCode);
-    console.log('isCtrlKey', isCtrlKey);
-    if (isCtrlKey && keyCode === '86') {
-      // To prevent copy operation set isHandled to true
-      args.isHandled = true;
-      console.log('ini paste');
-    }
+  public updateClausalDialog(element: any) {
+    const dialogRef = this.dialog.open(ClausalPkDialogComponentEditComponent, {
+      width: '120vh',
+      height: '100vh',
+      data: {
+        dataClausal: element,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getClausalAgreement();
+    });
   }
 
   public addClausalDialog() {
     const dialogRef = this.dialog.open(ClausalPkDialogComponent, {
       width: '120vh',
       data: {
-        /* Kirim data jika diperlukan */
+        dataClausal: this.dataClausal,
+        agreement: this.creditProposal.agreements,
       },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog ditutup', result);
-      // Tambahkan logika penutupan dialog jika diperlukan
+      this.getClausalAgreement();
     });
-  }
-
-  onCreate(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
-    this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   selectedFile: File | null = null;
