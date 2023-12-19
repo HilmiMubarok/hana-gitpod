@@ -41,10 +41,10 @@ export class CashReviewInsuranceService extends AbstractEntityService<IReviewIns
       .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoadItemArray(res)));
   }
 
-  finalizeDppkBystatus(req?: any): Observable<HttpResponse<IReviewInsurance[]>> {
+  ReviewInsuranceBystatus(req?: any): Observable<HttpResponse<IReviewInsurance[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<IReviewInsurance[]>(this.resourceUrl + '/cash-credit-proposal/finalize-dppk', {
+      .get<IReviewInsurance[]>(this.resourceUrl + '/cash-credit-proposals/by-insurance-status', {
         params: options,
         observe: 'response',
       })

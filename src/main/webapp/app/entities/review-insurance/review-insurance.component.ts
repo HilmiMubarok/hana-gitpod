@@ -281,12 +281,13 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
         this.getStatusListView('FINALIZE_DPPK');
         if (this.clickedChip['statusId'] !== '') {
           this.cashReviewInsuranceService
-            .finalizeDppkBystatus({
+            .ReviewInsuranceBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'INSURANCE_REVIEW',
             })
             .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
             .subscribe({
@@ -296,11 +297,12 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
           return;
         } else {
           this.cashReviewInsuranceService
-            .finalizeDppkBystatus({
+            .ReviewInsuranceBystatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'INSURANCE_REVIEW',
             })
             .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
             .subscribe({
@@ -309,7 +311,7 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
             });
         }
       } else {
-        this.getStatusListView('FINALIZE_CREDIT_AGREEMENT');
+        this.getStatusListView('INSURANCE_REVIEW');
         if (this.clickedChip['statusId'] !== '') {
           this.cashReviewInsuranceService
             .cashCreditProposalApproval({

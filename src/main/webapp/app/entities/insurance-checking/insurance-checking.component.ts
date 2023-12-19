@@ -175,7 +175,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
-    predicate['target'] = 'insurance-checking';
+    predicate['target'] = 'insurance-check';
 
     this.cashInsuranceCheckingService
       .searchCP(predicate)
@@ -279,7 +279,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url === '/insurance-checking') {
+      if (this.router.url === '/insurance-check') {
         this.getStatusListView('INSURANCE_CHECKING');
         if (this.clickedChip['statusId'] !== '') {
           this.cashInsuranceCheckingService
@@ -289,6 +289,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'INSURANCE_CHECKING',
             })
             .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
             .subscribe({
@@ -303,12 +304,14 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'INSURANCE_CHECKING',
             })
             .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
             .subscribe({
               next: (res: HttpResponse<IInsuranceChecking[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
+          console.log('tuing', this.cashInsuranceCheckingService);
         }
       } else {
         this.getStatusListView('INSURANCE_CHECKING');
@@ -320,6 +323,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'INSURANCE_CHECKING',
             })
             .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
             .subscribe({
@@ -396,12 +400,12 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
   }
 
   getText(value: any) {
-    if (value === 'insurance-checking') {
-      this.title = 'INSURANCE CHECKING ';
+    if (value === 'insurance-check') {
+      this.title = 'INSURANCE_CHECKING ';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'insurance-checking') {
-      this.title = 'INSURANCE CHECKING  ';
+    if (value === 'insurance-check') {
+      this.title = 'INSURANCE_CHECKING';
       sessionStorage.setItem('appName', this.title);
     }
   }

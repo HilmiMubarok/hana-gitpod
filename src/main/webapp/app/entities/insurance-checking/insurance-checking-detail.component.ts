@@ -19,10 +19,7 @@ import {
   CP_APPROVAL_MENU,
   CP_APPROVAL_MENU_BTB,
   CP_APPROVAL_MENU_BELOW,
-  BASIC_SUBMENU_CREDITAGREEMENT,
-  BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
   BASIC_SUBMENU_INSURANCE_CHECKING_MEMO,
-  BASIC_SUBMENU_DPPK,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -288,7 +285,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('dppk-finalize')) {
+    if (this.router.url.includes('insurance-check')) {
       if (this.positionTypeId === 'BM') {
         if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
           this.conditionSave = true;
@@ -407,7 +404,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
 
-        if (this.parentPath !== 'finalize-dppk') {
+        if (this.parentPath !== 'insurance-check') {
           if (this.proposalBasicInformationViewComponent) {
             this.proposalBasicInformationViewComponent.triggeredSave();
           }
@@ -434,7 +431,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
         }
 
         if (this.saveState === 'process') {
-          if (this.parentPath === 'finalize-dppk') {
+          if (this.parentPath === 'insurance-check') {
             this.saveApplicationRole();
           } else {
             this.insuranceCheckingProcessService.processTask(this.resAttr).subscribe(() => {
@@ -455,7 +452,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getListIndustry();
-    this.lendingProgramParameter();
+    // this.lendingProgramParameter();
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
@@ -465,7 +462,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     });
 
     this.insuranceCheckingService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-      const menuItemIdByRoute = this.router.url.includes('dppk-finalize') ? 'FINALIZE_CREDIT_AGREEMENT' : 'FINALIZE_CREDIT_AGREEMENT';
+      const menuItemIdByRoute = this.router.url.includes('insurance-check') ? 'INSURANCE_CHECKING' : 'INSURANCE_CHECKING';
       console.log('routes', menuItemIdByRoute);
       this.ca = response.body;
       console.log('routes', this.ca);
@@ -685,7 +682,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.parentPath !== 'finalize-dppk') {
+      if (this.parentPath !== 'insurance-check') {
         if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
         }
@@ -708,7 +705,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
       }
 
       if (source === 'process') {
-        if (this.parentPath === 'finalize-dppk') {
+        if (this.parentPath === 'insurance-check') {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
@@ -744,7 +741,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'finalize-dppk') {
+        if (this.router.url.split('/')[1] === 'insurance-check') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -990,29 +987,29 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     }
   }
 
-  public valueCpLendingProgram: [];
-  public lendingProgramParameter() {
-    this.lendingProgramParameterService
-      .query({
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.lendingProgram = lodash.filter(res.body, function (o) {
-          const fromDate = new Date(o.fromDate);
-          const thruDate = new Date(o.thruDate);
-          const convertFromDate = moment(fromDate).format('YYYY-MM-DD');
-          const convertThruDate = moment(thruDate).format('YYYY-MM-DD');
-          const newDate = moment(new Date()).format('YYYY-MM-DD');
-          return o.statusId === 'ACTIVE' && convertFromDate <= newDate && convertThruDate >= newDate;
-        });
-        for (let i = 0; i < this.lendingProgram.length; i++) {
-          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
-            this.valueCpLendingProgram = this.lendingProgram[i].description;
-          }
-        }
-      });
-  }
+  // public valueCpLendingProgram: [];
+  // public lendingProgramParameter() {
+  //   this.lendingProgramParameterService
+  //     .query({
+  //       page: 0,
+  //       size: 9999,
+  //     })
+  //     .subscribe(res => {
+  //       this.lendingProgram = lodash.filter(res.body, function (o) {
+  //         const fromDate = new Date(o.fromDate);
+  //         const thruDate = new Date(o.thruDate);
+  //         const convertFromDate = moment(fromDate).format('YYYY-MM-DD');
+  //         const convertThruDate = moment(thruDate).format('YYYY-MM-DD');
+  //         const newDate = moment(new Date()).format('YYYY-MM-DD');
+  //         return o.statusId === 'ACTIVE' && convertFromDate <= newDate && convertThruDate >= newDate;
+  //       });
+  //       for (let i = 0; i < this.lendingProgram.length; i++) {
+  //         if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+  //           this.valueCpLendingProgram = this.lendingProgram[i].description;
+  //         }
+  //       }
+  //     });
+  // }
 
   private preSave(status: string): IInsuranceChecking {
     for (let i = 0; i < this.insuranceCheckingService.partySliks.length; i++) {
@@ -1020,7 +1017,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     }
     const copyCreditProposal: IInsuranceChecking = lodash.cloneDeep(this.creditProposal);
 
-    if (this.router.url.split('/')[1] === 'finalize-dppk') {
+    if (this.router.url.split('/')[1] === 'insurance-check') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
         if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
           copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(
@@ -1033,7 +1030,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     let tempHelper = 0;
     const tempRouter = this.router.url.split('/')[1];
 
-    if (tempRouter === 'finalize-dppk') {
+    if (tempRouter === 'insurance-check') {
       if (status === 'complete') {
         if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
           if (copyCreditProposal.notes.length > 0) {
@@ -1151,10 +1148,10 @@ export class InsuranceCheckingDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'finalize-dppk') {
-      return 'DPPK Finalize';
+    if (value === 'insurance-checking') {
+      return 'Insurance Checking';
     } else {
-      return 'DPPK Finalize';
+      return 'Insurance Checking';
     }
   }
 

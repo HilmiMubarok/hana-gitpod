@@ -378,11 +378,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./dppk-review/dppk-review.module').then(m => m.LosgwIDppkReviewModule),
       },
       {
-        path: 'insurance-checking',
+        path: 'insurance-check',
         loadChildren: () => import('./insurance-checking/insurance-checking.module').then(m => m.LosgwInsuranceCheckingModule),
       },
       {
-        path: 'review-insurance',
+        path: 'insurance-review',
         loadChildren: () => import('./review-insurance/review-insurance.module').then(m => m.LosgwIReviewInsuranceModule),
       },
 
