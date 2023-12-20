@@ -87,8 +87,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
     this.paymentStatus = INSURANCE_INFORMATION;
     this.insurance = this.data.insurance;
     this.mode = this.data.mode;
-
-    console.log('insuranceConstructor', this.insurance);
+    this.insurance.collateralId = this.collateral.id;
   }
 
   ngOnInit(): void {
@@ -126,8 +125,6 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
         this.documentPolicye = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-
-        console.log('documentPolicy', this.documentPolicye);
       });
   }
   public lovInsuranceType() {
@@ -141,7 +138,6 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
         this.insuranceType = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('insuranceType', this.insuranceType);
       });
   }
   changeCurrency(value: string) {
