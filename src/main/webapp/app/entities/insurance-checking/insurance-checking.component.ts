@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { IInsuranceChecking } from './insurance-checking.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { faBullseye, faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,13 +17,13 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
-import { InsuranceCheckingProcessService } from './insurance-checking-process.service';
-import { CashInsuranceCheckingService } from './cash-insurance-checking.service';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { IInsuranceChecking } from './insurance-checking.model';
 import { InsuranceCheckingService } from './insurance-checking.service';
+import { CashInsuranceCheckingService } from './cash-insurance-checking.service';
 
 @Component({
-  selector: 'jhi-insurance-checking',
+  selector: 'jhi-review-insurance',
   templateUrl: './insurance-checking.component.html',
   styleUrls: ['./insurance-checking.css'],
   animations: [
@@ -120,7 +119,6 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    private insuranceCheckingProcessService: InsuranceCheckingProcessService,
     private cashInsuranceCheckingService: CashInsuranceCheckingService,
     private templateService: TemplateService
   ) {
@@ -279,7 +277,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url === '/insurance-check') {
+      if (this.router.url === 'insurance-check') {
         this.getStatusListView('INSURANCE_CHECKING');
         if (this.clickedChip['statusId'] !== '') {
           this.cashInsuranceCheckingService
@@ -311,13 +309,12 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
               next: (res: HttpResponse<IInsuranceChecking[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
-          console.log('tuing', this.cashInsuranceCheckingService);
         }
       } else {
         this.getStatusListView('INSURANCE_CHECKING');
         if (this.clickedChip['statusId'] !== '') {
           this.cashInsuranceCheckingService
-            .InsuranceCheckingBystatus({
+            .cashCreditProposalApproval({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
@@ -333,11 +330,12 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
           return;
         } else {
           this.cashInsuranceCheckingService
-            .InsuranceCheckingBystatus({
+            .cashCreditProposalApprovalByStatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'INSURANCE_CHECKING',
             })
             .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
             .subscribe({
