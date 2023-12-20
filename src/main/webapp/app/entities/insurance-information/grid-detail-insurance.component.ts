@@ -66,12 +66,8 @@ export class GridDetailInsuranceComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.creditProposal.collaterals.length > 0) {
-      for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-        const collateral = this.creditProposal.collaterals[i];
-        this.loadByPartyId(collateral.id);
-      }
-    }
+    const collateral = this.collateral.id;
+    this.loadByPartyId(collateral);
   }
   private loadByPartyId(collateralId: number): void {
     this.insuranceInformationService.filterTableData(collateralId).subscribe(res => {
@@ -80,7 +76,7 @@ export class GridDetailInsuranceComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
-  public openDocument(mode: string, element: IInsuranceInformation = null): void {
+  public openDocument(element: IInsuranceInformation): void {
     let _insurance = new InsuranceInformation();
     if (element) {
       _insurance = element;
@@ -93,7 +89,6 @@ export class GridDetailInsuranceComponent implements OnInit {
         insurance: _insurance,
         isViewMode: this.isViewMode,
         parentSource: this.parentSource,
-        mode,
       },
     };
     const dialogRef = this.dialog.open(InsuranceDocumentComponent, predicate);
@@ -126,7 +121,6 @@ export class GridDetailInsuranceComponent implements OnInit {
           });
         } else {
           this.insuranceInformationService.create(res).subscribe(_res => {
-            _res.body.collateralId = collateralId;
             this.loadByPartyId(collateralId);
           });
         }
