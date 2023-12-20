@@ -16,7 +16,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Insurance Type</mat-label>
-                <mat-select name="insuranceType" [(ngModel)]="insurance.insuranceCategoryDescription" [disabled]="mode === 'view'">
+                <mat-select name="insuranceType" [(ngModel)]="insurance.insuranceCategoryDescription" disabled>
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of insuranceType" [value]="item.code" disabled>
                     {{ item.value }}
