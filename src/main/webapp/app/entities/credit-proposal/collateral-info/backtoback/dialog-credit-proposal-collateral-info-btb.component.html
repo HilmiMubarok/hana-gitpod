@@ -101,7 +101,7 @@
                   </mat-form-field>
                   <mat-form-field class="w-100" appearance="outline" *ngIf="collateral.collateralTypeId !== 'LETTER_OF_GUARANTY'">
                     <mat-label>Sifat Jaminan</mat-label>
-                    <input matInput type="text" [(ngModel)]="empty.sifatJaminan" />
+                    <input matInput type="text" [(ngModel)]="empty.sifatJaminan" [disabled]="fields" />
                   </mat-form-field>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
@@ -119,6 +119,7 @@
                     cssClass="e-outline"
                     floatLabelType="Always"
                     [(ngModel)]="empty.periodeJaminan"
+                    [disabled]="fields"
                   >
                   </ejs-textbox>
                 </section>
@@ -153,9 +154,14 @@
                     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>CCY</mat-label>
-                        <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)">
+                        <mat-select
+                          name="ccy"
+                          [(ngModel)]="binding.ccy"
+                          (selectionChange)="changeCurrency($event.value)"
+                          [disabled]="fields"
+                        >
                           <mat-option value=" ">- Please Select -</mat-option>
-                          <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value">
+                          <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value" [disabled]="fields">
                             {{ item.value }}
                           </mat-option>
                         </mat-select>
@@ -232,6 +238,7 @@
                       [(ngModel)]="binding.bindingValueEqIdr"
                       [value]="calBindingValue()"
                       [options]="logoIdr"
+                      disabled
                     />
                   </mat-form-field>
                 </section>

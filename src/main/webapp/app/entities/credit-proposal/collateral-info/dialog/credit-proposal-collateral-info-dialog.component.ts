@@ -130,6 +130,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public parentSource = '';
   public field = false;
   public parentPath = this.router.url.split('/')[1];
+  public fields = false;
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -202,6 +203,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.addLovRank();
     this.cekCurrency();
     this.disableField();
+    this.disableFields();
   }
   public disableField() {
     if (
@@ -216,6 +218,21 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     ) {
       // Default Disabled
       this.field = true;
+    }
+  }
+  public disableFields() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dppk'
+    ) {
+      // Default Disabled
+      this.fields = true;
     }
   }
   public hiddenPath() {

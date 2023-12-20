@@ -120,7 +120,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public parentSource = '';
   public field = false;
   public parentPath = this.router.url.split('/')[1];
-
+  public fields = false;
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -169,6 +169,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.lovBindingType();
     this.cekCurrency();
     this.disableField();
+    this.disableFields();
   }
   public disableField() {
     if (
@@ -183,6 +184,21 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     ) {
       // Default Disabled
       this.field = true;
+    }
+  }
+  public disableFields() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dppk'
+    ) {
+      // Default Disabled
+      this.fields = true;
     }
   }
   public getRole() {
