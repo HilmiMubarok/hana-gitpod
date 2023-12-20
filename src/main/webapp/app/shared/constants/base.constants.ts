@@ -3224,7 +3224,7 @@ export const BASIC_SUBMENU_INSURANCE_CHECKING_MEMO: object[] = [
     text: 'DAR Summary',
   },
   {
-    id: '',
+    id: 'insurance-information',
     text: 'Insurance information',
   },
 ];
@@ -3234,7 +3234,7 @@ export const BASIC_SUBMENU_REVIEW_INSURANCE_MEMO: object[] = [
     text: 'DAR Summary',
   },
   {
-    id: '',
+    id: 'insurance-information',
     text: 'Insurance information',
   },
 ];

@@ -1,0 +1,312 @@
+<div [hidden]="isViewMode == false">
+  <div class="style-close">
+    <button class="button-close" mat-button mat-dialog-close>X</button>
+  </div>
+  <h2 mat-dialog-title class="header-title">{{ mode === 'view' ? 'VIEW' : mode === 'add' ? 'ADD' : 'EDIT' }} INSURANCE INFO</h2>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6">
+            <div class="fontsebled row">
+              <div class="col">
+                {{ collateral.collateralTypeId }}
+              </div>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Insurance Type</mat-label>
+                <mat-select name="insuranceType" [(ngModel)]="insurance.insuranceCategoryDescription" disabled>
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of insuranceType" [value]="item.code" disabled>
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Company Type</mat-label>
+                <input matInput type="text" [(ngModel)]="insurance.companyName" disabled />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Policy Number</mat-label>
+                <input matInput type="text" [(ngModel)]="insurance.documentPolicyId" disabled />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Currency</mat-label>
+                <mat-select name="ccy" [(ngModel)]="insurance.currencyId" (selectionChange)="changeCurrency($event.value)" disabled>
+                  <mat-option value=" ">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value" disabled>
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>kurs</mat-label>
+                <input currencyMask matInput type="text" [(ngModel)]="insurance.currencyValue" [options]="logoIdr" disabled />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Coverage value</mat-label>
+                <input currencyMask matInput type="text" [options]="logoCcy" [(ngModel)]="insurance.coverageValue" disabled />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Coverage Value Eq</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [options]="logoIdr"
+                  [value]="changeCollateralCoverage()"
+                  [(ngModel)]="insurance.coverageValueInIDR"
+                  disabled
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Banker clause</mat-label>
+                <mat-select [(ngModel)]="insurance.bankerClause" name="bankerClause" disabled>
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key" [disabled]="mode === 'view'">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Document Policy</mat-label>
+                <mat-select name="documentPolicy" [(ngModel)]="insurance.documentPolicyDescription" disabled>
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of documentPolicye" [value]="item.code" disabled>
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Broker Company</mat-label>
+                <input matInput type="text" [(ngModel)]="insurance.brokerCompany" disabled />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Expiry Date</mat-label>
+                <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="insurance.thruDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
+                <mat-datepicker #idExpiryDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Payment status</mat-label>
+                <mat-select [(ngModel)]="insurance.paymentStatus" name="paymentStatus" disabled>
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of paymentStatus | keyvalue" [value]="item.key" disabled>
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>REMARKS</mat-label>
+              <textarea matInput style="height: 200px" [(ngModel)]="insurance.attributes['remarks']" disabled></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center" class="align-center">
+    <div>
+      <div class="form-group">
+        <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+        <!-- <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button> -->
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>
+<div [hidden]="isViewMode == true">
+  <div class="style-close">
+    <button class="button-close" mat-button mat-dialog-close>X</button>
+  </div>
+  <h2 mat-dialog-title class="header-title">{{ mode === 'view' ? 'VIEW' : mode === 'add' ? 'ADD' : 'EDIT' }} INSURANCE INFO</h2>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6">
+            <div class="fontsebled row">
+              <div class="col">
+                {{ collateral.collateralTypeId }}
+              </div>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Insurance Type</mat-label>
+                <mat-select name="insuranceType" [(ngModel)]="insurance.insuranceCategoryDescription" [disabled]="mode === 'view'">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of insuranceType" [value]="item.code" [disabled]="mode === 'view'">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Company Type</mat-label>
+                <input matInput type="text" [(ngModel)]="insurance.companyName" [disabled]="mode === 'view'" />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Policy Number</mat-label>
+                <input matInput type="text" [(ngModel)]="insurance.documentPolicyId" [disabled]="mode === 'view'" />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Currency</mat-label>
+                <mat-select
+                  name="ccy"
+                  [(ngModel)]="insurance.currencyId"
+                  (selectionChange)="changeCurrency($event.value)"
+                  [disabled]="mode === 'view'"
+                >
+                  <mat-option value=" ">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value" [disabled]="mode === 'view'">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>kurs</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="insurance.currencyValue"
+                  [options]="logoIdr"
+                  [disabled]="mode === 'view'"
+                />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Coverage value</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [options]="logoCcy"
+                  [(ngModel)]="insurance.coverageValue"
+                  [disabled]="mode === 'view'"
+                />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Coverage Value Eq</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [options]="logoIdr"
+                  [value]="changeCollateralCoverage()"
+                  [(ngModel)]="insurance.coverageValueInIDR"
+                  disabled
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Banker clause</mat-label>
+                <mat-select [(ngModel)]="insurance.bankerClause" name="bankerClause" [disabled]="mode === 'view'">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key" [disabled]="mode === 'view'">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Document Policy</mat-label>
+                <mat-select name="documentPolicy" [(ngModel)]="insurance.documentPolicyDescription" [disabled]="mode === 'view'">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of documentPolicye" [value]="item.code" [disabled]="mode === 'view'">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Broker Company</mat-label>
+                <input matInput type="text" [(ngModel)]="insurance.brokerCompany" [disabled]="mode === 'view'" />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Expiry Date</mat-label>
+                <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="insurance.thruDate" [disabled]="mode === 'view'" />
+                <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
+                <mat-datepicker #idExpiryDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Payment status</mat-label>
+                <mat-select [(ngModel)]="insurance.paymentStatus" name="paymentStatus" [disabled]="mode === 'view'">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of paymentStatus | keyvalue" [value]="item.key" [disabled]="mode === 'view'">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>REMARKS</mat-label>
+              <textarea
+                matInput
+                style="height: 200px"
+                [(ngModel)]="insurance.attributes['remarks']"
+                [disabled]="mode === 'view'"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center" class="align-center">
+    <div>
+      <div class="form-group">
+        <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+        <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>

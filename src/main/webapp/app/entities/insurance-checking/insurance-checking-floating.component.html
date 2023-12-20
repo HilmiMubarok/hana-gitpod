@@ -321,6 +321,9 @@
                 </e-card>
               </div>
             </div>
+            <div *ngIf="clickedMenu === 'insurance-information'">
+              <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="false"></jhi-insurance-information>
+            </div>
           </div>
         </div>
       </div>
