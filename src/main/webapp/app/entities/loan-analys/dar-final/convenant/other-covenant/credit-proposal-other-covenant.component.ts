@@ -66,7 +66,6 @@ export class OtherCovenantTempComponent implements OnInit {
     }
   })();
 
-
   isOnDarRevision = (() => {
     if (['dar-revision', 'dar-revision-checker'].includes(this.router.url.split('/')[1])) {
       return true;
@@ -78,7 +77,11 @@ export class OtherCovenantTempComponent implements OnInit {
   data;
 
   ngOnInit() {
-    if (this.creditProposalItem.attributes['darRevHistory'] && this.creditProposalItem.statusId !== 'PK_DAR_REVISION') {
+    if (
+      this.creditProposalItem.attributes['darRevHistory'] &&
+      this.creditProposalItem.statusId !== 'PK_DAR_REVISION' &&
+      this.creditProposalItem.statusId !== 'PK_DAR_REVISION_CHECKER'
+    ) {
       const parsed = parsePreviousAtrribute(this.creditProposalItem);
       this.data = parsed['darRevHistory'].convenant.otherCovenant;
     } else {
@@ -259,7 +262,6 @@ export class OtherCovenantTempComponent implements OnInit {
   }
 
   public filterDeviation() {
-
     const otherCovenant = this.creditProposalItem.attributes['darRevHistory']
       ? parsePreviousAtrribute(this.creditProposalItem)['darRevHistory'].convenant.otherCovenant
       : this.creditProposalItem.attributes['convenant']['otherCovenant'];
