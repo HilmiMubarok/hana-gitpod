@@ -16,6 +16,9 @@ import { IInsuranceChecking } from './insurance-checking.model';
 
 @Injectable({ providedIn: 'root' })
 export class CashInsuranceCheckingService extends AbstractEntityService<IInsuranceChecking> {
+  creditAgreementBystatus(arg0: { page: number; idPosition: string; size: any; sort: string[] }) {
+    throw new Error('Method not implemented.');
+  }
   private resourceUrlCashCreditProposal: string;
   public statRemarkBusinessActivity;
   public partySliks = [];

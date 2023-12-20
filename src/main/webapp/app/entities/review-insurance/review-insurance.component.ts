@@ -314,7 +314,7 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
         this.getStatusListView('INSURANCE_REVIEW');
         if (this.clickedChip['statusId'] !== '') {
           this.cashReviewInsuranceService
-            .ReviewInsuranceBystatus({
+            .cashCreditProposalApproval({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
@@ -330,11 +330,12 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
           return;
         } else {
           this.cashReviewInsuranceService
-            .ReviewInsuranceBystatus({
+            .cashCreditProposalApprovalByStatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'INSURANCE_REVIEW',
             })
             .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
             .subscribe({
