@@ -323,6 +323,9 @@
             </div>
             <!-- End Dar Summary -->
           </div>
+          <div *ngIf="clickedMenu === 'insurance-information'">
+            <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"></jhi-insurance-information>
+          </div>
         </div>
       </div>
     </div>

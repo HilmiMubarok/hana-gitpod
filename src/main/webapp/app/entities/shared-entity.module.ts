@@ -446,6 +446,13 @@ import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-
 import { MemoBandingCollateralBackToBackBeforeComponent } from './credit-proposal/memo-banding/memo-banding-collateral/backtoback/cp-memo-banding-collateral-backtoback-before.component';
 import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog.component';
 import { ClausalPkDialogComponentEditComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog-edit.component';
+import { InsuranceInfoDialogComponent } from './insurance-information/dialog/insurance-info-dialog.component';
+import { GridDetailInsuranceComponent } from './insurance-information/grid-detail-insurance.component';
+import { insuranceInformationComponent } from './insurance-information/insurance-information.component';
+import { InsuranceInfoDialogDetailComponent } from './insurance-information/dialog/insurance-info-dialog-detail.component';
+import { InsuranceDocumentDialogComponent } from './insurance-information/document/insurance-document-dialog.component';
+import { InsuranceDocumentComponent } from './insurance-information/document/insurance-document.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -931,7 +938,12 @@ import { ClausalPkDialogComponentEditComponent } from './credit-agreement/finali
     MainFacilityDarComponent,
     MainFacilityChildDarComponent,
     MainFacilityDialogDarComponent,
-
+    insuranceInformationComponent,
+    InsuranceInfoDialogComponent,
+    GridDetailInsuranceComponent,
+    InsuranceInfoDialogDetailComponent,
+    InsuranceDocumentComponent,
+    InsuranceDocumentDialogComponent,
     // DEV
     DeveloperShowDiagramStateMultipleComponent,
     DeveloperShowDiagramStateMultipleDialogComponent,
@@ -1438,7 +1450,12 @@ import { ClausalPkDialogComponentEditComponent } from './credit-agreement/finali
     MainFacilityDarComponent,
     MainFacilityChildDarComponent,
     MainFacilityDialogDarComponent,
-
+    insuranceInformationComponent,
+    InsuranceInfoDialogComponent,
+    GridDetailInsuranceComponent,
+    InsuranceInfoDialogDetailComponent,
+    InsuranceDocumentComponent,
+    InsuranceDocumentDialogComponent,
     // DEV
     DeveloperShowDiagramStateMultipleComponent,
     DeveloperShowDiagramStateMultipleDialogComponent,

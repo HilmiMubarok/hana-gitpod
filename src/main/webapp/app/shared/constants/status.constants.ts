@@ -66,7 +66,10 @@ export enum PARIPASU_STATUS {
   N = 'NO',
   Y = 'YES',
 }
-
+export enum INSURANCE_INFORMATION {
+  false = 'NO',
+  true = 'YES',
+}
 export enum STATUS_LOV_PARAMETER {
   ACTIVE = 'ACTIVE',
   NONACTIVATE = 'NONACTIVATE',
