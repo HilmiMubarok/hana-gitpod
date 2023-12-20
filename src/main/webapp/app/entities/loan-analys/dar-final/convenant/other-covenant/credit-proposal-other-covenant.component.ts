@@ -66,6 +66,15 @@ export class OtherCovenantTempComponent implements OnInit {
     }
   })();
 
+
+  isOnDarRevision = (() => {
+    if (['dar-revision', 'dar-revision-checker'].includes(this.router.url.split('/')[1])) {
+      return true;
+    } else {
+      return false;
+    }
+  })();
+
   data;
 
   ngOnInit() {
@@ -250,11 +259,20 @@ export class OtherCovenantTempComponent implements OnInit {
   }
 
   public filterDeviation() {
+
     const otherCovenant = this.creditProposalItem.attributes['darRevHistory']
       ? parsePreviousAtrribute(this.creditProposalItem)['darRevHistory'].convenant.otherCovenant
       : this.creditProposalItem.attributes['convenant']['otherCovenant'];
 
-    this.filterStatus = otherCovenant.filter(item => item.status !== 'Applied');
+    const data = (() => {
+      if (this.isOnDarRevision) {
+        return this.creditProposalItem.attributes['convenant']['otherCovenant'];
+      } else {
+        return otherCovenant;
+      }
+    })();
+
+    this.filterStatus = data.filter(item => item.status !== 'Applied');
   }
 
   public folders = [];
