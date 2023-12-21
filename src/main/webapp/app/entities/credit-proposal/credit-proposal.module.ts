@@ -32,6 +32,13 @@ import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collater
 import { MainFacilityDialogComponent } from './loan-facility/main-facility/main-facility-dialog.component';
 import { MainFacilityDialogHistoryComponent } from './loan-facility-history/main-facility/main-facility-dialog-history.component';
 import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-facility/main-facility-child-history.component';
+import { BindingValueInformationDialogComponent } from './collateral-info/binding-value-information/binding-value-information-dialog/binding-value-information-dialog.component';
+import { BindingValueRealEstateGridComponent } from './collateral-info/binding-value-information/binding-value-information-dialog/binding-value-real-estate-grid/binding-value-real-estate-grid.component';
+import { BindingValueRealEstateDialogComponent } from './collateral-info/binding-value-information/binding-value-information-dialog/binding-value-real-estate-grid/binding-value-real-estate-dialog.component';
+import { BindingValueMachineGridComponent } from './collateral-info/binding-value-information/binding-value-information-dialog/binding-value-machine-grid/binding-value-machine-grid.component';
+import { BindingValueMachineDialogComponent } from './collateral-info/binding-value-information/binding-value-information-dialog/binding-value-machine-grid/binding-value-machine-dialog.component';
+import { BindingValueDepositoGridComponent } from './collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-grid.component';
+import { BindingValueDepositoDialogComponent } from './collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -60,6 +67,13 @@ import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-
     ForwardToComponent,
     MainFacilityDialogComponent,
     MainFacilityDialogHistoryComponent,
+    BindingValueInformationDialogComponent,
+    BindingValueRealEstateGridComponent,
+    BindingValueRealEstateDialogComponent,
+    BindingValueMachineGridComponent,
+    BindingValueMachineDialogComponent,
+    BindingValueDepositoGridComponent,
+    BindingValueDepositoDialogComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

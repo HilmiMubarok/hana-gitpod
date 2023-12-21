@@ -452,6 +452,8 @@ import { insuranceInformationComponent } from './insurance-information/insurance
 import { InsuranceInfoDialogDetailComponent } from './insurance-information/dialog/insurance-info-dialog-detail.component';
 import { InsuranceDocumentDialogComponent } from './insurance-information/document/insurance-document-dialog.component';
 import { InsuranceDocumentComponent } from './insurance-information/document/insurance-document.component';
+import { BindingValueInformationComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information.component';
+import { BindingValueInformationGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-grid/binding-value-information-grid.component';
 
 @NgModule({
   imports: [
@@ -978,6 +980,8 @@ import { InsuranceDocumentComponent } from './insurance-information/document/ins
     GetOwnershipPipe,
     GetExpiryPipe,
     GetBindingTypePipe,
+    BindingValueInformationComponent,
+    BindingValueInformationGridComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1460,6 +1464,8 @@ import { InsuranceDocumentComponent } from './insurance-information/document/ins
     DeveloperShowDiagramStateMultipleComponent,
     DeveloperShowDiagramStateMultipleDialogComponent,
     ClausalPkDialogComponentEditComponent,
+    BindingValueInformationComponent,
+    BindingValueInformationGridComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
