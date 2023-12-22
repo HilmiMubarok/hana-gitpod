@@ -53,7 +53,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataAgreement = JSON.parse(this.creditProposal.agreements[0].attributes.SIGNERS);
+    this.dataAgreement = JSON.parse(this.creditProposal.agreements[0]?.attributes.SIGNERS);
     this.getClausalAgreement();
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
@@ -110,6 +110,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       height: '100vh',
       data: {
         dataClausal: element,
+        creditProposal: this.creditProposal,
       },
     });
 

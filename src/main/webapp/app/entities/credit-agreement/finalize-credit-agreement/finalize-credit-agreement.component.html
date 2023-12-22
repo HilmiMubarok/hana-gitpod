@@ -15,7 +15,7 @@
 
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Address</mat-label>
-            <textarea [(ngModel)]="creditProposal.agreements[0].attributes.address" matInput cssClass="e-outline" class="text-area-input"
+            <textarea [(ngModel)]="creditProposal.agreements[0]?.attributes.address" matInput cssClass="e-outline" class="text-area-input"
             id="multiline-always"
             name="typeAlways" ></textarea>
           </mat-form-field>
@@ -26,7 +26,7 @@
 
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Credit Agreement Type</mat-label>
-            <mat-select [(ngModel)]="creditProposal.agreements[0].attributes.AGREEMENT_TYPE">
+            <mat-select [(ngModel)]="creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE">
               <mat-option value="">Please Select Conditions</mat-option>
               <mat-option *ngFor="let item of ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali']" [value]="item" >
                 {{ item }}
@@ -36,7 +36,7 @@
 
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Credit Agreement Place</mat-label>
-            <input [(ngModel)]="creditProposal.agreements[0].attributes.AGREEMENT_PLACE" matInput type="text"/>
+            <input [(ngModel)]="creditProposal.agreements[0]?.attributes.AGREEMENT_PLACE" matInput type="text"/>
           </mat-form-field>
 
         </div>
@@ -125,7 +125,7 @@
             
             >
               <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of []" >
+              <mat-option *ngFor="let item of ['Notaril', 'Un-Notaril']" >
                 {{ item }}
               </mat-option>
               <mat-option value="-">-</mat-option>

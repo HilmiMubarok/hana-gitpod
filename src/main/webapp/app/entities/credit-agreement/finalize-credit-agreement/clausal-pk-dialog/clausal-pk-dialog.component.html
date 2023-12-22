@@ -56,8 +56,11 @@
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
       </mat-card>
 
-      
-      <button mat-button (click)="saveClausal()" >Save</button>
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <button class="btn-lg text-uppercase button-styling mt-2" (click)="onNoClick ()"  mat-raised-button >Close</button>
+        <button class="btn-lg text-uppercase button-styling mt-2"  mat-button (click)="saveClausal()" >Save</button>
+        </div>
+     
     </e-card>
   </div>
   
