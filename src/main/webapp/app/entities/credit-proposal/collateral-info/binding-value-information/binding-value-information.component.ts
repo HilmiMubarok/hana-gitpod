@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ICreditProposal } from '../../credit-proposal.model';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 
 @Component({
   selector: 'jhi-binding-value-information',
@@ -8,6 +9,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 })
 export class BindingValueInformationComponent implements OnInit {
   _creditProposal: ICreditProposal;
+  private _collateralSummaryData: ICollateral[];
 
   @Input()
   get creditProposal() {
@@ -15,6 +17,15 @@ export class BindingValueInformationComponent implements OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralSummaryData() {
+    return this._collateralSummaryData;
+  }
+
+  set collateralSummaryData(item: ICollateral[]) {
+    this._collateralSummaryData = item;
   }
 
   constructor() {}

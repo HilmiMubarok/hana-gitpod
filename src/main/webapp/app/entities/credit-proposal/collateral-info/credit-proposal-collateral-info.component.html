@@ -19,7 +19,12 @@
           [collateralProperties]="collateralProperties"
           [parentSource]="parentSource"
         ></jhi-above-grid>
-        <jhi-binding-value-information [creditProposal]="creditProposal"></jhi-binding-value-information>
+        <div *ngIf="!textBoxHidden">
+          <jhi-binding-value-information
+            [creditProposal]="creditProposal"
+            [collateralSummaryData]="collateralSummaryData"
+          ></jhi-binding-value-information>
+        </div>
         <div *ngIf="takeOutCompare !== true">
           <jhi-credit-proposal-collateral-info-remarks-information
             #creditProposalCollateralInfoRemarksInfoComponentAbove
@@ -75,7 +80,12 @@
         [collateralProperties]="collateralProperties"
         [parentSource]="parentSource"
       ></jhi-bellow-grid>
-      <jhi-binding-value-information [creditProposal]="creditProposal"></jhi-binding-value-information>
+      <div *ngIf="!textBoxHidden">
+        <jhi-binding-value-information
+          [creditProposal]="creditProposal"
+          [collateralSummaryData]="collateralSummaryData"
+        ></jhi-binding-value-information>
+      </div>
       <div *ngIf="takeOutCompare !== true">
         <jhi-credit-proposal-collateral-info-remarks-information
           #creditProposalCollateralInfoRemarksInfoComponentBelow
@@ -128,7 +138,12 @@
         [parentSource]="parentSource"
       >
       </jhi-credit-proposal-collateral-info-btb>
-      <jhi-binding-value-information [creditProposal]="creditProposal"></jhi-binding-value-information>
+      <div *ngIf="!textBoxHidden">
+        <jhi-binding-value-information
+          [creditProposal]="creditProposal"
+          [collateralSummaryData]="collateralSummaryData"
+        ></jhi-binding-value-information>
+      </div>
       <div *ngIf="takeOutCompare !== true">
         <jhi-credit-proposal-collateral-info-remarks-information
           #creditProposalCollateralInfoRemarksInfoComponentBtb
@@ -186,7 +201,12 @@
           [collateralProperties]="collateralProperties"
           [parentSource]="parentSource"
         ></jhi-above-grid>
-        <jhi-binding-value-information [creditProposal]="creditProposal"></jhi-binding-value-information>
+        <div *ngIf="!textBoxHidden">
+          <jhi-binding-value-information
+            [creditProposal]="creditProposal"
+            [collateralSummaryData]="collateralSummaryData"
+          ></jhi-binding-value-information>
+        </div>
       </div>
     </div>
     <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
@@ -229,7 +249,12 @@
         [collateralProperties]="collateralProperties"
         [parentSource]="parentSource"
       ></jhi-bellow-grid>
-      <jhi-binding-value-information [creditProposal]="creditProposal"></jhi-binding-value-information>
+      <div *ngIf="!textBoxHidden">
+        <jhi-binding-value-information
+          [creditProposal]="creditProposal"
+          [collateralSummaryData]="collateralSummaryData"
+        ></jhi-binding-value-information>
+      </div>
     </div>
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
@@ -260,7 +285,12 @@
         [parentSource]="parentSource"
       >
       </jhi-credit-proposal-collateral-info-btb>
-      <jhi-binding-value-information [creditProposal]="creditProposal"></jhi-binding-value-information>
+      <div *ngIf="!textBoxHidden">
+        <jhi-binding-value-information
+          [creditProposal]="creditProposal"
+          [collateralSummaryData]="collateralSummaryData"
+        ></jhi-binding-value-information>
+      </div>
     </div>
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
