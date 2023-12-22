@@ -50,7 +50,7 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
       this.filterPosition();
     });
 
-    this.agreement = JSON.parse(this.data.creditProposal.agreements[0].attributes.SIGNERS);
+    this.agreement = JSON.parse(this.data.creditProposal.agreements[0]?.attributes.SIGNERS);
   }
 
   generateRandomId(): string {
@@ -147,18 +147,36 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
     this.debitor = event.value;
     this.options = [];
 
-    if (this.debitor === 'Debitor') {
-      this.options = this.optionKebHana;
-      this.filteredOptions = this.myOption.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+    if (this.data.creditProposal.prospectPerson !== null) {
+      if (this.debitor === 'Debitor') {
+        this.nameDebitor = this.data.creditProposal.prospectPerson.name;
+      } else {
+        this.nameDebitor = '';
+        this.getEmployee().then(() => {
+          for (let i = 0; i < this.employeePosition.length; i++) {
+            this.nama = [...this.nama, this.employeePosition[i].person.name];
+          }
+
+          this.filteredName = this.myName.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filterName(value))
+          );
+        });
+      }
     } else {
-      this.options = this.optionDebitor;
-      this.filteredOptions = this.myOption.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+      if (this.debitor === 'Debitor') {
+        this.options = this.optionKebHana;
+        this.filteredOptions = this.myOption.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+      } else {
+        this.options = this.optionDebitor;
+        this.filteredOptions = this.myOption.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+      }
     }
   }
 

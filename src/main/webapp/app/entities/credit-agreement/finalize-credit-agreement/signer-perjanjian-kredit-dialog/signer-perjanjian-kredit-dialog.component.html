@@ -21,7 +21,7 @@
 
       <div class="mb-2">
         <section>
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field *ngIf="data.creditProposal.customerType === 'CORPORATE'" class="w-100" appearance="outline">
             <mat-label>Position</mat-label>
             <input matInput type="text" [(ngModel)]="position" matInput [formControl]="myOption" [matAutocomplete]="auto"/>
 
@@ -57,5 +57,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button (click)="onSave()" >Save</button>
+  <button mat-button (click)="onSave()" [disabled]="data.agreements < 1">Save</button>
 </mat-dialog-actions>
