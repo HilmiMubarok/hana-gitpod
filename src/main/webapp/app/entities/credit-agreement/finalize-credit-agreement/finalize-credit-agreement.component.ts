@@ -53,6 +53,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataAgreement = JSON.parse(this.creditProposal.agreements[0].attributes.SIGNERS);
     this.getClausalAgreement();
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
@@ -68,7 +69,6 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       })
       .subscribe((res: any) => {
         this.dataClausal = res.body;
-        console.log('lk', this.dataClausal);
       });
   }
 
@@ -142,25 +142,44 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     console.log('ok', this.selectedFile);
   }
 
-  public openDialog() {
+  public deleteSigner(element: any) {
+    this.dataAgreement = this.dataAgreement.filter((data: any) => data.id !== element.id);
+    this.creditProposal.agreements[0].attributes = {
+      SIGNERS: JSON.stringify(this.dataAgreement),
+    };
+  }
+
+  public openDialogSigner(data: any) {
     const dialogRef = this.dialog.open(SignerPerjanjialKreditDialogComponent, {
       data: {
         agreement: this.creditProposal.agreements.length > 0 ? this.creditProposal.agreements[0].attributes : '',
         creditProposal: this.creditProposal,
+        element: data,
       },
       width: '120vh', // Ganti nilai ini sesuai kebutuhan lebar dialog
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== null && result !== undefined) {
-        if (this.creditProposal.agreements.length > 0) {
-          this.dataAgreement = [...this.dataAgreement, result];
+      if (result.element === null) {
+        if (result !== null && result !== undefined) {
+          if (this.creditProposal.agreements.length > 0) {
+            this.dataAgreement = [...this.dataAgreement, result];
 
-          this.creditProposal.agreements[0].attributes = {
-            signerAgreement: JSON.stringify(this.dataAgreement),
-          };
-        } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Data Agreement is empty' });
+            this.creditProposal.agreements[0].attributes = {
+              SIGNERS: JSON.stringify(this.dataAgreement),
+            };
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Data Agreement is empty' });
+          }
         }
+      } else {
+        const index = this.dataAgreement.findIndex(item => item.id === result.id);
+        this.dataAgreement[index]['name'] = result.name;
+        this.dataAgreement[index]['debitor'] = result.debitor;
+        this.dataAgreement[index]['position'] = result.position;
+
+        this.creditProposal.agreements[0].attributes = {
+          SIGNERS: JSON.stringify(this.dataAgreement),
+        };
       }
     });
   }
