@@ -1,20 +1,24 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { BindingValueInformationDialogComponent } from '../binding-value-information-dialog/binding-value-information-dialog.component';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import lodash from 'lodash';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 
 @Component({
   selector: 'jhi-binding-value-information-grid',
   templateUrl: './binding-value-information-grid.component.html',
   styleUrls: ['../../collateral-info-cp.style.scss'],
 })
-export class BindingValueInformationGridComponent implements OnInit {
+export class BindingValueInformationGridComponent implements OnInit, OnChanges {
   constructor(private collateralService: CollateralService, public dialog: MatDialog) {}
 
   _creditProposal: ICreditProposal;
+  private _collateralSummaryData: ICollateral[];
 
   @ViewChild('paginator') paginator: MatPaginator;
 
@@ -24,28 +28,44 @@ export class BindingValueInformationGridComponent implements OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
-    this.loadByPartyId(cp.cif.partyId);
+  }
+
+  @Input()
+  get collateralSummaryData() {
+    return this._collateralSummaryData;
+  }
+
+  set collateralSummaryData(item: ICollateral[]) {
+    this._collateralSummaryData = item;
   }
 
   public displayedColumns: string[] = ['no', 'collateralType', 'address', 'action'];
 
   public dataItem;
+  public dataCollateral;
 
   ngOnInit(): void {
-    console.log('test');
+    if (!this.collateralSummaryData) {
+      this.loadByPartyId(this.creditProposal);
+    }
   }
 
-  private loadByPartyId(param: string): void {
-    this.collateralService
-      .queryFilterBy({
-        idParty: param,
-        isActive: true,
-        size: 999,
-      })
-      .subscribe(res => {
-        this.dataItem = new MatTableDataSource(res.body);
-        this.dataItem.paginator = this.paginator;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateralSummaryData']) {
+      this.dataItem = new MatTableDataSource(this.collateralSummaryData);
+      this.dataItem.paginator = this.paginator;
+    }
+  }
+
+  private loadByPartyId(param: ICreditProposal): void {
+    const applicationNumber = param.id;
+    this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
+      this.dataCollateral = lodash.filter(res.body, function (o) {
+        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
+      this.dataItem = new MatTableDataSource(this.dataCollateral);
+      this.dataItem.paginator = this.paginator;
+    });
   }
 
   public openDialog(element) {
