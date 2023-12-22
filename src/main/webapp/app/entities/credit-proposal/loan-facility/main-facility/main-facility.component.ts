@@ -6,6 +6,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import { ICategoryList, IMainFacility } from 'app/entities/main-facility/main-facility.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-main-facility',
@@ -74,7 +75,9 @@ export class MainFacilityComponent implements OnChanges {
       },
     });
     dialogRef.afterClosed().subscribe((data: IMainFacility) => {
-      console.log(data);
+      if (data.newMaturityDate) {
+        data.newMaturityDate = this.setDate(data.newMaturityDate);
+      }
     });
   }
   public printElements(element) {
@@ -89,5 +92,10 @@ export class MainFacilityComponent implements OnChanges {
       return element;
     }
     return '';
+  }
+
+  private setDate(data: any) {
+    const staticDate = moment(new Date(data)).format().substring(0, 19) + 'Z';
+    return staticDate;
   }
 }
