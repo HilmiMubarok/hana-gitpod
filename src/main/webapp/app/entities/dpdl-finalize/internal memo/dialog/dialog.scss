@@ -1,0 +1,115 @@
+.close.mat-button {
+  width: 10px;
+}
+
+.button-close {
+  margin-left: auto;
+  opacity: 0.5;
+  width: 15px;
+}
+
+.button-close:hover {
+  color: white;
+  background-color: rgb(195, 35, 35);
+  opacity: 1;
+  width: 15px;
+}
+
+.style-close {
+  text-align: right;
+}
+
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block !important;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 40px !important;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+ul.list-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  li {
+    img {
+      max-width: 35vw;
+    }
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  background-color: rgb(177, 174, 174);
+  width: 400px;
+  border-radius: 40px;
+}
+
+.bgWhite {
+  color: white !important;
+  background-color: white !important;
+}
+
+ngx-dropzone-preview.view {
+  width: 200px !important;
+  overflow: hidden;
+}
+.confirm-button-yes {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-no {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-yes:active:hover:not([disabled]) {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}

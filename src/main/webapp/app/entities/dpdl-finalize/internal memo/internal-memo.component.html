@@ -1,0 +1,51 @@
+<mat-card>
+  <h4 class="label-font-detail">Documents</h4>
+  <mat-card-content>
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="data$ | async" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="docName">
+          <th mat-header-cell *matHeaderCellDef>Document Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.tags['docName'] }}</td>
+        </ng-container>
+        <ng-container matColumnDef="memoDate">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.tags['memoDatea'] | date: 'yyyy-MM-dd' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="remarks">
+          <th mat-header-cell *matHeaderCellDef>Remarks</th>
+          <td mat-cell *matCellDef="let element">{{ element.tags['remarks'] }}</td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="openDialog('view', element)">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+            <button mat-icon-button (click)="openDialog('edit', element)">
+              <mat-icon>create</mat-icon>
+            </button>
+            <button mat-icon-button (click)="delete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button mat-raised-button class="button-styling" (click)="openDialog('add', null)"><mat-icon>add</mat-icon>ADD NEW DOCUMENT</button>
+    <!-- <button mat-raised-button class="button-styling" (click)="download()">
+      <mat-icon>get_app</mat-icon>
+      {{ downloadAllLabel }}
+    </button> -->
+  </mat-card-actions>
+</mat-card>
