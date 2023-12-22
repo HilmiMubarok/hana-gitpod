@@ -79,10 +79,10 @@
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-          <button mat-icon-button>
+          <button (click)="openDialogSigner(element)" mat-icon-button>
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button (click)="deleteSigner(element)" mat-icon-button>
               <mat-icon>delete</mat-icon>
             </button>
         </td>
@@ -107,7 +107,7 @@
     </mat-paginator> -->
   </mat-card-content>
 
-  <button class="btn-lg text-uppercase button-styling mt-2" mat-raised-button (click)="openDialog()">ADD</button>
+  <button class="btn-lg text-uppercase button-styling mt-2" mat-raised-button (click)="openDialogSigner(null)">ADD</button>
 
 </mat-card>
 
