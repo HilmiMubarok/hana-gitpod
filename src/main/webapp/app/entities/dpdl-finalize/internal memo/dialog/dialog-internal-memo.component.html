@@ -1,0 +1,221 @@
+<h2 mat-dialog-title>{{ mode === 'edit' ? 'Edit' : 'Add' }} Document</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-6">
+      <ngx-dropzone (change)="onSelect($event)" accept="*" multiple="true" *ngIf="mode !== 'view'" [disabled]="mode === 'edit'">
+        <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+      </ngx-dropzone>
+    </div>
+
+    <div class="col-6" *ngIf="mode !== 'view'">
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Document Name</mat-label>
+            <input matInput type="text" [(ngModel)]="docName" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Date</mat-label>
+            <input [matDatepicker]="memoDate" matInput type="text" [(ngModel)]="memoDatea" disabled />
+            <mat-datepicker-toggle matSuffix [for]="memoDate"></mat-datepicker-toggle>
+            <mat-datepicker #memoDate disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Remarks</mat-label>
+            <input matInput type="text" [(ngModel)]="remarks" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-6" *ngIf="mode !== 'view'">
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Date</mat-label>
+            <input [matDatepicker]="memoDate" matInput type="text" [(ngModel)]="memoDatea" disabled />
+            <mat-datepicker-toggle matSuffix [for]="memoDate"></mat-datepicker-toggle>
+            <mat-datepicker #memoDate disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="col-6" *ngIf="mode !== 'view'">
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Remarks</mat-label>
+            <input matInput type="text" [(ngModel)]="remarks" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="row mt-3 px-5">
+    <ngx-dropzone-preview
+      ngProjectAs="ngx-dropzone-preview"
+      *ngFor="let f of files"
+      [removable]="true"
+      (removed)="onRemove(f)"
+      class="view"
+    >
+      <ngx-dropzone-label class="w-100">
+        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f">
+          <ngx-dropzone-label
+            style="
+              width: 120%;
+              top: 60%;
+              left: 50%;
+              transform: translateX(-50%);
+              z-index: 1;
+              background-color: rgba(0, 0, 0, 0.7);
+              padding: 2px;
+              font-size: 12px;
+              color: white;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            "
+            >{{ f.name }}</ngx-dropzone-label
+          >
+        </ngx-dropzone-image-preview>
+      </ngx-dropzone-label>
+    </ngx-dropzone-preview>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-content align="center" *ngIf="element && mode === 'view'">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Document Name</th>
+        <th>Date</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ element.tags['docName'] }}</td>
+        <td>{{ element.tags['memoDatea'] | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ element.tags['remarks'] }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <ul class="list-image">
+    <li>
+      <div
+        *ngIf="
+          element.name.split('.').indexOf('png') > -1 ||
+          element.name.split('.').indexOf('jpg') > -1 ||
+          element.name.split('.').indexOf('jpeg') > -1 ||
+          element.name.split('.').indexOf('gif') > -1
+        "
+      >
+        <img style="width: 300px; border-radius: 20px" [src]="element.url" />
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('xlsx') > -1 || element.name.split('.').indexOf('xls') > -1" style="width: 300px">
+        <img width="300px" src="../../../../../content/images/excel.png" />
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('doc') > -1 || element.name.split('.').indexOf('docx') > -1">
+        <img width="300px" src="../../../../../content/images/word.png" />
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('mp4') > -1">
+        <img width="300px" src="../../../../../content/images/mp4.png" />
+
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('txt') > -1">
+        <img width="300px" src="../../../../../content/images/Txt.jpg" />
+
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('aac') > -1">
+        <img width="300px" src="../../../../../content/images/acc.jpg" />
+
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('pdf') > -1">
+        <img width="300px" src="../../../../../content/images/pdf.png" />
+
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('mp3') > -1" style="width: 300px">
+        <img width="300px" src="../../../../../content/images/mp3.png" />
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('csv') > -1" style="width: 300px">
+        <img width="300px" src="../../../../../content/images/csv.png" />
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('svg') > -1" style="width: 300px">
+        <img width="300px" src="../../../../../content/images/svg.jpg" />
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('tiff') > -1" style="width: 300px">
+        <img width="300px" src="../../../../../content/images/tiff.png" />
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div *ngIf="element.name.split('.').indexOf('pptx') > -1">
+        <img width="300px" src="../../../../../content/images/power-point.jpg" />
+
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+          <button mat-raised-button (click)="donwload(element.url, element)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 60%">
+        {{ element.name }}
+      </p>
+    </li>
+  </ul>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center" class="align-center">
+  <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="save(mode)" *ngIf="mode !== 'view'">Save</button>
+</mat-dialog-actions>

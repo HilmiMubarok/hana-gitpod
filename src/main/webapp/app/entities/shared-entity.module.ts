@@ -454,6 +454,8 @@ import { InsuranceDocumentDialogComponent } from './insurance-information/docume
 import { InsuranceDocumentComponent } from './insurance-information/document/insurance-document.component';
 import { BindingValueInformationComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information.component';
 import { BindingValueInformationGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-grid/binding-value-information-grid.component';
+import { InternalMemoComponent } from './dpdl-finalize/internal memo/internal-memo.component';
+import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo.component';
 
 @NgModule({
   imports: [
@@ -982,6 +984,8 @@ import { BindingValueInformationGridComponent } from './credit-proposal/collater
     GetBindingTypePipe,
     BindingValueInformationComponent,
     BindingValueInformationGridComponent,
+    InternalMemoComponent,
+    DialogInternalMemoComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1466,6 +1470,8 @@ import { BindingValueInformationGridComponent } from './credit-proposal/collater
     ClausalPkDialogComponentEditComponent,
     BindingValueInformationComponent,
     BindingValueInformationGridComponent,
+    InternalMemoComponent,
+    DialogInternalMemoComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
