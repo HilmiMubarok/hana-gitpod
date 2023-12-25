@@ -1,9 +1,9 @@
-<div class="style-close">
+<div class="style-close" [hidden]="insurances !== null">
   <button class="button-close" mat-button mat-dialog-close>X</button>
 </div>
-<h2 mat-dialog-title class="header-title">ADD / EDIT INSURANCE DETAIL</h2>
+<h2 mat-dialog-title class="header-title" [hidden]="insurances !== null">ADD / EDIT INSURANCE DETAIL</h2>
 <mat-dialog-content>
-  <mat-card>
+  <mat-card [hidden]="insurances !== null">
     <mat-card-content>
       <div class="row">
         <div class="col-6">
@@ -30,7 +30,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Address</mat-label>
-            <input matInput type="text" [(ngModel)]="collateral.collateralAddress.address1" disabled />
+            <textarea matInput style="height: 50px" [(ngModel)]="collateral.collateralAddress.address1" disabled></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -42,6 +42,7 @@
       [collateral]="collateral"
       [creditProposal]="creditProposal"
       [isViewMode]="isViewMode"
+      (dataInsurance)="getDataInsurances($event)"
     ></jhi-grid-detail-insurance>
   </mat-card>
 </mat-dialog-content>

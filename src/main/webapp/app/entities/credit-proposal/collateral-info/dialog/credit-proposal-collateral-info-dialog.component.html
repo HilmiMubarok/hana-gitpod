@@ -553,7 +553,7 @@
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>CCY</mat-label>
-                      <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)" [disabled]="fields">
+                      <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)" [disabled]="field">
                         <mat-option value=" ">- Please Select -</mat-option>
                         <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value">
                           {{ item.value }}

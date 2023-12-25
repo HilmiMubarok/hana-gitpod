@@ -38,6 +38,7 @@ export class InsuranceInfoDialogComponent implements OnInit {
   collateral: ICollateral;
   isViewMode: Boolean = false;
   collateralTypes: ICollateralType[];
+  insurances: null;
   insurance: IInsuranceInformation;
   constructor(
     private router: Router,
@@ -60,8 +61,11 @@ export class InsuranceInfoDialogComponent implements OnInit {
     this.collateral = this.data.collateral;
     this.isViewMode = data.isViewMode;
     this.parentSource = data.parentSource;
+    this.insurances = null;
   }
-
+  public getDataInsurances(data: any): void {
+    this.insurances = data;
+  }
   ngOnInit(): void {
     this.loadCollateralType();
     console.log('insurance', this.insurance);

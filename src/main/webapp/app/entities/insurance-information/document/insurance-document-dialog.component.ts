@@ -1,9 +1,5 @@
 import { Component, Inject, OnInit, Input } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-  IDocumentChecklistDebtorData,
-  DocumentChecklistDebtorData,
-} from 'app/entities/debtor-data/document-checklis/debtor-data-document-checklist';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
 import { formatDate } from '@angular/common';
 import { StorageService } from 'app/entities/storage/storage.service';
@@ -11,17 +7,16 @@ import moment from 'moment';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
-import { IDocumentNode } from 'app/entities/document-node/document-node.model';
-import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { MatSelectChange } from '@angular/material/select';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { DatePipe } from '@angular/common';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { IInsuranceInformation } from '../insurance-information.model';
+import { IInsuranceInformation, InsuranceInformation } from '../insurance-information.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { DocumentInsurance, IDocumentInsurance } from './document-insurance.model';
+import { Router } from '@angular/router';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -50,155 +45,66 @@ class PickDateAdapter extends NativeDateAdapter {
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
   ],
 })
-export class InsuranceDocumentDialogComponent {
-  public documentChecklist: IDocumentChecklistDebtorData;
-  datePipe: DatePipe = new DatePipe('en-US');
-
-  public progressSave = false;
-  public promised = [];
+export class InsuranceDocumentDialogComponent implements OnInit {
   public file = [];
-  public files: any;
-  public key: string;
+  files: File[] = [];
   public view: string;
-  public typeData: IDocumentType;
-  public categoryType = [];
-  public itemData: string;
-  public status: string[] = [];
+  public status: any;
   public bucket: string;
-  public setStatusCurrenValue = [];
-  public memoryFiles = [];
-  public fileDeleted = [];
-  public fileTbo = [];
-
-  public filesStatus: string;
-  public filesdueDate: string;
-  public filesRemarks: string;
-  public filesDescription: string;
-  public parentDescription: string;
-  debtorData: IDebtorData;
   collateral: ICollateral;
-  insurance: IInsuranceInformation;
+  insurance: IInsuranceInformation = new InsuranceInformation();
+  insurances: IInsuranceInformation;
+  documentPolicye = [];
+  documentInsurance: DocumentInsurance;
+  id: number;
+  creditProposal: ICreditProposal;
+  mode: string;
+  dataDocument: string;
+  docName: string;
+  filesdueDate: string;
+  category: string;
+  remarks: string;
+  dataInsurance: any;
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       view: string;
-      files: any;
       bucket: string;
-      partyId: number;
-      cpId: string;
-      typeData: IDocumentType[];
-      item: string;
-      cp: ICreditProposal;
+      documentInsurance: IDocumentInsurance;
+      creditProposal: ICreditProposal;
+      insurance: InsuranceInformation;
+      collateral: ICollateral;
+      mode: string;
+      dataInsurance: any;
     },
     private _dialog: MatDialogRef<InsuranceDocumentDialogComponent>,
     private storageService: StorageService,
     private messageService: MessageService,
     private accountService: AccountService,
     public reportUtilService: ReportUtilService,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    private router: Router
   ) {
+    console.log('dataSource', this.dataInsurance);
+    console.log('insurance', this.insurance);
+    console.log('cp', this.creditProposal);
+    this.mode = this.data.mode;
+    this.creditProposal = this.data.creditProposal;
+    this.id = this.insurance.id;
+    this.insurance = this.data.insurance;
     this.view = this.data.view;
-
-    this.files = this.data.files;
-
-    this.itemData = this.data.item;
-    this.category();
-    // this.setStatus();
-    this.getMinIOData();
-    this.filesStatus = this.files.status;
-    if (this.files.dueDate === undefined || this.files.dueDate === null || this.files.dueDate === '' || this.files.dueDate === 'null') {
-      this.filesdueDate = '';
-    } else if (
-      this.files.dueDate !== undefined &&
-      this.files.dueDate !== null &&
-      this.files.dueDate !== '' &&
-      this.files.dueDate !== 'null'
-    ) {
-      this.filesdueDate = this.files.dueDate;
-    }
-
-    if (this.files.remarks === null || this.files.remarks === undefined || this.files.remarks === '' || this.files.remarks === 'null') {
-      this.filesRemarks = '';
-    } else if (
-      this.files.remarks !== null &&
-      this.files.remarks !== undefined &&
-      this.files.remarks !== '' &&
-      this.files.remarks !== 'null'
-    ) {
-      this.filesRemarks = this.files.remarks;
-    }
-    this.filesDescription = this.files.description;
-    this.parentDescription = this.files.parentDescription;
-
-    // this.checkCategory_C();
-    // this.isTBO();
+    this.documentInsurance = this.data.documentInsurance;
+    this.collateral = this.data.collateral;
+    this.dataInsurance = this.data.dataInsurance;
+    this.bucket = this.data.bucket;
+    this.mode = this.data.mode;
   }
-
-  // public checkCategory_C() {
-  //   if (this.files.category === 'C') {
-  //     this.isTBO();
-  //   }
-  // }
-
-  public getMinIOData() {
-    this.getBucket().then(res => {
-      this.getFiles(this.data.partyId);
-    });
+  ngOnInit(): void {
+    this.lovDocumentPolicy();
+    console.log('insurance', this.documentInsurance);
   }
-
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
-  }
-
-  public lengthMinIO = [];
-
-  private getFiles(id: number): void {
-    const retriveDataInsuranceDocument: Object = {
-      key: `/debtor/${this.debtorData.id}/collateral/${this.collateral.id}/insurance/${id}/documents/`,
-    };
-
-    this.prosesGetDataByID(retriveDataInsuranceDocument);
-  }
-
-  public prosesGetDataByID(url: any) {
-    this.storageService.getObjects(this.bucket, url).subscribe((res: any) => {
-      if (res.body.length > 0) {
-        this.files.remarks = res.body[0].tags.remarks;
-        this.files.status = res.body[0].tags.status;
-        this.files.dueDate = res.body[0].tags.dueDate;
-      }
-      this.lengthMinIO = res.body;
-      for (let index = 0; index < res.body.length; index++) {
-        this.file = [
-          ...this.file,
-          {
-            url: res.body[index].url,
-            name: res.body[index].key,
-            nameFIle: res.body[index].name,
-            remarks: res.body[index].tags.remarks,
-            status: res.body[index].tags.status,
-            dueDate: res.body[index].tags.dueDate,
-          },
-        ];
-      }
-    });
-  }
-
-  // public setStatus() {
-  //   if (this.data.files.category === 'A' || this.data.files.category === 'B') {
-  //     this.status = ['Available', 'TBO', 'Waived'];
-  //   } else {
-  //     this.status = ['Available', 'TBO', 'Waived', 'Not Available'];
-  //   }
-  // }
-
-  public category() {
+  public lovDocumentPolicy() {
     this.generalParameterService
       .queryFilterBy({
         idParameterType: 'INSURANCE_DOCUMENT_POLICY',
@@ -206,273 +112,59 @@ export class InsuranceDocumentDialogComponent {
         size: 9999,
       })
       .subscribe(res => {
-        this.categoryType = lodash.filter(res.body, function (o) {
+        this.documentPolicye = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
       });
   }
 
-  public save(): void {
-    this.filesdueDate = this.datePipe.transform(this.filesdueDate, 'yyyy-MM-dd');
-    if (this.filesStatus === null || this.filesStatus === undefined || this.filesStatus === '') {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'status is required' });
-    } else {
-      if (this.files.category === 'C') {
-        if (this.file.length > 0) {
-          this.files.status = this.filesStatus;
-          this.files.dueDate = this.filesdueDate;
-          this.files.remarks = this.filesRemarks;
-          this.files.description = this.filesDescription;
-          this.files.parentDescription = this.parentDescription;
-
-          this.approvedDeleted().then(() => {
-            this.preSave().then(() => {
-              this._dialog.close();
-            });
-            this.preUpdate().then(() => {
-              this._dialog.close();
-            });
-          });
-        } else {
-          this.file = this.fileTbo;
-          this.files.status = this.filesStatus;
-          this.files.dueDate = this.filesdueDate;
-          this.files.remarks = this.filesRemarks;
-          this.files.description = this.filesDescription;
-          this.files.parentDescription = this.parentDescription;
-
-          this.approvedDeleted().then(() => {
-            this.preSave().then(() => {
-              this._dialog.close();
-            });
-            this.preUpdate().then(() => {
-              this._dialog.close();
-            });
-          });
-        }
-      } else {
-        if (this.file.length < 1) {
-          if (this.filesStatus === 'TBO' || this.filesStatus === 'Waived') {
-            this.file = this.fileTbo;
-            this.files.status = this.filesStatus;
-            this.files.dueDate = this.filesdueDate;
-            this.files.remarks = this.filesRemarks;
-            this.files.description = this.filesDescription;
-            this.files.parentDescription = this.parentDescription;
-
-            this.approvedDeleted().then(() => {
-              this.preSave().then(() => {
-                this._dialog.close();
-              });
-              this.preUpdate().then(() => {
-                this._dialog.close();
-              });
-            });
-          } else {
-            this.messageService.add({
-              severity: 'info',
-              summary: 'Info',
-              detail: 'Data Selain Waived dan TBO tidak boleh kosong',
-            });
-          }
-        } else {
-          this.files.status = this.filesStatus;
-          this.files.dueDate = this.filesdueDate;
-          this.files.remarks = this.filesRemarks;
-          this.files.description = this.filesDescription;
-          this.files.parentDescription = this.parentDescription;
-
-          this.approvedDeleted().then(() => {
-            this.approvedDeleted().then(() => {
-              this.preSave().then(() => {
-                this._dialog.close();
-              });
-              this.preUpdate().then(() => {
-                this._dialog.close();
-              });
-            });
-          });
-        }
-      }
-    }
+  onSelect(event) {
+    this.files.push(...event.addedFiles);
   }
 
-  public approvedDeleted(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const fileDeleted = [];
-      for (let i = 0; i < this.memoryFiles.length; i++) {
-        if (this.memoryFiles[i].url !== undefined) {
-          this.storageService.deleteFile(this.bucket, this.memoryFiles[i].name).subscribe(data => {
-            fileDeleted.push(data);
-          });
-        }
-      }
-      resolve();
-    });
+  onRemove(event) {
+    this.files.splice(this.files.indexOf(event), 1);
   }
-
-  public preUpdate(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const files: any[] = this.lengthMinIO;
-      if (files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-          const file: any = files[i];
-          this.accountService.identity().subscribe(resAccount => {
-            file.tags['dueDate'] =
-              this.files.dueDate === 'null' || this.files.dueDate === null || this.files.dueDate === undefined || this.files.dueDate === ''
-                ? 'null'
-                : new Date(this.files.dueDate).toISOString();
-            file.tags['status'] = this.files.status;
-            file.tags['remarks'] =
-              this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === undefined || this.files.remarks === ''
-                ? null
-                : this.files.remarks.replace('&', 'codeSpecialDan');
-
-            file.tags['createdBy'] = resAccount.login;
-          });
-
-          this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
-            const predicate: Object = {
-              key: `/idd/${this.data.cpId}/document/${this.files.id}/`,
-            };
-            this.storageService.getObjects(this.bucket, predicate).subscribe((rep: any) => {
-              this.lengthMinIO = rep.body;
-            });
-            this.promised.push(1);
-            resolve();
-          });
-        }
-      }
-    });
-  }
-
-  public convertDan(value: string): any {
-    if (value !== null && value !== undefined) {
-      return value.replace('codeSpecialDan', '&');
-    } else {
-      return '';
-    }
-  }
-
-  public setModel(event: any) {
-    this.documentChecklist.remarks = event.target.value;
-  }
-
-  public onSelect(event: any) {
-    this.file.push(...event.addedFiles);
-    if (this.file.length > 1) {
-      this.handleImage();
-    }
-  }
-
-  public onRemove(element: any) {
-    this.memoryFiles.push(element);
-    if (element.url === undefined) {
-      this.file.splice(this.file.indexOf(event), 1);
-    } else {
-      this.file = this.file.filter(item => item.name !== element.name);
-    }
-  }
-
   public donwload(event: any, name: any) {
-    this.reportUtilService.downloadFileBYName(event, name.nameFIle);
+    this.reportUtilService.downloadFileBYName(event, name.name);
   }
+  public save(): void {
+    const metaData = {
+      objectName: null,
+      entityId: null,
+      document: null,
+      category: null,
+      dueDate: null,
+      status: null,
+      remarks: null,
+      createdDate: null,
+      createdBy: null,
+    };
+    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
 
-  public changeStatus(event: any) {
-    this.filesStatus = event.value;
-    if (this.filesStatus === 'Available') {
-      this.handleImage();
-    }
-  }
+    metaData.objectName = `/debtor/${this.creditProposal.debtorData.id}/collateral/${this.collateral.id}/insurance/${this.dataInsurance}/documents/`;
+    metaData.entityId = this.dataInsurance;
+    metaData.document = this.documentInsurance.documentType;
+    metaData.category = this.documentInsurance.category;
+    metaData.dueDate = this.documentInsurance.dueDate;
+    metaData.status = this.documentInsurance.status;
+    metaData.remarks = this.documentInsurance.remarks;
+    metaData.createdDate = new Date();
 
-  public handleImage() {
-    if (this.file.length > 0) {
-      for (let i = 0; i < this.file.length; i++) {
-        if (this.file[i].name.indexOf('los_logo.png') > -1) {
-          if (this.file[i].url === undefined) {
-            this.file.splice(this.file.indexOf(this.file[i]), 1);
-          } else {
-            this.storageService.deleteFile(this.bucket, this.file[i].name).subscribe(data => {
-              this.file = this.file.filter(item => item.name !== this.file[i].name);
-            });
-          }
-        }
-      }
-    }
-  }
+    const formData = new FormData();
+    formData.append('file', this.files[0]);
+    console.log('data', this.files);
 
-  // private isTBO(): Promise<void> {
-  //   return new Promise((resolve, reject) => {
-  //     const img = new Image();
-  //     img.src = 'content/images/los_logo.png';
-  //     img.onload = () => {
-  //       const canvas = document.createElement('canvas');
-  //       canvas.width = img.width;
-  //       canvas.height = img.height;
-  //       const ctx = canvas.getContext('2d');
-  //       ctx.drawImage(img, 0, 0);
-  //       canvas.toBlob(blob => {
-  //         const file = new File([blob], 'los_logo.png', { type: 'image/png' });
-  //         this.fileTbo.push(file);
-  //         resolve();
-  //       }, 'image/png');
-  //     };
-  //   });
-  // }
-
-  public cancel(): void {
-    this._dialog.close('cancel');
-  }
-
-  public preSave(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const promises = [];
-      for (let i = 0; i < this.file.length; i++) {
-        if (this.file[i].url === undefined) {
-          const metaData = {
-            objectName: null,
-            entityId: null,
-            id: null,
-            status: null,
-            description: null,
-            dueDate: null,
-            remarks: null,
-            createdBy: null,
-          };
-          const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.file[i].name.replace('&', '');
-          if (files.split('').length > 254) {
-            this.messageService.add({
-              severity: 'info',
-              summary: 'Info',
-              detail: 'Nama file tidak boleh lebih dari 255 karakter',
-            });
-          } else {
-            metaData.objectName = `/debtor/${this.debtorData.id}/collateral/${this.collateral.id}/insurance/${this.insurance.id}/documents/${files}`;
-            metaData.entityId = this.data.cpId;
-            metaData.id = this.files.id;
-            metaData.status = this.files.status;
-            metaData.description = this.files.description;
-            metaData.dueDate =
-              this.files.dueDate === 'null' || this.files.dueDate === null || this.files.dueDate === undefined || this.files.dueDate === ''
-                ? null
-                : new Date(this.files.dueDate).toISOString();
-            metaData.remarks =
-              this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === '' || this.files.remarks === undefined
-                ? null
-                : this.files.remarks.replace('&', 'codeSpecialDan');
-            const formData = new FormData();
-            formData.append('file', this.file[i]);
-
-            this.accountService.identity().subscribe(resAccount => {
-              metaData.createdBy = resAccount.login;
-              this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(() => {
-                this.promised.push(1);
-                resolve();
-              });
-            });
-          }
-        }
-      }
+    this.accountService.identity().subscribe(resAccount => {
+      metaData.createdBy = resAccount.login;
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+        this._dialog.close(res);
+      });
     });
   }
   // cancel confrimation dialog
