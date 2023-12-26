@@ -2,11 +2,14 @@ import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CreditAgreementService } from '../../credit-agreement.service';
 import { CreditAgreementClausal, ICreditAgreementClausal } from '../agreement-clausal.model';
+
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
   DocumentEditorKeyDownEventArgs,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { StorageService } from 'app/entities/storage/storage.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-clausal-pk-dialog-edit',
@@ -22,15 +25,18 @@ export class ClausalPkDialogComponentEditComponent {
   public category: string;
   public code: string;
   public description: string;
+  private ngUnsubscribe = new Subject();
 
   constructor(
     public dialogRef: MatDialogRef<ClausalPkDialogComponentEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private storageService: StorageService,
     public creditAgreementService: CreditAgreementService
   ) {
     this.category = this.data.dataClausal.category;
     this.description = this.data.dataClausal.notes;
     this.code = this.data.dataClausal.agreementClausalParameterCode;
+    this.getContainer();
   }
 
   onCreate(): void {
@@ -51,18 +57,127 @@ export class ClausalPkDialogComponentEditComponent {
     }
   }
 
+  public triggeredSave(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const paramsId = this.data.creditProposal.agreements[0].id;
+
+      const key = 'aggrement';
+      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+      docEditor
+        .saveAsBlob('Docx')
+        .then((exportedDocument: Blob) => {
+          const fileType = 'docs';
+          const fileName = 'clausal-pk' + paramsId + '-document' + '.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${this.data.dataClausal.id}/${fileType}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([exportedDocument], fileName));
+          this.storageService.getBucketName().subscribe(
+            res => {
+              this.storageService.uploadMeta(res.body['bucket'], formData, metaData).subscribe(
+                d => {
+                  this.saveSfdt(res)
+                    .then(() => {
+                      resolve();
+                    })
+                    .catch(error => {
+                      console.error('Error:', error);
+                    });
+                },
+                error => {
+                  reject(error);
+                }
+              );
+            },
+            error => {
+              reject(error);
+            }
+          );
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  public saveSfdt(res: any): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const paramsId = this.data.creditProposal.agreements[0].id;
+      const key = 'aggrement';
+      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument2: Blob) => {
+        const fileType2 = 'sfdt';
+        const fileName2 = 'clausal-pk' + paramsId + '-document' + '.sfdt';
+        const metaData2 = {
+          objectName: `${key}/${paramsId}/${this.data.dataClausal.id}/${fileType2}/${fileName2}`,
+        };
+
+        const formData2 = new FormData();
+        formData2.append('file', new File([exportedDocument2], fileName2));
+
+        this.storageService.uploadMeta(res.body['bucket'], formData2, metaData2).subscribe(
+          res3 => {
+            resolve();
+          },
+          error => {
+            reject(error);
+          }
+        );
+      });
+    });
+  }
+
+  public getContainer(): void {
+    const paramsId = this.data.creditProposal.agreements[0].id;
+
+    const obj = {
+      key: `aggrement/${paramsId}/${this.data.dataClausal.id}/sfdt/`,
+    };
+    this.storageService.getBucketName().subscribe(res1 => {
+      this.storageService
+        .getObjects(res1.body['bucket'], obj)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(response => {
+          if (response.body.length > 0) {
+            this.storageService
+              .fileBlob(response.body[response.body.length - 1]['url'])
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe(res => {
+                const fileGet = new File([res.body], 'clausal-pk' + paramsId + '-document.sfdt');
+                const fileReader: FileReader = new FileReader();
+                fileReader.onload = (e: any) => {
+                  const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                  const contents: string = e.target.result;
+                  docEditor.open(contents);
+                };
+                fileReader.readAsText(fileGet);
+              });
+          }
+        });
+    });
+  }
+
   public close() {
     this.dialogRef.close(null);
   }
 
   public save() {
-    this.data.dataClausal = {
-      ...this.data.dataClausal,
-      category: this.category,
-      notes: this.description,
-    };
-    this.creditAgreementService.updateClausalAgreement(this.data.dataClausal).subscribe(() => {
-      this.dialogRef.close();
-    });
+    this.triggeredSave()
+      .then(() => {
+        this.data.dataClausal = {
+          ...this.data.dataClausal,
+          category: this.category,
+          notes: this.description,
+        };
+        this.creditAgreementService.updateClausalAgreement(this.data.dataClausal).subscribe(() => {
+          this.dialogRef.close();
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }
 }
