@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,7 +28,15 @@ export class GridDetailInsuranceComponent implements OnInit {
   private _creditProposal: ICreditProposal;
   private _collateral: ICollateral;
   _insurance: IInsuranceInformation;
-  insurancess: any;
+  _insurances: IInsuranceInformation | null;
+  @Output() dataInsurance = new EventEmitter();
+  @Input()
+  get insurances() {
+    return this._insurances;
+  }
+  set insurances(items: IInsuranceInformation | null) {
+    this._insurances = items;
+  }
   @Input()
   get collateral() {
     return this._collateral;
@@ -55,7 +63,6 @@ export class GridDetailInsuranceComponent implements OnInit {
   }
 
   @Input() isViewMode;
-
   constructor(
     protected _snackbar: MatSnackBar,
     public dialog: MatDialog,
@@ -63,7 +70,9 @@ export class GridDetailInsuranceComponent implements OnInit {
     private collateralService: CollateralService,
     private generalParameterService: GeneralParameterService,
     private insuranceInformationService: InsuranceInformationService
-  ) {}
+  ) {
+    this._insurances = null;
+  }
 
   ngOnInit(): void {
     const collateral = this.collateral.id;
@@ -76,23 +85,9 @@ export class GridDetailInsuranceComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
-  public openDocument(element: IInsuranceInformation): void {
-    let _insurance = new InsuranceInformation();
-    if (element) {
-      _insurance = element;
-    }
-    const predicate: object = {
-      width: '80vw',
-      data: {
-        cp: this.creditProposal,
-        collateral: this.collateral,
-        insurance: _insurance,
-        isViewMode: this.isViewMode,
-        parentSource: this.parentSource,
-      },
-    };
-    const dialogRef = this.dialog.open(InsuranceDocumentComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {});
+  public openDocument(element: any): void {
+    this._insurances = element;
+    this.dataInsurance.emit(this._insurances);
   }
   public openDialog(mode: string, element: IInsuranceInformation = null): void {
     let _insurance = new InsuranceInformation();
