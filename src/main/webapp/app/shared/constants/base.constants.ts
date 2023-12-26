@@ -2944,6 +2944,10 @@ export const DPDL_FINALIZE: object[] = [
     id: 'approval-sheet-internal-memo',
     text: 'Approval Sheet Internal Memo',
   },
+  {
+    id: 'legal-document',
+    text: 'Legal Document',
+  },
 ];
 
 export const DPDL_FINALIZE_APPEAL: object[] = [
@@ -2978,6 +2982,10 @@ export const DPDL_FINALIZE_APPEAL: object[] = [
   {
     id: 'approval-sheet-internal-memo',
     text: 'Approval Sheet Internal Memo',
+  },
+  {
+    id: 'legal-document',
+    text: 'Legal Document',
   },
 ];
 
