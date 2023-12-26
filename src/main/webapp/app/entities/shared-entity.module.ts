@@ -456,6 +456,14 @@ import { BindingValueInformationComponent } from './credit-proposal/collateral-i
 import { BindingValueInformationGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-grid/binding-value-information-grid.component';
 import { InternalMemoComponent } from './dpdl-finalize/internal memo/internal-memo.component';
 import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo.component';
+import { DocumentLegalDialogComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal-dialog.component';
+import { DocumentLegalComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal.component';
+import { DpdlDocumentComponent } from './dpdl-finalize/dpdl-document/dpdl-document.component';
+import { GenerateDpdlDraftComponent } from './dpdl-finalize/dpdl-document/generate-dpdl/generate-dpdl-draft.component';
+import { DocumentDpdlDetailDialogComponent } from './dpdl-finalize/dpdl-document/legal-document-upload/document-dpdl-detail-dialog.component';
+import { DocumentDpdlUploadDialogComponent } from './dpdl-finalize/dpdl-document/legal-document-upload/document-dpdl-upload-dialog.component';
+import { DocumentLegalUploadComponent } from './dpdl-finalize/dpdl-document/legal-document-upload/document-legal-upload.component';
+import { DocumentLegalDetailDialogComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal-detail-dialog.component';
 
 @NgModule({
   imports: [
@@ -925,7 +933,7 @@ import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialo
     OfferingLetterSignerPageDialogComponent,
     ReviewHistoryDialogComponent,
     ClausalPkDialogComponent,
-    
+
 
 // DAR
     LoanFacilityDetailTempComponent,
@@ -986,6 +994,17 @@ import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialo
     BindingValueInformationGridComponent,
     InternalMemoComponent,
     DialogInternalMemoComponent,
+
+     // Document Legal DPDL
+    DocumentLegalUploadComponent,
+    DocumentDpdlUploadDialogComponent,
+    DocumentDpdlDetailDialogComponent,
+
+    DocumentLegalComponent,
+    DocumentLegalDialogComponent,
+    DocumentLegalDetailDialogComponent,
+    DpdlDocumentComponent,
+    GenerateDpdlDraftComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1472,6 +1491,17 @@ import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialo
     BindingValueInformationGridComponent,
     InternalMemoComponent,
     DialogInternalMemoComponent,
+
+    // Document Legal DPDL
+    DocumentLegalUploadComponent,
+    DocumentDpdlUploadDialogComponent,
+    DocumentDpdlDetailDialogComponent,
+
+    DocumentLegalComponent,
+    DocumentLegalDialogComponent,
+    DocumentLegalDetailDialogComponent,
+    DpdlDocumentComponent,
+    GenerateDpdlDraftComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
