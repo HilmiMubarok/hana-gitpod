@@ -99,7 +99,7 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
   ) {
     this.view = this.data.view;
     const dataDoc: any = this.data.obj;
-    console.log('dataDocK', dataDoc);
+
     if (this.data.view === 'edit') {
       this.loadAll();
       this.document = {
@@ -112,7 +112,6 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
         status: dataDoc.files[0].tags.status,
         remarks: this.changeCharacter(dataDoc.files[0].tags.remarks),
       };
-      console.log('this.document', this.document);
     } else {
       this.document = new DocumentDpdl();
     }
@@ -162,7 +161,6 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
             this.document.documentName = this.documentTypes[i].description;
           }
         }
-        console.log('ressssss', res);
       });
   }
   public setOwnerCollateral() {
@@ -276,7 +274,6 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
   }
 
   public preSave(): void {
-    console.log('root id', this.document.rootId);
     this.currentObject = {
       id: this.document.id,
       rootId: this.document.rootId,
@@ -287,7 +284,7 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
       category: this.document.category,
       status: this.document.status,
     };
-    console.log('this.currentObject', this.currentObject);
+
     this.checkChanges();
 
     if (this.removeFile.length > 1) {
@@ -353,8 +350,6 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
   }
 
   public save(): Promise<any> {
-    console.log('root id', this.document.rootId);
-
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -376,7 +371,7 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
           status: this.document.status,
           folderFiles: this.folderFiles,
         };
-        console.log('data', data);
+
         resolve(data);
       }
     });

@@ -1,20 +1,18 @@
-<h2 mat-dialog-title class="label-font-detail">Detail Document Legal</h2>
+<h2 mat-dialog-title class="label-font-detail">Detail Document Upload DPDL</h2>
 <mat-dialog-content align="center" class="align-center">
   <table class="table">
     <thead>
       <tr>
-        <th>Category</th>
+        <th>Document Name</th>
         <th>Date</th>
         <th>Remarks</th>
-        <th>Status</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>{{ folder['files'][0]['tags']['category'] }}</td>
+        <td>{{ changeCharacter(folder['files'][0]['tags']['documentName']) }}</td>
         <td>{{ folder['files'][0]['tags']['documentDate'] | formatMediumDate }}</td>
-        <td>{{ folder['attributes']['remarks'] }}</td>
-        <td>{{ folder['files'][0]['tags']['status'] }}</td>
+        <td>{{ changeCharacter(folder['files'][0]['tags']['remarks']) }}</td>
       </tr>
     </tbody>
   </table>

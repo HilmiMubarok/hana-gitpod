@@ -1,138 +1,449 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, Injectable, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AccountService } from 'app/core/auth/account.service';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { map } from 'rxjs';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { MessageService } from 'primeng/api';
+import { NativeDateAdapter } from '@angular/material/core';
+import { DatePipe, formatDate } from '@angular/common';
+import { IInternalMemoDocument, InternalMemoDocument } from '../internal-memo.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { TemplateService } from 'app/layouts/template/template.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import lodash from 'lodash';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
+export const MY_DATE_FORMAT = {
+  parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
+  display: {
+    dateInput: 'input',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'numeric', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'numeric' },
+  },
+};
+@Injectable()
+class PickDateAdapter extends NativeDateAdapter {
+  format(date: Date, displayFormat: Object): string {
+    if (displayFormat === 'input') {
+      return formatDate(date, 'yyy/MM/dd', this.locale);
+    } else {
+      return date.toDateString();
+    }
+  }
+}
 @Component({
   selector: 'jhi-dialog-internal-memo',
   templateUrl: './dialog-internal-memo.component.html',
   styleUrls: ['./dialog.scss'],
 })
-export class DialogInternalMemoComponent {
-  mode: string;
-  internalMemoId: number;
-  files: File[] = [];
-  file = [];
-  fileData;
-  element;
-  document: any;
-  memoDate: Date;
-  memoDatea: Date;
-  bucket: string;
-  userLogin: string;
-  remarks: string;
+export class DialogInternalMemoComponent implements OnInit {
+  public datas = [];
+  public files: File[] = [];
+  public file: File;
+  public document: IInternalMemoDocument;
+  public id: string;
+  public documentTypes = [];
+  public object: ICreditProposal;
+  public multiple: Boolean = false;
+  public indeks = 0;
+  public booleanRouter: boolean;
+  datePipe: DatePipe = new DatePipe('en-US');
+  private bucket: string;
+  public categoryType = [];
+  public collateralView: boolean;
 
-  docName: string;
-
+  public documents: string;
+  public view: string;
   public folder: object;
+  public removeFile = [];
+  public currentObject: any;
+  public previousObject: any;
+  public changefield: boolean;
+  public existingIds = [];
+  public folders = [];
+  public folders2 = [];
+  public folderFiles = [];
+  // documentRootId = 'DOC_DPDL_UPLOAD';
+  // docParentId = 'DOC_DPDL_UPLOAD_LEGAL';
+  public filesStatus: string;
+  // public status: string[] = ['Available', 'TBO', 'Waived', 'Not Available'];
 
+  // public categoryValue = ['A', 'B', 'C'];
   constructor(
+    private templateService: TemplateService,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      creditProposal: ICreditProposal;
       bucket: string;
-      mode: string;
-      element;
-      internalMemoId: number;
-      requestSlik;
-      fileData;
+      documents: string;
+      view: string;
+      obj: object;
+      change: any;
     },
-    private storageService: StorageService,
     private _dialog: MatDialogRef<DialogInternalMemoComponent>,
-    private accountService: AccountService,
-    private reportUtilService: ReportUtilService,
+    private storageService: StorageService,
+    private _snackBar: MatSnackBar,
+
+    private router: Router,
+    public reportUtilService: ReportUtilService,
     private messageService: MessageService
   ) {
-    // const dataDoc: any = this.data.obj;
-    this.docName = this.data.element && this.data.element.tags.docName;
-    this.remarks = this.data.element && this.data.element.tags.remarks;
-    this.element = this.data.element;
-    this.memoDatea = this.data.element && new Date(this.data.element.tags.memoDatea);
-    this.memoDate = new Date(this.memoDatea);
+    this.view = this.data.view;
+    const dataDoc: any = this.data.obj;
 
-    console.log('date', this.memoDate);
+    if (this.data.view === 'edit') {
+      // this.loadAll();
+      this.document = {
+        id: dataDoc.id,
+        documentDate: new Date(dataDoc.files[0].tags.documentDate),
+        // rootId: dataDoc.files[0].tags.rootId,
 
-    this.document = this.element && this.element;
-    this.bucket = this.data.bucket;
-    this.mode = this.data.mode;
-    this.internalMemoId = this.data.internalMemoId;
-    this.fileData = this.data.fileData;
+        documentName: dataDoc.files[0].tags.documentName,
 
-    // this.folder = this.data.obj;
-    // if (this.folder !== undefined) {
-    //   this.folderFiles = this.folder['files'];
-    // }
-
-    //   public getField() {
-    //     if (this.folder !== undefined) {
-    //       this.document.documentDate = new Date(this.folder['files'][0]['tags']['docDate']);
-    //       this.document.documentType = this.folder['files'][0]['tags']['docType'];
-    //       this.document.documentNumber = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan');
-    //     }
-    //   }
-    this.accountService
-      .identity()
-      .pipe(map(user => user.login))
-      .subscribe(user => (this.userLogin = user));
-  }
-
-  edit() {
-    const file = this.data.fileData;
-    const tags = {
-      //  Encode Doc Name
-      // objectName: `/internal-memo/${this.internalMemoId}/document/${new Date().getTime().toString(36) + encodeURIComponent(file.name)}`,
-      docName: encodeURIComponent(this.docName),
-      memoDatea: this.memoDatea,
-      remarks: encodeURIComponent(this.remarks),
-    };
-    this.storageService.update(this.bucket, tags, { key: file.key }).subscribe(res => this._dialog.close(res));
-  }
-
-  onSelect(event) {
-    this.files.push(...event.addedFiles);
-    console.log(this.files);
-    console.log(event);
-  }
-
-  onRemove(event) {
-    this.files.splice(this.files.indexOf(event), 1);
-  }
-
-  // public onRemove(event: any) {
-  //   if (event.url === undefined) {
-  //     this.files.splice(this.files.indexOf(event), 1);
-  //   } else {
-  //     this.folder['files'] = this.folder['files'].filter((data: any) => data.key !== event.key);
-
-  //     this.removeFile.push(event.key);
-  //   }
-  // }
-  public donwload(event: any, name: any) {
-    this.reportUtilService.downloadFileBYName(event, name.name);
-  }
-
-  preSave() {
-    this.files.forEach(file => {
-      const tags = {
-        // Encode File Name Doc Name and Name
-        docName: encodeURIComponent(this.docName),
-        objectName: `/internal-memo/${this.internalMemoId}/document/${new Date().getTime().toString(36) + encodeURIComponent(file.name)}`,
-        entityId: this.internalMemoId,
-        createdBy: this.userLogin,
-        memoDatea: this.memoDatea,
-        remarks: this.remarks,
+        remarks: this.changeCharacter(dataDoc.files[0].tags.remarks),
       };
-      const formData = new FormData();
-      formData.append('file', file);
-      this.storageService.uploadMeta(this.bucket, formData, tags).subscribe({
-        next: res => this._dialog.close(res),
-        error: err => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message }),
-      });
+    } else {
+      this.document = new InternalMemoDocument();
+    }
+
+    this.file = null;
+    this.bucket = this.data.bucket;
+    this.documents = this.data.documents;
+    this.view = this.data.view;
+    this.folder = this.data.obj;
+    if (this.folder !== undefined) {
+      this.folderFiles = this.folder['files'];
+    }
+
+    this.changefield = false;
+  }
+
+  public setInternalMemoOwner() {
+    if (this.data.creditProposal !== null) {
+      this.getFilesId(this.data.creditProposal.id);
+    }
+
+    if (this.folder !== undefined) {
+      this.getFiles(this.data.creditProposal.id);
+    }
+  }
+
+  ngOnInit(): void {
+    if (this.data.creditProposal) {
+      this.object = this.data.creditProposal;
+    }
+
+    this.checkObject();
+  }
+
+  public checkObject() {
+    if (this.folder !== undefined) {
+      this.previousObject = {
+        id: this.folder['files'][0]['tags']['id'],
+        documentDate: new Date(this.folder['files'][0]['tags']['documentDate']),
+
+        documentName: this.changeCharacter(this.folder['files'][0]['tags']['documentName']),
+
+        remarks: this.changeCharacter(this.folder['files'][0]['tags']['remarks']),
+      };
+
+      this.currentObject = this.previousObject;
+      this.checkChanges();
+    } else {
+      this.previousObject = {};
+      this.currentObject = {};
+      this.checkChanges();
+    }
+  }
+
+  private getFiles(id: number): void {
+    const predicate: Object = {
+      key: `/dpdl/${id}/internal-memo/` + this.folder['files'][0]['tags']['id'],
+    };
+    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+      this.groupByFolder(res.body);
     });
   }
-  save(mode) {
-    mode === 'edit' ? this.edit() : this.preSave();
+
+  public checkChanges() {
+    if (this.previousObject && this.currentObject) {
+      const keys1 = Object.keys(this.previousObject);
+      const keys2 = Object.keys(this.currentObject);
+
+      // Periksa apakah jumlah properti sama
+      if (keys1.length !== keys2.length) {
+        this.changefield = false;
+      } else {
+        let hasChanges = false;
+
+        // Periksa apakah setiap properti memiliki nilai yang sama
+        for (const key of keys1) {
+          if (this.previousObject[key] !== this.currentObject[key]) {
+            hasChanges = true;
+            break;
+          }
+        }
+
+        if (hasChanges) {
+          this.changefield = true;
+        } else {
+          this.changefield = false;
+        }
+      }
+    }
+  }
+
+  public getField() {
+    if (this.folder !== undefined) {
+      this.document.id = this.folder['files'][0]['tags']['id'];
+      this.document.documentDate = new Date(this.folder['files'][0]['tags']['documentDate']);
+
+      this.document.documentName = this.changeCharacter(this.folder['files'][0]['tags']['documentName']);
+
+      this.document.remarks = this.changeCharacter(this.folder['files'][0]['tags']['remarks']);
+      // this.document.documentType = this.folder['files'][0]['tags']['documentType'];
+      // this.document.documentName = this.folder['files'][0]['tags']['documetNo'].replace('&', 'codeSpecialDan');
+    }
+  }
+
+  public preSave(): void {
+    this.currentObject = {
+      id: this.document.id,
+
+      documentDate: new Date(this.document.documentDate),
+      documentName: this.changeCharacter(this.document.documentName),
+
+      remarks: this.changeCharacter(this.document.remarks),
+    };
+
+    this.checkChanges();
+
+    if (this.removeFile.length > 1) {
+      for (let i = 0; i < this.removeFile.length; i++) {
+        this.storageService.deleteFile(this.bucket, this.removeFile[i]).subscribe(data => {
+          this.saveAndUpdate();
+        });
+      }
+    } else if (this.removeFile.length === 1) {
+      this.storageService.deleteFile(this.bucket, this.removeFile[0]).subscribe(data => {
+        this.saveAndUpdate();
+      });
+    } else {
+      this.saveAndUpdate();
+    }
+  }
+
+  private getFilesId(id: number): void {
+    const predicate: Object = {
+      key: `/dpdl/${id}/internal-memo/`,
+    };
+    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+      if (res.body.length > 0) {
+        this.loopId(res.body);
+      }
+    });
+  }
+
+  public loopId(data: any) {
+    for (let i = 0; i < data.length; i++) {
+      this.existingIds.push(data[i]['tags']['id']);
+    }
+  }
+
+  private groupByFolder(param: Object[]): void {
+    this.folders = [];
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.id')
+        .map((val, key) => ({
+          folder: key,
+          date: val[0]['tags']['documentDate'],
+          files: val,
+          nameFile: val[0]['name'],
+        }))
+        .value();
+
+      this.folder = this.folders[0];
+      this.folders2 = this.folders;
+      this.getField();
+      this.id = this.folder['files'][0]['tags']['id'];
+    }
+  }
+
+  public saveAndUpdate() {
+    this.validate().then(() =>
+      this.save().then((res: any) => {
+        this._dialog.close(res);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Document saved successfully.' });
+      })
+    );
+  }
+
+  public save(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (this.data.creditProposal !== null) {
+        const data = {
+          existingIds: this.existingIds,
+          view: this.view,
+          files: this.files,
+          datePipe: this.datePipe,
+
+          id: this.document.id,
+          documentName: this.changeCharacter(this.document.documentName),
+
+          creditProposal: {
+            id: this.data.creditProposal.id,
+          },
+
+          documentDate: this.document.documentDate,
+          remarks: this.changeCharacter(this.document.remarks),
+
+          folderFiles: this.folderFiles,
+        };
+
+        resolve(data);
+      }
+    });
+  }
+
+  public setModel(event: any) {
+    this.document.documentName = event.target.value;
+  }
+
+  public onSelect(event: any) {
+    this.files.push(...event.addedFiles);
+  }
+
+  public onRemove(event: any) {
+    if (event.url === undefined) {
+      this.files.splice(this.files.indexOf(event), 1);
+    } else {
+      this.folder['files'] = this.folder['files'].filter((data: any) => data.key !== event.key);
+
+      this.removeFile.push(event.key);
+    }
+  }
+
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
+  }
+
+  public generateRandomId(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomId = '';
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomId += characters.charAt(randomIndex);
+    }
+
+    return randomId;
+  }
+
+  public checkIdExists(id: string, existingIds: string[]): boolean {
+    return existingIds.includes(id);
+  }
+
+  public generateUniqueRandomId(length: number, existingIds: string[]): string {
+    let randomId = this.generateRandomId(length);
+
+    while (this.checkIdExists(randomId, existingIds)) {
+      randomId = this.generateRandomId(length);
+    }
+
+    return randomId;
+  }
+
+  // Validasi
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  public checkMustValidated() {
+    const mustValidateDocument = {
+      remarks: true,
+
+      documentName: true,
+      date: true,
+      files: true,
+    };
+    if (this.folder === undefined) {
+      if (this.files.length === 0) {
+        mustValidateDocument.files = false;
+        // this._snackBar.open('Choose file for upload', null, {
+        //   horizontalPosition: 'right',
+        //   verticalPosition: 'top',
+        //   duration: 3000,
+        // });
+      }
+    }
+
+    if (!this.document.documentName) {
+      this._showNotification('error', 'Masukkan Document Name terlebih dahulu');
+      mustValidateDocument.documentName = false;
+    }
+    if (!this.document.documentDate) {
+      this._showNotification('error', 'Masukkan Tanggal Document terlebih dahulu');
+      mustValidateDocument.date = false;
+    }
+
+    if (!this.document.remarks) {
+      this._showNotification('error', 'Masukkan remarks Document terlebih dahulu');
+      mustValidateDocument.remarks = false;
+    }
+
+    return this._validateProcess(mustValidateDocument);
+  }
+
+  public validateDocument(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Document Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateDocument().then(() => resolve(true));
+    });
+  }
+
+  changeCharacter(inputString: string): string {
+    if (typeof inputString === 'string') {
+      // Replace '&' with a specific letter, for example 'X'
+      return inputString.replace(/&/g, 'dan');
+    }
+    return inputString;
   }
 }
