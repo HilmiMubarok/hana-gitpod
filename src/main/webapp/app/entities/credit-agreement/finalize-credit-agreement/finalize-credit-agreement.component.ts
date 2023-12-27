@@ -32,6 +32,12 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public dataClausal: any[];
   public _creditProposal;
   selectedCondition: any = '';
+
+  public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
+  public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
+  public displayRevewHistory = ['no', 'approveName', 'position', 'date', 'action'];
+  public displayColumnsCreditAgreementClausal: any[];
+  public displayColumnsGenerateDraftCreditAgreement = ['no', 'filename', 'date', 'createdby', 'sizefile', 'action'];
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -47,7 +53,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     private dialog: MatDialog,
     public messageService: MessageService,
     public generalParameterService: GeneralParameterService,
-    public creditAgreementService: CreditAgreementService
+    public creditAgreementService: CreditAgreementService,
+    public messageSeervice: MessageService
   ) {
     this.loading = false;
   }
@@ -59,6 +66,22 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
     this.approvalConditionStatus();
+
+    if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'NEW') {
+      this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
+    } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
+      this.displayColumnsCreditAgreementClausal = ['code', 'category', 'description', 'clausal', 'action'];
+    }
+  }
+
+  public onSelectAgreementType(event: any) {
+    this.creditProposal.agreements[0].attributes.AGREEMENT_TYPE = event.value;
+
+    if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'NEW') {
+      this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
+    } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
+      this.displayColumnsCreditAgreementClausal = ['code', 'category', 'description', 'clausal', 'action'];
+    }
   }
 
   public getClausalAgreement() {
@@ -125,6 +148,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       data: {
         dataClausal: this.dataClausal,
         agreement: this.creditProposal.agreements,
+        creditProposal: this.creditProposal,
       },
     });
 
@@ -139,15 +163,17 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
-  public uploadFile() {
-    console.log('ok', this.selectedFile);
-  }
-
   public deleteSigner(element: any) {
     this.dataAgreement = this.dataAgreement.filter((data: any) => data.id !== element.id);
     this.creditProposal.agreements[0].attributes = {
       SIGNERS: JSON.stringify(this.dataAgreement),
     };
+  }
+
+  public deleteClausal(element: any) {
+    this.creditAgreementService.deleteClausalAgreement(element.id).subscribe(() => {
+      this.dataClausal = this.dataClausal.filter((data: any) => data.id !== element.id);
+    });
   }
 
   public openDialogSigner(data: any) {
@@ -184,12 +210,6 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       }
     });
   }
-
-  public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
-  public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
-  public displayRevewHistory = ['no', 'approveName', 'position', 'date', 'action'];
-  public displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
-  public displayColumnsGenerateDraftCreditAgreement = ['no', 'filename', 'date', 'createdby', 'sizefile', 'action'];
 
   addApproval() {
     if (this.creditProposal.customerType === 'PERSONAL') {

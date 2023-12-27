@@ -189,6 +189,10 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
 
+  public deleteClausalAgreement(id: number): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(MICROSERVICENAME.LOS + `/api/agreement-clausals/${id}`, { observe: 'response' });
+  }
+
   public saveClausalAgreement(entity: any, params?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(params);
     return this.http
