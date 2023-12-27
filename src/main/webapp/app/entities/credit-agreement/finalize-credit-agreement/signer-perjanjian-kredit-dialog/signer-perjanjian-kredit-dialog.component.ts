@@ -127,8 +127,8 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
               optionKebHana = [...optionKebHana, res1.body[i].description];
             }
 
-            this.optionKebHana = optionKebHana;
-            this.optionDebitor = optionDebitor;
+            this.optionKebHana = optionDebitor;
+            this.optionDebitor = optionKebHana;
             if (this.data.element !== null) {
               this.getPositon();
               this.getName();
@@ -145,23 +145,21 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
 
   public onSelectPositon(event: any) {
     this.debitor = event.value;
-    this.options = [];
 
     if (this.data.creditProposal.prospectPerson !== null) {
       if (this.debitor === 'Debitor') {
         this.nameDebitor = this.data.creditProposal.prospectPerson.name;
       } else {
         this.nameDebitor = '';
-        this.getEmployee().then(() => {
-          for (let i = 0; i < this.employeePosition.length; i++) {
-            this.nama = [...this.nama, this.employeePosition[i].person.name];
-          }
 
-          this.filteredName = this.myName.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filterName(value))
-          );
-        });
+        for (let i = 0; i < this.employeePosition.length; i++) {
+          this.nama = [...this.nama, this.employeePosition[i].person.name];
+        }
+
+        this.filteredName = this.myName.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filterName(value))
+        );
       }
     } else {
       if (this.debitor === 'Debitor') {

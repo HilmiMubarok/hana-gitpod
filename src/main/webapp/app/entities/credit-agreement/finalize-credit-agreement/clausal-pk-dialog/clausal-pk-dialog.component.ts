@@ -11,6 +11,7 @@ export class ClausalPkDialogComponent {
   public loading: boolean;
   public dataClausalAgreement: any[] = [];
   public agreementClausal: ICreditAgreementClausal = new CreditAgreementClausal();
+  public allSelect: boolean;
 
   public clausalAgreement: any[];
   constructor(
@@ -20,6 +21,9 @@ export class ClausalPkDialogComponent {
   ) {
     this.getClausalAgreement();
     this.loading = false;
+    this.agreementClausal = {
+      category: this.data.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE,
+    };
   }
   public displayColumnsCreditAgreementClausal: string[] = ['code', 'category', 'description', 'action'];
 
@@ -34,7 +38,9 @@ export class ClausalPkDialogComponent {
         size: 9999,
       })
       .subscribe((res: any) => {
-        this.clausalAgreement = res.body.sort((a, b) => (a.sequence > b.sequence ? 1 : -1));
+        const data = res.body.sort((a, b) => (a.sequence > b.sequence ? 1 : -1));
+
+        this.clausalAgreement = data.filter(obj1 => !this.data.dataClausal.some(obj2 => obj2.agreementClausalParameterId === obj1.id));
       });
   }
 
@@ -45,6 +51,16 @@ export class ClausalPkDialogComponent {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public selectAll(event: any) {
+    if (event.checked === true) {
+      this.allSelect = true;
+      this.dataClausalAgreement = this.clausalAgreement;
+    } else {
+      this.allSelect = false;
+      this.dataClausalAgreement = [];
     }
   }
 
