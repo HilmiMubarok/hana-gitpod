@@ -49,11 +49,9 @@ export class DocumentLegalDetailDialogComponent implements OnInit {
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file: IDocumentNode = files[i];
-        console.log('file', file);
+
         file.tags['docNo'] = 'hana bank';
-        this.storageService.update(this.bucketName, file.tags, { key: file.key }).subscribe(res => {
-          console.log('xxxxyyyy123', res.body);
-        });
+        this.storageService.update(this.bucketName, file.tags, { key: file.key }).subscribe(res => {});
       }
     }
   }

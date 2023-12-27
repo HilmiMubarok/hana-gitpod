@@ -4,11 +4,11 @@ import { IDocumentNode } from 'app/entities/document-node/document-node.model';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 @Component({
-  selector: 'jhi-document-dpdl-detail-dialog',
-  templateUrl: './document-dpdl-detail-dialog.component.html',
-  styleUrls: ['../document.scss'],
+  selector: 'jhi-internal-memo-detail',
+  templateUrl: './dialog-internal-memo-detail.component.html',
+  styleUrls: ['./dialog.scss'],
 })
-export class DocumentDpdlDetailDialogComponent implements OnInit {
+export class InternalMemoDetailComponent implements OnInit {
   public folder: object;
   private bucketName: string;
   constructor(
@@ -36,12 +36,20 @@ export class DocumentDpdlDetailDialogComponent implements OnInit {
     this.reportUtilService.downloadFileBYName(event, name.name);
   }
 
-  public convertDan(value: string): any {
-    if (value !== null && value !== undefined) {
-      return value.replace('codeSpecialDan', '&');
-    } else {
-      return '';
+  //   public convertDan(value: string): any {
+  //     if (value !== null && value !== undefined) {
+  //       return value.replace('codeSpecialDan', '&');
+  //     } else {
+  //       return '';
+  //     }
+  //   }
+
+  changeCharacter(inputString: string): string {
+    if (typeof inputString === 'string') {
+      // Replace '&' with a specific letter, for example 'X'
+      return inputString.replace(/&/g, 'dan');
     }
+    return inputString;
   }
 
   public save(): void {

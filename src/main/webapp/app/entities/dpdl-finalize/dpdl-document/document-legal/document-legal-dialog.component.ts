@@ -99,7 +99,7 @@ export class DocumentLegalDialogComponent implements OnInit {
   ) {
     this.view = this.data.view;
     const dataDoc: any = this.data.obj;
-    console.log('dataDoc', dataDoc);
+
     if (this.data.view === 'edit') {
       this.document = {
         id: dataDoc.id,
@@ -111,7 +111,6 @@ export class DocumentLegalDialogComponent implements OnInit {
         status: dataDoc.files[0].tags.status,
         attributes: JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)),
       };
-      console.log('this.document', this.document);
     } else {
       this.document = new DocumentLegalDpdl();
       // this.document.attributes = {};
@@ -169,7 +168,6 @@ export class DocumentLegalDialogComponent implements OnInit {
             this.document.documentName = this.documentTypes[i].description;
           }
         }
-        console.log('ressssss', res);
       });
   }
   public setOwnerCollateral() {
@@ -278,7 +276,7 @@ export class DocumentLegalDialogComponent implements OnInit {
       this.document.attributes.total = this.folder['files'][0]['tags']['attributes']['total'];
       this.document.attributes.notaryNumber = this.folder['files'][0]['tags']['attributes']['notaryNumber'];
       this.document.attributes.notaryName = this.folder['files'][0]['tags']['attributes']['notaryName'];
-      this.document.attributes.batasWaktuPenyelaian = this.folder['files'][0]['tags']['attributes']['batasWaktuPenyelesaian'];
+      this.document.attributes.batasWaktuPenyelesaian = this.folder['files'][0]['tags']['attributes']['batasWaktuPenyelesaian'];
       // this.document.documentName = this.folder['files'][0]['tags']['documetNo'].replace('&', 'codeSpecialDan');
     }
   }
@@ -306,7 +304,7 @@ export class DocumentLegalDialogComponent implements OnInit {
       category: this.document.category,
       status: this.document.status,
     };
-    console.log('this.currentObject', this.currentObject);
+
     this.checkChanges();
     if (this.folder === undefined) {
       if (this.files.length === 0) {
@@ -383,8 +381,6 @@ export class DocumentLegalDialogComponent implements OnInit {
   }
 
   public save(): Promise<any> {
-    console.log('root id', this.document.id);
-
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -423,10 +419,10 @@ export class DocumentLegalDialogComponent implements OnInit {
               typeof this.document.attributes === 'string'
                 ? JSON.parse(this.changeCharacter(this.document.attributes)).notaryName
                 : this.changeCharacter(this.document.attributes.notaryName),
-            batasWaktuPenyelaian:
+            batasWaktuPenyelesaian:
               typeof this.document.attributes === 'string'
-                ? JSON.parse(this.changeCharacter(this.document.attributes)).batasWaktuPenyelaian
-                : this.changeCharacter(this.document.attributes.batasWaktuPenyelaian),
+                ? JSON.parse(this.changeCharacter(this.document.attributes)).batasWaktuPenyelesaian
+                : this.changeCharacter(this.document.attributes.batasWaktuPenyelesaian),
           },
           // attributes: {
           //   remarks: this.document.attributes.remarks,
@@ -435,7 +431,7 @@ export class DocumentLegalDialogComponent implements OnInit {
           status: this.document.status,
           folderFiles: this.folderFiles,
         };
-        console.log('data', data);
+
         resolve(data);
       }
     });

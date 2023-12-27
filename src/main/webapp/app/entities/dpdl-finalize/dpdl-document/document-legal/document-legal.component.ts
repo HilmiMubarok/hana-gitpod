@@ -113,7 +113,6 @@ export class DocumentLegalComponent implements OnChanges {
         obj: element,
       },
     };
-    console.log('element', element);
 
     if (this.creditProposal) {
       predicate['data']['creditProposal'] = this.change.creditProposal['currentValue'];
@@ -135,7 +134,6 @@ export class DocumentLegalComponent implements OnChanges {
   }
   dataKey;
   public delete(element): void {
-    console.log('element', element);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
       data: {
@@ -154,7 +152,6 @@ export class DocumentLegalComponent implements OnChanges {
               });
             });
             this.dataKey = element;
-            console.log('dataKey', this.dataKey);
           }
         }
         this.messageService.add({ severity: 'success', summary: 'Success', detail: `Document deleted successfully` });
@@ -194,7 +191,6 @@ export class DocumentLegalComponent implements OnChanges {
   }
 
   private groupByFolder(param: Object[]): void {
-    console.log('param', param);
     this.folders = [];
 
     if (param.length > 0) {
@@ -207,7 +203,6 @@ export class DocumentLegalComponent implements OnChanges {
 
           const z = val.find(values => values['tags']['parentId'] !== 'DOC_DPDL_LEGAL_COVERNOTE');
           const documentName = this.documentTypes.find(type => type.id === val[0]['tags']['documentId']);
-          console.log('id value', val[0]['tags']['id']);
 
           return {
             folder: key,
@@ -227,7 +222,6 @@ export class DocumentLegalComponent implements OnChanges {
         .value();
       // Apply sorting after grouping
       this.folders = this.sortByDateDesc(this.folders, 'documentDate');
-      console.log('Grouped Data And Sort Data:', this.folders);
     }
   }
 
@@ -236,10 +230,8 @@ export class DocumentLegalComponent implements OnChanges {
       const promises: Array<any> = new Array<any>();
       const id = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
       this.docDpdl = res;
-      console.log('res', res);
-      for (let i = 0; i < res.files.length; i++) {
-        console.log('res', res.files);
 
+      for (let i = 0; i < res.files.length; i++) {
         const files = res.datePipe.transform(new Date(), 'yyyy-MM-dd:hh:mm:ss') + '-' + res.files[i].name.replace('&', '');
 
         this.metaData.id = id;
@@ -275,7 +267,7 @@ export class DocumentLegalComponent implements OnChanges {
     return new Promise((resolve, reject) => {
       if (res && res.folderFiles && res.folderFiles.length > 0) {
         // if (res.folderFiles.length > 0) {
-        console.log('res', res);
+
         const promises: Array<any> = new Array<any>();
         // const id = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
         const fileRes = [];
@@ -283,8 +275,6 @@ export class DocumentLegalComponent implements OnChanges {
         if (files.length > 0) {
           for (let i = 0; i < files.length; i++) {
             const file: IDocumentNode = files[i];
-            console.log('files', file);
-            console.log('id edit', res.id);
 
             file.tags['id'] = res.id;
             file.tags['applicationId'] = this.creditProposal.id;
@@ -356,7 +346,6 @@ export class DocumentLegalComponent implements OnChanges {
             res1.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN'
         );
         this.documentTypes = data;
-        console.log('document types', this.documentTypes);
       });
   }
 
@@ -387,7 +376,7 @@ export class DocumentLegalComponent implements OnChanges {
   }
   private sortByDateDesc(items: any[], datePropertyName: string): any[] {
     const sortedItems = lodash.orderBy(items, [item => new Date(item[datePropertyName])], ['desc']);
-    console.log('Sorted Items:', sortedItems);
+
     return sortedItems;
   }
 }

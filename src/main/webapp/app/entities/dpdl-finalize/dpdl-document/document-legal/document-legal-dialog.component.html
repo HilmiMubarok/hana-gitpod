@@ -231,14 +231,14 @@
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Batas Waktu Penyelaian</mat-label>
                   <input
-                    [matDatepicker]="batasWaktuPenyelaian"
+                    [matDatepicker]="batasWaktuPenyelesaian"
                     matInput
                     type="text"
-                    [(ngModel)]="document.attributes['batasWaktuPenyelaian']"
+                    [(ngModel)]="document.attributes['batasWaktuPenyelesaian']"
                     disabled
                   />
-                  <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelaian"></mat-datepicker-toggle>
-                  <mat-datepicker #batasWaktuPenyelaian disabled="false"></mat-datepicker>
+                  <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelesaian"></mat-datepicker-toggle>
+                  <mat-datepicker #batasWaktuPenyelesaian disabled="false"></mat-datepicker>
                 </mat-form-field>
               </div>
             </div>
@@ -592,16 +592,16 @@
           <div class="col-6">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Batas Waktu Penyelaian</mat-label>
+                <mat-label>Batas Waktu Penyelesaian</mat-label>
                 <input
-                  [matDatepicker]="batasWaktuPenyelaian"
+                  [matDatepicker]="batasWaktuPenyelesaian"
                   matInput
                   type="text"
-                  [(ngModel)]="document.attributes['batasWaktuPenyelaian']"
+                  [(ngModel)]="document.attributes['batasWaktuPenyelesaian']"
                   disabled
                 />
-                <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelaian"></mat-datepicker-toggle>
-                <mat-datepicker #batasWaktuPenyelaian disabled="false"></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelesaian"></mat-datepicker-toggle>
+                <mat-datepicker #batasWaktuPenyelesaian disabled="false"></mat-datepicker>
               </mat-form-field>
             </div>
           </div>

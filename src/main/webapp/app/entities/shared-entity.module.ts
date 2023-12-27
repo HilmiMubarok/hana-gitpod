@@ -464,6 +464,7 @@ import { DocumentDpdlDetailDialogComponent } from './dpdl-finalize/dpdl-document
 import { DocumentDpdlUploadDialogComponent } from './dpdl-finalize/dpdl-document/legal-document-upload/document-dpdl-upload-dialog.component';
 import { DocumentLegalUploadComponent } from './dpdl-finalize/dpdl-document/legal-document-upload/document-legal-upload.component';
 import { DocumentLegalDetailDialogComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal-detail-dialog.component';
+import { InternalMemoDetailComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo-detail.component';
 
 @NgModule({
   imports: [
@@ -1005,6 +1006,7 @@ import { DocumentLegalDetailDialogComponent } from './dpdl-finalize/dpdl-documen
     DocumentLegalDetailDialogComponent,
     DpdlDocumentComponent,
     GenerateDpdlDraftComponent,
+    InternalMemoDetailComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1502,6 +1504,7 @@ import { DocumentLegalDetailDialogComponent } from './dpdl-finalize/dpdl-documen
     DocumentLegalDetailDialogComponent,
     DpdlDocumentComponent,
     GenerateDpdlDraftComponent,
+    InternalMemoDetailComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
