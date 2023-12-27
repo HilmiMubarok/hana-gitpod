@@ -5,7 +5,8 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>CIF Number</mat-label>
-          <input matInput type="text" [(ngModel)]="organization.attributes['management_cif']" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="organization.attributes['management_cif']"
+            [disabled]="dataSource()" />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </section>
@@ -53,7 +54,6 @@
         <div class="fontsebled row">
           <div class="col">Company type</div>
           <div class="col-md-auto">:</div>
-          \
           <div class="col">
             {{ companyTypeValue }}
           </div>
@@ -83,7 +83,8 @@
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Phone Number 1</mat-label>
-              <input matInput type="text" [(ngModel)]="partyGroup.officePhone" [maxlength]="50" [disabled]="disabledData" />
+              <input matInput type="text" [(ngModel)]="partyGroup.officePhone" [maxlength]="50"
+                [disabled]="disabledData" />
             </mat-form-field>
           </section>
           <section *jhiMatrixDirIDD="''">
@@ -121,7 +122,8 @@
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Phone Number 2</mat-label>
-              <input matInput type="text" [(ngModel)]="partyGroup.otherPhone1" [maxlength]="50" [disabled]="disabledData" />
+              <input matInput type="text" [(ngModel)]="partyGroup.otherPhone1" [maxlength]="50"
+                [disabled]="disabledData" />
             </mat-form-field>
           </section>
           <section *jhiMatrixDirIDD="''">
@@ -159,7 +161,8 @@
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Phone Number 3</mat-label>
-              <input matInput type="text" [(ngModel)]="partyGroup.otherPhone2" [maxlength]="50" [disabled]="disabledData" />
+              <input matInput type="text" [(ngModel)]="partyGroup.otherPhone2" [maxlength]="50"
+                [disabled]="disabledData" />
             </mat-form-field>
           </section>
           <section *jhiMatrixDirIDD="''">
