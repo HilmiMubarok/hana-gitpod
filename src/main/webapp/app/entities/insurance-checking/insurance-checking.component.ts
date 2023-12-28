@@ -158,7 +158,6 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       })
       .subscribe((res: any) => {
         this.statusCodesData = res.body;
-        console.log(this.statusCodesData, 'bisa');
       });
   }
 
@@ -220,10 +219,12 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
   private checkReturnStatusDescription(data: IInsuranceChecking[]) {
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
-        data[i].statusDescription =
-          data[i].statusDescription.substring(0, 2) === 'Ol'
-            ? data[i].statusDescription.substring(3, data[i].statusDescription.length)
-            : data[i].statusDescription;
+        // eslint-disable-next-line no-self-assign
+        // data[i].statusInsuranceDescription = data[i].statusInsuranceDescription;
+        data[i].statusInsuranceDescription =
+          data[i].statusInsuranceDescription.substring(0, 2) === 'Ol'
+            ? data[i].statusInsuranceDescription.substring(3, data[i].statusInsuranceDescription.length)
+            : data[i].statusInsuranceDescription;
       }
     }
     return data;
@@ -258,7 +259,6 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
     forCheckedItems = this.addStaticDob(data.body);
     forCheckedItems = this.addIdx(data.body);
     forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
-    console.log('data', forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
 

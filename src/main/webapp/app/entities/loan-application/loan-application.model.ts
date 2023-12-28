@@ -36,6 +36,9 @@ export interface ILoanApplication {
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
+  statusInsuranceCode?: string;
+  statusInsuranceDescription?: string;
+  statusInsuranceId?: string;
   // rm?: IApplicationRole;
   rm?: IPosition;
   creditFacilityId?: number;
@@ -72,6 +75,9 @@ export class LoanApplication implements ILoanApplication {
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string,
+    public statusInsuranceCode?: string,
+    public statusInsuranceDescription?: string,
+    public statusInsuranceId?: string,
     public roles?: any,
     public attributes?: any,
     public notes?: any[],
