@@ -28,6 +28,7 @@ export class AbstractEntityService<T> {
   protected resourceFacility: string;
   protected insuranceInformationUrl: string;
   protected cashPositionResource: string;
+  protected entityPropertiesResourceUrl: string;
 
   constructor(protected http?: HttpClient) {
     this.lastReadCache = new Date();

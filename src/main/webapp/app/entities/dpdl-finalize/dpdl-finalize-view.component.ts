@@ -54,6 +54,8 @@ import { INotes, Notes } from '../notes/notes.model';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
+import { CashDpdlService } from './cash-dpdl.service';
+import { CashCreditProposalsService } from '../cash-credit-proposal/cash-credit-proposals.service';
 
 @Component({
   selector: 'jhi-dpdl-finalize-view',
@@ -170,7 +172,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
     protected messageService: MessageService,
     protected dpdlFinalizeProcessSercvice: DpdlFinalizeProcessSercvice,
     public templateService: TemplateService,
-    public dpdlFinalizeService: DpdlFinalizeService
+    // public dpdlFinalizeService: DpdlFinalizeService,
+    protected cashDpdlService: CashCreditProposalsService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -739,7 +742,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
     if (this.creditProposal.id) {
-      this.dpdlFinalizeService.update(this.preSave(statusPreSave)).subscribe(res => {
+      // this.dpdlFinalizeService.update(this.preSave(statusPreSave)).subscribe(res => {
+      this.cashDpdlService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
 
         if (this.creditProposalTabBusinessActivityComponent) {
@@ -807,7 +811,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.dpdlFinalizeService.update(this.preSave(status)).subscribe(res => {
+    // this.dpdlFinalizeService.update(this.preSave(status)).subscribe(res => {
+    this.cashDpdlService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
 
@@ -1273,8 +1278,11 @@ export class DpdlFinalizeViewComponent implements OnInit {
   }
 
   private preSave(status: string): IDpdlFinalizeModel {
-    for (let i = 0; i < this.dpdlFinalizeService.partySliks.length; i++) {
-      this.creditProposal.sliks = [...this.creditProposal.sliks, this.dpdlFinalizeService.partySliks[i]];
+    // for (let i = 0; i < this.dpdlFinalizeService.partySliks.length; i++) {
+    //   this.creditProposal.sliks = [...this.creditProposal.sliks, this.dpdlFinalizeService.partySliks[i]];
+    // }
+    for (let i = 0; i < this.cashDpdlService.partySliks.length; i++) {
+      this.creditProposal.sliks = [...this.creditProposal.sliks, this.cashDpdlService.partySliks[i]];
     }
     const copyCreditProposal: IDpdlFinalizeModel = lodash.cloneDeep(this.creditProposal);
 
