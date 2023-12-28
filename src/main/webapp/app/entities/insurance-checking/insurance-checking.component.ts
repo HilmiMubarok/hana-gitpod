@@ -314,7 +314,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
         this.getStatusListView('INSURANCE_CHECKING');
         if (this.clickedChip['statusId'] !== '') {
           this.cashInsuranceCheckingService
-            .cashCreditProposalApproval({
+            .InsuranceCheckingBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
@@ -330,7 +330,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
           return;
         } else {
           this.cashInsuranceCheckingService
-            .cashCreditProposalApprovalByStatus({
+            .InsuranceCheckingBystatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
