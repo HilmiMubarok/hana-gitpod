@@ -285,7 +285,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('dppk-finalize')) {
+    if (this.router.url.includes('insurance-review')) {
       if (this.positionTypeId === 'BM') {
         if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
           this.conditionSave = true;
@@ -404,7 +404,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
 
-        if (this.parentPath !== 'finalize-dppk') {
+        if (this.parentPath !== 'insurance-review') {
           if (this.proposalBasicInformationViewComponent) {
             this.proposalBasicInformationViewComponent.triggeredSave();
           }
@@ -431,7 +431,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
         }
 
         if (this.saveState === 'process') {
-          if (this.parentPath === 'finalize-dppk') {
+          if (this.parentPath === 'insurance-review') {
             this.saveApplicationRole();
           } else {
             this.reviewInsuranceProcessService.processTask(this.resAttr).subscribe(() => {
@@ -462,7 +462,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     });
 
     this.reviewInsuranceService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-      const menuItemIdByRoute = this.router.url.includes('dppk-finalize') ? 'FINALIZE_CREDIT_AGREEMENT' : 'FINALIZE_CREDIT_AGREEMENT';
+      const menuItemIdByRoute = this.router.url.includes('insurance-review') ? 'INSURANCE_REVIEW' : 'INSURANCE_REVIEW';
       console.log('routes', menuItemIdByRoute);
       this.ca = response.body;
       console.log('routes', this.ca);
@@ -682,7 +682,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.parentPath !== 'finalize-dppk') {
+      if (this.parentPath !== 'insurance-review') {
         if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
         }
@@ -705,7 +705,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
       }
 
       if (source === 'process') {
-        if (this.parentPath === 'finalize-dppk') {
+        if (this.parentPath === 'insurance-review') {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
@@ -741,7 +741,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'finalize-dppk') {
+        if (this.router.url.split('/')[1] === 'insurance-review') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -1017,7 +1017,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     }
     const copyCreditProposal: IReviewInsurance = lodash.cloneDeep(this.creditProposal);
 
-    if (this.router.url.split('/')[1] === 'finalize-dppk') {
+    if (this.router.url.split('/')[1] === 'insurance-review') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
         if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
           copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(
@@ -1030,7 +1030,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     let tempHelper = 0;
     const tempRouter = this.router.url.split('/')[1];
 
-    if (tempRouter === 'finalize-dppk') {
+    if (tempRouter === 'insurance-review') {
       if (status === 'complete') {
         if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
           if (copyCreditProposal.notes.length > 0) {
@@ -1148,10 +1148,10 @@ export class ReviewInsuranceDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'finalize-dppk') {
-      return 'DPPK Finalize';
+    if (value === 'insurance-review') {
+      return 'INSURANCE REVIEW';
     } else {
-      return 'DPPK Finalize';
+      return 'INSURANCE REVIEW';
     }
   }
 

@@ -67,7 +67,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 
 @Component({
-  selector: 'jhi-dppk-finalize-floating',
+  selector: 'jhi-insurance-chaking-floating',
   templateUrl: './insurance-checking-floating.component.html',
   styleUrls: ['./insurance-checking.css'],
 })
@@ -214,6 +214,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
+
     this.subMenu = BASIC_SUBMENU_INSURANCE_CHECKING_MEMO;
     // this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
     //   ?
@@ -233,7 +234,6 @@ export class InsuranceCheckingDetailComponent implements OnInit {
         this.showTextMenu();
       }
     });
-    // this.isHistoryExist = this.creditProposal.attributes.previousHistory && this.parentPath !== 'finalize-pk' ? true : false;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
     this.setTotalPlafond();
   }
@@ -286,69 +286,9 @@ export class InsuranceCheckingDetailComponent implements OnInit {
   }
   public conditionSaveBtn() {
     if (this.router.url.includes('insurance-check')) {
-      if (this.positionTypeId === 'BM') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'SME_HEAD') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'SDH') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'DH') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'DEPT_HEAD') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_DEPTHEAD') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-    } else {
-      if (this.positionTypeId === 'RM') {
-        if (
-          this.creditProposal.statusId === 'DRAFT' ||
-          this.creditProposal.statusId === 'CP_RETURN_TO_RM' ||
-          this.creditProposal.statusId === 'CP_RETURN_TO_CR' ||
-          this.creditProposal.statusId === 'RETURN_TO_RM_CRA' ||
-          this.creditProposal.statusId === 'OL_APPEAL'
-        ) {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      } else {
-        this.conditionSave = false;
-      }
+      this.conditionSave = true;
     }
   }
-
-  // private getBucketNameSummary() {
-  //   this.storageService.getBucketName().subscribe(val => {
-  //     this.BUCKET = val.body['bucket'];
-  //   });
-  // }
 
   setUuidPath(newItem: string) {
     this.uuidPath = newItem;
@@ -452,7 +392,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getListIndustry();
-    // this.lendingProgramParameter();
+    this.lendingProgramParameter();
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
@@ -524,11 +464,11 @@ export class InsuranceCheckingDetailComponent implements OnInit {
 
   private getTasks(): void {
     // this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
-    this.insuranceCheckingProcessService
-      .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
-      .subscribe(res => {
-        this.tasks = res.body;
-      });
+    this.insuranceCheckingProcessService.getTasksByPos(this.id, { idPosition: this.getLocStor('POS') }).subscribe(res => {
+      this.tasks = res.body;
+      console.log('test', res.body);
+      console.log('test2 ', this.tasks);
+    });
   }
 
   public processTask(task: IProcessTask): void {
@@ -731,195 +671,216 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     this.setIndustryName();
     this.saveState = source;
 
-    if (this.creditProposal.attributes.proposalType === null || this.creditProposal.attributes.proposalType === '') {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Please Select Proposal Type',
-      });
-    } else {
-      this.saveWord = true;
+    // if (this.creditProposal.attributes.proposalType === null || this.creditProposal.attributes.proposalType === '') {
+    //   this.messageService.add({
+    //     severity: 'error',
+    //     summary: 'Error',
+    //     detail: 'Please Select Proposal Type',
+    //   });
+    // } else {
+    this.saveWord = true;
 
-      if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'insurance-check') {
-          if (this.creditProposalOpinionHistoryComponent) {
-            this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
-          } else {
-            let countValidate = 0;
-            if (this.positionLogin) {
-              if (this.opinionFileSfdt && this.opinionFileWord) {
-                const fileReader: FileReader = new FileReader();
-                fileReader.onload = (e: any) => {
-                  const testSfdtFile = JSON.parse(fileReader.result as string);
+    if (this.creditProposal.id) {
+      // if (this.router.url.split('/')[1] === 'finalize-pk') {
+      //   this.saveUpdate('not-complete', source);
+      // }
+      if (this.router.url.split('/')[1] === 'insurance-check') {
+        if (this.creditProposalOpinionHistoryComponent) {
+          this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
+        } else {
+          let countValidate = 0;
+          if (this.positionLogin) {
+            if (this.opinionFileSfdt && this.opinionFileWord) {
+              const fileReader: FileReader = new FileReader();
+              fileReader.onload = (e: any) => {
+                const testSfdtFile = JSON.parse(fileReader.result as string);
+                if (
+                  testSfdtFile.sections[0].blocks[0].inlines ||
+                  testSfdtFile.sections[0].blocks[0].columnCount ||
+                  testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                  testSfdtFile.sections[0].blocks[0].grid ||
+                  testSfdtFile.sections[0].blocks[0].rows ||
+                  testSfdtFile.sections[0].blocks[0].tableFormat
+                ) {
                   if (
-                    testSfdtFile.sections[0].blocks[0].inlines ||
-                    testSfdtFile.sections[0].blocks[0].columnCount ||
                     testSfdtFile.sections[0].blocks[0].paragraphFormat ||
                     testSfdtFile.sections[0].blocks[0].grid ||
                     testSfdtFile.sections[0].blocks[0].rows ||
                     testSfdtFile.sections[0].blocks[0].tableFormat
                   ) {
-                    if (
-                      testSfdtFile.sections[0].blocks[0].paragraphFormat ||
-                      testSfdtFile.sections[0].blocks[0].grid ||
-                      testSfdtFile.sections[0].blocks[0].rows ||
-                      testSfdtFile.sections[0].blocks[0].tableFormat
-                    ) {
-                      ++countValidate;
-                    } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
-                      if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
-                        ++countValidate;
-                      } else {
-                        // toast opinion empty
-                        this.messageService.add({
-                          severity: 'info',
-                          summary: 'Warning',
-                          detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                        });
-                      }
-                    } else if (testSfdtFile.sections[0].blocks[0].inlines) {
-                      let isEmpty = true;
-                      testSfdtFile.sections[0].blocks.forEach(block => {
-                        if (block.inlines) {
-                          if (block.inlines.length > 0) {
-                            isEmpty = false;
-                          }
-                        }
-                      });
-
-                      if (isEmpty) {
-                        // toast opinion empty
-                        this.messageService.add({
-                          severity: 'info',
-                          summary: 'Warning',
-                          detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                        });
-                      } else {
-                        ++countValidate;
-                      }
-                    }
-                  } else {
-                    // toast opinion empty
-                    this.messageService.add({
-                      severity: 'info',
-                      summary: 'Warning',
-                      detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                    });
-                  }
-
-                  if (this.recomendation) {
                     ++countValidate;
-                    if (this.recomendation === 'Recommend With Condition') {
-                      if (this.conditionFileSfdt && this.conditionFileWord) {
-                        const fileReaderCondition: FileReader = new FileReader();
-                        fileReaderCondition.onload = (eCondition: any) => {
-                          const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+                  } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
+                    if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+                      ++countValidate;
+                    } else {
+                      // toast opinion empty
+                      this.messageService.add({
+                        severity: 'info',
+                        summary: 'Warning',
+                        detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                      });
+                    }
+                  } else if (testSfdtFile.sections[0].blocks[0].inlines) {
+                    let isEmpty = true;
+                    testSfdtFile.sections[0].blocks.forEach(block => {
+                      if (block.inlines) {
+                        if (block.inlines.length > 0) {
+                          isEmpty = false;
+                        }
+                      }
+                    });
 
+                    if (isEmpty) {
+                      // toast opinion empty
+                      this.messageService.add({
+                        severity: 'info',
+                        summary: 'Warning',
+                        detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                      });
+                    } else {
+                      ++countValidate;
+                    }
+
+                    /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+						++countValidate;
+					  } else {
+						// toast opinion empty
+						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					  } */
+                  }
+                } else {
+                  // toast opinion empty
+                  this.messageService.add({
+                    severity: 'info',
+                    summary: 'Warning',
+                    detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                  });
+                }
+
+                if (this.recomendation) {
+                  ++countValidate;
+                  if (this.recomendation === 'Recommend With Condition') {
+                    if (this.conditionFileSfdt && this.conditionFileWord) {
+                      const fileReaderCondition: FileReader = new FileReader();
+                      fileReaderCondition.onload = (eCondition: any) => {
+                        const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+                        /* if (testSfdtFileCondition.sections[0].blocks) {
+							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+							  ++countValidate;
+							} else {
+							  // toast condition empty
+							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							}
+						  } else {
+							// toast condition empty
+							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						  } */
+
+                        if (
+                          testSfdtFileCondition.sections[0].blocks[0].inlines ||
+                          testSfdtFileCondition.sections[0].blocks[0].columnCount ||
+                          testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                          testSfdtFileCondition.sections[0].blocks[0].grid ||
+                          testSfdtFileCondition.sections[0].blocks[0].rows ||
+                          testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                        ) {
                           if (
-                            testSfdtFileCondition.sections[0].blocks[0].inlines ||
-                            testSfdtFileCondition.sections[0].blocks[0].columnCount ||
                             testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
                             testSfdtFileCondition.sections[0].blocks[0].grid ||
                             testSfdtFileCondition.sections[0].blocks[0].rows ||
                             testSfdtFileCondition.sections[0].blocks[0].tableFormat
                           ) {
-                            if (
-                              testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
-                              testSfdtFileCondition.sections[0].blocks[0].grid ||
-                              testSfdtFileCondition.sections[0].blocks[0].rows ||
-                              testSfdtFileCondition.sections[0].blocks[0].tableFormat
-                            ) {
+                            ++countValidate;
+                          } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                            if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
                               ++countValidate;
-                            } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
-                              if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
-                                ++countValidate;
-                              } else {
-                                // toast condition empty
-                                this.messageService.add({
-                                  severity: 'info',
-                                  summary: 'Warning',
-                                  detail: 'Condition Empty! All data will be save except data at tab opinion',
-                                });
-                              }
-                            } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
-                              let isEmpty = true;
-                              testSfdtFileCondition.sections[0].blocks.forEach(block => {
-                                if (block.inlines) {
-                                  if (block.inlines.length > 0) {
-                                    isEmpty = false;
-                                  }
-                                }
+                            } else {
+                              // toast condition empty
+                              this.messageService.add({
+                                severity: 'info',
+                                summary: 'Warning',
+                                detail: 'Condition Empty! All data will be save except data at tab opinion',
                               });
-
-                              if (isEmpty) {
-                                // toast condition empty
-                                this.messageService.add({
-                                  severity: 'info',
-                                  summary: 'Warning',
-                                  detail: 'Condition Empty! All data will be save except data at tab opinion',
-                                });
-                              } else {
-                                ++countValidate;
+                            }
+                          } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+                            let isEmpty = true;
+                            testSfdtFileCondition.sections[0].blocks.forEach(block => {
+                              if (block.inlines) {
+                                if (block.inlines.length > 0) {
+                                  isEmpty = false;
+                                }
                               }
+                            });
 
-                              /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+                            if (isEmpty) {
+                              // toast condition empty
+                              this.messageService.add({
+                                severity: 'info',
+                                summary: 'Warning',
+                                detail: 'Condition Empty! All data will be save except data at tab opinion',
+                              });
+                            } else {
+                              ++countValidate;
+                            }
+
+                            /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
 								++countValidate;
 							  } else {
 								// toast condition empty
 								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 							  } */
-                            }
-                          } else {
-                            // toast condition empty
-                            this.messageService.add({
-                              severity: 'info',
-                              summary: 'Warning',
-                              detail: 'Condition Empty! All data will be save except data at tab opinion',
-                            });
                           }
+                        } else {
+                          // toast condition empty
+                          this.messageService.add({
+                            severity: 'info',
+                            summary: 'Warning',
+                            detail: 'Condition Empty! All data will be save except data at tab opinion',
+                          });
+                        }
 
-                          if (countValidate === 3) {
-                            this.saveUpdate('complete', source);
-                          } else {
-                            this.saveUpdate('not-complete', source);
-                          }
-                        };
-                        fileReaderCondition.readAsText(this.conditionFileSfdt);
-                      }
-                    } else {
-                      if (countValidate === 2) {
-                        this.saveUpdate('complete', source);
-                      } else {
-                        this.saveUpdate('not-complete', source);
-                      }
+                        if (countValidate === 3) {
+                          this.saveUpdate('complete', source);
+                        } else {
+                          this.saveUpdate('not-complete', source);
+                        }
+                      };
+                      fileReaderCondition.readAsText(this.conditionFileSfdt);
                     }
                   } else {
-                    // toast recomendation empty
-                    this.messageService.add({
-                      severity: 'info',
-                      summary: 'Warning',
-                      detail: 'Recommendation Empty! All data will be save except data at tab opinion',
-                    });
-                    this.saveUpdate('not-complete', source);
+                    if (countValidate === 2) {
+                      this.saveUpdate('complete', source);
+                    } else {
+                      this.saveUpdate('not-complete', source);
+                    }
                   }
-                };
-                fileReader.readAsText(this.opinionFileSfdt);
-              } else {
-                // toast opinion empty
-                this.messageService.add({
-                  severity: 'info',
-                  summary: 'Warning',
-                  detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                });
-                this.saveUpdate('not-complete', source);
-              }
+                } else {
+                  // toast recomendation empty
+                  this.messageService.add({
+                    severity: 'info',
+                    summary: 'Warning',
+                    detail: 'Recommendation Empty! All data will be save except data at tab opinion',
+                  });
+                  this.saveUpdate('not-complete', source);
+                }
+              };
+              fileReader.readAsText(this.opinionFileSfdt);
             } else {
+              // toast opinion empty
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Warning',
+                detail: 'Opinion Empty! All data will be save except data at tab opinion',
+              });
               this.saveUpdate('not-complete', source);
             }
+          } else {
+            this.saveUpdate('not-complete', source);
           }
         }
-      } else {
-        /* this.creditProposalService.create(this.preSave()).subscribe(res => {
+      }
+      // } else {
+      /* this.creditProposalService.create(this.preSave()).subscribe(res => {
           this.creditProposal.collaterals = res.body.collaterals;
           this.creditProposal.products = res.body.products;
           if (this.creditProposalTabBusinessActivityComponent) {
@@ -965,9 +926,22 @@ export class InsuranceCheckingDetailComponent implements OnInit {
             this.saveWord = false;
           }
         }); */
-      }
     }
   }
+
+  // public save(source: string): void {
+  //   if (this.creditProposal.id) {
+  //     this.creditAgreementService.update(this.preSave('process')).subscribe(res => {
+  //       this.saveCollateralAfterReport();
+  //       // this.saveApplicationRole(source);
+  //     });
+  //   } else {
+  //     this.creditAgreementService.create(this.preSave('process')).subscribe(res => {
+  //       this.saveCollateralAfterReport();
+  //       // this.saveApplicationRole(source);
+  //     });
+  //   }
+  // }
 
   private convertDate(date: any): any {
     if (typeof date === 'string') {
@@ -987,29 +961,29 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     }
   }
 
-  // public valueCpLendingProgram: [];
-  // public lendingProgramParameter() {
-  //   this.lendingProgramParameterService
-  //     .query({
-  //       page: 0,
-  //       size: 9999,
-  //     })
-  //     .subscribe(res => {
-  //       this.lendingProgram = lodash.filter(res.body, function (o) {
-  //         const fromDate = new Date(o.fromDate);
-  //         const thruDate = new Date(o.thruDate);
-  //         const convertFromDate = moment(fromDate).format('YYYY-MM-DD');
-  //         const convertThruDate = moment(thruDate).format('YYYY-MM-DD');
-  //         const newDate = moment(new Date()).format('YYYY-MM-DD');
-  //         return o.statusId === 'ACTIVE' && convertFromDate <= newDate && convertThruDate >= newDate;
-  //       });
-  //       for (let i = 0; i < this.lendingProgram.length; i++) {
-  //         if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
-  //           this.valueCpLendingProgram = this.lendingProgram[i].description;
-  //         }
-  //       }
-  //     });
-  // }
+  public valueCpLendingProgram: [];
+  public lendingProgramParameter() {
+    this.lendingProgramParameterService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          const fromDate = new Date(o.fromDate);
+          const thruDate = new Date(o.thruDate);
+          const convertFromDate = moment(fromDate).format('YYYY-MM-DD');
+          const convertThruDate = moment(thruDate).format('YYYY-MM-DD');
+          const newDate = moment(new Date()).format('YYYY-MM-DD');
+          return o.statusId === 'ACTIVE' && convertFromDate <= newDate && convertThruDate >= newDate;
+        });
+        for (let i = 0; i < this.lendingProgram.length; i++) {
+          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+            this.valueCpLendingProgram = this.lendingProgram[i].description;
+          }
+        }
+      });
+  }
 
   private preSave(status: string): IInsuranceChecking {
     for (let i = 0; i < this.insuranceCheckingService.partySliks.length; i++) {
@@ -1148,7 +1122,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'insurance-checking') {
+    if (value === 'insurance-check') {
       return 'Insurance Checking';
     } else {
       return 'Insurance Checking';
