@@ -8,6 +8,7 @@ import { DeveloperShowDiagramStateMultipleDialogComponent } from './dialog/diagr
 })
 export class DeveloperShowDiagramStateMultipleComponent {
   public diagramData: any;
+  private path: string;
 
   @Input()
   get elementData() {
@@ -17,10 +18,32 @@ export class DeveloperShowDiagramStateMultipleComponent {
   set elementData(data: any) {
     this.diagramData = data;
   }
+
+  @Input()
+  get parentPath() {
+    return this.path;
+  }
+
+  set parentPath(path: string) {
+    this.path = path;
+  }
   constructor(private dialog: MatDialog) {}
 
   public showDiagram(param: any): void {
-    const _type: string = !param.appraisalNumber ? 'cp' : 'appraisal';
+    let _type: string;
+    switch (this.path) {
+      case 'insurance-check':
+        _type = 'insurance';
+        break;
+
+      case 'insurance-review':
+        _type = 'insurance';
+        break;
+
+      default:
+        _type = !param.appraisalNumber ? 'cp' : 'appraisal';
+        break;
+    }
 
     this.dialog.open(DeveloperShowDiagramStateMultipleDialogComponent, {
       data: {

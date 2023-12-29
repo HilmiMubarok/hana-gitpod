@@ -192,4 +192,11 @@ export class ReviewInsuranceService extends AbstractEntityService<IReviewInsuran
   public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
   }
+
+  public getTaskDiagram(id: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/')}/insurance-agreements/diagram-task/${id}`,
+      { observe: 'response', responseType: 'blob' }
+    );
+  }
 }

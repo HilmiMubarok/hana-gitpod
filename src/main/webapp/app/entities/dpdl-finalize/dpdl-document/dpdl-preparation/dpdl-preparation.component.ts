@@ -4,6 +4,7 @@ import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CashCreditProposalsService } from 'app/entities/cash-credit-proposal/cash-credit-proposals.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { IEntityProperties } from 'app/entities/entity-properties/entity-properties.model';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -34,6 +35,7 @@ class PickDateAdapter extends NativeDateAdapter {
 })
 export class DpdlPreparationComponent implements OnInit {
   public _creditProposal;
+  public dpdlEntityProperties: IEntityProperties;
 
   @Input()
   get creditProposal(): ICreditProposal {
@@ -51,7 +53,10 @@ export class DpdlPreparationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.creditProposal.entityProperties.length === 0) {
+    this.dpdlEntityProperties = this.creditProposal.entityProperties.find(entityProperty => entityProperty.entityPropertyTypeId === 'DPDL');
+
+    // Jika belum ada, panggil fungsi untuk mendapatkan data DPDL
+    if (!this.dpdlEntityProperties) {
       this.getDpdlPreparation();
     }
   }
@@ -59,11 +64,8 @@ export class DpdlPreparationComponent implements OnInit {
 
   public getDpdlPreparation() {
     this.cashCreditProposalService.getEntityPropResource(this.creditProposal.id, 'DPDL').subscribe(res => {
-      this.creditProposal.entityProperties.push(res.body);
+      this.dpdlEntityProperties = res.body;
+      this.creditProposal.entityProperties.push(this.dpdlEntityProperties);
     });
-  }
-
-  onDpdlPicChange(newValue: string) {
-    this.creditProposal.entityProperties[0].dpdlPic = newValue;
   }
 }
