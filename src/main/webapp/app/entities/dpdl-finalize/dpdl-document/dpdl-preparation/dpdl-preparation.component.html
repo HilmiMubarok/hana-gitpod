@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-subtitle class="label-font-detail">DPDL Preparation</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content *ngIf="dpdlEntityProperties">
     <div class="row">
       <div class="col-6">
         <div class="row">
@@ -10,7 +10,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>DPDL Number</mat-label>
-                <input matInput type="text" [(ngModel)]="creditProposal.entityProperties[0].dpdlNumber" disabled />
+                <input matInput type="text" [(ngModel)]="dpdlEntityProperties.dpdlNumber" disabled />
               </mat-form-field>
             </div>
           </div>
@@ -18,7 +18,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>DPDL PIC</mat-label>
-                <input matInput type="text" [(ngModel)]="creditProposal.entityProperties[0].dpdlPic" />
+                <input matInput type="text" [(ngModel)]="dpdlEntityProperties.dpdlPic" />
               </mat-form-field>
             </div>
           </div>
@@ -30,8 +30,8 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>DPDL Generate Date</mat-label>
-                <input [matDatepicker]="documentDate" matInput type="text"
-                  [(ngModel)]="creditProposal.entityProperties[0].dpdlDate" disabled />
+                <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="dpdlEntityProperties.dpdlDate"
+                  disabled />
                 <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
                 <mat-datepicker #documentDate disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -41,7 +41,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>DPDL Place</mat-label>
-                <input matInput type="text" [(ngModel)]="creditProposal.entityProperties[0].dpdlPlace" />
+                <input matInput type="text" [(ngModel)]="dpdlEntityProperties.dpdlPlace" />
               </mat-form-field>
             </div>
           </div>
