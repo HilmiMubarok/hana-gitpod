@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { ReviewInsuranceService } from 'app/entities/review-insurance/review-insurance.service';
 import { CashSurveyAppraisalsService } from 'app/entities/survey-appraisals/cash-survey-appraisal.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -15,6 +16,7 @@ export class DeveloperShowDiagramStateMultipleDialogComponent implements OnInit 
     @Inject(MAT_DIALOG_DATA) public data: object,
     private creditProposalService: CreditProposalService,
     private cashSurveyAppraisalsService: CashSurveyAppraisalsService,
+    private reviewInsuranceService: ReviewInsuranceService,
     private sanitizer: DomSanitizer
   ) {
     this.id = data['id'];
@@ -25,10 +27,20 @@ export class DeveloperShowDiagramStateMultipleDialogComponent implements OnInit 
   }
 
   private async loadDiagram() {
-    const result: Blob =
-      this.type === 'cp'
-        ? (await firstValueFrom(this.creditProposalService.getTaskDiagram(this.id))).body
-        : (await firstValueFrom(this.cashSurveyAppraisalsService.getTaskDiagram(this.id))).body;
+    let result: Blob;
+    switch (this.type) {
+      case 'insurance':
+        result = (await firstValueFrom(this.reviewInsuranceService.getTaskDiagram(this.id))).body;
+        break;
+      case 'appraisal':
+        result = (await firstValueFrom(this.cashSurveyAppraisalsService.getTaskDiagram(this.id))).body;
+        break;
+
+      default:
+        result = (await firstValueFrom(this.creditProposalService.getTaskDiagram(this.id))).body;
+        break;
+    }
+
     const reader = new FileReader();
     reader.addEventListener(
       'load',
