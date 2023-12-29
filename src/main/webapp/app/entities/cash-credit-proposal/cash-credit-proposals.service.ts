@@ -11,6 +11,7 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 import moment from 'moment';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICollateral } from '../collateral/collateral.model';
+import { IEntityProperties } from '../entity-properties/entity-properties.model';
 
 @Injectable({ providedIn: 'root' })
 export class CashCreditProposalsService extends AbstractEntityService<ICreditProposal> {
@@ -194,8 +195,8 @@ export class CashCreditProposalsService extends AbstractEntityService<ICreditPro
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
   }
 
-  public getEntityPropResource(idApplication: number, type: string): Observable<HttpResponse<any>> {
-    return this.http.get<any>(this.entityPropertiesResourceUrl + '/template/application/' + idApplication + '/type/' + type, {
+  public getEntityPropResource(idApplication: number, type: string): Observable<HttpResponse<IEntityProperties>> {
+    return this.http.get<IEntityProperties>(this.entityPropertiesResourceUrl + '/template/application/' + idApplication + '/type/' + type, {
       observe: 'response',
     });
   }
