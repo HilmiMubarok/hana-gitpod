@@ -15,6 +15,8 @@ import {
 import { CreditAgreementService } from '../credit-agreement.service';
 import { ClausalPkDialogComponent } from './clausal-pk-dialog/clausal-pk-dialog.component';
 import { ClausalPkDialogComponentEditComponent } from './clausal-pk-dialog/clausal-pk-dialog-edit.component';
+import { CashCreditProposalsService } from 'app/entities/cash-credit-proposal/cash-credit-proposals.service';
+import { IEntityProperties } from 'app/entities/entity-properties/entity-properties.model';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
@@ -32,6 +34,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public dataClausal: any[];
   public _creditProposal;
   selectedCondition: any = '';
+  public letterOfName: string;
+  public templateProperties: IEntityProperties;
 
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
@@ -54,7 +58,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     public messageService: MessageService,
     public generalParameterService: GeneralParameterService,
     public creditAgreementService: CreditAgreementService,
-    public messageSeervice: MessageService
+    public messageSeervice: MessageService,
+    public cashCreditProposalsService: CashCreditProposalsService
   ) {
     this.loading = false;
   }
@@ -71,6 +76,12 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
     } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
       this.displayColumnsCreditAgreementClausal = ['code', 'category', 'description', 'clausal', 'action'];
+    }
+
+    if (this.creditProposal.entityProperties.length < 1) {
+      this.cashCreditProposalsService.getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+        this.creditProposal.entityProperties = res.body;
+      });
     }
   }
 
@@ -230,16 +241,19 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       this.approvalDebtor.splice(index, 1);
       this.selectedConditions.splice(index, 1);
       this.selectedOptions.splice(index, 1);
+      this.creditProposal.entityProperties.splice(index, 1);
     }
   }
 
   onSelectApprovalCondition(selectedValue: any, index: any) {
     // Handle the change event here
+    this.creditProposal.entityProperties[index].approvalDebtorConditionStatus = selectedValue;
 
     if (this.selectedConditions[0] === this.selectedConditions[1]) {
       this.approvalDebtor.splice(1, 1);
       this.selectedConditions.splice(1, 1);
       this.selectedOptions.splice(1, 1);
+      this.creditProposal.entityProperties.splice(1, 1);
     }
 
     const filter = this.selectedConditionsValue.filter((data: any) => data.value === selectedValue);
@@ -275,4 +289,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   }
 
   public addRow() {}
+
+  public save() {
+    console.log('pl', this.creditProposal.entityProperties);
+  }
 }

@@ -60,6 +60,7 @@ export interface ICreditProposal extends ILoanApplication {
   debtorCategory?: string;
   agreements?: ILoanAgreement[] | [];
   entityProperties?: IEntityProperties[];
+  properties?: IEntityProperties[];
 }
 
 export class CreditProposal implements ICreditProposal {

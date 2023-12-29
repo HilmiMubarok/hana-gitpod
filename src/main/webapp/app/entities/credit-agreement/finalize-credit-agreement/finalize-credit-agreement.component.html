@@ -171,7 +171,7 @@
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Letter Of Date </mat-label>
-                      <input [matDatepicker]="letterOfDate" matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionDate" [matDatepicker]="letterOfDate" matInput type="text"  />
                       <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
                       <mat-datepicker #letterOfDate></mat-datepicker>
                     </mat-form-field>
@@ -184,11 +184,11 @@
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Letter Of Name</mat-label>
-                      <input matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionName" matInput type="text"  />
                     </mat-form-field>
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Letter Of Date</mat-label>
-                      <input [matDatepicker]="letterOfDate" matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionDate" [matDatepicker]="letterOfDate" matInput type="text"  />
                       <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
                       <mat-datepicker #letterOfDate></mat-datepicker>
                     </mat-form-field>
@@ -201,12 +201,12 @@
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Letter Of Name</mat-label>
-                      <input matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionName" matInput type="text"  />
                     </mat-form-field>
 
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Letter Of Date</mat-label>
-                      <input [matDatepicker]="letterOfDate" matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionDate" [matDatepicker]="letterOfDate" matInput type="text"  />
                       <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
                       <mat-datepicker #letterOfDate></mat-datepicker>
                     </mat-form-field>
@@ -214,24 +214,24 @@
 
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Notary Public Name</mat-label>
-                      <input matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionNotaryPublicName" matInput type="text"  />
                     </mat-form-field>
                   </div>
 
                   <div class="col-6">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Notary Public Place</mat-label>
-                      <input matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionNotaryPublicPlace" matInput type="text"  />
                     </mat-form-field>
 
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Civil Registry Document Number</mat-label>
-                      <input matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionCivilRegistryDocumentNumber" matInput type="text"  />
                     </mat-form-field>
 
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Civil Regristation Date</mat-label>
-                      <input [matDatepicker]="civilRegristationDate" matInput type="text"  />
+                      <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionCivilRegistrationDate" [matDatepicker]="civilRegristationDate" matInput type="text"  />
                       <mat-datepicker-toggle matSuffix [for]="civilRegristationDate"></mat-datepicker-toggle>
                       <mat-datepicker #civilRegristationDate></mat-datepicker>
                     </mat-form-field>
@@ -243,17 +243,17 @@
                 <div class="col-6">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Letter Of Name</mat-label>
-                    <input matInput type="text"  />
+                    <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionName" matInput type="text"  />
                   </mat-form-field>
 
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Letter Of Number</mat-label>
-                    <input matInput type="text"  />
+                    <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionNumber" matInput type="text"  />
                   </mat-form-field>
 
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Letter Of Date</mat-label>
-                    <input [matDatepicker]="letterOfDate" matInput type="text"  />
+                    <input [(ngModel)]="this.creditProposal.entityProperties[i].approvalDebtorConditionDate" [matDatepicker]="letterOfDate" matInput type="text"  />
                     <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
                     <mat-datepicker #letterOfDate></mat-datepicker>
                   </mat-form-field>
@@ -608,3 +608,5 @@
                           </mat-card>
 
       </section>
+
+      <button (click)="save()">save</button>
