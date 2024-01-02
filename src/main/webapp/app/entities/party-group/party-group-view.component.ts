@@ -457,7 +457,9 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
   }
 
   currencyInputChanged(value) {
-    const num = value.replace(/[IDR,]/g, '');
+    let num: string;
+    const args = value.indexOf('IDR');
+    args === -1 ? (num = '0') : (num = value.replace(/[IDR,]/g, ''));
     return Number(num);
   }
 
