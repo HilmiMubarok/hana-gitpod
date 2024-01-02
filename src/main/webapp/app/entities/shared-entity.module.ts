@@ -466,6 +466,13 @@ import { DocumentLegalUploadComponent } from './dpdl-finalize/dpdl-document/lega
 import { DocumentLegalDetailDialogComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal-detail-dialog.component';
 import { InternalMemoDetailComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo-detail.component';
 import { DpdlPreparationComponent } from './dpdl-finalize/dpdl-document/dpdl-preparation/dpdl-preparation.component';
+import { BindingValueInformationDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-information-dialog.component';
+import { BindingValueRealEstateGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-real-estate-grid/binding-value-real-estate-grid.component';
+import { BindingValueRealEstateDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-real-estate-grid/binding-value-real-estate-dialog.component';
+import { BindingValueMachineGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-machine-grid/binding-value-machine-grid.component';
+import { BindingValueMachineDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-machine-grid/binding-value-machine-dialog.component';
+import { BindingValueDepositoDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-dialog.component';
+import { BindingValueDepositoGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-grid.component';
 
 @NgModule({
   imports: [
@@ -922,6 +929,13 @@ import { DpdlPreparationComponent } from './dpdl-finalize/dpdl-document/dpdl-pre
     MemoBandingComponent,
     CreditProposalSummaryGenerateMemoBandingComponent,
     CreditProposalCollateralSummaryDialogComponent,
+    BindingValueInformationDialogComponent,
+    BindingValueRealEstateGridComponent,
+    BindingValueRealEstateDialogComponent,
+    BindingValueMachineGridComponent,
+    BindingValueMachineDialogComponent,
+    BindingValueDepositoGridComponent,
+    BindingValueDepositoDialogComponent,
 
     // Aggrement Compare
     AgremeentCompareRevisionFinalComponent,
@@ -1508,6 +1522,13 @@ import { DpdlPreparationComponent } from './dpdl-finalize/dpdl-document/dpdl-pre
     GenerateDpdlDraftComponent,
     InternalMemoDetailComponent,
     DpdlPreparationComponent,
+    BindingValueInformationDialogComponent,
+    BindingValueRealEstateGridComponent,
+    BindingValueRealEstateDialogComponent,
+    BindingValueMachineGridComponent,
+    BindingValueMachineDialogComponent,
+    BindingValueDepositoGridComponent,
+    BindingValueDepositoDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
