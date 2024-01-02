@@ -212,4 +212,13 @@ export class CashCreditProposalService extends AbstractEntityService<ICreditProp
   // public getFacilityProductList(): Observable<HttpResponse<any>> {
   //   return this.http.get<any>(`${this.resourceFacility}/lov/product-list`, { observe: 'response' });
   // }
+
+  updateCashCp(entity: ICreditProposal, params?: any): Observable<HttpResponse<ICreditProposal>> {
+    this.preSave(entity);
+    const options = createRequestOption(params);
+    return this.http
+      .put<ICreditProposal>(this.resourceUrlCashCreditProposal, entity, { observe: 'response', params: options })
+      .pipe(map((res: HttpResponse<ICreditProposal>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<ICreditProposal>) => this.preLoadItem(res)));
+  }
 }
