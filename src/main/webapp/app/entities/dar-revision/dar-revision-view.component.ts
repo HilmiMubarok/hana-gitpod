@@ -56,6 +56,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { CreditProposalTabLoanFacilityDetailComponent } from '../credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-dar-revision-view',
   templateUrl: './dar-revision-view.component.html',
@@ -184,6 +185,7 @@ export class DarRevisionViewComponent implements OnInit {
   public postalAdresss;
   public dataLand: any;
   public dataBuilding: any;
+  public collateralSummaryData: ICollateral[] = [];
 
   constructor(
     public dialog: MatDialog,
@@ -252,6 +254,7 @@ export class DarRevisionViewComponent implements OnInit {
     this.getTasks();
     this.getPositionTypeId();
     this.loadDataBy();
+    this.getCollateralSummaryData();
   }
 
   getText(value: any): string {
@@ -909,6 +912,7 @@ export class DarRevisionViewComponent implements OnInit {
         });
         this.saveWord = false;
       }
+      this.getCollateralSummaryData();
     });
 
     this.cekCgpgData();
@@ -1473,6 +1477,14 @@ export class DarRevisionViewComponent implements OnInit {
 
     this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
     this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
+  }
+
+  public getCollateralSummaryData() {
+    this.collateralService.getSummaryCollateral(this.creditProposal.id).subscribe(res => {
+      this.collateralSummaryData = lodash.filter(res.body, function (o) {
+        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+      });
+    });
   }
 }
 interface IObj {
