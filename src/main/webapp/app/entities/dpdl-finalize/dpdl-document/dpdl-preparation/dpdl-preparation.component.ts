@@ -54,12 +54,11 @@ export class DpdlPreparationComponent implements OnInit {
 
   ngOnInit(): void {
     this.dpdlEntityProperties = this.creditProposal.entityProperties.find(entityProperty => entityProperty.entityPropertyTypeId === 'DPDL');
-    console.log('entity properties sebelum get DPDL', this.creditProposal.entityProperties);
+
     // Jika belum ada, panggil fungsi untuk mendapatkan data DPDL
     if (!this.dpdlEntityProperties) {
       this.getDpdlPreparation();
     }
-    console.log('entity properties setelah get DPDL', this.creditProposal.entityProperties);
   }
   public dpdlPic: string;
 

@@ -15,6 +15,8 @@ import {
 import { CreditAgreementService } from '../credit-agreement.service';
 import { ClausalPkDialogComponent } from './clausal-pk-dialog/clausal-pk-dialog.component';
 import { ClausalPkDialogComponentEditComponent } from './clausal-pk-dialog/clausal-pk-dialog-edit.component';
+import { CashCreditProposalsService } from 'app/entities/cash-credit-proposal/cash-credit-proposals.service';
+import { IEntityProperties } from 'app/entities/entity-properties/entity-properties.model';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
@@ -25,13 +27,15 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public approvalDebtor: any[] = [1];
   public postalAdresss: IPostalAddress;
   public valueApprovalDebtor: any[];
-  selectedConditions: any[] = []; // Initialize as needed
+  public selectedConditions: any[] = []; // Initialize as needed
   selectedConditionsValue: any = [];
   approvalDebtorOptions: string[] = [];
   selectedOptions: string[] = [];
   public dataClausal: any[];
   public _creditProposal;
   selectedCondition: any = '';
+  public letterOfName: string;
+  public templateProperties: IEntityProperties;
 
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
@@ -45,6 +49,12 @@ export class FinalizeCreditAgreementComponent implements OnInit {
 
   set creditProposal(object: ICreditProposal) {
     this._creditProposal = object;
+
+    if (this._creditProposal.entityProperties.length < 1) {
+      this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+        this.creditProposal.entityProperties = [res.body];
+      });
+    }
   }
   public data = [];
   public loading: boolean;
@@ -54,7 +64,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     public messageService: MessageService,
     public generalParameterService: GeneralParameterService,
     public creditAgreementService: CreditAgreementService,
-    public messageSeervice: MessageService
+    public messageSeervice: MessageService,
+    public cashCreditProposalsService: CashCreditProposalsService
   ) {
     this.loading = false;
   }
@@ -71,6 +82,22 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
     } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
       this.displayColumnsCreditAgreementClausal = ['code', 'category', 'description', 'clausal', 'action'];
+    }
+
+    this.getApprovalDebtorConditions();
+  }
+
+  public getApprovalDebtorConditions() {
+    if (this.creditProposal.entityProperties.length > 1) {
+      for (let i = 0; i < this.creditProposal.entityProperties.length - 1; i++) {
+        this.selectedConditions[i] = this.creditProposal.entityProperties[i].approvalDebtorConditionStatus;
+        this.approvalDebtor.push({});
+        this.selectedConditions.push('');
+      }
+    }
+
+    for (let i = 0; i < this.creditProposal.entityProperties.length; i++) {
+      this.selectedConditions[i] = this.creditProposal.entityProperties[i].approvalDebtorConditionStatus;
     }
   }
 
@@ -214,36 +241,57 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   addApproval() {
     if (this.creditProposal.customerType === 'PERSONAL') {
       if (this.approvalDebtor.length < 1) {
-        this.approvalDebtor.push({});
-        this.selectedConditions.push('');
+        this.cashCreditProposalsService
+          .getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS')
+          .subscribe((res: any) => {
+            this.creditProposal.entityProperties = [...this.creditProposal.entityProperties, res.body];
+            this.approvalDebtor.push({});
+            this.selectedConditions.push('');
+          });
       }
     } else {
       if (this.approvalDebtor.length < 2) {
-        this.approvalDebtor.push({});
-        this.selectedConditions.push('');
+        this.cashCreditProposalsService
+          .getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS')
+          .subscribe((res: any) => {
+            this.creditProposal.entityProperties = [...this.creditProposal.entityProperties, res.body];
+            this.approvalDebtor.push({});
+            this.selectedConditions.push('');
+          });
       }
     }
   }
 
   deleteApproval(index: number) {
-    if (this.approvalDebtor.length > 1) {
-      this.approvalDebtor.splice(index, 1);
-      this.selectedConditions.splice(index, 1);
-      this.selectedOptions.splice(index, 1);
-    }
+    this.cashCreditProposalsService.deletePropsResource(this.creditProposal.entityProperties[1].id).subscribe(() => {
+      this.creditProposal.entityProperties.splice(index, 1);
+      if (this.approvalDebtor.length > 1) {
+        this.approvalDebtor.splice(index, 1);
+        this.selectedConditions.splice(index, 1);
+        this.selectedOptions.splice(index, 1);
+      }
+    });
   }
 
   onSelectApprovalCondition(selectedValue: any, index: any) {
-    // Handle the change event here
-
     if (this.selectedConditions[0] === this.selectedConditions[1]) {
-      this.approvalDebtor.splice(1, 1);
-      this.selectedConditions.splice(1, 1);
-      this.selectedOptions.splice(1, 1);
+      this.cashCreditProposalsService.deletePropsResource(this.creditProposal.entityProperties[1].id).subscribe(() => {
+        // Handle the change event here
+        this.creditProposal.entityProperties[index].approvalDebtorConditionStatus = selectedValue;
+        this.approvalDebtor.splice(1, 1);
+        this.selectedConditions.splice(1, 1);
+        this.selectedOptions.splice(1, 1);
+        this.creditProposal.entityProperties.splice(index, 1);
+        const filter = this.selectedConditionsValue.filter((data: any) => data.value === selectedValue);
+        this.selectedOptions[index] = filter[0].id;
+      });
+    } else {
+      this.creditProposal.entityProperties[index].approvalDebtorConditionStatus = selectedValue;
+
+      const filter = this.selectedConditionsValue.filter((data: any) => data.value === selectedValue);
+      this.selectedOptions[index] = filter[0].id;
     }
 
-    const filter = this.selectedConditionsValue.filter((data: any) => data.value === selectedValue);
-    this.selectedOptions[index] = filter[0].id;
     // You can do more with the selected value if needed
   }
 

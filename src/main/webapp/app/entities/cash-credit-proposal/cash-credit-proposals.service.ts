@@ -200,4 +200,8 @@ export class CashCreditProposalsService extends AbstractEntityService<ICreditPro
       observe: 'response',
     });
   }
+
+  public deletePropsResource(id: any): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(`${this.entityPropertiesResourceUrl}/${id}/application`, { observe: 'response' });
+  }
 }
