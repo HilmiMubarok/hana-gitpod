@@ -60,7 +60,6 @@ export class InsuranceDocumentDialogComponent implements OnInit {
   creditProposal: ICreditProposal;
   mode: string;
   dataDocument: string;
-  docName: string;
   filesdueDate: string;
   category: string;
   remarks: string;
@@ -129,43 +128,43 @@ export class InsuranceDocumentDialogComponent implements OnInit {
     this.reportUtilService.downloadFileBYName(event, name.name);
   }
   public save(): void {
-    const metaData = {
-      objectName: null,
-      entityId: null,
-      document: null,
-      category: null,
-      dueDate: null,
-      status: null,
-      remarks: null,
-      createdDate: null,
-      createdBy: null,
-    };
-    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+    for (let i = 0; this.files.length; i++) {
+      const metaData = {
+        objectName: null,
+        entityId: null,
+        document: null,
+        category: null,
+        dueDate: null,
+        status: null,
+        remarks: null,
+        createdDate: null,
+        createdBy: null,
+      };
+      const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+      metaData.objectName = `/debtor/${this.creditProposal.debtorData.id}/collateral/${this.collateral.id}/insurance/${this.dataInsurance}/documents/${this.files[i].name}`;
+      metaData.entityId = this.dataInsurance;
+      metaData.document = this.documentInsurance.documentType;
+      metaData.category = this.documentInsurance.category;
+      metaData.dueDate = this.documentInsurance.dueDate;
+      metaData.status = this.documentInsurance.status;
+      metaData.remarks = this.documentInsurance.remarks;
+      metaData.createdDate = new Date();
+      const formData = new FormData();
+      formData.append('file', this.files[i]);
+      console.log('data', this.files);
 
-    metaData.objectName = `/debtor/${this.creditProposal.debtorData.id}/collateral/${this.collateral.id}/insurance/${this.dataInsurance}/documents/`;
-    metaData.entityId = this.dataInsurance;
-    metaData.document = this.documentInsurance.documentType;
-    metaData.category = this.documentInsurance.category;
-    metaData.dueDate = this.documentInsurance.dueDate;
-    metaData.status = this.documentInsurance.status;
-    metaData.remarks = this.documentInsurance.remarks;
-    metaData.createdDate = new Date();
-
-    const formData = new FormData();
-    formData.append('file', this.files[0]);
-    console.log('data', this.files);
-
-    this.accountService.identity().subscribe(resAccount => {
-      metaData.createdBy = resAccount.login;
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
+      this.accountService.identity().subscribe(resAccount => {
+        metaData.createdBy = resAccount.login;
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
+          this._dialog.close(res);
         });
-        this._dialog.close(res);
       });
-    });
+    }
   }
   // cancel confrimation dialog
   public openCancelDialog(): void {
