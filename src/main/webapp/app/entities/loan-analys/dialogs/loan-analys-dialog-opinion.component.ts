@@ -51,12 +51,12 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
 	this.positionName = this.notes.employeeFirstName + ' ' + this.notes.employeeLastName;
 
 	if (this.notes['modifiedDate']) {
-	  this.dateN = moment(new Date(note['modifiedDate']))
+	  this.dateN = moment(new Date(this.notes['modifiedDate']))
 		.utcOffset(moment(new Date(Date.now())).utcOffset())
 		.format()
 		.split('T')[0];
 	} else {
-	  this.dateN = moment(new Date(note['createDate']))
+	  this.dateN = moment(new Date(this.notes['createDate']))
 		.utcOffset(moment(new Date(Date.now())).utcOffset())
 		.format()
 		.split('T')[0];
