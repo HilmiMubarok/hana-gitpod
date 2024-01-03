@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Company Type</mat-label>
+                <mat-label>Company Name</mat-label>
                 <input matInput type="text" [(ngModel)]="insurance.companyName" disabled />
               </mat-form-field>
             </div>
@@ -160,9 +160,20 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Insurance Type</mat-label>
-                <mat-select name="insuranceType" [(ngModel)]="insurance.insuranceCategoryDescription" [disabled]="mode === 'view'">
+                <mat-select
+                  name="insuranceType"
+                  [(ngModel)]="insurance.insuranceCategoryDescription"
+                  [disabled]="mode === 'view'"
+                  [disabled]="insuranceDeviation()"
+                  required
+                >
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of insuranceType" [value]="item.code" [disabled]="mode === 'view'">
+                  <mat-option
+                    *ngFor="let item of insuranceType"
+                    [value]="item.code"
+                    [disabled]="mode === 'view'"
+                    [disabled]="insuranceDeviation()"
+                  >
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -170,14 +181,26 @@
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Company Type</mat-label>
-                <input matInput type="text" [(ngModel)]="insurance.companyName" [disabled]="mode === 'view'" />
+                <mat-label>Company Name</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="insurance.companyName"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Policy Number</mat-label>
-                <input matInput type="text" [(ngModel)]="insurance.documentPolicyId" [disabled]="mode === 'view'" />
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="insurance.documentPolicyId"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
@@ -187,10 +210,15 @@
                   name="ccy"
                   [(ngModel)]="insurance.currencyId"
                   (selectionChange)="changeCurrency($event.value)"
-                  [disabled]="mode === 'view'"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
                 >
                   <mat-option value=" ">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value" [disabled]="mode === 'view'">
+                  <mat-option
+                    *ngFor="let item of optionCcy | keyvalue"
+                    [value]="item.value"
+                    [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  >
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -205,7 +233,8 @@
                   type="text"
                   [(ngModel)]="insurance.currencyValue"
                   [options]="logoIdr"
-                  [disabled]="mode === 'view'"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
                 />
               </mat-form-field>
             </div>
@@ -218,7 +247,8 @@
                   type="text"
                   [options]="logoCcy"
                   [(ngModel)]="insurance.coverageValue"
-                  [disabled]="mode === 'view'"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
                 />
               </mat-form-field>
             </div>
@@ -241,9 +271,18 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Banker clause</mat-label>
-                <mat-select [(ngModel)]="insurance.bankerClause" name="bankerClause" [disabled]="mode === 'view'">
+                <mat-select
+                  [(ngModel)]="insurance.bankerClause"
+                  name="bankerClause"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
+                >
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key" [disabled]="mode === 'view'">
+                  <mat-option
+                    *ngFor="let item of paripasuStatus | keyvalue"
+                    [value]="item.key"
+                    [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  >
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -252,7 +291,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Policy</mat-label>
-                <mat-select name="documentPolicy" [(ngModel)]="insurance.documentPolicyDescription" [disabled]="mode === 'view'">
+                <mat-select name="documentPolicy" [(ngModel)]="insurance.documentPolicyDescription" [disabled]="mode === 'view'" required>
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of documentPolicye" [value]="item.code" [disabled]="mode === 'view'">
                     {{ item.value }}
@@ -263,13 +302,26 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Broker Company</mat-label>
-                <input matInput type="text" [(ngModel)]="insurance.brokerCompany" [disabled]="mode === 'view'" />
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="insurance.brokerCompany"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
+                />
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Expiry Date</mat-label>
-                <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="insurance.thruDate" [disabled]="mode === 'view'" />
+                <input
+                  [matDatepicker]="idExpiryDate"
+                  matInput
+                  type="text"
+                  [(ngModel)]="insurance.thruDate"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
+                />
                 <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
                 <mat-datepicker #idExpiryDate></mat-datepicker>
               </mat-form-field>
@@ -277,9 +329,18 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Payment status</mat-label>
-                <mat-select [(ngModel)]="insurance.paymentStatus" name="paymentStatus" [disabled]="mode === 'view'">
+                <mat-select
+                  [(ngModel)]="insurance.paymentStatus"
+                  name="paymentStatus"
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  required
+                >
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of paymentStatus | keyvalue" [value]="item.key" [disabled]="mode === 'view'">
+                  <mat-option
+                    *ngFor="let item of paymentStatus | keyvalue"
+                    [value]="item.key"
+                    [disabled]="mode === 'view' || dataInsuranceDeviation === true"
+                  >
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -294,6 +355,7 @@
                 style="height: 200px"
                 [(ngModel)]="insurance.attributes['remarks']"
                 [disabled]="mode === 'view'"
+                required
               ></textarea>
             </mat-form-field>
           </div>

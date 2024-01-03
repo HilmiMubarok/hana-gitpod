@@ -69,8 +69,6 @@ export class InsuranceInformation implements IInsuranceInformation {
     public companyName?: string
   ) {
     this.attributes = {};
-    this.currencyValue = 0;
-    this.coverageValue = 0;
     this.coverageValueInIDR = 0;
   }
 }
