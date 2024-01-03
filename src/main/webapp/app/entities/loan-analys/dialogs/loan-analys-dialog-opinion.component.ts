@@ -33,6 +33,8 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
   private BUCKET: string;
   public approverName: string;
 
+  public dateN: any;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public dataNotes: {
@@ -45,6 +47,18 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
 	this.notes = this.dataNotes.notes;
 	this.creditProposalItem = this.dataNotes.item;
 	this.positionName = this.notes.employeeFirstName + ' ' + this.notes.employeeLastName;
+
+	if (this.notes['modifiedDate']) {
+	  this.dateN = moment(new Date(note['modifiedDate']))
+		.utcOffset(moment(new Date(Date.now())).utcOffset())
+		.format()
+		.split('T')[0];
+	} else {
+	  this.dateN = moment(new Date(note['createDate']))
+		.utcOffset(moment(new Date(Date.now())).utcOffset())
+		.format()
+		.split('T')[0];
+	}
   }
 
   ngOnInit(): void {
