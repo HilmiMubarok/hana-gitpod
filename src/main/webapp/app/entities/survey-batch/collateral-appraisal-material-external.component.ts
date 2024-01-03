@@ -260,7 +260,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
       let rs: ITimeline;
       for (let i = 0; i < data.length; i++) {
         rs = new Timeline();
-        rs.title = data[i].status;
+        rs.title = data[i].statusDescription;
         rs.date = data[i].createdDate;
         rs.text = data[i].note;
         rs.createdBy = data[i].userName;
