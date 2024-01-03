@@ -2,6 +2,7 @@ export interface IApplicationStateLog {
   id?: number;
   businessKey?: string;
   status?: string;
+  statusDescription?: string;
   userName?: string;
   note?: string;
   createdBy?: string;
@@ -14,6 +15,7 @@ export class ApplicationStateLog implements IApplicationStateLog {
     public id?: number,
     public businessKey?: string,
     public status?: string,
+    public statusDescription?: string,
     public userName?: string,
     public note?: string,
     public createdBy?: string,
