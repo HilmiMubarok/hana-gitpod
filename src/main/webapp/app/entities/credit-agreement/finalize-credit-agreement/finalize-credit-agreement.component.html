@@ -131,7 +131,34 @@
            
             </mat-select>
           </mat-form-field>
+
+
+          <mat-form-field [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="w-100" appearance="outline">
+            <mat-label>Nomor PK</mat-label>
+            <input [(ngModel)]="creditProposal.agreements[0]?.attributes.NOTARY_NUMBER" matInput type="text" />
+          </mat-form-field>
+
+
+          <mat-form-field [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="w-100" appearance="outline">
+            <mat-label>Notary Public Name</mat-label>
+            <input [(ngModel)]="creditProposal.agreements[0]?.attributes.NOTARY_NAME" matInput type="text" />
+          </mat-form-field>
         </div>
+
+        <div class="col-6" [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Notary Public Place</mat-label>
+            <input [(ngModel)]="creditProposal.agreements[0]?.attributes.NOTARY_PLACE" matInput type="text" />
+          </mat-form-field>
+         
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Notary Date</mat-label>
+              <input [(ngModel)]="creditProposal.agreements[0]?.attributes.NOTARY_DATE" [matDatepicker]="letterOfDate" matInput type="text"  />
+              <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
+              <mat-datepicker #letterOfDate></mat-datepicker>
+            </mat-form-field>
+         </div>
+        
   </div>
 </mat-card-content>
 
