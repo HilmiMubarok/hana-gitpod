@@ -1487,6 +1487,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
     }
+
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
     if (this.router.url.split('/')[1] === 'credit-proposal-status') {
@@ -1507,7 +1508,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-              if (copyCreditProposal.notes[i].positionId === this.positionLogin) {
+              if (Number(copyCreditProposal.notes[i].positionId) === Number(this.positionLogin)) {
                 copyCreditProposal.notes[i].applicationId = this.id;
                 copyCreditProposal.notes[i].message = '';
                 copyCreditProposal.notes[i].recomendation = this.recomendation;
@@ -1529,6 +1530,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
       }
     }
+
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
     copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
