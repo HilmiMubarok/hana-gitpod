@@ -172,7 +172,6 @@
                     *ngFor="let item of insuranceType"
                     [value]="item.code"
                     [disabled]="mode === 'view'"
-                    [disabled]="mode === 'view'"
                     [disabled]="insuranceDeviation()"
                   >
                     {{ item.value }}
