@@ -7,6 +7,7 @@ import { OrganizationManagementService } from 'app/entities/organization-managem
 import { CashCreditAgreementService } from '../../cash-credit-agreement.service';
 import { PositionTypeService } from 'app/entities/position-type/position-type.service';
 import { EmployeeService } from 'app/entities/employee/employee.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-signer-perjanjian-kredit',
   templateUrl: './signer-perjanjian-kredit-dialog.component.html',
@@ -31,6 +32,7 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
   filteredName: Observable<string[]>;
   constructor(
     public organizationManagementService: OrganizationManagementService,
+    public messageService: MessageService,
     public cashCreditAgreementService: CashCreditAgreementService,
     public positionTypeService: PositionTypeService,
     public employeeService: EmployeeService,
@@ -101,39 +103,24 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
 
   public filterPosition() {
     let optionKebHana: any[] = [];
-    let optionDebitor: any[] = [];
-    this.organizationManagementService
-      .queryFilterBy({
-        cifNumber: this.data.creditProposal.customerNumber,
-        organizationManagementType: 'MANAGEMENT_DATA',
+
+    this.positionTypeService
+      .query({
         page: 0,
-        size: 999999999,
-        sort: ['id,desc'],
+        size: 9999999,
+        sort: ['id', 'asc'],
       })
-      .subscribe((res: any) => {
-        for (let i = 0; i < res.body.length; i++) {
-          optionDebitor = [...optionDebitor, res.body[i].attributes.position];
+      .subscribe((res1: any) => {
+        this.filterOptionKebHana = res1.body;
+        for (let i = 0; i < res1.body.length; i++) {
+          optionKebHana = [...optionKebHana, res1.body[i].description];
         }
 
-        this.positionTypeService
-          .query({
-            page: 0,
-            size: 9999999,
-            sort: ['id', 'asc'],
-          })
-          .subscribe((res1: any) => {
-            this.filterOptionKebHana = res1.body;
-            for (let i = 0; i < res1.body.length; i++) {
-              optionKebHana = [...optionKebHana, res1.body[i].description];
-            }
-
-            this.optionKebHana = optionDebitor;
-            this.optionDebitor = optionKebHana;
-            if (this.data.element !== null) {
-              this.getPositon();
-              this.getName();
-            }
-          });
+        this.optionDebitor = optionKebHana;
+        if (this.data.element !== null) {
+          this.getPositon();
+          this.getName();
+        }
       });
   }
 
@@ -162,14 +149,21 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
         );
       }
     } else {
-      if (this.debitor === 'Debitor') {
-        this.options = this.optionKebHana;
+      if (this.debitor === 'PT Keb Hana Bank Indonesia') {
+        this.options = this.optionDebitor;
         this.filteredOptions = this.myOption.valueChanges.pipe(
           startWith(''),
           map(value => this._filter(value))
         );
       } else {
-        this.options = this.optionDebitor;
+        this.position = '';
+        this.nameDebitor = '';
+        this.nama = [];
+        this.filteredName = this.myName.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filterName(value))
+        );
+        this.options = [];
         this.filteredOptions = this.myOption.valueChanges.pipe(
           startWith(''),
           map(value => this._filter(value))
@@ -182,7 +176,7 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
     this.options = [];
 
     if (this.debitor === 'Debitor') {
-      this.options = this.optionKebHana;
+      this.options = [];
       this.filteredOptions = this.myOption.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
@@ -197,37 +191,52 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
   }
 
   public getName() {
-    this.nama = [];
-    if (this.debitor === 'Debitor') {
-      const filter = this.filterOptionKebHana.filter((res: any) => res.description === this.position);
+    if (this.data.creditProposal.prospectPerson !== null) {
+      if (this.debitor === 'Debitor') {
+        this.nameDebitor = this.data.creditProposal.prospectPerson.name;
+      } else {
+        for (let i = 0; i < this.employeePosition.length; i++) {
+          this.nama = [...this.nama, this.employeePosition[i].person.name];
+        }
 
-      const result = this.employeePosition.filter(obj =>
-        obj.positions.some(innerObj => innerObj.positionTypeDescription === filter[0].description)
-      );
-
-      for (let i = 0; i < result.length; i++) {
-        this.nama = [...this.nama, result[i].person.name];
+        this.filteredName = this.myName.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filterName(value))
+        );
       }
-      this.filteredName = this.myName.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterName(value))
-      );
     } else {
-      this.cashCreditAgreementService.cashOrganizationManagements('MANAGEMENT_DATA', 'position', this.position).subscribe((res: any) => {
-        for (let i = 0; i < res.body.length; i++) {
-          this.nama = [...this.nama, res.body[i].organization?.name];
+      if (this.debitor === 'Debitor') {
+        this.nama = [];
+        this.filteredName = this.myName.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filterName(value))
+        );
+      } else {
+        const filter = this.filterOptionKebHana.filter((res: any) => res.description === this.position);
+
+        const result = this.employeePosition.filter(obj =>
+          obj.positions.some(innerObj => innerObj.positionTypeDescription === filter[0].description)
+        );
+
+        for (let i = 0; i < result.length; i++) {
+          this.nama = [...this.nama, result[i].person.name];
         }
         this.filteredName = this.myName.valueChanges.pipe(
           startWith(''),
           map(value => this._filterName(value))
         );
-      });
+      }
     }
   }
 
   onOptionSelected(event: any): void {
-    this.nama = [];
     if (this.debitor === 'Debitor') {
+      this.nama = [];
+      this.filteredName = this.myName.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterName(value))
+      );
+    } else {
       const filter = this.filterOptionKebHana.filter((res: any) => res.description === this.position);
 
       const result = this.employeePosition.filter(obj =>
@@ -241,17 +250,6 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
         startWith(''),
         map(value => this._filterName(value))
       );
-    } else {
-      const selectedValue = event.option.value;
-      this.cashCreditAgreementService.cashOrganizationManagements('MANAGEMENT_DATA', 'position', selectedValue).subscribe((res: any) => {
-        for (let i = 0; i < res.body.length; i++) {
-          this.nama = [...this.nama, res.body[i].organization?.name];
-        }
-        this.filteredName = this.myName.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filterName(value))
-        );
-      });
     }
   }
 
@@ -263,13 +261,17 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
   }
 
   onSave(): void {
-    this.dialogRef.close({
-      id: this.data.element === null ? this.generateRandomId() : this.data.element.id,
-      name: this.nameDebitor,
-      debitor: this.debitor,
-      position: this.position,
-      element: this.data.element,
-    });
+    if (this.data.creditProposal.agreements.length > 0) {
+      this.dialogRef.close({
+        id: this.data.element === null ? this.generateRandomId() : this.data.element.id,
+        name: this.nameDebitor,
+        debitor: this.debitor,
+        position: this.position,
+        element: this.data.element,
+      });
+    } else {
+      this.messageService.add({ severity: 'warning', summary: 'Warning', detail: 'Data Agreements tidak ada' });
+    }
   }
   cancel(): void {
     this.dialogRef.close(null);
