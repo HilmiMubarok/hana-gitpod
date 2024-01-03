@@ -60,6 +60,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
   mode: any;
   paymentStatus: any;
   public logoIdr = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  dataInsuranceDeviation = false;
   constructor(
     protected messageService: MessageService,
     public creditProposalService: CreditProposalService,
@@ -95,8 +96,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
     this.lovDocumentPolicy();
     this.cekCurrency();
   }
-
-  public save() {
+  public onSave() {
     this._dialog.close(this.insurance);
   }
   public openCancelDialog(): void {
@@ -198,5 +198,147 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
       this.cursIdr = res.body[0]?.factor;
       this.insurance.coverageValueInIDR = this.insurance.coverageValueInIDR * this.cursIdr;
     });
+  }
+  // validate insurance
+
+  public save(): void {
+    this.validate().then(() => this.onSave());
+  }
+
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  public checkMustValidated() {
+    const mustValidate = {
+      insuranceType: true,
+      companyName: true,
+      policyNumber: true,
+      currencyId: true,
+      kurs: true,
+      coverageValue: true,
+      bankerClause: true,
+      documentPolicy: true,
+      brokerCompany: true,
+      expiryDate: true,
+      paymentStatus: true,
+      remarks: true,
+    };
+
+    if (this.insurance.insuranceCategoryDescription === '98') {
+      if (!this.insurance.insuranceCategoryDescription) {
+        this._showNotification('error', 'Pilih Insurance Type terlebih dahulu');
+        mustValidate.insuranceType = false;
+      }
+      if (!this.insurance.documentPolicyDescription) {
+        this._showNotification('error', 'Pilih Document Policy terlebih dahulu');
+        mustValidate.documentPolicy = false;
+      }
+      if (!this.insurance.attributes['remarks']) {
+        this._showNotification('error', 'Masukkan Remarks terlebih dahulu');
+        mustValidate.remarks = false;
+      }
+    } else {
+      if (!this.insurance.insuranceCategoryDescription) {
+        this._showNotification('error', 'Pilih Insurance Type terlebih dahulu');
+        mustValidate.insuranceType = false;
+      }
+
+      if (!this.insurance.companyName) {
+        this._showNotification('error', 'Masukkan Company Name terlebih dahulu');
+        mustValidate.companyName = false;
+      }
+
+      if (!this.insurance.documentPolicyId) {
+        this._showNotification('error', 'Masukkan Policy Number terlebih dahulu');
+        mustValidate.policyNumber = false;
+      }
+
+      if (!this.insurance.currencyId) {
+        this._showNotification('error', 'Pilih Currency terlebih dahulu');
+        mustValidate.currencyId = false;
+      }
+
+      if (!this.insurance.currencyValue) {
+        this._showNotification('error', 'Masukkan Kurs terlebih dahulu');
+        mustValidate.kurs = false;
+      }
+
+      if (!this.insurance.coverageValue) {
+        this._showNotification('error', 'Masukkan Coverage Value terlebih dahulu');
+        mustValidate.coverageValue = false;
+      }
+
+      if (!this.insurance.bankerClause) {
+        this._showNotification('error', 'Pilih Banker Clause terlebih dahulu');
+        mustValidate.bankerClause = false;
+      }
+
+      if (!this.insurance.documentPolicyDescription) {
+        this._showNotification('error', 'Pilih Document Policy terlebih dahulu');
+        mustValidate.documentPolicy = false;
+      }
+
+      if (!this.insurance.brokerCompany) {
+        this._showNotification('error', 'Masukkan Broker Company terlebih dahulu');
+        mustValidate.brokerCompany = false;
+      }
+
+      if (!this.insurance.thruDate) {
+        this._showNotification('error', 'Pilih Date terlebih dahulu');
+        mustValidate.expiryDate = false;
+      }
+
+      if (!this.insurance.paymentStatus) {
+        this._showNotification('error', 'Pilih Payment Status terlebih dahulu');
+        mustValidate.paymentStatus = false;
+      }
+
+      if (!this.insurance.attributes['remarks']) {
+        this._showNotification('error', 'Masukkan Remarks terlebih dahulu');
+        mustValidate.remarks = false;
+      }
+    }
+
+    return this._validateProcess(mustValidate);
+  }
+
+  public validateInsuranceInformation(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Insurance Information Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateInsuranceInformation().then(() => resolve(true));
+    });
+  }
+
+  // condition Insurance Deviation
+
+  public insuranceDeviation() {
+    if (this.insurance) {
+      if (this.insurance.insuranceCategoryDescription === '98') {
+        this.dataInsuranceDeviation = true;
+      } else {
+        this.dataInsuranceDeviation = false;
+      }
+    }
   }
 }
