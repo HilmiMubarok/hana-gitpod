@@ -291,7 +291,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-			  appMenuId: 'CREDIT_PROPOSAL_STATUS'
+              appMenuId: 'CREDIT_PROPOSAL_STATUS',
             })
             .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
             .subscribe({
@@ -306,7 +306,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-			  appMenuId: 'CREDIT_PROPOSAL_STATUS'
+              appMenuId: 'CREDIT_PROPOSAL_STATUS',
             })
             .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
             .subscribe({
@@ -378,7 +378,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       let rs: ITimeline;
       for (let i = 0; i < data.length; i++) {
         rs = new Timeline();
-        rs.title = data[i].status;
+        rs.title = data[i].statusDescription;
         rs.date = data[i].createdDate;
         rs.text = data[i].note;
         rs.createdBy = data[i].userName;
