@@ -10,6 +10,8 @@ import { StorageService } from 'app/entities/storage/storage.service';
 
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
+import moment from 'moment';
+
 @Component({
   selector: 'jhi-loan-analys-dialog-opinion',
   templateUrl: './loan-analys-dialog-opinion.component.html',
