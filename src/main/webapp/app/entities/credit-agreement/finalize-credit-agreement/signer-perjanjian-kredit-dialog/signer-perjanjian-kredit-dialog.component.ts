@@ -238,7 +238,7 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
             const result = res1.body.filter((data: any) => data.statusCode === 'ACTIVE');
 
             for (let i = 0; i < result.length; i++) {
-              this.nama = [...this.nama, result[i].name];
+              this.nama = [...this.nama, `${result[i].employeeFirstName} ${result[i].employeeLastName}`];
             }
             this.filteredName = this.myName.valueChanges.pipe(
               startWith(''),
