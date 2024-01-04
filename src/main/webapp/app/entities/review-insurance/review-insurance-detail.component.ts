@@ -165,7 +165,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
   public saveWordOpinionCondition: Boolean = false;
   public dataChil: any;
   public proposType = [];
-  public conditionSave: boolean;
+  // public conditionSave: boolean;
 
   private BUCKET: string;
   public sectorIndustry = [];
@@ -281,68 +281,68 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.position = newPos;
       this.positionTypeId = newPos.positionTypeId;
-      this.conditionSaveBtn();
+      // this.conditionSaveBtn();
     });
   }
-  public conditionSaveBtn() {
-    if (this.router.url.includes('insurance-review')) {
-      if (this.positionTypeId === 'BM') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
+  // public conditionSaveBtn() {
+  //   if (this.router.url.includes('insurance-review')) {
+  //     if (this.positionTypeId === 'BM') {
+  //       if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
+  //         this.conditionSave = true;
+  //       } else {
+  //         this.conditionSave = false;
+  //       }
+  //     }
 
-      if (this.positionTypeId === 'SME_HEAD') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
+  //     if (this.positionTypeId === 'SME_HEAD') {
+  //       if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
+  //         this.conditionSave = true;
+  //       } else {
+  //         this.conditionSave = false;
+  //       }
+  //     }
 
-      if (this.positionTypeId === 'SDH') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
+  //     if (this.positionTypeId === 'SDH') {
+  //       if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
+  //         this.conditionSave = true;
+  //       } else {
+  //         this.conditionSave = false;
+  //       }
+  //     }
 
-      if (this.positionTypeId === 'DH') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
+  //     if (this.positionTypeId === 'DH') {
+  //       if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
+  //         this.conditionSave = true;
+  //       } else {
+  //         this.conditionSave = false;
+  //       }
+  //     }
 
-      if (this.positionTypeId === 'DEPT_HEAD') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_DEPTHEAD') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-    } else {
-      if (this.positionTypeId === 'RM') {
-        if (
-          this.creditProposal.statusId === 'DRAFT' ||
-          this.creditProposal.statusId === 'CP_RETURN_TO_RM' ||
-          this.creditProposal.statusId === 'CP_RETURN_TO_CR' ||
-          this.creditProposal.statusId === 'RETURN_TO_RM_CRA' ||
-          this.creditProposal.statusId === 'OL_APPEAL'
-        ) {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      } else {
-        this.conditionSave = false;
-      }
-    }
-  }
+  //     if (this.positionTypeId === 'DEPT_HEAD') {
+  //       if (this.creditProposal.statusId === 'CP_APPROVAL_DEPTHEAD') {
+  //         this.conditionSave = true;
+  //       } else {
+  //         this.conditionSave = false;
+  //       }
+  //     }
+  //   } else {
+  //     if (this.positionTypeId === 'RM') {
+  //       if (
+  //         this.creditProposal.statusId === 'DRAFT' ||
+  //         this.creditProposal.statusId === 'CP_RETURN_TO_RM' ||
+  //         this.creditProposal.statusId === 'CP_RETURN_TO_CR' ||
+  //         this.creditProposal.statusId === 'RETURN_TO_RM_CRA' ||
+  //         this.creditProposal.statusId === 'OL_APPEAL'
+  //       ) {
+  //         this.conditionSave = true;
+  //       } else {
+  //         this.conditionSave = false;
+  //       }
+  //     } else {
+  //       this.conditionSave = false;
+  //     }
+  //   }
+  // }
 
   // private getBucketNameSummary() {
   //   this.storageService.getBucketName().subscribe(val => {
@@ -463,9 +463,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
 
     this.reviewInsuranceService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
       const menuItemIdByRoute = this.router.url.includes('insurance-review') ? 'INSURANCE_REVIEW' : 'INSURANCE_REVIEW';
-      console.log('routes', menuItemIdByRoute);
       this.ca = response.body;
-      console.log('routes', this.ca);
 
       this.masterPermissionService
         .queryFilterBy({ menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.ca.statusId })
@@ -1341,8 +1339,6 @@ export class ReviewInsuranceDetailComponent implements OnInit {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      console.log('properties ', this.collateralProperties);
-      console.log('ini data ', data);
       if (data) {
         if (type === 'buktiKepemilikan') {
           if (collateral.collateralTypeId === 'SECURITIES') {

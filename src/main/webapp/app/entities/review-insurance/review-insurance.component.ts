@@ -158,7 +158,6 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
       })
       .subscribe((res: any) => {
         this.statusCodesData = res.body;
-        console.log(this.statusCodesData, 'bisa');
       });
   }
 
@@ -220,10 +219,10 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
   private checkReturnStatusDescription(data: IReviewInsurance[]) {
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
-        data[i].statusDescription =
-          data[i].statusDescription.substring(0, 2) === 'Ol'
-            ? data[i].statusDescription.substring(3, data[i].statusDescription.length)
-            : data[i].statusDescription;
+        data[i].statusInsuranceDescription =
+          data[i].statusInsuranceDescription.substring(0, 2) === 'Ol'
+            ? data[i].statusInsuranceDescription.substring(3, data[i].statusInsuranceDescription.length)
+            : data[i].statusInsuranceDescription;
       }
     }
     return data;
@@ -258,7 +257,6 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
     forCheckedItems = this.addStaticDob(data.body);
     forCheckedItems = this.addIdx(data.body);
     forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
-    console.log('data', forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
 
