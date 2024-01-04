@@ -164,7 +164,7 @@ export class DarRevisionViewComponent implements OnInit {
   public proposType = [];
   public conditionSave: boolean;
   private ngUnsubscribe = new Subject();
-  public dataOfferingSPPK = [];
+  public dataFileDar = [];
 
   private BUCKET: string;
   public sectorIndustry = [];
@@ -651,13 +651,13 @@ export class DarRevisionViewComponent implements OnInit {
           });
           i++;
         });
-
-        this.dataOfferingSPPK = data;
+        this.dataFileDar = data;
+        // this.dataOfferingSPPK = data;
       });
   }
 
   private generate(): void {
-    this.generateFileOfferingSPPK().then(() => {
+    this.generateFileSppkDar().then(() => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
@@ -667,12 +667,21 @@ export class DarRevisionViewComponent implements OnInit {
     });
   }
 
-  private async generateFileOfferingSPPK(): Promise<void> {
+  // private async generateFileOfferingSPPK(): Promise<void> {
+  //   const fileSPPK = await firstValueFrom(
+  //     this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+  //   );
+  //   const genrateSPPK = await firstValueFrom(
+  //     this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
+  //   );
+  // }
+
+  private async generateFileSppkDar(): Promise<void> {
+    const fileDar = await firstValueFrom(
+      this.http.get('/services/report/api/report/dar/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+    );
     const fileSPPK = await firstValueFrom(
       this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
-    );
-    const genrateSPPK = await firstValueFrom(
-      this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
     );
   }
 
