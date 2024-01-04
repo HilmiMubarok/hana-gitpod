@@ -6,6 +6,7 @@ import { CreditAgreementClausal, ICreditAgreementClausal } from '../agreement-cl
 @Component({
   selector: 'jhi-clausal-pk-dialog',
   templateUrl: './clausal-pk-dialog.component.html',
+  styleUrls: ['../../credit-agreement.css'],
 })
 export class ClausalPkDialogComponent {
   public loading: boolean;

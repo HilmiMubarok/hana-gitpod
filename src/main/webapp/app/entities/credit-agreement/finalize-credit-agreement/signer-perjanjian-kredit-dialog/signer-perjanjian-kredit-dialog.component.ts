@@ -8,6 +8,7 @@ import { CashCreditAgreementService } from '../../cash-credit-agreement.service'
 import { PositionTypeService } from 'app/entities/position-type/position-type.service';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import { MessageService } from 'primeng/api';
+import { PositionService } from 'app/entities/position/position.service';
 @Component({
   selector: 'jhi-signer-perjanjian-kredit',
   templateUrl: './signer-perjanjian-kredit-dialog.component.html',
@@ -35,6 +36,7 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
     public messageService: MessageService,
     public cashCreditAgreementService: CashCreditAgreementService,
     public positionTypeService: PositionTypeService,
+    public positionService: PositionService,
     public employeeService: EmployeeService,
     public dialogRef: MatDialogRef<SignerPerjanjialKreditDialogComponent>,
 
@@ -48,9 +50,7 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEmployee().then(() => {
-      this.filterPosition();
-    });
+    this.filterPosition();
 
     this.agreement = JSON.parse(this.data.creditProposal.agreements[0]?.attributes.SIGNERS);
   }
@@ -135,17 +135,18 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
 
     if (this.data.creditProposal.prospectPerson !== null) {
       if (this.debitor === 'Debitor') {
+        this.position = '';
+        this.nameDebitor = '';
+        this.nama = [];
         this.nameDebitor = this.data.creditProposal.prospectPerson.name;
       } else {
+        this.position = '';
         this.nameDebitor = '';
-
-        for (let i = 0; i < this.employeePosition.length; i++) {
-          this.nama = [...this.nama, this.employeePosition[i].person.name];
-        }
-
-        this.filteredName = this.myName.valueChanges.pipe(
+        this.nama = [];
+        this.options = this.optionDebitor;
+        this.filteredOptions = this.myOption.valueChanges.pipe(
           startWith(''),
-          map(value => this._filterName(value))
+          map(value => this._filter(value))
         );
       }
     } else {
@@ -195,14 +196,26 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
       if (this.debitor === 'Debitor') {
         this.nameDebitor = this.data.creditProposal.prospectPerson.name;
       } else {
-        for (let i = 0; i < this.employeePosition.length; i++) {
-          this.nama = [...this.nama, this.employeePosition[i].person.name];
-        }
+        this.nama = [];
+        const filter = this.filterOptionKebHana.filter((res: any) => res.description === this.position);
 
-        this.filteredName = this.myName.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filterName(value))
-        );
+        this.positionService
+          .queryFilterBy({
+            page: 0,
+            size: 99999,
+            idPositionType: filter[0].id,
+          })
+          .subscribe((res1: any) => {
+            const result = res1.body.filter((data: any) => data.statusCode === 'ACTIVE');
+
+            for (let i = 0; i < result.length; i++) {
+              this.nama = [...this.nama, result[i].name];
+            }
+            this.filteredName = this.myName.valueChanges.pipe(
+              startWith(''),
+              map(value => this._filterName(value))
+            );
+          });
       }
     } else {
       if (this.debitor === 'Debitor') {
@@ -212,19 +225,26 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
           map(value => this._filterName(value))
         );
       } else {
+        this.nama = [];
         const filter = this.filterOptionKebHana.filter((res: any) => res.description === this.position);
 
-        const result = this.employeePosition.filter(obj =>
-          obj.positions.some(innerObj => innerObj.positionTypeDescription === filter[0].description)
-        );
+        this.positionService
+          .queryFilterBy({
+            page: 0,
+            size: 99999,
+            idPositionType: filter[0].id,
+          })
+          .subscribe((res1: any) => {
+            const result = res1.body.filter((data: any) => data.statusCode === 'ACTIVE');
 
-        for (let i = 0; i < result.length; i++) {
-          this.nama = [...this.nama, result[i].person.name];
-        }
-        this.filteredName = this.myName.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filterName(value))
-        );
+            for (let i = 0; i < result.length; i++) {
+              this.nama = [...this.nama, result[i].name];
+            }
+            this.filteredName = this.myName.valueChanges.pipe(
+              startWith(''),
+              map(value => this._filterName(value))
+            );
+          });
       }
     }
   }
@@ -237,19 +257,26 @@ export class SignerPerjanjialKreditDialogComponent implements OnInit {
         map(value => this._filterName(value))
       );
     } else {
+      this.nama = [];
       const filter = this.filterOptionKebHana.filter((res: any) => res.description === this.position);
 
-      const result = this.employeePosition.filter(obj =>
-        obj.positions.some(innerObj => innerObj.positionTypeDescription === filter[0].description)
-      );
+      this.positionService
+        .queryFilterBy({
+          page: 0,
+          size: 99999,
+          idPositionType: filter[0].id,
+        })
+        .subscribe((res1: any) => {
+          const result = res1.body.filter((data: any) => data.statusCode === 'ACTIVE');
 
-      for (let i = 0; i < result.length; i++) {
-        this.nama = [...this.nama, result[i].person.name];
-      }
-      this.filteredName = this.myName.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterName(value))
-      );
+          for (let i = 0; i < result.length; i++) {
+            this.nama = [...this.nama, result[i].name];
+          }
+          this.filteredName = this.myName.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filterName(value))
+          );
+        });
     }
   }
 
