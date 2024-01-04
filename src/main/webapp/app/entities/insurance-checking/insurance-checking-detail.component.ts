@@ -165,7 +165,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
   public saveWordOpinionCondition: Boolean = false;
   public dataChil: any;
   public proposType = [];
-  public conditionSave: boolean;
+  // public conditionSave: boolean;
 
   private BUCKET: string;
   public sectorIndustry = [];
@@ -281,14 +281,14 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.position = newPos;
       this.positionTypeId = newPos.positionTypeId;
-      this.conditionSaveBtn();
+      // this.conditionSaveBtn();
     });
   }
-  public conditionSaveBtn() {
-    if (this.router.url.includes('insurance-check')) {
-      this.conditionSave = true;
-    }
-  }
+  // public conditionSaveBtn() {
+  //   if (this.router.url.includes('insurance-check')) {
+  //     this.conditionSave = true;
+  //   }
+  // }
 
   setUuidPath(newItem: string) {
     this.uuidPath = newItem;
