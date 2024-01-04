@@ -17,7 +17,6 @@ import {
   BASIC_SUBMENU_CREDITPROPOSAL,
   DAR_REVISION,
   DAR_REVISION_APPEAL,
-  DOCUMENT_TYPE_GENERATE_DOCUMENT,
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDarRevisionModel } from './dar-revision.model';
@@ -652,7 +651,6 @@ export class DarRevisionViewComponent implements OnInit {
           });
           i++;
         });
-        console.log(data);
         this.dataFileDar = data;
         // this.dataOfferingSPPK = data;
       });
