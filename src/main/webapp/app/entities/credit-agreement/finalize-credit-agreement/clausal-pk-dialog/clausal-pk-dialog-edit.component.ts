@@ -1,8 +1,6 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CreditAgreementService } from '../../credit-agreement.service';
-import { CreditAgreementClausal, ICreditAgreementClausal } from '../agreement-clausal.model';
-
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
@@ -10,6 +8,7 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-clausal-pk-dialog-edit',
@@ -30,13 +29,14 @@ export class ClausalPkDialogComponentEditComponent {
   constructor(
     public dialogRef: MatDialogRef<ClausalPkDialogComponentEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private http: HttpClient,
     private storageService: StorageService,
     public creditAgreementService: CreditAgreementService
   ) {
     this.category = this.data.dataClausal.category;
     this.description = this.data.dataClausal.notes;
     this.code = this.data.dataClausal.agreementClausalParameterCode;
-    this.getContainer();
+    this.checkMaster();
   }
 
   onCreate(): void {
@@ -68,7 +68,7 @@ export class ClausalPkDialogComponentEditComponent {
         .saveAsBlob('Docx')
         .then((exportedDocument: Blob) => {
           const fileType = 'docs';
-          const fileName = 'clausal-pk' + paramsId + '-document' + '.docs';
+          const fileName = `credit-agreement-clausal-${this.data.dataClausal.agreementClausalParameterCode}.docs`;
           const metaData = {
             objectName: `${key}/${paramsId}/${this.data.dataClausal.id}/${fileType}/${fileName}`,
           };
@@ -110,7 +110,7 @@ export class ClausalPkDialogComponentEditComponent {
 
       docEditor.saveAsBlob('Sfdt').then((exportedDocument2: Blob) => {
         const fileType2 = 'sfdt';
-        const fileName2 = 'clausal-pk' + paramsId + '-document' + '.sfdt';
+        const fileName2 = `credit-agreement-clausal-${this.data.dataClausal.agreementClausalParameterCode}.sfdt`;
         const metaData2 = {
           objectName: `${key}/${paramsId}/${this.data.dataClausal.id}/${fileType2}/${fileName2}`,
         };
@@ -130,11 +130,12 @@ export class ClausalPkDialogComponentEditComponent {
     });
   }
 
-  public getContainer(): void {
-    const paramsId = this.data.creditProposal.agreements[0].id;
-
+  public getContainer(dataPk: any): void {
     const obj = {
-      key: `aggrement/${paramsId}/${this.data.dataClausal.id}/sfdt/`,
+      key:
+        dataPk.length > 0
+          ? `aggrement/${this.data.creditProposal.agreements[0]?.id}/${this.data.dataClausal.id}/sfdt/`
+          : `template/credit-agreement/clausal/${this.data.dataClausal.agreementClausalParameterCode}/sfdt/`,
     };
     this.storageService.getBucketName().subscribe(res1 => {
       this.storageService
@@ -146,7 +147,10 @@ export class ClausalPkDialogComponentEditComponent {
               .fileBlob(response.body[response.body.length - 1]['url'])
               .pipe(takeUntil(this.ngUnsubscribe))
               .subscribe(res => {
-                const fileGet = new File([res.body], 'clausal-pk' + paramsId + '-document.sfdt');
+                const fileGet = new File(
+                  [res.body],
+                  `credit-agreement-clausal-${this.data.dataClausal.agreementClausalParameterCode}.sfdt`
+                );
                 const fileReader: FileReader = new FileReader();
                 fileReader.onload = (e: any) => {
                   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -156,6 +160,19 @@ export class ClausalPkDialogComponentEditComponent {
                 fileReader.readAsText(fileGet);
               });
           }
+        });
+    });
+  }
+
+  public checkMaster() {
+    this.storageService.getBucketName().subscribe(res1 => {
+      this.http
+        .get(
+          this.storageService.resourceUrl +
+            `/${res1.body['bucket']}/object?key=aggrement/${this.data.creditProposal.agreements[0]?.id}/${this.data.dataClausal.id}/sfdt/`
+        )
+        .subscribe((res: any) => {
+          this.getContainer(res);
         });
     });
   }
