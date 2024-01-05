@@ -29,12 +29,12 @@ export class GenerateDpdlDraftComponent implements OnInit {
   public paramId: string;
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
-  private KEYG = 'credit_proposal/memo_banding';
+  private KEYG = 'dpdl';
   public _item?: ICreditProposal = new CreditProposal();
   // public fileTypeSelected: string;
   public fileTypeSelected = 'Pdf';
   public data: object[];
-  public fileTypeList: string[] = ['Word', 'Pdf'];
+  // public fileTypeList: string[] = ['Word', 'Pdf'];
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
   constructor(
     public dialog: MatDialog,
@@ -49,34 +49,9 @@ export class GenerateDpdlDraftComponent implements OnInit {
     this.getBucketNameSummary();
   }
 
-  // public generate(data: any): void {
-  //   if (this.fileTypeSelected) {
-  //     this.print(this.fileTypeSelected);
-  //     this.messageService.add({
-  //       severity: 'info',
-  //       summary: 'Info',
-  //       detail: 'Save First Before Generating, Please!',
-  //     });
-  //   } else {
-  //     this.messageService.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'File Type Not Selected',
-  //     });
-  //   }
-  // }
-
-  // private print(fileType: string) {
-  //   if (fileType === 'Word') {
-  //     this.generateFile(fileType, '/services/report/api/report/pk_report/word/' + this._item.id);
-  //   } else if (fileType === 'Pdf') {
-  //     this.generateFile(fileType, '/services/report/api/report/pk_report/pdf-word/' + this._item.id);
-  //   }
-  // }
-
   public generate(): void {
     if (this.fileTypeSelected) {
-      this.print(this.fileTypeSelected);
+      this.print();
       this.messageService.add({
         severity: 'info',
         summary: 'Info',
@@ -91,10 +66,8 @@ export class GenerateDpdlDraftComponent implements OnInit {
     }
   }
 
-  private print(fileType: string) {
-    if (fileType === 'Pdf') {
-      this.generateFile(fileType, '/services/report/api/report/memo_banding/pdf-word/' + this._item.id);
-    }
+  private print() {
+    this.generateFile('Pdf', '/services/report/api/report/dpdl/pdf-word/' + this._item.id);
   }
 
   private generateFile(fileType: string, api: string, req?: any) {
@@ -164,7 +137,7 @@ export class GenerateDpdlDraftComponent implements OnInit {
       });
 
       if (this.paramId) {
-        this.KEYG += `/${this.paramId}/`;
+        this.KEYG += `/${this.paramId}/document/draft_dpdl/`;
       } else {
         console.warn('Param id not found');
       }
