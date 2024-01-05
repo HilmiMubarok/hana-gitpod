@@ -1344,13 +1344,21 @@ export class LoanAnalysMainComponent implements OnInit {
             }
 
             if (tempHelper === 0) {
-              copyCreditProposal.notes.push(
+              /* copyCreditProposal.notes.push(
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
+              ); */
+
+			  copyCreditProposal.notes.push(
+                this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
               );
             }
           } else {
-            copyCreditProposal.notes.push(
+            /* copyCreditProposal.notes.push(
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
+            ); */
+
+			copyCreditProposal.notes.push(
+              this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
             );
           }
         }
@@ -1364,7 +1372,8 @@ export class LoanAnalysMainComponent implements OnInit {
         tempRouter === 'la-approval' ||
         tempRouter === 'loan-committee-approval'
       ) {
-        if (this.id && this.positionLoginFromEmit && this.recomendation && this.uuidPath) {
+        // if (this.id && this.positionLoginFromEmit && this.recomendation && this.uuidPath) {
+		if (this.id && this.positionLoginFromEmit && this.recomendation && this.getLocStor('UP')) {
           let tempHelper = 0;
           let tempOpinionType = '';
 
@@ -1403,13 +1412,21 @@ export class LoanAnalysMainComponent implements OnInit {
             }
 
             if (tempHelper === 0) {
-              copyCreditProposal.notes.push(
+              /* copyCreditProposal.notes.push(
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
+              ); */
+
+			  copyCreditProposal.notes.push(
+                this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
               );
             }
           } else {
-            copyCreditProposal.notes.push(
+            /* copyCreditProposal.notes.push(
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
+            ); */
+
+			copyCreditProposal.notes.push(
+              this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
             );
           }
         }
