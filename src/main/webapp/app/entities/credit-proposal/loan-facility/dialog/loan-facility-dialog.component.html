@@ -1135,7 +1135,7 @@
   <div class="row mb-5">
     <div class="form-group" class="col-md-6">
       <div [hidden]="textBoxHidden">
-        <section *ngIf="statusDisabledOffering">
+        <section *ngIf="!statusDisabledOffering">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Late Payment Fee</mat-label>
             <input
