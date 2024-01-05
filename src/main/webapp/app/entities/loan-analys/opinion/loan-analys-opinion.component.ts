@@ -156,6 +156,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
     } */
     this.uuid = uuid.v4();
 
+	this.uuidPath.emit(this.uuid);
+	this.setCookiePath('UP', this.uuid);
+
     this.approvalUserData = [];
     this.relType = [];
     this.userId = '';
@@ -166,6 +169,10 @@ export class LoanAnalysOpinionComponent implements OnInit {
       positionUserId: 0,
       positionUserDescription: '',
     };
+  }
+  
+  private setCookiePath(cname: string, cvalue: any): void {
+    document.cookie = cname + '=' + cvalue + ';';
   }
 
   public getWord() {
@@ -359,7 +366,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
       this.showHideGenerateOpinion();
     }
 
-    this.uuidPath.emit(this.uuid);
+    // this.uuidPath.emit(this.uuid);
 
     this.getWord();
     this.getLogin();
@@ -433,6 +440,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public setApproval(event: any) {
     this.uuid = uuid.v4();
     this.uuidPath.emit(this.uuid);
+
+	this.setCookiePath('UP', this.uuid);
 
     this.isChooseApprovalUser = true;
 
@@ -839,6 +848,21 @@ export class LoanAnalysOpinionComponent implements OnInit {
     // }
   }
 
+  private getUuidPathStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   private saveFile(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
@@ -851,7 +875,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const pathHelper = this.uuid + '-opinion';
+	  const uuidFromCookie = this.getUuidPathStor('UP');
+      // const pathHelper = this.uuid + '-opinion';
+	  const pathHelper = uuidFromCookie + '-opinion';
       // const fileName = this.uuid + '.docs';
       const fileName = 'opini.docs';
       const metaData = {
@@ -906,7 +932,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const pathHelper = this.uuid + '-condition';
+	  const uuidFromCookie = this.getUuidPathStor('UP');
+      // const pathHelper = this.uuid + '-condition';
+	  const pathHelper = uuidFromCookie + '-condition';
       // const fileName = this.uuid + '.docs';
       const fileName = 'condition.docs';
       const metaData = {
