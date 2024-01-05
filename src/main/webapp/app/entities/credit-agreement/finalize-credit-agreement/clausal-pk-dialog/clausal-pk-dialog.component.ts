@@ -2,6 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CreditAgreementService } from '../../credit-agreement.service';
 import { CreditAgreementClausal, ICreditAgreementClausal } from '../agreement-clausal.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { saveAs } from 'file-saver';
+import { StorageService } from 'app/entities/storage/storage.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-clausal-pk-dialog',
@@ -13,11 +17,14 @@ export class ClausalPkDialogComponent {
   public dataClausalAgreement: any[] = [];
   public agreementClausal: ICreditAgreementClausal = new CreditAgreementClausal();
   public allSelect: boolean;
+  public bucket: string;
 
   public clausalAgreement: any[];
   constructor(
+    private storageService: StorageService,
     public dialogRef: MatDialogRef<ClausalPkDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+
     public creditAgreementService: CreditAgreementService
   ) {
     this.getClausalAgreement();
@@ -30,6 +37,15 @@ export class ClausalPkDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  private getBucket(): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve(res.body['bucket']);
+      });
+    });
   }
 
   public getClausalAgreement() {
@@ -74,18 +90,20 @@ export class ClausalPkDialogComponent {
   }
 
   public saveClausal() {
-    for (let i = 0; i < this.dataClausalAgreement.length; i++) {
-      this.agreementClausal = {
-        ...this.agreementClausal,
-        agreementClausalParameterId: this.dataClausalAgreement[i].id,
-        id: null,
-        category: this.agreementClausal.category,
-        agreementId: this.data.agreement.length > 0 ? this.data.agreement[0].id : 0,
-      };
+    this.getBucket().then(() => {
+      for (let i = 0; i < this.dataClausalAgreement.length; i++) {
+        this.agreementClausal = {
+          ...this.agreementClausal,
+          agreementClausalParameterId: this.dataClausalAgreement[i].id,
+          id: null,
+          category: this.agreementClausal.category,
+          agreementId: this.data.agreement.length > 0 ? this.data.agreement[0].id : 0,
+        };
 
-      this.creditAgreementService.saveClausalAgreement(this.agreementClausal).subscribe(() => {
-        this.dialogRef.close();
-      });
-    }
+        this.creditAgreementService.saveClausalAgreement(this.agreementClausal).subscribe((res: any) => {
+          this.dialogRef.close();
+        });
+      }
+    });
   }
 }

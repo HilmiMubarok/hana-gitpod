@@ -17,6 +17,7 @@ import { ClausalPkDialogComponent } from './clausal-pk-dialog/clausal-pk-dialog.
 import { ClausalPkDialogComponentEditComponent } from './clausal-pk-dialog/clausal-pk-dialog-edit.component';
 import { CashCreditProposalsService } from 'app/entities/cash-credit-proposal/cash-credit-proposals.service';
 import { IEntityProperties } from 'app/entities/entity-properties/entity-properties.model';
+import { StorageService } from 'app/entities/storage/storage.service';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
@@ -36,6 +37,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   selectedCondition: any = '';
   public letterOfName: string;
   public templateProperties: IEntityProperties;
+  public bucket: string;
 
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
@@ -65,6 +67,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     public generalParameterService: GeneralParameterService,
     public creditAgreementService: CreditAgreementService,
     public messageSeervice: MessageService,
+    private storageService: StorageService,
     public cashCreditProposalsService: CashCreditProposalsService
   ) {
     this.loading = false;
@@ -197,10 +200,33 @@ export class FinalizeCreditAgreementComponent implements OnInit {
       SIGNERS: JSON.stringify(this.dataAgreement),
     };
   }
-
+  private getBucket(): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve(res.body['bucket']);
+      });
+    });
+  }
   public deleteClausal(element: any) {
-    this.creditAgreementService.deleteClausalAgreement(element.id).subscribe(() => {
-      this.dataClausal = this.dataClausal.filter((data: any) => data.id !== element.id);
+    this.getBucket().then(() => {
+      this.storageService
+        .deleteFile(
+          this.bucket,
+          `aggrement/${this.creditProposal.agreements[0]?.id}/${element.id}/docs/credit-agreement-clausal-${element.agreementClausalParameterCode}.docs`
+        )
+        .subscribe(() => {
+          this.storageService
+            .deleteFile(
+              this.bucket,
+              `aggrement/${this.creditProposal.agreements[0]?.id}/${element.id}/sfdt/credit-agreement-clausal-${element.agreementClausalParameterCode}.sfdt`
+            )
+            .subscribe(() => {
+              this.creditAgreementService.deleteClausalAgreement(element.id).subscribe(() => {
+                this.dataClausal = this.dataClausal.filter((data: any) => data.id !== element.id);
+              });
+            });
+        });
     });
   }
 
