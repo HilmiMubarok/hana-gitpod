@@ -5,17 +5,28 @@
       <div class="row">
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Rank</mat-label>
+              <mat-select name="rank" [(ngModel)]="dataFidusia.rank">
+                <mat-option value=" ">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of lovRank" [value]="item.code">
+                  {{ item.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Nominal Gadai</mat-label>
-                <input matInput type="number" [(ngModel)]="dataFidusia.value" />
+                <mat-label>Binding Value</mat-label>
+                <input matInput type="text" [(ngModel)]="dataFidusia.value" />
               </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>No. Gadai</mat-label>
+                <mat-label>Binding Number</mat-label>
                 <input matInput type="text" [(ngModel)]="dataFidusia.agreementNumber" />
               </mat-form-field>
             </div>
@@ -25,7 +36,7 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Tanggal Gadai</mat-label>
+                <mat-label>Binding Date</mat-label>
                 <input [matDatepicker]="bindingDate" [formControl]="date" matInput type="text" [(ngModel)]="dataFidusia.dateAgreement" />
                 <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
                 <mat-datepicker #bindingDate></mat-datepicker>

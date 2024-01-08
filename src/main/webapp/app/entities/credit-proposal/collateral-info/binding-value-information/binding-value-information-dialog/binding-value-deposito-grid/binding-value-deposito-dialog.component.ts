@@ -7,6 +7,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import lodash from 'lodash';
 import moment from 'moment';
+import { FidusiaAgreement, IFidusiaAgremeent } from 'app/entities/fidusia-agreement/fidusia-agreement.model';
 
 @Component({
   selector: 'jhi-binding-value-deposito-dialog',
@@ -15,27 +16,28 @@ import moment from 'moment';
 })
 export class BindingValueDepositoDialogComponent implements OnInit {
   public dataCollateral: ICollateral;
+  public dataFidusia: IFidusiaAgremeent;
   public creditProposal: ICreditProposal;
   public lovRank = [];
-  date = new FormControl(moment());
+  date = new FormControl();
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      item: ICollateral;
+      item: IFidusiaAgremeent;
       creditProposaldata: ICreditProposal;
     },
     private generalParameterService: GeneralParameterService,
     private dialog: MatDialog,
     private _dialog: MatDialogRef<BindingValueDepositoDialogComponent>
   ) {
-    this.dataCollateral = data.item;
+    this.dataFidusia = data.item;
     this.creditProposal = data.creditProposaldata;
     this.addLovRank();
   }
 
   ngOnInit(): void {
-    console.log('test', this.dataCollateral);
+    console.log('test', this.dataFidusia);
   }
 
   public addLovRank() {
@@ -52,7 +54,7 @@ export class BindingValueDepositoDialogComponent implements OnInit {
   }
 
   public save() {
-    console.log('test save');
+    this._dialog.close(this.dataFidusia);
   }
 
   public openCancelDialog(): void {

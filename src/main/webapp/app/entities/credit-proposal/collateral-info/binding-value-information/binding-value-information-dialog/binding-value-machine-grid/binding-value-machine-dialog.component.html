@@ -8,7 +8,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Fidusia Nominal</mat-label>
-                <input matInput type="text" />
+                <input matInput type="text" [(ngModel)]="dataFidusia.value" />
               </mat-form-field>
             </div>
           </section>
@@ -16,7 +16,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Fidusia Number</mat-label>
-                <input matInput type="text" />
+                <input matInput type="text" [(ngModel)]="dataFidusia.agreementNumber" />
               </mat-form-field>
             </div>
           </section>
@@ -26,7 +26,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Fidusia Date</mat-label>
-                <input [matDatepicker]="bindingDate" [formControl]="date" matInput type="text" />
+                <input [matDatepicker]="bindingDate" [formControl]="date" matInput type="text" [(ngModel)]="dataFidusia.dateAgreement" />
                 <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
                 <mat-datepicker #bindingDate></mat-datepicker>
               </mat-form-field>
@@ -36,7 +36,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Cover</mat-label>
-                <input matInput type="text" />
+                <input matInput type="text" [(ngModel)]="dataFidusia.cover" />
               </mat-form-field>
             </div>
           </section>

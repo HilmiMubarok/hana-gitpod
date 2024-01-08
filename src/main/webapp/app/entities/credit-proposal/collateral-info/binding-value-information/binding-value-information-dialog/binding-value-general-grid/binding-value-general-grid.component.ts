@@ -4,18 +4,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { BindingValueInformationDialogComponent } from '../binding-value-information-dialog.component';
-import { BindingValueRealEstateDialogComponent } from './binding-value-real-estate-dialog.component';
-import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
-import { FidusiaAgreementService } from 'app/entities/fidusia-agreement/fidusia-agreement.service';
 import { FidusiaAgreement, IFidusiaAgremeent } from 'app/entities/fidusia-agreement/fidusia-agreement.model';
+import { BindingValueGeneralDialogComponent } from './binding-value-general-dialog.component';
+import { FidusiaAgreementService } from 'app/entities/fidusia-agreement/fidusia-agreement.service';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 
 @Component({
-  selector: 'jhi-binding-value-real-estate-grid',
-  templateUrl: './binding-value-real-estate-grid.component.html',
+  selector: 'jhi-binding-value-general-grid',
+  templateUrl: './binding-value-general-grid.component.html',
   styleUrls: ['../../../collateral-info-cp.style.scss'],
 })
-export class BindingValueRealEstateGridComponent implements OnInit {
+export class BindingValueGeneralGridComponent implements OnInit {
   constructor(
     private collateralService: CollateralService,
     public dialog: MatDialog,
@@ -60,22 +59,35 @@ export class BindingValueRealEstateGridComponent implements OnInit {
   }
 
   public openDialog(element?: IFidusiaAgremeent) {
-    let fidusiaItem: IFidusiaAgremeent = new FidusiaAgreement();
     if (!element) {
       this.fidusiaAgreementService.getTemplate(this.creditProposal.id, this.collateral.id).subscribe(res => {
-        fidusiaItem = res;
-        console.log('res item ', fidusiaItem);
+        const dialogRef = this.dialog.open(BindingValueGeneralDialogComponent, {
+          width: '80vw',
+          data: {
+            item: res,
+            creditProposaldata: this.creditProposal,
+          },
+        });
+        dialogRef.afterClosed().subscribe(res2 => {
+          this.fidusiaAgreementService.createData(res2).subscribe(res3 => {
+            this.getFidusiaData();
+          });
+        });
+      });
+    } else {
+      const dialogRef = this.dialog.open(BindingValueGeneralDialogComponent, {
+        width: '80vw',
+        data: {
+          item: element,
+          creditProposaldata: this.creditProposal,
+        },
+      });
+      dialogRef.afterClosed().subscribe(res2 => {
+        console.log('hasil edit ', res2);
+        this.fidusiaAgreementService.updateData(res2.id, res2).subscribe(res3 => {
+          this.getFidusiaData();
+        });
       });
     }
-    const dialogRef = this.dialog.open(BindingValueRealEstateDialogComponent, {
-      width: '80vw',
-      data: {
-        item: fidusiaItem,
-        creditProposaldata: this.creditProposal,
-      },
-    });
-    dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
-    });
   }
 }

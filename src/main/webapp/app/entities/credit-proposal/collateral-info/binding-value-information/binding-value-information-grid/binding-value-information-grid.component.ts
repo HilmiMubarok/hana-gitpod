@@ -14,7 +14,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
   templateUrl: './binding-value-information-grid.component.html',
   styleUrls: ['../../collateral-info-cp.style.scss'],
 })
-export class BindingValueInformationGridComponent implements OnInit, OnChanges {
+export class BindingValueInformationGridComponent implements OnInit {
   constructor(private collateralService: CollateralService, public dialog: MatDialog) {}
 
   _creditProposal: ICreditProposal;
@@ -45,27 +45,21 @@ export class BindingValueInformationGridComponent implements OnInit, OnChanges {
   public dataCollateral;
 
   ngOnInit(): void {
-    if (!this.collateralSummaryData) {
-      this.loadByPartyId(this.creditProposal);
-    }
+    this.loadByPartyId();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['collateralSummaryData']) {
-      this.dataItem = new MatTableDataSource(this.collateralSummaryData);
-      this.dataItem.paginator = this.paginator;
-    }
-  }
-
-  private loadByPartyId(param: ICreditProposal): void {
-    const applicationNumber = param.id;
-    this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
-      this.dataCollateral = lodash.filter(res.body, function (o) {
-        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+  private loadByPartyId(): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: this.creditProposal.cif.partyId,
+        isActive: true,
+        size: 999,
+      })
+      .subscribe(res => {
+        this.dataCollateral = res.body;
+        this.dataItem = new MatTableDataSource(res.body);
+        this.dataItem.paginator = this.paginator;
       });
-      this.dataItem = new MatTableDataSource(this.dataCollateral);
-      this.dataItem.paginator = this.paginator;
-    });
   }
 
   public openDialog(element) {

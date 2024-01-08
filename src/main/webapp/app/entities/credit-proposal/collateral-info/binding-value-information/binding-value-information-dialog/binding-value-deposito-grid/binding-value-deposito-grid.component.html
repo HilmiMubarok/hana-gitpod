@@ -6,19 +6,19 @@
     </ng-container>
     <ng-container matColumnDef="nominal-gadai">
       <th mat-header-cell *matHeaderCellDef class="rounding-table-">Nominal Gadai</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralTypeId }}</td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.value }}</td>
     </ng-container>
     <ng-container matColumnDef="no-gadai">
       <th mat-header-cell *matHeaderCellDef class="rounding-table-">No. Gadai</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralAddress.address1 }}</td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.agreementNumber }}</td>
     </ng-container>
     <ng-container matColumnDef="tgl-gadai">
       <th mat-header-cell *matHeaderCellDef class="rounding-table-">Tgl. Gadai</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralTypeId }}</td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.dateAgreement }}</td>
     </ng-container>
     <ng-container matColumnDef="cover">
       <th mat-header-cell *matHeaderCellDef class="rounding-table-">Cover</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralTypeId }}</td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.cover }}</td>
     </ng-container>
 
     <ng-container matColumnDef="action">
@@ -40,4 +40,5 @@
 
 <div align="right" class="mt-5 align-right">
   <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
+  <button mat-raised-button (click)="cekData()" class="button-styling">Cek data</button>
 </div>
