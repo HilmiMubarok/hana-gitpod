@@ -6,7 +6,7 @@
   <div class="row justify-content-between">
     <div class="col-6">
       <div class="mb-2">
-        <section>
+        <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Debitor / Pt. Bank Keb Hana Indonesia</mat-label>
             <mat-select [(ngModel)]="debitor" (selectionChange)="onSelectPositon($event)" >
@@ -17,11 +17,21 @@
             </mat-select>
           </mat-form-field>
         </section>
+
+        <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-3">
+            <div class="col-4">Debitor / Pt. Bank Keb Hana Indonesia</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ debitor }}
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div class="mb-2">
-        <section>
-          <mat-form-field [hidden]="data.creditProposal.customerType !== 'CORPORATE' && debitor !== 'PT Keb Hana Bank Indonesia'" class="w-100" appearance="outline">
+      <div class="mb-2" [hidden]="data.creditProposal.customerType !== 'CORPORATE' && debitor !== 'PT Keb Hana Bank Indonesia'">
+        <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field  class="w-100" appearance="outline">
             <mat-label>Position</mat-label>
             <input matInput type="text" [(ngModel)]="position" matInput [formControl]="myOption" [matAutocomplete]="auto"/>
 
@@ -32,6 +42,16 @@
             </mat-autocomplete>
           </mat-form-field>
         </section>
+
+        <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-3">
+            <div class="col-4">Position</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ position }}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
 
@@ -39,7 +59,7 @@
     <div class="col-6">
       <div class="mb-2">
         <div class="row">
-    
+          <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput type="text" matInput [(ngModel)]="nameDebitor" [formControl]="myName" [matAutocomplete]="name"/>
@@ -50,6 +70,16 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-3">
+              <div class="col-4">Name</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ nameDebitor }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
@@ -57,5 +87,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
+  <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
   <button mat-button (click)="onSave()" [disabled]="data.agreements < 1">Save</button>
+</section>
 </mat-dialog-actions>
