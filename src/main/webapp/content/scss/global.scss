@@ -915,3 +915,8 @@ mat-select:disbled {
 .status-wrapper .p-carousel .p-carousel-indicators {
   padding: 0 !important;
 }
+
+// material validation modification
+.mat-form-field.ng-invalid:not(form) {
+  border-left: none !important;
+}
