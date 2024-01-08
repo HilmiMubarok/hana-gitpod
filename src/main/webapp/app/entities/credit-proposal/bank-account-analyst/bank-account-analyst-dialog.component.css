@@ -1,6 +1,6 @@
-.ng-invalid:not(form) {
+/* .ng-invalid:not(form) {
   border-left: none;
-}
+} */
 
 /* Border */
 .mat-form-field-appearance-outline .mat-form-field-outline {
