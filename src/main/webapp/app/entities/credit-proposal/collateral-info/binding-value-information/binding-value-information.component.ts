@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { FidusiaAgreementService } from 'app/entities/fidusia-agreement/fidusia-agreement.service';
 
 @Component({
   selector: 'jhi-binding-value-information',
@@ -28,7 +29,7 @@ export class BindingValueInformationComponent implements OnInit {
     this._collateralSummaryData = item;
   }
 
-  constructor() {}
+  constructor(protected fidusiaAgreementService: FidusiaAgreementService) {}
 
   ngOnInit(): void {
     console.log('test');

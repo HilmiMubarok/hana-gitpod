@@ -473,6 +473,8 @@ import { BindingValueMachineGridComponent } from './credit-proposal/collateral-i
 import { BindingValueMachineDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-machine-grid/binding-value-machine-dialog.component';
 import { BindingValueDepositoDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-dialog.component';
 import { BindingValueDepositoGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-grid.component';
+import { BindingValueGeneralGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-grid.component';
+import { BindingValueGeneralDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-dialog.component';
 
 @NgModule({
   imports: [
@@ -1023,6 +1025,8 @@ import { BindingValueDepositoGridComponent } from './credit-proposal/collateral-
     GenerateDpdlDraftComponent,
     InternalMemoDetailComponent,
     DpdlPreparationComponent,
+    BindingValueGeneralGridComponent,
+    BindingValueGeneralDialogComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1529,6 +1533,8 @@ import { BindingValueDepositoGridComponent } from './credit-proposal/collateral-
     BindingValueMachineDialogComponent,
     BindingValueDepositoGridComponent,
     BindingValueDepositoDialogComponent,
+    BindingValueGeneralGridComponent,
+    BindingValueGeneralDialogComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

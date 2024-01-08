@@ -6,6 +6,8 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { BindingValueMachineDialogComponent } from './binding-value-machine-dialog.component';
 import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
+import { FidusiaAgreementService } from 'app/entities/fidusia-agreement/fidusia-agreement.service';
+import { FidusiaAgreement, IFidusiaAgremeent } from 'app/entities/fidusia-agreement/fidusia-agreement.model';
 
 @Component({
   selector: 'jhi-binding-value-machine-grid',
@@ -13,7 +15,11 @@ import { Collateral, ICollateral } from 'app/entities/collateral/collateral.mode
   styleUrls: ['../../../collateral-info-cp.style.scss'],
 })
 export class BindingValueMachineGridComponent implements OnInit {
-  constructor(private collateralService: CollateralService, public dialog: MatDialog) {}
+  constructor(
+    private collateralService: CollateralService,
+    public dialog: MatDialog,
+    protected fidusiaAgreementService: FidusiaAgreementService
+  ) {}
 
   _creditProposal: ICreditProposal;
 
@@ -25,7 +31,16 @@ export class BindingValueMachineGridComponent implements OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
-    this.loadByPartyId(cp.cif.partyId);
+  }
+
+  private _collateral: ICollateral;
+
+  @Input()
+  get collateral() {
+    return this._collateral;
+  }
+  set collateral(item: ICollateral) {
+    this._collateral = item;
   }
 
   public displayedColumns: string[] = ['no', 'nominal-fidusia', 'no-fidusia', 'tgl-fidusia', 'cover', 'action'];
@@ -33,31 +48,28 @@ export class BindingValueMachineGridComponent implements OnInit {
   public dataItem;
 
   ngOnInit(): void {
-    console.log('test');
+    this.getFidusiaData();
   }
 
-  private loadByPartyId(param: string): void {
-    this.collateralService
-      .queryFilterBy({
-        idParty: param,
-        isActive: true,
-        size: 999,
-      })
-      .subscribe(res => {
-        this.dataItem = new MatTableDataSource(res.body);
-        this.dataItem.paginator = this.paginator;
+  public getFidusiaData() {
+    this.fidusiaAgreementService.getData(this.creditProposal.id, this.collateral.id).subscribe(res => {
+      this.dataItem = new MatTableDataSource(res);
+      this.dataItem.paginator = this.paginator;
+    });
+  }
+
+  public openDialog(element?: IFidusiaAgremeent) {
+    let fidusiaItem: IFidusiaAgremeent = new FidusiaAgreement();
+    if (!element) {
+      this.fidusiaAgreementService.getTemplate(this.creditProposal.id, this.collateral.id).subscribe(res => {
+        fidusiaItem = res;
+        console.log('res item ', fidusiaItem);
       });
-  }
-
-  public openDialog(element?) {
-    let data: ICollateral = new Collateral();
-    if (element) {
-      data = element;
     }
     const dialogRef = this.dialog.open(BindingValueMachineDialogComponent, {
       width: '80vw',
       data: {
-        item: data,
+        item: fidusiaItem,
         creditProposaldata: this.creditProposal,
       },
     });

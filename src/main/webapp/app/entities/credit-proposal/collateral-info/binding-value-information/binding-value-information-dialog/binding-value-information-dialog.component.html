@@ -33,16 +33,20 @@
         </div>
       </div>
 
-      <div *ngIf="dataCollateral.collateralTypeId === 'REALESTATE'">
-        <jhi-binding-value-real-estate-grid [creditProposal]="creditProposal"></jhi-binding-value-real-estate-grid>
+      <!-- <div *ngIf="dataCollateral.collateralTypeId === 'REALESTATE'">
+        <jhi-binding-value-real-estate-grid [creditProposal]="creditProposal" [collateral]="dataCollateral"></jhi-binding-value-real-estate-grid>
       </div>
 
       <div *ngIf="dataCollateral.collateralTypeId === 'MACHINE'">
-        <jhi-binding-value-machine-grid [creditProposal]="creditProposal"></jhi-binding-value-machine-grid>
+        <jhi-binding-value-machine-grid [creditProposal]="creditProposal" [collateral]="dataCollateral"></jhi-binding-value-machine-grid>
       </div>
 
       <div *ngIf="dataCollateral.collateralTypeId === 'DEPOSIT'">
-        <jhi-binding-value-deposito-grid [creditProposal]="creditProposal"></jhi-binding-value-deposito-grid>
+        <jhi-binding-value-deposito-grid [creditProposal]="creditProposal" [collateral]="dataCollateral"></jhi-binding-value-deposito-grid>
+      </div> -->
+
+      <div>
+        <jhi-binding-value-general-grid [creditProposal]="creditProposal" [collateral]="dataCollateral"></jhi-binding-value-general-grid>
       </div>
     </mat-card-content>
   </mat-card>

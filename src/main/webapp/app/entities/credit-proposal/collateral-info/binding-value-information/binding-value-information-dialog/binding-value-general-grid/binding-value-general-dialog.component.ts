@@ -5,21 +5,22 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IFidusiaAgremeent } from 'app/entities/fidusia-agreement/fidusia-agreement.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
-import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import lodash from 'lodash';
 import moment from 'moment';
+import { BindingValueRealEstateDialogComponent } from '../binding-value-real-estate-grid/binding-value-real-estate-dialog.component';
+import lodash from 'lodash';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
-  selector: 'jhi-binding-value-real-estate-dialog',
-  templateUrl: './binding-value-real-estate-dialog.component.html',
+  selector: 'jhi-binding-value-general-dialog',
+  templateUrl: './binding-value-general-dialog.component.html',
   styleUrls: ['../binding-value-information-dialog.component.scss'],
 })
-export class BindingValueRealEstateDialogComponent implements OnInit {
+export class BindingValueGeneralDialogComponent implements OnInit {
   public dataCollateral: ICollateral;
   public dataFidusia: IFidusiaAgremeent;
   public creditProposal: ICreditProposal;
   public lovRank = [];
-  date = new FormControl(moment());
+  date = new FormControl();
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -54,7 +55,7 @@ export class BindingValueRealEstateDialogComponent implements OnInit {
   }
 
   public save() {
-    console.log('test save');
+    this._dialog.close(this.dataFidusia);
   }
 
   public openCancelDialog(): void {
