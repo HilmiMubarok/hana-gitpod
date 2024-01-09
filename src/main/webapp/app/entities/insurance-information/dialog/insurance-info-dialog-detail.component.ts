@@ -13,12 +13,9 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { Router } from '@angular/router';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IInsuranceInformation, InsuranceInformation } from '../insurance-information.model';
-import { INSURANCE_INFORMATION, PARIPASU_STATUS } from 'app/shared/constants/status.constants';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
-import { IInsurance } from 'app/entities/party-cif/insurance-information-idd/insurance-information.model';
 import { InsuranceInformationService } from '../insurance-information.service';
 import { MessageService } from 'primeng/api';
-import { leftRight } from '@syncfusion/ej2-angular-grids';
 
 export const MY_FORMATS = {
   parse: {
@@ -37,7 +34,6 @@ export const MY_FORMATS = {
   styleUrls: ['./insurance-info-dialog.css'],
 })
 export class InsuranceInfoDialogDetailComponent implements OnInit {
-  public paripasuStatus: any;
   public parentSource = '';
   public field = false;
   public parentPath = this.router.url.split('/')[1];
@@ -56,11 +52,11 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
   public logoCcy;
   cursIdr: any;
   ccy: string;
-  public insuranceType = [];
+  public insuranceType;
   mode: any;
-  paymentStatus: any;
   public logoIdr = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
   dataInsuranceDeviation = false;
+
   constructor(
     protected messageService: MessageService,
     public creditProposalService: CreditProposalService,
@@ -84,17 +80,15 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
     this.collateral = this.data.collateral;
     this.isViewMode = this.data.isViewMode;
     this.parentSource = this.data.parentSource;
-    this.paripasuStatus = INSURANCE_INFORMATION;
-    this.paymentStatus = INSURANCE_INFORMATION;
     this.insurance = this.data.insurance;
     this.mode = this.data.mode;
     this.insurance.collateralId = this.collateral.id;
   }
-
   ngOnInit(): void {
     this.lovInsuranceType();
     this.lovDocumentPolicy();
     this.cekCurrency();
+    this.insuranceDeviation();
   }
   public onSave() {
     this._dialog.close(this.insurance);
@@ -125,6 +119,15 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
         this.documentPolicye = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.documentPolicye) {
+          let element: string;
+          for (let i = 0; i < this.documentPolicye.length; i++) {
+            if (this.insurance.documentPolicyId === this.documentPolicye[i].id) {
+              element = this.documentPolicye[i].value;
+            }
+          }
+          this.insurance.documentPolicyDescription = element;
+        }
       });
   }
   public lovInsuranceType() {
@@ -138,6 +141,15 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
         this.insuranceType = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.insuranceType) {
+          let element: string;
+          for (let i = 0; i < this.insuranceType.length; i++) {
+            if (this.insurance.insuranceCategoryId === this.insuranceType[i].id) {
+              element = this.insuranceType[i].value;
+            }
+          }
+          this.insurance.insuranceCategoryDescription = element;
+        }
       });
   }
   changeCurrency(value: string) {
@@ -240,12 +252,12 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
       remarks: true,
     };
 
-    if (this.insurance.insuranceCategoryDescription === '98') {
-      if (!this.insurance.insuranceCategoryDescription) {
+    if (this.insurance.insuranceCategoryId === 36501) {
+      if (!this.insurance.insuranceCategoryId) {
         this._showNotification('error', 'Pilih Insurance Type terlebih dahulu');
         mustValidate.insuranceType = false;
       }
-      if (!this.insurance.documentPolicyDescription) {
+      if (!this.insurance.documentPolicyId) {
         this._showNotification('error', 'Pilih Document Policy terlebih dahulu');
         mustValidate.documentPolicy = false;
       }
@@ -254,7 +266,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
         mustValidate.remarks = false;
       }
     } else {
-      if (!this.insurance.insuranceCategoryDescription) {
+      if (!this.insurance.insuranceCategoryId) {
         this._showNotification('error', 'Pilih Insurance Type terlebih dahulu');
         mustValidate.insuranceType = false;
       }
@@ -264,7 +276,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
         mustValidate.companyName = false;
       }
 
-      if (!this.insurance.documentPolicyId) {
+      if (!this.insurance.attributes['policyNumber']) {
         this._showNotification('error', 'Masukkan Policy Number terlebih dahulu');
         mustValidate.policyNumber = false;
       }
@@ -289,7 +301,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
         mustValidate.bankerClause = false;
       }
 
-      if (!this.insurance.documentPolicyDescription) {
+      if (!this.insurance.documentPolicyId) {
         this._showNotification('error', 'Pilih Document Policy terlebih dahulu');
         mustValidate.documentPolicy = false;
       }
@@ -334,7 +346,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
 
   public insuranceDeviation() {
     if (this.insurance) {
-      if (this.insurance.insuranceCategoryDescription === '98') {
+      if (this.insurance.insuranceCategoryId === 36501) {
         this.dataInsuranceDeviation = true;
       } else {
         this.dataInsuranceDeviation = false;

@@ -16,9 +16,9 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Insurance Type</mat-label>
-                <mat-select name="insuranceType" [(ngModel)]="insurance.insuranceCategoryDescription" disabled>
+                <mat-select name="insuranceType" [(ngModel)]="insurance.insuranceCategoryId" disabled>
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of insuranceType" [value]="item.code" disabled>
+                  <mat-option *ngFor="let item of insuranceType" [value]="item.id" disabled>
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -33,7 +33,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Policy Number</mat-label>
-                <input matInput type="text" [(ngModel)]="insurance.documentPolicyId" disabled />
+                <input matInput type="text" [(ngModel)]="insurance.attributes['policyNumber']" disabled />
               </mat-form-field>
             </div>
             <div class="form-group">
@@ -80,8 +80,8 @@
                 <mat-label>Banker clause</mat-label>
                 <mat-select [(ngModel)]="insurance.bankerClause" name="bankerClause" disabled>
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key" [disabled]="mode === 'view'">
-                    {{ item.value }}
+                  <mat-option *ngFor="let item of ['YES', 'NO']" [value]="item === 'YES' ? true : false" [disabled]="mode === 'view'">
+                    {{ item }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -89,9 +89,9 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Policy</mat-label>
-                <mat-select name="documentPolicy" [(ngModel)]="insurance.documentPolicyDescription" disabled>
+                <mat-select name="documentPolicy" [(ngModel)]="insurance.documentPolicyId" disabled>
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of documentPolicye" [value]="item.code" disabled>
+                  <mat-option *ngFor="let item of documentPolicye" [value]="item.id" disabled>
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -116,8 +116,8 @@
                 <mat-label>Payment status</mat-label>
                 <mat-select [(ngModel)]="insurance.paymentStatus" name="paymentStatus" disabled>
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of paymentStatus | keyvalue" [value]="item.key" disabled>
-                    {{ item.value }}
+                  <mat-option *ngFor="let item of ['YES', 'NO']" [value]="item === 'YES' ? true : false" disabled>
+                    {{ item }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -162,18 +162,12 @@
                 <mat-label>Insurance Type</mat-label>
                 <mat-select
                   name="insuranceType"
-                  [(ngModel)]="insurance.insuranceCategoryDescription"
-                  [disabled]="mode === 'view'"
-                  [disabled]="insuranceDeviation()"
+                  [(ngModel)]="insurance.insuranceCategoryId"
+                  [disabled]="mode === 'view' || insuranceDeviation()"
                   required
                 >
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option
-                    *ngFor="let item of insuranceType"
-                    [value]="item.code"
-                    [disabled]="mode === 'view'"
-                    [disabled]="insuranceDeviation()"
-                  >
+                  <mat-option *ngFor="let item of insuranceType" [value]="item.id" [disabled]="mode === 'view' || insuranceDeviation()">
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -197,7 +191,7 @@
                 <input
                   matInput
                   type="text"
-                  [(ngModel)]="insurance.documentPolicyId"
+                  [(ngModel)]="insurance.attributes['policyNumber']"
                   [disabled]="mode === 'view' || dataInsuranceDeviation === true"
                   required
                 />
@@ -279,11 +273,11 @@
                 >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option
-                    *ngFor="let item of paripasuStatus | keyvalue"
-                    [value]="item.key"
+                    *ngFor="let item of ['YES', 'NO']"
+                    [value]="item === 'YES' ? true : false"
                     [disabled]="mode === 'view' || dataInsuranceDeviation === true"
                   >
-                    {{ item.value }}
+                    {{ item }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -291,9 +285,9 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Policy</mat-label>
-                <mat-select name="documentPolicy" [(ngModel)]="insurance.documentPolicyDescription" [disabled]="mode === 'view'" required>
+                <mat-select name="documentPolicy" [(ngModel)]="insurance.documentPolicyId" [disabled]="mode === 'view'" required>
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of documentPolicye" [value]="item.code" [disabled]="mode === 'view'">
+                  <mat-option *ngFor="let item of documentPolicye" [value]="item.id" [disabled]="mode === 'view'">
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
@@ -315,15 +309,15 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Expiry Date</mat-label>
                 <input
-                  [matDatepicker]="idExpiryDate"
+                  [matDatepicker]="idExpiryDate2"
                   matInput
                   type="text"
                   [(ngModel)]="insurance.thruDate"
-                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
                   required
+                  [disabled]="mode === 'view' || dataInsuranceDeviation === true"
                 />
-                <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
-                <mat-datepicker #idExpiryDate></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="idExpiryDate2"></mat-datepicker-toggle>
+                <mat-datepicker #idExpiryDate2></mat-datepicker>
               </mat-form-field>
             </div>
             <div class="form-group">
@@ -337,11 +331,11 @@
                 >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option
-                    *ngFor="let item of paymentStatus | keyvalue"
-                    [value]="item.key"
+                    *ngFor="let item of ['YES', 'NO']"
+                    [value]="item === 'YES' ? true : false"
                     [disabled]="mode === 'view' || dataInsuranceDeviation === true"
                   >
-                    {{ item.value }}
+                    {{ item }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

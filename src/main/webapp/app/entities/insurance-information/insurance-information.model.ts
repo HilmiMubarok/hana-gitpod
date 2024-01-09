@@ -68,7 +68,17 @@ export class InsuranceInformation implements IInsuranceInformation {
     public brokerCompany?: string,
     public companyName?: string
   ) {
-    this.attributes = {};
+    this.attributes = new InsuranceAttributes();
     this.coverageValueInIDR = 0;
+  }
+}
+export interface IInsuranceAttributes {
+  remarks?: string;
+  policyNumber?: string;
+}
+export class InsuranceAttributes implements IInsuranceAttributes {
+  constructor(public remarks?: string, public policyNumber?: string) {
+    this.policyNumber = '';
+    this.remarks = '';
   }
 }
