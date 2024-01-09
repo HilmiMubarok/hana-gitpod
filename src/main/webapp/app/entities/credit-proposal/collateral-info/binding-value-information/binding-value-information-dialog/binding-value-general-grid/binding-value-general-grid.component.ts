@@ -8,6 +8,8 @@ import { FidusiaAgreement, IFidusiaAgremeent } from 'app/entities/fidusia-agreem
 import { BindingValueGeneralDialogComponent } from './binding-value-general-dialog.component';
 import { FidusiaAgreementService } from 'app/entities/fidusia-agreement/fidusia-agreement.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { Router } from '@angular/router';
+import { MenuEventArgs } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-binding-value-general-grid',
@@ -17,6 +19,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 export class BindingValueGeneralGridComponent implements OnInit {
   constructor(
     private collateralService: CollateralService,
+    private router: Router,
     public dialog: MatDialog,
     protected fidusiaAgreementService: FidusiaAgreementService
   ) {}
@@ -47,8 +50,17 @@ export class BindingValueGeneralGridComponent implements OnInit {
 
   public dataItem;
 
+  public textBoxHidden = false;
+  public statusDisabledOffering = false;
+  public parentPath = this.router.url.split('/')[1];
+  public selectedMenu: string;
+  public selectMenuItem(args: MenuEventArgs): void {
+    this.selectedMenu = args.item.text;
+  }
+
   ngOnInit(): void {
     this.getFidusiaData();
+    this.conditionFieldInOfferingLetter();
   }
 
   public getFidusiaData() {
@@ -88,6 +100,71 @@ export class BindingValueGeneralGridComponent implements OnInit {
           this.getFidusiaData();
         });
       });
+    }
+  }
+
+  public conditionFieldInOfferingLetter() {
+    const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
+    const subroutes = queryParam.get('subroute');
+    // Condition Offering Letter in Route Finalize
+    if (this.parentPath === 'finalize') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
+      if (this.selectedMenu === 'INFORMATION') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = false;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      } else {
+        this.textBoxHidden = true;
+        this.statusDisabledOffering = false;
+      }
+
+      // Condition Offering Letter in Route Distribution
+    } else if (this.parentPath === 'distribution') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
+      if (this.selectedMenu === 'INFORMATION') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = false;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      } else {
+        this.textBoxHidden = true;
+        this.statusDisabledOffering = true;
+      }
+
+      // Condition Offering Letter in Route Review
+    } else if (this.parentPath === 'review' || this.parentPath === 'confirmation') {
+      if (this.selectedMenu === 'loan-facility-detail' || this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      } else {
+        this.textBoxHidden = true;
+        this.statusDisabledOffering = true; // Menambahkan perubahan di sini
+      }
+    } else if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'dar-revision-checker'
+    ) {
+      this.textBoxHidden = false;
+      this.statusDisabledOffering = true;
+    } else if (this.parentPath === 'dar-revision') {
+      if (this.selectedMenu === 'INFORMATION') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = false;
+      } else {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      }
+    } else {
+      this.textBoxHidden = true;
+      this.statusDisabledOffering = true; // Menambahkan perubahan di sini
     }
   }
 }

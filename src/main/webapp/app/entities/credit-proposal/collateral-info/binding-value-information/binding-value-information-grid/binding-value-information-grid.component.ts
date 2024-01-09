@@ -8,6 +8,8 @@ import { BindingValueInformationDialogComponent } from '../binding-value-informa
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import lodash from 'lodash';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { Router } from '@angular/router';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'jhi-binding-value-information-grid',
@@ -15,7 +17,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
   styleUrls: ['../../collateral-info-cp.style.scss'],
 })
 export class BindingValueInformationGridComponent implements OnInit {
-  constructor(private collateralService: CollateralService, public dialog: MatDialog) {}
+  constructor(private collateralService: CollateralService, public dialog: MatDialog, private router: Router) {}
 
   _creditProposal: ICreditProposal;
   private _collateralSummaryData: ICollateral[];
@@ -44,8 +46,17 @@ export class BindingValueInformationGridComponent implements OnInit {
   public dataItem;
   public dataCollateral;
 
+  public textBoxHidden = false;
+  public statusDisabledOffering = false;
+  public parentPath = this.router.url.split('/')[1];
+  public selectedMenu: string;
+  public selectMenuItem(args: MenuEventArgs): void {
+    this.selectedMenu = args.item.text;
+  }
+
   ngOnInit(): void {
     this.loadByPartyId();
+    this.conditionFieldInOfferingLetter();
   }
 
   private loadByPartyId(): void {
@@ -74,5 +85,70 @@ export class BindingValueInformationGridComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       console.log(res);
     });
+  }
+
+  public conditionFieldInOfferingLetter() {
+    const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
+    const subroutes = queryParam.get('subroute');
+    // Condition Offering Letter in Route Finalize
+    if (this.parentPath === 'finalize') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
+      if (this.selectedMenu === 'INFORMATION') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = false;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      } else {
+        this.textBoxHidden = true;
+        this.statusDisabledOffering = false;
+      }
+
+      // Condition Offering Letter in Route Distribution
+    } else if (this.parentPath === 'distribution') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
+      if (this.selectedMenu === 'INFORMATION') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = false;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      } else {
+        this.textBoxHidden = true;
+        this.statusDisabledOffering = true;
+      }
+
+      // Condition Offering Letter in Route Review
+    } else if (this.parentPath === 'review' || this.parentPath === 'confirmation') {
+      if (this.selectedMenu === 'loan-facility-detail' || this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      } else {
+        this.textBoxHidden = true;
+        this.statusDisabledOffering = true; // Menambahkan perubahan di sini
+      }
+    } else if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'dar-revision-checker'
+    ) {
+      this.textBoxHidden = false;
+      this.statusDisabledOffering = true;
+    } else if (this.parentPath === 'dar-revision') {
+      if (this.selectedMenu === 'INFORMATION') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = false;
+      } else {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      }
+    } else {
+      this.textBoxHidden = true;
+      this.statusDisabledOffering = true; // Menambahkan perubahan di sini
+    }
   }
 }

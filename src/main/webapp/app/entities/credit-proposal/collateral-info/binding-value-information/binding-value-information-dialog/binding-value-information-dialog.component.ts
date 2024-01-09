@@ -9,7 +9,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
   templateUrl: './binding-value-information-dialog.component.html',
   styleUrls: ['./binding-value-information-dialog.component.scss'],
 })
-export class BindingValueInformationDialogComponent implements OnInit {
+export class BindingValueInformationDialogComponent {
   public dataCollateral: ICollateral;
   public creditProposal: ICreditProposal;
 
@@ -26,29 +26,7 @@ export class BindingValueInformationDialogComponent implements OnInit {
     this.creditProposal = data.creditProposaldata;
   }
 
-  ngOnInit(): void {
-    console.log('test', this.dataCollateral);
-  }
-
-  public save() {
-    console.log('test save');
-  }
-
-  public openCancelDialog(): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '25vw',
-      data: {
-        title: '',
-        message: 'Are you sure to cancel this data?',
-      },
-      panelClass: 'custom-dialog-container-cancel',
-    });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this._dialog.close({
-          item: this.dataCollateral,
-        });
-      }
-    });
+  public closeDialog() {
+    this._dialog.close();
   }
 }
