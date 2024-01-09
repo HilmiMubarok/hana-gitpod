@@ -786,7 +786,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
     if (source === 'default') {
       this.checkSfdtFile();
     } else {
-      this.isAllowSave.emit(true);
+      this.isAllowSave.emit(false);
     }
 
     /* this.checkSfdtFile('opinion').then(() => {
