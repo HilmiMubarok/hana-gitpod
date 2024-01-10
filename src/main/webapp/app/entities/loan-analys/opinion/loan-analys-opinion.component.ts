@@ -156,7 +156,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
     } */
     this.uuid = uuid.v4();
 
-	this.uuidPath.emit(this.uuid);
+	// this.uuidPath.emit(this.uuid);
 	this.setCookiePath('UP', this.uuid);
 
     this.approvalUserData = [];
@@ -366,7 +366,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
       this.showHideGenerateOpinion();
     }
 
-    // this.uuidPath.emit(this.uuid);
+    this.uuidPath.emit(this.uuid);
 
     this.getWord();
     this.getLogin();
