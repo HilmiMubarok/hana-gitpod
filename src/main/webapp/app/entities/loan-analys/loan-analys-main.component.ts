@@ -1366,6 +1366,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].path = this.uuidPath;
+				  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
                   copyCreditProposal.notes[i].createDate = moment(new Date(Date.now())).format();
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
@@ -1374,6 +1375,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].path = this.uuidPath;
+				  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
                 }
@@ -1384,11 +1386,19 @@ export class LoanAnalysMainComponent implements OnInit {
               copyCreditProposal.notes.push(
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
               );
+
+			  /* copyCreditProposal.notes.push(
+                this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
+              ); */
             }
           } else {
             copyCreditProposal.notes.push(
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
             );
+
+			/* copyCreditProposal.notes.push(
+              this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
+            ); */
           }
         }
       }
@@ -1402,6 +1412,7 @@ export class LoanAnalysMainComponent implements OnInit {
         tempRouter === 'loan-committee-approval'
       ) {
         if (this.id && this.positionLoginFromEmit && this.recomendation && this.uuidPath) {
+		// if (this.id && this.positionLoginFromEmit && this.recomendation && this.getLocStor('UP')) {
           let tempHelper = 0;
           let tempOpinionType = '';
 
@@ -1419,6 +1430,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   // copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
                   copyCreditProposal.notes[i].path = this.uuidPath;
+				  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
                   copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
@@ -1430,6 +1442,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   // copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
                   copyCreditProposal.notes[i].path = this.uuidPath;
+				  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
                   copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
@@ -1441,11 +1454,19 @@ export class LoanAnalysMainComponent implements OnInit {
               copyCreditProposal.notes.push(
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
               );
+
+			  /* copyCreditProposal.notes.push(
+                this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
+              ); */
             }
           } else {
             copyCreditProposal.notes.push(
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
             );
+
+			/* copyCreditProposal.notes.push(
+              this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
+            ); */
           }
         }
       }
