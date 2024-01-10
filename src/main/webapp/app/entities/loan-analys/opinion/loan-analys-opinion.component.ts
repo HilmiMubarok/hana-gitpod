@@ -878,7 +878,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-	  const uuidFromCookie = this.getUuidPathStor('UP');
+	  // const uuidFromCookie = this.getUuidPathStor('UP');
       const pathHelper = this.uuid + '-opinion';
 	  // const pathHelper = uuidFromCookie + '-opinion';
       // const fileName = this.uuid + '.docs';
@@ -935,7 +935,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-	  const uuidFromCookie = this.getUuidPathStor('UP');
+	  // const uuidFromCookie = this.getUuidPathStor('UP');
       const pathHelper = this.uuid + '-condition';
 	  // const pathHelper = uuidFromCookie + '-condition';
       // const fileName = this.uuid + '.docs';
