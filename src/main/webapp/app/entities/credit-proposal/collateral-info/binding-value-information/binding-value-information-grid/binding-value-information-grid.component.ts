@@ -10,6 +10,7 @@ import lodash from 'lodash';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-binding-value-information-grid',
@@ -17,10 +18,18 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   styleUrls: ['../../collateral-info-cp.style.scss'],
 })
 export class BindingValueInformationGridComponent implements OnInit {
-  constructor(private collateralService: CollateralService, public dialog: MatDialog, private router: Router) {}
+  constructor(
+    private collateralService: CollateralService,
+    private generalParameterService: GeneralParameterService,
+    public dialog: MatDialog,
+    private router: Router
+  ) {
+    this.lovBindingType();
+  }
 
   _creditProposal: ICreditProposal;
   private _collateralSummaryData: ICollateral[];
+  public bindingTypesHobies = [];
 
   @ViewChild('paginator') paginator: MatPaginator;
 
@@ -41,7 +50,7 @@ export class BindingValueInformationGridComponent implements OnInit {
     this._collateralSummaryData = item;
   }
 
-  public displayedColumns: string[] = ['no', 'collateralType', 'address', 'action'];
+  public displayedColumns: string[] = ['no', 'collateralType', 'address', 'bindingType', 'action'];
 
   public dataItem;
   public dataCollateral;
@@ -71,6 +80,27 @@ export class BindingValueInformationGridComponent implements OnInit {
         this.dataItem = new MatTableDataSource(res.body);
         this.dataItem.paginator = this.paginator;
       });
+  }
+
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+    return '';
+  }
+
+  public getBindingType(element: ICollateral) {
+    if (element.collBindingType && this.bindingTypesHobies.length > 0) {
+      return this.bindingTypesHobies.find(obj => obj.code === element.collBindingType).value;
+    }
   }
 
   public openDialog(element) {

@@ -4,7 +4,7 @@
     <mat-card-content>
       <div class="row">
         <div class="col-6">
-          <section *ngIf="statusDisabledOffering">
+          <section *ngIf="!statusDisabledOffering">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Rank</mat-label>
               <mat-select name="rank" [(ngModel)]="dataFidusia.rank">
@@ -15,7 +15,7 @@
               </mat-select>
             </mat-form-field>
           </section>
-          <section *ngIf="!statusDisabledOffering">
+          <section *ngIf="statusDisabledOffering">
             <div class="fontsebled row py-1">
               <div class="col-3">Rank</div>
               <div class="col-md-auto">:</div>
@@ -24,15 +24,21 @@
               </div>
             </div>
           </section>
-          <section *ngIf="statusDisabledOffering">
+          <section *ngIf="!statusDisabledOffering">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Value</mat-label>
-                <input matInput type="text" [(ngModel)]="dataFidusia.value" />
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="dataFidusia.value"
+                  [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                />
               </mat-form-field>
             </div>
           </section>
-          <section *ngIf="!statusDisabledOffering">
+          <section *ngIf="statusDisabledOffering">
             <div class="fontsebled row py-1">
               <div class="col-3">Binding Value</div>
               <div class="col-md-auto">:</div>
@@ -41,7 +47,7 @@
               </div>
             </div>
           </section>
-          <section *ngIf="statusDisabledOffering">
+          <section *ngIf="!statusDisabledOffering">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Number</mat-label>
@@ -49,7 +55,7 @@
               </mat-form-field>
             </div>
           </section>
-          <section *ngIf="!statusDisabledOffering">
+          <section *ngIf="statusDisabledOffering">
             <div class="fontsebled row py-1">
               <div class="col-3">Binding Number</div>
               <div class="col-md-auto">:</div>
@@ -60,7 +66,7 @@
           </section>
         </div>
         <div class="col-6">
-          <section *ngIf="statusDisabledOffering">
+          <section *ngIf="!statusDisabledOffering">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Binding Date</mat-label>
@@ -70,7 +76,7 @@
               </mat-form-field>
             </div>
           </section>
-          <section *ngIf="!statusDisabledOffering">
+          <section *ngIf="statusDisabledOffering">
             <div class="fontsebled row py-1">
               <div class="col-3">Binding Date</div>
               <div class="col-md-auto">:</div>
@@ -79,7 +85,7 @@
               </div>
             </div>
           </section>
-          <section *ngIf="statusDisabledOffering">
+          <section *ngIf="!statusDisabledOffering">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Cover</mat-label>
@@ -87,7 +93,7 @@
               </mat-form-field>
             </div>
           </section>
-          <section *ngIf="!statusDisabledOffering">
+          <section *ngIf="statusDisabledOffering">
             <div class="fontsebled row py-1">
               <div class="col-3">Cover</div>
               <div class="col-md-auto">:</div>
@@ -104,7 +110,7 @@
 <mat-dialog-actions align="center" class="align-center">
   <section>
     <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-    <button mat-raised-button class="confirm-button-yes" (click)="save()" *ngIf="statusDisabledOffering">Save</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="save()" *ngIf="!statusDisabledOffering">Save</button>
   </section>
   <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
       <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
