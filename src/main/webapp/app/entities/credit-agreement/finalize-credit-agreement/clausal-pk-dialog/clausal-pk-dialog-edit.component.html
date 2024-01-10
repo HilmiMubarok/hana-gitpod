@@ -1,55 +1,42 @@
 <div class="wrapper-card">
-    <e-card class="mb-3">
-      <mat-card-subtitle class="mat-card-header-text">Add Clausal (PK NEW)</mat-card-subtitle>
+  <e-card class="mb-3">
+    <mat-card-subtitle class="mat-card-header-text">Add Clausal (PK NEW)</mat-card-subtitle>
 
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Category</mat-label>
-        <mat-select
-            disabled
-            [(ngModel)]="category"
-        >
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of ['New', 'Addendum']" [value]="item">
-            {{ item }}
-          </mat-option>
-          
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Category</mat-label>
+      <mat-select disabled [(ngModel)]="category">
+        <mat-option value="">Please Select</mat-option>
+        <mat-option *ngFor="let item of ['NEW', 'ADDENDUM']" [value]="item">
+          {{ item }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Code</mat-label>
-        <input [(ngModel)]="code" matInput type="text"  />
-      </mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Code</mat-label>
+      <input [(ngModel)]="code" matInput type="text" />
+    </mat-form-field>
 
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Description</mat-label>
+      <input disabled [(ngModel)]="description" matInput type="text" />
+    </mat-form-field>
 
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Description</mat-label>
-        <input [(ngModel)]="description" matInput type="text"  />
-      </mat-form-field>
-
-
-      <ejs-documenteditorcontainer
-        #document_editor_container
-       
-        [enableToolbar]="true"
-        [enableLocalPaste]="false"
-        height="200px"
-        style="display: block"
-        [spellcheck]="false"
-        [enableSpellCheck]="false"
-        (keyDown)="onKeyDown($event)"
-        (created)="onCreate()"
+    <ejs-documenteditorcontainer
+      #document_editor_container
+      [enableToolbar]="true"
+      [enableLocalPaste]="false"
+      height="200px"
+      style="display: block"
+      [spellcheck]="false"
+      [enableSpellCheck]="false"
+      (keyDown)="onKeyDown($event)"
+      (created)="onCreate()"
     >
     </ejs-documenteditorcontainer>
-
-
-      
-      
-    </e-card>
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <button class="btn-lg text-uppercase button-styling mt-2" (click)="close()"  mat-raised-button >Close</button>
-        <button class="btn-lg text-uppercase button-styling mt-2" (click)="save()" mat-raised-button >Save</button>
-        
-    </div>
+  </e-card>
+  <div style="display: flex; justify-content: center; align-items: center">
+    <button class="btn-lg text-uppercase button-styling mt-2" (click)="close()" mat-raised-button>Close</button>
+    <button class="btn-lg text-uppercase button-styling mt-2" (click)="save()" mat-raised-button>Save</button>
   </div>
-  
+</div>
