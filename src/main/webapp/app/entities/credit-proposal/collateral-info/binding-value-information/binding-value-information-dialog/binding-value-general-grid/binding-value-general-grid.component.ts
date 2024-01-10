@@ -95,7 +95,6 @@ export class BindingValueGeneralGridComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe(res2 => {
-        console.log('hasil edit ', res2);
         this.fidusiaAgreementService.updateData(res2.id, res2).subscribe(res3 => {
           this.getFidusiaData();
         });

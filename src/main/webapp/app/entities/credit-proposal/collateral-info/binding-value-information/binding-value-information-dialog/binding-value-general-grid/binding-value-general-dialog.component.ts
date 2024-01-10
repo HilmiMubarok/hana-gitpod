@@ -24,6 +24,7 @@ export class BindingValueGeneralDialogComponent implements OnInit {
   public lovRank = [];
   date = new FormControl();
 
+  public bindingTypesHobies = [];
   public textBoxHidden = false;
   public statusDisabledOffering = false;
   public parentPath = this.router.url.split('/')[1];
@@ -49,13 +50,11 @@ export class BindingValueGeneralDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.addLovRank();
-    console.log('test', this.dataFidusia);
     this.conditionFieldInOfferingLetter();
   }
 
   public setRank() {
     if (typeof this.dataFidusia.rank === 'number') {
-      console.log('type of number');
       if (this.dataFidusia.rank < 10) {
         const code: string = '0' + this.dataFidusia.rank;
         if (this.dataFidusia.rank) {
@@ -167,10 +166,5 @@ export class BindingValueGeneralDialogComponent implements OnInit {
       this.textBoxHidden = true;
       this.statusDisabledOffering = true; // Menambahkan perubahan di sini
     }
-  }
-
-  public change(value) {
-    console.log('berubah ', this.dataFidusia.rank);
-    console.log('value ', value);
   }
 }
