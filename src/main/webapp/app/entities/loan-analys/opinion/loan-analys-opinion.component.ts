@@ -578,13 +578,11 @@ export class LoanAnalysOpinionComponent implements OnInit {
           if (
             testSfdtFile.sections[0].blocks[0].inlines ||
             testSfdtFile.sections[0].blocks[0].columnCount ||
-            testSfdtFile.sections[0].blocks[0].paragraphFormat ||
             testSfdtFile.sections[0].blocks[0].grid ||
             testSfdtFile.sections[0].blocks[0].rows ||
             testSfdtFile.sections[0].blocks[0].tableFormat
           ) {
             if (
-              testSfdtFile.sections[0].blocks[0].paragraphFormat ||
               testSfdtFile.sections[0].blocks[0].grid ||
               testSfdtFile.sections[0].blocks[0].rows ||
               testSfdtFile.sections[0].blocks[0].tableFormat
@@ -666,13 +664,11 @@ export class LoanAnalysOpinionComponent implements OnInit {
                     if (
                       testSfdtFileCondition.sections[0].blocks[0].inlines ||
                       testSfdtFileCondition.sections[0].blocks[0].columnCount ||
-                      testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
                       testSfdtFileCondition.sections[0].blocks[0].grid ||
                       testSfdtFileCondition.sections[0].blocks[0].rows ||
                       testSfdtFileCondition.sections[0].blocks[0].tableFormat
                     ) {
                       if (
-                        testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
                         testSfdtFileCondition.sections[0].blocks[0].grid ||
                         testSfdtFileCondition.sections[0].blocks[0].rows ||
                         testSfdtFileCondition.sections[0].blocks[0].tableFormat
