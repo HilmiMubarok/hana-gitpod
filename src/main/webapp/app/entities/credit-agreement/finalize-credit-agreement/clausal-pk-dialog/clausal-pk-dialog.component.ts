@@ -98,6 +98,7 @@ export class ClausalPkDialogComponent {
           id: null,
           category: this.agreementClausal.category,
           agreementId: this.data.agreement.length > 0 ? this.data.agreement[0].id : 0,
+          notes: this.dataClausalAgreement[i].description,
         };
 
         this.creditAgreementService.saveClausalAgreement(this.agreementClausal).subscribe((res: any) => {
