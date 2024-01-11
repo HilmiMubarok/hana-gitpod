@@ -40,8 +40,8 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
       parameterCategoryDescription: 'New',
     },
     {
-      parameterCategoryId: 'ADENDUM',
-      parameterCategoryDescription: 'Adendum',
+      parameterCategoryId: 'ADDENDUM',
+      parameterCategoryDescription: 'Addendum',
     },
   ];
 
