@@ -54,6 +54,7 @@ ul.list-image {
   flex-wrap: wrap;
   list-style: none;
   display: flex;
+  padding-left: 0 !important;
   li {
     img {
       max-width: 35vw;
@@ -164,4 +165,8 @@ td {
 ngx-dropzone-preview {
   width: 200px !important;
   overflow: hidden;
+}
+
+table.table {
+  white-space: nowrap !important;
 }
