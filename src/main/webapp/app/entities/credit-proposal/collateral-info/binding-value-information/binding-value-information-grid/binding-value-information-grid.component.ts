@@ -106,14 +106,15 @@ export class BindingValueInformationGridComponent implements OnInit {
   public openDialog(element) {
     const dialogRef = this.dialog.open(BindingValueInformationDialogComponent, {
       width: '80vw',
-
       data: {
         item: element,
         creditProposaldata: this.creditProposal,
       },
     });
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
+      if (res.type === 'save') {
+        this.creditProposal.collaterals[this.creditProposal.collaterals.findIndex(obj => obj.id === res.item.id)] = res.item;
+      }
     });
   }
 
