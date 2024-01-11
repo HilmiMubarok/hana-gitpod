@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
@@ -13,7 +14,8 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 import { StorageService } from 'app/entities/storage/storage.service';
-import { takeUntil, Subject } from 'rxjs';
+import { takeUntil, Subject, from, forkJoin, tap, map, switchMap } from 'rxjs';
+import { BusinessActivityService } from '../busines-activity/business-activity.service';
 
 @Component({
   selector: 'jhi-credit-proposal-group-guarantor-analysis',
@@ -21,7 +23,7 @@ import { takeUntil, Subject } from 'rxjs';
   styleUrls: ['./credit-proposal-group-guarantor-analysis.component.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, OnChanges {
+export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, OnChanges, OnDestroy {
   private _creditProposalItem: ICreditProposal;
 
   public customHeadersJWT: any;
@@ -31,9 +33,18 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
   private paramsIdGet: string;
   private getKey: string;
   private fileGet: File;
-  constructor(private router: Router, protected activatedRoute: ActivatedRoute, private storageService: StorageService) {
+  constructor(
+    private router: Router,
+    protected activatedRoute: ActivatedRoute,
+    private storageService: StorageService,
+    private baService: BusinessActivityService,
+    protected messageService: MessageService
+  ) {
     this.bucket = '';
   }
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
   @Input() saveWordMinio: any;
   @Input()
   get creditProposalItem() {
@@ -103,8 +114,49 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
   }
 
   onCreate(): void {
-	// this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-  this.container.serviceUrl = '/services/los/api/wordeditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
+  }
+
+  // public triggeredSave(): void {
+  //   let paramsId = '';
+  //   this.activatedRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const key = 'credit_proposal/remark/guarantor';
+
+  //   const timeStamp = Math.floor(Date.now() / 1000);
+
+  //   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+  //   docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+  //     const fileType = 'word';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-guarantor' + fileType + '.docs';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+  //   });
+
+  //   docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+  //     const fileType = 'sfdt';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-guarantor' + fileType + '.sfdt';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+  //   });
+  // }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   public triggeredSave(): void {
@@ -112,52 +164,120 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
+
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/guarantor';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-guarantor' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const fileName = 'credit-proposal-remark-' + paramsId + '-guarantor' + fileTypeWord + '.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-guarantor' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.bucket, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const fileNames = 'credit-proposal-remark-' + paramsId + '-guarantor' + fileTypeSfdt + '.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.bucket, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
+
+  // private getContainer(): void {
+  //   let paramsId = '';
+  //   this.activatedRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const obj = {
+  //     key: 'credit_proposal/remark/guarantor/' + paramsId + '/sfdt',
+  //   };
+  //   this.storageService
+  //     .getObjects(this.bucket, obj)
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe(response => {
+  //       if (response.body.length > 0) {
+  //         this.storageService
+  //           .fileBlob(response.body[response.body.length - 1]['url'])
+  //           .pipe(takeUntil(this.ngUnsubscribe))
+  //           .subscribe(res => {
+  //             this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-guarantor-sfdt.sfdt');
+  //             const fileReader: FileReader = new FileReader();
+  //             fileReader.onload = (e: any) => {
+  //               const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+  //               const contents: string = e.target.result;
+  //               docEditor.open(contents);
+  //             };
+  //             fileReader.readAsText(this.fileGet);
+  //           });
+  //       }
+  //     });
+  // }
+
   private getContainer(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
     const obj = {
-      key: 'credit_proposal/remark/guarantor/' + paramsId + '/sfdt',
+      key: this.getKey,
     };
     this.storageService
       .getObjects(this.bucket, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
+            .pipe(takeUntil(this.destroy$))
             .subscribe(res => {
               this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-guarantor-sfdt.sfdt');
               const fileReader: FileReader = new FileReader();
@@ -167,7 +287,10 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }

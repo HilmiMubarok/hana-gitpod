@@ -1,0 +1,33 @@
+<section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <ejs-documenteditorcontainer
+    #document_editor_containers
+    [headers]="customHeadersJWT"
+    [enableToolbar]="true"
+    [enableLocalPaste]="false"
+    height="100vh"
+    style="display: block"
+    [spellcheck]="false"
+    [enableSpellCheck]="false"
+    (keyDown)="onKeyDown($event)"
+    (created)="onCreate()"
+  >
+  </ejs-documenteditorcontainer>
+</section>
+
+<section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <ejs-documenteditorcontainer
+    #document_editor_containers
+    [headers]="customHeadersJWT"
+    [enableToolbar]="false"
+    [enableLocalPaste]="false"
+    (documentChange)="onDocumentChangePa()"
+    height="100vh"
+    style="display: block"
+    [spellcheck]="false"
+    [enableSpellCheck]="false"
+    (keyDown)="onKeyDown($event)"
+    (created)="onCreate()"
+  >
+  </ejs-documenteditorcontainer>
+</section>
+<button (click)="onSave()">Save</button>

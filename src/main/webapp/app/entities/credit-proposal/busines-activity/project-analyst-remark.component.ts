@@ -1,8 +1,5 @@
-import { Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ViewChild, OnInit, OnDestroy } from '@angular/core';
-// import { ICreditProposal } from '../../credit-proposal.model';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
-import { isNullOrUndefined } from '@syncfusion/ej2-base';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
@@ -11,29 +8,33 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-
+import { ICreditProposal } from '../credit-proposal.model';
+import { Subject, forkJoin, from, map, switchMap, takeUntil, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BusinessActivityService } from './business-activity.service';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { takeUntil, Subject, from, forkJoin, tap, map, switchMap } from 'rxjs';
-import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { BusinessActivityService } from 'app/entities/credit-proposal/busines-activity/business-activity.service';
 import { MessageService } from 'primeng/api';
+import { MenuEventArgs } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
-  selector: 'jhi-loan-analys-group-guarantor-analysis',
-  templateUrl: './loan-analys-group-guarantor-analysis.component.html',
-  styleUrls: ['./loan-analys-group-guarantor-analysis.component.css'],
+  selector: 'jhi-credit-proposal-project-analyst-remark',
+  templateUrl: './project-analyst-remark.component.html',
+  styleUrls: ['../css/credit-proposal-basic-information.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChanges, OnDestroy {
+export class ProjectAnalystRemarkComponent implements OnInit, OnDestroy, OnChanges {
   private _creditProposalItem: ICreditProposal;
+
+  public customHeadersJWT: any;
+
+  public _item: ICreditProposal;
+  public _projectAnalysis: string;
 
   private bucket: string;
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private getKey: string;
   private fileGet: File;
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(
     private router: Router,
     protected activatedRoute: ActivatedRoute,
@@ -43,18 +44,39 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
   ) {
     this.bucket = '';
   }
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
   @Input() saveWordMinio: any;
+  // @Input()
+  // get creditProposalItem() {
+  //   return this._creditProposalItem;
+  // }
+
+  // set creditProposalItem(data: ICreditProposal) {
+  //   this._creditProposalItem = data;
+  // }
+
   @Input()
   get creditProposalItem() {
-    // this._creditProposalItem.statusId = "DRAFT";
-    return this._creditProposalItem;
+    return this._item;
+  }
+  set creditProposalItem(item: ICreditProposal) {
+    this._item = item;
+
+    this._item.attributes['businessActivity'].visitDate = this._item.attributes['businessActivity'].visitDate.split('T')[0];
   }
 
-  set creditProposalItem(data: ICreditProposal) {
-    this._creditProposalItem = data;
+  @Input()
+  get projectAnalysis() {
+    return this._projectAnalysis;
   }
-  @ViewChild('document_editor_container')
-  public container: DocumentEditorContainerComponent;
+  set projectAnalysis(item: any) {
+    this.selectedMenu = 'BUSINESS ACTIVITY';
+  }
+
+  @ViewChild('document_editor_containers')
+  public containers: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
@@ -68,39 +90,41 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
   }
 
   ngOnInit() {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
+    this.selectedMenu = 'BUSINESS ACTIVITY';
     this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/guarantor/' + this.paramsIdGet + '/sfdt';
+      this.getKey = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
       this.getBucket().then(res => {
-        this.getContainer();
+        this.getContainers();
       });
     });
   }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWordMinio) {
       this.triggeredSave();
     }
   }
-  // public tools: object = {
-  //   items: [
-  //     'FontName',
-  //     'FontSize',
-  //     'Bold',
-  //     'Italic',
-  //     'Underline',
-  //     'StrikeThrough',
-  //     'FontColor',
-  //     'BackgroundColor',
-  //     'OrderedList',
-  //     'UnorderedList',
-  //     'Outdent',
-  //     'Indent',
-  //     'SuperScript',
-  //     'SubScript',
-  //     'CreateLink',
-  //   ],
-  // };
+
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
@@ -108,12 +132,12 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
     console.log('isCtrlKey', isCtrlKey);
     if (isCtrlKey && keyCode === '86') {
       args.isHandled = true;
-      console.log('ini paste');
     }
   }
 
   onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.containers.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   // public triggeredSave(): void {
@@ -164,8 +188,8 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
     });
 
     this.baService.setLoading(true);
-    const key = 'credit_proposal/remark/guarantor';
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const key = 'credit_proposal/remark/project-analysis';
+    const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
     const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
     const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
@@ -176,7 +200,7 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
         map(([docx, sfdt]) => {
           this.baService.setLoading(true);
           const fileTypeWord = 'word';
-          const fileName = 'credit-proposal-remark-' + paramsId + '-guarantor' + fileTypeWord + '.docs';
+          const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileTypeWord + '.docs';
           const metaData = {
             objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
           };
@@ -188,7 +212,7 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'File size must be less than 50mb',
+              detail: 'File size must be less than 20mb',
             });
             this.baService.setLoading(false);
             return;
@@ -199,7 +223,7 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
             .pipe(
               switchMap(() => {
                 const fileTypeSfdt = 'sfdt';
-                const fileNames = 'credit-proposal-remark-' + paramsId + '-guarantor' + fileTypeSfdt + '.sfdt';
+                const fileNames = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileTypeSfdt + '.sfdt';
                 const metaDatas = {
                   objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
                 };
@@ -231,33 +255,67 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
       )
       .subscribe();
   }
-  private getContainer(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
+
+  // private getContainer(): void {
+  //   let paramsId = '';
+  //   this.activatedRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const obj = {
+  //     key: 'credit_proposal/remark/guarantor/' + paramsId + '/sfdt',
+  //   };
+  //   this.storageService
+  //     .getObjects(this.bucket, obj)
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe(response => {
+  //       if (response.body.length > 0) {
+  //         this.storageService
+  //           .fileBlob(response.body[response.body.length - 1]['url'])
+  //           .pipe(takeUntil(this.ngUnsubscribe))
+  //           .subscribe(res => {
+  //             this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-guarantor-sfdt.sfdt');
+  //             const fileReader: FileReader = new FileReader();
+  //             fileReader.onload = (e: any) => {
+  //               const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+  //               const contents: string = e.target.result;
+  //               docEditor.open(contents);
+  //             };
+  //             fileReader.readAsText(this.fileGet);
+  //           });
+  //       }
+  //     });
+  // }
+  onSave(): void {
+    this.triggeredSave();
+  }
+
+  private getContainers(): void {
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
     const obj = {
-      key: 'credit_proposal/remark/guarantor/' + paramsId + '/sfdt',
+      key: this.getKey,
     };
     this.storageService
       .getObjects(this.bucket, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
-        console.log('test', obj);
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
+            .pipe(takeUntil(this.destroy$))
             .subscribe(res => {
-              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-guarantor-sfdt.sfdt');
+              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-project-analysis-sfdt.sfdt');
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
-                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
                 const contents: string = e.target.result;
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }
@@ -265,6 +323,15 @@ export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChan
     this.triggeredSave();
   }
   onDocumentChange() {
-    this.container.restrictEditing = true;
+    this.containers.restrictEditing = true;
+  }
+
+  public selectedMenu: string;
+
+  public selectMenuItem(args: MenuEventArgs): void {
+    this.selectedMenu = args.item.text;
+    if (this.selectedMenu === 'PROJECT ANALYSIS') {
+      this.getContainers();
+    }
   }
 }

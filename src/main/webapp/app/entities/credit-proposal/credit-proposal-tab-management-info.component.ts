@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 
@@ -14,7 +14,7 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, forkJoin, from, map, switchMap, takeUntil, tap } from 'rxjs';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -23,6 +23,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogBorrowerComponent } from './credit-proposal-dialog-borrower.component';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { BusinessActivityService } from './busines-activity/business-activity.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-credit-proposal-management-info',
@@ -30,7 +32,7 @@ import lodash from 'lodash';
   styleUrls: ['./css/credit-proposal-basic-information.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit {
+export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit, OnDestroy {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
@@ -86,6 +88,8 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public Management: string;
   constructor(
     private creditProposalService: CreditProposalService,
+    protected activatedRoute: ActivatedRoute,
+    private baService: BusinessActivityService,
     public dialog: MatDialog,
     private organizationLegalService: OrganizationLegalService,
     protected actRoute: ActivatedRoute,
@@ -94,14 +98,26 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
     private partyCifService: PartyCifService,
-    private generalParameterService: GeneralParameterService
+    private generalParameterService: GeneralParameterService,
+    protected messageService: MessageService
   ) {
     this.dataItem;
   }
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
   ngOnInit(): void {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
+    this.BUCKET = ' ';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      (this.getKey = 'credit_proposal/remark/management-info/' + this.paramsIdGet + '/sfdt'),
+        this.getBucket().then(res => {
+          this.getContainer();
+        });
+    });
 
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
@@ -113,7 +129,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
     }
 
-    this.getWord();
+    // this.getWord();
 
     this.matrixRemoveTag();
     this.getPartyCif();
@@ -267,68 +283,164 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   // WORD
-  public getWord() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET = val.body['bucket'];
-      this.getContainer();
+  // public getWord() {
+  //   this.storageService.getBucketName().subscribe(val => {
+  //     this.BUCKET = val.body['bucket'];
+  //     this.getContainer();
+  //   });
+  // }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.BUCKET = res.body['bucket'];
+        resolve();
+      });
     });
+  }
+
+  // public triggeredSave(): void {
+  //   let paramsId = '';
+  //   this.actRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const key = 'credit_proposal/remark/management-info';
+  //   //  key: 'credit_proposal/remark/management-info/' + paramsId + this.creditProposalItem.attributes.proposalType + '/' + '/sfdt',
+
+  //   const timeStamp = Math.floor(Date.now() / 1000);
+
+  //   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+  //   docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+  //     const fileType = 'word';
+  //     const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + fileType + '.docs';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+  //   });
+
+  //   docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+  //     const fileType = 'sfdt';
+  //     const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + '-management-info-' + fileType + '.sfdt';
+  //     // const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/management-info-' + fileType + '.sfdt';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+  //   });
+  // }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   public triggeredSave(): void {
     let paramsId = '';
-    this.actRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
+
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/management-info';
-    //  key: 'credit_proposal/remark/management-info/' + paramsId + this.creditProposalItem.attributes.proposalType + '/' + '/sfdt',
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const fileName = 'credit-proposal-remark-' + '-' + paramsId + '-' + fileTypeWord + '.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + '-management-info-' + fileType + '.sfdt';
-      // const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/management-info-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.BUCKET, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const fileNames = 'credit-proposal-remark-' + '-' + paramsId + '-' + '-management-info-' + fileTypeSfdt + '.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.BUCKET, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
 
   private getContainer(): void {
-    let paramsId = '';
-    this.actRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
+    // const obj = {
+    //   key: 'credit_proposal/remark/management-info/' + paramsId + '/sfdt',
+    // };
     const obj = {
-      key: 'credit_proposal/remark/management-info/' + paramsId + '/sfdt',
+      key: this.getKey,
     };
+    console.log('obj', obj);
+
     this.storageService
       .getObjects(this.BUCKET, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
+      // .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(response => {
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
+            // .pipe(takeUntil(this.ngUnsubscribe))
+            .pipe(takeUntil(this.destroy$))
             .subscribe(res => {
+              console.log('this.paramsIdGet', this.paramsIdGet);
+
               this.fileGet = new File([res.body], 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + '-management-info-sfdt.sfdt');
 
               const fileReader: FileReader = new FileReader();
@@ -338,7 +450,10 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }

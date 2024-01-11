@@ -1,3 +1,10 @@
+<jhi-loader-ba
+  [progress]="progress"
+  [isUpload]="isUpload"
+  [progressDocx]="progressDocx"
+  [progressSfdt]="progressSfdt"
+  *ngIf="baLoading"
+></jhi-loader-ba>
 <mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
   <div class="e-card">
     <div class="e-card-header">
@@ -417,7 +424,8 @@
             <div *ngIf="clickedMenu === 'convenant-tbo'">
               <section class="wrapper-card">
                 <e-card
-                  ><jhi-credit-proposal-tab-covenant [isViewMode]="false" [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant
+                  ><jhi-credit-proposal-tab-covenant [isViewMode]="false" [creditProposalItem]="creditProposal">
+                  </jhi-credit-proposal-tab-covenant
                 ></e-card>
               </section>
             </div>

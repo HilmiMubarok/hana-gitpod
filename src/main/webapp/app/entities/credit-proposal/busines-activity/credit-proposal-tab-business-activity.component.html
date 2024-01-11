@@ -156,11 +156,15 @@
   </div>
 
   <div *ngIf="selectedMenu === 'PROJECT ANALYSIS'">
-    <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
-      <div class="e-card-content">
-        <div class="e-card-header-title">Project Analysis</div>
-        <div class="form-space">
-          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="e-card-content">
+      <div class="e-card-header-title">Project Analysis</div>
+      <!-- <jhi-credit-proposal-project-analyst-remark></jhi-credit-proposal-project-analyst-remark> -->
+      <div class="form-space">
+        <jhi-credit-proposal-project-analyst-remark
+          #project
+          [creditProposalItem]="creditProposalItem"
+        ></jhi-credit-proposal-project-analyst-remark>
+        <!-- <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <ejs-documenteditorcontainer
               #document_editor_containers
               [headers]="customHeadersJWT"
@@ -174,8 +178,9 @@
               (created)="onCreate()"
             >
             </ejs-documenteditorcontainer>
-          </section>
-          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          </section> -->
+
+        <!-- <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <ejs-documenteditorcontainer
               #document_editor_containers
               [headers]="customHeadersJWT"
@@ -190,122 +195,122 @@
               (created)="onCreate()"
             >
             </ejs-documenteditorcontainer>
-          </section>
-          <div class="row mt-3 mb-5">
-            <div class="col mt-5">
-              <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-textbox
-                  [multiline]="true"
-                  [(ngModel)]="creditProposalItem.attributes['businessActivity'].riskMitigation"
-                  placeholder="Risk Mitigation"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
-                >
-                </ejs-textbox>
-              </section>
-              <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row py-3">
-                  <div class="col-2">Risk Mitigation</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col-4">
-                    {{ creditProposalItem.attributes['businessActivity'].riskMitigation }}
+          </section> -->
+
+        <div class="row mt-3 mb-5">
+          <div class="col mt-5">
+            <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-textbox
+                [multiline]="true"
+                [(ngModel)]="creditProposalItem.attributes['businessActivity'].riskMitigation"
+                placeholder="Risk Mitigation"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </section>
+            <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row py-3">
+                <div class="col-2">Risk Mitigation</div>
+                <div class="col-md-auto">:</div>
+                <div class="col-4">
+                  {{ creditProposalItem.attributes['businessActivity'].riskMitigation }}
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <ejs-grid [dataSource]="dataAttrPass" allowTextWrap="true">
+          <e-columns>
+            <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+            <e-column field="Parameter" headerText="Project Financing Indicator" width="70"> </e-column>
+            <e-column headerText="Select" textAlign="Select" width="20">
+              <ng-template #template let-data>
+                <div class="d-flex justify-content-around">
+                  <div class="d-flex radio-btn justify-content-around">
+                    <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                      <div class="mx-2">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          name="{{ data.No }}"
+                          (change)="onSelect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                        >
+                        </ejs-radiobutton>
+                      </div>
+                    </section>
+                    <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                      <div class="mx-2">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          name="{{ data.No }}"
+                          (change)="onSelect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          disabled
+                        >
+                        </ejs-radiobutton>
+                      </div>
+                    </section>
+                    <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                      <div class="mx-2">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          name="{{ data.No }}"
+                          (change)="onSelect('No', data)"
+                          [checked]="data.value === 'No'"
+                        >
+                        </ejs-radiobutton>
+                      </div>
+                    </section>
+                    <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                      <div class="mx-2">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          name="{{ data.No }}"
+                          (change)="onSelect('No', data)"
+                          [checked]="data.value === 'No'"
+                          disabled
+                        >
+                        </ejs-radiobutton>
+                      </div>
+                    </section>
+
+                    <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                      <div class="mx-2">
+                        <ejs-radiobutton
+                          label="N/A"
+                          value="N/A"
+                          name="{{ data.No }}"
+                          (change)="onSelect('N/A', data)"
+                          [checked]="data.value === 'N/A'"
+                        >
+                        </ejs-radiobutton>
+                      </div>
+                    </section>
+                    <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                      <div class="mx-2">
+                        <ejs-radiobutton
+                          label="N/A"
+                          value="N/A"
+                          name="{{ data.No }}"
+                          (change)="onSelect('N/A', data)"
+                          [checked]="data.value === 'N/A'"
+                          disabled
+                        >
+                        </ejs-radiobutton>
+                      </div>
+                    </section>
                   </div>
                 </div>
-              </section>
-            </div>
-          </div>
-
-          <ejs-grid [dataSource]="dataAttrPass" allowTextWrap="true">
-            <e-columns>
-              <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
-              <e-column field="Parameter" headerText="Project Financing Indicator" width="70"> </e-column>
-              <e-column headerText="Select" textAlign="Select" width="20">
-                <ng-template #template let-data>
-                  <div class="d-flex justify-content-around">
-                    <div class="d-flex radio-btn justify-content-around">
-                      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="mx-2">
-                          <ejs-radiobutton
-                            label="Yes"
-                            value="Yes"
-                            name="{{ data.No }}"
-                            (change)="onSelect('Yes', data)"
-                            [checked]="data.value === 'Yes'"
-                          >
-                          </ejs-radiobutton>
-                        </div>
-                      </section>
-                      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <div class="mx-2">
-                          <ejs-radiobutton
-                            label="Yes"
-                            value="Yes"
-                            name="{{ data.No }}"
-                            (change)="onSelect('Yes', data)"
-                            [checked]="data.value === 'Yes'"
-                            disabled
-                          >
-                          </ejs-radiobutton>
-                        </div>
-                      </section>
-                      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="mx-2">
-                          <ejs-radiobutton
-                            label="No"
-                            value="No"
-                            name="{{ data.No }}"
-                            (change)="onSelect('No', data)"
-                            [checked]="data.value === 'No'"
-                          >
-                          </ejs-radiobutton>
-                        </div>
-                      </section>
-                      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <div class="mx-2">
-                          <ejs-radiobutton
-                            label="No"
-                            value="No"
-                            name="{{ data.No }}"
-                            (change)="onSelect('No', data)"
-                            [checked]="data.value === 'No'"
-                            disabled
-                          >
-                          </ejs-radiobutton>
-                        </div>
-                      </section>
-
-                      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                        <div class="mx-2">
-                          <ejs-radiobutton
-                            label="N/A"
-                            value="N/A"
-                            name="{{ data.No }}"
-                            (change)="onSelect('N/A', data)"
-                            [checked]="data.value === 'N/A'"
-                          >
-                          </ejs-radiobutton>
-                        </div>
-                      </section>
-                      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                        <div class="mx-2">
-                          <ejs-radiobutton
-                            label="N/A"
-                            value="N/A"
-                            name="{{ data.No }}"
-                            (change)="onSelect('N/A', data)"
-                            [checked]="data.value === 'N/A'"
-                            disabled
-                          >
-                          </ejs-radiobutton>
-                        </div>
-                      </section>
-                    </div>
-                  </div>
-                </ng-template>
-              </e-column>
-            </e-columns>
-          </ejs-grid>
-        </div>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
       </div>
     </div>
   </div>
