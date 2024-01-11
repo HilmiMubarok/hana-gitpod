@@ -28,7 +28,7 @@ export const MY_DATE_FORMAT = {
 class PickDateAdapter extends NativeDateAdapter {
   format(date: Date, displayFormat: Object): string {
     if (displayFormat === 'input') {
-      return formatDate(date, 'yyy/MM/dd', this.locale);
+      return formatDate(date, 'yyyy/MM/dd', this.locale);
     } else {
       return date.toDateString();
     }
@@ -66,12 +66,7 @@ export class DialogInternalMemoComponent implements OnInit {
   public folders = [];
   public folders2 = [];
   public folderFiles = [];
-  // documentRootId = 'DOC_DPDL_UPLOAD';
-  // docParentId = 'DOC_DPDL_UPLOAD_LEGAL';
   public filesStatus: string;
-  // public status: string[] = ['Available', 'TBO', 'Waived', 'Not Available'];
-
-  // public categoryValue = ['A', 'B', 'C'];
   constructor(
     private templateService: TemplateService,
     private dialog: MatDialog,
@@ -96,11 +91,9 @@ export class DialogInternalMemoComponent implements OnInit {
     const dataDoc: any = this.data.obj;
 
     if (this.data.view === 'edit') {
-      // this.loadAll();
       this.document = {
         id: dataDoc.id,
         documentDate: new Date(dataDoc.files[0].tags.documentDate),
-        // rootId: dataDoc.files[0].tags.rootId,
 
         documentName: dataDoc.files[0].tags.documentName,
 
@@ -145,9 +138,7 @@ export class DialogInternalMemoComponent implements OnInit {
       this.previousObject = {
         id: this.folder['files'][0]['tags']['id'],
         documentDate: new Date(this.folder['files'][0]['tags']['documentDate']),
-
         documentName: this.changeCharacter(this.folder['files'][0]['tags']['documentName']),
-
         remarks: this.changeCharacter(this.folder['files'][0]['tags']['remarks']),
       };
 
@@ -201,22 +192,18 @@ export class DialogInternalMemoComponent implements OnInit {
     if (this.folder !== undefined) {
       this.document.id = this.folder['files'][0]['tags']['id'];
       this.document.documentDate = new Date(this.folder['files'][0]['tags']['documentDate']);
-
       this.document.documentName = this.changeCharacter(this.folder['files'][0]['tags']['documentName']);
-
       this.document.remarks = this.changeCharacter(this.folder['files'][0]['tags']['remarks']);
-      // this.document.documentType = this.folder['files'][0]['tags']['documentType'];
-      // this.document.documentName = this.folder['files'][0]['tags']['documetNo'].replace('&', 'codeSpecialDan');
     }
   }
 
   public preSave(): void {
+   const formattedDate = this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
+
     this.currentObject = {
       id: this.document.id,
-
-      documentDate: new Date(this.document.documentDate),
+      documentDate: formattedDate,
       documentName: this.changeCharacter(this.document.documentName),
-
       remarks: this.changeCharacter(this.document.remarks),
     };
 
@@ -285,6 +272,8 @@ export class DialogInternalMemoComponent implements OnInit {
   }
 
   public save(): Promise<any> {
+   const formattedDate = this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
+
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -292,17 +281,13 @@ export class DialogInternalMemoComponent implements OnInit {
           view: this.view,
           files: this.files,
           datePipe: this.datePipe,
-
           id: this.document.id,
           documentName: this.changeCharacter(this.document.documentName),
-
           creditProposal: {
             id: this.data.creditProposal.id,
           },
-
-          documentDate: this.document.documentDate,
+          documentDate: formattedDate,
           remarks: this.changeCharacter(this.document.remarks),
-
           folderFiles: this.folderFiles,
         };
 
@@ -394,7 +379,6 @@ export class DialogInternalMemoComponent implements OnInit {
   public checkMustValidated() {
     const mustValidateDocument = {
       remarks: true,
-
       documentName: true,
       date: true,
       files: true,
@@ -402,11 +386,6 @@ export class DialogInternalMemoComponent implements OnInit {
     if (this.folder === undefined) {
       if (this.files.length === 0) {
         mustValidateDocument.files = false;
-        // this._snackBar.open('Choose file for upload', null, {
-        //   horizontalPosition: 'right',
-        //   verticalPosition: 'top',
-        //   duration: 3000,
-        // });
       }
     }
 
@@ -420,7 +399,7 @@ export class DialogInternalMemoComponent implements OnInit {
     }
 
     if (!this.document.remarks) {
-      this._showNotification('error', 'Masukkan remarks Document terlebih dahulu');
+      this._showNotification('error', 'Masukkan Remarks Document terlebih dahulu');
       mustValidateDocument.remarks = false;
     }
 

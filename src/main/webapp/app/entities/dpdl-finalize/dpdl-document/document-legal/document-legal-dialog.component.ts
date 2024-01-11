@@ -2,12 +2,10 @@ import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
 import { DocumentLegalDpdl, IDocumentLegalDpdl } from '../document-dpdl.model';
-import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
-import { AccountService } from 'app/core/auth/account.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
@@ -29,7 +27,7 @@ export const MY_DATE_FORMAT = {
 class PickDateAdapter extends NativeDateAdapter {
   format(date: Date, displayFormat: Object): string {
     if (displayFormat === 'input') {
-      return formatDate(date, 'yyy/MM/dd', this.locale);
+      return formatDate(date, 'YYYY/MM/dd', this.locale);
     } else {
       return date.toDateString();
     }
@@ -72,7 +70,6 @@ export class DocumentLegalDialogComponent implements OnInit {
   public folders2 = [];
   public folderFiles = [];
   documentRootId = 'DOC_DPDL_LEGAL';
-  // docParentId = ['DOC_DPDL_UPLOAD_LEGAL', ];
   public status: string[] = ['Available', 'TBO', 'Waived', 'Not Available'];
 
   public categoryValue = ['A', 'B', 'C'];
@@ -109,11 +106,36 @@ export class DocumentLegalDialogComponent implements OnInit {
         documentId: dataDoc.files[0].tags.documentId,
         category: dataDoc.files[0].tags.category,
         status: dataDoc.files[0].tags.status,
-        attributes: JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)),
+
+        attributes: {
+          remarks:
+            typeof dataDoc.files[0].tags.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).remarks
+              : this.changeCharacter(dataDoc.files[0].tags.attributes.remarks),
+          description:
+            typeof dataDoc.files[0].tags.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).description
+              : this.changeCharacter(dataDoc.files[0].tags.attributes.description),
+          total:
+            typeof dataDoc.files[0].tags.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).total
+              : this.changeCharacter(dataDoc.files[0].tags.attributes.total),
+          notaryNumber:
+            typeof dataDoc.files[0].tags.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).notaryNumber
+              : this.changeCharacter(dataDoc.files[0].tags.attributes.notaryNumber),
+          notaryName:
+            typeof dataDoc.files[0].tags.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).notaryName
+              : this.changeCharacter(dataDoc.files[0].tags.attributes.notaryName),
+          batasWaktuPenyelesaian:
+            typeof dataDoc.files[0].tags.attributes === 'string'
+              ? new Date(JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).batasWaktuPenyelesaian)
+              : new Date(dataDoc.files[0].tags.attributes.batasWaktuPenyelesaian),
+        },
       };
     } else {
       this.document = new DocumentLegalDpdl();
-      // this.document.attributes = {};
 
       if (this.data.view === 'add') {
         if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN') {
@@ -164,7 +186,6 @@ export class DocumentLegalDialogComponent implements OnInit {
         this.documentTypes = res.body;
         if (this.documentTypes.length > 0) {
           for (let i = 0; i < this.documentTypes.length; i++) {
-            // this.document.rootId = this.documentTypes[i].rootId;
             this.document.documentName = this.documentTypes[i].description;
           }
         }
@@ -203,7 +224,6 @@ export class DocumentLegalDialogComponent implements OnInit {
         documentId: this.folder['files'][0]['tags']['documentId'],
         category: this.folder['files'][0]['tags']['category'],
         status: this.folder['files'][0]['tags']['status'],
-        // attributes: this.changeCharacter(this.folder['files'][0]['tags']['attributes']),
         attributes: {
           remarks: this.changeCharacter(this.folder['files'][0]['tags']['attributes']['remarks']),
           description: this.changeCharacter(this.folder['files'][0]['tags']['attributes']['description']),
@@ -277,7 +297,6 @@ export class DocumentLegalDialogComponent implements OnInit {
       this.document.attributes.notaryNumber = this.folder['files'][0]['tags']['attributes']['notaryNumber'];
       this.document.attributes.notaryName = this.folder['files'][0]['tags']['attributes']['notaryName'];
       this.document.attributes.batasWaktuPenyelesaian = this.folder['files'][0]['tags']['attributes']['batasWaktuPenyelesaian'];
-      // this.document.documentName = this.folder['files'][0]['tags']['documetNo'].replace('&', 'codeSpecialDan');
     }
   }
 
@@ -291,18 +310,47 @@ export class DocumentLegalDialogComponent implements OnInit {
   }
 
   public preSave(): void {
+    const formattedDate =
+      this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
+        ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
+        : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
+
     this.currentObject = {
       id: this.document.id,
       rootId: this.documentRootId,
-      documentDate: new Date(this.document.documentDate),
+      documentDate: formattedDate,
       documentId: this.document.documentId,
       parentId: this.document.parentId,
-      attributes: this.changeCharacter(this.document.attributes.remarks),
-      // attributes: {
-      //   remarks: this.document.attributes.remarks,
-      // },
+
       category: this.document.category,
       status: this.document.status,
+      attributes: {
+        remarks:
+          typeof this.document.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(this.document.attributes)).remarks
+            : this.changeCharacter(this.document.attributes.remarks),
+        // remarks: this.changeCharacter(this.document.attributes.remarks),
+        description:
+          typeof this.document.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(this.document.attributes)).description
+            : this.changeCharacter(this.document.attributes.description),
+        total:
+          typeof this.document.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(this.document.attributes)).total
+            : this.changeCharacter(this.document.attributes.total),
+        notaryNumber:
+          typeof this.document.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(this.document.attributes)).notaryNumber
+            : this.changeCharacter(this.document.attributes.notaryNumber),
+        notaryName:
+          typeof this.document.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(this.document.attributes)).notaryName
+            : this.changeCharacter(this.document.attributes.notaryName),
+        batasWaktuPenyelesaian:
+          typeof this.document.attributes === 'string'
+            ? this.datePipe.transform(JSON.parse(this.document.attributes).batasWaktuPenyelesaian, 'yyyy/MM/dd')
+            : this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd'),
+      },
     };
 
     this.checkChanges();
@@ -381,6 +429,11 @@ export class DocumentLegalDialogComponent implements OnInit {
   }
 
   public save(): Promise<any> {
+    const formattedDate =
+      this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
+        ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
+        : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
+
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -396,7 +449,7 @@ export class DocumentLegalDialogComponent implements OnInit {
             id: this.data.creditProposal.id,
           },
 
-          documentDate: this.document.documentDate,
+          documentDate: formattedDate,
           attributes: {
             remarks:
               typeof this.document.attributes === 'string'
@@ -421,12 +474,10 @@ export class DocumentLegalDialogComponent implements OnInit {
                 : this.changeCharacter(this.document.attributes.notaryName),
             batasWaktuPenyelesaian:
               typeof this.document.attributes === 'string'
-                ? JSON.parse(this.changeCharacter(this.document.attributes)).batasWaktuPenyelesaian
-                : this.changeCharacter(this.document.attributes.batasWaktuPenyelesaian),
+                ? this.datePipe.transform(JSON.parse(this.document.attributes).batasWaktuPenyelesaian, 'yyyy/MM/dd')
+                : this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd'),
           },
-          // attributes: {
-          //   remarks: this.document.attributes.remarks,
-          // },
+
           category: this.document.category,
           status: this.document.status,
           folderFiles: this.folderFiles,
@@ -550,11 +601,6 @@ export class DocumentLegalDialogComponent implements OnInit {
       if (this.files.length === 0) {
         this._showNotification('error', 'Upload file terlebih dahulu');
         mustValidateDocument.files = false;
-        // this._snackBar.open('Choose file for upload', null, {
-        //   horizontalPosition: 'right',
-        //   verticalPosition: 'top',
-        //   duration: 3000,
-        // });
       }
     }
 

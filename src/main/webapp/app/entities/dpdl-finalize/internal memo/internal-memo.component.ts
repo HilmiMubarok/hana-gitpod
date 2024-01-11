@@ -3,8 +3,6 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { ReportUtilService } from 'app/shared/base/report-util.service';
-import { Observable, map } from 'rxjs';
 import { DialogInternalMemoComponent } from './dialog/dialog-internal-memo.component';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IInternalMemoDocument, IInternalMemoMetaData, InternalMemoDocumentMetaData } from './internal-memo.model';
@@ -104,7 +102,6 @@ export class InternalMemoComponent implements OnChanges {
         creditProposal: null,
         bucket: this.bucket,
         view: 'edit',
-
         obj: element,
       },
     };
@@ -194,21 +191,15 @@ export class InternalMemoComponent implements OnChanges {
         .chain(param)
         .groupBy('tags.id')
         .map((val, key) => ({
-          // const matchingDocumentType = this.documentTypes.find(docType => docType.id === val[0]['tags']['documentId']);
-          // const documentName = matchingDocumentType.description;
-
           folder: key,
           files: val,
           id: val[0]['tags']['id'],
           documentDate: val[0]['tags']['documentDate'],
           nameFile: val[0]['name'],
           remarks: val[0]['tags']['remarks'],
-          // documentId: val[0]['tags']['documentId'],
           documentName: val[0]['tags']['documentName'], // Set document name based on the condition
         }))
         .value();
-
-      // Apply sorting after grouping
     }
   }
 
@@ -230,7 +221,6 @@ export class InternalMemoComponent implements OnChanges {
 
         this.metaData.id = id;
         this.metaData.applicationId = res.creditProposal.id;
-
         this.metaData.remarks = this.changeCharacter(res.remarks);
         this.metaData.documentName = this.changeCharacter(res.documentName);
         this.metaData.documentDate = res.documentDate;
@@ -256,7 +246,6 @@ export class InternalMemoComponent implements OnChanges {
   public edit(res: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (res && res.folderFiles && res.folderFiles.length > 0) {
-        // if (res.folderFiles.length > 0) {
         const promises: Array<any> = new Array<any>();
         const fileRes = [];
         const files: IDocumentNode[] = res.folderFiles;
@@ -266,12 +255,9 @@ export class InternalMemoComponent implements OnChanges {
 
             file.tags['id'] = res.id;
             file.tags['applicationId'] = this.creditProposal.id;
-
             file.tags['documentName'] = this.changeCharacter(res.documentName);
-
             file.tags['remarks'] = this.changeCharacter(res.remarks);
-
-            file.tags['documentDate'] = new Date(res.documentDate);
+            file.tags['documentDate'] = res.documentDate;
             this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
               fileRes.push(res1);
               this.getFiles(this.creditProposal.id);
