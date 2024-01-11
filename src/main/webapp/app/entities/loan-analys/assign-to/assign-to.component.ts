@@ -71,6 +71,7 @@ export class AssignToComponent implements OnInit {
       }
 
       this.applicationRoleId = tempDataAssignTo['id'];
+      this.assignTo.emit(tempDataAssignTo);
     });
   }
 
