@@ -117,7 +117,6 @@ export class DocumentLegalUploadComponent implements OnChanges {
         obj: element,
       },
     };
-    console.log('element', element);
 
     if (this.creditProposal) {
       predicate['data']['creditProposal'] = this.change.creditProposal['currentValue'];
@@ -212,15 +211,13 @@ export class DocumentLegalUploadComponent implements OnChanges {
             documentDate: val[0]['tags']['documentDate'],
             nameFile: val[0]['name'],
             remarks: val[0]['tags']['remarks'],
-            // documentId: val[0]['tags']['documentId'],
-            documentId: documentName, // Set document name based on the condition
+            documentId: documentName,
           };
         })
         .value();
 
       // Apply sorting after grouping
       this.folders = this.sortByDateDesc(this.folders, 'documentDate');
-      console.log('Grouped Data And Sort Data:', this.folders);
     }
   }
 
@@ -228,20 +225,18 @@ export class DocumentLegalUploadComponent implements OnChanges {
     return new Promise((resolve, reject) => {
       const promises: Array<any> = new Array<any>();
       const id = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
-      console.log('res', res);
       for (let i = 0; i < res.files.length; i++) {
         const files = res.datePipe.transform(new Date(), 'yyyy-MM-dd:hh:mm:ss') + '-' + res.files[i].name.replace('&', '');
 
         this.metaData.id = id;
         this.metaData.applicationId = res.creditProposal.id;
-        this.metaData.rootId = res.rootId; // lvl 0
-        this.metaData.parentId = res.parentId; // lvl 1
-        this.metaData.documentId = res.documentId; // lvl 2
+        this.metaData.rootId = res.rootId;
+        this.metaData.parentId = res.parentId;
+        this.metaData.documentId = res.documentId;
         this.metaData.category = res.category;
         this.metaData.remarks = this.changeCharacter(res.remarks);
         this.metaData.status = res.status;
         this.metaData.documentDate = res.documentDate;
-        console.log('res', res.rootId);
 
         const formData = new FormData();
         formData.append('file', res.files[i]);
@@ -264,16 +259,12 @@ export class DocumentLegalUploadComponent implements OnChanges {
   public edit(res: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (res && res.folderFiles && res.folderFiles.length > 0) {
-        // if (res.folderFiles.length > 0) {
         const promises: Array<any> = new Array<any>();
         const fileRes = [];
         const files: IDocumentNode[] = res.folderFiles;
         if (files.length > 0) {
           for (let i = 0; i < files.length; i++) {
             const file: IDocumentNode = files[i];
-            console.log('files', file);
-            console.log('id edit', res.id);
-
             file.tags['id'] = res.id;
             file.tags['applicationId'] = this.creditProposal.id;
             file.tags['rootId'] = res.rootId;
@@ -282,7 +273,7 @@ export class DocumentLegalUploadComponent implements OnChanges {
             file.tags['category'] = res.category;
             file.tags['remarks'] = this.changeCharacter(res.remarks);
             file.tags['status'] = res.status;
-            file.tags['documentDate'] = new Date(res.documentDate);
+            file.tags['documentDate'] = res.documentDate;
             this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
               fileRes.push(res1);
               this.getFiles(this.creditProposal.id);
@@ -335,7 +326,6 @@ export class DocumentLegalUploadComponent implements OnChanges {
       })
       .subscribe(res => {
         this.documentTypes = res.body;
-        console.log('ressssss', res);
       });
   }
 
@@ -358,7 +348,6 @@ export class DocumentLegalUploadComponent implements OnChanges {
 
   private sortByDateDesc(items: any[], datePropertyName: string): any[] {
     const sortedItems = lodash.orderBy(items, [item => new Date(item[datePropertyName])], ['desc']);
-    console.log('Sorted Items:', sortedItems);
     return sortedItems;
   }
 }

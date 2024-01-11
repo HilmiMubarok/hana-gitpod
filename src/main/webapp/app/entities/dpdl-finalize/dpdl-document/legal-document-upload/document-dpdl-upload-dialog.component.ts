@@ -29,7 +29,7 @@ export const MY_DATE_FORMAT = {
 class PickDateAdapter extends NativeDateAdapter {
   format(date: Date, displayFormat: Object): string {
     if (displayFormat === 'input') {
-      return formatDate(date, 'yyy/MM/dd', this.locale);
+      return formatDate(date, 'yyyy/MM/dd', this.locale);
     } else {
       return date.toDateString();
     }
@@ -251,8 +251,6 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
       this.document.category = this.folder['files'][0]['tags']['category'];
       this.document.status = this.folder['files'][0]['tags']['status'];
       this.document.remarks = this.changeCharacter(this.folder['files'][0]['tags']['remarks']);
-      // this.document.documentType = this.folder['files'][0]['tags']['documentType'];
-      // this.document.documentName = this.folder['files'][0]['tags']['documetNo'].replace('&', 'codeSpecialDan');
     }
   }
 
@@ -274,10 +272,12 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
   }
 
   public preSave(): void {
+    const formattedDate = this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
+
     this.currentObject = {
       id: this.document.id,
       rootId: this.document.rootId,
-      documentDate: new Date(this.document.documentDate),
+      documentDate: formattedDate,
       documentId: this.document.documentId,
       parentId: this.document.parentId,
       remarks: this.changeCharacter(this.document.remarks),
@@ -350,6 +350,7 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
   }
 
   public save(): Promise<any> {
+    const formattedDate = this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -365,7 +366,7 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
             id: this.data.creditProposal.id,
           },
 
-          documentDate: this.document.documentDate,
+          documentDate: formattedDate,
           remarks: this.changeCharacter(this.document.remarks),
           category: this.document.category,
           status: this.document.status,
@@ -471,11 +472,6 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
     if (this.folder === undefined) {
       if (this.files.length === 0) {
         mustValidateDocument.files = false;
-        // this._snackBar.open('Choose file for upload', null, {
-        //   horizontalPosition: 'right',
-        //   verticalPosition: 'top',
-        //   duration: 3000,
-        // });
       }
     }
 

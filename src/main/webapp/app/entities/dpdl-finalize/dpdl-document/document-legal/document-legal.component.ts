@@ -7,13 +7,11 @@ import { DocumentTypeService } from 'app/entities/document-type/document-type.se
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import lodash from 'lodash';
 import { IDocumentLegalDpdl, DocumentDpdlLegalMetaData, IDocumentDpdlLegalMetaData } from '../document-dpdl.model';
-import { DocumentDpdlDetailDialogComponent } from '../legal-document-upload/document-dpdl-detail-dialog.component';
-import { DocumentDpdlUploadDialogComponent } from '../legal-document-upload/document-dpdl-upload-dialog.component';
-import { StorageService } from 'app/entities/storage/storage.service';
-import { DocumentLegalDialogComponent } from './document-legal-dialog.component';
 import { DocumentLegalDetailDialogComponent } from './document-legal-detail-dialog.component';
 import { MessageService } from 'primeng/api';
 import _ from 'lodash';
+import { StorageService } from 'app/entities/storage/storage.service';
+import { DocumentLegalDialogComponent } from './document-legal-dialog.component';
 
 @Component({
   selector: 'jhi-document-legal',
@@ -171,7 +169,6 @@ export class DocumentLegalComponent implements OnChanges {
 
   private doUpload(frmData: FormData, metaData: object): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      // metaData['attributes'] = JSON.stringify(metaData['attributes']);
       this.storageService.uploadMeta(this.bucket, frmData, metaData).subscribe({
         next: res => resolve(),
         error: err => reject(),
@@ -210,9 +207,7 @@ export class DocumentLegalComponent implements OnChanges {
             files: val,
             nameFile: val[0]['name'],
             documentType,
-            // documentId: folderDescription,
             documentId: documentName ? documentName.description : val[0]['tags']['documentId'],
-            // remarks: val[0]['tags']['remarks'],
             category: val[0]['tags']['category'],
             status: val[0]['tags']['status'],
             attributes: JSON.parse(val[0]['tags']['attributes']),
@@ -236,14 +231,13 @@ export class DocumentLegalComponent implements OnChanges {
 
         this.metaData.id = id;
         this.metaData.applicationId = res.creditProposal.id;
-        this.metaData.rootId = res.rootId; // lvl 0
-        this.metaData.parentId = res.parentId; // lvl 1
-        this.metaData.documentId = res.documentId; // lvl 2
+        this.metaData.rootId = res.rootId;
+        this.metaData.parentId = res.parentId;
+        this.metaData.documentId = res.documentId;
         this.metaData.category = res.category;
-        // this.metaData.remarks = res.remarks.replace('&', 'codeSpecialDan');
         this.metaData.status = res.status;
         this.metaData.documentDate = res.documentDate;
-        this.metaData.attributes = JSON.stringify(this.changeCharacter(res.attributes)); // res.attributes;
+        this.metaData.attributes = JSON.stringify(this.changeCharacter(res.attributes));
 
         const formData = new FormData();
         formData.append('file', res.files[i]);
@@ -266,25 +260,21 @@ export class DocumentLegalComponent implements OnChanges {
   public edit(res: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (res && res.folderFiles && res.folderFiles.length > 0) {
-        // if (res.folderFiles.length > 0) {
-
         const promises: Array<any> = new Array<any>();
-        // const id = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
         const fileRes = [];
         const files: IDocumentNode[] = res.folderFiles;
         if (files.length > 0) {
           for (let i = 0; i < files.length; i++) {
             const file: IDocumentNode = files[i];
-
             file.tags['id'] = res.id;
             file.tags['applicationId'] = this.creditProposal.id;
             file.tags['rootId'] = res.rootId;
+            file.tags['documentDate'] = res.documentDate;
             file.tags['parentId'] = res.parentId;
             file.tags['documentId'] = res.documentId;
             file.tags['category'] = res.category;
             file.tags['attributes'] = JSON.stringify(this.changeCharacter(res.attributes));
             file.tags['status'] = res.status;
-            file.tags['documentDate'] = new Date(res.documentDate);
 
             this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
               fileRes.push(res1);
@@ -332,7 +322,6 @@ export class DocumentLegalComponent implements OnChanges {
     this.documentTypeService
       .query({
         lvl2: true,
-        // parentId: param,
         page: 0,
         size: 9999,
         sort: ['id', 'desc'],

@@ -36,14 +36,6 @@ export class InternalMemoDetailComponent implements OnInit {
     this.reportUtilService.downloadFileBYName(event, name.name);
   }
 
-  //   public convertDan(value: string): any {
-  //     if (value !== null && value !== undefined) {
-  //       return value.replace('codeSpecialDan', '&');
-  //     } else {
-  //       return '';
-  //     }
-  //   }
-
   changeCharacter(inputString: string): string {
     if (typeof inputString === 'string') {
       // Replace '&' with a specific letter, for example 'X'

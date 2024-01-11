@@ -9,22 +9,13 @@
           </ngx-dropzone>
 
           <div class="row">
-            <ngx-dropzone-preview
-              class="col-6"
-              ngProjectAs="ngx-dropzone-preview"
-              *ngFor="let f of files"
-              [removable]="true"
-              (removed)="onRemove(f)"
-            >
+            <ngx-dropzone-preview class="col-6" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+              [removable]="true" (removed)="onRemove(f)">
               <ngx-dropzone-label>
-                <ngx-dropzone-image-preview
-                  ngProjectAs="ngx-dropzone-image-preview"
-                  [file]="f"
-                  *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
-                >
+                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"
+                  *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'">
                 </ngx-dropzone-image-preview>
-                <div
-                  style="
+                <div style="
                     width: 170px;
                     top: 90%;
                     left: 50%;
@@ -37,16 +28,17 @@
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                     margin-top: -20px;
                     position: absolute;
-                  "
-                >
+                  ">
                   {{ f.name }}
                 </div>
               </ngx-dropzone-label>
-              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
+              <ngx-dropzone-label
+                *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
                 <img src="../../../content/images/excel.png" width="100%" height="100%" />
               </ngx-dropzone-label>
 
-              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
+              <ngx-dropzone-label
+                *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
                 <img src="../../../content/images/word.png" width="100%" height="100%" />
               </ngx-dropzone-label>
 
@@ -94,7 +86,8 @@
                   <mat-label>Document Type</mat-label>
                   <mat-select [(ngModel)]="document.parentId" (selectionChange)="doSearch($event.value)">
                     <mat-option value="">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of parentIdValue" [value]="item.id">{{ item.description }} </mat-option>
+                    <mat-option *ngFor="let item of parentIdValue" [value]="item.id">{{ item.description }}
+                    </mat-option>
                     <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
                   </mat-select>
                 </mat-form-field>
@@ -110,12 +103,10 @@
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Document Name</mat-label>
                   <!-- Update bagian ini -->
-                  <ng-container
-                    *ngIf="
+                  <ng-container *ngIf="
                       document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN';
                       else selectDocument
-                    "
-                  >
+                    ">
                     <input matInput type="text" [(ngModel)]="document.documentId" />
                   </ng-container>
                   <ng-template #selectDocument>
@@ -149,7 +140,8 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Date</mat-label>
-                  <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+                  <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate"
+                    disabled />
                   <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
                   <mat-datepicker #documentDate disabled="false"></mat-datepicker>
                 </mat-form-field>
@@ -207,7 +199,8 @@
             </div>
             <div class="col-6">
               <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+                <mat-form-field class="w-100" appearance="outline"
+                  *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
                   <mat-label>Notary Name</mat-label>
                   <input matInput type="text" [(ngModel)]="document.attributes['notaryName']" />
                 </mat-form-field>
@@ -220,9 +213,9 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Date</mat-label>
-                  <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
-                  <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
-                  <mat-datepicker #documentDate disabled="false"></mat-datepicker>
+                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+                  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                  <mat-datepicker #dp disabled="false"></mat-datepicker>
                 </mat-form-field>
               </div>
             </div>
@@ -230,13 +223,8 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Batas Waktu Penyelaian</mat-label>
-                  <input
-                    [matDatepicker]="batasWaktuPenyelesaian"
-                    matInput
-                    type="text"
-                    [(ngModel)]="document.attributes['batasWaktuPenyelesaian']"
-                    disabled
-                  />
+                  <input [matDatepicker]="batasWaktuPenyelesaian" matInput type="text"
+                    [(ngModel)]="document.attributes['batasWaktuPenyelesaian']" disabled />
                   <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelesaian"></mat-datepicker-toggle>
                   <mat-datepicker #batasWaktuPenyelesaian disabled="false"></mat-datepicker>
                 </mat-form-field>
@@ -247,13 +235,11 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <mat-form-field
-                  class="w-100"
-                  appearance="outline"
-                  *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'"
-                >
+                <mat-form-field class="w-100" appearance="outline"
+                  *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'">
                   <mat-label>Description</mat-label>
-                  <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="document.attributes['description']"></textarea>
+                  <textarea matInput type="multiline" style="height: 100px"
+                    [(ngModel)]="document.attributes['description']"></textarea>
                 </mat-form-field>
               </div>
             </div>
@@ -264,12 +250,8 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_BIAYA'">
                   <mat-label>Total</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    [ngModel]="document.attributes['total'] | number: '1.0-0'"
-                    (ngModelChange)="document.attributes['total'] = numberInputChanged($event)"
-                  />
+                  <input matInput type="text" [ngModel]="document.attributes['total'] | number: '1.0-0'"
+                    (ngModelChange)="document.attributes['total'] = numberInputChanged($event)" />
                 </mat-form-field>
               </div>
             </div>
@@ -292,22 +274,13 @@
         <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
-        <ngx-dropzone-preview
-          class="col-6"
-          ngProjectAs="ngx-dropzone-preview"
-          *ngFor="let f of files"
-          [removable]="true"
-          (removed)="onRemove(f)"
-        >
+        <ngx-dropzone-preview class="col-6" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+          [removable]="true" (removed)="onRemove(f)">
           <ngx-dropzone-label>
-            <ngx-dropzone-image-preview
-              ngProjectAs="ngx-dropzone-image-preview"
-              [file]="f"
-              *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
-            >
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"
+              *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'">
             </ngx-dropzone-image-preview>
-            <div
-              style="
+            <div style="
                 width: 170px;
                 top: 90%;
                 left: 50%;
@@ -320,8 +293,7 @@
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                 margin-top: -20px;
                 position: absolute;
-              "
-            >
+              ">
               {{ f.name }}
             </div>
           </ngx-dropzone-label>
@@ -370,27 +342,17 @@
         </ngx-dropzone-preview>
 
         <div class="row">
-          <ngx-dropzone-preview
-            class="col-6"
-            ngProjectAs="ngx-dropzone-preview"
-            *ngFor="let item of folder.files"
-            [removable]="true"
-            (removed)="onRemove(item)"
-          >
+          <ngx-dropzone-preview class="col-6" ngProjectAs="ngx-dropzone-preview" *ngFor="let item of folder.files"
+            [removable]="true" (removed)="onRemove(item)">
             <ngx-dropzone-label>
-              <img
-                width="150px"
-                [src]="item.url"
-                *ngIf="
+              <img width="150px" [src]="item.url" *ngIf="
                   item.key.split('.').indexOf('png') > -1 ||
                   item.key.split('.').indexOf('jpg') > -1 ||
                   item.key.split('.').indexOf('jpeg') > -1 ||
                   item.key.split('.').indexOf('gif') > -1
-                "
-              />
+                " />
 
-              <div
-                style="
+              <div style="
                   width: 170px;
                   top: 90%;
                   left: 50%;
@@ -403,50 +365,39 @@
                   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                   margin-top: -20px;
                   position: absolute;
-                "
-              >
+                ">
                 {{ item.name }}
               </div>
 
-              <img width="150px" src="../../../content/images/csv.png" *ngIf="item.key.split('.').indexOf('csv') > -1" />
+              <img width="150px" src="../../../content/images/csv.png"
+                *ngIf="item.key.split('.').indexOf('csv') > -1" />
 
-              <img width="150px" src="../../../content/images/svg.jpg" *ngIf="item.key.split('.').indexOf('svg') > -1" />
+              <img width="150px" src="../../../content/images/svg.jpg"
+                *ngIf="item.key.split('.').indexOf('svg') > -1" />
 
-              <img width="150px" src="../../../content/images/tiff.png" *ngIf="item.key.split('.').indexOf('tiff') > -1" />
+              <img width="150px" src="../../../content/images/tiff.png"
+                *ngIf="item.key.split('.').indexOf('tiff') > -1" />
 
-              <img width="150px" src="../../../content/images/mp3.png" *ngIf="item.key.split('.').indexOf('mp3') > -1" />
+              <img width="150px" src="../../../content/images/mp3.png"
+                *ngIf="item.key.split('.').indexOf('mp3') > -1" />
 
-              <img width="150px" src="../../../content/images/WinRAR-logo.jpg" *ngIf="item.key.split('.').indexOf('rar') > -1" />
+              <img width="150px" src="../../../content/images/WinRAR-logo.jpg"
+                *ngIf="item.key.split('.').indexOf('rar') > -1" />
 
-              <img width="150px" src="../../../content/images/zip-image.jpg" *ngIf="item.key.split('.').indexOf('zip') > -1" />
+              <img width="150px" src="../../../content/images/zip-image.jpg"
+                *ngIf="item.key.split('.').indexOf('zip') > -1" />
 
-              <img
-                (click)="donwload(item.url)"
-                width="150px"
-                src="../../../content/images/excel.png"
-                *ngIf="item.key.split('.').indexOf('xls') > -1 || item.key.split('.').indexOf('xlsx') > -1"
-              />
+              <img (click)="donwload(item.url)" width="150px" src="../../../content/images/excel.png"
+                *ngIf="item.key.split('.').indexOf('xls') > -1 || item.key.split('.').indexOf('xlsx') > -1" />
 
-              <img
-                (click)="donwload(item.url)"
-                width="150px"
-                src="../../../content/images/word.png"
-                *ngIf="item.key.split('.').indexOf('doc') > -1 || item.key.split('.').indexOf('docx') > -1"
-              />
+              <img (click)="donwload(item.url)" width="150px" src="../../../content/images/word.png"
+                *ngIf="item.key.split('.').indexOf('doc') > -1 || item.key.split('.').indexOf('docx') > -1" />
 
-              <img
-                (click)="donwload(item.url)"
-                width="150px"
-                src="../../../content/images/pdf.png"
-                *ngIf="item.key.split('.').indexOf('pdf') > -1"
-              />
+              <img (click)="donwload(item.url)" width="150px" src="../../../content/images/pdf.png"
+                *ngIf="item.key.split('.').indexOf('pdf') > -1" />
 
-              <img
-                (click)="donwload(item.url)"
-                width="150px"
-                src="../../../content/images/power-point.jpg"
-                *ngIf="item.key.split('.').indexOf('pptx') > -1"
-              />
+              <img (click)="donwload(item.url)" width="150px" src="../../../content/images/power-point.jpg"
+                *ngIf="item.key.split('.').indexOf('pptx') > -1" />
             </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
@@ -473,12 +424,10 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Name</mat-label>
                 <!-- Update bagian ini -->
-                <ng-container
-                  *ngIf="
+                <ng-container *ngIf="
                     document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN';
                     else selectDocument
-                  "
-                >
+                  ">
                   <input matInput type="text" [(ngModel)]="document.documentId" />
                 </ng-container>
                 <ng-template #selectDocument>
@@ -512,7 +461,8 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Date</mat-label>
-                <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+                <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate"
+                  disabled />
                 <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
                 <mat-datepicker #documentDate disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -570,7 +520,8 @@
           </div>
           <div class="col-6">
             <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+              <mat-form-field class="w-100" appearance="outline"
+                *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
                 <mat-label>Notary Name</mat-label>
                 <input matInput type="text" [(ngModel)]="document.attributes['notaryName']" />
               </mat-form-field>
@@ -583,23 +534,19 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Date</mat-label>
-                <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
-                <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
-                <mat-datepicker #documentDate disabled="false"></mat-datepicker>
+                <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp disabled="false"></mat-datepicker>
               </mat-form-field>
+
             </div>
           </div>
           <div class="col-6">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Batas Waktu Penyelesaian</mat-label>
-                <input
-                  [matDatepicker]="batasWaktuPenyelesaian"
-                  matInput
-                  type="text"
-                  [(ngModel)]="document.attributes['batasWaktuPenyelesaian']"
-                  disabled
-                />
+                <input [matDatepicker]="batasWaktuPenyelesaian" matInput type="text"
+                  [(ngModel)]="document.attributes['batasWaktuPenyelesaian']" disabled />
                 <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelesaian"></mat-datepicker-toggle>
                 <mat-datepicker #batasWaktuPenyelesaian disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -610,13 +557,11 @@
         <div class="row">
           <div class="col-12">
             <div class="form-group">
-              <mat-form-field
-                class="w-100"
-                appearance="outline"
-                *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'"
-              >
+              <mat-form-field class="w-100" appearance="outline"
+                *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'">
                 <mat-label>Description</mat-label>
-                <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="document.attributes['description']"></textarea>
+                <textarea matInput type="multiline" style="height: 100px"
+                  [(ngModel)]="document.attributes['description']"></textarea>
               </mat-form-field>
             </div>
           </div>
@@ -627,12 +572,8 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_BIAYA'">
                 <mat-label>Total</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="document.attributes['total'] | number: '1.0-0'"
-                  (ngModelChange)="document.attributes['total'] = numberInputChanged($event)"
-                />
+                <input matInput type="text" [ngModel]="document.attributes['total'] | number: '1.0-0'"
+                  (ngModelChange)="document.attributes['total'] = numberInputChanged($event)" />
               </mat-form-field>
             </div>
           </div>
