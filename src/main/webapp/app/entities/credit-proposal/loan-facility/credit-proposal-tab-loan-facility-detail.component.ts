@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
 import { ICreditProposal } from '../credit-proposal.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,12 +11,14 @@ import {
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
+import { Observable, Subject, forkJoin, from, map, startWith, switchMap, takeUntil, tap } from 'rxjs';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
 import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
 import { FormControl } from '@angular/forms';
+import { BusinessActivityService } from '../busines-activity/business-activity.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
@@ -24,7 +26,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./grid/loan.scss', './credit-proposal-tab-loan-facility-detail.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, OnInit {
+export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, OnInit, OnDestroy {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
@@ -91,6 +93,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public newMessage: string;
   public ccy: string;
 
+  private getKey: string;
+
   public customHeadersJWT: any;
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
@@ -105,12 +109,17 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     private router: Router,
     private storageService: StorageService,
     private applicationConfigService: ApplicationConfigService,
-    private masterFinancialInstitutionService: MasterFinancialInstitutionService
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService,
+    private baService: BusinessActivityService,
+    protected messageService: MessageService,
+    protected activatedRoute: ActivatedRoute
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
     this.loadFinancialInstitution();
   }
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   onDocumentChange() {
     if (this.parentSource === '') {
@@ -130,13 +139,22 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
+    this.BUCKET = ' ';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      (this.getKey = 'credit_proposal/remark/loan-facility/' + this.paramsIdGet + '/sfdt'),
+        this.getBucket().then(res => {
+          this.getContainer();
+        });
+    });
+
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     if (this.parentSourceSub === 'from-click-menu') {
       if (this.router.url.split('/')[1] === 'cp-status-approval') {
         this.parentSource = 'loan-analys';
       }
     }
-    this.getWord();
+    // this.getWord();
 
     this.removeTagRemaks();
     // this.setCurrency();
@@ -328,20 +346,35 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   // WORD
-  public getWord() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET = val.body['bucket'];
-      this.getContainer();
+  // public getWord() {
+  //   this.storageService.getBucketName().subscribe(val => {
+  //     this.BUCKET = val.body['bucket'];
+  //     this.getContainer();
+  //   });
+  // }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.BUCKET = res.body['bucket'];
+        resolve();
+      });
     });
   }
 
   private getContainer(): void {
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
+    // const obj = {
+    //   key: 'credit_proposal/remark/loan-facility/' + paramsId + '/sfdt',
+    // };
+
     const obj = {
-      key: 'credit_proposal/remark/loan-facility/' + paramsId + '/sfdt',
+      key: this.getKey,
     };
 
     this.storageService
@@ -375,7 +408,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }
@@ -398,48 +434,144 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     }
   }
 
+  // public triggeredSave(): void {
+  //   // if (this.parentSource === '' || this.parentSource === 'loan-analys') {
+  //   let paramsId = '';
+  //   this.actRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const key = 'credit_proposal/remark/loan-facility';
+
+  //   const timeStamp = Math.floor(Date.now() / 1000);
+
+  //   let docEditor: any;
+
+  //   if (this.parentSource === '' || this.parentSource === 'credit-proposal' || this.parentSource === 'darRevision') {
+  //     docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+  //   } else if (this.parentSource === 'loan-analys') {
+  //     docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+  //   }
+
+  //   docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+  //     const fileType = 'word';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.docs';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+  //   });
+
+  //   docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+  //     const fileType = 'sfdt';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.sfdt';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+  //   });
+  //   // }
+  // }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  saveDocx$: Observable<Blob>;
+  saveSfdt$: Observable<Blob>;
+  docEditor: DocumentEditorComponent;
+
   public triggeredSave(): void {
-    // if (this.parentSource === '' || this.parentSource === 'loan-analys') {
     let paramsId = '';
-    this.actRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
-    const key = 'credit_proposal/remark/loan-facility';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
 
     let docEditor: any;
 
+    this.baService.setLoading(true);
+    const key = 'credit_proposal/remark/loan-facility';
+    // const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
     if (this.parentSource === '' || this.parentSource === 'credit-proposal' || this.parentSource === 'darRevision') {
-      docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+      this.docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+      this.saveDocx$ = from(this.docEditor.saveAsBlob('Docx'));
+      this.saveSfdt$ = from(this.docEditor.saveAsBlob('Sfdt'));
     } else if (this.parentSource === 'loan-analys') {
-      docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+      this.docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+      this.saveDocx$ = from(this.docEditor.saveAsBlob('Docx'));
+      this.saveSfdt$ = from(this.docEditor.saveAsBlob('Sfdt'));
     }
+    // const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    // const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([this.saveDocx$, this.saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileTypeWord + '.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.BUCKET, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const fileNames = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileTypeSfdt + '.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
-    // }
+                return this.storageService.uploadMeta(this.BUCKET, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
 
   public tools: object = {

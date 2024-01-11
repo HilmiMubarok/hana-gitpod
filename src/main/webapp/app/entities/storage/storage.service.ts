@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { Observable } from 'rxjs';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
@@ -44,6 +44,15 @@ export class StorageService {
   public uploadMeta(bucket: string, formData: FormData, parameters: Object): Observable<HttpResponse<Object>> {
     const params = this.params(parameters);
     return this.http.post<Object>(this.resourceUrl + '/' + bucket + '/object/{meta}', formData, { params, observe: 'response' });
+  }
+
+  public uploadMetaWithProgress(bucket: string, formData: FormData, parameters: Object): Observable<HttpEvent<any>> {
+    const params = this.params(parameters);
+    return this.http.post<Object>(this.resourceUrl + '/' + bucket + '/object/{meta}', formData, {
+      params,
+      observe: 'events',
+      reportProgress: true,
+    });
   }
 
   public delete(bucket, key: string): Observable<HttpResponse<any>> {

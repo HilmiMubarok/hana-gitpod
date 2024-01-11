@@ -475,6 +475,8 @@ import { BindingValueDepositoDialogComponent } from './credit-proposal/collatera
 import { BindingValueDepositoGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-grid.component';
 import { BindingValueGeneralGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-grid.component';
 import { BindingValueGeneralDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-dialog.component';
+import { LoaderBAComponent } from './credit-proposal/busines-activity/loader-ba.component';
+import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activity/project-analyst-remark.component';
 
 @NgModule({
   imports: [
@@ -659,6 +661,8 @@ import { BindingValueGeneralDialogComponent } from './credit-proposal/collateral
     CreditProposalDocumentChecklistComponent,
     DocumentChecklistDialogComponent,
     CreditProposalTabBusinessActivityComponent,
+    LoaderBAComponent,
+    ProjectAnalystRemarkComponent,
     CreditProposalRiskAcceptanceCriteriaComponent,
     CreditProposaTabManagementInfoComponent,
     CreditProposalFinancialStatementComponent,
@@ -1205,6 +1209,8 @@ import { BindingValueGeneralDialogComponent } from './credit-proposal/collateral
     CreditProposalDocumentChecklistComponent, // Remove Me
     DocumentChecklistDialogComponent, // Remove Me
     CreditProposalTabBusinessActivityComponent, // Remove Me
+    LoaderBAComponent,
+    ProjectAnalystRemarkComponent,
     CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalFinancialStatementComponent, // Remove Me

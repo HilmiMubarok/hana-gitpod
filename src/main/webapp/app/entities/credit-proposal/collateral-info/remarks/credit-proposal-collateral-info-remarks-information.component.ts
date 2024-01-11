@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from '../../credit-proposal.model';
 
@@ -12,7 +12,9 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 import { StorageService } from 'app/entities/storage/storage.service';
-import { takeUntil, Subject } from 'rxjs';
+import { takeUntil, Subject, from, forkJoin, tap, map, switchMap } from 'rxjs';
+import { BusinessActivityService } from '../../busines-activity/business-activity.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-remarks-information',
@@ -20,7 +22,7 @@ import { takeUntil, Subject } from 'rxjs';
   styleUrls: ['../checklist/credit-proposal-collateral-info-checklist.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalCollateralInfoRemarksInformationComponent implements OnInit {
+export class CreditProposalCollateralInfoRemarksInformationComponent implements OnInit, OnDestroy {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
@@ -42,7 +44,15 @@ export class CreditProposalCollateralInfoRemarksInformationComponent implements 
   private getKey: string;
   private fileGet: File;
 
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private storageService: StorageService) {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    protected activatedRoute: ActivatedRoute,
+    private router: Router,
+    private storageService: StorageService,
+    private baService: BusinessActivityService,
+    protected messageService: MessageService
+  ) {
     this.bucket = '';
     if (this.parentPath === 'cp-status-approval') {
       this.parentSource = 'loan-analys';
@@ -133,6 +143,9 @@ export class CreditProposalCollateralInfoRemarksInformationComponent implements 
   }
 
   private getContainer(): void {
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
+
     const obj = {
       key: this.getKey,
     };
@@ -153,7 +166,10 @@ export class CreditProposalCollateralInfoRemarksInformationComponent implements 
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }
@@ -176,42 +192,122 @@ export class CreditProposalCollateralInfoRemarksInformationComponent implements 
     }
   }
 
+  // public triggeredSave(): void {
+  //   let paramsId = '';
+  //   this.activatedRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   let key: string;
+  //   this.getBucket().then(res => {
+  //     key = 'credit_proposal/remark/collateral-info/information';
+
+  //     const timeStamp = Math.floor(Date.now() / 1000);
+
+  //     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+  //     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+  //       const fileType = 'word';
+  //       const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileType + '.docs';
+  //       const metaData = {
+  //         objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //       };
+  //       const formData = new FormData();
+  //       formData.append('file', new File([exportedDocument], fileName));
+
+  //       this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+  //     });
+
+  //     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+  //       const fileType = 'sfdt';
+  //       const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileType + '.sfdt';
+  //       const metaData = {
+  //         objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //       };
+  //       const formData = new FormData();
+  //       formData.append('file', new File([exportedDocument], fileName));
+
+  //       this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+  //     });
+  //   });
+  // }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
-    let key: string;
-    this.getBucket().then(res => {
-      key = 'credit_proposal/remark/collateral-info/information';
 
-      const timeStamp = Math.floor(Date.now() / 1000);
+    this.baService.setLoading(true);
+    const key = 'credit_proposal/remark/collateral-info/information';
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileTypeWord + '.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-        const fileType = 'word';
-        const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileType + '.docs';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-      });
+          this.storageService
+            .uploadMeta(this.bucket, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const fileNames = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileTypeSfdt + '.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-        const fileType = 'sfdt';
-        const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileType + '.sfdt';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
-
-        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-      });
-    });
+                return this.storageService.uploadMeta(this.bucket, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
 }

@@ -61,6 +61,7 @@ import { CollateralProperty, ICollateralProperty } from '../collateral-property/
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import moment from 'moment';
 import { CPFacilityTable, ICPFacilityTable } from '../credit-proposal/exposure/total-exposure/cp-facility-table-model';
+import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -183,7 +184,8 @@ export class LoanAnalysMainComponent implements OnInit {
     private generalParameterService: GeneralParameterService,
     private lendingProgramParameterService: LendingProgramParameterService,
     private collateralService: CollateralService,
-    private collateralPropertyService: CollateralPropertyService
+    private collateralPropertyService: CollateralPropertyService,
+    private baService: BusinessActivityService
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -1003,7 +1005,19 @@ export class LoanAnalysMainComponent implements OnInit {
     });
     this.getTitleUrl();
     this.getTitleMenu();
+
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+      console.log('Isloadingg', this.baLoading);
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+      console.log('Progress', this.progress);
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   ngOnInit() {
     this.cpGroub();
@@ -1366,7 +1380,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].path = this.uuidPath;
-				  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
+                  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
                   copyCreditProposal.notes[i].createDate = moment(new Date(Date.now())).format();
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
@@ -1375,7 +1389,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].path = this.uuidPath;
-				  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
+                  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
                 }
@@ -1387,7 +1401,7 @@ export class LoanAnalysMainComponent implements OnInit {
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
               );
 
-			  /* copyCreditProposal.notes.push(
+              /* copyCreditProposal.notes.push(
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
               ); */
             }
@@ -1396,7 +1410,7 @@ export class LoanAnalysMainComponent implements OnInit {
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
             );
 
-			/* copyCreditProposal.notes.push(
+            /* copyCreditProposal.notes.push(
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
             ); */
           }
@@ -1412,7 +1426,7 @@ export class LoanAnalysMainComponent implements OnInit {
         tempRouter === 'loan-committee-approval'
       ) {
         if (this.id && this.positionLoginFromEmit && this.recomendation && this.uuidPath) {
-		// if (this.id && this.positionLoginFromEmit && this.recomendation && this.getLocStor('UP')) {
+          // if (this.id && this.positionLoginFromEmit && this.recomendation && this.getLocStor('UP')) {
           let tempHelper = 0;
           let tempOpinionType = '';
 
@@ -1430,7 +1444,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   // copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
                   copyCreditProposal.notes[i].path = this.uuidPath;
-				  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
+                  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
                   copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
@@ -1442,7 +1456,7 @@ export class LoanAnalysMainComponent implements OnInit {
                   // copyCreditProposal.notes[i].recomendation = this.recomendation;
                   copyCreditProposal.notes[i].recomendation = this.twoStepVerificationOpinionRadioRetVal();
                   copyCreditProposal.notes[i].path = this.uuidPath;
-				  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
+                  // copyCreditProposal.notes[i].path = this.getLocStor('UP');
                   copyCreditProposal.notes[i].updateAction = true;
                   copyCreditProposal.notes[i].type = tempOpinionType;
                   tempHelper = tempHelper + 1;
@@ -1455,7 +1469,7 @@ export class LoanAnalysMainComponent implements OnInit {
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
               );
 
-			  /* copyCreditProposal.notes.push(
+              /* copyCreditProposal.notes.push(
                 this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
               ); */
             }
@@ -1464,7 +1478,7 @@ export class LoanAnalysMainComponent implements OnInit {
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
             );
 
-			/* copyCreditProposal.notes.push(
+            /* copyCreditProposal.notes.push(
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.getLocStor('UP'), tempOpinionType)
             ); */
           }

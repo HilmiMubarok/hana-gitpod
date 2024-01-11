@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { CreditProposalService } from '../../credit-proposal.service';
@@ -12,10 +12,12 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 import { StorageService } from 'app/entities/storage/storage.service';
-import { takeUntil, Subject } from 'rxjs';
+import { takeUntil, Subject, from, forkJoin, tap, map, switchMap } from 'rxjs';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { HttpClient } from '@angular/common/http';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { BusinessActivityService } from '../../busines-activity/business-activity.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-credit-proposal-trade-checking-remarks',
@@ -23,13 +25,15 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
   styleUrls: ['../trade-checking.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class RemarskComponent implements OnInit {
+export class RemarskComponent implements OnInit, OnDestroy {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
   private _creditProposal: ICreditProposal;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input()
   get creditProposal() {
@@ -46,7 +50,9 @@ export class RemarskComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private storageService: StorageService,
     private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+    private baService: BusinessActivityService,
+    protected messageService: MessageService
   ) {}
 
   private BUCKET: string;
@@ -59,13 +65,21 @@ export class RemarskComponent implements OnInit {
   public customHeadersJWT: any;
 
   private getContainer(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
+
+    // let paramsId = '';
+    // this.activatedRoute.params.subscribe(params => {
+    //   paramsId = params['id'];
+    // });
+
     const obj = {
-      key: 'credit_proposal/remark/trade-checking/' + paramsId + '/sfdt',
+      key: this.getKey,
     };
+
+    // const obj = {
+    //   key: 'credit_proposal/remark/trade-checking/' + paramsId + '/sfdt',
+    // };
     this.storageService
       .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -83,7 +97,10 @@ export class RemarskComponent implements OnInit {
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }
@@ -107,48 +124,137 @@ export class RemarskComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
+
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/trade-checking';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-trade-checking-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const fileName = 'credit-proposal-remark-' + paramsId + '-trade-checking-' + fileTypeWord + '.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-trade-checking-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.BUCKET, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const fileNames = 'credit-proposal-remark-' + paramsId + '-trade-checking-' + fileTypeSfdt + '.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.BUCKET, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
+
+  // public triggeredSave(): void {
+  //   let paramsId = '';
+  //   this.activatedRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const key = 'credit_proposal/remark/trade-checking';
+
+  //   const timeStamp = Math.floor(Date.now() / 1000);
+
+  //   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+  //   docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+  //     const fileType = 'word';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-trade-checking-' + fileType + '.docs';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+  //   });
+
+  //   docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+  //     const fileType = 'sfdt';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-trade-checking-' + fileType + '.sfdt';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+  //   });
+  // }
 
   ngOnInit() {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
+    this.BUCKET = ' ';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      (this.getKey = 'credit_proposal/remark/trade-checking/' + this.paramsIdGet + '/sfdt'),
+        this.getBucket().then(res => {
+          this.getContainer();
+        });
+    });
+
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.getWord();
+    // this.getWord();
   }
 
   private getToken(cookieName: string) {
@@ -166,10 +272,19 @@ export class RemarskComponent implements OnInit {
     return result;
   }
 
-  public getWord() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET = val.body['bucket'];
-      this.getContainer();
+  // public getWord() {
+  //   this.storageService.getBucketName().subscribe(val => {
+  //     this.BUCKET = val.body['bucket'];
+  //     this.getContainer();
+  //   });
+  // }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.BUCKET = res.body['bucket'];
+        resolve();
+      });
     });
   }
 

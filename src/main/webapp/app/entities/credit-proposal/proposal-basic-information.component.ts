@@ -42,7 +42,7 @@ import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { StorageService } from '../storage/storage.service';
-import { Subject } from 'rxjs';
+import { Observable, Subject, fromEvent, map } from 'rxjs';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import moment from 'moment';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
@@ -60,6 +60,7 @@ import { MasterPermissionService } from 'app/entities/master-parameter/master-pe
 import { CollateralInfoHistoryComponent } from './collateral-info-history/collateral-info-history.component';
 import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-facility-table-model';
 import { IApplicationProduct } from '../application-product/application-product.model';
+import { BusinessActivityService } from './busines-activity/business-activity.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -199,7 +200,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected productParameterService: MasterProductParameterService,
     public templateService: TemplateService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
-    protected masterPermissionService: MasterPermissionService
+    protected masterPermissionService: MasterPermissionService,
+    private baService: BusinessActivityService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -233,7 +235,18 @@ export class ProposalBasicInformationComponent implements OnInit {
         ? true
         : false;
     this.setTotalPlafond();
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+      console.log('Isloadingg', this.baLoading);
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+      console.log('Progress', this.progress);
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   private getLocStor(cookieName: string) {
     let result = null;
