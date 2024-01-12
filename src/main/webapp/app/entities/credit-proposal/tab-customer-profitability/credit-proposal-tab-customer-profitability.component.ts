@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Double } from '@syncfusion/ej2-angular-charts';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
@@ -17,8 +17,10 @@ import {
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { takeUntil, Subject } from 'rxjs';
+import { takeUntil, Subject, from, forkJoin, tap, map, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BusinessActivityService } from '../busines-activity/business-activity.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-customer-profitability',
@@ -26,7 +28,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./credit-proposal-tab-customer-profitability.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, OnChanges {
+export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, OnChanges, OnDestroy {
   private _item: ICreditProposal;
 
   private bucket: string;
@@ -35,6 +37,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
   private getKey: string;
   private fileGet: File;
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   attributes: any;
   // public _item: ICreditProposal;
@@ -45,7 +48,9 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     protected positionService: PositionService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
-    private storageService: StorageService // protected parseLinks: ParseLinks, // protected accoutService: AccountService, // protected activateRoute: ActivatedRoute, // protected dataUtils: BaseDataUtils, // protected router: Router, // protected eventManager: EventManager, // protected messageService: MessageService, // protected confirmationService: ConfirmationService
+    private storageService: StorageService, // protected parseLinks: ParseLinks, // protected accoutService: AccountService, // protected activateRoute: ActivatedRoute, // protected dataUtils: BaseDataUtils, // protected router: Router, // protected eventManager: EventManager, // protected messageService: MessageService, // protected confirmationService: ConfirmationService
+    private baService: BusinessActivityService,
+    protected messageService: MessageService
   ) {
     this.bucket = '';
   }
@@ -234,6 +239,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
         this.getContainer();
       });
     });
+
     this.item.attributes['tabCustomer'].totalLoanProvision = this.totalLoan();
     this.item.attributes['tabCustomer'].totalDepositInsurancePremium = this.totalLoanDeposit();
     this.item.attributes['tabCustomer'].profit = this.totalProfit();
@@ -253,7 +259,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     //     this.remarks1[i] = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability[i].remarks1;
     //   }
     // }
-    this.getContainer();
+    // this.getContainer();
     this.width = '50%';
     this.height = '80%';
   }
@@ -298,49 +304,137 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     this.container.restrictEditing = true;
   }
 
+  // public triggeredSave(): void {
+  //   let paramsId = '';
+  //   this.activatedRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const key = 'credit_proposal/remark/customer-prafitability';
+
+  //   const timeStamp = Math.floor(Date.now() / 1000);
+
+  //   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+  //   docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+  //     const fileType = 'word';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-customer-prafitability' + fileType + '.docs';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+  //   });
+
+  //   docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+  //     const fileType = 'sfdt';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-customer-prafitability' + fileType + '.sfdt';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+  //   });
+  // }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
+
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/customer-prafitability';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-customer-prafitability' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const fileName = 'credit-proposal-remark-' + paramsId + '-customer-prafitability' + fileTypeWord + '.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-customer-prafitability' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.bucket, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const fileNames = 'credit-proposal-remark-' + paramsId + '-customer-prafitability' + fileTypeSfdt + '.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.bucket, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
+
   private getContainer(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
+    // let paramsId = '';
+    // this.activatedRoute.params.subscribe(params => {
+    //   paramsId = params['id'];
+    // });
+    // const obj = {
+    //   key: 'credit_proposal/remark/customer-prafitability/' + paramsId + '/sfdt',
+    // };
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
+
     const obj = {
-      key: 'credit_proposal/remark/customer-prafitability/' + paramsId + '/sfdt',
+      key: this.getKey,
     };
+
     this.storageService
       .getObjects(this.bucket, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -359,7 +453,10 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }

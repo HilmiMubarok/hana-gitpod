@@ -285,9 +285,6 @@ export class ProjectAnalystRemarkComponent implements OnInit, OnDestroy, OnChang
   //       }
   //     });
   // }
-  onSave(): void {
-    this.triggeredSave();
-  }
 
   private getContainers(): void {
     this.baService.isUpload$.next(false);
