@@ -190,22 +190,21 @@ td {
 }
 
 /* override Syncfunction and Material Theme */
-:host {
-  .e-card {
-    -webkit-tap-highlight-color: #effefd;
-    background-color: #effefd;
-    border: none none #effefd;
-    box-shadow: 0 0 0 0 #effefd;
-    color: #effefd;
-    outline: none;
-    font-family: 'Poppins', sans-serif;
-  }
-  .e-card:hover {
-    background-color: #effefd;
-    border-color: #effefd;
-    box-shadow: 0 0 0 0 #effefd;
-    font-family: 'Poppins', sans-serif;
-  }
+:host .e-card {
+  -webkit-tap-highlight-color: #effefd;
+  background-color: #effefd;
+  border: none none #effefd;
+  box-shadow: 0 0 0 0 #effefd;
+  color: #effefd;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+:host .e-card:hover {
+  background-color: #effefd;
+  border-color: #effefd;
+  box-shadow: 0 0 0 0 #effefd;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Evening MatCard */
