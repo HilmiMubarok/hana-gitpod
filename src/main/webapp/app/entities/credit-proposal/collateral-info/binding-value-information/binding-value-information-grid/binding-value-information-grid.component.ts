@@ -112,9 +112,7 @@ export class BindingValueInformationGridComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (res.type === 'save') {
-        this.creditProposal.collaterals[this.creditProposal.collaterals.findIndex(obj => obj.id === res.item.id)] = res.item;
-      }
+      console.log(this.creditProposal.attributes['guaranteeBinding']);
     });
   }
 

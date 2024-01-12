@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { LegendTitle } from '@syncfusion/ej2-angular-charts';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
@@ -19,6 +20,7 @@ export class BindingValueInformationDialogComponent implements OnInit {
   public collBindingType: string;
   public parentPath = this.router.url.split('/')[1];
   public guaranteeBindingStatField = true;
+  public valueGuaranteeBinding: { id: number; value: string } = { id: 0, value: '' };
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -37,6 +39,7 @@ export class BindingValueInformationDialogComponent implements OnInit {
   ngOnInit(): void {
     this.lovBindingType();
     this.guaranteeBindingDisable();
+    this.cekDataBinding();
   }
 
   public closeDialog() {
@@ -44,7 +47,22 @@ export class BindingValueInformationDialogComponent implements OnInit {
   }
 
   public save() {
-    this._dialog.close({ type: 'save', item: this.dataCollateral });
+    let guarantee: any;
+    if (this.creditProposal.attributes['guaranteeBinding'].length > 0) {
+      guarantee = this.creditProposal.attributes['guaranteeBinding'].find(obj => obj.id === this.dataCollateral.id);
+      if (guarantee) {
+        this.creditProposal.attributes['guaranteeBinding'][
+          this.creditProposal.attributes['guaranteeBinding'].findIndex(obj => obj.id === this.dataCollateral.id)
+        ] = this.valueGuaranteeBinding;
+        this._dialog.close({ type: 'save', item: this.dataCollateral });
+      } else {
+        this.creditProposal.attributes['guaranteeBinding'].push(this.valueGuaranteeBinding);
+        this._dialog.close({ type: 'save', item: this.dataCollateral });
+      }
+    } else {
+      this.creditProposal.attributes['guaranteeBinding'].push(this.valueGuaranteeBinding);
+      this._dialog.close({ type: 'save', item: this.dataCollateral });
+    }
   }
 
   public openCancelDialog(): void {
@@ -88,6 +106,22 @@ export class BindingValueInformationDialogComponent implements OnInit {
       this.guaranteeBindingStatField = false;
     } else if (this.parentPath === 'finalize-dpdl' && this.creditProposal.statusId === 'DPDL_FINALIZE') {
       this.guaranteeBindingStatField = false;
+    }
+  }
+
+  public cekDataBinding() {
+    let guarantee: any;
+    if (this.creditProposal.attributes['guaranteeBinding'].length > 0) {
+      guarantee = this.creditProposal.attributes['guaranteeBinding'].find(obj => obj.id === this.dataCollateral.id);
+      if (guarantee) {
+        this.valueGuaranteeBinding = guarantee;
+      } else {
+        this.valueGuaranteeBinding.id = this.dataCollateral.id;
+        this.valueGuaranteeBinding.value = '';
+      }
+    } else {
+      this.valueGuaranteeBinding.id = this.dataCollateral.id;
+      this.valueGuaranteeBinding.value = '';
     }
   }
 }
