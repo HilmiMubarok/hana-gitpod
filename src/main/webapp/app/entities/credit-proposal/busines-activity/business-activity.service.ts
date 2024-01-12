@@ -16,15 +16,4 @@ export class BusinessActivityService {
   public setLoading(value: boolean): void {
     this.isLoading$.next(value);
   }
-
-  public setProgresss(value: number): void {
-    this.progress$.next(value);
-  }
-  public setProgress(value: number, where?: string): void {
-    if (where === 'Docx') {
-      this.progressDocx$.next(value);
-    } else {
-      this.progressSfdt$.next(value);
-    }
-  }
 }

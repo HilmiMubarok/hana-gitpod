@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { ICreditProposal, CreditProposal } from '../credit-proposal.model';
@@ -24,14 +24,16 @@ import {
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, forkJoin, from, map, switchMap, takeUntil, tap } from 'rxjs';
+import { BusinessActivityService } from '../busines-activity/business-activity.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['../css/credit-proposal-basic-information.css', './basic-information-view.style.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class ProposalBasicInformationViewComponent implements OnInit {
+export class ProposalBasicInformationViewComponent implements OnInit, OnDestroy {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   // The Dialog shows within the target element.
   @ViewChild('container', { read: ElementRef, static: true }) container: ElementRef;
@@ -57,6 +59,8 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   private fileGet: File;
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.storageService.getBucketName().subscribe(res => {
@@ -79,7 +83,9 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     private router: Router,
     private partyCifService: PartyCifService,
     public dialog: MatDialog,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private baService: BusinessActivityService,
+    protected messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -152,40 +158,120 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     });
   }
 
+  // public triggeredSave(): void {
+  //   let paramsId = '';
+  //   this.activatedRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const key = 'credit_proposal/remark/basic-info';
+
+  //   const timeStamp = Math.floor(Date.now() / 1000);
+
+  //   const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+
+  //   docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+  //     const fileType = 'word';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-basic-info' + fileType + '.docs';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+  //   });
+
+  //   docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+  //     const fileType = 'sfdt';
+  //     const fileName = 'credit-proposal-remark-' + paramsId + '-basic-info' + fileType + '.sfdt';
+  //     const metaData = {
+  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //     };
+  //     const formData = new FormData();
+  //     formData.append('file', new File([exportedDocument], fileName));
+
+  //     this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+  //   });
+  // }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
+
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/basic-info';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
     const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-basic-info' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const fileName = 'credit-proposal-remark-' + paramsId + '-basic-info' + fileTypeWord + '.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-basic-info' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.bucket, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const fileNames = 'credit-proposal-remark-' + paramsId + '-basic-info' + fileTypeSfdt + '.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.bucket, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
 
   // remarks
@@ -195,6 +281,10 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
+
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
+
     const obj = {
       key: 'credit_proposal/remark/basic-info/' + paramsId + '/sfdt',
     };
@@ -215,7 +305,10 @@ export class ProposalBasicInformationViewComponent implements OnInit {
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }

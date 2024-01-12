@@ -6,7 +6,6 @@ import { BusinessActivityService } from './business-activity.service';
   template: `
     <div class="overlay">
       <div class="spinner"></div>
-      <div class="text" *ngIf="isUpload">Uploading files : {{ baService.progress$ | async }} %</div>
     </div>
   `,
   styles: [
@@ -88,10 +87,5 @@ export class LoaderBAComponent implements OnInit {
     });
 
     console.groupEnd();
-  }
-
-  getPercentage(): number {
-    // count from progressSfdt and progressDocx
-    return (this.progressSfdt + this.progressDocx) / 2;
   }
 }
