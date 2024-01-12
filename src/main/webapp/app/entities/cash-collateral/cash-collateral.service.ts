@@ -26,4 +26,7 @@ export class CashCollateralService {
   public loadCollateralReadyForAppraise(idParty: String): Observable<HttpResponse<ICollateral[]>> {
     return this.http.get<ICollateral[]>(`${this.resourceUrl}/ready-to-appraise/${idParty}`, { observe: 'response' });
   }
+  public loadCollateralInsurance(idCp: number): Observable<HttpResponse<ICollateral[]>> {
+    return this.http.get<ICollateral[]>(`${this.resourceUrl}/summary3/${idCp}`, { observe: 'response' });
+  }
 }

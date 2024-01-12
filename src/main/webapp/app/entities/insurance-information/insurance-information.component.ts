@@ -12,11 +12,13 @@ import { InsuranceInfoDialogComponent } from './dialog/insurance-info-dialog.com
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IInsuranceInformation } from './insurance-information.model';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-insurance-information',
   templateUrl: './insurance-information.component.html',
 })
-export class insuranceInformationComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
+export class insuranceInformationComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnInit {
   public displayedColumns: string[] = ['no', 'collateralNumber', 'collateralType', 'collateralAddress', 'action'];
 
   private _creditProposal: ICreditProposal;
@@ -41,7 +43,7 @@ export class insuranceInformationComponent extends AbstractEntityMaterialCompone
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private generalParameterService: GeneralParameterService
+    private cashCollateralService: CashCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -49,33 +51,16 @@ export class insuranceInformationComponent extends AbstractEntityMaterialCompone
   }
 
   ngOnInit(): void {
+    this.loadByPartyId();
     console.log('dataSource', this.dataSource);
   }
-  private loadByPartyId(param: string): void {
-    this.collateralService
-      .queryFilterBy({
-        idParty: param,
-        isActive: true,
-        size: 999,
-      })
-      .subscribe(res => {
-        this.dataItem = res.body.filter(d => d.collateralTypeInsurance === true);
-        this.dataSource = new MatTableDataSource(this.dataItem);
-        this.dataSource.paginator = this.paginator;
-      });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
-          if (this.creditProposal.cif) {
-            this.loadByPartyId(this.creditProposal.cif.partyId);
-          }
-        }
-      }
-    }
+  private loadByPartyId(): void {
+    const idCP = this.creditProposal.id;
+    this.cashCollateralService.loadCollateralInsurance(idCP).subscribe(res => {
+      this.dataItem = res.body;
+      this.dataSource = new MatTableDataSource(this.dataItem);
+      this.dataSource.paginator = this.paginator;
+    });
   }
   public openDialog(element: ICollateral): void {
     const predicate: object = {
