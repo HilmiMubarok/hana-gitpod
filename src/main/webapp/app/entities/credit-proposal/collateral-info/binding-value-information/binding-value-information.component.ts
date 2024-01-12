@@ -32,6 +32,16 @@ export class BindingValueInformationComponent implements OnInit {
   constructor(protected fidusiaAgreementService: FidusiaAgreementService) {}
 
   ngOnInit(): void {
-    console.log('test');
+    this.getBindingGuarantee();
+  }
+
+  public getBindingGuarantee() {
+    if (this.creditProposal.attributes['guaranteeBinding']) {
+      if (typeof this.creditProposal.attributes['guaranteeBinding'] === 'string') {
+        this.creditProposal.attributes['guaranteeBinding'] = JSON.parse(this.creditProposal.attributes['guaranteeBinding']);
+      }
+    } else {
+      this.creditProposal.attributes['guaranteeBinding'] = [];
+    }
   }
 }

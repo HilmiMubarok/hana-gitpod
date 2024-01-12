@@ -16,12 +16,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Guarantee Binding</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [(ngModel)]="dataCollateral.attributes['guaranteeBinding']"
-                  [disabled]="guaranteeBindingStatField"
-                />
+                <input matInput type="text" [(ngModel)]="valueGuaranteeBinding.value" [disabled]="guaranteeBindingStatField" />
               </mat-form-field>
             </div>
           </section>

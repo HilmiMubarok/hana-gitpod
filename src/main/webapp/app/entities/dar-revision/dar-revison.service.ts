@@ -120,6 +120,11 @@ export class DarRevisionService extends AbstractEntityService<IDarRevisionModel>
         entity.attributes['certificateInfoData'] = JSON.stringify(entity.attributes['certificateInfoData']);
       }
     }
+    if (entity.attributes['guaranteeBinding']) {
+      if (typeof entity.attributes['guaranteeBinding'] !== 'string') {
+        entity.attributes['guaranteeBinding'] = JSON.stringify(entity.attributes['guaranteeBinding']);
+      }
+    }
 
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
