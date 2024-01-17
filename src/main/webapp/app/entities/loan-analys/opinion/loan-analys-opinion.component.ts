@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, firstValueFrom } from 'rxjs';
+import { Subject, firstValueFrom, forkJoin, from, map, switchMap, takeUntil, tap } from 'rxjs';
 
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Account } from 'app/core/auth/account.model';
@@ -34,6 +34,7 @@ import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 import lodash from 'lodash';
 import * as uuid from 'uuid';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { BusinessActivityService } from 'app/entities/credit-proposal/busines-activity/business-activity.service';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -41,7 +42,7 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
   styleUrls: ['./loan-analys-opinion.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class LoanAnalysOpinionComponent implements OnInit {
+export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -141,6 +142,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
     protected creditProposalService: CreditProposalService,
     protected positionService: PositionService,
     protected messageService: MessageService,
+    private baService: BusinessActivityService,
     protected applicationRoleService: ApplicationRoleService,
     protected personService: PersonService,
     protected reportUtils: ReportUtilService
@@ -156,8 +158,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
     } */
     this.uuid = uuid.v4();
 
-	// this.uuidPath.emit(this.uuid);
-	this.setCookiePath('UP', this.uuid);
+    // this.uuidPath.emit(this.uuid);
+    this.setCookiePath('UP', this.uuid);
 
     this.approvalUserData = [];
     this.relType = [];
@@ -170,7 +172,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
       positionUserDescription: '',
     };
   }
-  
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
   private setCookiePath(cname: string, cvalue: any): void {
     document.cookie = cname + '=' + cvalue + ';';
   }
@@ -441,7 +445,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
     this.uuid = uuid.v4();
     this.uuidPath.emit(this.uuid);
 
-	this.setCookiePath('UP', this.uuid);
+    this.setCookiePath('UP', this.uuid);
 
     this.isChooseApprovalUser = true;
 
@@ -866,45 +870,86 @@ export class LoanAnalysOpinionComponent implements OnInit {
     return result;
   }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   private saveFile(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
 
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/opinion-history/opinion';
-
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-	  // const uuidFromCookie = this.getUuidPathStor('UP');
-      const pathHelper = this.uuid + '-opinion';
-	  // const pathHelper = uuidFromCookie + '-opinion';
-      // const fileName = this.uuid + '.docs';
-      const fileName = 'opini.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const pathHelperDocs = this.uuid + '-opinion';
+          const fileName = 'opini.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${pathHelperDocs}/${fileTypeWord.replace('&', '')}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const pathHelper = this.uuid + '-opinion';
-      // const fileName = this.uuid + '.sfdt';
-      const fileName = 'opini.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.BUCKET, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const PathHelperSfdt = this.uuid + '-opinion';
+                const fileNames = 'opini.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${PathHelperSfdt}/${fileTypeSfdt.replace('&', '')}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.BUCKET, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -929,39 +974,76 @@ export class LoanAnalysOpinionComponent implements OnInit {
       paramsId = params['id'];
     });
 
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/opinion-history/condition';
-
     const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-	  // const uuidFromCookie = this.getUuidPathStor('UP');
-      const pathHelper = this.uuid + '-condition';
-	  // const pathHelper = uuidFromCookie + '-condition';
-      // const fileName = this.uuid + '.docs';
-      const fileName = 'condition.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const pathHelperDocs = this.uuid + '-condition';
+          const fileName = 'condition.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${pathHelperDocs}/${fileTypeWord.replace('&', '')}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const pathHelper = this.uuid + '-condition';
-      // const fileName = this.uuid + '.sfdt';
-      const fileName = 'condition.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.BUCKET, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                // @typescript-eslint/no-shadow
+                const PathHelperSfdt = this.uuid + '-condition';
+                const fileNames = 'condition.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${PathHelperSfdt}/${fileTypeSfdt.replace('&', '')}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.BUCKET, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
 
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
