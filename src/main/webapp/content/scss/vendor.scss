@@ -11,48 +11,29 @@ eg $input-color: red;
 
 /* jhipster-needle-scss-add-vendor JHipster will add new css style */
 
-@import '~primeicons/primeicons.css';
-@import '~primeng/resources/themes/saga-blue/theme.css';
-@import '~primeng/resources/primeng.min.css';
-@import '~@syncfusion/ej2-angular-base/styles/material.css';
-@import '~@syncfusion/ej2-inputs/styles/material.css';
-@import '~@syncfusion/ej2-buttons/styles/material.css';
-@import '~@syncfusion/ej2-popups/styles/material.css';
-@import '~@syncfusion/ej2-navigations/styles/material.css';
-@import '~@syncfusion/ej2-base/styles/material.css';
-@import '~@syncfusion/ej2-dropdowns/styles/material.css';
-@import '~@syncfusion/ej2-angular-dropdowns/styles/material.css';
-@import '~@syncfusion/ej2-calendars/styles/material.css';
-@import '~@syncfusion/ej2-splitbuttons/styles/material.css';
-@import '~@syncfusion/ej2-angular-grids/styles/material.css';
-@import '~@syncfusion/ej2-lists/styles/material.css';
-@import '~@syncfusion/ej2-angular-popups/styles/material.css';
-// @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import '~@syncfusion/ej2-angular-inputs/styles/material.css';
-@import '~@syncfusion/ej2-icons/styles/material.css';
-@import '~@syncfusion/ej2-richtexteditor/styles/material.css';
-@import '~@syncfusion/ej2-angular-calendars/styles/material.css';
-@import '~@syncfusion/ej2-layouts/styles/material.css';
-@import '~@syncfusion/ej2-spreadsheet/styles/material.css';
-@import '~@syncfusion/ej2-pdfviewer/styles/material.css';
-@import '~@syncfusion/ej2-angular-documenteditor/styles/material.css';
-
-// @import url('https://fonts.googleapis.com/icon?family=Material+Icons&display=block');
-
-// Angular Custom Themes
-@import '~@angular/material/theming';
-// define fonts
-$general-typography: mat-typography-config(
-  $font-family: '"Poppins", sans-serif',
-  $body-2: mat-typography-level(14px, 24px, 600),
-);
-
-// default font for material theme
-@include mat-core($general-typography);
-
-// define default theme
-$app-primary: mat-palette($mat-indigo);
-$app-accent: mat-palette($mat-pink, A200, A100, A400);
-$app-warn: mat-palette($mat-red);
-$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
-@include angular-material-theme($app-theme);
+@import './themes/primeicons.scss';
+@import './themes/primeng.min.scss';
+@import './themes/primeng-saga-blue.scss';
+// @import './themes/ej2-themes/ej2-angular-base.scss';
+@import './themes/ej2-themes/ej2-inputs.scss';
+@import './themes/ej2-themes/ej2-buttons.scss';
+@import './themes/ej2-themes/ej2-popups.scss';
+@import './themes/ej2-themes/ej2-navigations.scss';
+@import './themes/ej2-themes/ej2-base.scss';
+@import './themes/ej2-themes/ej2-dropdowns.scss';
+@import './themes/ej2-themes/ej2-angular-dropdowns.scss';
+@import './themes/ej2-themes/ej2-calendars.scss';
+@import './themes/ej2-themes/ej2-splitbuttons.scss';
+@import './themes/ej2-themes/ej2-angular-grids.scss';
+@import './themes/ej2-themes/ej2-lists.scss';
+@import './themes/ej2-themes/ej2-angular-popups.scss';
+@import './themes/indigo-pink.scss';
+@import './themes/ej2-themes/ej2-angular-inputs.scss';
+@import './themes/ej2-themes/ej2-icons.scss';
+@import './themes/ej2-themes/ej2-richtexteditor.scss';
+@import './themes/ej2-themes/ej2-angular-calendars.scss';
+@import './themes/ej2-themes/ej2-layouts.scss';
+@import './themes/ej2-themes/ej2-spreadsheet.scss';
+@import './themes/ej2-themes/ej2-pdfviewer.scss';
+@import './themes/ej2-themes/ej2-angular-documenteditor.scss';
+@import './themes/material-icons.scss';
