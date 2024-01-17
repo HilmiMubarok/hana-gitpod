@@ -102,6 +102,13 @@ export class BindingValueGeneralGridComponent implements OnInit {
     }
   }
 
+  public getValue(element: IFidusiaAgremeent) {
+    if (element.value) {
+      return element.value;
+    }
+    return 0;
+  }
+
   public conditionFieldInOfferingLetter() {
     const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
     const subroutes = queryParam.get('subroute');
