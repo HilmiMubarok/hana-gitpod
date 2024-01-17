@@ -3,7 +3,7 @@ import * as uuid from 'uuid';
 export interface IFidusiaAgremeent {
   id?: number;
   agreementNumber?: string;
-  dateAgreement?: Date;
+  dateAgreement?: string;
   description?: string;
   name?: string;
   internalId?: string;
@@ -30,7 +30,7 @@ export class FidusiaAgreement implements IFidusiaAgremeent {
   constructor(
     public id?: number,
     public agreementNumber?: string,
-    public dateAgreement?: Date,
+    public dateAgreement?: string,
     public description?: string,
     public name?: string,
     public internalId?: string,
