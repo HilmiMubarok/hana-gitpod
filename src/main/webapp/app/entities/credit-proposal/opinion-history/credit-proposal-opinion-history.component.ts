@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
+import { Subject, forkJoin, from, map, switchMap, takeUntil, tap } from 'rxjs';
 
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Account } from 'app/core/auth/account.model';
@@ -28,6 +28,7 @@ import {
 import lodash from 'lodash';
 import * as uuid from 'uuid';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { BusinessActivityService } from '../busines-activity/business-activity.service';
 
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
@@ -35,7 +36,7 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
   styleUrls: ['./opinion-history.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalOpinionHistoryComponent implements OnInit {
+export class CreditProposalOpinionHistoryComponent implements OnInit, OnDestroy {
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -90,10 +91,13 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     protected creditProposalService: CreditProposalService,
     protected positionService: PositionService,
     protected messageService: MessageService,
+    private baService: BusinessActivityService,
     protected reportUtils: ReportUtilService
   ) {
     this.uuid = uuid.v4();
   }
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   private getWord() {
     this.storageService.getBucketName().subscribe(val => {
@@ -124,9 +128,9 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       /* const fileNameSfdt = this.uuid + '.sfdt';
       const fileNameWord = this.uuid + '.word'; */
-	  const fileNameOpinionSfdt = 'opini.sfdt';
+      const fileNameOpinionSfdt = 'opini.sfdt';
       const fileNameOpinionWord = 'opini.word';
-	  const fileNameConditionSfdt = 'condition.sfdt';
+      const fileNameConditionSfdt = 'condition.sfdt';
       const fileNameConditionWord = 'condition.word';
 
       docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -256,7 +260,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       // const fileName = this.uuid + '.sfdt';
-	  const fileName = 'opini.sfdt';
+      const fileName = 'opini.sfdt';
       const testFile = new File([exportedDocument], fileName);
       if (testFile) {
         const fileReader: FileReader = new FileReader();
@@ -274,10 +278,22 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 		  } */
 
-          if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount || testSfdtFile.sections[0].blocks[0].paragraphFormat || testSfdtFile.sections[0].blocks[0].grid || testSfdtFile.sections[0].blocks[0].rows || testSfdtFile.sections[0].blocks[0].tableFormat) {
-			if (testSfdtFile.sections[0].blocks[0].paragraphFormat || testSfdtFile.sections[0].blocks[0].grid || testSfdtFile.sections[0].blocks[0].rows || testSfdtFile.sections[0].blocks[0].tableFormat) {
-			  ++this.countValidate;
-			} else if (testSfdtFile.sections[0].blocks[0].columnCount) {
+          if (
+            testSfdtFile.sections[0].blocks[0].inlines ||
+            testSfdtFile.sections[0].blocks[0].columnCount ||
+            testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+            testSfdtFile.sections[0].blocks[0].grid ||
+            testSfdtFile.sections[0].blocks[0].rows ||
+            testSfdtFile.sections[0].blocks[0].tableFormat
+          ) {
+            if (
+              testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+              testSfdtFile.sections[0].blocks[0].grid ||
+              testSfdtFile.sections[0].blocks[0].rows ||
+              testSfdtFile.sections[0].blocks[0].tableFormat
+            ) {
+              ++this.countValidate;
+            } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
               if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
                 ++this.countValidate;
               } else {
@@ -332,7 +348,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
               docEditorCondition.saveAsBlob('Sfdt').then((exportedDocumentCondition: Blob) => {
                 // const fileNameCondition = this.uuid + '.sfdt';
-				const fileNameCondition = 'condition.sfdt';
+                const fileNameCondition = 'condition.sfdt';
                 const testFileCondition = new File([exportedDocumentCondition], fileNameCondition);
                 if (testFileCondition) {
                   const fileReaderCondition: FileReader = new FileReader();
@@ -350,10 +366,22 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 					} */
 
-                    if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount || testSfdtFileCondition.sections[0].blocks[0].paragraphFormat || testSfdtFileCondition.sections[0].blocks[0].grid || testSfdtFileCondition.sections[0].blocks[0].rows || testSfdtFileCondition.sections[0].blocks[0].tableFormat) {
-					  if (testSfdtFileCondition.sections[0].blocks[0].paragraphFormat || testSfdtFileCondition.sections[0].blocks[0].grid || testSfdtFileCondition.sections[0].blocks[0].rows || testSfdtFileCondition.sections[0].blocks[0].tableFormat) {
-						++this.countValidate;
-					  } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                    if (
+                      testSfdtFileCondition.sections[0].blocks[0].inlines ||
+                      testSfdtFileCondition.sections[0].blocks[0].columnCount ||
+                      testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                      testSfdtFileCondition.sections[0].blocks[0].grid ||
+                      testSfdtFileCondition.sections[0].blocks[0].rows ||
+                      testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                    ) {
+                      if (
+                        testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                        testSfdtFileCondition.sections[0].blocks[0].grid ||
+                        testSfdtFileCondition.sections[0].blocks[0].rows ||
+                        testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                      ) {
+                        ++this.countValidate;
+                      } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
                         if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
                           ++this.countValidate;
                         } else {
@@ -453,46 +481,86 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     }); */
   }
 
-  private triggeredSave(): void {
-    let paramsId = '';
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 
+  public triggeredSave(): void {
+    let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
 
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/opinion-history/opinion';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const pathHelper = this.uuid + '-opinion';
-      // const fileName = this.uuid + '.docs';
-	  const fileName = 'opini.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const PathHelperDocs = this.uuid + '-opinion';
+          const fileName = 'opini.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${PathHelperDocs}/${fileTypeWord.replace('&', '')}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const pathHelper = this.uuid + '-opinion';
-      // const fileName = this.uuid + '.sfdt';
-	  const fileName = 'opini.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.BUCKET, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const PathHelperSfdt = this.uuid + '-opinion';
+                const fileNames = 'opini.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${PathHelperSfdt}/${fileTypeSfdt.replace('&', '')}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.BUCKET, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -514,44 +582,79 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   public triggeredSaveCondition(): void {
     let paramsId = '';
-
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
 
+    this.baService.setLoading(true);
     const key = 'credit_proposal/remark/opinion-history/condition';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
     const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
+    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const pathHelper = this.uuid + '-condition';
-      // const fileName = this.uuid + '.docs';
-	  const fileName = 'condition.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+    forkJoin([saveDocx$, saveSfdt$])
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.baService.setLoading(true)),
+        map(([docx, sfdt]) => {
+          this.baService.setLoading(true);
+          const fileTypeWord = 'word';
+          const PathHelperDocs = this.uuid + '-condition';
+          const fileName = 'condition.docs';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${PathHelperDocs}/${fileTypeWord.replace('&', '')}/${fileName}`,
+          };
+          const formData = new FormData();
+          formData.append('file', new File([docx], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+          // Validate file size must be larger than 20mb
+          if (docx.size > 50000000) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'File size must be less than 50mb',
+            });
+            this.baService.setLoading(false);
+            return;
+          }
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const pathHelper = this.uuid + '-condition';
-      // const fileName = this.uuid + '.sfdt';
-	  const fileName = 'condition.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+          this.storageService
+            .uploadMeta(this.BUCKET, formData, metaData)
+            .pipe(
+              switchMap(() => {
+                const fileTypeSfdt = 'sfdt';
+                const PathHelperSfdt = this.uuid + '-condition';
+                const fileNames = 'condition.sfdt';
+                const metaDatas = {
+                  objectName: `${key}/${paramsId}/${PathHelperSfdt}/${fileTypeSfdt.replace('&', '')}/${fileNames}`,
+                };
+                const formDatas = new FormData();
+                formDatas.append('file', new File([sfdt], fileNames));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+                return this.storageService.uploadMeta(this.BUCKET, formDatas, metaDatas);
+              })
+            )
+            .subscribe({
+              next(res) {
+                console.log('Next Success uploading files', res);
+              },
+              complete: () => {
+                console.log('complete');
+                this.baService.setLoading(false);
+              },
+              error: err => {
+                console.log('error', err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Something went wrong while uploading the document. Please try again.',
+                });
+                this.baService.setLoading(false);
+              },
+            });
+        })
+      )
+      .subscribe();
   }
 
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
