@@ -82,6 +82,9 @@ export class BindingValueGeneralDialogComponent implements OnInit {
   }
 
   public save() {
+    if (this.dataFidusia.dateAgreement) {
+      this.dataFidusia.dateAgreement = moment(new Date(this.dataFidusia.dateAgreement)).format().substring(0, 19) + 'Z';
+    }
     this._dialog.close(this.dataFidusia);
   }
 
