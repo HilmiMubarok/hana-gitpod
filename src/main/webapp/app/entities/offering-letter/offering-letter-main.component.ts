@@ -24,7 +24,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import _ from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
-import { Subject, firstValueFrom, takeUntil } from 'rxjs';
+import { Observable, Subject, firstValueFrom, fromEvent, map, takeUntil } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
@@ -37,6 +37,8 @@ import { CollateralPropertyService } from '../collateral-property/collateral-pro
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { ICertificateInfo } from './certificate-info/certificate-info.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { ViewportScroller } from '@angular/common';
+import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -109,7 +111,9 @@ export class OfferingLetterMainComponent implements OnInit {
     private generalParameterService: GeneralParameterService,
     private lendingProgramParameterService: LendingProgramParameterService,
     protected collateralService: CollateralService,
-    protected collateralPropertyService: CollateralPropertyService
+    protected collateralPropertyService: CollateralPropertyService,
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
@@ -159,7 +163,19 @@ export class OfferingLetterMainComponent implements OnInit {
     });
     this.getTitleUrl();
     this.setTitleMenuByParentPath();
+
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+      console.log('Isloadingg', this.baLoading);
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+      console.log('Progress', this.progress);
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   private setTitleMenuByParentPath() {
     if (this.parentPath === 'distribution') {
@@ -795,6 +811,14 @@ export class OfferingLetterMainComponent implements OnInit {
   }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
 interface IObj {

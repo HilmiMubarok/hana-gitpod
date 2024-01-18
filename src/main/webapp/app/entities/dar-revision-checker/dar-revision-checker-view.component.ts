@@ -20,7 +20,7 @@ import {
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDarRevisionCheckerModel } from './dar-revision-checker.model';
-import { Subject, firstValueFrom, takeUntil } from 'rxjs';
+import { Observable, Subject, firstValueFrom, fromEvent, map, takeUntil } from 'rxjs';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { ICollateral } from '../collateral/collateral.model';
@@ -55,6 +55,8 @@ import { INotes, Notes } from '../notes/notes.model';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
+import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'jhi-dar-revision-checker-view',
@@ -195,7 +197,9 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     protected messageService: MessageService,
     private darRevisionCheckerProsesService: DarRevisionCheckerProsesService,
     public templateService: TemplateService,
-    public darRevisionCheckerService: DarRevisionCheckerService
+    public darRevisionCheckerService: DarRevisionCheckerService,
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -216,7 +220,19 @@ export class DarRevisionCheckerViewComponent implements OnInit {
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter'] ? [...DAR_REVISION_APPEAL] : DAR_REVISION_CHECKER;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+      console.log('Isloadingg', this.baLoading);
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+      console.log('Progress', this.progress);
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   ngOnInit() {
     this.showTextMenu();
@@ -1460,6 +1476,14 @@ export class DarRevisionCheckerViewComponent implements OnInit {
 
     this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
     this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
 interface IObj {

@@ -20,7 +20,7 @@ import {
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDarRevisionModel } from './dar-revision.model';
-import { Subject, firstValueFrom, takeUntil } from 'rxjs';
+import { Observable, Subject, firstValueFrom, fromEvent, map, takeUntil } from 'rxjs';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
@@ -57,6 +57,8 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { CreditProposalTabLoanFacilityDetailComponent } from '../credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
+import { ViewportScroller } from '@angular/common';
 @Component({
   selector: 'jhi-dar-revision-view',
   templateUrl: './dar-revision-view.component.html',
@@ -202,7 +204,9 @@ export class DarRevisionViewComponent implements OnInit {
     protected messageService: MessageService,
     private darRevisionProsesService: DarRevisionProsesService,
     private darRevisionService: DarRevisionService,
-    public templateService: TemplateService
+    public templateService: TemplateService,
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -225,7 +229,19 @@ export class DarRevisionViewComponent implements OnInit {
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter'] ? [...DAR_REVISION_APPEAL] : DAR_REVISION;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+      console.log('Isloadingg', this.baLoading);
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+      console.log('Progress', this.progress);
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   ngOnInit() {
     this.showTextMenu();
@@ -1494,6 +1510,14 @@ export class DarRevisionViewComponent implements OnInit {
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
     });
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
 interface IObj {

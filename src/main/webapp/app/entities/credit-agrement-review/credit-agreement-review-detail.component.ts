@@ -33,7 +33,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { StorageService } from '../storage/storage.service';
-import { Subject, firstValueFrom, takeUntil } from 'rxjs';
+import { Observable, Subject, firstValueFrom, fromEvent, map, takeUntil } from 'rxjs';
 import moment from 'moment';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
@@ -67,6 +67,8 @@ import { HttpClient } from '@angular/common/http';
 import { formatBytes } from 'app/shared/helper/utils';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
+import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'jhi-credit-agreement-review-floating',
@@ -209,7 +211,9 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     public templateService: TemplateService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
     protected masterPermissionService: MasterPermissionService,
-    private http: HttpClient
+    private http: HttpClient,
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -236,7 +240,19 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     });
     this.isHistoryExist = this.creditProposal.attributes.previousHistory && this.parentPath !== 'review-pk' ? true : false;
     this.setTotalPlafond();
+
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+      console.log('Isloadingg', this.baLoading);
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+      console.log('Progress', this.progress);
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   private getLocStor(cookieName: string) {
     let result = null;
@@ -1660,6 +1676,14 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     }
 
     // this.clickedMenu = 'basic-information';
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
 interface IObj {
