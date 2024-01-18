@@ -8,6 +8,7 @@
 
 <mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
   <div class="e-card">
+    <jhi-scroll *ngIf="showScroll$ | async" (scrollToTop)="onScrollToTop()"></jhi-scroll>
     <div class="e-card-header">
       <div class="e-card-header-caption">
         <ejs-breadcrumb cssClass="margin: 1rem;">

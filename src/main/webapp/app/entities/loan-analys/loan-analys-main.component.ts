@@ -52,7 +52,7 @@ import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collat
 import { LoanFacilityDetailTempComponent } from './dar-final/loan-facility/credit-proposal-tab-loan-facility-detail.component';
 import { StorageService } from '../storage/storage.service';
 import { HttpClient } from '@angular/common/http';
-import { Subject, takeUntil, firstValueFrom } from 'rxjs';
+import { Subject, takeUntil, firstValueFrom, Observable, fromEvent, map } from 'rxjs';
 import { formatBytes } from 'app/shared/helper/utils';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { CollateralService } from '../collateral/collateral.service';
@@ -62,6 +62,7 @@ import { CollateralPropertyService } from '../collateral-property/collateral-pro
 import moment from 'moment';
 import { CPFacilityTable, ICPFacilityTable } from '../credit-proposal/exposure/total-exposure/cp-facility-table-model';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -185,7 +186,8 @@ export class LoanAnalysMainComponent implements OnInit {
     private lendingProgramParameterService: LendingProgramParameterService,
     private collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService,
-    private baService: BusinessActivityService
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -2575,6 +2577,14 @@ export class LoanAnalysMainComponent implements OnInit {
       }
     }
     return result + dolar;
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
 
