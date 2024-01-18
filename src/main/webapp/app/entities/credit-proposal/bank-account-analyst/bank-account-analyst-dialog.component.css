@@ -7,11 +7,6 @@
   margin-top: 12px;
 }
 
-/* .ng-valid[required],
-.ng-valid.required {
-    border-left: none;
-} */
-
 ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
   padding: 0.4em 0px !important;
 }
