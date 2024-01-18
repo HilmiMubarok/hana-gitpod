@@ -299,6 +299,31 @@ Generic styles
   border-left: 5px solid red;
 }
 
+// material
+
+.ng-valid[required][class*='mat-'],
+.ng-valid.required[class*='mat-'] {
+  border-left: 5px solid green;
+  padding-left: 16px;
+  margin-left: -16px;
+}
+
+.ng-invalid:not(form)[class*='mat-'] {
+  border-left: 5px solid red;
+  padding-left: 16px;
+  margin-left: -16px;
+}
+
+// ej2
+.ng-valid[required][class*='e-'],
+.ng-valid.required[class*='e-'] {
+  border-left: 5px solid green;
+}
+
+.ng-invalid:not(form)[class*='e-'] {
+  border-left: 5px solid red;
+}
+
 /* other generic styles */
 
 .jh-card {
