@@ -102,9 +102,7 @@ export class BindingValueInformationDialogComponent implements OnInit {
   }
 
   public guaranteeBindingDisable() {
-    if (this.parentPath === 'finalize-pk' && this.creditProposal.statusId === 'PK_FINALIZE') {
-      this.guaranteeBindingStatField = false;
-    } else if (this.parentPath === 'finalize-dpdl' && this.creditProposal.statusId === 'DPDL_FINALIZE') {
+    if (this.parentPath === 'finalize-dpdl' && this.creditProposal.statusId === 'DPDL_FINALIZE') {
       this.guaranteeBindingStatField = false;
     }
   }

@@ -159,7 +159,6 @@ export class BindingValueInformationGridComponent implements OnInit {
         this.statusDisabledOffering = true; // Menambahkan perubahan di sini
       }
     } else if (
-      this.parentPath === 'finalize-pk' ||
       this.parentPath === 'finalize-dpdl' ||
       this.parentPath === 'review-dpdl' ||
       this.parentPath === 'review-pk' ||
@@ -167,6 +166,14 @@ export class BindingValueInformationGridComponent implements OnInit {
     ) {
       this.textBoxHidden = false;
       this.statusDisabledOffering = true;
+    } else if (this.parentPath === 'finalize-pk') {
+      if (this.creditProposal.statusId === 'PK_FINALIZE') {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = false;
+      } else {
+        this.textBoxHidden = false;
+        this.statusDisabledOffering = true;
+      }
     } else if (this.parentPath === 'dar-revision') {
       if (this.selectedMenu === 'INFORMATION') {
         this.textBoxHidden = false;
