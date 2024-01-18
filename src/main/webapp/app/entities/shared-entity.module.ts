@@ -477,6 +477,7 @@ import { BindingValueGeneralGridComponent } from './credit-proposal/collateral-i
 import { BindingValueGeneralDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-dialog.component';
 import { LoaderBAComponent } from './credit-proposal/busines-activity/loader-ba.component';
 import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activity/project-analyst-remark.component';
+import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
 
 @NgModule({
   imports: [
@@ -1031,6 +1032,9 @@ import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activit
     DpdlPreparationComponent,
     BindingValueGeneralGridComponent,
     BindingValueGeneralDialogComponent,
+
+    // scroll-up
+    ScrollComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1541,6 +1545,9 @@ import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activit
     BindingValueDepositoDialogComponent,
     BindingValueGeneralGridComponent,
     BindingValueGeneralDialogComponent,
+
+    // scroll-up
+    ScrollComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

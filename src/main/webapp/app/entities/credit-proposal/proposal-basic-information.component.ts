@@ -61,6 +61,7 @@ import { CollateralInfoHistoryComponent } from './collateral-info-history/collat
 import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-facility-table-model';
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { BusinessActivityService } from './busines-activity/business-activity.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -201,7 +202,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     public templateService: TemplateService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
     protected masterPermissionService: MasterPermissionService,
-    private baService: BusinessActivityService
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -1980,5 +1982,13 @@ export class ProposalBasicInformationComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.validateMasterLov().then(() => resolve(true));
     });
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
