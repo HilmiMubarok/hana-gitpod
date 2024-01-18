@@ -19,7 +19,7 @@ import {
 } from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDpdlFinalizeModel } from './dpdl-finalize.model';
-import { Subject, firstValueFrom, takeUntil } from 'rxjs';
+import { Observable, Subject, firstValueFrom, fromEvent, map, takeUntil } from 'rxjs';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { ICollateral } from '../collateral/collateral.model';
@@ -56,6 +56,8 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { CashDpdlService } from './cash-dpdl.service';
 import { CashCreditProposalsService } from '../cash-credit-proposal/cash-credit-proposals.service';
+import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'jhi-dpdl-finalize-view',
@@ -173,7 +175,9 @@ export class DpdlFinalizeViewComponent implements OnInit {
     protected dpdlFinalizeProcessSercvice: DpdlFinalizeProcessSercvice,
     public templateService: TemplateService,
     // public dpdlFinalizeService: DpdlFinalizeService,
-    protected cashDpdlService: CashCreditProposalsService
+    protected cashDpdlService: CashCreditProposalsService,
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -194,7 +198,19 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter'] ? [...DPDL_FINALIZE_APPEAL] : DPDL_FINALIZE;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+      console.log('Isloadingg', this.baLoading);
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+      console.log('Progress', this.progress);
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   ngOnInit() {
     this.showTextMenu();
@@ -1443,6 +1459,14 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
     this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
     this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
 interface IObj {

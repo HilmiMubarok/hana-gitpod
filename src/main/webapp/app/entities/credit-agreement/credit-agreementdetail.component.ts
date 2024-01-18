@@ -33,7 +33,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { StorageService } from '../storage/storage.service';
-import { Subject, firstValueFrom, takeUntil } from 'rxjs';
+import { Observable, Subject, firstValueFrom, fromEvent, map, takeUntil } from 'rxjs';
 import moment from 'moment';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
@@ -69,6 +69,8 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { CashCreditProposalService } from '../credit-proposal/cash-credit-proposal.service';
 import { CashCreditProposalsService } from '../cash-credit-proposal/cash-credit-proposals.service';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'jhi-credit-agreement-floating',
@@ -212,7 +214,9 @@ export class CreditAgreementDetailComponent implements OnInit {
     public templateService: TemplateService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
     protected masterPermissionService: MasterPermissionService,
-    private http: HttpClient
+    private http: HttpClient,
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -241,7 +245,19 @@ export class CreditAgreementDetailComponent implements OnInit {
     // this.isHistoryExist = this.creditProposal.attributes.previousHistory && this.parentPath !== 'finalize-pk' ? true : false;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
     this.setTotalPlafond();
+
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+      console.log('Isloadingg', this.baLoading);
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+      console.log('Progress', this.progress);
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   private getLocStor(cookieName: string) {
     let result = null;
@@ -1682,6 +1698,14 @@ export class CreditAgreementDetailComponent implements OnInit {
     const genrateSPPK = await firstValueFrom(
       this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
     );
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
 interface IObj {
