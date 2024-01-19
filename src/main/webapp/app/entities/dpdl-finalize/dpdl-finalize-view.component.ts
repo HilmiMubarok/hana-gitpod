@@ -130,10 +130,10 @@ export class DpdlFinalizeViewComponent implements OnInit {
   private collateralProperties: ICollateralProperty[] = [];
   public proposType = [];
   public isHistoryExist: boolean;
-  private KEYG = 'credit_proposal/summary';
+  private KEYG = 'dpdl';
+  public dataDpdlFinal = [];
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
-  public dataOfferingSPPK = [];
   public postalAdresss;
   public currentAccount: Account;
   public title: string;
@@ -601,7 +601,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
       this.BUCKET = val.body['bucket'];
 
       if (this.id) {
-        this.KEYG += `/${this.id}/`;
+        this.KEYG += `/${this.id}/document/final/`;
       } else {
         console.warn('Param id not found');
       }
@@ -635,12 +635,13 @@ export class DpdlFinalizeViewComponent implements OnInit {
           i++;
         });
 
-        this.dataOfferingSPPK = data;
+        this.dataDpdlFinal = data;
       });
   }
 
-  private generate(): void {
-    this.generateFileOfferingSPPK().then(() => {
+  // Change the access modifier to public
+  public generateDpdl(): void {
+    this.generateFileDpdlFinal().then(() => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
@@ -650,12 +651,9 @@ export class DpdlFinalizeViewComponent implements OnInit {
     });
   }
 
-  private async generateFileOfferingSPPK(): Promise<void> {
-    const fileSPPK = await firstValueFrom(
-      this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
-    );
-    const genrateSPPK = await firstValueFrom(
-      this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
+  private async generateFileDpdlFinal(): Promise<void> {
+    const fileDpdlFinal = await firstValueFrom(
+      this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
     );
   }
 
@@ -1467,6 +1465,20 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  public showButtonGenerateDpdl() {
+    const parentPath = this.router.url.split('/')[1];
+    if (parentPath.match(/review-dpdl/g)) {
+      if (this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' && this.creditProposal['region'] === 'R1') {
+        return true;
+      } else if (this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' && this.creditProposal['region'] === 'R2') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
   }
 }
 interface IObj {

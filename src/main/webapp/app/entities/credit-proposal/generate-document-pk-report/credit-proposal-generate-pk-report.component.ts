@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { formatBytes } from 'app/shared/helper/utils';
@@ -15,7 +15,7 @@ import { StorageService } from 'app/entities/storage/storage.service';
   templateUrl: './credit-proposal-generate-pk-report.component.html',
   styleUrls: ['./credit-proposal-generate-pk-report.component.scss'],
 })
-export class CreditProposalGeneratePkReportComponent implements OnInit {
+export class CreditProposalGeneratePkReportComponent implements OnInit, OnChanges {
   @Input('item')
   get item() {
     return this._item;
@@ -25,16 +25,19 @@ export class CreditProposalGeneratePkReportComponent implements OnInit {
     this._item = item;
   }
 
+  @Input() fileDpdlFinal: any;
+
   public isDataExist = false;
   public paramId: string;
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
-  private KEYG = 'credit_proposal/pk_report';
+  private KEYG = 'dpdl';
   public _item?: ICreditProposal = new CreditProposal();
   public fileTypeSelected: string;
   public data: object[];
   public fileTypeList: string[] = ['Word', 'Pdf'];
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
+
   constructor(
     public dialog: MatDialog,
     protected messageService: MessageService,
@@ -46,44 +49,50 @@ export class CreditProposalGeneratePkReportComponent implements OnInit {
   ngOnInit(): void {
     this.getBucketNameSummary();
   }
-
-  public generate(data: any): void {
-    if (this.fileTypeSelected) {
-      this.print(this.fileTypeSelected);
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Info',
-        detail: 'Save First Before Generating, Please!',
-      });
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'File Type Not Selected',
-      });
+  ngOnChanges(changes: SimpleChanges): void {
+    // Loan Analys Generate Dar And SPPK
+    if (changes.fileDpdlFinal) {
+      this.data = this.fileDpdlFinal;
     }
   }
 
-  private print(fileType: string) {
-    if (fileType === 'Word') {
-      this.generateFile(fileType, '/services/report/api/report/pk_report/word/' + this._item.id);
-    } else if (fileType === 'Pdf') {
-      this.generateFile(fileType, '/services/report/api/report/pk_report/pdf-word/' + this._item.id);
-    }
-  }
+  // public generate(data: any): void {
+  //   if (this.fileTypeSelected) {
+  //     this.print(this.fileTypeSelected);
+  //     this.messageService.add({
+  //       severity: 'info',
+  //       summary: 'Info',
+  //       detail: 'Save First Before Generating, Please!',
+  //     });
+  //   } else {
+  //     this.messageService.add({
+  //       severity: 'error',
+  //       summary: 'Error',
+  //       detail: 'File Type Not Selected',
+  //     });
+  //   }
+  // }
 
-  private generateFile(fileType: string, api: string, req?: any) {
-    const options = this.createReportRequestOption(req);
-    this.http.get(api, { params: options, responseType: 'text', observe: 'response' }).subscribe(response => {
-      const fileName = fileType === 'Word' ? response.body.slice(-34) : response.body.slice(-33);
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'File ' + fileName + ' Generated Successfully',
-      });
-      this.onRefresh();
-    });
-  }
+  // private print(fileType: string) {
+  //   if (fileType === 'Word') {
+  //     this.generateFile(fileType, '/services/report/api/report/pk_report/word/' + this._item.id);
+  //   } else if (fileType === 'Pdf') {
+  //     this.generateFile(fileType, '/services/report/api/report/pk_report/pdf-word/' + this._item.id);
+  //   }
+  // }
+
+  // private generateFile(fileType: string, api: string, req?: any) {
+  //   const options = this.createReportRequestOption(req);
+  //   this.http.get(api, { params: options, responseType: 'text', observe: 'response' }).subscribe(response => {
+  //     const fileName = fileType === 'Word' ? response.body.slice(-34) : response.body.slice(-33);
+  //     this.messageService.add({
+  //       severity: 'success',
+  //       summary: 'Success',
+  //       detail: 'File ' + fileName + ' Generated Successfully',
+  //     });
+  //     this.onRefresh();
+  //   });
+  // }
 
   private createReportRequestOption = (req?: any): HttpParams => {
     let options: HttpParams = new HttpParams();
@@ -139,7 +148,7 @@ export class CreditProposalGeneratePkReportComponent implements OnInit {
       });
 
       if (this.paramId) {
-        this.KEYG += `/${this.paramId}/`;
+        this.KEYG += `/${this.paramId}/document/final/`;
       } else {
         console.warn('Param id not found');
       }
@@ -198,7 +207,7 @@ export class CreditProposalGeneratePkReportComponent implements OnInit {
 
   private getFile(id: number): void {
     const predicate: Object = {
-      key: `/credit_proposal/pk_report/${id}`,
+      key: `${this.KEYG}/${id}/document/final`,
     };
     this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
       if (res.body.length > 0) {
