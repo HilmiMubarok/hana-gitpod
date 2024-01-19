@@ -104,6 +104,10 @@
     </div>
   </div>
 </mat-dialog-content>
+<mat-dialog-actions align="center" *ngIf="mode !== 'view'">
+  <button mat-button (click)="save()">Save</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
 
 <mat-dialog-content align="center" *ngIf="documentInsurance && mode === 'view'">
   <table class="table w-100">
@@ -140,7 +144,7 @@
         "
       >
         <img style="width: 300px; border-radius: 20px" [src]="documentInsurance.url" />
-        <div style="width: 580px; position: sticky; margin-top: -110px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
@@ -150,14 +154,14 @@
         style="width: 300px"
       >
         <img width="300px" src="../../../../content/images/excel.png" />
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
 
       <div *ngIf="documentInsurance.name.split('.').indexOf('doc') > -1 || documentInsurance.name.split('.').indexOf('docx') > -1">
         <img width="300px" src="../../../../content/images/word.png" />
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
@@ -165,7 +169,7 @@
       <div *ngIf="documentInsurance.name.split('.').indexOf('mp4') > -1">
         <img width="300px" src="../../../../content/images/mp4.png" />
 
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
@@ -173,7 +177,7 @@
       <div *ngIf="documentInsurance.name.split('.').indexOf('txt') > -1">
         <img width="300px" src="../../../../content/images/Txt.jpg" />
 
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
@@ -181,7 +185,7 @@
       <div *ngIf="documentInsurance.name.split('.').indexOf('aac') > -1">
         <img width="300px" src="../../../../content/images/acc.jpg" />
 
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
@@ -189,35 +193,35 @@
       <div *ngIf="documentInsurance.name.split('.').indexOf('pdf') > -1">
         <img width="300px" src="../../../../content/images/pdf.png" />
 
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
 
       <div *ngIf="documentInsurance.name.split('.').indexOf('mp3') > -1" style="width: 300px">
         <img width="300px" src="../../../../content/images/mp3.png" />
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
 
       <div *ngIf="documentInsurance.name.split('.').indexOf('csv') > -1" style="width: 300px">
         <img width="300px" src="../../../../content/images/csv.png" />
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
 
       <div *ngIf="documentInsurance.name.split('.').indexOf('svg') > -1" style="width: 300px">
         <img width="300px" src="../../../../content/images/svg.jpg" />
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
 
       <div *ngIf="documentInsurance.name.split('.').indexOf('tiff') > -1" style="width: 300px">
         <img width="300px" src="../../../../content/images/tiff.png" />
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
@@ -225,7 +229,7 @@
       <div *ngIf="documentInsurance.name.split('.').indexOf('pptx') > -1">
         <img width="300px" src="../../../../content/images/power-point.jpg" />
 
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 300px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)"><mat-icon>get_app</mat-icon></button>
         </div>
       </div>
@@ -237,8 +241,8 @@
       </div>
     </li>
   </ul>
+  <mat-dialog-actions align="center">
+    <!-- <button mat-button [hidden]="mode === 'view'" (click)="save()">Save</button> -->
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button [hidden]="mode === 'view'" (click)="save()">Save</button>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
