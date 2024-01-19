@@ -63,6 +63,7 @@ import moment from 'moment';
 import { CPFacilityTable, ICPFacilityTable } from '../credit-proposal/exposure/total-exposure/cp-facility-table-model';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { LoanAnalysComplianceComponent } from './compliance/loan-analys-compliance.component';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -79,6 +80,11 @@ export class LoanAnalysMainComponent implements OnInit {
     static: false,
   })
   loanAnalysOpinionCompliancePartComponent: LoanAnalysOpinionCompliancePartComponent;
+
+  @ViewChild('loanAnalysOpinionCompliance', {
+    static: false,
+  })
+  loanAnalysOpinionCompliance: LoanAnalysComplianceComponent;
 
   @ViewChild('loanFacilityDetailTempComponent', {
     static: false,
@@ -1832,6 +1838,13 @@ export class LoanAnalysMainComponent implements OnInit {
           this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
           this.loanAnalysOpinionCompliancePartComponent.refresh();
           this.loanAnalysOpinionCompliancePartComponent.onCreate();
+        }
+      }
+
+      if (tempRouterA === 'cc-checking') {
+        if (this.loanAnalysOpinionCompliance) {
+          this.loanAnalysOpinionCompliance.triggeredSave();
+          this.loanAnalysOpinionCompliance.onCreate();
         }
       }
 
