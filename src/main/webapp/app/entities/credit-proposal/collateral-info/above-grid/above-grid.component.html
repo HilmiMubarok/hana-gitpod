@@ -184,6 +184,7 @@
     ></jhi-group-collateral-list-cp>
     <!-- <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks> -->
   </div>
+  <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="false"></jhi-insurance-information>
 </div>
 
 <div *ngIf="selectedMenu === 'INFORMATION' && isViewMode === true">
@@ -366,4 +367,5 @@
     >
     </jhi-group-collateral-list-cp>
   </div>
+  <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="false"></jhi-insurance-information>
 </div>
