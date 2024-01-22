@@ -18,6 +18,12 @@ export class ClausalPkDialogComponent {
   public agreementClausal: ICreditAgreementClausal = new CreditAgreementClausal();
   public allSelect: boolean;
   public bucket: string;
+  public addendumListActive: any[] = []
+  public agreementsClausalTemplate: any
+  public countChildFormAgreements: any = ['']
+  public valueChildAgreeements: any[] = []
+  public agreementsClausalChildList: any[] = []
+  public valueParentClausalAgreements: any
 
   public clausalAgreement: any[];
   constructor(
@@ -27,11 +33,12 @@ export class ClausalPkDialogComponent {
 
     public creditAgreementService: CreditAgreementService
   ) {
-    this.getClausalAgreement();
+  
     this.loading = false;
     this.agreementClausal = {
       category: this.data.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE,
     };
+    this.getClausalAgreement();
   }
   public displayColumnsCreditAgreementClausal: string[] = ['code', 'category', 'description', 'action'];
 
@@ -47,6 +54,25 @@ export class ClausalPkDialogComponent {
       });
     });
   }
+  
+
+  // public cildAgreementSelection(event: any, i: number){
+  //   console.log('event', event.value)
+  //   this.valueChildAgreeements[i] = event.value
+  // }
+  public addCountCildAgreementsForm(): void{
+    this.countChildFormAgreements.push({})
+    this.valueChildAgreeements.push("")
+    
+   
+  }
+
+  public deleteCountCildAgreementsForm(i: number): void{
+    this.countChildFormAgreements.splice(i, 1)
+    this.valueChildAgreeements.splice(i, 1)
+    
+  
+  }
 
   public getClausalAgreement() {
     this.creditAgreementService
@@ -56,10 +82,35 @@ export class ClausalPkDialogComponent {
       })
       .subscribe((res: any) => {
         const data = res.body.sort((a, b) => (a.sequence > b.sequence ? 1 : -1));
-
         this.clausalAgreement = data.filter(obj1 => !this.data.dataClausal.some(obj2 => obj2.agreementClausalParameterId === obj1.id));
       });
+
+
+      this.creditAgreementService.getAddendumActive('ADDENDUM', {
+        page: 0,
+        size: 9999,
+      }).subscribe((res: any) => {
+       
+        this.agreementsClausalChildList = res.body
+      })
+
+
+      this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
+        this.agreementsClausalTemplate = res.body
+      })
+
+      this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
+      
+        this.addendumListActive = res.body
+      })
   }
+
+  public optionChildAgrementAddedum(index: number): any[]{
+    const selectedOptions = this.valueChildAgreeements.slice(0, index);
+    return this.agreementsClausalChildList.filter(option => !selectedOptions.includes(option));
+  }
+
+ 
 
   hasSameAgreementId(element: any): boolean {
     const data = this.data.dataClausal.filter((res: any) => res.agreementClausalParameterId === element.id);
@@ -89,22 +140,56 @@ export class ClausalPkDialogComponent {
     }
   }
 
-  public saveClausal() {
-    this.getBucket().then(() => {
-      for (let i = 0; i < this.dataClausalAgreement.length; i++) {
-        this.agreementClausal = {
-          ...this.agreementClausal,
-          agreementClausalParameterId: this.dataClausalAgreement[i].id,
-          id: null,
-          category: this.agreementClausal.category,
-          agreementId: this.data.agreement.length > 0 ? this.data.agreement[0].id : 0,
-          notes: this.dataClausalAgreement[i].description,
-        };
+  public changeClildAgreements(event: any, i: number){
+    this.valueChildAgreeements[i] = event.value
+  
+  }
 
-        this.creditAgreementService.saveClausalAgreement(this.agreementClausal).subscribe((res: any) => {
-          this.dialogRef.close();
-        });
+  public saveClausal() {
+
+    
+    if (this.agreementClausal.category === 'ADDENDUM') {
+    const clausal: any = this.addendumListActive[0]
+    delete clausal.id
+    delete clausal.category
+    clausal.id = null
+    clausal.category = this.agreementClausal.category
+    const clausalChild: any[] = []
+      for (let i = 0; i < this.countChildFormAgreements.length; i++) {
+        const saveCild = Object.assign({}, this.agreementsClausalTemplate);
+        const filteraddendumListActive = this.agreementsClausalChildList.filter((res: any) => res.description === this.valueChildAgreeements[i])
+        saveCild.addendumToId = clausal.id
+        saveCild.agreementClausalParameterCode = filteraddendumListActive[0].code
+        saveCild.agreementClausalParameterDescription = filteraddendumListActive[0].description
+        
+        saveCild.statusCode = filteraddendumListActive[0].statusCode
+        saveCild.statusDescription = filteraddendumListActive[0].statusDescription
+
+        clausalChild.push(saveCild)
       }
-    });
+
+      this.creditAgreementService.saveClausalAgreementGroub({clausal, clausalChild}).subscribe((res: any)=> {
+     
+        this.dialogRef.close();
+      })
+    }else{
+      this.getBucket().then(() => {
+        for (let i = 0; i < this.dataClausalAgreement.length; i++) {
+          this.agreementClausal = {
+            ...this.agreementClausal,
+            agreementClausalParameterId: this.dataClausalAgreement[i].id,
+            id: null,
+            category: this.agreementClausal.category,
+            agreementId: this.data.agreement.length > 0 ? this.data.agreement[0].id : 0,
+            notes: this.dataClausalAgreement[i].description,
+          };
+  
+          this.creditAgreementService.saveClausalAgreement(this.agreementClausal).subscribe((res: any) => {
+            this.dialogRef.close();
+          });
+        }
+      });
+    }
+    
   }
 }
