@@ -16,4 +16,5 @@ export interface ILoanAgreement {
   agreementTypeId?: string | null;
   agreementTypeDescription?: string | null;
   applicationId?: number | null;
+  toPartyId?: string;
 }

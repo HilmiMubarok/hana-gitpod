@@ -12,12 +12,45 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="w-100" appearance="outline">
+
+    <div [hidden]="category === 'NEW'">
+      <mat-form-field appearance="outline" class="w-50">
+        <mat-select
+          [(ngModel)]="valueParentClausalAgreements"
+        >
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of addendumListActive" [value]="item">
+           {{item.agreementClausalParameterCode}} - {{ item.agreementClausalParameterDescription }}
+          </mat-option>
+          
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="margin-left: 30px;" *ngFor="let item2 of countChildFormAgreements; let i = index" appearance="outline" class="w-50">
+        <mat-select
+          (selectionChange)="changeClildAgreements($event, i)"
+          [(ngModel)]="valueChildAgreeements[i]"
+        >
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of optionChildAgrementAddedum(i)" [value]="item.description">
+            {{ item.description }}
+          </mat-option>
+          
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-icon *ngIf="countChildFormAgreements.length > 0" (click)="addCountCildAgreementsForm()">add</mat-icon>
+      <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)">delete</mat-icon>
+
+      
+    </div>
+
+    <mat-form-field [hidden]="category === 'ADDENDUM'" class="w-100" appearance="outline">
       <mat-label>Code</mat-label>
       <input [(ngModel)]="code" matInput type="text" />
     </mat-form-field>
 
-    <mat-form-field class="w-100" appearance="outline">
+    <mat-form-field [hidden]="category === 'ADDENDUM'" class="w-100" appearance="outline">
       <mat-label>Description</mat-label>
       <input disabled [(ngModel)]="description" matInput type="text" />
     </mat-form-field>
