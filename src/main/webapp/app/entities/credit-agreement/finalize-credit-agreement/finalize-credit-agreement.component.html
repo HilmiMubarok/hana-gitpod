@@ -294,6 +294,17 @@
     <mat-card-content>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="row" *ngFor="let item of approvalDebtor; let i = index">
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Status </mat-label>
+              <mat-select [(ngModel)]="selectedConditions[i]" (ngModelChange)="onSelectApprovalCondition($event, i)">
+                <mat-option value="">Please Select Conditions</mat-option>
+                <mat-option *ngFor="let condition of getAvailableOptions(i)" [value]="condition">
+                  {{ condition }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
           <div class="col-3 mt-3">
             <mat-icon *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length < 2" (click)="addApproval()">add</mat-icon>
             <mat-icon
