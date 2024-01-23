@@ -26,12 +26,12 @@ export class ClausalPkDialogComponentEditComponent {
   public description: string;
   private ngUnsubscribe = new Subject();
 
-  public addendumListActive: any[] = []
-  public agreementsClausalTemplate: any
-  public countChildFormAgreements: any = ['']
-  public valueChildAgreeements: any[] = []
-  public agreementsClausalChildList: any[] = []
-  public valueParentClausalAgreements: any
+  public addendumListActive: any[] = [];
+  public agreementsClausalTemplate: any;
+  public countChildFormAgreements: any = [''];
+  public valueChildAgreeements: any[] = [];
+  public agreementsClausalChildList: any[] = [];
+  public valueParentClausalAgreements: any;
 
   public clausalAgreement: any[];
 
@@ -66,7 +66,11 @@ export class ClausalPkDialogComponentEditComponent {
     }
   }
 
-  public optionChildAgrementAddedum(index: number): any[]{
+  onDocumentChange(): void {
+    (this.container as DocumentEditorContainerComponent).restrictEditing = true;
+  }
+
+  public optionChildAgrementAddedum(index: number): any[] {
     const selectedOptions = this.valueChildAgreeements.slice(0, index);
     return this.agreementsClausalChildList.filter(option => !selectedOptions.includes(option));
   }
@@ -177,7 +181,6 @@ export class ClausalPkDialogComponentEditComponent {
         });
     });
   }
- 
 
   public checkMaster() {
     this.storageService.getBucketName().subscribe(res1 => {
@@ -191,24 +194,22 @@ export class ClausalPkDialogComponentEditComponent {
         });
     });
 
-
-    this.creditAgreementService.getAddendumActive('ADDENDUM', {
-      page: 0,
-      size: 9999,
-    }).subscribe((res: any) => {
-     
-      this.agreementsClausalChildList = res.body
-    })
-
+    this.creditAgreementService
+      .getAddendumActive('ADDENDUM', {
+        page: 0,
+        size: 9999,
+      })
+      .subscribe((res: any) => {
+        this.agreementsClausalChildList = res.body;
+      });
 
     this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
-      this.agreementsClausalTemplate = res.body
-    })
+      this.agreementsClausalTemplate = res.body;
+    });
 
     this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-    
-      this.addendumListActive = res.body
-    })
+      this.addendumListActive = res.body;
+    });
   }
 
   public close() {

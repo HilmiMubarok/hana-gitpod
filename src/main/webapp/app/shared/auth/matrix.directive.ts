@@ -140,7 +140,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
       if (this.argsPath.match(/finalize-pk/g)) {
         if (this.router.url.includes('finalize-credit-agreement')) {
-          if (this.status === 'PK_REVIEW_LEAD') {
+          if (this.status === 'PK_REVIEW_LEAD' || this.status === 'PK_GENERATED') {
             if (this.jhiMatrixDirElementType === '') {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
