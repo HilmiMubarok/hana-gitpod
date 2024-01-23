@@ -167,7 +167,7 @@ export class BindingValueInformationGridComponent implements OnInit {
       this.textBoxHidden = false;
       this.statusDisabledOffering = true;
     } else if (this.parentPath === 'finalize-pk') {
-      if (this.creditProposal.statusId === 'PK_FINALIZE') {
+      if (this.creditProposal.statusId === 'PK_FINALIZE' || this.creditProposal.statusId === 'PK_GENERATED') {
         this.textBoxHidden = false;
         this.statusDisabledOffering = false;
       } else {
