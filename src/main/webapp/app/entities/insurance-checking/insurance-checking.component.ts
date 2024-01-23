@@ -399,11 +399,11 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
 
   getText(value: any) {
     if (value === 'insurance-check') {
-      this.title = 'INSURANCE_CHECKING ';
+      this.title = 'INSURANCE CHECKING ';
       sessionStorage.setItem('appName', this.title);
     }
     if (value === 'insurance-check') {
-      this.title = 'INSURANCE_CHECKING';
+      this.title = 'INSURANCE CHECKING';
       sessionStorage.setItem('appName', this.title);
     }
   }
