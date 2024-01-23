@@ -38,7 +38,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public letterOfName: string;
   public templateProperties: IEntityProperties;
   public bucket: string;
-  public addendumClausalAgreements: any[] = []
+  public addendumClausalAgreements: any[] = [];
 
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
@@ -89,15 +89,11 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     }
 
     this.getApprovalDebtorConditions();
-  
 
     this.creditAgreementService.getActiveClausalByPartyId(this.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-      const data: any[] = res.body
-      this.addendumClausalAgreements = data.filter((fil: any) => 
-        fil.category === 'ADDENDUM'
-      )
-     
-    })
+      const data: any[] = res.body;
+      this.addendumClausalAgreements = data.filter((fil: any) => fil.category === 'ADDENDUM');
+    });
   }
 
   public getApprovalDebtorConditions() {
@@ -207,6 +203,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public deleteSigner(element: any) {
     this.dataAgreement = this.dataAgreement.filter((data: any) => data.id !== element.id);
     this.creditProposal.agreements[0].attributes = {
+      ...this.creditProposal.agreements[0].attributes,
       SIGNERS: JSON.stringify(this.dataAgreement),
     };
   }
@@ -270,6 +267,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
         this.dataAgreement[index]['position'] = result.position;
 
         this.creditProposal.agreements[0].attributes = {
+          ...this.creditProposal.agreements[0].attributes,
           SIGNERS: JSON.stringify(this.dataAgreement),
         };
       }

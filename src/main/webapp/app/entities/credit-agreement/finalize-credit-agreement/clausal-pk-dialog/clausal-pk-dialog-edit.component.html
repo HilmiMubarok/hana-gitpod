@@ -2,74 +2,136 @@
   <e-card class="mb-3">
     <mat-card-subtitle class="mat-card-header-text">Add Clausal (PK NEW)</mat-card-subtitle>
 
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Category</mat-label>
-      <mat-select disabled [(ngModel)]="category">
-        <mat-option value="">Please Select</mat-option>
-        <mat-option *ngFor="let item of ['NEW', 'ADDENDUM']" [value]="item">
-          {{ item }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-
-    <div [hidden]="category === 'NEW'">
-      <mat-form-field appearance="outline" class="w-50">
-        <mat-select
-          [(ngModel)]="valueParentClausalAgreements"
-        >
+    <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Category</mat-label>
+        <mat-select disabled [(ngModel)]="category">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of addendumListActive" [value]="item">
-           {{item.agreementClausalParameterCode}} - {{ item.agreementClausalParameterDescription }}
+          <mat-option *ngFor="let item of ['NEW', 'ADDENDUM']" [value]="item">
+            {{ item }}
           </mat-option>
-          
         </mat-select>
       </mat-form-field>
+      <div [hidden]="category === 'NEW'">
+        <mat-form-field appearance="outline" class="w-50">
+          <mat-select [(ngModel)]="valueParentClausalAgreements">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of addendumListActive" [value]="item">
+              {{ item.agreementClausalParameterCode }} - {{ item.agreementClausalParameterDescription }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field style="margin-left: 30px;" *ngFor="let item2 of countChildFormAgreements; let i = index" appearance="outline" class="w-50">
-        <mat-select
-          (selectionChange)="changeClildAgreements($event, i)"
-          [(ngModel)]="valueChildAgreeements[i]"
+        <mat-form-field
+          style="margin-left: 30px"
+          *ngFor="let item2 of countChildFormAgreements; let i = index"
+          appearance="outline"
+          class="w-50"
         >
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of optionChildAgrementAddedum(i)" [value]="item.description">
-            {{ item.description }}
-          </mat-option>
-          
-        </mat-select>
+          <mat-select (selectionChange)="changeClildAgreements($event, i)" [(ngModel)]="valueChildAgreeements[i]">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of optionChildAgrementAddedum(i)" [value]="item.description">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-icon *ngIf="countChildFormAgreements.length > 0" (click)="addCountCildAgreementsForm()">add</mat-icon>
+        <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)">delete</mat-icon>
+      </div>
+
+      <mat-form-field [hidden]="category === 'ADDENDUM'" class="w-100" appearance="outline">
+        <mat-label>Code</mat-label>
+        <input [(ngModel)]="code" matInput type="text" />
       </mat-form-field>
-      
-      <mat-icon *ngIf="countChildFormAgreements.length > 0" (click)="addCountCildAgreementsForm()">add</mat-icon>
-      <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)">delete</mat-icon>
 
-      
-    </div>
+      <mat-form-field [hidden]="category === 'ADDENDUM'" class="w-100" appearance="outline">
+        <mat-label>Description</mat-label>
+        <input disabled [(ngModel)]="description" matInput type="text" />
+      </mat-form-field>
 
-    <mat-form-field [hidden]="category === 'ADDENDUM'" class="w-100" appearance="outline">
-      <mat-label>Code</mat-label>
-      <input [(ngModel)]="code" matInput type="text" />
-    </mat-form-field>
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="true"
+        [enableLocalPaste]="false"
+        height="200px"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (keyDown)="onKeyDown($event)"
+        (created)="onCreate()"
+      >
+      </ejs-documenteditorcontainer>
+    </section>
 
-    <mat-form-field [hidden]="category === 'ADDENDUM'" class="w-100" appearance="outline">
-      <mat-label>Description</mat-label>
-      <input disabled [(ngModel)]="description" matInput type="text" />
-    </mat-form-field>
+    <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row py-3">
+        <div class="col-4">Category</div>
+        <div class="col-md-auto">:</div>
+        <div class="col col-lg-2">
+          {{ category }}
+        </div>
+      </div>
 
-    <ejs-documenteditorcontainer
-      #document_editor_container
-      [enableToolbar]="true"
-      [enableLocalPaste]="false"
-      height="200px"
-      style="display: block"
-      [spellcheck]="false"
-      [enableSpellCheck]="false"
-      (keyDown)="onKeyDown($event)"
-      (created)="onCreate()"
-    >
-    </ejs-documenteditorcontainer>
+      <div [hidden]="category === 'NEW'">
+        <div class="fontsebled row py-3">
+          <div class="col-4"></div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ valueParentClausalAgreements }}
+          </div>
+        </div>
+
+        <div style="margin-left: 30px" *ngFor="let item2 of countChildFormAgreements; let i = index" class="fontsebled row py-3">
+          <div class="col-4"></div>
+          <div class="col-md-auto">:</div>
+          <div class="col col-lg-2">
+            {{ valueChildAgreeements[i] }}
+          </div>
+        </div>
+      </div>
+
+      <div [hidden]="category === 'ADDENDUM'" class="fontsebled row py-3">
+        <div class="col-4">ode</div>
+        <div class="col-md-auto">:</div>
+        <div class="col col-lg-2">
+          {{ code }}
+        </div>
+      </div>
+
+      <div [hidden]="category === 'ADDENDUM'" class="fontsebled row py-3">
+        <div class="col-4">Description</div>
+        <div class="col-md-auto">:</div>
+        <div class="col col-lg-2">
+          {{ description }}
+        </div>
+      </div>
+
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="true"
+        [enableLocalPaste]="false"
+        height="200px"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (keyDown)="onKeyDown($event)"
+        (created)="onCreate()"
+        (documentChange)="onDocumentChange()"
+      >
+      </ejs-documenteditorcontainer>
+    </section>
   </e-card>
-  <div style="display: flex; justify-content: center; align-items: center">
-    <button class="btn-lg text-uppercase button-styling mt-2" (click)="close()" mat-raised-button>Close</button>
-    <button class="btn-lg text-uppercase button-styling mt-2" (click)="save()" mat-raised-button>Save</button>
-  </div>
+  <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div style="display: flex; justify-content: center; align-items: center">
+      <button class="btn-lg text-uppercase button-styling mt-2" (click)="close()" mat-raised-button>Close</button>
+      <button class="btn-lg text-uppercase button-styling mt-2" (click)="save()" mat-raised-button>Save</button>
+    </div>
+  </section>
+
+  <section *jhiMatrixDir="data.creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div style="display: flex; justify-content: center; align-items: center">
+      <button class="btn-lg text-uppercase button-styling mt-2" (click)="close()" mat-raised-button>Close</button>
+    </div>
+  </section>
 </div>
