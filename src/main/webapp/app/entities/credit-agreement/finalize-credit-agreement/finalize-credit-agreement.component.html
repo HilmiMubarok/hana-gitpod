@@ -294,6 +294,17 @@
     <mat-card-content>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="row" *ngFor="let item of approvalDebtor; let i = index">
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Status </mat-label>
+              <mat-select [(ngModel)]="selectedConditions[i]" (ngModelChange)="onSelectApprovalCondition($event, i)">
+                <mat-option value="">Please Select Conditions</mat-option>
+                <mat-option *ngFor="let condition of getAvailableOptions(i)" [value]="condition">
+                  {{ condition }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
           <div class="col-3 mt-3">
             <mat-icon *ngIf="creditProposal.customerType !== 'PERSONAL' && approvalDebtor.length < 2" (click)="addApproval()">add</mat-icon>
             <mat-icon
@@ -709,7 +720,7 @@
     </div>
   </mat-card>
 
-  <mat-card class="mt-3" *ngIf="creditProposal.statusCode === 'PK_GENERATED'">
+  <!-- <mat-card class="mt-3" *ngIf="creditProposal.statusCode === 'PK_GENERATED'">
     <mat-card-header>
       <mat-card-title>Upload Credit Agreement</mat-card-title>
     </mat-card-header>
@@ -766,17 +777,9 @@
       <mat-card *ngIf="loading" id="material-loading-bar">
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
       </mat-card>
-      <!-- <mat-paginator
-                        showFirstLastButtons
-                        ngClass="transparant"
-                        [length]="paginatorLength"
-                        [pageSize]="paginatorPageSize"
-                        [pageSizeOptions]="paginatorPageSizeOption"
-                        (page)="loadDataLazy($event)"
-                      >
-                      </mat-paginator> -->
+      
     </mat-card-content>
-  </mat-card>
+  </mat-card> -->
 
   <mat-card class="mt-3">
     <mat-card-header>
