@@ -201,8 +201,6 @@ export class InsuranceDocumentDialogComponent implements OnInit {
       metaData.createdDate = new Date();
       const formData = new FormData();
       formData.append('file', this.files[i]);
-      console.log('data', this.files);
-
       this.accountService.identity().subscribe(resAccount => {
         metaData.createdBy = resAccount.login;
         this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {

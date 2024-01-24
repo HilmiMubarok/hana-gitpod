@@ -31,7 +31,6 @@ export class InsuranceDocumentComponent implements OnChanges {
   documentPolicye: any[];
   change: SimpleChanges;
   _dataSource: IInsuranceInformation;
-  insurance: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -41,14 +40,19 @@ export class InsuranceDocumentComponent implements OnChanges {
     this._creditProposal = data;
   }
   @Input()
+  get insurance() {
+    return this._insurance;
+  }
+  set insurances(items: IInsuranceInformation) {
+    this._insurance = items;
+  }
+  @Input()
   get dataSource() {
     return this._dataSource;
   }
   set dataSource(items: IInsuranceInformation) {
     this._dataSource = items;
-    console.log('xxx', this._dataSource);
   }
-  // @Input() dataSource: any;
   @Input()
   get collateral() {
     return this._collateral;
@@ -63,13 +67,7 @@ export class InsuranceDocumentComponent implements OnChanges {
     protected generalParameterService: GeneralParameterService
   ) {
     this.files = [];
-    // this.id = this.insurance.id;
-    //   this.getBucket().then(() => {
-    //   this.getFiles()
-    // })
-    console.log('dataInsuranceDataSource', this.dataSource);
     this.lovDocumentPolicy();
-    // console.log('insurancess', this._insurance)
   }
 
   private getBucket(): Promise<void> {
@@ -81,26 +79,22 @@ export class InsuranceDocumentComponent implements OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('dataInsuranceDataSourcexx', this.dataSource);
-    this.change = changes;
-    console.log(changes, 'ngOnchanges');
-    if (changes.dataSource.currentValue.length > 0) {
-      for (let i = 0; i < changes.dataSource.currentValue.length; i++) {
-        this.dataIdInsurance = changes.dataSource.currentValue[i].id;
-        this.getBucket().then(() => {
-          this.getFiles(this.dataIdInsurance);
-        });
-      }
+    if (changes['insurance']) {
+      this.dataIdInsurance = changes['insurance'].currentValue.id;
+      this.getFiles(this.dataIdInsurance);
     }
   }
+
   private getFiles(id: any): void {
-    const predicate: Object = {
-      key: `/debtor/${this.creditProposal.debtorData.id}/collateral/${this.collateral.id}/insurance/${id}/documents/`,
-    };
-    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      this.files = res.body;
+    this.getBucket().then(() => {
+      const predicate: Object = {
+        key: `/debtor/${this.creditProposal.debtorData.id}/collateral/${this.collateral.id}/insurance/${id}/documents/`,
+      };
+      this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+        this.files = res.body;
+        console.log(this.files, 'data for id:', id);
+      });
     });
-    console.log(this.files, 'data');
   }
   public openDialog(mode, element: IDocumentInsurance = null): void {
     let _insuranceDoc = new DocumentInsurance();
@@ -124,7 +118,7 @@ export class InsuranceDocumentComponent implements OnChanges {
     const dialogRef = this.dialog.open(InsuranceDocumentDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       res &&
-        this.getBucket().then(() => {
+        this.getBucket().then(res2 => {
           this.getFiles(this.dataIdInsurance);
         });
     });
