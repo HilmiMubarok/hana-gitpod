@@ -50,7 +50,7 @@
 </div>
 
 <div align="right" class="mt-5 align-right">
-  <div *ngIf="!statusDisabledOffering">
+  <div *ngIf="!statusDisabledOffering && statusAddButtonBinding">
     <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
   </div>
 </div>
