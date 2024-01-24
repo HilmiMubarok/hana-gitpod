@@ -52,6 +52,7 @@ export class BindingValueGeneralGridComponent implements OnInit {
 
   public textBoxHidden = false;
   public statusDisabledOffering = false;
+  public statusAddButtonBinding = true;
   public parentPath = this.router.url.split('/')[1];
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
@@ -163,6 +164,7 @@ export class BindingValueGeneralGridComponent implements OnInit {
       if (this.creditProposal.statusId === 'PK_FINALIZE' || this.creditProposal.statusId === 'PK_GENERATED') {
         this.textBoxHidden = false;
         this.statusDisabledOffering = false;
+        this.statusAddButtonBinding = false;
       } else {
         this.textBoxHidden = false;
         this.statusDisabledOffering = true;
