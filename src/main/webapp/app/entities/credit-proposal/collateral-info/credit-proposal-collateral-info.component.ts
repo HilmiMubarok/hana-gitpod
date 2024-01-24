@@ -340,7 +340,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     // Condition Offering Letter in Route Finalize
     if (this.parentPath === 'finalize') {
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
-      if (this.selectedMenu === 'INFORMATION') {
+      if (subroutes === 'dec-collateral-info') {
         this.textBoxHidden = false;
         this.statusDisabledOffering = false;
         // If the Menu Compare Approval Report field can be displayed and cannot be changed
@@ -381,17 +381,14 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
       this.parentPath === 'finalize-dpdl' ||
       this.parentPath === 'review-dpdl' ||
       this.parentPath === 'review-pk' ||
-      this.parentPath === 'dar-revision-checker'
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'dar-revision'
     ) {
-      this.textBoxHidden = false;
-      this.statusDisabledOffering = true;
-    } else if (this.parentPath === 'dar-revision') {
-      if (this.selectedMenu === 'INFORMATION') {
-        this.textBoxHidden = false;
-        this.statusDisabledOffering = false;
-      } else {
+      if (subroutes === 'collateral-info') {
         this.textBoxHidden = false;
         this.statusDisabledOffering = true;
+      } else {
+        this.textBoxHidden = true;
       }
     } else {
       this.textBoxHidden = true;
