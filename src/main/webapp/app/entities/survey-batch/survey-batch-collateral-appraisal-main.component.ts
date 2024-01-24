@@ -64,6 +64,8 @@ import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/fot
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { firstValueFrom } from 'rxjs';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { IReportIndependent, ReportIndependent } from '../collateral-appraisal/report-independent/report-independent.model';
+import { ReportIndependentCollateralComponent } from '../collateral-appraisal/report-independent/report-independent-collateral.component';
 
 @Component({
   providers: [
@@ -75,6 +77,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
+    ReportIndependentCollateralComponent,
   ],
   selector: 'jhi-survey-batch-collateral-appraisal-main',
   templateUrl: './survey-batch-collateral-appraisal-main-floating.component.html',
@@ -142,6 +145,8 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
   public value: string;
   public isOpen = false;
+  public collateralProp: ICollateralProperty;
+  public reportIndependentModel: IReportIndependent = new ReportIndependent();
 
   constructor(
     protected applicationStateLogService: ApplicationStateLogService,
@@ -164,7 +169,8 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
-    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
+    private reportIndependentCollateralComponent: ReportIndependentCollateralComponent
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -287,6 +293,9 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
         });
         this.collateralAppraisalService.totalDataValuationBuilding = lodash.filter(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.BUILDING;
+        });
+        this.collateralProp = lodash.find(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.GENERAL && o.external === true;
         });
       });
   }
@@ -474,6 +483,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     });
     this.getTasks();
     this.timeLine();
+    this.reportIndependentModel = this.reportIndependentCollateralComponent.getReport();
   }
 
   private getDataSurveyAppraisal(id: number): Promise<void> {
@@ -594,8 +604,14 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
+      // if (this.surveyAppraisal.statusId === STATUS.APPROVE) {
+      this.cekReportIndependent();
+      // }
     } else {
       this.mainSave(source);
+      // if (this.surveyAppraisal.statusId === STATUS.APPROVE) {
+      this.cekReportIndependent();
+      // }
     }
   }
 
@@ -1073,5 +1089,21 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
+  }
+
+  public cekReportIndependent() {
+    this.setAllowSaveData();
+  }
+
+  public setAllowSaveData() {
+    if (this.collateralProp) {
+      this.collateralProp.propertyMarketValue = this.reportIndependentModel.totalMarketValueLandBuilding;
+      this.collateralProp.propertyMarketValueIMB = this.reportIndependentModel.totalMarketValueImbLandBuilding;
+      this.collateralProp.propertyMarketValueTataKota = this.reportIndependentModel.totalMarketValueTataKotaLandBuilding;
+      this.collateralProp.liquidationValue = this.reportIndependentModel.totalLiquidationValueLandBuilding;
+      this.collateralPropertyService.save(this.collateralProp).subscribe(res => {
+        console.log('res save', res.body);
+      });
+    }
   }
 }

@@ -1,200 +1,370 @@
 <div class="row">
-  <!-- <div class="e-card"> -->
-  <div class="mb-3">
-    <div class="row">
-      <!-- -======================================== -->
-      <div class="col-6">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Tujuan Penilaian</mat-label>
-            <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilaian" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Appraisal Report No</mat-label>
-            <input matInput type="text" [disabled]="true" [(ngModel)]="mData.appraisalNumber" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Quantity/Size</mat-label>
-            <input matInput type="text" [disabled]="true" [(ngModel)]="mData.quantity" />
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Appraisal Date</mat-label>
-            <input matInput type="text" [matDatepicker]="dp" [formControl]="apprDate" [(ngModel)]="mData.apprDate" disabled />
-            <mat-datepicker-toggle matSuffix [for]="dp" disabled="true"></mat-datepicker-toggle>
-            <mat-datepicker #dp disabled="true"></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <div class="w-100">
+  <div class="e-card">
+    <div style="margin: 1rem">
+      <div class="row">
+        <!-- -======================================== -->
+        <div class="col-6">
+          <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Report Date</mat-label>
-              <input matInput type="text" [matDatepicker]="picker" [formControl]="reportDate" [(ngModel)]="mData.reportDate" disabled />
-              <mat-datepicker-toggle matSuffix [for]="picker" disabled="true"></mat-datepicker-toggle>
-              <mat-datepicker #picker disabled="true"></mat-datepicker>
+              <mat-label>Tujuan Penilaian</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilaian" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Report No</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.appraisalNumber" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>No Laporan KJPP</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.kjppNo" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Quantity/Size</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.quantity" />
             </mat-form-field>
           </div>
         </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Review By</mat-label>
-            <input matInput type="text" [disabled]="true" [(ngModel)]="mData.reviewedBy" />
-          </mat-form-field>
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Date</mat-label>
+              <input matInput type="text" [matDatepicker]="dp" [formControl]="apprDate" [(ngModel)]="mData.apprDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="dp" disabled="true"></mat-datepicker-toggle>
+              <mat-datepicker #dp disabled="true"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <div class="w-100">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Report Date</mat-label>
+                <input matInput type="text" [matDatepicker]="picker" [formControl]="reportDate" [(ngModel)]="mData.reportDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="picker" disabled="true"></mat-datepicker-toggle>
+                <mat-datepicker #picker disabled="true"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Review By</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.reviewedBy" />
+            </mat-form-field>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- -======================================== -->
+      <!-- -======================================== -->
 
-    <!-- -======================================== -->
-    <br />
-    <div class="row">
-      <div class="col-6">
-        <mat-card-subtitle class="fw-bold" style="margin-left: 15px">BASED PHYSICS</mat-card-subtitle>
-        <div class="form-group" style="margin-top: 20px">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Total Luas Tanah (Physics)</mat-label>
-            <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
-            <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasTanahFisik" />
-            <div matSuffix>m<sup>2</sup></div>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Total Luas Bangunan (Physics)</mat-label>
-            <!-- [(ngModel)]="mData.totalLuasBangunanFisik" -->
-            <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanFisik" />
-            <div matSuffix>m<sup>2</sup></div>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Appraisal Value Physics</mat-label>
-            <input matInput type="text" [disabled]="true" [ngModel]="mData.marketValue | currency: 'IDR ':'symbol':'1.0-0'" />
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="col-6">
-        <mat-card-subtitle class="fw-bold" style="margin-left: 15px">BASED IMB / TATA KOTA</mat-card-subtitle>
-        <div class="form-group" style="margin-top: 20px">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Total Luas Tanah (IMB / Tata Kota)</mat-label>
-            <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasTanahImbTataKota" />
-            <div matSuffix>m<sup>2</sup></div>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Total Luas Bangunan (IMB / Tata Kota)</mat-label>
-            <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanImbTataKota" />
-            <div matSuffix>m<sup>2</sup></div>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Appraisal Value (IMB)</mat-label>
-            <input matInput type="text" [disabled]="true" [ngModel]="mData.appraisalvalueImbTataKota | currency: 'IDR ':'symbol':'1.0-0'" />
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Liquidation Value</mat-label>
-          <input matInput type="text" [disabled]="true" [ngModel]="mData.totalLiquidationValue | currency: 'IDR ':'symbol':'1.0-0'" />
-        </mat-form-field>
-      </div>
-    </div>
-    <!-- -======================================== -->
+      <!-- -======================================== -->
+      <br />
+      <div class="row">
+        <div class="col-6">
+          <mat-card-subtitle class="fw-bold" style="margin-left: 15px">TOTAL PENILAIAN TANAH</mat-card-subtitle>
 
-    <!-- -======================================== -->
-    <br />
-    <div class="row">
-      <div class="col-12">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Remark</mat-label>
-          <textarea matInput style="height: 100px" [disabled]="true" [(ngModel)]="mData.remark"></textarea>
-        </mat-form-field>
+          <!-- New Layout CR Phase 2 TANAH-->
+          <!-- Physics -->
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Tanah (Physics)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasLandFisik" />
+              <div matSuffix>m<sup>2</sup></div>
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Value Tanah (Physics) Per Meter</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalValueLandPerMeter | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Appraisal Value Tanah (Physics)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalAppraisalValueLandFisik | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <!-- End Physics -->
+
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Liquidation Value Tanah (Physics)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalLiquidationLand | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <!-- IMB -->
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Tanah (IMB)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasBangunanFisik" -->
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasLandImb" />
+              <div matSuffix>m<sup>2</sup></div>
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Value Tanah (IMB) Tanah Per Meter</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalValueImbLandPerMeter | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Appraisal Value IMB (Tanah)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalAppraisalValueLandImb | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <!-- End IMB Tanah -->
+
+          <!-- TataKota Tanah -->
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Tata Kota (Tanah)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasBangunanFisik" -->
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasLandTataKota" />
+              <div matSuffix>m<sup>2</sup></div>
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Value (Tata Kota) Tanah Per Meter</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalValueTataKotaLandPerMeter | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Appraisal Value Tata Kota (Tanah)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalAppraisalValueLandTataKota | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Market Value (MV) Tanah & Bangunan</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalMarketValueLandBuilding | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Liquidation Value Tanah & Bangunan</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalLiquidationValueLandBuilding | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-6">
+          <mat-card-subtitle class="fw-bold" style="margin-left: 15px">TOTAL PENILAIAN BANGUNAN</mat-card-subtitle>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Bangunan (Physics)</mat-label>
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasBuildingFisik" />
+              <span matSuffix>m<sup>2</sup></span>
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Value Bangunan (Physics) Per Meter</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalValueBuildingPerMeter | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Appraisal Value Bangunan (Physics)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalAppraisalValueBuildingFisik | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <!-- End Physics -->
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Liquidation Value Bangunan (Physics)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalLiquidationBuilding | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- IMB -->
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Bangunan (IMB)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasBangunanFisik" -->
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasBuildingImb" />
+              <div matSuffix>m<sup>2</sup></div>
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Value (IMB) Bangunan Per Meter</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalValueImbBuildingPerMeter | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Appraisal Value IMB (Bangunan)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalAppraisalValueBuildingImb | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <!-- End IMB Tanah -->
+
+          <!-- TataKota Tanah -->
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Luas Tata Kota (Bangunan)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasBangunanFisik" -->
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasBuildingTataKota" />
+              <div matSuffix>m<sup>2</sup></div>
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Value (Tata Kota) Bangunan Per Meter</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalValueTataKotaBuildingPerMeter | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Appraisal Value Tata Kota (Bangunan)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalAppraisalValueBuildingTataKota | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Market Value (MV) IMB Tanah & Bangunan</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalMarketValueImbLandBuilding | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+          <div class="form-group" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Market Value (MV) Tata Kota Tanah & Bangunan</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.totalMarketValueTataKotaLandBuilding | currency: 'IDR ':'symbol':'1.0-0'"
+              />
+            </mat-form-field>
+          </div>
+        </div>
       </div>
-      <div class="col-12">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Review Opinion</mat-label>
-          <textarea matInput style="height: 170px" [(ngModel)]="surveyAppraisal.reviewedOpinion" [disabled]="status"></textarea>
-        </mat-form-field>
+
+      <!-- -======================================== -->
+
+      <!-- -======================================== -->
+      <br />
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Remark</mat-label>
+            <textarea matInput style="height: 100px" [disabled]="true" [(ngModel)]="mData.remark"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Review Opinion</mat-label>
+            <textarea matInput style="height: 170px" [(ngModel)]="surveyAppraisal.reviewedOpinion" [disabled]="status"></textarea>
+          </mat-form-field>
+        </div>
       </div>
     </div>
-    <!-- -======================================== -->
-    <!-- <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
-        <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
-            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="fileName">
-          <th mat-header-cell *matHeaderCellDef class="text-center">File Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
-        </ng-container>
-        <ng-container matColumnDef="SizeFile">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Size File</th>
-          <td mat-cell *matCellDef="let element">{{ element.cif.SizeFile }}</td>
-        </ng-container>
-        <ng-container matColumnDef="typeFile">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Type File</th>
-          <td mat-cell *matCellDef="let element" class="text-capitalize">
-            {{ element.cif.typeFile }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="modifiedDate">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Modified Date</th>
-          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
-            {{ element.cif.modifiedDate }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="modifiedBy">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Modified By</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.modifiedBy | formatMediumDate }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            <input type="checkbox" (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
-          </td>
-        </ng-container>
-
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell text-center" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
-        <tr
-          mat-row
-          *matRowDef="let element; columns: displayedColumnsExpand"
-          [class.mat-expanded-row]="expandedElement === element"
-          class="mat-element-row"
-          (click)="expandedElement = expandedElement === element ? null : element"
-        ></tr>
-      </table> -->
-    <!-- <mat-card *ngIf="loading" id="material-loading-bar">
-        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
-      </mat-card>
-      <mat-paginator
-        showFirstLastButtons
-        ngClass="transparant"
-        [length]="paginatorLength"
-        [pageSize]="paginatorPageSize"
-        [pageSizeOptions]="paginatorPageSizeOption"
-        (page)="loadDataLazy($event)"
-      >
-      </mat-paginator> -->
   </div>
-  <!-- </div> -->
 </div>
