@@ -2,21 +2,17 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { faTimeline } from '@fortawesome/free-solid-svg-icons';
-import { map } from 'rxjs';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+
 import { Form, FormBuilder, FormGroup } from '@angular/forms';
-import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { SurveyBatchService } from '../survey-batch.service';
 import { ISurveyBatch } from '../survey-batch.model';
-import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-appraisals.service';
 import { CollateralAppraisalService } from 'app/entities/collateral-appraisal/collateral-appraisal.service';
-import { IReportIndependent } from './report-independent.model';
+import { IReportIndependent, ReportIndependent } from './report-independent.model';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { default as _rollupMoment } from 'moment';
@@ -24,10 +20,9 @@ import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
-import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 import { IPosition } from '@syncfusion/ej2-angular-grids';
-// import { PositionService } from 'app/entities/position/position.service';
+import { ICollateralProperty, CollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -76,7 +71,15 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
   public status: boolean;
   public reviewedOpinion: any;
   private _surveyAppraisal: ISurveyAppraisals;
+  private _collateralProperty: ICollateralProperty;
 
+  @Input()
+  get collateralProp() {
+    return this._collateralProperty;
+  }
+  set collateralProp(data: ICollateralProperty) {
+    this._collateralProperty = data;
+  }
   @Input()
   get surveyAppraisal() {
     return this._surveyAppraisal;
@@ -97,6 +100,9 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
     super(_snackBar, surveyBatchService);
     this.page = 0;
     this.itemsPerPage = 10;
+    this.mData = new ReportIndependent();
+    this.collateralProp = new CollateralProperty();
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   public position: IPosition[];
@@ -104,19 +110,81 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
   ngOnInit(): void {
     this.getReport();
   }
-  public getReport() {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+  public getReport(): IReportIndependent {
     this.collateralAppraisalService.find(this.id).subscribe(result => {
-      this.mData = result.body.attributes;
+      this.mData.tujuanPenilaian = result.body.attributes['tujuanPenilaian'];
       this.mData.appraisalNumber = result.body.appraisalNumber;
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
-
       this.mData.reviewedBy = result.body.reviewedBy;
-      this.mData.marketValue = result.body.totalMarketValue;
       this.mData.remark = result.body.remark;
-      this.mData.totalLiquidationValue = result.body.totalLiquidationValue;
-      // this.reviewedOpinion = result.body.reviewedOpinion;
+      this.reviewedOpinion = result.body.reviewedOpinion;
+      this.mData.kjppNo = result.body.kjppNo;
+
+      // Tanah
+      // Fisik
+      this.mData.totalLuasLandFisik =
+        result.body.attributes['totalLuasTanahFisik'] !== null ? result.body.attributes['totalLuasTanahFisik'] : 0;
+      this.mData.appraisalValueLandPerMeter =
+        result.body.attributes['appraisalValueLandPerMeter'] !== null ? result.body.attributes['appraisalValueLandPerMeter'] : 0;
+      this.mData.totalAppraisalValueLandFisik = this.mData.totalLuasLandFisik * this.mData.appraisalValueLandPerMeter;
+
+      // Liquidation
+      this.mData.appraisalLiquidationLand =
+        result.body.attributes['appraisalLiquidationLand'] !== null ? result.body.attributes['appraisalLiquidationLand'] : 0;
+
+      // Imb
+      this.mData.totalLuasLandImb = result.body.attributes['totalLuasTanahIMB'] !== null ? result.body.attributes['totalLuasTanahIMB'] : 0;
+      this.mData.appraisalValueImbLandPerMeter =
+        result.body.attributes['appraisalValueIMBPerMeterLand'] !== null ? result.body.attributes['appraisalValueIMBPerMeterLand'] : 0;
+      this.mData.totalAppraisalValueLandImb = this.mData.totalLuasLandImb * this.mData.appraisalValueImbLandPerMeter;
+
+      // TataKota
+      this.mData.totalLuasLandTataKota =
+        result.body.attributes['totalLuasTanahTataKota'] !== null ? result.body.attributes['totalLuasTanahTataKota'] : 0;
+      this.mData.appraisalValueTataKotaLandPerMeter =
+        result.body.attributes['appraisalValueTataKotaPerMeterLand'] !== null
+          ? result.body.attributes['appraisalValueTataKotaPerMeterLand']
+          : 0;
+      this.mData.totalAppraisalValueLandTataKota = this.mData.totalLuasLandTataKota * this.mData.appraisalValueTataKotaLandPerMeter;
+      // ================================================================================
+
+      // Bangunan
+      // Fisik
+      this.mData.totalLuasBuildingFisik =
+        result.body.attributes['totalLuasBangunanFisik'] !== null ? result.body.attributes['totalLuasBangunanFisik'] : 0;
+      this.mData.appraisalValueBuildingPerMeter =
+        result.body.attributes['appraisalValueBuildingPerMeter'] !== null ? result.body.attributes['appraisalValueBuildingPerMeter'] : 0;
+      this.mData.totalAppraisalValueBuildingFisik = this.mData.totalLuasBuildingFisik * this.mData.appraisalValueBuildingPerMeter;
+
+      // Liquidation
+      this.mData.appraisalLiquidationBuilding =
+        result.body.attributes['appraisalLiquidationBuilding'] !== null ? result.body.attributes['appraisalLiquidationBuilding'] : 0;
+      // Imb
+      this.mData.totalLuasBuildingImb =
+        result.body.attributes['totalLuasBangunanIMB'] !== null ? result.body.attributes['totalLuasBangunanIMB'] : 0;
+      this.mData.appraisalValueImbBuildingPerMeter =
+        result.body.attributes['appraisalValueBuildingPerMeter'] !== null ? result.body.attributes['appraisalValueBuildingPerMeter'] : 0;
+      this.mData.totalAppraisalValueBuildingImb = this.mData.totalLuasBuildingImb * this.mData.appraisalValueImbBuildingPerMeter;
+
+      // TataKota
+      this.mData.totalLuasBuildingTataKota =
+        result.body.attributes['totalLuasBangunanTataKota'] !== null ? result.body.attributes['totalLuasBangunanTataKota'] : 0;
+      this.mData.appraisalValueTataKotaBuildingPerMeter =
+        result.body.attributes['appraisalValueTataKotaPerMeterBuilding'] !== null
+          ? result.body.attributes['appraisalValueTataKotaPerMeterBuilding']
+          : 0;
+      this.mData.totalAppraisalValueBuildingTataKota =
+        this.mData.totalLuasBuildingTataKota * this.mData.appraisalValueTataKotaBuildingPerMeter;
+
+      // Total MV
+      this.mData.totalMarketValueLandBuilding = this.mData.totalAppraisalValueLandFisik + this.mData.totalAppraisalValueBuildingFisik;
+      this.mData.totalMarketValueImbLandBuilding = this.mData.totalAppraisalValueLandImb + this.mData.totalAppraisalValueBuildingImb;
+      this.mData.totalLiquidationValueLandBuilding =
+        parseFloat(result.body.attributes['appraisalLiquidationLand']) + parseFloat(result.body.attributes['appraisalLiquidationBuilding']);
+
+      this.mData.totalMarketValueTataKotaLandBuilding =
+        this.mData.totalAppraisalValueLandTataKota + this.mData.totalAppraisalValueBuildingTataKota;
 
       if (result.body.apprOfficer === 'External') {
         if (result.body.statusId === STATUS.APPROVAL_TL) {
@@ -126,7 +194,9 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
         }
       }
     });
+    return this.mData;
   }
+
   // public teamReviewName: string;
   // public testReview() {
   //   this.id = this.activatedRoute.snapshot.paramMap.get('id');

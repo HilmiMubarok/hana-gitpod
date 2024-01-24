@@ -123,7 +123,11 @@
         ></jhi-collateral-info>
       </div>
       <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container wrapper-card">
-        <e-card> <jhi-report-independent [surveyAppraisal]="surveyAppraisal"></jhi-report-independent></e-card>
+        <e-card>
+          <!-- <jhi-report-independent [surveyAppraisal]="surveyAppraisal"></jhi-report-independent> -->
+          <jhi-report-independent-collateral [surveyAppraisal]="surveyAppraisal" [collateralProp]="collateralProp">
+          </jhi-report-independent-collateral>
+        </e-card>
       </div>
     </div>
     <div class="e-card-actions mx-auto mb-5 mt-3">
