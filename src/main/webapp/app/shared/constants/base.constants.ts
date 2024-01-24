@@ -2980,6 +2980,10 @@ export const DPDL_FINALIZE_APPEAL: object[] = [
     text: 'Compare Data',
   },
   {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
     id: 'approval-sheet-internal-memo',
     text: 'Approval Sheet Internal Memo',
   },
