@@ -61,14 +61,13 @@ export class InsuranceInfoDialogComponent implements OnInit {
     this.collateral = this.data.collateral;
     this.isViewMode = data.isViewMode;
     this.parentSource = data.parentSource;
-    this.insurances = null;
+    this.insurance = null;
   }
   public getDataInsurances(data: any): void {
-    this.insurances = data;
+    this.insurance = data;
   }
   ngOnInit(): void {
     this.loadCollateralType();
-    console.log('insurance', this.insurance);
   }
   private loadCollateralType(): void {
     this.collateralTypeService.query().subscribe(res => {

@@ -27,16 +27,8 @@ export class GridDetailInsuranceComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
   private _creditProposal: ICreditProposal;
   private _collateral: ICollateral;
-  _insurance: IInsuranceInformation;
-  _insurances: IInsuranceInformation | null;
+  _insurance: IInsuranceInformation | null;
   @Output() dataInsurance = new EventEmitter();
-  @Input()
-  get insurances() {
-    return this._insurances;
-  }
-  set insurances(items: IInsuranceInformation | null) {
-    this._insurances = items;
-  }
   @Input()
   get collateral() {
     return this._collateral;
@@ -71,7 +63,7 @@ export class GridDetailInsuranceComponent implements OnInit {
     private generalParameterService: GeneralParameterService,
     private insuranceInformationService: InsuranceInformationService
   ) {
-    this._insurances = null;
+    this._insurance = null;
   }
 
   ngOnInit(): void {
@@ -86,8 +78,8 @@ export class GridDetailInsuranceComponent implements OnInit {
     });
   }
   public openDocument(element: any): void {
-    this._insurances = element;
-    this.dataInsurance.emit(this._insurances);
+    this._insurance = element;
+    this.dataInsurance.emit(this._insurance);
   }
   public openDialog(mode: string, element: IInsuranceInformation = null): void {
     let _insurance = new InsuranceInformation();
