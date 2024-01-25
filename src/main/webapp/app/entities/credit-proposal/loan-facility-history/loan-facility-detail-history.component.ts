@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
-import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
+import { Observable, Subject, forkJoin, from, map, startWith, switchMap, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -18,13 +18,15 @@ import {
 import { FormControl } from '@angular/forms';
 import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
 import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
+import { BusinessActivityService } from '../busines-activity/business-activity.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-loan-facility-detail-history',
   templateUrl: './loan-facility-detail-history.component.html',
   styleUrls: ['./grid/loan.scss', './credit-proposal-tab-loan-facility-detail.css'],
 })
-export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
+export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges, OnDestroy {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
@@ -107,13 +109,17 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     private router: Router,
     private storageService: StorageService,
     private applicationConfigService: ApplicationConfigService,
-    private masterFinancialInstitutionService: MasterFinancialInstitutionService
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService,
+    private baService: BusinessActivityService,
+    protected messageService: MessageService
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
     this.parentPath = this.router.url.split('/')[1];
     this.loadFinancialInstitution();
   }
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   onDocumentChange() {
     if (this.isViewMode === true) {
@@ -141,6 +147,13 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     this.previousBank = this.parsedAttribute.previousHistory?.facilityDetail.previousBank;
     this.removeTagRemaks();
     this.setCurrency();
+    this.dataProduct = this.dynamicCP()?.products;
+  }
+  dataProduct: IApplicationProduct[];
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -156,7 +169,56 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     });
   }
 
+  // private getContainer(): void {
+  //   let paramsId = '';
+  //   this.actRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const obj = {
+  //     key: 'credit_proposal/remark/loan-facility/' + paramsId + '/sfdt',
+  //   };
+
+  //   this.storageService
+  //     .getObjects(this.BUCKET, obj)
+  //     .pipe(takeUntil(this.ngUnsubscribe))
+  //     .subscribe(response => {
+  //       if (response.body.length > 0) {
+  //         this.storageService
+  //           .fileBlob(response.body[response.body.length - 1]['url'])
+  //           .pipe(takeUntil(this.ngUnsubscribe))
+  //           .subscribe(res => {
+  //             this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-loan-facility-sfdt.sfdt');
+  //             const fileReader: FileReader = new FileReader();
+  //             fileReader.onload = (e: any) => {
+  //               let docEditor: any;
+
+  //               if (this.isViewMode === true) {
+  //                 if (this.parentSource === '') {
+  //                   docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+  //                 } else if (this.parentSource === 'loan-analys') {
+  //                   docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+  //                 }
+  //               } else if (this.isViewMode === false) {
+  //                 if (this.parentSource === '') {
+  //                   docEditor = this.container?.documentEditor as DocumentEditorComponent;
+  //                 } else if (this.parentSource === 'loan-analys') {
+  //                   docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+  //                 }
+  //               }
+
+  //               const contents: string = e.target.result;
+  //               docEditor.open(contents);
+  //             };
+  //             fileReader.readAsText(this.fileGet);
+  //           });
+  //       }
+  //     });
+  // }
+
   private getContainer(): void {
+    this.baService.isUpload$.next(false);
+    this.baService.setLoading(true);
+
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
       paramsId = params['id'];
@@ -197,7 +259,10 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
+              this.baService.setLoading(false);
             });
+        } else {
+          this.baService.setLoading(false);
         }
       });
   }
@@ -216,15 +281,70 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     }
   }
 
+  // public triggeredSave(): void {
+  //   if (this.parentSource !== '' && this.parentSource !== 'loan-analys') {
+  //     let paramsId = '';
+  //     this.actRoute.params.subscribe(params => {
+  //       paramsId = params['id'];
+  //     });
+  //     const key = 'credit_proposal/remark/loan-facility';
+
+  //     const timeStamp = Math.floor(Date.now() / 1000);
+
+  //     let docEditor: any;
+
+  //     if (this.isViewMode === true) {
+  //       if (this.parentSource === '') {
+  //         docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+  //       } else if (this.parentSource === 'loan-analys') {
+  //         docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+  //       }
+  //     } else if (this.isViewMode === false) {
+  //       if (this.parentSource === '') {
+  //         docEditor = this.container?.documentEditor as DocumentEditorComponent;
+  //       } else if (this.parentSource === 'loan-analys') {
+  //         docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+  //       }
+  //     }
+
+  //     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+  //       const fileType = 'word';
+  //       const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.docs';
+  //       const metaData = {
+  //         objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //       };
+  //       const formData = new FormData();
+  //       formData.append('file', new File([exportedDocument], fileName));
+
+  //       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+  //     });
+
+  //     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+  //       const fileType = 'sfdt';
+  //       const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.sfdt';
+  //       const metaData = {
+  //         objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+  //       };
+  //       const formData = new FormData();
+  //       formData.append('file', new File([exportedDocument], fileName));
+
+  //       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+  //     });
+  //   }
+  // }
+
   public triggeredSave(): void {
     if (this.parentSource !== '' && this.parentSource !== 'loan-analys') {
       let paramsId = '';
       this.actRoute.params.subscribe(params => {
         paramsId = params['id'];
       });
-      const key = 'credit_proposal/remark/loan-facility';
 
-      const timeStamp = Math.floor(Date.now() / 1000);
+      this.baService.setLoading(true);
+      const key = 'credit_proposal/remark/loan-facility';
+      const docEditors = this.container?.documentEditor as DocumentEditorComponent;
+      const saveDocx$ = from(docEditors.saveAsBlob('Docx'));
+      const saveSfdt$ = from(docEditors.saveAsBlob('Sfdt'));
 
       let docEditor: any;
 
@@ -242,29 +362,67 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         }
       }
 
-      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-        const fileType = 'word';
-        const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.docs';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
+      forkJoin([saveDocx$, saveSfdt$])
+        .pipe(
+          takeUntil(this.destroy$),
+          tap(() => this.baService.setLoading(true)),
+          map(([docx, sfdt]) => {
+            this.baService.setLoading(true);
+            const fileTypeWord = 'word';
+            const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileTypeWord + '.docs';
+            const metaData = {
+              objectName: `${key}/${paramsId}/${fileTypeWord}/${fileName}`,
+            };
+            const formData = new FormData();
+            formData.append('file', new File([docx], fileName));
 
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
+            // Validate file size must be larger than 20mb
+            if (docx.size > 50000000) {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'File size must be less than 50mb',
+              });
+              this.baService.setLoading(false);
+              return;
+            }
 
-      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-        const fileType = 'sfdt';
-        const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.sfdt';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
+            this.storageService
+              .uploadMeta(this.BUCKET, formData, metaData)
+              .pipe(
+                switchMap(() => {
+                  const fileTypeSfdt = 'sfdt';
+                  const fileNames = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileTypeSfdt + '.sfdt';
+                  const metaDatas = {
+                    objectName: `${key}/${paramsId}/${fileTypeSfdt}/${fileNames}`,
+                  };
+                  const formDatas = new FormData();
+                  formDatas.append('file', new File([sfdt], fileNames));
 
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
+                  return this.storageService.uploadMeta(this.BUCKET, formDatas, metaDatas);
+                })
+              )
+              .subscribe({
+                next(res) {
+                  console.log('Next Success uploading files', res);
+                },
+                complete: () => {
+                  console.log('complete');
+                  this.baService.setLoading(false);
+                },
+                error: err => {
+                  console.log('error', err);
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Something went wrong while uploading the document. Please try again.',
+                  });
+                  this.baService.setLoading(false);
+                },
+              });
+          })
+        )
+        .subscribe();
     }
   }
 
@@ -305,31 +463,12 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
       // return dataDar
       return this.creditProposal;
     } else {
-      return this.parsedAttribute.previousHistory;
+      if (this.parsedAttribute.previousOfferingLetter) {
+        return this.parsedAttribute.previousOfferingLetter;
+      } else {
+        return this.parsedAttribute.previousHistory;
+      }
     }
-    // // Jika ada previousReturn dan onCompareData true dan isCompareDar false
-    // // berarti dia dipanggil di compare data yang bagian tab previous proposal.
-    // if (this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar) {
-    //   // if previousreturn dont have facilityDetail.custodianFee, then set it to 0
-    //   if (!this.parsedAttribute.previousReturn.facilityDetail) {
-    //     const obj = {
-    //       facilityDetail: {
-    //         custodianFee: 0,
-    //       },
-    //     };
-    //     this.parsedAttribute.previousReturn = { ...this.parsedAttribute.previousReturn, ...obj };
-    //   }
-
-    //   return this.parsedAttribute.previousReturn;
-    // }
-    // // jika ada previousHistory dan isOnCompareData false dan isCompareDar false
-    // // berarti dipanggil di menu cp ketika ada attribute previous history
-    // else if (this.parsedAttribute.previousHistory && !this.isOnCompareData && !this.isCompareDar) {
-    //   return this.parsedAttribute.previousHistory;
-    // } else {
-    //   // jika
-    //   return parsePreviousAtrribute(this._creditProposal);
-    // }
   }
 
   fungsiSuminit(value: string) {
@@ -341,10 +480,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataProduct.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -406,10 +542,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataProduct.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -470,10 +603,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataProduct.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -548,10 +678,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataProduct.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {

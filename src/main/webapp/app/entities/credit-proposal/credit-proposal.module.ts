@@ -19,7 +19,7 @@ import { CreditProposalListSlikSummaryListComponent } from './credit-proposal-sl
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal-slik-summary-detail.component';
 import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal-tab-repayment-capability.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
-import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
+
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
@@ -48,7 +48,7 @@ import { MainFacilityDialogHistoryComponent } from './loan-facility-history/main
     CreditProposalSlikSummaryDetailComponent,
     CreditProposalTabRepaymentCapabilityComponent,
     CreditProposalApprovalListComponent,
-    CreditProposalGroupGuarantorAnalysisComponent,
+
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
