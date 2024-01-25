@@ -141,7 +141,9 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     this.previousBank = this.parsedAttribute.previousHistory?.facilityDetail.previousBank;
     this.removeTagRemaks();
     this.setCurrency();
+    this.dataProduct = this.dynamicCP()?.products;
   }
+  dataProduct: IApplicationProduct[];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWord === true) {
@@ -305,31 +307,12 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
       // return dataDar
       return this.creditProposal;
     } else {
-      return this.parsedAttribute.previousHistory;
+      if (this.parsedAttribute.previousOfferingLetter) {
+        return this.parsedAttribute.previousOfferingLetter;
+      } else {
+        return this.parsedAttribute.previousHistory;
+      }
     }
-    // // Jika ada previousReturn dan onCompareData true dan isCompareDar false
-    // // berarti dia dipanggil di compare data yang bagian tab previous proposal.
-    // if (this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar) {
-    //   // if previousreturn dont have facilityDetail.custodianFee, then set it to 0
-    //   if (!this.parsedAttribute.previousReturn.facilityDetail) {
-    //     const obj = {
-    //       facilityDetail: {
-    //         custodianFee: 0,
-    //       },
-    //     };
-    //     this.parsedAttribute.previousReturn = { ...this.parsedAttribute.previousReturn, ...obj };
-    //   }
-
-    //   return this.parsedAttribute.previousReturn;
-    // }
-    // // jika ada previousHistory dan isOnCompareData false dan isCompareDar false
-    // // berarti dipanggil di menu cp ketika ada attribute previous history
-    // else if (this.parsedAttribute.previousHistory && !this.isOnCompareData && !this.isCompareDar) {
-    //   return this.parsedAttribute.previousHistory;
-    // } else {
-    //   // jika
-    //   return parsePreviousAtrribute(this._creditProposal);
-    // }
   }
 
   fungsiSuminit(value: string) {
@@ -341,10 +324,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataProduct.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -406,10 +386,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataProduct.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -470,10 +447,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataProduct.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {
@@ -548,10 +522,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     dolar = 0;
 
-    const dataFilter =
-      this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
-        ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
-        : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
+    const dataFilter = this.dataProduct.filter(obj => obj.subLimit === false);
 
     if (dataFilter?.length > 0) {
       if (value === 'USD' || value === 'both') {

@@ -114,22 +114,18 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit, AfterView
   //     this.partyCifFunc()
   //   }
   // }
-  partyCifFunc() {
-    const dataFilter = [];
-    const previous =
-      this.parsedAttribute['previousReturn'] && this.isOnCompareData
-        ? this.parsedAttribute['previousReturn']
-        : this.parsedAttribute['previousHistory'];
-    if (previous.products) {
-      for (let i = 0; i < previous.products.length; i++) {
-        dataFilter.push(previous.products[i]);
-      }
-      // this.dataParty = new MatTableDataSource<any>(dataFilter);
 
-      this.dataParty = new MatTableDataSource(previous.products);
-      console.log('party', this.dataParty);
-      this.dataParty.paginator = this.paginator;
-    }
+  partyCifFunc() {
+    const previousProducts =
+      this.parsedAttribute['previousReturn'] && this.isOnCompareData
+        ? this.parsedAttribute['previousReturn'].products
+        : this.creditProposal.attributes.previousOfferingLetter
+        ? this.parsedAttribute['previousOfferingLetter'].products
+        : this.parsedAttribute['previousHistory'].products;
+
+    this.dataParty = new MatTableDataSource(previousProducts);
+    console.log('party', this.dataParty);
+    this.dataParty.paginator = this.paginator;
   }
   ngAfterViewInit() {
     this.dataParty.paginator = this.paginator;
