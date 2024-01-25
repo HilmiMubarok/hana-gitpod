@@ -22,8 +22,6 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
   public deviation: any = [];
   public justification: any = [];
 
-
-
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -49,8 +47,6 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
     this.creditProposalItem.attributes['convenant'].standardDataGridAbove = lodash.clone(this.copystandardDataGridAbove);
   }
 
-
-
   ngOnInit(): void {
     if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length !== 0) {
       const deletedItem = this.creditProposalItem.attributes['convenant'].standardDataGridAbove.filter(item => item.status !== 'Applied');
@@ -70,5 +66,10 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
       ...this.standardDataGridAbove,
       changes.creditProposalItem.currentValue.attributes['convenant'].standardDataGridAbove,
     ];
+  }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    return hasil;
   }
 }

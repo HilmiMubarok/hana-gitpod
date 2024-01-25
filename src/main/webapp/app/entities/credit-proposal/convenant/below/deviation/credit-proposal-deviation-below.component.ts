@@ -3,7 +3,6 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { dataCovenantBelow } from '../../convenant.constant';
 import lodash from 'lodash';
 
-
 @Component({
   selector: 'jhi-credit-proposal-deviation-below',
   templateUrl: './credit-proposal-deviation-below.component.html',
@@ -49,10 +48,7 @@ export class CreditProposalDeviationBelowComponent implements OnInit, OnChanges 
     this.creditProposalItem.attributes['convenant'].standardCovenant = lodash.clone(this.copystandardCovenant);
   }
 
- 
-
   ngOnInit(): void {
-
     if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
       const deletedItem = this.creditProposalItem.attributes['convenant'].standardCovenant.filter(item => item.status !== 'Applied');
       this.standardCovenant = deletedItem;
@@ -64,6 +60,10 @@ export class CreditProposalDeviationBelowComponent implements OnInit, OnChanges 
     } else {
       this.standardCovenant = [];
     }
+  }
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    return hasil;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
