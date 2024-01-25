@@ -90,4 +90,9 @@ export class CovenantBackToBackGeneralPreviousComponent implements OnInit {
 
     // console.log('proposal-type', this.creditProposalItem[])
   }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    return hasil;
+  }
 }

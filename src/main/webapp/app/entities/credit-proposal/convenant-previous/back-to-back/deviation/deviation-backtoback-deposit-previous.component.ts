@@ -91,4 +91,9 @@ export class DeviationBackToBackDepositPreviousComponent implements OnInit {
       this.standardDataGridBackToBackDeposit = [];
     }
   }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    return hasil;
+  }
 }

@@ -73,6 +73,11 @@ export class CPMemoBandingCovenantBackToBackDepositComponent implements OnInit {
     return {};
   }
 
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    return hasil;
+  }
+
   public getBackToBackDeposit() {
     if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length; i++) {

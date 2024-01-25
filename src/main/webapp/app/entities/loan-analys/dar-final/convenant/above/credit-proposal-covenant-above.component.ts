@@ -81,13 +81,6 @@ export class DarCovenantAboveComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        // res.body.forEach(data => {
-        //   this.dataAbove.push(new ConvenantNew(data.id, data.value, 'Applied', '', ''));
-        // });
-
-        // for(let i = 0; i < res.body.length; i++){
-        //   console.log('xxx',res.body[i])
-        // }
         const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
@@ -103,9 +96,20 @@ export class DarCovenantAboveComponent implements OnInit {
           this.creditProposalItem.attributes['convenant'].standardDataGridAbove = this.standardDataGridAbove;
         } else {
           for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
-            this.standardDataGridAbove = this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
+            this.standardDataGridAbove.push({
+              covenant: this.addBRBeforeDash(this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].covenant),
+              deviation: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].deviation,
+              id: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].id,
+              justification: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].justification,
+              status: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].status,
+            });
           }
         }
       });
+  }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    return hasil;
   }
 }

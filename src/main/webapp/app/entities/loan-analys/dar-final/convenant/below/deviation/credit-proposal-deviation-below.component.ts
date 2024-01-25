@@ -61,4 +61,9 @@ export class CreditProposalDeviationBelowTempComponent implements OnInit {
       this.standardCovenant = [];
     }
   }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    return hasil;
+  }
 }

@@ -107,10 +107,16 @@ export class CreditProposalCovenantBelowHistoryComponent implements OnInit {
         const gridBelow = [];
         for (let i = 0; i < data.length; i++) {
           const num = i;
-          gridBelow[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+          gridBelow[i] = { id: num, covenant: this.addBRBeforeDash(data[i].value), status: 'Applied', deviation: '', justification: '' };
         }
         this.standardCovenant = gridBelow;
         this.historyBelow();
       });
+  }
+
+  addBRBeforeDash(text: string): string {
+    const parts = text.split('-');
+    const result = parts.join('<br/> -');
+    return result;
   }
 }

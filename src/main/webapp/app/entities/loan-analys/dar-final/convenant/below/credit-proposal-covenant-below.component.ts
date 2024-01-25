@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBelow } from '../convenant.constant';
 import lodash from 'lodash';
@@ -88,7 +88,7 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
         const gridBelow = [];
         for (let i = 0; i < data.length; i++) {
           const num = i;
-          gridBelow[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+          gridBelow[i] = { id: num, covenant: this.addBRBeforeDash(data[i].value), status: 'Applied', deviation: '', justification: '' };
         }
         this.standardCovenant = gridBelow;
         this.getStandardDataGridBelow();
@@ -97,9 +97,22 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
           this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
         } else {
           for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
-            this.standardCovenant = this.creditProposalItem.attributes['convenant'].standardCovenant;
+            this.standardCovenant.push({
+              covenant: this.addBRBeforeDash(this.creditProposalItem.attributes['convenant'].standardCovenant[i].covenant),
+              deviation: this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation,
+              id: this.creditProposalItem.attributes['convenant'].standardCovenant[i].id,
+              justification: this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification,
+              status: this.creditProposalItem.attributes['convenant'].standardCovenant[i].status,
+            });
           }
         }
       });
+
+    console.log('ompu', this.addBRBeforeDash('ompu -lk satu - ok'));
+  }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    return hasil;
   }
 }
