@@ -478,6 +478,7 @@ import { BindingValueGeneralDialogComponent } from './credit-proposal/collateral
 import { LoaderBAComponent } from './credit-proposal/busines-activity/loader-ba.component';
 import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activity/project-analyst-remark.component';
 import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
+import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
 
 @NgModule({
   imports: [
@@ -662,6 +663,7 @@ import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
     CreditProposalDocumentChecklistComponent,
     DocumentChecklistDialogComponent,
     CreditProposalTabBusinessActivityComponent,
+    CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     ProjectAnalystRemarkComponent,
     CreditProposalRiskAcceptanceCriteriaComponent,
@@ -1213,6 +1215,7 @@ import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
     CreditProposalDocumentChecklistComponent, // Remove Me
     DocumentChecklistDialogComponent, // Remove Me
     CreditProposalTabBusinessActivityComponent, // Remove Me
+    CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     ProjectAnalystRemarkComponent,
     CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
