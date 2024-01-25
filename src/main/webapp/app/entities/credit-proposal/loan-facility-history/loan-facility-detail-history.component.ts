@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, S
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
 import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -15,6 +15,9 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { FormControl } from '@angular/forms';
+import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
+import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
 
 @Component({
   selector: 'jhi-loan-facility-detail-history',
@@ -103,11 +106,13 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     protected actRoute: ActivatedRoute,
     private router: Router,
     private storageService: StorageService,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
     this.parentPath = this.router.url.split('/')[1];
+    this.loadFinancialInstitution();
   }
 
   onDocumentChange() {
@@ -611,5 +616,56 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
       this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute?.previousReturn?.products[0].currencyId
         : this.parsedAttribute.previousHistory.products[0].currencyId;
+  }
+
+  // kebutuhan untuk auto complete previous bank
+  private loadFinancialInstitution(): void {
+    this.masterFinancialInstitutionService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataMasterFinancialInstitution = res.body;
+        this.filteredMVOri();
+        this.MVOriCcy = this.dataMasterFinancialInstitution.find(
+          obj => obj.code === this.creditProposal.attributes['facilityDetail'].previousBank
+        );
+      });
+  }
+
+  public myControlMVOri = new FormControl();
+  public dataMasterFinancialInstitution: IMasterFinancialInstitution[];
+  public filteredOptionsMVOri: Observable<IMasterFinancialInstitution[]>;
+  public MVOriCcy: IMasterFinancialInstitution;
+
+  filteredMVOri() {
+    this.filteredOptionsMVOri = this.myControlMVOri.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVOri(name as string) : this.dataMasterFinancialInstitution.slice();
+      })
+    );
+  }
+
+  displayFnMVOri(item: IMasterFinancialInstitution): string {
+    return item && item.description ? item.description : '';
+  }
+
+  private _filterMVOri(description: string): IMasterFinancialInstitution[] {
+    const filterValue = description.toLowerCase();
+    return this.dataMasterFinancialInstitution.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  getDataBank() {
+    this.creditProposal.attributes['facilityDetail'].previousBank = this.MVOriCcy.code;
+  }
+
+  getDataBankView() {
+    if (this.MVOriCcy) {
+      return this.MVOriCcy.description;
+    }
+    return this.creditProposal.attributes['facilityDetail'].previousBank;
   }
 }

@@ -407,20 +407,32 @@
     </div>
     <div class="e-card-content">
       <div class="row">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <div class="col-6">
-            <mat-label>Previous Bank</mat-label>
-            <mat-form-field class="w-100" appearance="outline">
-              <input matInput type="text" [(ngModel)]="previousBank" disabled />
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Previous Bank</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="myControlMVOri"
+                [matAutocomplete]="autoOri"
+                [(ngModel)]="MVOriCcy"
+                (ngModelChange)="getDataBank()"
+              />
+              <mat-autocomplete #autoOri="matAutocomplete" [displayWith]="displayFnMVOri">
+                <mat-option *ngFor="let option of filteredOptionsMVOri | async" [value]="option">
+                  {{ option.description }}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Previous Bank</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ previousBank }}
+              {{ getDataBankView() }}
             </div>
           </div>
         </section>
