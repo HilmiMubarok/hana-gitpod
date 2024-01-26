@@ -120,7 +120,7 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
   }
 
   addBRBeforeDash(text: string): string {
-    const hasil = text.replace(/(-) /g, '<br/>$1 ');
+    const hasil = text.replace(/\n/g, '<br/>');
     return hasil;
   }
 }
