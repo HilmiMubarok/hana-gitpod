@@ -88,7 +88,7 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
         const gridBelow = [];
         for (let i = 0; i < data.length; i++) {
           const num = i;
-          gridBelow[i] = { id: num, covenant: this.addBRBeforeDash(data[i].value), status: 'Applied', deviation: '', justification: '' };
+          gridBelow[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardCovenant = gridBelow;
         this.getStandardDataGridBelow();
@@ -98,7 +98,7 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
         } else {
           for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
             this.standardCovenant.push({
-              covenant: this.addBRBeforeDash(this.creditProposalItem.attributes['convenant'].standardCovenant[i].covenant),
+              covenant: this.creditProposalItem.attributes['convenant'].standardCovenant[i].covenant,
               deviation: this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation,
               id: this.creditProposalItem.attributes['convenant'].standardCovenant[i].id,
               justification: this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification,
