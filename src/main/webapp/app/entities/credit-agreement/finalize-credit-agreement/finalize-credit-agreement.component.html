@@ -34,8 +34,8 @@
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Address</mat-label>
               <textarea
-                [disabled]="true"
-                [(ngModel)]="creditProposal.agreements[0]?.attributes.address"
+                [disabled]="creditProposal.statusId !== 'PK_FINALIZE'"
+                [(ngModel)]="creditProposal.attributes.offeringLetterPreparation.address"
                 matInput
                 cssClass="e-outline"
                 class="text-area-input"
