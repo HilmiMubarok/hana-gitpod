@@ -92,7 +92,8 @@ export class FinalizeCreditAgreementComponent implements OnInit {
 
     this.creditAgreementService.getActiveClausalByPartyId(this.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
       const data: any[] = res.body;
-      this.addendumClausalAgreements = data.filter((fil: any) => fil.category === 'ADDENDUM');
+      this.addendumClausalAgreements = data;
+      // filter((fil: any) => fil.category === 'ADDENDUM');
     });
   }
 
