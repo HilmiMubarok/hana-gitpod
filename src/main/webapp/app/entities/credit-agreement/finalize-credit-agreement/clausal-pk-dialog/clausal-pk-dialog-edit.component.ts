@@ -217,19 +217,46 @@ export class ClausalPkDialogComponentEditComponent {
   }
 
   public save() {
-    this.triggeredSave()
-      .then(() => {
-        this.data.dataClausal = {
-          ...this.data.dataClausal,
-          category: this.category,
-          notes: this.description,
-        };
-        this.creditAgreementService.updateClausalAgreement(this.data.dataClausal).subscribe(() => {
-          this.dialogRef.close();
-        });
-      })
-      .catch(error => {
-        console.error('Error:', error);
+    if (this.category === 'ADDENDUM') {
+      const clausal: any = this.addendumListActive[0];
+      delete clausal.id;
+      delete clausal.category;
+      clausal.id = null;
+      clausal.category = this.category;
+      const clausalChild: any[] = [];
+      for (let i = 0; i < this.countChildFormAgreements.length; i++) {
+        const saveCild = Object.assign({}, this.agreementsClausalTemplate);
+        const filteraddendumListActive = this.agreementsClausalChildList.filter(
+          (res: any) => res.description === this.valueChildAgreeements[i]
+        );
+        saveCild.addendumToId = clausal.id;
+        saveCild.agreementClausalParameterCode = filteraddendumListActive[0].code;
+        saveCild.agreementClausalParameterDescription = filteraddendumListActive[0].description;
+
+        saveCild.statusCode = filteraddendumListActive[0].statusCode;
+        saveCild.statusDescription = filteraddendumListActive[0].statusDescription;
+
+        clausalChild.push(saveCild);
+      }
+
+      this.creditAgreementService.saveClausalAgreementGroub({ clausal, clausalChild }).subscribe((res: any) => {
+        this.dialogRef.close();
       });
+    } else {
+      this.triggeredSave()
+        .then(() => {
+          this.data.dataClausal = {
+            ...this.data.dataClausal,
+            category: this.category,
+            notes: this.description,
+          };
+          this.creditAgreementService.updateClausalAgreement(this.data.dataClausal).subscribe(() => {
+            this.dialogRef.close();
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   }
 }

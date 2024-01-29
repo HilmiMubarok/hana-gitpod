@@ -95,7 +95,8 @@ export class ClausalPkDialogComponent {
     });
 
     this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-      this.addendumListActive = res.body.filter((data: any) => data.category === 'ADDENDUM');
+      this.addendumListActive = res.body;
+      // .filter((data: any) => data.category === 'ADDENDUM')
     });
   }
 
@@ -138,18 +139,19 @@ export class ClausalPkDialogComponent {
 
   public saveClausal() {
     if (this.agreementClausal.category === 'ADDENDUM') {
-      const clausal: any = this.addendumListActive[0];
+      const clausal: any = Object.assign({}, this.addendumListActive[0]);
       delete clausal.id;
       delete clausal.category;
       clausal.id = null;
       clausal.category = this.agreementClausal.category;
       const clausalChild: any[] = [];
+
       for (let i = 0; i < this.countChildFormAgreements.length; i++) {
         const saveCild = Object.assign({}, this.agreementsClausalTemplate);
         const filteraddendumListActive = this.agreementsClausalChildList.filter(
           (res: any) => res.description === this.valueChildAgreeements[i]
         );
-        saveCild.addendumToId = clausal.id;
+        saveCild.addendumToId = this.addendumListActive[0].id;
         saveCild.agreementClausalParameterCode = filteraddendumListActive[0].code;
         saveCild.agreementClausalParameterDescription = filteraddendumListActive[0].description;
 
