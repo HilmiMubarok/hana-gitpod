@@ -18,17 +18,13 @@ export class CompareDataCovenantOtherComponent implements OnDestroy, OnChanges, 
   public cpDynamicAttributeData: any;
   public otherCovenantData: any;
   public displayColumns: string[] = ['no', 'category', 'sub_category', 'covenant', 'status', 'deviation', 'justification', 'action'];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() dataFrom: string;
   @Input() isDeviation: Boolean = false;
 
-  constructor(
-    private compareDataService: CompareDataService,
-    private dialog: MatDialog,
-    private router: Router,
-    private storageService: StorageService
-  ) {
-    this.compareDataService.creditProposal.pipe(takeUntil(this.#destroy)).subscribe((creditProposal: ICreditProposal) => {
+  constructor(private compareDataService: CompareDataService, private dialog: MatDialog) {
+    this.compareDataService.creditProposal.pipe(takeUntil(this.destroy$)).subscribe((creditProposal: ICreditProposal) => {
       this.creditProposal = creditProposal;
     });
   }
@@ -45,10 +41,9 @@ export class CompareDataCovenantOtherComponent implements OnDestroy, OnChanges, 
     }
   }
 
-  #destroy: Subject<boolean> = new Subject<boolean>();
   ngOnDestroy(): void {
-    this.#destroy.next(true);
-    this.#destroy.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private _getHistoryAttributes(): void {
@@ -58,6 +53,10 @@ export class CompareDataCovenantOtherComponent implements OnDestroy, OnChanges, 
       this.cpDynamicAttributeData = this.creditProposal.attributes.previousReturn;
     } else if (this.dataFrom === 'darRevHistory') {
       this.cpDynamicAttributeData = this.creditProposal.attributes.darRevHistory;
+    } else if (this.dataFrom === 'previousDar') {
+      this.compareDataService.creditProposalPreviousDar.pipe(takeUntil(this.destroy$)).subscribe(data => {
+        this.cpDynamicAttributeData = data.attributes;
+      });
     } else {
       this.cpDynamicAttributeData = this.creditProposal.attributes;
     }

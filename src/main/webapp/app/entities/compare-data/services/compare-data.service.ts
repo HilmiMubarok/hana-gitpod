@@ -7,6 +7,7 @@ import { ICollateralProperty } from '../../collateral-property/collateral-proper
 export enum HistoryAttributes {
   PREVIOUS_HISTORY = 'previousHistory',
   PREVIOUS_RETURN = 'previousReturn',
+  PREVIOUS_OL = 'previousOfferingLetter',
   DAR_REV_HISTORY = 'darRevHistory',
 }
 
@@ -14,10 +15,11 @@ export enum HistoryAttributes {
   providedIn: 'root',
 })
 export class CompareDataService {
-  constructor() {}
-
   private creditProposal$: BehaviorSubject<ICreditProposal> = new BehaviorSubject<ICreditProposal>(null);
   public creditProposal: Observable<ICreditProposal> = this.creditProposal$.asObservable();
+
+  private creditProposalPreviousDar$: BehaviorSubject<ICreditProposal> = new BehaviorSubject<ICreditProposal>(null);
+  public creditProposalPreviousDar: Observable<ICreditProposal> = this.creditProposalPreviousDar$.asObservable();
 
   private collateralProperties$: BehaviorSubject<ICollateralProperty[]> = new BehaviorSubject<ICollateralProperty[]>(null);
   public collateralProperties: Observable<ICollateralProperty[]> = this.collateralProperties$.asObservable();
@@ -37,8 +39,15 @@ export class CompareDataService {
     this.collateralPropertyGroupData$.next(data);
   }
 
+  public setCreditProposalPreviousDar(data: ICreditProposal): void {
+    /**
+     * Ga perlu parse, karena yang diambil yaitu data dr entitinya, bukan attribute.
+     */
+    this.creditProposalPreviousDar$.next(data);
+  }
+
   #parseData(data: ICreditProposal): void {
-    const parsed: ICreditProposal = this.convertParsedDataToCreditProposal(parsePreviousAtrribute(data), data);
+    const parsed: ICreditProposal = this.#convertParsedDataToCreditProposal(parsePreviousAtrribute(data), data);
     this.creditProposal$.next(parsed);
   }
 
@@ -54,9 +63,7 @@ export class CompareDataService {
    * @param {ICreditProposal} cp - The credit proposal.
    * @return {ICreditProposal} The modified credit proposal.
    */
-  convertParsedDataToCreditProposal(parsed: IParsePreviousAtrribute, cp: ICreditProposal): ICreditProposal {
-
-
+  #convertParsedDataToCreditProposal(parsed: IParsePreviousAtrribute, cp: ICreditProposal): ICreditProposal {
     const attributes = cp.attributes;
 
     if (typeof attributes[HistoryAttributes.PREVIOUS_HISTORY] === 'string') {
@@ -67,11 +74,14 @@ export class CompareDataService {
       attributes[HistoryAttributes.PREVIOUS_RETURN] = parsed.previousReturn;
     }
 
+    if (typeof attributes[HistoryAttributes.PREVIOUS_OL] === 'string') {
+      attributes[HistoryAttributes.PREVIOUS_OL] = parsed.previousOfferingLetter;
+    }
+
     if (typeof attributes[HistoryAttributes.DAR_REV_HISTORY] === 'string') {
       attributes[HistoryAttributes.DAR_REV_HISTORY] = parsed.darRevHistory;
     }
 
     return cp;
   }
-
 }

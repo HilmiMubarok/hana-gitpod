@@ -1,20 +1,69 @@
-import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { LoanAnalysService } from '../../loan-analys.service';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { CompareDataService } from 'app/entities/compare-data/services/compare-data.service';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-loan-analys-previous-dar',
   templateUrl: './loan-analys-previous-dar.component.html',
   styleUrls: ['../loan-analys-previous-dar.css'],
+  styles: [
+    `
+      .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+      }
+
+      .spinner {
+        border: 14px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 14px solid #3498db;
+        width: 100px;
+        height: 100px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+      }
+
+      @-webkit-keyframes spin {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .text {
+        margin-top: 38px;
+        font-size: 22px;
+        font-weight: bold;
+        color: #3498db;
+      }
+    `,
+  ],
 })
-export class LoanAnalysPreviousDarComponent implements OnInit {
+export class LoanAnalysPreviousDarComponent implements OnInit, OnDestroy {
   public selectedMenu: string;
   public menuCovenant = 'COVENANT';
   public menuDeviation = 'DEVIATION';
@@ -24,6 +73,12 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
   public collateralProperties: ICollateralProperty[] = [];
 
   public menuItemsAll: MenuItemModel[] = [{ text: 'PREVIOUS DAR' }, { text: 'PREVIOUS PROPOSAL' }];
+
+  public _creditProposal: ICreditProposal;
+  public creditProposalItem: ICreditProposal;
+
+  public loadingPreviousDar$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
   ngOnInit(): void {
     this.selectedMenu = 'PREVIOUS DAR';
     this.selectedMenu === 'PREVIOUS DAR' && this.getDarData();
@@ -32,19 +87,37 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
     }
   }
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   constructor(
     private loanAnalysService: LoanAnalysService,
     private collateralService: CollateralService,
-    private collateralPropertyService: CollateralPropertyService
+    private collateralPropertyService: CollateralPropertyService,
+    private compareDataService: CompareDataService
   ) {}
 
   public getDarData() {
+    this.loadingPreviousDar$.next(true);
     this.loanAnalysService
       .getLaDarCheckerNotif(this.creditProposal.customerId.toString(), {
         page: 0,
         size: 999,
       })
-      .subscribe(res => this.getDataToCompare(res.body));
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: res => this.getDataToCompare(res.body),
+        error: () => this.loadingPreviousDar$.next(false),
+        // eslint-disable-next-line object-shorthand
+        complete: () => {
+          console.log('complete');
+          this.isDataToCompareExist = true;
+          this.loadingPreviousDar$.next(false);
+        },
+      });
   }
 
   public getDataToCompare(data: any) {
@@ -57,11 +130,11 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
       data.filter((item, index) => {
         if (index === 0) {
           this.dataToCompare = item;
-          this.isDataToCompareExist = true;
+          this.compareDataService.setCreditProposalPreviousDar(item);
         } else {
           if (item.createdDate > this.dataToCompare.createdDate) {
             this.dataToCompare = item;
-            this.isDataToCompareExist = true;
+            this.compareDataService.setCreditProposalPreviousDar(item);
           }
         }
       });
@@ -86,9 +159,6 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
     this.selectedMenu = args.item.text;
   }
 
-  public _creditProposal: ICreditProposal;
-  public creditProposalItem: ICreditProposal;
-
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -96,6 +166,9 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
 
   set creditProposal(param: ICreditProposal) {
     this._creditProposal = param;
+
+    // Set compare data service cp
+    this.compareDataService.setCreditProposal(param);
   }
 
   private loadByPartyId(param: string): void {
@@ -104,6 +177,7 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
         idParty: param,
         isActive: true,
       })
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.collateral = res.body;
         if (this.collateral.length > 0) {
@@ -117,9 +191,12 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
   // find collateral property
   public findCollateralProperty(collateral: ICollateral): void {
     if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
+      this.collateralPropertyService
+        .queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.collateralProperties = [...this.collateralProperties, ...res.body];
+        });
     }
   }
 }

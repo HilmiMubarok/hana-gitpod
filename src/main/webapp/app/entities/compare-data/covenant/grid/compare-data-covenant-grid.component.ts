@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { CompareDataService } from '../../services/compare-data.service';
-import { BehaviorSubject, Subject, map, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
@@ -66,7 +66,9 @@ interface CovenantData {
 })
 export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDestroy {
   public creditProposal: ICreditProposal;
+  public creditProposalPreviousDar: ICreditProposal;
   public proposalType: string;
+  public proposalTypePreviousDar: string;
   public status: COVENANT_STATUSES[] = ['Applied', 'To be waived', 'Waived'];
   public covenantData: CovenantData[] = [];
   public covenantAboveData: CovenantData[] = [];
@@ -74,7 +76,6 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
   public covenantBackToBackData: CovenantData[] = [];
   public cpDynamicAttributeData: any;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   @Input() dataFrom: string;
   @Input() isDeviation: Boolean = false;
@@ -94,19 +95,21 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
 
   ngOnInit(): void {
     this._getHistoryAttributes();
-    this._identifyProposalType();
+    this._identifyProposalType(this.dataFrom);
   }
 
-  private _identifyProposalType(): void {
-    switch (this.proposalType) {
+  private _identifyProposalType(dataFrom: string): void {
+    const proposalType = dataFrom === 'previousDar' ? this.proposalTypePreviousDar : this.proposalType;
+
+    switch (proposalType) {
       case 'Total Exposure > IDR 15 Bio':
-        this._initCovenantAboveData();
+        this._initCovenantAboveData(proposalType);
         break;
       case 'Total Exposure <= IDR 15 Bio':
-        this._initCovenantBelowData();
+        this._initCovenantBelowData(proposalType);
         break;
       default:
-        this._initCovenantBackToBackData();
+        this._initCovenantBackToBackData(proposalType);
         break;
     }
   }
@@ -118,12 +121,23 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
       this.cpDynamicAttributeData = this.creditProposal.attributes.previousReturn;
     } else if (this.dataFrom === 'darRevHistory') {
       this.cpDynamicAttributeData = this.creditProposal.attributes.darRevHistory;
+    } else if (this.dataFrom === 'previousDar') {
+      this.compareDataService.creditProposalPreviousDar.pipe(takeUntil(this.destroy$)).subscribe(data => {
+        this.cpDynamicAttributeData = data.attributes;
+        this.proposalTypePreviousDar = data.attributes['proposalType'];
+      });
     } else {
       this.cpDynamicAttributeData = this.creditProposal.attributes;
     }
+
+    // check if type of cpDynamicAttributeData.convenant is array or string
+    // if string, parse it to array
+    if (typeof this.cpDynamicAttributeData.convenant === 'string') {
+      this.cpDynamicAttributeData.convenant = JSON.parse(this.cpDynamicAttributeData.convenant);
+    }
   }
 
-  private _initCovenantAboveData(): void {
+  private _initCovenantAboveData(proposalType: string): void {
     this.generalParameterService
       .queryFilterBy({
         idParameterType: 'COVENANT_ABOVE_STANDARD',
@@ -135,10 +149,10 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
         map(filterActive => filterActive.body.filter(o => o.statusId === 'ACTIVE'))
       )
       .subscribe(res => {
-        this._checkIfDataisAvailableInAttribute(this.proposalType, res);
+        this._checkIfDataisAvailableInAttribute(proposalType, res);
       });
   }
-  private _initCovenantBelowData(): void {
+  private _initCovenantBelowData(proposalType: string): void {
     this.generalParameterService
       .queryFilterBy({
         idParameterType: 'COVENANT_BELOW_STANDARD',
@@ -150,10 +164,10 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
         map(filterActive => filterActive.body.filter(o => o.statusId === 'ACTIVE'))
       )
       .subscribe(res => {
-        this._checkIfDataisAvailableInAttribute(this.proposalType, res);
+        this._checkIfDataisAvailableInAttribute(proposalType, res);
       });
   }
-  private _initCovenantBackToBackData(): void {}
+  private _initCovenantBackToBackData(proposalType: string): void {}
 
   private _checkIfDataisAvailableInAttribute(proposalType: string, res: Array<any>): void {
     switch (proposalType) {
@@ -175,7 +189,6 @@ export class CompareDataCovenantGridComponent implements OnInit, OnChanges, OnDe
             ? this.cpDynamicAttributeData.convenant.standardDataGridAbove.filter(o => o.status !== 'Applied')
             : this.cpDynamicAttributeData.convenant.standardDataGridAbove;
         }
-        this.loading$.next(false);
 
         break;
       case 'Total Exposure <= IDR 15 Bio':
