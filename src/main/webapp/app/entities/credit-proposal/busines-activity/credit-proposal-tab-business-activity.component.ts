@@ -24,6 +24,7 @@ import { BusinessActivityService } from './business-activity.service';
 import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { ProjectAnalystRemarkComponent } from './project-analyst-remark.component';
+import { sort } from '@syncfusion/ej2-angular-charts';
 
 @Component({
   selector: 'jhi-credit-proposal-busines-activity',
@@ -171,6 +172,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnDes
         idParameterType: 'PROJECT_FINANCING_INDICATOR',
         page: 0,
         size: 9999,
+        sort: ['id', 'asc'],
       })
       .subscribe(res => {
         this.dataAttrPass = lodash.filter(res.body, function (o) {
