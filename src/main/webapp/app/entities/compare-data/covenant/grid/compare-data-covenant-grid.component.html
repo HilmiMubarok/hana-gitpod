@@ -1,46 +1,37 @@
-<ng-template #content>
-  <ejs-grid [dataSource]="covenantData" allowTextWrap="true">
-    <e-columns>
-      <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center" class="rounding-table-left">
-      </e-column>
-      <e-column headerText="Status" width="150" textAlign="center">
-        <ng-template #template let-data>
-          <ejs-textbox [value]="data.status" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox>
-        </ng-template>
-      </e-column>
-      <e-column field="deviation" headerText="Deviation" width="200" textAlign="justify" headerTextAlign="center">
-        <ng-template #template let-data>
-          <ejs-textbox class="txtHeight" [multiline]="true" [value]="data.deviation" cssClass="e-outline" floatLabelType="Always" disabled>
-          </ejs-textbox>
-        </ng-template>
-      </e-column>
-      <e-column
-        field="justification"
-        headerText="Justification"
-        width="200"
-        textAlign="justify"
-        headerTextAlign="center"
-        class="rounding-table-right"
-      >
-        <ng-template #template let-data>
-          <ejs-textbox
-            class="txtHeight"
-            [multiline]="true"
-            [value]="data.justification"
-            cssClass="e-outline"
-            floatLabelType="Always"
-            disabled
-          >
-          </ejs-textbox>
-        </ng-template>
-      </e-column>
-    </e-columns>
-  </ejs-grid>
-</ng-template>
-
-<ng-container *ngIf="loading$ | async; else content">
-  <div class="loading-container">
-    <div class="loading"></div>
-    <div class="loading-text">Getting Data...</div>
-  </div>
-</ng-container>
+<ejs-grid [dataSource]="covenantData" allowTextWrap="true">
+  <e-columns>
+    <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center" class="rounding-table-left">
+    </e-column>
+    <e-column headerText="Status" width="150" textAlign="center">
+      <ng-template #template let-data>
+        <ejs-textbox [value]="data.status" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox>
+      </ng-template>
+    </e-column>
+    <e-column field="deviation" headerText="Deviation" width="200" textAlign="justify" headerTextAlign="center">
+      <ng-template #template let-data>
+        <ejs-textbox class="txtHeight" [multiline]="true" [value]="data.deviation" cssClass="e-outline" floatLabelType="Always" disabled>
+        </ejs-textbox>
+      </ng-template>
+    </e-column>
+    <e-column
+      field="justification"
+      headerText="Justification"
+      width="200"
+      textAlign="justify"
+      headerTextAlign="center"
+      class="rounding-table-right"
+    >
+      <ng-template #template let-data>
+        <ejs-textbox
+          class="txtHeight"
+          [multiline]="true"
+          [value]="data.justification"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          disabled
+        >
+        </ejs-textbox>
+      </ng-template>
+    </e-column>
+  </e-columns>
+</ejs-grid>

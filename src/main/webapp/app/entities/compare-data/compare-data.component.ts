@@ -3,7 +3,6 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CompareDataService } from './services/compare-data.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
@@ -19,7 +18,7 @@ export class CompareDataComponent implements OnChanges, OnDestroy {
     this.selectedMenu = value.item.properties.text;
   }
 
-  constructor(private compareDataService: CompareDataService) {}
+  constructor(private compareDataService: CompareDataService) { }
 
   @Input() collateralPropertyGroupData!: ICollateralProperty[];
   @Input() collateralProperties!: ICollateralProperty[];

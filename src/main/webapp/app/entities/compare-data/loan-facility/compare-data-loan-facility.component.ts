@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ICreditProposal } from '../../credit-proposal/credit-proposal.model';
 import { CompareDataService } from '../services/compare-data.service';
-import { Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { IApplicationProduct } from '../../application-product/application-product.model';
 
@@ -17,10 +17,10 @@ type Currency = 'USD' | 'IDR' | 'both';
 })
 export class CompareDataLoanFacilityComponent implements OnInit, OnDestroy, OnChanges {
   @Input() dataFrom!: string;
-  @Input() isViewMode!: boolean;
-  @Input() takeOutCompare: boolean;
 
   public creditProposal!: ICreditProposal;
+  public loadingPreviousDar$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  #destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(protected actRoute: ActivatedRoute, private compareDataService: CompareDataService) {
     this.compareDataService.creditProposal.pipe(takeUntil(this.#destroy$)).subscribe((data: ICreditProposal) => {
@@ -38,8 +38,6 @@ export class CompareDataLoanFacilityComponent implements OnInit, OnDestroy, OnCh
     this.getHistoryAttributes();
   }
 
-  #destroy$: Subject<boolean> = new Subject<boolean>();
-
   ngOnDestroy(): void {
     this.#destroy$.next(true);
     this.#destroy$.unsubscribe();
@@ -53,6 +51,10 @@ export class CompareDataLoanFacilityComponent implements OnInit, OnDestroy, OnCh
       this.cpDynamicAttributeData = this.creditProposal.attributes.previousReturn;
     } else if (this.dataFrom === 'darRevHistory') {
       this.cpDynamicAttributeData = this.creditProposal.attributes.darRevHistory;
+    } else if (this.dataFrom === 'previousDar') {
+      this.compareDataService.creditProposalPreviousDar.pipe(takeUntil(this.#destroy$)).subscribe(data => {
+        this.cpDynamicAttributeData = data;
+      });
     } else {
       this.cpDynamicAttributeData = this.creditProposal;
     }
