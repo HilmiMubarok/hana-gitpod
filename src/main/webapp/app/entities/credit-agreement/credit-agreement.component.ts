@@ -408,7 +408,7 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
       sessionStorage.setItem('appName', this.title);
     }
     if (value === 'finalize-pk') {
-      this.title = 'FIinalize Agreement ';
+      this.title = 'Finalize Agreement ';
       sessionStorage.setItem('appName', this.title);
     }
   }

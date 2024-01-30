@@ -130,13 +130,13 @@
   <!-- batas bawah memo banding generate -->
 
   <!-- Batas Generate Doc PK, DPDL, DPPK -->
-  <!-- <div *ngIf="generateDocumentPk()">
-    <jhi-credit-proposal-generate-pk-report [item]="item"></jhi-credit-proposal-generate-pk-report>
-  </div> -->
+  <div *ngIf="generateDocumentPk()">
+    <jhi-credit-proposal-generate-pk-report [item]="creditProposal" [fileDocPKFinal]="dataPKFinal" [fileDpdlFinal]="dataDpdlFinal">
+    </jhi-credit-proposal-generate-pk-report>
+  </div>
 
   <!-- Batas Bawah Doc PK, DPDL,DPPK Generate -->
 
-  <!-- LC3_SME, LC3_COMM, LC3_ENTRP, LC3_CORP, LC3_GLOB, LC4_SME, LC4_COMM, LC4_ENTRP, LC4_CORP, LC4_GLOB -->
   <section class="mt-2">
     <ng-container *ngIf="approvalUserNote">
       <jhi-loan-facility-approve-level-note [creditProposal]="item" *ngIf="viewButton === 'loan'"> </jhi-loan-facility-approve-level-note>

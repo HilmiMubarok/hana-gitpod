@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { formatBytes } from 'app/shared/helper/utils';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { saveAs as importedSaveAs } from 'file-saver';
@@ -11,11 +11,11 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { StorageService } from 'app/entities/storage/storage.service';
 
 @Component({
-  selector: 'jhi-credit-proposal-generate-pk-report',
-  templateUrl: './credit-proposal-generate-pk-report.component.html',
-  styleUrls: ['./credit-proposal-generate-pk-report.component.scss'],
+  selector: 'jhi-generate-pk-draft',
+  templateUrl: './generate-pk-draft.component.html',
+  styleUrls: ['./generate-pk-draft.style.scss'],
 })
-export class CreditProposalGeneratePkReportComponent implements OnInit, OnChanges {
+export class GeneratePKDraftComponent implements OnInit {
   @Input('item')
   get item() {
     return this._item;
@@ -25,39 +25,63 @@ export class CreditProposalGeneratePkReportComponent implements OnInit, OnChange
     this._item = item;
   }
 
-  @Input() fileDpdlFinal: any;
-  @Input() fileDocPKFinal: any;
-
   public isDataExist = false;
   public paramId: string;
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
-  private KEYG = 'generate-final';
+  private KEYG = 'aggrement';
   public _item?: ICreditProposal = new CreditProposal();
-  public fileTypeSelected: string;
+  // public fileTypeSelected: string;
+  public fileTypeSelected = 'Word';
   public data: object[];
-  public fileTypeList: string[] = ['Word', 'Pdf'];
+  // public fileTypeList: string[] = ['Word', 'Pdf'];
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
-
   constructor(
     public dialog: MatDialog,
     protected messageService: MessageService,
     private http: HttpClient,
     private storageService: StorageService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    console.log('item', this.item.agreements[0].id);
     this.getBucketNameSummary();
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    // Loan Analys Generate Dar And SPPK
-    if (changes.fileDpdlFinal) {
-      this.data = this.fileDpdlFinal;
+
+  public generate(): void {
+    if (this.fileTypeSelected) {
+      this.print();
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Info',
+        detail: 'Save First Before Generating, Please!',
+      });
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'File Type Not Selected',
+      });
     }
-    if (changes.fileDocPKFinal) {
-      this.data = this.fileDocPKFinal;
-    }
+  }
+
+  private print() {
+    this.generateFile('Word', '/services/report/api/report/agreement/word/' + this.item.agreements[0].id);
+  }
+
+  private generateFile(fileType: string, api: string, req?: any) {
+    const options = this.createReportRequestOption(req);
+    this.http.get(api, { params: options, responseType: 'text', observe: 'response' }).subscribe(response => {
+      const fileName = fileType === 'Word' ? response.body.slice(-34) : response.body.slice(-33);
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'File ' + fileName + ' Generated Successfully',
+      });
+      this.onRefresh();
+    });
   }
 
   private createReportRequestOption = (req?: any): HttpParams => {
@@ -109,12 +133,12 @@ export class CreditProposalGeneratePkReportComponent implements OnInit, OnChange
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
 
-      this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
-        this.paramId = params['id'];
-      });
+      // this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+      //   this.paramId = params['id'];
+      // });
 
-      if (this.paramId) {
-        this.KEYG += `/${this.paramId}/document/`;
+      if (this.item.agreements[0].id) {
+        this.KEYG += `/${this.item.agreements[0].id}/document/draft/final/`;
       } else {
         console.warn('Param id not found');
       }
@@ -173,7 +197,7 @@ export class CreditProposalGeneratePkReportComponent implements OnInit, OnChange
 
   private getFile(id: number): void {
     const predicate: Object = {
-      key: `${this.KEYG}/${id}/document`,
+      key: `/aggrement/${id}/document/draft/final`,
     };
     this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
       if (res.body.length > 0) {

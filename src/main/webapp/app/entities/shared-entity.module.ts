@@ -479,6 +479,7 @@ import { LoaderBAComponent } from './credit-proposal/busines-activity/loader-ba.
 import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activity/project-analyst-remark.component';
 import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
+import { GeneratePKDraftComponent } from './credit-agreement/finalize-credit-agreement/generate-pk-draft/generate-pk-draft.component';
 
 @NgModule({
   imports: [
@@ -1035,6 +1036,9 @@ import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal
     BindingValueGeneralGridComponent,
     BindingValueGeneralDialogComponent,
 
+    // Generate PK Draft
+    GeneratePKDraftComponent,
+
     // scroll-up
     ScrollComponent,
   ],
@@ -1548,7 +1552,7 @@ import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal
     BindingValueDepositoDialogComponent,
     BindingValueGeneralGridComponent,
     BindingValueGeneralDialogComponent,
-
+    GeneratePKDraftComponent,
     // scroll-up
     ScrollComponent,
   ],

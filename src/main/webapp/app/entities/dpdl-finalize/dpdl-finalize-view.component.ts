@@ -130,7 +130,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
   private collateralProperties: ICollateralProperty[] = [];
   public proposType = [];
   public isHistoryExist: boolean;
-  private KEYG = 'dpdl';
+  private KEYG = 'generate-final';
   public dataDpdlFinal = [];
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
@@ -601,7 +601,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
       this.BUCKET = val.body['bucket'];
 
       if (this.id) {
-        this.KEYG += `/${this.id}/document/final/`;
+        this.KEYG += `/${this.id}/document/`;
       } else {
         console.warn('Param id not found');
       }
