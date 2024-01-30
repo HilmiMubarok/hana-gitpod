@@ -110,7 +110,7 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
         const gridAbove = [];
         for (let i = 0; i < data.length; i++) {
           const num = i;
-          gridAbove[i] = { id: num, covenant: this.addBRBeforeDash(data[i].value), status: 'Applied', deviation: '', justification: '' };
+          gridAbove[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
         }
         this.standardDataGridAbove = gridAbove;
         this.historyAbove();
