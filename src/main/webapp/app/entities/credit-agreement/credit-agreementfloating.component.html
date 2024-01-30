@@ -317,16 +317,18 @@
               <!-- Document: summary gabung -->
               <div class="wrapper-card">
                 <e-card class="mb-3">
-                  <!-- <jhi-credit-proposal-tab-summary
+                  <jhi-credit-proposal-tab-summary
                     [fileDar]="dataFileDar"
                     [fileCompliance]="dataFileCompliance"
                     [source]="'summaryAll'"
                     [fileSPPK]="dataOfferingSPPK"
                     [item]="creditProposal"
+                    [fileDocPKFinal]="dataPKFinal"
                     [sourceComponent]="'loan'"
                   >
-                  </jhi-credit-proposal-tab-summary> -->
-                  <jhi-credit-proposal-generate-pk-report [item]="creditProposal"> </jhi-credit-proposal-generate-pk-report>
+                  </jhi-credit-proposal-tab-summary>
+                  <!-- <jhi-credit-proposal-generate-pk-report [item]="creditProposal" [fileDocPKFinal]="dataPKFinal">
+                  </jhi-credit-proposal-generate-pk-report> -->
                   <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
                 </e-card>
               </div>
@@ -437,6 +439,15 @@
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <div>
+        <button
+          mat-raised-button
+          *ngIf="showButtonGeneratePK()"
+          class="btn-lg text-uppercase button-styling"
+          style="margin-right: 25px"
+          (click)="generatePKFinal()"
+        >
+          Generate
+        </button>
         <button
           mat-raised-button
           *ngFor="let task of tasks"

@@ -196,7 +196,7 @@ export class GenerateDpdlDraftComponent implements OnInit {
 
   private getFile(id: number): void {
     const predicate: Object = {
-      key: `/credit_proposal/memo_banding/${id}`,
+      key: `/dpdl/${id}/document/draft_dpdl`,
     };
     this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
       if (res.body.length > 0) {

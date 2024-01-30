@@ -1634,15 +1634,17 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   // Untuk Summary Generate
-  private KEYG = 'credit_proposal/summary';
+  private KEYG = 'generate-final';
   private ngUnsubscribe = new Subject();
-  public dataOfferingSPPK = [];
+  public dataPKFinal = [];
+
+  // Untuk Summary Generate
   private getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
 
       if (this.id) {
-        this.KEYG += `/${this.id}/`;
+        this.KEYG += `/${this.id}/document/`;
       } else {
         console.warn('Param id not found');
       }
@@ -1676,12 +1678,13 @@ export class CreditAgreementDetailComponent implements OnInit {
           i++;
         });
 
-        this.dataOfferingSPPK = data;
+        this.dataPKFinal = data;
       });
   }
 
-  private generate(): void {
-    this.generateFileOfferingSPPK().then(() => {
+  // Change the access modifier to public
+  public generatePKFinal(): void {
+    this.generateFilePkFinal().then(() => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
@@ -1691,12 +1694,21 @@ export class CreditAgreementDetailComponent implements OnInit {
     });
   }
 
-  private async generateFileOfferingSPPK(): Promise<void> {
-    const fileSPPK = await firstValueFrom(
-      this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
-    );
-    const genrateSPPK = await firstValueFrom(
-      this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
+  public showButtonGeneratePK() {
+    const parentPath = this.router.url.split('/')[1];
+    if (parentPath.match(/finalize-pk/g) && this.creditProposal.statusId === 'PK_GENERATED') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private async generateFilePkFinal(): Promise<void> {
+    const fileDpdlFinal = await firstValueFrom(
+      this.http.get(`/services/report/api/report/agreement/word/${this.creditProposal.agreements[0].id}`, {
+        responseType: 'text',
+        observe: 'response',
+      })
     );
   }
 

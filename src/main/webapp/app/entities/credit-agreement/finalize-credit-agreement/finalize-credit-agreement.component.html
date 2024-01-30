@@ -777,11 +777,11 @@
       <mat-card *ngIf="loading" id="material-loading-bar">
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
       </mat-card>
-      
+
     </mat-card-content>
   </mat-card> -->
 
-  <mat-card class="mt-3">
+  <!-- <mat-card class="mt-3">
     <mat-card-header>
       <mat-card-title>Generate Draft Credit Agreement</mat-card-title>
     </mat-card-header>
@@ -822,8 +822,8 @@
       </table>
       <mat-card *ngIf="loading" id="material-loading-bar">
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
-      </mat-card>
-      <!-- <mat-paginator
+      </mat-card> -->
+  <!-- <mat-paginator
                               showFirstLastButtons
                               ngClass="transparant"
                               [length]="paginatorLength"
@@ -832,13 +832,15 @@
                               (page)="loadDataLazy($event)"
                             >
                             </mat-paginator> -->
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div style="display: flex; justify-content: center; align-items: center">
           <button (click)="addReviewHistory()" class="btn-lg text-uppercase button-styling mt-2" mat-raised-button>Generate Draft</button>
         </div>
       </section>
     </mat-card-content>
-  </mat-card>
+  </mat-card> -->
+
+  <jhi-generate-pk-draft [item]="creditProposal"></jhi-generate-pk-draft>
 
   <mat-card
     class="mt-3"

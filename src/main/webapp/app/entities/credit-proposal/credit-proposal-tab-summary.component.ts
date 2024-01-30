@@ -93,6 +93,9 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
   @Input() fileCompliance: any;
   @Input() fileSPPK: any;
   @Input() fileLadist: any;
+  @Input() fileDocPKFinal: any;
+  @Input() fileDpdlFinal: any;
+
   constructor(
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,

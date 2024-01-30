@@ -308,8 +308,16 @@
               <!-- Document: summary gabung -->
               <div class="wrapper-card">
                 <e-card class="mb-3">
-                  <jhi-credit-proposal-generate-pk-report [item]="creditProposal" [fileDpdlFinal]="dataDpdlFinal">
-                  </jhi-credit-proposal-generate-pk-report>
+                  <jhi-credit-proposal-tab-summary
+                    [fileDar]="dataFileDar"
+                    [fileCompliance]="dataFileCompliance"
+                    [source]="'summaryAll'"
+                    [fileSPPK]="dataOfferingSPPK"
+                    [item]="creditProposal"
+                    [fileDpdlFinal]="dataDpdlFinal"
+                    [sourceComponent]="'loan'"
+                  >
+                  </jhi-credit-proposal-tab-summary>
                   <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
                 </e-card>
               </div>
