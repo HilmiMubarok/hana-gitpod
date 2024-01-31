@@ -173,7 +173,7 @@ export class CreditProposalGeneratePkReportComponent implements OnInit, OnChange
 
   private getFile(id: number): void {
     const predicate: Object = {
-      key: `${this.KEYG}/${id}/document`,
+      key: this.KEYG,
     };
     this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
       if (res.body.length > 0) {
