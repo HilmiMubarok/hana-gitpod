@@ -17,12 +17,10 @@
       <div class="e-card-content">
         <div class="form-space">
           <div class="row my-3">
-            <div class="col-2">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <!-- <div class="form-space"> -->
-                <div color="#A3A3A3" class="e-headertext">Customer Type</div>
-              </section>
-            </div>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'" class="col-2">
+              <!-- <div class="form-space"> -->
+              <div color="#A3A3A3" class="e-headertext">Customer Type</div>
+            </section>
 
             <!-- <div class="col-2">
               <ejs-radiobutton readonly label="Individu" [(ngModel)]="deptorData.partyTypeId" [value]="'PERSON'"
@@ -33,60 +31,28 @@
               </ejs-radiobutton>
             </div> -->
 
-            <div class="col-2">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-radiobutton readonly label="Individu" [(ngModel)]="deptorData.partyTypeId" [value]="'PERSON'"> </ejs-radiobutton>
-              </section>
-            </div>
-            <div class="col-2">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-radiobutton readonly label="Corporate" [(ngModel)]="deptorData.partyTypeId" [value]="'CORPORATE'"> </ejs-radiobutton>
-              </section>
-            </div>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'" class="col-2">
+              <ejs-radiobutton readonly label="Individu" [(ngModel)]="deptorData.partyTypeId" [value]="'PERSON'"> </ejs-radiobutton>
+            </section>
+
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'" class="col-2">
+              <ejs-radiobutton readonly label="Corporate" [(ngModel)]="deptorData.partyTypeId" [value]="'CORPORATE'"> </ejs-radiobutton>
+            </section>
 
             <div class="col-sm-6">
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <div class="fontsebled row">
-                  <div class="co-4l" style="color: white">whitespace</div>
-                  <div class="col-md-auto" style="color: white">whitespace</div>
-                  <div class="col" style="color: white">whitespace</div>
-                </div>
-              </section>
-            </div>
-            <!-- empty column -->
-            <div class="col-sm-6">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row">
                   <div class="col-4">Customer Type</div>
-                  <div class="col-md-auto" style="margin-left: -13px">:</div>
+                  <div class="col-md-auto">:</div>
                   <div class="col">{{ deptorData.partyTypeId }}</div>
                 </div>
               </section>
             </div>
           </div>
-          <!-- <div class="row">
-                <div class="col-6">
-                  <jhi-credit-proposal-branch [creditProposal]="deptorData"></jhi-credit-proposal-branch>
-                </div>
-              </div> -->
           <div class="row my-3">
             <div class="col">
               <jhi-credit-proposal-branch [creditProposal]="deptorData"></jhi-credit-proposal-branch>
             </div>
-            <!-- empty column -->
-            <div class="col">
-              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"></section>
-              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row">
-                  <div class="col-4" style="color: white">whitespace</div>
-                  <div class="col-md-auto" style="color: white">:</div>
-                  <div class="col col-lg-4" style="color: white">
-                    {{ deptorData.cif.customerId }}
-                  </div>
-                </div>
-              </section>
-            </div>
-            <!-- empty column -->
           </div>
           <div class="row my-3">
             <div class="col">
