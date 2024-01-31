@@ -23,8 +23,8 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-4">Debtor Name</div>
-              <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col-md-2">:</div>
+              <div class="col col-lg-5">
                 {{ creditProposal.prospectPerson === null ? creditProposal.prospectOrganization.name : creditProposal.prospectPerson.name }}
               </div>
             </div>
@@ -48,8 +48,8 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-4">Address</div>
-              <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col-md-2">:</div>
+              <div class="col col-lg-5">
                 {{ creditProposal.agreements[0]?.attributes.address }}
               </div>
             </div>
@@ -75,8 +75,8 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-4">Credit Agreement Type</div>
-              <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col-md-2">:</div>
+              <div class="col col-lg-5">
                 {{ creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE }}
               </div>
             </div>
@@ -92,8 +92,8 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-4">Credit Agreement Place</div>
-              <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col-md-2">:</div>
+              <div class="col col-lg-5">
                 {{ creditProposal.agreements[0]?.attributes.AGREEMENT_PLACE }}
               </div>
             </div>
@@ -203,7 +203,7 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-4">Notaril / Un-Notaril Conditions</div>
+              <div class="col-6">Notaril / Un-Notaril Conditions</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
                 {{ creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'true' ? 'Notaril' : 'Un-Notaril' }}
@@ -220,9 +220,9 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
-              <div class="col-4">Nomor PK</div>
+              <div class="col-6">Nomor PK</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col col-lg-4">
                 {{ creditProposal.agreements[0]?.attributes.NOTARY_NUMBER }}
               </div>
             </div>
@@ -237,52 +237,57 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
-              <div class="col-4">Notary Public Name</div>
+              <div class="col-6">Notary Public Name</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">
+              <div class="col col-lg-4">
                 {{ creditProposal.agreements[0]?.attributes.NOTARY_NAME }}
               </div>
             </div>
           </section>
-        </div>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="col-6" [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Notary Public Place</mat-label>
-              <input [(ngModel)]="creditProposal.agreements[0]?.attributes.NOTARY_PLACE" matInput type="text" />
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="col-6" [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Notary Public Place</mat-label>
+                <input [(ngModel)]="creditProposal.agreements[0]?.attributes.NOTARY_PLACE" matInput type="text" />
+              </mat-form-field>
+            </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
+              <div class="col-6">Notary Public Place</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-4">
+                {{ creditProposal.agreements[0]?.attributes.NOTARY_PLACE }}
+              </div>
+            </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <mat-form-field [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="w-50" appearance="outline">
+              <mat-label>Notary Date</mat-label>
+              <input
+                [(ngModel)]="creditProposal.agreements[0]?.attributes.NOTARY_DATE"
+                [matDatepicker]="letterOfDate"
+                matInput
+                type="text"
+              />
+              <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
+              <mat-datepicker #letterOfDate></mat-datepicker>
             </mat-form-field>
-          </div>
-        </section>
+          </section>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
-            <div class="col-4">Notary Public Name</div>
-            <div class="col-md-auto">:</div>
-            <div class="col col-lg-2">
-              {{ creditProposal.agreements[0]?.attributes.NOTARY_NAME }}
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
+              <div class="col-6">Notary Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-4">
+                {{ creditProposal.agreements[0]?.attributes.NOTARY_DATE | date: 'yyyy-MM-dd' }}
+              </div>
             </div>
-          </div>
-        </section>
-
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="w-50" appearance="outline">
-            <mat-label>Notary Date</mat-label>
-            <input [(ngModel)]="creditProposal.agreements[0]?.attributes.NOTARY_DATE" [matDatepicker]="letterOfDate" matInput type="text" />
-            <mat-datepicker-toggle matSuffix [for]="letterOfDate"></mat-datepicker-toggle>
-            <mat-datepicker #letterOfDate></mat-datepicker>
-          </mat-form-field>
-        </section>
-
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
-            <div class="col-4">Notary Date</div>
-            <div class="col-md-auto">:</div>
-            <div class="col col-lg-2">
-              {{ creditProposal.agreements[0]?.attributes.NOTARY_DATE | date: 'yyyy-MM-dd' }}
-            </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
