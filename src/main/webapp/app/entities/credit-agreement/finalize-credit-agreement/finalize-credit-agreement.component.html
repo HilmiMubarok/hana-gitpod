@@ -50,7 +50,7 @@
               <div class="col-4">Address</div>
               <div class="col-md-2">:</div>
               <div class="col col-lg-5">
-                {{ creditProposal.agreements[0]?.attributes.address }}
+                {{ creditProposal.attributes.offeringLetterPreparation.address }}
               </div>
             </div>
           </section>
@@ -457,9 +457,9 @@
         <div class="row" *ngFor="let item of approvalDebtor; let i = index">
           <div class="col-6">
             <div class="fontsebled row py-3">
-              <div class="col-4">Status</div>
+              <div class="col-3">Status</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-6">
+              <div class="col col-lg-8">
                 {{ selectedConditions[i] }}
               </div>
             </div>
@@ -469,9 +469,9 @@
             <div class="row">
               <div class="col-6">
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Letter Of Date</div>
+                  <div class="col-3">Letter Of Date</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}
                   </div>
                 </div>
@@ -483,17 +483,17 @@
             <div class="row">
               <div class="col-6">
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Letter Of Name</div>
+                  <div class="col-3">Letter Of Name</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionName }}
                   </div>
                 </div>
 
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Letter Of Date</div>
+                  <div class="col-3">Letter Of Date</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}
                   </div>
                 </div>
@@ -505,25 +505,25 @@
             <div class="row">
               <div class="col-6">
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Letter Of Name</div>
+                  <div class="col-3">Letter Of Name</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionName }}
                   </div>
                 </div>
 
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Letter Of Date</div>
+                  <div class="col-3">Letter Of Date</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}
                   </div>
                 </div>
 
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Notary Public Name</div>
+                  <div class="col-3">Notary Public Name</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionNotaryPublicName }}
                   </div>
                 </div>
@@ -531,25 +531,25 @@
 
               <div class="col-6">
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Notary Public Place</div>
+                  <div class="col-3">Notary Public Place</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionNotaryPublicPlace }}
                   </div>
                 </div>
 
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Civil Registry Document Number</div>
+                  <div class="col-3">Civil Registry Document Number</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionCivilRegistryDocumentNumber }}
                   </div>
                 </div>
 
                 <div class="fontsebled row py-3">
-                  <div class="col-4">Civil Regristation Date</div>
+                  <div class="col-3">Civil Regristation Date</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-6">
+                  <div class="col col-lg-8">
                     {{ creditProposal.entityProperties[i].approvalDebtorConditionCivilRegistrationDate }}
                   </div>
                 </div>
@@ -560,25 +560,25 @@
           <div *ngIf="selectedConditionId(selectedConditions[i]) === 28006">
             <div class="col-6">
               <div class="fontsebled row py-3">
-                <div class="col-4">Letter Of Name</div>
+                <div class="col-3">Letter Of Name</div>
                 <div class="col-md-auto">:</div>
-                <div class="col col-lg-6">
+                <div class="col col-lg-8">
                   {{ creditProposal.entityProperties[i].approvalDebtorConditionName }}
                 </div>
               </div>
 
               <div class="fontsebled row py-3">
-                <div class="col-4">Letter Of Number</div>
+                <div class="col-3">Letter Of Number</div>
                 <div class="col-md-auto">:</div>
-                <div class="col col-lg-6">
+                <div class="col col-lg-8">
                   {{ creditProposal.entityProperties[i].approvalDebtorConditionNumber }}
                 </div>
               </div>
 
               <div class="fontsebled row py-3">
-                <div class="col-4">Letter Of Date</div>
+                <div class="col-3">Letter Of Date</div>
                 <div class="col-md-auto">:</div>
-                <div class="col col-lg-6">
+                <div class="col col-lg-8">
                   {{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}
                 </div>
               </div>
