@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -28,13 +28,18 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposal-collateral-summary-dialog.component';
+import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-summary-grid',
   templateUrl: './summary-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class SummaryGridComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit, AfterViewInit {
+export class SummaryGridComponent
+  extends AbstractEntityMaterialComponent<ICollateral>
+  implements OnChanges, OnInit, AfterViewInit, OnDestroy
+{
   public displayedColumns: string[] = [
     'no',
     // 'id',
@@ -83,6 +88,12 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   }
   private _group: string;
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   @Input()
   get group() {
     return this._group;
@@ -120,35 +131,59 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       if (status === 'mv') {
-        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
+        }
       } else if (status === 'lv') {
-        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
+        }
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
+        }
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
+        }
       }
       return '0.00' + 'x';
     } else if (num === 'NaN') {
       if (status === 'mv') {
-        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
+        }
       } else if (status === 'lv') {
-        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
+        }
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
+        }
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
+        }
       }
       return '0.00' + 'x';
     } else {
       if (status === 'mv') {
-        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = num;
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.mvInternalCoverage = num;
+        }
       } else if (status === 'lv') {
-        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = num;
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.lvInternalCoverage = num;
+        }
       } else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = num;
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = num;
+        }
       } else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = num;
+        if (this.subroute !== 'compare-data') {
+          this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = num;
+        }
       }
       return num + 'x';
     }
@@ -157,16 +192,24 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   private totalCoverage() {
     const mvCoverage =
       this._creditProposal.attributes['collateralSummary'].countTotalMV / this._creditProposal.attributes['collateralSummary'].creditLimit;
-    this._creditProposal.attributes['collateralSummary'].mvInternalCoverage = mvCoverage.toFixed(2);
+    if (this.subroute !== 'compare-data') {
+      this._creditProposal.attributes['collateralSummary'].mvInternalCoverage = mvCoverage.toFixed(2);
+    }
     const lvCoverage =
       this._creditProposal.attributes['collateralSummary'].countTotalLV / this._creditProposal.attributes['collateralSummary'].creditLimit;
-    this._creditProposal.attributes['collateralSummary'].lvInternalCoverage = lvCoverage.toFixed(2);
+    if (this.subroute !== 'compare-data') {
+      this._creditProposal.attributes['collateralSummary'].lvInternalCoverage = lvCoverage.toFixed(2);
+    }
     const mvKjjpCoverage = this._creditProposal.attributes['collateralSummary'].countTotalMVKJJP / 0;
-    this._creditProposal.attributes['collateralSummary'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
+    if (this.subroute !== 'compare-data') {
+      this._creditProposal.attributes['collateralSummary'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
+    }
     const lvKjjpCoverage =
       this._creditProposal.attributes['collateralSummary'].countTotalLVKJJP /
       this._creditProposal.attributes['collateralSummary'].creditLimit;
-    this._creditProposal.attributes['collateralSummary'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
+    if (this.subroute !== 'compare-data') {
+      this._creditProposal.attributes['collateralSummary'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
+    }
   }
 
   @Input() isViewMode;
@@ -178,7 +221,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
     private partyCifService: PartyCifService,
-    private generalParameterService: GeneralParameterService
+    private generalParameterService: GeneralParameterService,
+    private activatedRoute: ActivatedRoute
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -187,7 +231,13 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+
+    this.activatedRoute.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.subroute = params['subroute'];
+    });
   }
+
+  subroute: string;
 
   ngOnInit(): void {
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
@@ -230,6 +280,9 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
           // this.findCollateralProperty(collateral);
         }
       }
+    }
+    if (changes['collateralProperties']) {
+      this.collateralProperties = changes['collateralProperties'].currentValue;
     }
     if (this.creditProposal.id) {
       this.loadSummaryCollateral();
@@ -509,7 +562,9 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         }
       }
     }
-    this._creditProposal.attributes['collateralSummary'].countTotalLV = result;
+    if (this.subroute !== 'compare-data') {
+      this._creditProposal.attributes['collateralSummary'].countTotalLV = result;
+    }
 
     return result;
   }
@@ -546,7 +601,10 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         }
       }
     }
-    this._creditProposal.attributes['collateralSummary'].countTotalMV = result;
+
+    if (this.subroute !== 'compare-data') {
+      this._creditProposal.attributes['collateralSummary'].countTotalMV = result;
+    }
     return result;
   }
 
@@ -646,7 +704,9 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
 
       const creditLimit = result + dolar;
-      this._creditProposal.attributes['collateralSummary'].creditLimit = creditLimit;
+      if (this.subroute !== 'compare-data') {
+        this._creditProposal.attributes['collateralSummary'].creditLimit = creditLimit;
+      }
 
       this.totalPlafond = result + dolar;
 
@@ -811,7 +871,9 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         }
       }
     }
-    this._creditProposal.attributes['collateralSummary'].countTotalMVKJJP = result;
+    if (this.subroute !== 'compare-data') {
+      this._creditProposal.attributes['collateralSummary'].countTotalMVKJJP = result;
+    }
     return result;
   }
 
@@ -831,7 +893,11 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
         }
       }
     }
-    this._creditProposal.attributes['collateralSummary'].countTotalLVKJJP = result;
+
+    if (this.subroute !== 'compare-data') {
+      this._creditProposal.attributes['collateralSummary'].countTotalLVKJJP = result;
+    }
+
     return result;
   }
 
@@ -1011,7 +1077,10 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
 
   public getBindingCalculate(res: any[]) {
     const array1 = res;
-    const array2 = this.creditProposal.attributes['binding'];
+    const array2 =
+      typeof this.creditProposal.attributes['binding'] === 'string'
+        ? JSON.parse(this.creditProposal.attributes['binding'])
+        : this.creditProposal.attributes['binding'];
     let getBindingCalculateValue;
     const data = [];
     array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
