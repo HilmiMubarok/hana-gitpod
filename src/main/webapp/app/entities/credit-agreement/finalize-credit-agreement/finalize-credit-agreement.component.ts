@@ -45,6 +45,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public displayRevewHistory = ['no', 'approveName', 'position', 'date', 'action'];
   public displayColumnsCreditAgreementClausal: any[];
   public displayColumnsGenerateDraftCreditAgreement = ['no', 'filename', 'date', 'createdby', 'sizefile', 'action'];
+  public displayColumnsCreditAgreementClausalHisotry = ['no', 'category', 'description', 'action'];
   @Input()
   get creditProposal() {
     return this._creditProposal;
