@@ -128,6 +128,12 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
     if (changes.fileSPPK) {
       this.data = this.fileSPPK;
     }
+    if (changes.fileDpdlFinal) {
+      this.fileDpdlFinal = changes.fileDpdlFinal.currentValue;
+    }
+    if (changes.fileDocPKFinal) {
+      this.fileDocPKFinal = changes.fileDocPKFinal.currentValue;
+    }
   }
 
   ngOnInit(): void {
