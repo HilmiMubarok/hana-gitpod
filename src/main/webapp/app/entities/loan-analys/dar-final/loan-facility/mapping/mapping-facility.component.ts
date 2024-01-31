@@ -76,6 +76,15 @@ export class MappingFacilityTempComponent implements OnChanges, OnInit {
 
     this.sableFeild();
     this.disableFeild();
+
+    // Disabled in compare data
+    const params = new URLSearchParams(this.router.url.split('?')[1]);
+    const subrouteValue = params.get('subroute');
+
+    if (subrouteValue === 'compare-data') {
+      this.field = true;
+    }
+    // Disabled in compare data
   }
 
   public disableFeild() {
