@@ -32,8 +32,8 @@ export interface IApplicationProduct {
   intResetFrequency?: number;
   loanCurrency?: string;
   maturityDate?: string;
-  thruDateContract?: Date;
-  startDateContract?: Date;
+  thruDateContract?: string;
+  startDateContract?: string;
   outstanding?: number;
   paymentMethod?: string;
   periodType?: string;
@@ -162,8 +162,8 @@ export class ApplicationProduct implements IApplicationProduct {
     public intResetFrequency?: number,
     public loanCurrency?: string,
     public maturityDate?: string,
-    public thruDateContract?: Date,
-    public startDateContract?: Date,
+    public thruDateContract?: string,
+    public startDateContract?: string,
     public outstanding?: number,
     public paymentMethod?: string,
     public periodType?: string,
