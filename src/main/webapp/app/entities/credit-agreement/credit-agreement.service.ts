@@ -172,6 +172,11 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
   public getRetriveData(cif: string): Observable<HttpResponse<any>> {
     return this.http.get<any>(this.resourceRetrive + '/find-fin-analysis/' + cif, { observe: 'response' });
   }
+
+  public clausalAgreementsId(id: number): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${MICROSERVICENAME.LOS}/api/agreement-clausals/${id}`, { observe: 'response' });
+  }
+
   public getListRetrive(cif?: string, req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     const url = this.resouceGridRetrive + cif;
@@ -180,7 +185,6 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
       .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ICreditAgreement[]>) => this.preLoadItemArray(res)));
   }
-
 
   public getListCurency(page: number, size: number): Observable<HttpResponse<any>> {
     const params = new HttpParams().set('page', page).set('size', size);
@@ -195,19 +199,24 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
 
-  public getAddendumActive(category: string,req?: any): Observable<HttpResponse<any>> {
+  public getAddendumActive(category: string, req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     return this.http
-      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausal-parameters/category/${category}/status/ACTIVE`, { params: options, observe: 'response' })
+      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausal-parameters/category/${category}/status/ACTIVE`, {
+        params: options,
+        observe: 'response',
+      })
       .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
 
-
-  public getActiveClausalByPartyId(partyId: string,req?: any): Observable<HttpResponse<any>> {
+  public getActiveClausalByPartyId(partyId: string, req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     return this.http
-      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausals/active-clausals/party/${partyId}`, { params: options, observe: 'response' })
+      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausals/active-clausals/party/${partyId}`, {
+        params: options,
+        observe: 'response',
+      })
       .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
@@ -220,7 +229,6 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
     return this.http.get<any>(`${MICROSERVICENAME.LOS}/api/agreement-clausals/active-clausals/party/${idParty}`, { observe: 'response' });
   }
 
-
   public saveClausalAgreementGroub(entity: any, params?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(params);
     return this.http
@@ -229,11 +237,9 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
       .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
 
-
   public deleteClausalAgreement(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(MICROSERVICENAME.LOS + `/api/agreement-clausals/${id}`, { observe: 'response' });
   }
-
 
   public saveClausalAgreement(entity: any, params?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(params);
@@ -250,8 +256,6 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
       .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
   }
-
-  
 
   // settotal
   setTotalChanges(message: any) {

@@ -194,22 +194,27 @@ export class ClausalPkDialogComponentEditComponent {
         });
     });
 
+    this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
+      this.agreementsClausalTemplate = res.body;
+    });
+
     this.creditAgreementService
       .getAddendumActive('ADDENDUM', {
         page: 0,
         size: 9999,
       })
-      .subscribe((res: any) => {
-        this.agreementsClausalChildList = res.body;
+      .subscribe((res2: any) => {
+        this.agreementsClausalChildList = res2.body;
+        this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
+          this.addendumListActive = res.body;
+
+          this.creditAgreementService.clausalAgreementsId(this.data.dataClausal.id).subscribe((res1: any) => {
+            this.valueParentClausalAgreements = this.addendumListActive.filter(
+              (data: any) => data.agreementClausalParameterDescription === res1.body.agreementClausalParameterDescription
+            )[0];
+          });
+        });
       });
-
-    this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
-      this.agreementsClausalTemplate = res.body;
-    });
-
-    this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-      this.addendumListActive = res.body;
-    });
   }
 
   public close() {
