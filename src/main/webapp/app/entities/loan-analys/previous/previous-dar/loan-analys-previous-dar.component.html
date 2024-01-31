@@ -54,7 +54,9 @@
         [source]="'summaryAll'"
         [parentSource]="'loan-analys'"
         [isViewMode]="true"
+        [takeOutCompare]="true"
         [creditProposal]="dataToCompare"
+        [collateralProperties]="collateralProperties"
       ></jhi-collateral-info-history>
     </ng-template>
   </div>
@@ -69,6 +71,7 @@
       [takeOutCompare]="true"
       [isViewMode]="true"
       [creditProposal]="creditProposal"
+      [collateralProperties]="collateralProperties"
     >
     </jhi-collateral-info-history>
     <jhi-credit-proposal-collateral-info
