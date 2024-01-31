@@ -245,7 +245,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>End Date</mat-label>
-            <input [matDatepicker]="endDate" matInput [(ngModel)]="applicationProduct.thruDateContract" />
+            <input [matDatepicker]="endDate" matInput [(ngModel)]="applicationProduct.attributes['thruDateContractTemp']" />
             <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
             <mat-datepicker #endDate></mat-datepicker>
           </mat-form-field>

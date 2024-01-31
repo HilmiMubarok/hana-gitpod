@@ -221,6 +221,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
         if (res.applicationProduct.maturityDate) {
           this.applicationProduct.maturityDate = this.setDate(res);
         }
+        if (res.applicationProduct.attributes['thruDateContractTemp']) {
+          this.applicationProduct.thruDateContract = this.setDateTenor(res.applicationProduct.attributes['thruDateContractTemp']);
+        }
+        if (res.applicationProduct.startDateContract) {
+          this.applicationProduct.startDateContract = this.setDateTenor(res.applicationProduct.startDateContract);
+        }
         // if (res.applicationProduct.thruDateContract) {
         //   this.applicationProduct.thruDateContract = this.setDateThru(res);
         // }
@@ -366,6 +372,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     const getDate = data.applicationProduct.maturityDate;
     const staticDate = moment(new Date(getDate)).format().substring(0, 19) + 'Z';
     return staticDate;
+  }
+
+  private setDateTenor(data: any) {
+    return moment(new Date(data)).format().substring(0, 19) + 'Z';
   }
 
   // private setDateStart(data: any) {
