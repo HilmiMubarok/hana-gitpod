@@ -125,7 +125,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       this.totalNonCashLoan();
       this.grandTotalDebitur();
       this.getMyBusinessGroup();
-      this.getCurrency();
+      // this.getCurrency();
       this.getValueLimit();
     });
   }
