@@ -122,7 +122,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
       this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
 
-      this.getCurrency();
+      // this.getCurrency();
 
       this.activatedRoute.params.subscribe(params => {
         this.id = params['id'];
