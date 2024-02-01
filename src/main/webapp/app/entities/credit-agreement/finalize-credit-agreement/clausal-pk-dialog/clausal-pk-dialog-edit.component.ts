@@ -149,12 +149,16 @@ export class ClausalPkDialogComponentEditComponent {
   }
 
   public getContainer(dataPk: any): void {
-    const obj = {
+    const path = {
       key:
         dataPk.length > 0
           ? `aggrement/${this.data.creditProposal.agreements[0]?.id}/${this.data.dataClausal.id}/sfdt/`
           : `template/credit-agreement/clausal/${this.data.dataClausal.agreementClausalParameterCode}/sfdt/`,
     };
+    const pathHistory = {
+      key: `aggrement/${this.data.creditProposal.agreements[0]?.id}/document/draft/${this.data.dataClausal.id}/`,
+    };
+    const obj = this.data.view === null ? path : pathHistory;
     this.storageService.getBucketName().subscribe(res1 => {
       this.storageService
         .getObjects(res1.body['bucket'], obj)
