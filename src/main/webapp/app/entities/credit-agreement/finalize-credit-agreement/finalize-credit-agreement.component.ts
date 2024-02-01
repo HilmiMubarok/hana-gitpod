@@ -94,7 +94,6 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     this.creditAgreementService.getActiveClausalByPartyId(this.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
       const data: any[] = res.body;
       this.addendumClausalAgreements = data;
-      // filter((fil: any) => fil.category === 'ADDENDUM');
     });
   }
 
@@ -165,13 +164,14 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     }
   }
 
-  public updateClausalDialog(element: any) {
+  public updateClausalDialog(element: any, status: any) {
     const dialogRef = this.dialog.open(ClausalPkDialogComponentEditComponent, {
       width: '200vh',
       height: '100vh',
       data: {
         dataClausal: element,
         creditProposal: this.creditProposal,
+        view: status,
       },
     });
 
