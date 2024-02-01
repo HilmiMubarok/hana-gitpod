@@ -172,7 +172,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   private menuId = '';
 
-  public isDocDar: boolean;
+  public isDocDar = false;
   dataFileLaDistrib: any[];
   dataFile: any;
 
@@ -1061,16 +1061,16 @@ export class LoanAnalysMainComponent implements OnInit {
     this.loadByPartyId(this.creditProposal.cif.partyId);
   }
   private checkIsDoc() {
-    if (this.dataFileDar.length > 0) {
-      for (let i = 0; i < this.dataFileDar.length; i++) {
-        if (
-          this.dataFileDar[i].tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.DAR ||
-          this.dataFileDar[i].tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.SPPK
-        ) {
-          this.isDocDar = true;
-        } else {
-          this.isDocDar = false;
-        }
+    for (let i = 0; i < this.dataFileDar.length; i++) {
+      if (
+        (this.dataFileDar[i].tags.createBy === this.currentAccount.login &&
+          this.dataFileDar[i].tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.DAR) ||
+        (this.dataFileDar[i].tags.createBy === this.currentAccount.login &&
+          this.dataFileDar[i].tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.SPPK)
+      ) {
+        this.isDocDar = true;
+      } else {
+        this.isDocDar = false;
       }
     }
   }
@@ -1937,7 +1937,7 @@ export class LoanAnalysMainComponent implements OnInit {
           });
         }
       }
-	} */
+  } */
   }
 
   public onSave(source: string, caption: string): void {
