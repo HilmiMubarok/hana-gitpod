@@ -165,12 +165,11 @@ export class ClausalPkDialogComponentEditComponent {
         .getObjects(res1.body['bucket'], obj)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((response: any) => {
-          const nameFile = {
-            key:
-              this.data.view === null
-                ? `credit-agreement-clausal-${this.data.dataClausal.agreementClausalParameterCode}.sfdt`
-                : response.body[0].name,
-          };
+          const nameFile: any =
+            this.data.view === null
+              ? `credit-agreement-clausal-${this.data.dataClausal.agreementClausalParameterCode}.sfdt`
+              : response.body[0].name;
+
           if (response.body.length > 0) {
             this.storageService
               .fileBlob(response.body[response.body.length - 1]['url'])
