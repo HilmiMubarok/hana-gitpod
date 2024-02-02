@@ -4,7 +4,11 @@
   </div>
   <ejs-grid [dataSource]="standardDataGridBackToBackDeposit" allowTextWrap="true">
     <e-columns>
-      <e-column field="covenant" headerText="Covenant" width="200" textAlign="center" headerTextAlign="center"> </e-column>
+      <e-column headerText="Covenant" width="200" textAlign="center" headerTextAlign="center">
+        <ng-template #template let-data>
+          <div [innerHTML]="addBRBeforeDash(data.covenant)"></div>
+        </ng-template>
+      </e-column>
       <e-column headerText="Status" width="150" textAlign="center">
         <ng-template #template let-data>
           <ejs-dropdownlist

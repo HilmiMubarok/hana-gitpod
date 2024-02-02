@@ -123,7 +123,13 @@ export class DarCovenantAboveComponent implements OnInit, OnDestroy {
               this.standardDataGridAbove = this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
             }
           }
+          this.creditProposalItem.attributes['convenant'].standardDataGridAbove = this.standardDataGridAbove;
         }
       });
+  }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/\n/g, '<br/>');
+    return hasil;
   }
 }

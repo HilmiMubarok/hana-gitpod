@@ -37,7 +37,7 @@ export class CreditProposalGeneratePkReportComponent implements OnInit, OnChange
   public fileTypeSelected: string;
   public data: object[];
   public fileTypeList: string[] = ['Word', 'Pdf'];
-  public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
+  public displayColumns: string[] = ['no', 'fileName', 'documentNumber', 'date', 'createBy', 'sizeFile', 'action'];
 
   constructor(
     public dialog: MatDialog,

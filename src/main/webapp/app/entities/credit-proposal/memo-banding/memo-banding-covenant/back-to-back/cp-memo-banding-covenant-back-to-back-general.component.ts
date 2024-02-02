@@ -90,6 +90,11 @@ export class CPMemoBandingCovenantBackToBackGeneralComponent implements OnInit {
     }
   }
 
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/\n/g, '<br/>');
+    return hasil;
+  }
+
   public LovCovenantBtbGeneral() {
     this.generalParameterService
       .queryFilterBy({

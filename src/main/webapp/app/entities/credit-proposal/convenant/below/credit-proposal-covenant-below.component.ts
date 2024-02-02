@@ -97,10 +97,22 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
         if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
           this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
         } else {
-          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
-            this.standardCovenant = this.creditProposalItem.attributes['convenant'].standardCovenant;
+          for (let i = 0; i < this.standardCovenant.length; i++) {
+            this.standardCovenant[i] = {
+              covenant: this.standardCovenant[i].convenant,
+              deviation: this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation,
+              id: this.creditProposalItem.attributes['convenant'].standardCovenant[i].id,
+              justification: this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification,
+              status: this.creditProposalItem.attributes['convenant'].standardCovenant[i].status,
+            };
           }
+          this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
         }
       });
+  }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/\n/g, '<br/>');
+    return hasil;
   }
 }

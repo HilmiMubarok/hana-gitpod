@@ -122,7 +122,14 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit, OnDestr
               this.standardCovenant = this.creditProposalItem.attributes['convenant'].standardCovenant;
             }
           }
+
+          this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
         }
       });
+  }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/\n/g, '<br/>');
+    return hasil;
   }
 }

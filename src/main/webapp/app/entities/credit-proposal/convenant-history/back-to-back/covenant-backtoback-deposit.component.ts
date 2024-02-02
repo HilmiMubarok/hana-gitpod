@@ -166,4 +166,9 @@ export class CovenantBackToBackDepositHistoryComponent implements OnInit, OnDest
       )
       .subscribe();
   }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/\n/g, '<br/>');
+    return hasil;
+  }
 }
