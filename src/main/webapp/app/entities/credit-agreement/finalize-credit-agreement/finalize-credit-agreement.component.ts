@@ -91,10 +91,12 @@ export class FinalizeCreditAgreementComponent implements OnInit {
 
     this.getApprovalDebtorConditions();
 
-    this.creditAgreementService.getActiveClausalByPartyId(this.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-      const data: any[] = res.body;
-      this.addendumClausalAgreements = data;
-    });
+    this.creditAgreementService
+      .getActiveClausalByPartyId(this.creditProposal.agreements[0]?.toPartyId, { size: 9999 })
+      .subscribe((res: any) => {
+        const data: any[] = res.body;
+        this.addendumClausalAgreements = data;
+      });
   }
 
   public getApprovalDebtorConditions() {

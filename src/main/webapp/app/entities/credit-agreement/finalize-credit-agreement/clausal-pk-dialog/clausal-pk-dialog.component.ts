@@ -140,10 +140,13 @@ export class ClausalPkDialogComponent {
   public saveClausal() {
     if (this.agreementClausal.category === 'ADDENDUM') {
       const clausal: any = Object.assign({}, this.addendumListActive[0]);
+
       delete clausal.id;
       delete clausal.category;
+      delete clausal.agreementId;
       clausal.id = null;
       clausal.category = this.agreementClausal.category;
+      clausal.agreementId = this.agreementsClausalTemplate.agreementId;
       const clausalChild: any[] = [];
 
       for (let i = 0; i < this.countChildFormAgreements.length; i++) {
