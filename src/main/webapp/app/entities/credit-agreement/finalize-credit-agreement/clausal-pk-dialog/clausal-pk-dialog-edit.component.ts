@@ -158,21 +158,25 @@ export class ClausalPkDialogComponentEditComponent {
     const pathHistory = {
       key: `aggrement/${this.data.creditProposal.agreements[0]?.id}/document/draft/${this.data.dataClausal.id}/`,
     };
+
     const obj = this.data.view === null ? path : pathHistory;
     this.storageService.getBucketName().subscribe(res1 => {
       this.storageService
         .getObjects(res1.body['bucket'], obj)
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(response => {
+        .subscribe((response: any) => {
+          const nameFile = {
+            key:
+              this.data.view === null
+                ? `credit-agreement-clausal-${this.data.dataClausal.agreementClausalParameterCode}.sfdt`
+                : response.body[0].name,
+          };
           if (response.body.length > 0) {
             this.storageService
               .fileBlob(response.body[response.body.length - 1]['url'])
               .pipe(takeUntil(this.ngUnsubscribe))
               .subscribe(res => {
-                const fileGet = new File(
-                  [res.body],
-                  `credit-agreement-clausal-${this.data.dataClausal.agreementClausalParameterCode}.sfdt`
-                );
+                const fileGet = new File([res.body], nameFile);
                 const fileReader: FileReader = new FileReader();
                 fileReader.onload = (e: any) => {
                   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
