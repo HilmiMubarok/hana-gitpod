@@ -56,6 +56,7 @@
     [parentSource]="'loan-analys'"
     [takeOutCompare]="true"
     [creditProposal]="creditProposal"
+    [collateralProperties]="collateralProperties"
   ></jhi-collateral-info-history>
   <div class="e-card" *ngIf="!creditProposal.attributes['previousReturn']">
     <div class="e-card-header">
@@ -79,6 +80,7 @@
     [takeOutCompare]="true"
     [isViewMode]="true"
     [creditProposal]="creditProposal"
+    [collateralProperties]="collateralProperties"
   >
   </jhi-collateral-info-history>
   <jhi-credit-proposal-collateral-info
