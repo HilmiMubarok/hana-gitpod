@@ -283,12 +283,13 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
         this.getStatusListView('FINALIZE_DPPK');
         if (this.clickedChip['statusId'] !== '') {
           this.cashDppkFinalizeService
-            .finalizeDppkBystatus({
+            .cashDppkFinalizeApproval({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
-              sort: ['id,desc'],
+              sort: ['id,asc'],
+              appMenuId: 'FINALIZE_DPPK',
             })
             .pipe(map((res: HttpResponse<IDppkFinalize[]>) => this.preLoad(res)))
             .subscribe({
@@ -298,42 +299,12 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
           return;
         } else {
           this.cashDppkFinalizeService
-            .finalizeDppkBystatus({
+            .cashDppkFinalizeApproval({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
-              sort: ['id,desc'],
-            })
-            .pipe(map((res: HttpResponse<IDppkFinalize[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IDppkFinalize[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-        }
-      } else {
-        this.getStatusListView('FINALIZE_CREDIT_AGREEMENT');
-        if (this.clickedChip['statusId'] !== '') {
-          this.cashDppkFinalizeService
-            .cashCreditProposalApproval({
-              page: this.page,
-              idStatus: this.clickedChip['statusId'],
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-            })
-            .pipe(map((res: HttpResponse<IDppkFinalize[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IDppkFinalize[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-          return;
-        } else {
-          this.cashDppkFinalizeService
-            .cashCreditProposalApproval({
-              page: this.page,
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
+              sort: ['id,asc'],
+              appMenuId: 'FINALIZE_DPPK',
             })
             .pipe(map((res: HttpResponse<IDppkFinalize[]>) => this.preLoad(res)))
             .subscribe({
