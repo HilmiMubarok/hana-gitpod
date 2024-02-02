@@ -46,7 +46,10 @@
 
 <ejs-grid [dataSource]="standardDataGridAbove" allowTextWrap="true" *ngIf="isViewMode">
   <e-columns>
-    <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center" class="rounding-table-left">
+    <e-column headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center" class="rounding-table-left">
+      <ng-template #template let-data>
+        <div [innerHTML]="addBRBeforeDash(data.covenant)"></div>
+      </ng-template>
     </e-column>
     <e-column headerText="Status" width="150" textAlign="center">
       <ng-template #template let-data>
@@ -102,7 +105,10 @@
 
 <ejs-grid [dataSource]="standardDataGridAbove" allowTextWrap="true" *ngIf="!isViewMode">
   <e-columns>
-    <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center" colass="rounding-table-left">
+    <e-column headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center" colass="rounding-table-left">
+      <ng-template #template let-data>
+        <div [innerHTML]="this.addBRBeforeDash(data.covenant)"></div>
+      </ng-template>
     </e-column>
     <e-column headerText="Status" width="150" textAlign="center">
       <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">

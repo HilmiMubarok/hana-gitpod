@@ -165,4 +165,9 @@ export class CreditProposalCovenantBelowHistoryComponent implements OnInit, OnDe
       )
       .subscribe();
   }
+
+  addBRBeforeDash(text: string): string {
+    const hasil = text.replace(/\n/g, '<br/>');
+    return hasil;
+  }
 }
