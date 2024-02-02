@@ -24,34 +24,11 @@ import { ActivatedRoute } from '@angular/router';
 import moment from 'moment';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
 import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
-import { FormControl } from '@angular/forms';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'YYYY/MM/DD',
-  },
-  display: {
-    dateInput: 'YYYY/MM/DD',
-    monthYearLabel: 'YYYY/MM/DD',
-    dateA11yLabel: 'YYYY/MM/DD',
-    monthYearA11yLabel: 'YYYY/MM/DD',
-  },
-};
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
 })
 export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public segments: IInternal[];
@@ -144,7 +121,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public teamReviewer: any[];
   public officer: any[];
   public tempSurveyor: any;
-  validityDate = new FormControl(moment().toDate());
 
   constructor(
     private cdr: ChangeDetectorRef,

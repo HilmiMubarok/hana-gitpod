@@ -114,35 +114,6 @@
         disabled
       ></ejs-textbox>
     </section>
-
-    <!--  Phase 2 -->
-    <section class="mt-3">
-      <!-- <ejs-datepicker cssClass="e-outline" placeholder="Validity Date" floatLabelType="Auto"
-        [(ngModel)]="surveyAppraisal.thruDate" format="yyyy/dd/MM" [readonly]="true">
-      </ejs-datepicker> -->
-      <!-- <div class="form-group"> -->
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Validity Date</mat-label>
-        <input matInput type="text" [matDatepicker]="dp" [formControl]="validityDate" [(ngModel)]="surveyAppraisal.thruDate" disabled />
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker #dp disabled="false"></mat-datepicker>
-      </mat-form-field>
-      <!-- </div>
-
-
-       -->
-
-      <!-- <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Document Issued Date</mat-label>
-          <input [(ngModel)]="document.documentDate" [matDatepicker]="documentDate" matInput type="text" disabled />
-          <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
-          <mat-datepicker #documentDate disabled="false"></mat-datepicker>
-        </mat-form-field>
-      </div> -->
-    </section>
-    <!-- End -->
-
     <section class="mt-3">Jenis Permohonan</section>
     <section class="mt-2">
       <ejs-checkbox

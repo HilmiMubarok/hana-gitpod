@@ -208,15 +208,6 @@ export class GeneratePKDraftComponent implements OnInit {
       }
     });
   }
-
-  public showButtonGenerateDocument(): boolean {
-    const parentPath = this.router.url.split('/')[1];
-    if (parentPath.match(/finalize-pk/g) && this.item.statusId === 'PK_FINALIZE') {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }
 
 interface IObj {

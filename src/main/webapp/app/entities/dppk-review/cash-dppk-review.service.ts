@@ -26,10 +26,10 @@ export class CashDppkReviewService extends AbstractEntityService<IDppkReview> {
     this.resourceUrlCashCreditProposal = this.resourceUrl + '/cash-credit-proposals';
   }
 
-  cashReviewDppkByStatus(req?: any): Observable<HttpResponse<IDppkReview[]>> {
+  cashCreditProposalApprovalByStatus(req?: any): Observable<HttpResponse<IDppkReview[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<IDppkReview[]>(this.resourceUrl + '/cash-credit-proposals/review-dppk', { params: options, observe: 'response' })
+      .get<IDppkReview[]>(this.resourceUrl + '/cash-credit-proposals/by-status', { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<IDppkReview[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoadItemArray(res)));
   }
@@ -43,7 +43,7 @@ export class CashDppkReviewService extends AbstractEntityService<IDppkReview> {
   reviewDppkBystatus(req?: any): Observable<HttpResponse<IDppkReview[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<IDppkReview[]>(this.resourceUrl + '/cash-credit-proposals/assignment-exists', {
+      .get<IDppkReview[]>(this.resourceUrl + '/cash-credit-proposal/review-dppk', {
         params: options,
         observe: 'response',
       })

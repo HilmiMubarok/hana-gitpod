@@ -69,11 +69,7 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
   }
 
   addBRBeforeDash(text: string): string {
-    if (text === '') {
-      const hasil = text.replace(/\n/g, '<br/>');
-      return hasil;
-    } else {
-      return text;
-    }
+    const hasil = text.replace(/\n/g, '<br/>');
+    return hasil;
   }
 }

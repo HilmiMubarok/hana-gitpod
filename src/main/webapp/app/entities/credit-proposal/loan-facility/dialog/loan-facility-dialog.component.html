@@ -1093,7 +1093,7 @@
         </div>
       </div>
 
-      <div [hidden]="checklissHidden">
+      <div [hidden]="textBoxHidden">
         <section *ngIf="!statusDisabledOffering">
           <mat-checkbox [checked]="checklisDisbursement()" [(ngModel)]="applicationProduct.attributes['disbursementChecklisCon']"
             >Check disbursement condition (Only if requested by legal)</mat-checkbox

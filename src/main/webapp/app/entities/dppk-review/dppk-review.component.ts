@@ -280,12 +280,11 @@ export class DppkReviewComponent extends AbstractEntityMaterialComponent<IDppkRe
         this.getStatusListView('REVIEW_DPPK');
         if (this.clickedChip['statusId'] !== '') {
           this.cashDppkReviewService
-            .cashReviewDppkByStatus({
+            .reviewDppkBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
-              appMenuId: 'REVIEW_DPPK',
               sort: ['id,desc'],
             })
             .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoad(res)))
@@ -301,7 +300,37 @@ export class DppkReviewComponent extends AbstractEntityMaterialComponent<IDppkRe
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'REVIEW_DPPK',
+            })
+            .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<IDppkReview[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else {
+        this.getStatusListView('REVIEW_DPPK');
+        if (this.clickedChip['statusId'] !== '') {
+          this.cashDppkReviewService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idStatus: this.clickedChip['statusId'],
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<IDppkReview[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else {
+          this.cashDppkReviewService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
             })
             .pipe(map((res: HttpResponse<IDppkReview[]>) => this.preLoad(res)))
             .subscribe({
