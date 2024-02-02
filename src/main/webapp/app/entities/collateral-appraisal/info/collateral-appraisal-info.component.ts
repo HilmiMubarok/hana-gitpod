@@ -24,34 +24,11 @@ import { ActivatedRoute } from '@angular/router';
 import moment from 'moment';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
 import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
-import { FormControl } from '@angular/forms';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'YYYY/MM/DD',
-  },
-  display: {
-    dateInput: 'YYYY/MM/DD',
-    monthYearLabel: 'YYYY/MM/DD',
-    dateA11yLabel: 'YYYY/MM/DD',
-    monthYearA11yLabel: 'YYYY/MM/DD',
-  },
-};
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
 })
 export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public segments: IInternal[];
@@ -144,7 +121,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public teamReviewer: any[];
   public officer: any[];
   public tempSurveyor: any;
-  validityDate = new FormControl(moment().toDate());
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -220,36 +196,36 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
           }
         }
 
-        this.positionService
-          // .queryFilterBy({
+		this.positionService
+		  // .queryFilterBy({
           .cashQueryFilterBy({
             page: 0,
             size: 9999,
             idInternal: this.wilayahKotaInternalValue,
-            idPositionType: 'SURVEYOR',
-            active: true,
+			idPositionType: 'SURVEYOR',
+			active: true
           })
           .subscribe(resA => {
             const surveyor = [];
             for (let i = 0; i < resA.body.length; i++) {
               // if (resA.body[i].partyId && resA.body[i].partyId !== null) {
-              surveyor.push({
-                // employeeFirstName: resA.body[i].employeeFirstName + ' ' + resA.body[i].employeeLastName,
-                // Menghindari first name atau last name null jika null akan dibuat string kosong
-                employeeFirstName:
-                  (resA.body[i].employeeFirstName !== null ? resA.body[i].employeeFirstName : '') +
-                  ' ' +
-                  (resA.body[i].employeeLastName !== null ? resA.body[i].employeeLastName : ''),
-                partyId: resA.body[i].partyId,
-                id: resA.body[i].id,
-              });
+                surveyor.push({
+                  // employeeFirstName: resA.body[i].employeeFirstName + ' ' + resA.body[i].employeeLastName,
+                  // Menghindari first name atau last name null jika null akan dibuat string kosong
+                  employeeFirstName:
+                    (resA.body[i].employeeFirstName !== null ? resA.body[i].employeeFirstName : '') +
+                    ' ' +
+                    (resA.body[i].employeeLastName !== null ? resA.body[i].employeeLastName : ''),
+				  partyId: resA.body[i].partyId,
+                  id: resA.body[i].id,
+                });
               // }
             }
 
             this.officer = surveyor;
             this.surveyAppraisalsService.find(this.surveyAppraisal.id).subscribe(resSA => {
               // this.tempSurveyor = resSA.body.surveyorPersonId;
-              this.tempSurveyor = Number(resSA.body.surveyorPositionId);
+			  this.tempSurveyor = Number(resSA.body.surveyorPositionId);
             });
           });
       });
@@ -526,7 +502,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
                 ' ' +
                 (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
               id: res.body[i].id,
-              employeeId: res.body[i].employeeId,
+			  employeeId: res.body[i].employeeId,
             });
           }
         }
@@ -539,7 +515,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 
   public selectTeamReviewer(args: ChangeEventArgs): void {
     // this.surveyAppraisal.teamLeadId = args['itemData'].id;
-    this.surveyAppraisal.teamLeadId = args['itemData'].employeeId;
+	this.surveyAppraisal.teamLeadId = args['itemData'].employeeId;
     this.surveyAppraisal.teamLeadPersonId = args['itemData'].employeeId;
     this.surveyAppraisal.teamLeadName = args['itemData'].employeeFirstName;
     this.surveyAppraisal.reviewedBy = args['itemData'].employeeFirstName;
@@ -550,27 +526,27 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.outputWilayahKotaInternal.emit(args['value']);
     this.positionService
       // .queryFilterBy({
-      .cashQueryFilterBy({
+	  .cashQueryFilterBy({
         page: 0,
         size: 9999,
         idInternal: args['value'],
-        idPositionType: 'SURVEYOR',
-        active: true,
+		idPositionType: 'SURVEYOR',
+		active: true
       })
       .subscribe(res => {
         const surveyor = [];
         for (let i = 0; i < res.body.length; i++) {
           // if (res.body[i].partyId && res.body[i].partyId !== null) {
-          surveyor.push({
-            // employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName,
-            // Menghindari first name atau last name null jika null akan dibuat string kosong
-            employeeFirstName:
-              (res.body[i].employeeFirstName !== null ? res.body[i].employeeFirstName : '') +
-              ' ' +
-              (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
-            partyId: res.body[i].partyId,
-            id: res.body[i].id,
-          });
+            surveyor.push({
+              // employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName,
+              // Menghindari first name atau last name null jika null akan dibuat string kosong
+              employeeFirstName:
+                (res.body[i].employeeFirstName !== null ? res.body[i].employeeFirstName : '') +
+                ' ' +
+                (res.body[i].employeeLastName !== null ? res.body[i].employeeLastName : ''),
+              partyId: res.body[i].partyId,
+			  id: res.body[i].id,
+            });
           // }
         }
 
