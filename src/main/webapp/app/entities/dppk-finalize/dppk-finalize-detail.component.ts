@@ -535,7 +535,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
     const routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
-    console.log('menu cliked ', this.clickedMenu);
   }
 
   public previousState(): void {
