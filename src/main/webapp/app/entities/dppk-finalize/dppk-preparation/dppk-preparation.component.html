@@ -1,0 +1,64 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">DPPK Preparation</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <div class="col-6">
+        <section>
+          <div class="mb-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>DPPK Number</mat-label>
+              <input matInput type="text" disabled />
+            </mat-form-field>
+          </div>
+        </section>
+      </div>
+      <div class="col-6">
+        <section>
+          <div class="mb-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>DPPK Date</mat-label>
+              <input matInput type="text" disabled />
+            </mat-form-field>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Bank Account</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-bank-account></jhi-bank-account>
+    </div>
+  </div>
+</div>
+
+<div class="e-card">
+  <jhi-internal-memo [creditProposal]="creditProposal"></jhi-internal-memo>
+</div>
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Generate Draft DPPK</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-generate-draft-dppk></jhi-generate-draft-dppk>
+    </div>
+  </div>
+</div>
