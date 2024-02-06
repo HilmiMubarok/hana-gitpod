@@ -3164,6 +3164,11 @@ export const BASIC_SUBMENU_DPPK: object[] = [
     id: 'covenant-temp',
     text: 'Covenant & Document Checklist',
   },
+  // DPDL-LEGAL-DOCUMENT
+  {
+    id: 'legal-document',
+    text: 'DPDL',
+  },
 ];
 export const BASIC_SUBMENU_DPPK_REVIEW: object[] = [
   {

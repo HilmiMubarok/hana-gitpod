@@ -432,6 +432,11 @@
                 ></jhi-compare-data>
               </e-card>
             </div>
+
+            <!-- DPDL-LEGAL-DOCUMENT -->
+            <div *ngIf="clickedMenu === 'legal-document'">
+              <jhi-dpdl-document [creditProposal]="creditProposal"> </jhi-dpdl-document>
+            </div>
           </div>
         </div>
       </div>
