@@ -1041,7 +1041,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       switch (this.applicationProduct.periodType) {
         case 'Week':
           this.dataTrhu = new Date();
-          this.dataTrhu = new Date(date.setDate(this.applicationProduct.tenor * 7 + 1));
+          this.dataTrhu = new Date(date.setDate(date.getDate() + this.applicationProduct.tenor * 7));
           break;
         case 'Month':
           this.dataTrhu = new Date(date.setMonth(date.getMonth() + this.applicationProduct.tenor));
