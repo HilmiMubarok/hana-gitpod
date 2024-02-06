@@ -3099,6 +3099,10 @@ export const BASIC_SUBMENU_DPPK_MEMO: object[] = [
     text: 'Loan Facility Detail',
   },
   {
+    id: 'insurance-information',
+    text: 'Insurance',
+  },
+  {
     id: 'internal_memo',
     text: 'Internal Memo',
   },
@@ -3141,6 +3145,10 @@ export const BASIC_SUBMENU_DPPK: object[] = [
     text: 'DPPK Finalize',
   },
   {
+    id: 'insurance-information',
+    text: 'Insurance',
+  },
+  {
     id: 'internal_memo',
     text: 'Internal Memo',
   },
@@ -3176,6 +3184,10 @@ export const BASIC_SUBMENU_DPPK_REVIEW: object[] = [
     text: 'DAR Summary',
   },
   {
+    id: 'insurance-information',
+    text: 'Insurance',
+  },
+  {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
   },
@@ -3205,6 +3217,10 @@ export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
   {
     id: 'dar-summary',
     text: 'DAR Summary',
+  },
+  {
+    id: 'insurance-information',
+    text: 'Insurance',
   },
   {
     id: 'loan-facility',

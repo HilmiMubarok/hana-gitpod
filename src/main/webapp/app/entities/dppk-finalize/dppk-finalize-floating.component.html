@@ -352,6 +352,9 @@
               <jhi-dppk-preparation [creditProposal]="creditProposal"></jhi-dppk-preparation>
             </div>
 
+            <div *ngIf="clickedMenu === 'insurance-information'">
+              <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"></jhi-insurance-information>
+            </div>
             <!-- <div *ngIf="clickedMenu === 'dpdl'">
               
             </div>

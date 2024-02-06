@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card [hidden]="isViewMode === true">
   <mat-card-header>
     <mat-card-subtitle>Document Insurance</mat-card-subtitle>
   </mat-card-header>
@@ -48,4 +48,56 @@
   <mat-card-actions align="right">
     <button mat-raised-button color="primary" (click)="openDialog('add', null)">UPLOAD</button>
   </mat-card-actions>
+</mat-card>
+
+<mat-card [hidden]="isViewMode === false">
+  <mat-card-header>
+    <mat-card-subtitle>Document Insurance</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="files" class="w-100">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef width="5%">No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="document">
+        <th mat-header-cell *matHeaderCellDef>Document</th>
+        <td mat-cell *matCellDef="let element">{{ element.tags.document }}</td>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let element">{{ element.tags.category }}</td>
+      </ng-container>
+      <ng-container matColumnDef="dueDate">
+        <th mat-header-cell *matHeaderCellDef>Due Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.tags.dueDate | formatMediumDate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef width="20%">Status</th>
+        <td mat-cell *matCellDef="let element">{{ element.tags.status }}</td>
+      </ng-container>
+      <ng-container matColumnDef="remarks">
+        <th mat-header-cell *matHeaderCellDef width="20%">Remarks</th>
+        <td mat-cell *matCellDef="let element">{{ element.tags.remarks }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef width="10%">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openDialog('view', element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'].length">
+          No records found.
+        </td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action']"></tr>
+    </table>
+  </mat-card-content>
+  <!-- <mat-card-actions align="right">
+    <button mat-raised-button color="primary" (click)="openDialog('add', null)">UPLOAD</button>
+  </mat-card-actions> -->
 </mat-card>
