@@ -253,8 +253,6 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.generatePkDraftService.dataReportDraft$.subscribe(res => {
       this.dataPkDraft = res;
-      console.log('Data Report Draft:', this.dataPkDraft);
-      // Lakukan apa pun yang perlu Anda lakukan dengan dataPkDraft di sini
     });
   }
 
