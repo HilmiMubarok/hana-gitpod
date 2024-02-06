@@ -101,8 +101,8 @@ export class ClausalPkDialogComponent {
   }
 
   public optionChildAgrementAddedum(index: number): any[] {
-    const selectedOptions = this.valueChildAgreeements.slice(0, index);
-    return this.agreementsClausalChildList.filter(option => !selectedOptions.includes(option));
+    const selectedOptions = this.addendumListActive.slice(0, index);
+    return this.addendumListActive.filter(option => !selectedOptions.includes(option));
   }
 
   hasSameAgreementId(element: any): boolean {
@@ -139,26 +139,26 @@ export class ClausalPkDialogComponent {
 
   public saveClausal() {
     if (this.agreementClausal.category === 'ADDENDUM') {
-      const clausal: any = Object.assign({}, this.addendumListActive[0]);
+      const clausal: any = Object.assign({}, this.agreementsClausalTemplate);
+
+      clausal.agreementClausalParameterCode = this.valueParentClausalAgreements.code;
+      clausal.agreementClausalParameterDescription = this.valueParentClausalAgreements.description;
+      clausal.statusCode = this.valueParentClausalAgreements.statusCode;
+      clausal.statusDescription = this.valueParentClausalAgreements.statusDescription;
+      clausal.agreementClausalParameterId = this.valueParentClausalAgreements.id;
       delete clausal.id;
       delete clausal.category;
       clausal.id = null;
       clausal.category = this.agreementClausal.category;
-      const clausalChild: any[] = [];
+      let clausalChild = [];
 
       for (let i = 0; i < this.countChildFormAgreements.length; i++) {
-        const saveCild = Object.assign({}, this.agreementsClausalTemplate);
-        const filteraddendumListActive = this.agreementsClausalChildList.filter(
-          (res: any) => res.description === this.valueChildAgreeements[i]
-        );
-        saveCild.addendumToId = this.addendumListActive[0].id;
-        saveCild.agreementClausalParameterCode = filteraddendumListActive[0].code;
-        saveCild.agreementClausalParameterDescription = filteraddendumListActive[0].description;
+        const filteraddendumListActive = this.addendumListActive.filter((res: any) => res.id === this.valueChildAgreeements[i].id);
 
-        saveCild.statusCode = filteraddendumListActive[0].statusCode;
-        saveCild.statusDescription = filteraddendumListActive[0].statusDescription;
-
-        clausalChild.push(saveCild);
+        (filteraddendumListActive[i].agreementId = this.data.agreement.length > 0 ? this.data.agreement[0].id : 0),
+          (filteraddendumListActive[i].addendumToId = filteraddendumListActive[i].id);
+        filteraddendumListActive[i].id = null;
+        clausalChild = [...clausalChild, filteraddendumListActive[i]];
       }
 
       this.creditAgreementService.saveClausalAgreementGroub({ clausal, clausalChild }).subscribe((res: any) => {

@@ -156,7 +156,7 @@ export class ClausalPkDialogComponentEditComponent {
           : `template/credit-agreement/clausal/${this.data.dataClausal.agreementClausalParameterCode}/sfdt/`,
     };
     const pathHistory = {
-      key: `aggrement/${this.data.creditProposal.agreements[0]?.id}/document/draft/${this.data.dataClausal.id}/`,
+      key: `aggrement/${this.data.creditProposal.agreements[0]?.id}/document/draft/${this.data.dataClausal.id}/sfdt/`,
     };
 
     const obj = this.data.view === null ? path : pathHistory;
