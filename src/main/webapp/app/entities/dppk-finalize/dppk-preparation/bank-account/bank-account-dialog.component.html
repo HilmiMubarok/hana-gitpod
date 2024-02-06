@@ -1,0 +1,55 @@
+<h2 mat-dialog-title class="header-title">Bank Account</h2>
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <section>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Account Name</mat-label>
+        <mat-select required>
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of listOfValue.bankName" [value]="item">
+            {{ item }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Bank Name</mat-label>
+        <mat-select required>
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of listOfValue.bankName" [value]="item">
+            {{ item }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Currency</mat-label>
+        <mat-select required>
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
+            {{ item }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Account Type</mat-label>
+        <mat-select required>
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of listOfValue.accountType" [value]="item">
+            {{ item }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+  </div>
+  <section class="align-center">
+    <div class="mt-3 text-center">
+      <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+      <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
+    </div>
+  </section>
+</mat-dialog-content>

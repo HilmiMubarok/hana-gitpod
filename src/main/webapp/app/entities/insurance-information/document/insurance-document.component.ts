@@ -53,6 +53,7 @@ export class InsuranceDocumentComponent implements OnChanges {
   set dataSource(items: IInsuranceInformation) {
     this._dataSource = items;
   }
+  @Input() isViewMode;
   @Input()
   get collateral() {
     return this._collateral;
@@ -79,6 +80,7 @@ export class InsuranceDocumentComponent implements OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('isViewMode', changes);
     if (changes['insurance']) {
       this.dataIdInsurance = changes['insurance'].currentValue.id;
       this.getFiles(this.dataIdInsurance);

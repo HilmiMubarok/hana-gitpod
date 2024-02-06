@@ -347,6 +347,14 @@
               </jhi-credit-proposal-tab-loan-facility-detail>
             </div>
 
+            <!-- dppk finalize -->
+            <div *ngIf="clickedMenu === 'dppk'">
+              <jhi-dppk-preparation [creditProposal]="creditProposal"></jhi-dppk-preparation>
+            </div>
+
+            <div *ngIf="clickedMenu === 'insurance-information'">
+              <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"></jhi-insurance-information>
+            </div>
             <!-- <div *ngIf="clickedMenu === 'dpdl'">
               
             </div>
@@ -426,6 +434,11 @@
                   [collateralPropertyGroupData]="collateralPropertyGroupData"
                 ></jhi-compare-data>
               </e-card>
+            </div>
+
+            <!-- DPDL-LEGAL-DOCUMENT -->
+            <div *ngIf="clickedMenu === 'legal-document'">
+              <jhi-dpdl-document [creditProposal]="creditProposal"> </jhi-dpdl-document>
             </div>
           </div>
         </div>

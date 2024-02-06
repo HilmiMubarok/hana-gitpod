@@ -4,7 +4,12 @@ import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { DppkFinalizeComponent } from './dppk-finalize.component';
 import { DppkFinalizeReviewResolve, DppkFinalizeReviewRoute } from './dppk-finalize.route';
-import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component'; // import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
+import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
+// import { DppkPreparationComponent } from './dppk-preparation/dppk-preparation.component';
+// import { BankAccountComponent } from './dppk-preparation/bank-account/bank-account.component';
+// import { BankAccountDialogComponent } from './dppk-preparation/bank-account/bank-account-dialog.component';
+// import { GenerateDraftDppkComponent } from './dppk-preparation/generate-draft-dppk/generate-draft-dppk.component';
+// import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
 // import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-cif-customer-info-debtor-data.component';
 // import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
 // import { PartyCifCustomerInfoRMInfoComponent } from './customer-info/party-cif-customer-info-rm-info.component';
@@ -25,6 +30,10 @@ import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component'; 
   declarations: [
     DppkFinalizeComponent,
     DppkFinalizeDetailComponent,
+    // DppkPreparationComponent,
+    // BankAccountComponent,
+    // BankAccountDialogComponent,
+    // GenerateDraftDppkComponent,
 
     // PartyCifUpdateComponent,
     // PartyCifCustomerInfoComponent,
