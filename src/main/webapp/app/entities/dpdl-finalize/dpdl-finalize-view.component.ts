@@ -58,6 +58,7 @@ import { CashDpdlService } from './cash-dpdl.service';
 import { CashCreditProposalsService } from '../cash-credit-proposal/cash-credit-proposals.service';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { GenerateReportService } from '../generate-report-service/generate-report.service';
 
 @Component({
   selector: 'jhi-dpdl-finalize-view',
@@ -131,6 +132,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public proposType = [];
   public isHistoryExist: boolean;
   private KEYG = 'generate-final';
+  private KEYDRAFTGENERATE = 'dpdl';
   public dataDpdlFinal = [];
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
@@ -158,6 +160,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public uuidPath: any;
   public dataLand: any;
   public dataBuilding: any;
+  public dataDraftDpdl: object[];
 
   constructor(
     public dialog: MatDialog,
@@ -177,7 +180,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
     // public dpdlFinalizeService: DpdlFinalizeService,
     protected cashDpdlService: CashCreditProposalsService,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private generateDpdlDraftService: GenerateReportService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -199,6 +203,10 @@ export class DpdlFinalizeViewComponent implements OnInit {
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter'] ? [...DPDL_FINALIZE_APPEAL] : DPDL_FINALIZE;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
+    this.generateDpdlDraftService.dataReportDraft$.subscribe(res => {
+      this.dataDraftDpdl = res;
+     
+    });
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
       console.log('Isloadingg', this.baLoading);
@@ -236,6 +244,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
     });
 
     this.getBucketNameSummary();
+    this.getBucketNameSummaryPKDraf();
     this.getTasks();
   }
 
@@ -1254,7 +1263,16 @@ export class DpdlFinalizeViewComponent implements OnInit {
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
-        this.save('process');
+        if (this.dataDraftDpdl && this.dataDraftDpdl.length > 0) {
+          this.save('process');
+        } else {
+          // this.save('default');
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please Generate DPDL Draft first.',
+          });
+        }
       }
     });
   }
@@ -1479,6 +1497,49 @@ export class DpdlFinalizeViewComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  // Cek data Generate Draft DPDL
+  private getBucketNameSummaryPKDraf() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+
+      if (this.id) {
+        this.KEYDRAFTGENERATE += `/${this.id}/document/`;
+      } else {
+        console.warn('Param id not found');
+      }
+
+      this.onRefreshDrafPk();
+    });
+  }
+  private onRefreshDrafPk(): void {
+    const obj = {
+      key: this.KEYDRAFTGENERATE,
+    };
+    this.storageService
+      .getObjects(this.BUCKET, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        const temp: any[] = response?.body;
+        let i = 1;
+        const data: any[] = [];
+        temp.forEach((item: IObj) => {
+          data.push({
+            indexNum: i,
+            key: item.key,
+            appovallevel: item.name,
+            fileName: item.name,
+            metaData: item.metaData,
+            sizeFile: formatBytes(item.size),
+            tags: item.tags,
+            url: item.url,
+          });
+          i++;
+        });
+        this.dataDraftDpdl = data;
+        this.generateDpdlDraftService.setDataReportDraft(this.dataDraftDpdl);
+      });
   }
 }
 interface IObj {
