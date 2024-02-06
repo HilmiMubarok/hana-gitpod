@@ -414,6 +414,17 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       },
     ],
   },
+  {
+    name: 'Loan operations',
+    iconname: 'suitcase',
+    children: [
+      {
+        name: ' loan ops distribution',
+        iconname: 'minus',
+        route: 'loan-ops-distribution',
+      },
+    ],
+  },
   // {
   //   name: 'MIS Report',
   //   iconname: 'file-lines',
