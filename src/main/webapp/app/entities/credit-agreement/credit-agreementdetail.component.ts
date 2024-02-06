@@ -9,16 +9,7 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 
 import {
   PROPOSAL_TYPE,
-  SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-  SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
   SEGMENTS_TYPE,
-  ID_GREATER_15_BN,
-  ID_LOWER_EQUAL_15_BN,
-  ID_BACK_TO_BACK,
-  CP_APPROVAL_MENU,
-  CP_APPROVAL_MENU_BTB,
-  CP_APPROVAL_MENU_BELOW,
   BASIC_SUBMENU_CREDITAGREEMENT,
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
 } from 'app/shared/constants/base.constants';
@@ -27,7 +18,6 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import _ from 'lodash';
-import { IEJOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
@@ -66,11 +56,11 @@ import { HttpClient } from '@angular/common/http';
 import { formatBytes } from 'app/shared/helper/utils';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { CashCreditProposalService } from '../credit-proposal/cash-credit-proposal.service';
 import { CashCreditProposalsService } from '../cash-credit-proposal/cash-credit-proposals.service';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { GenerateReportService } from '../generate-report-service/generate-report.service';
 
 @Component({
   selector: 'jhi-credit-agreement-floating',
@@ -191,6 +181,11 @@ export class CreditAgreementDetailComponent implements OnInit {
   public postalAdresss;
   public dataLand: any;
   public dataBuilding: any;
+  private KEYG = 'generate-final';
+  private KEYDRAFTGENERATE = 'aggrement';
+  private ngUnsubscribe = new Subject();
+  public dataPKFinal = [];
+  public dataPkDraft: object[];
 
   constructor(
     private partyCifService: PartyCifService,
@@ -216,7 +211,8 @@ export class CreditAgreementDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private generatePkDraftService: GenerateReportService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -253,6 +249,12 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.baService.progress$.subscribe(res => {
       this.progress = res;
       console.log('Progress', this.progress);
+    });
+
+    this.generatePkDraftService.dataReportDraft$.subscribe(res => {
+      this.dataPkDraft = res;
+      console.log('Data Report Draft:', this.dataPkDraft);
+      // Lakukan apa pun yang perlu Anda lakukan dengan dataPkDraft di sini
     });
   }
 
@@ -359,7 +361,7 @@ export class CreditAgreementDetailComponent implements OnInit {
           this.creditProposalOpinionHistoryComponent.triggeredSave();
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
-		} */
+    } */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -417,6 +419,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
+    this.getBucketNameSummaryPKDraf();
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -466,6 +469,7 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.loadDataBy();
     this.showTextMenu();
+
     // this.cpGroub();
   }
 
@@ -515,8 +519,19 @@ export class CreditAgreementDetailComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+        console.log('resAttr', this.resAttr);
 
-        this.save('process');
+        // validasi pk draft
+        if (this.dataPkDraft && this.dataPkDraft.length > 0) {
+          this.save('process');
+        } else {
+          // this.save('default');
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please Generate PK Draft first.',
+          });
+        }
       }
     });
   }
@@ -638,9 +653,9 @@ export class CreditAgreementDetailComponent implements OnInit {
       }
 
       /* if (this.creditProposalOpinionHistoryComponent) {
-		this.creditProposalOpinionHistoryComponent.triggeredSave();
-		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-		this.creditProposalOpinionHistoryComponent.refresh();
+    this.creditProposalOpinionHistoryComponent.triggeredSave();
+    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+    this.creditProposalOpinionHistoryComponent.refresh();
     } */
 
       if (this.CreditProposalTabSummaryComponent) {
@@ -767,11 +782,11 @@ export class CreditAgreementDetailComponent implements OnInit {
                     }
 
                     /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
+            ++countValidate;
+            } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+            } */
                   }
                 } else {
                   // toast opinion empty
@@ -790,16 +805,16 @@ export class CreditAgreementDetailComponent implements OnInit {
                       fileReaderCondition.onload = (eCondition: any) => {
                         const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
                         /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
+              if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+                ++countValidate;
+              } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              }
+              } else {
+              // toast condition empty
+              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              } */
 
                         if (
                           testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -849,11 +864,11 @@ export class CreditAgreementDetailComponent implements OnInit {
                             }
 
                             /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-								++countValidate;
-							  } else {
-								// toast condition empty
-								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							  } */
+                ++countValidate;
+                } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+                } */
                           }
                         } else {
                           // toast condition empty
@@ -1634,9 +1649,6 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   // Untuk Summary Generate
-  private KEYG = 'generate-final';
-  private ngUnsubscribe = new Subject();
-  public dataPKFinal = [];
 
   // Untuk Summary Generate
   private getBucketNameSummary() {
@@ -1718,6 +1730,57 @@ export class CreditAgreementDetailComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  // Cek data Generate Draft PK
+  private getBucketNameSummaryPKDraf() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+
+      if (this.creditProposal.agreements[0].id) {
+        this.KEYDRAFTGENERATE += `/${this.creditProposal.agreements[0].id}/document/draft/final/`;
+      } else {
+        console.warn('Param id not found');
+      }
+
+      this.onRefreshDrafPk();
+    });
+  }
+  private onRefreshDrafPk(): void {
+    const obj = {
+      key: this.KEYDRAFTGENERATE,
+    };
+    this.storageService
+      .getObjects(this.BUCKET, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        const temp: any[] = response?.body;
+        let i = 1;
+        const data: any[] = [];
+        temp.forEach((item: IObj) => {
+          data.push({
+            indexNum: i,
+            key: item.key,
+            appovallevel: item.name,
+            fileName: item.name,
+            metaData: item.metaData,
+            sizeFile: formatBytes(item.size),
+            tags: item.tags,
+            url: item.url,
+          });
+          i++;
+        });
+        this.dataPkDraft = data;
+        this.generatePkDraftService.setDataReportDraft(this.dataPkDraft);
+      });
+  }
+
+  public testValidate() {
+    if (this.dataPkDraft.length === 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please generate PK Draft' });
+    } else {
+      console.log('length data draft', this.dataPkDraft.length);
+    }
   }
 }
 interface IObj {

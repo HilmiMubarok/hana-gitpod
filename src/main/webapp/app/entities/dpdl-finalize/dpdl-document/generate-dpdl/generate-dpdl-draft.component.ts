@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { saveAs as importedSaveAs } from 'file-saver';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { GenerateReportService } from 'app/entities/generate-report-service/generate-report.service';
 
 @Component({
   selector: 'jhi-generate-dpdl-draft',
@@ -33,16 +34,17 @@ export class GenerateDpdlDraftComponent implements OnInit {
   public _item?: ICreditProposal = new CreditProposal();
   // public fileTypeSelected: string;
   public fileTypeSelected = 'Pdf';
-  public data: object[];
   // public fileTypeList: string[] = ['Word', 'Pdf'];
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
+  public dataDraftDpdl: object[];
   constructor(
     public dialog: MatDialog,
     protected messageService: MessageService,
     private http: HttpClient,
     private storageService: StorageService,
     private actRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private generateDpdlDraftService: GenerateReportService
   ) {}
 
   ngOnInit(): void {
@@ -124,7 +126,8 @@ export class GenerateDpdlDraftComponent implements OnInit {
           });
           i++;
         });
-        this.data = data;
+        this.dataDraftDpdl = data;
+        this.generateDpdlDraftService.setDataReportDraft(this.dataDraftDpdl);
       });
   }
 
