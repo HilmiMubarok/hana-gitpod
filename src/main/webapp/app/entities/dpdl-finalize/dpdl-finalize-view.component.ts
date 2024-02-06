@@ -205,8 +205,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
     this.generateDpdlDraftService.dataReportDraft$.subscribe(res => {
       this.dataDraftDpdl = res;
-      console.log('Data Report Draft:', this.dataDraftDpdl);
-      // Lakukan apa pun yang perlu Anda lakukan dengan dataPkDraft di sini
+     
     });
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
