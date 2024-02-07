@@ -1093,7 +1093,7 @@
         </div>
       </div>
 
-      <div [hidden]="textBoxHidden">
+      <div [hidden]="checklissHidden">
         <section *ngIf="!statusDisabledOffering">
           <mat-checkbox [checked]="checklisDisbursement()" [(ngModel)]="applicationProduct.attributes['disbursementChecklisCon']"
             >Check disbursement condition (Only if requested by legal)</mat-checkbox
@@ -1233,7 +1233,59 @@
         </section>
       </div>
     </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <section *ngIf="!statusDisabledOffering">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Total Restructure</mat-label>
+            <input
+              matInput
+              type="number"
+              class="example-right-align"
+              [(ngModel)]="applicationProduct.earlyRepaymentPenalty"
+              [disabled]="statusDisabledOffering"
+            />
+          </mat-form-field>
+        </section>
+        <section *ngIf="statusDisabledOffering">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Total Restructure</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.attributes['paymentObligation'] }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <section *ngIf="!statusDisabledOffering">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Credit Term</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.currencyId" (ngModelChange)="chnageCurrency($event)" required>
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section *ngIf="statusDisabledOffering">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Credit Term</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.attributes['paymentObligation'] }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
   </div>
+
   <mat-label>Mapping to Collateral</mat-label>
   <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral>
 </mat-dialog-content>
