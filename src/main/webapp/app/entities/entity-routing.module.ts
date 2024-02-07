@@ -621,6 +621,10 @@ import { RouterModule } from '@angular/router';
             m => m.LosgwMasterFinancialInstitutionModule
           ),
       },
+      {
+        path: 'bank-account',
+        loadChildren: () => import('./bank-account/bank-account.module').then(m => m.BankAccountModule),
+      },
     ]),
   ],
 })

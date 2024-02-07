@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>ADD BANK ACCOUNT</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <section class="mt-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Bank</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVOri"
+            [matAutocomplete]="autoOri"
+            [(ngModel)]="MVOriCcy"
+            (ngModelChange)="getDataBank()"
+          />
+          <mat-autocomplete #autoOri="matAutocomplete" [displayWith]="displayFnMVOri">
+            <mat-option *ngFor="let option of filteredOptionsMVOri | async" [value]="option">
+              {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </section>
+
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Account No</mat-label>
+          <input matInput type="number" [(ngModel)]="dataBankAccount.accountNumber" />
+        </mat-form-field>
+      </section>
+
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Account Name</mat-label>
+          <input matInput type="text" [(ngModel)]="dataBankAccount.accountName" />
+        </mat-form-field>
+      </section>
+
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Description</mat-label>
+          <input matInput type="text" [(ngModel)]="dataBankAccount.description" />
+        </mat-form-field>
+      </section>
+
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select name="status" [(ngModel)]="dataBankAccount.statusId">
+            <mat-option *ngFor="let item of statusValue" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="align-center">
+  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">CLOSE</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="onSave()">SAVE</button>
+</mat-dialog-actions>
