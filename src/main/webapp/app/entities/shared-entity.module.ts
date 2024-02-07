@@ -480,6 +480,7 @@ import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activit
 import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
 import { GeneratePKDraftComponent } from './credit-agreement/finalize-credit-agreement/generate-pk-draft/generate-pk-draft.component';
+import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agreement/review-history/review-history.component';
 
 @NgModule({
   imports: [
@@ -1041,11 +1042,14 @@ import { GeneratePKDraftComponent } from './credit-agreement/finalize-credit-agr
 
     // scroll-up
     ScrollComponent,
+
+    ReviewHistoryComponent,
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
 
+    ReviewHistoryComponent,
     LoanPurposeComponent,
 
     // Memo Banding Collateral

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { ClausalPkDialogComponentEditComponent } from './clausal-pk-dialog/claus
 import { CashCreditProposalsService } from 'app/entities/cash-credit-proposal/cash-credit-proposals.service';
 import { IEntityProperties } from 'app/entities/entity-properties/entity-properties.model';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { INotes } from 'app/entities/notes/notes.model';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
@@ -62,6 +63,12 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   }
   public data = [];
   public loading: boolean;
+
+  @Output() notesChange = new EventEmitter<INotes>();
+
+  onNotesChange(ev) {
+    this.notesChange.emit(ev);
+  }
 
   constructor(
     private dialog: MatDialog,

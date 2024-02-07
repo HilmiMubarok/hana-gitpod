@@ -1,71 +1,52 @@
-<div class="wrapper-card">
-    <e-card class="mb-3">
-      <mat-card-subtitle class="mat-card-header-text">Review History</mat-card-subtitle>
+<h3 mat-dialog-title>Review History</h3>
 
-  
-      <div class="row">
-        <div class="mb-2 col-md-6" style="margin-top: 20px">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Approval User</mat-label>
-            <mat-select >
-              <mat-option *ngFor="let item of []">
-                {{ item }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="mb-2 col-md-6" style="margin-top: 20px">
-            <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Date</mat-label>
-                  <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-            
-                  
-                </mat-form-field>
-          </div>
-
-        <div class="mb-2 col-md-12" style="margin-top: 20px">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Position</mat-label>
-              <mat-select >
-                <mat-option *ngFor="let item of []">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-  
-      
-      </div>
-  
-   
-        <div class="e-card-content">
-          <div class="form-group">
-            <mat-card-subtitle class="mat-card-header-text">Opinion</mat-card-subtitle>
-            <section
-           
-            >
-            <ejs-documenteditorcontainer
-            #document_editor_container
-            [enableToolbar]="false"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            [spellcheck]="false"
-            [enableSpellCheck]="false"
-            [isReadOnly]="true"
-          ></ejs-documenteditorcontainer>
-          
-            </section>
-        
-    
-  
-      
-
-        </div>
-      </div>
-    </e-card>
+<div mat-dialog-content style="height: 100%">
+  <div class="container" [hidden]="(reviewHistoryService.loading$ | async) === false">
+    <div class="spinner"></div>
   </div>
-  
+
+  <form [formGroup]="reviewHistory">
+    <div class="row">
+      <div class="mb-2 col-md-6" style="margin-top: 20px">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Approver Name</mat-label>
+          <input matInput placeholder="Approver Name" formControlName="approverName" />
+        </mat-form-field>
+      </div>
+
+      <div class="mb-2 col-md-6" style="margin-top: 20px">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="date" />
+          <mat-datepicker-toggle matSuffix [for]="picker" disabled></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="mb-2 col-md-12" style="margin-top: 20px">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Position</mat-label>
+          <input matInput placeholder="Position" formControlName="position" />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <h5>Opinion</h5>
+  <ejs-documenteditorcontainer
+    #document_editor_container
+    [headers]="customHeadersJWT"
+    (keyDown)="onKeyDown($event)"
+    [enableLocalPaste]="false"
+    height="100vh"
+    style="display: block"
+    [spellcheck]="false"
+    [enableSpellCheck]="false"
+    (created)="onCreate()"
+  ></ejs-documenteditorcontainer>
+</div>
+
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="onSubmit()" [disabled]="reviewHistoryService.loading$ | async" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

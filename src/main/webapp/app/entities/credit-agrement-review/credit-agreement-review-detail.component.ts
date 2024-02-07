@@ -76,6 +76,14 @@ import { ViewportScroller } from '@angular/common';
   styleUrls: ['./credit-agreement-review.css'],
 })
 export class CreditAgreementReviewDetailComponent implements OnInit {
+  onNotesChange(ev) {
+    console.log('Parent pol: ', ev);
+    this.creditProposal.notes.push(ev);
+
+    this.creditProposal.notes.sort((a, b) => (a.id > b.id ? 1 : -1));
+    this.creditProposal.notes = lodash.uniqBy(this.creditProposal.notes, 'positionId');
+  }
+
   @ViewChild('creditProposalTabBusinessActivityComponent', {
     static: false,
   })
