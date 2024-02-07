@@ -1093,7 +1093,7 @@
         </div>
       </div>
 
-      <div [hidden]="textBoxHidden">
+      <div [hidden]="checklissHidden">
         <section *ngIf="!statusDisabledOffering">
           <mat-checkbox [checked]="checklisDisbursement()" [(ngModel)]="applicationProduct.attributes['disbursementChecklisCon']"
             >Check disbursement condition (Only if requested by legal)</mat-checkbox
@@ -1233,7 +1233,9 @@
         </section>
       </div>
     </div>
+    
   </div>
+
   <mat-label>Mapping to Collateral</mat-label>
   <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral>
 </mat-dialog-content>
