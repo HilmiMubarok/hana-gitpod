@@ -600,6 +600,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   textBoxHidden: boolean;
   paymentIDR: boolean;
+  checklissHidden: boolean;
   public parentPath = this.router.url.split('/')[1];
   public selectedMenu: string;
   public isDisabled(): boolean {
@@ -620,14 +621,17 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
       if (this.selectedMenu === 'loan-facility-detail') {
         this.textBoxHidden = false;
+        this.checklissHidden = true;
         this.statusDisabledOffering = false;
         this.paymentIDR = true;
         // If the Menu Compare Approval Report field can be displayed and cannot be changed
       } else if (this.selectedMenu === 'compare-approval-report') {
         this.textBoxHidden = false;
+        this.checklissHidden = true;
         this.statusDisabledOffering = true;
       } else {
         this.textBoxHidden = true;
+        this.checklissHidden = false;
         this.statusDisabledOffering = false;
       }
 
@@ -637,17 +641,21 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       if (this.selectedMenu === 'loan-facility-detail') {
         if (this.dataItem.statusId === 'OL_ASSIGNED') {
           this.textBoxHidden = false;
+          this.checklissHidden = true;
           this.statusDisabledOffering = false;
         } else {
           this.textBoxHidden = false;
+          this.checklissHidden = true;
           this.statusDisabledOffering = true;
         }
         // If the Menu Compare Approval Report field can be displayed and cannot be changed
       } else if (this.selectedMenu === 'compare-approval-report') {
         this.textBoxHidden = false;
+        this.checklissHidden = true;
         this.statusDisabledOffering = true;
       } else {
         this.textBoxHidden = true;
+        this.checklissHidden = true;
         this.statusDisabledOffering = true;
       }
 
@@ -655,9 +663,11 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     } else if (this.parentPath === 'review' || this.parentPath === 'confirmation') {
       if (this.selectedMenu === 'loan-facility-detail' || this.selectedMenu === 'compare-approval-report') {
         this.textBoxHidden = false;
+        this.checklissHidden = true;
         this.statusDisabledOffering = true;
       } else {
         this.textBoxHidden = true;
+        this.checklissHidden = false;
         this.statusDisabledOffering = true; // Menambahkan perubahan di sini
       }
     } else if (
@@ -668,17 +678,21 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.parentPath === 'dar-revision-checker'
     ) {
       this.textBoxHidden = false;
+      this.checklissHidden = true;
       this.statusDisabledOffering = true;
     } else if (this.parentPath === 'dar-revision') {
       if (subroutes === 'loan-facility') {
         this.textBoxHidden = false;
+        this.checklissHidden = true;
         this.statusDisabledOffering = false;
       } else {
         this.textBoxHidden = false;
+        this.checklissHidden = true;
         this.statusDisabledOffering = true;
       }
     } else {
       this.textBoxHidden = true;
+      this.checklissHidden = false;
       this.statusDisabledOffering = true; // Menambahkan perubahan di sini
     }
   }
@@ -1041,7 +1055,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       switch (this.applicationProduct.periodType) {
         case 'Week':
           this.dataTrhu = new Date();
-          this.dataTrhu = new Date(date.setDate(this.applicationProduct.tenor * 7 + 1));
+          this.dataTrhu = new Date(date.setDate(date.getDate() + this.applicationProduct.tenor * 7));
           break;
         case 'Month':
           this.dataTrhu = new Date(date.setMonth(date.getMonth() + this.applicationProduct.tenor));

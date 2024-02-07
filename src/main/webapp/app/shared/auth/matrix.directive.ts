@@ -81,6 +81,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.argsPath.match(/insurance-review/g) &&
         !this.argsPath.match(/finalize/g) &&
         !this.argsPath.match(/finalize-dppk/g) &&
+        !this.argsPath.match(/loan-ops-distribution/g) &&
         !this.router.url.includes('cc-inquiry') &&
         !this.router.url.includes('review-pk') &&
         !this.router.url.includes('dar-revision') &&
@@ -156,6 +157,12 @@ export class MatrixDirective implements OnInit, OnDestroy {
         }
       }
       if (this.argsPath.match(/finalize-dppk/g)) {
+        // if(this.status !== 'DRAFT'){
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+      if (this.argsPath.match(/loan-ops-distribution/g)) {
         // if(this.status !== 'DRAFT'){
         if (this.jhiMatrixDirElementType === '') {
           this.viewContainerRef.createEmbeddedView(this.templateRef);

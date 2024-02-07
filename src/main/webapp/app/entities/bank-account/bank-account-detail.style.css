@@ -1,0 +1,141 @@
+/* submenu css */
+/* horizontal */
+@keyframes icon-spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
+
+.settings-icon {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 24px;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.btn-float-styling {
+  border: solid;
+  border-width: 7px;
+  border-color: #93c1dd;
+  background-color: #e0fffd;
+  rotate: 0deg;
+  border-top-left-radius: 12%;
+  border-bottom-left-radius: 12%;
+}
+
+.sidebar-state-true {
+  z-index: 1;
+}
+.sidebar-state-false {
+  z-index: 2;
+}
+
+.list-styling {
+  margin: 7em 0 0 1rem;
+}
+
+.list-styling span {
+  font-size: 16px;
+}
+
+br {
+  display: block;
+  content: '';
+  margin-top: -0.5em;
+  line-height: 190%;
+}
+
+/* horizontal */
+
+mat-sidenav {
+  margin-right: 1rem;
+  margin-top: 7em;
+  max-height: 41rem;
+  min-width: 19rem;
+  border-radius: 1rem;
+}
+
+.mat-drawer {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-drawer .mat-drawer-inner-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.subroute-background {
+  background: linear-gradient(180deg, #96c9c8 14%, #eff8fe 16%);
+}
+
+.header-sub-wrapper {
+  background-position-x: 5rem;
+  background-position-y: 5rem;
+  background-size: cover;
+  background-repeat: repeat;
+}
+
+.header-sub-menu {
+  background: #ffff;
+  text-align: center;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  padding: 10px;
+  z-index: 1;
+  height: 90px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+/* submenu css */
+/* btn-mnu-float-override */
+.btn-menu-floating {
+  position: fixed !important;
+  bottom: 27rem !important;
+  right: 9px !important;
+  transform: translate(10px, 20px) !important;
+}

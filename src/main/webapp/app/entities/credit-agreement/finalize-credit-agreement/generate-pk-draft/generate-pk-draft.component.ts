@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { formatBytes } from 'app/shared/helper/utils';
@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { saveAs as importedSaveAs } from 'file-saver';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { GenerateReportService } from 'app/entities/generate-report-service/generate-report.service';
 
 @Component({
   selector: 'jhi-generate-pk-draft',
@@ -33,8 +34,8 @@ export class GeneratePKDraftComponent implements OnInit {
   public _item?: ICreditProposal = new CreditProposal();
   // public fileTypeSelected: string;
   public fileTypeSelected = 'Word';
-  public data: object[];
-  // public fileTypeList: string[] = ['Word', 'Pdf'];
+  public dataPkDraft: object[];
+
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
   constructor(
     public dialog: MatDialog,
@@ -42,7 +43,8 @@ export class GeneratePKDraftComponent implements OnInit {
     private http: HttpClient,
     private storageService: StorageService,
     private actRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private generatePkDraftService: GenerateReportService
   ) {}
 
   ngOnInit(): void {
@@ -125,17 +127,15 @@ export class GeneratePKDraftComponent implements OnInit {
           });
           i++;
         });
-        this.data = data;
+        this.dataPkDraft = data;
+        this.generatePkDraftService.setDataReportDraft(this.dataPkDraft);
+        // this.dataPkDraftCount.emit(data.length);
       });
   }
 
   public getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
-
-      // this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
-      //   this.paramId = params['id'];
-      // });
 
       if (this.item.agreements[0].id) {
         this.KEYG += `/${this.item.agreements[0].id}/document/draft/final/`;
@@ -163,13 +163,6 @@ export class GeneratePKDraftComponent implements OnInit {
         .subscribe(res => {
           const blob = window.URL.createObjectURL(new Blob([res.body], { type: 'application/pdf' }));
           window.open(blob);
-          // window.open(blob);
-
-          /* const reader = new FileReader();
-          reader.readAsDataURL(res.body!);
-          reader.onloadend = e => {
-            this.viewBlob('Report', reader.result);
-          }; */
         });
     }
   }

@@ -480,6 +480,10 @@ import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activit
 import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
 import { GeneratePKDraftComponent } from './credit-agreement/finalize-credit-agreement/generate-pk-draft/generate-pk-draft.component';
+import { DppkPreparationComponent } from './dppk-finalize/dppk-preparation/dppk-preparation.component';
+import { BankAccountComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account.component';
+import { BankAccountDialogComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account-dialog.component';
+import { GenerateDraftDppkComponent } from './dppk-finalize/dppk-preparation/generate-draft-dppk/generate-draft-dppk.component';
 import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agreement/review-history/review-history.component';
 
 @NgModule({
@@ -1043,6 +1047,13 @@ import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agree
     // scroll-up
     ScrollComponent,
 
+    // DPPK Preparation
+    DppkPreparationComponent,
+    BankAccountComponent,
+    BankAccountDialogComponent,
+    GenerateDraftDppkComponent,
+
+
     ReviewHistoryComponent,
   ],
   exports: [
@@ -1559,6 +1570,12 @@ import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agree
     GeneratePKDraftComponent,
     // scroll-up
     ScrollComponent,
+
+    // DPPK Preparation
+    DppkPreparationComponent,
+    BankAccountComponent,
+    BankAccountDialogComponent,
+    GenerateDraftDppkComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -12,23 +12,14 @@
       </mat-form-field>
     </div>
   </section>
-  <div *ngIf="menu !== 'confirmation'">
+  <div>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <div class="fontsebled row">
-        <div class="col-2">Booking Branchs</div>
-        <div class="col-md-auto">:</div>
-        <div class="col-8">
-          {{ organizationNameCp }}
+        <div [ngClass]="{ 'col-2': creditProposal.customerType === 'PERSONAL', 'col-3': creditProposal.customerType === 'CORPORATE' }">
+          Booking Branchs
         </div>
-      </div>
-    </section>
-  </div>
-  <div *ngIf="menu === 'confirmation'">
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-      <div class="fontsebled row">
-        <div class="col-4">Booking Branchs</div>
-        <div class="col-md-auto">:</div>
-        <div class="col col-lg-4">
+        <div class="col-md-auto" [ngStyle]="{ 'margin-left': creditProposal.customerType === 'CORPORATE' ? '-13.5px' : '0' }">:</div>
+        <div class="col">
           {{ organizationNameCp }}
         </div>
       </div>

@@ -340,7 +340,9 @@
                 [isViewMode]="true"
               ></jhi-credit-proposal-memo-banding>
             </div>
-
+            <div *ngIf="clickedMenu === 'insurance-information'">
+              <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"></jhi-insurance-information>
+            </div>
             <!-- loan facility detail -->
             <div *ngIf="clickedMenu === 'loan-facility'">
               <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
