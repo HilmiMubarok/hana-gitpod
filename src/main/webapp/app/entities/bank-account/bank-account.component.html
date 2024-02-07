@@ -1,0 +1,222 @@
+<div class="row remove-row-scroll">
+  <div class="e-card" style="margin: 1rem">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Bank Account" url="/party-cif"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Bank Account</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin: 1rem">
+      <mat-card class="mt-3 padding-matcard">
+        <mat-card-content>
+          <div class="col-12">
+            <div class="mt-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <input matInput placeholder="Search in here..." type="text" [(ngModel)]="currentSearch" />
+                <button *ngIf="statusSearch === false" matSuffix mat-icon-button aria-label="Clear" (click)="search()">
+                  <mat-icon>search</mat-icon>
+                </button>
+
+                <button *ngIf="statusSearch === true" matSuffix mat-icon-button aria-label="Clear" (click)="closeSearch()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+              <button mat-raised-button color="primary" (click)="rebuildIndex()" class="btn-lg w-100" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                REBUILD INDEX
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <table mat-table [dataSource]="partyCifs" class="mat-table-expand" multiTemplateDataRows>
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
+              <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-center">
+                {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="cif">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-center">CIF</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.customerId }}</td>
+            </ng-container>
+            <ng-container matColumnDef="customerName">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Debtor Name</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left">
+                {{ element.name }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="customerType">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Customer Type</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">
+                {{ element.customerType.toLowerCase() }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="createdDate">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-center">Created Date</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-center">
+                {{ element.createdDate | formatMediumDate }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-center">Action</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-center">
+                <a
+                  href="javascript:void();"
+                  [routerLink]="['/bank-account', element.id, 'detail']"
+                  mat-icon-button
+                  (click)="$event.stopPropagation()"
+                >
+                  <mat-icon>edit</mat-icon>
+                </a>
+              </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="hobis">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-center">SYNC Update Hobis</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-center">
+                <button mat-icon-button (click)="updateFromHobis(element); $event.stopPropagation()">
+                  <mat-icon>refresh</mat-icon>
+                </button>
+              </td>
+            </ng-container> -->
+            <ng-container matColumnDef="expand">
+              <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="grid-index-center rounding-table-right">&nbsp;</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-center">
+                <button
+                  mat-icon-button
+                  aria-label="expand row"
+                  (click)="
+                    expandedElement = expandedElement === element ? null : element; findDetail(expandedElement); $event.stopPropagation()
+                  "
+                >
+                  <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                  <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+              <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
+                <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                  <div class="p-3 w-100">
+                    <mat-card class="w-50 mx-auto" *ngIf="personalCustomer && personalCustomer.id">
+                      <mat-card-header class="w-100">
+                        <mat-card-subtitle class="fw-bold black text-uppercase">Personal Detail</mat-card-subtitle>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <div class="clearfix">
+                          <div class="float-start fw-bolder">Place, Date of Birth</div>
+                          <div class="float-end">{{ personalCustomer.pob }}, {{ personalCustomer.dob | formatMediumDate }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Marital Status</div>
+                          <div class="float-end text-capitalize">{{ personalCustomer.maritalStatus | lowercase }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">KTP</div>
+                          <div class="float-end text-capitalize">{{ personalCustomer.personalIdNumber }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">KK</div>
+                          <div class="float-end text-capitalize">{{ personalCustomer.familyIdNumber }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">NPWP</div>
+                          <div class="float-end text-capitalize">{{ personalCustomer.taxIdNumber }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Email</div>
+                          <div class="float-end text-capitalize">{{ personalCustomer.personalEmail }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Home Phone</div>
+                          <div class="float-end text-capitalize">{{ personalCustomer.homePhone }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">CellPhone</div>
+                          <div class="float-end text-capitalize">{{ personalCustomer.cellPhone1 }}</div>
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                    <mat-card class="w-50 mx-auto" *ngIf="corporateCustomer && corporateCustomer.id">
+                      <mat-card-header>
+                        <mat-card-subtitle class="fw-bold black text-uppercase text-center">Corporate Detail </mat-card-subtitle>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <div class="clearfix">
+                          <div class="float-start fw-bolder">NPWP</div>
+                          <div class="float-end">{{ corporateCustomer.taxIdNumber }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Office Phone</div>
+                          <div class="float-end">{{ corporateCustomer.officePhone }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Phone 1</div>
+                          <div class="float-end">{{ corporateCustomer.otherPhone1 }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Phone 2</div>
+                          <div class="float-end">{{ corporateCustomer.otherPhone2 }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Email</div>
+                          <div class="float-end">{{ corporateCustomer.officeMail }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Fax</div>
+                          <div class="float-end">{{ corporateCustomer.faxOffice }}</div>
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+            <tr
+              mat-row
+              *matRowDef="let element; columns: displayedColumnsExpand"
+              [class.mat-expanded-row]="expandedElement === element"
+              class="mat-element-row"
+              (click)="expandedElement = expandedElement === element ? null : element; findDetail(expandedElement)"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
+          </table>
+          <mat-card *ngIf="loading" id="material-loading-bar">
+            <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+          </mat-card>
+          <mat-paginator
+            showFirstLastButtons
+            ngClass="transparant"
+            [length]="paginatorLength"
+            [pageSize]="paginatorPageSize"
+            [pageSizeOptions]="paginatorPageSizeOption"
+            (page)="loadDataLazy($event)"
+          >
+          </mat-paginator>
+        </mat-card>
+      </div>
+      <div *ngIf="positionTypeId === 'RM'" class="d-flex justify-content-center mb-3 mt-3">
+        <button mat-raised-button (click)="openDialogFindCif()" class="button-styling"><mat-icon>search</mat-icon> FIND CIF</button>
+      </div>
+    </div>
+  </div>
+</div>

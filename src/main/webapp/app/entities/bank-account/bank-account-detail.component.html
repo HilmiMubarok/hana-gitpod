@@ -1,0 +1,97 @@
+<mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Bank Account" url=""> </e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title menu-title-class">Bank Account</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin: 1rem">
+      <div style="margin-bottom: 1rem">
+        <jhi-debtor-information
+          [cifNumber]="partyCif.customerPerson ? partyCif.customerNumber : partyCif.customerNumber"
+          [customerName]="partyCif.customerPerson ? partyCif.customerPerson.name : partyCif.customerOrganization.name"
+        ></jhi-debtor-information>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <mat-card>
+            <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+              <ng-container matColumnDef="no">
+                <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
+                <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-center">
+                  {{ i + 1 + paginator.pageIndex * paginator.pageSize }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef class="grid-index-left">Account Name</th>
+                <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.accountName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="bank">
+                <th mat-header-cell *matHeaderCellDef class="grid-index-left">Bank Name</th>
+                <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.finInstituteName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="no-account">
+                <th mat-header-cell *matHeaderCellDef class="grid-index-center">Account Number</th>
+                <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.accountNumber }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef class="grid-index-left">Description</th>
+                <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.description }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
+                <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.statusId }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="grid-index-center">Action</th>
+                <td mat-cell *matCellDef="let element" class="grid-index-center">
+                  <button mat-icon-button (click)="openDialogBankAccount(element)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+              </tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <mat-paginator
+              showFirstLastButtons
+              ngClass="transparant"
+              [length]="paginatorLength"
+              [pageSize]="paginatorPageSize"
+              [pageSizeOptions]="paginatorPageSizeOption"
+              (page)="loadDataLazy($event)"
+            >
+            </mat-paginator>
+          </mat-card>
+        </div>
+        <div class="d-flex justify-content-center mb-3 mt-3">
+          <button mat-raised-button (click)="openDialogBankAccount()" class="button-styling">ADD ACCOUNT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-sidenav-container>
