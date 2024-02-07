@@ -37,11 +37,7 @@ import moment from 'moment';
         <table mat-table [dataSource]="data" class="w-100 mt-3" multiTemplateDataRows>
           <ng-container matColumnDef="no">
             <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-            <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
-              {{ i + 1 }}.
-
-              <!-- {{ element.no }} -->
-            </td>
+            <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
           </ng-container>
           <ng-container matColumnDef="approverName">
             <th mat-header-cell *matHeaderCellDef class="text-center">Approver Name</th>
@@ -53,7 +49,7 @@ import moment from 'moment';
           </ng-container>
           <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef class="text-center">Date</th>
-            <td mat-cell *matCellDef="let element" class="text-center">{{ element.date }}</td>
+            <td mat-cell *matCellDef="let element" class="text-center">{{ element.date | date: 'yyyy/dd/MM' }}</td>
           </ng-container>
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
@@ -112,38 +108,7 @@ export class ReviewHistoryComponent implements OnChanges, OnDestroy, OnInit {
   private approverName: string;
   private dateNow: string = moment(new Date()).format().substring(0, 19) + 'Z';
 
-  public data: MatTableDataSource<IReviewHistory> = new MatTableDataSource<IReviewHistory>([
-    {
-      approverName: 'Approve Name',
-      position: 'Position',
-      date: 'Date',
-    },
-    {
-      approverName: 'Approve Name',
-      position: 'Position',
-      date: 'Date',
-    },
-    {
-      approverName: 'Approve Name',
-      position: 'Position',
-      date: 'Date',
-    },
-    {
-      approverName: 'Approve Name',
-      position: 'Position',
-      date: 'Date',
-    },
-    {
-      approverName: 'Approve Name',
-      position: 'Position',
-      date: 'Date',
-    },
-    {
-      approverName: 'Approve Name',
-      position: 'Position',
-      date: 'Date',
-    },
-  ]);
+  public data: MatTableDataSource<IReviewHistory> = new MatTableDataSource<IReviewHistory>([]);
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public _creditProposal: ICreditProposal;
@@ -163,9 +128,26 @@ export class ReviewHistoryComponent implements OnChanges, OnDestroy, OnInit {
     });
   }
 
+  getReviewHistory(notes: INotes[]): IReviewHistory[] {
+    // filter notes.type === 'review_history'
+    const reviewHistory = notes.filter(note => note.type === 'review_history');
+
+    // map reviewHistory to IReviewHistory
+
+    const reviewHistoryData: IReviewHistory[] = reviewHistory.map(note => ({
+      approverName: `${note.employeeFirstName} ${note.employeeLastName}`,
+      position: note.positionTypeDescription,
+      date: note.createDate,
+    }));
+
+    console.log('reviewHistoryData', reviewHistoryData);
+    return reviewHistoryData;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       this.creditProposal = changes['creditProposal'].currentValue;
+      this.data = new MatTableDataSource<IReviewHistory>(this.getReviewHistory(this.creditProposal.notes));
     }
   }
 
