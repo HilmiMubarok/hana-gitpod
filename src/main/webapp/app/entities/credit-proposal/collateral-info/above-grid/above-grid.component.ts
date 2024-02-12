@@ -270,6 +270,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         group: this.group,
         collateralProperties: this.collateralProperties,
         parentSource: this.parentSource,
+        depositInterestRate: this.getDepositInterestRate(element),
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -309,6 +310,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         } else {
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
+        this.setDepositInterestRate(element, res.depositInterestRate);
       } else {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
@@ -1016,5 +1018,42 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       return element;
     }
     return '';
+  }
+
+  public getDepositInterestRate(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.depositInterestRate === null) {
+          return 0;
+        } else {
+          return data.depositInterestRate;
+        }
+      }
+    }
+    return 0;
+  }
+
+  public setDepositInterestRate(collateral: ICollateral, depositInterestRate: number) {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        const idx = this.collateralProperties.findIndex(obj => obj.id === data.id);
+        if (idx) {
+          this.collateralProperties[idx].depositInterestRate = depositInterestRate;
+          console.log('idx ', idx);
+          console.log('property di child ', this.collateralProperties);
+        }
+      }
+    }
   }
 }

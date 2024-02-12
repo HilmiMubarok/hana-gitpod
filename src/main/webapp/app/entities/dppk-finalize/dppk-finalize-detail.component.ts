@@ -23,6 +23,7 @@ import {
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
   BASIC_SUBMENU_DPPK_MEMO,
   BASIC_SUBMENU_DPPK,
+  COLLATERAL_TYPE,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -122,6 +123,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
   })
   remaksComponent: RemarskComponent;
 
+  public collateralCgpg: ICollateral[] = [];
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
   public groupProduct: IApplicationProduct[] = [];
@@ -1213,25 +1215,29 @@ export class DppkFinalizeDetailComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
         if (this.collateral.length > 0) {
           for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
+            this.findCollateralProperty(this.collateral[i]);
           }
         }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
+  public findCollateralProperty(collateral: ICollateral): void {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
       });
+      if (
+        collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee'] ||
+        collateral.collateralTypeId === COLLATERAL_TYPE['deposit']
+      ) {
+        this.collateralCgpg.push(collateral);
+      }
     }
   }
 
@@ -1412,9 +1418,12 @@ export class DppkFinalizeDetailComponent implements OnInit {
   }
 
   public cekCgpgData() {
-    for (let i = 0; i < this.collateralProperties.length; i++) {
-      if (this.collateralProperties[i].propertyType === 'GENERAL') {
-        this.saveCollateralProperty(this.collateralProperties[i]);
+    if (this.collateralCgpg.length > 0) {
+      for (let i = 0; i < this.collateralCgpg.length; i++) {
+        const collateral = this.collateralProperties.find(obj => obj.collateralId === this.collateralCgpg[i].id && obj.external === false);
+        if (collateral) {
+          this.saveCollateralProperty(collateral);
+        }
       }
     }
   }
