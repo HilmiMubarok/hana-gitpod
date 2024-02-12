@@ -9,15 +9,29 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 
 import {
   PROPOSAL_TYPE,
+  SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
   SEGMENTS_TYPE,
+  ID_GREATER_15_BN,
+  ID_LOWER_EQUAL_15_BN,
+  ID_BACK_TO_BACK,
+  CP_APPROVAL_MENU,
+  CP_APPROVAL_MENU_BTB,
+  CP_APPROVAL_MENU_BELOW,
   BASIC_SUBMENU_CREDITAGREEMENT,
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
+  BASIC_SUBMENU_DPPK_REVIEW_MEMO,
+  BASIC_SUBMENU_DPPK_REVIEW,
+  BASIC_SUBMENU_LOAN_OPS_DIST_MEMO,
+  BASIC_SUBMENU_LOAN_OPS_DIST,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import _ from 'lodash';
+import { IEJOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
@@ -49,25 +63,21 @@ import { CreditProposalOpinionHistoryComponent } from '../credit-proposal/opinio
 import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
-import { CreditAgreementProcessService } from './credit-agreement-process.service';
-import { CreditAgreementService } from './credit-agreement.service';
-import { ICreditAgreement } from './credit-agreement.model';
 import { HttpClient } from '@angular/common/http';
 import { formatBytes } from 'app/shared/helper/utils';
-import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { CashCreditProposalsService } from '../cash-credit-proposal/cash-credit-proposals.service';
-import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
-import { GenerateReportService } from '../generate-report-service/generate-report.service';
-
+import { ILoanOPS } from './loan-operation.model';
+import { LoanOperationService } from './loan-operation.service';
+import { LoanOperationProcessService } from './loan-operation-process.service';
 @Component({
-  selector: 'jhi-credit-agreement-floating',
-  templateUrl: './credit-agreementfloating.component.html',
-  styleUrls: ['./credit-agreement.css'],
+  selector: 'jhi-loan-operation-detail',
+  templateUrl: './laon-operation-detail.component.html',
+  styleUrls: ['./loan-operation.css'],
 })
-export class CreditAgreementDetailComponent implements OnInit {
+export class LoanOperationDetailComponent implements OnInit {
   @ViewChild('creditProposalTabBusinessActivityComponent', {
     static: false,
   })
@@ -125,8 +135,8 @@ export class CreditAgreementDetailComponent implements OnInit {
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
 
-  public creditProposal: ICreditProposal;
-  public creditProposalStartState: ICreditAgreement;
+  public creditProposal: ILoanOPS;
+  public creditProposalStartState: ILoanOPS;
 
   public proposalType: object[];
 
@@ -156,7 +166,7 @@ export class CreditAgreementDetailComponent implements OnInit {
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
   public isHistoryExist: boolean;
-  public ca: ICreditAgreement;
+  public ca: ILoanOPS;
   public saveWord: Boolean = false;
   public saveWordOpinionCondition: Boolean = false;
   public dataChil: any;
@@ -181,17 +191,11 @@ export class CreditAgreementDetailComponent implements OnInit {
   public postalAdresss;
   public dataLand: any;
   public dataBuilding: any;
-  private KEYG = 'generate-final';
-  private KEYDRAFTGENERATE = 'aggrement';
-  private ngUnsubscribe = new Subject();
-  public dataPKFinal = [];
-  public dataPkDraft: object[];
 
   constructor(
     private partyCifService: PartyCifService,
-    public cashCreditProposalsService: CashCreditProposalsService,
-    private creditAgreementService: CreditAgreementService,
-    private creditAgreementProcessService: CreditAgreementProcessService,
+    private loanOperationService: LoanOperationService,
+    private loanOperationProcessService: LoanOperationProcessService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected messageService: MessageService,
@@ -211,8 +215,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller,
-    private generatePkDraftService: GenerateReportService
+    private viewport: ViewportScroller
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -222,8 +225,8 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
       ? // ? [...BASIC_SUBMENU_CREDITAGREEMENT, { id: 'memo-banding', text: 'Memo Banding' }]
-        BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO
-      : BASIC_SUBMENU_CREDITAGREEMENT;
+        BASIC_SUBMENU_LOAN_OPS_DIST_MEMO
+      : BASIC_SUBMENU_LOAN_OPS_DIST;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
 
@@ -244,15 +247,9 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
-      console.log('Isloadingg', this.baLoading);
     });
     this.baService.progress$.subscribe(res => {
       this.progress = res;
-      console.log('Progress', this.progress);
-    });
-
-    this.generatePkDraftService.dataReportDraft$.subscribe(res => {
-      this.dataPkDraft = res;
     });
   }
 
@@ -306,10 +303,70 @@ export class CreditAgreementDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('finalize-pk')) {
-      this.conditionSave = true;
+    if (this.router.url.includes('loan-ops-distribution')) {
+      if (this.positionTypeId === 'BM') {
+        if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
+          this.conditionSave = true;
+        } else {
+          this.conditionSave = false;
+        }
+      }
+
+      if (this.positionTypeId === 'SME_HEAD') {
+        if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
+          this.conditionSave = true;
+        } else {
+          this.conditionSave = false;
+        }
+      }
+
+      if (this.positionTypeId === 'SDH') {
+        if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
+          this.conditionSave = true;
+        } else {
+          this.conditionSave = false;
+        }
+      }
+
+      if (this.positionTypeId === 'DH') {
+        if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
+          this.conditionSave = true;
+        } else {
+          this.conditionSave = false;
+        }
+      }
+
+      if (this.positionTypeId === 'DEPT_HEAD') {
+        if (this.creditProposal.statusId === 'CP_APPROVAL_DEPTHEAD') {
+          this.conditionSave = true;
+        } else {
+          this.conditionSave = false;
+        }
+      }
+    } else {
+      if (this.positionTypeId === 'RM') {
+        if (
+          this.creditProposal.statusId === 'DRAFT' ||
+          this.creditProposal.statusId === 'CP_RETURN_TO_RM' ||
+          this.creditProposal.statusId === 'CP_RETURN_TO_CR' ||
+          this.creditProposal.statusId === 'RETURN_TO_RM_CRA' ||
+          this.creditProposal.statusId === 'OL_APPEAL'
+        ) {
+          this.conditionSave = true;
+        } else {
+          this.conditionSave = false;
+        }
+      } else {
+        this.conditionSave = false;
+      }
     }
   }
+
+  // private getBucketNameSummary() {
+  //   this.storageService.getBucketName().subscribe(val => {
+  //     this.BUCKET = val.body['bucket'];
+  //   });
+  // }
 
   setUuidPath(newItem: string) {
     this.uuidPath = newItem;
@@ -344,7 +401,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
     if (this.creditProposal.id) {
-      this.creditAgreementService.update(this.preSave(statusPreSave)).subscribe(res => {
+      this.loanOperationService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
 
         if (this.creditProposalTabBusinessActivityComponent) {
@@ -359,13 +416,13 @@ export class CreditAgreementDetailComponent implements OnInit {
           this.creditProposalOpinionHistoryComponent.triggeredSave();
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
-    } */
+		} */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
 
-        if (this.parentPath !== 'finalize-pk') {
+        if (this.parentPath !== 'loan-ops-distribution') {
           if (this.proposalBasicInformationViewComponent) {
             this.proposalBasicInformationViewComponent.triggeredSave();
           }
@@ -392,10 +449,10 @@ export class CreditAgreementDetailComponent implements OnInit {
         }
 
         if (this.saveState === 'process') {
-          if (this.parentPath === 'finalize-pk') {
+          if (this.parentPath === 'loan-ops-distribution') {
             this.saveApplicationRole();
           } else {
-            this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
+            this.loanOperationProcessService.processTask(this.resAttr).subscribe(() => {
               this.router.navigate([this.router.url.split('/')[1]]);
             });
           }
@@ -417,17 +474,17 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
-    this.getBucketNameSummaryPKDraf();
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
 
-    this.creditAgreementService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-      const menuItemIdByRoute = this.router.url.includes('finalize-pk') ? 'FINALIZE_CREDIT_AGREEMENT' : 'FINALIZE_CREDIT_AGREEMENT';
-      console.log('routes', menuItemIdByRoute);
+    this.loanOperationService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
+      const menuItemIdByRoute = this.router.url.includes('loan-ops-distribution')
+        ? 'LOAN_OPERATION_DISTRIBUTION'
+        : 'LOAN_OPERATION_DISTRIBUTION';
+
       this.ca = response.body;
-      console.log('routes', this.ca);
 
       this.masterPermissionService
         .queryFilterBy({ menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.ca.statusId })
@@ -467,7 +524,6 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.loadDataBy();
     this.showTextMenu();
-
     // this.cpGroub();
   }
 
@@ -487,7 +543,7 @@ export class CreditAgreementDetailComponent implements OnInit {
 
   private getTasks(): void {
     // this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
-    this.creditAgreementProcessService
+    this.loanOperationProcessService
       .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
       .subscribe(res => {
         this.tasks = res.body;
@@ -517,19 +573,8 @@ export class CreditAgreementDetailComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-        console.log('resAttr', this.resAttr);
 
-        // validasi pk draft
-        if (this.dataPkDraft && this.dataPkDraft.length > 0) {
-          this.save('process');
-        } else {
-          // this.save('default');
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Please Generate PK Draft first.',
-          });
-        }
+        this.save('process');
       }
     });
   }
@@ -554,7 +599,7 @@ export class CreditAgreementDetailComponent implements OnInit {
 
   private saveApplicationRole(): void {
     this.saveWord = false;
-    this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
+    this.loanOperationProcessService.processTask(this.resAttr).subscribe(() => {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
   }
@@ -576,10 +621,6 @@ export class CreditAgreementDetailComponent implements OnInit {
           }
         }
       });
-  }
-
-  public deleteColumnApprovalDeptorsConditions() {
-    this.cashCreditProposalsService.deletePropsResource(this.creditProposal.entityProperties[1].id).subscribe(() => {});
   }
 
   public onClickRed(): void {
@@ -634,7 +675,7 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.cashCreditProposalsService.update(this.preSave(status)).subscribe(res => {
+    this.loanOperationService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
 
@@ -651,16 +692,16 @@ export class CreditAgreementDetailComponent implements OnInit {
       }
 
       /* if (this.creditProposalOpinionHistoryComponent) {
-    this.creditProposalOpinionHistoryComponent.triggeredSave();
-    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-    this.creditProposalOpinionHistoryComponent.refresh();
+		this.creditProposalOpinionHistoryComponent.triggeredSave();
+		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+		this.creditProposalOpinionHistoryComponent.refresh();
     } */
 
       if (this.CreditProposalTabSummaryComponent) {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.parentPath !== 'finalize-pk') {
+      if (this.parentPath !== 'loan-ops-distribution') {
         if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
         }
@@ -683,11 +724,11 @@ export class CreditAgreementDetailComponent implements OnInit {
       }
 
       if (source === 'process') {
-        if (this.parentPath === 'finalize-pk') {
+        if (this.parentPath === 'loan-ops-distribution') {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
-          this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
+          this.loanOperationProcessService.processTask(this.resAttr).subscribe(() => {
             this.router.navigate([this.router.url.split('/')[1]]);
           });
         }
@@ -709,216 +750,216 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.setIndustryName();
     this.saveState = source;
 
-    // if (this.creditProposal.attributes.proposalType === null || this.creditProposal.attributes.proposalType === '') {
-    //   this.messageService.add({
-    //     severity: 'error',
-    //     summary: 'Error',
-    //     detail: 'Please Select Proposal Type',
-    //   });
-    // } else {
-    this.saveWord = true;
+    if (this.creditProposal.attributes.proposalType === null || this.creditProposal.attributes.proposalType === '') {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Please Select Proposal Type',
+      });
+    } else {
+      this.saveWord = true;
 
-    if (this.creditProposal.id) {
-      // if (this.router.url.split('/')[1] === 'finalize-pk') {
-      //   this.saveUpdate('not-complete', source);
-      // }
-      if (this.router.url.split('/')[1] === 'finalize-pk') {
-        if (this.creditProposalOpinionHistoryComponent) {
-          this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
-        } else {
-          let countValidate = 0;
-          if (this.positionLogin) {
-            if (this.opinionFileSfdt && this.opinionFileWord) {
-              const fileReader: FileReader = new FileReader();
-              fileReader.onload = (e: any) => {
-                const testSfdtFile = JSON.parse(fileReader.result as string);
-                if (
-                  testSfdtFile.sections[0].blocks[0].inlines ||
-                  testSfdtFile.sections[0].blocks[0].columnCount ||
-                  testSfdtFile.sections[0].blocks[0].paragraphFormat ||
-                  testSfdtFile.sections[0].blocks[0].grid ||
-                  testSfdtFile.sections[0].blocks[0].rows ||
-                  testSfdtFile.sections[0].blocks[0].tableFormat
-                ) {
+      if (this.creditProposal.id) {
+        if (this.router.url.split('/')[1] === 'loan-ops-distribution') {
+          this.saveUpdate('not-complete', source);
+        }
+        if (this.router.url.split('/')[1] === 'loan-ops-distribution') {
+          if (this.creditProposalOpinionHistoryComponent) {
+            this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
+          } else {
+            let countValidate = 0;
+            if (this.positionLogin) {
+              if (this.opinionFileSfdt && this.opinionFileWord) {
+                const fileReader: FileReader = new FileReader();
+                fileReader.onload = (e: any) => {
+                  const testSfdtFile = JSON.parse(fileReader.result as string);
                   if (
+                    testSfdtFile.sections[0].blocks[0].inlines ||
+                    testSfdtFile.sections[0].blocks[0].columnCount ||
                     testSfdtFile.sections[0].blocks[0].paragraphFormat ||
                     testSfdtFile.sections[0].blocks[0].grid ||
                     testSfdtFile.sections[0].blocks[0].rows ||
                     testSfdtFile.sections[0].blocks[0].tableFormat
                   ) {
-                    ++countValidate;
-                  } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
-                    if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+                    if (
+                      testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                      testSfdtFile.sections[0].blocks[0].grid ||
+                      testSfdtFile.sections[0].blocks[0].rows ||
+                      testSfdtFile.sections[0].blocks[0].tableFormat
+                    ) {
                       ++countValidate;
-                    } else {
-                      // toast opinion empty
-                      this.messageService.add({
-                        severity: 'info',
-                        summary: 'Warning',
-                        detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                      });
-                    }
-                  } else if (testSfdtFile.sections[0].blocks[0].inlines) {
-                    let isEmpty = true;
-                    testSfdtFile.sections[0].blocks.forEach(block => {
-                      if (block.inlines) {
-                        if (block.inlines.length > 0) {
-                          isEmpty = false;
-                        }
+                    } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
+                      if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+                        ++countValidate;
+                      } else {
+                        // toast opinion empty
+                        this.messageService.add({
+                          severity: 'info',
+                          summary: 'Warning',
+                          detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                        });
                       }
-                    });
-
-                    if (isEmpty) {
-                      // toast opinion empty
-                      this.messageService.add({
-                        severity: 'info',
-                        summary: 'Warning',
-                        detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                    } else if (testSfdtFile.sections[0].blocks[0].inlines) {
+                      let isEmpty = true;
+                      testSfdtFile.sections[0].blocks.forEach(block => {
+                        if (block.inlines) {
+                          if (block.inlines.length > 0) {
+                            isEmpty = false;
+                          }
+                        }
                       });
-                    } else {
-                      ++countValidate;
+
+                      if (isEmpty) {
+                        // toast opinion empty
+                        this.messageService.add({
+                          severity: 'info',
+                          summary: 'Warning',
+                          detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                        });
+                      } else {
+                        ++countValidate;
+                      }
+
+                      /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+						++countValidate;
+					  } else {
+						// toast opinion empty
+						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					  } */
                     }
-
-                    /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-            ++countValidate;
-            } else {
-            // toast opinion empty
-            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-            } */
+                  } else {
+                    // toast opinion empty
+                    this.messageService.add({
+                      severity: 'info',
+                      summary: 'Warning',
+                      detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                    });
                   }
-                } else {
-                  // toast opinion empty
-                  this.messageService.add({
-                    severity: 'info',
-                    summary: 'Warning',
-                    detail: 'Opinion Empty! All data will be save except data at tab opinion',
-                  });
-                }
 
-                if (this.recomendation) {
-                  ++countValidate;
-                  if (this.recomendation === 'Recommend With Condition') {
-                    if (this.conditionFileSfdt && this.conditionFileWord) {
-                      const fileReaderCondition: FileReader = new FileReader();
-                      fileReaderCondition.onload = (eCondition: any) => {
-                        const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-                        /* if (testSfdtFileCondition.sections[0].blocks) {
-              if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-                ++countValidate;
-              } else {
-                // toast condition empty
-                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-              }
-              } else {
-              // toast condition empty
-              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-              } */
+                  if (this.recomendation) {
+                    ++countValidate;
+                    if (this.recomendation === 'Recommend With Condition') {
+                      if (this.conditionFileSfdt && this.conditionFileWord) {
+                        const fileReaderCondition: FileReader = new FileReader();
+                        fileReaderCondition.onload = (eCondition: any) => {
+                          const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+                          /* if (testSfdtFileCondition.sections[0].blocks) {
+							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+							  ++countValidate;
+							} else {
+							  // toast condition empty
+							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							}
+						  } else {
+							// toast condition empty
+							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						  } */
 
-                        if (
-                          testSfdtFileCondition.sections[0].blocks[0].inlines ||
-                          testSfdtFileCondition.sections[0].blocks[0].columnCount ||
-                          testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
-                          testSfdtFileCondition.sections[0].blocks[0].grid ||
-                          testSfdtFileCondition.sections[0].blocks[0].rows ||
-                          testSfdtFileCondition.sections[0].blocks[0].tableFormat
-                        ) {
                           if (
+                            testSfdtFileCondition.sections[0].blocks[0].inlines ||
+                            testSfdtFileCondition.sections[0].blocks[0].columnCount ||
                             testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
                             testSfdtFileCondition.sections[0].blocks[0].grid ||
                             testSfdtFileCondition.sections[0].blocks[0].rows ||
                             testSfdtFileCondition.sections[0].blocks[0].tableFormat
                           ) {
-                            ++countValidate;
-                          } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
-                            if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+                            if (
+                              testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                              testSfdtFileCondition.sections[0].blocks[0].grid ||
+                              testSfdtFileCondition.sections[0].blocks[0].rows ||
+                              testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                            ) {
                               ++countValidate;
-                            } else {
-                              // toast condition empty
-                              this.messageService.add({
-                                severity: 'info',
-                                summary: 'Warning',
-                                detail: 'Condition Empty! All data will be save except data at tab opinion',
-                              });
-                            }
-                          } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
-                            let isEmpty = true;
-                            testSfdtFileCondition.sections[0].blocks.forEach(block => {
-                              if (block.inlines) {
-                                if (block.inlines.length > 0) {
-                                  isEmpty = false;
-                                }
+                            } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                              if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+                                ++countValidate;
+                              } else {
+                                // toast condition empty
+                                this.messageService.add({
+                                  severity: 'info',
+                                  summary: 'Warning',
+                                  detail: 'Condition Empty! All data will be save except data at tab opinion',
+                                });
                               }
-                            });
-
-                            if (isEmpty) {
-                              // toast condition empty
-                              this.messageService.add({
-                                severity: 'info',
-                                summary: 'Warning',
-                                detail: 'Condition Empty! All data will be save except data at tab opinion',
+                            } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+                              let isEmpty = true;
+                              testSfdtFileCondition.sections[0].blocks.forEach(block => {
+                                if (block.inlines) {
+                                  if (block.inlines.length > 0) {
+                                    isEmpty = false;
+                                  }
+                                }
                               });
-                            } else {
-                              ++countValidate;
+
+                              if (isEmpty) {
+                                // toast condition empty
+                                this.messageService.add({
+                                  severity: 'info',
+                                  summary: 'Warning',
+                                  detail: 'Condition Empty! All data will be save except data at tab opinion',
+                                });
+                              } else {
+                                ++countValidate;
+                              }
+
+                              /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+								++countValidate;
+							  } else {
+								// toast condition empty
+								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							  } */
                             }
-
-                            /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-                ++countValidate;
-                } else {
-                // toast condition empty
-                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-                } */
+                          } else {
+                            // toast condition empty
+                            this.messageService.add({
+                              severity: 'info',
+                              summary: 'Warning',
+                              detail: 'Condition Empty! All data will be save except data at tab opinion',
+                            });
                           }
-                        } else {
-                          // toast condition empty
-                          this.messageService.add({
-                            severity: 'info',
-                            summary: 'Warning',
-                            detail: 'Condition Empty! All data will be save except data at tab opinion',
-                          });
-                        }
 
-                        if (countValidate === 3) {
-                          this.saveUpdate('complete', source);
-                        } else {
-                          this.saveUpdate('not-complete', source);
-                        }
-                      };
-                      fileReaderCondition.readAsText(this.conditionFileSfdt);
+                          if (countValidate === 3) {
+                            this.saveUpdate('complete', source);
+                          } else {
+                            this.saveUpdate('not-complete', source);
+                          }
+                        };
+                        fileReaderCondition.readAsText(this.conditionFileSfdt);
+                      }
+                    } else {
+                      if (countValidate === 2) {
+                        this.saveUpdate('complete', source);
+                      } else {
+                        this.saveUpdate('not-complete', source);
+                      }
                     }
                   } else {
-                    if (countValidate === 2) {
-                      this.saveUpdate('complete', source);
-                    } else {
-                      this.saveUpdate('not-complete', source);
-                    }
+                    // toast recomendation empty
+                    this.messageService.add({
+                      severity: 'info',
+                      summary: 'Warning',
+                      detail: 'Recommendation Empty! All data will be save except data at tab opinion',
+                    });
+                    this.saveUpdate('not-complete', source);
                   }
-                } else {
-                  // toast recomendation empty
-                  this.messageService.add({
-                    severity: 'info',
-                    summary: 'Warning',
-                    detail: 'Recommendation Empty! All data will be save except data at tab opinion',
-                  });
-                  this.saveUpdate('not-complete', source);
-                }
-              };
-              fileReader.readAsText(this.opinionFileSfdt);
+                };
+                fileReader.readAsText(this.opinionFileSfdt);
+              } else {
+                // toast opinion empty
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Warning',
+                  detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                });
+                this.saveUpdate('not-complete', source);
+              }
             } else {
-              // toast opinion empty
-              this.messageService.add({
-                severity: 'info',
-                summary: 'Warning',
-                detail: 'Opinion Empty! All data will be save except data at tab opinion',
-              });
               this.saveUpdate('not-complete', source);
             }
-          } else {
-            this.saveUpdate('not-complete', source);
           }
         }
-      }
-      // } else {
-      /* this.creditProposalService.create(this.preSave()).subscribe(res => {
+      } else {
+        /* this.creditProposalService.create(this.preSave()).subscribe(res => {
           this.creditProposal.collaterals = res.body.collaterals;
           this.creditProposal.products = res.body.products;
           if (this.creditProposalTabBusinessActivityComponent) {
@@ -964,22 +1005,9 @@ export class CreditAgreementDetailComponent implements OnInit {
             this.saveWord = false;
           }
         }); */
+      }
     }
   }
-
-  // public save(source: string): void {
-  //   if (this.creditProposal.id) {
-  //     this.creditAgreementService.update(this.preSave('process')).subscribe(res => {
-  //       this.saveCollateralAfterReport();
-  //       // this.saveApplicationRole(source);
-  //     });
-  //   } else {
-  //     this.creditAgreementService.create(this.preSave('process')).subscribe(res => {
-  //       this.saveCollateralAfterReport();
-  //       // this.saveApplicationRole(source);
-  //     });
-  //   }
-  // }
 
   private convertDate(date: any): any {
     if (typeof date === 'string') {
@@ -1023,13 +1051,13 @@ export class CreditAgreementDetailComponent implements OnInit {
       });
   }
 
-  private preSave(status: string): ICreditAgreement {
-    for (let i = 0; i < this.creditAgreementService.partySliks.length; i++) {
-      this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditAgreementService.partySliks[i]];
+  private preSave(status: string): ILoanOPS {
+    for (let i = 0; i < this.loanOperationService.partySliks.length; i++) {
+      this.creditProposal.sliks = [...this.creditProposal.sliks, this.loanOperationService.partySliks[i]];
     }
-    const copyCreditProposal: ICreditAgreement = lodash.cloneDeep(this.creditProposal);
+    const copyCreditProposal: ILoanOPS = lodash.cloneDeep(this.creditProposal);
 
-    if (this.router.url.split('/')[1] === 'finalize-pk') {
+    if (this.router.url.split('/')[1] === 'loan-ops-distribution') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
         if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
           copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(
@@ -1042,7 +1070,7 @@ export class CreditAgreementDetailComponent implements OnInit {
     let tempHelper = 0;
     const tempRouter = this.router.url.split('/')[1];
 
-    if (tempRouter === 'finalize-pk') {
+    if (tempRouter === 'loan-ops-distribution') {
       if (status === 'complete') {
         if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
           if (copyCreditProposal.notes.length > 0) {
@@ -1069,85 +1097,69 @@ export class CreditAgreementDetailComponent implements OnInit {
         }
       }
     }
-    if (copyCreditProposal.attributes) {
-      copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
-      copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
-      copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
-      copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
-      copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
-      copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
-      copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
-      copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
-      copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
-      copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
-      copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
-      copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
-      copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
-      copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
-      copyCreditProposal.attributes['binding'] = JSON.stringify(copyCreditProposal.attributes['binding']);
-      copyCreditProposal.debtorData.attributes['prospectPerson'] = JSON.stringify(
-        copyCreditProposal.debtorData.attributes['prospectPerson']
-      );
-      copyCreditProposal.attributes['repaymentCapability'] = JSON.stringify(copyCreditProposal.attributes['repaymentCapability']);
-      copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
-      copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
-      copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
-      copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
-      copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
-      copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
-      copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
-      copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
-      copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
-      copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
-      copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
-      copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
-      copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
-      copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
-      copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
-      copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(
-        copyCreditProposal.attributes['facilityTakeOverAfterBank']
-      );
-      copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
-      copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
-      copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
-      copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
-      copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
-      copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(
-        copyCreditProposal.attributes['offeringLetterPreparation']
-      );
-      copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-        copyCreditProposal.attributes['creditProposalCollateralData']
-      );
-      copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
-      copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
-        this.creditProposal.attributes['remarksFinancialStatement']
-      );
-      copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
-      copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
-      copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
-      copyCreditProposal.groupProducts = [];
-      copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
-      copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
-      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
-      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
-      copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
-      copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
-      copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
-      copyCreditProposal.attributes['certificateInfoData'] = JSON.stringify(copyCreditProposal.attributes['certificateInfoData']);
-      copyCreditProposal.attributes['collateralAfterData'] = JSON.stringify(copyCreditProposal.attributes['collateralAfterData']);
-      copyCreditProposal.attributes['collateralAfterReport'] = JSON.stringify(copyCreditProposal.attributes['collateralAfterReport']);
-      copyCreditProposal.attributes['collateralSummary'] = JSON.stringify(copyCreditProposal.attributes['collateralSummary']);
-      copyCreditProposal.attributes['groupChecklisCollateral'] = JSON.stringify(copyCreditProposal.attributes['groupChecklisCollateral']);
-
-      if (copyCreditProposal.prospectPerson) {
-        copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
-      }
-
-      return copyCreditProposal;
-    } else {
-      return copyCreditProposal;
+    copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
+    copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
+    copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
+    copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
+    copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
+    copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
+    copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
+    copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
+    copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
+    copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
+    copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
+    copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
+    copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
+    copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
+    copyCreditProposal.attributes['binding'] = JSON.stringify(copyCreditProposal.attributes['binding']);
+    copyCreditProposal.debtorData.attributes['prospectPerson'] = JSON.stringify(copyCreditProposal.debtorData.attributes['prospectPerson']);
+    copyCreditProposal.attributes['repaymentCapability'] = JSON.stringify(copyCreditProposal.attributes['repaymentCapability']);
+    copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
+    copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
+    copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
+    copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
+    copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
+    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
+    copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
+    copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
+    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
+    copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
+    copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
+    copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
+    copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
+    copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
+    copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOverAfterBank']);
+    copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
+    copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
+    copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
+    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
+    copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
+    copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
+      this.creditProposal.attributes['remarksFinancialStatement']
+    );
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
+    copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
+    copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
+    copyCreditProposal.groupProducts = [];
+    copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
+    copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
+    copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+    copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+    copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+    copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+    copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
+    copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
+    if (copyCreditProposal.prospectPerson) {
+      copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
+
+    return copyCreditProposal;
   }
 
   print() {
@@ -1176,10 +1188,10 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   getText(value: any): string {
-    if (value === 'finalize-pk') {
-      return 'Credit Agrement';
+    if (value === 'loan-ops-distribution') {
+      return 'Loan Operation Distribution';
     } else {
-      return 'Credit Agreement';
+      return 'Loan Operation Distribution';
     }
   }
 
@@ -1369,8 +1381,6 @@ export class CreditAgreementDetailComponent implements OnInit {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      console.log('properties ', this.collateralProperties);
-      console.log('ini data ', data);
       if (data) {
         if (type === 'buktiKepemilikan') {
           if (collateral.collateralTypeId === 'SECURITIES') {
@@ -1419,7 +1429,6 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     return total;
   }
-
   public cekCgpgData() {
     for (let i = 0; i < this.collateralProperties.length; i++) {
       if (this.collateralProperties[i].propertyType === 'GENERAL') {
@@ -1647,14 +1656,15 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   // Untuk Summary Generate
-
-  // Untuk Summary Generate
+  private KEYG = 'credit_proposal/summary';
+  private ngUnsubscribe = new Subject();
+  public dataOfferingSPPK = [];
   private getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
 
       if (this.id) {
-        this.KEYG += `/${this.id}/document/`;
+        this.KEYG += `/${this.id}/`;
       } else {
         console.warn('Param id not found');
       }
@@ -1688,13 +1698,12 @@ export class CreditAgreementDetailComponent implements OnInit {
           i++;
         });
 
-        this.dataPKFinal = data;
+        this.dataOfferingSPPK = data;
       });
   }
 
-  // Change the access modifier to public
-  public generatePKFinal(): void {
-    this.generateFilePkFinal().then(() => {
+  private generate(): void {
+    this.generateFileOfferingSPPK().then(() => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
@@ -1704,21 +1713,12 @@ export class CreditAgreementDetailComponent implements OnInit {
     });
   }
 
-  public showButtonGeneratePK() {
-    const parentPath = this.router.url.split('/')[1];
-    if (parentPath.match(/finalize-pk/g) && this.creditProposal.statusId === 'PK_GENERATED') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  private async generateFilePkFinal(): Promise<void> {
-    const fileDpdlFinal = await firstValueFrom(
-      this.http.get(`/services/report/api/report/agreement/word/${this.creditProposal.agreements[0].id}?type=final`, {
-        responseType: 'text',
-        observe: 'response',
-      })
+  private async generateFileOfferingSPPK(): Promise<void> {
+    const fileSPPK = await firstValueFrom(
+      this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+    );
+    const genrateSPPK = await firstValueFrom(
+      this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
     );
   }
 
@@ -1728,57 +1728,6 @@ export class CreditAgreementDetailComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
-  }
-
-  // Cek data Generate Draft PK
-  private getBucketNameSummaryPKDraf() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET = val.body['bucket'];
-
-      if (this.creditProposal.agreements[0].id) {
-        this.KEYDRAFTGENERATE += `/${this.creditProposal.agreements[0].id}/document/draft/final/`;
-      } else {
-        console.warn('Param id not found');
-      }
-
-      this.onRefreshDrafPk();
-    });
-  }
-  private onRefreshDrafPk(): void {
-    const obj = {
-      key: this.KEYDRAFTGENERATE,
-    };
-    this.storageService
-      .getObjects(this.BUCKET, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        const temp: any[] = response?.body;
-        let i = 1;
-        const data: any[] = [];
-        temp.forEach((item: IObj) => {
-          data.push({
-            indexNum: i,
-            key: item.key,
-            appovallevel: item.name,
-            fileName: item.name,
-            metaData: item.metaData,
-            sizeFile: formatBytes(item.size),
-            tags: item.tags,
-            url: item.url,
-          });
-          i++;
-        });
-        this.dataPkDraft = data;
-        this.generatePkDraftService.setDataReportDraft(this.dataPkDraft);
-      });
-  }
-
-  public testValidate() {
-    if (this.dataPkDraft.length === 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please generate PK Draft' });
-    } else {
-      console.log('length data draft', this.dataPkDraft.length);
-    }
   }
 }
 interface IObj {

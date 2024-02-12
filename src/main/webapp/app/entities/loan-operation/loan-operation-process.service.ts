@@ -7,12 +7,10 @@ import { IProcessTask } from 'app/shared/model/process-task.model';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class InsuranceCheckingProcessService {
+export class LoanOperationProcessService {
   private resourceUrl: string;
-  private resourceUrlPost: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/insurance-agreements/tasks/application');
-    this.resourceUrlPost = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/insurance-agreements/tasks');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposal-process');
   }
 
   public getTasks(id: any): Observable<HttpResponse<IProcessTask[]>> {
@@ -25,6 +23,6 @@ export class InsuranceCheckingProcessService {
   }
 
   public processTask(task: IProcessTask): Observable<HttpResponse<object>> {
-    return this.http.post<object>(`${this.resourceUrlPost}`, task, { observe: 'response' });
+    return this.http.post<object>(`${this.resourceUrl}`, task, { observe: 'response' });
   }
 }

@@ -160,6 +160,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'request-slik',
       },
+      {
+        name: 'Bank Account',
+        iconname: 'minus',
+        route: 'bank-account',
+      },
       // {
       //   name: 'SLIK Checking',
       //   iconname: 'minus',
@@ -411,6 +416,17 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         name: ' Insurance Review',
         iconname: 'minus',
         route: 'insurance-review',
+      },
+    ],
+  },
+  {
+    name: 'Loan operations',
+    iconname: 'suitcase',
+    children: [
+      {
+        name: ' loan ops distribution',
+        iconname: 'minus',
+        route: 'loan-ops-distribution',
       },
     ],
   },
