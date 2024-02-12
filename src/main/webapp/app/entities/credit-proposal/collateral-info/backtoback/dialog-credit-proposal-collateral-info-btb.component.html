@@ -134,6 +134,20 @@
                   </ejs-textbox>
                 </section>
               </div>
+
+              <section *ngIf="showFieldDepositInterestRate()">
+                <div class="mb-2">
+                  <div class="row">
+                    <div class="col-8 col md-4">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Deposito Rate (%)</mat-label>
+                        <input matInput type="number" [(ngModel)]="depositInterestRate" [disabled]="disableDepositInterestRate()" />
+                        <div matSuffix class="input-suffix">&nbsp;%</div>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
             <div class="col-md-6">
               <div class="form-group">

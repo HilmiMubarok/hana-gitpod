@@ -25,7 +25,7 @@ import { CashCollateralService } from 'app/entities/cash-collateral/cash-collate
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -94,6 +94,8 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public collateralProperty: ICollateralProperty;
   public collateralPropertyExternal: ICollateralProperty;
   public collateralDetailType: any;
+  public depositInterestRate: number;
+  public selectedMenu: string;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -131,6 +133,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     protected generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
     private templateService: TemplateService,
+    protected activatedRoute: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       cp: ICreditProposal;
@@ -140,6 +143,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       emptyField: IEmptyField;
       isViewMode: Boolean;
       parentSource: string;
+      depositInterestRate: number;
     }
   ) {
     this.parentSource = this.data.parentSource;
@@ -159,6 +163,13 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.setManagementBrance();
     this.setBranches();
     this.loadByCollateral(this.collateral.id);
+    this.depositInterestRate = data.depositInterestRate;
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.selectedMenu = subRoute;
+      }
+    });
   }
   ngOnInit(): void {
     this.getRole();
@@ -255,6 +266,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       binding: this.binding,
       emptyField: this.empty,
       creditProposal: this.creditProposal,
+      depositInterestRate: this.depositInterestRate,
     });
   }
 
@@ -568,5 +580,19 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     if (this.binding.ccy === 'USD') {
       this.logoCcy = {};
     }
+  }
+
+  public showFieldDepositInterestRate() {
+    if (this.collateral.collateralTypeId === 'DEPOSIT') {
+      return true;
+    }
+    return false;
+  }
+
+  public disableDepositInterestRate() {
+    if (this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info') {
+      return false;
+    }
+    return true;
   }
 }
