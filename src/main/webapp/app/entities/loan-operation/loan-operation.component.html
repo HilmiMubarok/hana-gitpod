@@ -1,0 +1,271 @@
+<div class="row remove-row-scroll">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ getText(activeRoute) }}{{ title }}" url="{{ getText(value) }}"> </e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">{{ getText(activeRoute) }}{{ title }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin: 1rem">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle>Status Options</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-chip-list cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+            <mat-chip class="example-box text-capitalize" (click)="chipClick(item)" cdkDrag *ngFor="let item of statusCodesData">
+              {{ item.statusDescription }}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="mt-3" style="margin-bottom: 1rem">
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="w-100">
+            <input (keyup.enter)="doSearch()" matInput placeholder="Search in here..." type="text" [(ngModel)]="currentSearch" />
+            <button *ngIf="statusSearch === false" matSuffix mat-icon-button aria-label="Clear" (click)="doSearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+
+            <button *ngIf="statusSearch === true" matSuffix mat-icon-button aria-label="Clear" (click)="closeSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </mat-card-content>
+
+        <div class="mt-3">
+          <button mat-raised-button color="primary" (click)="rebuildIndex()" class="btn-lg w-100" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+            REBUILD INDEX
+          </button>
+        </div>
+      </mat-card>
+      <mat-card>
+        <div class="text-end w-100 mt-3" *ngIf="clickedChip !== ''">
+          You search data with status <span class="text-capitalize fw-bold">{{ clickedChip.label }}</span>
+        </div>
+        <div class="table-responsive">
+          <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+              <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">
+                {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="proposalNumber">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Proposal Number</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.applicationNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="cif">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">CIF</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.customerNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="customerName">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Debtor Name</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left">
+                {{ element.prospectPerson ? element.prospectPerson.afiks : '' }}
+                {{ element.prospectOrganization ? element.prospectOrganization.groupName : element.prospectPerson.name }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="customerType">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Customer Type</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">
+                {{ element.customerType | lowercase }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="createdDate">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-right">Proposal Date</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-right">
+                {{ element.createdDate | formatMediumDate }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left">
+                <mat-chip class="status-chip"
+                  ><span class="category-chip__text">{{ element.statusDescription }}</span></mat-chip
+                >
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left">
+                <a href="javascript:void();" [routerLink]="[element.id, 'edit']" mat-icon-button (click)="$event.stopPropagation()">
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                </a>
+                <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
+                  <fa-icon [icon]="iconTimeline"></fa-icon>
+                </button>
+                <jhi-developer-area-show-diagram-state-multiple [elementData]="element"> </jhi-developer-area-show-diagram-state-multiple>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="expand">
+              <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="grid-index" class="rounding-table-right">&nbsp;</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  mat-icon-button
+                  aria-label="expand row"
+                  (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+                >
+                  <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                  <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+              <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
+                <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                  <div class="p-3 w-100">
+                    <mat-card class="w-50 mx-auto" *ngIf="element.prospectPerson">
+                      <mat-card-header class="w-100">
+                        <mat-card-subtitle class="fw-bold black text-uppercase">Personal Detail</mat-card-subtitle>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <div class="clearfix">
+                          <div class="float-start fw-bolder">Place, Date of Birth</div>
+                          <div class="float-end">{{ element.prospectPerson.pob }}, {{ element.prospectPerson.staticDob }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Marital Status</div>
+                          <div class="float-end text-capitalize">{{ element.prospectPerson.maritalStatus | lowercase }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">KTP</div>
+                          <div class="float-end text-capitalize">{{ element.prospectPerson.personalIdNumber }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">KK</div>
+                          <div class="float-end text-capitalize">{{ element.prospectPerson.familyIdNumber }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">NPWP</div>
+                          <div class="float-end text-capitalize">{{ element.prospectPerson.taxIdNumber }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Email</div>
+                          <div class="float-end text-capitalize">{{ element.prospectPerson.personalEmail }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Home Phone</div>
+                          <div class="float-end text-capitalize">{{ element.prospectPerson.homePhone }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">CellPhone</div>
+                          <div class="float-end text-capitalize">{{ element.prospectPerson.cellPhone1 }}</div>
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                    <mat-card class="w-50 mx-auto" *ngIf="element.prospectOrganization">
+                      <mat-card-header>
+                        <mat-card-subtitle class="fw-bold black text-uppercase text-center">Corporate Detail </mat-card-subtitle>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <div class="clearfix">
+                          <div class="float-start fw-bolder">NPWP</div>
+                          <div class="float-end">{{ element.prospectOrganization.taxIdNumber }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Office Phone</div>
+                          <div class="float-end">{{ element.prospectOrganization.officePhone }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Phone 1</div>
+                          <div class="float-end">{{ element.prospectOrganization.otherPhone1 }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Phone 2</div>
+                          <div class="float-end">{{ element.prospectOrganization.otherPhone2 }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Email</div>
+                          <div class="float-end">{{ element.prospectOrganization.officeMail }}</div>
+                        </div>
+                        <div class="clearfix mt-3">
+                          <div class="float-start fw-bolder">Fax</div>
+                          <div class="float-end">{{ element.prospectOrganization.faxOffice }}</div>
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                    <mat-card class="w-50 mx-auto" *ngIf="element.pic !== null">
+                      <mat-card-header>
+                        <mat-card-subtitle class="fw-bold black text-uppercase text-center">RM Info </mat-card-subtitle>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <div class="clearfix">
+                          <div class="float-start fw-bolder">PIC Name</div>
+                          <div class="float-end" *ngFor="let item of element.listOfPic">{{ item.partyName }} |</div>
+                        </div>
+                        <!-- <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">RM Name</div>
+                        <div class="float-end">{{ element.rm?.partyName }}</div>
+                      </div> -->
+                        <div class="clearfix mt-3" *ngIf="element.ownerPosition !== null">
+                          <div class="float-start fw-bolder">RM Name</div>
+                          <!-- <div class="float-end">{{ element.rm.partyName }}</div> -->
+                          <div class="float-end">
+                            {{ element.ownerPosition?.employeeFirstName + ' ' + element.ownerPosition?.employeeLastName }}
+                          </div>
+                        </div>
+                        <div class="clearfix">
+                          <div class="float-start fw-bolder">PIC Date</div>
+                          <div class="float-end" *ngFor="let item of element.listOfPic">{{ item.fromDate | date: 'medium' }} |</div>
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+            <tr
+              mat-row
+              *matRowDef="let element; columns: displayedColumnsExpand"
+              [class.mat-expanded-row]="expandedElement === element"
+              class="mat-element-row"
+              (click)="expandedElement = expandedElement === element ? null : element"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
+          </table>
+        </div>
+        <mat-card *ngIf="loading" id="material-loading-bar">
+          <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+        </mat-card>
+        <mat-paginator
+          showFirstLastButtons
+          ngClass="transparant"
+          [length]="paginatorLength"
+          [pageSize]="paginatorPageSize"
+          [pageSizeOptions]="paginatorPageSizeOption"
+          (page)="loadDataLazy($event)"
+        >
+        </mat-paginator>
+      </mat-card>
+    </div>
+
+    <!-- ADD CP Hanya Muncul di Credit Proposal Bukan Di CP Approval -> Permintaan DK-->
+    <div class="e-card-actions" *ngIf="parentPath === 'credit-proposal-status'">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button *ngIf="positionTypeId === 'RM'" mat-raised-button [routerLink]="['./new']" class="button-styling">
+          ADD CREDIT PROPOSAL
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

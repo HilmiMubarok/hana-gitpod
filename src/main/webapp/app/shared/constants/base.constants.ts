@@ -3272,6 +3272,19 @@ export const BASIC_SUBMENU_REVIEW_INSURANCE_MEMO: object[] = [
   },
 ];
 
+export const BASIC_SUBMENU_LOAN_OPS_DIST_MEMO: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+];
+export const BASIC_SUBMENU_LOAN_OPS_DIST: object[] = [
+  {
+    id: 'dar-summary',
+    text: 'DAR Summary',
+  },
+];
+
 export enum DOCUMENT_TYPE_GENERATE_DOCUMENT {
   DAR = 'DOC_GENERATE_DAR',
   CP = 'DOC_GENERATE_CREDIT_PROPOSAL_MARK_II',

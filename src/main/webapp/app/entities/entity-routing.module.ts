@@ -385,7 +385,10 @@ import { RouterModule } from '@angular/router';
         path: 'insurance-review',
         loadChildren: () => import('./review-insurance/review-insurance.module').then(m => m.LosgwIReviewInsuranceModule),
       },
-
+      {
+        path: 'loan-ops-distribution',
+        loadChildren: () => import('./loan-operation/loan-operation.module').then(m => m.LosgwLoanOperationModule),
+      },
       {
         path: 'credit-proposal-status',
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
@@ -617,6 +620,10 @@ import { RouterModule } from '@angular/router';
           import('./master-parameter/financial-institution/master-financial-institution.module').then(
             m => m.LosgwMasterFinancialInstitutionModule
           ),
+      },
+      {
+        path: 'bank-account',
+        loadChildren: () => import('./bank-account/bank-account.module').then(m => m.BankAccountModule),
       },
     ]),
   ],

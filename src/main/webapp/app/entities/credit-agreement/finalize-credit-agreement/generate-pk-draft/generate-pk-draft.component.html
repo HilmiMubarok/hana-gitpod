@@ -9,7 +9,7 @@
     <div class="e-card-content">
       <div class="form-group">
         <div class="table-responsive-material">
-          <table mat-table [dataSource]="data" class="w-100">
+          <table mat-table [dataSource]="dataPkDraft" class="w-100">
             <ng-container matColumnDef="no">
               <th mat-header-cell *matHeaderCellDef>No</th>
               <td mat-cell *matCellDef="let element">{{ element.indexNum }}</td>
@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-    <div class="e-card-action" align="center">
+    <div class="e-card-action" align="center" *ngIf="conditionButtonGeneratePk()">
       <button mat-raised-button (click)="generate()" class="button-styling"><mat-icon>add</mat-icon> Generate</button>
     </div>
   </e-card>

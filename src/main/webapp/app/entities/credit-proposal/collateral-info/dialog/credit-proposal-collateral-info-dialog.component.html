@@ -542,6 +542,19 @@
                     </div>
                   </div>
                 </section>
+                <section *ngIf="showFieldDepositInterestRate()">
+                  <div class="mb-2">
+                    <div class="row">
+                      <div class="col-8 col md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                          <mat-label>Deposito Rate (%)</mat-label>
+                          <input matInput type="number" [(ngModel)]="depositInterestRate" [disabled]="disableDepositInterestRate()" />
+                          <div matSuffix class="input-suffix">&nbsp;%</div>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </section>
               </div>
             </div>
           </div>
@@ -733,6 +746,7 @@
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
       <div class="form-group" [hidden]="parentPath === 'finalize' ? true : false">
         <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
+        <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
       </div>
     </section>
     <div [hidden]="hiddenPath()">
@@ -1467,5 +1481,6 @@
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
       <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
     </section>
+    <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
   </mat-dialog-actions>
 </div>
