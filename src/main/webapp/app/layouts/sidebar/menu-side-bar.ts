@@ -428,6 +428,16 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'loan-ops-distribution',
       },
+      {
+        name: ' loan ops Checking',
+        iconname: 'minus',
+        route: 'loan-ops-checking',
+      },
+      {
+        name: ' loan ops Review',
+        iconname: 'minus',
+        route: 'loan-ops-review',
+      },
     ],
   },
   // {
