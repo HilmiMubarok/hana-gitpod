@@ -183,6 +183,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         collateralProperties: this.collateralProperties,
         group: this.group,
         parentSource: this.parentSource,
+        depositInterestRate: this.getDepositInterestRate(value),
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);
@@ -231,6 +232,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         } else {
           this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
         }
+        this.setDepositInterestRate(value, res.depositInterestRate);
       } else {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
@@ -916,5 +918,42 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     const lvKjjpCoverage =
       this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
     this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
+  }
+
+  public getDepositInterestRate(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.depositInterestRate === null) {
+          return 0;
+        } else {
+          return data.depositInterestRate;
+        }
+      }
+    }
+    return 0;
+  }
+
+  public setDepositInterestRate(collateral: ICollateral, depositInterestRate: number) {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        const idx = this.collateralProperties.findIndex(obj => obj.id === data.id);
+        if (idx) {
+          this.collateralProperties[idx].depositInterestRate = depositInterestRate;
+          console.log('idx ', idx);
+          console.log('property di child ', this.collateralProperties);
+        }
+      }
+    }
   }
 }
