@@ -35,13 +35,10 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  constructor(private generalParameterService: GeneralParameterService) {
-    this.LovCovenantBelow();
-  }
+  constructor(private generalParameterService: GeneralParameterService) {}
 
   ngOnInit(): void {
     this.LovCovenantBelow();
-    // console.log('proposal-type', this.creditProposalItem[])
   }
 
   public onKeyUpEvent(input: string, event: any, data: any) {
@@ -97,9 +94,9 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
         if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
           this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
         } else {
-          for (let i = 0; i < this.standardCovenant.length; i++) {
+          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
             this.standardCovenant[i] = {
-              covenant: this.standardCovenant[i].convenant,
+              covenant: this.standardCovenant[i].covenant,
               deviation: this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation,
               id: this.creditProposalItem.attributes['convenant'].standardCovenant[i].id,
               justification: this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification,
