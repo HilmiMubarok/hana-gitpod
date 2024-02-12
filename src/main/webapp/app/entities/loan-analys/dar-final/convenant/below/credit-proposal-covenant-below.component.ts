@@ -96,7 +96,7 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
         if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
           this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
         } else {
-          for (let i = 0; i < this.standardCovenant.length; i++) {
+          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
             this.standardCovenant[i] = {
               covenant: this.standardCovenant[i].covenant,
               deviation: this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation,
