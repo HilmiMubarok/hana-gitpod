@@ -121,5 +121,12 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
       });
   }
 
-  te;
+  addBRBeforeDash(text: string): string {
+    if (text === '' || text === undefined || text === null) {
+      return text;
+    } else {
+      const hasil = text.replace(/\n/g, '<br/>');
+      return hasil;
+    }
+  }
 }
