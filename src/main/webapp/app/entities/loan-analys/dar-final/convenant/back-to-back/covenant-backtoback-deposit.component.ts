@@ -132,7 +132,11 @@ export class DarCovenantBackToBackDepositComponent implements OnInit, OnDestroy 
       });
   }
   addBRBeforeDash(text: string): string {
-    const hasil = text.replace(/\n/g, '<br/>');
-    return hasil;
+    if (text === '' || text === undefined || text === null) {
+      return text;
+    } else {
+      const hasil = text.replace(/\n/g, '<br/>');
+      return hasil;
+    }
   }
 }
