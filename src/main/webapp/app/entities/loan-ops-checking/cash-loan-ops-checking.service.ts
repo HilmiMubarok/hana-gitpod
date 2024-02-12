@@ -12,10 +12,10 @@ import moment from 'moment';
 import { createRequestOption } from 'app/core/request/request-util';
 import { DelegationApplicationRequest } from '../employee/delegationApplicationRequest.model';
 import { ILoanApplication } from '../loan-application/loan-application.model';
-import { ILoanOPS } from './loan-operation.model';
+import { ILoanOPSChecking } from './loan-ops-checking.model';
 
 @Injectable({ providedIn: 'root' })
-export class CashLoanOperationService extends AbstractEntityService<ILoanOPS> {
+export class CashLoanOpsCheckingService extends AbstractEntityService<ILoanOPSChecking> {
   private resourceUrlCashCreditProposal: string;
   public statRemarkBusinessActivity;
   public partySliks = [];
@@ -26,29 +26,29 @@ export class CashLoanOperationService extends AbstractEntityService<ILoanOPS> {
     this.resourceUrlCashCreditProposal = this.resourceUrl + '/cash-credit-proposals';
   }
 
-  cashCreditProposalApprovalByStatus(req?: any): Observable<HttpResponse<ILoanOPS[]>> {
+  cashCreditProposalApprovalByStatus(req?: any): Observable<HttpResponse<ILoanOPSChecking[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ILoanOPS[]>(this.resourceUrl + '/cash-credit-proposals/by-status', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoadItemArray(res)));
+      .get<ILoanOPSChecking[]>(this.resourceUrl + '/cash-credit-proposals/by-status', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoadItemArray(res)));
   }
-  queryDelegationApplicationFilterBy(req?: any): Observable<HttpResponse<ILoanOPS[]>> {
+  queryDelegationApplicationFilterBy(req?: any): Observable<HttpResponse<ILoanOPSChecking[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ILoanOPS[]>(this.resourceUrl + '/delegation-application/filterBy', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoadItemArray(res)));
+      .get<ILoanOPSChecking[]>(this.resourceUrl + '/delegation-application/filterBy', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoadItemArray(res)));
   }
-  reviewDppkBystatus(req?: any): Observable<HttpResponse<ILoanOPS[]>> {
+  loanOpsCheckingBystatus(req?: any): Observable<HttpResponse<ILoanOPSChecking[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ILoanOPS[]>(this.resourceUrl + '/cash-credit-proposals/find-by-internal', {
+      .get<ILoanOPSChecking[]>(this.resourceUrl + '/cash-credit-proposals/find-by-internal', {
         params: options,
         observe: 'response',
       })
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoadItemArray(res)));
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoadItemArray(res)));
   }
 
   queryListOfViewStatusFilterBy(req?: any): Observable<HttpResponse<any[]>> {
@@ -58,45 +58,45 @@ export class CashLoanOperationService extends AbstractEntityService<ILoanOPS> {
       .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
-  public addDelegation(entity: ILoanOPS, params?: any): Observable<HttpResponse<DelegationApplicationRequest>> {
+  public addDelegation(entity: ILoanOPSChecking, params?: any): Observable<HttpResponse<DelegationApplicationRequest>> {
     this.preSave(entity);
     const options = createRequestOption(params);
     return this.http
-      .post<ILoanOPS>(this.resourceUrl + '/delegation-application', entity, { observe: 'response', params: options })
-      .pipe(map((res: HttpResponse<ILoanOPS>) => this.convertDateFromServer(res)))
-      .pipe(map((res: HttpResponse<ILoanOPS>) => this.preLoadItem(res)));
+      .post<ILoanOPSChecking>(this.resourceUrl + '/delegation-application', entity, { observe: 'response', params: options })
+      .pipe(map((res: HttpResponse<ILoanOPSChecking>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking>) => this.preLoadItem(res)));
   }
 
-  public getMyApplication(idParty: string, idPositionType: string, req?: any): Observable<HttpResponse<ILoanOPS[]>> {
+  public getMyApplication(idParty: string, idPositionType: string, req?: any): Observable<HttpResponse<ILoanOPSChecking[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ILoanOPS[]>(this.resourceUrl + '/cash-credit-proposal/my-application/' + idParty + '/position-type/' + idPositionType, {
+      .get<ILoanOPSChecking[]>(this.resourceUrl + '/cash-credit-proposal/my-application/' + idParty + '/position-type/' + idPositionType, {
         params: options,
         observe: 'response',
       })
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoadItemArray(res)));
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoadItemArray(res)));
   }
 
-  cashCreditProposalApproval(req?: any): Observable<HttpResponse<ILoanOPS[]>> {
+  cashCreditProposalApproval(req?: any): Observable<HttpResponse<ILoanOPSChecking[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ILoanOPS[]>(this.resourceUrl + '/cash-credit-proposals/cp-status-approval', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoadItemArray(res)));
+      .get<ILoanOPSChecking[]>(this.resourceUrl + '/cash-credit-proposals/cp-status-approval', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoadItemArray(res)));
   }
 
-  searchCP(req?: any): Observable<HttpResponse<ILoanOPS[]>> {
+  searchCP(req?: any): Observable<HttpResponse<ILoanOPSChecking[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ILoanOPS[]>(this.resourceUrl + '/_search/cash-credit-proposals', { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoadItemArray(res)));
+      .get<ILoanOPSChecking[]>(this.resourceUrl + '/_search/cash-credit-proposals', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoadItemArray(res)));
   }
 
   public totalChanges: Subject<any> = new Subject();
 
-  protected isNew(entity: ILoanOPS): boolean {
+  protected isNew(entity: ILoanOPSChecking): boolean {
     return entity.id === undefined || entity.id === null;
   }
 
@@ -124,8 +124,8 @@ export class CashLoanOperationService extends AbstractEntityService<ILoanOPS> {
     return result;
   }
 
-  protected convertDateArrayFromServer(res: HttpResponse<ILoanOPS[]>): HttpResponse<ILoanOPS[]> {
-    res.body.forEach((creditAgreement: ILoanOPS) => {
+  protected convertDateArrayFromServer(res: HttpResponse<ILoanOPSChecking[]>): HttpResponse<ILoanOPSChecking[]> {
+    res.body.forEach((creditAgreement: ILoanOPSChecking) => {
       //
       if (creditAgreement.prospectPerson) {
         creditAgreement.prospectPerson.dob = creditAgreement.prospectPerson.dob ? new Date(creditAgreement.prospectPerson.dob) : null;
@@ -140,7 +140,7 @@ export class CashLoanOperationService extends AbstractEntityService<ILoanOPS> {
     return res;
   }
 
-  protected preSave(entity: ILoanOPS) {
+  protected preSave(entity: ILoanOPSChecking) {
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }
@@ -150,16 +150,16 @@ export class CashLoanOperationService extends AbstractEntityService<ILoanOPS> {
     }
   }
 
-  public findByCif(cif: string): Observable<HttpResponse<ILoanOPS>> {
-    return this.http.get<ILoanOPS>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
+  public findByCif(cif: string): Observable<HttpResponse<ILoanOPSChecking>> {
+    return this.http.get<ILoanOPSChecking>(this.resourceUrl + '/cif/' + cif, { observe: 'response' });
   }
 
-  public findPersonTemplate(cif: string): Observable<HttpResponse<ILoanOPS>> {
-    return this.http.get<ILoanOPS>(this.resourceUrl + '/cif-person-template/' + cif, { observe: 'response' });
+  public findPersonTemplate(cif: string): Observable<HttpResponse<ILoanOPSChecking>> {
+    return this.http.get<ILoanOPSChecking>(this.resourceUrl + '/cif-person-template/' + cif, { observe: 'response' });
   }
 
-  public findPartyGroupTemplate(cif: string): Observable<HttpResponse<ILoanOPS>> {
-    return this.http.get<ILoanOPS>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
+  public findPartyGroupTemplate(cif: string): Observable<HttpResponse<ILoanOPSChecking>> {
+    return this.http.get<ILoanOPSChecking>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
   }
 
   public sendNotification(idApp: number): Observable<HttpResponse<any>> {
@@ -188,9 +188,9 @@ export class CashLoanOperationService extends AbstractEntityService<ILoanOPS> {
     const options = createRequestOption(req);
     const url = this.resouceGridRetrive + cif;
     return this.http
-      .get<ILoanOPS[]>(url, { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoadItemArray(res)));
+      .get<ILoanOPSChecking[]>(url, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoadItemArray(res)));
   }
 
   public getListCurency(page: number, size: number): Observable<HttpResponse<any>> {

@@ -18,14 +18,14 @@ import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 import { TemplateService } from 'app/layouts/template/template.service';
-import { ILoanOPS } from './loan-operation.model';
-import { LoanOperationService } from './loan-operation.service';
-import { CashLoanOperationService } from './cash-loan-operation.service';
+import { ILoanOPSChecking } from './loan-ops-checking.model';
+import { LoanOpsCheckingService } from './loan-ops-checking.service';
+import { CashLoanOpsCheckingService } from './cash-loan-ops-checking.service';
 
 @Component({
-  selector: 'jhi-loan-operation',
-  templateUrl: './loan-operation.component.html',
-  styleUrls: ['./loan-operation.css'],
+  selector: 'jhi-loan-ops-checking',
+  templateUrl: './loan-ops-checking.component.html',
+  styleUrls: ['./loan-ops-checking.css'],
   animations: [
     trigger('detailExpand', [
       state(
@@ -45,7 +45,7 @@ import { CashLoanOperationService } from './cash-loan-operation.service';
     ]),
   ],
 })
-export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoanOPS> implements OnInit {
+export class LoanOpsCheckingComponent extends AbstractEntityMaterialComponent<ILoanOPSChecking> implements OnInit {
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: any;
@@ -113,16 +113,16 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
   ];
   constructor(
     private accountService: AccountService,
-    private loanOperationService: LoanOperationService,
+    private loanOpsCheckingService: LoanOpsCheckingService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    private cashLoanOperationService: CashLoanOperationService,
+    private cashLoanOpsCheckingService: CashLoanOpsCheckingService,
     private templateService: TemplateService
   ) {
-    super(_snackBar, loanOperationService);
+    super(_snackBar, loanOpsCheckingService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -139,7 +139,7 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
     this.positionIdLocStor = this.getLocStor('POS');
 
     this.loadAll();
-    this.checkLogin();
+    // this.checkLogin();
     this.getPositionTypeId();
   }
   private getPositionTypeId(): void {
@@ -149,7 +149,7 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
   }
 
   public getStatusListView(appMenu: string) {
-    this.cashLoanOperationService
+    this.cashLoanOpsCheckingService
       .queryListOfViewStatusFilterBy({
         page: 0,
         size: 9999,
@@ -172,13 +172,13 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
-    predicate['target'] = 'loan-ops-distribution';
+    predicate['target'] = 'loan-ops-checking';
 
-    this.cashLoanOperationService
+    this.cashLoanOpsCheckingService
       .searchCP(predicate)
-      .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoad(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoad(res)))
       .subscribe({
-        next: (res: HttpResponse<ILoanOPS[]>) => {
+        next: (res: HttpResponse<ILoanOPSChecking[]>) => {
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -216,7 +216,7 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
     }
   }
 
-  private checkReturnStatusDescription(data: ILoanOPS[]) {
+  private checkReturnStatusDescription(data: ILoanOPSChecking[]) {
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
         data[i].statusDescription =
@@ -275,36 +275,36 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url === '/loan-ops-distribution') {
-        this.getStatusListView('LOAN_OPERATION_DISTRIBUTION');
+      if (this.router.url === '/loan-ops-checking') {
+        this.getStatusListView('LOAN_OPERATION_CHECKING');
         if (this.clickedChip['statusId'] !== '') {
-          this.cashLoanOperationService
-            .reviewDppkBystatus({
+          this.cashLoanOpsCheckingService
+            .loanOpsCheckingBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'LOAN_OPERATION_DISTRIBUTION',
+              appMenuId: 'LOAN_OPERATION_CHECKING',
             })
-            .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<ILoanOPS[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<ILoanOPSChecking[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
           return;
         } else {
-          this.cashLoanOperationService
-            .reviewDppkBystatus({
+          this.cashLoanOpsCheckingService
+            .loanOpsCheckingBystatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'LOAN_OPERATION_DISTRIBUTION',
+              appMenuId: 'LOAN_OPERATION_CHECKING',
             })
-            .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<ILoanOPSChecking[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<ILoanOPS[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<ILoanOPSChecking[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
         }
@@ -352,7 +352,7 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
     return result;
   }
 
-  public showTimeLine(element: ILoanOPS): void {
+  public showTimeLine(element: ILoanOPSChecking): void {
     this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',
@@ -363,61 +363,61 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
   }
 
   getText(value: any) {
-    if (value === 'loan-ops-distribution') {
-      this.title = 'Loan Operation ';
+    if (value === 'loan-ops-checking') {
+      this.title = 'Loan Operation Checking';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'loan-ops-distribution') {
-      this.title = 'Loan Operation  ';
+    if (value === 'loan-ops-checking') {
+      this.title = 'Loan Operation Checking';
       sessionStorage.setItem('appName', this.title);
     }
   }
 
-  private checkLogin() {
-    this.accountService.identity().subscribe(account => {
-      if (account) {
-        this.account = account;
-        this.account.authorities['ROLE_RM'] = this.isRm;
-      }
-    });
-  }
+  // private checkLogin() {
+  //   this.accountService.identity().subscribe(account => {
+  //     if (account) {
+  //       this.account = account;
+  //       this.account.authorities['ROLE_RM'] = this.isRm;
+  //     }
+  //   });
+  // }
 
-  public conditionButtonAddCP() {
-    if (this.isRm()) {
-      if (this.parentPath === 'cp-status-approval') {
-        if (this.account.authorities.length <= 2) {
-          this.viewButton = false;
-        } else {
-          this.viewButton = true;
-        }
-      }
-    }
+  // public conditionButtonAddCP() {
+  //   if (this.isRm()) {
+  //     if (this.parentPath === 'cp-status-approval') {
+  //       if (this.account.authorities.length <= 2) {
+  //         this.viewButton = false;
+  //       } else {
+  //         this.viewButton = true;
+  //       }
+  //     }
+  //   }
 
-    if (this.isBm()) {
-      if (this.parentPath === 'cp-status-approval') {
-        if (this.account.authorities.length <= 2) {
-          this.viewButton = true;
-        }
-      }
-    }
-    if (this.isSMEHead()) {
-      if (this.parentPath === 'cp-status-approval') {
-        if (this.account.authorities.length <= 2) {
-          this.viewButton = true;
-        } else {
-          this.viewButton = false;
-        }
-      }
-    }
-  }
+  //   if (this.isBm()) {
+  //     if (this.parentPath === 'cp-status-approval') {
+  //       if (this.account.authorities.length <= 2) {
+  //         this.viewButton = true;
+  //       }
+  //     }
+  //   }
+  //   if (this.isSMEHead()) {
+  //     if (this.parentPath === 'cp-status-approval') {
+  //       if (this.account.authorities.length <= 2) {
+  //         this.viewButton = true;
+  //       } else {
+  //         this.viewButton = false;
+  //       }
+  //     }
+  //   }
+  // }
 
-  public isRm(): any {
-    return this.account.authorities.includes('ROLE_RM');
-  }
-  public isBm(): any {
-    return this.account.authorities.includes('ROLE_BM');
-  }
-  public isSMEHead(): any {
-    return this.account.authorities.includes('ROLE_SME_HEAD');
-  }
+  // public isRm(): any {
+  //   return this.account.authorities.includes('ROLE_RM');
+  // }
+  // public isBm(): any {
+  //   return this.account.authorities.includes('ROLE_BM');
+  // }
+  // public isSMEHead(): any {
+  //   return this.account.authorities.includes('ROLE_SME_HEAD');
+  // }
 }
