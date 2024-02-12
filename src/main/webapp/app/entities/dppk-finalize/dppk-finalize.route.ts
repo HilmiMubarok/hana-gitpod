@@ -406,6 +406,23 @@ export class DppkFinalizeReviewResolve implements Resolve<IDppkFinalize> {
               );
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToDPPKReview1')) {
+              creditProposal.body.attributes['dataAssignToDPPKReview1'] = [];
+              creditProposal.body.attributes['dataAssignToDPPKReview1'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignToDPPKReview1'] = JSON.parse(
+                creditProposal.body.attributes['dataAssignToDPPKReview1']
+              );
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToDPPKReview2')) {
+              creditProposal.body.attributes['dataAssignToDPPKReview2'] = [];
+              creditProposal.body.attributes['dataAssignToDPPKReview2'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignToDPPKReview2'] = JSON.parse(
+                creditProposal.body.attributes['dataAssignToDPPKReview2']
+              );
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =

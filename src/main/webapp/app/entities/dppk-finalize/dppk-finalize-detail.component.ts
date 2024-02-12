@@ -1037,7 +1037,14 @@ export class DppkFinalizeDetailComponent implements OnInit {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.dppkFinalizeService.partySliks[i]];
     }
     const copyCreditProposal: IDppkFinalize = lodash.cloneDeep(this.creditProposal);
-
+    const applicationRolePreSave = {
+      id: 0,
+      applicationId: 0,
+      partyId: '',
+      partyName: '',
+      roleDescription: '',
+      roleId: '',
+    };
     if (this.router.url.split('/')[1] === 'finalize-dppk') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
         if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
@@ -1136,6 +1143,8 @@ export class DppkFinalizeDetailComponent implements OnInit {
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
+    copyCreditProposal.attributes['dataAssignToDPPKReview1'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToDPPKReview1']);
+    copyCreditProposal.attributes['dataAssignToDPPKReview2'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToDPPKReview2']);
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
@@ -1719,6 +1728,28 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  // Assign DPPK
+  public onAssignToOne(ev: any): void {
+    const dynAttrOne = 'dataAssignToDPPKReview1';
+    this.applicationRole = ev;
+    this.creditProposal.attributes[dynAttrOne] = ev;
+    console.log('data assign To One', this.creditProposal.attributes[dynAttrOne]);
+  }
+
+  public onAssignToTwo(ev: any): void {
+    const dynAttrTwo = 'dataAssignToDPPKReview2';
+    this.applicationRole = ev;
+    this.creditProposal.attributes[dynAttrTwo] = ev;
+  }
+
+  public conditionShowAssignDppk() {
+    if (this.parentPath.match(/finalize-dppk/g) && this.creditProposal.statusId === 'DPPK_FINALIZE') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 interface IObj {
