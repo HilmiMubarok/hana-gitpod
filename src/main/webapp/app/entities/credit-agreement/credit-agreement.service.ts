@@ -229,6 +229,17 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
     return this.http.get<any>(`${MICROSERVICENAME.LOS}/api/agreement-clausals/active-clausals/party/${idParty}`, { observe: 'response' });
   }
 
+  public agreementsAddendumApplication(idApplication: number, req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausals/addendum/application/${idApplication}`, {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
+  }
+
   public saveClausalAgreementGroub(entity: any, params?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(params);
     return this.http

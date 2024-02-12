@@ -319,11 +319,9 @@ export class OtherCovenantTempComponent implements OnInit {
     this.otherConvenantMinIO = [...sameIdObjects, ...differentIdObjects];
     if (this.filterStatus.length > 0) {
       for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
-        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
-      }
-    } else {
-      for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
-        this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
+        if (this.otherConvenantMinIO[i].categoryName !== undefined && this.otherConvenantMinIO[i].categoryName !== null) {
+          this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
+        }
       }
     }
   }
