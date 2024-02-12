@@ -484,6 +484,7 @@ import { DppkPreparationComponent } from './dppk-finalize/dppk-preparation/dppk-
 import { BankAccountComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account.component';
 import { BankAccountDialogComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account-dialog.component';
 import { GenerateDraftDppkComponent } from './dppk-finalize/dppk-preparation/generate-draft-dppk/generate-draft-dppk.component';
+import { DppkAssignToComponent } from './dppk-finalize/dppk-assign-to/dppk-assign-to.component';
 
 @NgModule({
   imports: [
@@ -1051,6 +1052,7 @@ import { GenerateDraftDppkComponent } from './dppk-finalize/dppk-preparation/gen
     BankAccountComponent,
     BankAccountDialogComponent,
     GenerateDraftDppkComponent,
+    DppkAssignToComponent,
 
   ],
   exports: [
@@ -1572,6 +1574,7 @@ import { GenerateDraftDppkComponent } from './dppk-finalize/dppk-preparation/gen
     BankAccountComponent,
     BankAccountDialogComponent,
     GenerateDraftDppkComponent,
+    DppkAssignToComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

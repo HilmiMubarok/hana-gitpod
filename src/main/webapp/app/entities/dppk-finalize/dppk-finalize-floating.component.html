@@ -327,6 +327,13 @@
                   >
                   </jhi-credit-proposal-tab-summary>
                   <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
+                  <jhi-dppk-assign-to
+                    *ngIf="conditionShowAssignDppk()"
+                    (assignToOne)="onAssignToOne($event)"
+                    (assignToTwo)="onAssignToTwo($event)"
+                    [creditProposal]="creditProposal"
+                  >
+                  </jhi-dppk-assign-to>
                 </e-card>
               </div>
             </div>
@@ -353,13 +360,13 @@
             </div>
 
             <div *ngIf="clickedMenu === 'insurance-information'">
-              <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"></jhi-insurance-information>
+              <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"> </jhi-insurance-information>
             </div>
             <!-- <div *ngIf="clickedMenu === 'dpdl'">
-              
+
             </div>
             <div *ngIf="clickedMenu === 'internal_memo'">
-              
+
             </div> -->
 
             <div *ngIf="clickedMenu === 'finalize-credit-agreement'">
@@ -459,7 +466,7 @@
           {{ task.caption }}
         </button>
 
-        <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
+        <button class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
     </div>
     <!-- End Action -->
