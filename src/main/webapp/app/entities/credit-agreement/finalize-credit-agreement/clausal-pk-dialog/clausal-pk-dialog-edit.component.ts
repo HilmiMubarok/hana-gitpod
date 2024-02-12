@@ -71,8 +71,8 @@ export class ClausalPkDialogComponentEditComponent {
   }
 
   public optionChildAgrementAddedum(index: number): any[] {
-    const selectedOptions = this.valueChildAgreeements.slice(0, index);
-    return this.agreementsClausalChildList.filter(option => !selectedOptions.includes(option));
+    const selectedOptions = this.addendumListActive.slice(0, index);
+    return this.addendumListActive.filter(option => !selectedOptions.includes(option));
   }
 
   public triggeredSave(): Promise<void> {
@@ -200,28 +200,34 @@ export class ClausalPkDialogComponentEditComponent {
           this.getContainer(res);
         });
     });
-
-    this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
-      this.agreementsClausalTemplate = res.body;
-    });
-
     this.creditAgreementService
       .getAddendumActive('ADDENDUM', {
         page: 0,
         size: 9999,
       })
-      .subscribe((res2: any) => {
-        this.agreementsClausalChildList = res2.body;
-        this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-          this.addendumListActive = res.body;
-
-          this.creditAgreementService.clausalAgreementsId(this.data.dataClausal.id).subscribe((res1: any) => {
-            this.valueParentClausalAgreements = this.addendumListActive.filter(
-              (data: any) => data.agreementClausalParameterDescription === res1.body.agreementClausalParameterDescription
-            )[0];
-          });
-        });
+      .subscribe((res: any) => {
+        const data: any[] = res.body;
+        this.agreementsClausalChildList = data.filter((re: any) => re.parameterCategoryId === 'ADDENDUM');
+        console.log('child list', this.agreementsClausalChildList);
       });
+
+    this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
+      this.agreementsClausalTemplate = res.body;
+    });
+
+    this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
+      this.addendumListActive = res.body;
+    });
+
+    this.creditAgreementService.clausalAgreementsId(this.data.dataClausal.id).subscribe((res1: any) => {
+      const valueParentClausalAgreements = this.addendumListActive.filter(
+        (data: any) => data.agreementClausalParameterDescription === res1.body.agreementClausalParameterDescription
+      )[0];
+
+      this.creditAgreementService.agreementsAddendumApplication(this.data.creditProposal.id).subscribe((res: any) => {
+        this.valueParentClausalAgreements = res.body.filter;
+      });
+    });
   }
 
   public close() {
