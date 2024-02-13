@@ -1072,11 +1072,18 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   // for disbursement checkliss condition
   public disableRemarkDisbursement = true;
   checklisDisbursement() {
-    if (
-      this.applicationProduct.attributes['disbursementChecklisCon'] === 'true' ||
-      this.applicationProduct.attributes['disbursementChecklisCon'] === true
-    ) {
-      return true;
+    if (this.parentPath === 'finalize') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        return true;
+      }
+    } else {
+      if (
+        this.applicationProduct.attributes['disbursementChecklisCon'] === 'true' ||
+        this.applicationProduct.attributes['disbursementChecklisCon'] === true
+      ) {
+        return true;
+      }
     }
     return false;
   }
