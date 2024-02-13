@@ -1715,7 +1715,7 @@ export class CreditAgreementDetailComponent implements OnInit {
 
   private async generateFilePkFinal(): Promise<void> {
     const fileDpdlFinal = await firstValueFrom(
-      this.http.get(`/services/report/api/report/agreement/word/${this.creditProposal.agreements[0].id}?type=final`, {
+      this.http.get(`/services/report/api/report/agreement/pdf-word/${this.creditProposal.agreements[0].id}?type=final`, {
         responseType: 'text',
         observe: 'response',
       })
