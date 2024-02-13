@@ -1,0 +1,312 @@
+<mat-sidenav-container [hasBackdrop]="true" (backdropClick)="triggerToggle()">
+  <!-- Start Card -->
+  <div class="e-card">
+    <jhi-scroll *ngIf="showScroll$ | async" (scrollToTop)="onScrollToTop()"></jhi-scroll>
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ getText(parentPath) }}"> </e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
+            <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
+          </div>
+          <!-- <p class="e-card-sub-title menu-title-class">Credit Agreement</p> -->
+          <p class="e-card-sub-title menu-title-class">{{ headerTitle }}</p>
+        </div>
+      </div>
+    </div>
+    <!-- Start Margin Bottom -->
+    <div style="margin-bottom: 1rem">
+      <div class="mb-3">
+        <jhi-debtor-information [cifNumber]="creditProposal.customerNumber" [customerName]="creditProposal.cif.name">
+        </jhi-debtor-information>
+      </div>
+
+      <!-- Start Section Proposal Info -->
+      <section class="wrapper-card">
+        <e-card class="mb-3">
+          <div class="e-card-header">
+            <div class="e-card-header-caption">
+              <div class="e-card-header-title">Loan Operation Distribution</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
+                </div>
+                <div class="form-group">
+                  <section *ngIf="permission">
+                    <section *jhiMatrixDirMPS="'input'; permission: permission">Directive Input RM</section>
+                    <section *jhiMatrixDirMPS="'label'; permission: permission">Directive Label RM</section>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      readonly
+                      [(ngModel)]="creditProposal.applicationNumber"
+                      placeholder="Proposal Number"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Proposal Number</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ creditProposal.applicationNumber }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="form-group">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      readonly
+                      [value]="creditProposal.createdDate | formatMediumDate"
+                      placeholder="Proposal Date"
+                      cssClass="e-outline"
+                      floatLabelType="Always"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Proposal Date</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ creditProposal.createdDate | formatMediumDate }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="form-group">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      readonly
+                      [(ngModel)]="creditProposal.customerNumber"
+                      placeholder="CIF Number"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">CIF Number</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ creditProposal.customerNumber }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="form-group">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      readonly
+                      [(ngModel)]="creditProposal.cif.name"
+                      placeholder=" Customer Name"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Customer Name</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ creditProposal.cif.name }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Proposal Type</mat-label>
+                      <mat-select
+                        name="proposalType"
+                        [(ngModel)]="creditProposal.attributes.proposalType"
+                        required
+                        [disabled]="disabledProptype()"
+                        (selectionChange)="setSubmenu($event.value)"
+                      >
+                        <mat-option value="">- Please select proposal type -</mat-option>
+                        <mat-option *ngFor="let item of proposType" [value]="item.code">
+                          {{ item.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Proposal Type</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ a }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="form-group">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-combobox
+                      disabled
+                      cssClass="e-outline e-disabled"
+                      placeholder="Segment"
+                      floatLabelType="Auto"
+                      [ngModel]="creditProposal.applicationTypeDescription"
+                      (change)="setSegmenTypes($event.itemData)"
+                      [dataSource]="segmentType"
+                      fields="{text:'text', value:'id'}"
+                      required
+                    >
+                    </ejs-combobox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Segment</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ creditProposal.applicationTypeDescription }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+                <div class="form-group">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
+                      placeholder="Referral"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      required
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Referral</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ creditProposal.attributes['basicInformation'].refferal }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="form-group">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>Lending Program</mat-label>
+                      <mat-select name="lendingProgram" [(ngModel)]="creditProposal.attributes['lendingProgramParameter']">
+                        <mat-option value="">Please Select</mat-option>
+                        <mat-option *ngFor="let item of lendingProgram" [value]="item.description">
+                          {{ item.description }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Lending Program</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ this.creditProposal.attributes['lendingProgramParameter'] }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="form-group">
+                  <jhi-loan-purpose [products]="creditProposal.products"></jhi-loan-purpose>
+                </div>
+              </div>
+            </div>
+          </div>
+        </e-card>
+      </section>
+      <!-- End Section Proposal Info -->
+    </div>
+    <!-- End Marginm Bottom -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Start Dar Summary -->
+        <div *ngIf="clickedMenu === 'dar-summary'" class="wrapper-card">
+          <!-- RM -->
+          <div class="wrapper-card">
+            <e-card class="mb-3">
+              <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"> </jhi-credit-proposal-personal-info>
+            </e-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART ACTION -->
+    <div class="e-card-actions mx-auto mb-5 mt-3">
+      <div>
+        <button
+          mat-raised-button
+          *ngFor="let task of tasks"
+          (click)="processTask(task)"
+          class="btn-lg text-uppercase button-styling"
+          style="margin-left: 5px"
+        >
+          {{ task.caption }}
+        </button>
+
+        <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
+      </div>
+    </div>
+    <!-- End Action -->
+  </div>
+  <!-- End Card -->
+
+  <!-- Start Sidenav -->
+  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
+    <div class="header-sub-menu"><label style="margin-top: 1rem">LOAN OPERATION:</label></div>
+
+    <mat-list role="list" class="list-styling">
+      <div *ngFor="let item of subMenu">
+        <mat-list-item role="listitem">
+          <a
+            *ngIf="!item.hasOwnProperty('child')"
+            href="javascript:void(0)"
+            class="text-capitalize"
+            (click)="routeSubMenu(item); drawer.toggle(); triggerToggle()"
+            >{{ item.text }}</a
+          >
+        </mat-list-item>
+        <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
+          item.text
+        }}</mat-list-item>
+        <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
+          <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
+            <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
+            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize">{{
+              itemChild.text
+            }}</a>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-list>
+  </mat-sidenav>
+  <!-- End Sidenav -->
+
+  <button
+    matTooltip="Click this for show sub menu of Credit Proposal"
+    [ngClass]="{ 'sidebar-state-true': isOpen === true, 'sidebar-state-false': isOpen === false }"
+    class="btn-menu-floating button-float-color btn-float-styling"
+    (click)="drawer.toggle(); onClickRed(); triggerToggle()"
+    matTooltipPosition="before"
+  >
+    <mat-icon class="settings-icon rotating">settings</mat-icon>
+  </button>
+</mat-sidenav-container>

@@ -18,14 +18,14 @@ import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 import { TemplateService } from 'app/layouts/template/template.service';
-import { IInsuranceChecking } from './insurance-checking.model';
-import { InsuranceCheckingService } from './insurance-checking.service';
-import { CashInsuranceCheckingService } from './cash-insurance-checking.service';
+import { ILoanOPSReview } from './laon-operation-review.model';
+import { LoanOpsReviewService } from './laon-operation-review.service';
+import { CashLoanOpsReviewService } from './cash-loan-operation.service';
 
 @Component({
-  selector: 'jhi-review-insurance',
-  templateUrl: './insurance-checking.component.html',
-  styleUrls: ['./insurance-checking.css'],
+  selector: 'jhi-loan-operation-review',
+  templateUrl: './laon-operation-review.component.html',
+  styleUrls: ['./laon-operation-review.css'],
   animations: [
     trigger('detailExpand', [
       state(
@@ -45,7 +45,7 @@ import { CashInsuranceCheckingService } from './cash-insurance-checking.service'
     ]),
   ],
 })
-export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<IInsuranceChecking> implements OnInit {
+export class LoanOpsReviewComponent extends AbstractEntityMaterialComponent<ILoanOPSReview> implements OnInit {
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: any;
@@ -113,16 +113,16 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
   ];
   constructor(
     private accountService: AccountService,
-    private insuranceCheckingService: InsuranceCheckingService,
+    private loanOpsReviewService: LoanOpsReviewService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    private cashInsuranceCheckingService: CashInsuranceCheckingService,
+    private cashLoanOpsReviewService: CashLoanOpsReviewService,
     private templateService: TemplateService
   ) {
-    super(_snackBar, insuranceCheckingService);
+    super(_snackBar, loanOpsReviewService);
     this.page = 0;
     this.itemsPerPage = 10;
     this.predicate = 'createdDate';
@@ -149,7 +149,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
   }
 
   public getStatusListView(appMenu: string) {
-    this.cashInsuranceCheckingService
+    this.cashLoanOpsReviewService
       .queryListOfViewStatusFilterBy({
         page: 0,
         size: 9999,
@@ -172,13 +172,13 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
-    predicate['target'] = 'insurance-check';
+    predicate['target'] = 'loan-ops-distribution';
 
-    this.cashInsuranceCheckingService
+    this.cashLoanOpsReviewService
       .searchCP(predicate)
-      .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
+      .pipe(map((res: HttpResponse<ILoanOPSReview[]>) => this.preLoad(res)))
       .subscribe({
-        next: (res: HttpResponse<IInsuranceChecking[]>) => {
+        next: (res: HttpResponse<ILoanOPSReview[]>) => {
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -216,20 +216,6 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
     }
   }
 
-  // private checkReturnStatusDescription(data: IInsuranceChecking[]) {
-  //   if (data.length > 0) {
-  //     for (let i = 0; i < data.length; i++) {
-  //       // eslint-disable-next-line no-self-assign
-  //       // data[i].statusInsuranceDescription = data[i].statusInsuranceDescription;
-  //       data[i].statusInsuranceDescription =
-  //         data[i].statusInsuranceDescription.substring(0, 2) === 'Ol'
-  //           ? data[i].statusInsuranceDescription.substring(3, data[i].statusInsuranceDescription.length)
-  //           : data[i].statusInsuranceDescription;
-  //     }
-  //   }
-  //   return data;
-  // }
-
   private convertStringMonthToNumber(monthString: string) {
     return lodash.find(this.monthArray, function (month) {
       return month.desc === monthString;
@@ -258,7 +244,6 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
 
     forCheckedItems = this.addStaticDob(data.body);
     forCheckedItems = this.addIdx(data.body);
-    // forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
 
@@ -277,36 +262,36 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url === '/insurance-check') {
-        this.getStatusListView('INSURANCE_CHECKING');
+      if (this.router.url === '/loan-ops-review') {
+        this.getStatusListView('LOAN_OPERATION_REVIEW');
         if (this.clickedChip['statusId'] !== '') {
-          this.cashInsuranceCheckingService
-            .InsuranceCheckingBystatus({
+          this.cashLoanOpsReviewService
+            .loanOpsReviewBystatus({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'INSURANCE_CHECKING',
+              appMenuId: 'LOAN_OPERATION_REVIEW',
             })
-            .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<ILoanOPSReview[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<IInsuranceChecking[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<ILoanOPSReview[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
           return;
         } else {
-          this.cashInsuranceCheckingService
-            .InsuranceCheckingBystatus({
+          this.cashLoanOpsReviewService
+            .loanOpsReviewBystatus({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'INSURANCE_CHECKING',
+              appMenuId: 'LOAN_OPERATION_REVIEW',
             })
-            .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
+            .pipe(map((res: HttpResponse<ILoanOPSReview[]>) => this.preLoad(res)))
             .subscribe({
-              next: (res: HttpResponse<IInsuranceChecking[]>) => this.initDataForMatTable(res, res.headers),
+              next: (res: HttpResponse<ILoanOPSReview[]>) => this.initDataForMatTable(res, res.headers),
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
         }
@@ -354,8 +339,8 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
     return result;
   }
 
-  public showTimeLine(element: IInsuranceChecking): void {
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('INSURANCECHECKING', element.id).subscribe(res => {
+  public showTimeLine(element: ILoanOPSReview): void {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
@@ -365,12 +350,12 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
   }
 
   getText(value: any) {
-    if (value === 'insurance-check') {
-      this.title = 'INSURANCE CHECKING ';
+    if (value === 'loan-ops-review') {
+      this.title = 'Loan Operation Review';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'insurance-check') {
-      this.title = 'INSURANCE CHECKING';
+    if (value === 'loan-ops-review') {
+      this.title = 'Loan Operation Review';
       sessionStorage.setItem('appName', this.title);
     }
   }
