@@ -393,10 +393,10 @@ import { RouterModule } from '@angular/router';
         path: 'loan-ops-checking',
         loadChildren: () => import('./loan-ops-checking/loan-ops-checking.module').then(m => m.LosgwLoanOpsCheckingModule),
       },
-      // {
-      //   path: 'loan-ops-review',
-      //   loadChildren: () => import('./loan-operation/loan-operation.module').then(m => m.LosgwLoanOperationModule),
-      // },
+      {
+        path: 'loan-ops-review',
+        loadChildren: () => import('./loan-ops-review/laon-operation-review.module').then(m => m.LosgwLoanOpsReviewModule),
+      },
       {
         path: 'credit-proposal-status',
         loadChildren: () => import('./credit-proposal/credit-proposal.module').then(m => m.LosgwCreditProposalModule),
