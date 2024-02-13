@@ -115,7 +115,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
             }
           } else {
             if (this.positionTypeId === 'RM') {
-              if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
+              if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR' || this.status === 'RETURN_TO_RM_LEGAL') {
                 if (this.jhiMatrixDirElementType === 'input') {
                   this.viewContainerRef.createEmbeddedView(this.templateRef);
                 }
