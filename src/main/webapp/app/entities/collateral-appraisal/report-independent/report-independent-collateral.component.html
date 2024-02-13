@@ -218,30 +218,6 @@
                   />
                 </mat-form-field>
               </div>
-              <div class="form-group" style="margin-top: 20px">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Total Market Value (MV) Tanah & Bangunan</mat-label>
-                  <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
-                  <input
-                    matInput
-                    type="text"
-                    [disabled]="true"
-                    [ngModel]="mData.totalMarketValueLandBuilding | currency: 'IDR ':'symbol':'1.0-0'"
-                  />
-                </mat-form-field>
-              </div>
-              <div class="form-group" style="margin-top: 20px">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Total Liquidation Value Tanah & Bangunan</mat-label>
-                  <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
-                  <input
-                    matInput
-                    type="text"
-                    [disabled]="true"
-                    [ngModel]="mData.totalLiquidationValueLandBuilding | currency: 'IDR ':'symbol':'1.0-0'"
-                  />
-                </mat-form-field>
-              </div>
             </div>
 
             <div class="col-6">
@@ -359,7 +335,39 @@
                   />
                 </mat-form-field>
               </div>
-              <div class="form-group" style="margin-top: 20px">
+            </div>
+          </div>
+
+          <div class="row">
+            <mat-card-subtitle class="fw-bold" style="margin-left: 15px">TOTAL APPRAISAL VALUE</mat-card-subtitle>
+            <div class="col-6">
+              <div class="form-group" style="margin-top: 10px">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Total Market Value (MV) Tanah & Bangunan</mat-label>
+                  <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+                  <input
+                    matInput
+                    type="text"
+                    [disabled]="true"
+                    [ngModel]="mData.totalMarketValueLandBuilding | currency: 'IDR ':'symbol':'1.0-0'"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="form-group" style="margin-top: 10px">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Total Liquidation Value Tanah & Bangunan</mat-label>
+                  <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
+                  <input
+                    matInput
+                    type="text"
+                    [disabled]="true"
+                    [ngModel]="mData.totalLiquidationValueLandBuilding | currency: 'IDR ':'symbol':'1.0-0'"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group" style="margin-top: 10px">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Total Market Value (MV) IMB Tanah & Bangunan</mat-label>
                   <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
@@ -371,7 +379,7 @@
                   />
                 </mat-form-field>
               </div>
-              <div class="form-group" style="margin-top: 20px">
+              <div class="form-group" style="margin-top: 10px">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Total Market Value (MV) Tata Kota Tanah & Bangunan</mat-label>
                   <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
