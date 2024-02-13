@@ -28,6 +28,9 @@ export interface IReportIndependent {
   totalMarketValueImbLandBuilding?: number;
   totalMarketValueTataKotaLandBuilding?: number;
 
+  totalLVMachineVehicle?: number;
+  totalMVMachineVehicle?: number;
+
   tujuanPenilaian?: string;
   adequacy?: string;
   quantity?: string;
@@ -70,6 +73,8 @@ export class ReportIndependent implements IReportIndependent {
     public totalLiquidationValueLandBuilding?: number,
     public totalMarketValueImbLandBuilding?: number,
     public totalMarketValueTataKotaLandBuilding?: number,
+    public totalLVMachineVehicle?: number,
+    public totalMVMachineVehicle?: number,
 
     public tujuanPenilaian?: string,
     public adequacy?: string,

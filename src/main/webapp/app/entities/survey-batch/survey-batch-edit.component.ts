@@ -1313,10 +1313,20 @@ export class SurveyBatchEditComponent implements OnInit {
 
   public setAllowSaveData() {
     if (this.collateralProp) {
-      this.collateralProp.propertyMarketValue = this.reportIndependentModel.totalMarketValueLandBuilding;
-      this.collateralProp.propertyMarketValueIMB = this.reportIndependentModel.totalMarketValueImbLandBuilding;
-      this.collateralProp.propertyMarketValueTataKota = this.reportIndependentModel.totalMarketValueTataKotaLandBuilding;
-      this.collateralProp.liquidationValue = this.reportIndependentModel.totalLiquidationValueLandBuilding;
+      console.log('collateral type', this.collateralAppraisal.collateral.collateralTypeId);
+      if (this.surveyAppraisal.collateral.collateralTypeId === 'REALESTATE') {
+        this.collateralProp.propertyMarketValue = this.reportIndependentModel.totalMarketValueLandBuilding;
+        this.collateralProp.propertyMarketValueIMB = this.reportIndependentModel.totalMarketValueImbLandBuilding;
+        this.collateralProp.propertyMarketValueTataKota = this.reportIndependentModel.totalMarketValueTataKotaLandBuilding;
+        this.collateralProp.liquidationValue = this.reportIndependentModel.totalLiquidationValueLandBuilding;
+      }
+      if (
+        this.surveyAppraisal.collateral.collateralTypeId === 'MACHINE' ||
+        this.surveyAppraisal.collateral.collateralTypeId === 'VEHICLE'
+      ) {
+        this.collateralProp.propertyMarketValue = this.reportIndependentModel.totalMVMachineVehicle;
+        this.collateralProp.liquidationValue = this.reportIndependentModel.totalLVMachineVehicle;
+      }
       this.collateralPropertyService.save(this.collateralProp).subscribe(res => {
         console.log('res save', res.body);
       });
