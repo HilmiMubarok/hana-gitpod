@@ -6,6 +6,9 @@ import { IBankAcountModel } from './bank-account.model';
 import { FormControl } from '@angular/forms';
 import { IMasterFinancialInstitution } from '../master-parameter/financial-institution/master-financial-institution.model';
 import { Observable, startWith, map } from 'rxjs';
+import { IUom } from '../uom/uom.model';
+import { UomService } from '../uom/uom.service';
+import { UOM_TYPE } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-bank-account-dialog',
@@ -14,10 +17,13 @@ import { Observable, startWith, map } from 'rxjs';
 })
 export class BankAccountDialogComponent implements OnInit {
   public dataBankAccount: IBankAcountModel;
+  public optionsCurrency: IUom[];
+
   constructor(
     private dialog: MatDialog,
     private _dialog: MatDialogRef<BankAccountDialogComponent>,
     private masterFinancialInstitutionService: MasterFinancialInstitutionService,
+    private uomService: UomService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       item: IBankAcountModel;
@@ -31,6 +37,7 @@ export class BankAccountDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFinancialInstitution();
+    this.loadCurrencyMeasure();
   }
 
   public statusValue = [
@@ -112,5 +119,22 @@ export class BankAccountDialogComponent implements OnInit {
 
   onSave() {
     this._dialog.close(this.dataBankAccount);
+  }
+
+  displayFnCurrency(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  public loadCurrencyMeasure(): void {
+    this.uomService
+      .queryFilterBy({
+        idUomType: UOM_TYPE.CURRENCY,
+        page: 0,
+        size: 9999,
+      })
+      .pipe(map(res => res.body.filter(res_ => res_.id === 'IDR' || res_.id === 'USD')))
+      .subscribe(res => {
+        this.optionsCurrency = res;
+      });
   }
 }

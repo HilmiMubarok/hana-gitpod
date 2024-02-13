@@ -27,7 +27,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
   styleUrls: ['./bank-account.style.scss', './bank-account-detail.style.css'],
 })
 export class BankAccountDetailComponent extends AbstractEntityMaterialComponent<IBankAcountModel> implements OnInit {
-  public displayedColumns: string[] = ['no', 'name', 'bank', 'no-account', 'description', 'status', 'action'];
+  public displayedColumns: string[] = ['no', 'name', 'bank', 'no-account', 'currency', 'description', 'status', 'action'];
 
   private id: string;
   public collateralAppraisal: ICollateralAppraisal;
