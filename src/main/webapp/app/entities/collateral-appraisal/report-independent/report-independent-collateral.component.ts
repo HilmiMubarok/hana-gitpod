@@ -118,68 +118,75 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
       // Tanah
       // Fisik
       // this.mData.totalLuasLandFisik = result.body.attributes['totalLuasTanahFisik'];
-      this.mData.totalLuasLandFisik =
-        result.body.attributes['totalLuasTanahFisik'] !== null ? result.body.attributes['totalLuasTanahFisik'] : 0;
-      this.mData.appraisalValueLandPerMeter =
-        result.body.attributes['appraisalValueLandPerMeter'] !== null ? result.body.attributes['appraisalValueLandPerMeter'] : 0;
-      this.mData.totalAppraisalValueLandFisik = this.mData.totalLuasLandFisik * this.mData.appraisalValueLandPerMeter;
+      if (result.body.collateral.collateralTypeId === 'REALESTATE') {
+        this.mData.totalLuasLandFisik =
+          result.body.attributes['totalLuasTanahFisik'] !== null ? result.body.attributes['totalLuasTanahFisik'] : 0;
+        this.mData.appraisalValueLandPerMeter =
+          result.body.attributes['appraisalValueLandPerMeter'] !== null ? result.body.attributes['appraisalValueLandPerMeter'] : 0;
+        this.mData.totalAppraisalValueLandFisik = this.mData.totalLuasLandFisik * this.mData.appraisalValueLandPerMeter;
 
-      // Liquidation
-      this.mData.appraisalLiquidationLand =
-        result.body.attributes['appraisalLiquidationLand'] !== null ? result.body.attributes['appraisalLiquidationLand'] : 0;
+        // Liquidation
+        this.mData.appraisalLiquidationLand =
+          result.body.attributes['appraisalLiquidationLand'] !== null ? result.body.attributes['appraisalLiquidationLand'] : 0;
 
-      // Imb
-      this.mData.totalLuasLandImb = result.body.attributes['totalLuasTanahIMB'] !== null ? result.body.attributes['totalLuasTanahIMB'] : 0;
-      this.mData.appraisalValueImbLandPerMeter =
-        result.body.attributes['appraisalValueIMBPerMeterLand'] !== null ? result.body.attributes['appraisalValueIMBPerMeterLand'] : 0;
-      this.mData.totalAppraisalValueLandImb = this.mData.totalLuasLandImb * this.mData.appraisalValueImbLandPerMeter;
+        // Imb
+        this.mData.totalLuasLandImb =
+          result.body.attributes['totalLuasTanahIMB'] !== null ? result.body.attributes['totalLuasTanahIMB'] : 0;
+        this.mData.appraisalValueImbLandPerMeter =
+          result.body.attributes['appraisalValueIMBPerMeterLand'] !== null ? result.body.attributes['appraisalValueIMBPerMeterLand'] : 0;
+        this.mData.totalAppraisalValueLandImb = this.mData.totalLuasLandImb * this.mData.appraisalValueImbLandPerMeter;
 
-      // TataKota
-      this.mData.totalLuasLandTataKota =
-        result.body.attributes['totalLuasTanahTataKota'] !== null ? result.body.attributes['totalLuasTanahTataKota'] : 0;
-      this.mData.appraisalValueTataKotaLandPerMeter =
-        result.body.attributes['appraisalValueTataKotaPerMeterLand'] !== null
-          ? result.body.attributes['appraisalValueTataKotaPerMeterLand']
-          : 0;
-      this.mData.totalAppraisalValueLandTataKota = this.mData.totalLuasLandTataKota * this.mData.appraisalValueTataKotaLandPerMeter;
-      // ================================================================================
+        // TataKota
+        this.mData.totalLuasLandTataKota =
+          result.body.attributes['totalLuasTanahTataKota'] !== null ? result.body.attributes['totalLuasTanahTataKota'] : 0;
+        this.mData.appraisalValueTataKotaLandPerMeter =
+          result.body.attributes['appraisalValueTataKotaPerMeterLand'] !== null
+            ? result.body.attributes['appraisalValueTataKotaPerMeterLand']
+            : 0;
+        this.mData.totalAppraisalValueLandTataKota = this.mData.totalLuasLandTataKota * this.mData.appraisalValueTataKotaLandPerMeter;
+        // ================================================================================
 
-      // Bangunan
-      // Fisik
-      this.mData.totalLuasBuildingFisik =
-        result.body.attributes['totalLuasBangunanFisik'] !== null ? result.body.attributes['totalLuasBangunanFisik'] : 0;
-      this.mData.appraisalValueBuildingPerMeter =
-        result.body.attributes['appraisalValueBuildingPerMeter'] !== null ? result.body.attributes['appraisalValueBuildingPerMeter'] : 0;
-      this.mData.totalAppraisalValueBuildingFisik = this.mData.totalLuasBuildingFisik * this.mData.appraisalValueBuildingPerMeter;
+        // Bangunan
+        // Fisik
+        this.mData.totalLuasBuildingFisik =
+          result.body.attributes['totalLuasBangunanFisik'] !== null ? result.body.attributes['totalLuasBangunanFisik'] : 0;
+        this.mData.appraisalValueBuildingPerMeter =
+          result.body.attributes['appraisalValueBuildingPerMeter'] !== null ? result.body.attributes['appraisalValueBuildingPerMeter'] : 0;
+        this.mData.totalAppraisalValueBuildingFisik = this.mData.totalLuasBuildingFisik * this.mData.appraisalValueBuildingPerMeter;
 
-      // Liquidation
-      this.mData.appraisalLiquidationBuilding =
-        result.body.attributes['appraisalLiquidationBuilding'] !== null ? result.body.attributes['appraisalLiquidationBuilding'] : 0;
-      // Imb
-      this.mData.totalLuasBuildingImb =
-        result.body.attributes['totalLuasBangunanIMB'] !== null ? result.body.attributes['totalLuasBangunanIMB'] : 0;
-      this.mData.appraisalValueImbBuildingPerMeter =
-        result.body.attributes['appraisalValueBuildingPerMeter'] !== null ? result.body.attributes['appraisalValueBuildingPerMeter'] : 0;
-      this.mData.totalAppraisalValueBuildingImb = this.mData.totalLuasBuildingImb * this.mData.appraisalValueImbBuildingPerMeter;
+        // Liquidation
+        this.mData.appraisalLiquidationBuilding =
+          result.body.attributes['appraisalLiquidationBuilding'] !== null ? result.body.attributes['appraisalLiquidationBuilding'] : 0;
+        // Imb
+        this.mData.totalLuasBuildingImb =
+          result.body.attributes['totalLuasBangunanIMB'] !== null ? result.body.attributes['totalLuasBangunanIMB'] : 0;
+        this.mData.appraisalValueImbBuildingPerMeter =
+          result.body.attributes['appraisalValueBuildingPerMeter'] !== null ? result.body.attributes['appraisalValueBuildingPerMeter'] : 0;
+        this.mData.totalAppraisalValueBuildingImb = this.mData.totalLuasBuildingImb * this.mData.appraisalValueImbBuildingPerMeter;
 
-      // TataKota
-      this.mData.totalLuasBuildingTataKota =
-        result.body.attributes['totalLuasBangunanTataKota'] !== null ? result.body.attributes['totalLuasBangunanTataKota'] : 0;
-      this.mData.appraisalValueTataKotaBuildingPerMeter =
-        result.body.attributes['appraisalValueTataKotaPerMeterBuilding'] !== null
-          ? result.body.attributes['appraisalValueTataKotaPerMeterBuilding']
-          : 0;
-      this.mData.totalAppraisalValueBuildingTataKota =
-        this.mData.totalLuasBuildingTataKota * this.mData.appraisalValueTataKotaBuildingPerMeter;
+        // TataKota
+        this.mData.totalLuasBuildingTataKota =
+          result.body.attributes['totalLuasBangunanTataKota'] !== null ? result.body.attributes['totalLuasBangunanTataKota'] : 0;
+        this.mData.appraisalValueTataKotaBuildingPerMeter =
+          result.body.attributes['appraisalValueTataKotaPerMeterBuilding'] !== null
+            ? result.body.attributes['appraisalValueTataKotaPerMeterBuilding']
+            : 0;
+        this.mData.totalAppraisalValueBuildingTataKota =
+          this.mData.totalLuasBuildingTataKota * this.mData.appraisalValueTataKotaBuildingPerMeter;
 
-      // Total MV
-      this.mData.totalMarketValueLandBuilding = this.mData.totalAppraisalValueLandFisik + this.mData.totalAppraisalValueBuildingFisik;
-      this.mData.totalMarketValueImbLandBuilding = this.mData.totalAppraisalValueLandImb + this.mData.totalAppraisalValueBuildingImb;
-      this.mData.totalLiquidationValueLandBuilding =
-        parseFloat(result.body.attributes['appraisalLiquidationLand']) + parseFloat(result.body.attributes['appraisalLiquidationBuilding']);
+        // Total MV
+        this.mData.totalMarketValueLandBuilding = this.mData.totalAppraisalValueLandFisik + this.mData.totalAppraisalValueBuildingFisik;
+        this.mData.totalMarketValueImbLandBuilding = this.mData.totalAppraisalValueLandImb + this.mData.totalAppraisalValueBuildingImb;
+        this.mData.totalLiquidationValueLandBuilding =
+          parseFloat(result.body.attributes['appraisalLiquidationLand']) +
+          parseFloat(result.body.attributes['appraisalLiquidationBuilding']);
 
-      this.mData.totalMarketValueTataKotaLandBuilding =
-        this.mData.totalAppraisalValueLandTataKota + this.mData.totalAppraisalValueBuildingTataKota;
+        this.mData.totalMarketValueTataKotaLandBuilding =
+          this.mData.totalAppraisalValueLandTataKota + this.mData.totalAppraisalValueBuildingTataKota;
+      } else {
+        this.mData.totalMVMachineVehicle = result.body.totalMarketValue;
+        this.mData.totalLVMachineVehicle = result.body.totalLiquidationValue;
+      }
 
       if (result.body.apprOfficer === 'External') {
         if (result.body.statusId === STATUS.APPROVAL_TL) {
