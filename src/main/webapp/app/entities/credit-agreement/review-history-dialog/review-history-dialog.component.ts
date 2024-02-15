@@ -6,14 +6,68 @@ import {
   DocumentEditorContainerComponent,
   DocumentEditorKeyDownEventArgs,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { Notes } from 'app/entities/notes/notes.model';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
-import { forkJoin, from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { filter, map, mergeMap, Subject, takeUntil } from 'rxjs';
 import { ReviewHistoryService } from '../finalize-credit-agreement/review-history/review-history.service';
 @Component({
   selector: 'jhi-review-history-dialog',
-  templateUrl: './revew-history-dialog.component.html',
+  template: `
+    <h3 mat-dialog-title>Review History</h3>
+
+    <div mat-dialog-content style="height: 100%">
+      <div class="container" *ngIf="reviewHistoryService.loading$ | async">
+        <div class="spinner"></div>
+      </div>
+
+      <form [formGroup]="reviewHistory">
+        <div class="row">
+          <div class="mb-2 col-md-6" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Approver Name</mat-label>
+              <input matInput placeholder="Approver Name" formControlName="approverName" />
+            </mat-form-field>
+          </div>
+
+          <div class="mb-2 col-md-6" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Date</mat-label>
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="date" />
+              <mat-datepicker-toggle matSuffix [for]="picker" disabled></mat-datepicker-toggle>
+              <mat-datepicker #picker disabled></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="mb-2 col-md-12" style="margin-top: 20px">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Position</mat-label>
+              <input matInput placeholder="Position" formControlName="position" />
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+
+      <h5>Opinion</h5>
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [headers]="customHeadersJWT"
+        [enableToolbar]="false"
+        (keyDown)="onKeyDown($event)"
+        [enableLocalPaste]="false"
+        height="100vh"
+        style="display: block"
+        [enableEditor]="false"
+        (documentChange)="onDocumentChange()"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (created)="onCreate()"
+      ></ejs-documenteditorcontainer>
+    </div>
+
+    <mat-dialog-actions align="center">
+      <button mat-raised-button class="confirm-button-no" mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+  `,
   styleUrls: ['../credit-agreement.css'],
   styles: [
     `
@@ -73,19 +127,20 @@ export class ReviewHistoryDialogComponent implements OnInit, OnDestroy {
     private messageService: MessageService
   ) {
     this.reviewHistory = this.fb.group({
-      approverName: [{ value: this.dialogData.approverName, disabled: true }],
-      date: [{ value: this.dialogData.date, disabled: true }],
-      position: [{ value: this.dialogData.position, disabled: true }],
+      approverName: [{ value: this.dialogData.reviewHistory.approverName, disabled: true }],
+      date: [{ value: this.dialogData.reviewHistory.date, disabled: true }],
+      position: [{ value: this.dialogData.reviewHistory.position, disabled: true }],
     });
     this.bucket = this.dialogData.bucket;
+    this.applicationId = this.dialogData.applicationId;
   }
 
   reviewHistory: FormGroup;
 
   ngOnInit(): void {
-    console.log('init', this.bucket);
-
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': this.getToken() }];
+
+    this.getContainer();
   }
   customHeadersJWT: any;
 
@@ -102,15 +157,64 @@ export class ReviewHistoryDialogComponent implements OnInit, OnDestroy {
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
-    // 67 is the character code for 'C'
     if (isCtrlKey && keyCode === '86') {
-      // To prevent copy operation set isHandled to true
       args.isHandled = true;
     }
   }
 
   public bucket: string;
   public path = 'pk/review_history';
+  public applicationId: string;
+
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+  }
+
+  private getContainer(): void {
+    this.reviewHistoryService.loading$.next(true);
+
+    const filePath = `${this.path}/${this.applicationId}/${this.dialogData.reviewHistory.path}/sfdt`;
+
+    this.storageService
+      .getObjects(this.bucket, { key: filePath })
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(response => response.body.length > 0),
+        map(response => response.body[response.body.length - 1]['url']),
+        mergeMap(url => this.storageService.fileBlob(url))
+      )
+      .subscribe({
+        next: res => {
+          const fileName = this.getFileName(res.url, '/');
+          const file = new File([res.body], fileName);
+          const fileReader = new FileReader();
+
+          fileReader.onload = (e: any) => {
+            const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+            const contents: string = e.target.result;
+            docEditor.open(contents);
+            this.reviewHistoryService.loading$.next(false);
+          };
+
+          fileReader.readAsText(file);
+        },
+        error: error => {
+          console.log(error);
+          this.reviewHistoryService.loading$.next(false);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error loading document' });
+        },
+      });
+  }
+
+  getFileName(str: string, substring: string) {
+    const lastIndex = str.lastIndexOf(substring);
+
+    const after = str.slice(lastIndex + 1);
+
+    const removeRemainingStringAfterSfdt = after.split('.sfdt')[0];
+
+    return removeRemainingStringAfterSfdt;
+  }
 
   getToken(): string {
     return this.reviewHistoryService.getLocStor('XSRF-TOKEN');
@@ -118,79 +222,5 @@ export class ReviewHistoryDialogComponent implements OnInit, OnDestroy {
 
   public onCreate(): void {
     this.container.serviceUrl = '/services/los/api/wordeditor/';
-  }
-
-  onSubmit() {
-    const notes = new Notes();
-
-    notes.applicationId = this.dialogData.applicationId;
-    notes.positionId = Number(this.dialogData.positionId);
-    notes.type = this.dialogData.type;
-
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-    const saveDocx$ = from(docEditor.saveAsBlob('Docx'));
-    const saveSfdt$ = from(docEditor.saveAsBlob('Sfdt'));
-
-    const modifiedApproverName = this.reviewHistory.value.approverName.replace(/ /g, '-').replace('&', '');
-
-    forkJoin([saveDocx$, saveSfdt$])
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(() => this.reviewHistoryService.loading$.next(true)),
-        map(([docx, sfdt]) => {
-          this.reviewHistoryService.loading$.next(true);
-          const fileTypeWord = 'word';
-
-          const fileName = Date.now() + '-' + this.dialogData.username + '-' + modifiedApproverName + '.docs';
-
-          const metaData = {
-            objectName: `${this.path}/${this.dialogData.applicationId}/${fileTypeWord}/${fileName}`,
-          };
-          const formData = new FormData();
-          formData.append('file', new File([docx], fileName));
-
-          this.storageService
-            .uploadMeta(this.dialogData.bucket, formData, metaData)
-            .pipe(
-              switchMap(() => {
-                const fileTypeSfdt = 'sfdt';
-                const fileNames = Date.now() + '-' + this.dialogData.username + '-' + modifiedApproverName + '.sfdt';
-
-                const metaDatas = {
-                  objectName: `${this.path}/${this.dialogData.applicationId}/${fileTypeSfdt}/${fileNames}`,
-                };
-                const formDatas = new FormData();
-                formDatas.append('file', new File([sfdt], fileNames));
-
-                return this.storageService.uploadMeta(this.dialogData.bucket, formDatas, metaDatas);
-              })
-            )
-            .subscribe({
-              next(res) {
-                console.log('Next Success uploading files', res);
-                notes.path = fileName;
-              },
-              complete: () => {
-                console.log('complete');
-                this.reviewHistoryService.loading$.next(false);
-                const data = {
-                  notes,
-                  review: this.reviewHistory.value,
-                };
-                this.dialogRef.close(data);
-              },
-              error: err => {
-                console.log('error', err);
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error',
-                  detail: 'Something went wrong while uploading the document. Please try again.',
-                });
-                this.reviewHistoryService.loading$.next(false);
-              },
-            });
-        })
-      )
-      .subscribe();
   }
 }
