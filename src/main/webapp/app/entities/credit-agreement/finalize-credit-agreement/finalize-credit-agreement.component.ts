@@ -233,6 +233,7 @@ export class FinalizeCreditAgreementComponent implements OnInit {
             .subscribe(() => {
               this.creditAgreementService.deleteClausalAgreement(element.id).subscribe(() => {
                 this.dataClausal = this.dataClausal.filter((data: any) => data.id !== element.id);
+                this.addendumClausalAgreements = this.addendumClausalAgreements.filter((data: any) => data.id !== element.id);
               });
             });
         });

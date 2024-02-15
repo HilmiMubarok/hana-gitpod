@@ -746,6 +746,10 @@
             <button mat-icon-button>
               <mat-icon (click)="updateClausalDialog(element, null)">edit</mat-icon>
             </button>
+
+            <button (click)="deleteClausal(element)" mat-icon-button>
+              <mat-icon>delete</mat-icon>
+            </button>
           </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>
