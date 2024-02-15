@@ -187,6 +187,7 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
         this.mData.totalMarketValueTataKotaLandBuilding =
           this.mData.totalAppraisalValueLandTataKota + this.mData.totalAppraisalValueBuildingTataKota;
       } else {
+        this.mData.quantity = result.body.attributes['quantity'];
         this.mData.totalMVMachineVehicle = result.body.totalMarketValue;
         this.mData.totalLVMachineVehicle = result.body.totalLiquidationValue;
       }
