@@ -54,6 +54,7 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/collateral-appraisals');
+    this.resourceUrlCash = this.applicationConfigService.getEndpointFor('services/los/api/cash-collateral-appraisals');
     this.collateralPropertyChange.subscribe(collateralProperty => {
       this.collateralProperty = collateralProperty;
       for (let i = 0; i < this.collateralProperty.length; i++) {
