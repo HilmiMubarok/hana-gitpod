@@ -9,7 +9,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 export class PaymentTypeService extends AbstractEntityService<IPaymentType> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/payment-types');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/mastercontrol/api/payment-types');
   }
 
   protected isNew(entity: IPaymentType): boolean {

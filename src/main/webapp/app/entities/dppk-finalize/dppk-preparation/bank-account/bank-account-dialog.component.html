@@ -3,11 +3,11 @@
   <div class="row justify-content-between">
     <section>
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Account Name</mat-label>
-        <mat-select required>
+        <mat-label>Account Type</mat-label>
+        <mat-select required [(ngModel)]="dataApplicationPayment.paymentTypeId" (selectionChange)="changePaymentType($event)">
           <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of listOfValue.bankName" [value]="item">
-            {{ item }}
+          <mat-option *ngFor="let item of paymentType" [value]="item.id">
+            {{ item.description }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -15,10 +15,10 @@
     <section>
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Bank Name</mat-label>
-        <mat-select required>
+        <mat-select required (selectionChange)="changeBankAccount($event)" [(ngModel)]="dataApplicationPayment.bankAccountId">
           <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of listOfValue.bankName" [value]="item">
-            {{ item }}
+          <mat-option *ngFor="let item of filteredBankAccount" [value]="item.id">
+            {{ item.finInstituteName }} - {{ item.accountNumber }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -26,24 +26,21 @@
     <section>
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Currency</mat-label>
-        <mat-select required>
+        <mat-select required [(ngModel)]="dataApplicationPayment.currencyId" disabled>
           <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
-            {{ item }}
+          <mat-option *ngFor="let item of currencyData" [value]="item.id">
+            {{ item.id }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </section>
     <section>
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Account Type</mat-label>
-        <mat-select required>
-          <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of listOfValue.accountType" [value]="item">
-            {{ item }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="mb-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Account Name</mat-label>
+          <input matInput type="text" disabled [value]="getAccountName()" />
+        </mat-form-field>
+      </div>
     </section>
   </div>
   <section class="align-center">
