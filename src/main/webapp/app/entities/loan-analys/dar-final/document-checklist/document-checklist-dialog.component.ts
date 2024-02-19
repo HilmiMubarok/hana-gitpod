@@ -18,6 +18,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import _ from 'lodash';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -85,7 +86,8 @@ export class DocumentChecklistDialogTempComponent {
     private storageService: StorageService,
     private messageService: MessageService,
     private accountService: AccountService,
-    public reportUtilService: ReportUtilService
+    public reportUtilService: ReportUtilService,
+    private router: Router
   ) {
     this.view = this.data.view;
 
@@ -165,6 +167,22 @@ export class DocumentChecklistDialogTempComponent {
         });
       }
     });
+
+    if (this.router.url.includes('dppk')) {
+      const dataDPPK: Object = {
+        key: `/DPPK/${this.data.cpId}/file-dppk/${this.files.id}`,
+      };
+
+      this.storageService.getObjects(this.bucket, dataDPPK).subscribe((res: any) => {
+        if (res.body.length > 0) {
+          this.prosesGetDataByID(res);
+        } else {
+          this.storageService.getObjects(this.bucket, dataDPPK).subscribe((res2: any) => {
+            this.prosesGetDataByID(res2);
+          });
+        }
+      });
+    }
   }
 
   filesBefore$ = new BehaviorSubject<any>(null);
@@ -329,6 +347,7 @@ export class DocumentChecklistDialogTempComponent {
   }
 
   public preUpdate(): Promise<void> {
+    const fromDppk = this.router.url.includes('dppk');
     return new Promise((resolve, reject) => {
       const dataBefore = this.data.clonedPredicate;
       const statusAppeal = this.getStatusAppeal(dataBefore.data.files, this.data.files, this.lengthMinIO.length, this.file.length);
@@ -352,9 +371,11 @@ export class DocumentChecklistDialogTempComponent {
           });
 
           this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
-            const predicate: Object = {
-              key: `/idd/${this.data.cpId}/document/${this.files.id}/`,
-            };
+            const predicate: Object = fromDppk
+              ? { key: `/DPPK/${this.data.cpId}/file-dppk/${this.files.id}/` }
+              : {
+                  key: `/idd/${this.data.cpId}/document/${this.files.id}/`,
+                };
             this.storageService.getObjects(this.bucket, predicate).subscribe((rep: any) => {
               this.lengthMinIO = rep.body;
             });
@@ -444,6 +465,7 @@ export class DocumentChecklistDialogTempComponent {
   }
 
   public preSave(): Promise<void> {
+    const fromDppk = this.router.url.includes('dppk');
     const dataBefore = this.data.clonedPredicate;
     const statusAppeal = this.getStatusAppeal(dataBefore.data.files, this.data.files, this.lengthMinIO.length, this.file.length);
 
@@ -469,7 +491,9 @@ export class DocumentChecklistDialogTempComponent {
               detail: 'Nama file tidak boleh lebih dari 255 karakter',
             });
           } else {
-            metaData.objectName = `/cp/${this.data.cpId}/document/file-cp/${this.files.id}/${files}`;
+            metaData.objectName = fromDppk
+              ? `/DPPK/${this.data.cpId}/file-dppk/${this.files.id}/${files}`
+              : `/cp/${this.data.cpId}/document/file-cp/${this.files.id}/${files}`;
             metaData.entityId = this.data.cpId;
             metaData.id = this.files.id;
             metaData.status = this.files.status;

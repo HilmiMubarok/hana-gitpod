@@ -429,7 +429,9 @@
             </div>
             <!-- covenant-temp -->
             <div *ngIf="clickedMenu === 'covenant-temp'" class="e-sample-resize-container e-card-resize-container wrapper-card">
-              <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+              <e-card>
+                <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+              </e-card>
             </div>
 
             <!-- compare data -->
