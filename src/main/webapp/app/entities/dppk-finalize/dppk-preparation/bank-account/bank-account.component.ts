@@ -7,6 +7,10 @@ import {
   ApplicationPaymentPreferences,
   IApplicationPaymentPreferences,
 } from 'app/entities/application-payment-preference/application-payment-preference.model';
+import { PaymentTypeService } from 'app/entities/payment-type/payment-type.service';
+import { IPaymentType } from 'app/entities/payment-type/payment-type.model';
+import { IBankAcountModel } from 'app/entities/bank-account/bank-account.model';
+import { BankAccountService } from 'app/entities/bank-account/bank-account.service';
 
 @Component({
   selector: 'jhi-bank-account',
@@ -15,6 +19,9 @@ import {
 })
 export class BankAccountComponent implements OnInit {
   public _creditProposal: ICreditProposal;
+  public paymentType: IPaymentType[] = [];
+  public filteredPaymentType: IPaymentType[] = [];
+  public bankAccountData: IBankAcountModel[] = [];
 
   @Input()
   get creditProposal() {
@@ -29,10 +36,16 @@ export class BankAccountComponent implements OnInit {
 
   public displayColumns: string[] = ['no', 'accountType', 'currency', 'accountName', 'accountNumber', 'action'];
 
-  constructor(public dialog: MatDialog, protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService) {}
+  constructor(
+    public dialog: MatDialog,
+    protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService,
+    private paymentTypeService: PaymentTypeService,
+    private bankAccountService: BankAccountService
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getDataApplicationPaymentReferences();
+    this.getBankAccount();
   }
 
   getDataApplicationPaymentReferences() {
@@ -51,7 +64,7 @@ export class BankAccountComponent implements OnInit {
       data: {
         creditProposal: this.creditProposal,
         dataPayment: dataApplicationPayment,
-        dataPaymentAll: this.dataSource,
+        filteredPaymentType: this.filteredPaymentType,
       },
     });
     dialogRef.afterClosed().subscribe(res => {
@@ -60,7 +73,37 @@ export class BankAccountComponent implements OnInit {
       } else {
         this.applicationPaymentPreferencesService.createData(res).subscribe();
         this.getDataApplicationPaymentReferences();
+        this.getDataApplicationPaymentReferences();
       }
     });
+  }
+
+  getBankAccount() {
+    this.bankAccountService.getBankAccount(this.creditProposal.cif.partyId).subscribe(res => {
+      this.bankAccountData = res.body;
+      this.getPaymentType();
+    });
+  }
+
+  getPaymentType() {
+    this.paymentTypeService
+      .queryFilterBy({
+        idAccountTransType: 'LOAN_ACCOUNT',
+      })
+      .subscribe(res => {
+        this.paymentType = res.body;
+        this.getPaymentTypeFiltered();
+      });
+  }
+
+  getPaymentTypeFiltered() {
+    if (this.paymentType.length > 0) {
+      for (let i = 0; i < this.paymentType.length; i++) {
+        const filteredPaymentRef = this.dataSource.filter(obj => obj.paymentTypeId === this.paymentType[i].id);
+        if (filteredPaymentRef.length < this.bankAccountData.length) {
+          this.filteredPaymentType.push(this.paymentType[i]);
+        }
+      }
+    }
   }
 }

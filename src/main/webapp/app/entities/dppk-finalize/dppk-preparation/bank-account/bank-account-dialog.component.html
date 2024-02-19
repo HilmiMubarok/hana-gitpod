@@ -6,7 +6,7 @@
         <mat-label>Account Type</mat-label>
         <mat-select required [(ngModel)]="dataApplicationPayment.paymentTypeId" (selectionChange)="changePaymentType($event)">
           <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of paymentType" [value]="item.id">
+          <mat-option *ngFor="let item of dataFilteredPaymentType" [value]="item.id">
             {{ item.description }}
           </mat-option>
         </mat-select>

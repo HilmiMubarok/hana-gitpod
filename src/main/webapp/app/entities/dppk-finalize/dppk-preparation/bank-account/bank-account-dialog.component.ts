@@ -26,6 +26,7 @@ export class BankAccountDialogComponent implements OnInit {
   };
 
   public paymentType: IPaymentType[] = [];
+  public dataFilteredPaymentType: IPaymentType[] = [];
   public bankAccountData: IBankAcountModel[] = [];
   public filteredBankAccount: IBankAcountModel[] = [];
   public currencyData: IUom[] = [];
@@ -39,7 +40,7 @@ export class BankAccountDialogComponent implements OnInit {
     public data: {
       creditProposal: ICreditProposal;
       dataPayment: IApplicationPaymentPreferences;
-      dataPaymentAll: IApplicationPaymentPreferences[];
+      filteredPaymentType: IPaymentType[];
     },
     public dialog: MatDialog,
     private _dialog: MatDialogRef<BankAccountDialogComponent>,
@@ -50,7 +51,7 @@ export class BankAccountDialogComponent implements OnInit {
   ) {
     this.creditProposal = data.creditProposal;
     this.dataApplicationPayment = data.dataPayment;
-    this.dataApplicationPaymentAll = data.dataPaymentAll;
+    this.dataFilteredPaymentType = data.filteredPaymentType;
   }
 
   ngOnInit(): void {
