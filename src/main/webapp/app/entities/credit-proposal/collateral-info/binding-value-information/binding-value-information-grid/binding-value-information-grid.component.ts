@@ -96,10 +96,10 @@ export class BindingValueInformationGridComponent implements OnInit {
       });
     return '';
   }
-
   public getBindingType(element: ICollateral) {
-    if (element.collBindingType && this.bindingTypesHobies.length > 0) {
-      return this.bindingTypesHobies.find(obj => obj.code === element.collBindingType).value;
+    if (element && element.collBindingType && this.bindingTypesHobies.length > 0) {
+      const foundObject = this.bindingTypesHobies.find(obj => obj.code === element.collBindingType);
+      return foundObject ? foundObject.value : '';
     }
   }
 

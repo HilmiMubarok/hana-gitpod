@@ -6,7 +6,7 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
   templateUrl: './dppk-preparation.component.html',
   styleUrls: ['./dppk-preparation.component.scss'],
 })
-export class DppkPreparationComponent implements OnInit {
+export class DppkPreparationComponent {
   public _creditProposal: ICreditProposal;
 
   @Input()
@@ -19,8 +19,4 @@ export class DppkPreparationComponent implements OnInit {
   }
 
   constructor() {}
-
-  ngOnInit(): void {
-    console.log('test');
-  }
 }

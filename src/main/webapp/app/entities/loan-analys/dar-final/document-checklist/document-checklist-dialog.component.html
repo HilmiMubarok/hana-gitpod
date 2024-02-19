@@ -95,12 +95,26 @@
               </div>
             </section>
             <ngx-dropzone-label>
-              <div *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1 || f.name.split('.').indexOf('XLS') > -1 || f.name.split('.').indexOf('XLSX') > -1">
+              <div
+                *ngIf="
+                  f.name.split('.').indexOf('xls') > -1 ||
+                  f.name.split('.').indexOf('xlsx') > -1 ||
+                  f.name.split('.').indexOf('XLS') > -1 ||
+                  f.name.split('.').indexOf('XLSX') > -1
+                "
+              >
                 <img src="../../../../content/images/excel.png" width="100%" height="100%" />
               </div>
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1 || f.name.split('.').indexOf('DOC') > -1 || f.name.split('.').indexOf('DOCX') > -1">
+            <ngx-dropzone-label
+              *ngIf="
+                f.name.split('.').indexOf('doc') > -1 ||
+                f.name.split('.').indexOf('docx') > -1 ||
+                f.name.split('.').indexOf('DOC') > -1 ||
+                f.name.split('.').indexOf('DOCX') > -1
+              "
+            >
               <img src="../../../../content/images/word.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
@@ -229,7 +243,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button (click)="save()">Save</button>
+    <button mat-button (click)="save()" class="confirm-button-yes">Save</button>
 
     <button mat-raised-button mat-dialog-close class="confirm-button-no">Close</button>
   </mat-dialog-actions>
@@ -284,20 +298,34 @@
             <!-- </div> -->
           </div>
 
-          <div *ngIf="item.name.split('.').indexOf('xlsx') > -1 || item.name.split('.').indexOf('xls') > -1 || item.name.split('.').indexOf('XLSX') > -1 || item.name.split('.').indexOf('XLS') > -1" style="width: 300px">
+          <div
+            *ngIf="
+              item.name.split('.').indexOf('xlsx') > -1 ||
+              item.name.split('.').indexOf('xls') > -1 ||
+              item.name.split('.').indexOf('XLSX') > -1 ||
+              item.name.split('.').indexOf('XLS') > -1
+            "
+            style="width: 300px"
+          >
             <img width="300px" src="../../../../content/images/excel.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
-          <div *ngIf="item.name.split('.').indexOf('doc') > -1 || item.name.split('.').indexOf('docx') > -1 || item.name.split('.').indexOf('DOC') > -1 || item.name.split('.').indexOf('DOCX') > -1">
+          <div
+            *ngIf="
+              item.name.split('.').indexOf('doc') > -1 ||
+              item.name.split('.').indexOf('docx') > -1 ||
+              item.name.split('.').indexOf('DOC') > -1 ||
+              item.name.split('.').indexOf('DOCX') > -1
+            "
+          >
             <img width="300px" src="../../../../content/images/word.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
-
 
           <div *ngIf="item.name.split('.').indexOf('rar') > -1 || item.name.split('.').indexOf('RAR') > -1">
             <img width="300px" src="../../../../content/images/WinRAR-logo.jpg" />

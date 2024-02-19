@@ -7,6 +7,7 @@ import { ICollateralProperty } from './collateral-property.model';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { SurveyBatchService } from '../survey-batch/survey-batch.service';
 import { PartnerService } from '../partner/partner.service';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-property-result-list',
@@ -46,11 +47,12 @@ export class CollateralPropertyResultListComponent implements OnInit {
 
   getDataResult() {
     this.collateralApprraisalService
-      .queryFilterBy({ idCollateral: this.collateral.id, size: 9999, page: 0, sort: ['desc'] })
+      .cashQueryFilterBy({ idCollateral: this.collateral.id, idStatus: STATUS.COMPLETE, size: 9999, page: 0, sort: ['desc'] })
       .subscribe(res => {
-        this.penampung = res.body.filter(obj => obj.statusId === 'COMPLETE');
-        if (this.penampung.length > 0) {
-          this.dataSource = this.penampung;
+        // Pergantian Endpoint Dari BE PHASE 2
+        if (res.body.length > 0) {
+          this.dataSource = res.body;
+          console.log('data source', this.dataSource);
 
           for (let i = 0; i < this.dataSource.length; i++) {
             if (this.dataSource[i].apprOfficer === 'External') {

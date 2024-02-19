@@ -1,0 +1,228 @@
+.close.mat-button {
+  width: 10px;
+}
+
+.button-close {
+  margin-left: auto;
+  opacity: 0.5;
+  width: 15px;
+}
+
+.button-close:hover {
+  color: white;
+  background-color: rgb(195, 35, 35);
+  opacity: 1;
+  width: 15px;
+}
+
+.style-close {
+  text-align: right;
+}
+
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block !important;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 40px !important;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+ul.list-image {
+  flex-wrap: wrap;
+  list-style: none;
+  display: flex;
+  li {
+    img {
+      max-width: 35vw;
+    }
+    margin: 15px;
+    display: inline;
+  }
+}
+
+.grid-index-string {
+  justify-content: flex-start;
+}
+
+.grid-index-string-action {
+  justify-content: flex-end;
+}
+
+.grid-index-number {
+  justify-content: flex-end;
+}
+
+.grid-index-label-string {
+  text-align: left;
+}
+
+.grid-index-label-number {
+  text-align: right;
+}
+
+.label-font-detail {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: #008881;
+}
+
+table {
+  th {
+    background-color: rgba(147, 201, 199, 1);
+    color: black;
+    font-family: 'Poppins', sans-serif;
+  }
+  td {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
+}
+.button-styling {
+  background-color: rgba(49, 158, 152, 1);
+  color: #ffffff;
+}
+
+::ng-deep .custom-dialog-container-delete {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+::ng-deep .custom-dialog-container-cancel {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+.confirm-button-yes {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-no {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-yes:active:hover:not([disabled]) {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+ngx-dropzone-preview {
+  width: 200px !important;
+  overflow: hidden;
+}
+@-moz-document url-prefix() {
+  .align-center {
+    text-align: center;
+    margin: 0 auto;
+  }
+}

@@ -5,6 +5,9 @@ import { SharedModule } from 'app/shared/shared.module';
 import { DppkFinalizeComponent } from './dppk-finalize.component';
 import { DppkFinalizeReviewResolve, DppkFinalizeReviewRoute } from './dppk-finalize.route';
 import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
+// import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog-detail.component';
+// import { DppkPreparationInternalMemoComponent } from './dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo.component';
+// import { DppkPreparationInternalMemoDialogComponent } from './dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog.component';
 // import { DppkPreparationComponent } from './dppk-preparation/dppk-preparation.component';
 // import { BankAccountComponent } from './dppk-preparation/bank-account/bank-account.component';
 // import { BankAccountDialogComponent } from './dppk-preparation/bank-account/bank-account-dialog.component';
@@ -30,6 +33,9 @@ import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
   declarations: [
     DppkFinalizeComponent,
     DppkFinalizeDetailComponent,
+    // DppkPreparationInternalMemoDialogDetailComponent,
+    // DppkPreparationInternalMemoComponent,
+    // DppkPreparationInternalMemoDialogComponent,
     // DppkPreparationComponent,
     // BankAccountComponent,
     // BankAccountDialogComponent,

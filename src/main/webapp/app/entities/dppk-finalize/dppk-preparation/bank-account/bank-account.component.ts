@@ -1,6 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BankAccountDialogComponent } from './bank-account-dialog.component';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { ApplicationPaymentPreferencesService } from 'app/entities/application-payment-preference/application-payment-preference.service';
+import {
+  ApplicationPaymentPreferences,
+  IApplicationPaymentPreferences,
+} from 'app/entities/application-payment-preference/application-payment-preference.model';
+import { PaymentTypeService } from 'app/entities/payment-type/payment-type.service';
+import { IPaymentType } from 'app/entities/payment-type/payment-type.model';
+import { IBankAcountModel } from 'app/entities/bank-account/bank-account.model';
+import { BankAccountService } from 'app/entities/bank-account/bank-account.service';
 
 @Component({
   selector: 'jhi-bank-account',
@@ -8,24 +18,92 @@ import { BankAccountDialogComponent } from './bank-account-dialog.component';
   styleUrls: ['./bank-account.component.scss'],
 })
 export class BankAccountComponent implements OnInit {
-  public dataSource = [];
+  public _creditProposal: ICreditProposal;
+  public paymentType: IPaymentType[] = [];
+  public filteredPaymentType: IPaymentType[] = [];
+  public bankAccountData: IBankAcountModel[] = [];
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+
+  set creditProposal(item: ICreditProposal) {
+    this._creditProposal = item;
+  }
+
+  public dataSource: IApplicationPaymentPreferences[] = [];
 
   public displayColumns: string[] = ['no', 'accountType', 'currency', 'accountName', 'accountNumber', 'action'];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService,
+    private paymentTypeService: PaymentTypeService,
+    private bankAccountService: BankAccountService
+  ) {}
 
-  ngOnInit(): void {
-    console.log('test bank account');
+  ngOnInit() {
+    this.getDataApplicationPaymentReferences();
+    this.getBankAccount();
   }
 
-  public openDialog() {
+  getDataApplicationPaymentReferences() {
+    this.applicationPaymentPreferencesService.getData(this.creditProposal.id).subscribe(res => {
+      this.dataSource = res;
+    });
+  }
+
+  public openDialog(dataApplicationPayment?: IApplicationPaymentPreferences) {
+    if (!dataApplicationPayment) {
+      dataApplicationPayment = new ApplicationPaymentPreferences();
+    }
     const dialogRef = this.dialog.open(BankAccountDialogComponent, {
       width: '50vw',
 
-      data: {},
+      data: {
+        creditProposal: this.creditProposal,
+        dataPayment: dataApplicationPayment,
+        filteredPaymentType: this.filteredPaymentType,
+      },
     });
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
+      if (res.id) {
+        this.applicationPaymentPreferencesService.updateData(res.id, res).subscribe();
+      } else {
+        this.applicationPaymentPreferencesService.createData(res).subscribe();
+        this.getDataApplicationPaymentReferences();
+        this.getDataApplicationPaymentReferences();
+      }
     });
+  }
+
+  getBankAccount() {
+    this.bankAccountService.getBankAccount(this.creditProposal.cif.partyId).subscribe(res => {
+      this.bankAccountData = res.body;
+      this.getPaymentType();
+    });
+  }
+
+  getPaymentType() {
+    this.paymentTypeService
+      .queryFilterBy({
+        idAccountTransType: 'LOAN_ACCOUNT',
+      })
+      .subscribe(res => {
+        this.paymentType = res.body;
+        this.getPaymentTypeFiltered();
+      });
+  }
+
+  getPaymentTypeFiltered() {
+    if (this.paymentType.length > 0) {
+      for (let i = 0; i < this.paymentType.length; i++) {
+        const filteredPaymentRef = this.dataSource.filter(obj => obj.paymentTypeId === this.paymentType[i].id);
+        if (filteredPaymentRef.length < this.bankAccountData.length) {
+          this.filteredPaymentType.push(this.paymentType[i]);
+        }
+      }
+    }
   }
 }
