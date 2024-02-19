@@ -1,0 +1,343 @@
+<div>
+  <div *ngIf="view === 'add'">
+    <h2 mat-dialog-title class="label-font-detail">Add Document DPDL</h2>
+    <mat-dialog-content>
+      <div class="row">
+        <div class="col-6">
+          <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+            <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+          </ngx-dropzone>
+
+          <div class="row">
+            <ngx-dropzone-preview
+              class="col-6"
+              ngProjectAs="ngx-dropzone-preview"
+              *ngFor="let f of files"
+              [removable]="true"
+              (removed)="onRemove(f)"
+            >
+              <ngx-dropzone-label>
+                <ngx-dropzone-image-preview
+                  ngProjectAs="ngx-dropzone-image-preview"
+                  [file]="f"
+                  *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+                >
+                </ngx-dropzone-image-preview>
+                <div
+                  style="
+                    width: 170px;
+                    top: 90%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 1;
+                    background-color: gray;
+                    padding: 2px;
+                    font-size: 12px;
+                    color: white;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                    margin-top: -20px;
+                    position: absolute;
+                  "
+                >
+                  {{ f.name }}
+                </div>
+              </ngx-dropzone-label>
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
+                <img src="../../../content/images/excel.png" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
+                <img src="../../../content/images/word.png" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
+                <img src="../../../content/images/pdf.png" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1">
+                <img src="../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1">
+                <img src="../../../content/images/zip-image.jpg" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('pptx') > -1">
+                <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
+              </ngx-dropzone-label>
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
+                <img src="../../../content/images/csv.png" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
+                <img src="../../../content/images/mp3.png" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
+                <img src="../../../content/images/svg.jpg" width="100%" height="100%" />
+              </ngx-dropzone-label>
+
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
+                <img src="../../../content/images/tiff.png" width="100%" height="100%" />
+              </ngx-dropzone-label>
+              <ngx-dropzone-label *ngIf="f.url !== undefined">
+                <img [src]="f.url" width="100%" height="100%" />
+              </ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Document Name</mat-label>
+                  <input matInput type="text" [(ngModel)]="document.documentName" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Date</mat-label>
+                  <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+                  <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
+                  <mat-datepicker #documentDate disabled="false"></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Remarks</mat-label>
+                  <input matInput type="text" [(ngModel)]="document.remarks" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center" class="align-center">
+      <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+      <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
+    </mat-dialog-actions>
+  </div>
+</div>
+
+<div *ngIf="view === 'edit'">
+  <h2 mat-dialog-title class="label-font-detail">Edit Document DPDL</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-6">
+        <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+          <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+        </ngx-dropzone>
+        <ngx-dropzone-preview
+          class="col-6"
+          ngProjectAs="ngx-dropzone-preview"
+          *ngFor="let f of files"
+          [removable]="true"
+          (removed)="onRemove(f)"
+        >
+          <ngx-dropzone-label>
+            <ngx-dropzone-image-preview
+              ngProjectAs="ngx-dropzone-image-preview"
+              [file]="f"
+              *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+            >
+            </ngx-dropzone-image-preview>
+            <div
+              style="
+                width: 170px;
+                top: 90%;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1;
+                background-color: gray;
+                padding: 2px;
+                font-size: 12px;
+                color: white;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                margin-top: -20px;
+                position: absolute;
+              "
+            >
+              {{ f.name }}
+            </div>
+          </ngx-dropzone-label>
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
+            <img src="../../../content/images/excel.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
+            <img src="../../../content/images/word.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
+            <img src="../../../content/images/pdf.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('pptx') > -1">
+            <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1">
+            <img src="../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1">
+            <img src="../../../content/images/zip-image.jpg" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
+            <img src="../../../content/images/csv.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
+            <img src="../../../content/images/mp3.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
+            <img src="../../../content/images/svg.jpg" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
+            <img src="../../../content/images/tiff.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+          <ngx-dropzone-label *ngIf="f.url !== undefined">
+            <img [src]="f.url" width="100%" height="100%" />
+          </ngx-dropzone-label>
+        </ngx-dropzone-preview>
+
+        <div class="row">
+          <ngx-dropzone-preview
+            class="col-6"
+            ngProjectAs="ngx-dropzone-preview"
+            *ngFor="let item of folder.files"
+            [removable]="true"
+            (removed)="onRemove(item)"
+          >
+            <ngx-dropzone-label>
+              <img
+                width="150px"
+                [src]="item.url"
+                *ngIf="
+                  item.key.split('.').indexOf('png') > -1 ||
+                  item.key.split('.').indexOf('jpg') > -1 ||
+                  item.key.split('.').indexOf('jpeg') > -1 ||
+                  item.key.split('.').indexOf('gif') > -1
+                "
+              />
+
+              <div
+                style="
+                  width: 170px;
+                  top: 90%;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  z-index: 1;
+                  background-color: gray;
+                  padding: 2px;
+                  font-size: 12px;
+                  color: white;
+                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                  margin-top: -20px;
+                  position: absolute;
+                "
+              >
+                {{ item.name }}
+              </div>
+
+              <img width="150px" src="../../../content/images/csv.png" *ngIf="item.key.split('.').indexOf('csv') > -1" />
+
+              <img width="150px" src="../../../content/images/svg.jpg" *ngIf="item.key.split('.').indexOf('svg') > -1" />
+
+              <img width="150px" src="../../../content/images/tiff.png" *ngIf="item.key.split('.').indexOf('tiff') > -1" />
+
+              <img width="150px" src="../../../content/images/mp3.png" *ngIf="item.key.split('.').indexOf('mp3') > -1" />
+
+              <img width="150px" src="../../../content/images/WinRAR-logo.jpg" *ngIf="item.key.split('.').indexOf('rar') > -1" />
+
+              <img width="150px" src="../../../content/images/zip-image.jpg" *ngIf="item.key.split('.').indexOf('zip') > -1" />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/excel.png"
+                *ngIf="item.key.split('.').indexOf('xls') > -1 || item.key.split('.').indexOf('xlsx') > -1"
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/word.png"
+                *ngIf="item.key.split('.').indexOf('doc') > -1 || item.key.split('.').indexOf('docx') > -1"
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/pdf.png"
+                *ngIf="item.key.split('.').indexOf('pdf') > -1"
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/power-point.jpg"
+                *ngIf="item.key.split('.').indexOf('pptx') > -1"
+              />
+            </ngx-dropzone-label>
+          </ngx-dropzone-preview>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Document Name</mat-label>
+                <input matInput type="text" [(ngModel)]="document.documentName" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Date</mat-label>
+                <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
+                <mat-datepicker #documentDate disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Remarks</mat-label>
+                <input matInput type="text" [(ngModel)]="document.remarks" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center" class="align-center">
+    <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
+  </mat-dialog-actions>
+</div>
