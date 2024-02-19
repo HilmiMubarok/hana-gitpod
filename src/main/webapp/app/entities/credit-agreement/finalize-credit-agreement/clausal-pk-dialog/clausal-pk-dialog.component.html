@@ -23,23 +23,24 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div *ngIf="valueParentClausalAgreements?.description === 'Pasal Addendum 1'">
+        <mat-form-field
+          style="margin-left: 30px"
+          *ngFor="let item2 of countChildFormAgreements; let i = index"
+          appearance="outline"
+          class="w-50"
+        >
+          <mat-select (selectionChange)="changeClildAgreements($event, i)" [(ngModel)]="valueChildAgreeements[i]">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of optionChildAgrementAddedum(i)" [value]="item">
+              {{ item.agreementClausalParameterCode }} - {{ item.agreementClausalParameterDescription }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field
-        style="margin-left: 30px"
-        *ngFor="let item2 of countChildFormAgreements; let i = index"
-        appearance="outline"
-        class="w-50"
-      >
-        <mat-select (selectionChange)="changeClildAgreements($event, i)" [(ngModel)]="valueChildAgreeements[i]">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of optionChildAgrementAddedum(i)" [value]="item">
-            {{ item.agreementClausalParameterCode }} - {{ item.agreementClausalParameterDescription }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-icon *ngIf="countChildFormAgreements.length > 0" (click)="addCountCildAgreementsForm()">add</mat-icon>
-      <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)">delete</mat-icon>
+        <mat-icon *ngIf="countChildFormAgreements.length > 0" (click)="addCountCildAgreementsForm()">add</mat-icon>
+        <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)">delete</mat-icon>
+      </div>
     </div>
     <table [hidden]="agreementClausal.category === 'ADDENDUM'" mat-table [dataSource]="clausalAgreement" class="w-100">
       <ng-container matColumnDef="code">
