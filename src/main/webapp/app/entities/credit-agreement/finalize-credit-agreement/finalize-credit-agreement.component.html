@@ -840,13 +840,5 @@
 
   <jhi-generate-pk-draft [item]="creditProposal"></jhi-generate-pk-draft>
 
-  <jhi-review-history
-    [creditProposal]="creditProposal"
-    (notesChange)="onNotesChange($event)"
-    *ngIf="
-      creditProposal.statusCode === 'PK_REVIEW_LEAD' ||
-      creditProposal.statusCode === 'PK_GENERATED' ||
-      creditProposal.statusCode === 'PK_REVIEW_TEAMLEAD'
-    "
-  ></jhi-review-history>
+  <jhi-review-history [creditProposal]="creditProposal" (notesChange)="onNotesChange($event)"></jhi-review-history>
 </section>
