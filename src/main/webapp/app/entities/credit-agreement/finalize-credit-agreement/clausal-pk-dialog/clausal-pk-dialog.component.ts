@@ -54,10 +54,6 @@ export class ClausalPkDialogComponent {
     });
   }
 
-  // public cildAgreementSelection(event: any, i: number){
-  //   console.log('event', event.value)
-  //   this.valueChildAgreeements[i] = event.value
-  // }
   public addCountCildAgreementsForm(): void {
     this.countChildFormAgreements.push({});
     this.valueChildAgreeements.push('');
@@ -81,22 +77,26 @@ export class ClausalPkDialogComponent {
         this.clausalAgreement = data.filter(obj1 => !this.data.dataClausal.some(obj2 => obj2.agreementClausalParameterId === obj1.id));
       });
 
-    this.creditAgreementService
-      .getAddendumActive('ADDENDUM', {
-        page: 0,
-        size: 9999,
-      })
-      .subscribe((res1: any) => {
-        const data: any[] = res1.body;
-        this.agreementsClausalChildList = data.filter((res: any) => res.parameterCategoryId === 'ADDENDUM');
-      });
-
     this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
       this.agreementsClausalTemplate = res.body;
     });
 
     this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
       this.addendumListActive = res.body;
+    });
+
+    this.creditAgreementService.agreementsAddendumApplication(this.data.creditProposal.id).subscribe((res: any) => {
+      this.creditAgreementService
+        .getAddendumActive('ADDENDUM', {
+          page: 0,
+          size: 9999,
+        })
+        .subscribe((res1: any) => {
+          const data: any[] = res1.body;
+          this.agreementsClausalChildList = data
+            .filter((r: any) => r.parameterCategoryId === 'ADDENDUM')
+            .filter(item1 => !res.body.find(item2 => item1.description === item2.clausal.agreementClausalParameterDescription));
+        });
     });
   }
 
@@ -153,12 +153,18 @@ export class ClausalPkDialogComponent {
       let clausalChild = [];
 
       for (let i = 0; i < this.countChildFormAgreements.length; i++) {
-        const filteraddendumListActive = this.addendumListActive.filter((res: any) => res.id === this.valueChildAgreeements[i].id);
+        if (this.valueParentClausalAgreements?.description === 'Pasal Addendum 1') {
+          const filteraddendumListActive = this.addendumListActive.filter((res: any) => res.id === this.valueChildAgreeements[i].id);
 
-        (filteraddendumListActive[i].agreementId = this.data.agreement.length > 0 ? this.data.agreement[0].id : 0),
-          (filteraddendumListActive[i].addendumToId = filteraddendumListActive[i].id);
-        filteraddendumListActive[i].id = null;
-        clausalChild = [...clausalChild, filteraddendumListActive[i]];
+          filteraddendumListActive.forEach((item: any) => {
+            item.agreementId = this.data.agreement.length > 0 ? this.data.agreement[0].id : 0;
+            item.addendumToId = item.id;
+            item.id = null;
+          });
+          clausalChild = [...clausalChild, ...filteraddendumListActive];
+        } else {
+          clausalChild = [];
+        }
       }
 
       this.creditAgreementService.saveClausalAgreementGroub({ clausal, clausalChild }).subscribe((res: any) => {

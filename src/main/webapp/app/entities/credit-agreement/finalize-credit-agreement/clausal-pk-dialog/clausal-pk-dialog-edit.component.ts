@@ -43,6 +43,7 @@ export class ClausalPkDialogComponentEditComponent {
     public creditAgreementService: CreditAgreementService
   ) {
     this.category = this.data.dataClausal.category;
+    console.log('df', this.data.dataClausal);
     this.description = this.data.dataClausal.notes;
     this.code = this.data.dataClausal.agreementClausalParameterCode;
     this.checkMaster();
@@ -77,7 +78,7 @@ export class ClausalPkDialogComponentEditComponent {
 
   public triggeredSave(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const paramsId = this.data.creditProposal.agreements[0].id;
+      const paramsId = this.data.dataClausal.agreementId;
 
       const key = 'aggrement';
       const docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -122,7 +123,7 @@ export class ClausalPkDialogComponentEditComponent {
 
   public saveSfdt(res: any): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const paramsId = this.data.creditProposal.agreements[0].id;
+      const paramsId = this.data.dataClausal.agreementId;
       const key = 'aggrement';
       const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
@@ -152,11 +153,11 @@ export class ClausalPkDialogComponentEditComponent {
     const path = {
       key:
         dataPk.length > 0
-          ? `aggrement/${this.data.creditProposal.agreements[0]?.id}/${this.data.dataClausal.id}/sfdt/`
+          ? `aggrement/${this.data.dataClausal.agreementId}/${this.data.dataClausal.id}/sfdt/`
           : `template/credit-agreement/clausal/${this.data.dataClausal.agreementClausalParameterCode}/sfdt/`,
     };
     const pathHistory = {
-      key: `aggrement/${this.data.creditProposal.agreements[0]?.id}/document/draft/${this.data.dataClausal.id}/sfdt/`,
+      key: `aggrement/${this.data.dataClausal.agreementId}/document/draft/${this.data.dataClausal.id}/sfdt/`,
     };
 
     const obj = this.data.view === null ? path : pathHistory;
@@ -194,7 +195,7 @@ export class ClausalPkDialogComponentEditComponent {
       this.http
         .get(
           this.storageService.resourceUrl +
-            `/${res1.body['bucket']}/object?key=aggrement/${this.data.creditProposal.agreements[0]?.id}/${this.data.dataClausal.id}/sfdt/`
+            `/${res1.body['bucket']}/object?key=aggrement/${this.data.dataClausal.agreementId}/${this.data.dataClausal.id}/sfdt/`
         )
         .subscribe((res: any) => {
           this.getContainer(res);
@@ -208,25 +209,58 @@ export class ClausalPkDialogComponentEditComponent {
       .subscribe((res: any) => {
         const data: any[] = res.body;
         this.agreementsClausalChildList = data.filter((re: any) => re.parameterCategoryId === 'ADDENDUM');
-        console.log('child list', this.agreementsClausalChildList);
       });
 
     this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
       this.agreementsClausalTemplate = res.body;
     });
 
-    this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-      this.addendumListActive = res.body;
-    });
+    if (this.data.dataClausal.parentId === 497) {
+      this.getDataByIdAddendum(30939);
+    } else {
+      if (this.data.dataClausal.id === 497) {
+        this.getDataByIdAddendum(this.data.dataClausal.agreementClausalParameterId);
+      } else {
+        this.getDataByIdAddendum(30939);
+      }
+    }
+  }
 
-    this.creditAgreementService.clausalAgreementsId(this.data.dataClausal.id).subscribe((res1: any) => {
-      const valueParentClausalAgreements = this.addendumListActive.filter(
-        (data: any) => data.agreementClausalParameterDescription === res1.body.agreementClausalParameterDescription
-      )[0];
+  public getDataByIdAddendum(id: number) {
+    this.creditAgreementService.agreementsAddendumApplication(this.data.creditProposal.id).subscribe((res: any) => {
+      if (res.body.length > 0) {
+        this.valueParentClausalAgreements = this.agreementsClausalChildList.filter((r: any) => r.id === id)[0];
+        this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res1: any) => {
+          this.addendumListActive = res1.body;
+          const clausal = this.agreementsClausalChildList.filter((r: any) => r.id === id);
+          const child: any[] = res.body.filter((l: any) => l.clausal.agreementClausalParameterCode === clausal[0].code);
+          const filteredArray1 = this.addendumListActive.filter(item1 => {
+            const foundInChildren = child.some(item2 =>
+              item2.clausalChild.some(c => c.agreementClausalParameterCode === item1.agreementClausalParameterCode)
+            );
+            return foundInChildren;
+          });
 
-      this.creditAgreementService.agreementsAddendumApplication(this.data.creditProposal.id).subscribe((res: any) => {
-        this.valueParentClausalAgreements = res.body.filter;
-      });
+          const mergedObject = {};
+
+          filteredArray1.forEach(obj => {
+            const { agreementClausalParameterCode } = obj;
+            if (!mergedObject[agreementClausalParameterCode]) {
+              mergedObject[agreementClausalParameterCode] = { ...obj };
+            } else {
+              Object.assign(mergedObject[agreementClausalParameterCode], obj);
+            }
+          });
+
+          this.countChildFormAgreements = [''];
+          const resultArray: any = Object.values(mergedObject);
+
+          for (let i = 0; i < resultArray.length - 1; i++) {
+            this.countChildFormAgreements.push('');
+          }
+          this.valueChildAgreeements = resultArray;
+        });
+      }
     });
   }
 
@@ -236,28 +270,7 @@ export class ClausalPkDialogComponentEditComponent {
 
   public save() {
     if (this.category === 'ADDENDUM') {
-      const clausal: any = this.addendumListActive[0];
-      delete clausal.id;
-      delete clausal.category;
-      clausal.id = null;
-      clausal.category = this.category;
-      const clausalChild: any[] = [];
-      for (let i = 0; i < this.countChildFormAgreements.length; i++) {
-        const saveCild = Object.assign({}, this.agreementsClausalTemplate);
-        const filteraddendumListActive = this.agreementsClausalChildList.filter(
-          (res: any) => res.description === this.valueChildAgreeements[i]
-        );
-        saveCild.addendumToId = clausal.id;
-        saveCild.agreementClausalParameterCode = filteraddendumListActive[0].code;
-        saveCild.agreementClausalParameterDescription = filteraddendumListActive[0].description;
-
-        saveCild.statusCode = filteraddendumListActive[0].statusCode;
-        saveCild.statusDescription = filteraddendumListActive[0].statusDescription;
-
-        clausalChild.push(saveCild);
-      }
-
-      this.creditAgreementService.saveClausalAgreementGroub({ clausal, clausalChild }).subscribe((res: any) => {
+      this.triggeredSave().then(() => {
         this.dialogRef.close();
       });
     } else {
