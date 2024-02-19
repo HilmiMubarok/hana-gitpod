@@ -202,6 +202,7 @@ export interface ICollateral {
   dataSource?: string;
   occupancy?: string;
   collateralTypeInsurance?: boolean;
+  collateralOwnerCif?: string;
 }
 
 export class Collateral implements ICollateral {
@@ -323,7 +324,8 @@ export class Collateral implements ICollateral {
     public marketValueMaping?: number,
     public dataSource?: string,
     public occupancy?: string,
-    public collateralTypeInsurance?: boolean
+    public collateralTypeInsurance?: boolean,
+    public collateralOwnerCif?: string
   ) {
     this.requisitionExpiryDate = new Date();
     this.appraisalDateIndependent = new Date();

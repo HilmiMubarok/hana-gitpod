@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { IPartyCif } from '../party-cif.model';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info-dialog',
@@ -11,6 +12,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 })
 export class PartyCifCollateralInfoDialogComponent {
   public collateral: ICollateral;
+  public partyCif: IPartyCif;
   @Input() collateralAppraisal: ICollateralAppraisal;
   public disabledOpt = false;
   public collateralDetails: object[];
@@ -21,6 +23,7 @@ export class PartyCifCollateralInfoDialogComponent {
     public data: {
       collateral: ICollateral;
       collateralAppraisal: ICollateralAppraisal;
+      partyCif: IPartyCif;
     },
     private _dialog: MatDialogRef<PartyCifCollateralInfoDialogComponent>
   ) {
@@ -29,6 +32,7 @@ export class PartyCifCollateralInfoDialogComponent {
       this.openCancelDialog();
     });
     this.collateral = this.data.collateral;
+    this.partyCif = this.data.partyCif;
     this.collateralAppraisal = this.data.collateralAppraisal;
     this.collateralDetails = [];
   }

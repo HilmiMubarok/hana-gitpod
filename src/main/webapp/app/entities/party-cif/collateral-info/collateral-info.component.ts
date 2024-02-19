@@ -375,7 +375,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     }
     const dialogRef = this.dialog.open(PartyCifCollateralInfoDialogComponent, {
       width: '80vw',
-      data: { collateral: _collateral, collateralAppraisal: this.collateralAppraisal },
+      data: { collateral: _collateral, collateralAppraisal: this.collateralAppraisal, partyCif: this.partyCif },
     });
     dialogRef.afterClosed().subscribe((res: ICollateral) => {
       if (res) {
