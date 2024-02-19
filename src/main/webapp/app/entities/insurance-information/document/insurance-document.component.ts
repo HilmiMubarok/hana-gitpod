@@ -24,13 +24,14 @@ export class InsuranceDocumentComponent implements OnChanges {
   view: string;
   documentInsurance: DocumentInsurance;
   private _collateral: ICollateral;
-  private _insurance: IInsuranceInformation;
+  private _insurance: InsuranceInformation;
   id: number;
   dataIdInsurance: any;
   _insuranceDoc: IDocumentInsurance;
   documentPolicye: any[];
   change: SimpleChanges;
-  _dataSource: IInsuranceInformation;
+  dataSource: IInsuranceInformation;
+  insurances: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -43,15 +44,8 @@ export class InsuranceDocumentComponent implements OnChanges {
   get insurance() {
     return this._insurance;
   }
-  set insurances(items: IInsuranceInformation) {
+  set insurance(items: IInsuranceInformation) {
     this._insurance = items;
-  }
-  @Input()
-  get dataSource() {
-    return this._dataSource;
-  }
-  set dataSource(items: IInsuranceInformation) {
-    this._dataSource = items;
   }
   @Input() isViewMode;
   @Input()
@@ -83,6 +77,7 @@ export class InsuranceDocumentComponent implements OnChanges {
     console.log('isViewMode', changes);
     if (changes['insurance']) {
       this.dataIdInsurance = changes['insurance'].currentValue.id;
+      this.insurances = changes['insurance'].currentValue;
       this.getFiles(this.dataIdInsurance);
     }
   }
@@ -112,7 +107,7 @@ export class InsuranceDocumentComponent implements OnChanges {
         documentInsurance: _insuranceDoc,
         collateral: this.collateral,
         dataInsurance: this.dataIdInsurance,
-        insurance: this.dataSource,
+        insurance: this.insurances,
         creditProposal: this._creditProposal,
         mode,
       },

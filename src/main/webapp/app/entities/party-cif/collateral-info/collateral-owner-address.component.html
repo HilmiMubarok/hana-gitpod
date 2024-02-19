@@ -1,0 +1,475 @@
+<div *ngIf="collateral.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'">
+  <div class="row">
+    <div class="col-6">
+      <div class="w-100">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+            <mat-label>Guarantor Other Cif Debtor</mat-label>
+            <input
+              matInput
+              placeholder="Search cif here..."
+              type="text"
+              [(ngModel)]="collateral.collateralOwnerCif"
+              [disabled]="collateral.statusId !== 'NEW'"
+            />
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="findCif()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Guarantor</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateral.collateralOwnerCif }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="w-100">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+            <mat-label>Guarantor Name</mat-label>
+            <input matInput type="text" [(ngModel)]="guarantorName" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col"></div>
+            <div class="col-md-auto"></div>
+            <div class="col">
+              {{ guarantorName }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group" *ngIf="partyCif.customerType === 'PERSONAL'">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Collateral Owner ID</mat-label>
+            <input matInput type="text" [(ngModel)]="identityId" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">ID Number</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ identityId }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group" *ngIf="partyCif.customerType === 'CORPORATE'">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Collateral Owner ID</mat-label>
+            <input matInput type="text" [value]="'-'" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">ID Number</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ identityId }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group" *ngIf="partyCif.customerType === 'CORPORATE'">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>NPWP Number</mat-label>
+            <input matInput type="text" [(ngModel)]="identityId" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">ID Number</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ identityId }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group" *ngIf="partyCif.customerType === 'PERSONAL'">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Place of Birth</mat-label>
+            <input matInput type="text" [(ngModel)]="pobPerson" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Place of Birth</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ pobPerson }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group" *ngIf="partyCif.customerType === 'PERSONAL'">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Date of Birth</mat-label>
+            <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [value]="dobPerson" disabled />
+            <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+            <mat-datepicker #dob></mat-datepicker>
+            <mat-hint align="end"
+              ><strong>{{ countAge() }} years old</strong>
+            </mat-hint>
+          </mat-form-field>
+        </section>
+      </div>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Date of Birth</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ dobPerson }} -
+            <strong>{{ countAge() }} years old</strong>
+          </div>
+        </div>
+      </section>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <ejs-textbox
+            placeholder="address1"
+            [(ngModel)]="adress1"
+            cssClass="e-outline"
+            rows="3"
+            [multiline]="true"
+            floatLabelType="Auto"
+            [maxlength]="100"
+            disabled
+          >
+          </ejs-textbox>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">address1</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ adress1 }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Country</mat-label>
+            <input matInput type="text" [(ngModel)]="country" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Country</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ country }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Province</mat-label>
+            <input matInput type="text" [(ngModel)]="province" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Province</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ province }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>City</mat-label>
+            <input matInput type="text" [(ngModel)]="city" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">City</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ city }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>District</mat-label>
+            <input matInput type="text" [(ngModel)]="districts" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">District</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ districts }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Village</mat-label>
+            <input matInput type="text" [(ngModel)]="villages" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Village</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ villages }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Kode Pos</mat-label>
+            <input matInput type="text" [(ngModel)]="kodePos" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Kode Pos</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ kodePos }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE'">
+  <div class="row">
+    <!-- <div class="col-6">
+      <div class="w-100">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+            <mat-label>Guarantor </mat-label>
+            <input matInput type="text" [(ngModel)]="collateral.collateralOwnerCif" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Guarantor</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateral.collateralOwnerCif }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="w-100">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field appearance="outline" class="w-100" floatLabel="always">
+            <mat-label>Guarantor Name</mat-label>
+            <input matInput type="text" [(ngModel)]="guarantorName" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col"></div>
+            <div class="col-md-auto"></div>
+            <div class="col">
+              {{ guarantorName }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div> -->
+    <div class="col-12">
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Guarantee ID</mat-label>
+            <input matInput type="text" [(ngModel)]="identityId" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Guarantee ID</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ identityId }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>LBU Code</mat-label>
+            <input matInput type="text" [(ngModel)]="lbuCode" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">LBU Code</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ lbuCode }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <ejs-textbox
+            placeholder="address1"
+            [(ngModel)]="adress1"
+            cssClass="e-outline"
+            rows="3"
+            [multiline]="true"
+            floatLabelType="Auto"
+            [maxlength]="100"
+            disabled
+          >
+          </ejs-textbox>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">address1</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ adress1 }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Country</mat-label>
+            <input matInput type="text" [(ngModel)]="country" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Country</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ country }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Province</mat-label>
+            <input matInput type="text" [(ngModel)]="province" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Province</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ province }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>City</mat-label>
+            <input matInput type="text" [(ngModel)]="city" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">City</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ city }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>District</mat-label>
+            <input matInput type="text" [(ngModel)]="districts" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">District</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ districts }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Village</mat-label>
+            <input matInput type="text" [(ngModel)]="villages" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Village</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ villages }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Kode Pos</mat-label>
+            <input matInput type="text" [(ngModel)]="kodePos" disabled />
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Kode Pos</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ kodePos }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
