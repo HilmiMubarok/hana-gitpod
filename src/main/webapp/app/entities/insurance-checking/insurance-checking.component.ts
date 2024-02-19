@@ -287,6 +287,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               // sort: ['id,asc'],
+              sort: ['createdDate,desc'],
               appMenuId: 'INSURANCE_CHECKING',
             })
             .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
@@ -302,6 +303,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               // sort: ['id,asc'],
+              sort: ['createdDate,desc'],
               appMenuId: 'INSURANCE_CHECKING',
             })
             .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))

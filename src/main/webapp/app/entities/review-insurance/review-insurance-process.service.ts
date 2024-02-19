@@ -9,8 +9,10 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ReviewInsuranceProcessService {
   private resourceUrl: string;
+  private resourceSave: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/insurance-agreements/tasks/application');
+    this.resourceSave = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/insurance-agreements/tasks');
   }
 
   public getTasks(id: any): Observable<HttpResponse<IProcessTask[]>> {
@@ -23,6 +25,6 @@ export class ReviewInsuranceProcessService {
   }
 
   public processTask(task: IProcessTask): Observable<HttpResponse<object>> {
-    return this.http.post<object>(`${this.resourceUrl}`, task, { observe: 'response' });
+    return this.http.post<object>(`${this.resourceSave}`, task, { observe: 'response' });
   }
 }
