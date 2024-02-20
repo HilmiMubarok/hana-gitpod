@@ -68,4 +68,14 @@ export class DpdlPreparationComponent implements OnInit {
       this.creditProposal.entityProperties.push(this.dpdlEntityProperties);
     });
   }
+
+  public parentPath = this.router.url.split('/')[1];
+  public selectedMenu: string;
+
+  isDisabled(): boolean {
+    if (this.parentPath === 'finalize-dppk') {
+      return true;
+    }
+    return false;
+  }
 }

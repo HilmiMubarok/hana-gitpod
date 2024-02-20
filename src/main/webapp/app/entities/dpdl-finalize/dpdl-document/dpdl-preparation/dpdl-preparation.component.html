@@ -18,7 +18,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>DPDL PIC</mat-label>
-                <textarea matInput type="multiline" [(ngModel)]="dpdlEntityProperties.dpdlPic"></textarea>
+                <textarea matInput type="multiline" [disabled]="isDisabled()" [(ngModel)]="dpdlEntityProperties.dpdlPic"></textarea>
               </mat-form-field>
             </div>
           </div>
@@ -30,9 +30,15 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>DPDL Generate Date</mat-label>
-                <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="dpdlEntityProperties.dpdlDate"
-                  disabled />
-                <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
+                <input
+                  [disabled]="isDisabled()"
+                  [matDatepicker]="documentDate"
+                  matInput
+                  type="text"
+                  [(ngModel)]="dpdlEntityProperties.dpdlDate"
+                  disabled
+                />
+                <mat-datepicker-toggle [disabled]="isDisabled()" matSuffix [for]="documentDate"></mat-datepicker-toggle>
                 <mat-datepicker #documentDate disabled="false"></mat-datepicker>
               </mat-form-field>
             </div>
@@ -41,7 +47,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>DPDL Place</mat-label>
-                <input matInput type="text" [(ngModel)]="dpdlEntityProperties.dpdlPlace" />
+                <input matInput type="text" [disabled]="isDisabled()" [(ngModel)]="dpdlEntityProperties.dpdlPlace" />
               </mat-form-field>
             </div>
           </div>
