@@ -215,14 +215,14 @@ export class ClausalPkDialogComponentEditComponent {
       this.agreementsClausalTemplate = res.body;
     });
 
-    if (this.data.dataClausal.parentId === 497) {
+    console.log('mn', this.data.dataClausal);
+    if (this.data.dataClausal.agreementClausalParameterDescription === 'Pasal Addendum 1' || this.data.dataClausal.parentId === 603) {
       this.getDataByIdAddendum(30939);
-    } else {
-      if (this.data.dataClausal.id === 497) {
-        this.getDataByIdAddendum(this.data.dataClausal.agreementClausalParameterId);
-      } else {
-        this.getDataByIdAddendum(30939);
-      }
+    } else if (
+      this.data.dataClausal.agreementClausalParameterDescription !== 'Pasal Addendum 1' &&
+      this.data.dataClausal.parentId === null
+    ) {
+      this.getDataByIdAddendum(this.data.dataClausal.agreementClausalParameterId);
     }
   }
 
