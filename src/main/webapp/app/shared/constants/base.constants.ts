@@ -3174,7 +3174,7 @@ export const BASIC_SUBMENU_DPPK: object[] = [
   },
   // DPDL-LEGAL-DOCUMENT
   {
-    id: 'legal-document',
+    id: 'dpdl',
     text: 'DPDL',
   },
 ];

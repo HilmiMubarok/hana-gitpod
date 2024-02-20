@@ -57,8 +57,6 @@ import { CollateralAppraisalDetailProcessLandComponent } from '../collateral-app
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import { ReportIndependentCollateralComponent } from '../collateral-appraisal/report-independent/report-independent-collateral.component';
-import { IReportIndependent, ReportIndependent } from '../collateral-appraisal/report-independent/report-independent.model';
 
 @Component({
   providers: [
@@ -70,7 +68,7 @@ import { IReportIndependent, ReportIndependent } from '../collateral-appraisal/r
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
-    ReportIndependentCollateralComponent,
+    // ReportIndependentCollateralComponent,
   ],
   selector: 'jhi-survey-batch-edit',
   templateUrl: './survey-batch-edit.component.html',
@@ -164,7 +162,6 @@ export class SurveyBatchEditComponent implements OnInit {
   public jpOther: boolean;
   public selectedMenu: string;
 
-  public reportIndependentModel: IReportIndependent = new ReportIndependent();
   public menuItemsAll: MenuItemModel[] = [
     {
       text: 'Appraisal Info',
@@ -228,8 +225,7 @@ export class SurveyBatchEditComponent implements OnInit {
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
-    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
-    private reportIndependentCollateralComponent: ReportIndependentCollateralComponent // public reportIndependentCollateralComponent: ReportIndependentCollateralComponent
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -508,8 +504,6 @@ export class SurveyBatchEditComponent implements OnInit {
     return (await firstValueFrom(this.storageService.getObjects(this.bucket, predicate))).body;
   }
 
-  // public dataReportIndependent: any;
-
   private async initialize(): Promise<void> {
     this.loadData(this.collateralAppraisal.collateral);
     this.bucket = this.getBucketName()['bucket'];
@@ -593,8 +587,6 @@ export class SurveyBatchEditComponent implements OnInit {
     });
     this.getTasks();
     this.timeLine();
-
-    this.reportIndependentModel = this.reportIndependentCollateralComponent.getReport();
   }
 
   public processTask(task: IProcessTask): void {
@@ -854,14 +846,8 @@ export class SurveyBatchEditComponent implements OnInit {
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
-      // if (this.surveyAppraisal.statusId === STATUS.APPROVE) {
-      this.cekReportIndependent();
-      // }
     } else {
       this.mainSave(source);
-      // if (this.surveyAppraisal.statusId === STATUS.APPROVE) {
-      this.cekReportIndependent();
-      // }
     }
   }
 
@@ -1306,30 +1292,5 @@ export class SurveyBatchEditComponent implements OnInit {
   }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
-  }
-  public cekReportIndependent() {
-    this.setAllowSaveData();
-  }
-
-  public setAllowSaveData() {
-    if (this.collateralProp) {
-      console.log('collateral type', this.collateralAppraisal.collateral.collateralTypeId);
-      if (this.surveyAppraisal.collateral.collateralTypeId === 'REALESTATE') {
-        this.collateralProp.propertyMarketValue = this.reportIndependentModel.totalMarketValueLandBuilding;
-        this.collateralProp.propertyMarketValueIMB = this.reportIndependentModel.totalMarketValueImbLandBuilding;
-        this.collateralProp.propertyMarketValueTataKota = this.reportIndependentModel.totalMarketValueTataKotaLandBuilding;
-        this.collateralProp.liquidationValue = this.reportIndependentModel.totalLiquidationValueLandBuilding;
-      }
-      if (
-        this.surveyAppraisal.collateral.collateralTypeId === 'MACHINE' ||
-        this.surveyAppraisal.collateral.collateralTypeId === 'VEHICLE'
-      ) {
-        this.collateralProp.propertyMarketValue = this.reportIndependentModel.totalMVMachineVehicle;
-        this.collateralProp.liquidationValue = this.reportIndependentModel.totalLVMachineVehicle;
-      }
-      this.collateralPropertyService.save(this.collateralProp).subscribe(res => {
-        console.log('res save', res.body);
-      });
-    }
   }
 }

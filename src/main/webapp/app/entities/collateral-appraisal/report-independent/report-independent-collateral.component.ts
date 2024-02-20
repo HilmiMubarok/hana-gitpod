@@ -65,15 +65,6 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
   public status: boolean;
   public reviewedOpinion: any;
   private _surveyAppraisal: ISurveyAppraisals;
-  private _collateralProperty: ICollateralProperty;
-
-  @Input()
-  get collateralProp() {
-    return this._collateralProperty;
-  }
-  set collateralProp(data: ICollateralProperty) {
-    this._collateralProperty = data;
-  }
 
   @Input()
   get surveyAppraisal() {
@@ -96,7 +87,6 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
     this.page = 0;
     this.itemsPerPage = 10;
     this.mData = new ReportIndependent();
-    this.collateralProp = new CollateralProperty();
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
