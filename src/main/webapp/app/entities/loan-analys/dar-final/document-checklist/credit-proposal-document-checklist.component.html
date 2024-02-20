@@ -41,9 +41,15 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef width="6%">Action</th>
           <td mat-cell *matCellDef="let element">
-            <div >
+            <div>
               <button
-                *ngIf="item.parentId === 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && router.url.includes('dar-revision-checker') === false"
+                *ngIf="
+                  item.parentId === 'DOC_LA' &&
+                  matrix === true &&
+                  creditProposal.statusCode !== 'PK_RETURN_TO_RM' &&
+                  creditProposal.statusCode !== 'PK_DAR_REVISION_CHECKER' &&
+                  router.url.includes('dar-revision-checker') === false
+                "
                 mat-icon-button
                 (click)="openDialog(element, 'add', item.description)"
               >
@@ -51,7 +57,14 @@
               </button>
 
               <button
-                *ngIf="item.parentId !== 'DOC_IDD' && item.parentId !== 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && router.url.includes('dar-revision-checker') === false"
+                *ngIf="
+                  item.parentId !== 'DOC_IDD' &&
+                  item.parentId !== 'DOC_LA' &&
+                  matrix === true &&
+                  creditProposal.statusCode !== 'PK_RETURN_TO_RM' &&
+                  creditProposal.statusCode !== 'PK_DAR_REVISION_CHECKER' &&
+                  router.url.includes('dar-revision-checker') === false
+                "
                 mat-icon-button
                 (click)="openDialog(element, 'add', item.description)"
               >
@@ -59,27 +72,50 @@
               </button>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <button
-                  *ngIf="item.parentId !== 'DOC_IDD' && item.parentId !== 'DOC_LA' && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && router.url.includes('dar-revision-checker') === false"
+                  *ngIf="
+                    item.parentId !== 'DOC_IDD' &&
+                    item.parentId !== 'DOC_LA' &&
+                    creditProposal.statusCode !== 'PK_RETURN_TO_RM' &&
+                    router.url.includes('dar-revision-checker') === false
+                  "
                   mat-icon-button
                   (click)="openDialog(element, 'add', item.description)"
                 >
                   <mat-icon>create</mat-icon>
                 </button>
-           
-
 
                 <button mat-icon-button (click)="openDialog(element, 'view', item.description)">
                   <mat-icon>remove_red_eye</mat-icon>
                 </button>
               </section>
 
+              <button
+                *ngIf="
+                  creditProposal.statusCode === 'PK_RETURN_TO_RM' &&
+                  matrix !== true &&
+                  item.parentId !== 'DOC_LA' &&
+                  router.url.includes('dar-revision-checker') === false
+                "
+                mat-icon-button
+                (click)="openDialog(element, 'add', item.description)"
+              >
+                <mat-icon>create</mat-icon>
+              </button>
+
+              <section class="dppk-button">
                 <button
-                    *ngIf="creditProposal.statusCode === 'PK_RETURN_TO_RM' && matrix !== true && item.parentId !== 'DOC_LA' && router.url.includes('dar-revision-checker') === false"
-                    mat-icon-button
-                    (click)="openDialog(element, 'add', item.description)"
-                  >
-                    <mat-icon>create</mat-icon>
+                  *ngIf="
+                    (dppkEditable && element.parentId === 'DOC_DPPK_KENDARAAN') ||
+                    (dppkEditable && element.parentId === 'DOC_DPPK_JUALBELI') ||
+                    (dppkEditable && element.parentId === 'DOC_DPPK_KENDARAAN') ||
+                    (dppkEditable && element.parentId === 'DOC_DPPK_NEW')
+                  "
+                  mat-icon-button
+                  (click)="openDialog(element, 'add', item.description)"
+                >
+                  <mat-icon>create</mat-icon>
                 </button>
+              </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <button mat-icon-button (click)="openDialog(element, 'view', item.description)">
                   <mat-icon>remove_red_eye</mat-icon>

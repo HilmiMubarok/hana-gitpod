@@ -23,6 +23,18 @@
       ></jhi-postal-address-view-custom>
     </mat-card-content>
   </mat-card>
+  <mat-card class="mt-5">
+    <mat-card-header>
+      <mat-card-subtitle>Collateral Owner Address</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <jhi-collateral-owner-address
+        [partyCif]="partyCif"
+        [collateral]="collateral"
+        [postalAddress]="collateral.collateralAddress"
+      ></jhi-collateral-owner-address>
+    </mat-card-content>
+  </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="center" class="align-center">
   <section *jhiMatrixDirIDD="'input'">

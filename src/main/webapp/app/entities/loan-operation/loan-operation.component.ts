@@ -285,6 +285,7 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
+              appMenuId: 'LOAN_OPERATION_DISTRIBUTION',
             })
             .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoad(res)))
             .subscribe({
@@ -299,37 +300,7 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-            })
-            .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<ILoanOPS[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-        }
-      } else {
-        this.getStatusListView('LOAN_OPERATION_DISTRIBUTION');
-        if (this.clickedChip['statusId'] !== '') {
-          this.cashLoanOperationService
-            .cashCreditProposalApproval({
-              page: this.page,
-              idStatus: this.clickedChip['statusId'],
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-            })
-            .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<ILoanOPS[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-          return;
-        } else {
-          this.cashLoanOperationService
-            .cashCreditProposalApproval({
-              page: this.page,
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
+              appMenuId: 'LOAN_OPERATION_DISTRIBUTION',
             })
             .pipe(map((res: HttpResponse<ILoanOPS[]>) => this.preLoad(res)))
             .subscribe({

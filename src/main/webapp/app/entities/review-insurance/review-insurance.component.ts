@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { IReviewInsurance } from './review-insurance.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { faBullseye, faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,10 +17,10 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
-import { CashReviewInsuranceService } from './cash-review-insurance.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { ReviewInsuranceService } from './review-insurance.service';
-
+import { CashReviewInsuranceService } from './cash-review-insurance.service';
+import { IReviewInsurance } from './review-insurance.model';
 @Component({
   selector: 'jhi-review-insurance',
   templateUrl: './review-insurance.component.html',
@@ -216,17 +215,19 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
     }
   }
 
-  private checkReturnStatusDescription(data: IReviewInsurance[]) {
-    if (data.length > 0) {
-      for (let i = 0; i < data.length; i++) {
-        data[i].statusInsuranceDescription =
-          data[i].statusInsuranceDescription.substring(0, 2) === 'Ol'
-            ? data[i].statusInsuranceDescription.substring(3, data[i].statusInsuranceDescription.length)
-            : data[i].statusInsuranceDescription;
-      }
-    }
-    return data;
-  }
+  // private checkReturnStatusDescription(data: IReviewInsurance[]) {
+  //   if (data.length > 0) {
+  //     for (let i = 0; i < data.length; i++) {
+  //       // eslint-disable-next-line no-self-assign
+  //       // data[i].statusInsuranceDescription = data[i].statusInsuranceDescription;
+  //       data[i].statusInsuranceDescription =
+  //         data[i].statusInsuranceDescription.substring(0, 2) === 'Ol'
+  //           ? data[i].statusInsuranceDescription.substring(3, data[i].statusInsuranceDescription.length)
+  //           : data[i].statusInsuranceDescription;
+  //     }
+  //   }
+  //   return data;
+  // }
 
   private convertStringMonthToNumber(monthString: string) {
     return lodash.find(this.monthArray, function (month) {
@@ -256,7 +257,7 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
 
     forCheckedItems = this.addStaticDob(data.body);
     forCheckedItems = this.addIdx(data.body);
-    forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
+    // forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
 
@@ -271,77 +272,30 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
 
   private loadAll(): void {
     this.loading = true;
+
     if (!this.positionIdLocStor) {
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
-    } else {
-      if (this.router.url === 'insurance-review') {
-        this.getStatusListView('INSURANCE_REVIEW');
-        if (this.clickedChip['statusId'] !== '') {
-          this.cashReviewInsuranceService
-            .ReviewInsuranceBystatus({
-              page: this.page,
-              idStatus: this.clickedChip['statusId'],
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-              appMenuId: 'INSURANCE_REVIEW',
-            })
-            .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IReviewInsurance[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-          return;
-        } else {
-          this.cashReviewInsuranceService
-            .ReviewInsuranceBystatus({
-              page: this.page,
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-              appMenuId: 'INSURANCE_REVIEW',
-            })
-            .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IReviewInsurance[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-        }
-      } else {
-        this.getStatusListView('INSURANCE_REVIEW');
-        if (this.clickedChip['statusId'] !== '') {
-          this.cashReviewInsuranceService
-            .ReviewInsuranceBystatus({
-              page: this.page,
-              idStatus: this.clickedChip['statusId'],
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-              appMenuId: 'INSURANCE_REVIEW',
-            })
-            .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IReviewInsurance[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-          return;
-        } else {
-          this.cashReviewInsuranceService
-            .ReviewInsuranceBystatus({
-              page: this.page,
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-              appMenuId: 'INSURANCE_REVIEW',
-            })
-            .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IReviewInsurance[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-        }
+    }
+    if (this.router.url === '/insurance-review') {
+      this.getStatusListView('INSURANCE_REVIEW');
+      const requestParams = {
+        page: this.page,
+        idPosition: this.positionIdLocStor,
+        size: this.itemsPerPage,
+        sort: ['createdDate,desc'],
+        appMenuId: 'INSURANCE_REVIEW',
+      };
+      if (this.clickedChip['statusId'] !== '') {
+        requestParams['idStatus'] = this.clickedChip['statusId'];
       }
+      this.cashReviewInsuranceService
+        .ReviewInsuranceBystatus(requestParams)
+        .pipe(map((res: HttpResponse<IReviewInsurance[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<IReviewInsurance[]>) => this.initDataForMatTable(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
     }
   }
 
@@ -386,7 +340,7 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
   }
 
   public showTimeLine(element: IReviewInsurance): void {
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('INSURANCEREVIEW', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
@@ -397,11 +351,11 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
 
   getText(value: any) {
     if (value === 'insurance-review') {
-      this.title = 'INSURANCE_REVIEW ';
+      this.title = 'INSURANCE REVIEW';
       sessionStorage.setItem('appName', this.title);
     }
-    if (value === 'insurance-review') {
-      this.title = 'INSURANCE_REVIEW';
+    if (value === 'insurance-check') {
+      this.title = 'INSURANCE REVIEW';
       sessionStorage.setItem('appName', this.title);
     }
   }

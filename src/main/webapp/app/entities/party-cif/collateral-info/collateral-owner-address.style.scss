@@ -1,0 +1,38 @@
+.e-card {
+  padding: 15px;
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.e-card .e-card-header .e-card-header-caption .e-card-header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 35px;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}
+
+// add padding to disabled matrik
+.fontsebled {
+  padding-bottom: 10px !important;
+}

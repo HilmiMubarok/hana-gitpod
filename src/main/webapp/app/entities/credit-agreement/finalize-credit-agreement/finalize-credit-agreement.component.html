@@ -549,7 +549,7 @@
       <mat-card-title>Credit Agreement Clausal History</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <table mat-table [dataSource]="addendumClausalAgreements" class="w-100">
+      <table mat-table [dataSource]="addendumClausalAgreementsHistory" class="w-100">
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
           <td mat-cell *matCellDef="let element; let i = index" class="text-center">{{ i + 1 }}.</td>
@@ -664,7 +664,14 @@
       </mat-card-header>
 
       <mat-form-field class="w-100" appearance="outline">
-        <textarea matInput cssClass="e-outline" class="text-area-input" id="multiline-always" name="typeAlways"></textarea>
+        <textarea
+          [(ngModel)]="creditProposal.agreements[0]?.attributes.notes"
+          matInput
+          cssClass="e-outline"
+          class="text-area-input"
+          id="multiline-always"
+          name="typeAlways"
+        ></textarea>
       </mat-form-field>
 
       <table mat-table [dataSource]="addendumClausalAgreements" class="w-100">
@@ -691,6 +698,10 @@
           <td mat-cell *matCellDef="let element" class="text-center">
             <button mat-icon-button>
               <mat-icon (click)="updateClausalDialog(element, null)">edit</mat-icon>
+            </button>
+
+            <button (click)="deleteClausal(element)" mat-icon-button>
+              <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>

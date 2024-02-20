@@ -194,13 +194,13 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
           return o.statusId === 'ACTIVE';
         });
         if (this.documentPolicye) {
-          let element: string;
+          let elements: string;
           for (let i = 0; i < this.documentPolicye.length; i++) {
             if (this.insurance.documentPolicyId === this.documentPolicye[i].id) {
-              element = this.documentPolicye[i].value;
+              elements = this.documentPolicye[i].value;
             }
           }
-          this.insurance.documentPolicyDescription = element;
+          this.insurance.documentPolicyDescription = elements;
         }
       });
   }

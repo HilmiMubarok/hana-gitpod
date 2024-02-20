@@ -57,7 +57,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   private _cif: IPartyCif;
   public value: string;
   public separate: string;
-
+  public creditType = [];
+  public golongan = [];
   public internals: IInternal[];
   public segments: IInternal[];
   public regionals: IInternal[];

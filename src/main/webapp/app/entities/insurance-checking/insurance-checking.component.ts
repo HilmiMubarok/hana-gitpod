@@ -216,19 +216,19 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
     }
   }
 
-  private checkReturnStatusDescription(data: IInsuranceChecking[]) {
-    if (data.length > 0) {
-      for (let i = 0; i < data.length; i++) {
-        // eslint-disable-next-line no-self-assign
-        // data[i].statusInsuranceDescription = data[i].statusInsuranceDescription;
-        data[i].statusInsuranceDescription =
-          data[i].statusInsuranceDescription.substring(0, 2) === 'Ol'
-            ? data[i].statusInsuranceDescription.substring(3, data[i].statusInsuranceDescription.length)
-            : data[i].statusInsuranceDescription;
-      }
-    }
-    return data;
-  }
+  // private checkReturnStatusDescription(data: IInsuranceChecking[]) {
+  //   if (data.length > 0) {
+  //     for (let i = 0; i < data.length; i++) {
+  //       // eslint-disable-next-line no-self-assign
+  //       // data[i].statusInsuranceDescription = data[i].statusInsuranceDescription;
+  //       data[i].statusInsuranceDescription =
+  //         data[i].statusInsuranceDescription.substring(0, 2) === 'Ol'
+  //           ? data[i].statusInsuranceDescription.substring(3, data[i].statusInsuranceDescription.length)
+  //           : data[i].statusInsuranceDescription;
+  //     }
+  //   }
+  //   return data;
+  // }
 
   private convertStringMonthToNumber(monthString: string) {
     return lodash.find(this.monthArray, function (month) {
@@ -258,7 +258,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
 
     forCheckedItems = this.addStaticDob(data.body);
     forCheckedItems = this.addIdx(data.body);
-    forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
+    // forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
 
@@ -277,7 +277,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url === 'insurance-check') {
+      if (this.router.url === '/insurance-check') {
         this.getStatusListView('INSURANCE_CHECKING');
         if (this.clickedChip['statusId'] !== '') {
           this.cashInsuranceCheckingService
@@ -286,7 +286,8 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
-              sort: ['id,desc'],
+              // sort: ['id,asc'],
+              sort: ['createdDate,desc'],
               appMenuId: 'INSURANCE_CHECKING',
             })
             .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
@@ -301,40 +302,8 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
-              sort: ['id,desc'],
-              appMenuId: 'INSURANCE_CHECKING',
-            })
-            .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IInsuranceChecking[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-        }
-      } else {
-        this.getStatusListView('INSURANCE_CHECKING');
-        if (this.clickedChip['statusId'] !== '') {
-          this.cashInsuranceCheckingService
-            .InsuranceCheckingBystatus({
-              page: this.page,
-              idStatus: this.clickedChip['statusId'],
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-              appMenuId: 'INSURANCE_CHECKING',
-            })
-            .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
-            .subscribe({
-              next: (res: HttpResponse<IInsuranceChecking[]>) => this.initDataForMatTable(res, res.headers),
-              error: (res: HttpErrorResponse) => this.onError(res.message),
-            });
-          return;
-        } else {
-          this.cashInsuranceCheckingService
-            .InsuranceCheckingBystatus({
-              page: this.page,
-              idPosition: this.positionIdLocStor,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
+              // sort: ['id,asc'],
+              sort: ['createdDate,desc'],
               appMenuId: 'INSURANCE_CHECKING',
             })
             .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))

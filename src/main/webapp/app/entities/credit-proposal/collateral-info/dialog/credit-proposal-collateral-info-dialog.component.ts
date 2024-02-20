@@ -24,7 +24,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { Page } from '@syncfusion/ej2-angular-grids';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -131,6 +131,8 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public field = false;
   public parentPath = this.router.url.split('/')[1];
   public fields = false;
+  public depositInterestRate: number;
+  public selectedMenu: string;
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -140,6 +142,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     protected generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CreditProposalCollateralInfoDialogComponent>,
     private templateService: TemplateService,
+    protected activatedRoute: ActivatedRoute,
 
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -160,6 +163,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       group: string;
       collateralProperties: ICollateralProperty[];
       parentSource: string;
+      depositInterestRate: number;
     }
   ) {
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
@@ -186,6 +190,13 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.collateralProperties = data.collateralProperties;
     this.group = data.group;
     this.parentSource = data.parentSource;
+    this.depositInterestRate = data.depositInterestRate;
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.selectedMenu = subRoute;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -204,6 +215,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.cekCurrency();
     this.disableField();
     this.disableFields();
+    console.log('collateral properties ', this.collateralProperties);
   }
   public disableField() {
     if (
@@ -356,7 +368,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   }
 
   public save() {
-    console.log('ini insurance ', this.insurance);
     if (!this.binding.collateralId) {
       this.binding.collateralId = this.collateral.id;
     }
@@ -368,6 +379,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       collateral: this.collateral,
       insurance: this.insurance,
       creditProposal: this.creditProposal,
+      depositInterestRate: this.depositInterestRate,
     });
   }
 
@@ -524,5 +536,19 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     if (this.binding.ccy === 'USD') {
       this.logoCcy = {};
     }
+  }
+
+  public showFieldDepositInterestRate() {
+    if (this.collateral.collateralTypeId === 'DEPOSIT') {
+      return true;
+    }
+    return false;
+  }
+
+  public disableDepositInterestRate() {
+    if (this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info') {
+      return false;
+    }
+    return true;
   }
 }

@@ -484,6 +484,11 @@ import { DppkPreparationComponent } from './dppk-finalize/dppk-preparation/dppk-
 import { BankAccountComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account.component';
 import { BankAccountDialogComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account-dialog.component';
 import { GenerateDraftDppkComponent } from './dppk-finalize/dppk-preparation/generate-draft-dppk/generate-draft-dppk.component';
+import { DppkAssignToComponent } from './dppk-finalize/dppk-assign-to/dppk-assign-to.component';
+import { DppkPreparationInternalMemoComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo.component';
+import { DppkPreparationInternalMemoDialogComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog.component';
+import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog-detail.component';
+import { CollateralOwnerAddressComponent } from './party-cif/collateral-info/collateral-owner-address.component';
 import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agreement/review-history/review-history.component';
 
 @NgModule({
@@ -1052,8 +1057,11 @@ import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agree
     BankAccountComponent,
     BankAccountDialogComponent,
     GenerateDraftDppkComponent,
-
-
+    DppkAssignToComponent,
+    DppkPreparationInternalMemoComponent,
+    DppkPreparationInternalMemoDialogComponent,
+    DppkPreparationInternalMemoDialogDetailComponent,
+    CollateralOwnerAddressComponent,
     ReviewHistoryComponent,
   ],
   exports: [
@@ -1576,6 +1584,12 @@ import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agree
     BankAccountComponent,
     BankAccountDialogComponent,
     GenerateDraftDppkComponent,
+    DppkAssignToComponent,
+
+    DppkPreparationInternalMemoComponent,
+    DppkPreparationInternalMemoDialogComponent,
+    DppkPreparationInternalMemoDialogDetailComponent,
+    CollateralOwnerAddressComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

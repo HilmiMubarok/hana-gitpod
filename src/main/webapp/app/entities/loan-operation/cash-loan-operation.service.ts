@@ -43,7 +43,7 @@ export class CashLoanOperationService extends AbstractEntityService<ILoanOPS> {
   reviewDppkBystatus(req?: any): Observable<HttpResponse<ILoanOPS[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ILoanOPS[]>(this.resourceUrl + '/cash-credit-proposal/review-dppk', {
+      .get<ILoanOPS[]>(this.resourceUrl + '/cash-credit-proposals/find-by-internal', {
         params: options,
         observe: 'response',
       })

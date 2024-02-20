@@ -40,13 +40,23 @@
 
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-bank-account></jhi-bank-account>
+      <jhi-bank-account [creditProposal]="creditProposal"></jhi-bank-account>
     </div>
   </div>
 </div>
 
 <div class="e-card">
-  <jhi-internal-memo [creditProposal]="creditProposal"></jhi-internal-memo>
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Internal Memo</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-dppk-preparation-internal-memo [creditProposal]="creditProposal"></jhi-dppk-preparation-internal-memo>
+    </div>
+  </div>
 </div>
 
 <div class="e-card">

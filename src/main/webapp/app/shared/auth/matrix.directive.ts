@@ -115,7 +115,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
             }
           } else {
             if (this.positionTypeId === 'RM') {
-              if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR') {
+              if (this.status === 'RETURN_TO_RM_CRA' || this.status === 'CP_RETURN_TO_CR' || this.status === 'RETURN_TO_RM_LEGAL') {
                 if (this.jhiMatrixDirElementType === 'input') {
                   this.viewContainerRef.createEmbeddedView(this.templateRef);
                 }
@@ -141,7 +141,12 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
       if (this.argsPath.match(/finalize-pk/g)) {
         if (this.router.url.includes('finalize-credit-agreement')) {
-          if (this.status === 'PK_REVIEW_LEAD' || this.status === 'PK_GENERATED') {
+          if (
+            this.status === 'PK_REVIEW_LEAD' ||
+            this.status === 'PK_GENERATED' ||
+            this.status === 'PK_DAR_REVISION' ||
+            this.status === 'PK_RETURN_TO_RM'
+          ) {
             if (this.jhiMatrixDirElementType === '') {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }

@@ -35,6 +35,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   public templateProperties: IEntityProperties;
   public bucket: string;
   public addendumClausalAgreements: any[] = [];
+  public addendumClausalAgreementsHistory: any[] = [];
 
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
@@ -98,11 +99,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     }
 
     this.getApprovalDebtorConditions();
-
-    this.creditAgreementService.getActiveClausalByPartyId(this.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-      const data: any[] = res.body;
-      this.addendumClausalAgreements = data;
-    });
+    this.getClausalAddendum();
   }
 
   public getApprovalDebtorConditions() {
@@ -127,17 +124,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
       this.displayColumnsCreditAgreementClausal = ['code', 'category', 'description', 'clausal', 'action'];
     }
-  }
-
-  public getClausalAgreement() {
-    this.creditAgreementService
-      .retriveClausalAgreementData(this.creditProposal.agreements.length > 0 ? this.creditProposal.agreements[0].id : 0, {
-        page: 0,
-        size: 9999,
-      })
-      .subscribe((res: any) => {
-        this.dataClausal = res.body;
-      });
   }
 
   public approvalConditionStatus() {
@@ -185,6 +171,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       this.getClausalAgreement();
+      this.getClausalAddendum();
     });
   }
 
@@ -201,6 +188,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       this.getClausalAgreement();
+      this.getClausalAddendum();
     });
   }
 
@@ -225,7 +213,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
       });
     });
   }
-  public deleteClausal(element: any) {
+  public deleteClausal(element: any): void {
     this.getBucket().then(() => {
       this.storageService
         .deleteFile(
@@ -239,11 +227,46 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
               `aggrement/${this.creditProposal.agreements[0]?.id}/${element.id}/sfdt/credit-agreement-clausal-${element.agreementClausalParameterCode}.sfdt`
             )
             .subscribe(() => {
-              this.creditAgreementService.deleteClausalAgreement(element.id).subscribe(() => {
-                this.dataClausal = this.dataClausal.filter((data: any) => data.id !== element.id);
-              });
+              this.creditAgreementService.deleteClausalAgreement(Number(element.id)).subscribe(
+                (res: any) => {
+                  if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
+                    this.getClausalAddendum();
+                  } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'NEW') {
+                    this.getClausalAgreement();
+                  }
+                },
+                (error: any) => {
+                  if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
+                    this.getClausalAddendum();
+                  } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'NEW') {
+                    this.getClausalAgreement();
+                  }
+                }
+              );
             });
         });
+    });
+  }
+
+  public getClausalAgreement() {
+    this.creditAgreementService
+      .retriveClausalAgreementData(this.creditProposal.agreements.length > 0 ? this.creditProposal.agreements[0].id : 0, {
+        page: 0,
+        size: 9999,
+      })
+      .subscribe((res: any) => {
+        this.dataClausal = res.body;
+      });
+  }
+
+  public getClausalAddendum() {
+    this.creditAgreementService.getActiveClausalByPartyId(this.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
+      const data: any[] = res.body;
+      this.addendumClausalAgreements = data
+        .filter((f: any) => f.category === 'ADDENDUM')
+        .slice()
+        .sort((a, b) => a.sequence - b.sequence);
+      this.addendumClausalAgreementsHistory = data.slice().sort((a, b) => a.sequence - b.sequence);
     });
   }
 

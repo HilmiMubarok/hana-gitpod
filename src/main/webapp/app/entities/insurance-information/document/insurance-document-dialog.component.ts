@@ -87,9 +87,6 @@ export class InsuranceDocumentDialogComponent implements OnInit {
     protected generalParameterService: GeneralParameterService,
     private router: Router
   ) {
-    console.log('dataSource', this.dataInsurance);
-    console.log('insurance', this.insurance);
-    console.log('cp', this.creditProposal);
     this.mode = this.data.mode;
     this.creditProposal = this.data.creditProposal;
     this.id = this.insurance.id;
@@ -100,6 +97,9 @@ export class InsuranceDocumentDialogComponent implements OnInit {
     this.dataInsurance = this.data.dataInsurance;
     this.bucket = this.data.bucket;
     this.mode = this.data.mode;
+    console.log('dataSource', this.dataInsurance);
+    console.log('insurance', this.insurance);
+    console.log('cp', this.creditProposal);
   }
   ngOnInit(): void {
     this.lovDocumentPolicy();
