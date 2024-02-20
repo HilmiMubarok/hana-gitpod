@@ -19,29 +19,31 @@ export interface INotes {
   modifiedDate?: Date;
   updateAction?: boolean;
   attributes?: any;
+  statusId?: string;
 }
 
 export class Notes implements INotes {
   constructor(
     public id?: number,
-	public applicationId?: number,
-	public positionId?: number,
-	public positionTypeDescription?: string,
-	public partyId?: string,
-	public positionTypeId?: string,
-	public employeeFirstName?: string,
-	public employeeLastName?: string,
-	public createDate?: string,
+    public applicationId?: number,
+    public positionId?: number,
+    public positionTypeDescription?: string,
+    public partyId?: string,
+    public positionTypeId?: string,
+    public employeeFirstName?: string,
+    public employeeLastName?: string,
+    public createDate?: string,
     public message?: string,
-	public recomendation?: string,
-	public type?: string,
+    public recomendation?: string,
+    public type?: string,
     public fromDate?: Date,
-	public thruDate?: Date,
+    public thruDate?: Date,
     public path?: string,
-	public received?: boolean,
-	public uuid?: string,
-	public modifiedDate?: Date,
-	public updateAction?: boolean,
-    public attributes?: any
+    public received?: boolean,
+    public uuid?: string,
+    public modifiedDate?: Date,
+    public updateAction?: boolean,
+    public attributes?: any,
+    public statusId?: string
   ) {}
 }

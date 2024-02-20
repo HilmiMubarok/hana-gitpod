@@ -66,9 +66,7 @@
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Number</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.applicationNumber }}
-                      </div>
+                      <div class="col col-lg-4">{{ creditProposal.applicationNumber }}</div>
                     </div>
                   </section>
                 </div>
@@ -86,9 +84,7 @@
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Date</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.createdDate | formatMediumDate }}
-                      </div>
+                      <div class="col col-lg-4">{{ creditProposal.createdDate | formatMediumDate }}</div>
                     </div>
                   </section>
                 </div>
@@ -106,9 +102,7 @@
                     <div class="fontsebled row">
                       <div class="col-4">CIF Number</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.customerNumber }}
-                      </div>
+                      <div class="col col-lg-4">{{ creditProposal.customerNumber }}</div>
                     </div>
                   </section>
                 </div>
@@ -126,9 +120,7 @@
                     <div class="fontsebled row">
                       <div class="col-4">Customer Name</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.cif.name }}
-                      </div>
+                      <div class="col col-lg-4">{{ creditProposal.cif.name }}</div>
                     </div>
                   </section>
                 </div>
@@ -146,9 +138,7 @@
                         (selectionChange)="setSubmenu($event.value)"
                       >
                         <mat-option value="">- Please select proposal type -</mat-option>
-                        <mat-option *ngFor="let item of proposType" [value]="item.code">
-                          {{ item.value }}
-                        </mat-option>
+                        <mat-option *ngFor="let item of proposType" [value]="item.code"> {{ item.value }} </mat-option>
                       </mat-select>
                     </mat-form-field>
                   </section>
@@ -156,9 +146,7 @@
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Type</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ a }}
-                      </div>
+                      <div class="col col-lg-4">{{ a }}</div>
                     </div>
                   </section>
                 </div>
@@ -181,9 +169,7 @@
                     <div class="fontsebled row">
                       <div class="col-4">Segment</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.applicationTypeDescription }}
-                      </div>
+                      <div class="col col-lg-4">{{ creditProposal.applicationTypeDescription }}</div>
                     </div>
                   </section>
                 </div>
@@ -202,9 +188,7 @@
                     <div class="fontsebled row">
                       <div class="col-4">Referral</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ creditProposal.attributes['basicInformation'].refferal }}
-                      </div>
+                      <div class="col col-lg-4">{{ creditProposal.attributes['basicInformation'].refferal }}</div>
                     </div>
                   </section>
                 </div>
@@ -214,9 +198,7 @@
                       <mat-label>Lending Program</mat-label>
                       <mat-select name="lendingProgram" [(ngModel)]="creditProposal.attributes['lendingProgramParameter']">
                         <mat-option value="">Please Select</mat-option>
-                        <mat-option *ngFor="let item of lendingProgram" [value]="item.description">
-                          {{ item.description }}
-                        </mat-option>
+                        <mat-option *ngFor="let item of lendingProgram" [value]="item.description"> {{ item.description }} </mat-option>
                       </mat-select>
                     </mat-form-field>
                   </section>
@@ -224,9 +206,7 @@
                     <div class="fontsebled row">
                       <div class="col-4">Lending Program</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ this.creditProposal.attributes['lendingProgramParameter'] }}
-                      </div>
+                      <div class="col col-lg-4">{{ this.creditProposal.attributes['lendingProgramParameter'] }}</div>
                     </div>
                   </section>
                 </div>
@@ -348,7 +328,8 @@
             </div>
 
             <div *ngIf="clickedMenu === 'finalize-credit-agreement'">
-              <jhi-finalize-credit-agreement [creditProposal]="creditProposal"> </jhi-finalize-credit-agreement>
+              <jhi-finalize-credit-agreement (notesChange)="onNotesChange($event)" [creditProposal]="creditProposal">
+              </jhi-finalize-credit-agreement>
             </div>
             <!--- collateral info -->
             <div *ngIf="clickedMenu === 'collateral-info'">
@@ -465,15 +446,15 @@
             >{{ item.text }}</a
           >
         </mat-list-item>
-        <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
-          item.text
-        }}</mat-list-item>
+        <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')"
+          >{{ item.text }}</mat-list-item
+        >
         <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
           <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
             <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
-            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize">{{
-              itemChild.text
-            }}</a>
+            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize"
+              >{{ itemChild.text }}</a
+            >
           </mat-list-item>
         </mat-list>
       </div>

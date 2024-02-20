@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -7,23 +7,19 @@ import { MessageService } from 'primeng/api';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { ReviewHistoryDialogComponent } from '../review-history-dialog/review-history-dialog.component';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
-import {
-  DocumentEditorComponent,
-  DocumentEditorContainerComponent,
-  DocumentEditorKeyDownEventArgs,
-} from '@syncfusion/ej2-angular-documenteditor';
 import { CreditAgreementService } from '../credit-agreement.service';
 import { ClausalPkDialogComponent } from './clausal-pk-dialog/clausal-pk-dialog.component';
 import { ClausalPkDialogComponentEditComponent } from './clausal-pk-dialog/clausal-pk-dialog-edit.component';
 import { CashCreditProposalsService } from 'app/entities/cash-credit-proposal/cash-credit-proposals.service';
 import { IEntityProperties } from 'app/entities/entity-properties/entity-properties.model';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { INotes } from 'app/entities/notes/notes.model';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
   styleUrls: ['../credit-agreement.css'],
 })
-export class FinalizeCreditAgreementComponent implements OnInit {
+export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   public dataAgreement: any[] = [];
   public approvalDebtor: any[] = [1];
   public postalAdresss: IPostalAddress;
@@ -64,6 +60,12 @@ export class FinalizeCreditAgreementComponent implements OnInit {
   public data = [];
   public loading: boolean;
 
+  @Output() notesChange = new EventEmitter<INotes>();
+
+  onNotesChange(ev) {
+    this.notesChange.emit(ev);
+  }
+
   constructor(
     private dialog: MatDialog,
     public messageService: MessageService,
@@ -74,6 +76,12 @@ export class FinalizeCreditAgreementComponent implements OnInit {
     public cashCreditProposalsService: CashCreditProposalsService
   ) {
     this.loading = false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['creditProposal']) {
+      this.creditProposal = changes['creditProposal'].currentValue;
+    }
   }
 
   ngOnInit(): void {

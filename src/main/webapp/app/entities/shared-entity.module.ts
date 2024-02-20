@@ -489,6 +489,7 @@ import { DppkPreparationInternalMemoComponent } from './dppk-finalize/dppk-prepa
 import { DppkPreparationInternalMemoDialogComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog.component';
 import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog-detail.component';
 import { CollateralOwnerAddressComponent } from './party-cif/collateral-info/collateral-owner-address.component';
+import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agreement/review-history/review-history.component';
 
 @NgModule({
   imports: [
@@ -1061,11 +1062,13 @@ import { CollateralOwnerAddressComponent } from './party-cif/collateral-info/col
     DppkPreparationInternalMemoDialogComponent,
     DppkPreparationInternalMemoDialogDetailComponent,
     CollateralOwnerAddressComponent,
+    ReviewHistoryComponent,
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
 
+    ReviewHistoryComponent,
     LoanPurposeComponent,
 
     // Memo Banding Collateral

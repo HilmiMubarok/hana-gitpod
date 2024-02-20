@@ -9,16 +9,10 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 
 import {
   PROPOSAL_TYPE,
-  SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-  SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
   SEGMENTS_TYPE,
   ID_GREATER_15_BN,
   ID_LOWER_EQUAL_15_BN,
   ID_BACK_TO_BACK,
-  CP_APPROVAL_MENU,
-  CP_APPROVAL_MENU_BTB,
-  CP_APPROVAL_MENU_BELOW,
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW,
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
 } from 'app/shared/constants/base.constants';
@@ -27,7 +21,6 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import _ from 'lodash';
-import { IEJOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
@@ -69,6 +62,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { ReviewHistoryService } from '../credit-agreement/finalize-credit-agreement/review-history/review-history.service';
 
 @Component({
   selector: 'jhi-credit-agreement-review-floating',
@@ -213,7 +207,8 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private reviewHistoryService: ReviewHistoryService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -250,6 +245,41 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
       console.log('Progress', this.progress);
     });
   }
+
+  // === REVIEW HISTORY SECTION
+
+  onNotesChange(ev) {
+    // check current note
+    const currentNote = this.creditProposal.notes.find(note => note.id === ev.id);
+
+    // if exist, update all value from ev
+    if (currentNote) {
+      const index = this.creditProposal.notes.indexOf(currentNote);
+      this.creditProposal.notes[index] = ev;
+      this.reviewHistoryService.setReviewHistoryData(this.creditProposal.notes, this.creditProposal.notes[index].positionId);
+    }
+  }
+
+  // Validasi review history from parent
+  // logic -> Get current note : by position id and sort by latest id.
+  // check if note status is DRAFT -> validate fail, if note status is not DRAFT -> validate success
+
+  isReviewHistoryValidated(notes: INotes[]): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const pos = this.getLocStor('POS');
+      const reviewHistory = notes.filter(r => r.type === 'review_history' && Number(r.positionId) === Number(pos));
+      reviewHistory.sort((a, b) => b.id - a.id);
+      const note = reviewHistory[0];
+
+      if (note.statusId === 'DRAFT') {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
+  }
+
+  // === END REVIEW HISTORY SECTION
 
   public progress: number;
   public baLoading: Boolean = false;
@@ -368,7 +398,26 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
 
         if (this.saveState === 'process') {
           if (this.parentPath === 'review-pk') {
-            this.saveApplicationRole();
+            this.isReviewHistoryValidated(this.creditProposal.notes)
+              .then(isValid => {
+                if (isValid) {
+                  this.saveApplicationRole();
+                } else {
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Please Input Review History in Finalize Credit Agreement',
+                  });
+                }
+              })
+              .catch(err => {
+                console.error(err);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: err,
+                });
+              });
           } else {
             this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
               this.router.navigate([this.router.url.split('/')[1]]);
@@ -646,7 +695,27 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
 
       if (source === 'process') {
         if (this.parentPath === 'review-pk') {
-          this.saveApplicationRole();
+          // validasi review histori
+          this.isReviewHistoryValidated(this.creditProposal.notes)
+            .then(isValid => {
+              if (isValid) {
+                this.saveApplicationRole();
+              } else {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Please Input Review History in Finalize Credit Agreement',
+                });
+              }
+            })
+            .catch(err => {
+              console.error(err);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: err,
+              });
+            });
         } else {
           this.saveWord = false;
           this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
@@ -686,6 +755,20 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
         // }
 
         if (this.router.url.split('/')[1] === 'review-pk') {
+          // Trigger save review history
+          /**
+           * kenapa spesific di finalize?
+           * karena kalau langsung di parent
+           * ketika dia save dimana aja, otomatis akan save review history juga
+           * sedangkan review history harus ada validasi
+           */
+
+          if (this.clickedMenu === 'finalize-credit-agreement') {
+            if (this.reviewHistoryService.visibleRemarks$.getValue() === true) {
+              this.reviewHistoryService.triggerSaveReviewHistory();
+            }
+          }
+
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {

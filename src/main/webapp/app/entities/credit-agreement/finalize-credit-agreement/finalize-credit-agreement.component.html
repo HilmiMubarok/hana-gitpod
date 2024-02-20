@@ -49,9 +49,7 @@
             <div class="fontsebled row py-3">
               <div class="col-4">Address</div>
               <div class="col-md-2">:</div>
-              <div class="col col-lg-5">
-                {{ creditProposal.attributes.offeringLetterPreparation.address }}
-              </div>
+              <div class="col col-lg-5">{{ creditProposal.attributes.offeringLetterPreparation.address }}</div>
             </div>
           </section>
         </div>
@@ -76,9 +74,7 @@
             <div class="fontsebled row py-3">
               <div class="col-4">Credit Agreement Type</div>
               <div class="col-md-2">:</div>
-              <div class="col col-lg-5">
-                {{ creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE }}
-              </div>
+              <div class="col col-lg-5">{{ creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE }}</div>
             </div>
           </section>
 
@@ -93,9 +89,7 @@
             <div class="fontsebled row py-3">
               <div class="col-4">Credit Agreement Place</div>
               <div class="col-md-2">:</div>
-              <div class="col col-lg-5">
-                {{ creditProposal.agreements[0]?.attributes.AGREEMENT_PLACE }}
-              </div>
+              <div class="col col-lg-5">{{ creditProposal.agreements[0]?.attributes.AGREEMENT_PLACE }}</div>
             </div>
           </section>
         </div>
@@ -115,21 +109,15 @@
         </ng-container>
         <ng-container matColumnDef="Name">
           <th mat-header-cell *matHeaderCellDef class="text-center">Name</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.name }}
-          </td>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.name }}</td>
         </ng-container>
         <ng-container matColumnDef="Debitor">
           <th mat-header-cell *matHeaderCellDef class="text-center">Debitor / Pt Bank Hana Keb Indonesia</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.debitor }}
-          </td>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.debitor }}</td>
         </ng-container>
         <ng-container matColumnDef="Position">
           <th mat-header-cell *matHeaderCellDef class="text-center">Position</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.position }}
-          </td>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.position }}</td>
         </ng-container>
         <ng-container matColumnDef="Action">
           <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
@@ -222,9 +210,7 @@
             <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
               <div class="col-6">Nomor PK</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-4">
-                {{ creditProposal.agreements[0]?.attributes.NOTARY_NUMBER }}
-              </div>
+              <div class="col col-lg-4">{{ creditProposal.agreements[0]?.attributes.NOTARY_NUMBER }}</div>
             </div>
           </section>
 
@@ -239,9 +225,7 @@
             <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
               <div class="col-6">Notary Public Name</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-4">
-                {{ creditProposal.agreements[0]?.attributes.NOTARY_NAME }}
-              </div>
+              <div class="col col-lg-4">{{ creditProposal.agreements[0]?.attributes.NOTARY_NAME }}</div>
             </div>
           </section>
 
@@ -258,9 +242,7 @@
             <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
               <div class="col-6">Notary Public Place</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-4">
-                {{ creditProposal.agreements[0]?.attributes.NOTARY_PLACE }}
-              </div>
+              <div class="col col-lg-4">{{ creditProposal.agreements[0]?.attributes.NOTARY_PLACE }}</div>
             </div>
           </section>
 
@@ -282,9 +264,7 @@
             <div [hidden]="creditProposal.agreements[0]?.attributes.IS_NOTARIL === 'false'" class="fontsebled row py-3">
               <div class="col-6">Notary Date</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-4">
-                {{ creditProposal.agreements[0]?.attributes.NOTARY_DATE | date: 'yyyy-MM-dd' }}
-              </div>
+              <div class="col col-lg-4">{{ creditProposal.agreements[0]?.attributes.NOTARY_DATE | date: 'yyyy-MM-dd' }}</div>
             </div>
           </section>
         </div>
@@ -304,9 +284,7 @@
               <mat-label>Status </mat-label>
               <mat-select [(ngModel)]="selectedConditions[i]" (ngModelChange)="onSelectApprovalCondition($event, i)">
                 <mat-option value="">Please Select Conditions</mat-option>
-                <mat-option *ngFor="let condition of getAvailableOptions(i)" [value]="condition">
-                  {{ condition }}
-                </mat-option>
+                <mat-option *ngFor="let condition of getAvailableOptions(i)" [value]="condition"> {{ condition }} </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -459,9 +437,7 @@
             <div class="fontsebled row py-3">
               <div class="col-3">Status</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-8">
-                {{ selectedConditions[i] }}
-              </div>
+              <div class="col col-lg-8">{{ selectedConditions[i] }}</div>
             </div>
           </div>
 
@@ -471,9 +447,7 @@
                 <div class="fontsebled row py-3">
                   <div class="col-3">Letter Of Date</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-8">
-                    {{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}
-                  </div>
+                  <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}</div>
                 </div>
               </div>
             </div>
@@ -485,17 +459,13 @@
                 <div class="fontsebled row py-3">
                   <div class="col-3">Letter Of Name</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-8">
-                    {{ creditProposal.entityProperties[i].approvalDebtorConditionName }}
-                  </div>
+                  <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionName }}</div>
                 </div>
 
                 <div class="fontsebled row py-3">
                   <div class="col-3">Letter Of Date</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-8">
-                    {{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}
-                  </div>
+                  <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}</div>
                 </div>
               </div>
             </div>
@@ -507,25 +477,19 @@
                 <div class="fontsebled row py-3">
                   <div class="col-3">Letter Of Name</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-8">
-                    {{ creditProposal.entityProperties[i].approvalDebtorConditionName }}
-                  </div>
+                  <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionName }}</div>
                 </div>
 
                 <div class="fontsebled row py-3">
                   <div class="col-3">Letter Of Date</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-8">
-                    {{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}
-                  </div>
+                  <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}</div>
                 </div>
 
                 <div class="fontsebled row py-3">
                   <div class="col-3">Notary Public Name</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-8">
-                    {{ creditProposal.entityProperties[i].approvalDebtorConditionNotaryPublicName }}
-                  </div>
+                  <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionNotaryPublicName }}</div>
                 </div>
               </div>
 
@@ -533,9 +497,7 @@
                 <div class="fontsebled row py-3">
                   <div class="col-3">Notary Public Place</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-8">
-                    {{ creditProposal.entityProperties[i].approvalDebtorConditionNotaryPublicPlace }}
-                  </div>
+                  <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionNotaryPublicPlace }}</div>
                 </div>
 
                 <div class="fontsebled row py-3">
@@ -549,9 +511,7 @@
                 <div class="fontsebled row py-3">
                   <div class="col-3">Civil Regristation Date</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col col-lg-8">
-                    {{ creditProposal.entityProperties[i].approvalDebtorConditionCivilRegistrationDate }}
-                  </div>
+                  <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionCivilRegistrationDate }}</div>
                 </div>
               </div>
             </div>
@@ -562,25 +522,19 @@
               <div class="fontsebled row py-3">
                 <div class="col-3">Letter Of Name</div>
                 <div class="col-md-auto">:</div>
-                <div class="col col-lg-8">
-                  {{ creditProposal.entityProperties[i].approvalDebtorConditionName }}
-                </div>
+                <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionName }}</div>
               </div>
 
               <div class="fontsebled row py-3">
                 <div class="col-3">Letter Of Number</div>
                 <div class="col-md-auto">:</div>
-                <div class="col col-lg-8">
-                  {{ creditProposal.entityProperties[i].approvalDebtorConditionNumber }}
-                </div>
+                <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionNumber }}</div>
               </div>
 
               <div class="fontsebled row py-3">
                 <div class="col-3">Letter Of Date</div>
                 <div class="col-md-auto">:</div>
-                <div class="col col-lg-8">
-                  {{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}
-                </div>
+                <div class="col col-lg-8">{{ creditProposal.entityProperties[i].approvalDebtorConditionDate }}</div>
               </div>
             </div>
           </div>
@@ -649,15 +603,11 @@
         </ng-container>
         <ng-container matColumnDef="category">
           <th mat-header-cell *matHeaderCellDef class="text-center">Category</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.category }}
-          </td>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.category }}</td>
         </ng-container>
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.notes }}
-          </td>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.notes }}</td>
         </ng-container>
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
@@ -731,15 +681,11 @@
         </ng-container>
         <ng-container matColumnDef="category">
           <th mat-header-cell *matHeaderCellDef class="text-center">Category</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.category }}
-          </td>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.category }}</td>
         </ng-container>
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.agreementClausalParameterDescription }}
-          </td>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.agreementClausalParameterDescription }}</td>
         </ng-container>
         <ng-container matColumnDef="clausal">
           <th mat-header-cell *matHeaderCellDef class="text-center">Clausal</th>
@@ -905,63 +851,5 @@
 
   <jhi-generate-pk-draft [item]="creditProposal"></jhi-generate-pk-draft>
 
-  <mat-card
-    class="mt-3"
-    *ngIf="
-      creditProposal.statusCode === 'PK_REVIEW_LEAD' ||
-      creditProposal.statusCode === 'PK_GENERATED' ||
-      creditProposal.statusCode === 'PK_REVIEW_TEAMLEAD'
-    "
-  >
-    <mat-card-header>
-      <mat-card-title>Review History</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <table mat-table [dataSource]="data" class="w-100 mt-3">
-        <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-          <td mat-cell *matCellDef="let element; let i = index" class="text-center">
-            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="approveName">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Approve Name</th>
-          <td mat-cell *matCellDef="let element" class="text-center"></td>
-        </ng-container>
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Position</th>
-          <td mat-cell *matCellDef="let element" class="text-center"></td>
-        </ng-container>
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Date</th>
-          <td mat-cell *matCellDef="let element" class="text-center"></td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-          <td mat-cell *matCellDef="let element" class="text-center"></td>
-        </ng-container>
-
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayRevewHistory.length">No records found.</td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayRevewHistory"></tr>
-        <tr mat-row *matRowDef="let element; columns: displayRevewHistory"></tr>
-      </table>
-      <mat-card *ngIf="loading" id="material-loading-bar">
-        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
-      </mat-card>
-      <mat-paginator
-        showFirstLastButtons
-        ngClass="transparant"
-        [length]="paginatorLength"
-        [pageSize]="paginatorPageSize"
-        [pageSizeOptions]="paginatorPageSizeOption"
-        (page)="loadDataLazy($event)"
-      >
-      </mat-paginator>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <button (click)="addReviewHistory()" class="btn-lg text-uppercase button-styling mt-2" mat-raised-button>Add</button>
-      </section>
-    </mat-card-content>
-  </mat-card>
+  <jhi-review-history [creditProposal]="creditProposal" (notesChange)="onNotesChange($event)"></jhi-review-history>
 </section>
