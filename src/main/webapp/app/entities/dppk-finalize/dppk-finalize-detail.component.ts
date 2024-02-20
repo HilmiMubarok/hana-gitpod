@@ -1666,6 +1666,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
       if (this.id) {
         this.KEYG += `/${this.id}/`;
       } else {
+        console.warn('Param id not found');
       }
 
       this.onRefresh();

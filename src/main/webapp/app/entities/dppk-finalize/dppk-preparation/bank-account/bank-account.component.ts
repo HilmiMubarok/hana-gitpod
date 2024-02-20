@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BankAccountDialogComponent } from './bank-account-dialog.component';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ApplicationPaymentPreferencesService } from 'app/entities/application-payment-preference/application-payment-preference.service';
@@ -11,6 +11,7 @@ import { PaymentTypeService } from 'app/entities/payment-type/payment-type.servi
 import { IPaymentType } from 'app/entities/payment-type/payment-type.model';
 import { IBankAcountModel } from 'app/entities/bank-account/bank-account.model';
 import { BankAccountService } from 'app/entities/bank-account/bank-account.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-bank-account',
@@ -74,6 +75,7 @@ export class BankAccountComponent implements OnInit {
         this.applicationPaymentPreferencesService.createData(res).subscribe();
         this.getDataApplicationPaymentReferences();
         this.getDataApplicationPaymentReferences();
+        this.getBankAccount();
       }
     });
   }
@@ -109,5 +111,24 @@ export class BankAccountComponent implements OnInit {
         }
       }
     }
+  }
+
+  public deletePaymentRef(element) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to Delete this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.applicationPaymentPreferencesService.deleteData(element.id).subscribe(res2 => {
+          this.getDataApplicationPaymentReferences();
+          this.getBankAccount();
+        });
+      }
+    });
   }
 }
