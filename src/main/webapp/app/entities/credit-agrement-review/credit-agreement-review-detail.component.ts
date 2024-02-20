@@ -9,16 +9,10 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 
 import {
   PROPOSAL_TYPE,
-  SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-  SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
   SEGMENTS_TYPE,
   ID_GREATER_15_BN,
   ID_LOWER_EQUAL_15_BN,
   ID_BACK_TO_BACK,
-  CP_APPROVAL_MENU,
-  CP_APPROVAL_MENU_BTB,
-  CP_APPROVAL_MENU_BELOW,
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW,
   BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
 } from 'app/shared/constants/base.constants';
@@ -27,7 +21,6 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import _ from 'lodash';
-import { IEJOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
