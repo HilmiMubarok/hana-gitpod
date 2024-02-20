@@ -215,7 +215,6 @@ export class ClausalPkDialogComponentEditComponent {
       this.agreementsClausalTemplate = res.body;
     });
 
-    console.log('mn', this.data.dataClausal);
     if (this.data.dataClausal.agreementClausalParameterDescription === 'Pasal Addendum 1' || this.data.dataClausal.parentId === 603) {
       this.getDataByIdAddendum(30939);
     } else if (
