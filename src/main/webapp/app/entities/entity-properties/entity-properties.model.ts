@@ -15,6 +15,8 @@ export interface IEntityProperties {
   approvalDebtorConditionCivilRegistryDocumentNumber?: string;
   approvalDebtorConditionNotaryPublicPlace?: string;
   approvalDebtorConditionNotaryPublicName?: string;
+  dppkNumber?: string;
+  dppkDate?: Date;
 }
 
 export class EntityProperties implements IEntityProperties {
@@ -34,6 +36,8 @@ export class EntityProperties implements IEntityProperties {
     public approvalDebtorConditionCivilRegistrationDate?: string,
     public approvalDebtorConditionCivilRegistryDocumentNumber?: string,
     public approvalDebtorConditionNotaryPublicPlace?: string,
-    public approvalDebtorConditionNotaryPublicName?: string
+    public approvalDebtorConditionNotaryPublicName?: string,
+    public dppkNumber?: string,
+    public dppkDate?: Date
   ) {}
 }

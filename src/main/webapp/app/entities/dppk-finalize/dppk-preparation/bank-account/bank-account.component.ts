@@ -100,8 +100,12 @@ export class BankAccountComponent implements OnInit {
     if (this.paymentType.length > 0) {
       for (let i = 0; i < this.paymentType.length; i++) {
         const filteredPaymentRef = this.dataSource.filter(obj => obj.paymentTypeId === this.paymentType[i].id);
-        if (filteredPaymentRef.length < this.bankAccountData.length) {
-          this.filteredPaymentType.push(this.paymentType[i]);
+        if (filteredPaymentRef.length > 0) {
+          if (filteredPaymentRef.length < this.bankAccountData.length) {
+            this.filteredPaymentType.push(this.paymentType[i]);
+          }
+        } else {
+          this.filteredPaymentType = this.paymentType;
         }
       }
     }

@@ -12,7 +12,7 @@
           <div class="mb-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>DPPK Number</mat-label>
-              <input matInput type="text" disabled />
+              <input matInput type="text" disabled [(ngModel)]="entityDppk.dppkNumber" />
             </mat-form-field>
           </div>
         </section>
@@ -22,7 +22,9 @@
           <div class="mb-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>DPPK Date</mat-label>
-              <input matInput type="text" disabled />
+              <input [matDatepicker]="dppkDate" matInput [(ngModel)]="entityDppk.dppkDate" disabled />
+              <mat-datepicker-toggle disabled matSuffix [for]="dppkDate"></mat-datepicker-toggle>
+              <mat-datepicker #dppkDate disabled></mat-datepicker>
             </mat-form-field>
           </div>
         </section>

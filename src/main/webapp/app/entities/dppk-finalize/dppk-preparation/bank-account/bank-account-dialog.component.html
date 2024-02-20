@@ -14,22 +14,22 @@
     </section>
     <section>
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Bank Name</mat-label>
-        <mat-select required (selectionChange)="changeBankAccount($event)" [(ngModel)]="dataApplicationPayment.bankAccountId">
+        <mat-label>Currency</mat-label>
+        <mat-select required [(ngModel)]="dataApplicationPayment.currencyId" (selectionChange)="changeCurrency($event)">
           <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of filteredBankAccount" [value]="item.id">
-            {{ item.finInstituteName }} - {{ item.accountNumber }}
+          <mat-option *ngFor="let item of currencyData" [value]="item.id">
+            {{ item.id }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </section>
     <section>
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Currency</mat-label>
-        <mat-select required [(ngModel)]="dataApplicationPayment.currencyId" disabled>
+        <mat-label>Bank Name</mat-label>
+        <mat-select required (selectionChange)="changeBankAccount($event)" [(ngModel)]="dataApplicationPayment.bankAccountId">
           <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of currencyData" [value]="item.id">
-            {{ item.id }}
+          <mat-option *ngFor="let item of filteredBankAccountCurrency" [value]="item.id">
+            {{ item.finInstituteName }} - {{ item.accountNumber }}
           </mat-option>
         </mat-select>
       </mat-form-field>

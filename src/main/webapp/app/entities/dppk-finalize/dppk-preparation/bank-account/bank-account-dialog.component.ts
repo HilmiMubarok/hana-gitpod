@@ -29,6 +29,7 @@ export class BankAccountDialogComponent implements OnInit {
   public dataFilteredPaymentType: IPaymentType[] = [];
   public bankAccountData: IBankAcountModel[] = [];
   public filteredBankAccount: IBankAcountModel[] = [];
+  public filteredBankAccountCurrency: IBankAcountModel[] = [];
   public currencyData: IUom[] = [];
   public creditProposal: ICreditProposal;
   public accountName: string;
@@ -117,6 +118,10 @@ export class BankAccountDialogComponent implements OnInit {
     this.dataApplicationPayment.applicationId = this.creditProposal.id;
     this.dataApplicationPayment.bankAccountFinancialInstituteName = data.finInstituteName;
     this.dataApplicationPayment.bankAccountNumber = data.accountNumber;
+  }
+
+  public changeCurrency(event) {
+    this.filteredBankAccountCurrency = this.filteredBankAccount.filter(obj => obj.currencyId === event.value);
   }
 
   public changePaymentType(event) {

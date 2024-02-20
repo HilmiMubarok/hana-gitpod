@@ -71,6 +71,9 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
+import { IEntityProperties } from '../entity-properties/entity-properties.model';
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 
 @Component({
   selector: 'jhi-dppk-finalize-floating',
@@ -216,7 +219,9 @@ export class DppkFinalizeDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private entitiyPropertiesService: EntitiyPropertiesService,
+    private creditProposalService: CreditProposalService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -248,11 +253,9 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
-      console.log('Isloadingg', this.baLoading);
     });
     this.baService.progress$.subscribe(res => {
       this.progress = res;
-      console.log('Progress', this.progress);
     });
   }
 
@@ -484,9 +487,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
     this.dppkFinalizeService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
       const menuItemIdByRoute = this.router.url.includes('dppk-finalize') ? 'FINALIZE_CREDIT_AGREEMENT' : 'FINALIZE_CREDIT_AGREEMENT';
-      console.log('routes', menuItemIdByRoute);
       this.ca = response.body;
-      console.log('routes', this.ca);
 
       this.masterPermissionService
         .queryFilterBy({ menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.ca.statusId })
@@ -527,6 +528,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
     this.loadDataBy();
     this.showTextMenu();
     // this.cpGroub();
+    this.setDppkNumber();
   }
 
   public goToSubMenu(menu: string): void {
@@ -1375,8 +1377,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      console.log('properties ', this.collateralProperties);
-      console.log('ini data ', data);
       if (data) {
         if (type === 'buktiKepemilikan') {
           if (collateral.collateralTypeId === 'SECURITIES') {
@@ -1666,7 +1666,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
       if (this.id) {
         this.KEYG += `/${this.id}/`;
       } else {
-        console.warn('Param id not found');
       }
 
       this.onRefresh();
@@ -1735,7 +1734,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
     const dynAttrOne = 'dataAssignToDPPKReview1';
     this.applicationRole = ev;
     this.creditProposal.attributes[dynAttrOne] = ev;
-    console.log('data assign To One', this.creditProposal.attributes[dynAttrOne]);
   }
 
   public onAssignToTwo(ev: any): void {
@@ -1749,6 +1747,19 @@ export class DppkFinalizeDetailComponent implements OnInit {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public setDppkNumber() {
+    const idx = this.creditProposal.entityProperties.findIndex(obj => obj.entityPropertyTypeId === 'DPPK');
+    if (idx) {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties[idx] = res;
+      });
+    } else {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties.push(res);
+      });
     }
   }
 }
