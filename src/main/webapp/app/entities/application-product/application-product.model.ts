@@ -128,6 +128,9 @@ export interface IApplicationProduct {
   avgNormalRateUSD?: string;
   avgProposedRateIDR?: string;
   avgProposedRateUSD?: string;
+  creditTerm?: string;
+  installmentType?: string;
+  totalRestructure?: number;
 }
 
 export class ApplicationProduct implements IApplicationProduct {
@@ -253,7 +256,10 @@ export class ApplicationProduct implements IApplicationProduct {
     public avgNormalRateIDR?: string,
     public avgNormalRateUSD?: string,
     public avgProposedRateIDR?: string,
-    public avgProposedRateUSD?: string
+    public avgProposedRateUSD?: string,
+    public creditTerm?: string,
+    public installmentType?: string,
+    public totalRestructure?: number
   ) {
     this.uniqueKey = uuid.v4();
     this.applicationType = 'New';
