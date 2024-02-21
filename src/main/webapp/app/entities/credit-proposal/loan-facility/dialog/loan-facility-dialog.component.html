@@ -1142,7 +1142,7 @@
             <mat-label>Credit Term</mat-label>
             <mat-select [(ngModel)]="applicationProduct.creditTerm">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of creditTermList" [value]="item.id">
+              <mat-option *ngFor="let item of creditTermList" [value]="item.code">
                 {{ item.value }}
               </mat-option>
             </mat-select>
