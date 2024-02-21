@@ -35,13 +35,10 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  constructor(private generalParameterService: GeneralParameterService) {
-    this.LovCovenantBelow();
-  }
+  constructor(private generalParameterService: GeneralParameterService) {}
 
   ngOnInit(): void {
     this.LovCovenantBelow();
-    // console.log('proposal-type', this.creditProposalItem[])
   }
 
   public onKeyUpEvent(input: string, event: any, data: any) {
