@@ -160,7 +160,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
   public totalLoanDeposit() {
     let result: number;
     result = 0;
-    result = Number(this.item.attributes['tabCustomer'].casa) + Number(this.item.attributes['tabCustomer'].insurancePremium);
+    result = Number(this.item.attributes['tabCustomer'].casa) - Number(this.item.attributes['tabCustomer'].insurancePremium);
     this.item.attributes['tabCustomer'].totalDepositInsurancePremium = result;
     return result;
   }
