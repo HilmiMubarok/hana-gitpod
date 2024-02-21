@@ -38,6 +38,7 @@
     <jhi-collateral-property-deposit-dialog
       *ngIf="collateral.collateralTypeId === 'DEPOSIT' && collateralPropertyExternal && collateralProperty"
       [collateralProperty]="collateralProperty"
+      [collateralProperties]="collateralProperties"
       [collateralPropertyExternal]="collateralPropertyExternal"
       [collateral]="collateral"
       [officerName]="partyCifData.rm?.name"

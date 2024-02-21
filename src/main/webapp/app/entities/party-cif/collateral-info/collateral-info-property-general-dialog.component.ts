@@ -21,6 +21,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   public partyCifData: IPartyCif;
   public branchId: string;
   private _pariPasu: string;
+  collateralProperties: ICollateralProperty[];
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -51,6 +52,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
     this.collateralProperty = null;
     this.collateralPropertyExternal = null;
     this.branchId = this.data.rmBranchId;
+    this.collateralProperties = [];
   }
 
   ngOnInit(): void {
@@ -69,6 +71,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
       })
       .subscribe(res => {
         if (res.body.length > 0) {
+          this.collateralProperties = res.body;
           this.collateralProperty = lodash.find(res.body, function (o) {
             return !o.external;
           });

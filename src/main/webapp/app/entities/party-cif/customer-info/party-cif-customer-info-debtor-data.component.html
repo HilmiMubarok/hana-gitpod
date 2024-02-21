@@ -465,8 +465,8 @@
           <mat-label>Credit Type</mat-label>
           <mat-select [(ngModel)]="partyCif.debtorData.creditType" name="creditType" [disabled]="true">
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of creditType" [value]="item.id" [disabled]="true">
-              {{ item.description }}
+            <mat-option *ngFor="let item of creditType" [value]="item.code" [disabled]="true">
+              {{ item.value }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -476,7 +476,7 @@
           <div class="col">Credit Type</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ partyCif.debtorData.creditType }}
+            {{ creditTypeValue }}
           </div>
         </div>
       </section>
@@ -487,8 +487,8 @@
           <mat-label>Golongan Debitur</mat-label>
           <mat-select [(ngModel)]="partyCif.debtorData.golongan" name="golongan" [disabled]="true">
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of golongan" [value]="item.id" [disabled]="true">
-              {{ item.description }}
+            <mat-option *ngFor="let item of golongan" [value]="item.code" [disabled]="true">
+              {{ item.value }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -498,7 +498,7 @@
           <div class="col">Golongan Debitur</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ partyCif.debtorData.golongan }}
+            {{ golonganValue }}
           </div>
         </div>
       </section>

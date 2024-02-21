@@ -128,7 +128,11 @@ export class CashCreditProposalsService extends AbstractEntityService<ICreditPro
         entity.attributes['guaranteeBinding'] = JSON.stringify(entity.attributes['guaranteeBinding']);
       }
     }
-
+    if (entity.attributes['bindingValueNote']) {
+      if (typeof entity.attributes['bindingValueNote'] !== 'string') {
+        entity.attributes['bindingValueNote'] = JSON.stringify(entity.attributes['bindingValueNote']);
+      }
+    }
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }
