@@ -369,7 +369,11 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
 
       // Condition Offering Letter in Route Review
     } else if (this.parentPath === 'review' || this.parentPath === 'confirmation') {
-      if (this.selectedMenu === 'loan-facility-detail' || this.selectedMenu === 'compare-approval-report') {
+      if (
+        this.selectedMenu === 'loan-facility-detail' ||
+        this.selectedMenu === 'compare-approval-report' ||
+        this.selectedMenu === 'INFORMATION'
+      ) {
         this.textBoxHidden = false;
         this.statusDisabledOffering = true;
       } else {
