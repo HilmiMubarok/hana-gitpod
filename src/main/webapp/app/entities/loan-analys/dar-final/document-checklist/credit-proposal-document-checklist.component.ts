@@ -220,7 +220,7 @@ export class DocumentChecklistTempComponent implements OnInit {
                       const argsBackToBack = this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back';
                       const argsDocJualBeli = this.creditProposal.attributes['cpRacBelow'].Ca;
                       const argsDocVehicle = this.creditProposal.collaterals.find(obj => obj.collateralTypeId === 'VEHICLE');
-                      const argsDocNew = this.creditProposal.attributes['basicInformation'].customerStatus === 'new';
+                      const argsDocNew = this.creditProposal.attributes['basicInformation'].customerStatus === 'New';
 
                       const docBackToBack = argsBackToBack ? this.typeData.filter(obj => obj.id === 'DOC_DPPK_BACKTOBACK') : [];
                       const docJualBeli = argsDocJualBeli ? this.typeData.filter(obj => obj.id === 'DOC_DPPK_JUALBELI') : [];
