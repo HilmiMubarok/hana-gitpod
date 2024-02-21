@@ -75,6 +75,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   date = new FormControl(moment());
 
   @Input() customerType: string;
+  creditTypeValue: any;
+  golonganValue: any;
 
   @Input()
   get partyCif() {
@@ -119,6 +121,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.changeModal();
     this.changeCorres();
     this.changeSector();
+    this.loadCreditType();
+    this.loadGolongan();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -302,5 +306,41 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
       return 'N/A';
     }
     return this.partyCif.debtorData.equityName;
+  }
+  private loadCreditType(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CREDIT_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.creditType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.creditType.length; i++) {
+          if (this.creditType[i].code === this.partyCif.debtorData.creditType) {
+            this.creditTypeValue = this.creditType[i].value;
+          }
+        }
+      });
+  }
+  private loadGolongan(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'DEBTOR_CLASS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.golongan = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.creditType.length; i++) {
+          if (this.golongan[i].code === this.partyCif.debtorData.golongan) {
+            this.golonganValue = this.golongan[i].value;
+          }
+        }
+      });
   }
 }

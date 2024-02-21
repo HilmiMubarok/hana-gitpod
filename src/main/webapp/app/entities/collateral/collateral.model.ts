@@ -45,6 +45,7 @@ export interface ICollateralAttribute {
   collateralCode?: string;
   landCertificates?: ICollateralLandAttribute[];
   crossCollateral?: string;
+  bindingValueNote?: string;
 }
 
 export class CollateralAttribute implements ICollateralAttribute {
@@ -62,7 +63,8 @@ export class CollateralAttribute implements ICollateralAttribute {
     public crossCollateral?: string,
     public collateralCode?: string,
     public collateralProposePricing?: string,
-    public landCertificates?: ICollateralLandAttribute[]
+    public landCertificates?: ICollateralLandAttribute[],
+    public bindingValueNote?: string
   ) {
     this.id = uuid.v4();
     this.buildingFacAc = 'no';
@@ -73,6 +75,7 @@ export class CollateralAttribute implements ICollateralAttribute {
     this.landCertificates = new Array<ICollateralLandAttribute>();
     this.mappingStatus = 'no';
     this.crossCollateral = 'no';
+    this.bindingValueNote = '';
   }
 }
 

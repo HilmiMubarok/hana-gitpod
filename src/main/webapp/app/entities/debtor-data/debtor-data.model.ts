@@ -1,6 +1,8 @@
 import { ICollateral } from '../collateral/collateral.model';
 
 export interface IDebtorData {
+  golongan?: string;
+  creditType?: string;
   id?: number;
   partyId?: string;
   regional?: string;
@@ -127,7 +129,9 @@ export class DebtorData implements IDebtorData {
     public customerNumber?: string,
     public collaterals?: ICollateral[],
     public econSectorCode?: string,
-    public econSectorName?: string
+    public econSectorName?: string,
+    public creditType?: string,
+    public golongan?: string
   ) {
     this.ownerCitizen = false;
     this.ownerCompany = false;

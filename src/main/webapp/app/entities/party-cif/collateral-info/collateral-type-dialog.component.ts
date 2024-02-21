@@ -94,7 +94,6 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   public collateralCode: ICollateralParameter[];
   constructor(
     private collateralTypeService: CollateralTypeService,
-    private cashCollateralService: CashCollateralService,
     protected generalParameterService: GeneralParameterService,
     protected collateralParameterService: CollateralParameterService,
     protected collateralProposePricingService: CollateralProposePricingParameterService
@@ -311,7 +310,6 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         });
     }
   }
-
   public getParipasuStatus(element: string) {
     if (element === 'N') {
       return 'NO';
