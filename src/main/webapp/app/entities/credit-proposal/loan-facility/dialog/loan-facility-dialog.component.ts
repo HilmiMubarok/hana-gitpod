@@ -271,6 +271,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   // Code Lov get General Parameter  List Of Value Improvement Phase 1
   public interestTypeList = [];
+  public installmentTypeList = [];
+  public creditTermList = [];
   public installmentMethodList = [];
   public lovDisbursementLegalList = [];
   public restructList = [];
@@ -347,6 +349,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.berubah(this.applicationProduct.attributes.facilityType);
     this.cekData();
     this.updateFormat(this.selectedType, this.selectedCurrency);
+    this.lovInstalmentType();
+    this.lovCreditTermList();
 
     if (!this.applicationProduct.commitedLine) {
       this.applicationProduct.commitedLine = false;
@@ -834,6 +838,34 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       })
       .subscribe(res => {
         this.interestTypeList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public lovInstalmentType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSTALLMENT_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.installmentTypeList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public lovCreditTermList() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CREDIT_TERM',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.creditTermList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
       });
