@@ -26,6 +26,10 @@ export class ApplicationPaymentPreferencesService {
     return this.http.put<IApplicationPaymentPreferences>(this.resourceUrl + '/' + id, data);
   }
 
+  public deleteData(id: number): Observable<IApplicationPaymentPreferences> {
+    return this.http.delete<IApplicationPaymentPreferences>(this.resourceUrl + '/' + id);
+  }
+
   public filterData(id: number, paymentType: string): Observable<IApplicationPaymentPreferences[]> {
     return this.http.get<IApplicationPaymentPreferences[]>(this.resourceUrl + '/payment-type/' + paymentType + '/loan-application/' + id);
   }
