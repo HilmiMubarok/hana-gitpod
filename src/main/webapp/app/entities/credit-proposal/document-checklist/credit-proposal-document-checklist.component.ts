@@ -74,7 +74,8 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
       this.router.url.includes('la-SME-CRC') ||
       this.router.url.includes('la-approval') ||
       this.router.url.includes('loan-committee-approval') ||
-      this.router.url.includes('dar-final')
+      this.router.url.includes('dar-final') ||
+      this.creditProposal.statusCode === 'DPDL_RETURN_TO_RM'
     ) {
       this.matrix = true;
     } else {
