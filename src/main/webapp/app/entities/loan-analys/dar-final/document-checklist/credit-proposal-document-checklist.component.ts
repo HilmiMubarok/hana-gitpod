@@ -154,7 +154,7 @@ export class DocumentChecklistTempComponent implements OnInit {
                       }
                     }
 
-                    let docDppkData;
+                    let docDppkData: any[] = [];
                     if (this.showDPPK) {
                       docDppkData = res4.body;
                     }
