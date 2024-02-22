@@ -2940,10 +2940,10 @@ export const DPDL_FINALIZE: object[] = [
     id: 'covenant-temp',
     text: 'Covenant & Document Checklist',
   },
-  {
-    id: 'approval-sheet-internal-memo',
-    text: 'Approval Sheet Internal Memo',
-  },
+  // {
+  //   id: 'approval-sheet-internal-memo',
+  //   text: 'Approval Sheet Internal Memo',
+  // },
   {
     id: 'legal-document',
     text: 'Legal Document',
@@ -2983,10 +2983,10 @@ export const DPDL_FINALIZE_APPEAL: object[] = [
     id: 'covenant-temp',
     text: 'Covenant & Document Checklist',
   },
-  {
-    id: 'approval-sheet-internal-memo',
-    text: 'Approval Sheet Internal Memo',
-  },
+  // {
+  //   id: 'approval-sheet-internal-memo',
+  //   text: 'Approval Sheet Internal Memo',
+  // },
   {
     id: 'legal-document',
     text: 'Legal Document',
@@ -3210,6 +3210,11 @@ export const BASIC_SUBMENU_DPPK_REVIEW: object[] = [
   {
     id: 'covenant-temp',
     text: 'Covenant & Document Checklist',
+  },
+  // DPDL-LEGAL-DOCUMENT
+  {
+    id: 'dpdl',
+    text: 'DPDL',
   },
 ];
 
