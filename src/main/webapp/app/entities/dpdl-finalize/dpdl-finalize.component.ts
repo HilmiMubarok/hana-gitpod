@@ -174,10 +174,10 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
       idPosition: this.positionIdLocStor,
     };
 
-    if (this.activeRoute === 'credit-proposal-status') {
-      predicate['target'] = 'credit_proposal_status';
-    } else if (this.activeRoute === 'cp-status-approval') {
-      predicate['target'] = 'credit_proposal_approval';
+    if (this.activeRoute === 'finalize-dpdl') {
+      predicate['target'] = 'finalize-dpdl';
+    } else if (this.activeRoute === 'review-dpdl') {
+      predicate['target'] = 'review-dpdl';
     }
 
     this.cashDpdlService

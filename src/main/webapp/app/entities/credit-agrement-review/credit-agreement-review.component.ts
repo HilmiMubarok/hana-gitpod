@@ -256,13 +256,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
-    predicate['target'] = 'review-pk';
-
-    // if (this.activeRoute === 'credit-proposal-status') {
-
-    // } else if (this.activeRoute === 'cp-status-approval') {
-    //   predicate['target'] = 'credit_proposal_approval';
-    // }
+    predicate['target'] = 'review-credit-agreement';
 
     this.cashCreditAgreementReviewService
       .searchCP(predicate)
