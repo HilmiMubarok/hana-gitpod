@@ -164,9 +164,19 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
       });
   }
 
+  // public doSearch(): void {
+  //   this.page = 0;
+  //   this.itemsPerPage = 10;
+  //   this.statusSearch = true;
+  //   const predicate: object = {
+  //     page: this.page,
+  //     query: this.currentSearch,
+  //     size: this.itemsPerPage,
+  //     sort: this.sortData(),
+  //     idPosition: this.positionIdLocStor,
+  //   };
+
   public doSearch(): void {
-    this.page = 0;
-    this.itemsPerPage = 10;
     this.statusSearch = true;
     const predicate: object = {
       page: this.page,
