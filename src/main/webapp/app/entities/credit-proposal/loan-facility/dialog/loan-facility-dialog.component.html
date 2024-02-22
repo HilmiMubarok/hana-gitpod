@@ -1154,7 +1154,7 @@
             <mat-label>Installment Type</mat-label>
             <mat-select [(ngModel)]="applicationProduct.installmentType">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of installmentMethodList" [value]="item.value">
+              <mat-option *ngFor="let item of installmentTypeList" [value]="item.value">
                 {{ item.value }}
               </mat-option>
             </mat-select>

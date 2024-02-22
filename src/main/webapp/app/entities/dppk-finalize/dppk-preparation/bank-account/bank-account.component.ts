@@ -107,7 +107,7 @@ export class BankAccountComponent implements OnInit {
             this.filteredPaymentType.push(this.paymentType[i]);
           }
         } else {
-          this.filteredPaymentType = this.paymentType;
+          this.filteredPaymentType.push(this.paymentType[i]);
         }
       }
     }
@@ -130,5 +130,13 @@ export class BankAccountComponent implements OnInit {
         });
       }
     });
+  }
+
+  getAccountName(element: IApplicationPaymentPreferences) {
+    const name = this.bankAccountData.find(obj => obj.id === element.bankAccountId);
+    if (name) {
+      return name.accountName;
+    }
+    return '';
   }
 }
