@@ -385,7 +385,7 @@
         </section>
       </section>
 
-      <section *ngIf="parentSource === 'loan-analys'">
+      <section *ngIf="parentSource === 'loan-analys' || remarkStatus()">
         <mat-label>REMARKS</mat-label>
         <ejs-documenteditorcontainer
           #document_editor_container_view_false_loan_analys
@@ -400,7 +400,7 @@
         ></ejs-documenteditorcontainer>
       </section>
 
-      <section *ngIf="remarkStatus()">
+      <!-- <section *ngIf="remarkStatus()">
         <mat-label>REMARKS</mat-label>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
@@ -432,7 +432,7 @@
             disabled
           ></ejs-documenteditorcontainer>
         </section>
-      </section>
+      </section> -->
     </div>
   </div>
 </div>

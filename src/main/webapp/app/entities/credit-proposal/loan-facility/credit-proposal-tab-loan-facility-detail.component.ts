@@ -124,7 +124,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   onDocumentChange() {
     if (this.parentSource === '') {
       this.container_view_false.restrictEditing = true;
-    } else if (this.parentSource === 'loan-analys' || this.parentSource === 'credit-agreement') {
+    } else if (this.parentSource === 'loan-analys' || this.parentSource === 'credit-agreement' || this.parentSource === 'darRevision') {
       this.container_view_false_loan_analys.restrictEditing = true;
     }
   }
@@ -394,13 +394,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
                 if (
                   this.parentSource === '' ||
                   this.parentSource === 'credit-proposal' ||
-                  this.parentSource === 'darRevision' ||
                   this.parentSource === 'dar-revision-checker' ||
                   this.parentSource === 'finalize-pk' ||
                   this.parentSource === 'credit-agreement'
                 ) {
                   docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-                } else if (this.parentSource === 'loan-analys') {
+                } else if (this.parentSource === 'loan-analys' || this.parentSource === 'darRevision') {
                   docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
                 }
 
@@ -499,11 +498,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     const key = 'credit_proposal/remark/loan-facility';
     // const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-    if (this.parentSource === '' || this.parentSource === 'credit-proposal' || this.parentSource === 'darRevision') {
+    if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
       this.docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
       this.saveDocx$ = from(this.docEditor.saveAsBlob('Docx'));
       this.saveSfdt$ = from(this.docEditor.saveAsBlob('Sfdt'));
-    } else if (this.parentSource === 'loan-analys') {
+    } else if (this.parentSource === 'loan-analys' || this.parentSource === 'darRevision') {
       this.docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
       this.saveDocx$ = from(this.docEditor.saveAsBlob('Docx'));
       this.saveSfdt$ = from(this.docEditor.saveAsBlob('Sfdt'));
