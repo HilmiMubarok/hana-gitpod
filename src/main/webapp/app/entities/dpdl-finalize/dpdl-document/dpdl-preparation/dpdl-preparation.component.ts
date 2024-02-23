@@ -75,6 +75,7 @@ export class DpdlPreparationComponent implements OnInit {
   isDisabled(): boolean {
     if (
       this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dpdl' ||
       this.parentPath === 'loan-ops-distribution' ||
       this.parentPath === 'loan-ops-checking' ||
       this.parentPath === 'loan-ops-review'
