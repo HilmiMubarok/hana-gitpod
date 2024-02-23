@@ -56,8 +56,10 @@ export class BankAccountComponent implements OnInit {
   }
 
   public openDialog(dataApplicationPayment?: IApplicationPaymentPreferences) {
+    let edited = true;
     if (!dataApplicationPayment) {
       dataApplicationPayment = new ApplicationPaymentPreferences();
+      edited = false;
     }
     const dialogRef = this.dialog.open(BankAccountDialogComponent, {
       width: '50vw',
@@ -66,6 +68,7 @@ export class BankAccountComponent implements OnInit {
         creditProposal: this.creditProposal,
         dataPayment: dataApplicationPayment,
         filteredPaymentType: this.filteredPaymentType,
+        edit: edited,
       },
     });
     dialogRef.afterClosed().subscribe(res => {
