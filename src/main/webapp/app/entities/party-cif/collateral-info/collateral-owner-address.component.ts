@@ -12,6 +12,9 @@ import { IOrganizationManagement } from 'app/entities/organization-management/or
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { Observable, startWith, map } from 'rxjs';
 import moment from 'moment';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-owner-address',
@@ -19,6 +22,7 @@ import moment from 'moment';
   styleUrls: ['./collateral-owner-address.style.scss'],
 })
 export class CollateralOwnerAddressComponent implements OnInit {
+  public collateralConditions: any;
   private _postalAddress: IPostalAddress;
   public parentPath = this.router.url.split('/')[1];
   public activeRoute: string;
@@ -67,7 +71,7 @@ export class CollateralOwnerAddressComponent implements OnInit {
   constructor(
     protected partyCifService: PartyCifService,
     protected activatedRoute: ActivatedRoute,
-    private stateBoundaryService: StateBoundaryService,
+    private generalParameterService: GeneralParameterService,
     protected router: Router
   ) {}
   public findCif() {
@@ -108,11 +112,34 @@ export class CollateralOwnerAddressComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.partyCif, 'cif');
     this.findCif();
+    this.collateralConditionLov();
   }
   public dataSource() {
     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
       return true;
     }
     return false;
+  }
+  public collateralConditionLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_CONDITION',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralConditions = lodash.filter(res.body, function (obj) {
+          return obj.statusId === 'ACTIVE';
+        });
+        if (this.collateralConditions) {
+          let element: string;
+          for (let i = 0; i < this.collateralConditions.length; i++) {
+            if (this.collateral.facilityType === this.collateralConditions[i].code) {
+              element = this.collateralConditions[i].value;
+            }
+          }
+          this.collateralConditions = element;
+        }
+      });
   }
 }

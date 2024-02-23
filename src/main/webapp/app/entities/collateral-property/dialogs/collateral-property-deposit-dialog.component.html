@@ -551,6 +551,25 @@
           </div>
         </section>
       </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Deposito Rate (%)</mat-label>
+            <input matInput type="number" [(ngModel)]="collateralProperty.depositInterestRate" />
+            <div matSuffix class="input-suffix">&nbsp;%</div>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Deposito Rate (%)</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.depositInterestRate }}
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 </div>
@@ -839,6 +858,14 @@
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of debitBlock" [value]="item.id"> {{ item.label }} </mat-option>
           </mat-select>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Deposito Rate (%)</mat-label>
+          <input matInput type="number" [(ngModel)]="collateralProperty.depositInterestRate" disabled />
+          <div matSuffix class="input-suffix">&nbsp;%</div>
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
