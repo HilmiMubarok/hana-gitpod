@@ -381,7 +381,6 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
         this.statusDisabledOffering = true; // Menambahkan perubahan di sini
       }
     } else if (
-      this.parentPath === 'finalize-pk' ||
       this.parentPath === 'finalize-dpdl' ||
       this.parentPath === 'review-dpdl' ||
       this.parentPath === 'review-pk' ||

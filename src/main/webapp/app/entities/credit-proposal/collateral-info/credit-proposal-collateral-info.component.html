@@ -24,6 +24,12 @@
             [creditProposal]="creditProposal"
             [collateralSummaryData]="collateralSummaryData"
           ></jhi-binding-value-information>
+          <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Binding Value Note</mat-label>
+              <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+            </mat-form-field>
+          </div>
         </div>
         <div *ngIf="takeOutCompare !== true">
           <jhi-credit-proposal-collateral-info-remarks-information
@@ -85,6 +91,12 @@
           [creditProposal]="creditProposal"
           [collateralSummaryData]="collateralSummaryData"
         ></jhi-binding-value-information>
+        <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Binding Value Note</mat-label>
+            <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+          </mat-form-field>
+        </div>
       </div>
       <div *ngIf="takeOutCompare !== true">
         <jhi-credit-proposal-collateral-info-remarks-information
@@ -143,6 +155,12 @@
           [creditProposal]="creditProposal"
           [collateralSummaryData]="collateralSummaryData"
         ></jhi-binding-value-information>
+        <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Binding Value Note</mat-label>
+            <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+          </mat-form-field>
+        </div>
       </div>
       <div *ngIf="takeOutCompare !== true">
         <jhi-credit-proposal-collateral-info-remarks-information
