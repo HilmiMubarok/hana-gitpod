@@ -23,6 +23,11 @@ export class MenuAccessService extends AbstractEntityService<IMenuAccess> {
     return this.http.get<any[]>(this.menuPositionType, { params: options, observe: 'response' });
   }
 
+  public filterBy(req?: any): Observable<HttpResponse<IMenuAccess[]>> {
+    const opt = createRequestOption(req);
+    return this.http.get<IMenuAccess[]>(`${this.resourceUrl}/filterBy`, { observe: 'response', params: opt });
+  }
+
   public paramTypeId: Subject<any> = new Subject();
   setPrameterType(message: any) {
     this.paramTypeId.next(message);
