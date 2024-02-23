@@ -420,21 +420,21 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'Loan operations',
+    name: 'Loan Operations',
     iconname: 'suitcase',
     children: [
       {
-        name: ' loan ops distribution',
+        name: ' Loan Operation Distribution',
         iconname: 'minus',
         route: 'loan-ops-distribution',
       },
       {
-        name: ' loan ops Checking',
+        name: ' Loan Operation Checking',
         iconname: 'minus',
         route: 'loan-ops-checking',
       },
       {
-        name: ' loan ops Review',
+        name: ' Loan Operation Review',
         iconname: 'minus',
         route: 'loan-ops-review',
       },
