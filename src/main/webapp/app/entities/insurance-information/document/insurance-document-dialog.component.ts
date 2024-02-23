@@ -130,53 +130,78 @@ export class InsuranceDocumentDialogComponent implements OnInit {
     this.reportUtilService.downloadFileBYName(event, name.name);
   }
   public save(): void {
-    if (this.files.length === 0) {
-      this._snackBar.open('Choose file for upload', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-    }
-    if (!this.documentInsurance.documentType) {
-      this._snackBar.open('Pilih Document Policy', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-
-    if (!this.documentInsurance.category) {
-      this._snackBar.open('Pilih Category', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.documentInsurance.status) {
-      this._snackBar.open('Pilih Status', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.documentInsurance.remarks) {
-      this._snackBar.open('Masukan Remarks', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.documentInsurance.dueDate) {
-      this._snackBar.open('Pilih Date', null, {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
+    if (this.insurance.insuranceCategoryId === 34107) {
+      if (this.files.length === 0) {
+        this._snackBar.open('Choose file for upload', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+      }
+      if (!this.documentInsurance.documentType) {
+        this._snackBar.open('Pilih Document Policy', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+      if (!this.documentInsurance.remarks) {
+        this._snackBar.open('Masukan Remarks', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+    } else {
+      if (this.files.length === 0) {
+        this._snackBar.open('Choose file for upload', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+      }
+      if (!this.documentInsurance.documentType) {
+        this._snackBar.open('Pilih Document Policy', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+      if (!this.documentInsurance.category) {
+        this._snackBar.open('Pilih Category', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+      if (!this.documentInsurance.status) {
+        this._snackBar.open('Pilih Status', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+      if (!this.documentInsurance.remarks) {
+        this._snackBar.open('Masukan Remarks', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+      if (!this.documentInsurance.dueDate) {
+        this._snackBar.open('Pilih Date', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
     }
     for (let i = 0; this.files.length; i++) {
       const metaData = {
