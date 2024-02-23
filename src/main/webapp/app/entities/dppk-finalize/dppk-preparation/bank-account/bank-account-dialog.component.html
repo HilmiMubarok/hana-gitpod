@@ -4,7 +4,12 @@
     <section>
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Account Type</mat-label>
-        <mat-select required [(ngModel)]="dataApplicationPayment.paymentTypeId" (selectionChange)="changePaymentType($event)">
+        <mat-select
+          required
+          [(ngModel)]="dataApplicationPayment.paymentTypeId"
+          (selectionChange)="changePaymentType($event.value)"
+          [disabled]="editStat"
+        >
           <mat-option value="">- Please Select -</mat-option>
           <mat-option *ngFor="let item of dataFilteredPaymentType" [value]="item.id">
             {{ item.description }}
@@ -15,7 +20,7 @@
     <section>
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Currency</mat-label>
-        <mat-select required [(ngModel)]="dataApplicationPayment.currencyId" (selectionChange)="changeCurrency($event)">
+        <mat-select required [(ngModel)]="dataApplicationPayment.currencyId" (selectionChange)="changeCurrency($event.value)">
           <mat-option value="">- Please Select -</mat-option>
           <mat-option *ngFor="let item of currencyData" [value]="item.id">
             {{ item.id }}
@@ -26,7 +31,7 @@
     <section>
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Bank Name</mat-label>
-        <mat-select required (selectionChange)="changeBankAccount($event)" [(ngModel)]="dataApplicationPayment.bankAccountId">
+        <mat-select required (selectionChange)="changeBankAccount($event.value)" [(ngModel)]="dataApplicationPayment.bankAccountId">
           <mat-option value="">- Please Select -</mat-option>
           <mat-option *ngFor="let item of filteredBankAccountCurrency" [value]="item.id">
             {{ item.finInstituteName }} - {{ item.accountNumber }}

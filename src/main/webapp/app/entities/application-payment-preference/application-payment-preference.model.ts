@@ -14,6 +14,8 @@ export interface IApplicationPaymentPreferences {
   paymentTypeDescription?: string;
   currencyId?: string;
   currencyDescription?: string;
+  statusId?: string;
+  statusDescription?: string;
 }
 
 export class ApplicationPaymentPreferences implements IApplicationPaymentPreferences {
@@ -32,6 +34,8 @@ export class ApplicationPaymentPreferences implements IApplicationPaymentPrefere
     public paymentTypeId?: string,
     public paymentTypeDescription?: string,
     public currencyId?: string,
-    public currencyDescription?: string
+    public currencyDescription?: string,
+    public statusId?: string,
+    public statusDescription?: string
   ) {}
 }

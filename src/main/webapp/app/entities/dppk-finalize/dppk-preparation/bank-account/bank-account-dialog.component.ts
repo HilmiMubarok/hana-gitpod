@@ -35,6 +35,7 @@ export class BankAccountDialogComponent implements OnInit {
   public accountName: string;
   public dataApplicationPayment: IApplicationPaymentPreferences;
   public dataApplicationPaymentAll: IApplicationPaymentPreferences[] = [];
+  public editStat = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -42,6 +43,7 @@ export class BankAccountDialogComponent implements OnInit {
       creditProposal: ICreditProposal;
       dataPayment: IApplicationPaymentPreferences;
       filteredPaymentType: IPaymentType[];
+      edit: boolean;
     },
     public dialog: MatDialog,
     private _dialog: MatDialogRef<BankAccountDialogComponent>,
@@ -53,12 +55,13 @@ export class BankAccountDialogComponent implements OnInit {
     this.creditProposal = data.creditProposal;
     this.dataApplicationPayment = data.dataPayment;
     this.dataFilteredPaymentType = data.filteredPaymentType;
+    this.editStat = data.edit;
   }
 
   ngOnInit(): void {
+    this.getUomCurrrencyLov();
     this.getPaymentType();
     this.getBankAccount();
-    this.getUomCurrrencyLov();
   }
 
   public openCancelDialog(): void {
@@ -88,12 +91,18 @@ export class BankAccountDialogComponent implements OnInit {
       })
       .subscribe(res => {
         this.paymentType = res.body;
+        if (this.editStat) {
+          this.dataFilteredPaymentType = res.body;
+        }
       });
   }
 
   getBankAccount() {
     this.bankAccountService.getBankAccount(this.creditProposal.cif.partyId).subscribe(res => {
       this.bankAccountData = res.body;
+      if (this.editStat) {
+        this.changePaymentType(this.dataApplicationPayment.paymentTypeId);
+      }
     });
   }
 
@@ -109,8 +118,8 @@ export class BankAccountDialogComponent implements OnInit {
       });
   }
 
-  public changeBankAccount(event) {
-    const data: IBankAcountModel = this.bankAccountData.find(obj => obj.id === event.value);
+  public changeBankAccount(value) {
+    const data: IBankAcountModel = this.bankAccountData.find(obj => obj.id === value);
     this.accountName = data.accountName;
     this.getAccountName();
     this.dataApplicationPayment.currencyId = data.currencyId;
@@ -120,19 +129,27 @@ export class BankAccountDialogComponent implements OnInit {
     this.dataApplicationPayment.bankAccountNumber = data.accountNumber;
   }
 
-  public changeCurrency(event) {
-    this.filteredBankAccountCurrency = this.filteredBankAccount.filter(obj => obj.currencyId === event.value);
+  public changeCurrency(value) {
+    this.filteredBankAccountCurrency = this.filteredBankAccount.filter(obj => obj.currencyId === value);
   }
 
-  public changePaymentType(event) {
+  public changePaymentType(value) {
     this.filteredBankAccount = [];
-    this.dataApplicationPayment.currencyId = '';
-    this.applicationPaymentPreferencesService.filterData(this.creditProposal.id, event.value).subscribe(res => {
+    this.applicationPaymentPreferencesService.filterData(this.creditProposal.id, value).subscribe(res => {
+      const filteredRes: IApplicationPaymentPreferences[] = res.filter(obj => obj.statusId === 'ACTIVE');
       if (this.bankAccountData.length > 0) {
         for (let i = 0; i < this.bankAccountData.length; i++) {
-          const filteredPaymentAccount = res.find(obj => obj.bankAccountId === this.bankAccountData[i].id);
+          const filteredPaymentAccount = filteredRes.find(obj => obj.bankAccountId === this.bankAccountData[i].id);
           if (!filteredPaymentAccount) {
             this.filteredBankAccount.push(this.bankAccountData[i]);
+          }
+        }
+        if (this.editStat) {
+          const bankAccountEditFind = this.bankAccountData.find(obj => obj.id === this.dataApplicationPayment.bankAccountId);
+          if (bankAccountEditFind) {
+            this.accountName = bankAccountEditFind.accountName;
+            this.filteredBankAccount.push(bankAccountEditFind);
+            this.changeCurrency(this.dataApplicationPayment.currencyId);
           }
         }
       }

@@ -127,6 +127,15 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   };
   private _pariPasu: string;
   collateralDetailTypeValue: string;
+  identityId: string;
+  lbuCode: string;
+  country: string;
+  province: string;
+  city: string;
+  kodePos: string;
+  district: string;
+  village: string;
+  adress1: string;
   @Input()
   get pariPasu() {
     return this._pariPasu;
@@ -440,13 +449,18 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.collateralProperty.liquidationValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
     this.collateralProperty.marketValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
   }
-
   public findCif() {
     if (this.collateralProperty.guarantorCif !== null) {
       this.partyCifService.findCifCash(this.collateralProperty.guarantorCif).subscribe(res => {
         this.partyCif = res.body;
         if (this.partyCif) {
           this.guarantorName = this.partyCif.name;
+          if (this.partyCif.customerType === 'PERSONAL') {
+            this.identityId = this.partyCif.customerPerson.personalIdNumber;
+          } else if (this.partyCif.customerType === 'CORPORATE') {
+            this.identityId = this.partyCif.customerOrganization.organizationIdNumber;
+          }
+          this.lbuCode = this.partyCif.debtorData.gnrlBankReportCode;
           if (this.partyCif.creditRatings.length > 0) {
             this.creditRating = this.partyCif.creditRatings[0].creditRating;
           } else {
@@ -455,6 +469,13 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
 
           this.creditRatingDate = this.partyCif.creditRatings[0].ratingDate;
           this.adress = this.partyCif.addresses.find(obj => obj.purposeTypeId === 'PRIMARY_LOCATION');
+          this.adress1 = this.adress.address.address1;
+          this.country = this.adress.address.countryName;
+          this.province = this.adress.address.provinceName;
+          this.city = this.adress.address.cityName;
+          this.district = this.adress.address.districtName;
+          this.village = this.adress.address.villageName;
+          this.kodePos = this.adress.address.postalCode;
           if (this.adress) {
             this.findCountryName(this.adress.address.countryId);
           }

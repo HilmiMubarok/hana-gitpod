@@ -56,7 +56,12 @@
                 </button>
 
                 <button
-                  *ngIf="item.parentId !== 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM'"
+                  *ngIf="
+                    item.parentId !== 'DOC_IDD' &&
+                    item.parentId !== 'DOC_LA' &&
+                    matrix === true &&
+                    creditProposal.statusCode !== 'PK_RETURN_TO_RM'
+                  "
                   mat-icon-button
                   (click)="openDialog(element, 'add', item.description)"
                 >

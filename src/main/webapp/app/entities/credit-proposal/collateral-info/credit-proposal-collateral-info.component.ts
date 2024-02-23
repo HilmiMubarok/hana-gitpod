@@ -146,7 +146,9 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
       this.router.url.split('/')[1] === 'dar-revision' ||
       this.router.url.split('/')[1] === 'dar-revision-checker' ||
       this.router.url.split('/')[1] === 'finalize-dppk' ||
-      this.router.url.split('/')[1] === 'review-dppk'
+      this.router.url.split('/')[1] === 'review-dppk' ||
+      this.router.url.split('/')[1] === 'loan-ops-distribution' ||
+      this.router.url.split('/')[1] === 'loan-ops-review'
     ) {
       this.customPath = true;
     }
@@ -381,10 +383,13 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
         this.statusDisabledOffering = true; // Menambahkan perubahan di sini
       }
     } else if (
-      this.parentPath === 'finalize-pk' ||
       this.parentPath === 'finalize-dpdl' ||
       this.parentPath === 'review-dpdl' ||
       this.parentPath === 'review-pk' ||
+      this.parentPath === 'review-dppk' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'loan-ops-distribution' ||
+      this.parentPath === 'loan-ops-review' ||
       this.parentPath === 'dar-revision-checker' ||
       this.parentPath === 'dar-revision'
     ) {
