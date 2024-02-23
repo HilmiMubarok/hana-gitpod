@@ -3283,8 +3283,40 @@ export const BASIC_SUBMENU_LOAN_OPS_DIST_MEMO: object[] = [
     text: 'DAR Summary',
   },
   {
+    id: 'dppk',
+    text: 'DPPK Finalize',
+  },
+  {
+    id: 'insurance-information',
+    text: 'Insurance',
+  },
+  {
+    id: 'dpdl',
+    text: 'DPDL',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
     id: 'memo-banding',
     text: 'Memo Banding',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
   },
   {
     id: 'compare-data',
@@ -3297,6 +3329,26 @@ export const BASIC_SUBMENU_LOAN_OPS_DIST: object[] = [
     text: 'DAR Summary',
   },
   {
+    id: 'dppk',
+    text: 'DPPK Finalize',
+  },
+  {
+    id: 'insurance-information',
+    text: 'Insurance',
+  },
+  {
+    id: 'dpdl',
+    text: 'DPDL',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
     id: 'opinion',
     text: 'Credit Opinion',
   },
@@ -3305,13 +3357,12 @@ export const BASIC_SUBMENU_LOAN_OPS_DIST: object[] = [
     text: 'Compliance Recommendation',
   },
   {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
     id: 'compare-data',
     text: 'Compare Data',
-  },
-  // DPDL-LEGAL-DOCUMENT
-  {
-    id: 'dpdl',
-    text: 'DPDL',
   },
 ];
 
@@ -3321,8 +3372,40 @@ export const BASIC_SUBMENU_LOAN_OPS_REVIEW_DIST_MEMO: object[] = [
     text: 'DAR Summary',
   },
   {
+    id: 'dppk',
+    text: 'DPPK Finalize',
+  },
+  {
+    id: 'insurance-information',
+    text: 'Insurance',
+  },
+  {
+    id: 'dpdl',
+    text: 'DPDL',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
     id: 'memo-banding',
     text: 'Memo Banding',
+  },
+  {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
   },
   {
     id: 'compare-data',
@@ -3335,6 +3418,26 @@ export const BASIC_SUBMENU_LOAN_OPS_REVIEW_DIST: object[] = [
     text: 'DAR Summary',
   },
   {
+    id: 'dppk',
+    text: 'DPPK Finalize',
+  },
+  {
+    id: 'insurance-information',
+    text: 'Insurance',
+  },
+  {
+    id: 'dpdl',
+    text: 'DPDL',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'collateral-info',
+    text: 'collateral info',
+  },
+  {
     id: 'opinion',
     text: 'Credit Opinion',
   },
@@ -3343,13 +3446,12 @@ export const BASIC_SUBMENU_LOAN_OPS_REVIEW_DIST: object[] = [
     text: 'Compliance Recommendation',
   },
   {
+    id: 'covenant-temp',
+    text: 'Covenant & Document Checklist',
+  },
+  {
     id: 'compare-data',
     text: 'Compare Data',
-  },
-  // DPDL-LEGAL-DOCUMENT
-  {
-    id: 'dpdl',
-    text: 'DPDL',
   },
 ];
 
