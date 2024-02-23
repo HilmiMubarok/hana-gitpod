@@ -1,6 +1,14 @@
-import { Component, ViewEncapsulation, Inject, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
 import { Browser } from '@syncfusion/ej2-base';
+import { IMenuAccess } from 'app/entities/menu-access/menu-access.model';
+import { MenuAccessService } from 'app/entities/menu-access/menu-access.service';
+import { TemplateService } from 'app/layouts/template/template.service';
+
+export interface IChartData {
+  chartsTitle?: string;
+  chartData?: IMenuAccess[];
+}
 
 @Component({
   selector: 'jhi-dashboard',
@@ -9,121 +17,60 @@ import { Browser } from '@syncfusion/ej2-base';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
-  public mediaQuery = window.matchMedia('(max-width: 1282px)');
+  public availableStatus: IMenuAccess[];
+  // private availableChartDueDate: IMenuAccess[];
+  // private availableChartStatus: IMenuAccess[];
+  // private availableChartProgress: IMenuAccess[];
 
-  @ViewChild('predefine_dashboard')
-  public dashboard: DashboardLayoutComponent;
-  public panels: any[];
-  public layoutColor: string;
-  public cellSpacing: number[] = [15, 15];
-  public cellAspectRatio: number = Browser.isDevice ? 1 : 0.8;
-  public columns: number = Browser.isDevice ? 2 : 8;
-  public pieColumn: number = Browser.isDevice ? 1 : 5;
-  public splineRow: number = Browser.isDevice ? 1 : 4;
-  public chartArea: Object = {
-    border: { width: 0 },
-  };
+  public mergedChartData: IChartData[];
 
-  public columnSizeX: number;
-  public columnSizeY: number;
-  public pieSizeX: number;
-  public pieSizeY: number;
-  public splineSizeX: number;
-  public splineSizeY: number;
-
-  // public status: string[] = ['status1', 'status2', 'status3'];
-  // public dates: string[] = ['senin', 'selasa', 'rabu', 'kamis', "jum'at", 'sabtu', 'minggu'];
-
-  public aspectRatio: any = 100 / 85;
-  public headerCount = 1;
-  public count = 8;
-
-  // public selectedStatus: string;
-
-  dateRange: any[] | undefined;
-  SelectedDateRange: any | undefined;
-
-  status: any[] | undefined;
-  selectedStatus: any | undefined;
-
-  constructor() {
-    // code
-  }
+  constructor(private menuAccessService: MenuAccessService, private templateService: TemplateService) {}
 
   ngOnInit(): void {
-    this.initSize();
-    this.status = [
-      { statusId: 'draft', statusDesc: 'Draft' },
-      { statusId: 'returnBU', statusDesc: 'Return to BU' },
-      { statusId: 'asigned', statusDesc: 'Asigned' },
-      { statusId: 'darFinal', statusDesc: 'Dar Final' },
-      { statusId: 'loancomap', statusDesc: 'Loan Committee Approval' },
-    ];
-    this.dateRange = [
-      { rangeId: '1', rangeDesc: '1 Week' },
-      { rangeId: '2', rangeDesc: '2 Week' },
-      { rangeId: '3', rangeDesc: '3 Week' },
-      { rangeId: '4', rangeDesc: '1 Month' },
-      { rangeId: '5', rangeDesc: '2 Month' },
-    ];
+    this.preLoadData();
   }
 
-  public initSize(): void {
-    this.columnSizeX = 3;
-    this.columnSizeY = 2;
-    this.pieSizeX = 3;
-    this.pieSizeY = 2;
-    this.splineSizeX = 6;
-    this.splineSizeY = 2;
-    // if (this.mediaQuery.matches) {
-    //   this.columnSizeX = 3;
-    //   this.columnSizeY = 3;
-    //   this.pieSizeX = 3;
-    //   this.pieSizeY = 3;
-    //   this.splineSizeX = 6;
-    //   this.splineSizeY = 3;
-    // } else {
-    //   this.columnSizeX = 3;
-    //   this.columnSizeY = 2;
-    //   this.pieSizeX = 3;
-    //   this.pieSizeY = 2;
-    //   this.splineSizeX = 6;
-    //   this.splineSizeY = 2;
-    // }
+  private preLoadData(): void {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe(newPos => {
+      this.menuAccessService
+        .filterBy({
+          positionTypeId: newPos.positionTypeId,
+          page: 0,
+          size: 999,
+          sort: ['ASC'],
+        })
+        .subscribe(positionTypeList => {
+          const allowedDashboard = positionTypeList.body.filter(obj => obj.menuItemId.includes('DASHBOARD_'));
+          this.splitAvailableData(allowedDashboard);
+        });
+    });
   }
 
-  onButtonClick(): void {
-    const selectedElement: HTMLCollection = document.getElementsByClassName('e-selected-style');
-    this.dashboard.removeAll();
-    this.initializeTemplate(<HTMLElement>selectedElement[0]);
+  private splitAvailableData(allowedDashboard): void {
+    this.availableStatus = allowedDashboard.filter(obj => !obj.menuItemId.includes('DASHBOARD_CHART_'));
+
+    // const availableChartDueDate = allowedDashboard.filter(obj => obj.menuItemId.includes('_DUEDATE'));
+    // const availableChartStatus = allowedDashboard.filter(
+    //   obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
+    // );
+    // const availableChartProgress = allowedDashboard.filter(obj => obj.menuItemId.includes('_PROGRESS'));
+
+    const tempData: any = allowedDashboard.filter(obj => obj.menuItemId.includes('DASHBOARD_CHART_'));
+    this.categorizedChartsData(tempData);
   }
-  onTemplateClick(args: any): void {
-    const target: any = args.target;
-    const selectedElement: any = document.getElementsByClassName('e-selected-style');
-    if (selectedElement.length) {
-      selectedElement[0].classList.remove('e-selected-style');
+
+  public categorizedChartsData(tempData: any): void {
+    if (tempData.length > 0) {
+      const creditProposalFilter = tempData.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
+      const creditProposalData =
+        creditProposalFilter.length > 0 ? { chartsTitle: 'Charts Credit Proposal', chartData: creditProposalFilter } : {};
+
+      const appraisalFilter = tempData.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
+      const appraisalData = appraisalFilter.length > 0 ? { chartsTitle: 'Charts Appraisal', chartData: appraisalFilter } : {};
+
+      this.mergedChartData.push(creditProposalData, appraisalData);
+    } else {
+      this.mergedChartData = null;
     }
-    if ((<HTMLElement>target).className === 'image-pattern-style') {
-      this.dashboard.removeAll();
-      this.initializeTemplate(<HTMLElement>args.target);
-    }
-    (<HTMLElement>target).classList.add('e-selected-style');
-  }
-  public initializeTemplate(element: HTMLElement): void {
-    const updatedPanels: PanelModel[] = [];
-    const index: number = parseInt(element.getAttribute('data-id'), 10) - 1;
-    const panel: any = Object.keys(this.panels[index]).map((panelIndex: string) => this.panels[index][panelIndex]);
-    for (let i = 0; i < panel.length; i++) {
-      const panelModelValue: PanelModel = {
-        row: panel[i].row,
-        col: panel[i].col,
-        sizeX: panel[i].sizeX,
-        sizeY: panel[i].sizeY,
-        header: '<div class="e-header-text">Header Area</div><div class="header-border"></div>',
-        content: '<div class="panel-content">Content Area</div>',
-      };
-      updatedPanels.push(panelModelValue);
-    }
-    this.dashboard.panels = updatedPanels;
   }
 }
