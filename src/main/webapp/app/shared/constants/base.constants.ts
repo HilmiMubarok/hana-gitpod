@@ -3288,6 +3288,19 @@ export const BASIC_SUBMENU_LOAN_OPS_DIST: object[] = [
     id: 'dar-summary',
     text: 'DAR Summary',
   },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  // DPDL-LEGAL-DOCUMENT
+  {
+    id: 'dpdl',
+    text: 'DPDL',
+  },
 ];
 
 export const BASIC_SUBMENU_LOAN_OPS_REVIEW_DIST_MEMO: object[] = [
