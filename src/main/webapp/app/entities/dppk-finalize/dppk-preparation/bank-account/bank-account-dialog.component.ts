@@ -136,9 +136,10 @@ export class BankAccountDialogComponent implements OnInit {
   public changePaymentType(value) {
     this.filteredBankAccount = [];
     this.applicationPaymentPreferencesService.filterData(this.creditProposal.id, value).subscribe(res => {
+      const filteredRes: IApplicationPaymentPreferences[] = res.filter(obj => obj.statusId === 'ACTIVE');
       if (this.bankAccountData.length > 0) {
         for (let i = 0; i < this.bankAccountData.length; i++) {
-          const filteredPaymentAccount = res.find(obj => obj.bankAccountId === this.bankAccountData[i].id);
+          const filteredPaymentAccount = filteredRes.find(obj => obj.bankAccountId === this.bankAccountData[i].id);
           if (!filteredPaymentAccount) {
             this.filteredBankAccount.push(this.bankAccountData[i]);
           }
