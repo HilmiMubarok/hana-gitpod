@@ -3282,6 +3282,14 @@ export const BASIC_SUBMENU_LOAN_OPS_DIST_MEMO: object[] = [
     id: 'dar-summary',
     text: 'DAR Summary',
   },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
 ];
 export const BASIC_SUBMENU_LOAN_OPS_DIST: object[] = [
   {
@@ -3296,6 +3304,10 @@ export const BASIC_SUBMENU_LOAN_OPS_DIST: object[] = [
     id: 'compliance-recommendation',
     text: 'Compliance Recommendation',
   },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
   // DPDL-LEGAL-DOCUMENT
   {
     id: 'dpdl',
@@ -3308,11 +3320,36 @@ export const BASIC_SUBMENU_LOAN_OPS_REVIEW_DIST_MEMO: object[] = [
     id: 'dar-summary',
     text: 'DAR Summary',
   },
+  {
+    id: 'memo-banding',
+    text: 'Memo Banding',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
 ];
 export const BASIC_SUBMENU_LOAN_OPS_REVIEW_DIST: object[] = [
   {
     id: 'dar-summary',
     text: 'DAR Summary',
+  },
+  {
+    id: 'opinion',
+    text: 'Credit Opinion',
+  },
+  {
+    id: 'compliance-recommendation',
+    text: 'Compliance Recommendation',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+  // DPDL-LEGAL-DOCUMENT
+  {
+    id: 'dpdl',
+    text: 'DPDL',
   },
 ];
 

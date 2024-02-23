@@ -301,7 +301,13 @@ export class InternalMemoComponent implements OnChanges {
 
   public conditionReviewInternalMemoDocument(): boolean {
     const parentPath = this.router.url.split('/')[1];
-    if (parentPath.match(/review-dpdl/g) || parentPath.match(/finalize-dppk/g) || parentPath.match(/loan-ops-distribution/g)) {
+    if (
+      parentPath.match(/review-dpdl/g) ||
+      parentPath.match(/finalize-dppk/g) ||
+      parentPath.match(/loan-ops-distribution/g) ||
+      parentPath.match(/loan-ops-checking/g) ||
+      parentPath.match(/loan-ops-review/g)
+    ) {
       return false;
     } else {
       return true;
