@@ -72,6 +72,7 @@ import { ViewportScroller } from '@angular/common';
 import { ILoanOPS } from './loan-operation.model';
 import { LoanOperationService } from './loan-operation.service';
 import { LoanOperationProcessService } from './loan-operation-process.service';
+import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 @Component({
   selector: 'jhi-loan-operation-detail',
   templateUrl: './laon-operation-detail.component.html',
@@ -215,7 +216,8 @@ export class LoanOperationDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private entitiyPropertiesService: EntitiyPropertiesService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -469,6 +471,7 @@ export class LoanOperationDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setDppkNumber();
     this.getListIndustry();
     this.lendingProgramParameter();
     this.getPositionTypeId();
@@ -1728,6 +1731,19 @@ export class LoanOperationDetailComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  public setDppkNumber() {
+    const idx = this.creditProposal.entityProperties.findIndex(obj => obj.entityPropertyTypeId === 'DPPK');
+    if (idx) {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties[idx] = res;
+      });
+    } else {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties.push(res);
+      });
+    }
   }
 }
 interface IObj {
