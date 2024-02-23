@@ -212,7 +212,7 @@ export class GenerateDpdlDraftComponent implements OnInit {
   }
   public conditionReviewDpdlDocument(): boolean {
     const parentPath = this.router.url.split('/')[1];
-    if (parentPath.match(/review-dpdl/g) || parentPath.match(/finalize-dppk/g)) {
+    if (parentPath.match(/review-dpdl/g) || parentPath.match(/finalize-dppk/g) || parentPath.match(/loan-ops-distribution/g)) {
       return false;
     } else {
       return true;

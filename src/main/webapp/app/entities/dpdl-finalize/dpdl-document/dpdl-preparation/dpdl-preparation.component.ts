@@ -73,7 +73,7 @@ export class DpdlPreparationComponent implements OnInit {
   public selectedMenu: string;
 
   isDisabled(): boolean {
-    if (this.parentPath === 'finalize-dppk') {
+    if (this.parentPath === 'finalize-dppk' || this.parentPath === 'loan-ops-distribution') {
       return true;
     }
     return false;
