@@ -106,7 +106,9 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     if (this.creditProposal.entityProperties.length > 1) {
       for (let i = 0; i < this.creditProposal.entityProperties.length - 1; i++) {
         this.selectedConditions[i] = this.creditProposal.entityProperties[i].approvalDebtorConditionStatus;
-        this.approvalDebtor.push({});
+        if (this.creditProposal.customerType !== 'PERSONAL') {
+          this.approvalDebtor.push({});
+        }
         this.selectedConditions.push('');
       }
     }
