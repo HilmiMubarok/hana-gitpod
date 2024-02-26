@@ -217,7 +217,8 @@ export class GenerateDpdlDraftComponent implements OnInit {
       parentPath.match(/finalize-dppk/g) ||
       parentPath.match(/loan-ops-distribution/g) ||
       parentPath.match(/loan-ops-checking/g) ||
-      parentPath.match(/loan-ops-review/g)
+      parentPath.match(/loan-ops-review/g) ||
+      parentPath.match(/review-dppk/g)
     ) {
       return false;
     } else {

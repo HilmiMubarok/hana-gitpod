@@ -27,6 +27,8 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { StatusSlidesComponent } from './status/status-slides.component';
 import { ProgressStatusBarComponent } from './status/progress/progress-status-bar.component';
 import { NgChartsModule } from 'ng2-charts';
+import { ChartsLayoutComponent } from './charts/charts-layout.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   imports: [
@@ -41,13 +43,16 @@ import { NgChartsModule } from 'ng2-charts';
     ChartAllModule,
     AccumulationChartAllModule,
     RangeNavigatorAllModule,
-    // CircularGaugeAllModule,
+
+    // primeng
+    CalendarModule,
 
     // charts
     NgChartsModule,
   ],
   declarations: [
     DashboardComponent,
+    ChartsLayoutComponent,
     BarChartComponent,
     LineChartComponent,
     PieChartComponent,

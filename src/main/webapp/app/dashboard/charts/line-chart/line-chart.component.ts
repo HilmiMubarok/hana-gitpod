@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Chart, ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -7,24 +7,83 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.style.css'],
 })
-export class LineChartComponent implements OnInit {
+export class LineChartComponent implements OnInit, OnChanges {
   private newLabel? = 'New label';
   public lineChartData: ChartConfiguration['data'];
   public lineChartOptions: ChartConfiguration['options'];
   public lineChartType: ChartType;
+
+  public _baseLineChartData: any;
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
+  @Input()
+  get baseLineChartData() {
+    return this._baseLineChartData;
+  }
+
+  set baseLineChartData(param: any) {
+    this._baseLineChartData = param;
+  }
+
   constructor() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['baseLineChartData']) {
+      this.fitDataToModel();
+    }
+  }
 
   ngOnInit(): void {
     this.initLineChart();
   }
 
-  public initLineChart(): void {
+  public fitDataToModel(): void {
+    const data = [];
+    const labels = [];
+    this.baseLineChartData.forEach(item => {
+      data.push(item.data);
+      labels.push(
+        new Date(item.date).toLocaleDateString('en-US', {
+          day: '2-digit',
+          month: 'short',
+        })
+      );
+    });
+
     this.lineChartData = {
       datasets: [
         {
-          data: [28, 48, 40, 19, 86, 27, 90],
+          data,
+          label: 'Series A',
+          backgroundColor: '#003c7c96',
+          borderColor: '#003c7c',
+          pointBackgroundColor: '#003c7c96',
+          pointBorderColor: '#003c7c96',
+        },
+      ],
+      labels,
+    };
+
+    this.chart?.update();
+  }
+
+  public initLineChart(): void {
+    const data = [];
+    const labels = [];
+    this.baseLineChartData.forEach(item => {
+      data.push(item.data);
+      labels.push(
+        new Date(item.date).toLocaleDateString('en-US', {
+          day: '2-digit',
+          month: 'short',
+        })
+      );
+    });
+
+    this.lineChartData = {
+      datasets: [
+        {
+          data,
           label: 'Series A',
           backgroundColor: '#003c7c96',
           borderColor: '#003c7c',
@@ -61,7 +120,7 @@ export class LineChartComponent implements OnInit {
         //   // pointHoverBorderColor: 'rgba(148,159,177,0.8)',
         // },
       ],
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels,
     };
 
     this.lineChartOptions = {

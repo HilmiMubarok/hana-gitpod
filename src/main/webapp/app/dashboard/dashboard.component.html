@@ -1,77 +1,28 @@
 <!-- Status -->
 <div>
-  <div calss="status-container mb-3">
+  <div *ngFor="let item of availableStatus" calss="status-container mb-3">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Status Header</mat-card-title>
+        <mat-card-title>{{ item.menuItemDescription }}</mat-card-title>
       </mat-card-header>
       <jhi-status-slides></jhi-status-slides>
     </mat-card>
   </div>
 
   <!-- Charts -->
-  <div class="control-section mt-3">
-    <mat-card>
+  <div *ngIf="mergedChartData !== null" class="control-section mt-3">
+    <mat-card *ngFor="let item of mergedChartData">
       <mat-card-header>
-        <mat-card-title>Chart Header</mat-card-title>
+        <mat-card-title>{{ item.chartsTitle }}</mat-card-title>
       </mat-card-header>
-      <div class="col-lg-8 w-100" id="dashboard_container">
-        <ejs-dashboardlayout
-          id="predefine_dashboard"
-          #predefine_dashboard
-          columns="6"
-          [cellSpacing]="cellSpacing"
-          [cellAspectRatio]="aspectRatio"
-          [allowDragging]="false"
-          [allowPushing]="false"
-          [allowResizing]="false"
-          [allowFloating]="false"
-        >
-          <e-panels>
-            <!-- bar chart -->
-            <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="0" [col]="0">
-              <ng-template #header>
-                <div>Chart 1</div>
-                <div style="flex: 1 1 auto !important"></div>
-                <!-- filter -->
-                <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
-                <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
-              </ng-template>
-              <ng-template #content>
-                <jhi-bar-chart></jhi-bar-chart>
-              </ng-template>
-            </e-panel>
-            <!-- pie chart -->
-            <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="0" [col]="3">
-              <ng-template #header>
-                Chart 2
-                <div style="flex: 1 1 auto !important"></div>
-                <!-- filter -->
-                <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
-                <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
-              </ng-template>
-              <ng-template #content>
-                <jhi-pie-chart></jhi-pie-chart>
-              </ng-template>
-            </e-panel>
-            <!-- line chart -->
-            <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="2" [col]="0">
-              <ng-template #header>
-                Chart 3
-                <div style="flex: 1 1 auto !important"></div>
-                <!-- filter -->
-                <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
-                <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
-              </ng-template>
-              <ng-template #content>
-                <jhi-line-chart></jhi-line-chart>
-              </ng-template>
-            </e-panel>
-          </e-panels>
-        </ejs-dashboardlayout>
-      </div>
+      <jhi-charts-layout></jhi-charts-layout>
     </mat-card>
   </div>
+
+  <div *ngIf="mergedChartData === null" class="control-section mt-3">
+    <mat-card> No Charts Data Available </mat-card>
+  </div>
+
   <mat-card id="footer" class="w-100 my-2"
     ><label>Credit Approval System of Hana Bank <br />Version 2.0.15</label></mat-card
   >
