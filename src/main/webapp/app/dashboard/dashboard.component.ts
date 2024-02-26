@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   // private availableChartStatus: IMenuAccess[];
   // private availableChartProgress: IMenuAccess[];
 
-  public mergedChartData: IChartData[];
+  public mergedChartData: IChartData[] = [];
 
   constructor(private menuAccessService: MenuAccessService, private templateService: TemplateService) {}
 
@@ -62,13 +62,15 @@ export class DashboardComponent implements OnInit {
   public categorizedChartsData(tempData: any): void {
     if (tempData.length > 0) {
       const creditProposalFilter = tempData.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
-      const creditProposalData =
-        creditProposalFilter.length > 0 ? { chartsTitle: 'Charts Credit Proposal', chartData: creditProposalFilter } : {};
-
       const appraisalFilter = tempData.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
-      const appraisalData = appraisalFilter.length > 0 ? { chartsTitle: 'Charts Appraisal', chartData: appraisalFilter } : {};
 
-      this.mergedChartData.push(creditProposalData, appraisalData);
+      if (creditProposalFilter.length > 0) {
+        this.mergedChartData.push({ chartsTitle: 'Charts Credit Proposal', chartData: creditProposalFilter });
+      }
+
+      if (appraisalFilter.length > 0) {
+        this.mergedChartData.push({ chartsTitle: 'Charts Appraisal', chartData: appraisalFilter });
+      }
     } else {
       this.mergedChartData = null;
     }
