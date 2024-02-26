@@ -73,6 +73,7 @@ import { ILoanOPS } from './loan-operation.model';
 import { LoanOperationService } from './loan-operation.service';
 import { LoanOperationProcessService } from './loan-operation-process.service';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
+import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 @Component({
   selector: 'jhi-loan-operation-detail',
   templateUrl: './laon-operation-detail.component.html',
@@ -217,7 +218,8 @@ export class LoanOperationDetailComponent implements OnInit {
     private http: HttpClient,
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
-    private entitiyPropertiesService: EntitiyPropertiesService
+    private entitiyPropertiesService: EntitiyPropertiesService,
+    private menuPermissionService: MenuPermissionService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -471,6 +473,7 @@ export class LoanOperationDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getMenuPermission();
     this.setDppkNumber();
     this.getListIndustry();
     this.lendingProgramParameter();
@@ -1744,6 +1747,25 @@ export class LoanOperationDetailComponent implements OnInit {
         this.creditProposal.entityProperties.push(res);
       });
     }
+  }
+
+  public isValueRo = [];
+  public isLabelRo = false;
+  public isElRo = false;
+
+  private getMenuPermission() {
+    this.menuPermissionService
+      .getAppMenuPermission('LOAN_OPERATION_DISTRIBUTION', this.getLocStor('POSO'), this.creditProposal.statusId)
+      .subscribe(res => {
+        this.isValueRo = res.body;
+        if (this.isValueRo.length === 0) {
+          this.isLabelRo = true;
+          this.isElRo = false;
+        } else {
+          this.isElRo = true;
+          this.isLabelRo = false;
+        }
+      });
   }
 }
 interface IObj {
