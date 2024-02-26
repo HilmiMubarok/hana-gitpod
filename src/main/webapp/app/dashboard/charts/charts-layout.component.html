@@ -43,11 +43,20 @@
           Chart 3
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
-          <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
-          <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
+          <p-calendar
+            [(ngModel)]="filterRange"
+            (ngModelChange)="convertDate()"
+            placeholder="Select Dates Range"
+            inputId="mltimonths"
+            [numberOfMonths]="2"
+            selectionMode="range"
+            dateFormat="yy/mm/dd"
+            [readonlyInput]="true"
+          >
+          </p-calendar>
         </ng-template>
         <ng-template #content>
-          <jhi-line-chart></jhi-line-chart>
+          <jhi-line-chart [baseLineChartData]="filteredLineChartData"></jhi-line-chart>
         </ng-template>
       </e-panel>
     </e-panels>

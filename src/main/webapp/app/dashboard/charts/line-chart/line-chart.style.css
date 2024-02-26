@@ -5,33 +5,3 @@ canvas {
   height: 95% !important;
   width: 95% !important;
 }
-
-/* @media only screen and (max-width: 1920px) {
-  canvas {
-    margin: auto auto auto auto !important;
-    display: block !important;
-    box-sizing: border-box !important;
-    height: 32em !important;
-    width: 124em !important;
-  }
-}
-
-@media only screen and (max-width: 1536px) {
-  canvas {
-    margin: auto auto auto auto !important;
-    display: block !important;
-    box-sizing: border-box !important;
-    height: 22em !important;
-    width: 96em !important;
-  }
-}
-
-@media only screen and (max-width: 1280px) {
-  canvas {
-    margin: auto auto auto auto !important;
-    display: block !important;
-    box-sizing: border-box !important;
-    height: 16em !important;
-    width: 75em !important;
-  }
-} */
