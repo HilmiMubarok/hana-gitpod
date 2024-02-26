@@ -1633,7 +1633,20 @@ export class LoanAnalysMainComponent implements OnInit {
               } else {
                 this.refractorSaveForIsAllowSave(statusPreSave);
               }
-            } else {
+			} else if (laDataSelf.length > 1) {
+			  laDataSelf.sort((a, b) => (a.id > b.id ? 1 : -1));
+			  const lastElement = laDataSelf[laDataSelf.length - 1];
+
+			  if (laDataSelf[lastElement]['recomendation'] === '' || laDataSelf[lastElement]['recomendation'] === null) {
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Warning',
+                  detail: 'Please input Opinion, Recommendation, Condition first before submit or save the data',
+                });
+              } else {
+                this.refractorSaveForIsAllowSave(statusPreSave);
+              }
+            } else if (laDataSelf.length === 0) {
               this.messageService.add({
                 severity: 'info',
                 summary: 'Warning',
