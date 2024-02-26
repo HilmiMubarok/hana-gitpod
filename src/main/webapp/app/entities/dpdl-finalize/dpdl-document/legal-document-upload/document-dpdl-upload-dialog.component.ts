@@ -471,10 +471,10 @@ export class DocumentDpdlUploadDialogComponent implements OnInit {
     };
     if (this.folder === undefined) {
       if (this.files.length === 0) {
+        this._showNotification('error', 'Upload file terlebih dahulu');
         mustValidateDocument.files = false;
       }
     }
-
     if (!this.document.parentId) {
       this._showNotification('error', 'Masukkan Document Type terlebih dahulu');
       mustValidateDocument.parentId = false;
