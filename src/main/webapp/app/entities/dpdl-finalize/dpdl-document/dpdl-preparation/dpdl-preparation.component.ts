@@ -78,7 +78,8 @@ export class DpdlPreparationComponent implements OnInit {
       this.parentPath === 'review-dpdl' ||
       this.parentPath === 'loan-ops-distribution' ||
       this.parentPath === 'loan-ops-checking' ||
-      this.parentPath === 'loan-ops-review'
+      this.parentPath === 'loan-ops-review' ||
+      this.parentPath === 'review-dppk'
     ) {
       return true;
     }
