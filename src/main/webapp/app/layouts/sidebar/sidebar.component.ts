@@ -204,7 +204,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       positionTypeId: newPositionTypeId,
       sort: ['id', 'asc'],
     }).subscribe(menus => {
-      this.setMenu(menus.body);
+      this.setMenu(menus.body.filter(obj => !obj.menuItemId.includes('DASHBOARD_')));
     });
   }
 

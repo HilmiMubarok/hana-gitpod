@@ -14,7 +14,7 @@
       <!-- bar chart -->
       <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="0" [col]="0">
         <ng-template #header>
-          <div>Chart 1</div>
+          <div>Due Date Charts</div>
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
           <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
@@ -27,11 +27,9 @@
       <!-- pie chart -->
       <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="0" [col]="3">
         <ng-template #header>
-          Chart 2
+          Summary Status Charts
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
-          <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
-          <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
         </ng-template>
         <ng-template #content>
           <jhi-pie-chart></jhi-pie-chart>
@@ -40,7 +38,7 @@
       <!-- line chart -->
       <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="2" [col]="0">
         <ng-template #header>
-          Chart 3
+          Progress Charts
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
           <p-calendar
