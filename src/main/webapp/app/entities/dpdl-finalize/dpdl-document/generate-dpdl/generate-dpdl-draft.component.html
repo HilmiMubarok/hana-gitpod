@@ -34,7 +34,8 @@
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef width="10%">Action</th>
               <td mat-cell *matCellDef="let element">
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
+                <section *ngIf="conditionButton()">
                   <button pButton type="button" (click)="onEdit(element)" class="flat-button">
                     <fa-icon icon="eye"></fa-icon>
                   </button>
@@ -42,11 +43,11 @@
                     <fa-icon icon="trash-alt"></fa-icon>
                   </button>
                 </section>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <button pButton type="button" (click)="onEdit(element)" class="flat-button">
-                    <fa-icon icon="eye"></fa-icon>
-                  </button>
-                </section>
+                <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''"> -->
+                <button pButton type="button" (click)="onEdit(element)" class="flat-button">
+                  <fa-icon icon="eye"></fa-icon>
+                </button>
+                <!-- </section> -->
               </td>
             </ng-container>
             <tr class="mat-row" *matNoDataRow>

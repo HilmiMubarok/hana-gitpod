@@ -37,6 +37,7 @@ export class GenerateDpdlDraftComponent implements OnInit {
   // public fileTypeList: string[] = ['Word', 'Pdf'];
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
   public dataDraftDpdl: object[];
+  public parentPath = this.router.url.split('/')[1];
   constructor(
     public dialog: MatDialog,
     protected messageService: MessageService,
@@ -210,19 +211,32 @@ export class GenerateDpdlDraftComponent implements OnInit {
       }
     });
   }
+
   public conditionReviewDpdlDocument(): boolean {
-    const parentPath = this.router.url.split('/')[1];
     if (
-      parentPath.match(/review-dpdl/g) ||
-      parentPath.match(/finalize-dppk/g) ||
-      parentPath.match(/loan-ops-distribution/g) ||
-      parentPath.match(/loan-ops-checking/g) ||
-      parentPath.match(/loan-ops-review/g) ||
-      parentPath.match(/review-dppk/g)
+      this.parentPath.match(/review-dpdl/g) ||
+      this.parentPath.match(/finalize-dppk/g) ||
+      this.parentPath.match(/loan-ops-distribution/g) ||
+      this.parentPath.match(/loan-ops-checking/g) ||
+      this.parentPath.match(/loan-ops-review/g) ||
+      this.parentPath.match(/review-dppk/g)
     ) {
       return false;
     } else {
       return true;
+    }
+  }
+
+  /**
+   * This function checks the parent path for a specific pattern and returns true if it matches, otherwise returns false.
+   *
+   * @return {boolean} true if the parent path matches the pattern, otherwise false
+   */
+  public conditionButton(): boolean {
+    if (this.parentPath.match(/finalize-dpdl/g)) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

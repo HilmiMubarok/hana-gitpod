@@ -205,7 +205,6 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
     this.generateDpdlDraftService.dataReportDraft$.subscribe(res => {
       this.dataDraftDpdl = res;
-     
     });
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
@@ -1262,11 +1261,19 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-
-        if (this.dataDraftDpdl && this.dataDraftDpdl.length > 0) {
-          this.save('process');
+        // Validasi Draft
+        if (this.validateDraft()) {
+          // Validasi Final
+          if (this.validateFinal()) {
+            this.save('process');
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Please Generate DPDL Final first.',
+            });
+          }
         } else {
-          // this.save('default');
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
@@ -1485,12 +1492,25 @@ export class DpdlFinalizeViewComponent implements OnInit {
     this.viewport.scrollToPosition([0, 0]);
   }
 
+  /**
+   * Show button to generate dpdl based on current user's authorities and credit proposal status.
+   *
+   * @return {boolean} true if button should be shown, false otherwise
+   */
   public showButtonGenerateDpdl() {
     const parentPath = this.router.url.split('/')[1];
     if (parentPath.match(/review-dpdl/g)) {
-      if (this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' && this.creditProposal['region'] === 'R1') {
+      if (
+        this.currentAccount.authorities.includes('ROLE_LEGAL_HEAD') &&
+        this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' &&
+        this.creditProposal['region'] === 'R1'
+      ) {
         return true;
-      } else if (this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' && this.creditProposal['region'] === 'R2') {
+      } else if (
+        this.currentAccount.authorities.includes('ROLE_LEGAL_TEAM_LEAD') &&
+        this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' &&
+        this.creditProposal['region'] === 'R2'
+      ) {
         return true;
       } else {
         return false;
@@ -1540,6 +1560,47 @@ export class DpdlFinalizeViewComponent implements OnInit {
         this.dataDraftDpdl = data;
         this.generateDpdlDraftService.setDataReportDraft(this.dataDraftDpdl);
       });
+  }
+
+  /**
+   * Validates the final result.
+   *
+   * @return {boolean} the validation result
+   */
+  private validateDraft(): boolean {
+    if (this.dataDraftDpdl && this.dataDraftDpdl.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Validates the final result.
+   *
+   * @return {boolean} the validation result
+   */
+  private validateFinal(): boolean {
+    const dataGenerateDPDLFinal = this.dataDpdlFinal.filter(e => e.tags.documentType === 'DOC_GENERATE_DPDL');
+    if (this.parentPath.match(/review-dpdl/g)) {
+      if (
+        this.currentAccount.authorities.includes('ROLE_LEGAL_HEAD') &&
+        this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' &&
+        this.creditProposal['region'] === 'R1'
+      ) {
+        if (dataGenerateDPDLFinal && dataGenerateDPDLFinal.length === 0) {
+          return false;
+        }
+      } else if (
+        this.currentAccount.authorities.includes('ROLE_LEGAL_TEAM_LEAD') &&
+        this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' &&
+        this.creditProposal['region'] === 'R2'
+      ) {
+        if (dataGenerateDPDLFinal && dataGenerateDPDLFinal.length === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }
 interface IObj {
