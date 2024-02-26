@@ -1130,7 +1130,7 @@
         </section>
       </div>
 
-      <div *ngIf="parentPath === 'finalize-dppk'">
+      <div *ngIf="parentPath === 'finalize-dppk' && selectedMenu === 'loan-facility'">
         <section>
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Total Restructure</mat-label>
@@ -1159,6 +1159,36 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+        </section>
+      </div>
+
+      <div *ngIf="conditionReviewDppk()">
+        <section>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Total Restructure</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.totalRestructure }}
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Credit Term</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ getCreditTermLabel(applicationProduct.creditTerm) }}
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Installment Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.installmentType }}
+            </div>
+          </div>
         </section>
       </div>
     </div>

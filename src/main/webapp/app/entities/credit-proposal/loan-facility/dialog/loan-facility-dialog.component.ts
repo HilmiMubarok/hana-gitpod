@@ -1119,4 +1119,21 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     }
     return false;
   }
+
+  getCreditTermLabel(index: string) {
+    if (index) {
+      return this.creditTermList.find(obj => obj.code === index).value;
+    }
+    return '';
+  }
+
+  conditionReviewDppk() {
+    if (this.parentPath === 'review-dppk') {
+      return true;
+    }
+    if (this.parentPath === 'finalize-dppk' && this.selectedMenu !== 'loan-facility') {
+      return true;
+    }
+    return false;
+  }
 }
