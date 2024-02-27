@@ -33,6 +33,8 @@ export class BankAccountDialogLoanOperationComponent implements OnInit {
   public editStat = true;
   public parentPath = this.router.url.split('/')[1];
   public selectedMenu: string;
+  public isLabel = false;
+  public isElement = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -41,6 +43,8 @@ export class BankAccountDialogLoanOperationComponent implements OnInit {
       dataPayment: IApplicationPaymentPreferences;
       filteredPaymentType: IPaymentType[];
       edit: boolean;
+      element: boolean;
+      label: boolean;
     },
     public dialog: MatDialog,
     private _dialog: MatDialogRef<BankAccountDialogComponent>,
@@ -55,6 +59,8 @@ export class BankAccountDialogLoanOperationComponent implements OnInit {
     this.dataApplicationPayment = data.dataPayment;
     this.dataFilteredPaymentType = data.filteredPaymentType;
     this.editStat = data.edit;
+    this.isElement = data.element;
+    this.isLabel = data.label;
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {

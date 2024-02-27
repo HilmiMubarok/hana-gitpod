@@ -52,10 +52,12 @@ export class BankAccountLoanOperationComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isElement']) {
       this.isElement = changes['isElement'].currentValue;
+      console.log('element ', this.isElement);
     }
 
     if (changes['isLabel']) {
       this.isLabel = changes['isLabel'].currentValue;
+      console.log('islabel ', this.isLabel);
     }
   }
 
@@ -84,6 +86,8 @@ export class BankAccountLoanOperationComponent implements OnInit, OnChanges {
         dataPayment: dataApplicationPayment,
         filteredPaymentType: this.filteredPaymentType,
         edit: edited,
+        element: this.isElement,
+        label: this.isLabel,
       },
     });
     dialogRef.afterClosed().subscribe(res => {

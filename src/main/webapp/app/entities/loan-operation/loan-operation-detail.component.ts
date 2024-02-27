@@ -1765,6 +1765,7 @@ export class LoanOperationDetailComponent implements OnInit {
           this.isElRo = true;
           this.isLabelRo = false;
         }
+        console.log('element ', this.isElRo, ' lablel ', this.isLabelRo, ' res ', res);
       });
   }
 }
