@@ -84,6 +84,8 @@ export class BankAccountLoanOperationComponent implements OnInit, OnChanges {
         dataPayment: dataApplicationPayment,
         filteredPaymentType: this.filteredPaymentType,
         edit: edited,
+        element: this.isElement,
+        label: this.isLabel,
       },
     });
     dialogRef.afterClosed().subscribe(res => {
