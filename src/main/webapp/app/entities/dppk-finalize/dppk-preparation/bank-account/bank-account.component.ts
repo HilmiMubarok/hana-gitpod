@@ -12,6 +12,7 @@ import { IPaymentType } from 'app/entities/payment-type/payment-type.model';
 import { IBankAcountModel } from 'app/entities/bank-account/bank-account.model';
 import { BankAccountService } from 'app/entities/bank-account/bank-account.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-bank-account',
@@ -23,6 +24,7 @@ export class BankAccountComponent implements OnInit {
   public paymentType: IPaymentType[] = [];
   public filteredPaymentType: IPaymentType[] = [];
   public bankAccountData: IBankAcountModel[] = [];
+  public parentPath = this.router.url.split('/')[1];
 
   @Input()
   get creditProposal() {
@@ -41,7 +43,8 @@ export class BankAccountComponent implements OnInit {
     public dialog: MatDialog,
     protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService,
     private paymentTypeService: PaymentTypeService,
-    private bankAccountService: BankAccountService
+    private bankAccountService: BankAccountService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -141,5 +144,12 @@ export class BankAccountComponent implements OnInit {
       return name.accountName;
     }
     return '';
+  }
+
+  conditionReviewDppk() {
+    if (this.parentPath === 'review-dppk') {
+      return true;
+    }
+    return false;
   }
 }
