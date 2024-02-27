@@ -70,6 +70,8 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 @Component({
   selector: 'jhi-dppk-review-floating',
   templateUrl: './dppk-review-floating.component.html',
@@ -133,8 +135,8 @@ export class DppkReviewDetailComponent implements OnInit {
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
 
-  public creditProposal: IDppkReview;
-  public creditProposalStartState: IDppkReview;
+  public creditProposal: ICreditProposal;
+  public creditProposalStartState: ICreditProposal;
 
   public proposalType: object[];
 
@@ -213,7 +215,8 @@ export class DppkReviewDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private entitiyPropertiesService: EntitiyPropertiesService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -524,6 +527,7 @@ export class DppkReviewDetailComponent implements OnInit {
     this.loadDataBy();
     this.showTextMenu();
     // this.cpGroub();
+    this.setDppkNumber();
   }
 
   public goToSubMenu(menu: string): void {
@@ -1727,6 +1731,19 @@ export class DppkReviewDetailComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  public setDppkNumber() {
+    const idx = this.creditProposal.entityProperties.findIndex(obj => obj.entityPropertyTypeId === 'DPPK');
+    if (idx) {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties[idx] = res;
+      });
+    } else {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties.push(res);
+      });
+    }
   }
 }
 interface IObj {
