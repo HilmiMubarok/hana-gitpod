@@ -275,8 +275,11 @@
             <!-- Loan facility -->
             <div class="wrapper-card">
               <e-card class="mb-3">
-                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
-                </jhi-credit-proposal-tab-loan-facility-detail>
+                <jhi-loan-operation-loan-facility-detail
+                  [creditProposal]="creditProposal"
+                  [isLabel]="isLabelRo"
+                  [isElement]="isElRo"
+                ></jhi-loan-operation-loan-facility-detail>
               </e-card>
             </div>
 
@@ -339,8 +342,12 @@
 
           <!-- loan facility detail -->
           <div *ngIf="clickedMenu === 'loan-facility'">
-            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
-            </jhi-credit-proposal-tab-loan-facility-detail>
+            <jhi-loan-operation-loan-facility-detail
+              [creditProposal]="creditProposal"
+              [isLabel]="isLabelRo"
+              [isElement]="isElRo"
+              [parentSource]="'credit-agreement'"
+            ></jhi-loan-operation-loan-facility-detail>
           </div>
 
           <!-- dppk finalize -->
