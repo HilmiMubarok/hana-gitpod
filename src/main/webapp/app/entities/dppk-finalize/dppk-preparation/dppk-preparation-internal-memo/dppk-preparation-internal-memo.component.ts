@@ -39,6 +39,7 @@ export class DppkPreparationInternalMemoComponent implements OnChanges {
   public folders: Object[];
   private bucket: string;
   public change: any;
+  public parentPath = this.router.url.split('/')[1];
 
   constructor(
     private storageService: StorageService,
@@ -309,5 +310,12 @@ export class DppkPreparationInternalMemoComponent implements OnChanges {
     } else {
       return true;
     }
+  }
+
+  conditionReviewDppk() {
+    if (this.parentPath === 'review-dppk') {
+      return true;
+    }
+    return false;
   }
 }

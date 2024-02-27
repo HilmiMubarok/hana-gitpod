@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IApplicationPaymentPreferences } from 'app/entities/application-payment-preference/application-payment-preference.model';
 import { ApplicationPaymentPreferencesService } from 'app/entities/application-payment-preference/application-payment-preference.service';
 import { IBankAcountModel } from 'app/entities/bank-account/bank-account.model';
@@ -36,6 +37,8 @@ export class BankAccountDialogComponent implements OnInit {
   public dataApplicationPayment: IApplicationPaymentPreferences;
   public dataApplicationPaymentAll: IApplicationPaymentPreferences[] = [];
   public editStat = true;
+  public parentPath = this.router.url.split('/')[1];
+  public selectedMenu: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -50,12 +53,20 @@ export class BankAccountDialogComponent implements OnInit {
     private paymentTypeService: PaymentTypeService,
     private bankAccountService: BankAccountService,
     private uomService: UomService,
-    protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService
+    protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService,
+    private router: Router,
+    protected activatedRoute: ActivatedRoute
   ) {
     this.creditProposal = data.creditProposal;
     this.dataApplicationPayment = data.dataPayment;
     this.dataFilteredPaymentType = data.filteredPaymentType;
     this.editStat = data.edit;
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.selectedMenu = subRoute;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -78,6 +89,10 @@ export class BankAccountDialogComponent implements OnInit {
         this._dialog.close();
       }
     });
+  }
+
+  public close() {
+    this._dialog.close();
   }
 
   public onSave() {
@@ -161,5 +176,12 @@ export class BankAccountDialogComponent implements OnInit {
       return this.accountName;
     }
     return '';
+  }
+
+  conditionReviewDppk() {
+    if (this.parentPath === 'review-dppk') {
+      return true;
+    }
+    return false;
   }
 }

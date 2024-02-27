@@ -34,6 +34,7 @@ export class GenerateDraftDppkComponent implements OnInit {
   // public fileTypeSelected: string;
   public fileTypeSelected = 'Word';
   public dataPkDraft: object[];
+  public parentPath = this.router.url.split('/')[1];
 
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
   constructor(
@@ -47,7 +48,6 @@ export class GenerateDraftDppkComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('item', this.item.agreements[0].id);
     this.getBucketNameSummary();
   }
 
@@ -208,6 +208,13 @@ export class GenerateDraftDppkComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  conditionReviewDppk() {
+    if (this.parentPath === 'review-dppk') {
+      return true;
+    }
+    return false;
   }
 }
 
