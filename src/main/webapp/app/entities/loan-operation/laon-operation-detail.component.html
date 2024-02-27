@@ -385,18 +385,6 @@
             <e-card>
               <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
             </e-card>
-            <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk'">
-              <e-card>
-                <jhi-loan-analys-opinion-compliance-part
-                  #loanAnalysOpinionCompliancePartComponent
-                  (uuidPath)="setUuidPathCompliance($event)"
-                  (positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
-                  (typeOpinion)="setTypeOpinion($event)"
-                  [creditProposalItem]="creditProposal"
-                >
-                </jhi-loan-analys-opinion-compliance-part>
-              </e-card>
-            </div>
           </div>
 
           <!-- opinion -->
