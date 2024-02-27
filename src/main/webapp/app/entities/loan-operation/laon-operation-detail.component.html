@@ -352,7 +352,11 @@
 
           <!-- dppk finalize -->
           <div *ngIf="clickedMenu === 'dppk'">
-            <jhi-dppk-preparation [creditProposal]="creditProposal"></jhi-dppk-preparation>
+            <jhi-dppk-finalize-loan-operation
+              [isLabel]="isLabelRo"
+              [isElement]="isElRo"
+              [creditProposal]="creditProposal"
+            ></jhi-dppk-finalize-loan-operation>
           </div>
 
           <div *ngIf="clickedMenu === 'insurance-information'">

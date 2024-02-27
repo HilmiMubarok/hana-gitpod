@@ -1,0 +1,321 @@
+.e-card {
+  padding: 10px;
+  margin-bottom: 1rem;
+}
+
+.e-card .e-card-header .e-card-header-caption .e-card-header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  font-style: normal;
+  line-height: 36px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.html * {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.e-card .e-card-header .e-card-header-caption .e-card-sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: red;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}
+.fontsebled {
+  font-size: 15px;
+  /* font-weight: 700; */
+  color: black;
+}
+
+.e-card-content {
+  border: 1px solid #008881;
+  margin: 1rem;
+}
+
+.e-grid .e-gridheader tr:first-child th {
+  background-color: rgba(0, 136, 129, 0.8);
+}
+
+.e-outline.e-input-group,
+.e-outline.e-input-group.e-control-wrapper,
+.e-outline.e-float-input,
+.e-outline.e-float-input.e-input-group,
+.e-outline.e-float-input.e-control-wrapper,
+.e-outline.e-float-input.e-input-group.e-control-wrapper {
+  margin-bottom: 1rem;
+}
+
+.button-info {
+  color: white;
+  padding: 10px;
+  background-color: #008881;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  font-style: normal;
+  border-radius: 6px;
+}
+
+table {
+  width: 100%;
+  th {
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black !important;
+    font-family: 'Poppins', sans-serif !important;
+  }
+  th:first-child {
+    border-top-left-radius: 15px;
+  }
+  th:last-child {
+    border-top-right-radius: 15px;
+  }
+  td {
+    font-family: 'Poppins', sans-serif !important;
+  }
+}
+
+mat-card-subtitle {
+  font-size: 24px;
+  font-weight: 500;
+  color: #008881;
+}
+
+.mat-success {
+  color: white;
+  background-color: #008881;
+  width: 320px;
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 5px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}
+
+.html * {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+// table-column
+.mat-column-facilityCategory {
+  text-align: left !important;
+}
+
+.mat-column-mainPlafond {
+  text-align: right !important;
+}
+
+.mat-column-proposeRate {
+  text-align: right !important;
+}
+
+.mat-column-outstanding {
+  text-align: right !important;
+}
+
+.mat-column-totalCreditLimit {
+  text-align: right;
+}
+
+.mat-column-currency {
+  text-align: left;
+}
+
+.mat-column-no {
+  text-align: right;
+  width: 5% !important;
+}
+.mat-columng-lvInternal {
+  text-align: right;
+}
+.mat-columng-mvInternal {
+  text-align: right;
+}
+.mat-columng-bindingValue {
+  text-align: right;
+}
+.mat-column-action {
+  width: 10% !important;
+}
+// table-column
+.confirm-button-yes {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-no {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-yes:active:hover:not([disabled]) {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-table {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 0 25px 0 0;
+  font-weight: 500;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 0 25px 0 0 !important;
+}
+
+// table exposure di CP
+.mat-column-facilityType {
+  text-align: left;
+}
+.mat-column-availableLimit {
+  text-align: right;
+}
+.mat-column-initialLimit {
+  text-align: right;
+}
+.mat-column-change {
+  text-align: right;
+}
+.mat-column-changes {
+  text-align: right;
+}
+.mat-column-os {
+  text-align: right;
+}
+.mat-column-provisionAmount {
+  text-align: right;
+}
+.mat-column-firstDisbursementDate {
+  text-align: right;
+}
+.mat-column-totalPlatfond {
+  text-align: right;
+}
+.mat-column-interet {
+  text-align: left;
+}
+.mat-column-provision {
+  text-align: right;
+}
+.mat-column-adminFee {
+  text-align: right;
+}
+.mat-column-firstDisbursmentDate {
+  text-align: right;
+}
+.mat-column-tenor {
+  text-align: left;
+}
+.mat-column-maturityDate {
+  text-align: right;
+}
+// table exposure di CP
+/* Mat-Input-Loan-Facility-Dialog */
+div ejs-numerictextbox div span {
+  display: none;
+}
