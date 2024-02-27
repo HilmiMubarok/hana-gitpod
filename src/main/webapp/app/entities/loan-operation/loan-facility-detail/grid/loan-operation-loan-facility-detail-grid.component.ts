@@ -19,6 +19,7 @@ import lodash from 'lodash';
 import moment from 'moment';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { LoanOperationLoanFacilityDetailDialogComponent } from '../dialog/loan-operation-loan-facility-dialog.component';
 
 @Component({
   selector: 'jhi-loan-operation-loan-facility-detail-grid',
@@ -211,7 +212,7 @@ export class LoanOperationLoanFacilityDetailGridComponent implements OnInit, OnC
 
     this.applicationProductStartState = lodash.cloneDeep(this.applicationProduct);
 
-    const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
+    const dialogRef = this.dialog.open(LoanOperationLoanFacilityDetailDialogComponent, {
       width: '80vw',
 
       data: {
@@ -219,6 +220,8 @@ export class LoanOperationLoanFacilityDetailGridComponent implements OnInit, OnC
         creditProposaldata: this.creditProposal,
         applicationProduct: this.applicationProduct,
         collateralInfo: this.collaterallInfo,
+        isElement: this.isElement,
+        isLabel: this.isLabel,
       },
     });
     dialogRef.afterClosed().subscribe(res => {
