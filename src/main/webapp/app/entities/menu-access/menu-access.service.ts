@@ -16,6 +16,7 @@ export class MenuAccessService extends AbstractEntityService<IMenuAccess> {
     super(http);
     this.menuPositionType = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-position-type/groupBy/');
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-position-type');
+    this.resourceUrlSegre = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/segregation-types');
   }
 
   public getMenuAccess(req?: any): Observable<HttpResponse<any>> {

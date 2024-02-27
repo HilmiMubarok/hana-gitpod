@@ -15,6 +15,15 @@
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field class="w-100" appearance="outline">
+    <mat-label>Segregation</mat-label>
+    <mat-select (selectionChange)="onSelecttype($event.value)">
+      <mat-option *ngFor="let item of segregationType" [value]="item.id">
+        {{ item.description }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <div style="text-align: center; margin: 0 auto">
     <button mat-raised-button mat-dialog-close (click)="openCancelDialog()" class="confirm-button-no">Close</button>
     <button class="confirm-button-yes" (click)="save()" mat-raised-button>Save</button>
