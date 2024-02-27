@@ -490,6 +490,7 @@ import { DppkPreparationInternalMemoDialogComponent } from './dppk-finalize/dppk
 import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog-detail.component';
 import { CollateralOwnerAddressComponent } from './party-cif/collateral-info/collateral-owner-address.component';
 import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agreement/review-history/review-history.component';
+import { entityDppkFinalizeTemplate } from './entity-dppk-finalize-template.constant';
 import { LoanOperationLoanFacilityTemplate } from './loan-operation/loan-facility-detail/loan-operation-loan-facility-template';
 
 @NgModule({
@@ -531,6 +532,7 @@ import { LoanOperationLoanFacilityTemplate } from './loan-operation/loan-facilit
   declarations: [
     ...entityDialogModule,
     ...entityTemplate,
+    ...entityDppkFinalizeTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
@@ -1072,6 +1074,7 @@ import { LoanOperationLoanFacilityTemplate } from './loan-operation/loan-facilit
     ...entityTemplate,
     ...LoanOperationLoanFacilityTemplate,
 
+    ...entityDppkFinalizeTemplate,
     ReviewHistoryComponent,
     LoanPurposeComponent,
 
