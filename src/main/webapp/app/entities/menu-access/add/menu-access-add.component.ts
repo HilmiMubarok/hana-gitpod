@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 })
 export class MenuAccessAddComponent implements OnInit {
   public position = [];
+  public segregationType = [];
   public positionAccess: IMenuAccess;
   public typeposisi: string;
   id;
@@ -38,11 +39,13 @@ export class MenuAccessAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPosition();
+    this.getSegreType();
   }
 
   public positionId: string;
+  public segregationTypeId: string;
   public positionDescription: string;
-  // public parentMenuItemId:string;
+  public segregationTypeDescription: string;
 
   public getPosition(): void {
     this.positionTypeService
@@ -65,6 +68,26 @@ export class MenuAccessAddComponent implements OnInit {
         }
       });
   }
+  public getSegreType(): void {
+    this.menuAccessService
+      .querySegre({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        console.log('dede', res.body);
+        this.segregationType = res.body;
+        if (this.segregationType.length > 0) {
+          let segreId: string;
+          let segreDesc: string;
+          for (let i = 0; i < this.segregationType.length; i++) {
+            segreId = this.segregationType[i].id;
+            segreDesc = this.segregationType[i].description;
+          }
+          console.log('kaka', this.segregationType);
+        }
+      });
+  }
 
   public save(): void {
     // create
@@ -81,14 +104,19 @@ export class MenuAccessAddComponent implements OnInit {
         parentMenuItemId: this.positionAccess[0].parentId,
         positionDescription: this.positionDescription,
         positionId: this.positionId,
+        segregationTypeId: this.segregationTypeId,
+        segregationTypeDescription: this.segregationTypeDescription,
       };
-
       this._dialog.close(newPos);
     }
   }
 
   public onSelect(event: any): void {
     this.positionId = event;
+  }
+  public onSelecttype(event: any): void {
+    this.segregationTypeId = event;
+    console.log('Selected value:', event);
   }
 
   displayedColumns: string[] = ['no', 'position'];

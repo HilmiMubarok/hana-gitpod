@@ -14,6 +14,7 @@ export class AbstractEntityService<T> {
   caches$: Observable<T[]> = this.cacheSubject.asObservable();
 
   protected resourceUrl: string;
+  protected resourceUrlSegre: string;
   protected resourceUrlNew: string;
   protected resourceUrlCash: string;
   protected resourceSearchUrl: string;
@@ -221,6 +222,13 @@ export class AbstractEntityService<T> {
 
   processTask(task: IProcessTask): Observable<HttpResponse<ITaskResult>> {
     return this.http.post<ITaskResult>(`${this.resourceUrl}/process-task`, task, { observe: 'response' });
+  }
+
+  querySegre(req?: any): Observable<HttpResponse<T[]>> {
+    return this.http
+      .get<T[]>(this.resourceUrlSegre, { params: req, observe: 'response' })
+      .pipe(map((res: HttpResponse<T[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<T[]>) => this.preLoadItemArray(res)));
   }
 
   public setValue(item: any, id: string, value?: any) {
