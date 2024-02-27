@@ -18,7 +18,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import lodash from 'lodash';
 import moment from 'moment';
 import { MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-loan-operation-loan-facility-detail-grid',
@@ -175,9 +175,12 @@ export class LoanOperationLoanFacilityDetailGridComponent implements OnInit, OnC
   public currency() {
     if (this.applicationProduct.currencyId !== 'IDR') {
       const setDate = new Date().toISOString().split('T')[0];
-      this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-        this.kurs = res.body[0]?.factor;
-      });
+      this.creditProposalService
+        .getCurrency('USD', 'IDR', setDate.replace(/-/g, ''))
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(res => {
+          this.kurs = res.body[0]?.factor;
+        });
     }
   }
 
@@ -343,6 +346,7 @@ export class LoanOperationLoanFacilityDetailGridComponent implements OnInit, OnC
         page: 0,
         size: 9999,
       })
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.interestTypeList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
