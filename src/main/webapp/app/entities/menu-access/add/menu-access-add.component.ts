@@ -75,7 +75,6 @@ export class MenuAccessAddComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        console.log('dede', res.body);
         this.segregationType = res.body;
         if (this.segregationType.length > 0) {
           let segreId: string;
@@ -84,7 +83,6 @@ export class MenuAccessAddComponent implements OnInit {
             segreId = this.segregationType[i].id;
             segreDesc = this.segregationType[i].description;
           }
-          console.log('kaka', this.segregationType);
         }
       });
   }
@@ -116,7 +114,6 @@ export class MenuAccessAddComponent implements OnInit {
   }
   public onSelecttype(event: any): void {
     this.segregationTypeId = event;
-    console.log('Selected value:', event);
   }
 
   displayedColumns: string[] = ['no', 'position'];
