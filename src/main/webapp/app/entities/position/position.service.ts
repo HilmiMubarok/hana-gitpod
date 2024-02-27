@@ -32,12 +32,23 @@ export class PositionService extends AbstractEntityService<IPosition> {
     });
   }
 
-  public getPositionAssignTo(idPositionType: string, idInternal: string, req?: any) {
+  public getPositionAssignTo(idPositionType: any, idInternal: string, req?: any) {
     const options = createRequestOption(req);
     return this.http.get<IPosition[]>(
       this.cashPositionResource + `/find-by/position-type/${idPositionType}/internal/${idInternal}/superordinate-internal`,
       {
         params: options,
+        observe: 'response',
+      }
+    );
+  }
+
+  public getPositionAssignToMultiplePosition(idPositionType: any, idInternal: string, req?: any): Observable<HttpResponse<IPosition[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<IPosition[]>(
+      `${this.cashPositionResource}/find-by/multiple-position-type/internal/${idInternal}/active?idPositionType=${idPositionType}`,
+      {
+        params: options, // Convert array to comma-separated string
         observe: 'response',
       }
     );
