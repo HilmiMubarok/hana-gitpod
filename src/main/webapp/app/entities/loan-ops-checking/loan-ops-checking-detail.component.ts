@@ -48,6 +48,7 @@ import { ILoanOPSChecking } from './loan-ops-checking.model';
 import { LoanOpsCheckingService } from './loan-ops-checking.service';
 import { LoanOpsCheckingProcessService } from './loan-ops-checking-process.service';
 import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
+import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 @Component({
   selector: 'jhi-loan-ops-checking-detail',
   templateUrl: './loan-ops-checking-detail.component.html',
@@ -148,7 +149,8 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private menuPermissionService: MenuPermissionService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -328,6 +330,7 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
 
     this.loadDataBy();
     this.showTextMenu();
+    this.getMenuPermission();
   }
 
   public goToSubMenu(menu: string): void {
@@ -670,12 +673,12 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
     }
   }
 
-  disabledProptype() {
-    if (this.parentPath === 'cp-status-approval') {
-      return true;
-    }
-    return false;
-  }
+  // disabledProptype() {
+  //   if (this.parentPath === 'cp-status-approval') {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
@@ -741,6 +744,25 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  public isValuePermissionChecking = [];
+  public isLabel = false;
+  public isElement = false;
+
+  private getMenuPermission() {
+    this.menuPermissionService
+      .getAppMenuPermission('LOAN_OPERATION_CHECKING', this.getLocStor('POSO'), this.creditProposal.statusId)
+      .subscribe(res => {
+        this.isValuePermissionChecking = res.body;
+        if (this.isValuePermissionChecking.length === 0) {
+          this.isLabel = true;
+          this.isElement = false;
+        } else {
+          this.isElement = true;
+          this.isLabel = false;
+        }
+      });
   }
 }
 interface IObj {
