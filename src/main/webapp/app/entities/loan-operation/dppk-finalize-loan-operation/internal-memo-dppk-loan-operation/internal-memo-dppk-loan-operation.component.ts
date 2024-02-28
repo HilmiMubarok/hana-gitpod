@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
@@ -20,7 +20,7 @@ import { InternalMemoDppkLoanOperationDialogDetailComponent } from './internal-m
   templateUrl: './internal-memo-dppk-loan-operation.component.html',
   styleUrls: ['../../../party-cif/party-cif.style.scss'],
 })
-export class InternalMemoDppkLoanOperationComponent {
+export class InternalMemoDppkLoanOperationComponent implements OnChanges {
   public _creditProposal: ICreditProposal;
   @Input() isElement: Boolean = false;
   @Input() isLabel: Boolean = false;
