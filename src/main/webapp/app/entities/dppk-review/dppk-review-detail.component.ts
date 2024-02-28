@@ -463,7 +463,7 @@ export class DppkReviewDetailComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Save Success',
+            detail: 'Save Success 10',
           });
           this.saveWord = false;
         }
@@ -762,9 +762,6 @@ export class DppkReviewDetailComponent implements OnInit {
 
       if (this.creditProposal.id) {
         if (this.router.url.split('/')[1] === 'review-dppk') {
-          this.saveUpdate('not-complete', source);
-        }
-        if (this.router.url.split('/')[1] === 'review-dppk') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -820,13 +817,6 @@ export class DppkReviewDetailComponent implements OnInit {
                       } else {
                         ++countValidate;
                       }
-
-                      /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
                     }
                   } else {
                     // toast opinion empty
@@ -844,17 +834,6 @@ export class DppkReviewDetailComponent implements OnInit {
                         const fileReaderCondition: FileReader = new FileReader();
                         fileReaderCondition.onload = (eCondition: any) => {
                           const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-                          /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
 
                           if (
                             testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -1659,15 +1638,16 @@ export class DppkReviewDetailComponent implements OnInit {
   }
 
   // Untuk Summary Generate
-  private KEYG = 'credit_proposal/summary';
+  private KEYG = 'generate-final';
   private ngUnsubscribe = new Subject();
-  public dataOfferingSPPK = [];
+  public dataDpdlFinal = [];
+  // Untuk Summary Generate
   private getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
 
       if (this.id) {
-        this.KEYG += `/${this.id}/`;
+        this.KEYG += `/${this.id}/document/`;
       } else {
         console.warn('Param id not found');
       }
@@ -1701,12 +1681,13 @@ export class DppkReviewDetailComponent implements OnInit {
           i++;
         });
 
-        this.dataOfferingSPPK = data;
+        this.dataDpdlFinal = data;
       });
   }
 
-  private generate(): void {
-    this.generateFileOfferingSPPK().then(() => {
+  // Change the access modifier to public
+  public generateDPPKFinal(): void {
+    this.generateFileDPPKFinal().then(() => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
@@ -1714,6 +1695,22 @@ export class DppkReviewDetailComponent implements OnInit {
       });
       this.onRefresh();
     });
+  }
+
+  private async generateFileDPPKFinal(): Promise<void> {
+    const fileDpdlFinal = await firstValueFrom(
+      this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
+    );
+  }
+
+  public showButtonGenerate() {
+    const parentPath = this.router.url.split('/')[1];
+    if (parentPath.match(/review-dppk/g) && this.creditProposal.statusId === 'DPPK_REVIEW_CHECKER2') {
+      console.log('ini 2', this.creditProposal.statusId);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private async generateFileOfferingSPPK(): Promise<void> {

@@ -299,21 +299,6 @@
                 </e-card>
               </div>
 
-              <!-- Collateral info -->
-              <div class="wrapper-card">
-                <e-card class="mb-3">
-                  <jhi-credit-proposal-collateral-info
-                    #creditProposalCollateralInfoComponent
-                    [creditProposal]="creditProposal"
-                    [collateralProperties]="collateralProperties"
-                    [source]="'summaryAll'"
-                    [parentSource]="'loan-analys'"
-                    [isViewMode]="true"
-                  >
-                  </jhi-credit-proposal-collateral-info>
-                </e-card>
-              </div>
-
               <!-- Document: summary gabung -->
               <div class="wrapper-card">
                 <e-card class="mb-3">
@@ -323,6 +308,7 @@
                     [source]="'summaryAll'"
                     [fileSPPK]="dataOfferingSPPK"
                     [item]="creditProposal"
+                    [fileDpdlFinal]="dataDpdlFinal"
                     [sourceComponent]="'loan'"
                   >
                   </jhi-credit-proposal-tab-summary>
