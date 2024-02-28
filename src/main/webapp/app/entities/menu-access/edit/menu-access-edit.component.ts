@@ -53,7 +53,7 @@ export class MenuAccessEditComponent implements OnInit {
       });
   }
 
-  displayedColumns: string[] = ['no', 'position', 'description', 'action'];
+  displayedColumns: string[] = ['no', 'position', 'description', 'segregation', 'action'];
   dataSource$: Observable<Array<any>>;
 
   public typeID: string;

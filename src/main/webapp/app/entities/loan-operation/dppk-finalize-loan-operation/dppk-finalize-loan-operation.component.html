@@ -1,0 +1,84 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">DPPK Preparation</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <div class="col-6">
+        <section>
+          <div class="mb-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>DPPK Number</mat-label>
+              <input matInput type="text" disabled [(ngModel)]="entityDppk.dppkNumber" />
+            </mat-form-field>
+          </div>
+        </section>
+      </div>
+      <div class="col-6">
+        <section>
+          <div class="mb-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>DPPK Date</mat-label>
+              <input [matDatepicker]="dppkDate" matInput [(ngModel)]="entityDppk.dppkDate" disabled />
+              <mat-datepicker-toggle disabled matSuffix [for]="dppkDate"></mat-datepicker-toggle>
+              <mat-datepicker #dppkDate disabled></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Bank Account</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-bank-account-loan-operation
+        [creditProposal]="creditProposal"
+        [isLabel]="isLabel"
+        [isElement]="isElement"
+      ></jhi-bank-account-loan-operation>
+    </div>
+  </div>
+</div>
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Internal Memo</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-internal-memo-dppk-loan-operation
+        [creditProposal]="creditProposal"
+        [isLabel]="isLabel"
+        [isElement]="isElement"
+      ></jhi-internal-memo-dppk-loan-operation>
+    </div>
+  </div>
+</div>
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Generate Draft DPPK</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-generate-draft-dppk [item]="creditProposal"></jhi-generate-draft-dppk>
+    </div>
+  </div>
+</div>

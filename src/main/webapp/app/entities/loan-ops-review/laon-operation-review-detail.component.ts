@@ -65,6 +65,7 @@ import { ViewportScroller } from '@angular/common';
 import { ILoanOPSReview } from './laon-operation-review.model';
 import { LoanOpsReviewService } from './laon-operation-review.service';
 import { LoanOpsReviewProcessService } from './laon-operation-review-process.service';
+import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 @Component({
   selector: 'jhi-laon-operation-review-detail',
   templateUrl: './laon-operation-review-detail.component.html',
@@ -208,7 +209,8 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private menuPermissionService: MenuPermissionService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -515,6 +517,7 @@ export class LoanOpsReviewDetailComponent implements OnInit {
 
     this.loadDataBy();
     this.showTextMenu();
+    this.getMenuPermission();
     // this.cpGroub();
   }
 
@@ -1719,6 +1722,26 @@ export class LoanOpsReviewDetailComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  public isValuePermissionReview = [];
+  public isLabel = false;
+  public isElement = false;
+
+  private getMenuPermission() {
+    this.menuPermissionService
+      .getAppMenuPermission('LOAN_OPERATION_REVIEW', this.getLocStor('POSO'), this.creditProposal.statusId)
+      .subscribe(res => {
+        console.log('WIDAGDO', res);
+        this.isValuePermissionReview = res.body;
+        if (this.isValuePermissionReview.length === 0) {
+          this.isLabel = true;
+          this.isElement = false;
+        } else {
+          this.isElement = true;
+          this.isLabel = false;
+        }
+      });
   }
 }
 interface IObj {

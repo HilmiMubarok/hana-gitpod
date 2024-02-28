@@ -1,0 +1,98 @@
+<h2 mat-dialog-title class="header-title">Bank Account</h2>
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <section *ngIf="isElement">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Account Type</mat-label>
+        <mat-select
+          required
+          [(ngModel)]="dataApplicationPayment.paymentTypeId"
+          (selectionChange)="changePaymentType($event.value)"
+          [disabled]="editStat"
+        >
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of dataFilteredPaymentType" [value]="item.id">
+            {{ item.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+    <section *ngIf="isLabel">
+      <div class="fontsebled row">
+        <div class="col-4">Account Type</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ dataApplicationPayment.paymentTypeDescription }}
+        </div>
+      </div>
+    </section>
+    <section *ngIf="isElement">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Currency</mat-label>
+        <mat-select required [(ngModel)]="dataApplicationPayment.currencyId" (selectionChange)="changeCurrency($event.value)">
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of currencyData" [value]="item.id">
+            {{ item.id }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+    <section *ngIf="isLabel">
+      <div class="fontsebled row">
+        <div class="col-4">Currency</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ dataApplicationPayment.currencyId }}
+        </div>
+      </div>
+    </section>
+    <section *ngIf="isElement">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Bank Name</mat-label>
+        <mat-select required (selectionChange)="changeBankAccount($event.value)" [(ngModel)]="dataApplicationPayment.bankAccountId">
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of filteredBankAccountCurrency" [value]="item.id">
+            {{ item.finInstituteName }} - {{ item.accountNumber }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+    <section *ngIf="isLabel">
+      <div class="fontsebled row">
+        <div class="col-4">Bank Name</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ dataApplicationPayment.bankAccountFinancialInstituteName }}
+        </div>
+      </div>
+    </section>
+    <section *ngIf="isElement">
+      <div class="mb-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Account Name</mat-label>
+          <input matInput type="text" disabled [value]="getAccountName()" />
+        </mat-form-field>
+      </div>
+    </section>
+    <section *ngIf="isLabel">
+      <div class="fontsebled row">
+        <div class="col-4">Account Name</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ getAccountName() }}
+        </div>
+      </div>
+    </section>
+  </div>
+  <section class="align-center" *ngIf="isElement">
+    <div class="mt-3 text-center">
+      <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+      <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
+    </div>
+  </section>
+  <section class="align-center" *ngIf="isLabel">
+    <div class="mt-3 text-center">
+      <button mat-raised-button class="confirm-button-no" (click)="close()">Close</button>
+    </div>
+  </section>
+</mat-dialog-content>

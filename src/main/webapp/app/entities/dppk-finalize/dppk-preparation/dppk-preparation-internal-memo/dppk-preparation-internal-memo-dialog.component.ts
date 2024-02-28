@@ -65,6 +65,8 @@ export class DppkPreparationInternalMemoDialogComponent implements OnInit {
   public folders2 = [];
   public folderFiles = [];
   public filesStatus: string;
+  public parentPath = this.router.url.split('/')[1];
+
   constructor(
     private templateService: TemplateService,
     private dialog: MatDialog,
@@ -422,5 +424,12 @@ export class DppkPreparationInternalMemoDialogComponent implements OnInit {
       return inputString.replace(/&/g, 'dan');
     }
     return inputString;
+  }
+
+  conditionReviewDppk() {
+    if (this.parentPath === 'review-dppk') {
+      return true;
+    }
+    return false;
   }
 }

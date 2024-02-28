@@ -275,8 +275,11 @@
             <!-- Loan facility -->
             <div class="wrapper-card">
               <e-card class="mb-3">
-                <jhi-credit-proposal-tab-loan-facility-detail [creditProposal]="creditProposal">
-                </jhi-credit-proposal-tab-loan-facility-detail>
+                <jhi-loan-operation-loan-facility-detail
+                  [creditProposal]="creditProposal"
+                  [isLabel]="isLabelRo"
+                  [isElement]="isElRo"
+                ></jhi-loan-operation-loan-facility-detail>
               </e-card>
             </div>
 
@@ -339,13 +342,21 @@
 
           <!-- loan facility detail -->
           <div *ngIf="clickedMenu === 'loan-facility'">
-            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
-            </jhi-credit-proposal-tab-loan-facility-detail>
+            <jhi-loan-operation-loan-facility-detail
+              [creditProposal]="creditProposal"
+              [isLabel]="isLabelRo"
+              [isElement]="isElRo"
+              [parentSource]="'credit-agreement'"
+            ></jhi-loan-operation-loan-facility-detail>
           </div>
 
           <!-- dppk finalize -->
           <div *ngIf="clickedMenu === 'dppk'">
-            <jhi-dppk-preparation [creditProposal]="creditProposal"></jhi-dppk-preparation>
+            <jhi-dppk-finalize-loan-operation
+              [isLabel]="isLabelRo"
+              [isElement]="isElRo"
+              [creditProposal]="creditProposal"
+            ></jhi-dppk-finalize-loan-operation>
           </div>
 
           <div *ngIf="clickedMenu === 'insurance-information'">
@@ -378,18 +389,6 @@
             <e-card>
               <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
             </e-card>
-            <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk'">
-              <e-card>
-                <jhi-loan-analys-opinion-compliance-part
-                  #loanAnalysOpinionCompliancePartComponent
-                  (uuidPath)="setUuidPathCompliance($event)"
-                  (positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
-                  (typeOpinion)="setTypeOpinion($event)"
-                  [creditProposalItem]="creditProposal"
-                >
-                </jhi-loan-analys-opinion-compliance-part>
-              </e-card>
-            </div>
           </div>
 
           <!-- opinion -->
@@ -428,11 +427,6 @@
                 [collateralPropertyGroupData]="collateralPropertyGroupData"
               ></jhi-compare-data>
             </e-card>
-          </div>
-
-          <!-- DPDL-LEGAL-DOCUMENT -->
-          <div *ngIf="clickedMenu === 'dpdl'">
-            <jhi-dpdl-document [creditProposal]="creditProposal"> </jhi-dpdl-document>
           </div>
         </div>
 
@@ -497,8 +491,8 @@
         </div>
 
         <!-- DPDL-LEGAL-DOCUMENT -->
-        <div *ngIf="clickedMenu === 'dpdl'">
-          <jhi-dpdl-document [creditProposal]="creditProposal"> </jhi-dpdl-document>
+        <div *ngIf="clickedMenu === 'dpdl-loan-operation'">
+          <jhi-dpdl-document-loan-operation [creditProposal]="creditProposal"> </jhi-dpdl-document-loan-operation>
         </div>
       </div>
     </div>

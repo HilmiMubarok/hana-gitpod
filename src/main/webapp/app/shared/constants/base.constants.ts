@@ -3103,10 +3103,6 @@ export const BASIC_SUBMENU_DPPK_MEMO: object[] = [
     text: 'Insurance',
   },
   {
-    id: 'internal_memo',
-    text: 'Internal Memo',
-  },
-  {
     id: 'collateral-info',
     text: 'collateral info',
   },
@@ -3130,6 +3126,11 @@ export const BASIC_SUBMENU_DPPK_MEMO: object[] = [
     id: 'covenant-temp',
     text: 'Covenant & Document Checklist',
   },
+  // DPDL-LEGAL-DOCUMENT
+  {
+    id: 'dpdl',
+    text: 'DPDL',
+  },
 ];
 export const BASIC_SUBMENU_DPPK: object[] = [
   {
@@ -3147,10 +3148,6 @@ export const BASIC_SUBMENU_DPPK: object[] = [
   {
     id: 'insurance-information',
     text: 'Insurance',
-  },
-  {
-    id: 'internal_memo',
-    text: 'Internal Memo',
   },
   {
     id: 'collateral-info',
@@ -3190,6 +3187,10 @@ export const BASIC_SUBMENU_DPPK_REVIEW: object[] = [
   {
     id: 'loan-facility',
     text: 'Loan Facility Detail',
+  },
+  {
+    id: 'dppk',
+    text: 'DPPK Finalize',
   },
   {
     id: 'collateral-info',
@@ -3254,6 +3255,11 @@ export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
   {
     id: 'covenant-temp',
     text: 'Covenant & Document Checklist',
+  },
+  // DPDL-LEGAL-DOCUMENT
+  {
+    id: 'dpdl',
+    text: 'DPDL',
   },
 ];
 export const BASIC_SUBMENU_INSURANCE_CHECKING_MEMO: object[] = [
@@ -3337,7 +3343,7 @@ export const BASIC_SUBMENU_LOAN_OPS_DIST: object[] = [
     text: 'Insurance',
   },
   {
-    id: 'dpdl',
+    id: 'dpdl-loan-operation',
     text: 'DPDL',
   },
   {
