@@ -1,7 +1,9 @@
-import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, OnInit, Input } from '@angular/core';
 import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
 import { Browser } from '@syncfusion/ej2-base';
 import moment from 'moment';
+import { IChartsLayout, lineChartDummyData } from '../dashboard.model';
+import { DashboardService } from '../dashboard.service';
 
 @Component({
   selector: 'jhi-charts-layout',
@@ -10,6 +12,26 @@ import moment from 'moment';
   encapsulation: ViewEncapsulation.None,
 })
 export class ChartsLayoutComponent implements OnInit {
+  private _chartsAvailability: any;
+  private _idPosition: string;
+
+  @Input()
+  get chartsAvailability() {
+    return this._chartsAvailability;
+  }
+
+  set chartsAvailability(param: any) {
+    this._chartsAvailability = param;
+  }
+
+  get idPosition() {
+    return this._idPosition;
+  }
+
+  set idPosition(param: any) {
+    this._idPosition = param;
+  }
+
   public mediaQuery = window.matchMedia('(max-width: 1282px)');
 
   @ViewChild('predefine_dashboard')
@@ -48,83 +70,16 @@ export class ChartsLayoutComponent implements OnInit {
   selectedStatus: any | undefined;
 
   public filterRange = [];
+  public dahsboardAllDashboardData: IChartsLayout[] = [];
+  private lineChartData = lineChartDummyData;
+  public filteredLineChartData = this.lineChartData.sort(this.sortByDateAsc);
 
-  private dummyData: any = [
-    { data: 13, date: '2024/02/12' },
-    { data: 23, date: '2024/03/19' },
-    { data: 37, date: '2024/02/23' },
-    { data: 44, date: '2024/02/10' },
-    { data: 8, date: '2024/03/13' },
-    { data: 25, date: '2024/03/27' },
-    { data: 48, date: '2024/02/21' },
-    { data: 2, date: '2024/02/18' },
-    { data: 39, date: '2024/02/17' },
-    { data: 33, date: '2024/02/22' },
-    { data: 49, date: '2024/03/15' },
-    { data: 46, date: '2024/03/07' },
-    { data: 14, date: '2024/02/27' },
-    { data: 47, date: '2024/03/10' },
-    { data: 1, date: '2024/02/02' },
-    { data: 8, date: '2024/02/05' },
-    { data: 25, date: '2024/03/22' },
-    { data: 14, date: '2024/03/04' },
-    { data: 38, date: '2024/02/14' },
-    { data: 25, date: '2024/02/24' },
-    { data: 17, date: '2024/03/26' },
-    { data: 48, date: '2024/02/13' },
-    { data: 27, date: '2024/03/06' },
-    { data: 25, date: '2024/02/27' },
-    { data: 18, date: '2024/03/12' },
-    { data: 5, date: '2024/03/18' },
-    { data: 10, date: '2024/02/05' },
-    { data: 6, date: '2024/03/20' },
-    { data: 28, date: '2024/02/18' },
-    { data: 28, date: '2024/03/29' },
-    { data: 33, date: '2024/03/01' },
-    { data: 14, date: '2024/02/06' },
-    { data: 13, date: '2024/02/07' },
-    { data: 46, date: '2024/03/26' },
-    { data: 15, date: '2024/03/15' },
-    { data: 40, date: '2024/03/25' },
-    { data: 42, date: '2024/02/04' },
-    { data: 34, date: '2024/02/14' },
-    { data: 50, date: '2024/02/15' },
-    { data: 41, date: '2024/03/04' },
-    { data: 14, date: '2024/03/16' },
-    { data: 10, date: '2024/03/23' },
-    { data: 37, date: '2024/03/02' },
-    { data: 34, date: '2024/02/19' },
-    { data: 1, date: '2024/03/24' },
-    { data: 42, date: '2024/02/24' },
-    { data: 4, date: '2024/03/19' },
-    { data: 32, date: '2024/02/16' },
-    { data: 21, date: '2024/03/09' },
-    { data: 20, date: '2024/02/03' },
-    { data: 38, date: '2024/03/05' },
-    { data: 30, date: '2024/02/28' },
-    { data: 9, date: '2024/02/29' },
-    { data: 16, date: '2024/03/28' },
-    { data: 14, date: '2024/03/12' },
-    { data: 43, date: '2024/02/27' },
-    { data: 28, date: '2024/02/20' },
-    { data: 28, date: '2024/03/17' },
-    { data: 2, date: '2024/03/21' },
-    { data: 39, date: '2024/03/08' },
-    { data: 27, date: '2024/02/01' },
-    { data: 26, date: '2024/03/11' },
-    { data: 35, date: '2024/02/02' },
-    { data: 30, date: '2024/03/14' },
-    { data: 47, date: '2024/03/03' },
-    { data: 21, date: '2024/02/07' },
-  ];
-
-  public filteredLineChartData = this.dummyData.sort(this.sortByDateAsc);
-
-  constructor() {}
+  constructor(protected dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.initSize();
     this.filterRange = [];
+    // this.preLoadData();
     this.status = [
       { statusId: 'draft', statusDesc: 'Draft' },
       { statusId: 'returnBU', statusDesc: 'Return to BU' },
@@ -163,23 +118,6 @@ export class ChartsLayoutComponent implements OnInit {
     // }
   }
 
-  onButtonClick(): void {
-    const selectedElement: HTMLCollection = document.getElementsByClassName('e-selected-style');
-    this.dashboard.removeAll();
-    this.initializeTemplate(<HTMLElement>selectedElement[0]);
-  }
-  onTemplateClick(args: any): void {
-    const target: any = args.target;
-    const selectedElement: any = document.getElementsByClassName('e-selected-style');
-    if (selectedElement.length) {
-      selectedElement[0].classList.remove('e-selected-style');
-    }
-    if ((<HTMLElement>target).className === 'image-pattern-style') {
-      this.dashboard.removeAll();
-      this.initializeTemplate(<HTMLElement>args.target);
-    }
-    (<HTMLElement>target).classList.add('e-selected-style');
-  }
   public initializeTemplate(element: HTMLElement): void {
     const updatedPanels: PanelModel[] = [];
     const index: number = parseInt(element.getAttribute('data-id'), 10) - 1;
@@ -203,9 +141,48 @@ export class ChartsLayoutComponent implements OnInit {
       const startDate = moment(this.filterRange[0]).format('YYYY/MM/DD').toString();
       const endDate = moment(this.filterRange[1]).format('YYYY/MM/DD').toString();
 
-      this.filteredLineChartData = this.dummyData.filter(obj => obj.date >= startDate && obj.date <= endDate);
+      this.filteredLineChartData = this.lineChartData.filter(obj => obj.date >= startDate && obj.date <= endDate);
     }
   }
+  // public preLoadData(): void {
+  //   if (this.chartsAvailability.length > 0) {
+  //     const availableChartDueDate = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_DUEDATE'));
+  //     const availableChartStatus = this.chartsAvailability.filter(
+  //       obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
+  //     );
+  //     const availableChartProgress = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_PROGRESS'));
+
+  //     this.loadDueDate(availableChartDueDate);
+  //     this.loadSummaryStatus(availableChartStatus);
+  //     this.loadProgress(availableChartProgress);
+  //   }
+  // }
+
+  // loadDueDate(availableChartDueDate: any) {
+  //   if (availableChartDueDate.length > 0) {
+  //     const CP = availableChartDueDate.find(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
+  //     const appraisal = availableChartDueDate.find(obj => obj.menuItemId.includes('_APPRAISAL_'));
+
+  //     if (CP) {
+  //       this.dashboardService.creditProposals().getDueDate({ idPosition: this.idPosition });
+  //     }
+  //     if (appraisal) {
+  //       this.dashboardService.appraisal().getDueDate({ idPosition: this.idPosition });
+  //     }
+  //   }
+  // }
+  // loadSummaryStatus(availableChartStatus: any) {
+  //   if (availableChartStatus.length > 0) {
+  //     const CP = availableChartStatus.find(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
+  //     const appraisal = availableChartStatus.find(obj => obj.menuItemId.includes('_APPRAISAL_'));
+  //   }
+  // }
+  // loadProgress(availableChartProgress: any) {
+  //   if (availableChartProgress.length > 0) {
+  //     const CP = availableChartProgress.find(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
+  //     const appraisal = availableChartProgress.find(obj => obj.menuItemId.includes('_APPRAISAL_'));
+  //   }
+  // }
 
   // for demo purposes only
   private sortByDateAsc(a: any, b: any): number {

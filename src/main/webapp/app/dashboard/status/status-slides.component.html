@@ -1,17 +1,18 @@
-<div class="status-wrapper">
+<div class="status-wrapper" *ngIf="chartsData.length > 0">
   <p-carousel
-    [value]="passedData"
+    [value]="chartsData"
     [numVisible]="6"
     [numScroll]="2"
     [circular]="false"
     [responsiveOptions]="responsiveOptions"
     class="status-carousel"
   >
-    <!-- <ng-template pTemplate="header"> Status </ng-template> -->
     <ng-template let-datas pTemplate="item" let-i="index">
       <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
         <mat-card class="status-card">
-          <mat-card-header> {{ datas.title }} </mat-card-header>
+          <mat-card-header style="text-align: center !important" class="header-for-status-slide">
+            {{ datas.statusDescription }}
+          </mat-card-header>
           <mat-card-content style="margin-top: -0.3rem">
             <jhi-progress-status-bar [dataSource]="datas"></jhi-progress-status-bar>
           </mat-card-content>
@@ -19,4 +20,8 @@
       </div>
     </ng-template>
   </p-carousel>
+</div>
+
+<div *ngIf="chartsData.length === 0" class="no-data-available">
+  <label style="margin-top: -0.3rem; margin-left: 3rem"> No Data Available </label>
 </div>
