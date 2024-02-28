@@ -1,0 +1,216 @@
+<h2 mat-dialog-title class="header-title">Main Facility</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-6">
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Approval No</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.approvalNumber" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Approval No</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.approvalNumber }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Currency</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="myControlCurrency"
+                  [matAutocomplete]="auto"
+                  [(ngModel)]="mainCcy"
+                  (ngModelChange)="getMainCcy()"
+                />
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
+                  <mat-option *ngFor="let option of filteredOptionsCurrency | async" [value]="option">
+                    {{ option.abbreviation }} - {{ option.description }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Currency</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.currency }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Kurs</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.kurs" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Kurs</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.kurs }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Initial Limit</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.mainPlafond" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Initial Limit</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.mainPlafond | currency: ' ':'symbol':'1.0-0' }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Changes</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.changes" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Changes</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.changes | currency: ' ':'symbol':'1.0-0' }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Total Plafond</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.totalPlafond" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Total Plafond</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.totalPlafond | currency: ' ':'symbol':'1.0-0' }}</div>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-6">
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Current maturity Date</mat-label>
+                <input [matDatepicker]="currentMaturityDate" matInput type="text" [(ngModel)]="mainFacility.maturityDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="currentMaturityDate" disabled> </mat-datepicker-toggle>
+                <mat-datepicker #currentMaturityDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Current maturity Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.maturityDate | date: 'yyyy/MM/dd' }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Last Agreement Date</mat-label>
+                <input [matDatepicker]="lastAgremeentDate" matInput type="text" [(ngModel)]="mainFacility.lastAgreementDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="lastAgremeentDate" disabled> </mat-datepicker-toggle>
+                <mat-datepicker #lastAgremeentDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Last Agreement Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.lastAgreementDate | date: 'yyyy/MM/dd' }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Proposed maturity Date</mat-label>
+                <input [matDatepicker]="proposedMaturityDate" matInput type="text" [(ngModel)]="mainFacility.newMaturityDate" />
+                <mat-datepicker-toggle matSuffix [for]="proposedMaturityDate"> </mat-datepicker-toggle>
+                <mat-datepicker #proposedMaturityDate></mat-datepicker>
+                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Proposed maturity Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.newMaturityDate }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Jangka Waktu Plafond Awal</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" [(ngModel)]="mainFacility.startPeriodDate" />
+                  <input matEndDate placeholder="End date" [(ngModel)]="mainFacility.endPeriodDate" />
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Jangka Waktu Plafond Awal</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.startPeriodDate }} - {{ mainFacility.endPeriodDate }}</div>
+            </div>
+          </section>
+          <section *ngIf="isElement">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Jangka Waktu Plafond Akhir</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.endPeriodRemark" />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isLabel">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Jangka Waktu Plafond Akhir</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.endPeriodRemark }}</div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="align-center">
+  <section *ngIf="isLabel">
+    <div class="mt-3 text-center py-3">
+      <button mat-raised-button mat-dialog-close class="confirm-button-no" style="margin-right: 7px">Cancel</button>
+    </div>
+  </section>
+  <section *ngIf="isElement">
+    <div class="mt-3 text-center">
+      <button mat-raised-button class="confirm-button-no" style="margin-right: 7px" (click)="openCancelDialog()">Cancel</button>
+      <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+    </div>
+  </section>
+</mat-dialog-actions>

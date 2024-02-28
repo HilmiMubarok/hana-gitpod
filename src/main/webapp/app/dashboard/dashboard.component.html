@@ -1,25 +1,29 @@
 <!-- Status -->
-<div>
-  <div *ngFor="let item of availableStatus" calss="status-container mb-3">
-    <mat-card>
+<div *ngIf="groupByStatusDataSource?.length > 0">
+  <div calss="status-container mb-3">
+    <mat-card *ngFor="let item of groupByStatusDataSource" class="my-1">
       <mat-card-header>
         <mat-card-title>{{ item.menuItemDescription }}</mat-card-title>
       </mat-card-header>
-      <jhi-status-slides></jhi-status-slides>
+      <jhi-status-slides [chartsData]="item.chartsData"></jhi-status-slides>
     </mat-card>
   </div>
 
+  <div *ngIf="groupByStatusDataSource?.length === 0" class="control-section mt-3">
+    <mat-card> No Status Data Available </mat-card>
+  </div>
+
   <!-- Charts -->
-  <div *ngIf="mergedChartData !== null" class="control-section mt-3">
+  <div *ngIf="mergedChartData.length > 0" class="control-section mt-3">
     <mat-card *ngFor="let item of mergedChartData">
       <mat-card-header>
         <mat-card-title>{{ item.chartsTitle }}</mat-card-title>
       </mat-card-header>
-      <jhi-charts-layout></jhi-charts-layout>
+      <jhi-charts-layout [chartsAvailability]="availableChartCheck" [idPosition]="this.positionId"></jhi-charts-layout>
     </mat-card>
   </div>
 
-  <div *ngIf="mergedChartData === null" class="control-section mt-3">
+  <div *ngIf="mergedChartData.length === 0" class="control-section mt-3">
     <mat-card> No Charts Data Available </mat-card>
   </div>
 
