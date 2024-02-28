@@ -3256,6 +3256,11 @@ export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
     id: 'covenant-temp',
     text: 'Covenant & Document Checklist',
   },
+  // DPDL-LEGAL-DOCUMENT
+  {
+    id: 'dpdl',
+    text: 'DPDL',
+  },
 ];
 export const BASIC_SUBMENU_INSURANCE_CHECKING_MEMO: object[] = [
   {
@@ -3338,7 +3343,7 @@ export const BASIC_SUBMENU_LOAN_OPS_DIST: object[] = [
     text: 'Insurance',
   },
   {
-    id: 'dpdl',
+    id: 'dpdl-loan-operation',
     text: 'DPDL',
   },
   {
