@@ -1,7 +1,7 @@
 <div class="e-card">
   <div class="e-card-header">
     <div class="e-card-header-caption">
-      <div class="e-card-header-title">DPPK Preparation loan op</div>
+      <div class="e-card-header-title">DPPK Preparation</div>
     </div>
   </div>
 
@@ -60,7 +60,11 @@
 
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-dppk-preparation-internal-memo [creditProposal]="creditProposal"></jhi-dppk-preparation-internal-memo>
+      <jhi-internal-memo-dppk-loan-operation
+        [creditProposal]="creditProposal"
+        [isLabel]="isLabel"
+        [isElement]="isElement"
+      ></jhi-internal-memo-dppk-loan-operation>
     </div>
   </div>
 </div>
