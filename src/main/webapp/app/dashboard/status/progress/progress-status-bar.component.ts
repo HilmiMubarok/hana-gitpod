@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'jhi-progress-status-bar',
@@ -18,18 +18,4 @@ export class ProgressStatusBarComponent {
   public _dataSource: any;
 
   constructor() {}
-
-  // public setNumbers(): void {
-  // const totalStatus = document.getElementById('total-count');
-
-  // if (totalStatus != null) {
-  //   totalStatus.style.setProperty('--num', this.dataSource.totalStatus);
-  // }
-
-  // const totalStatus = Array.from(document.getElementsByClassName('total-count') as HTMLCollectionOf<HTMLElement>);
-
-  // totalStatus.forEach(item => {
-  //   item.style.setProperty('--num', this.dataSource.totalStatus);
-  // });
-  // }
 }
