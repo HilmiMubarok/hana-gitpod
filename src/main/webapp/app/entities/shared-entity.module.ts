@@ -455,7 +455,6 @@ import { InsuranceDocumentComponent } from './insurance-information/document/ins
 import { BindingValueInformationComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information.component';
 import { BindingValueInformationGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-grid/binding-value-information-grid.component';
 import { InternalMemoComponent } from './dpdl-finalize/internal memo/internal-memo.component';
-import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo.component';
 import { DocumentLegalDialogComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal-dialog.component';
 import { DocumentLegalComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal.component';
 import { DpdlDocumentComponent } from './dpdl-finalize/dpdl-document/dpdl-document.component';
@@ -492,6 +491,18 @@ import { CollateralOwnerAddressComponent } from './party-cif/collateral-info/col
 import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agreement/review-history/review-history.component';
 import { entityDppkFinalizeTemplate } from './entity-dppk-finalize-template.constant';
 import { LoanOperationLoanFacilityTemplate } from './loan-operation/loan-facility-detail/loan-operation-loan-facility-template';
+import { DocumentLegalDetailDialogLoanOperationComponent } from './loan-operation/dpdl-document/document-legal/document-legal-detail-dialog.component';
+import { DocumentLegalLoanOperationComponent } from './loan-operation/dpdl-document/document-legal/document-legal.component';
+import { DpdlPreparationLoanOperationComponent } from './loan-operation/dpdl-document/dpdl-preparation/dpdl-preparation.component';
+import { GenerateDpdlDraftLoanOperationComponent } from './loan-operation/dpdl-document/generate-dpdl/generate-dpdl-draft.component';
+import { DocumentDpdlDetailDialogLoanOperationComponent } from './loan-operation/dpdl-document/legal-document-upload/document-dpdl-detail-dialog.component';
+import { DocumentDpdlUploadDialogLoanOperationComponent } from './loan-operation/dpdl-document/legal-document-upload/document-dpdl-upload-dialog.component';
+import { DocumentLegalUploadLoanOperationComponent } from './loan-operation/dpdl-document/legal-document-upload/document-legal-upload.component';
+import { DpdlDocumentLoanOperationComponent } from './loan-operation/dpdl-document/dpdl-document.component';
+import { InternalMemoDetailLoanOperationComponent } from './loan-operation/internal memo/dialog/dialog-internal-memo-detail.component';
+import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo.component';
+import { DialogInternalMemoLoanOperationComponent } from './loan-operation/internal memo/dialog/dialog-internal-memo.component';
+import { InternalMemoLoanOperationComponent } from './loan-operation/internal memo/internal-memo.component';
 
 @NgModule({
   imports: [
@@ -1032,20 +1043,31 @@ import { LoanOperationLoanFacilityTemplate } from './loan-operation/loan-facilit
     BindingValueInformationComponent,
     BindingValueInformationGridComponent,
     InternalMemoComponent,
+    InternalMemoLoanOperationComponent,
     DialogInternalMemoComponent,
+    DialogInternalMemoLoanOperationComponent,
 
      // Document Legal DPDL
     DocumentLegalUploadComponent,
+    DocumentLegalUploadLoanOperationComponent,
     DocumentDpdlUploadDialogComponent,
+    DocumentDpdlUploadDialogLoanOperationComponent,
     DocumentDpdlDetailDialogComponent,
+    DocumentDpdlDetailDialogLoanOperationComponent,
 
     DocumentLegalComponent,
+    DocumentLegalLoanOperationComponent,
     DocumentLegalDialogComponent,
+    DocumentLegalDetailDialogLoanOperationComponent,
     DocumentLegalDetailDialogComponent,
     DpdlDocumentComponent,
+    DpdlDocumentLoanOperationComponent,
     GenerateDpdlDraftComponent,
+    GenerateDpdlDraftLoanOperationComponent,
     InternalMemoDetailComponent,
+    InternalMemoDetailLoanOperationComponent,
     DpdlPreparationComponent,
+    DpdlPreparationLoanOperationComponent,
     BindingValueGeneralGridComponent,
     BindingValueGeneralDialogComponent,
 
@@ -1559,20 +1581,31 @@ import { LoanOperationLoanFacilityTemplate } from './loan-operation/loan-facilit
     BindingValueInformationComponent,
     BindingValueInformationGridComponent,
     InternalMemoComponent,
+    InternalMemoLoanOperationComponent,
     DialogInternalMemoComponent,
+    DialogInternalMemoLoanOperationComponent,
 
     // Document Legal DPDL
     DocumentLegalUploadComponent,
+    DocumentLegalUploadLoanOperationComponent,
     DocumentDpdlUploadDialogComponent,
+    DocumentDpdlUploadDialogLoanOperationComponent,
     DocumentDpdlDetailDialogComponent,
+    DocumentDpdlDetailDialogLoanOperationComponent,
 
     DocumentLegalComponent,
+    DocumentLegalLoanOperationComponent,
     DocumentLegalDialogComponent,
+    DocumentLegalDetailDialogLoanOperationComponent,
     DocumentLegalDetailDialogComponent,
     DpdlDocumentComponent,
+    DpdlDocumentLoanOperationComponent,
     GenerateDpdlDraftComponent,
+    GenerateDpdlDraftLoanOperationComponent,
     InternalMemoDetailComponent,
+    InternalMemoDetailLoanOperationComponent,
     DpdlPreparationComponent,
+    DpdlPreparationLoanOperationComponent,
     BindingValueInformationDialogComponent,
     BindingValueRealEstateGridComponent,
     BindingValueRealEstateDialogComponent,
