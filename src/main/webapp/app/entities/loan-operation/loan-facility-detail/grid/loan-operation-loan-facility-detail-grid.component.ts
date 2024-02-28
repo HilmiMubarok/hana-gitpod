@@ -32,7 +32,6 @@ export class LoanOperationLoanFacilityDetailGridComponent implements OnInit, OnC
     public dialog: MatDialog,
     public _router: Router,
     private creditProposalService: CreditProposalService,
-    private changeDetectorRefs: ChangeDetectorRef,
     protected generalParameterService: GeneralParameterService,
     private messageService: MessageService
   ) {
