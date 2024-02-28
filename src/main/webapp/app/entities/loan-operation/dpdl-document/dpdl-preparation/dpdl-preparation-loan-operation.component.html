@@ -1,0 +1,58 @@
+<mat-card style="margin-top: 12px">
+  <mat-card-header>
+    <mat-card-subtitle class="label-font-detail">DPDL Preparation</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="dpdlEntityProperties">
+    <div class="row">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>DPDL Number</mat-label>
+                <input matInput type="text" [(ngModel)]="dpdlEntityProperties.dpdlNumber" disabled />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>DPDL PIC</mat-label>
+                <textarea matInput type="multiline" [disabled]="isDisabled()" [(ngModel)]="dpdlEntityProperties.dpdlPic"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>DPDL Generate Date</mat-label>
+                <input
+                  [disabled]="isDisabled()"
+                  [matDatepicker]="documentDate"
+                  matInput
+                  type="text"
+                  [(ngModel)]="dpdlEntityProperties.dpdlDate"
+                  disabled
+                />
+                <mat-datepicker-toggle [disabled]="isDisabled()" matSuffix [for]="documentDate"></mat-datepicker-toggle>
+                <mat-datepicker #documentDate disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>DPDL Place</mat-label>
+                <input matInput type="text" [disabled]="isDisabled()" [(ngModel)]="dpdlEntityProperties.dpdlPlace" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -70,6 +70,8 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 @Component({
   selector: 'jhi-dppk-review-floating',
   templateUrl: './dppk-review-floating.component.html',
@@ -133,8 +135,8 @@ export class DppkReviewDetailComponent implements OnInit {
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
 
-  public creditProposal: IDppkReview;
-  public creditProposalStartState: IDppkReview;
+  public creditProposal: ICreditProposal;
+  public creditProposalStartState: ICreditProposal;
 
   public proposalType: object[];
 
@@ -213,7 +215,8 @@ export class DppkReviewDetailComponent implements OnInit {
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private entitiyPropertiesService: EntitiyPropertiesService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -460,7 +463,7 @@ export class DppkReviewDetailComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Save Success',
+            detail: 'Save Success 10',
           });
           this.saveWord = false;
         }
@@ -524,6 +527,7 @@ export class DppkReviewDetailComponent implements OnInit {
     this.loadDataBy();
     this.showTextMenu();
     // this.cpGroub();
+    this.setDppkNumber();
   }
 
   public goToSubMenu(menu: string): void {
@@ -758,9 +762,6 @@ export class DppkReviewDetailComponent implements OnInit {
 
       if (this.creditProposal.id) {
         if (this.router.url.split('/')[1] === 'review-dppk') {
-          this.saveUpdate('not-complete', source);
-        }
-        if (this.router.url.split('/')[1] === 'review-dppk') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
           } else {
@@ -816,13 +817,6 @@ export class DppkReviewDetailComponent implements OnInit {
                       } else {
                         ++countValidate;
                       }
-
-                      /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
                     }
                   } else {
                     // toast opinion empty
@@ -840,17 +834,6 @@ export class DppkReviewDetailComponent implements OnInit {
                         const fileReaderCondition: FileReader = new FileReader();
                         fileReaderCondition.onload = (eCondition: any) => {
                           const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-                          /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
 
                           if (
                             testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -1655,15 +1638,16 @@ export class DppkReviewDetailComponent implements OnInit {
   }
 
   // Untuk Summary Generate
-  private KEYG = 'credit_proposal/summary';
+  private KEYG = 'generate-final';
   private ngUnsubscribe = new Subject();
-  public dataOfferingSPPK = [];
+  public dataDpdlFinal = [];
+  // Untuk Summary Generate
   private getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
 
       if (this.id) {
-        this.KEYG += `/${this.id}/`;
+        this.KEYG += `/${this.id}/document/`;
       } else {
         console.warn('Param id not found');
       }
@@ -1697,12 +1681,13 @@ export class DppkReviewDetailComponent implements OnInit {
           i++;
         });
 
-        this.dataOfferingSPPK = data;
+        this.dataDpdlFinal = data;
       });
   }
 
-  private generate(): void {
-    this.generateFileOfferingSPPK().then(() => {
+  // Change the access modifier to public
+  public generateDPPKFinal(): void {
+    this.generateFileDPPKFinal().then(() => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
@@ -1710,6 +1695,22 @@ export class DppkReviewDetailComponent implements OnInit {
       });
       this.onRefresh();
     });
+  }
+
+  private async generateFileDPPKFinal(): Promise<void> {
+    const fileDpdlFinal = await firstValueFrom(
+      this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
+    );
+  }
+
+  public showButtonGenerate() {
+    const parentPath = this.router.url.split('/')[1];
+    if (parentPath.match(/review-dppk/g) && this.creditProposal.statusId === 'DPPK_REVIEW_CHECKER2') {
+      console.log('ini 2', this.creditProposal.statusId);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private async generateFileOfferingSPPK(): Promise<void> {
@@ -1727,6 +1728,19 @@ export class DppkReviewDetailComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  public setDppkNumber() {
+    const idx = this.creditProposal.entityProperties.findIndex(obj => obj.entityPropertyTypeId === 'DPPK');
+    if (idx) {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties[idx] = res;
+      });
+    } else {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties.push(res);
+      });
+    }
   }
 }
 interface IObj {

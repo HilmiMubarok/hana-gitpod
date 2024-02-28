@@ -1,0 +1,119 @@
+<ejs-menu
+  [enableScrolling]="true"
+  cssClass="e-rounded-menu e-custom-scroll"
+  [items]="menuItems"
+  (select)="selectMenuItem($event)"
+  [hidden]="isOnOffering || takeOutCompare"
+></ejs-menu>
+<div *ngIf="setActiveMenu === 'COVENANT' || selectedMenu === 'COVENANT'">
+  <div class="e-sample-resize-container e-card-resize-container mb-5">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Standard Terms & Conditions</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+          <div class="card-content">
+            <jhi-covenant-loan-above [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem"> </jhi-covenant-loan-above>
+          </div>
+        </div>
+
+        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+          <div class="card-content">
+            <jhi-covenant-below-loan [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem"> </jhi-covenant-below-loan>
+          </div>
+        </div>
+        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
+          <div class="card-content">
+            <jhi-loan-covenant-back-to-back-general [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
+            </jhi-loan-covenant-back-to-back-general>
+          </div>
+          <div class="card-content">
+            <jhi-loan-covenant-back-to-back-deposit [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
+            </jhi-loan-covenant-back-to-back-deposit>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="e-sample-resize-container e-card-resize-container mb-5">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Other Covenant</div>
+            <div class="e-card-sub-title"></div>
+            <div class="card-content">
+              <jhi-other-covenant-loan [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem"></jhi-other-covenant-loan>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="setActiveMenu === 'DEVIATION' || selectedMenu === 'DEVIATION'">
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="header-title">Standart Deviation</div>
+        <div class="e-card-sub-title"></div>
+        <div class="card-content"></div>
+      </div>
+    </div>
+    <div class="card-content">
+      <jhi-credit-proposal-deviation-dar-above [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
+      </jhi-credit-proposal-deviation-dar-above>
+    </div>
+  </div>
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="header-title">Standart Deviation</div>
+        <div class="e-card-sub-title"></div>
+        <div class="card-content"></div>
+      </div>
+    </div>
+    <div class="card-content">
+      <jhi-deviation-below-loan [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem"> </jhi-deviation-below-loan>
+    </div>
+  </div>
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
+    <div class="card-content">
+      <jhi-credit-proposal-tab-deviation-back-to-back-general [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
+      </jhi-credit-proposal-tab-deviation-back-to-back-general>
+      <jhi-credit-proposal-tab-deviation-back-to-back-deposit [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
+      </jhi-credit-proposal-tab-deviation-back-to-back-deposit>
+    </div>
+  </div>
+  <div class="e-sample-resize-container e-card-resize-container mb-5">
+    <div class="row">
+      <div class="row card-layout">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">Other Deviation</div>
+            <div class="e-card-sub-title"></div>
+            <div class="card-content">
+              <jhi-other-covenant-loan
+                [isOtherDeviation]="true"
+                [isViewMode]="viewMode"
+                [creditProposalItem]="creditProposalItem"
+              ></jhi-other-covenant-loan>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
+  <div>
+    <jhi-document-checklist-loan [creditProposal]="creditProposalItem"></jhi-document-checklist-loan>
+  </div>
+</div>

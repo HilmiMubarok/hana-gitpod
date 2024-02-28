@@ -1,0 +1,1246 @@
+<h2 mat-dialog-title class="header-title">Facility Detail</h2>
+
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <div class="col-6">
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Account</mat-label>
+            <input [(ngModel)]="applicationProduct.agreementNumber" matInput type="text" disabled />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Loan Account</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">{{ applicationProduct.agreementNumber }}</div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Index Facility</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.nomorUrutFasilitas" disabled />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Index Facility</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.nomorUrutFasilitas }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Application Type</mat-label>
+            <mat-select
+              [(ngModel)]="applicationProduct.applicationType"
+              name="facilityType"
+              (selectionChange)="applicationTypeChange($event)"
+            >
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Application Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.applicationType }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description for Others</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['descriptionOthers']" [disabled]="othersDescStat" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Type</mat-label>
+            <input
+              type="text"
+              placeholder="Pick One"
+              aria-label="Number"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+              [(ngModel)]="applicationProduct.attributes.facilityType"
+              (ngModelChange)="berubah($event)"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let option of listGeneralLov" [value]="option.id">
+                {{ option.id }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Facility Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.productTypeId }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2" *ngIf="applicationProduct.applicationType !== 'Existing'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Type</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.productName" (selectionChange)="getfacilityCategory($event.value)">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listLoanType" [value]="item.name">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mb-2" *ngIf="applicationProduct.applicationType === 'Existing'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Type</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.productName" disabled />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Loan Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.productName }}
+          </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline" *ngIf="applicationProduct.productTypeId === 'OMNIBUS'">
+            <mat-label>Loan Type Remarks (SPPK)</mat-label>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['loanRemarkSppk']"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Category / Appl Type</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.categoryId" name="facilityCategory">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listCategoryLov" [value]="item.categoryId">{{ item.categoryId }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Facility Category / Appl Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.categoryId }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div [hidden]="facilityType === 'OD'" class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Installment Method</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.installmentMethod" name="facilityType">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of installmentMethodList" [value]="item.code">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div [hidden]="facilityType === 'OD'" class="fontsebled row py-1">
+          <div class="col-3">Installment Method</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ installmentMethodValue }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input [matDatepicker]="startDate" matInput [(ngModel)]="applicationProduct.startDateContract" />
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+            <mat-datepicker #startDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Start Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.startDateContract | date: 'yyyy/MM/dd' }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Tenor</mat-label>
+                <input matInput type="number" [(ngModel)]="applicationProduct.tenor" (change)="tenorChange()" />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.periodType" (selectionChange)="tenorChange()">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Tenor</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.tenor }}
+          </div>
+        </div>
+        <div class="fontsebled row">
+          <div class="col-3">Period Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.periodType }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input [matDatepicker]="endDate" matInput [(ngModel)]="applicationProduct.attributes['thruDateContractTemp']" />
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker #endDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">End Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.thruDateContract | date: 'yyyy/MM/dd' }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Maturity Date</mat-label>
+            <input [matDatepicker]="bindingDate" matInput [(ngModel)]="applicationProduct.maturityDate" />
+            <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
+            <mat-datepicker #bindingDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Maturity Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.maturityDate | date: 'yyyy/MM/dd' }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-3" style="padding: 1rem">
+              <mat-checkbox [(ngModel)]="applicationProduct.subLimit" (ngModelChange)="changeSublimitCheck()" [disabled]="disButtonSub"
+                >Sub-Limit</mat-checkbox
+              >
+            </div>
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Sublimit From Existing Facility</mat-label>
+                <mat-select
+                  [(ngModel)]="applicationProduct.sublimitFromExistingFacility"
+                  [disabled]="applicationProduct.subLimit !== true"
+                  (ngModelChange)="changeSublimit($event)"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of labelSublimit" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-3">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Index Facility Main</mat-label>
+                <mat-select
+                  [(ngModel)]="applicationProduct.indexFacilityMain"
+                  [disabled]="applicationProduct.sublimitFromExistingFacility === ''"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of lovIndex" [value]="item.index">
+                    {{ item.index }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Sub-Limit</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ printElement(applicationProduct.subLimit) }}
+          </div>
+        </div>
+        <div class="fontsebled row">
+          <div class="col-3">Sublimit From Existing Facility</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.sublimitFromExistingFacility }}
+          </div>
+        </div>
+        <div class="fontsebled row">
+          <div class="col-3">Index Facility Main</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.indexFacilityMain }}
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row mb-2">
+            <label>Comitted Line:</label>
+          </div>
+          <div class="row">
+            <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.commitedLine">
+              <mat-radio-button [value]="uncom">Un-Comitted Line</mat-radio-button>
+              <mat-radio-button [value]="com" [checked]="applicationProduct.commitedLine">Comitted </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Comitted Line</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ printElement(applicationProduct.commitedLine) }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Currency</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.currencyId" (ngModelChange)="chnageCurrency($event)" required>
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Currency</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.currencyId }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Kurs</mat-label>
+            <input currencyMask matInput type="text" [value]="currencyName" [options]="logoIdr" readonly />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Kurs</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.kurs }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Initial Limit</mat-label>
+            <div *ngIf="conCcy; then thenBlock; else elseBlock"></div>
+            <ng-template #thenBlock
+              ><input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.initialLimit"
+                [options]="logoCcy"
+                [disabled]="statusFacilityDisabled"
+              />
+            </ng-template>
+            <ng-template #elseBlock>
+              <input matInput type="text" [(ngModel)]="applicationProduct.initialLimit" [disabled]="statusFacilityDisabled" />
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Initial Limit</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.initialLimit | number }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Outstanding</mat-label>
+            <div *ngIf="conCcy; then a; else b"></div>
+            <ng-template #a>
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.outstanding"
+                [options]="logoCcy"
+                [disabled]="statusFacilityDisabled"
+              />
+            </ng-template>
+            <ng-template #b>
+              <input matInput type="text" [(ngModel)]="applicationProduct.outstanding" [disabled]="statusFacilityDisabled" />
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Outstanding</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.outstanding | number }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Date O/S</mat-label>
+            <input [matDatepicker]="piker" [formControl]="date" matInput [(ngModel)]="applicationProduct.dateOS" disabled />
+            <mat-datepicker-toggle matSuffix [for]="piker"></mat-datepicker-toggle>
+            <mat-datepicker #piker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Date O/S</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.dateOS | date: 'yyyy/MM/dd' }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Changes</mat-label>
+            <div *ngIf="conCcy; then c; else d"></div>
+            <ng-template #c>
+              <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.changes" [options]="logoCcy" />
+            </ng-template>
+            <ng-template #d>
+              <input matInput type="text" [(ngModel)]="applicationProduct.changes" />
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Changes</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.changes | number }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Total Plafond</mat-label>
+            <div *ngIf="conCcy; then e; else f"></div>
+            <ng-template #e>
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.totalPlafond"
+                [options]="logoCcy"
+                [value]="calTotalPlafond(revolving)"
+              />
+            </ng-template>
+            <ng-template #f>
+              <input matInput type="text" currencyMask [(ngModel)]="applicationProduct.totalPlafond" />
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Total Plafond</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.totalPlafond | number }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="col-4" style="padding: 1rem">
+            <mat-checkbox [(ngModel)]="applicationProduct.restructStatus">Restruct Status </mat-checkbox>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Restruct Status</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ printElement(applicationProduct.restructStatus) }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Restruct Method</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.restructMethod">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of restructList" [value]="item.code">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Restruct Method</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ restructMethodValue }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['keterangan']" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Description</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['keterangan'] }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div *ngIf="parentPath !== 'finalize'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Disbursement Condition</mat-label>
+            <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1" *ngIf="parentPath !== 'finalize'">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['disbursementCondition'] }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="parentPath === 'finalize' && selectedMenu === 'loan-facility-detail'">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="parentPath === 'finalize' && selectedMenu === 'loan-facility'">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <textarea
+                matInput
+                style="height: 200px"
+                [(ngModel)]="applicationProduct.attributes['disbursementCondition']"
+                disabled
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>REMARKS</mat-label>
+            <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['remark']"></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">REMARKS</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['remark'] }}
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="col-6">
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Interest Rate Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.rateTypeName" (ngModelChange)="changeIntRateType($event)" [disabled]="status">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of interestTypeList" [value]="item.value">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Current Interest Rate</mat-label>
+                <input matInput type="text" [ngModel]="applicationProduct.currentInterestRate" disabled />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Interest Rate Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.rateTypeName }}
+          </div>
+          <div class="col-3">Current Interest Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.currentInterestRate }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8 col md-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Proposed Rate / spread</mat-label>
+                <input matInput type="number" [(ngModel)]="applicationProduct.pricingRate" />
+                <div matSuffix class="input-suffix">&nbsp;%</div>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Proposed Rate / Spread</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ (applicationProduct.pricingRate != null ? applicationProduct.pricingRate : 0) + ' %' }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Reference Rate Period</mat-label>
+                <input
+                  matInput
+                  (ngModelChange)="periodeDate($event)"
+                  inputmode="numeric"
+                  [(ngModel)]="applicationProduct.intResetFrequency"
+                  [disabled]="status || statIntRate"
+                  oninput="this.value = this.value.replace(/\D+/g, '')"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.intResetPeriod" (ngModelChange)="setPeriodeType()" disabled>
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Reference Rate Period</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.intResetFrequency }}
+          </div>
+          <div class="col-3">Period Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.intResetPeriod }}
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <ejs-numerictextbox
+                [(ngModel)]="applicationProduct.provisionFeeAmount"
+                (blur)="checkForDecimalProvision(applicationProduct.provisionFeeAmount)"
+                cssClass="e-outline"
+                placeholder="Provision Fee"
+                floatLabelType="auto"
+                floatLabelType="Always"
+                format="{{ logoProvisonFee }}"
+                min="0"
+                style="height: 4em"
+              ></ejs-numerictextbox>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Rate / Amount Type</mat-label>
+                <mat-select
+                  [(ngModel)]="applicationProduct.provisionFeeType"
+                  [disabled]="status"
+                  (selectionChange)="changeAmountType($event.value, 'provision')"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Provision Fee</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.provisionFeeAmount | number }}
+          </div>
+          <div class="col-3">Rate / Amount Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.provisionFeeType }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <ejs-numerictextbox
+                [(ngModel)]="applicationProduct.adminFeeAmount"
+                (blur)="checkForDecimalAdmin(applicationProduct.adminFeeAmount)"
+                cssClass="e-outline"
+                placeholder="Admin Fee"
+                floatLabelType="auto"
+                floatLabelType="Always"
+                format="{{ logoAdminFee }}"
+                min="0"
+                style="height: 4em"
+              ></ejs-numerictextbox>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="h-100" appearance="outline">
+                <mat-label>Rate / Amount Type</mat-label>
+                <mat-select
+                  [(ngModel)]="applicationProduct.adminFeeType"
+                  [disabled]="status"
+                  (selectionChange)="changeAmountType($event.value, 'admin')"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Admin Fee</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.adminFeeAmount | number }}
+          </div>
+          <div class="col-3">Rate / Amount Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.adminFeeType }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Grace Period</mat-label>
+                <input
+                  matInput
+                  inputmode="numeric"
+                  [(ngModel)]="applicationProduct.gracePeriod"
+                  oninput="this.value = this.value.replace(/\D+/g, '')"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.gracePeriodType">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Grace Period</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.gracePeriod }}
+          </div>
+          <div class="col-3">Period Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.gracePeriodType }}
+          </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2" *ngIf="applicationProduct.productTypeId === 'OMNIBUS'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Interest Rate Remarks (SPPK)</mat-label>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['interestRateRemarkSppk']"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Available Period</mat-label>
+                <input
+                  matInput
+                  inputmode="numeric"
+                  [(ngModel)]="applicationProduct.availablePeriod"
+                  oninput="this.value = this.value.replace(/\D+/g, '')"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.availablePeriodType" [value]="">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Index Rate</mat-label>
+            <input matInput [(ngModel)]="applicationProduct.indexRateStr" type="text" disabled />
+          </mat-form-field>
+        </div>
+      </section>
+
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Available Period</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.availablePeriod }}
+          </div>
+          <div class="col-3">Period Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.availablePeriodType }}
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Index Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.indexRateStr }}
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Purpose</mat-label>
+            <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="applicationProduct.attributes['loanPurpose']"></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Loan Purpose</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['loanPurpose'] }}
+          </div>
+        </div>
+      </section>
+      <div class="mb-2">
+        <section *ngIf="isElement">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>loan purpose (For Legal)</mat-label>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['loanPurposeLegal']"
+            ></textarea>
+          </mat-form-field>
+        </section>
+        <section *ngIf="isLabel">
+          <div class="fontsebled row py-1">
+            <div class="col-3">loan purpose (For Legal)</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.attributes['loanPurposeLegal'] }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="mb-2">
+        <section *ngIf="isElement">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Grace period since</mat-label>
+            <input matInput [(ngModel)]="applicationProduct.attributes['gracePeriodSince']" type="text" />
+          </mat-form-field>
+        </section>
+        <section *ngIf="isLabel">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Grace period since</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.attributes['gracePeriodSince'] }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="mb-2">
+        <section *ngIf="isElement">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Availability period since</mat-label>
+            <input matInput [(ngModel)]="applicationProduct.attributes['availabPeriodSince']" type="text" />
+          </mat-form-field>
+        </section>
+        <section *ngIf="isLabel">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Availability period since</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.attributes['availabPeriodSince'] }}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section *ngIf="isElement">
+        <mat-checkbox [checked]="checklisDisbursement()" [(ngModel)]="applicationProduct.attributes['disbursementChecklisCon']"
+          >Check disbursement condition (Only if requested by legal)</mat-checkbox
+        >
+      </section>
+      <section *ngIf="isLabel">
+        <mat-checkbox [checked]="checklisDisbursement()" disabled>Check disbursement condition (Only if requested by legal)</mat-checkbox>
+      </section>
+
+      <section *ngIf="isElement">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Disbursement Condition (For Legal)</mat-label>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['disbursementLegalRemark']"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Disbursement Condition (For Legal)</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['disbursementLegalRemark'] }}
+          </div>
+        </div>
+      </section>
+
+      <div *ngIf="isElement">
+        <section>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Total Restructure</mat-label>
+            <input matInput type="number" [(ngModel)]="applicationProduct.totalRestructure" />
+          </mat-form-field>
+        </section>
+        <section>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Credit Term</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.creditTerm">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of creditTermList" [value]="item.code">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section>
+          <mat-form-field class="w-100" appearance="outline">
+            <!-- installment type -->
+            <mat-label>Installment Type</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.installmentType">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of installmentTypeList" [value]="item.value">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </div>
+
+      <div *ngIf="isLabel">
+        <section>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Total Restructure</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.totalRestructure }}
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Credit Term</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ getCreditTermLabel(applicationProduct.creditTerm) }}
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Installment Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.installmentType }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="form-group" class="col-md-6">
+      <section *ngIf="isElement">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Late Payment Fee</mat-label>
+          <input matInput type="text" class="example-right-align" [(ngModel)]="applicationProduct.latePaymentFee" />
+        </mat-form-field>
+      </section>
+      <section *ngIf="isLabel">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Late Payment Fee</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.latePaymentFee }}
+          </div>
+        </div>
+      </section>
+
+      <div class="form-group">
+        <section *ngIf="isElement">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>The Prime Lending Rate</mat-label>
+            <input matInput type="number" class="example-right-align" [(ngModel)]="applicationProduct.primeLandingRate" />
+          </mat-form-field>
+        </section>
+        <section *ngIf="isLabel">
+          <div class="fontsebled row py-1">
+            <div class="col-3">The Prime Lending Rate</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.primeLandingRate }}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="form-group">
+        <section *ngIf="isElement">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Early Repayment Penalty</mat-label>
+            <input matInput type="number" class="example-right-align" [(ngModel)]="applicationProduct.earlyRepaymentPenalty" />
+            <span matSuffix>&nbsp;%</span>
+          </mat-form-field>
+        </section>
+        <section *ngIf="isLabel">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Early Repayment Penalty</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.earlyRepaymentPenalty }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <section *ngIf="isElement">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Payment Obligations</mat-label>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              [(ngModel)]="applicationProduct.attributes['paymentObligation']"
+            ></textarea>
+          </mat-form-field>
+        </section>
+        <section *ngIf="isLabel">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Payment Obligations</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.attributes['paymentObligation'] }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <mat-label>Mapping to Collateral</mat-label>
+  <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center" class="align-center">
+  <section *ngIf="isElement">
+    <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
+  </section>
+  <section *ngIf="isLabel">
+    <div class="mt-3 text-center">
+      <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
+      <button mat-raised-button class="confirm-button-yes" hidden (click)="onSave()">Save</button>
+    </div>
+  </section>
+</mat-dialog-actions>

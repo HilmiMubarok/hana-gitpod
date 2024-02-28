@@ -34,6 +34,7 @@ export class DppkAssignToComponent implements OnInit {
 
   @Output() assignToOne = new EventEmitter();
   @Output() assignToTwo = new EventEmitter();
+  public dataPosition = ['CREDIT_ADMIN_UNIT_HEAD', 'CREDIT_ADMIN_TEAM_LEAD', 'CREDIT_ADMIN_DIV_HEAD', 'CREDIT_ADMIN_DIV_HEAD'];
 
   @Input()
   get creditProposal() {
@@ -55,34 +56,27 @@ export class DppkAssignToComponent implements OnInit {
       this.applicationRoleIdTwo = this.creditProposal.attributes['dataAssignToDPPKReview2'].id;
     }
   }
+
   public loadPosition(): void {
-    this.positionService
-      .queryFilterBy({
-        page: 0,
-        size: 9999,
-        sort: ['id,asc'],
-        idInternal: this.creditProposal.internalId,
-      })
-      .subscribe(res => {
-        console.log('res', res.body);
-        this.positionCheckerOne = res.body.filter(
-          o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD' || o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD'
-        );
-
-        this.dataPositionCheckerOne = res.body.filter(o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD');
-
-        this.dataPositionCheckerOnes = res.body.filter(
-          o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD' || o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD'
-        );
-
-        this.dataPositionCheckerTwo = res.body.filter(
-          o =>
-            o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD' ||
-            o.positionTypeId === 'CREDIT_ADMIN_DEPT_HEAD' ||
-            o.positionTypeId === 'CREDIT_ADMIN_DIV_HEAD'
-        );
-        this.positionCheckerTwo = this.dataPositionCheckerTwo;
-      });
+    const idPositionTypes = ['CREDIT_ADMIN_UNIT_HEAD', 'CREDIT_ADMIN_TEAM_LEAD', 'CREDIT_ADMIN_DIV_HEAD', 'CREDIT_ADMIN_DEPT_HEAD'].join(
+      ','
+    );
+    this.positionService.getPositionAssignToMultiplePosition(idPositionTypes, this.creditProposal.internalId).subscribe(res => {
+      this.positionCheckerOne = res.body.filter(
+        o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD' || o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD'
+      );
+      this.dataPositionCheckerOne = res.body.filter(o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD');
+      this.dataPositionCheckerOnes = res.body.filter(
+        o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD' || o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD'
+      );
+      this.dataPositionCheckerTwo = res.body.filter(
+        o =>
+          o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD' ||
+          o.positionTypeId === 'CREDIT_ADMIN_DEPT_HEAD' ||
+          o.positionTypeId === 'CREDIT_ADMIN_DIV_HEAD'
+      );
+      this.positionCheckerTwo = this.dataPositionCheckerTwo;
+    });
   }
 
   public onSelectAssignOne(event: any) {
