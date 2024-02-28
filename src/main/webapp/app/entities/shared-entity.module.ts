@@ -455,6 +455,7 @@ import { InsuranceDocumentComponent } from './insurance-information/document/ins
 import { BindingValueInformationComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information.component';
 import { BindingValueInformationGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-grid/binding-value-information-grid.component';
 import { InternalMemoComponent } from './dpdl-finalize/internal memo/internal-memo.component';
+import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo.component';
 import { DocumentLegalDialogComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal-dialog.component';
 import { DocumentLegalComponent } from './dpdl-finalize/dpdl-document/document-legal/document-legal.component';
 import { DpdlDocumentComponent } from './dpdl-finalize/dpdl-document/dpdl-document.component';
@@ -489,20 +490,13 @@ import { DppkPreparationInternalMemoDialogComponent } from './dppk-finalize/dppk
 import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog-detail.component';
 import { CollateralOwnerAddressComponent } from './party-cif/collateral-info/collateral-owner-address.component';
 import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agreement/review-history/review-history.component';
-import { entityDppkFinalizeTemplate } from './entity-dppk-finalize-template.constant';
-import { LoanOperationLoanFacilityTemplate } from './loan-operation/loan-facility-detail/loan-operation-loan-facility-template';
-import { DocumentLegalDetailDialogLoanOperationComponent } from './loan-operation/dpdl-document/document-legal/document-legal-detail-dialog.component';
-import { DocumentLegalLoanOperationComponent } from './loan-operation/dpdl-document/document-legal/document-legal.component';
-import { DpdlPreparationLoanOperationComponent } from './loan-operation/dpdl-document/dpdl-preparation/dpdl-preparation.component';
-import { GenerateDpdlDraftLoanOperationComponent } from './loan-operation/dpdl-document/generate-dpdl/generate-dpdl-draft.component';
-import { DocumentDpdlDetailDialogLoanOperationComponent } from './loan-operation/dpdl-document/legal-document-upload/document-dpdl-detail-dialog.component';
-import { DocumentDpdlUploadDialogLoanOperationComponent } from './loan-operation/dpdl-document/legal-document-upload/document-dpdl-upload-dialog.component';
-import { DocumentLegalUploadLoanOperationComponent } from './loan-operation/dpdl-document/legal-document-upload/document-legal-upload.component';
-import { DpdlDocumentLoanOperationComponent } from './loan-operation/dpdl-document/dpdl-document.component';
-import { InternalMemoDetailLoanOperationComponent } from './loan-operation/internal memo/dialog/dialog-internal-memo-detail.component';
-import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo.component';
-import { DialogInternalMemoLoanOperationComponent } from './loan-operation/internal memo/dialog/dialog-internal-memo.component';
-import { InternalMemoLoanOperationComponent } from './loan-operation/internal memo/internal-memo.component';
+import { OtherCovenantLoanDialogComponent } from './loan-operation/covenant-tbo/convenant/other-covenant/add/credit-proposal-other-covenant-dialog.component';
+import { StandartLoanDeviationComponent } from './loan-operation/covenant-tbo/convenant/other-covenant/standart-deviation/standart-deviation.component';
+import { OtherCovenantLoanComponent } from './loan-operation/covenant-tbo/convenant/other-covenant/credit-proposal-other-covenant.component';
+import { CovenantLoanComponent } from './loan-operation/covenant-tbo/convenant/credit-proposal-tab-covenant.component';
+import { DocumentChecklistLoanComponent } from './loan-operation/covenant-tbo/document-checklist/credit-proposal-document-checklist.component';
+import { DocumentChecklistDialogLoanComponent } from './loan-operation/covenant-tbo/document-checklist/document-checklist-dialog.component';
+import { StandartLoanConvenantComponent } from './loan-operation/covenant-tbo/convenant/other-covenant/standart-convenant/standart-convenant.component';
 
 @NgModule({
   imports: [
@@ -543,7 +537,6 @@ import { InternalMemoLoanOperationComponent } from './loan-operation/internal me
   declarations: [
     ...entityDialogModule,
     ...entityTemplate,
-    ...entityDppkFinalizeTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
@@ -1043,31 +1036,20 @@ import { InternalMemoLoanOperationComponent } from './loan-operation/internal me
     BindingValueInformationComponent,
     BindingValueInformationGridComponent,
     InternalMemoComponent,
-    InternalMemoLoanOperationComponent,
     DialogInternalMemoComponent,
-    DialogInternalMemoLoanOperationComponent,
 
      // Document Legal DPDL
     DocumentLegalUploadComponent,
-    DocumentLegalUploadLoanOperationComponent,
     DocumentDpdlUploadDialogComponent,
-    DocumentDpdlUploadDialogLoanOperationComponent,
     DocumentDpdlDetailDialogComponent,
-    DocumentDpdlDetailDialogLoanOperationComponent,
 
     DocumentLegalComponent,
-    DocumentLegalLoanOperationComponent,
     DocumentLegalDialogComponent,
-    DocumentLegalDetailDialogLoanOperationComponent,
     DocumentLegalDetailDialogComponent,
     DpdlDocumentComponent,
-    DpdlDocumentLoanOperationComponent,
     GenerateDpdlDraftComponent,
-    GenerateDpdlDraftLoanOperationComponent,
     InternalMemoDetailComponent,
-    InternalMemoDetailLoanOperationComponent,
     DpdlPreparationComponent,
-    DpdlPreparationLoanOperationComponent,
     BindingValueGeneralGridComponent,
     BindingValueGeneralDialogComponent,
 
@@ -1088,15 +1070,19 @@ import { InternalMemoLoanOperationComponent } from './loan-operation/internal me
     DppkPreparationInternalMemoDialogDetailComponent,
     CollateralOwnerAddressComponent,
     ReviewHistoryComponent,
-
-    ...LoanOperationLoanFacilityTemplate
+    OtherCovenantLoanDialogComponent,
+    StandartLoanDeviationComponent,
+    OtherCovenantLoanComponent,
+    CovenantLoanComponent,
+    DocumentChecklistLoanComponent,
+    DocumentChecklistDialogLoanComponent,
+    StandartLoanConvenantComponent,
+    CreditProposalOtherCovenantEditTempComponent
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
-    ...LoanOperationLoanFacilityTemplate,
 
-    ...entityDppkFinalizeTemplate,
     ReviewHistoryComponent,
     LoanPurposeComponent,
 
@@ -1581,31 +1567,20 @@ import { InternalMemoLoanOperationComponent } from './loan-operation/internal me
     BindingValueInformationComponent,
     BindingValueInformationGridComponent,
     InternalMemoComponent,
-    InternalMemoLoanOperationComponent,
     DialogInternalMemoComponent,
-    DialogInternalMemoLoanOperationComponent,
 
     // Document Legal DPDL
     DocumentLegalUploadComponent,
-    DocumentLegalUploadLoanOperationComponent,
     DocumentDpdlUploadDialogComponent,
-    DocumentDpdlUploadDialogLoanOperationComponent,
     DocumentDpdlDetailDialogComponent,
-    DocumentDpdlDetailDialogLoanOperationComponent,
 
     DocumentLegalComponent,
-    DocumentLegalLoanOperationComponent,
     DocumentLegalDialogComponent,
-    DocumentLegalDetailDialogLoanOperationComponent,
     DocumentLegalDetailDialogComponent,
     DpdlDocumentComponent,
-    DpdlDocumentLoanOperationComponent,
     GenerateDpdlDraftComponent,
-    GenerateDpdlDraftLoanOperationComponent,
     InternalMemoDetailComponent,
-    InternalMemoDetailLoanOperationComponent,
     DpdlPreparationComponent,
-    DpdlPreparationLoanOperationComponent,
     BindingValueInformationDialogComponent,
     BindingValueRealEstateGridComponent,
     BindingValueRealEstateDialogComponent,
@@ -1630,6 +1605,14 @@ import { InternalMemoLoanOperationComponent } from './loan-operation/internal me
     DppkPreparationInternalMemoDialogComponent,
     DppkPreparationInternalMemoDialogDetailComponent,
     CollateralOwnerAddressComponent,
+    OtherCovenantLoanDialogComponent,
+    StandartLoanDeviationComponent,
+    OtherCovenantLoanComponent,
+    CovenantLoanComponent,
+    DocumentChecklistLoanComponent,
+    DocumentChecklistDialogLoanComponent,
+    StandartLoanConvenantComponent,
+    CreditProposalOtherCovenantEditTempComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
