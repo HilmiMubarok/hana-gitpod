@@ -12,10 +12,9 @@ import { DashboardService } from './dashboard.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
-  private positionId: string;
+  private positionId: number;
 
   public mergedChartData: IChartData[] = [];
-  public availableChartCheck: any = [];
   public groupByStatusDataSource: any = [];
 
   constructor(
@@ -61,10 +60,10 @@ export class DashboardComponent implements OnInit {
 
   public categorizedChartsData(creditProposalFilter: IMenuAccess[], appraisalFilter: IMenuAccess[]): void {
     if (creditProposalFilter.length > 0) {
-      this.mergedChartData.push({ chartsTitle: 'Charts Credit Proposal' });
+      this.mergedChartData.push({ chartsTitle: 'Charts Credit Proposal', accessibleMenu: creditProposalFilter });
     }
     if (appraisalFilter.length > 0) {
-      this.mergedChartData.push({ chartsTitle: 'Charts Appraisal' });
+      this.mergedChartData.push({ chartsTitle: 'Charts Appraisal', accessibleMenu: appraisalFilter });
     }
   }
 

@@ -6,12 +6,6 @@ export interface IChartData {
   groupByStatus?: IGroupByStatus[];
 }
 
-export interface IChartsLayout {
-  dueDate?: IDueDate[];
-  summaryStatus?: IGroupByStatus[];
-  progress?: IDueDate[];
-}
-
 export interface IGroupByStatus {
   statusId?: string;
   statusDescription?: string;

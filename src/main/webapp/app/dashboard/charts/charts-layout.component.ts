@@ -1,9 +1,10 @@
-import { Component, ViewEncapsulation, ViewChild, OnInit, Input } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
 import { Browser } from '@syncfusion/ej2-base';
 import moment from 'moment';
-import { IChartsLayout, lineChartDummyData } from '../dashboard.model';
+import { IGroupByStatus, lineChartDummyData } from '../dashboard.model';
 import { DashboardService } from '../dashboard.service';
+import { IMenuAccess } from 'app/entities/menu-access/menu-access.model';
 
 @Component({
   selector: 'jhi-charts-layout',
@@ -16,20 +17,21 @@ export class ChartsLayoutComponent implements OnInit {
   private _idPosition: string;
 
   @Input()
-  get chartsAvailability() {
-    return this._chartsAvailability;
-  }
-
-  set chartsAvailability(param: any) {
-    this._chartsAvailability = param;
-  }
-
   get idPosition() {
     return this._idPosition;
   }
 
   set idPosition(param: any) {
     this._idPosition = param;
+  }
+
+  @Input()
+  get chartsAvailability() {
+    return this._chartsAvailability;
+  }
+
+  set chartsAvailability(param: any) {
+    this._chartsAvailability = param;
   }
 
   public mediaQuery = window.matchMedia('(max-width: 1282px)');
@@ -70,7 +72,7 @@ export class ChartsLayoutComponent implements OnInit {
   selectedStatus: any | undefined;
 
   public filterRange = [];
-  public dahsboardAllDashboardData: IChartsLayout[] = [];
+  public summaryStatusDataSource: IGroupByStatus[] = [];
   private lineChartData = lineChartDummyData;
   public filteredLineChartData = this.lineChartData.sort(this.sortByDateAsc);
 
@@ -79,19 +81,7 @@ export class ChartsLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.initSize();
     this.filterRange = [];
-    // this.preLoadData();
-    this.status = [
-      { statusId: 'draft', statusDesc: 'Draft' },
-      { statusId: 'returnBU', statusDesc: 'Return to BU' },
-      { statusId: 'asigned', statusDesc: 'Asigned' },
-      { statusId: 'darFinal', statusDesc: 'Dar Final' },
-      { statusId: 'loancomap', statusDesc: 'Loan Committee Approval' },
-    ];
-    this.dateRange = [
-      { rangeId: '1', rangeDesc: 'weekly' },
-      { rangeId: '2', rangeDesc: 'montlhy' },
-      { rangeId: '3', rangeDesc: 'yearly' },
-    ];
+    this.preLoadData();
   }
 
   public initSize(): void {
@@ -101,21 +91,6 @@ export class ChartsLayoutComponent implements OnInit {
     this.pieSizeY = 2;
     this.splineSizeX = 6;
     this.splineSizeY = 2;
-    // if (this.mediaQuery.matches) {
-    //   this.columnSizeX = 3;
-    //   this.columnSizeY = 3;
-    //   this.pieSizeX = 3;
-    //   this.pieSizeY = 3;
-    //   this.splineSizeX = 6;
-    //   this.splineSizeY = 3;
-    // } else {
-    //   this.columnSizeX = 3;
-    //   this.columnSizeY = 2;
-    //   this.pieSizeX = 3;
-    //   this.pieSizeY = 2;
-    //   this.splineSizeX = 6;
-    //   this.splineSizeY = 2;
-    // }
   }
 
   public initializeTemplate(element: HTMLElement): void {
@@ -144,19 +119,18 @@ export class ChartsLayoutComponent implements OnInit {
       this.filteredLineChartData = this.lineChartData.filter(obj => obj.date >= startDate && obj.date <= endDate);
     }
   }
-  // public preLoadData(): void {
-  //   if (this.chartsAvailability.length > 0) {
-  //     const availableChartDueDate = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_DUEDATE'));
-  //     const availableChartStatus = this.chartsAvailability.filter(
-  //       obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
-  //     );
-  //     const availableChartProgress = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_PROGRESS'));
+  public preLoadData(): void {
+    if (this.chartsAvailability.length > 0) {
+      const creditProposalFilter: IMenuAccess[] = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
+      const appraisalFilter: IMenuAccess[] = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
 
-  //     this.loadDueDate(availableChartDueDate);
-  //     this.loadSummaryStatus(availableChartStatus);
-  //     this.loadProgress(availableChartProgress);
-  //   }
-  // }
+      // const availableChartDueDate = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_DUEDATE'));
+      // const availableChartProgress = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_PROGRESS'));
+      // this.loadDueDate(creditProposalFilter, appraisalFilter);
+      this.loadSummaryStatus(creditProposalFilter, appraisalFilter);
+      // this.loadProgress(creditProposalFilter, appraisalFilter);
+    }
+  }
 
   // loadDueDate(availableChartDueDate: any) {
   //   if (availableChartDueDate.length > 0) {
@@ -171,12 +145,35 @@ export class ChartsLayoutComponent implements OnInit {
   //     }
   //   }
   // }
-  // loadSummaryStatus(availableChartStatus: any) {
-  //   if (availableChartStatus.length > 0) {
-  //     const CP = availableChartStatus.find(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
-  //     const appraisal = availableChartStatus.find(obj => obj.menuItemId.includes('_APPRAISAL_'));
-  //   }
-  // }
+  public loadSummaryStatus(creditProposalFilter: IMenuAccess[], appraisalFilter: IMenuAccess[]) {
+    if (creditProposalFilter.length > 0) {
+      const cpStatusChart = creditProposalFilter.filter(
+        obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
+      );
+      if (cpStatusChart.length > 0) {
+        this.dashboardService
+          .creditProposals()
+          .getSummaryStatus({ idPosition: this.idPosition })
+          .subscribe(res => {
+            this.summaryStatusDataSource = res.body;
+          });
+      }
+    }
+
+    if (appraisalFilter.length > 0) {
+      const appraisalStatusChart = appraisalFilter.filter(
+        obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
+      );
+      if (appraisalStatusChart.length > 0) {
+        this.dashboardService
+          .appraisal()
+          .getSummaryStatus({ idPosition: this.idPosition })
+          .subscribe(res => {
+            this.summaryStatusDataSource = res.body;
+          });
+      }
+    }
+  }
   // loadProgress(availableChartProgress: any) {
   //   if (availableChartProgress.length > 0) {
   //     const CP = availableChartProgress.find(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
