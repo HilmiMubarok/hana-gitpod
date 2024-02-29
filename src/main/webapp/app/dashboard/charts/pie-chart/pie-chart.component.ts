@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { IGroupByStatus } from 'app/dashboard/dashboard.model';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -8,6 +9,17 @@ import { BaseChartDirective } from 'ng2-charts';
   styleUrls: ['./pie-chart.style.css'],
 })
 export class PieChartComponent implements OnInit {
+  public _dataSource: IGroupByStatus[];
+
+  @Input()
+  get dataSource() {
+    return this._dataSource;
+  }
+
+  set dataSource(param: IGroupByStatus[]) {
+    this._dataSource = param;
+  }
+
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   // Pie
@@ -19,10 +31,22 @@ export class PieChartComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.initPieChart();
+    this.fitDataToModel();
   }
 
-  public initPieChart(): void {
+  public fitDataToModel(): void {
+    if (this.dataSource.length > 0) {
+      const data = [];
+      const labels = [];
+      this.dataSource.forEach(obj => {
+        data.push(obj.total);
+        labels.push(obj.statusDescription);
+      });
+      this.initPieChart(data, labels);
+    }
+  }
+
+  public initPieChart(data, labels): void {
     this.pieChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -35,10 +59,10 @@ export class PieChartComponent implements OnInit {
       },
     };
     this.pieChartData = {
-      labels: [['Download Sales'], ['In Store Sales'], 'Mail Sales'],
+      labels,
       datasets: [
         {
-          data: [300, 500, 100],
+          data,
           backgroundColor: ['#ff638494', '#4aacee8c', '#ffd4aa96'],
           hoverBackgroundColor: ['#ff638494', '#4aacee8c', '#ffd4aa96'],
           hoverBorderColor: ['#ff638494', '#4aacee8c', '#ffd4aa96'],
