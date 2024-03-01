@@ -29,6 +29,7 @@ import { ProgressStatusBarComponent } from './status/progress/progress-status-ba
 import { NgChartsModule } from 'ng2-charts';
 import { ChartsLayoutComponent } from './charts/charts-layout.component';
 import { CalendarModule } from 'primeng/calendar';
+import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuseable-calendar.component';
 
 @NgModule({
   imports: [
@@ -58,7 +59,9 @@ import { CalendarModule } from 'primeng/calendar';
     PieChartComponent,
     StatusSlidesComponent,
     ProgressStatusBarComponent,
+    DashboardReusableCalendarComponent,
   ],
+
   providers: [
     CategoryService,
     DateTimeService,

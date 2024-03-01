@@ -5,22 +5,24 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Observable, Subject } from 'rxjs';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { IChartData } from './dashboard.model';
+import { IChartData, IDueDate, IGroupByStatus, IInterval } from './dashboard.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService extends AbstractEntityService<IChartData> {
+  public resourceUrlNewNew: any;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
+    this.resourceUrlNewNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards');
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposals');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/collateral-appraisals');
   }
 
   public creditProposals(): {
-    getGroupByStatus: (req: any) => Observable<HttpResponse<any>>;
-    getDueDate: (req: any) => Observable<HttpResponse<any>>;
-    getSummaryStatus: (req: any) => Observable<HttpResponse<any>>;
+    getGroupByStatus: (req: any) => Observable<HttpResponse<IGroupByStatus[]>>;
+    getDueDate: (req: any) => Observable<HttpResponse<IDueDate[]>>;
+    getSummaryStatus: (req: any) => Observable<HttpResponse<IGroupByStatus[]>>;
     getProgress: (req: any) => Observable<HttpResponse<any>>;
   } {
     return {
@@ -44,9 +46,9 @@ export class DashboardService extends AbstractEntityService<IChartData> {
   }
 
   public appraisal(): {
-    getGroupByStatus: (req: any) => Observable<HttpResponse<any>>;
-    getDueDate: (req: any) => Observable<HttpResponse<any>>;
-    getSummaryStatus: (req: any) => Observable<HttpResponse<any>>;
+    getGroupByStatus: (req: any) => Observable<HttpResponse<IGroupByStatus[]>>;
+    getDueDate: (req: any) => Observable<HttpResponse<IDueDate[]>>;
+    getSummaryStatus: (req: any) => Observable<HttpResponse<IGroupByStatus[]>>;
     getProgress: (req: any) => Observable<HttpResponse<any>>;
   } {
     return {
@@ -67,6 +69,10 @@ export class DashboardService extends AbstractEntityService<IChartData> {
         return this.http.get<any[]>(`${this.resourceUrlNew}/progress`, { observe: 'response', params: options });
       },
     };
+  }
+
+  public getInterval(): Observable<HttpResponse<IInterval[]>> {
+    return this.http.get<any[]>(`${this.resourceUrlNewNew}/intervals`, { observe: 'response' });
   }
 
   //   public filterBy(req?: any): Observable<HttpResponse<IMenuAccess[]>> {

@@ -17,11 +17,21 @@
           <div>Due Date Charts</div>
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
-          <p-dropdown id="status" [options]="status" [(ngModel)]="selectedStatus" optionLabel="statusDesc"></p-dropdown>
-          <p-dropdown id="date-range" [options]="dateRange" [(ngModel)]="selectedDateRange" optionLabel="rangeDesc"></p-dropdown>
+          <jhi-dashboard-reuseable-calendar
+            [dueDates]="dueDateDates"
+            [mode]="'singular'"
+            (output)="recievedDate($event)"
+          ></jhi-dashboard-reuseable-calendar>
+          <p-dropdown
+            id="status"
+            [options]="intervalList"
+            [(ngModel)]="_selectedInterval"
+            optionLabel="label"
+            (onChange)="dueDateInterval(_selectedInterval.id)"
+          ></p-dropdown>
         </ng-template>
         <ng-template #content>
-          <jhi-bar-chart></jhi-bar-chart>
+          <jhi-bar-chart [dataSource]="dueDateDataSource"></jhi-bar-chart>
         </ng-template>
       </e-panel>
       <!-- pie chart -->
@@ -41,17 +51,11 @@
           Progress Charts
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
-          <p-calendar
-            [(ngModel)]="filterRange"
-            (ngModelChange)="convertDate()"
-            placeholder="Select Dates Range"
-            inputId="mltimonths"
-            [numberOfMonths]="2"
-            selectionMode="range"
-            dateFormat="yy/mm/dd"
-            [readonlyInput]="true"
-          >
-          </p-calendar>
+          <jhi-dashboard-reuseable-calendar
+            [filterData]="filteredLineChartData"
+            [mode]="'range'"
+            (output)="recieveFilteredProgress($event)"
+          ></jhi-dashboard-reuseable-calendar>
         </ng-template>
         <ng-template #content>
           <jhi-line-chart [baseLineChartData]="filteredLineChartData"></jhi-line-chart>

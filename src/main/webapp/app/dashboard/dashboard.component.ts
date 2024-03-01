@@ -29,18 +29,20 @@ export class DashboardComponent implements OnInit {
 
   private preLoadData(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe(newPos => {
-      this.positionId = newPos.id;
-      this.menuAccessService
-        .filterBy({
-          positionTypeId: newPos.positionTypeId,
-          page: 0,
-          size: 999,
-          sort: ['ASC'],
-        })
-        .subscribe(positionTypeList => {
-          const allowedDashboard = positionTypeList.body.filter(obj => obj.menuItemId.includes('DASHBOARD_'));
-          this.splitAvailableData(allowedDashboard);
-        });
+      if (newPos) {
+        this.positionId = newPos.id;
+        this.menuAccessService
+          .filterBy({
+            positionTypeId: newPos.positionTypeId,
+            page: 0,
+            size: 999,
+            sort: ['ASC'],
+          })
+          .subscribe(positionTypeList => {
+            const allowedDashboard = positionTypeList.body.filter(obj => obj.menuItemId.includes('DASHBOARD_'));
+            this.splitAvailableData(allowedDashboard);
+          });
+      }
     });
   }
 

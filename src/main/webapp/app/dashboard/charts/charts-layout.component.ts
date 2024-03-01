@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, ViewChild, OnInit, Input, OnChanges, Simp
 import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
 import { Browser } from '@syncfusion/ej2-base';
 import moment from 'moment';
-import { IGroupByStatus, lineChartDummyData } from '../dashboard.model';
+import { IDueDate, IGroupByStatus, IInterval, lineChartDummyData } from '../dashboard.model';
 import { DashboardService } from '../dashboard.service';
 import { IMenuAccess } from 'app/entities/menu-access/menu-access.model';
 
@@ -69,19 +69,27 @@ export class ChartsLayoutComponent implements OnInit {
   SelectedDateRange: any | undefined;
 
   status: any[] | undefined;
-  selectedStatus: any | undefined;
+  public _selectedInterval: string;
+  public selectedInterval = 'DAILY';
 
-  public filterRange = [];
+  public creditProposalFilter: IMenuAccess[] = [];
+  public appraisalFilter: IMenuAccess[] = [];
+
+  public intervalList: IInterval[] = [];
   public summaryStatusDataSource: IGroupByStatus[] = [];
+  public dueDateDataSource: IDueDate[] = [];
   private lineChartData = lineChartDummyData;
   public filteredLineChartData = this.lineChartData.sort(this.sortByDateAsc);
+  public _dueDateDates: Date = new Date();
+  public dueDateDates: string = moment(this._dueDateDates).format('YYYY-MM-DD').toString();
 
   constructor(protected dashboardService: DashboardService) {}
 
   ngOnInit(): void {
+    this.loadInterval().then(() => {
+      this.preLoadData();
+    });
     this.initSize();
-    this.filterRange = [];
-    this.preLoadData();
   }
 
   public initSize(): void {
@@ -111,43 +119,57 @@ export class ChartsLayoutComponent implements OnInit {
     this.dashboard.panels = updatedPanels;
   }
 
-  public convertDate() {
-    if (this.filterRange[1] !== null) {
-      const startDate = moment(this.filterRange[0]).format('YYYY/MM/DD').toString();
-      const endDate = moment(this.filterRange[1]).format('YYYY/MM/DD').toString();
-
-      this.filteredLineChartData = this.lineChartData.filter(obj => obj.date >= startDate && obj.date <= endDate);
-    }
+  public loadInterval(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.dashboardService.getInterval().subscribe(res => {
+        this.intervalList = res.body;
+        resolve();
+      });
+    });
   }
+
   public preLoadData(): void {
     if (this.chartsAvailability.length > 0) {
-      const creditProposalFilter: IMenuAccess[] = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
-      const appraisalFilter: IMenuAccess[] = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
+      this.creditProposalFilter = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
+      this.appraisalFilter = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
 
       // const availableChartDueDate = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_DUEDATE'));
       // const availableChartProgress = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_PROGRESS'));
-      // this.loadDueDate(creditProposalFilter, appraisalFilter);
-      this.loadSummaryStatus(creditProposalFilter, appraisalFilter);
-      // this.loadProgress(creditProposalFilter, appraisalFilter);
+      this.loadDueDate();
+      this.loadSummaryStatus();
+      // this.loadProgress();
     }
   }
 
-  // loadDueDate(availableChartDueDate: any) {
-  //   if (availableChartDueDate.length > 0) {
-  //     const CP = availableChartDueDate.find(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
-  //     const appraisal = availableChartDueDate.find(obj => obj.menuItemId.includes('_APPRAISAL_'));
+  public loadDueDate(): void {
+    if (this.creditProposalFilter.length > 0) {
+      const cpStatusChart = this.creditProposalFilter.filter(obj => obj.menuItemId.includes('_DUEDATE'));
+      if (cpStatusChart.length > 0) {
+        this.dashboardService
+          .creditProposals()
+          .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedInterval })
+          .subscribe(res => {
+            this.dueDateDataSource = res.body;
+          });
+      }
+    }
 
-  //     if (CP) {
-  //       this.dashboardService.creditProposals().getDueDate({ idPosition: this.idPosition });
-  //     }
-  //     if (appraisal) {
-  //       this.dashboardService.appraisal().getDueDate({ idPosition: this.idPosition });
-  //     }
-  //   }
-  // }
-  public loadSummaryStatus(creditProposalFilter: IMenuAccess[], appraisalFilter: IMenuAccess[]) {
-    if (creditProposalFilter.length > 0) {
-      const cpStatusChart = creditProposalFilter.filter(
+    if (this.appraisalFilter.length > 0) {
+      const appraisalStatusChart = this.appraisalFilter.filter(obj => obj.menuItemId.includes('_DUEDATE'));
+      if (appraisalStatusChart.length > 0) {
+        this.dashboardService
+          .appraisal()
+          .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedInterval })
+          .subscribe(res => {
+            this.dueDateDataSource = res.body;
+          });
+      }
+    }
+  }
+
+  public loadSummaryStatus(): void {
+    if (this.creditProposalFilter.length > 0) {
+      const cpStatusChart = this.creditProposalFilter.filter(
         obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
       );
       if (cpStatusChart.length > 0) {
@@ -160,8 +182,8 @@ export class ChartsLayoutComponent implements OnInit {
       }
     }
 
-    if (appraisalFilter.length > 0) {
-      const appraisalStatusChart = appraisalFilter.filter(
+    if (this.appraisalFilter.length > 0) {
+      const appraisalStatusChart = this.appraisalFilter.filter(
         obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
       );
       if (appraisalStatusChart.length > 0) {
@@ -174,7 +196,7 @@ export class ChartsLayoutComponent implements OnInit {
       }
     }
   }
-  // loadProgress(availableChartProgress: any) {
+  // loadProgress() {
   //   if (availableChartProgress.length > 0) {
   //     const CP = availableChartProgress.find(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
   //     const appraisal = availableChartProgress.find(obj => obj.menuItemId.includes('_APPRAISAL_'));
@@ -186,5 +208,18 @@ export class ChartsLayoutComponent implements OnInit {
     const dateA = new Date(a.date);
     const dateB = new Date(b.date);
     return dateA.getTime() - dateB.getTime();
+  }
+
+  public recieveFilteredProgress(event: any): void {
+    this.filteredLineChartData = event;
+  }
+
+  public recievedDate(event: any): void {
+    this.dueDateDates = event;
+  }
+
+  public dueDateInterval(_selectedInterval): void {
+    this.selectedInterval = _selectedInterval;
+    this.loadDueDate();
   }
 }

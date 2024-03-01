@@ -1,4 +1,5 @@
 <canvas
+  *ngIf="this.dataSource.length > 0"
   baseChart
   class="chart"
   [data]="barChartData"
@@ -10,4 +11,4 @@
 >
 </canvas>
 
-<!-- <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button> -->
+<label class="d-flex justify-content-center" *ngIf="this.dataSource.length === 0"> No Data Available</label>
