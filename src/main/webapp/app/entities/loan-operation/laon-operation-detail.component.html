@@ -306,7 +306,7 @@
             </div>
 
             <!-- Document: summary gabung -->
-            <!-- <div class="wrapper-card">
+            <div class="wrapper-card">
               <e-card class="mb-3">
                 <jhi-credit-proposal-tab-summary
                   [fileDar]="dataFileDar"
@@ -318,15 +318,14 @@
                 >
                 </jhi-credit-proposal-tab-summary>
                 <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
-                <jhi-dppk-assign-to
-                  *ngIf="conditionShowAssignDppk()"
-                  (assignToOne)="onAssignToOne($event)"
-                  (assignToTwo)="onAssignToTwo($event)"
+                <jhi-assign-to
+                  (assignTo)="onAssignTo($event)"
+                  *ngIf="url == 'loan-ops-distribution'"
                   [creditProposal]="creditProposal"
-                >
-                </jhi-dppk-assign-to>
+                  [url]="url"
+                ></jhi-assign-to>
               </e-card>
-            </div> -->
+            </div>
             <!-- Document: summary gabung -->
           </div>
           <!-- End Dar Summary -->
@@ -510,7 +509,9 @@
           {{ task.caption }}
         </button>
 
-        <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
+        <!-- <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button> -->
+        <!-- Sementara Default -->
+        <button class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
     </div>
     <!-- End Action -->

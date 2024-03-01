@@ -1,0 +1,61 @@
+<div class="wrapper-card mt-3">
+  <e-card>
+    <div class="e-card-content">
+      <div class="form-group">
+        <div class="table-responsive-material">
+          <table mat-table [dataSource]="dataPkDraft" class="w-100">
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef>No</th>
+              <td mat-cell *matCellDef="let element">{{ element.indexNum }}</td>
+            </ng-container>
+            <ng-container matColumnDef="fileName">
+              <th mat-header-cell *matHeaderCellDef>File Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let element">{{ element.tags.createDate }}</td>
+            </ng-container>
+            <ng-container matColumnDef="createBy">
+              <th mat-header-cell *matHeaderCellDef>Create By</th>
+              <td mat-cell *matCellDef="let element">{{ element.tags.createBy }}</td>
+            </ng-container>
+            <ng-container matColumnDef="sizeFile">
+              <th mat-header-cell *matHeaderCellDef>Size File</th>
+              <td mat-cell *matCellDef="let element">{{ element.sizeFile }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef width="10%">Action</th>
+              <td mat-cell *matCellDef="let element">
+                <section *ngIf="isElement">
+                  <button pButton type="button" (click)="onEdit(element)" class="flat-button">
+                    <fa-icon icon="eye"></fa-icon>
+                  </button>
+                  <button pButton type="button" (click)="onDelete(element)" class="flat-button">
+                    <fa-icon icon="trash-alt"></fa-icon>
+                  </button>
+                </section>
+                <section *ngIf="isLabel">
+                  <button pButton type="button" (click)="onEdit(element)" class="flat-button">
+                    <fa-icon icon="eye"></fa-icon>
+                  </button>
+                </section>
+              </td>
+            </ng-container>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-action" align="center">
+      <section *ngIf="isElement">
+        <button mat-raised-button (click)="generate()" class="button-styling"><mat-icon>add</mat-icon> Generate</button>
+      </section>
+    </div>
+  </e-card>
+</div>
