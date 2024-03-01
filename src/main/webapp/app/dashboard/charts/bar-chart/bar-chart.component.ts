@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { IDueDate } from 'app/dashboard/dashboard.model';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -7,7 +8,22 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.style.css'],
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent implements OnInit, OnChanges {
+  public _dataSource: IDueDate[];
+  public noOverdue: number[] = [];
+  public overdueLessThan: number[] = [];
+  public overdueBetween: number[] = [];
+  public moreThan: number[] = [];
+
+  @Input()
+  get dataSource() {
+    return this._dataSource;
+  }
+
+  set dataSource(param: IDueDate[]) {
+    this._dataSource = param;
+  }
+
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   public barChartOptions: ChartConfiguration['options'];
@@ -17,7 +33,25 @@ export class BarChartComponent implements OnInit {
 
   constructor() {}
   ngOnInit(): void {
-    this.initBarChart();
+    this.prepData();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataSource']) {
+      this.prepData();
+    }
+  }
+
+  public prepData(): void {
+    if (this.dataSource.length > 0) {
+      this.dataSource.forEach(obj => {
+        this.noOverdue.push(obj.noOverdue);
+        this.overdueLessThan.push(obj.overDueLessThan);
+        this.overdueBetween.push(obj.overDueBetween);
+        this.moreThan.push(obj.moreThan);
+      });
+      this.initBarChart();
+    }
   }
 
   public initBarChart(): void {
@@ -44,28 +78,35 @@ export class BarChartComponent implements OnInit {
     };
 
     this.barChartData = {
-      labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
+      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday', 'Sunday'],
       datasets: [
         {
-          data: [65, 59, 80, 81, 56, 55, 40],
-          label: 'Series A',
+          data: this.noOverdue,
+          label: 'No Overdue',
           backgroundColor: ['#ff638494'],
           hoverBackgroundColor: ['#ff638494'],
           hoverBorderColor: ['#ff638494'],
         },
         {
-          data: [28, 48, 40, 19, 86, 27, 90],
-          label: 'Series B',
+          data: this.overdueLessThan,
+          label: 'Overdue Less Than',
           backgroundColor: ['#4aacee8c'],
           hoverBackgroundColor: ['#4aacee8c'],
           hoverBorderColor: ['#4aacee8c'],
         },
         {
-          data: [65, 59, 80, 28, 48, 40, 40],
-          label: 'Series C',
+          data: this.overdueBetween,
+          label: 'Overdue Between',
           backgroundColor: [' #ffd4aa96'],
           hoverBackgroundColor: [' #ffd4aa96'],
           hoverBorderColor: [' #ffd4aa96'],
+        },
+        {
+          data: this.moreThan,
+          label: 'More Than',
+          backgroundColor: [' #b0dcc9'],
+          hoverBackgroundColor: [' #b0dcc9'],
+          hoverBorderColor: [' #b0dcc9'],
         },
       ],
     };

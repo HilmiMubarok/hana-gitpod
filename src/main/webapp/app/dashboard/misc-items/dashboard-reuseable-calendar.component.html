@@ -1,0 +1,26 @@
+<p-calendar
+  *ngIf="mode === 'range'"
+  appendTo="body"
+  [(ngModel)]="filterRange"
+  (ngModelChange)="convertDate()"
+  placeholder="Select Dates Range"
+  inputId="mltimonths"
+  [numberOfMonths]="1"
+  selectionMode="range"
+  dateFormat="yy/mm/dd"
+  [readonlyInput]="true"
+>
+</p-calendar>
+
+<p-calendar
+  style="text-align: center"
+  *ngIf="mode === 'singular'"
+  appendTo="body"
+  [(ngModel)]="dueDateDates"
+  (ngModelChange)="sendOutDate()"
+  placeholder="Select Dates"
+  [numberOfMonths]="1"
+  dateFormat="yy/mm/dd"
+  [readonlyInput]="true"
+>
+</p-calendar>

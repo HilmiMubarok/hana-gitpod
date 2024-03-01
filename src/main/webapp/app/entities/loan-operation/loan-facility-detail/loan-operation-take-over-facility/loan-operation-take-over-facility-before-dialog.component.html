@@ -1,0 +1,165 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="mat-dialog-title header-title">Detail Facility Take Over</div>
+    </div>
+  </div>
+
+  <div style="margin: 1rem">
+    <div class="row">
+      <div class="col-6">
+        <section *ngIf="!isViewMode">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Type</mat-label>
+            <input matInput type="text" [(ngModel)]="facilityTakeOver.facilityTypeBank" [disabled]="view" />
+          </mat-form-field>
+        </section>
+        <section *ngIf="isViewMode">
+          <div class="fontsebled row">
+            <div class="col-3">Facility Type</div>
+            <div class="col-md-auto" style="margin-left: -7px">:</div>
+            <div class="col">
+              {{ facilityTakeOver.facilityTypeBank }}
+            </div>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Tenor</mat-label>
+                <input matInput type="number" [(ngModel)]="facilityTakeOver.maturityBank" [disabled]="view" />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="facilityTakeOver.maturityPeriodType" [disabled]="view">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <div class="row">
+            <div class="fontsebled row">
+              <div class="col-3">Tenor</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ facilityTakeOver.maturityBank }}
+              </div>
+            </div>
+            <div class="fontsebled row">
+              <div class="col-3">Period Type</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ facilityTakeOver.maturityPeriodType }}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-6">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Initial Limit</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="facilityTakeOver.initialLimitBank"
+                  [disabled]="view"
+                  [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Currency</mat-label>
+                <mat-select [(ngModel)]="facilityTakeOver.currency" [disabled]="view">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of currencyList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Initial Limit</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">{{ facilityTakeOver.currency }} {{ facilityTakeOver.initialLimitBank | number: '1.0-0' }}</div>
+            <!-- <div class="col-2">Currency</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ facilityTakeOver.currency }}
+                </div> -->
+          </div>
+        </section>
+
+        <section *ngIf="!isViewMode">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Outstanding</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="facilityTakeOver.outstandingBank"
+                  [disabled]="view"
+                  [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Currency</mat-label>
+                <mat-select [(ngModel)]="facilityTakeOver.currency2" [disabled]="view">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of currencyList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+        <section *ngIf="isViewMode">
+          <div class="fontsebled row py-1">
+            <div class="col-3">Outstanding</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">{{ facilityTakeOver.currency2 }} {{ facilityTakeOver.outstandingBank | number: '1.0-0' }}</div>
+            <!-- <div class="col-2">Currency</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+  
+                </div> -->
+          </div>
+        </section>
+      </div>
+      <mat-dialog-actions align="center" class="align-center">
+        <section *ngIf="!isViewMode">
+          <button mat-raised-button *ngIf="!view" (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
+          <button mat-raised-button *ngIf="!view" (click)="Onsave()" class="confirm-button-yes">Save</button>
+        </section>
+        <button mat-raised-button class="confirm-button-no" *ngIf="view" mat-dialog-close>Cancel</button>
+        <section *ngIf="isViewMode">
+          <div class="mt-3 text-center">
+            <button mat-raised-button class="confirm-button-yes" hidden (click)="Onsave()">Save</button>
+          </div>
+        </section>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>

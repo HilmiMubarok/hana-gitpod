@@ -1,0 +1,83 @@
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
+<h2 mat-dialog-title class="header-title">Collateral Detail</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <section *ngIf="!isViewMode">
+          <div class="form-group" *ngIf="view === 'view'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Collateral view</mat-label>
+              <input matInput type="text" [value]="collateral.collateralTypeDescription" disabled />
+            </mat-form-field>
+          </div>
+          <div class="form-group" *ngIf="view === 'edit'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Collateral add</mat-label>
+              <mat-select [(ngModel)]="collateral.id" name="facilityType" (selectionChange)="changeType($event.value)">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of dataCollateralOption" [value]="item.id">
+                  {{ item.id + ' ' + item.collateralTypeDescription }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </section>
+        <section *ngIf="isViewMode">
+          <div class="fontsebled row">
+            <div class="col-1">Collateral</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateral.collateralTypeDescription }}
+            </div>
+          </div>
+        </section>
+        <div class="col-6">
+          <section *ngIf="!isViewMode">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>MV Internal in IDR</mat-label>
+                <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isViewMode">
+            <div class="fontsebled row">
+              <div class="col-2">MV Internal in IDR</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ internalMV | currency: 'IDR ':'symbol':'1.0-0' }}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-6">
+          <section *ngIf="!isViewMode">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>LV Internal in IDR</mat-label>
+                <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isViewMode">
+            <div class="fontsebled row">
+              <div class="col-2">LV Internal in IDR</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ internalLV | currency: 'IDR ':'symbol':'1.0-0' }}
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-dialog-actions align="center" class="align-center">
+    <button mat-raised-button class="confirm-button-no" mat-dialog-close align="center">Cancel</button>
+    <button mat-raised-button class="confirm-button-yes" *ngIf="view === 'edit'" (click)="onSave()">Save</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

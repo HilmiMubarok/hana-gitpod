@@ -519,11 +519,18 @@ export class CreditAgreementDetailComponent implements OnInit {
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
         console.log('resAttr', this.resAttr);
 
-        // validasi pk draft
-        if (this.dataPkDraft && this.dataPkDraft.length > 0) {
-          this.save('process');
+        if (this.validateDraft()) {
+          // Validasi Final
+          if (this.validateFinal()) {
+            this.save('process');
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Please Generate PK Final first.',
+            });
+          }
         } else {
-          // this.save('default');
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
@@ -1772,13 +1779,21 @@ export class CreditAgreementDetailComponent implements OnInit {
         this.generatePkDraftService.setDataReportDraft(this.dataPkDraft);
       });
   }
-
-  public testValidate() {
-    if (this.dataPkDraft.length === 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please generate PK Draft' });
-    } else {
-      console.log('length data draft', this.dataPkDraft.length);
+  private validateDraft(): boolean {
+    if (this.dataPkDraft && this.dataPkDraft.length === 0) {
+      return false;
     }
+    return true;
+  }
+
+  private validateFinal(): boolean {
+    const dataGeneratePKFinal = this.dataPKFinal.filter(e => e.tags.documentType === 'DOC_GENERATE_PK');
+    if (this.parentPath.match(/finalize-pk/g) && this.creditProposal.statusId === 'PK_GENERATED') {
+      if (dataGeneratePKFinal && dataGeneratePKFinal.length === 0) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 interface IObj {
