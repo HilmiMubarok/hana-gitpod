@@ -1,0 +1,137 @@
+.close.mat-button {
+  width: 10px;
+}
+
+.button-close {
+  margin-left: auto;
+  opacity: 0.5;
+  width: 15px;
+}
+
+.button-close:hover {
+  color: white;
+  background-color: rgb(195, 35, 35);
+  opacity: 1;
+  width: 15px;
+}
+
+.style-close {
+  text-align: right;
+}
+
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button,
+.mat-flat-button {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block !important;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 40px !important;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+ul.list-image {
+  flex-wrap: wrap;
+  list-style: none;
+  display: flex;
+  li {
+    img {
+      max-width: 35vw;
+    }
+    margin: 15px;
+    display: inline;
+  }
+}
+
+.bgWhite {
+  color: white !important;
+  background-color: white !important;
+}
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+ngx-dropzone-preview {
+  width: 200px !important;
+  overflow: hidden;
+}
+
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}
+
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-dialog-action {
+  text-align: left !important;
+}

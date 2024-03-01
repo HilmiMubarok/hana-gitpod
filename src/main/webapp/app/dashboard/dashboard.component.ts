@@ -1,14 +1,9 @@
-import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
-import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
-import { Browser } from '@syncfusion/ej2-base';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { IMenuAccess } from 'app/entities/menu-access/menu-access.model';
 import { MenuAccessService } from 'app/entities/menu-access/menu-access.service';
 import { TemplateService } from 'app/layouts/template/template.service';
-
-export interface IChartData {
-  chartsTitle?: string;
-  chartData?: IMenuAccess[];
-}
+import { IChartData } from './dashboard.model';
+import { DashboardService } from './dashboard.service';
 
 @Component({
   selector: 'jhi-dashboard',
@@ -17,14 +12,16 @@ export interface IChartData {
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
-  public availableStatus: IMenuAccess[];
-  // private availableChartDueDate: IMenuAccess[];
-  // private availableChartStatus: IMenuAccess[];
-  // private availableChartProgress: IMenuAccess[];
+  private positionId: number;
 
   public mergedChartData: IChartData[] = [];
+  public groupByStatusDataSource: any = [];
 
-  constructor(private menuAccessService: MenuAccessService, private templateService: TemplateService) {}
+  constructor(
+    private menuAccessService: MenuAccessService,
+    private templateService: TemplateService,
+    private dashboardService: DashboardService
+  ) {}
 
   ngOnInit(): void {
     this.preLoadData();
@@ -32,6 +29,7 @@ export class DashboardComponent implements OnInit {
 
   private preLoadData(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe(newPos => {
+      this.positionId = newPos.id;
       this.menuAccessService
         .filterBy({
           positionTypeId: newPos.positionTypeId,
@@ -47,32 +45,51 @@ export class DashboardComponent implements OnInit {
   }
 
   private splitAvailableData(allowedDashboard): void {
-    this.availableStatus = allowedDashboard.filter(obj => !obj.menuItemId.includes('DASHBOARD_CHART_'));
+    const availableStatus: IMenuAccess[] = allowedDashboard.filter(obj => !obj.menuItemId.includes('DASHBOARD_CHART_'));
+    const tempData: IMenuAccess[] = allowedDashboard.filter(obj => obj.menuItemId.includes('DASHBOARD_CHART_'));
 
-    // const availableChartDueDate = allowedDashboard.filter(obj => obj.menuItemId.includes('_DUEDATE'));
-    // const availableChartStatus = allowedDashboard.filter(
-    //   obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
-    // );
-    // const availableChartProgress = allowedDashboard.filter(obj => obj.menuItemId.includes('_PROGRESS'));
+    const argCP: IMenuAccess[] = availableStatus.filter(item => item.menuItemId.includes('_CREDIT_PROPOSAL_'));
+    const argsAppraisal: IMenuAccess[] = availableStatus.filter(item => item.menuItemId.includes('_APPRAISAL_'));
 
-    const tempData: any = allowedDashboard.filter(obj => obj.menuItemId.includes('DASHBOARD_CHART_'));
-    this.categorizedChartsData(tempData);
+    const creditProposalFilter: IMenuAccess[] = tempData.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
+    const appraisalFilter: IMenuAccess[] = tempData.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
+
+    this.categorizedChartsData(creditProposalFilter, appraisalFilter);
+    this.loadStatusData(argCP, argsAppraisal);
   }
 
-  public categorizedChartsData(tempData: any): void {
-    if (tempData.length > 0) {
-      const creditProposalFilter = tempData.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
-      const appraisalFilter = tempData.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
+  public categorizedChartsData(creditProposalFilter: IMenuAccess[], appraisalFilter: IMenuAccess[]): void {
+    if (creditProposalFilter.length > 0) {
+      this.mergedChartData.push({ chartsTitle: 'Charts Credit Proposal', accessibleMenu: creditProposalFilter });
+    }
+    if (appraisalFilter.length > 0) {
+      this.mergedChartData.push({ chartsTitle: 'Charts Appraisal', accessibleMenu: appraisalFilter });
+    }
+  }
 
-      if (creditProposalFilter.length > 0) {
-        this.mergedChartData.push({ chartsTitle: 'Charts Credit Proposal', chartData: creditProposalFilter });
-      }
+  public loadStatusData(argCP: IMenuAccess[], argsAppraisal: IMenuAccess[]): void {
+    if (argCP.length > 0) {
+      this.dashboardService
+        .creditProposals()
+        .getGroupByStatus({ idPosition: this.positionId })
+        .subscribe(res => {
+          if (res) {
+            const menuItemDescription = argCP[0].menuItemDescription;
+            this.groupByStatusDataSource.push({ menuItemDescription, chartsData: res.body });
+          }
+        });
+    }
 
-      if (appraisalFilter.length > 0) {
-        this.mergedChartData.push({ chartsTitle: 'Charts Appraisal', chartData: appraisalFilter });
-      }
-    } else {
-      this.mergedChartData = null;
+    if (argsAppraisal.length > 0) {
+      this.dashboardService
+        .appraisal()
+        .getGroupByStatus({ idPosition: this.positionId })
+        .subscribe(res => {
+          if (res) {
+            const menuItemDescription = argsAppraisal[0].menuItemDescription;
+            this.groupByStatusDataSource.push({ menuItemDescription, chartsData: res.body });
+          }
+        });
     }
   }
 }
