@@ -386,7 +386,7 @@
       </section>
 
       <section *ngIf="parentSource === 'loan-analys'">
-        <mat-label>REMARKSs</mat-label>
+        <mat-label>REMARKS</mat-label>
         <ejs-documenteditorcontainer
           #document_editor_container_view_false_loan_analys
           [headers]="customHeadersJWT"
@@ -404,7 +404,7 @@
         <mat-label>REMARKS</mat-label>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
-            #document_editor_container_view_false_loan_analys
+            #document_editor_container_view_false
             [headers]="customHeadersJWT"
             [enableToolbar]="true"
             [enableLocalPaste]="false"
@@ -420,16 +420,16 @@
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
           <ejs-documenteditorcontainer
-            #document_editor_container_view_false_loan_analys
+            #document_editor_container_view_false
             [headers]="customHeadersJWT"
             [enableToolbar]="false"
             [enableLocalPaste]="false"
             height="100vh"
             style="display: block"
-            (documentChange)="onDocumentChange()"
+            (documentChange)="remarkDisable()"
             [enableEditor]="false"
             [isReadOnly]="true"
-            [disabled]="remarkDisable()"
+            disabled
           ></ejs-documenteditorcontainer>
         </section>
       </section>
