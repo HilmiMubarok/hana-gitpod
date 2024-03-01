@@ -1,0 +1,86 @@
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
+<h2 mat-dialog-title class="header-title">Collateral Detail</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <section *ngIf="!isViewMode">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Collateral</mat-label>
+              <input matInput type="text" [(ngModel)]="collateralPrevious.collateralType" [disabled]="view" />
+            </mat-form-field>
+          </div>
+        </section>
+        <section *ngIf="isViewMode">
+          <div class="fontsebled row">
+            <div class="col-2">Collateral</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralPrevious.collateralType }}
+            </div>
+          </div>
+        </section>
+        <div class="col-6">
+          <section *ngIf="!isViewMode">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>MV Internal in IDR</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="collateralPrevious.marketValue = numberInputChanged($event)"
+                  [disabled]="view"
+                />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isViewMode">
+            <div class="fontsebled row">
+              <div class="col-4">MV Internal in IDR</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0' }}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-6">
+          <section *ngIf="!isViewMode">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>LV Internal in IDR</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0'"
+                  (ngModelChange)="collateralPrevious.liquidValue = numberInputChanged($event)"
+                  [disabled]="view"
+                />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="isViewMode">
+            <div class="fontsebled row">
+              <div class="col-4">LV Internal in IDR</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0' }}
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-dialog-actions align="center" class="align-center">
+    <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no" style="margin-right: 5px">Cancel</button>
+    <section *ngIf="!isViewMode">
+      <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+    </section>
+  </mat-dialog-actions>
+</mat-dialog-content>

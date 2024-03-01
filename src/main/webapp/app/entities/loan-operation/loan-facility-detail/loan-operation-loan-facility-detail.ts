@@ -522,7 +522,6 @@ export class LoanOperationLoanFacilityDetailComponent implements OnInit, OnChang
                 console.log('Next Success uploading files', res);
               },
               complete: () => {
-                console.log('complete');
                 this.baService.setLoading(false);
               },
               error: err => {
