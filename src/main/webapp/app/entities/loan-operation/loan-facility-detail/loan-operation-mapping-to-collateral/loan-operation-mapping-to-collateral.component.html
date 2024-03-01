@@ -1,0 +1,47 @@
+<table mat-table [dataSource]="collateralData" class="w-100" appearance="outline">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef>No.</th>
+    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="collateralType">
+    <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.collateralTypeId }}</td>
+  </ng-container>
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef>Address</th>
+    <td mat-cell *matCellDef="let element">{{ element.collateralAddress.address1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="lvInternal">
+    <th mat-header-cell *matHeaderCellDef>LV (Internal)</th>
+    <td mat-cell *matCellDef="let element">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="mvInternal">
+    <th mat-header-cell *matHeaderCellDef>MV (Internal)</th>
+    <td mat-cell *matCellDef="let element">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="bindingValue">
+    <th mat-header-cell *matHeaderCellDef>Binding Value</th>
+    <td mat-cell *matCellDef="let i = index">
+      <input
+        matInput
+        disabled
+        type="text"
+        [disabled]="isLabel"
+        [ngModel]="bindingValueHelper[i] | currency: 'IDR ':'symbol':'1.0-0'"
+        (ngModelChange)="bindingValueHelper[i] = numberInputChanged($event)"
+        (change)="onChangeBindingValue($event, i)"
+      />
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>Select</th>
+    <td mat-cell *matCellDef="let i = index">
+      <mat-checkbox [checked]="mappingStatusHelper[i] === 'yes'" (change)="changeBuildingFacility($event, i)" disabled></mat-checkbox>
+    </td>
+  </ng-container>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+</table>
