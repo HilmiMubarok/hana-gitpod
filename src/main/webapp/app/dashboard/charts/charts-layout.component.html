@@ -19,15 +19,16 @@
           <!-- filter -->
           <jhi-dashboard-reuseable-calendar
             [dueDates]="dueDateDates"
-            [mode]="'singular'"
+            [mode]="selectedDuedateInterval"
+            [type]="'dueDate'"
             (output)="recievedDate($event)"
           ></jhi-dashboard-reuseable-calendar>
           <p-dropdown
             id="status"
             [options]="intervalList"
-            [(ngModel)]="_selectedInterval"
+            [(ngModel)]="_selectedDuedateInterval"
             optionLabel="label"
-            (onChange)="dueDateInterval(_selectedInterval.id)"
+            (onChange)="dueDateInterval(_selectedDuedateInterval.id)"
           ></p-dropdown>
         </ng-template>
         <ng-template #content>
@@ -53,7 +54,8 @@
           <!-- filter -->
           <jhi-dashboard-reuseable-calendar
             [filterData]="filteredLineChartData"
-            [mode]="'range'"
+            [mode]="'DAILY'"
+            [type]="'progress'"
             (output)="recieveFilteredProgress($event)"
           ></jhi-dashboard-reuseable-calendar>
         </ng-template>

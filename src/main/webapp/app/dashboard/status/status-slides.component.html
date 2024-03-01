@@ -10,9 +10,10 @@
     <ng-template let-datas pTemplate="item" let-i="index">
       <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
         <mat-card class="status-card">
-          <mat-card-header style="text-align: center !important" class="header-for-status-slide">
+          <div class="status-card-headers title-center">
             {{ datas.statusDescription }}
-          </mat-card-header>
+          </div>
+
           <mat-card-content style="margin-top: -0.3rem">
             <jhi-progress-status-bar [dataSource]="datas"></jhi-progress-status-bar>
           </mat-card-content>

@@ -69,8 +69,8 @@ export class ChartsLayoutComponent implements OnInit {
   SelectedDateRange: any | undefined;
 
   status: any[] | undefined;
-  public _selectedInterval: string;
-  public selectedInterval = 'DAILY';
+  public _selectedDuedateInterval: string;
+  public selectedDuedateInterval = 'DAILY';
 
   public creditProposalFilter: IMenuAccess[] = [];
   public appraisalFilter: IMenuAccess[] = [];
@@ -147,7 +147,7 @@ export class ChartsLayoutComponent implements OnInit {
       if (cpStatusChart.length > 0) {
         this.dashboardService
           .creditProposals()
-          .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedInterval })
+          .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedDuedateInterval })
           .subscribe(res => {
             this.dueDateDataSource = res.body;
           });
@@ -159,7 +159,7 @@ export class ChartsLayoutComponent implements OnInit {
       if (appraisalStatusChart.length > 0) {
         this.dashboardService
           .appraisal()
-          .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedInterval })
+          .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedDuedateInterval })
           .subscribe(res => {
             this.dueDateDataSource = res.body;
           });
@@ -216,10 +216,11 @@ export class ChartsLayoutComponent implements OnInit {
 
   public recievedDate(event: any): void {
     this.dueDateDates = event;
+    this.loadDueDate();
   }
 
-  public dueDateInterval(_selectedInterval): void {
-    this.selectedInterval = _selectedInterval;
+  public dueDateInterval(_selectedDuedateInterval): void {
+    this.selectedDuedateInterval = _selectedDuedateInterval;
     this.loadDueDate();
   }
 }
