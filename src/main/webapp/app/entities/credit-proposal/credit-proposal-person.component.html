@@ -964,6 +964,46 @@
                   </div>
                 </div>
               </section>
+              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Credit Type</mat-label>
+                  <mat-select [(ngModel)]="deptorData.debtorData.creditType" name="creditType" [disabled]="true">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of creditType" [value]="item.code" [disabled]="true">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <div class="fontsebled row">
+                  <div class="col">Credit Type</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col col-lg-4">
+                    {{ creditTypeValue }}
+                  </div>
+                </div>
+              </section>
+              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Golongan Debitur</mat-label>
+                  <mat-select [(ngModel)]="deptorData.debtorData.golongan" name="golongan" [disabled]="true">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of golongan" [value]="item.code" [disabled]="true">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <div class="fontsebled row">
+                  <div class="col">Golongan Debitur</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col col-lg-4">
+                    {{ golonganValue }}
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>

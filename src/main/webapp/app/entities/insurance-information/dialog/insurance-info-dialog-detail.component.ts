@@ -291,7 +291,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
 
   public insuranceDeviation() {
     if (this.insurance) {
-      if (this.insurance.insuranceCategoryId === 36501) {
+      if (this.insurance.insuranceCategoryId === 34107) {
         this.dataInsuranceDeviation = true;
       } else {
         this.dataInsuranceDeviation = false;

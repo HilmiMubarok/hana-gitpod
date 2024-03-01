@@ -68,7 +68,10 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
   public pacth: any;
   public view: boolean;
   public partyCif: IPartyCif = new PartyCif();
-
+  creditType = [];
+  creditTypeValue: any;
+  golongan = [];
+  golonganValue: any;
   partytypes: IPartyType[] = [];
 
   moment = _rollupMoment || _moment;
@@ -227,6 +230,8 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     this.lovCallreport();
     this.getLov();
     this.getCompanyType();
+    this.loadGolongan();
+    this.loadCreditType();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -483,6 +488,42 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
           }
           this.companyTypeValue = element;
           //  this.partyGroup.companyType =
+        }
+      });
+  }
+  private loadCreditType(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CREDIT_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.creditType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.creditType.length; i++) {
+          if (this.creditType[i].code === this.item.debtorData.creditType) {
+            this.creditTypeValue = this.creditType[i].value;
+          }
+        }
+      });
+  }
+  private loadGolongan(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'DEBTOR_CLASS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.golongan = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.creditType.length; i++) {
+          if (this.golongan[i].code === this.item.debtorData.golongan) {
+            this.golonganValue = this.golongan[i].value;
+          }
         }
       });
   }

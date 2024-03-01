@@ -73,6 +73,10 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   private _deptorData: ICreditProposal;
   public ifcRiskCategory: string;
   public callReportCategory: string;
+  creditType = [];
+  creditTypeValue: any;
+  golongan = [];
+  golonganValue: any;
   @Input()
   get deptorData() {
     return this._deptorData;
@@ -132,6 +136,8 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   }
 
   ngOnInit(): void {
+    this.loadCreditType();
+    this.loadGolongan();
     this.lovCallreport();
     this.getLov();
     this.lovPep();
@@ -459,5 +465,41 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     const args = value.indexOf('IDR');
     args === -1 ? (num = '0') : (num = value.replace(/[IDR,]/g, ''));
     return Number(num);
+  }
+  private loadCreditType(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CREDIT_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.creditType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.creditType.length; i++) {
+          if (this.creditType[i].code === this.deptorData.debtorData.creditType) {
+            this.creditTypeValue = this.creditType[i].value;
+          }
+        }
+      });
+  }
+  private loadGolongan(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'DEBTOR_CLASS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.golongan = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.creditType.length; i++) {
+          if (this.golongan[i].code === this.deptorData.debtorData.golongan) {
+            this.golonganValue = this.golongan[i].value;
+          }
+        }
+      });
   }
 }
