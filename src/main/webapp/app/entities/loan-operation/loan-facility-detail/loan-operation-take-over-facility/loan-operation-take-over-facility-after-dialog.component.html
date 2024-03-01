@@ -1,0 +1,141 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="mat-dialog-title header-title">Detail Facility Take Over</div>
+    </div>
+  </div>
+  <div style="margin: 1rem">
+    <div class="row">
+      <div class="col-6">
+        <section *ngIf="!isViewMode">
+          <mat-form-field class="w-100" appearance="outline" *ngIf="view !== lihat">
+            <mat-label>Facility Type</mat-label>
+            <mat-select
+              [(ngModel)]="facilityTakeOverAfterBank.facilityTypeOverBank"
+              [disabled]="false"
+              [disabled]="view"
+              name="facilityType"
+              (selectionChange)="changeFacility($event)"
+            >
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of dataFacilityType" [value]="item"> {{ item.id }}.{{ item.label }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-100" appearance="outline" *ngIf="view === lihat">
+            <mat-label>Facility Type</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="facilityTakeOverAfterBank.facilityTypeOverBank.id + '.' + facilityTakeOverAfterBank.facilityTypeOverBank.label"
+              [disabled]="view"
+            />
+          </mat-form-field>
+        </section>
+        <section *ngIf="isViewMode">
+          <div class="fontsebled row">
+            <div class="col-3">Facility Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ facilityTakeOverAfterBank.facilityTypeOverBank.id }}.{{ facilityTakeOverAfterBank.facilityTypeOverBank.label }}
+            </div>
+          </div>
+        </section>
+        <section *ngIf="!isViewMode">
+          <div class="row">
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Tenor</mat-label>
+                <input matInput [value]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="facilityTakeOverAfterBank.maturityPeriodType" [disabled]="true">
+                  <!-- <mat-option value="">- Please Select -</mat-option> -->
+                  <mat-option *ngFor="let item of periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+        <section *ngIf="isViewMode">
+          <div class="fontsebled row">
+            <div class="col-3">Tenor</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ facilityTakeOverAfterBank.initialLimitBankOver }}
+            </div>
+          </div>
+          <div class="fontsebled row">
+            <div class="col-3">Period Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ facilityTakeOverAfterBank.maturityPeriodType }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-6">
+        <section *ngIf="!isViewMode">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Changes</mat-label>
+            <input
+              currencyMask
+              matInput
+              type="text"
+              [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.changes | number)"
+              [disabled]="view"
+              [disabled]="true"
+            />
+          </mat-form-field>
+        </section>
+        <section *ngIf="isViewMode">
+          <div class="fontsebled row">
+            <div class="col-3">Changes</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.changes | number) }}
+            </div>
+          </div>
+        </section>
+        <section *ngIf="!isViewMode">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Outstanding</mat-label>
+            <input
+              currencyMask
+              matInput
+              type="text"
+              [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.outstandingBankOver | number)"
+              [disabled]="view"
+              [disabled]="true"
+            />
+          </mat-form-field>
+        </section>
+        <section *ngIf="isViewMode">
+          <div class="fontsebled row">
+            <div class="col-3">Outstanding</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.outstandingBankOver | number) }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <mat-dialog-actions align="center" class="align-center">
+        <section *ngIf="!isViewMode">
+          <button mat-raised-button *ngIf="!view" (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
+          <button mat-raised-button *ngIf="!view" [disabled]="lock" (click)="Onsave()" class="confirm-button-yes">Save</button>
+        </section>
+        <button mat-raised-button class="confirm-button-no" *ngIf="view" mat-dialog-close>Cancel</button>
+        <section *ngIf="isViewMode">
+          <div class="mt-3 text-center">
+            <button mat-raised-button class="confirm-button-yes" hidden (click)="Onsave()">Save</button>
+          </div>
+        </section>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>

@@ -96,6 +96,8 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
       this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
     } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
       this.displayColumnsCreditAgreementClausal = ['code', 'category', 'description', 'clausal', 'action'];
+    } else {
+      this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
     }
 
     this.getApprovalDebtorConditions();
@@ -257,7 +259,8 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
         size: 9999,
       })
       .subscribe((res: any) => {
-        this.dataClausal = res.body;
+        const data: any[] = res.body;
+        this.dataClausal = data.filter((a: any) => a.category !== 'ADDENDUM');
       });
   }
 

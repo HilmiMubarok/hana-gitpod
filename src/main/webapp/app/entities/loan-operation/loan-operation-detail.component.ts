@@ -193,7 +193,16 @@ export class LoanOperationDetailComponent implements OnInit {
   public postalAdresss;
   public dataLand: any;
   public dataBuilding: any;
+  public isAssignedTo: Boolean = false;
 
+  private applicationRolePreSave = {
+    id: 0,
+    applicationId: 0,
+    partyId: '',
+    partyName: '',
+    roleDescription: '',
+    roleId: '',
+  };
   constructor(
     private partyCifService: PartyCifService,
     private loanOperationService: LoanOperationService,
@@ -1057,7 +1066,38 @@ export class LoanOperationDetailComponent implements OnInit {
       });
   }
 
+  private doCheckApplicationRolePreSave(): void {
+    if (this.applicationRolePreSave) {
+      if (
+        !this.applicationRolePreSave.id ||
+        this.applicationRolePreSave.id === 0 ||
+        !this.applicationRolePreSave.applicationId ||
+        this.applicationRolePreSave.applicationId === 0
+      ) {
+        if (this.url === 'la-distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCRO'];
+        } else if (this.url === 'cc-distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToCCAdmin'];
+        } else if (this.url === 'distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToLegalOfficer'];
+        } else if (this.url === 'loan-ops-distribution') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToLoanOpsAdmin'];
+        } else if (this.url === 'loan-ops-checking') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToLoanOpsOfficer'];
+        } else if (this.url === 'loan-ops-review') {
+          this.applicationRolePreSave = this.creditProposalStartState.attributes['dataAssignToLoanOpsSpv'];
+        }
+      }
+    }
+  }
+
   private preSave(status: string): ILoanOPS {
+    this.applicationRolePreSave.id = Number(this.applicationRole.id);
+    this.applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
+    this.applicationRolePreSave.partyId = this.applicationRole.partyId;
+    this.applicationRolePreSave.partyName = this.applicationRole.partyName;
+    this.applicationRolePreSave.roleId = this.applicationRole.roleId;
+    this.applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
     for (let i = 0; i < this.loanOperationService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.loanOperationService.partySliks[i]];
     }
@@ -1155,9 +1195,55 @@ export class LoanOperationDetailComponent implements OnInit {
     copyCreditProposal.groupProducts = [];
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
-    copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
-    copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-    copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+
+    if (this.url === 'la-distribution') {
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(this.applicationRolePreSave);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+    } else if (this.url === 'cc-distribution') {
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(this.applicationRolePreSave);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+    } else if (this.url === 'distribution') {
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(this.applicationRolePreSave);
+    } else if (this.url === 'loan-ops-distribution') {
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsOfficer'] = JSON.stringify(
+        copyCreditProposal.attributes['dataAssignToLoanOpsOfficer']
+      );
+      copyCreditProposal.attributes['dataAssignToLoanOpsSpv'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLoanOpsSpv']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsAdmin'] = JSON.stringify(this.applicationRolePreSave);
+    } else if (this.url === 'loan-ops-checking') {
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLoanOpsAdmin']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsSpv'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLoanOpsSpv']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsOfficer'] = JSON.stringify(this.applicationRolePreSave);
+    } else if (this.url === 'loan-ops-review') {
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLoanOpsAdmin']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsOfficer'] = JSON.stringify(
+        copyCreditProposal.attributes['dataAssignToLoanOpsOfficer']
+      );
+      copyCreditProposal.attributes['dataAssignToLoanOpsSpv'] = JSON.stringify(this.applicationRolePreSave);
+    } else {
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLoanOpsAdmin']);
+      copyCreditProposal.attributes['dataAssignToLoanOpsOfficer'] = JSON.stringify(
+        copyCreditProposal.attributes['dataAssignToLoanOpsOfficer']
+      );
+      copyCreditProposal.attributes['dataAssignToLoanOpsSpv'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLoanOpsSpv']);
+    }
+
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
@@ -1662,15 +1748,16 @@ export class LoanOperationDetailComponent implements OnInit {
   }
 
   // Untuk Summary Generate
-  private KEYG = 'credit_proposal/summary';
+  private KEYG = 'generate-final';
   private ngUnsubscribe = new Subject();
-  public dataOfferingSPPK = [];
+  public dataDpdlFinal = [];
+  // Untuk Summary Generate
   private getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
 
       if (this.id) {
-        this.KEYG += `/${this.id}/`;
+        this.KEYG += `/${this.id}/document/`;
       } else {
         console.warn('Param id not found');
       }
@@ -1704,12 +1791,13 @@ export class LoanOperationDetailComponent implements OnInit {
           i++;
         });
 
-        this.dataOfferingSPPK = data;
+        this.dataDpdlFinal = data;
       });
   }
 
-  private generate(): void {
-    this.generateFileOfferingSPPK().then(() => {
+  // Change the access modifier to public
+  public generateLoanOpsDistribution(): void {
+    this.generate().then(() => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
@@ -1719,12 +1807,9 @@ export class LoanOperationDetailComponent implements OnInit {
     });
   }
 
-  private async generateFileOfferingSPPK(): Promise<void> {
-    const fileSPPK = await firstValueFrom(
-      this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
-    );
-    const genrateSPPK = await firstValueFrom(
-      this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
+  private async generate(): Promise<void> {
+    const fileDpdlFinal = await firstValueFrom(
+      this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
     );
   }
 
@@ -1767,7 +1852,39 @@ export class LoanOperationDetailComponent implements OnInit {
         }
       });
   }
+
+  public onAssignTo(ev: any): void {
+    let dynAttr = 'dataAssignTo';
+
+    if (this.url === 'la-distribution') {
+      dynAttr = 'dataAssignToCRO';
+    } else if (this.url === 'cc-distribution') {
+      dynAttr = 'dataAssignToCCAdmin';
+    } else if (this.url === 'distribution') {
+      dynAttr = 'dataAssignToLegalOfficer';
+    } else if (this.url === 'loan-ops-distribution') {
+      dynAttr = 'dataAssignToLoanOpsAdmin';
+    } else if (this.url === 'loan-ops-checking') {
+      dynAttr = 'dataAssignToLoanOpsOfficer';
+    } else if (this.url === 'loan-ops-review') {
+      dynAttr = 'dataAssignToLoanOpsSpv';
+    }
+    this.isAssignedTo = ev && true;
+    this.applicationRole = ev;
+    this.creditProposal.attributes[dynAttr] = ev;
+  }
+
+  public validate() {
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.isAssignedTo) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  }
 }
+
 interface IObj {
   key?: string;
   metaData?: any;

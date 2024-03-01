@@ -449,27 +449,27 @@
     <div class="col-md-6">
       <div class="mb-2">
         <mat-label style="margin-left: 1rem">Previous Bank</mat-label>
-        <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal" [isViewMode]="isViewMode">
-        </jhi-credit-proposal-tab-loan-facility-take-over-grid>
+        <jhi-loan-operation-take-over-facility-before-grid [creditProposal]="creditProposal" [isViewMode]="isLabel">
+        </jhi-loan-operation-take-over-facility-before-grid>
       </div>
     </div>
 
     <div class="col-md-6">
       <div class="mb-2">
         <mat-label style="margin-left: 1rem">After Bank</mat-label>
-        <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal" [isViewMode]="true">
-        </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
+        <jhi-loan-operation-take-over-facility-after-grid [creditProposal]="creditProposal" [isViewMode]="isLabel">
+        </jhi-loan-operation-take-over-facility-after-grid>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-6">
-      <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal" [isViewMode]="isViewMode">
-      </jhi-credit-proposal-collateral-tab-loan>
+      <jhi-loan-operation-take-over-collateral-before-grid [creditProposal]="creditProposal" [isViewMode]="isLabel">
+      </jhi-loan-operation-take-over-collateral-before-grid>
     </div>
     <div class="col-6">
-      <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal" [isViewMode]="isViewMode">
-      </jhi-credit-proposal-collateral-tab-loan-after>
+      <jhi-loan-operation-take-over-collateral-after-grid [creditProposal]="creditProposal" [isViewMode]="isLabel">
+      </jhi-loan-operation-take-over-collateral-after-grid>
     </div>
   </div>
 </div>
