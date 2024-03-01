@@ -79,7 +79,11 @@ export class DpdlPreparationComponent implements OnInit {
       this.parentPath === 'loan-ops-distribution' ||
       this.parentPath === 'loan-ops-checking' ||
       this.parentPath === 'loan-ops-review' ||
-      this.parentPath === 'review-dppk'
+      this.parentPath === 'review-dppk' ||
+      this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' ||
+      this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' ||
+      this.creditProposal.statusId === 'DPDL_REVIEW_TEAMLEAD' ||
+      this.creditProposal.statusId === 'DPDL_RETURN_TO_RM'
     ) {
       return true;
     }

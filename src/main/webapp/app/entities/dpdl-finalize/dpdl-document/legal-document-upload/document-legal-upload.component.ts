@@ -347,7 +347,9 @@ export class DocumentLegalUploadComponent implements OnChanges {
       parentPath.match(/loan-ops-review/g) ||
       parentPath.match(/review-dppk/g) ||
       this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' ||
-      this.creditProposal.statusId === 'DPDL_REVIEW_HEAD'
+      this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' ||
+      this.creditProposal.statusId === 'DPDL_REVIEW_TEAMLEAD' ||
+      this.creditProposal.statusId === 'DPDL_RETURN_TO_RM'
     ) {
       return false;
     } else {
