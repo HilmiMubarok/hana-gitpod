@@ -49,6 +49,12 @@ export class AssignToComponent implements OnInit {
       this.loadPosition(['CC_ANALYST']);
     } else if (this.router.url.split('/')[1] === 'distribution') {
       this.loadPosition(['LEGAL_OFFICER']);
+    } else if (this.router.url.split('/')[1] === 'loan-ops-distribution') {
+      this.loadPosition(['LOAN_OPS_ADMIN']);
+    } else if (this.router.url.split('/')[1] === 'loan-ops-checking') {
+      this.loadPosition(['LOAN_OPS_OFFICER']);
+    } else if (this.router.url.split('/')[1] === 'loan-ops-review') {
+      this.loadPosition(['LOAN_OPS_SPV']);
     }
   }
 
@@ -66,6 +72,12 @@ export class AssignToComponent implements OnInit {
         tempDataAssignTo = this._creditProposal.attributes['dataAssignToCCAdmin'];
       } else if (this.router.url.split('/')[1] === 'distribution') {
         tempDataAssignTo = this._creditProposal.attributes['dataAssignToLegalOfficer'];
+      } else if (this.router.url.split('/')[1] === 'loan-ops-distribution') {
+        tempDataAssignTo = this._creditProposal.attributes['dataAssignToLoanOpsAdmin'];
+      } else if (this.router.url.split('/')[1] === 'loan-ops-checking') {
+        tempDataAssignTo = this._creditProposal.attributes['dataAssignToLoanOpsOfficer'];
+      } else if (this.router.url.split('/')[1] === 'loan-ops-review') {
+        tempDataAssignTo = this._creditProposal.attributes['dataAssignToLoanOpsSpv'];
       } else {
         tempDataAssignTo = this._creditProposal.attributes['dataAssignTo'];
       }
@@ -85,6 +97,12 @@ export class AssignToComponent implements OnInit {
           dynAttr = 'dataAssignToCCAdmin';
         } else if (this.router.url.split('/')[1] === 'distribution') {
           dynAttr = 'dataAssignToLegalOfficer';
+        } else if (this.router.url.split('/')[1] === 'loan-ops-distribution') {
+          dynAttr = 'dataAssignToLoanOpsAdmin';
+        } else if (this.router.url.split('/')[1] === 'loan-ops-checking') {
+          dynAttr = 'dataAssignToLoanOpsOfficer';
+        } else if (this.router.url.split('/')[1] === 'loan-ops-review') {
+          dynAttr = 'dataAssignToLoanOpsSpv';
         }
 
         this.creditProposal.attributes[dynAttr].id = event.value;

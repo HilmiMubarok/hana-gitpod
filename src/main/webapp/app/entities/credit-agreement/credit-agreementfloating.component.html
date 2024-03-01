@@ -439,19 +439,24 @@
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <div>
-        <button mat-raised-button *ngIf="showButtonGeneratePK()" class="btn-lg text-uppercase button-styling" (click)="generatePKFinal()">
+        <button
+          style="margin-right: 25px"
+          mat-raised-button
+          *ngIf="showButtonGeneratePK()"
+          class="btn-lg text-uppercase button-styling"
+          (click)="generatePKFinal()"
+        >
           Generate
         </button>
         <button
+          style="margin-right: 25px"
           mat-raised-button
           *ngFor="let task of tasks"
           (click)="processTask(task)"
           class="btn-lg text-uppercase button-styling"
-          style="margin-left: 5px"
         >
           {{ task.caption }}
         </button>
-
         <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
     </div>
