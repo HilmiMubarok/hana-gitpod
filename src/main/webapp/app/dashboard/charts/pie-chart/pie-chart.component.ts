@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { IGroupByStatus } from 'app/dashboard/dashboard.model';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -8,7 +8,7 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.style.css'],
 })
-export class PieChartComponent implements OnInit {
+export class PieChartComponent implements OnInit, OnChanges {
   public _dataSource: IGroupByStatus[];
 
   @Input()
@@ -29,6 +29,12 @@ export class PieChartComponent implements OnInit {
   public pieChartPlugins = [];
 
   constructor() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataSource']) {
+      this.fitDataToModel();
+    }
+  }
 
   ngOnInit(): void {
     this.fitDataToModel();

@@ -212,10 +212,3 @@ body.tailwind-dark .e-dashboardlayout.e-control .e-panel {
   align-items: center;
   margin: auto;
 }
-.status-card .mat-card-header > .mat-card-header-text {
-  margin: 0 37px;
-}
-/* 
-.mat-card-header.header-for-status-slide > .mat-card-header-text {
-  margin: 0 40px !important;
-} */

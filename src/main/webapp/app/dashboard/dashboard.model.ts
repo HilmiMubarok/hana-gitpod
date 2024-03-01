@@ -20,6 +20,11 @@ export interface IDueDate {
   date?: string;
 }
 
+export interface IInterval {
+  id?: string;
+  label?: string;
+}
+
 // export interface IProgress{
 
 // }
