@@ -298,15 +298,17 @@
             <!-- Collateral info -->
             <div class="wrapper-card">
               <e-card class="mb-3">
-                <jhi-credit-proposal-collateral-info
+                <jhi-collateral-info-loan-ops
                   #creditProposalCollateralInfoComponent
                   [creditProposal]="creditProposal"
                   [collateralProperties]="collateralProperties"
+                  [collateralPropertyGroupData]="collateralPropertyGroupData"
                   [source]="'summaryAll'"
                   [parentSource]="'loan-analys'"
-                  [isViewMode]="true"
+                  [isLabel]="isLabelRo"
+                  [isElement]="isElRo"
                 >
-                </jhi-credit-proposal-collateral-info>
+                </jhi-collateral-info-loan-ops>
               </e-card>
             </div>
 
@@ -374,15 +376,16 @@
           <div *ngIf="clickedMenu === 'collateral-info'">
             <section class="wrapper-card">
               <e-card>
-                <jhi-credit-proposal-collateral-info
+                <jhi-collateral-info-loan-ops
                   #creditProposalCollateralInfoComponent
                   [creditProposal]="creditProposal"
                   [collateralProperties]="collateralProperties"
                   [collateralPropertyGroupData]="collateralPropertyGroupData"
                   [parentSource]="'dec-offering'"
-                  [isViewMode]="true"
+                  [isLabel]="isLabelRo"
+                  [isElement]="isElRo"
                 >
-                </jhi-credit-proposal-collateral-info>
+                </jhi-collateral-info-loan-ops>
               </e-card>
             </section>
           </div>

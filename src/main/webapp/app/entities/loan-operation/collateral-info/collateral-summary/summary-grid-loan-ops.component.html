@@ -1,0 +1,158 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle class="e-card-header-title">Summary Collateral</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="dataItem" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="rounding-table-left grid-index-right">No</th>
+          <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
+            <p>Total</p>
+            <p>Collateral Coverage</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="collateralType">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Collateral Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralTypeDescription }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
+        </ng-container>
+        <ng-container matColumnDef="collateralAddress">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Address</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.collateralAddress.address1 }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+        </ng-container>
+        <ng-container matColumnDef="mvInternalOriginal">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">MV (internal) (In Currency)</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getCurrency(element) + ' ' + (countMVOriginal(element) | number) }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
+        </ng-container>
+        <ng-container matColumnDef="marketValue">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">MV (internal) (Equivalen to IDR)</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
+            <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+            <p>{{ presentage(countTotalMV() / totalPlafond, 'mv') }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="liquidValue">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">LV (internal) (Equivalen to IDR)</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
+            <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+            <p>{{ presentage(countTotalLV() / totalPlafond, 'lv') }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="mValueKjjp">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">MV (KJJP)</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ countKJJPMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
+            <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+            <p>{{ presentage(countTotalMVKJJP() / totalPlafond, 'mvKjjp') }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="lValueKjjp">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right" style="padding: 0px 50px">LV (KJJP)</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ countKJJPLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}
+          </td>
+
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
+            <p>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+            <p>{{ presentage(countTotalLVKJJP() / totalPlafond, 'lvKjjp') }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="marketability">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Marketability</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ getMarketability(element) }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+        </ng-container>
+        <ng-container matColumnDef="occupancy">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Occupancy</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.occupancy }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+        </ng-container>
+        <ng-container matColumnDef="ownership">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Ownership</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
+            {{ findCertyficate(element) + ' ' + getOwnerShip(element) }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+        </ng-container>
+        <ng-container matColumnDef="certificateDueDate">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Certificate Due Date</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ getExpiry(element) | date: 'yyyy/MM/dd' }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
+        </ng-container>
+        <ng-container matColumnDef="insuredtype">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Insurance Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getInsuranceType(getInsurance(element).insuranceType) }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
+        </ng-container>
+        <ng-container matColumnDef="insuredAmount">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Insured Amount</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ getInsurance(element).insuranceAmount | currency: 'IDR ':'symbol':'1.0-0' }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
+        </ng-container>
+        <ng-container matColumnDef="bindingType">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Binding Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ getBindingType(element.collBindingType) }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="bindingValue">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Binding Value</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
+            {{ 'IDR ' + (getBinding(element).bindingValueEqIdr | number) }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
+            {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
+
+            {{ biddingValueCoverage }} x
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="collateralStatus">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Collateral Status</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.statusId }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+        </ng-container>
+        <ng-container matColumnDef="crossCollateral">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Cross Collateral</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
+            {{ getCrossStatus(element.paripasuStatus) }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
+            <button mat-icon-button (click)="openDialog(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+    </div>
+    <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,457 @@
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <div class="e-card">
+      <div class="e-sample-resize-container">
+        <div class="e-card-content">
+          <div class="row">
+            <div class="col-md-6" style="padding: 10px">
+              <div class="form-group">
+                <!-- <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateralProperty.attributes.branch"
+                  placeholder="Management Branch"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox> -->
+                <div class="form-group">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Management Branch</mat-label>
+                    <mat-select [(ngModel)]="collateralProperty.attributes.branch" disabled>
+                      <mat-option value="">Please Select</mat-option>
+                      <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Jenis jaminan</mat-label>
+                  <mat-select *ngIf="collateral.collateralTypeId !== 'OTHER'" [(ngModel)]="collateral.attributes.collateralCode" disabled>
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of collateralCode" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-select
+                    *ngIf="collateral.collateralTypeId === 'OTHER'"
+                    [(ngModel)]="collateralProperty.attributes.collateralDetailType"
+                    disabled
+                  >
+                    <mat-option value="">Please Select</mat-option>
+                    <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!-- <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateralProperty.marketValue"
+                  placeholder="Collateral Value"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div> -->
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Collateral Value</mat-label>
+                <input matInput type="text" [value]="getCurrency() + ' ' + (countMVOriginal() | number)" disabled />
+              </mat-form-field>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Liquidation Value</mat-label>
+                <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoIdr" disabled />
+              </mat-form-field>
+
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  placeholder="NO Ducument Jaminan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                  [(ngModel)]="noDocumentJaminan"
+                >
+                </ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="accountCustomer"
+                  placeholder="Account Customer"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="lembagaPenjamin"
+                  placeholder="Status Lembaga Penjamin"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <section *ngIf="isElement">
+                  <mat-form-field class="w-100" appearance="outline" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
+                    <mat-label>Sifat Jaminan</mat-label>
+                    <input matInput type="text" [(ngModel)]="collateralProperty.attributes.charCollateral" disabled />
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline" *ngIf="collateral.collateralTypeId !== 'LETTER_OF_GUARANTY'">
+                    <mat-label>Sifat Jaminan</mat-label>
+                    <input matInput type="text" [(ngModel)]="empty.sifatJaminan" [disabled]="fields" />
+                  </mat-form-field>
+                </section>
+                <section *ngIf="isLabel">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Sifat Jaminan</mat-label>
+                    <input matInput type="text" [(ngModel)]="collateralProperty.attributes.charCollateral" disabled />
+                  </mat-form-field>
+                </section>
+              </div>
+
+              <div class="form-group">
+                <section *ngIf="isElement">
+                  <ejs-textbox
+                    placeholder="Periode Jaminan"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                    [(ngModel)]="empty.periodeJaminan"
+                    [disabled]="fields"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *ngIf="isLabel">
+                  <ejs-textbox
+                    placeholder="Periode Jaminan"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                    [(ngModel)]="empty.periodeJaminan"
+                    disabled
+                  >
+                  </ejs-textbox>
+                </section>
+              </div>
+
+              <section *ngIf="showFieldDepositInterestRate()">
+                <div class="mb-2">
+                  <div class="row">
+                    <div class="col-8 col md-4">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Deposito Rate (%)</mat-label>
+                        <input matInput type="number" [(ngModel)]="depositInterestRate" [disabled]="disableDepositInterestRate()" />
+                        <div matSuffix class="input-suffix">&nbsp;%</div>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Binding Type</mat-label>
+                  <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" disabled>
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of bindingTypes" [value]="item.code">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <section *ngIf="isElement">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>CCY</mat-label>
+                        <mat-select
+                          name="ccy"
+                          [(ngModel)]="binding.ccy"
+                          (selectionChange)="changeCurrency($event.value)"
+                          [disabled]="fields"
+                        >
+                          <mat-option value=" ">- Please Select -</mat-option>
+                          <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value" [disabled]="fields">
+                            {{ item.value }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </section>
+                    <section *ngIf="isLabel">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>CCY</mat-label>
+                        <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)" disabled>
+                          <mat-option value=" ">- Please Select -</mat-option>
+                          <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value">
+                            {{ item.value }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </section>
+                  </div>
+                </div>
+                <div class="col-8">
+                  <div class="form-group">
+                    <section *ngIf="isElement">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Binding Value</mat-label>
+                        <input currencyMask matInput type="text" [(ngModel)]="binding.bindingValue" [options]="logoCcy" />
+                      </mat-form-field>
+                    </section>
+                    <section *ngIf="isLabel">
+                      <!-- <div class="fontsebled row">
+                        <div class="col-4">Binding Value</div>
+                        <div class="col-md-auto">:</div>
+                        <div class="col">
+                          {{ binding.bindingValue }}
+                        </div>
+                      </div> -->
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Binding Value</mat-label>
+                        <input currencyMask matInput type="text" [(ngModel)]="binding.bindingValue" [options]="logoCcy" disabled />
+                      </mat-form-field>
+                    </section>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <section *ngIf="isElement">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>KURS</mat-label>
+                    <input currencyMask matInput type="text" [(ngModel)]="binding.kurs" disabled [options]="logoIdr" />
+                  </mat-form-field>
+                </section>
+                <section *ngIf="isLabel">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>KURS</mat-label>
+                    <input currencyMask matInput type="text" [(ngModel)]="binding.kurs" disabled [options]="logoIdr" disabled />
+                  </mat-form-field>
+                  <!-- <div class="fontsebled row">
+                    <div class="col-4">KURS</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col">
+                      {{ binding.kurs }}
+                    </div>
+                  </div> -->
+                </section>
+              </div>
+
+              <div class="form-group">
+                <section *ngIf="isElement">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Binding Value eq to IDR</mat-label>
+                    <input
+                      currencyMask
+                      matInput
+                      type="text"
+                      [(ngModel)]="binding.bindingValueEqIdr"
+                      [value]="calBindingValue()"
+                      [options]="logoIdr"
+                      disabled
+                    />
+                  </mat-form-field>
+                </section>
+                <section *ngIf="isLabel">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Binding Value eq to IDR</mat-label>
+                    <input
+                      currencyMask
+                      matInput
+                      type="text"
+                      [(ngModel)]="binding.bindingValueEqIdr"
+                      [value]="calBindingValue()"
+                      [options]="logoIdr"
+                      disabled
+                    />
+                  </mat-form-field>
+                  <!-- <div class="fontsebled row">
+                    <div class="col-4">Binding Value eq to IDR</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col">
+                      {{ binding.bindingValueEqIdr }}
+                    </div>
+                  </div> -->
+                </section>
+              </div>
+
+              <!-- <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="collateral.statusCode"
+                  placeholder="Collateral Status"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div> -->
+
+              <div class="form-group">
+                <section *ngIf="isElement">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="empty.bunga"
+                    placeholder="Bunga"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *ngIf="isLabel">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="empty.bunga"
+                    placeholder="Bunga"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    disabled
+                  >
+                  </ejs-textbox>
+                </section>
+              </div>
+              <div class="form-group">
+                <section *ngIf="isElement">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="empty.kondisi"
+                    placeholder="Kondisi"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *ngIf="isLabel">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="empty.kondisi"
+                    placeholder="Kondisi"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    disabled
+                  >
+                  </ejs-textbox>
+                </section>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-200" appearance="outline">
+                  <section *ngIf="isElement">
+                    <mat-label>Tanggal Verifikasi</mat-label>
+                    <input
+                      [matDatepicker]="bindingDate"
+                      matInput
+                      type="text"
+                      [(ngModel)]="collateral.bindingDate"
+                      [disabled]="isViewMode === true"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="bindingDate" [disabled]="isViewMode === true"> </mat-datepicker-toggle>
+                    <mat-datepicker #bindingDate [disabled]="isViewMode === true"></mat-datepicker>
+                    <!-- <input
+                      [disabled]="isViewMode === true"
+                      [matDatepicker]="bindingDate"
+                      [formControl]="date"
+                      matInput
+                      type="text"
+                      [(ngModel)]="collateral.bindingDate"
+                    />
+                    <mat-datepicker-toggle matSuffix [disabled]="isViewMode === true" [for]="bindingDate"></mat-datepicker-toggle>
+                    <mat-datepicker [disabled]="isViewMode === true" #bindingDate></mat-datepicker> -->
+                  </section>
+                  <section *ngIf="isLabel">
+                    <input
+                      disabled
+                      [matDatepicker]="bindingDate"
+                      [formControl]="date"
+                      matInput
+                      type="text"
+                      [(ngModel)]="collateral.bindingDate"
+                    />
+                    <mat-datepicker-toggle matSuffix disabled [for]="bindingDate"></mat-datepicker-toggle>
+                    <mat-datepicker disabled #bindingDate></mat-datepicker>
+                  </section>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <section *ngIf="isElement">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Status</mat-label>
+                    <mat-select name="status" [(ngModel)]="collateral.statusId">
+                      <mat-option value="">- Please Select -</mat-option>
+                      <mat-option *ngFor="let item of collateralStatus | keyvalue" [value]="item.key">
+                        {{ item.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </section>
+                <section *ngIf="isLabel">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Status</mat-label>
+                    <mat-select name="status" [(ngModel)]="collateral.statusId" disabled>
+                      <mat-option value="">- Please Select -</mat-option>
+                      <mat-option *ngFor="let item of collateralStatus | keyvalue" [value]="item.key">
+                        {{ item.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </section>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Cross Collateral Status</mat-label>
+                  <mat-select name="status" [(ngModel)]="collateral.paripasuStatus" disabled>
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Collateral Owner</mat-label>
+                  <input disabled matInput type="text" [(ngModel)]="collateral.collateralOwner" />
+                </mat-form-field>
+              </div>
+
+              <div class="form-group" *ngIf="parentSource === 'dec-offering'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Informasi Tambahan</mat-label>
+                  <input matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" [disabled]="field" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <mat-label class="header-title">Mapping to Facility</mat-label>
+          <jhi-mapping-facility
+            [collateralData]="collateral"
+            [creditProposal]="creditProposal"
+            (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"
+            [isViewMode]="isViewMode"
+          >
+          </jhi-mapping-facility>
+        </div>
+        <div>
+          <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
+        </div>
+        <div *ngIf="parentSource === 'dec-offering'">
+          <jhi-certificate-info></jhi-certificate-info>
+        </div>
+        <mat-dialog-actions align="center" class="align-center">
+          <section *ngIf="isElement">
+            <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+            <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
+          </section>
+          <section *ngIf="isLabel">
+            <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
+          </section>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
