@@ -237,12 +237,16 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
                     this.getClausalAddendum();
                   } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'NEW') {
                     this.getClausalAgreement();
+                  } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'Perubahan dan Pernyataan Kembali') {
+                    this.getClausalAgreement();
                   }
                 },
                 (error: any) => {
                   if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
                     this.getClausalAddendum();
                   } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'NEW') {
+                    this.getClausalAgreement();
+                  } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'Perubahan dan Pernyataan Kembali') {
                     this.getClausalAgreement();
                   }
                 }
