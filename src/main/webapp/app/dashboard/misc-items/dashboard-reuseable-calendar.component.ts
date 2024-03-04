@@ -12,6 +12,7 @@ export class DashboardReusableCalendarComponent implements OnChanges {
   public filterRange: any = [];
   public date: string;
   public _dueDateDates: string;
+  public _type: string;
 
   @Input()
   get filterData() {
@@ -36,8 +37,17 @@ export class DashboardReusableCalendarComponent implements OnChanges {
     return this._mode;
   }
 
-  set mode(param: any) {
+  set mode(param: string) {
     this._mode = param;
+  }
+
+  @Input()
+  get type() {
+    return this._type;
+  }
+
+  set type(param: string) {
+    this._type = param;
   }
 
   @Output() output = new EventEmitter<any>();
@@ -46,16 +56,17 @@ export class DashboardReusableCalendarComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['baseLineChartData'] || changes['dueDates']) {
-      this.convertDate();
+      this.emitStartEndDate();
       this.sendOutDate();
     }
   }
 
-  public convertDate() {
+  public emitStartEndDate() {
     if (this.filterRange[1] !== null) {
       const startDate = moment(this.filterRange[0]).format('YYYY-MM-DD').toString();
       const endDate = moment(this.filterRange[1]).format('YYYY-MM-DD').toString();
-      this.output.emit(this.filterData.filter(obj => obj.date >= startDate && obj.date <= endDate));
+
+      this.output.emit({ startDate, endDate });
     }
   }
 

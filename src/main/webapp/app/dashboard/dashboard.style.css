@@ -201,17 +201,19 @@ body.tailwind-dark .e-dashboardlayout.e-control .e-panel {
   box-sizing: border-box;
 }
 
-.status-card .mat-card-header {
+.status-card .status-card-headers {
   background-color: rgba(147, 201, 199, 1) !important;
   border-top-left-radius: 10px !important;
   border-top-right-radius: 10px !important;
-
+  justify-content: center;
   border: none !important;
   height: 50px !important;
   display: flex;
   align-items: center;
   margin: auto;
 }
-.status-card .mat-card-header > .mat-card-header-text {
-  margin: 0 37px;
+
+.title_center {
+  display: flex;
+  align-items: center;
 }
