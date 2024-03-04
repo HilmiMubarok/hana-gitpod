@@ -1,0 +1,63 @@
+<table mat-table [dataSource]="applicationProductData" class="w-100">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef>No</th>
+    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="applicationType">
+    <th mat-header-cell *matHeaderCellDef>Application Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.applicationType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="facilityType">
+    <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.productTypeId }}</td>
+  </ng-container>
+  <ng-container matColumnDef="subLimit">
+    <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
+    <td mat-cell *matCellDef="let element">{{ getSublimit(element.subLimit) }}</td>
+  </ng-container>
+  <ng-container matColumnDef="currency">
+    <th mat-header-cell *matHeaderCellDef>CCY</th>
+    <td mat-cell *matCellDef="let element">IDR</td>
+  </ng-container>
+  <ng-container matColumnDef="bindingValue">
+    <th mat-header-cell *matHeaderCellDef>Proportional Binding Value (only for pricing calculation)</th>
+    <td mat-cell *matCellDef="let i = index">
+      <input
+        style="width: 89px"
+        currencyMask
+        [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+        matInput
+        [(ngModel)]="bindingValueHelper[i]"
+        [disabled]="field"
+        (ngModelChange)="onChangeBindingValue($event, i)"
+      />
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="select">
+    <section *ngIf="isElement">
+      <th mat-header-cell *matHeaderCellDef>Select</th>
+      <td mat-cell *matCellDef="let i = index; let element">
+        <mat-checkbox
+          [checked]="mappingStatusHelper[i] === 'yes'"
+          [disabled]="field"
+          (change)="changeBuildingFacility($event, i); changeButton(i, $event)"
+        ></mat-checkbox>
+      </td>
+    </section>
+    <section *ngIf="isLabel">
+      <th mat-header-cell *matHeaderCellDef>Select</th>
+      <td mat-cell *matCellDef="let i = index; let element">
+        <mat-checkbox
+          [checked]="mappingStatusHelper[i] === 'yes'"
+          (change)="changeBuildingFacility($event, i); changeButton(i, $event)"
+          disabled
+        ></mat-checkbox>
+      </td>
+    </section>
+  </ng-container>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+  </tr>
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+</table>

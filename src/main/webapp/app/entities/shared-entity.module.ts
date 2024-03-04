@@ -503,6 +503,32 @@ import { InternalMemoDetailLoanOperationComponent } from './loan-operation/inter
 import { DialogInternalMemoComponent } from './dpdl-finalize/internal memo/dialog/dialog-internal-memo.component';
 import { DialogInternalMemoLoanOperationComponent } from './loan-operation/internal memo/dialog/dialog-internal-memo.component';
 import { InternalMemoLoanOperationComponent } from './loan-operation/internal memo/internal-memo.component';
+import { CollateralInfoLoanOpsComponent } from './loan-operation/collateral-info/collateral-info-loan-ops.component';
+import { AboveGridLoanOpsComponent } from './loan-operation/collateral-info/above-grid/above-grid-loan-ops.component';
+import { CollateralInfoBTBLoanOpsComponent } from './loan-operation/collateral-info/backtoback/collateral-info-btb-loan-ops.component';
+import { DialogCollateralInfoDialogBTBComponent } from './loan-operation/collateral-info/backtoback/dialog-collateral-info-btb-loan-ops.component';
+import { BellowGridLoanOpsComponent } from './loan-operation/collateral-info/bellow-grid/bellow-grid-loan-ops.component';
+import { BindingValueInformationLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-loan-ops.component';
+import { BindingValueDepositoDialogLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-dialog-loan-ops.component';
+import { BindingValueDepositoGridLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-deposito-grid/binding-value-deposito-grid-loan-ops.component';
+import { BindingValueGeneralDialogLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-dialog-loan-ops.component';
+import { BindingValueGeneralGridLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-grid-loan-ops.component';
+import { BindingValueMachineDialogLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-machine-grid/binding-value-machine-dialog-loan-ops.component';
+import { BindingValueMachineGridLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-machine-grid/binding-value-machine-grid-loan-ops.component';
+import { BindingValueRealEstateDialogLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-real-estate-grid/binding-value-real-estate-dialog-loan-ops.component';
+import { BindingValueRealEstateGridLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-real-estate-grid/binding-value-real-estate-grid-loan-ops.component';
+import { BindingValueInformationDialogLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-information-dialog-loan-ops.component';
+import { BindingValueInformationGridLoanOpsComponent } from './loan-operation/collateral-info/binding-value-information/binding-value-information-grid/binding-value-information-grid-loan-ops.component';
+import { CollateralInfoChecklistLoanOpsComponent } from './loan-operation/collateral-info/checklist/collateral-info-checklist-loan-ops.component';
+import { CollateralSummaryDialogLoanOpsComponent } from './loan-operation/collateral-info/collateral-summary/collateral-summary-dialog-loan-ops.component';
+import { SummaryGridLoanOpsComponent } from './loan-operation/collateral-info/collateral-summary/summary-grid-loan-ops.component';
+import { SummaryGridBtbLoanOpsComponent } from './loan-operation/collateral-info/collateral-summary-btb/summary-grid-btb-loan-ops.component';
+import { GroupCollateralListLoanOpsComponent } from './loan-operation/collateral-info/group-collateral/group-collateral-list-loan-ops.component';
+import { GroupCollateralLoanOpsComponent } from './loan-operation/collateral-info/group-collateral/group-collateral-loan-ops.component';
+import { CollateralInfoRemarksChecklistLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-checklist-loan-ops.component';
+import { CollateralInfoRemarksInformationLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-information-loan-ops.component';
+import { CollateralInfoRemarksLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-loan-ops.component';
+import { MappingFacilityLoanOpsComponent } from './loan-operation/collateral-info/mapping/mapping-facility-loan-ops.component';
 
 @NgModule({
   imports: [
@@ -1088,7 +1114,33 @@ import { InternalMemoLoanOperationComponent } from './loan-operation/internal me
     DppkPreparationInternalMemoDialogDetailComponent,
     CollateralOwnerAddressComponent,
     ReviewHistoryComponent,
-
+    // Loan Ops Collateral Info
+    CollateralInfoLoanOpsComponent,
+    AboveGridLoanOpsComponent,
+    CollateralInfoBTBLoanOpsComponent,
+    DialogCollateralInfoDialogBTBComponent,
+    BellowGridLoanOpsComponent,
+    BindingValueInformationLoanOpsComponent,
+    BindingValueDepositoDialogLoanOpsComponent,
+    BindingValueDepositoGridLoanOpsComponent,
+    BindingValueGeneralDialogLoanOpsComponent,
+    BindingValueGeneralGridLoanOpsComponent,
+    BindingValueMachineDialogLoanOpsComponent,
+    BindingValueMachineGridLoanOpsComponent,
+    BindingValueRealEstateDialogLoanOpsComponent,
+    BindingValueRealEstateGridLoanOpsComponent,
+    BindingValueInformationDialogLoanOpsComponent,
+    BindingValueInformationGridLoanOpsComponent,
+    CollateralInfoChecklistLoanOpsComponent,
+    CollateralSummaryDialogLoanOpsComponent,
+    SummaryGridLoanOpsComponent,
+    SummaryGridBtbLoanOpsComponent,
+    GroupCollateralListLoanOpsComponent,
+    GroupCollateralLoanOpsComponent,
+    CollateralInfoRemarksChecklistLoanOpsComponent,
+    CollateralInfoRemarksInformationLoanOpsComponent,
+    CollateralInfoRemarksLoanOpsComponent,
+    MappingFacilityLoanOpsComponent,
     ...LoanOperationLoanFacilityTemplate
   ],
   exports: [
@@ -1630,6 +1682,33 @@ import { InternalMemoLoanOperationComponent } from './loan-operation/internal me
     DppkPreparationInternalMemoDialogComponent,
     DppkPreparationInternalMemoDialogDetailComponent,
     CollateralOwnerAddressComponent,
+    // Loan Ops Collateral Info
+    CollateralInfoLoanOpsComponent,
+    AboveGridLoanOpsComponent,
+    CollateralInfoBTBLoanOpsComponent,
+    DialogCollateralInfoDialogBTBComponent,
+    BellowGridLoanOpsComponent,
+    BindingValueInformationLoanOpsComponent,
+    BindingValueDepositoDialogLoanOpsComponent,
+    BindingValueDepositoGridLoanOpsComponent,
+    BindingValueGeneralDialogLoanOpsComponent,
+    BindingValueGeneralGridLoanOpsComponent,
+    BindingValueMachineDialogLoanOpsComponent,
+    BindingValueMachineGridLoanOpsComponent,
+    BindingValueRealEstateDialogLoanOpsComponent,
+    BindingValueRealEstateGridLoanOpsComponent,
+    BindingValueInformationDialogLoanOpsComponent,
+    BindingValueInformationGridLoanOpsComponent,
+    CollateralInfoChecklistLoanOpsComponent,
+    CollateralSummaryDialogLoanOpsComponent,
+    SummaryGridLoanOpsComponent,
+    SummaryGridBtbLoanOpsComponent,
+    GroupCollateralListLoanOpsComponent,
+    GroupCollateralLoanOpsComponent,
+    CollateralInfoRemarksChecklistLoanOpsComponent,
+    CollateralInfoRemarksInformationLoanOpsComponent,
+    CollateralInfoRemarksLoanOpsComponent,
+    MappingFacilityLoanOpsComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

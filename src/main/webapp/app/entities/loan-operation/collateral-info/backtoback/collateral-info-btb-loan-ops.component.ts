@@ -1,0 +1,970 @@
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CODE, COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { MatDialog } from '@angular/material/dialog';
+import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { DialogCollateralInfoDialogBTBComponent } from './dialog-collateral-info-btb-loan-ops.component';
+import lodash from 'lodash';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { IEmptyField } from 'app/entities/credit-proposal/collateral-info/backtoback/empty-field.model';
+import {
+  ICreditProposalCollateralBinding,
+  CreditProposalCollateralBinding,
+} from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+
+@Component({
+  selector: 'jhi-collateral-info-btb-loan-ops',
+  templateUrl: './collateral-info-btb-loan-ops.component.html',
+  styleUrls: ['../collateral-info-loan-ops.style.scss'],
+})
+export class CollateralInfoBTBLoanOpsComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
+  public displayedColumns: string[] = [
+    'no',
+    'collateralType',
+    'collateralAddress',
+    'mvInternalOriginal',
+    'marketValue',
+    'liquidValue',
+    'ownership',
+    'certificateDueDate',
+    'bindingType',
+    'bindingValue',
+    'collateralStatus',
+    'crossCollateral',
+    'action',
+  ];
+  private _group: string;
+
+  @Input() parentSource?: String = '';
+
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
+  private _collateralProperty: ICollateralProperty[];
+  public collateralStartState: ICollateral;
+  public creditProposalStartState: ICreditProposal;
+  private dataFilter: ICollateral[];
+  public bindingTypesHobies = [];
+  public totalPlafond: number;
+  public dataCollateral: ICollateral[];
+  public biddingValueCoverage: number;
+  public biddingValueSum: number;
+  public certificateType: any;
+  public dataCertyficate: any;
+  public dataItem: any;
+  public totalMVInt: number;
+  public totalLVInt: number;
+  public isChecked: boolean;
+  private _creditProposal: ICreditProposal;
+  private bindingTypeVal: any;
+  public selectedMenu: string;
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public selectMenuItem(args: MenuEventArgs): void {
+    this.selectedMenu = args.item.text;
+  }
+  @Input() isElement: Boolean = false;
+  @Input() isLabel: Boolean = false;
+  @Input() isViewMode?: Boolean = false;
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+  set creditProposal(cp: ICreditProposal) {
+    this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
+  }
+
+  constructor(
+    protected _snackbar: MatSnackBar,
+    private collateralPropertyService: CollateralPropertyService,
+    public dialog: MatDialog,
+    private creditProposalService: CreditProposalService,
+    private collateralService: CollateralService,
+    private partyCifService: PartyCifService,
+    private generalParameterService: GeneralParameterService
+  ) {
+    super(_snackbar, collateralService);
+    this.itemsPerPage = 10;
+    this.page = 0;
+    this.totalMVInt = 0;
+    this.totalLVInt = 0;
+  }
+
+  ngOnInit() {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
+
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
+
+    this.setCertyficateType();
+    this.lovBindingType();
+    this.totalCoverage();
+  }
+
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+        page: this.page,
+        size: 9999,
+      })
+      .subscribe(res => {
+        const filter: ICollateral[] = res.body.filter(function (o) {
+          return (
+            o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
+          );
+        });
+        this.dataCollateral = filter;
+        this.dataItem = new MatTableDataSource(filter);
+        this.dataItem.paginator = this.paginator;
+        this.getBindingCalculate(res.body);
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.selectedMenu = 'INFORMATION';
+    if (changes['isElement']) {
+      this.isElement = changes['isElement'].currentValue;
+    }
+    if (changes['isLabel']) {
+      this.isLabel = changes['isLabel'].currentValue;
+    }
+    if (changes['creditProposal']) {
+      if (this.creditProposal.collaterals.length > 0) {
+        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+          const collateral = this.creditProposal.collaterals[i];
+          if (this.creditProposal.cif) {
+            this.loadByPartyId(this.creditProposal.cif.partyId);
+          }
+        }
+      }
+    }
+  }
+  public openDialogBTB(value: ICollateral): void {
+    this.collateralStartState = lodash.cloneDeep(value);
+    this.creditProposalStartState = lodash.cloneDeep(this.creditProposal);
+    let cp = {};
+    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
+      if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
+        cp = this.creditProposal;
+      }
+    }
+    const predicate: object = {
+      width: '80vw',
+      data: {
+        cp: this._creditProposal,
+        collateral: value,
+        binding: this.getBinding(value),
+        emptyField: this.getEmptyField(value),
+        applicationProduct: this.creditProposal.products,
+        properties: this.collateralProperties,
+        isViewMode: this.isViewMode,
+        collateralProperties: this.collateralProperties,
+        group: this.group,
+        parentSource: this.parentSource,
+        depositInterestRate: this.getDepositInterestRate(value),
+        isLabel: this.isLabel,
+        isElement: this.isElement,
+      },
+    };
+    const dialogRef = this.dialog.open(DialogCollateralInfoDialogBTBComponent, predicate);
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
+          return o.id === res['collateral'].id;
+        });
+        this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        if (collateralIdx > -1) {
+          this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+          const filter: ICollateral[] = this.creditProposal.collaterals.filter(function (o) {
+            return (
+              o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
+            );
+          });
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          this.dataItem = new MatTableDataSource(filter2);
+          this.dataItem.paginator = this.paginator;
+        }
+        const emptyIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['emptyField'],
+          function (o: ICreditProposalCollateralBinding) {
+            return o.collateralId === res['collateral'].id;
+          }
+        );
+        if (emptyIdx > -1) {
+          this.creditProposal.attributes['emptyField'][emptyIdx] = res['emptyField'];
+        } else {
+          this.creditProposal.attributes['emptyField'] = [...this.creditProposal.attributes['emptyField'], res['emptyField']];
+        }
+
+        // replace / add binding
+        const bindingIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['binding'],
+          function (o: ICreditProposalCollateralBinding) {
+            return o.collateralId === res['collateral'].id;
+          }
+        );
+        if (bindingIdx > -1) {
+          this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
+        } else {
+          this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
+        }
+        this.setDepositInterestRate(value, res.depositInterestRate);
+      } else {
+        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
+        if (collateralIdx > -1) {
+          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
+          const filter: ICollateral[] = this.creditProposal.collaterals.filter(function (o) {
+            return (
+              o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
+            );
+          });
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          this.dataItem = new MatTableDataSource(filter2);
+          this.dataItem.paginator = this.paginator;
+        }
+        const emptyIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['emptyField'],
+          (o: ICreditProposalCollateralBinding) => o.collateralId === this.collateralStartState.id
+        );
+        if (emptyIdx > -1) {
+          this.creditProposal.attributes['emptyField'][emptyIdx] = this.creditProposalStartState.attributes['emptyField'][emptyIdx];
+        }
+
+        // replace / add binding
+        const bindingIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['binding'],
+          (o: ICreditProposalCollateralBinding) => o.collateralId === this.collateralStartState.id
+        );
+        if (bindingIdx > -1) {
+          this.creditProposal.attributes['binding'][bindingIdx] = this.creditProposalStartState.attributes['binding'][bindingIdx];
+        }
+      }
+    });
+  }
+
+  countKJJPLV(element: ICollateral) {
+    throw new Error('Method not implemented.');
+  }
+  countKJJPMV(element: ICollateral) {
+    throw new Error('Method not implemented.');
+  }
+
+  public getCertificationDate(collateral: ICollateral): string {
+    const properties: ICollateralProperty[] = this.filterProperties(collateral);
+    return this.creditProposalService.getCertificationDate(collateral, properties);
+  }
+
+  public getMarketability(): string {
+    if (this.creditProposal.appraisals.length > 0) {
+      const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
+      if (lodash.has(lastAppraisal.attributes, 'summary')) {
+        return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
+      }
+    }
+    return 'N/A';
+  }
+
+  public getEmptyField(element: ICollateral): IEmptyField {
+    if (this.creditProposal.attributes['emptyField'].length > 0) {
+      for (let i = 0; i < this.creditProposal.attributes['emptyField'].length; i++) {
+        const item: IEmptyField = this.creditProposal.attributes['emptyField'][i];
+        if (item.collateralId === element.id) {
+          return item;
+        }
+      }
+    }
+    return new CreditProposalCollateralBinding();
+  }
+
+  public getBinding(element: ICollateral): ICreditProposalCollateralBinding {
+    if (this.creditProposal.attributes['binding'].length > 0) {
+      for (let i = 0; i < this.creditProposal.attributes['binding'].length; i++) {
+        const item: ICreditProposalCollateralBinding = this.creditProposal.attributes['binding'][i];
+        if (item.collateralId === element.id) {
+          return item;
+        }
+      }
+    }
+    return new CreditProposalCollateralBinding();
+  }
+
+  private filterProperties(collateral: ICollateral): ICollateralProperty[] {
+    let properties: ICollateralProperty[];
+    properties = [];
+
+    // for machine
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      properties = lodash.filter(this.collateralProperties, function (o) {
+        return o.propertyType === 'MACHINE';
+      });
+    }
+
+    // for realestate
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['property']) {
+      properties = lodash.filter(this.collateralProperties, function (o) {
+        return o.propertyType === 'LAND' || o.propertyType === 'BUILDING';
+      });
+    }
+
+    // for vehicle
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      properties = lodash.filter(this.collateralProperties, function (o) {
+        return o.propertyType === 'VEHICLE';
+      });
+    }
+    return properties;
+  }
+
+  public countLV(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    result = 0;
+
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    }
+    return result;
+  }
+
+  public countTotalLV(): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + Number(data.liquidationValue);
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
+
+    return result;
+  }
+
+  public countTotalMV(): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + Number(data.marketValue);
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['coverageTotal'].countTotalMV = result;
+    return result;
+  }
+
+  public countMV(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValue === null) {
+          return 0;
+        } else {
+          return data.marketValue;
+        }
+      }
+    }
+    return 0;
+  }
+
+  public slideChange($event) {
+    const dataTemp = [];
+    if (this.isChecked === true) {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+      if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
+        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+          if (
+            this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+            this.creditProposal.collaterals[i].collateralTypeId !== 'MACHINE' &&
+            this.creditProposal.collaterals[i].collateralTypeId !== 'REALESTATE' &&
+            this.creditProposal.collaterals[i].collateralTypeId !== 'VEHICLE' &&
+            this.creditProposal.collaterals[i].collateralTypeId !== 'PERSONAL_PROPERTY' &&
+            this.creditProposal.collaterals[i].statusId !== CODE.CANCEL
+          ) {
+            for (let j = 0; j < this.creditProposal.products.length; j++) {
+              if ($event === true) {
+                const tempCollateralProductRelationObject = {
+                  collateralId: this.creditProposal.collaterals[i].id,
+                  bindingValue: 0,
+                  applicationProduct: this.creditProposal.products[j],
+                };
+                dataTemp.push(tempCollateralProductRelationObject);
+              }
+            }
+            this.creditProposal.collateralProductRelations = dataTemp;
+          }
+        }
+      }
+    } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      if (
+        this.creditProposal.collateralProductRelations.length > 0 &&
+        this.creditProposal.products.length > 0 &&
+        this.creditProposal.collaterals.length > 0
+      ) {
+        for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
+          for (let j = 0; j < this.creditProposal.products.length; j++) {
+            for (let k = 0; k < this.creditProposal.collaterals.length; k++) {
+              if (
+                this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
+                this.creditProposal.collateralProductRelations[index].collateralId === this.creditProposal.collaterals[k].id
+              ) {
+                this.creditProposal.collateralProductRelations.splice(index);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  public getCrossStatus(status: string) {
+    if (status === 'N') {
+      return 'NO';
+    }
+    if (status === 'Y') {
+      return 'YES';
+    }
+    if (status === undefined) {
+      return '';
+    }
+    return '';
+  }
+
+  public getBindingType(element: string) {
+    if (this.bindingTypesHobies) {
+      const data = this.bindingTypesHobies.find(obj => obj.code === element);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
+  }
+
+  public getExpiry(collateral: ICollateral) {
+    let result: any;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['other']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.expiry === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.expiry;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities'] || collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.maturityDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.maturityDate;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.certificateExpiryDate;
+        }
+      }
+    }
+    return result;
+  }
+
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
+    });
+  }
+
+  public findCertyficate(collateral) {
+    let data: ICollateralProperty;
+
+    if (collateral) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateType !== undefined) {
+          if (this.certificateType) {
+            this.dataCertyficate = this.certificateType.find(obj => obj.id === data.attributes.certificateType);
+            if (this.dataCertyficate) {
+              return this.dataCertyficate.label;
+            }
+            return '';
+          }
+        }
+      }
+    }
+    return '';
+  }
+
+  public getOwnerShip(collateral: ICollateral) {
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    let string1: string;
+    let string2: string;
+    let result: string;
+
+    if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.attributes.certificateNumber;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.certificateNumber;
+        }
+      }
+    }
+    return string2;
+  }
+
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getCcyBinding(element) {
+    if (element) {
+      return element;
+    }
+    return '';
+  }
+
+  public getBindingCalculate(res: any[]) {
+    const array1 = res;
+    const array2 = this.creditProposal.attributes['binding'];
+    let getBindingCalculateValue;
+    const data = [];
+    array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
+      data.push(
+        array2.find(
+          ({ collateralId: value2 }) =>
+            value1 === value2 &&
+            collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+            collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+            collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+            collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+            collateralTypeId !== COLLATERAL_TYPE['property']
+        )
+      );
+      getBindingCalculateValue = data.filter(item => item !== undefined);
+      this.fungsiSumcredit('both').then(() => {
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
+        const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+
+        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
+        this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
+        this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
+      });
+    });
+  }
+
+  public convertNan(value: any): any {
+    if (Number.isNaN(value)) {
+      return 0;
+    } else {
+      return value;
+    }
+  }
+
+  public fungsiSumcredit(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      let result: number;
+      let dolar: number;
+      let filterIdr = [];
+      let filterUsd = [];
+      result = 0;
+      dolar = 0;
+
+      const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+
+      if (dataFilter.length > 0) {
+        if (value === 'USD' || value === 'both') {
+          filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+        }
+
+        if (value === 'IDR' || value === 'both') {
+          filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+        }
+
+        if (value === 'IDR' || value === 'both') {
+          if (filterIdr.length > 0) {
+            for (let i = 0; i < filterIdr.length; i++) {
+              if (filterIdr[i].totalPlafond !== undefined) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+          }
+        }
+
+        if (value === 'USD') {
+          if (filterUsd.length > 0) {
+            for (let i = 0; i < filterUsd.length; i++) {
+              if (filterUsd[i].totalPlafond !== undefined) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond);
+              }
+            }
+          }
+        }
+
+        if (value === 'both') {
+          if (filterUsd.length > 0) {
+            for (let i = 0; i < filterUsd.length; i++) {
+              if (filterUsd[i].totalPlafond !== undefined) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+          }
+        }
+      }
+      if (value === 'both') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
+      }
+      if (value === 'USD') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
+      }
+      if (value === 'IDR') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafondIdr = result + dolar;
+      }
+
+      const creditLimit = result + dolar;
+      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+
+      this.totalPlafond = result + dolar;
+
+      resolve();
+    });
+  }
+
+  public getCurrency(collateral: ICollateral) {
+    let data: ICollateralProperty;
+    if (collateral) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data) {
+        if (data.marketValueOriginalCcy === undefined || data.marketValueOriginalCcy === null) {
+          return '';
+        }
+        return data.marketValueOriginalCcy;
+      }
+    }
+    return 'IDR';
+  }
+
+  public countMVOriginal(collateral: ICollateral): number {
+    let result: string;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.amount === null || data.attributes.amount === undefined) {
+          return 0;
+        } else {
+          return data.attributes.amount;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.collateralValue === null || data.attributes.collateralValue === undefined) {
+          return 0;
+        } else {
+          return data.attributes.collateralValue;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.totalFaceAmount === null || data.attributes.totalFaceAmount === undefined) {
+          return 0;
+        } else {
+          return data.attributes.totalFaceAmount;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.collateralValueOther === undefined || data.attributes.collateralValueOther === null) {
+          return 0;
+        } else {
+          return data.attributes.collateralValueOther;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.amount === null || data.attributes.amount === undefined) {
+          return 0;
+        } else {
+          return data.attributes.amount;
+        }
+      }
+    }
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValueOriginalAmt === null) {
+          return 0;
+        } else {
+          return data.marketValueOriginalAmt;
+        }
+      }
+    }
+    return 0;
+  }
+
+  public presentage(value: string, status: string) {
+    // console.log('cekd', value);
+    const num = parseFloat(value).toFixed(2);
+    if (num === 'Infinity') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
+      }
+      return '0.00' + '%';
+    } else if (num === 'NaN') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
+      }
+      return '0.00' + '%';
+    } else {
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = num;
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = num;
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = num;
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = num;
+      }
+      return num + '%';
+    }
+  }
+
+  private filterPropertiesFilterGurante(collateral: ICollateral): ICollateralProperty[] {
+    let properties: ICollateralProperty[];
+    properties = [];
+
+    // for machine
+    if (collateral.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+      if (collateral.collateralTypeId !== '' || collateral.collateralTypeId !== undefined) {
+        properties = lodash.filter(this.collateralProperties, function (o) {
+          return o.propertyType === 'GENERAL' && o.collateralId === collateral.id;
+        });
+      }
+    }
+
+    return properties;
+  }
+
+  private totalCoverage() {
+    const mvCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalMV / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].mvInternalCoverage = mvCoverage.toFixed(2);
+    const lvCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalLV / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].lvInternalCoverage = lvCoverage.toFixed(2);
+    const mvKjjpCoverage = this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP / 0;
+    this._creditProposal.attributes['coverageTotal'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
+    const lvKjjpCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
+  }
+
+  public getDepositInterestRate(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.depositInterestRate === null) {
+          return 0;
+        } else {
+          return data.depositInterestRate;
+        }
+      }
+    }
+    return 0;
+  }
+
+  public setDepositInterestRate(collateral: ICollateral, depositInterestRate: number) {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        const idx = this.collateralProperties.findIndex(obj => obj.id === data.id);
+        if (idx) {
+          this.collateralProperties[idx].depositInterestRate = depositInterestRate;
+          console.log('idx ', idx);
+          console.log('property di child ', this.collateralProperties);
+        }
+      }
+    }
+  }
+}

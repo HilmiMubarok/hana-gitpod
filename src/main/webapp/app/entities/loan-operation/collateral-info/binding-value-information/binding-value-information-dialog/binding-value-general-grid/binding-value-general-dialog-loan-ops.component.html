@@ -1,0 +1,118 @@
+<h2 mat-dialog-title class="header-title">Binding Value Information</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-6">
+          <section *ngIf="!statusDisabledOffering">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Rank</mat-label>
+              <mat-select name="rank" [(ngModel)]="dataFidusia.rank">
+                <mat-option value=" ">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of lovRank" [value]="item.code">
+                  {{ item.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section *ngIf="statusDisabledOffering">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Rank</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ dataFidusia.rank }}
+              </div>
+            </div>
+          </section>
+          <section *ngIf="!statusDisabledOffering">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Binding Value</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="dataFidusia.value"
+                  [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="statusDisabledOffering">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Binding Value</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ dataFidusia.value }}
+              </div>
+            </div>
+          </section>
+          <section *ngIf="!statusDisabledOffering">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Binding Number</mat-label>
+                <input matInput type="text" [(ngModel)]="dataFidusia.agreementNumber" />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="statusDisabledOffering">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Binding Number</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ dataFidusia.agreementNumber }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="col-6">
+          <section *ngIf="!statusDisabledOffering">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Binding Date</mat-label>
+                <input [matDatepicker]="bindingDate" [formControl]="date" matInput type="text" [(ngModel)]="dataFidusia.dateAgreement" />
+                <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
+                <mat-datepicker #bindingDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="statusDisabledOffering">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Binding Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ dataFidusia.dateAgreement | date: 'yyyy/MM/dd' }}
+              </div>
+            </div>
+          </section>
+          <section *ngIf="!statusDisabledOffering">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Cover</mat-label>
+                <input matInput type="text" [(ngModel)]="dataFidusia.cover" />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *ngIf="statusDisabledOffering">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Cover</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ dataFidusia.cover }}
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="align-center">
+  <section>
+    <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="save()" *ngIf="!statusDisabledOffering">Save</button>
+  </section>
+  <!-- <section *ngIf="isLabel">
+      <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
+    </section> -->
+</mat-dialog-actions>

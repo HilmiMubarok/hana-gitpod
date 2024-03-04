@@ -1,0 +1,115 @@
+<div class="e-sample-resize-container e-card-resize-container mb-5">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Collateral Checklist</div>
+            <div class="e-card-sub-title"></div>
+            <ejs-grid [dataSource]="dataChecklist" allowTextWrap="true">
+              <e-columns>
+                <e-column field="No" headerText="No" textAlign="center" width="12"></e-column>
+                <e-column field="criteria" headerText="Criteria" textAlign="left" headerTextAlign="left" width="120"> </e-column>
+                <e-column textAlign="Center" width="10">
+                  <div class="select">
+                    <ng-template #template let-data>
+                      <div class="d-flex justify-content-around">
+                        <div class="mx-2">
+                          <section *ngIf="isElement">
+                            <ejs-radiobutton
+                              label="Yes"
+                              value="Yes"
+                              (change)="onSelect('Yes', data)"
+                              [checked]="data.value === 'Yes'"
+                              [disabled]="isViewMode"
+                              name="{{ data.No }}"
+                            >
+                            </ejs-radiobutton>
+                          </section>
+                          <section *ngIf="isLabel">
+                            <ejs-radiobutton
+                              label="Yes"
+                              value="Yes"
+                              (change)="onSelect('Yes', data)"
+                              [checked]="data.value === 'Yes'"
+                              name="{{ data.No }}"
+                              disabled
+                            ></ejs-radiobutton>
+                          </section>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </e-column>
+                <e-column textAlign="Center" width="10">
+                  <div class="select">
+                    <ng-template #template let-data>
+                      <div class="d-flex justify-content-around">
+                        <div class="mx-2">
+                          <section *ngIf="isElement">
+                            <ejs-radiobutton
+                              label="No"
+                              value="No"
+                              (change)="onSelect('No', data)"
+                              [checked]="data.value === 'No'"
+                              [disabled]="isViewMode"
+                              name="{{ data.No }}"
+                            >
+                            </ejs-radiobutton>
+                          </section>
+                          <section *ngIf="isLabel">
+                            <ejs-radiobutton
+                              label="No"
+                              value="No"
+                              (change)="onSelect('No', data)"
+                              [checked]="data.value === 'No'"
+                              name="{{ data.No }}"
+                              disabled
+                            ></ejs-radiobutton>
+                          </section>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="e-sample-resize-container e-card-resize-container mb-5">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">REMARKS</div>
+            <div class="e-card-sub-title"></div>
+            <section
+              *ngIf="isElement">
+              <ejs-richtexteditor [toolbarSettings]="tools"
+                [(ngModel)]="creditProposal.attributes['collateralChecklist'].remarks">
+              </ejs-richtexteditor>
+            </section>
+            <section *ngIf="isLabel">
+              <div class="fontsebled row">
+                <div class="col-4">Remarks</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ creditProposal.attributes['collateralChecklist'].remarks }}
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button ejs-button content="Save" class="btn-success" style="margin: 10px"></button>
+      </div>
+    </div>
+  </div>
+</div> -->

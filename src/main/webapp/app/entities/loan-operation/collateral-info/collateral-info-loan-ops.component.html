@@ -1,0 +1,186 @@
+<div class="row">
+  <div *ngIf="creditProposal.attributes['proposalType'] === '' || creditProposal.attributes['proposalType'] === null">
+    <h2 style="font-weight: 30px">- Please Select Proposal Type -</h2>
+  </div>
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+    <ejs-menu
+      [hidden]="view"
+      *ngIf="isLabel || customPath === true"
+      [enableScrolling]="true"
+      cssClass="e-rounded-menu e-custom-scroll"
+      [items]="menuItems"
+      (select)="selectMenuItem($event)"
+    ></ejs-menu>
+    <div *ngIf="selectedMenu === 'INFORMATION'">
+      <jhi-above-grid-loan-ops
+        [isElement]="isElement"
+        [isLabel]="isLabel"
+        [creditProposal]="creditProposal"
+        [collateralProperties]="collateralProperties"
+        [parentSource]="parentSource"
+      ></jhi-above-grid-loan-ops>
+      <div *ngIf="!textBoxHidden">
+        <jhi-binding-value-information-loan-ops
+          [creditProposal]="creditProposal"
+          [isLabel]="isLabel"
+          [isElement]="isElement"
+          [collateralSummaryData]="collateralSummaryData"
+        ></jhi-binding-value-information-loan-ops>
+      </div>
+      <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Binding Value Note</mat-label>
+          <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+        </mat-form-field>
+      </div>
+      <div *ngIf="takeOutCompare !== true">
+        <jhi-collateral-info-remarks-information-loan-ops
+          #creditProposalCollateralInfoRemarksInfoComponentAbove
+          [creditProposal]="creditProposal"
+          [parentSource]="parentSource"
+          [isElement]="isElement"
+          [isLabel]="isLabel"
+        >
+        </jhi-collateral-info-remarks-information-loan-ops>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+    <div *ngIf="selectedMenu === 'CHECKLIST'">
+      <div class="card-content">
+        <jhi-collateral-info-checklist-loan-ops [isLabel]="isLabel" [isElement]="isElement" [creditProposal]="creditProposal">
+        </jhi-collateral-info-checklist-loan-ops>
+        <div *ngIf="takeOutCompare !== true">
+          <jhi-collateral-info-remarks-checklist-loan-ops
+            #creditProposalCollateralInfoRemarksCheckComponent
+            [creditProposal]="creditProposal"
+            [parentSource]="parentSource"
+          >
+          </jhi-collateral-info-remarks-checklist-loan-ops>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+    <div *ngIf="selectedMenu === 'SUMMARY'">
+      <div class="card-content">
+        <jhi-summary-grid-loan-ops
+          [isLabel]="isLabel"
+          [isElement]="isElement"
+          [creditProposal]="creditProposal"
+          [collateralProperties]="collateralProperties"
+          [group]="'group'"
+        ></jhi-summary-grid-loan-ops>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+  <ejs-menu
+    [hidden]="view"
+    *ngIf="isElement === false || customPath === true"
+    [enableScrolling]="true"
+    cssClass="e-rounded-menu e-custom-scroll"
+    [items]="menuItemx"
+    (select)="selectMenuItem($event)"
+  ></ejs-menu>
+  <div *ngIf="selectedMenu === 'INFORMATION'">
+    <jhi-bellow-grid-loan-ops
+      [isElement]="isElement"
+      [isLabel]="isLabel"
+      [creditProposal]="creditProposal"
+      [collateralProperties]="collateralProperties"
+      [parentSource]="parentSource"
+    ></jhi-bellow-grid-loan-ops>
+    <div *ngIf="!textBoxHidden">
+      <jhi-binding-value-information-loan-ops
+        [creditProposal]="creditProposal"
+        [collateralSummaryData]="collateralSummaryData"
+      ></jhi-binding-value-information-loan-ops>
+    </div>
+    <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Binding Value Note</mat-label>
+        <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+      </mat-form-field>
+    </div>
+    <div *ngIf="takeOutCompare !== true">
+      <jhi-collateral-info-remarks-information-loan-ops
+        #creditProposalCollateralInfoRemarksInfoComponentBelow
+        [creditProposal]="creditProposal"
+        [parentSource]="parentSource"
+      >
+      </jhi-collateral-info-remarks-information-loan-ops>
+    </div>
+  </div>
+</div>
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+  <div *ngIf="selectedMenu === 'SUMMARY'">
+    <div class="card-content">
+      <jhi-summary-grid-loan-ops
+        [creditProposal]="creditProposal"
+        [collateralProperties]="collateralProperties"
+        [group]="'group'"
+      ></jhi-summary-grid-loan-ops>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+  <ejs-menu
+    [hidden]="view"
+    *ngIf="isElement === false || customPath === true"
+    [enableScrolling]="true"
+    cssClass="e-rounded-menu e-custom-scroll"
+    [items]="menuItemx"
+    (select)="selectMenuItem($event)"
+  ></ejs-menu>
+  <div *ngIf="selectedMenu === 'INFORMATION'">
+    <jhi-collateral-info-btb-loan-ops
+      [isElement]="isElement"
+      [isLabel]="isLabel"
+      [creditProposal]="creditProposal"
+      [collateralProperties]="collateralProperties"
+      [parentSource]="parentSource"
+    >
+    </jhi-collateral-info-btb-loan-ops>
+    <div *ngIf="!textBoxHidden">
+      <jhi-binding-value-information-loan-ops
+        [creditProposal]="creditProposal"
+        [isElement]="isElement"
+        [isLabel]="isLabel"
+        [collateralSummaryData]="collateralSummaryData"
+      ></jhi-binding-value-information-loan-ops>
+    </div>
+    <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Binding Value Note</mat-label>
+        <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+      </mat-form-field>
+    </div>
+    <div *ngIf="takeOutCompare !== true">
+      <jhi-collateral-info-remarks-information-loan-ops
+        #creditProposalCollateralInfoRemarksInfoComponentBtb
+        [isLabel]="isLabel"
+        [isElement]="isElement"
+        [creditProposal]="creditProposal"
+        [parentSource]="parentSource"
+      >
+      </jhi-collateral-info-remarks-information-loan-ops>
+    </div>
+  </div>
+</div>
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+  <div *ngIf="selectedMenu === 'SUMMARY'">
+    <div class="card-content">
+      <jhi-summary-grid-btb-loan-ops
+        [isLabel]="isLabel"
+        [isElement]="isElement"
+        [creditProposal]="creditProposal"
+        [collateralProperties]="collateralProperties"
+        [group]="'group'"
+      ></jhi-summary-grid-btb-loan-ops>
+    </div>
+  </div>
+</div>
