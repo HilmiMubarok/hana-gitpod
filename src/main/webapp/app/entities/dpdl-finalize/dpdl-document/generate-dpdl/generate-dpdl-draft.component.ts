@@ -219,7 +219,11 @@ export class GenerateDpdlDraftComponent implements OnInit {
       this.parentPath.match(/loan-ops-distribution/g) ||
       this.parentPath.match(/loan-ops-checking/g) ||
       this.parentPath.match(/loan-ops-review/g) ||
-      this.parentPath.match(/review-dppk/g)
+      this.parentPath.match(/review-dppk/g) ||
+      this.item.statusId === 'DPDL_REVIEW_LEAD' ||
+      this.item.statusId === 'DPDL_REVIEW_HEAD' ||
+      this.item.statusId === 'DPDL_REVIEW_TEAMLEAD' ||
+      this.item.statusId === 'DPDL_RETURN_TO_RM'
     ) {
       return false;
     } else {
