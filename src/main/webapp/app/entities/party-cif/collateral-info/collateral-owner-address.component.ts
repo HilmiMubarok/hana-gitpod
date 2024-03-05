@@ -22,7 +22,7 @@ import lodash from 'lodash';
   styleUrls: ['./collateral-owner-address.style.scss'],
 })
 export class CollateralOwnerAddressComponent implements OnInit {
-  public collateralConditions: any;
+  public collateralConditions = [];
   private _postalAddress: IPostalAddress;
   public parentPath = this.router.url.split('/')[1];
   public activeRoute: string;
@@ -45,6 +45,7 @@ export class CollateralOwnerAddressComponent implements OnInit {
   city: string;
   kodePos: string;
   lbuCode: string;
+  collateralConditionsElement: string;
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -134,11 +135,10 @@ export class CollateralOwnerAddressComponent implements OnInit {
         if (this.collateralConditions) {
           let element: string;
           for (let i = 0; i < this.collateralConditions.length; i++) {
-            if (this.collateral.facilityType === this.collateralConditions[i].code) {
+            if (this.collateral.collateralConditions === this.collateralConditions[i].code) {
               element = this.collateralConditions[i].value;
             }
           }
-          this.collateralConditions = element;
         }
       });
   }
