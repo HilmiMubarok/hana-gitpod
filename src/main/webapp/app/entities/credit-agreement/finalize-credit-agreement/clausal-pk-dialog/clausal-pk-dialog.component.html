@@ -6,7 +6,7 @@
       <mat-label>Category</mat-label>
       <mat-select disabled [(ngModel)]="agreementClausal.category">
         <mat-option value="">Please Select</mat-option>
-        <mat-option *ngFor="let item of ['NEW', 'ADDENDUM']" [value]="item">
+        <mat-option *ngFor="let item of ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali']" [value]="item">
           {{ item }}
         </mat-option>
       </mat-select>

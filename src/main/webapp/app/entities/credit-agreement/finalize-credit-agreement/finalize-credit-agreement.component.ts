@@ -127,6 +127,8 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
       this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
     } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
       this.displayColumnsCreditAgreementClausal = ['code', 'category', 'description', 'clausal', 'action'];
+    } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'Perubahan dan Pernyataan Kembali') {
+      this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
     }
   }
 
@@ -269,12 +271,16 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   }
 
   public getClausalAddendum() {
-    this.creditAgreementService.getActiveClausalByPartyId(this.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
+    this.creditAgreementService.getActiveClausalById(this.creditProposal.id, 'DRAFT').subscribe((res: any) => {
       const data: any[] = res.body;
       this.addendumClausalAgreements = data
         .filter((f: any) => f.category === 'ADDENDUM')
         .slice()
         .sort((a, b) => a.sequence - b.sequence);
+    });
+
+    this.creditAgreementService.getActiveClausalById(this.creditProposal.id, 'ACTIVE').subscribe((res: any) => {
+      const data: any[] = res.body;
       this.addendumClausalAgreementsHistory = data.slice().sort((a, b) => a.sequence - b.sequence);
     });
   }
