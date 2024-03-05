@@ -215,10 +215,10 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
       .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
   }
 
-  public getActiveClausalByPartyId(partyId: string, req?: any): Observable<HttpResponse<any>> {
+  public getActiveClausalById(id: number, statusCode: string, req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     return this.http
-      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausals/active-clausals/party/${partyId}`, {
+      .get<any[]>(MICROSERVICENAME.LOS + `/agreement-clausals/addendum/${id}/${statusCode}`, {
         params: options,
         observe: 'response',
       })
