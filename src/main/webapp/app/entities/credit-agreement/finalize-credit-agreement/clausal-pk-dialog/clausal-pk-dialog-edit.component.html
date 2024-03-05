@@ -7,12 +7,12 @@
         <mat-label>Category</mat-label>
         <mat-select disabled [(ngModel)]="data.creditProposal.agreements[0].attributes.AGREEMENT_TYPE">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of ['NEW', 'ADDENDUM']" [value]="item">
+          <mat-option *ngFor="let item of ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali']" [value]="item">
             {{ item }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div [hidden]="data.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === 'NEW'">
+      <div *ngIf="data.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === 'ADDDENDUM'">
         <mat-form-field appearance="outline" class="w-50">
           <mat-select disabled [(ngModel)]="valueParentClausalAgreements">
             <mat-option value="">Please Select</mat-option>
@@ -39,11 +39,7 @@
         </div>
       </div>
 
-      <mat-form-field
-        [hidden]="data.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === 'ADDENDUM'"
-        class="w-100"
-        appearance="outline"
-      >
+      <mat-form-field *ngIf="data.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === 'NEW'" class="w-100" appearance="outline">
         <mat-label>Code</mat-label>
         <input [(ngModel)]="code" matInput type="text" />
       </mat-form-field>
