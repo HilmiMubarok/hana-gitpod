@@ -218,7 +218,7 @@ export class CreditAgreementService extends AbstractEntityService<ICreditAgreeme
   public getActiveClausalById(id: number, statusCode: string, req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     return this.http
-      .get<any[]>(MICROSERVICENAME.LOS + `/agreement-clausals/addendum/${id}/${statusCode}`, {
+      .get<any[]>(MICROSERVICENAME.LOS + `/api/agreement-clausals/addendum/application/${id}/status/${statusCode}`, {
         params: options,
         observe: 'response',
       })

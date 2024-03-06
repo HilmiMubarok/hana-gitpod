@@ -12,7 +12,8 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div *ngIf="data.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === 'ADDDENDUM'">
+
+      <div *ngIf="data.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === 'ADDENDUM'">
         <mat-form-field appearance="outline" class="w-50">
           <mat-select disabled [(ngModel)]="valueParentClausalAgreements">
             <mat-option value="">Please Select</mat-option>
@@ -76,7 +77,7 @@
         </div>
       </div>
 
-      <div [hidden]="category === 'NEW'">
+      <div *ngIf="category === 'ADDENDUM'">
         <div class="fontsebled row py-3">
           <div class="col-4"></div>
           <div class="col-md-auto">:</div>
