@@ -13,6 +13,7 @@ import { DashboardService } from './dashboard.service';
 })
 export class DashboardComponent implements OnInit {
   private positionId: number;
+  public positionTypeId: string;
 
   public mergedChartData: IChartData[] = [];
   public groupByStatusDataSource: any = [];
@@ -31,6 +32,7 @@ export class DashboardComponent implements OnInit {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe(newPos => {
       if (newPos) {
         this.positionId = newPos.id;
+        this.positionTypeId = newPos.positionTypeId;
         this.menuAccessService
           .filterBy({
             positionTypeId: newPos.positionTypeId,
@@ -40,58 +42,80 @@ export class DashboardComponent implements OnInit {
           })
           .subscribe(positionTypeList => {
             const allowedDashboard = positionTypeList.body.filter(obj => obj.menuItemId.includes('DASHBOARD_'));
-            this.splitAvailableData(allowedDashboard);
+            this.categorizedCharts(allowedDashboard);
           });
       }
     });
   }
 
-  private splitAvailableData(allowedDashboard): void {
-    const availableStatus: IMenuAccess[] = allowedDashboard.filter(obj => !obj.menuItemId.includes('DASHBOARD_CHART_'));
-    const tempData: IMenuAccess[] = allowedDashboard.filter(obj => obj.menuItemId.includes('DASHBOARD_CHART_'));
+  public categorizedCharts(allowedDashboard): void {
+    if (allowedDashboard.length > 0) {
+      const _tempData: IMenuAccess[] = allowedDashboard.filter(obj => obj.menuItemId.includes('DASHBOARD_'));
+      const tempDataCP: any[] = [];
+      const tempDataAppraisal: any[] = [];
+      const menuItemCp: string[] = [];
+      const accessibleMenuCP: IMenuAccess[] = [];
+      const accessibleMenuAppraisal: IMenuAccess[] = [];
+      const menuItemAppraisal: string[] = [];
 
-    const argCP: IMenuAccess[] = availableStatus.filter(item => item.menuItemId.includes('_CREDIT_PROPOSAL_'));
-    const argsAppraisal: IMenuAccess[] = availableStatus.filter(item => item.menuItemId.includes('_APPRAISAL_'));
+      _tempData.forEach(obj => {
+        if (obj.menuItemId.includes('_CREDIT_PROPOSAL_')) {
+          menuItemCp.push(obj.menuItemId);
+          accessibleMenuCP.push(obj);
+        } else if (obj.menuItemId.includes('_APPRAISAL_')) {
+          menuItemAppraisal.push(obj.menuItemId);
+          accessibleMenuAppraisal.push(obj);
+        }
+      });
 
-    const creditProposalFilter: IMenuAccess[] = tempData.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
-    const appraisalFilter: IMenuAccess[] = tempData.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
+      tempDataCP.push({ menuItemCp, accessibleMenuCP });
+      tempDataAppraisal.push({ menuItemAppraisal, accessibleMenuAppraisal });
 
-    this.categorizedChartsData(creditProposalFilter, appraisalFilter);
-    this.loadStatusData(argCP, argsAppraisal);
+      if (menuItemCp.length > 0) {
+        this.loadDataCp(tempDataCP);
+      }
+      if (menuItemAppraisal.length > 0) {
+        this.loadDataAppraisal(tempDataAppraisal);
+      }
+    }
   }
 
-  public categorizedChartsData(creditProposalFilter: IMenuAccess[], appraisalFilter: IMenuAccess[]): void {
-    if (creditProposalFilter.length > 0) {
-      this.mergedChartData.push({ chartsTitle: 'Charts Credit Proposal', accessibleMenu: creditProposalFilter });
-    }
-    if (appraisalFilter.length > 0) {
-      this.mergedChartData.push({ chartsTitle: 'Charts Appraisal', accessibleMenu: appraisalFilter });
-    }
+  public loadDataCp(tempDataCP): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (tempDataCP.some(item => !item.menuItemCp.includes('DASHBOARD_CHART'))) {
+        this.dashboardService
+          .creditProposals()
+          .getGroupByStatus({ idPosition: this.positionId })
+          .subscribe(res => {
+            const groupByStatus = res.body;
+            this.mergedChartData.push({
+              chartsTitle: 'Charts Credit Proposal',
+              accessibleMenu: tempDataCP[0].accessibleMenuCP,
+              groupByStatus,
+            });
+            resolve();
+          });
+      }
+    });
   }
 
-  public loadStatusData(argCP: IMenuAccess[], argsAppraisal: IMenuAccess[]): void {
-    if (argCP.length > 0) {
-      this.dashboardService
-        .creditProposals()
-        .getGroupByStatus({ idPosition: this.positionId })
-        .subscribe(res => {
-          if (res) {
-            const menuItemDescription = argCP[0].menuItemDescription;
-            this.groupByStatusDataSource.push({ menuItemDescription, chartsData: res.body });
-          }
-        });
-    }
+  public loadDataAppraisal(tempDataAppraisal): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (tempDataAppraisal.some(item => !item.menuItemAppraisal.includes('DASHBOARD_CHART'))) {
+        this.dashboardService
+          .appraisal()
+          .getGroupByStatus({ idPosition: this.positionId })
+          .subscribe(res => {
+            const groupByStatus = res.body;
+            this.mergedChartData.push({
+              chartsTitle: 'Charts Appraisal',
+              accessibleMenu: tempDataAppraisal[0].accessibleMenuAppraisal,
+              groupByStatus,
+            });
 
-    if (argsAppraisal.length > 0) {
-      this.dashboardService
-        .appraisal()
-        .getGroupByStatus({ idPosition: this.positionId })
-        .subscribe(res => {
-          if (res) {
-            const menuItemDescription = argsAppraisal[0].menuItemDescription;
-            this.groupByStatusDataSource.push({ menuItemDescription, chartsData: res.body });
-          }
-        });
-    }
+            resolve();
+          });
+      }
+    });
   }
 }

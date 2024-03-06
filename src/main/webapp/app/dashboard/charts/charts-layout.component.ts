@@ -5,6 +5,8 @@ import moment from 'moment';
 import { IDueDate, IGroupByStatus, IInterval, lineChartDummyData } from '../dashboard.model';
 import { DashboardService } from '../dashboard.service';
 import { IMenuAccess } from 'app/entities/menu-access/menu-access.model';
+import { MessageService } from 'primeng/api';
+import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/master-permission.service';
 
 @Component({
   selector: 'jhi-charts-layout',
@@ -13,16 +15,26 @@ import { IMenuAccess } from 'app/entities/menu-access/menu-access.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class ChartsLayoutComponent implements OnInit {
-  private _chartsAvailability: any;
-  private _idPosition: string;
+  private _chartsAvailability: IMenuAccess[];
+  private _idPosition: number;
+  private _positionType: string;
 
   @Input()
   get idPosition() {
     return this._idPosition;
   }
 
-  set idPosition(param: any) {
+  set idPosition(param: number) {
     this._idPosition = param;
+  }
+
+  @Input()
+  get positionType() {
+    return this._positionType;
+  }
+
+  set positionType(param: string) {
+    this._positionType = param;
   }
 
   @Input()
@@ -30,7 +42,7 @@ export class ChartsLayoutComponent implements OnInit {
     return this._chartsAvailability;
   }
 
-  set chartsAvailability(param: any) {
+  set chartsAvailability(param: IMenuAccess[]) {
     this._chartsAvailability = param;
   }
 
@@ -56,36 +68,41 @@ export class ChartsLayoutComponent implements OnInit {
   public splineSizeX: number;
   public splineSizeY: number;
 
-  // public status: string[] = ['status1', 'status2', 'status3'];
-  // public dates: string[] = ['senin', 'selasa', 'rabu', 'kamis', "jum'at", 'sabtu', 'minggu'];
-
   public aspectRatio: any = 100 / 85;
   public headerCount = 1;
   public count = 8;
 
-  // public selectedStatus: string;
+  public creditProposalFilter: string[] = [];
+  public appraisalFilter: string[] = [];
 
-  dateRange: any[] | undefined;
-  SelectedDateRange: any | undefined;
+  public intervalList: IInterval[] = [];
+  public statusList: any[] = [];
+  public statusListField: Object = { text: 'statusDescription', value: 'statusId' };
 
-  status: any[] | undefined;
+  public summaryStatusDataSource: IGroupByStatus[] = [];
+
+  public dueDateDataSource: IDueDate[] = [];
+  public _dueDateDates: Date = new Date();
+  public dueDateDates: string = moment(this._dueDateDates).format('YYYY-MM-DD').toString();
+  public dateForLabelDueDate: Date = new Date();
   public _selectedDuedateInterval: string;
   public selectedDuedateInterval = 'DAILY';
 
-  public creditProposalFilter: IMenuAccess[] = [];
-  public appraisalFilter: IMenuAccess[] = [];
+  public startDateThruDate: { startDate: string; thruDate: string };
+  public progressDataSource: any = [];
+  public _selectedStatus: string;
+  public selectedStatus = 'DRAFT';
+  public _progressInterval: string;
+  public progressInterval = 'DAILY';
 
-  public intervalList: IInterval[] = [];
-  public summaryStatusDataSource: IGroupByStatus[] = [];
-  public dueDateDataSource: IDueDate[] = [];
-  private lineChartData = lineChartDummyData;
-  public filteredLineChartData = this.lineChartData.sort(this.sortByDateAsc);
-  public _dueDateDates: Date = new Date();
-  public dueDateDates: string = moment(this._dueDateDates).format('YYYY-MM-DD').toString();
-
-  constructor(protected dashboardService: DashboardService) {}
+  constructor(
+    protected dashboardService: DashboardService,
+    protected messageService: MessageService,
+    protected masterPermissionService: MasterPermissionService
+  ) {}
 
   ngOnInit(): void {
+    this.loadStatus();
     this.loadInterval().then(() => {
       this.preLoadData();
     });
@@ -128,99 +145,134 @@ export class ChartsLayoutComponent implements OnInit {
     });
   }
 
+  public loadStatus(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const menuItemId = 'CREDIT_PROPOSAL_STATUS';
+      this.masterPermissionService.filterBy({ positionTypeId: this.positionType, menuItemId }).subscribe(res => {
+        res.body.forEach(permissionList => {
+          this.statusList.push({
+            statusId: permissionList.menuStatusItem.statusId,
+            statusDescription: permissionList.menuStatusItem.statusDescription,
+          });
+          console.log('this.statusList', this.statusList);
+        });
+        resolve();
+      });
+    });
+  }
+
   public preLoadData(): void {
     if (this.chartsAvailability.length > 0) {
-      this.creditProposalFilter = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
-      this.appraisalFilter = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_APPRAISAL_'));
+      this.chartsAvailability.forEach(obj => {
+        if (obj.menuItemId.includes('_CREDIT_PROPOSAL_')) {
+          this.creditProposalFilter.push(obj.menuItemId);
+        }
+        if (obj.menuItemId.includes('_APPRAISAL_')) {
+          this.appraisalFilter.push(obj.menuItemId);
+        }
+      });
 
-      // const availableChartDueDate = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_DUEDATE'));
-      // const availableChartProgress = this.chartsAvailability.filter(obj => obj.menuItemId.includes('_PROGRESS'));
       this.loadDueDate();
       this.loadSummaryStatus();
-      // this.loadProgress();
+      this.loadProgress();
     }
   }
 
   public loadDueDate(): void {
-    if (this.creditProposalFilter.length > 0) {
-      const cpStatusChart = this.creditProposalFilter.filter(obj => obj.menuItemId.includes('_DUEDATE'));
-      if (cpStatusChart.length > 0) {
-        this.dashboardService
-          .creditProposals()
-          .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedDuedateInterval })
-          .subscribe(res => {
-            this.dueDateDataSource = res.body;
-          });
-      }
+    if (this.creditProposalFilter.length > 0 && this.creditProposalFilter.some(item => item.includes('_DUEDATE'))) {
+      this.dashboardService
+        .creditProposals()
+        .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedDuedateInterval })
+        .subscribe(res => {
+          this.dueDateDataSource = res.body;
+        });
     }
-
-    if (this.appraisalFilter.length > 0) {
-      const appraisalStatusChart = this.appraisalFilter.filter(obj => obj.menuItemId.includes('_DUEDATE'));
-      if (appraisalStatusChart.length > 0) {
-        this.dashboardService
-          .appraisal()
-          .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedDuedateInterval })
-          .subscribe(res => {
-            this.dueDateDataSource = res.body;
-          });
-      }
+    if (this.appraisalFilter.length > 0 && this.appraisalFilter.some(item => item.includes('_DUEDATE'))) {
+      this.dashboardService
+        .appraisal()
+        .getDueDate({ date: this.dueDateDates, idPosition: this.idPosition, interval: this.selectedDuedateInterval })
+        .subscribe(res => {
+          this.dueDateDataSource = res.body;
+        });
     }
   }
 
   public loadSummaryStatus(): void {
-    if (this.creditProposalFilter.length > 0) {
-      const cpStatusChart = this.creditProposalFilter.filter(
-        obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
-      );
-      if (cpStatusChart.length > 0) {
-        this.dashboardService
-          .creditProposals()
-          .getSummaryStatus({ idPosition: this.idPosition })
-          .subscribe(res => {
-            this.summaryStatusDataSource = res.body;
-          });
-      }
+    if (this.creditProposalFilter.length > 0 && this.creditProposalFilter.some(item => item.includes('_STATUS'))) {
+      this.dashboardService
+        .creditProposals()
+        .getSummaryStatus({ idPosition: this.idPosition })
+        .subscribe(res => {
+          this.summaryStatusDataSource = res.body;
+        });
     }
 
-    if (this.appraisalFilter.length > 0) {
-      const appraisalStatusChart = this.appraisalFilter.filter(
-        obj => obj.menuItemId.includes('DASHBOARD_CHART_') && obj.menuItemId.includes('STATUS')
-      );
-      if (appraisalStatusChart.length > 0) {
-        this.dashboardService
-          .appraisal()
-          .getSummaryStatus({ idPosition: this.idPosition })
-          .subscribe(res => {
-            this.summaryStatusDataSource = res.body;
-          });
-      }
+    if (this.appraisalFilter.length > 0 && this.appraisalFilter.some(item => item.includes('_STATUS'))) {
+      this.dashboardService
+        .appraisal()
+        .getSummaryStatus({ idPosition: this.idPosition })
+        .subscribe(res => {
+          this.summaryStatusDataSource = res.body;
+        });
     }
   }
-  // loadProgress() {
-  //   if (availableChartProgress.length > 0) {
-  //     const CP = availableChartProgress.find(obj => obj.menuItemId.includes('_CREDIT_PROPOSAL_'));
-  //     const appraisal = availableChartProgress.find(obj => obj.menuItemId.includes('_APPRAISAL_'));
-  //   }
-  // }
 
-  // for demo purposes only
-  private sortByDateAsc(a: any, b: any): number {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateA.getTime() - dateB.getTime();
+  loadProgress() {
+    // if (this.creditProposalFilter.length > 0 && this.creditProposalFilter.some(item => item.includes('_PROGRESS'))) {
+    //   this.dashboardService
+    //     .creditProposals()
+    //     .getProgress({
+    //       status: this.selectedStatus,
+    //       fromDate: this.startDateThruDate.startDate,
+    //       thruDate: this.startDateThruDate.thruDate,
+    //       interval: this.progressInterval,
+    //       idPosition: this.idPosition,
+    //     })
+    //     .subscribe(res => {
+    //       this.progressDataSource = res.body;
+    //     });
+    // }
+    // if (this.appraisalFilter.length > 0 && this.appraisalFilter.some(item => item.includes('_PROGRESS'))) {
+    //   this.dashboardService
+    //     .appraisal()
+    //     .getProgress({
+    //       status: this.selectedStatus,
+    //       fromDate: this.startDateThruDate.startDate,
+    //       thruDate: this.startDateThruDate.thruDate,
+    //       interval: this.progressInterval,
+    //       idPosition: this.idPosition,
+    //     })
+    //     .subscribe(res => {
+    //       this.progressDataSource = res.body;
+    //     });
+    // }
   }
 
-  public recieveFilteredProgress(event: any): void {
-    this.filteredLineChartData = event;
+  public recieveStartThruDate(event: any): void {
+    this.startDateThruDate = event;
   }
 
-  public recievedDate(event: any): void {
-    this.dueDateDates = event;
+  public recievedDate(event: Date): void {
+    this.dateForLabelDueDate = event;
+    this.dueDateDates = moment(event).format('YYYY-MM-DD').toString();
     this.loadDueDate();
   }
 
   public dueDateInterval(_selectedDuedateInterval): void {
     this.selectedDuedateInterval = _selectedDuedateInterval;
     this.loadDueDate();
+  }
+
+  public progressIntervalOnChange(_progressInterval): void {
+    this.progressInterval = _progressInterval;
+  }
+
+  public onchangeSelectStatus(_selectedStatus): void {
+    // this.selectedStatus = _selectedStatus;
+    // this.messageService.add({
+    //   severity: 'info',
+    //   summary: 'info',
+    //   detail: 'Select Dates',
+    // });
   }
 }
