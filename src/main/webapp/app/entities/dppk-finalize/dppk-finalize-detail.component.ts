@@ -578,7 +578,17 @@ export class DppkFinalizeDetailComponent implements OnInit {
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
-        this.save('process');
+        this.validateAssignTo()
+          .then(() => {
+            this.save('process');
+          })
+          .catch(() => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Please select Assignee before submit',
+            });
+          });
       }
     });
   }
@@ -1731,18 +1741,33 @@ export class DppkFinalizeDetailComponent implements OnInit {
   }
 
   // Assign DPPK
+  public isAssignedToOne: Boolean = false;
+  public isAssignedToTwo: Boolean = false;
+
+  // Assign DPPK
   public onAssignToOne(ev: any): void {
     const dynAttrOne = 'dataAssignToDPPKReview1';
+    this.isAssignedToOne = ev && true;
     this.applicationRole = ev;
     this.creditProposal.attributes[dynAttrOne] = ev;
   }
 
   public onAssignToTwo(ev: any): void {
     const dynAttrTwo = 'dataAssignToDPPKReview2';
+    this.isAssignedToTwo = ev && true;
     this.applicationRole = ev;
     this.creditProposal.attributes[dynAttrTwo] = ev;
   }
 
+  public validateAssignTo() {
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.isAssignedToOne && this.isAssignedToTwo) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  }
   public conditionShowAssignDppk() {
     if (this.parentPath.match(/finalize-dppk/g) && this.creditProposal.statusId === 'DPPK_FINALIZE') {
       return true;
