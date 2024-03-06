@@ -9,8 +9,10 @@ import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class InsuranceInformationService extends AbstractEntityService<InsuranceInformation> {
+  public dataSourceInsurance: any[];
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
+    this.dataSourceInsurance = [];
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/insurance-agreements');
   }
   public getInsuranceInformation(collateralId: number): Observable<HttpResponse<InsuranceInformation[]>> {

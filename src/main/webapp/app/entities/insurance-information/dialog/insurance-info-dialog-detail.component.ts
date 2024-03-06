@@ -91,7 +91,7 @@ export class InsuranceInfoDialogDetailComponent implements OnInit {
     this.insuranceDeviation();
   }
   public save() {
-    if (this.insurance.insuranceCategoryId === 36501) {
+    if (this.insurance.insuranceCategoryId === 34107) {
       if (!this.insurance.insuranceCategoryId) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pilih Insurance Type terlebih dahulu', life: 3000 });
         return;
