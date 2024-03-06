@@ -79,6 +79,7 @@ export class CollateralAttribute implements ICollateralAttribute {
 // --------------------------------------------------------------------------------------
 
 export interface ICollateral {
+  collateralConditions?: string;
   id?: number;
   collateralNumber?: string;
   fromDate?: Date;
@@ -325,7 +326,8 @@ export class Collateral implements ICollateral {
     public dataSource?: string,
     public occupancy?: string,
     public collateralTypeInsurance?: boolean,
-    public collateralOwnerCif?: string
+    public collateralOwnerCif?: string,
+    public collateralConditions?: string
   ) {
     this.requisitionExpiryDate = new Date();
     this.appraisalDateIndependent = new Date();
