@@ -1,17 +1,17 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { CompareDataService } from '../../services/compare-data.service';
-import { Observable, Subject, map, takeUntil } from 'rxjs';
+import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IOtherCovenant } from 'app/entities/credit-proposal/convenant/other-covenant/other-convenant.model';
 import { CompareDataCovenantOtherDialogComponent } from './dialog/compare-data-covenant-other-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
-import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 import { v4 as uuidv4 } from 'uuid';
+
 @Component({
   selector: 'jhi-compare-data-covenant-other',
   templateUrl: './compare-data-covenant-other.component.html',
@@ -22,14 +22,15 @@ export class CompareDataCovenantOtherComponent implements OnDestroy, OnChanges, 
   public cpDynamicAttributeData: any;
   public otherCovenantData: any;
   public displayColumns: string[] = ['no', 'category', 'sub_category', 'covenant', 'status', 'deviation', 'justification', 'action'];
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   public bucket: string;
-  public typeData: any[] = [];
-  public otherConvenantMinIO: any[] = [];
+  public typeData = [];
+  public file1 = [];
+  public file2 = [];
+  public file = [];
+  public otherConvenantMinIO = [];
   public filterStatus: any[];
-  public file: any[] = [];
-  public file1: any[] = [];
-  public file2: any[] = [];
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() dataFrom: string;
   @Input() isDeviation: Boolean = false;
@@ -38,8 +39,8 @@ export class CompareDataCovenantOtherComponent implements OnDestroy, OnChanges, 
     private compareDataService: CompareDataService,
     private dialog: MatDialog,
     private storageService: StorageService,
-    public documentTypeService: DocumentTypeService,
-    public partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private documentTypeService: DocumentTypeService
   ) {
     this.compareDataService.creditProposal.pipe(takeUntil(this.destroy$)).subscribe((creditProposal: ICreditProposal) => {
       this.creditProposal = creditProposal;
@@ -48,7 +49,54 @@ export class CompareDataCovenantOtherComponent implements OnDestroy, OnChanges, 
 
   ngOnInit(): void {
     this._getHistoryAttributes();
+  }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.dataFrom && changes.dataFrom.currentValue) {
+      this.dataFrom = changes.dataFrom.currentValue;
+    }
+    if (changes.isDeviation && changes.isDeviation.currentValue) {
+      this.isDeviation = changes.isDeviation.currentValue;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  private _getHistoryAttributes(): void {
+    if (this.dataFrom === 'previousHistory') {
+      this.cpDynamicAttributeData = this.creditProposal.attributes.previousHistory;
+    } else if (this.dataFrom === 'previousReturn') {
+      this.cpDynamicAttributeData = this.creditProposal.attributes.previousReturn;
+    } else if (this.dataFrom === 'darRevHistory') {
+      this.cpDynamicAttributeData = this.creditProposal.attributes.darRevHistory;
+    } else if (this.dataFrom === 'previousDar') {
+      this.compareDataService.creditProposalPreviousDar.pipe(takeUntil(this.destroy$)).subscribe(data => {
+        this.cpDynamicAttributeData = data.attributes;
+      });
+    } else {
+      this.cpDynamicAttributeData = this.creditProposal.attributes;
+    }
+
+    if (this.isDeviation) {
+      this.otherCovenantData = this.cpDynamicAttributeData.convenant.otherCovenant.filter(
+        (item: IOtherCovenant) => item.status !== 'Applied'
+      );
+      this.getWaivedDocument();
+    } else {
+      this.otherCovenantData = this.cpDynamicAttributeData.convenant.otherCovenant;
+    }
+  }
+
+  public openDialog(element: IOtherCovenant = null): void {
+    const predicate = { width: '80vw', data: { item: element }, panelClass: 'custom-dialog-container' };
+    const dialogRef = this.dialog.open(CompareDataCovenantOtherDialogComponent, predicate);
+    dialogRef.afterClosed().subscribe(res => {});
+  }
+
+  public getWaivedDocument(): void {
     this.partyCifService.findCollateral(this.creditProposal.cif.customerId, 'R201').subscribe((find: any) => {
       const Investoris = find.body;
       const colllateralKapal = this.creditProposal.collaterals.filter(
@@ -86,97 +134,144 @@ export class CompareDataCovenantOtherComponent implements OnDestroy, OnChanges, 
         this.creditProposal.attributes['collateralAfterData'] = [];
       }
 
-      this.getBucket().then(() => {
-        this.getFiles(String(this.creditProposal.id)).then(() => {
-          this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
-            this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
-              this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
-                this.typeData = [...res.body, ...res1.body, ...res2.body];
+      const collateralTypeMap: { [key: string]: string } = {
+        DEPO: 'DEPOSIT',
+        RE: 'REALESTATE',
+        MC: 'MACHINE',
+        VH: 'VEHICLE',
+        GRNT: 'CORPORATEPERSONALGUARANTEE',
+        DOC_CP_OTHER: 'OTHER',
+        DOC_IDD_OTHER: 'OTHER',
+        COR: 'COR',
+        IND: 'IND',
+      };
 
-                for (let i = 0; i < this.typeData.length; i++) {
-                  if (this.typeData[i].id.includes('DEPO')) {
-                    this.typeData[i].collateralTypeId = 'DEPOSIT';
-                  } else if (this.typeData[i].id.includes('RE')) {
-                    this.typeData[i].collateralTypeId = 'REALESTATE';
-                  } else if (this.typeData[i].id.includes('MC')) {
-                    this.typeData[i].collateralTypeId = 'MACHINE';
-                  } else if (this.typeData[i].id.includes('VH')) {
-                    this.typeData[i].collateralTypeId = 'VEHICLE';
-                  } else if (this.typeData[i].id.includes('GRNT')) {
-                    this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
-                  } else if (this.typeData[i].id.includes('DOC_CP_OTHER') || this.typeData[i].id.includes('DOC_IDD_OTHER')) {
-                    this.typeData[i].collateralTypeId = 'OTHER';
-                  } else if (this.typeData[i].id.includes('COR')) {
-                    this.typeData[i].collateralTypeId = 'COR';
-                  } else if (this.typeData[i].id.includes('IND')) {
-                    this.typeData[i].collateralTypeId = 'IND';
-                  }
-                }
-                const filterStatus: ICollateral[] = this.creditProposal.collaterals.filter(
-                  data => data.statusId !== 'CANCEL' && data.statusId !== 'RELEASE' && data.statusId !== 'EXISTING'
-                );
-                const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
-                  filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
-                );
-                const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposal.customerType);
-                const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR');
-                const PengikatKredit: IDocumentType[] = this.typeData.filter(
-                  obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING'
-                );
-                const DocumentJaminanLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_COLL_OTHER');
-                const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(
-                  obj => obj.id === 'DOC_CP_OTHER_ID'
-                );
+      forkJoin([
+        this.getBucket(),
+        this.getFiles(String(this.creditProposal.id)),
+        this.documentTypeService.documentTypeList('DOC_IDD'),
+        this.documentTypeService.documentTypeList('DOC_CP'),
+        this.documentTypeService.documentTypeList('DOC_COLL'),
+      ]).subscribe(([_, __, res, res1, res2]) => {
+        this.typeData = [...res.body, ...res1.body, ...res2.body].map(item => {
+          for (const key in collateralTypeMap) {
+            if (item.id.includes(key)) {
+              item.collateralTypeId = collateralTypeMap[key];
+              break;
+            }
+          }
+          return item;
+        });
 
-                const takeOverData =
-                  this.creditProposal.attributes['facilityTakeOver'].length > 0
-                    ? this.typeData.filter(obj => obj.id === 'DOC_CP_COLL_TO')
-                    : [];
-                const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
-                const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
-                const jaminanFactoringData = jaminanFactoring ? this.typeData.filter(obj => obj.id.includes('COLL_EARC')) : [];
-                const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
-                const result: IDocumentType[] = [
-                  ...collateralData,
-                  ...INDCORData,
-                  ...PersetujuanKredit,
-                  ...PengikatKredit,
-                  ...DocumentJaminanLainnya,
-                  ...DocumentLainnyaIdentitasDebiturPerorangan,
-                  ...takeOverData,
-                  ...InvestorisData,
-                  ...colllateralKapalData,
-                  ...jaminanFactoringData,
-                  ...nonKeuanganData,
-                ];
+        const filterStatus: ICollateral[] = this.creditProposal.collaterals.filter(
+          data => !['CANCEL', 'RELEASE', 'EXISTING'].includes(data.statusId)
+        );
 
-                for (let i = 0; i < result.length; i++) {
-                  this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
-                    let level = re.body;
+        const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
+          filterStatus.some(obj2 => obj2.collateralTypeId === obj1.collateralTypeId)
+        );
 
-                    const mergeArray: ILevel[] = level.map(item1 => {
-                      const file = this.file.find(item2 => item2.idFile === item1.id);
-                      return { ...item1, ...file };
-                    });
+        const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposal.customerType);
 
-                    const personalCorporate = mergeArray.filter(obj => obj.customerType === this.creditProposal.customerType);
-                    const nullData = mergeArray.filter(obj => obj.customerType === 'ALL');
+        const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR');
+        const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING');
+        const DocumentJaminanLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_COLL_OTHER');
+        const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_OTHER_ID');
 
-                    level = [...personalCorporate, ...nullData];
+        const takeOverData =
+          this.creditProposal.attributes['facilityTakeOver'].length > 0 ? this.typeData.filter(obj => obj.id === 'DOC_CP_COLL_TO') : [];
+        const InvestorisData = Investoris ? this.typeData.filter(obj => obj.id.includes('COLL_STOCK')) : [];
+        const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
+        const jaminanFactoringData = jaminanFactoring ? this.typeData.filter(obj => obj.id.includes('COLL_EARC')) : [];
+        const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
 
-                    this.groupByFolder(level);
-                  });
-                }
-              });
+        const result: IDocumentType[] = [
+          ...collateralData,
+          ...INDCORData,
+          ...PersetujuanKredit,
+          ...PengikatKredit,
+          ...DocumentJaminanLainnya,
+          ...DocumentLainnyaIdentitasDebiturPerorangan,
+          ...takeOverData,
+          ...InvestorisData,
+          ...colllateralKapalData,
+          ...jaminanFactoringData,
+          ...nonKeuanganData,
+        ];
+
+        result.forEach(item => {
+          this.documentTypeService.documentTypeList(item.id).subscribe((re: any) => {
+            let level = re.body;
+
+            const mergeArray: ILevel[] = level.map(item1 => {
+              const file = this.file.find(item2 => item2.idFile === item1.id);
+              return { ...item1, ...file };
             });
+
+            const personalCorporate = mergeArray.filter(obj => obj.customerType === this.creditProposal.customerType);
+            const nullData = mergeArray.filter(obj => obj.customerType === 'ALL');
+
+            level = [...personalCorporate, ...nullData];
+
+            this.groupByFolder(level);
           });
         });
       });
     });
   }
 
-  public folders = [];
-  public dataFolder = [];
+  private getBucket(): Promise<void> {
+    return new Promise<void>(resolve => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
+  private getFiles(id: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const retrieveDataCpDuplicateIdd = { key: `/cp/${id}/document/file-idd/` };
+      const dataCpOnly = { key: `/cp/${id}/document/file-cp/` };
+      const retrieveIDDNotDuplicated = { key: `/idd/${this.creditProposal.customerNumber}/document/` };
+
+      const processFiles = (res: any[]) => {
+        const files = res.map(item => ({
+          idFile: item.tags.id,
+          url: item.url,
+          name: item.key,
+          remarks: item.tags.remarks,
+          status: item.tags.status,
+          dueDate: item.tags.dueDate,
+        }));
+        return files;
+      };
+
+      const handleFinalization = () => {
+        this.file = [...this.file1, ...this.file2];
+        resolve();
+      };
+
+      this.storageService.getObjects(this.bucket, retrieveDataCpDuplicateIdd).subscribe((res: any) => {
+        if (res.body.length > 0) {
+          this.file1 = processFiles(res.body);
+          this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
+            this.file2 = processFiles(res1.body);
+            handleFinalization();
+          });
+        } else {
+          this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
+            this.file1 = processFiles(res1.body);
+            this.storageService.getObjects(this.bucket, retrieveIDDNotDuplicated).subscribe((res2: any) => {
+              this.file2 = processFiles(res2.body);
+              handleFinalization();
+            });
+          });
+        }
+      });
+    });
+  }
+
   private groupByFolder(param: any[]): void {
     const waived = param.filter((data: any) => data.status === 'Waived');
     const sameIdObjects = [];
@@ -215,160 +310,10 @@ export class CompareDataCovenantOtherComponent implements OnDestroy, OnChanges, 
       }
     }
     this.otherConvenantMinIO = [...sameIdObjects, ...differentIdObjects];
-
     for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
       if (this.otherConvenantMinIO[i].categoryName !== undefined && this.otherConvenantMinIO[i].categoryName !== null) {
         this.otherCovenantData = [...this.otherCovenantData, this.otherConvenantMinIO[i]];
       }
     }
-  }
-
-  private getFiles(id: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      const retrieveDataCpDuplicateIdd: Object = {
-        key: `/cp/${id}/document/file-idd/`,
-      };
-      const dataCpOnly: Object = {
-        key: `/cp/${id}/document/file-cp/`,
-      };
-      const retrieveIDDNotDuplicated: Object = {
-        key: `/idd/${this.creditProposal.customerNumber}/document/`,
-      };
-      this.storageService.getObjects(this.bucket, retrieveDataCpDuplicateIdd).subscribe((res: any) => {
-        if (res.body.length > 0) {
-          for (let index = 0; index < res.body.length; index++) {
-            if (res.body[index].tags.status === 'Waived') {
-              this.file1 = [
-                ...this.file1,
-                {
-                  idFile: res.body[index].tags.id,
-                  url: res.body[index].url,
-                  name: res.body[index].key,
-                  remarks: res.body[index].tags.remarks,
-                  status: res.body[index].tags.status,
-                  dueDate: res.body[index].tags.dueDate,
-                },
-              ];
-            }
-          }
-
-          this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
-            for (let index = 0; index < res1.body.length; index++) {
-              if (res1.body[index].tags.status === 'Waived') {
-                this.file2 = [
-                  ...this.file2,
-                  {
-                    idFile: res1.body[index].tags.id,
-                    url: res1.body[index].url,
-                    name: res1.body[index].key,
-                    remarks: res1.body[index].tags.remarks,
-                    status: res1.body[index].tags.status,
-                    dueDate: res1.body[index].tags.dueDate,
-                  },
-                ];
-              }
-            }
-
-            this.file = [...this.file1, ...this.file2];
-            if (this.file.length > 0) {
-              this.groupByFolder(this.file);
-            }
-
-            resolve();
-          });
-        } else {
-          this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
-            for (let index = 0; index < res1.body.length; index++) {
-              if (res1.body[index].tags.status === 'Waived') {
-                this.file1 = [
-                  ...this.file1,
-                  {
-                    idFile: res1.body[index].tags.id,
-                    url: res1.body[index].url,
-                    name: res1.body[index].key,
-                    remarks: res1.body[index].tags.remarks,
-                    status: res1.body[index].tags.status,
-                    dueDate: res1.body[index].tags.dueDate,
-                  },
-                ];
-              }
-            }
-
-            this.storageService.getObjects(this.bucket, retrieveIDDNotDuplicated).subscribe((res2: any) => {
-              for (let index = 0; index < res2.body.length; index++) {
-                if (res2.body[index].tags.status === 'Waived') {
-                  this.file2 = [
-                    ...this.file2,
-                    {
-                      idFile: res2.body[index].tags.id,
-                      url: res2.body[index].url,
-                      name: res2.body[index].key,
-                      remarks: res2.body[index].tags.remarks,
-                      status: res2.body[index].tags.status,
-                      dueDate: res2.body[index].tags.dueDate,
-                    },
-                  ];
-                }
-              }
-              this.file = [...this.file1, ...this.file2];
-
-              if (this.file.length > 0) {
-                this.groupByFolder(this.file);
-              }
-              resolve();
-            });
-          });
-        }
-      });
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.dataFrom && changes.dataFrom.currentValue) {
-      this.dataFrom = changes.dataFrom.currentValue;
-    }
-    if (changes.isDeviation && changes.isDeviation.currentValue) {
-      this.isDeviation = changes.isDeviation.currentValue;
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
-  private _getHistoryAttributes(): void {
-    if (this.dataFrom === 'previousHistory') {
-      this.cpDynamicAttributeData = this.creditProposal.attributes.previousHistory;
-    } else if (this.dataFrom === 'previousReturn') {
-      this.cpDynamicAttributeData = this.creditProposal.attributes.previousReturn;
-    } else if (this.dataFrom === 'darRevHistory') {
-      this.cpDynamicAttributeData = this.creditProposal.attributes.darRevHistory;
-    } else if (this.dataFrom === 'previousDar') {
-      this.compareDataService.creditProposalPreviousDar.pipe(takeUntil(this.destroy$)).subscribe(data => {
-        this.cpDynamicAttributeData = data.attributes;
-      });
-    } else {
-      this.cpDynamicAttributeData = this.creditProposal.attributes;
-    }
-
-    this.otherCovenantData = this.isDeviation
-      ? this.cpDynamicAttributeData.convenant.otherCovenant.filter((item: IOtherCovenant) => item.status !== 'Applied')
-      : this.cpDynamicAttributeData.convenant.otherCovenant;
-  }
-
-  public openDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '80vw', data: { item: element }, panelClass: 'custom-dialog-container' };
-    const dialogRef = this.dialog.open(CompareDataCovenantOtherDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {});
-  }
-
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
   }
 }
