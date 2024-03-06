@@ -145,7 +145,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
             this.status === 'PK_REVIEW_LEAD' ||
             this.status === 'PK_GENERATED' ||
             this.status === 'PK_DAR_REVISION' ||
-            this.status === 'PK_RETURN_TO_RM'
+            this.status === 'PK_RETURN_TO_RM' ||
+            this.status === 'PK_REVIEW_TEAMLEAD'
           ) {
             if (this.jhiMatrixDirElementType === '') {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
