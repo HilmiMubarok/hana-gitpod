@@ -58,6 +58,15 @@ export class BankAccountComponent implements OnInit {
     });
   }
 
+  getDataApplicationAdd() {
+    this.applicationPaymentPreferencesService.getData(this.creditProposal.id).subscribe(res => {
+      this.dataSource = res;
+      if (this.dataSource.length === 0) {
+        this.getDataApplicationAdd();
+      }
+    });
+  }
+
   public openDialog(dataApplicationPayment?: IApplicationPaymentPreferences) {
     let edited = true;
     if (!dataApplicationPayment) {
@@ -79,8 +88,7 @@ export class BankAccountComponent implements OnInit {
         this.applicationPaymentPreferencesService.updateData(res.id, res).subscribe();
       } else {
         this.applicationPaymentPreferencesService.createData(res).subscribe();
-        this.getDataApplicationPaymentReferences();
-        this.getDataApplicationPaymentReferences();
+        this.getDataApplicationAdd();
         this.getBankAccount();
       }
     });
