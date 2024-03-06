@@ -65,6 +65,7 @@ import { ReviewInsuranceService } from './review-insurance.service';
 import { ReviewInsuranceProcessService } from './review-insurance-process.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
+import { InsuranceInformationService } from '../insurance-information/insurance-information.service';
 
 @Component({
   selector: 'jhi-review-insurance-floating',
@@ -207,7 +208,8 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     public templateService: TemplateService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
     protected masterPermissionService: MasterPermissionService,
-    private http: HttpClient
+    private http: HttpClient,
+    public insuranceInformationService: InsuranceInformationService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -552,8 +554,15 @@ export class ReviewInsuranceDetailComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-
-        this.save('process');
+        if (this.insuranceInformationService.dataSourceInsurance.length === 0) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Dont press button Submit, Because Insurance Information is 0',
+          });
+        } else {
+          this.save('process');
+        }
       }
     });
   }
