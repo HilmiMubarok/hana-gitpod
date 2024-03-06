@@ -29,12 +29,16 @@ export class LineChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['baseLineChartData']) {
-      this.fitDataToModel();
+      if (this.baseLineChartData.length > 0) {
+        this.fitDataToModel();
+      }
     }
   }
 
   ngOnInit(): void {
-    this.initLineChart();
+    if (this.baseLineChartData) {
+      this.initLineChart();
+    }
   }
 
   public fitDataToModel(): void {

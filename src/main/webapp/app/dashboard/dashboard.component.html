@@ -1,33 +1,25 @@
-<!-- Status -->
-<div *ngIf="groupByStatusDataSource?.length > 0">
-  <div calss="status-container mb-3">
-    <mat-card *ngFor="let item of groupByStatusDataSource" class="my-1">
-      <mat-card-header>
-        <mat-card-title>{{ item.menuItemDescription }}</mat-card-title>
-      </mat-card-header>
-      <jhi-status-slides [chartsData]="item.chartsData"></jhi-status-slides>
-    </mat-card>
-  </div>
+<div *ngIf="mergedChartData.length > 0" class="control-section mt-3">
+  <mat-card *ngFor="let item of mergedChartData" class="my-3">
+    <mat-card-header>
+      <mat-card-title>{{ item.chartsTitle }}</mat-card-title>
+    </mat-card-header>
 
-  <div *ngIf="groupByStatusDataSource?.length === 0" class="control-section mt-3">
-    <mat-card> No Status Data Available </mat-card>
-  </div>
+    <!-- status -->
+    <div calss="status-container mb-3">
+      <jhi-status-slides [chartsData]="item.groupByStatus"></jhi-status-slides>
+    </div>
 
-  <!-- Charts -->
-  <div *ngIf="mergedChartData.length > 0" class="control-section mt-3">
-    <mat-card *ngFor="let item of mergedChartData">
-      <mat-card-header>
-        <mat-card-title>{{ item.chartsTitle }}</mat-card-title>
-      </mat-card-header>
-      <jhi-charts-layout [chartsAvailability]="item.accessibleMenu" [idPosition]="this.positionId"></jhi-charts-layout>
-    </mat-card>
-  </div>
-
-  <div *ngIf="mergedChartData.length === 0" class="control-section mt-3">
-    <mat-card> No Charts Data Available </mat-card>
-  </div>
-
-  <mat-card id="footer" class="w-100 my-2"
-    ><label>Credit Approval System of Hana Bank <br />Version 2.0.15</label></mat-card
-  >
+    <!-- Charts -->
+    <div *ngIf="item.accessibleMenu.length > 1">
+      <jhi-charts-layout
+        [chartsAvailability]="item.accessibleMenu"
+        [idPosition]="this.positionId"
+        [positionType]="positionTypeId"
+      ></jhi-charts-layout>
+    </div>
+  </mat-card>
 </div>
+
+<mat-card id="footer" class="w-100 my-2"
+  ><label>Credit Approval System of Hana Bank <br />Version 2.0.15</label></mat-card
+>

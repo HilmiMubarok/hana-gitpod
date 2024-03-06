@@ -23,8 +23,8 @@
             [type]="'dueDate'"
             (output)="recievedDate($event)"
           ></jhi-dashboard-reuseable-calendar>
+
           <p-dropdown
-            id="status"
             [options]="intervalList"
             [(ngModel)]="_selectedDuedateInterval"
             optionLabel="label"
@@ -32,7 +32,11 @@
           ></p-dropdown>
         </ng-template>
         <ng-template #content>
-          <jhi-bar-chart [dataSource]="dueDateDataSource"></jhi-bar-chart>
+          <jhi-bar-chart
+            [dataSource]="dueDateDataSource"
+            [startDate]="dateForLabelDueDate"
+            [interval]="selectedDuedateInterval"
+          ></jhi-bar-chart>
         </ng-template>
       </e-panel>
       <!-- pie chart -->
@@ -52,15 +56,30 @@
           Progress Charts
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
+          <ejs-dropdownlist
+            class="p-dropdown-label p-inputtext ej-ddl-class"
+            #ddlelement
+            [dataSource]="statusList"
+            [fields]="statusListField"
+            placeholder="Select Status"
+            (change)="onchangeSelectStatus($event.value)"
+          ></ejs-dropdownlist>
+
           <jhi-dashboard-reuseable-calendar
-            [filterData]="filteredLineChartData"
             [mode]="'DAILY'"
             [type]="'progress'"
-            (output)="recieveFilteredProgress($event)"
+            (output)="recieveStartThruDate($event)"
           ></jhi-dashboard-reuseable-calendar>
+
+          <p-dropdown
+            [options]="intervalList"
+            [(ngModel)]="_progressInterval"
+            optionLabel="label"
+            (onChange)="progressIntervalOnChange(_progressInterval.id)"
+          ></p-dropdown>
         </ng-template>
         <ng-template #content>
-          <jhi-line-chart [baseLineChartData]="filteredLineChartData"></jhi-line-chart>
+          <jhi-line-chart [baseLineChartData]=""></jhi-line-chart>
         </ng-template>
       </e-panel>
     </e-panels>
