@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { IDueDate } from 'app/dashboard/dashboard.model';
+import { IDueDate, IInterval } from 'app/dashboard/dashboard.model';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -10,10 +10,13 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class BarChartComponent implements OnInit, OnChanges {
   public _dataSource: IDueDate[];
+  public _interval: string;
+  public _startDate: Date;
   public noOverdue: number[] = [];
   public overdueLessThan: number[] = [];
   public overdueBetween: number[] = [];
   public moreThan: number[] = [];
+  public labelList: string[] = [];
 
   @Input()
   get dataSource() {
@@ -22,6 +25,24 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   set dataSource(param: IDueDate[]) {
     this._dataSource = param;
+  }
+
+  @Input()
+  get startDate() {
+    return this._startDate;
+  }
+
+  set startDate(param: Date) {
+    this._startDate = param;
+  }
+
+  @Input()
+  get interval() {
+    return this._interval;
+  }
+
+  set interval(param: string) {
+    this._interval = param;
   }
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
@@ -38,6 +59,10 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dataSource']) {
+      this.noOverdue = [];
+      this.overdueLessThan = [];
+      this.overdueBetween = [];
+      this.moreThan = [];
       this.prepData();
     }
   }
@@ -50,8 +75,77 @@ export class BarChartComponent implements OnInit, OnChanges {
         this.overdueBetween.push(obj.overDueBetween);
         this.moreThan.push(obj.moreThan);
       });
+      this.assignLable();
       this.initBarChart();
     }
+  }
+
+  public assignLable(): void {
+    switch (this.interval) {
+      case 'WEEKLY':
+        this.weeklyLable();
+        break;
+      case 'MONTHLY':
+        this.monthlyLable();
+        break;
+      default:
+        this.dailyLable();
+        break;
+    }
+  }
+
+  public dailyLable(): void {
+    const currentDate = new Date(this.dataSource[0].showcase[0].fromDate).toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+
+    this.labelList = [currentDate];
+  }
+
+  public weeklyLable(): void {
+    const weeks: any[] = [];
+    this.dataSource[0].showcase.forEach(obj => {
+      weeks.push(new Date(obj.fromDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
+    });
+
+    this.labelList = [...weeks];
+
+    // const currentDate = new Date(this.startDate);
+    // const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+    // weeks.push(new Date(currentDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
+
+    // while (currentDate < endOfMonth) {
+    //   currentDate.setDate(currentDate.getDate() + 7);
+    //   if (currentDate <= endOfMonth) {
+    //     weeks.push(new Date(currentDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
+    //     this.labelList = [...weeks];
+    //     this.labelList.pop();
+    //   }
+    // }
+  }
+
+  public monthlyLable(): void {
+    const month: any[] = [];
+    this.dataSource[0].showcase.forEach(obj => {
+      month.push(new Date(obj.fromDate).toLocaleDateString('en-US', { month: 'long' }));
+    });
+
+    this.labelList = [...month];
+
+    // const month: any[] = [];
+    // const currentDate = new Date(this.startDate);
+    // const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    // month.push(new Date(currentDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
+    // while (currentDate < endOfMonth) {
+    //   currentDate.setDate(currentDate.getDate());
+    //   if (currentDate <= endOfMonth) {
+    //     month.push(new Date(currentDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
+    //     this.labelList = [...month];
+    //   }
+    // }
   }
 
   public initBarChart(): void {
@@ -65,6 +159,7 @@ export class BarChartComponent implements OnInit, OnChanges {
         x: {},
         y: {
           min: 10,
+          beginAtZero: true,
         },
       },
       plugins: {
@@ -78,7 +173,7 @@ export class BarChartComponent implements OnInit, OnChanges {
     };
 
     this.barChartData = {
-      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday', 'Sunday'],
+      labels: this.labelList,
       datasets: [
         {
           data: this.noOverdue,

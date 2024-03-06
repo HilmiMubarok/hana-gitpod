@@ -88,14 +88,14 @@ input.e-input,
 textarea.e-input,
 .e-input-group,
 .e-input-group.e-control-wrapper {
-  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-family: 'Poppins', sans-serif;
   font-size: 13px;
   font-weight: 400;
 }
 
 .e-input-group.e-disabled,
 .e-input-group.e-control-wrapper.e-disabled {
-  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-family: 'Poppins', sans-serif;
   font-size: 13px;
   font-weight: 400;
 }
@@ -1164,7 +1164,7 @@ label.e-float-text,
 .e-float-input.e-control-wrapper.e-disabled,
 .e-float-input.e-input-group.e-disabled,
 .e-float-input.e-input-group.e-control-wrapper.e-disabled {
-  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-family: 'Poppins', sans-serif;
   font-size: 13px;
   font-weight: 400;
 }
@@ -13346,7 +13346,7 @@ textarea.e-filled.e-disabled.e-input::-webkit-input-placeholder {
 }
 /*! maskedtextbox layout */
 .e-control-wrapper.e-mask .e-maskedtextbox {
-  font-family: Arial, 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-family: Arial, 'Poppins', sans-serif;
   font-size: 12.5px;
 }
 
@@ -13858,7 +13858,7 @@ textarea.e-filled.e-disabled.e-input::-webkit-input-placeholder {
 }
 .e-control-wrapper.e-slider-container .e-scale {
   box-sizing: content-box;
-  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-family: 'Poppins', sans-serif;
   height: 28px;
   line-height: normal;
   list-style: none outside none;
@@ -13881,7 +13881,7 @@ textarea.e-filled.e-disabled.e-input::-webkit-input-placeholder {
 }
 .e-control-wrapper.e-slider-container .e-scale .e-tick .e-tick-value {
   color: #000;
-  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-family: 'Poppins', sans-serif;
   font-size: 10px;
   outline: none;
   position: absolute;
@@ -14288,7 +14288,7 @@ textarea.e-filled.e-disabled.e-input::-webkit-input-placeholder {
 }
 .e-upload.e-control-wrapper,
 .e-bigger.e-small .e-upload.e-control-wrapper {
-  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
+  font-family: 'Poppins', sans-serif;
 }
 .e-upload .e-hidden-file-input,
 .e-bigger.e-small .e-upload .e-hidden-file-input {

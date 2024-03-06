@@ -22,7 +22,7 @@ export class DpdlFinalizeProcessSercvice {
     return this.http.get<IProcessTask[]>(`${this.resourceUrl}/${id}`, { params: options, observe: 'response' });
   }
 
-  public processTask(task: IProcessTask): Observable<HttpResponse<object>> {
-    return this.http.post<object>(`${this.resourceUrl}`, task, { observe: 'response' });
+  public processTask(task: IProcessTask, section: string): Observable<HttpResponse<object>> {
+    return this.http.post<object>(`${this.resourceUrl}/section/${section}`, task, { observe: 'response' });
   }
 }

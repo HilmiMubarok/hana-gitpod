@@ -16,6 +16,11 @@ export class MasterPermissionService extends AbstractEntityService<IAppMenuPermi
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-permission');
   }
 
+  public filterBy(req: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http.get<any[]>(`${this.resourceUrl}/filterBy`, { observe: 'response', params: options });
+  }
+
   protected isNew(entity: IAppMenuPermission): boolean {
     return entity.id === undefined || entity.id === null;
   }

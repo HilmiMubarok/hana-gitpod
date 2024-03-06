@@ -218,6 +218,34 @@
           </div>
         </section>
       </div>
+
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Appraisal Validity Period Internal</mat-label>
+            <input
+              [matDatepicker]="realEstateValidityDateInternal"
+              matInput
+              type="text"
+              [(ngModel)]="collateralProperty.thruDate"
+              disabled
+            />
+            <mat-datepicker-toggle matSuffix [for]="realEstateValidityDateInternal" disabled> </mat-datepicker-toggle>
+            <mat-datepicker #realEstateValidityDateInternal disabled></mat-datepicker>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Appraisal Validity Period Internal</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.thruDate }}
+            </div>
+          </div>
+        </section>
+      </div>
+
       <div class="row form-group">
         <div class="col-8">
           <section *jhiMatrixDirIDD="'input'">
@@ -444,6 +472,34 @@
           </div>
         </section>
       </div>
+
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Appraisal Validity Period Eksternal</mat-label>
+            <input
+              [matDatepicker]="realEstateValidityDateEksternal"
+              matInput
+              type="text"
+              [(ngModel)]="collateralPropertyExternal.thruDate"
+              disabled
+            />
+            <mat-datepicker-toggle matSuffix [for]="realEstateValidityDateEksternal" disabled> </mat-datepicker-toggle>
+            <mat-datepicker #realEstateValidityDateEksternal disabled></mat-datepicker>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Appraisal Validity Period Eksternal</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralPropertyExternal.thruDate }}
+            </div>
+          </div>
+        </section>
+      </div>
+
       <div class="form-group">
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
@@ -793,6 +849,34 @@
           </div>
         </section>
       </div>
+
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Appraisal Validity Period Internal</mat-label>
+            <input
+              [matDatepicker]="realEstateValidityDateInternal"
+              matInput
+              type="text"
+              [(ngModel)]="collateralProperty.thruDate"
+              disabled
+            />
+            <mat-datepicker-toggle matSuffix [for]="realEstateValidityDateInternal" disabled> </mat-datepicker-toggle>
+            <mat-datepicker #realEstateValidityDateInternal disabled></mat-datepicker>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Appraisal Validity Period Internal</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.thruDate }}
+            </div>
+          </div>
+        </section>
+      </div>
+
       <div class="row form-group">
         <div class="col-8">
           <section *jhiMatrixDirIDD="'input'">
@@ -1037,6 +1121,34 @@
           </div>
         </section>
       </div>
+
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Appraisal Validity Period Eksternal</mat-label>
+            <input
+              [matDatepicker]="realEstateValidityDateEksternal"
+              matInput
+              type="text"
+              [(ngModel)]="collateralPropertyExternal.thruDate"
+              disabled
+            />
+            <mat-datepicker-toggle matSuffix [for]="realEstateValidityDateEksternal" disabled> </mat-datepicker-toggle>
+            <mat-datepicker #realEstateValidityDateEksternal disabled></mat-datepicker>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Appraisal Validity Period Eksternal</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralPropertyExternal.thruDate }}
+            </div>
+          </div>
+        </section>
+      </div>
+
       <div class="form-group">
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">

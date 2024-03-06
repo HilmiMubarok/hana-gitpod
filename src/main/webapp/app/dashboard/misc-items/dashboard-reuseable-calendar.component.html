@@ -1,12 +1,28 @@
 <div *ngIf="type === 'dueDate'">
   <p-calendar
     style="text-align: center"
-    *ngIf="mode === 'DAILY'"
     appendTo="body"
     [(ngModel)]="dueDateDates"
     (ngModelChange)="sendOutDate()"
     placeholder="Select Dates"
     [numberOfMonths]="1"
+    dateFormat="yy/mm/dd"
+    [readonlyInput]="true"
+  >
+  </p-calendar>
+</div>
+
+<div *ngIf="type === 'progress'">
+  <p-calendar
+    *ngIf="mode === 'DAILY'"
+    appendTo="body"
+    [(ngModel)]="filterRange"
+    (ngModelChange)="emitStartEndDate()"
+    placeholder="Select Dates Range"
+    inputId="mltimonths"
+    [numberOfMonths]="1"
+    [maxDate]="maxDateVal"
+    selectionMode="range"
     dateFormat="yy/mm/dd"
     [readonlyInput]="true"
   >
@@ -34,22 +50,6 @@
     (ngModelChange)="sendOutDate()"
     placeholder="Select Dates"
     [numberOfMonths]="1"
-    dateFormat="yy/mm/dd"
-    [readonlyInput]="true"
-  >
-  </p-calendar>
-</div>
-
-<div *ngIf="type === 'progress'">
-  <p-calendar
-    *ngIf="mode === 'DAILY'"
-    appendTo="body"
-    [(ngModel)]="filterRange"
-    (ngModelChange)="emitStartEndDate()"
-    placeholder="Select Dates Range"
-    inputId="mltimonths"
-    [numberOfMonths]="1"
-    selectionMode="range"
     dateFormat="yy/mm/dd"
     [readonlyInput]="true"
   >
