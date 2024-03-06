@@ -272,17 +272,28 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   public getClausalAddendum() {
     this.creditAgreementService.getActiveClausalById(this.creditProposal.id, 'DRAFT').subscribe((res: any) => {
-      const data: any[] = res.body;
-      this.addendumClausalAgreements = data
-        .filter((f: any) => f.category === 'ADDENDUM')
-        .slice()
-        .sort((a, b) => a.sequence - b.sequence);
+      const data: any[] = this.combineClausal(res.body);
+      this.addendumClausalAgreements = data.slice().sort((a, b) => a.sequence - b.sequence);
     });
 
     this.creditAgreementService.getActiveClausalById(this.creditProposal.id, 'ACTIVE').subscribe((res: any) => {
-      const data: any[] = res.body;
+      const data: any[] = this.combineClausal(res.body);
       this.addendumClausalAgreementsHistory = data.slice().sort((a, b) => a.sequence - b.sequence);
     });
+  }
+
+  public combineClausal(data: any[]) {
+    const combinedArray = [];
+
+    data.forEach(item => {
+      if (item.clausal) {
+        combinedArray.push(item.clausal);
+      }
+      if (item.clausalChild) {
+        combinedArray.push(...item.clausalChild);
+      }
+    });
+    return combinedArray;
   }
 
   public openDialogSigner(data: any) {
