@@ -32,11 +32,7 @@
           ></p-dropdown>
         </ng-template>
         <ng-template #content>
-          <jhi-bar-chart
-            [dataSource]="dueDateDataSource"
-            [startDate]="dateForLabelDueDate"
-            [interval]="selectedDuedateInterval"
-          ></jhi-bar-chart>
+          <jhi-bar-chart [dataSource]="dueDateDataSource" [interval]="selectedDuedateInterval"></jhi-bar-chart>
         </ng-template>
       </e-panel>
       <!-- pie chart -->
@@ -66,7 +62,7 @@
           ></ejs-dropdownlist>
 
           <jhi-dashboard-reuseable-calendar
-            [mode]="'DAILY'"
+            [mode]="progressInterval"
             [type]="'progress'"
             (output)="recieveStartThruDate($event)"
           ></jhi-dashboard-reuseable-calendar>
@@ -79,7 +75,7 @@
           ></p-dropdown>
         </ng-template>
         <ng-template #content>
-          <jhi-line-chart [baseLineChartData]=""></jhi-line-chart>
+          <jhi-line-chart [dataSource]="progressDataSource" [interval]="progressInterval"></jhi-line-chart>
         </ng-template>
       </e-panel>
     </e-panels>

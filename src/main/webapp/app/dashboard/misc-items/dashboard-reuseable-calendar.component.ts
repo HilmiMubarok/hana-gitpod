@@ -5,7 +5,7 @@ import moment from 'moment';
   selector: 'jhi-dashboard-reuseable-calendar',
   templateUrl: './dashboard-reuseable-calendar.component.html',
 })
-export class DashboardReusableCalendarComponent implements OnChanges {
+export class DashboardReusableCalendarComponent {
   public _mode: string;
   public startDateAndEndDate: any;
   public filterRange: any = [];
@@ -13,6 +13,7 @@ export class DashboardReusableCalendarComponent implements OnChanges {
   public _dueDateDates: string;
   public _type: string;
   public maxDateVal: Date;
+  public progressDates: Date;
 
   @Input()
   get dueDateDates() {
@@ -45,34 +46,47 @@ export class DashboardReusableCalendarComponent implements OnChanges {
 
   constructor() {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['mode']) {
-      if (this.type === 'progress') {
-        if (this.mode === 'WEEKLY') {
-          this.dueDateDates = new Date('2023-12-31T17:00:00.000Z');
-          this.sendOutDate();
-        } else if (this.mode === 'MONTHLY') {
-          this.dueDateDates = new Date('2023-12-31T17:00:00.000Z');
-          this.sendOutDate();
-        }
-      }
+  public emitStartEndDate(mode: string) {
+    switch (mode) {
+      case 'WEEKLY':
+        this.sendOutWeekly();
+        break;
+      case 'MONTHLY':
+        this.sendOutMonthly();
+        break;
+      default:
+        this.sendOutDaily();
+
+        break;
     }
   }
 
-  public emitStartEndDate() {
+  public sendOutDaily(): void {
     const _maxDateVal = new Date(this.filterRange[0]).setDate(this.filterRange[0].getDate() + 6);
     this.maxDateVal = new Date(_maxDateVal);
-    const startDate = moment(this.filterRange[0]).format('YYYY-MM-DD').toString();
     if (this.filterRange[1] !== null) {
-      const thruDate = moment(this.filterRange[1]).format('YYYY-MM-DD').toString();
+      const startDate = moment(this.filterRange[0]).format('YYYY-MM-DD').toString();
 
+      const thruDate = moment(this.filterRange[1]).format('YYYY-MM-DD').toString();
       this.output.emit({ startDate, thruDate });
-    } else {
-      this.output.emit({ startDate, thruDate: startDate });
     }
+  }
+
+  public sendOutWeekly(): void {
+    const startDate = moment(this.progressDates).format('YYYY-MM-DD').toString();
+    const thruDate = moment(new Date(this.progressDates.getFullYear(), this.progressDates.getMonth() + 1, 0))
+      .format('YYYY-MM-DD')
+      .toString();
+    this.output.emit({ startDate, thruDate });
+  }
+
+  public sendOutMonthly(): void {
+    const startDate = moment(this.progressDates).format('YYYY-MM-DD').toString();
+    const thruDate = moment(new Date(this.progressDates.getFullYear(), 11, 31)).format('YYYY-MM-DD').toString();
+    this.output.emit({ startDate, thruDate });
   }
 
   public sendOutDate(): void {
-    this.output.emit(this.dueDateDates);
+    this.output.emit(moment(this.dueDateDates).format('YYYY-MM-DD').toString());
   }
 }

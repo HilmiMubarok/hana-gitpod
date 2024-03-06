@@ -17,7 +17,7 @@
     *ngIf="mode === 'DAILY'"
     appendTo="body"
     [(ngModel)]="filterRange"
-    (ngModelChange)="emitStartEndDate()"
+    (ngModelChange)="emitStartEndDate('DAILY')"
     placeholder="Select Dates Range"
     inputId="mltimonths"
     [numberOfMonths]="1"
@@ -33,8 +33,8 @@
     appendTo="body"
     view="month"
     [yearNavigator]="true"
-    [(ngModel)]="dueDateDates"
-    (ngModelChange)="sendOutDate()"
+    [(ngModel)]="progressDates"
+    (ngModelChange)="emitStartEndDate('WEEKLY')"
     placeholder="Select Dates"
     [numberOfMonths]="1"
     dateFormat="yy/mm/dd"
@@ -46,8 +46,8 @@
     *ngIf="mode === 'MONTHLY'"
     appendTo="body"
     view="year"
-    [(ngModel)]="dueDateDates"
-    (ngModelChange)="sendOutDate()"
+    [(ngModel)]="progressDates"
+    (ngModelChange)="emitStartEndDate('MONTHLY')"
     placeholder="Select Dates"
     [numberOfMonths]="1"
     dateFormat="yy/mm/dd"
@@ -55,17 +55,3 @@
   >
   </p-calendar>
 </div>
-
-<!-- 
-<p-calendar
-  style="text-align: center"
-  *ngIf="mode !== 'DAILY'"
-  appendTo="body"
-  [(ngModel)]="dueDateDates"
-  (ngModelChange)="sendOutDate()"
-  placeholder="Select Dates"
-  [numberOfMonths]="1"
-  dateFormat="yy/mm/dd"
-  [readonlyInput]="true"
->
-</p-calendar> -->
