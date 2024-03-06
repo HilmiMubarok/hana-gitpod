@@ -76,6 +76,7 @@ export class PieChartComponent implements OnInit, OnChanges {
       ],
     };
     this.pieChartType = 'pie';
+    this.chart?.update();
   }
 
   // events

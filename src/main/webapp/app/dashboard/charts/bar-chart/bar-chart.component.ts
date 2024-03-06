@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { IDueDate, IInterval } from 'app/dashboard/dashboard.model';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { IDueDate } from './bar-chart.model';
 
 @Component({
   selector: 'jhi-bar-chart',
@@ -11,7 +11,6 @@ import { BaseChartDirective } from 'ng2-charts';
 export class BarChartComponent implements OnInit, OnChanges {
   public _dataSource: IDueDate[];
   public _interval: string;
-  public _startDate: Date;
   public noOverdue: number[] = [];
   public overdueLessThan: number[] = [];
   public overdueBetween: number[] = [];
@@ -25,15 +24,6 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   set dataSource(param: IDueDate[]) {
     this._dataSource = param;
-  }
-
-  @Input()
-  get startDate() {
-    return this._startDate;
-  }
-
-  set startDate(param: Date) {
-    this._startDate = param;
   }
 
   @Input()
@@ -111,20 +101,6 @@ export class BarChartComponent implements OnInit, OnChanges {
     });
 
     this.labelList = [...weeks];
-
-    // const currentDate = new Date(this.startDate);
-    // const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-
-    // weeks.push(new Date(currentDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
-
-    // while (currentDate < endOfMonth) {
-    //   currentDate.setDate(currentDate.getDate() + 7);
-    //   if (currentDate <= endOfMonth) {
-    //     weeks.push(new Date(currentDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
-    //     this.labelList = [...weeks];
-    //     this.labelList.pop();
-    //   }
-    // }
   }
 
   public monthlyLable(): void {
@@ -134,18 +110,6 @@ export class BarChartComponent implements OnInit, OnChanges {
     });
 
     this.labelList = [...month];
-
-    // const month: any[] = [];
-    // const currentDate = new Date(this.startDate);
-    // const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-    // month.push(new Date(currentDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
-    // while (currentDate < endOfMonth) {
-    //   currentDate.setDate(currentDate.getDate());
-    //   if (currentDate <= endOfMonth) {
-    //     month.push(new Date(currentDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }));
-    //     this.labelList = [...month];
-    //   }
-    // }
   }
 
   public initBarChart(): void {
@@ -205,6 +169,7 @@ export class BarChartComponent implements OnInit, OnChanges {
         },
       ],
     };
+    this.chart?.update();
   }
 
   // events
@@ -214,19 +179,5 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   public chartHovered({ event, active }: { event?: ChartEvent; active?: object[] }): void {
     // console.log(event, active);
-  }
-  public randomize(): void {
-    // Only Change 3 values
-    this.barChartData.datasets[0].data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      Math.round(Math.random() * 100),
-      56,
-      Math.round(Math.random() * 100),
-      40,
-    ];
-
-    this.chart?.update();
   }
 }

@@ -5,7 +5,9 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Observable, Subject } from 'rxjs';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { IChartData, IDueDate, IGroupByStatus, IInterval } from './dashboard.model';
+import { IChartData, IGroupByStatus, IInterval } from './dashboard.model';
+import { IDueDate } from './charts/bar-chart/bar-chart.model';
+import { IProgress } from './charts/line-chart/line-chart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +25,7 @@ export class DashboardService extends AbstractEntityService<IChartData> {
     getGroupByStatus: (req: any) => Observable<HttpResponse<IGroupByStatus[]>>;
     getDueDate: (req: any) => Observable<HttpResponse<IDueDate[]>>;
     getSummaryStatus: (req: any) => Observable<HttpResponse<IGroupByStatus[]>>;
-    getProgress: (req: any) => Observable<HttpResponse<any>>;
+    getProgress: (req: any) => Observable<HttpResponse<IProgress[]>>;
   } {
     return {
       getGroupByStatus: (param): Observable<HttpResponse<any>> => {
@@ -49,7 +51,7 @@ export class DashboardService extends AbstractEntityService<IChartData> {
     getGroupByStatus: (req: any) => Observable<HttpResponse<IGroupByStatus[]>>;
     getDueDate: (req: any) => Observable<HttpResponse<IDueDate[]>>;
     getSummaryStatus: (req: any) => Observable<HttpResponse<IGroupByStatus[]>>;
-    getProgress: (req: any) => Observable<HttpResponse<any>>;
+    getProgress: (req: any) => Observable<HttpResponse<IProgress[]>>;
   } {
     return {
       getGroupByStatus: (param): Observable<HttpResponse<any>> => {
