@@ -60,24 +60,23 @@ export class LineChartComponent implements OnInit, OnChanges {
   public fitDataToModel(): void {
     this.assingLabel();
     if (this.dataSource) {
+      const data = [];
       const _initData = [];
       const _labels = [];
-      console.log('this.dataSource', this.dataSource);
       this.dataSource.forEach(obj => {
-        _initData.push({
-          data: [obj.total],
-          label: obj.description,
-          backgroundColor: '#003c7c96',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#003c7c96',
-          pointBorderColor: '#003c7c96',
-        });
+        data.push(obj.total);
         _labels.push(new Date(obj.fromDate).toLocaleDateString('en-US', this.labelFormat));
+      });
+      _initData.push({
+        data,
+        label: this.dataSource[0].description,
+        backgroundColor: '#003c7c96',
+        borderColor: '#003c7c',
+        pointBackgroundColor: '#003c7c96',
+        pointBorderColor: '#003c7c96',
       });
       this.initData = [..._initData];
       this.labels = [..._labels];
-      console.log('hasil dari init data loop', this.initData);
-      console.log('labels loop', this.labels);
     }
     this.initLineChart();
   }
