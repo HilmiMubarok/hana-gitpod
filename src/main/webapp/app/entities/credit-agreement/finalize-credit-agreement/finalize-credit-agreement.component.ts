@@ -276,8 +276,8 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
       this.addendumClausalAgreements = data.slice().sort((a, b) => a.sequence - b.sequence);
     });
 
-    this.creditAgreementService.getActiveClausalById(this.creditProposal.id, 'ACTIVE').subscribe((res: any) => {
-      const data: any[] = this.combineClausal(res.body);
+    this.creditAgreementService.agreementsClausalByPartyId(this.creditProposal.cif.partyId).subscribe((res: any) => {
+      const data: any[] = res.body;
       this.addendumClausalAgreementsHistory = data.slice().sort((a, b) => a.sequence - b.sequence);
     });
   }
