@@ -65,6 +65,7 @@ import { InsuranceCheckingService } from './insurance-checking.service';
 import { InsuranceCheckingProcessService } from './insurance-checking-process.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
+import { InsuranceInformationService } from '../insurance-information/insurance-information.service';
 
 @Component({
   selector: 'jhi-insurance-chaking-floating',
@@ -207,7 +208,8 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     public templateService: TemplateService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
     protected masterPermissionService: MasterPermissionService,
-    private http: HttpClient
+    private http: HttpClient,
+    public insuranceInformationService: InsuranceInformationService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -338,7 +340,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
           this.creditProposalOpinionHistoryComponent.triggeredSave();
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
-		} */
+    } */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -396,7 +398,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
-
+    console.log('@insuranceInformationService.dataSourceInsurance', this.insuranceInformationService.dataSourceInsurance);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -494,8 +496,15 @@ export class InsuranceCheckingDetailComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-
-        this.save('process');
+        if (this.insuranceInformationService.dataSourceInsurance.length === 0) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Dont press button Submit, Because Insurance Information is 0',
+          });
+        } else {
+          this.save('process');
+        }
       }
     });
   }
@@ -613,9 +622,9 @@ export class InsuranceCheckingDetailComponent implements OnInit {
       }
 
       /* if (this.creditProposalOpinionHistoryComponent) {
-		this.creditProposalOpinionHistoryComponent.triggeredSave();
-		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-		this.creditProposalOpinionHistoryComponent.refresh();
+    this.creditProposalOpinionHistoryComponent.triggeredSave();
+    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+    this.creditProposalOpinionHistoryComponent.refresh();
     } */
 
       if (this.CreditProposalTabSummaryComponent) {
@@ -742,11 +751,11 @@ export class InsuranceCheckingDetailComponent implements OnInit {
                     }
 
                     /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
+            ++countValidate;
+            } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+            } */
                   }
                 } else {
                   // toast opinion empty
@@ -765,16 +774,16 @@ export class InsuranceCheckingDetailComponent implements OnInit {
                       fileReaderCondition.onload = (eCondition: any) => {
                         const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
                         /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
+              if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+                ++countValidate;
+              } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              }
+              } else {
+              // toast condition empty
+              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              } */
 
                         if (
                           testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -824,11 +833,11 @@ export class InsuranceCheckingDetailComponent implements OnInit {
                             }
 
                             /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-								++countValidate;
-							  } else {
-								// toast condition empty
-								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							  } */
+                ++countValidate;
+                } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+                } */
                           }
                         } else {
                           // toast condition empty

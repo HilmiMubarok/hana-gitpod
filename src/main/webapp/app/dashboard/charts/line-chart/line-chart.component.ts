@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+
 import { Chart, ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { IProgress } from './line-chart.model';
 
 @Component({
   selector: 'jhi-line-chart',
@@ -12,119 +14,97 @@ export class LineChartComponent implements OnInit, OnChanges {
   public lineChartData: ChartConfiguration['data'];
   public lineChartOptions: ChartConfiguration['options'];
   public lineChartType: ChartType;
+  public _interval: string;
 
-  public _baseLineChartData: any;
+  public initData: any[] = [];
+  public data: number[] = [];
+  public labels: string[] = [];
+  public description: string[] = [];
+  public labelFormat: any;
+
+  public _dataSource: IProgress[];
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   @Input()
-  get baseLineChartData() {
-    return this._baseLineChartData;
+  get dataSource() {
+    return this._dataSource;
   }
 
-  set baseLineChartData(param: any) {
-    this._baseLineChartData = param;
+  set dataSource(param: IProgress[]) {
+    this._dataSource = param;
+  }
+
+  @Input()
+  get interval() {
+    return this._interval;
+  }
+
+  set interval(param: string) {
+    this._interval = param;
   }
 
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['baseLineChartData']) {
-      if (this.baseLineChartData.length > 0) {
+    if (changes['dataSource']) {
+      if (this.dataSource.length > 0) {
         this.fitDataToModel();
       }
     }
   }
 
   ngOnInit(): void {
-    if (this.baseLineChartData) {
-      this.initLineChart();
-    }
+    this.fitDataToModel();
   }
 
   public fitDataToModel(): void {
-    const data = [];
-    const labels = [];
-    this.baseLineChartData.forEach(item => {
-      data.push(item.data);
-      labels.push(
-        new Date(item.date).toLocaleDateString('en-US', {
+    this.assingLabel();
+    if (this.dataSource) {
+      const data = [];
+      const _initData = [];
+      const _labels = [];
+      this.dataSource.forEach(obj => {
+        data.push(obj.total);
+        _labels.push(new Date(obj.fromDate).toLocaleDateString('en-US', this.labelFormat));
+      });
+      _initData.push({
+        data,
+        label: this.dataSource[0].description,
+        backgroundColor: '#003c7c96',
+        borderColor: '#003c7c',
+        pointBackgroundColor: '#003c7c96',
+        pointBorderColor: '#003c7c96',
+      });
+      this.initData = [..._initData];
+      this.labels = [..._labels];
+    }
+    this.initLineChart();
+  }
+
+  public assingLabel(): void {
+    switch (this.interval) {
+      case 'WEEKLY':
+        this.labelFormat = { month: 'long', day: 'numeric' };
+        break;
+
+      case 'MONTHLY':
+        this.labelFormat = { month: 'long' };
+        break;
+
+      default:
+        this.labelFormat = {
           day: '2-digit',
           month: 'short',
-        })
-      );
-    });
-
-    this.lineChartData = {
-      datasets: [
-        {
-          data,
-          label: 'Series A',
-          backgroundColor: '#003c7c96',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#003c7c96',
-          pointBorderColor: '#003c7c96',
-        },
-      ],
-      labels,
-    };
-
-    this.chart?.update();
+          year: 'numeric',
+        };
+        break;
+    }
   }
 
   public initLineChart(): void {
-    const data = [];
-    const labels = [];
-    this.baseLineChartData.forEach(item => {
-      data.push(item.data);
-      labels.push(
-        new Date(item.date).toLocaleDateString('en-US', {
-          day: '2-digit',
-          month: 'short',
-        })
-      );
-    });
-
     this.lineChartData = {
-      datasets: [
-        {
-          data,
-          label: 'Series A',
-          backgroundColor: '#003c7c96',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#003c7c96',
-          pointBorderColor: '#003c7c96',
-          // pointBorderWidth: 2,
-          // pointRadius: 6,
-          // pointHoverBackgroundColor: '#fff',
-          // pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-        },
-        {
-          data: [65, 59, 80, 78, 56, 55, 40],
-          label: 'Series B',
-          backgroundColor: '#2981d782',
-          borderColor: '#2981d7',
-          pointBackgroundColor: '#2981d782',
-          pointBorderColor: '#2981d782',
-          // pointBorderWidth: 2,
-          // pointRadius: 6,
-          // pointHoverBackgroundColor: '#fff',
-          // pointHoverBorderColor: 'rgba(77,83,96,1)',
-        },
-        // {
-        //   data: [40, 33, 86, 65, 90, 59, 80],
-        //   label: 'Series C',
-        //   yAxisID: 'y1',
-        //   backgroundColor: '#93d9d982',
-        //   borderColor: '#93d9d9',
-        //   pointBackgroundColor: '#93d9d982',
-        //   pointBorderColor: '#93d9d982',
-        //   // pointBorderWidth: 2,
-        //   // pointRadius: 6,
-        //   // pointHoverBackgroundColor: '#fff',
-        //   // pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-        // },
-      ],
-      labels,
+      datasets: this.initData,
+      labels: this.labels,
     };
 
     this.lineChartOptions = {
@@ -157,6 +137,8 @@ export class LineChartComponent implements OnInit, OnChanges {
       },
     };
     this.lineChartType = 'line';
+
+    this.chart?.update();
   }
   private static generateNumber(i: number): number {
     return Math.floor(Math.random() * (i < 2 ? 100 : 1000) + 1);

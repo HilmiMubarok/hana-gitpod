@@ -29,23 +29,34 @@ export class DashboardComponent implements OnInit {
   }
 
   private preLoadData(): void {
-    this.templateService.triggerChanggedPosIntObjectObservable.subscribe(newPos => {
-      if (newPos) {
-        this.positionId = newPos.id;
-        this.positionTypeId = newPos.positionTypeId;
-        this.menuAccessService
-          .filterBy({
-            positionTypeId: newPos.positionTypeId,
-            page: 0,
-            size: 999,
-            sort: ['ASC'],
-          })
-          .subscribe(positionTypeList => {
-            const allowedDashboard = positionTypeList.body.filter(obj => obj.menuItemId.includes('DASHBOARD_'));
-            this.categorizedCharts(allowedDashboard);
-          });
+    this.positionId = this.getLocStor('POS');
+    this.positionTypeId = this.getLocStor('POSO');
+    this.menuAccessService
+      .filterBy({
+        positionTypeId: this.getLocStor('POSO'),
+        page: 0,
+        size: 999,
+        sort: ['ASC'],
+      })
+      .subscribe(positionTypeList => {
+        const allowedDashboard = positionTypeList.body.filter(obj => obj.menuItemId.includes('DASHBOARD_'));
+        this.categorizedCharts(allowedDashboard);
+      });
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
       }
     });
+
+    return result;
   }
 
   public categorizedCharts(allowedDashboard): void {

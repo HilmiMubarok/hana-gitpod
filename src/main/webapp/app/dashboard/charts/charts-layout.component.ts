@@ -2,11 +2,12 @@ import { Component, ViewEncapsulation, ViewChild, OnInit, Input, OnChanges, Simp
 import { DashboardLayoutComponent, PanelModel } from '@syncfusion/ej2-angular-layouts';
 import { Browser } from '@syncfusion/ej2-base';
 import moment from 'moment';
-import { IDueDate, IGroupByStatus, IInterval, lineChartDummyData } from '../dashboard.model';
+import { IGroupByStatus, IInterval } from '../dashboard.model';
 import { DashboardService } from '../dashboard.service';
 import { IMenuAccess } from 'app/entities/menu-access/menu-access.model';
 import { MessageService } from 'primeng/api';
 import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/master-permission.service';
+import { IDueDate } from './bar-chart/bar-chart.model';
 
 @Component({
   selector: 'jhi-charts-layout',
@@ -84,11 +85,14 @@ export class ChartsLayoutComponent implements OnInit {
   public dueDateDataSource: IDueDate[] = [];
   public _dueDateDates: Date = new Date();
   public dueDateDates: string = moment(this._dueDateDates).format('YYYY-MM-DD').toString();
-  public dateForLabelDueDate: Date = new Date();
   public _selectedDuedateInterval: string;
   public selectedDuedateInterval = 'DAILY';
 
-  public startDateThruDate: { startDate: string; thruDate: string };
+  public _startDateThruDate: string = moment(new Date()).format('YYYY-MM-DD').toString();
+  public startDateThruDate: { startDate: string; thruDate: string } = {
+    startDate: this._startDateThruDate,
+    thruDate: this._startDateThruDate,
+  };
   public progressDataSource: any = [];
   public _selectedStatus: string;
   public selectedStatus = 'DRAFT';
@@ -154,7 +158,6 @@ export class ChartsLayoutComponent implements OnInit {
             statusId: permissionList.menuStatusItem.statusId,
             statusDescription: permissionList.menuStatusItem.statusDescription,
           });
-          console.log('this.statusList', this.statusList);
         });
         resolve();
       });
@@ -218,43 +221,38 @@ export class ChartsLayoutComponent implements OnInit {
   }
 
   loadProgress() {
-    // if (this.creditProposalFilter.length > 0 && this.creditProposalFilter.some(item => item.includes('_PROGRESS'))) {
-    //   this.dashboardService
-    //     .creditProposals()
-    //     .getProgress({
-    //       status: this.selectedStatus,
-    //       fromDate: this.startDateThruDate.startDate,
-    //       thruDate: this.startDateThruDate.thruDate,
-    //       interval: this.progressInterval,
-    //       idPosition: this.idPosition,
-    //     })
-    //     .subscribe(res => {
-    //       this.progressDataSource = res.body;
-    //     });
-    // }
-    // if (this.appraisalFilter.length > 0 && this.appraisalFilter.some(item => item.includes('_PROGRESS'))) {
-    //   this.dashboardService
-    //     .appraisal()
-    //     .getProgress({
-    //       status: this.selectedStatus,
-    //       fromDate: this.startDateThruDate.startDate,
-    //       thruDate: this.startDateThruDate.thruDate,
-    //       interval: this.progressInterval,
-    //       idPosition: this.idPosition,
-    //     })
-    //     .subscribe(res => {
-    //       this.progressDataSource = res.body;
-    //     });
-    // }
+    if (this.creditProposalFilter.length > 0 && this.creditProposalFilter.some(item => item.includes('_PROGRESS'))) {
+      this.dashboardService
+        .creditProposals()
+        .getProgress({
+          status: this.selectedStatus,
+          fromDate: this.startDateThruDate.startDate,
+          thruDate: this.startDateThruDate.thruDate,
+          interval: this.progressInterval,
+          idPosition: this.idPosition,
+        })
+        .subscribe(res => {
+          this.progressDataSource = res.body;
+        });
+    }
+    if (this.appraisalFilter.length > 0 && this.appraisalFilter.some(item => item.includes('_PROGRESS'))) {
+      this.dashboardService
+        .appraisal()
+        .getProgress({
+          status: this.selectedStatus,
+          fromDate: this.startDateThruDate.startDate,
+          thruDate: this.startDateThruDate.thruDate,
+          interval: this.progressInterval,
+          idPosition: this.idPosition,
+        })
+        .subscribe(res => {
+          this.progressDataSource = res.body;
+        });
+    }
   }
 
-  public recieveStartThruDate(event: any): void {
-    this.startDateThruDate = event;
-  }
-
-  public recievedDate(event: Date): void {
-    this.dateForLabelDueDate = event;
-    this.dueDateDates = moment(event).format('YYYY-MM-DD').toString();
+  public recievedDate(event: string): void {
+    this.dueDateDates = event;
     this.loadDueDate();
   }
 
@@ -263,16 +261,18 @@ export class ChartsLayoutComponent implements OnInit {
     this.loadDueDate();
   }
 
+  public recieveStartThruDate(event: any): void {
+    this.startDateThruDate = event;
+    this.loadProgress();
+  }
+
   public progressIntervalOnChange(_progressInterval): void {
     this.progressInterval = _progressInterval;
+    this.messageService.add({ severity: 'info', summary: 'info', detail: 'Select Dates' });
   }
 
   public onchangeSelectStatus(_selectedStatus): void {
-    // this.selectedStatus = _selectedStatus;
-    // this.messageService.add({
-    //   severity: 'info',
-    //   summary: 'info',
-    //   detail: 'Select Dates',
-    // });
+    this.selectedStatus = _selectedStatus;
+    this.loadProgress();
   }
 }

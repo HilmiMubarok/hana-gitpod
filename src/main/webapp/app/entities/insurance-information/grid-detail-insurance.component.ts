@@ -73,6 +73,7 @@ export class GridDetailInsuranceComponent implements OnInit {
   private loadByPartyId(collateralId: number): void {
     this.insuranceInformationService.filterTableData(collateralId).subscribe(res => {
       this.dataItem = res.body;
+      this.insuranceInformationService.dataSourceInsurance = this.dataItem;
       this.dataSource = new MatTableDataSource(this.dataItem);
       this.dataSource.paginator = this.paginator;
     });

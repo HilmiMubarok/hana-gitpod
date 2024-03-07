@@ -105,6 +105,7 @@
               <section class="dppk-button">
                 <button
                   *ngIf="
+                    (dppkEditable && element.parentId === 'DOC_DPPK_BACKTOBACK') ||
                     (dppkEditable && element.parentId === 'DOC_DPPK_KENDARAAN') ||
                     (dppkEditable && element.parentId === 'DOC_DPPK_JUALBELI') ||
                     (dppkEditable && element.parentId === 'DOC_DPPK_KENDARAAN') ||
