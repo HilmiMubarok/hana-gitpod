@@ -60,9 +60,10 @@ export class BankAccountComponent implements OnInit {
 
   getDataApplicationAdd() {
     this.applicationPaymentPreferencesService.getData(this.creditProposal.id).subscribe(res => {
-      this.dataSource = res;
-      if (this.dataSource.length === 0) {
+      if (this.dataSource.length === res.length) {
         this.getDataApplicationAdd();
+      } else {
+        this.dataSource = res;
       }
     });
   }
