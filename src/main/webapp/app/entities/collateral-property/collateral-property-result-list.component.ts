@@ -23,6 +23,7 @@ export class CollateralPropertyResultListComponent implements OnInit {
     'no',
     'appraisalNumber',
     'appraisalDate',
+    'appraisalValidityPeriod',
     'appraisalType',
     'institution',
     'marketValue',

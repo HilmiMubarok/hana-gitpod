@@ -11,6 +11,12 @@
     <th mat-header-cell *matHeaderCellDef>Appraisal Date</th>
     <td mat-cell *matCellDef="let element">{{ element.createdDate | date: 'yyyy/MM/dd' }}</td>
   </ng-container>
+
+  <ng-container matColumnDef="appraisalValidityPeriod">
+    <th mat-header-cell *matHeaderCellDef>Appraisal Validity Period</th>
+    <td mat-cell *matCellDef="let element">{{ element.thruDate | date: 'yyyy/MM/dd' }}</td>
+  </ng-container>
+
   <ng-container matColumnDef="appraisalType">
     <th mat-header-cell *matHeaderCellDef>Appraisal Type</th>
     <td mat-cell *matCellDef="let element">
