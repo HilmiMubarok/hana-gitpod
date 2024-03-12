@@ -841,9 +841,11 @@
         >
         </mat-paginator> -->
     </mat-card-content>
-    <div style="display: flex; justify-content: center; align-items: center">
-      <button (click)="addClausalDialog()" class="btn-lg text-uppercase button-styling mt-2" mat-raised-button>ADD</button>
-    </div>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <div style="display: flex; justify-content: center; align-items: center">
+        <button (click)="addClausalDialog()" class="btn-lg text-uppercase button-styling mt-2" mat-raised-button>ADD</button>
+      </div>
+    </section>
   </mat-card>
 
   <!-- <mat-card class="mt-3" *ngIf="creditProposal.statusCode === 'PK_GENERATED'">
