@@ -324,7 +324,7 @@
             <!-- End Dar Summary -->
           </div>
           <div *ngIf="clickedMenu === 'insurance-information'">
-            <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"></jhi-insurance-information>
+            <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"> </jhi-insurance-information>
           </div>
         </div>
       </div>
@@ -353,7 +353,7 @@
 
   <!-- Start Sidenav -->
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav subroute-background" mode="over">
-    <div class="header-sub-menu"><label style="margin-top: 1rem">Rview Insurance :</label></div>
+    <div class="header-sub-menu"><label style="margin-top: 1rem">Review Insurance :</label></div>
 
     <mat-list role="list" class="list-styling">
       <div *ngFor="let item of subMenu">
