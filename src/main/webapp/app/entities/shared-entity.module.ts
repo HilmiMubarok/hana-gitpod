@@ -529,6 +529,7 @@ import { CollateralInfoRemarksChecklistLoanOpsComponent } from './loan-operation
 import { CollateralInfoRemarksInformationLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-information-loan-ops.component';
 import { CollateralInfoRemarksLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-loan-ops.component';
 import { MappingFacilityLoanOpsComponent } from './loan-operation/collateral-info/mapping/mapping-facility-loan-ops.component';
+import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facility/credit-proposal-loan-facility-template.contstants';
 
 @NgModule({
   imports: [
@@ -570,6 +571,7 @@ import { MappingFacilityLoanOpsComponent } from './loan-operation/collateral-inf
     ...entityDialogModule,
     ...entityTemplate,
     ...entityDppkFinalizeTemplate,
+    ...creditProposalLoanFacilityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
@@ -1147,7 +1149,7 @@ import { MappingFacilityLoanOpsComponent } from './loan-operation/collateral-inf
     ...entityDialogModule,
     ...entityTemplate,
     ...LoanOperationLoanFacilityTemplate,
-
+    ...creditProposalLoanFacilityTemplate,
     ...entityDppkFinalizeTemplate,
     ReviewHistoryComponent,
     LoanPurposeComponent,
