@@ -1,0 +1,327 @@
+<div class="row mb-3 mt-3">
+  <div class="col-4">
+    <label class="labelTotal">Total In IDR</label>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSuminit('IDR')"
+          placeholder="Total Initial Limit (IDR)"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total Initial Limit (IDR)</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR. {{ fungsiSuminit('IDR') | number }}</div>
+      </div>
+    </section>
+
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <div class="form-group">
+          <ejs-numerictextbox
+            *ngIf="fungsiSumchange('IDR').toString().split('')[0] === '-'"
+            placeholder="Total Changes (IDR)"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [value]="fungsiSumchange('IDR').toString().replace('-', '')"
+            format="IDR -0,"
+            readonly="true"
+            [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChangesIdr"
+          ></ejs-numerictextbox>
+
+          <ejs-numerictextbox
+            *ngIf="fungsiSumchange('IDR').toString().split('')[0] !== '-'"
+            placeholder="Total Changes (IDR)"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [value]="fungsiSumchange('IDR').toString().replace('-', '')"
+            format="IDR 0,"
+            readonly="true"
+            [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChangesIdr"
+          ></ejs-numerictextbox>
+        </div>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total Changes (IDR)</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR. {{ fungsiSumchange('IDR') | number }}</div>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumOS('IDR')"
+          placeholder="Total O/S (IDR)"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total O/S (IDR)</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR. {{ fungsiSumOS('IDR') | number }}</div>
+      </div>
+    </section>
+
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumcredit('IDR')"
+          placeholder="Sub Total Plafond (IDR)"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Sub Total Plafond (IDR)</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR. {{ fungsiSumcredit('IDR') | number }}</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="col-4">
+    <label class="labelTotal">Total In USD</label>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSuminit('USD')"
+          placeholder="Total Initial Limit (USD)"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="USD 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total Initial Limit (USD)</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">USD. {{ fungsiSuminit('USD') | number }}</div>
+      </div>
+    </section>
+
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <div class="form-group">
+          <ejs-numerictextbox
+            *ngIf="fungsiSumchange('USD').toString().split('')[0] === '-'"
+            placeholder="Total Changes (USD)"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [value]="fungsiSumchange('USD').toString().replace('-', '')"
+            format="USD -0,"
+            readonly="true"
+            [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChangesUsd"
+          ></ejs-numerictextbox>
+
+          <ejs-numerictextbox
+            *ngIf="fungsiSumchange('USD').toString().split('')[0] !== '-'"
+            placeholder="Total Changes (USD)"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [value]="fungsiSumchange('USD').toString().replace('-', '')"
+            format="USD 0,"
+            readonly="true"
+            [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChangesUsd"
+          ></ejs-numerictextbox>
+        </div>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total Changes (USD)</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">USD. {{ fungsiSumchange('USD') | number }}</div>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumOS('USD')"
+          placeholder="Total O/S (USD)"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="USD 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total O/S (USD)</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">USD. {{ fungsiSumOS('USD') | number }}</div>
+      </div>
+    </section>
+
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumcredit('USD')"
+          placeholder="Sub Total Plafond (USD)"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="USD 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Sub Total Plafond (USD)</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">USD. {{ fungsiSumcredit('USD') | number }}</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="col-4">
+    <label class="labelTotal">Total Eq to IDR</label>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSuminit('both')"
+          placeholder="Total Initial Limit Eq to IDR"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total Initial Limit Eq to IDR</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR. {{ fungsiSuminit('both') | number }}</div>
+      </div>
+    </section>
+
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <div class="form-group">
+          <ejs-numerictextbox
+            *ngIf="fungsiSumchange('both').toString().split('')[0] === '-'"
+            placeholder="Total Changes Eq to IDR"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [value]="fungsiSumchange('both').toString().replace('-', '')"
+            format="IDR -0,"
+            readonly="true"
+            [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChanges"
+          ></ejs-numerictextbox>
+
+          <ejs-numerictextbox
+            *ngIf="fungsiSumchange('both').toString().split('')[0] !== '-'"
+            placeholder="Total Changes Eq to IDR"
+            cssClass="e-outline"
+            floatLabelType="Auto"
+            [value]="fungsiSumchange('both').toString().replace('-', '')"
+            format="IDR 0,"
+            readonly="true"
+            [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChanges"
+          ></ejs-numerictextbox>
+        </div>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total Changes Eq to IDR</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR. {{ fungsiSumchange('both') | number }}</div>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumOS('both')"
+          placeholder="Total O/S Eq to IDR"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Total O/S Eq to IDR</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR. {{ fungsiSumOS('both') | number }}</div>
+      </div>
+    </section>
+
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumcredit('both')"
+          placeholder="Sub Total Plafond Eq to IDR"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Sub Total Plafond Eq to IDR</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR. {{ fungsiSumcredit('both') | number }}</div>
+      </div>
+    </section>
+  </div>
+  <div class="col-6"></div>
+</div>
+
+<div class="row mb-3 mt-3" *ngIf="takeOutCompare !== true">
+  <div class="col-4">
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [(ngModel)]="creditProposal.attributes['facilityDetail'].custodianFee"
+          cssClass="e-outline"
+          placeholder="Custody Fee"
+          floatLabelType="auto"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+        ></ejs-numerictextbox>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-5">Custody Fee</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">IDR {{ creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
+      </div>
+    </section>
+  </div>
+</div>

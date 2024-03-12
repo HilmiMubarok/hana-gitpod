@@ -88,9 +88,10 @@ export class BankAccountComponent implements OnInit {
       if (res.id) {
         this.applicationPaymentPreferencesService.updateData(res.id, res).subscribe();
       } else {
-        this.applicationPaymentPreferencesService.createData(res).subscribe();
-        this.getDataApplicationAdd();
-        this.getBankAccount();
+        this.applicationPaymentPreferencesService.createData(res).subscribe(() => {
+          this.getDataApplicationPaymentReferences();
+          this.getBankAccount();
+        });
       }
     });
   }

@@ -1,0 +1,99 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Main Facility</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-main-facility [isViewMode]="isViewMode" [creditProposal]="creditProposal"> </jhi-main-facility>
+    </div>
+  </div>
+</div>
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Facility Details</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-credit-proposal-tab-loan-facility-detail-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+      </jhi-credit-proposal-tab-loan-facility-detail-grid>
+    </div>
+    <!-- bagian calculation -->
+    <jhi-loan-facility-detail-calculation
+      [isViewMode]="isViewMode"
+      [creditProposal]="creditProposal"
+    ></jhi-loan-facility-detail-calculation>
+  </div>
+</div>
+
+<div class="e-card" *ngIf="takeOutCompare !== true">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Take Over Scheme (If Any)</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+      <div class="col-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Previous Bank</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVOri"
+            [matAutocomplete]="autoOri"
+            [(ngModel)]="MVOriCcy"
+            (ngModelChange)="getDataBank()"
+          />
+          <mat-autocomplete #autoOri="matAutocomplete" [displayWith]="displayFnMVOri">
+            <mat-option *ngFor="let option of filteredOptionsMVOri | async" [value]="option">
+              {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-2">Previous Bank</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ getDataBankView() }}
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="row col-12">
+    <div class="col-md-6">
+      <div class="mb-2">
+        <mat-label style="margin-left: 1rem">Previous Bank</mat-label>
+        <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal" [isViewMode]="isViewMode">
+        </jhi-credit-proposal-tab-loan-facility-take-over-grid>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="mb-2">
+        <mat-label style="margin-left: 1rem">After Bank</mat-label>
+        <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal" [isViewMode]="true">
+        </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal" [isViewMode]="isViewMode">
+      </jhi-credit-proposal-collateral-tab-loan>
+    </div>
+    <div class="col-6">
+      <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal" [isViewMode]="isViewMode">
+      </jhi-credit-proposal-collateral-tab-loan-after>
+    </div>
+  </div>
+</div>
