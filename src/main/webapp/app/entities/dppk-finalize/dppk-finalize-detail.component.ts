@@ -578,17 +578,29 @@ export class DppkFinalizeDetailComponent implements OnInit {
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
-        this.validateAssignTo()
-          .then(() => {
-            this.save('process');
-          })
-          .catch(() => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Please select Assignee before submit',
+        if (_res.caption === 'Submit') {
+          this.validateAssignTo()
+            .then(valid => {
+              if (valid) {
+                this.save('process');
+              } else {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Please select Assignee before submit',
+                });
+              }
+            })
+            .catch(err => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Please select Assignee before submit',
+              });
             });
-          });
+        } else {
+          this.save('process');
+        }
       }
     });
   }
@@ -1761,10 +1773,13 @@ export class DppkFinalizeDetailComponent implements OnInit {
 
   public validateAssignTo() {
     return new Promise<boolean>((resolve, reject) => {
-      if (this.isAssignedToOne && this.isAssignedToTwo) {
-        resolve(true);
-      } else {
+      if (
+        this.creditProposal.attributes['dataAssignToDPPKReview1'].roleId === undefined ||
+        this.creditProposal.attributes['dataAssignToDPPKReview2'].roleId === undefined
+      ) {
         reject(false);
+      } else {
+        resolve(true);
       }
     });
   }
