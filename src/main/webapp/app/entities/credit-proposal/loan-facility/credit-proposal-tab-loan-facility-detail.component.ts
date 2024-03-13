@@ -122,11 +122,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   onDocumentChange() {
-    if (this.parentSource === '') {
+    if (this.parentSource === '' || this.parentSource === 'darRevision') {
       this.container_view_false.restrictEditing = true;
-    } else if (this.parentSource === 'loan-analys' || this.parentSource === 'credit-agreement' || this.parentSource === 'darRevision') {
+    } else if (this.parentSource === 'loan-analys' || this.parentSource === 'credit-agreement') {
       this.container_view_false_loan_analys.restrictEditing = true;
-      this.container_view_false.restrictEditing = true;
     }
   }
 
@@ -505,11 +504,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     const key = 'credit_proposal/remark/loan-facility';
     // const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-    if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
+    if (this.parentSource === '' || this.parentSource === 'credit-proposal' || this.parentSource === 'darRevision') {
       this.docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
       this.saveDocx$ = from(this.docEditor.saveAsBlob('Docx'));
       this.saveSfdt$ = from(this.docEditor.saveAsBlob('Sfdt'));
-    } else if (this.parentSource === 'loan-analys' || this.parentSource === 'darRevision') {
+    } else if (this.parentSource === 'loan-analys') {
       this.docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
       this.saveDocx$ = from(this.docEditor.saveAsBlob('Docx'));
       this.saveSfdt$ = from(this.docEditor.saveAsBlob('Sfdt'));
