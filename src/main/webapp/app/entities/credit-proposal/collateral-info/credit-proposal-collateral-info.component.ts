@@ -339,7 +339,6 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
   public conditionFieldInOfferingLetter() {
     const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
     const subroutes = queryParam.get('subroute');
-    console.log('parent path ', this.parentPath, ' selected menu ', this.selectedMenu, ' subroutes ', subroutes);
     // Condition Offering Letter in Route Finalize
     if (this.parentPath === 'finalize') {
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
