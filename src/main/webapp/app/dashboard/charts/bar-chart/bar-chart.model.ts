@@ -1,7 +1,7 @@
 export interface IDueDate {
   noOverdue?: number;
-  overDueLessThan?: number;
-  overDueBetween?: number;
+  overdueLessThan?: number;
+  overdueBetween?: number;
   moreThan?: number;
   date?: string;
   information?: IDateInformation[];
