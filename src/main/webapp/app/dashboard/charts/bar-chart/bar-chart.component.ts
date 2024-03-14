@@ -61,8 +61,8 @@ export class BarChartComponent implements OnInit, OnChanges {
     if (this.dataSource.length > 0) {
       this.dataSource.forEach(obj => {
         this.noOverdue.push(obj.noOverdue);
-        this.overdueLessThan.push(obj.overDueLessThan);
-        this.overdueBetween.push(obj.overDueBetween);
+        this.overdueLessThan.push(obj.overdueLessThan);
+        this.overdueBetween.push(obj.overdueBetween);
         this.moreThan.push(obj.moreThan);
       });
       this.assignLable();
@@ -122,7 +122,7 @@ export class BarChartComponent implements OnInit, OnChanges {
       scales: {
         x: {},
         y: {
-          min: 10,
+          min: 0,
           beginAtZero: true,
         },
       },
