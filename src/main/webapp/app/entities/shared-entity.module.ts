@@ -530,6 +530,9 @@ import { CollateralInfoRemarksInformationLoanOpsComponent } from './loan-operati
 import { CollateralInfoRemarksLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-loan-ops.component';
 import { MappingFacilityLoanOpsComponent } from './loan-operation/collateral-info/mapping/mapping-facility-loan-ops.component';
 import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facility/credit-proposal-loan-facility-template.contstants';
+import { GenerateTboLegalMonitoringComponent } from './generate-tbo-legal-monitoring/generate-tbo-legal-monitoring.component';
+import { TboLegalMonitoringComponent } from './tbo-legal-monitoring/tbo-legal-monitoring.component';
+import { HistoryTBOComponent } from './history-tbo/history-tbo.component';
 
 @NgModule({
   imports: [
@@ -1074,6 +1077,15 @@ import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facil
     InternalMemoLoanOperationComponent,
     DialogInternalMemoComponent,
     DialogInternalMemoLoanOperationComponent,
+
+    // generate tbo monitoring
+    GenerateTboLegalMonitoringComponent,
+
+    // tbo-legal-monitoring
+    TboLegalMonitoringComponent,
+
+    // history-tbo
+    HistoryTBOComponent,
 
      // Document Legal DPDL
     DocumentLegalUploadComponent,
@@ -1638,6 +1650,15 @@ import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facil
     InternalMemoLoanOperationComponent,
     DialogInternalMemoComponent,
     DialogInternalMemoLoanOperationComponent,
+
+    // generate tbo monitoring
+    GenerateTboLegalMonitoringComponent,
+
+    // tbo-legal-monitoring
+    TboLegalMonitoringComponent,
+
+    // history-tbo
+    HistoryTBOComponent,
 
     // Document Legal DPDL
     DocumentLegalUploadComponent,
