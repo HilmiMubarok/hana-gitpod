@@ -391,7 +391,8 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
       this.parentPath === 'loan-ops-distribution' ||
       this.parentPath === 'loan-ops-review' ||
       this.parentPath === 'dar-revision-checker' ||
-      this.parentPath === 'dar-revision'
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'finalize-pk'
     ) {
       if (subroutes === 'collateral-info') {
         this.textBoxHidden = false;
