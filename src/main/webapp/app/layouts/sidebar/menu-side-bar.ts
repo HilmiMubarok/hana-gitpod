@@ -440,6 +440,23 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       },
     ],
   },
+
+  {
+    name: 'TBO Legal Monitoring',
+    iconname: 'suitcase',
+    children: [
+      {
+        name: ' TBO Checking',
+        iconname: 'minus',
+        route: 'tbo-checking',
+      },
+      {
+        name: ' TBO Review',
+        iconname: 'minus',
+        route: 'tbo-review',
+      },
+    ],
+  },
   // {
   //   name: 'MIS Report',
   //   iconname: 'file-lines',
