@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>ADD / EDIT COMPANY TYPE</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="masterDocumentTerm">
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Reminder Type</mat-label>
+            <input matInput type="text" formControlName="reminderType" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>DPD</mat-label>
+            <input matInput type="text" formControlName="dpd" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Scheduler Email</mat-label>
+            <input matInput type="text" formControlName="schedulerEmail" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Scheduler Type</mat-label>
+            <mat-select formControlName="schedulerType">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of ['Inan', 'Sandoro']" [value]="item"> {{ item }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Scheduler Date</mat-label>
+            <input matInput type="text" formControlName="schedulerDate" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item2 of ['Status1', 'Status2']" [value]="item2"> {{ item2 }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">CLOSE</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="onSave()">SAVE</button>
+</mat-dialog-actions>

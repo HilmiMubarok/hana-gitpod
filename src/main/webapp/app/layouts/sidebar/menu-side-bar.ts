@@ -144,6 +144,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'master-financial-institution',
       },
+      {
+        name: 'Document Term',
+        iconname: 'minus',
+        route: 'master-document-term',
+      },
     ],
   },
   {
