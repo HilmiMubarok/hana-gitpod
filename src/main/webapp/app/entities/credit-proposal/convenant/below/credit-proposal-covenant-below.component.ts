@@ -96,7 +96,7 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
         } else {
           for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
             this.standardCovenant[i] = {
-              covenant: this.standardCovenant[i].covenant,
+              covenant: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].covenant,
               deviation: this.creditProposalItem.attributes['convenant'].standardCovenant[i].deviation,
               id: this.creditProposalItem.attributes['convenant'].standardCovenant[i].id,
               justification: this.creditProposalItem.attributes['convenant'].standardCovenant[i].justification,
