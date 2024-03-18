@@ -517,6 +517,7 @@ export class CreditAgreementDetailComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         console.log('resAttr', this.resAttr);
 
         if (this.validateDraft()) {

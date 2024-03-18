@@ -543,7 +543,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         this.save('process');
       }
     });

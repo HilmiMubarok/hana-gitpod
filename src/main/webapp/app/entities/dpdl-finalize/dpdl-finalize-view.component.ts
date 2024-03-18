@@ -816,7 +816,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
           if (this.parentPath === 'finalize-dpdl') {
             this.saveApplicationRole();
           } else {
-            this.dpdlFinalizeProcessSercvice.processTask(this.resAttr, 'collateralInsurance').subscribe(() => {
+            this.dpdlFinalizeProcessSercvice.processTask(this.resAttr).subscribe(() => {
               this.router.navigate([this.router.url.split('/')[1]]);
             });
           }
@@ -887,7 +887,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
-          this.dpdlFinalizeProcessSercvice.processTask(this.resAttr, 'collateralInsurance').subscribe(() => {
+          this.dpdlFinalizeProcessSercvice.processTask(this.resAttr).subscribe(() => {
             this.router.navigate([this.router.url.split('/')[1]]);
           });
         }
@@ -1249,7 +1249,6 @@ export class DpdlFinalizeViewComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
-        this.resAttr.attr.idApplication = this.creditProposal.id;
         let init = 0;
         let change = 0;
 
@@ -1262,6 +1261,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         // Validasi Draft
         if (this.validateDraft()) {
           // Validasi Final
@@ -1433,7 +1433,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
   private saveApplicationRole(): void {
     this.saveWord = false;
-    this.dpdlFinalizeProcessSercvice.processTask(this.resAttr, 'collateralInsurance').subscribe(() => {
+    this.dpdlFinalizeProcessSercvice.processTask(this.resAttr).subscribe(() => {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
   }

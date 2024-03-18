@@ -1006,7 +1006,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         if (task.name === 'submit') {
           this.validate().then(() => this.save('process'));
         } else {

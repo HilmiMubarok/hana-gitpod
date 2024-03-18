@@ -496,6 +496,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         if (this.insuranceInformationService.dataSourceInsurance.length === 0) {
           this.messageService.add({
             severity: 'error',
