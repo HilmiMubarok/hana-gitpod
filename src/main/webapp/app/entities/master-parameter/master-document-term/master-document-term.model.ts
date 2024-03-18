@@ -5,13 +5,13 @@ export interface IMasterDocumentTerm {
   statusDescription?: string;
   createdBy?: string;
   createdDate?: Date;
-  lastModifiedBy?: Date;
+  lastModifiedBy?: string;
   lastModifiedDate?: Date;
   reminderType?: string;
   dpd?: number;
   schedulerEmail?: string;
   schedulerType?: string;
-  schedulerDate?: string;
+  schedulerDate?: Date;
   status?: string;
 }
 
@@ -23,13 +23,13 @@ export class MasterDocumentTerm implements IMasterDocumentTerm {
     public statusDescription?: string,
     public createdBy?: string,
     public createdDate?: Date,
-    public lastModifiedBy?: Date,
+    public lastModifiedBy?: string,
     public lastModifiedDate?: Date,
     public reminderType?: string,
     public dpd?: number,
     public schedulerEmail?: string,
     public schedulerType?: string,
-    public schedulerDate?: string,
+    public schedulerDate?: Date,
     public status?: string
   ) {}
 }

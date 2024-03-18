@@ -43,22 +43,16 @@ import { MasterDocumentTermDialogComponent } from './master-document-term-dialog
               </td>
             </ng-container>
 
-            <ng-container matColumnDef="code">
+            <ng-container matColumnDef="reminderType">
               <th mat-header-cell *matHeaderCellDef class="grid-index-left">Code</th>
               <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.code }}</td>
             </ng-container>
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Name</th>
-              <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.name }}</td>
-            </ng-container>
-            <ng-container matColumnDef="abbreviation">
-              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Abbreviation</th>
-              <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.abbreviation }}</td>
-            </ng-container>
+
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
               <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.statusId }}</td>
             </ng-container>
+
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
               <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">
@@ -67,6 +61,7 @@ import { MasterDocumentTermDialogComponent } from './master-document-term-dialog
                 </button>
               </td>
             </ng-container>
+
             <tr class="mat-row" *matNoDataRow>
               <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
             </tr>
@@ -110,6 +105,12 @@ export class MasterDocumentTermComponent extends AbstractEntityMaterialComponent
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isLoading: Observable<boolean> = this.loading$.asObservable();
+  public displayColumns: string[] = ['no', 'reminderType', 'status', 'action'];
+
+  ngOnInit(): void {
+    this.loadAll();
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
@@ -120,7 +121,48 @@ export class MasterDocumentTermComponent extends AbstractEntityMaterialComponent
     // this.loadDocumentTerm();
   }
 
-  previousState(): void {
+  // private loadDocumentTerm(): void {
+  //   this.masterDocumentTermService
+  //     .getMasterDocumentTerm()
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe(res => {
+  //       this.items = new MatTableDataSource(res);
+  //       console.log('Res', { res, item: this.items, pag: this.paginator });
+  //       this.items.paginator = this.paginator;
+  //     });
+  // }
+
+  private loadCompanyType(): void {
+    this.loading$.next(true);
+    this.masterCompanyTypeService
+      .query({
+        page: 0,
+        size: 9999,
+        sort: this.sortData(),
+      })
+      .subscribe({
+        next: res => {
+          const data = res.body || [];
+          this.items = new MatTableDataSource(data);
+          console.log('Data', { data, res, item: this.items, pag: this.paginator });
+
+          this.items.paginator = this.paginator;
+          this.loading$.next(false);
+        },
+        error: () => {
+          this.loading$.next(false);
+        },
+        complete: () => {
+          this.loading$.next(false);
+        },
+      });
+  }
+
+  protected postLoadDataLazy(): void {
+    this.loadAll();
+  }
+
+  public previousState(): void {
     window.history.back();
   }
 
@@ -153,50 +195,5 @@ export class MasterDocumentTermComponent extends AbstractEntityMaterialComponent
     });
   }
 
-  ngOnInit(): void {
-    this.loadAll();
-  }
-
-  loadDocumentTerm(): void {
-    this.masterDocumentTermService
-      .getMasterDocumentTerm()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        this.items = new MatTableDataSource(res);
-        console.log('Res', { res, item: this.items, pag: this.paginator });
-        this.items.paginator = this.paginator;
-      });
-  }
-
-  loadCompanyType(): void {
-    this.loading$.next(true);
-    this.masterCompanyTypeService
-      .query({
-        page: 0,
-        size: 9999,
-        sort: this.sortData(),
-      })
-      .subscribe({
-        next: res => {
-          const data = res.body || [];
-          this.items = new MatTableDataSource(data);
-          console.log('Data', { data, res, item: this.items, pag: this.paginator });
-
-          this.items.paginator = this.paginator;
-          this.loading$.next(false);
-        },
-        error: () => {
-          this.loading$.next(false);
-        },
-        complete: () => {
-          this.loading$.next(false);
-        },
-      });
-  }
-
-  protected postLoadDataLazy(): void {
-    this.loadAll();
-  }
-
-  public displayColumns: string[] = ['no', 'code', 'name', 'abbreviation', 'status', 'action'];
+  // public displayColumns: string[] = ['no', 'code', 'name', 'abbreviation', 'status', 'action'];
 }
