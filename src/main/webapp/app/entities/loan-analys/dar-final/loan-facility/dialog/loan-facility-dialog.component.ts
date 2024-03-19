@@ -433,7 +433,10 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
 
   public getLovSublimit() {
     for (let i = 0; i < this.creditProposalData.products.length; i++) {
-      if (this.creditProposalData.products[i].productTypeId !== '') {
+      if (
+        this.creditProposalData.products[i].productTypeId !== '' &&
+        this.creditProposalData.products[i].nomorUrutFasilitas !== this.applicationProduct.nomorUrutFasilitas
+      ) {
         this.lovSublimit.push({
           label: this.creditProposalData.products[i].productTypeId,
           index: this.creditProposalData.products[i].nomorUrutFasilitas,
@@ -885,5 +888,12 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       }
       this.applicationProduct.thruDateContract = this.dataTrhu;
     }
+  }
+
+  public disableSublimit() {
+    if (this.applicationProduct.sublimitFromExistingFacility) {
+      return false;
+    }
+    return true;
   }
 }

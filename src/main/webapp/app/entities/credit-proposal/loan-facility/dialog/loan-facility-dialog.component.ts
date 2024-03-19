@@ -486,7 +486,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public getLovSublimit() {
     for (let i = 0; i < this.creditProposalData.products.length; i++) {
-      if (this.creditProposalData.products[i].productTypeId !== '') {
+      if (
+        this.creditProposalData.products[i].productTypeId !== '' &&
+        this.creditProposalData.products[i].nomorUrutFasilitas !== this.applicationProduct.nomorUrutFasilitas
+      ) {
         this.lovSublimit.push({
           label: this.creditProposalData.products[i].productTypeId,
           index: this.creditProposalData.products[i].nomorUrutFasilitas,
@@ -1135,5 +1138,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       return true;
     }
     return false;
+  }
+
+  public disableSublimit() {
+    if (this.applicationProduct.sublimitFromExistingFacility) {
+      return false;
+    }
+    return true;
   }
 }
