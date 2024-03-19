@@ -305,10 +305,7 @@
             <div class="col-3">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Index Facility Main</mat-label>
-                <mat-select
-                  [(ngModel)]="applicationProduct.indexFacilityMain"
-                  [disabled]="applicationProduct.sublimitFromExistingFacility === ''"
-                >
+                <mat-select [(ngModel)]="applicationProduct.indexFacilityMain" [disabled]="disableSublimit()">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of lovIndex" [value]="item.index">
                     {{ item.index }}
