@@ -1173,6 +1173,9 @@ export class DppkFinalizeDetailComponent implements OnInit {
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
+    if (typeof copyCreditProposal.attributes['certificateInfoData'] !== 'string') {
+      copyCreditProposal.attributes['certificateInfoData'] = JSON.stringify(copyCreditProposal.attributes['certificateInfoData']);
+    }
 
     return copyCreditProposal;
   }
@@ -1255,13 +1258,13 @@ export class DppkFinalizeDetailComponent implements OnInit {
         this.collateral = res.body;
         if (this.collateral.length > 0) {
           for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
+            this.findCollateralProperty(this.collateral[i], i);
           }
         }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
+  public findCollateralProperty(collateral: ICollateral, i): void {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
@@ -1271,6 +1274,9 @@ export class DppkFinalizeDetailComponent implements OnInit {
         collateral.collateralTypeId === COLLATERAL_TYPE['deposit']
       ) {
         this.collateralCgpg.push(collateral);
+      }
+      if (this.collateral.length === i + 1) {
+        this.setCertificate(this.collateral);
       }
     }
   }
