@@ -907,7 +907,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
   public hiddenButton(element) {
     if (
       (element.tags.createBy === this.currentAccount.login && element.tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.DAR) ||
-      element.tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.SPPK
+      (element.tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.SPPK && element.tags.createBy === this.currentAccount.login)
     ) {
       return false;
     }
