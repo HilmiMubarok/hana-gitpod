@@ -123,7 +123,20 @@ export class BankAccountDialogComponent implements OnInit {
 
   getBankAccount() {
     this.bankAccountService.getBankAccount(this.creditProposal.cif.partyId).subscribe(res => {
-      this.bankAccountData = res.body;
+      this.bankAccountData = res.body.filter(obj => obj.statusId !== 'NON_ACTIVE');
+      if (res.body.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'Please Add Bank Account Data In IDD',
+        });
+      } else if (this.bankAccountData.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'Please Add Other Bank Account Active Data In IDD',
+        });
+      }
       if (this.editStat) {
         this.changePaymentType(this.dataApplicationPayment.paymentTypeId);
       }
