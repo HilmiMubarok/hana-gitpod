@@ -332,7 +332,7 @@ export class OfferingLetterMainComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
-
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         this.onSave('process');
       }
     });
