@@ -1268,15 +1268,15 @@ export class DppkFinalizeDetailComponent implements OnInit {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
+        if (this.collateral.length === i + 2) {
+          this.setCertificate(this.collateral);
+        }
       });
       if (
         collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee'] ||
         collateral.collateralTypeId === COLLATERAL_TYPE['deposit']
       ) {
         this.collateralCgpg.push(collateral);
-      }
-      if (this.collateral.length === i + 1) {
-        this.setCertificate(this.collateral);
       }
     }
   }
@@ -1296,8 +1296,8 @@ export class DppkFinalizeDetailComponent implements OnInit {
                   certificate.id = collateral[i].id;
                   certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
                   certificate.jangkaWaktuKepemilikan = collateral[i].attributes['landCertificates'][j].certDueDate;
-                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i]);
-                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i]);
+                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i], j);
+                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i], j);
                   this.creditProposal.attributes['certificateInfoData'].push(certificate);
                 }
               }
@@ -1380,21 +1380,21 @@ export class DppkFinalizeDetailComponent implements OnInit {
       this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
     }
   }
-  public findPropertyLand(type: string, collateral: ICollateral) {
-    this.dataLand = lodash.find(this.collateralProperties, function (o) {
+  public findPropertyLand(type: string, collateral: ICollateral, i: number) {
+    this.dataLand = lodash.filter(this.collateralProperties, function (o) {
       return o.propertyType === 'LAND' && o.collateralId === collateral.id && o.external === false;
     });
-    this.dataBuilding = lodash.find(this.collateralProperties, function (o) {
+    this.dataBuilding = lodash.filter(this.collateralProperties, function (o) {
       return o.propertyType === 'BUILDING' && o.collateralId === collateral.id && o.external === false;
     });
     if (this.dataLand) {
       if (type === 'luasTanah') {
-        return this.dataLand.landSizePerCertificate;
+        return this.dataLand[i].landSizePerCertificate;
       }
     }
     if (this.dataBuilding) {
       if (type === 'luasBangunan') {
-        return this.countTotalArea(this.dataBuilding.attributes['floors']);
+        return this.countTotalArea(this.dataBuilding[i].attributes['floors']);
       }
     }
     return '';
