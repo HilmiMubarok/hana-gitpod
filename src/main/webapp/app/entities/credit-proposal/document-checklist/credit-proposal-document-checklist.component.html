@@ -46,9 +46,7 @@
             <div *ngIf="!isOnMemoBanding">
               <div>
                 <button
-                  *ngIf="
-                    item.parentId === 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM' && isViewMode === false
-                  "
+                  *ngIf="item.parentId === 'DOC_LA' && matrix === true && creditProposal.statusCode !== 'PK_RETURN_TO_RM'"
                   mat-icon-button
                   (click)="openDialog(element, 'add', item.description)"
                 >
