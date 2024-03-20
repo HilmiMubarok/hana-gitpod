@@ -1,21 +1,24 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 import { DebtorDataService } from 'app/entities/debtor-data/debtor-data.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { PartyCifBusinessGroupDialogComponent } from './party-cif-business-group-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-party-cif-business-group',
   templateUrl: './party-cif-business-group.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifBusinessGroupComponent extends AbstractEntityMaterialComponent<IDebtorData> implements OnChanges {
+export class PartyCifBusinessGroupComponent implements OnChanges {
   public dataSource: IDebtorData[];
   private _debtorData: IDebtorData;
+  dataItem: MatTableDataSource<IDebtorData>;
+  @ViewChild('paginator') paginator: MatPaginator;
   @Input()
   get debtorData() {
     return this._debtorData;
@@ -25,13 +28,7 @@ export class PartyCifBusinessGroupComponent extends AbstractEntityMaterialCompon
   }
   // public displayedColumns: string[] = ['no', 'name', 'cif', 'action'];
   public displayedColumns: string[] = ['no', 'name', 'cif'];
-  constructor(private dialog: MatDialog, protected _snackBar: MatSnackBar, protected debtorDataService: DebtorDataService) {
-    super(_snackBar, debtorDataService);
-    this.itemsPerPage = 10;
-    this.page = 0;
-    this.predicate = 'id';
-    this.entityKeyName = 'id';
-  }
+  constructor(private dialog: MatDialog, protected _snackBar: MatSnackBar, protected debtorDataService: DebtorDataService) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['debtorData']) {
       this.loadByGroupCompanyId(this.debtorData.groupCompanyId);
@@ -42,12 +39,13 @@ export class PartyCifBusinessGroupComponent extends AbstractEntityMaterialCompon
     this.debtorDataService
       .queryFilterBy({
         idGroupCompany: id,
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
+        page: 0,
+        size: 9999,
       })
       .subscribe(res => {
         this.dataSource = res.body;
+        this.dataItem = new MatTableDataSource(this.dataSource);
+        this.dataItem.paginator = this.paginator;
       });
   }
 
@@ -81,9 +79,5 @@ export class PartyCifBusinessGroupComponent extends AbstractEntityMaterialCompon
         });
       }
     });
-  }
-
-  loadDataLazy(event?: PageEvent): void {
-    this.loadByGroupCompanyId(this.debtorData.groupCompanyId);
   }
 }
