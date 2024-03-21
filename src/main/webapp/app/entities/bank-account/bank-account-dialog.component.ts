@@ -73,8 +73,9 @@ export class BankAccountDialogComponent implements OnInit {
         page: 0,
         size: 9999,
       })
+      .pipe(map(res => res.body.filter(res_ => res_.code === '484')))
       .subscribe(res => {
-        this.dataMasterFinancialInstitution = res.body;
+        this.dataMasterFinancialInstitution = res;
         this.filteredMVOri();
         if (this.dataBankAccount.finInstituteId) {
           this.MVOriCcy = this.dataMasterFinancialInstitution.find(obj => obj.code === this.dataBankAccount.finInstituteCode);
