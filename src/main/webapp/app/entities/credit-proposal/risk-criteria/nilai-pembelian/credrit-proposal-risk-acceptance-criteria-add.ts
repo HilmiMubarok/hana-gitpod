@@ -9,6 +9,7 @@ import { map, Observable, startWith } from 'rxjs';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { INilaiRac } from './nilai-pembelian.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'jhi-nilai-pembelian-add',
@@ -32,10 +33,10 @@ export class CreditProposalRacNilaiPembelianAddComponent {
   public filteredOptionsCurrency: Observable<IUom[]>;
   public myControlCurrency = new FormControl();
   public amountCcy: IUom;
-
   public optionsCurrency: IUom[];
 
   constructor(
+    private _snackBar: MatSnackBar,
     private dialog: MatDialog,
     private uomService: UomService,
     @Inject(MAT_DIALOG_DATA)
@@ -59,7 +60,24 @@ export class CreditProposalRacNilaiPembelianAddComponent {
     this.nilaiRacA['nilaiPembelian'] = this.nilaiRac.nilaiPembelian;
     this.nilaiRacA['jenisJaminan'] = this.nilaiRac.jenisJaminan;
     this.nilaiRacA['facilityType'] = this.nilaiRac.facilityType;
+    if (!this.nilaiRacA.facilityType) {
+      this._snackBar.open('Masukan Facility type terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
     this.nilaiRacA['totalPlafond'] = this.nilaiRac.totalPlafond;
+    if (!this.nilaiRac.totalPlafond) {
+      this._snackBar.open('Masukan Total Plafond terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+
     this.nilaiRacA['keteranganJaminan'] = this.nilaiRac.keteranganJaminan;
     this.nilaiRacA['id'] = this.nilaiRac.id;
     this.nilaiRacA['ccy'] = this.nilaiRac.ccy['id'];
