@@ -74,7 +74,9 @@ export class ClausalPkDialogComponent {
         const data = res.body
           .sort((a, b) => (a.sequence > b.sequence ? 1 : -1))
           .filter((res1: any) => res1.parameterCategoryDescription === 'New');
-        this.clausalAgreement = data.filter(obj1 => !this.data.dataClausal.some(obj2 => obj2.agreementClausalParameterId === obj1.id));
+        this.clausalAgreement = data
+          .filter(obj1 => !this.data.dataClausal.some(obj2 => obj2.agreementClausalParameterId === obj1.id))
+          .filter(obj => obj.statusCode === 'ACTIVE');
       });
 
     this.creditAgreementService.agreementClausalTemplate(this.data.creditProposal.agreements[0]?.id).subscribe((res: any) => {
@@ -82,7 +84,8 @@ export class ClausalPkDialogComponent {
     });
 
     this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
-      this.addendumListActive = res.body;
+      const data: any[] = res.body;
+      this.addendumListActive = data.filter(obj => obj.statusCode === 'ACTIVE');
     });
 
     this.creditAgreementService.agreementsAddendumApplication(this.data.creditProposal.id).subscribe((res: any) => {
