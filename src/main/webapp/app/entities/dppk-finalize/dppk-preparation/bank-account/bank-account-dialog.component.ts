@@ -12,7 +12,7 @@ import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { UOM_TYPE } from 'app/shared/constants/base.constants';
-
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-bank-account-dialog',
   templateUrl: './bank-account-dialog.component.html',
@@ -55,7 +55,8 @@ export class BankAccountDialogComponent implements OnInit {
     private uomService: UomService,
     protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService,
     private router: Router,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected messageService: MessageService
   ) {
     this.creditProposal = data.creditProposal;
     this.dataApplicationPayment = data.dataPayment;
@@ -96,7 +97,15 @@ export class BankAccountDialogComponent implements OnInit {
   }
 
   public onSave() {
-    this._dialog.close(this.dataApplicationPayment);
+    if (!this.dataApplicationPayment.paymentTypeId) {
+      this.addMessage('Account Type');
+    } else if (!this.dataApplicationPayment.currencyId) {
+      this.addMessage('Currency');
+    } else if (!this.dataApplicationPayment.bankAccountId) {
+      this.addMessage('Bank Name');
+    } else {
+      this._dialog.close(this.dataApplicationPayment);
+    }
   }
 
   getPaymentType() {
@@ -114,7 +123,20 @@ export class BankAccountDialogComponent implements OnInit {
 
   getBankAccount() {
     this.bankAccountService.getBankAccount(this.creditProposal.cif.partyId).subscribe(res => {
-      this.bankAccountData = res.body;
+      this.bankAccountData = res.body.filter(obj => obj.statusId !== 'NON_ACTIVE');
+      if (res.body.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'Please Add Bank Account Data In IDD',
+        });
+      } else if (this.bankAccountData.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: 'Please Add Other Bank Account Active Data In IDD',
+        });
+      }
       if (this.editStat) {
         this.changePaymentType(this.dataApplicationPayment.paymentTypeId);
       }
@@ -183,5 +205,20 @@ export class BankAccountDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  public checkBankAccount() {
+    if (this.bankAccountData.length > 0) {
+      return false;
+    }
+    return true;
+  }
+
+  public addMessage(value: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error!',
+      detail: 'Please fill in ' + value + ' field first ',
+    });
   }
 }

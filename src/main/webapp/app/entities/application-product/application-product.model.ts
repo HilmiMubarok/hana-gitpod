@@ -131,6 +131,7 @@ export interface IApplicationProduct {
   creditTerm?: string;
   installmentType?: string;
   totalRestructure?: number;
+  jenisPengguna?: string;
 }
 
 export class ApplicationProduct implements IApplicationProduct {
@@ -259,7 +260,8 @@ export class ApplicationProduct implements IApplicationProduct {
     public avgProposedRateUSD?: string,
     public creditTerm?: string,
     public installmentType?: string,
-    public totalRestructure?: number
+    public totalRestructure?: number,
+    public jenisPengguna?: string
   ) {
     this.uniqueKey = uuid.v4();
     this.applicationType = 'New';

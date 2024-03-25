@@ -98,7 +98,7 @@
                   <button pButton type="button" (click)="onEdit(element)" class="flat-button">
                     <fa-icon icon="eye"></fa-icon>
                   </button>
-                  <button pButton type="button" (click)="onDelete(element)" class="flat-button">
+                  <button pButton type="button" (click)="onDelete(element)" class="flat-button" [hidden]="hiddenButton(element)">
                     <fa-icon icon="trash-alt"></fa-icon>
                   </button>
                 </section>

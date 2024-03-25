@@ -555,7 +555,7 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Deposito Rate (%)</mat-label>
-            <input matInput type="number" [(ngModel)]="collateralProperty.depositInterestRate" />
+            <input matInput type="number" [(ngModel)]="collateralProperty.depositInterestRate" disabled />
             <div matSuffix class="input-suffix">&nbsp;%</div>
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>

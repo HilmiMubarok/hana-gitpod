@@ -517,6 +517,7 @@ export class CreditAgreementDetailComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         console.log('resAttr', this.resAttr);
 
         if (this.validateDraft()) {
@@ -1141,7 +1142,6 @@ export class CreditAgreementDetailComponent implements OnInit {
       copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
       copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
       copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
-      copyCreditProposal.attributes['certificateInfoData'] = JSON.stringify(copyCreditProposal.attributes['certificateInfoData']);
       copyCreditProposal.attributes['collateralAfterData'] = JSON.stringify(copyCreditProposal.attributes['collateralAfterData']);
       copyCreditProposal.attributes['collateralAfterReport'] = JSON.stringify(copyCreditProposal.attributes['collateralAfterReport']);
       copyCreditProposal.attributes['collateralSummary'] = JSON.stringify(copyCreditProposal.attributes['collateralSummary']);
@@ -1149,6 +1149,10 @@ export class CreditAgreementDetailComponent implements OnInit {
 
       if (copyCreditProposal.prospectPerson) {
         copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+      }
+
+      if (typeof copyCreditProposal.attributes['certificateInfoData'] !== 'string') {
+        copyCreditProposal.attributes['certificateInfoData'] = JSON.stringify(copyCreditProposal.attributes['certificateInfoData']);
       }
 
       return copyCreditProposal;
@@ -1266,8 +1270,8 @@ export class CreditAgreementDetailComponent implements OnInit {
                   certificate.id = collateral[i].id;
                   certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
                   certificate.jangkaWaktuKepemilikan = collateral[i].attributes['landCertificates'][j].certDueDate;
-                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i]);
-                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i]);
+                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i], j);
+                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i], j);
                   this.creditProposal.attributes['certificateInfoData'].push(certificate);
                 }
               }
@@ -1350,21 +1354,21 @@ export class CreditAgreementDetailComponent implements OnInit {
       this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
     }
   }
-  public findPropertyLand(type: string, collateral: ICollateral) {
-    this.dataLand = lodash.find(this.collateralProperties, function (o) {
+  public findPropertyLand(type: string, collateral: ICollateral, i: number) {
+    this.dataLand = lodash.filter(this.collateralProperties, function (o) {
       return o.propertyType === 'LAND' && o.collateralId === collateral.id && o.external === false;
     });
-    this.dataBuilding = lodash.find(this.collateralProperties, function (o) {
+    this.dataBuilding = lodash.filter(this.collateralProperties, function (o) {
       return o.propertyType === 'BUILDING' && o.collateralId === collateral.id && o.external === false;
     });
     if (this.dataLand) {
       if (type === 'luasTanah') {
-        return this.dataLand.landSizePerCertificate;
+        return this.dataLand[i].landSizePerCertificate;
       }
     }
     if (this.dataBuilding) {
       if (type === 'luasBangunan') {
-        return this.countTotalArea(this.dataBuilding.attributes['floors']);
+        return this.countTotalArea(this.dataBuilding[i].attributes['floors']);
       }
     }
     return '';

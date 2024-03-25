@@ -387,11 +387,11 @@
           </div>
 
           <!-- compliance recomendation -->
-          <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+          <!-- <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
             <e-card>
               <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
             </e-card>
-          </div>
+          </div> -->
 
           <!-- opinion -->
           <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
@@ -445,7 +445,7 @@
         <!-- compliance recomendation -->
         <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
           <e-card>
-            <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
+            <jhi-loan-analys-compliance [creditProposal]="creditProposal" [word]="saveDoc"></jhi-loan-analys-compliance>
           </e-card>
           <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk'">
             <e-card>
@@ -462,7 +462,7 @@
         </div>
 
         <!-- opinion -->
-        <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <!-- <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
           <e-card>
             <jhi-loan-analys-opinion
               #loanAnalysOpinionComponent
@@ -479,7 +479,7 @@
             >
             </jhi-loan-analys-opinion>
           </e-card>
-        </div>
+        </div> -->
 
         <!-- compare data -->
         <div *ngIf="clickedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">

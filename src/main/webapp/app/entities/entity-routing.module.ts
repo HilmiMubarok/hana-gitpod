@@ -638,6 +638,14 @@ import { RouterModule } from '@angular/router';
         path: 'bank-account',
         loadChildren: () => import('./bank-account/bank-account.module').then(m => m.BankAccountModule),
       },
+      {
+        path: 'tbo-checking',
+        loadChildren: () => import('./tbo-legal-monitoring/tbo-checking/tbo-checking.module').then(m => m.TboCheckingModule),
+      },
+      {
+        path: 'tbo-review',
+        loadChildren: () => import('./tbo-legal-monitoring/tbo-review/tbo-review.module').then(m => m.TboReviewModule),
+      },
     ]),
   ],
 })

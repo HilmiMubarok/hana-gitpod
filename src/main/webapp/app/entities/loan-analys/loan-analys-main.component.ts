@@ -1115,6 +1115,7 @@ export class LoanAnalysMainComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         if (
           this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
           this.creditProposal.attributes['approvalStatus'] === 'Reject' &&

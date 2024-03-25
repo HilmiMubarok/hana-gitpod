@@ -13,6 +13,7 @@ import { IBankAcountModel } from 'app/entities/bank-account/bank-account.model';
 import { BankAccountService } from 'app/entities/bank-account/bank-account.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-bank-account',
@@ -44,7 +45,8 @@ export class BankAccountComponent implements OnInit {
     protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService,
     private paymentTypeService: PaymentTypeService,
     private bankAccountService: BankAccountService,
-    private router: Router
+    private router: Router,
+    protected messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -86,11 +88,22 @@ export class BankAccountComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res.id) {
-        this.applicationPaymentPreferencesService.updateData(res.id, res).subscribe();
+        this.applicationPaymentPreferencesService.updateData(res.id, res).subscribe(() => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Data has been updated',
+          });
+        });
       } else {
         this.applicationPaymentPreferencesService.createData(res).subscribe(() => {
           this.getDataApplicationPaymentReferences();
           this.getBankAccount();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Data has been added',
+          });
         });
       }
     });
@@ -115,6 +128,7 @@ export class BankAccountComponent implements OnInit {
   }
 
   getPaymentTypeFiltered() {
+    this.filteredPaymentType = [];
     if (this.paymentType.length > 0) {
       for (let i = 0; i < this.paymentType.length; i++) {
         const filteredPaymentRef = this.dataSource.filter(obj => obj.paymentTypeId === this.paymentType[i].id);

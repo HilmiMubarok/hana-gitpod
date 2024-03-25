@@ -8,13 +8,14 @@
           required
           [(ngModel)]="dataApplicationPayment.paymentTypeId"
           (selectionChange)="changePaymentType($event.value)"
-          [disabled]="editStat"
+          [disabled]="editStat || checkBankAccount()"
         >
           <mat-option value="">- Please Select -</mat-option>
           <mat-option *ngFor="let item of dataFilteredPaymentType" [value]="item.id">
             {{ item.description }}
           </mat-option>
         </mat-select>
+        <mat-hint align="end" [hidden]="!checkBankAccount()">*) Disabled, Please Add Bank Account Data In IDD</mat-hint>
       </mat-form-field>
     </section>
     <section *ngIf="conditionReviewDppk()">
@@ -29,12 +30,18 @@
     <section *ngIf="!conditionReviewDppk()">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Currency</mat-label>
-        <mat-select required [(ngModel)]="dataApplicationPayment.currencyId" (selectionChange)="changeCurrency($event.value)">
+        <mat-select
+          required
+          [(ngModel)]="dataApplicationPayment.currencyId"
+          (selectionChange)="changeCurrency($event.value)"
+          [disabled]="checkBankAccount() || !dataApplicationPayment.paymentTypeId"
+        >
           <mat-option value="">- Please Select -</mat-option>
           <mat-option *ngFor="let item of currencyData" [value]="item.id">
             {{ item.id }}
           </mat-option>
         </mat-select>
+        <mat-hint align="end" [hidden]="dataApplicationPayment.paymentTypeId">*) Disabled, Please Sellect Account Type First!</mat-hint>
       </mat-form-field>
     </section>
     <section *ngIf="conditionReviewDppk()">
@@ -49,12 +56,18 @@
     <section *ngIf="!conditionReviewDppk()">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Bank Name</mat-label>
-        <mat-select required (selectionChange)="changeBankAccount($event.value)" [(ngModel)]="dataApplicationPayment.bankAccountId">
+        <mat-select
+          [disabled]="checkBankAccount() || !dataApplicationPayment.currencyId"
+          required
+          (selectionChange)="changeBankAccount($event.value)"
+          [(ngModel)]="dataApplicationPayment.bankAccountId"
+        >
           <mat-option value="">- Please Select -</mat-option>
           <mat-option *ngFor="let item of filteredBankAccountCurrency" [value]="item.id">
             {{ item.finInstituteName }} - {{ item.accountNumber }}
           </mat-option>
         </mat-select>
+        <mat-hint align="end" [hidden]="dataApplicationPayment.currencyId">*) Disabled, Please Sellect Currency First</mat-hint>
       </mat-form-field>
     </section>
     <section *ngIf="conditionReviewDppk()">
@@ -87,7 +100,7 @@
   <section class="align-center" *ngIf="!conditionReviewDppk()">
     <div class="mt-3 text-center">
       <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-      <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
+      <button mat-raised-button class="confirm-button-yes" (click)="onSave()" [hidden]="checkBankAccount()">Save</button>
     </div>
   </section>
   <section class="align-center" *ngIf="conditionReviewDppk()">

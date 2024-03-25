@@ -530,6 +530,10 @@ import { CollateralInfoRemarksInformationLoanOpsComponent } from './loan-operati
 import { CollateralInfoRemarksLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-loan-ops.component';
 import { MappingFacilityLoanOpsComponent } from './loan-operation/collateral-info/mapping/mapping-facility-loan-ops.component';
 import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facility/credit-proposal-loan-facility-template.contstants';
+import { GenerateTboLegalMonitoringComponent } from './tbo-legal-monitoring/generate-tbo-legal-monitoring/generate-tbo-legal-monitoring.component';
+import { TboLegalMonitoringComponent } from './tbo-legal-monitoring/tbo-monitoring/tbo-legal-monitoring.component';
+import { HistoryTBOComponent } from './tbo-legal-monitoring/history-tbo/history-tbo.component';
+import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collateral-info/dialog/collateral-info-dialog-loan-ops.component';
 
 @NgModule({
   imports: [
@@ -1075,6 +1079,15 @@ import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facil
     DialogInternalMemoComponent,
     DialogInternalMemoLoanOperationComponent,
 
+    // generate tbo monitoring
+    GenerateTboLegalMonitoringComponent,
+
+    // tbo-legal-monitoring
+    TboLegalMonitoringComponent,
+
+    // history-tbo
+    HistoryTBOComponent,
+
      // Document Legal DPDL
     DocumentLegalUploadComponent,
     DocumentLegalUploadLoanOperationComponent,
@@ -1143,6 +1156,7 @@ import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facil
     CollateralInfoRemarksInformationLoanOpsComponent,
     CollateralInfoRemarksLoanOpsComponent,
     MappingFacilityLoanOpsComponent,
+    CollateralInfoDialogLoanOpsComponent,
     ...LoanOperationLoanFacilityTemplate
   ],
   exports: [
@@ -1639,6 +1653,15 @@ import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facil
     DialogInternalMemoComponent,
     DialogInternalMemoLoanOperationComponent,
 
+    // generate tbo monitoring
+    GenerateTboLegalMonitoringComponent,
+
+    // tbo-legal-monitoring
+    TboLegalMonitoringComponent,
+
+    // history-tbo
+    HistoryTBOComponent,
+
     // Document Legal DPDL
     DocumentLegalUploadComponent,
     DocumentLegalUploadLoanOperationComponent,
@@ -1711,6 +1734,7 @@ import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facil
     CollateralInfoRemarksInformationLoanOpsComponent,
     CollateralInfoRemarksLoanOpsComponent,
     MappingFacilityLoanOpsComponent,
+    CollateralInfoDialogLoanOpsComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

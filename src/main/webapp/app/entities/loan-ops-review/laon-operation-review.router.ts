@@ -407,22 +407,7 @@ export class LoanOpsReviewResolve implements Resolve<ILoanOPSReview> {
             }
 
             // Assign To Phase 2
-            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToLoanOpsSpv')) {
-              creditProposal.body.attributes['dataAssignToLoanOpsSpv'] = [];
-              creditProposal.body.attributes['dataAssignToLoanOpsSpv'].push(new DocumentData());
-            } else {
-              creditProposal.body.attributes['dataAssignToLoanOpsSpv'] = JSON.parse(
-                creditProposal.body.attributes['dataAssignToLoanOpsSpv']
-              );
-            }
-            if (!lodash.has(creditProposal.body.attributes, 'dataAssignToLoanOpsAdmin')) {
-              creditProposal.body.attributes['dataAssignToLoanOpsAdmin'] = [];
-              creditProposal.body.attributes['dataAssignToLoanOpsAdmin'].push(new DocumentData());
-            } else {
-              creditProposal.body.attributes['dataAssignToLoanOpsAdmin'] = JSON.parse(
-                creditProposal.body.attributes['dataAssignToLoanOpsAdmin']
-              );
-            }
+
             if (!lodash.has(creditProposal.body.attributes, 'dataAssignToLoanOpsOfficer')) {
               creditProposal.body.attributes['dataAssignToLoanOpsOfficer'] = [];
               creditProposal.body.attributes['dataAssignToLoanOpsOfficer'].push(new DocumentData());

@@ -65,7 +65,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Facility Type</mat-label>
-            <input matInput type="text" [(ngModel)]="nilaiRac.facilityType" />
+            <input matInput type="text" required [(ngModel)]="nilaiRac.facilityType" />
           </mat-form-field>
         </div>
       </div>
@@ -100,6 +100,7 @@
             placeholder="Total Plafond"
             format="{{ logoProvisonFee }}"
             maxLength="16"
+            required
             style="height: 4em"
           ></ejs-numerictextbox>
         </div>

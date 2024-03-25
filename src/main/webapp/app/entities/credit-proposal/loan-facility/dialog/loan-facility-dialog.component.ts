@@ -272,6 +272,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   // Code Lov get General Parameter  List Of Value Improvement Phase 1
   public interestTypeList = [];
   public installmentTypeList = [];
+  public jenisPenggunaList = [];
   public creditTermList = [];
   public installmentMethodList = [];
   public lovDisbursementLegalList = [];
@@ -351,6 +352,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.updateFormat(this.selectedType, this.selectedCurrency);
     this.lovInstalmentType();
     this.lovCreditTermList();
+    this.lovJenisPengguna();
 
     if (!this.applicationProduct.commitedLine) {
       this.applicationProduct.commitedLine = false;
@@ -486,7 +488,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public getLovSublimit() {
     for (let i = 0; i < this.creditProposalData.products.length; i++) {
-      if (this.creditProposalData.products[i].productTypeId !== '') {
+      if (
+        this.creditProposalData.products[i].productTypeId !== '' &&
+        this.creditProposalData.products[i].nomorUrutFasilitas !== this.applicationProduct.nomorUrutFasilitas
+      ) {
         this.lovSublimit.push({
           label: this.creditProposalData.products[i].productTypeId,
           index: this.creditProposalData.products[i].nomorUrutFasilitas,
@@ -621,7 +626,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
     const subroutes = queryParam.get('subroute');
     // Condition Offering Letter in Route Finalize
-    if (this.parentPath === 'finalize') {
+    if (this.parentPath === 'finalize' || this.parentPath === 'finalize-dppk') {
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
       if (this.selectedMenu === 'loan-facility-detail') {
         this.textBoxHidden = false;
@@ -629,7 +634,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.statusDisabledOffering = false;
         this.paymentIDR = true;
         // If the Menu Compare Approval Report field can be displayed and cannot be changed
-      } else if (this.selectedMenu === 'compare-approval-report') {
+      } else if (this.selectedMenu === 'compare-approval-report' || this.selectedMenu === 'loan-facility') {
         this.textBoxHidden = false;
         this.checklissHidden = true;
         this.statusDisabledOffering = true;
@@ -852,6 +857,20 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       })
       .subscribe(res => {
         this.installmentTypeList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public lovJenisPengguna() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'JENIS_PENGGUNA',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.jenisPenggunaList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
       });
@@ -1135,5 +1154,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       return true;
     }
     return false;
+  }
+
+  public disableSublimit() {
+    if (this.applicationProduct.sublimitFromExistingFacility) {
+      return false;
+    }
+    return true;
   }
 }

@@ -297,8 +297,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
                   certificate.id = collateral[i].id;
                   certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
                   certificate.jangkaWaktuKepemilikan = collateral[i].attributes['landCertificates'][j].certDueDate;
-                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i]);
-                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i]);
+                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i], j);
+                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i], j);
                   this.creditProposal.attributes['certificateInfoData'].push(certificate);
                 }
               }
@@ -381,21 +381,21 @@ export class DpdlFinalizeViewComponent implements OnInit {
       this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
     }
   }
-  public findPropertyLand(type: string, collateral: ICollateral) {
-    this.dataLand = lodash.find(this.collateralProperties, function (o) {
+  public findPropertyLand(type: string, collateral: ICollateral, i: number) {
+    this.dataLand = lodash.filter(this.collateralProperties, function (o) {
       return o.propertyType === 'LAND' && o.collateralId === collateral.id && o.external === false;
     });
-    this.dataBuilding = lodash.find(this.collateralProperties, function (o) {
+    this.dataBuilding = lodash.filter(this.collateralProperties, function (o) {
       return o.propertyType === 'BUILDING' && o.collateralId === collateral.id && o.external === false;
     });
     if (this.dataLand) {
       if (type === 'luasTanah') {
-        return this.dataLand.landSizePerCertificate;
+        return this.dataLand[i].landSizePerCertificate;
       }
     }
     if (this.dataBuilding) {
       if (type === 'luasBangunan') {
-        return this.countTotalArea(this.dataBuilding.attributes['floors']);
+        return this.countTotalArea(this.dataBuilding[i].attributes['floors']);
       }
     }
     return '';
@@ -816,7 +816,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
           if (this.parentPath === 'finalize-dpdl') {
             this.saveApplicationRole();
           } else {
-            this.dpdlFinalizeProcessSercvice.processTask(this.resAttr, 'collateralInsurance').subscribe(() => {
+            this.dpdlFinalizeProcessSercvice.processTask(this.resAttr).subscribe(() => {
               this.router.navigate([this.router.url.split('/')[1]]);
             });
           }
@@ -887,7 +887,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
-          this.dpdlFinalizeProcessSercvice.processTask(this.resAttr, 'collateralInsurance').subscribe(() => {
+          this.dpdlFinalizeProcessSercvice.processTask(this.resAttr).subscribe(() => {
             this.router.navigate([this.router.url.split('/')[1]]);
           });
         }
@@ -1249,7 +1249,6 @@ export class DpdlFinalizeViewComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
-        this.resAttr.attr.idApplication = this.creditProposal.id;
         let init = 0;
         let change = 0;
 
@@ -1262,6 +1261,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         // Validasi Draft
         if (this.validateDraft()) {
           // Validasi Final
@@ -1428,12 +1428,16 @@ export class DpdlFinalizeViewComponent implements OnInit {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
 
+    if (typeof copyCreditProposal.attributes['certificateInfoData'] !== 'string') {
+      copyCreditProposal.attributes['certificateInfoData'] = JSON.stringify(copyCreditProposal.attributes['certificateInfoData']);
+    }
+
     return copyCreditProposal;
   }
 
   private saveApplicationRole(): void {
     this.saveWord = false;
-    this.dpdlFinalizeProcessSercvice.processTask(this.resAttr, 'collateralInsurance').subscribe(() => {
+    this.dpdlFinalizeProcessSercvice.processTask(this.resAttr).subscribe(() => {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
   }

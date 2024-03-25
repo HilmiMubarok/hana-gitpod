@@ -103,6 +103,9 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     if (this.tempRouter === 'review-dppk') {
       this.disabledCompliance = true;
     }
+    if (this.tempRouter === 'loan-ops-distribution') {
+      this.disabledCompliance = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
