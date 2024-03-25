@@ -164,12 +164,16 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   private setMenu(menusData: any): void {
     let orderNum = 0;
     let parentMenus = [];
+    let parentMenusLength = 0;
+    const filteredParentMenus = [];
+    let filteredParentMenusLength = 0;
     const dataSourceTemp = [];
 
     menusData.forEach(menu => {
       orderNum++;
       parentMenus.push({
         id: menu.parentMenuItemId,
+        menuItemId: menu.menuItemId,
         descripton: menu.parentMenuItemDescription,
         icon: menu.parentMenuItemIcon,
         order: orderNum,
@@ -177,7 +181,28 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     });
     parentMenus = lodash.uniqBy(parentMenus, 'id');
     parentMenus.sort((a, b) => (a.order > b.order ? 1 : -1));
-    parentMenus.forEach(parentMenu => {
+    parentMenusLength = parentMenus.length;
+
+    for (let x = 0; x < parentMenus.length; x++) {
+      filteredParentMenus.push(parentMenus[x]);
+    }
+    filteredParentMenusLength = filteredParentMenus.length;
+
+    console.log('paretnMenu', parentMenus);
+
+    for (let x = filteredParentMenusLength - 1; x >= 0; x--) {
+      for (let y = 0; y < parentMenusLength; y++) {
+        if (parentMenus[y].menuItemId === filteredParentMenus[x].id) {
+          filteredParentMenus.splice(x, 1);
+          parentMenusLength = parentMenusLength - 1;
+        }
+      }
+    }
+
+    console.log('filteredParentMenus', filteredParentMenus);
+
+    // parentMenus.forEach(parentMenu => {
+    filteredParentMenus.forEach(parentMenu => {
       dataSourceTemp.push({
         name: parentMenu.descripton,
         iconname: parentMenu.icon,
