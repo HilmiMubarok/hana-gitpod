@@ -188,8 +188,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
     filteredParentMenusLength = filteredParentMenus.length;
 
-    console.log('paretnMenu', parentMenus);
-
     for (let x = filteredParentMenusLength - 1; x >= 0; x--) {
       for (let y = 0; y < parentMenusLength; y++) {
         if (parentMenus[y].menuItemId === filteredParentMenus[x].id) {
@@ -198,8 +196,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
-    console.log('filteredParentMenus', filteredParentMenus);
 
     // parentMenus.forEach(parentMenu => {
     filteredParentMenus.forEach(parentMenu => {
