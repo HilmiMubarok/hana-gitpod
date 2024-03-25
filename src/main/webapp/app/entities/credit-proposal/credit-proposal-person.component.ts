@@ -141,7 +141,6 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     this.lovCallreport();
     this.getLov();
     this.lovPep();
-    this.myFunction();
     this.masterInitialDebtorDataService.getMaritalStatus().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.maritalStatuses = res.body;
     });
