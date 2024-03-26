@@ -136,6 +136,7 @@ export class LoanOperationDetailComponent implements OnInit {
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
+  public menu;
 
   public creditProposal: ILoanOPS;
   public creditProposalStartState: ILoanOPS;
@@ -177,6 +178,7 @@ export class LoanOperationDetailComponent implements OnInit {
 
   private BUCKET: string;
   public sectorIndustry = [];
+  public menuListOpsDistribution = [];
 
   public opinionFileSfdt: File;
   public opinionFileWord: File;
@@ -236,15 +238,11 @@ export class LoanOperationDetailComponent implements OnInit {
       this.id = params['id'];
     });
 
-    this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
-      ? // ? [...BASIC_SUBMENU_CREDITAGREEMENT, { id: 'memo-banding', text: 'Memo Banding' }]
-        BASIC_SUBMENU_LOAN_OPS_DIST_MEMO
-      : BASIC_SUBMENU_LOAN_OPS_DIST;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
 
     this.activeRoute = this.router.url.replace(/\//g, '');
-    this.clickedMenu = 'dar-summary';
+    this.clickedMenu = 'lod-darsummary';
     this.url = this.parentPath;
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -549,7 +547,7 @@ export class LoanOperationDetailComponent implements OnInit {
   public routeSubMenu(menu: object): void {
     const routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
-    this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate([routeHelper], { queryParams: { subroute: menu['menuItemcode'] } });
   }
 
   public previousState(): void {
@@ -1267,23 +1265,34 @@ export class LoanOperationDetailComponent implements OnInit {
   }
 
   public showTextMenu(): void {
-    if (this.subMenu.length > 1) {
-      const menuList = [];
-      menuList.push(this.subMenu);
-      for (let i = 0; i < menuList.length; i++) {
-        for (let x = 0; x < menuList[i].length; x++) {
-          if (this.clickedMenu === menuList[i][x].id) {
-            this.headerTitle = menuList[i][x].text;
-          } else {
-            for (let y = 0; y < menuList[i][x].child?.length; y++) {
-              if (this.clickedMenu === menuList[i][x].child[y].id) {
-                this.headerTitle = menuList[i][x].child[y].text;
+    this.loanOperationService
+      .getSubMenu()
+      .pipe(
+        map(resArt => resArt.filter(res => res.parentMenuItemCode === 'loan-ops-distribution')),
+        map(resArt =>
+          !this.creditProposal.attributes['previousOfferingLetter'] ? resArt.filter(data => data.menuItemId !== 'LOD_MEMOBANDING') : resArt
+        )
+      )
+      .subscribe(resArt => {
+        this.subMenu = resArt;
+        if (this.subMenu.length > 1) {
+          const menuList = [];
+          menuList.push(this.subMenu);
+          for (let i = 0; i < menuList.length; i++) {
+            for (let x = 0; x < menuList[i].length; x++) {
+              if (this.clickedMenu === menuList[i][x].menuItemcode) {
+                this.headerTitle = menuList[i][x].menuItemDescription;
+              } else {
+                for (let y = 0; y < menuList[i][x].child?.length; y++) {
+                  if (this.clickedMenu === menuList[i][x].child[y].menuItemcode) {
+                    this.headerTitle = menuList[i][x].child[y].menuItemDescription;
+                  }
+                }
               }
             }
           }
         }
-      }
-    }
+      });
   }
 
   // disabledProptype() {
