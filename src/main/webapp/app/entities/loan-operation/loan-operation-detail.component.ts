@@ -238,10 +238,6 @@ export class LoanOperationDetailComponent implements OnInit {
       this.id = params['id'];
     });
 
-    /* this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
-      ? // ? [...BASIC_SUBMENU_CREDITAGREEMENT, { id: 'memo-banding', text: 'Memo Banding' }]
-        BASIC_SUBMENU_LOAN_OPS_DIST_MEMO
-      : BASIC_SUBMENU_LOAN_OPS_DIST; */
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
 
