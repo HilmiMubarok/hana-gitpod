@@ -1171,9 +1171,9 @@
           <mat-form-field class="w-100" appearance="outline">
             <!-- Jenis pengguna -->
             <mat-label>Jenis Pengguna</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.jenisPengguna">
+            <mat-select [(ngModel)]="applicationProduct.jenisPenggunaCode" (selectionChange)="changePengguna()">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of jenisPenggunaList" [value]="item.value">
+              <mat-option *ngFor="let item of jenisPenggunaList" [value]="item.code">
                 {{ item.value }}
               </mat-option>
             </mat-select>
@@ -1205,7 +1205,7 @@
             <div class="col-3">Jenis pengguna</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ applicationProduct.jenisPengguna }}
+              {{ applicationProduct.jenisPenggunaValue }}
             </div>
           </div>
         </section>
