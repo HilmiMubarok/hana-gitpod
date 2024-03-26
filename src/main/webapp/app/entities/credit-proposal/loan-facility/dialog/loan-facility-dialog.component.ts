@@ -1162,4 +1162,13 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     }
     return true;
   }
+
+  public changePengguna() {
+    if (this.applicationProduct.jenisPenggunaCode) {
+      this.applicationProduct.jenisPenggunaId = this.jenisPenggunaList.find(
+        obj => obj.code === this.applicationProduct.jenisPenggunaCode
+      ).id;
+      console.log(this.applicationProduct.jenisPenggunaId);
+    }
+  }
 }
