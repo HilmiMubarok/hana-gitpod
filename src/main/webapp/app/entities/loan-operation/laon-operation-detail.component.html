@@ -232,7 +232,7 @@
       <div class="row">
         <div class="col-md-12">
           <!-- Start Dar Summary -->
-          <div *ngIf="clickedMenu === 'dar-summary'" class="wrapper-card">
+          <div *ngIf="clickedMenu === 'lod-darsummary'" class="wrapper-card">
             <!-- RM -->
             <div class="wrapper-card">
               <e-card class="mb-3">
@@ -342,7 +342,7 @@
           </div>
 
           <!-- loan facility detail -->
-          <div *ngIf="clickedMenu === 'loan-facility'">
+          <div *ngIf="clickedMenu === 'lod-loan-facility'">
             <jhi-loan-operation-loan-facility-detail
               [creditProposal]="creditProposal"
               [isLabel]="isLabelRo"
@@ -352,7 +352,7 @@
           </div>
 
           <!-- dppk finalize -->
-          <div *ngIf="clickedMenu === 'dppk'">
+          <div *ngIf="clickedMenu === 'lod-dppk'">
             <jhi-dppk-finalize-loan-operation
               [isLabel]="isLabelRo"
               [isElement]="isElRo"
@@ -360,7 +360,7 @@
             ></jhi-dppk-finalize-loan-operation>
           </div>
 
-          <div *ngIf="clickedMenu === 'insurance-information'">
+          <div *ngIf="clickedMenu === 'lod-insurance'">
             <jhi-insurance-information [creditProposal]="creditProposal" [isViewMode]="true"> </jhi-insurance-information>
           </div>
 
@@ -369,7 +369,7 @@
           </div>
 
           <!--- collateral info -->
-          <div *ngIf="clickedMenu === 'collateral-info'">
+          <div *ngIf="clickedMenu === 'lod-collateral-info'">
             <section class="wrapper-card">
               <e-card>
                 <jhi-collateral-info-loan-ops
@@ -387,14 +387,14 @@
           </div>
 
           <!-- compliance recomendation -->
-          <!-- <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+          <div *ngIf="clickedMenu === 'lod-compliance'" class="e-sample-resize-container e-card-resize-container wrapper-card">
             <e-card>
               <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
             </e-card>
-          </div> -->
+          </div>
 
           <!-- opinion -->
-          <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+          <div *ngIf="clickedMenu === 'lod-credit-opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
             <e-card>
               <jhi-loan-analys-opinion
                 #loanAnalysOpinionComponent
@@ -414,14 +414,14 @@
           </div>
 
           <!-- covenant-temp -->
-          <div *ngIf="clickedMenu === 'covenant-temp'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+          <div *ngIf="clickedMenu === 'lod-covenant-tbo'" class="e-sample-resize-container e-card-resize-container wrapper-card">
             <e-card>
               <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
             </e-card>
           </div>
 
           <!-- compare data -->
-          <div *ngIf="clickedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+          <div *ngIf="clickedMenu === 'lod-compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">
             <e-card>
               <jhi-compare-data
                 [creditProposal]="creditProposal"
@@ -433,7 +433,7 @@
         </div>
 
         <!-- Memo Banding -->
-        <div *ngIf="clickedMenu === 'memo-banding'">
+        <div *ngIf="clickedMenu === 'lod-memo-banding'">
           <jhi-credit-proposal-memo-banding
             #CPMemoBandingRemarkComponent
             [saveWordMinio]="saveWord"
@@ -443,7 +443,7 @@
         </div>
 
         <!-- compliance recomendation -->
-        <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <div *ngIf="clickedMenu === 'lod-compliance'" class="e-sample-resize-container e-card-resize-container wrapper-card">
           <e-card>
             <jhi-loan-analys-compliance [creditProposal]="creditProposal" [word]="saveDoc"></jhi-loan-analys-compliance>
           </e-card>
@@ -462,7 +462,7 @@
         </div>
 
         <!-- opinion -->
-        <!-- <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <div *ngIf="clickedMenu === 'lod-credit-opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
           <e-card>
             <jhi-loan-analys-opinion
               #loanAnalysOpinionComponent
@@ -479,10 +479,11 @@
             >
             </jhi-loan-analys-opinion>
           </e-card>
-        </div> -->
+        </div>
+        -->
 
         <!-- compare data -->
-        <div *ngIf="clickedMenu === 'compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <div *ngIf="clickedMenu === 'lod-compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">
           <e-card>
             <jhi-compare-data
               [creditProposal]="creditProposal"
@@ -493,7 +494,7 @@
         </div>
 
         <!-- DPDL-LEGAL-DOCUMENT -->
-        <div *ngIf="clickedMenu === 'dpdl-loan-operation'">
+        <div *ngIf="clickedMenu === 'lod-dpdl'">
           <jhi-dpdl-document-loan-operation [creditProposal]="creditProposal"> </jhi-dpdl-document-loan-operation>
         </div>
       </div>
@@ -533,7 +534,7 @@
             href="javascript:void(0)"
             class="text-capitalize"
             (click)="routeSubMenu(item); drawer.toggle(); triggerToggle()"
-            >{{ item.text }}</a
+            >{{ item.menuItemDescription }}</a
           >
         </mat-list-item>
         <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
