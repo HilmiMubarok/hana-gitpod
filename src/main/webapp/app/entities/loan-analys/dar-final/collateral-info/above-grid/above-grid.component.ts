@@ -23,6 +23,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 import { CollateralInfoDialogTempComponent } from '../dialog/collateral-info-dialog-temp.component';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { Subject, takeUntil } from 'rxjs';
+import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
 
 @Component({
   selector: 'jhi-above-grid-dar-final',
@@ -821,7 +822,12 @@ export class AboveGridDarFinalComponent
     return result;
   }
 
-  public openResult(element: ICollateral) {}
+  public openResult(element: ICollateral) {
+    const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
+      width: '80vw',
+      data: { collateral: element },
+    });
+  }
   public slideChange($event) {
     if (this.isChecked === true) {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';

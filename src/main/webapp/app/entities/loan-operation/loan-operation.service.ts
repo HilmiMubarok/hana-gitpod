@@ -16,6 +16,7 @@ import { ILoanOPS } from './loan-operation.model';
 export class LoanOperationService extends AbstractEntityService<ILoanOPS> {
   public statRemarkBusinessActivity;
   public partySliks = [];
+  public resourceSubMenuApp: any;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.statRemarkBusinessActivity = '';
@@ -26,6 +27,7 @@ export class LoanOperationService extends AbstractEntityService<ILoanOPS> {
     this.resourceRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs/cif');
     this.resouceGridRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/fin-statements/cif/');
     this.resourceFacility = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.HEIMDALL + '/api/partner-source-ep/');
+    this.resourceSubMenuApp = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-position-type');
   }
 
   public totalChanges: Subject<any> = new Subject();
@@ -201,5 +203,9 @@ export class LoanOperationService extends AbstractEntityService<ILoanOPS> {
 
   public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
+  }
+
+  public getSubMenu(): Observable<any[]> {
+    return this.http.get<any>(`${this.resourceSubMenuApp}/filterBy?positionTypeId=LOAN_OPS_ADMIN&page=0&size=999&sort=ASC`);
   }
 }

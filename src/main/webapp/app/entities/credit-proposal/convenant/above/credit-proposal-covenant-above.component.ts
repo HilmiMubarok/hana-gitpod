@@ -108,7 +108,7 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
         } else {
           for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
             this.standardDataGridAbove[i] = {
-              covenant: this.standardDataGridAbove[i].covenant,
+              covenant: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].covenant,
               deviation: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].deviation,
               id: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].id,
               justification: this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].justification,
