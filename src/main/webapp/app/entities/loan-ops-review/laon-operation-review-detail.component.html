@@ -135,7 +135,6 @@
                         name="proposalType"
                         [(ngModel)]="creditProposal.attributes.proposalType"
                         required
-                        [disabled]="disabledProptype()"
                         (selectionChange)="setSubmenu($event.value)"
                       >
                         <mat-option value="">- Please select proposal type -</mat-option>

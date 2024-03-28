@@ -254,7 +254,7 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
     });
   }
   public conditionSaveBtn() {
-    if (this.router.url.includes('loan-ops-distribution')) {
+    if (this.router.url.includes('loan-ops-checking')) {
       if (this.positionTypeId === 'BM') {
         if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
           this.conditionSave = true;
