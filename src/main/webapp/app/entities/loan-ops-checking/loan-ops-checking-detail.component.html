@@ -115,7 +115,7 @@
                       floatLabelType="Auto"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isElement">
+                  <section *ngIf="isLabel">
                     <div class="fontsebled row">
                       <div class="col-4">Customer Name</div>
                       <div class="col-md-auto">:</div>
@@ -135,7 +135,6 @@
                         name="proposalType"
                         [(ngModel)]="creditProposal.attributes.proposalType"
                         required
-                        [disabled]="disabledProptype()"
                         (selectionChange)="setSubmenu($event.value)"
                       >
                         <mat-option value="">- Please select proposal type -</mat-option>
@@ -516,7 +515,8 @@
           {{ task.caption }}
         </button>
 
-        <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
+        <!-- <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button> -->
+        <button class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
     </div>
     <!-- End Action -->

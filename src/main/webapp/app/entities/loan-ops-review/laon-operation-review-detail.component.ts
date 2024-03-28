@@ -1271,13 +1271,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     }
   }
 
-  // disabledProptype() {
-  //   if (this.parentPath === 'cp-status-approval') {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   getTitleUrl() {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
 
