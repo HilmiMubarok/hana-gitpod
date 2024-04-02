@@ -1274,6 +1274,7 @@ export class LoanOperationDetailComponent implements OnInit {
         )
       )
       .subscribe(resArt => {
+        resArt.sort((a, b) => a.menuItemSequence - b.menuItemSequence);
         this.subMenu = resArt;
         if (this.subMenu.length > 1) {
           const menuList = [];
