@@ -465,22 +465,26 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
   public isSMEHead(): any {
     return this.account.authorities.includes('ROLE_SME_HEAD');
   }
-  public openCancelDialog(id): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '25vw',
-      data: {
-        title: '',
-        message: 'Sure To Execute Data?',
-      },
-      panelClass: 'custom-dialog-container-cancel',
-    });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        // console.log('res', res)
-        this.dppkFinalizeService.getRoleActive(id, this.positionIdLocStor, this.getLocStor('POSO')).subscribe(() => {
-          this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']);
-        });
-      }
-    });
+  public openCancelDialog(id, element): void {
+    if (element.listOfPic.length > 1 && element.statusDescription === 'DPPK Finalize') {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '25vw',
+        data: {
+          title: '',
+          message: 'Sure To Execute Data?',
+        },
+        panelClass: 'custom-dialog-container-cancel',
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          console.log('element', element);
+          this.dppkFinalizeService.getRoleActive(id, this.positionIdLocStor, this.getLocStor('POSO')).subscribe(() => {
+            this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']);
+          });
+        }
+      });
+    } else {
+      this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']);
+    }
   }
 }
