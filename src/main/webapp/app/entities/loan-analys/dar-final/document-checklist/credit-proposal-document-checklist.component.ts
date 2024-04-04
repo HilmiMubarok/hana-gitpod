@@ -86,7 +86,17 @@ export class DocumentChecklistTempComponent implements OnInit {
   }
 
   public checkMatrixDPPK() {
-    this.showDPPK = this.router.url.includes('dppk') ? true : false;
+    switch (true) {
+      case this.router.url.includes('dppk'):
+        this.showDPPK = true;
+        break;
+      case this.router.url.includes('loan-ops'):
+        this.showDPPK = true;
+        break;
+      default:
+        this.showDPPK = false;
+        break;
+    }
     if (this.router.url.includes('finalize-dppk')) {
       const argsEditable: boolean = this.getRole() === 'CREDIT_ADMIN';
       this.dppkEditable = argsEditable;
