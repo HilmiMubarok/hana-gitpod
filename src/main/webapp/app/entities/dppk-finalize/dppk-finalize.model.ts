@@ -56,6 +56,7 @@ export interface IDppkFinalize extends ILoanApplication {
   annualSales?: number;
   capitalDeposit?: number;
   debtorCategory?: string;
+  listOfPic?: any;
   entityProperties?: IEntityProperties[];
 }
 
