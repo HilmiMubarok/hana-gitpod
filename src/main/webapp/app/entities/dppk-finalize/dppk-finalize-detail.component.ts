@@ -546,12 +546,17 @@ export class DppkFinalizeDetailComponent implements OnInit {
   }
 
   private getTasks(): void {
+    if (this.getLocStor('POSOPARID') !== this.creditProposal.listOfPic[0].partyId) {
+      this.tasks = [];
+    } else {
+      this.dppkFinalizeProcessService
+        .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
+        .subscribe(res => {
+          this.tasks = res.body;
+        });
+    }
+
     // this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
-    this.dppkFinalizeProcessService
-      .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
-      .subscribe(res => {
-        this.tasks = res.body;
-      });
   }
 
   public processTask(task: IProcessTask): void {

@@ -35,6 +35,7 @@ export class NavbarComponent implements OnInit {
   private cNamePos = 'POS';
   private cNamePosO = 'POSO';
   private cNamePosOD = 'POSOD';
+  private cNamePosOPARID = 'POSOPARID';
   private cNameInt = 'INT';
   private durationInSecond: Number = 2;
   protected horizontalPosition: MatSnackBarHorizontalPosition = 'right';
@@ -103,8 +104,9 @@ export class NavbarComponent implements OnInit {
 
       this.positionName = 'Not Registered Position';
       this.setCookie(this.cNamePos, '', this.positionName);
-	  this.setCookie(this.cNamePosO, '', this.positionName);
-	  this.setCookie(this.cNamePosOD, '', this.positionName);
+      this.setCookie(this.cNamePosO, '', this.positionName);
+      this.setCookie(this.cNamePosOD, '', this.positionName);
+      this.setCookie(this.cNamePosOPARID, '', this.positionName);
 
       this.internalName = 'Not Registered Internal';
       this.setCookie(this.cNameInt, '', this.internalName);
@@ -128,6 +130,7 @@ export class NavbarComponent implements OnInit {
         let internalName = '';
         let positionTypeId = '';
         let positionActive = 0;
+        let positionPartyId = '';
 
         while (!isFirstPosActive && i < res.body[0].positions.length) {
           if (res.body[0].positions[i].statusCode === 'ACTIVE' || res.body[0].positions[i].statusId === 'ACTIVE') {
@@ -135,6 +138,7 @@ export class NavbarComponent implements OnInit {
             positionId = res.body[0].positions[i].id;
             positionTypeId = res.body[0].positions[i].positionTypeId;
             positionTypeDescription = res.body[0].positions[i].positionTypeDescription;
+            positionPartyId = res.body[0].partyId;
 
             this.internalIdPub = res.body[0].positions[i].internalId;
             internalId = res.body[0].positions[i].internalId;
@@ -152,8 +156,9 @@ export class NavbarComponent implements OnInit {
 
         if (positionId !== '' && positionTypeDescription !== '') {
           this.setCookie(this.cNamePos, positionId, positionTypeDescription);
-		  this.setCookie(this.cNamePosO, positionTypeId, positionTypeDescription);
-		  this.setCookie(this.cNamePosOD, positionTypeDescription, positionTypeDescription);
+          this.setCookie(this.cNamePosO, positionTypeId, positionTypeDescription);
+          this.setCookie(this.cNamePosOD, positionTypeDescription, positionTypeDescription);
+          this.setCookie(this.cNamePosOPARID, positionPartyId, positionTypeDescription);
         }
 
         if (internalId !== '' && internalName !== '') {
@@ -220,8 +225,9 @@ export class NavbarComponent implements OnInit {
         item.fn = () => {
           const posN = lodash.clone(this.positionName);
           this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
-		  this.setCookie(this.cNamePosO, position.positionTypeId, position.positionTypeDescription);
-		  this.setCookie(this.cNamePosOD, position.positionTypeDescription, position.positionTypeDescription);
+          this.setCookie(this.cNamePosO, position.positionTypeId, position.positionTypeDescription);
+          this.setCookie(this.cNamePosOD, position.positionTypeDescription, position.positionTypeDescription);
+          this.setCookie(this.cNamePosOPARID, position.partyId, position.positionTypeDescription);
           this.setCookie(this.cNameInt, position.internalId, position.internalName);
           this.templateService.changePosInt(position.positionTypeId);
           this.templateService.changePosIntObject(position);
