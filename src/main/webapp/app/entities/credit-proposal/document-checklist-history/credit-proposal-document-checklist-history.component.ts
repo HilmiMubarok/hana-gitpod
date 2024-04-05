@@ -340,7 +340,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
         .subscribe(
           () => {
             this.file = [...this.file2, ...this.file3];
-            console.log('le', this.file);
+
             this.fileUrl = this.file;
 
             resolve();

@@ -219,9 +219,10 @@ export class ClausalPkDialogComponentEditComponent {
       this.getDataByIdAddendum(30939);
     } else if (
       this.data.dataClausal.agreementClausalParameterDescription !== 'Pasal Addendum 1' &&
-      this.data.dataClausal.parentId === null
+      this.data.dataClausal.agreementClausalParameterDescription !== 'Pasal Addendum 2' &&
+      this.data.dataClausal.agreementClausalParameterDescription !== 'Pasal Addendum 3'
     ) {
-      this.getDataByIdAddendum(this.data.dataClausal.agreementClausalParameterId);
+      this.getDataByIdAddendum(30939);
     }
   }
 
