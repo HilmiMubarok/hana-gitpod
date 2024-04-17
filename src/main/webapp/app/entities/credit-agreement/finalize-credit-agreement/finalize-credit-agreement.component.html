@@ -598,24 +598,48 @@
 
     <div class="row">
       <div class="form-group col-6">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Credit Agreements Number</mat-label>
-          <input [(ngModel)]="creditProposal.agreements[0]?.attributes.PREVIOUS_AGREEMENT_NUMBER" matInput type="text" />
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="form-group col-6">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Credit Agreements Number</mat-label>
+              <input [(ngModel)]="creditProposal.agreements[0]?.attributes.PREVIOUS_AGREEMENT_NUMBER" matInput type="text" />
+            </mat-form-field>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-3">
+            <div class="col-4">Credit Agreements Number</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ creditProposal.agreements[0]?.attributes.PREVIOUS_AGREEMENT_NUMBER }}
+            </div>
+          </div>
+        </section>
       </div>
 
       <div class="form-group col-6">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Credit Agreement Date</mat-label>
-          <input
-            [(ngModel)]="creditProposal.agreements[0]?.attributes.PREVIOUS_AGREEMENT_DATE"
-            [matDatepicker]="agreementDate"
-            matInput
-            type="text"
-          />
-          <mat-datepicker-toggle matSuffix [for]="agreementDate"></mat-datepicker-toggle>
-          <mat-datepicker #agreementDate></mat-datepicker>
-        </mat-form-field>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Credit Agreement Date</mat-label>
+            <input
+              [(ngModel)]="creditProposal.agreements[0]?.attributes.PREVIOUS_AGREEMENT_DATE"
+              [matDatepicker]="agreementDate"
+              matInput
+              type="text"
+            />
+            <mat-datepicker-toggle matSuffix [for]="agreementDate"></mat-datepicker-toggle>
+            <mat-datepicker #agreementDate></mat-datepicker>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row py-3">
+            <div class="col-4">Credit Agreement Date</div>
+            <div class="col-md-auto">:</div>
+            <div class="col col-lg-2">
+              {{ creditProposal.agreements[0]?.attributes.PREVIOUS_AGREEMENT_DATE | formatMediumDate }}
+            </div>
+          </div>
+        </section>
       </div>
 
       <mat-card-header>
@@ -626,16 +650,25 @@
           <mat-card-title>Clausal Addendum</mat-card-title>
         </mat-card-header>
       </mat-card-content>
-      <mat-form-field class="w-100" appearance="outline">
-        <textarea
-          [(ngModel)]="creditProposal.agreements[0]?.attributes.notes"
-          matInput
-          cssClass="e-outline"
-          class="text-area-input"
-          id="multiline-always"
-          name="typeAlways"
-        ></textarea>
-      </mat-form-field>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <textarea
+            [(ngModel)]="creditProposal.agreements[0]?.attributes.notes"
+            matInput
+            cssClass="e-outline"
+            class="text-area-input"
+            id="multiline-always"
+            name="typeAlways"
+          ></textarea>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-3">
+          <div class="col col-lg-2">
+            {{ creditProposal.agreements[0]?.attributes.notes }}
+          </div>
+        </div>
+      </section>
     </div>
     <mat-card-content>
       <table mat-table [dataSource]="dataClausal" class="w-100">
