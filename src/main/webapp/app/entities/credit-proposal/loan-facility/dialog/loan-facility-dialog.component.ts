@@ -645,9 +645,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       }
 
       // Condition Offering Letter in Route Distribution
-    } else if (this.parentPath === 'distribution') {
+    } else if (this.parentPath === 'distribution' || this.parentPath === 'review-dppk') {
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
-      if (this.selectedMenu === 'loan-facility-detail') {
+      if (this.selectedMenu === 'loan-facility-detail' || this.selectedMenu === 'loan-facility') {
         if (this.dataItem.statusId === 'OL_ASSIGNED') {
           this.textBoxHidden = false;
           this.checklissHidden = true;
