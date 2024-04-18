@@ -324,12 +324,12 @@
                 >
                 </jhi-credit-proposal-tab-summary>
                 <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
-                <jhi-assign-to
+                <!-- <jhi-assign-to
                   (assignTo)="onAssignTo($event)"
                   *ngIf="url == 'loan-ops-checking'"
                   [creditProposal]="creditProposal"
                   [url]="url"
-                ></jhi-assign-to>
+                ></jhi-assign-to> -->
               </e-card>
             </div>
             <!-- Document: summary gabung -->
@@ -496,7 +496,7 @@
         </div>
 
         <!-- DPDL-LEGAL-DOCUMENT -->
-        <div *ngIf="clickedMenu === 'dpdl'">
+        <div *ngIf="clickedMenu === 'dpdl-loan-operation'">
           <jhi-dpdl-document [creditProposal]="creditProposal"> </jhi-dpdl-document>
         </div>
       </div>
