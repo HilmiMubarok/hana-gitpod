@@ -161,9 +161,31 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       });
   }
 
+  // public doSearch(): void {
+  //   this.page = 0;
+  //   this.itemsPerPage = 10;
+  //   this.statusSearch = true;
+  //   const predicate: object = {
+  //     page: this.page,
+  //     query: this.currentSearch,
+  //     size: this.itemsPerPage,
+  //     sort: this.sortData(),
+  //     idPosition: this.positionIdLocStor,
+  //   };
+  //   predicate['target'] = 'insurance-check';
+
+  //   this.cashInsuranceCheckingService
+  //     .searchCP(predicate)
+  //     .pipe(map((res: HttpResponse<IInsuranceChecking[]>) => this.preLoad(res)))
+  //     .subscribe({
+  //       next: (res: HttpResponse<IInsuranceChecking[]>) => {
+  //         this.initDataForMatTable(res, res.headers);
+  //       },
+  //       error: (res: HttpErrorResponse) => this.onError(res.message),
+  //     });
+  //   return;
+  // }
   public doSearch(): void {
-    this.page = 0;
-    this.itemsPerPage = 10;
     this.statusSearch = true;
     const predicate: object = {
       page: this.page,
@@ -180,6 +202,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
       .subscribe({
         next: (res: HttpResponse<IInsuranceChecking[]>) => {
           this.initDataForMatTable(res, res.headers);
+          console.log('test', predicate, res.body);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });

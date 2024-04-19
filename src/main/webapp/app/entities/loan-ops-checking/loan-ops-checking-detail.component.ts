@@ -40,7 +40,7 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/master-permission.service';
 
 import { IApplicationProduct } from '../application-product/application-product.model';
-import { ICPFacilityTable } from '../credit-proposal/exposure/total-exposure/cp-facility-table-model';
+import { CPFacilityTable, ICPFacilityTable } from '../credit-proposal/exposure/total-exposure/cp-facility-table-model';
 import { HttpClient } from '@angular/common/http';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
@@ -50,6 +50,17 @@ import { LoanOpsCheckingProcessService } from './loan-ops-checking-process.servi
 import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 import { formatBytes } from 'app/shared/helper/utils';
+import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
+import { CreditProposalTabBusinessActivityComponent } from '../credit-proposal/busines-activity/credit-proposal-tab-business-activity.component';
+import { CollateralInfoHistoryComponent } from '../credit-proposal/collateral-info-history/collateral-info-history.component';
+import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
+import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
+import { CPMemoBandingRemarkComponent } from '../credit-proposal/memo-banding/remarks/cp-memo-banding-remark.component';
+import { CreditProposalOpinionHistoryComponent } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.component';
+import { RemarskComponent } from '../credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
+import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 
 @Component({
   selector: 'jhi-loan-ops-checking-detail',
@@ -59,9 +70,46 @@ import { formatBytes } from 'app/shared/helper/utils';
 export class LoanOpsCheckingDetailComponent implements OnInit {
   CreditProposalTabSummaryComponent: CreditProposalTabSummaryComponent;
 
+  @ViewChild('creditProposalTabBusinessActivityComponent', {
+    static: false,
+  })
+  creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
+
+  @ViewChild('CPMemoBandingRemarkComponent', {
+    static: false,
+  })
+  CPMemoBandingRemarkComponent: CPMemoBandingRemarkComponent;
+
+  @ViewChild('creditProposalCollateralInfoComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
+
+  @ViewChild('creditProposalCollateralInfoHistoryComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoHistoryComponent: CollateralInfoHistoryComponent;
+
+  @ViewChild('creditProposalOpinionHistoryComponent', {
+    static: false,
+  })
+  creditProposalOpinionHistoryComponent: CreditProposalOpinionHistoryComponent;
+
   @ViewChild('proposalBasicInformationViewComponent', {
     static: false,
   })
+  proposalBasicInformationViewComponent: ProposalBasicInformationViewComponent;
+
+  @ViewChild('creditProposaTabManagementInfoComponent', {
+    static: false,
+  })
+  creditProposaTabManagementInfoComponent: CreditProposaTabManagementInfoComponent;
+
+  @ViewChild('remaksComponent', {
+    static: false,
+  })
+  remaksComponent: RemarskComponent;
+
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
   public groupProduct: IApplicationProduct[] = [];
@@ -156,6 +204,7 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
     public lendingProgramParameterService: LendingProgramParameterService,
     public generalParameterService: GeneralParameterService,
     private storageService: StorageService,
+    private entitiyPropertiesService: EntitiyPropertiesService,
     protected collateralService: CollateralService,
     protected collateralPropertyService: CollateralPropertyService,
     protected productClasificationService: ProductClassificationService,
@@ -264,6 +313,35 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
       }
     }
   }
+  setUuidPath(newItem: string) {
+    this.uuidPath = newItem;
+  }
+
+  setOpinionRecomendation(newItem: string) {
+    this.recomendation = newItem;
+  }
+
+  setPositionLogin(posLog: number) {
+    // this.positionLogin = posLog;
+    this.positionLogin = this.getLocStor('POS');
+  }
+
+  setOpinionFileSfdt(file: File) {
+    this.opinionFileSfdt = file;
+  }
+
+  setOpinionFileWord(file: File) {
+    this.opinionFileWord = file;
+  }
+
+  setConditionFileSfdt(file: File) {
+    this.conditionFileSfdt = file;
+  }
+
+  setConditionFileWord(file: File) {
+    this.conditionFileWord = file;
+  }
+
   setIsAllowSave(status: boolean) {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
@@ -271,11 +349,46 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
       this.loanOpsCheckingService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
 
+        if (this.creditProposalTabBusinessActivityComponent) {
+          this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+        }
+
+        if (this.CPMemoBandingRemarkComponent) {
+          this.CPMemoBandingRemarkComponent.triggeredSave();
+        }
+
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
+
+        if (this.parentPath !== 'loan-ops-checking') {
+          if (this.proposalBasicInformationViewComponent) {
+            this.proposalBasicInformationViewComponent.triggeredSave();
+          }
+        }
+
+        if (this.creditProposaTabManagementInfoComponent) {
+          this.creditProposaTabManagementInfoComponent.triggeredSave();
+        }
+
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
+
+        if (this.remaksComponent) {
+          this.remaksComponent.triggeredSave();
+        }
+
+        if (this.creditProposalOpinionHistoryComponent) {
+          this.creditProposalOpinionHistoryComponent.refresh();
+        }
+
+        if (this.creditProposalOpinionHistoryComponent) {
+          this.creditProposalOpinionHistoryComponent.refresh();
+        }
+
         if (this.saveState === 'process') {
-          if (this.parentPath === 'loan-ops-distribution') {
+          if (this.parentPath === 'loan-ops-checking') {
             this.saveApplicationRole();
           } else {
             this.loanOpsCheckingProcessService.processTask(this.resAttr).subscribe(() => {
@@ -295,7 +408,9 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getBucketNameSummary();
     this.getListIndustry();
+    this.setDppkNumber();
     this.lendingProgramParameter();
     this.getPositionTypeId();
     this.lovProposalType();
@@ -305,9 +420,7 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
     });
 
     this.loanOpsCheckingService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-      const menuItemIdByRoute = this.router.url.includes('loan-ops-distribution')
-        ? 'LOAN_OPERATION_DISTRIBUTION'
-        : 'LOAN_OPERATION_DISTRIBUTION';
+      const menuItemIdByRoute = this.router.url.includes('loan-ops-checking') ? 'LOAN_OPERATION_CHECKING' : 'LOAN_OPERATION_CHECKING';
 
       this.ca = response.body;
 
@@ -413,6 +526,9 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
       type: 'credit_proposal',
     });
   }
+  public onForwardTo(ev) {
+    this.applicationRole = ev;
+  }
 
   private saveApplicationRole(): void {
     this.saveWord = false;
@@ -498,12 +614,50 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
 
       if (status === 'complete') {
         this.saveFile();
-        if (this.CreditProposalTabSummaryComponent) {
-          this.CreditProposalTabSummaryComponent.triggeredSave();
+      }
+
+      if (this.creditProposalTabBusinessActivityComponent) {
+        this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+      }
+
+      if (this.CPMemoBandingRemarkComponent) {
+        this.CPMemoBandingRemarkComponent.triggeredSave();
+      }
+
+      /* if (this.creditProposalOpinionHistoryComponent) {
+		this.creditProposalOpinionHistoryComponent.triggeredSave();
+		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+		this.creditProposalOpinionHistoryComponent.refresh();
+    } */
+
+      if (this.CreditProposalTabSummaryComponent) {
+        this.CreditProposalTabSummaryComponent.triggeredSave();
+      }
+
+      if (this.parentPath !== 'loan-ops-distribution') {
+        if (this.proposalBasicInformationViewComponent) {
+          this.proposalBasicInformationViewComponent.triggeredSave();
         }
       }
+
+      if (this.creditProposaTabManagementInfoComponent) {
+        this.creditProposaTabManagementInfoComponent.triggeredSave();
+      }
+
+      if (this.creditProposalCollateralInfoComponent) {
+        this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+      }
+
+      if (this.creditProposalCollateralInfoHistoryComponent) {
+        this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+      }
+
+      if (this.remaksComponent) {
+        this.remaksComponent.triggeredSave();
+      }
+
       if (source === 'process') {
-        if (this.parentPath === 'loan-ops-distribution') {
+        if (this.parentPath === 'loan-ops-checking') {
           this.saveApplicationRole();
         } else {
           this.saveWord = false;
@@ -520,9 +674,12 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
         this.saveWord = false;
       }
     });
+
+    // this.cekCgpgData();
   }
 
   public save(source: string): void {
+    // this.saveCollateralAfterReport();
     this.setIndustryName();
     this.saveState = source;
 
@@ -536,9 +693,233 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'loan-ops-distribution') {
+        if (this.router.url.split('/')[1] === 'loan-ops-checking') {
           this.saveUpdate('not-complete', source);
         }
+        if (this.router.url.split('/')[1] === 'loan-ops-checking') {
+          if (this.creditProposalOpinionHistoryComponent) {
+            this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
+          } else {
+            let countValidate = 0;
+            if (this.positionLogin) {
+              if (this.opinionFileSfdt && this.opinionFileWord) {
+                const fileReader: FileReader = new FileReader();
+                fileReader.onload = (e: any) => {
+                  const testSfdtFile = JSON.parse(fileReader.result as string);
+                  if (
+                    testSfdtFile.sections[0].blocks[0].inlines ||
+                    testSfdtFile.sections[0].blocks[0].columnCount ||
+                    testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                    testSfdtFile.sections[0].blocks[0].grid ||
+                    testSfdtFile.sections[0].blocks[0].rows ||
+                    testSfdtFile.sections[0].blocks[0].tableFormat
+                  ) {
+                    if (
+                      testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                      testSfdtFile.sections[0].blocks[0].grid ||
+                      testSfdtFile.sections[0].blocks[0].rows ||
+                      testSfdtFile.sections[0].blocks[0].tableFormat
+                    ) {
+                      ++countValidate;
+                    } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
+                      if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+                        ++countValidate;
+                      } else {
+                        // toast opinion empty
+                        this.messageService.add({
+                          severity: 'info',
+                          summary: 'Warning',
+                          detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                        });
+                      }
+                    } else if (testSfdtFile.sections[0].blocks[0].inlines) {
+                      let isEmpty = true;
+                      testSfdtFile.sections[0].blocks.forEach(block => {
+                        if (block.inlines) {
+                          if (block.inlines.length > 0) {
+                            isEmpty = false;
+                          }
+                        }
+                      });
+
+                      if (isEmpty) {
+                        // toast opinion empty
+                        this.messageService.add({
+                          severity: 'info',
+                          summary: 'Warning',
+                          detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                        });
+                      } else {
+                        ++countValidate;
+                      }
+                    }
+                  } else {
+                    // toast opinion empty
+                    this.messageService.add({
+                      severity: 'info',
+                      summary: 'Warning',
+                      detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                    });
+                  }
+
+                  if (this.recomendation) {
+                    ++countValidate;
+                    if (this.recomendation === 'Recommend With Condition') {
+                      if (this.conditionFileSfdt && this.conditionFileWord) {
+                        const fileReaderCondition: FileReader = new FileReader();
+                        fileReaderCondition.onload = (eCondition: any) => {
+                          const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+
+                          if (
+                            testSfdtFileCondition.sections[0].blocks[0].inlines ||
+                            testSfdtFileCondition.sections[0].blocks[0].columnCount ||
+                            testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                            testSfdtFileCondition.sections[0].blocks[0].grid ||
+                            testSfdtFileCondition.sections[0].blocks[0].rows ||
+                            testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                          ) {
+                            if (
+                              testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                              testSfdtFileCondition.sections[0].blocks[0].grid ||
+                              testSfdtFileCondition.sections[0].blocks[0].rows ||
+                              testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                            ) {
+                              ++countValidate;
+                            } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                              if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+                                ++countValidate;
+                              } else {
+                                // toast condition empty
+                                this.messageService.add({
+                                  severity: 'info',
+                                  summary: 'Warning',
+                                  detail: 'Condition Empty! All data will be save except data at tab opinion',
+                                });
+                              }
+                            } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+                              let isEmpty = true;
+                              testSfdtFileCondition.sections[0].blocks.forEach(block => {
+                                if (block.inlines) {
+                                  if (block.inlines.length > 0) {
+                                    isEmpty = false;
+                                  }
+                                }
+                              });
+
+                              if (isEmpty) {
+                                // toast condition empty
+                                this.messageService.add({
+                                  severity: 'info',
+                                  summary: 'Warning',
+                                  detail: 'Condition Empty! All data will be save except data at tab opinion',
+                                });
+                              } else {
+                                ++countValidate;
+                              }
+
+                              /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+								++countValidate;
+							  } else {
+								// toast condition empty
+								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							  } */
+                            }
+                          } else {
+                            // toast condition empty
+                            this.messageService.add({
+                              severity: 'info',
+                              summary: 'Warning',
+                              detail: 'Condition Empty! All data will be save except data at tab opinion',
+                            });
+                          }
+
+                          if (countValidate === 3) {
+                            this.saveUpdate('complete', source);
+                          } else {
+                            this.saveUpdate('not-complete', source);
+                          }
+                        };
+                        fileReaderCondition.readAsText(this.conditionFileSfdt);
+                      }
+                    } else {
+                      if (countValidate === 2) {
+                        this.saveUpdate('complete', source);
+                      } else {
+                        this.saveUpdate('not-complete', source);
+                      }
+                    }
+                  } else {
+                    // toast recomendation empty
+                    this.messageService.add({
+                      severity: 'info',
+                      summary: 'Warning',
+                      detail: 'Recommendation Empty! All data will be save except data at tab opinion',
+                    });
+                    this.saveUpdate('not-complete', source);
+                  }
+                };
+                fileReader.readAsText(this.opinionFileSfdt);
+              } else {
+                // toast opinion empty
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Warning',
+                  detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                });
+                this.saveUpdate('not-complete', source);
+              }
+            } else {
+              this.saveUpdate('not-complete', source);
+            }
+          }
+        }
+      } else {
+        /* this.creditProposalService.create(this.preSave()).subscribe(res => {
+          this.creditProposal.collaterals = res.body.collaterals;
+          this.creditProposal.products = res.body.products;
+          if (this.creditProposalTabBusinessActivityComponent) {
+            this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+          }
+
+          if (this.creditProposalOpinionHistoryComponent) {
+            this.creditProposalOpinionHistoryComponent.triggeredSave();
+            this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+            this.creditProposalOpinionHistoryComponent.refresh();
+          }
+
+          if (this.CreditProposalTabSummaryComponent) {
+            this.CreditProposalTabSummaryComponent.triggeredSave();
+          }
+
+          if (this.creditProposaTabManagementInfoComponent) {
+            this.creditProposaTabManagementInfoComponent.triggeredSave();
+          }
+
+          if (this.remaksComponent) {
+            this.remaksComponent.triggeredSave();
+          }
+
+          if (this.creditProposalCollateralInfoComponent) {
+            this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+          }
+
+          if (source === 'process') {
+            if (this.parentPath === 'cp-status-approval') {
+              this.saveApplicationRole();
+            } else {
+              this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+                this.router.navigate([this.router.url.split('/')[1]]);
+              });
+            }
+          } else if (source === 'default') {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Save Success',
+            });
+            this.saveWord = false;
+          }
+        }); */
       }
     }
   }
@@ -607,12 +988,12 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
   }
 
   private preSave(status: string): ILoanOPSChecking {
-    this.applicationRolePreSave.id = Number(this.applicationRole.id);
-    this.applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
-    this.applicationRolePreSave.partyId = this.applicationRole.partyId;
-    this.applicationRolePreSave.partyName = this.applicationRole.partyName;
-    this.applicationRolePreSave.roleId = this.applicationRole.roleId;
-    this.applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
+    this.applicationRolePreSave.id = Number(this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].id);
+    this.applicationRolePreSave.applicationId = Number(this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].applicationId);
+    this.applicationRolePreSave.partyId = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].partyId;
+    this.applicationRolePreSave.partyName = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].partyName;
+    this.applicationRolePreSave.roleId = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].roleId;
+    this.applicationRolePreSave.roleDescription = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].roleDescription;
 
     for (let i = 0; i < this.loanOpsCheckingService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.loanOpsCheckingService.partySliks[i]];
@@ -659,7 +1040,57 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
         }
       }
     }
+    copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
+    copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
+    copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
+    copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
+    copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
+    copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
+    copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
+    copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
+    copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
+    copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
+    copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
     copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
+    copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
+    copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
+    copyCreditProposal.attributes['binding'] = JSON.stringify(copyCreditProposal.attributes['binding']);
+    copyCreditProposal.debtorData.attributes['prospectPerson'] = JSON.stringify(copyCreditProposal.debtorData.attributes['prospectPerson']);
+    copyCreditProposal.attributes['repaymentCapability'] = JSON.stringify(copyCreditProposal.attributes['repaymentCapability']);
+    copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
+    copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
+    copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
+    copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
+    copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
+    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
+    copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
+    copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
+    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
+    copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
+    copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
+    copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
+    copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
+    copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
+    copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOverAfterBank']);
+    copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
+    copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
+    copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
+    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
+    copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
+    copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
+      this.creditProposal.attributes['remarksFinancialStatement']
+    );
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
+    copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
+    copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
+    copyCreditProposal.groupProducts = [];
+    copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
 
     if (this.url === 'la-distribution') {
@@ -687,6 +1118,17 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
         copyCreditProposal.attributes['dataAssignToLoanOpsOfficer']
       );
     }
+    copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+    copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
+    copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
+    if (copyCreditProposal.prospectPerson) {
+      copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+    }
+
+    if (typeof copyCreditProposal.attributes['certificateInfoData'] !== 'string') {
+      copyCreditProposal.attributes['certificateInfoData'] = JSON.stringify(copyCreditProposal.attributes['certificateInfoData']);
+    }
+
     return copyCreditProposal;
   }
 
@@ -757,6 +1199,258 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
   }
   public notes: any;
 
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i], i);
+          }
+        }
+      });
+  }
+
+  public findCollateralProperty(collateral: ICollateral, i): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+        if (this.collateral.length === i + 1) {
+          this.setCertificate(this.collateral);
+        }
+      });
+    }
+  }
+
+  public setCertificate(collateral) {
+    if (!this.creditProposal.attributes['syncCertificate']) {
+      this.creditProposal.attributes['syncCertificate'] = 'true';
+      this.creditProposal.attributes['certificateInfoData'] = [];
+      if (collateral.length > 0) {
+        for (let i = 0; i < collateral.length; i++) {
+          if (collateral[i].collateralTypeId === 'REALESTATE') {
+            if (collateral[i].attributes['landCertificates']) {
+              collateral[i].attributes['landCertificates'] = JSON.parse(collateral[i].attributes['landCertificates']);
+              if (collateral[i].attributes['landCertificates'].length > 0) {
+                for (let j = 0; j < collateral[i].attributes['landCertificates'].length; j++) {
+                  const certificate: ICertificateInfo = {};
+                  certificate.id = collateral[i].id;
+                  certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
+                  certificate.jangkaWaktuKepemilikan = collateral[i].attributes['landCertificates'][j].certDueDate;
+                  certificate.luasTanah = this.findPropertyLand('luasTanah', collateral[i], j);
+                  certificate.luasBangunan = this.findPropertyLand('luasBangunan', collateral[i], j);
+                  this.creditProposal.attributes['certificateInfoData'].push(certificate);
+                }
+              }
+            }
+          }
+          if (collateral[i].collateralTypeId === 'VEHICLE') {
+            this.collateralPropertyService
+              .queryFilterBy({
+                idCollateral: collateral[i].id,
+                size: 9999,
+                page: 0,
+                idPropertyType: CollateralPropertyType.VEHICLE,
+              })
+              .subscribe(res => {
+                if (res.body) {
+                  for (let j = 0; j < res.body.length; j++) {
+                    const certificate: ICertificateInfo = {};
+                    certificate.id = collateral[i].id;
+                    certificate.buktiKepemilikan = res.body[j].bpkbNum;
+                    this.creditProposal.attributes['certificateInfoData'].push(certificate);
+                  }
+                }
+              });
+          }
+          if (collateral[i].collateralTypeId === 'MACHINE') {
+            this.collateralPropertyService
+              .queryFilterBy({
+                idCollateral: collateral[i].id,
+                page: 0,
+                size: 9999,
+                idPropertyType: CollateralPropertyType.MACHINE,
+              })
+              .subscribe(res => {
+                if (res.body) {
+                  for (let j = 0; j < res.body.length; j++) {
+                    const certificate: ICertificateInfo = {};
+                    certificate.id = collateral[i].id;
+                    certificate.buktiKepemilikan = res.body[j].machineDocType + ' ' + res.body[j].machineDocNum;
+                    this.creditProposal.attributes['certificateInfoData'].push(certificate);
+                  }
+                }
+              });
+          }
+          if (collateral[i].collateralTypeId === 'DEPOSIT') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralTypeDescription + ' ' + collateral[i].collateralNumber;
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralNumber + ' ' + this.findProperty('buktiKepemilikan', collateral[i]);
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'SECURITIES') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = this.findProperty('buktiKepemilikan', collateral[i]);
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+          if (collateral[i].collateralTypeId === 'LETTER_OF_GUARANTY') {
+            const certificate: ICertificateInfo = {};
+            certificate.id = collateral[i].id;
+            certificate.buktiKepemilikan = collateral[i].collateralNumber;
+            certificate.jangkaWaktuKepemilikan = this.findProperty('jangkaWaktu', collateral[i]);
+            this.creditProposal.attributes['certificateInfoData'].push(certificate);
+          }
+        }
+      }
+      if (this.creditProposal.attributes['certificateInfoData']) {
+        for (let i = 0; i < this.creditProposal.attributes['certificateInfoData'].length; i++) {
+          this.creditProposal.attributes['certificateInfoData'][i].index = i;
+        }
+      }
+    } else {
+      this.creditProposal.attributes['certificateInfoData'] = JSON.parse(this.creditProposal.attributes['certificateInfoData']);
+    }
+  }
+  public findPropertyLand(type: string, collateral: ICollateral, i: number) {
+    this.dataLand = lodash.filter(this.collateralProperties, function (o) {
+      return o.propertyType === 'LAND' && o.collateralId === collateral.id && o.external === false;
+    });
+    this.dataBuilding = lodash.filter(this.collateralProperties, function (o) {
+      return o.propertyType === 'BUILDING' && o.collateralId === collateral.id && o.external === false;
+    });
+    if (this.dataLand) {
+      if (type === 'luasTanah') {
+        return this.dataLand[i].landSizePerCertificate;
+      }
+    }
+    if (this.dataBuilding) {
+      if (type === 'luasBangunan') {
+        return this.countTotalArea(this.dataBuilding[i].attributes['floors']);
+      }
+    }
+    return '';
+  }
+
+  public findProperty(type: string, collateral: ICollateral) {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data) {
+        if (type === 'buktiKepemilikan') {
+          if (collateral.collateralTypeId === 'SECURITIES') {
+            return data.attributes.securityName;
+          }
+          if (collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+            return data.attributes.certificateType;
+          }
+        }
+        if (type === 'jangkaWaktu') {
+          if (collateral.collateralTypeId === 'DEPOSIT') {
+            return data.attributes.maturityDate;
+          }
+          if (collateral.collateralTypeId === 'SECURITIES') {
+            return data.attributes.maturityDate;
+          }
+          if (collateral.collateralTypeId === 'OTHER') {
+            return data.attributes.maturityDate;
+          }
+          if (collateral.collateralTypeId === 'LETTER_OF_GUARANTY') {
+            return data.attributes.requisitionExpiry;
+          }
+          if (collateral.collateralTypeId === 'PERSONAL_PROPERTY') {
+            return data.attributes.maturityDate;
+          }
+          if (collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+            return data.certificateExpiryDate;
+          }
+        }
+      }
+      return '';
+    }
+  }
+  public countTotalArea(data: string): Number {
+    let total: number;
+    total = 0;
+
+    if (data) {
+      const _data = JSON.parse(data);
+      if (_data.length > 0) {
+        for (let i = 0; i < _data.length; i++) {
+          total = total + parseInt(_data[i]['area'], 10);
+        }
+      }
+    }
+
+    return total;
+  }
+  public cekCgpgData() {
+    for (let i = 0; i < this.collateralProperties.length; i++) {
+      if (this.collateralProperties[i].propertyType === 'GENERAL') {
+        this.saveCollateralProperty(this.collateralProperties[i]);
+      }
+    }
+  }
+
+  public saveCollateralProperty(property: ICollateralProperty) {
+    this.collateralPropertyService.save(property).subscribe(res => {});
+  }
+
+  public setTotalPlafond() {
+    if (this.creditProposal.products.length > 0) {
+      if (!this.creditProposal.attributes['syncronHobisData']) {
+        for (let i = 0; i < this.creditProposal.products.length; i++) {
+          if (this.creditProposal.products[i].hobis === true) {
+            if (this.creditProposal.products[i].productName !== '') {
+              this.getLoanType(this.creditProposal.products[i].productTypeId, i);
+            }
+          }
+        }
+        this.creditProposal.attributes['syncronHobisData'] = 'syncroned';
+      }
+    }
+  }
+
+  public getLoanType(event, index) {
+    this.productParameterService
+      .queryFilterBy({
+        idProductType: event,
+        isActive: true,
+        size: 9999,
+      })
+      .subscribe(res => {
+        if (res.body) {
+          const data = res.body.find(obj => obj.name === this.creditProposal.products[index].productName);
+          if (data) {
+            if (data.revolving === true) {
+              this.creditProposal.products[index].totalPlafond =
+                Number(this.creditProposal.products[index].initialLimit) + Number(this.creditProposal.products[index].changes);
+            } else if (data.revolving === false) {
+              this.creditProposal.products[index].totalPlafond =
+                Number(this.creditProposal.products[index].outstanding) + Number(this.creditProposal.products[index].changes);
+            }
+          }
+        }
+      });
+  }
+  // CP/Float
+  // cancel confrimation dialog
+
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
@@ -783,7 +1477,6 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
       this.getAllColGroup();
     });
   }
-
   private getAllColGroup() {
     return new Promise((resolve, reject) => {
       if (this.listGroupCollateral.length > 0) {
@@ -810,56 +1503,126 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
     });
   }
 
-  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
-
-  onScrollToTop(): void {
-    this.viewport.scrollToPosition([0, 0]);
-  }
-
-  public isValuePermissionChecking = [];
-  public isLabel = false;
-  public isElement = false;
-
-  private getMenuPermission() {
-    this.menuPermissionService
-      .getAppMenuPermission('LOAN_OPERATION_CHECKING', this.getLocStor('POSO'), this.creditProposal.statusId)
-      .subscribe(res => {
-        this.isValuePermissionChecking = res.body;
-        if (this.isValuePermissionChecking.length === 0) {
-          this.isLabel = true;
-          this.isElement = false;
-        } else {
-          this.isElement = true;
-          this.isLabel = false;
-        }
-      });
-  }
-
-  public onAssignTo(ev: any): void {
-    let dynAttr = 'dataAssignTo';
-
-    if (this.url === 'la-distribution') {
-      dynAttr = 'dataAssignToCRO';
-    } else if (this.url === 'cc-distribution') {
-      dynAttr = 'dataAssignToCCAdmin';
-    } else if (this.url === 'distribution') {
-      dynAttr = 'dataAssignToLegalOfficer';
-    } else if (this.url === 'loan-ops-distribution') {
-      dynAttr = 'dataAssignToLoanOpsOfficer';
-    }
-    this.isAssignedTo = ev && true;
-    this.applicationRole = ev;
-    this.creditProposal.attributes[dynAttr] = ev;
-  }
-
-  public validate() {
-    return new Promise<boolean>((resolve, reject) => {
-      if (this.isAssignedTo) {
-        resolve(true);
-      } else {
-        reject(false);
+  public saveCollateralAfterReport() {
+    if (this.creditProposal.attributes['collateralAfterReport']) {
+      while (typeof this.creditProposal.attributes['collateralAfterReport'] === 'string') {
+        this.creditProposal.attributes['collateralAfterReport'] = JSON.parse(this.creditProposal.attributes['collateralAfterReport']);
       }
-    });
+      if (this.creditProposal.attributes['collateralAfterReport'].length > 0) {
+        for (let i = 0; i < this.creditProposal.attributes['collateralAfterReport'].length; i++) {
+          this.creditProposal.attributes['collateralAfterReport'][i].mvInternal = this.countMV(
+            this.creditProposal.attributes['collateralAfterReport'][i].id
+          );
+          this.creditProposal.attributes['collateralAfterReport'][i].lvInternal = this.countLV(
+            this.creditProposal.attributes['collateralAfterReport'][i].id
+          );
+        }
+      }
+    } else {
+      this.creditProposal.attributes['collateralAfterReport'] = [];
+    }
+  }
+
+  public countMV(id: number): number {
+    const data: ICollateralProperty = this.collateralProperties.find(
+      obj => obj.propertyType === 'GENERAL' && obj.collateralId === id && obj.external === false
+    );
+    if (data !== undefined) {
+      if (data.marketValue === null) {
+        return 0;
+      } else {
+        return data.marketValue;
+      }
+    }
+    return 0;
+  }
+
+  public countLV(id: number): number {
+    const data: ICollateralProperty = this.collateralProperties.find(
+      obj => obj.propertyType === 'GENERAL' && obj.collateralId === id && obj.external === false
+    );
+    if (data !== undefined) {
+      if (data.liquidationValue === null) {
+        return 0;
+      } else {
+        return data.liquidationValue;
+      }
+    }
+    return 0;
+  }
+
+  // public cpGroub() {
+  //   const setDate = new Date().toISOString().split('T')[0];
+  //   this.creditAgreementService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+  //     this.currencyMaster = res.body[0]?.factor;
+  //   });
+  //   this.creditAgreementService.applicationGroubProduct(this.id).subscribe((response: any) => {
+  //     this.filterBusinessGroupDebtorData(response.body);
+  //     this.creditProposal.attributes['calculationExposure'].totalPsrGroup = this.countTotalPsrGroup();
+  //   });
+  // }
+
+  private filterBusinessGroupDebtorData(source: any[]): void {
+    if (source.length > 0) {
+      let no = 0;
+      for (let y = 0; y < source.length; y++) {
+        const parsed = new CPFacilityTable();
+        no = no + 1;
+        parsed.no = no;
+        parsed.GroupName = source[y].customerName;
+        parsed.LoanAccount = source[y].agreementNumber;
+        parsed.FacilityType = source[y].productTypeId;
+        parsed.InitialLimit = Number(source[y].contractAmount ? source[y].contractAmount : 0);
+        parsed.Changes = 0;
+        parsed.OS = source[y].outstanding;
+        parsed.TotalPlafond = source[y].productRevolving ? parsed.InitialLimit + parsed.Changes : source[y].outstanding;
+
+        parsed.InterestRate =
+          source[y].intResetFrequency + ' ' + source[y].intResetPeriod + ' ' + source[y].rateTypeName + ' ' + source[y].spreadRate;
+        parsed.Provision = source[y].provisionFeeAmount;
+        parsed.AdminFee = source[y].provisionFeeAmount;
+        parsed.FirstDisbursementDate = source[y].trxDate;
+        parsed.Tenor = source[y].trxDate;
+        parsed.CCY = source[y].loanCurrency;
+        parsed.MaturityDate = source[y].maturityDate;
+        parsed.sublimit = source[y].subLimit;
+        parsed.kurs = source[y].kurs;
+        this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
+      }
+    }
+  }
+
+  public countTotalPsrGroup() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.myBusinessGroupCPFacility.filter(obj => obj.sublimit === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.CCY === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.CCY !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].TotalPlafond !== undefined) {
+            if (filterIdr[i].FacilityType === 'FX') {
+              result = result + Number(filterIdr[i].TotalPlafond);
+            }
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].TotalPlafond !== undefined) {
+            if (filterUsd[i].FacilityType === 'FX') {
+              dolar = dolar + Number(filterUsd[i].TotalPlafond) * Number(this.currencyMaster);
+            }
+          }
+        }
+      }
+    }
+    return result + dolar;
   }
 
   // Untuk Summary Generate
@@ -926,6 +1689,72 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
     const fileDpdlFinal = await firstValueFrom(
       this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
     );
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  // onScrollToTop(): void {
+  //   this.viewport.scrollToPosition([0, 0]);
+  // }
+
+  public setDppkNumber() {
+    const idx = this.creditProposal.entityProperties.findIndex(obj => obj.entityPropertyTypeId === 'DPPK');
+    if (idx) {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties[idx] = res;
+      });
+    } else {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties.push(res);
+      });
+    }
+  }
+
+  public isValueRo = [];
+  public isLabel = false;
+  public isElement = false;
+
+  private getMenuPermission() {
+    this.menuPermissionService
+      .getAppMenuPermission('LOAN_OPERATION_DISTRIBUTION', this.getLocStor('POSO'), this.creditProposal.statusId)
+      .subscribe(res => {
+        this.isValueRo = res.body;
+        if (this.isValueRo.length === 0) {
+          this.isLabel = true;
+          this.isElement = false;
+        } else {
+          this.isElement = true;
+          this.isLabel = false;
+        }
+      });
+  }
+  public onAssignTo(ev: any): void {
+    let dynAttr = 'dataAssignTo';
+
+    if (this.url === 'la-distribution') {
+      dynAttr = 'dataAssignToCRO';
+    } else if (this.url === 'cc-distribution') {
+      dynAttr = 'dataAssignToCCAdmin';
+    } else if (this.url === 'distribution') {
+      dynAttr = 'dataAssignToLegalOfficer';
+    } else if (this.url === 'loan-ops-distribution') {
+      dynAttr = 'dataAssignToLoanOpsOfficer';
+    }
+    this.isAssignedTo = ev && true;
+    this.applicationRole = ev;
+    this.creditProposal.attributes[dynAttr] = ev;
+  }
+
+  public validate() {
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.isAssignedTo) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
   }
 }
 interface IObj {
