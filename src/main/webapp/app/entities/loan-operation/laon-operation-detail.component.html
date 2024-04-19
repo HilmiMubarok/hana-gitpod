@@ -416,11 +416,18 @@
         </div>
 
         <!-- compliance recomendation -->
-        <div *ngIf="clickedMenu === 'lod-compliance'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <div *ngIf="clickedMenu === 'lod-compliance'">
           <e-card>
             <jhi-loan-analys-compliance [creditProposal]="creditProposal" [word]="saveDoc"></jhi-loan-analys-compliance>
           </e-card>
-          <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk'">
+          <div
+            *ngIf="
+              parentPath === 'cc-review' ||
+              parentPath === 'cc-inquiry' ||
+              parentPath === 'finalize-pk' ||
+              parentPath === 'loan-ops-distribution'
+            "
+          >
             <e-card>
               <jhi-loan-analys-opinion-compliance-part
                 #loanAnalysOpinionCompliancePartComponent
