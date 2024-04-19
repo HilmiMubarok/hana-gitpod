@@ -460,7 +460,6 @@
             </jhi-loan-analys-opinion>
           </e-card>
         </div>
-        -->
 
         <!-- compare data -->
         <div *ngIf="clickedMenu === 'lod-compare-data'" class="e-sample-resize-container e-card-resize-container wrapper-card">
@@ -482,7 +481,7 @@
 
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <div>
+      <div *ngIf="matrixButton">
         <button
           mat-raised-button
           *ngFor="let task of tasks"

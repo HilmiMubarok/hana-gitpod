@@ -1826,6 +1826,7 @@ export class LoanOperationDetailComponent implements OnInit {
   public isValueRo = [];
   public isLabelRo = false;
   public isElRo = false;
+  public matrixButton = false;
 
   private getMenuPermission() {
     this.menuPermissionService
@@ -1835,9 +1836,11 @@ export class LoanOperationDetailComponent implements OnInit {
         if (this.isValueRo.length === 0) {
           this.isLabelRo = true;
           this.isElRo = false;
+          this.matrixButton = false;
         } else {
           this.isElRo = true;
           this.isLabelRo = false;
+          this.matrixButton = true;
         }
       });
   }
