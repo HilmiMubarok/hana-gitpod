@@ -21,24 +21,11 @@ import { RequestSlikManagementDataDialogComponent } from './dialog/request-slik-
 import { RequestSlikChecklistService } from '../services/request-slik-checklist.service';
 import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
 import { RequestSlikStatus } from '../enums/request-slik-status.enum';
-import { SelectionModel } from '@angular/cdk/collections';
 // import { RESULT_DATA } from './result.dummy';
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
   templateUrl: './request-slik-management-data-grid.component.html',
   styleUrls: ['./request-slik-management-data-grid.styles.scss', '../../party-cif/party-cif.style.scss'],
-  styles: [
-    `
-      .button-styling {
-        outline: none;
-        border: none;
-        box-shadow: 0 0 5px #319e97;
-        width: 100px;
-        border-radius: 5px;
-        background-color: #315f9e !important;
-      }
-    `,
-  ],
   animations: [
     trigger('detailExpand', [
       state(
@@ -77,16 +64,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     this.entityKeyName = 'id';
     this.organizationManagementRes = [];
     this.requestSlikId = Number(this.router.url.split('/')[2]);
-
-    this.selection.changed.subscribe(() => {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.items.data.length;
-      if (numSelected === numRows) {
-        this.label = 'Deselect All';
-      } else {
-        this.label = 'Select All';
-      }
-    });
   }
 
   @Input() checklists;
@@ -108,8 +85,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   public dataSourceExpand;
   public nikNpwp;
   public partyId;
-  public label = 'Select All';
-  public selection = new SelectionModel<any>(true, []);
 
   @Input()
   get organizationManagement() {
@@ -141,25 +116,13 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   isDetailChecked(row) {
-    const copyData = row;
     if (row.person) {
       row = row.person.id;
     }
     if (row.shareHolderOrg) {
       row = row.shareHolderOrg.id;
     }
-
-    const check = this.requestSlikService.isDetailChecked(row, this.checklists, 'management');
-
-    if (check) {
-      this.checklists.forEach(checklist => {
-        if (Number(checklist.idParty) === Number(row)) {
-          this.selection.select(copyData);
-        }
-      });
-    }
-
-    return check;
+    return this.requestSlikService.isDetailChecked(row, this.checklists, 'management');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -243,6 +206,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
       this.requestSlik.status === this.reqSlikStatus.VERIFY || this.requestSlik.status === this.reqSlikStatus.COMPLETE
         ? ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep']
         : ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep', 'select'];
+    // this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
@@ -399,88 +363,5 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   isVerifySelected(element) {
     // return item exist in verifyChecklists with predicate id, nikNpwp, and partyId is same with element
     return _.some(this.verifyChecklists, _.pick(element, ['id', 'nikNpwp', 'partyId']));
-  }
-
-  // ### CHECKBOX ALL
-
-  doCheckAll() {
-    this.label = 'Deselect All';
-    this.items.data.forEach((data, i) => {
-      this.doCheck(data);
-    });
-  }
-
-  doUncheckAll() {
-    this.label = 'Select All';
-    this.selection.selected.forEach(row => this.doUncheck(row));
-  }
-
-  // ### CHECKBOX SINGLE ROW
-
-  toggleCheckRow(row: any, check: any) {
-    if (check.checked) {
-      this.doCheck(row);
-    } else {
-      this.doUncheck(row);
-    }
-  }
-
-  doCheck(row: any) {
-    this.selection.select(row);
-
-    const data = {
-      idParty: null,
-      idRequestSlik: null,
-      cust: null,
-    };
-
-    // Add additional data for ocrData
-    data.cust = row.person === null ? row.shareHolderOrg : row.person;
-
-    data.idParty = row.person.id;
-    data.idRequestSlik = this.requestSlikId;
-
-    this.requestSlikChecklistService.updateChecklistOcrs(data);
-
-    this.checklistData.emit({
-      data,
-      mode: 'add',
-    });
-  }
-
-  doUncheck(row: any) {
-    this.selection.deselect(row);
-
-    if (this.selection.selected.length === 0) {
-      this.label = 'Select All';
-    }
-
-    const data = {
-      idParty: null,
-      idRequestSlik: null,
-      cust: null,
-    };
-
-    // Add additional data for ocrData
-    data.cust = row.person === null ? row.shareHolderOrg : row.person;
-
-    data.idParty = row.person.id;
-    data.idRequestSlik = this.requestSlikId;
-
-    // get checklist data by requestSlikId
-    this.requestSlikService.getChecklistData(true, this.requestSlikId).subscribe(checklistData => {
-      // get data where partyId === data.idParty
-      const resChecklistData = checklistData.body.data.filter(res => res.idParty === data.idParty);
-
-      resChecklistData.forEach(checklist => {
-        // remove checklist
-        this.requestSlikService.removeChecklist(checklist.id).subscribe();
-      });
-    });
-
-    this.checklistData.emit({
-      data,
-      mode: 'remove',
-    });
   }
 }
