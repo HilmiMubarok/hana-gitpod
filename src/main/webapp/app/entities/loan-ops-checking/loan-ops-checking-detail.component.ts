@@ -1715,6 +1715,7 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
   public isValueRo = [];
   public isLabel = false;
   public isElement = false;
+  public matrixButton = false;
 
   private getMenuPermission() {
     this.menuPermissionService
@@ -1724,9 +1725,11 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
         if (this.isValueRo.length === 0) {
           this.isLabel = true;
           this.isElement = false;
+          this.matrixButton = false;
         } else {
           this.isElement = true;
           this.isLabel = false;
+          this.matrixButton = true;
         }
       });
   }
