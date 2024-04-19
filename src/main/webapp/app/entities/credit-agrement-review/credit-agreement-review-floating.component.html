@@ -308,6 +308,9 @@
                   <jhi-credit-proposal-generate-pk-report [item]="creditProposal"> </jhi-credit-proposal-generate-pk-report>
                   <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
                 </e-card>
+                <e-card
+                  ><jhi-loan-facility-approve-level-note [creditProposal]="creditProposal"></jhi-loan-facility-approve-level-note
+                ></e-card>
               </div>
             </div>
             <!-- End Dar Summary -->
@@ -446,15 +449,15 @@
             >{{ item.text }}</a
           >
         </mat-list-item>
-        <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')"
-          >{{ item.text }}</mat-list-item
-        >
+        <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
+          item.text
+        }}</mat-list-item>
         <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
           <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
             <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
-            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize"
-              >{{ itemChild.text }}</a
-            >
+            <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle(); triggerToggle()" class="text-capitalize">{{
+              itemChild.text
+            }}</a>
           </mat-list-item>
         </mat-list>
       </div>
