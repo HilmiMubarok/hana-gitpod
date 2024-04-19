@@ -27,6 +27,7 @@ export class CollateralInfoLoanOpsComponent implements OnInit, OnChanges {
   public customPath: Boolean = false;
   @Input() isElement: Boolean = false;
   @Input() isLabel: Boolean = false;
+  public field: Boolean = false;
   constructor(
     private router: Router,
     protected partyCifService: PartyCifService,
@@ -123,7 +124,42 @@ export class CollateralInfoLoanOpsComponent implements OnInit, OnChanges {
       this.isLabel = changes['isLabel'].currentValue;
     }
   }
-
+  public disableFields() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      // this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dppk' ||
+      this.parentPath === 'loan-ops-distribution' ||
+      this.parentPath === 'loan-ops-review' ||
+      this.parentPath === 'loan-ops-checking'
+    ) {
+      // Default Disabled
+      this.field = true;
+    }
+  }
+  public hiddenField() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dppk' ||
+      this.parentPath === 'loan-ops-distribution' ||
+      this.parentPath === 'loan-ops-review' ||
+      this.parentPath === 'loan-ops-checking'
+    ) {
+      return true;
+    }
+    return false;
+  }
   ngOnInit(): void {
     this.selectedMenu = 'INFORMATION';
     // View Sub Menu Collateral Info in Loan And Offering Letter
@@ -154,11 +190,12 @@ export class CollateralInfoLoanOpsComponent implements OnInit, OnChanges {
       this.router.url.split('/')[1] === 'finalize-dppk' ||
       this.router.url.split('/')[1] === 'review-dppk' ||
       this.router.url.split('/')[1] === 'loan-ops-distribution' ||
-      this.router.url.split('/')[1] === 'loan-ops-review'
+      this.router.url.split('/')[1] === 'loan-ops-review' ||
+      this.router.url.split('/')[1] === 'loan-ops-checking'
     ) {
       this.customPath = true;
     }
-
+    this.disableFields();
     if (this.creditProposal.attributes['collateralInfoGroupTotalMvLv']) {
       while (typeof this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] === 'string') {
         this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] = JSON.parse(

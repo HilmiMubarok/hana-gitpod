@@ -25,6 +25,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
   public pacth: any;
   public view: boolean;
   public customPath: Boolean = false;
+  public field: Boolean = false;
 
   constructor(
     private router: Router,
@@ -152,7 +153,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     ) {
       this.customPath = true;
     }
-
+    this.disableFields();
     if (this.creditProposal.attributes['collateralInfoGroupTotalMvLv']) {
       while (typeof this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] === 'string') {
         this.creditProposal.attributes['collateralInfoGroupTotalMvLv'] = JSON.parse(
@@ -165,7 +166,40 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     }
     this.conditionFieldInOfferingLetter();
   }
-
+  public disableFields() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      // this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dppk' ||
+      this.parentPath === 'loan-ops-distribution' ||
+      this.parentPath === 'loan-ops-review'
+    ) {
+      // Default Disabled
+      this.field = true;
+    }
+  }
+  public hiddenField() {
+    if (
+      this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dppk' ||
+      this.parentPath === 'loan-ops-distribution' ||
+      this.parentPath === 'loan-ops-review'
+    ) {
+      return true;
+    }
+    return false;
+  }
   public triggeredSave(proposalType: any) {
     if (this.source === '') {
       if (this.selectedMenu === 'CHECKLIST') {
