@@ -456,7 +456,7 @@
                     <mat-label>Insurance Type</mat-label>
                     <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType">
                       <mat-option value=" ">- Please Select -</mat-option>
-                      <mat-option *ngFor="let item of insuranceTypes" [value]="item.code" [disabled]="fields">
+                      <mat-option *ngFor="let item of insuranceTypes" [value]="item.code" disabled>
                         {{ item.value }}
                       </mat-option>
                     </mat-select>
@@ -477,14 +477,7 @@
                 <section *ngIf="isElement">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Insurance Amount</mat-label>
-                    <input
-                      currencyMask
-                      matInput
-                      type="text"
-                      [(ngModel)]="insurance.insuranceAmount"
-                      [options]="logoIdr"
-                      [disabled]="fields"
-                    />
+                    <input currencyMask matInput type="text" [(ngModel)]="insurance.insuranceAmount" [options]="logoIdr" disabled />
                   </mat-form-field>
                 </section>
                 <section *ngIf="isLabel">
@@ -502,9 +495,9 @@
                 <section *ngIf="isElement">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Rank</mat-label>
-                    <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank" [disabled]="fields">
+                    <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank" disabled>
                       <mat-option value=" ">- Please Select -</mat-option>
-                      <mat-option *ngFor="let item of lovRank" [value]="item.code" [disabled]="fields">
+                      <mat-option *ngFor="let item of lovRank" [value]="item.code" disabled>
                         {{ item.value }}
                       </mat-option>
                     </mat-select>
@@ -566,7 +559,7 @@
                   <section *ngIf="isElement">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>CCY</mat-label>
-                      <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)" [disabled]="field">
+                      <mat-select name="ccy" [(ngModel)]="binding.ccy" (selectionChange)="changeCurrency($event.value)" disabled>
                         <mat-option value=" ">- Please Select -</mat-option>
                         <mat-option *ngFor="let item of optionCcy | keyvalue" [value]="item.value">
                           {{ item.value }}
@@ -581,7 +574,7 @@
                   <section *ngIf="isElement">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Binding Value</mat-label>
-                      <input currencyMask matInput type="text" [(ngModel)]="binding.bindingValue" [options]="logoCcy" />
+                      <input currencyMask matInput type="text" [(ngModel)]="binding.bindingValue" [options]="logoCcy" disabled />
                     </mat-form-field>
                   </section>
                   <section *ngIf="isLabel">
@@ -666,9 +659,9 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Binding Type</mat-label>
-                    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="fields">
+                    <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" disabled>
                       <mat-option value="">- Please Select -</mat-option>
-                      <mat-option *ngFor="let item of bindingTypesHobies" [value]="item.code" [disabled]="fields">
+                      <mat-option *ngFor="let item of bindingTypesHobies" [value]="item.code" disabled>
                         {{ item.value }}
                       </mat-option>
                     </mat-select>
@@ -689,7 +682,7 @@
             <div class="form-group" *ngIf="parentSource === 'dec-offering'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Informasi Tambahan</mat-label>
-                <textarea matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" [disabled]="field"></textarea>
+                <textarea matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" disabled></textarea>
               </mat-form-field>
             </div>
             <!-- <div class="mb-2">
@@ -703,7 +696,7 @@
         <section *ngIf="isElement">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>REMARKS</mat-label>
-            <textarea matInput style="height: 200px" [(ngModel)]="collateral.attributes['collateralRemaks']"></textarea>
+            <textarea matInput style="height: 200px" [(ngModel)]="collateral.attributes['collateralRemaks']" disabled></textarea>
           </mat-form-field>
         </section>
         <section *ngIf="isLabel">
@@ -1387,9 +1380,9 @@
               <section *ngIf="isElement">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Collateral Status</mat-label>
-                  <mat-select name="staus" [(ngModel)]="collateral.statusId" [disabled]="field">
+                  <mat-select name="staus" [(ngModel)]="collateral.statusId" disabled>
                     <mat-option value=" ">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of lovCollateralStatus | keyvalue" [value]="item.key">
+                    <mat-option *ngFor="let item of lovCollateralStatus | keyvalue" [value]="item.key" disabled>
                       {{ item.value }}
                     </mat-option>
                   </mat-select>
@@ -1429,7 +1422,7 @@
               <div class="form-group" *ngIf="parentSource === 'dec-offering'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Informasi Tambahan</mat-label>
-                  <input matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" [disabled]="field" />
+                  <input matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" disabled />
                 </mat-form-field>
               </div>
             </div>
@@ -1444,7 +1437,7 @@
         <section *ngIf="isElement">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>REMARKS</mat-label>
-            <textarea matInput style="height: 200px" [(ngModel)]="collateral.attributes['collateralRemaks']" [disabled]="field"></textarea>
+            <textarea matInput style="height: 200px" [(ngModel)]="collateral.attributes['collateralRemaks']" disabled></textarea>
           </mat-form-field>
         </section>
         <section *ngIf="isLabel">
