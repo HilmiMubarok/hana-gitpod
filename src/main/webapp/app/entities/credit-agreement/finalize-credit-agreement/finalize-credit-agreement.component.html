@@ -599,12 +599,10 @@
     <div class="row">
       <div class="form-group col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="form-group col-6">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Credit Agreements Number</mat-label>
-              <input [(ngModel)]="creditProposal.agreements[0]?.attributes.PREVIOUS_AGREEMENT_NUMBER" matInput type="text" />
-            </mat-form-field>
-          </div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Credit Agreements Number</mat-label>
+            <input [(ngModel)]="creditProposal.agreements[0]?.attributes.PREVIOUS_AGREEMENT_NUMBER" matInput type="text" />
+          </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <div class="fontsebled row py-3">

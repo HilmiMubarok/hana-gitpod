@@ -42,7 +42,7 @@
                   <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.applicationNumber"
@@ -51,7 +51,7 @@
                       floatLabelType="Auto"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabelRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Number</div>
                       <div class="col-md-auto">:</div>
@@ -62,7 +62,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [value]="creditProposal.createdDate | formatMediumDate"
@@ -71,7 +71,7 @@
                       floatLabelType="Always"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabelRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Date</div>
                       <div class="col-md-auto">:</div>
@@ -82,7 +82,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.customerNumber"
@@ -91,7 +91,7 @@
                       floatLabelType="Auto"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabelRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">CIF Number</div>
                       <div class="col-md-auto">:</div>
@@ -102,7 +102,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.cif.name"
@@ -111,7 +111,7 @@
                       floatLabelType="Auto"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabelRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Customer Name</div>
                       <div class="col-md-auto">:</div>
@@ -124,7 +124,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <section *ngIf="isElRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Proposal Type</mat-label>
                       <mat-select
@@ -140,7 +140,7 @@
                       </mat-select>
                     </mat-form-field>
                   </section>
-                  <section *ngIf="isLabelRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Type</div>
                       <div class="col-md-auto">:</div>
@@ -151,7 +151,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-combobox
                       disabled
                       cssClass="e-outline e-disabled"
@@ -165,7 +165,7 @@
                     >
                     </ejs-combobox>
                   </section>
-                  <section *ngIf="isLabelRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Segment</div>
                       <div class="col-md-auto">:</div>
@@ -177,7 +177,7 @@
                 </div>
 
                 <div class="form-group">
-                  <section *ngIf="isElRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
                       placeholder="Referral"
@@ -186,7 +186,7 @@
                       required
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabelRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Referral</div>
                       <div class="col-md-auto">:</div>
@@ -197,7 +197,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <mat-form-field appearance="outline" class="w-100">
                       <mat-label>Lending Program</mat-label>
                       <mat-select name="lendingProgram" [(ngModel)]="creditProposal.attributes['lendingProgramParameter']">
@@ -208,7 +208,7 @@
                       </mat-select>
                     </mat-form-field>
                   </section>
-                  <section *ngIf="isLabelRo">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Lending Program</div>
                       <div class="col-md-auto">:</div>
