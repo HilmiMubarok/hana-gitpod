@@ -279,8 +279,8 @@
               <e-card class="mb-3">
                 <jhi-loan-operation-loan-facility-detail
                   [creditProposal]="creditProposal"
-                  [isLabel]="isLabel"
-                  [isElement]="isElement"
+                  [isLabel]="true"
+                  [isElement]="false"
                 ></jhi-loan-operation-loan-facility-detail>
               </e-card>
             </div>
@@ -301,8 +301,8 @@
                   [collateralProperties]="collateralProperties"
                   [collateralPropertyGroupData]="collateralPropertyGroupData"
                   [parentSource]="'dec-offering'"
-                  [isLabel]="isLabel"
-                  [isElement]="isElement"
+                  [isLabel]="true"
+                  [isElement]="false"
                 >
                 </jhi-collateral-info-loan-ops>
               </e-card>
@@ -346,16 +346,16 @@
           <div *ngIf="clickedMenu === 'loan-facility'">
             <jhi-loan-operation-loan-facility-detail
               [creditProposal]="creditProposal"
-              [isLabel]="isLabel"
-              [isElement]="isElement"
+              [isLabel]="true"
+              [isElement]="false"
               [parentSource]="'credit-agreement'"
             ></jhi-loan-operation-loan-facility-detail>
           </div>
 
           <div *ngIf="clickedMenu === 'dppk'">
             <jhi-dppk-finalize-loan-operation
-              [isLabel]="isLabel"
-              [isElement]="isElement"
+              [isLabel]="true"
+              [isElement]="false"
               [creditProposal]="creditProposal"
             ></jhi-dppk-finalize-loan-operation>
           </div>
@@ -378,8 +378,8 @@
                   [collateralProperties]="collateralProperties"
                   [collateralPropertyGroupData]="collateralPropertyGroupData"
                   [parentSource]="'dec-offering'"
-                  [isLabel]="isLabel"
-                  [isElement]="isElement"
+                  [isLabel]="true"
+                  [isElement]="false"
                 >
                 </jhi-collateral-info-loan-ops>
               </e-card>
