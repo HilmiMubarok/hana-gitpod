@@ -105,8 +105,8 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center" *ngIf="mode !== 'view'">
-  <button mat-button (click)="save()">Save</button>
-  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button (click)="save()" class="confirm-button-yes">Save</button>
+  <button mat-button mat-dialog-close class="confirm-button-no">Close</button>
 </mat-dialog-actions>
 
 <mat-dialog-content align="center" *ngIf="documentInsurance && mode === 'view'">
@@ -156,7 +156,7 @@
         style="width: 300px"
       >
         <img width="300px" src="../../../../content/images/excel.png" />
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 316px; position: sticky; margin-top: -160px; margin-bottom: 140px">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)">
             <mat-icon>get_app</mat-icon>
           </button>
@@ -165,7 +165,7 @@
 
       <div *ngIf="documentInsurance.name.split('.').indexOf('doc') > -1 || documentInsurance.name.split('.').indexOf('docx') > -1">
         <img width="300px" src="../../../../content/images/word.png" />
-        <div style="width: 580px; position: sticky; margin-top: -160px; margin-bottom: 140px">
+        <div style="width: 316px; position: sticky; margin-top: -160px; margin-bottom: 140px">
           <button mat-raised-button (click)="donwload(documentInsurance.url, documentInsurance)">
             <mat-icon>get_app</mat-icon>
           </button>
@@ -267,6 +267,6 @@
   </ul>
   <mat-dialog-actions align="center">
     <!-- <button mat-button [hidden]="mode === 'view'" (click)="save()">Save</button> -->
-    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button mat-dialog-close class="confirm-button-no">Close</button>
   </mat-dialog-actions>
 </mat-dialog-content>
