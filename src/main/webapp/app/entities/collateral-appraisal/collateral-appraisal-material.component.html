@@ -132,8 +132,8 @@
                 <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
                 <td mat-cell *matCellDef="let element" class="text-center">
                   <mat-chip class="status-chip"
-                    ><span class="category-chip__text">{{ element.statusDescription }}</span></mat-chip
-                  >
+                    ><span class="category-chip__text">{{ element.statusDescription }}</span>
+                  </mat-chip>
                 </td>
               </ng-container>
               <ng-container matColumnDef="action">
@@ -413,7 +413,7 @@
                       <div class="p-3 w-100">
                         <mat-card class="w-75 mx-auto">
                           <mat-card-header class="w-100">
-                            <mat-card-subtitle class="fw-bold black text-uppercase">Collateral Detail</mat-card-subtitle>
+                            <mat-card-subtitle class="fw-bold black text-uppercase">Collateral Detail </mat-card-subtitle>
                           </mat-card-header>
                           <mat-card-content>
                             <div class="clearfix">
@@ -456,7 +456,9 @@
                             </div>
                             <div class="clearfix mt-3">
                               <div class="float-start fw-bolder">KTP</div>
-                              <div class="float-end text-capitalize">{{ creditProposal.prospectPerson.personalIdNumber }}</div>
+                              <div class="float-end text-capitalize">
+                                {{ creditProposal.prospectPerson.personalIdNumber }}
+                              </div>
                             </div>
                             <div class="clearfix mt-3">
                               <div class="float-start fw-bolder">KK</div>
@@ -571,12 +573,13 @@
       </mat-card>
     </div>
 
-    <div *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RM']" class="e-card-actions">
-      <section *jhiMatrixDir="1; menu: router.url; subMenu: ''; elementType: 'available'">
-        <div class="d-flex justify-content-center mb-3 mt-3">
-          <button mat-raised-button class="button-styling" (click)="goToEdit()">Add Request Appraisal</button>
-        </div>
-      </section>
+    <!-- <div *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_RM']" class="e-card-actions"> -->
+    <div class="e-card-actions" [hidden]="showButton()">
+      <!-- <section *jhiMatrixDir="1; menu: router.url; subMenu: ''; elementType: 'available'"> -->
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button mat-raised-button class="button-styling" (click)="goToEdit()">Add Request Appraisal</button>
+      </div>
+      <!-- </section> -->
     </div>
   </div>
 </div>

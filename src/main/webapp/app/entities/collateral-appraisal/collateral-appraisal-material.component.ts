@@ -29,6 +29,7 @@ import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { map } from 'rxjs';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { Authority } from 'app/config/authority.constants';
 @Component({
   selector: 'jhi-collateral-appraisal-material',
   templateUrl: './collateral-appraisal-material.component.html',
@@ -303,6 +304,13 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     });
 
     return result;
+  }
+
+  public showButton() {
+    if (this.accountService.hasAnyAuthority(Authority.ADMIN && Authority.RM)) {
+      return false;
+    }
+    return true;
   }
 
   public loadAll(): void {
