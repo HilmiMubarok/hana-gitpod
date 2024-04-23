@@ -297,16 +297,15 @@
             <!-- Collateral info -->
             <div class="wrapper-card">
               <e-card class="mb-3">
-                <jhi-collateral-info-loan-ops
+                <jhi-credit-proposal-collateral-info
                   #creditProposalCollateralInfoComponent
                   [creditProposal]="creditProposal"
                   [collateralProperties]="collateralProperties"
-                  [collateralPropertyGroupData]="collateralPropertyGroupData"
-                  [parentSource]="'dec-offering'"
-                  [isLabel]="true"
-                  [isElement]="false"
+                  [source]="'summaryAll'"
+                  [parentSource]="'loan-analys'"
+                  [isViewMode]="true"
                 >
-                </jhi-collateral-info-loan-ops>
+                </jhi-credit-proposal-collateral-info>
               </e-card>
             </div>
 
