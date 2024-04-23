@@ -24,7 +24,7 @@
             [creditProposal]="creditProposal"
             [collateralSummaryData]="collateralSummaryData"
           ></jhi-binding-value-information>
-          <div class="form-group" *ngIf="hiddenField()">
+          <div class="form-group" *ngIf="parentPath === 'finalize-dppk' || parentPath === 'review-dppk'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Binding Value Note</mat-label>
               <textarea
@@ -97,7 +97,7 @@
           [collateralSummaryData]="collateralSummaryData"
         ></jhi-binding-value-information>
       </div>
-      <div class="form-group" *ngIf="hiddenField()">
+      <div class="form-group" *ngIf="parentPath === 'finalize-dppk' || parentPath === 'review-dppk'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Binding Value Note</mat-label>
           <textarea
@@ -166,7 +166,7 @@
           [collateralSummaryData]="collateralSummaryData"
         ></jhi-binding-value-information>
       </div>
-      <div class="form-group" *ngIf="hiddenField()">
+      <div class="form-group" *ngIf="parentPath === 'finalize-dppk' || parentPath === 'review-dppk'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Binding Value Note</mat-label>
           <textarea
