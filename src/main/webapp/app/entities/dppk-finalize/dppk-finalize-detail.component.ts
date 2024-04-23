@@ -195,6 +195,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
   public postalAdresss;
   public dataLand: any;
   public dataBuilding: any;
+  public dppkNumber: String = '';
 
   constructor(
     private partyCifService: PartyCifService,
@@ -1816,10 +1817,12 @@ export class DppkFinalizeDetailComponent implements OnInit {
     if (idx) {
       this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
         this.creditProposal.entityProperties[idx] = res;
+        this.dppkNumber = res.dppkNumber;
       });
     } else {
       this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
         this.creditProposal.entityProperties.push(res);
+        this.dppkNumber = res.dppkNumber;
       });
     }
   }
