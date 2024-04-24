@@ -32,7 +32,7 @@
         <e-card class="mb-3">
           <div class="e-card-header">
             <div class="e-card-header-caption">
-              <div class="e-card-header-title">Loan Operation Distribution</div>
+              <div class="e-card-header-title">Loan Operation Review</div>
             </div>
           </div>
           <div class="mb-3">
@@ -321,12 +321,12 @@
                 >
                 </jhi-credit-proposal-tab-summary>
                 <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
-                <jhi-assign-to
+                <!-- <jhi-assign-to
                   (assignTo)="onAssignTo($event)"
                   *ngIf="url == 'loan-ops-review'"
                   [creditProposal]="creditProposal"
                   [url]="url"
-                ></jhi-assign-to>
+                ></jhi-assign-to> -->
               </e-card>
             </div>
             <!-- Document: summary gabung -->
@@ -502,7 +502,7 @@
 
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <div *ngIfmatrixButton>
+      <div *ngIf="matrixButton">
         <button
           mat-raised-button
           *ngFor="let task of tasks"
@@ -513,7 +513,8 @@
           {{ task.caption }}
         </button>
 
-        <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
+        <!-- <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button> -->
+        <button class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
     </div>
     <!-- End Action -->
