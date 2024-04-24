@@ -41,7 +41,7 @@
 <mat-dialog-actions align="center" class="align-center">
   <section *jhiMatrixDirIDD="'input'">
     <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Close</button>
-    <button mat-raised-button class="confirm-button-yes" [mat-dialog-close]="collateral">Save</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
   </section>
   <section *jhiMatrixDirIDD="''" align="center">
     <button mat-button mat-dialog-close class="confirm-button-no">Close</button>
