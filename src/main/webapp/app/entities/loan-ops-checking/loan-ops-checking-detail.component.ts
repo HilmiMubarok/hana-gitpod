@@ -1719,7 +1719,7 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
 
   private getMenuPermission() {
     this.menuPermissionService
-      .getAppMenuPermission('LOAN_OPERATION_DISTRIBUTION', this.getLocStor('POSO'), this.creditProposal.statusId)
+      .getAppMenuPermission('LOAN_OPERATION_CHECKING', this.getLocStor('POSO'), this.creditProposal.statusId)
       .subscribe(res => {
         this.isValueRo = res.body;
         if (this.isValueRo.length === 0) {

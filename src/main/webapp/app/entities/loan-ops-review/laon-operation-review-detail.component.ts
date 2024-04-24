@@ -66,12 +66,15 @@ import { ILoanOPSReview } from './laon-operation-review.model';
 import { LoanOpsReviewService } from './laon-operation-review.service';
 import { LoanOpsReviewProcessService } from './laon-operation-review-process.service';
 import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
+import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 @Component({
   selector: 'jhi-laon-operation-review-detail',
   templateUrl: './laon-operation-review-detail.component.html',
   styleUrls: ['./laon-operation-review.css'],
 })
 export class LoanOpsReviewDetailComponent implements OnInit {
+  CreditProposalTabSummaryComponent: CreditProposalTabSummaryComponent;
+
   @ViewChild('creditProposalTabBusinessActivityComponent', {
     static: false,
   })
@@ -96,11 +99,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     static: false,
   })
   creditProposalOpinionHistoryComponent: CreditProposalOpinionHistoryComponent;
-
-  @ViewChild('CreditProposalTabSummaryComponent', {
-    static: false,
-  })
-  CreditProposalTabSummaryComponent: CreditProposalTabSummaryComponent;
 
   @ViewChild('proposalBasicInformationViewComponent', {
     static: false,
@@ -145,9 +143,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
 
   public url: string;
   public activeRoute: string;
-  public applicationRole: IApplicationRole;
-  public applicationRoles: IApplicationRole[];
-  public applicationRoleId: number;
   public routeHelper: string;
   public resAttr: any;
   public lendingProgram = [];
@@ -187,6 +182,9 @@ export class LoanOpsReviewDetailComponent implements OnInit {
   public dataBuilding: any;
 
   public isAssignedTo: Boolean = false;
+  public applicationRole: IApplicationRole;
+  public applicationRoles: IApplicationRole[];
+  public applicationRoleId: number;
 
   private applicationRolePreSave = {
     id: 0,
@@ -196,6 +194,7 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     roleDescription: '',
     roleId: '',
   };
+
   constructor(
     private partyCifService: PartyCifService,
     private loanOpsReviewService: LoanOpsReviewService,
@@ -207,6 +206,7 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     protected reportUtils: ReportUtilService,
     public accountService: AccountService,
     public applicationRoleService: ApplicationRoleService,
+    private entitiyPropertiesService: EntitiyPropertiesService,
     public lendingProgramParameterService: LendingProgramParameterService,
     public generalParameterService: GeneralParameterService,
     private storageService: StorageService,
@@ -248,7 +248,7 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     });
     // this.isHistoryExist = this.creditProposal.attributes.previousHistory && this.parentPath !== 'finalize-pk' ? true : false;
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
-    this.setTotalPlafond();
+    // this.setTotalPlafond();
 
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
@@ -316,63 +316,8 @@ export class LoanOpsReviewDetailComponent implements OnInit {
           this.conditionSave = false;
         }
       }
-
-      if (this.positionTypeId === 'SME_HEAD') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'SDH') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_SDH') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'DH') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_DH') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-
-      if (this.positionTypeId === 'DEPT_HEAD') {
-        if (this.creditProposal.statusId === 'CP_APPROVAL_DEPTHEAD') {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      }
-    } else {
-      if (this.positionTypeId === 'RM') {
-        if (
-          this.creditProposal.statusId === 'DRAFT' ||
-          this.creditProposal.statusId === 'CP_RETURN_TO_RM' ||
-          this.creditProposal.statusId === 'CP_RETURN_TO_CR' ||
-          this.creditProposal.statusId === 'RETURN_TO_RM_CRA' ||
-          this.creditProposal.statusId === 'OL_APPEAL'
-        ) {
-          this.conditionSave = true;
-        } else {
-          this.conditionSave = false;
-        }
-      } else {
-        this.conditionSave = false;
-      }
     }
   }
-
-  // private getBucketNameSummary() {
-  //   this.storageService.getBucketName().subscribe(val => {
-  //     this.BUCKET = val.body['bucket'];
-  //   });
-  // }
-
   setUuidPath(newItem: string) {
     this.uuidPath = newItem;
   }
@@ -416,12 +361,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
         if (this.CPMemoBandingRemarkComponent) {
           this.CPMemoBandingRemarkComponent.triggeredSave();
         }
-
-        /* if (this.creditProposalOpinionHistoryComponent) {
-          this.creditProposalOpinionHistoryComponent.triggeredSave();
-          this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-          this.creditProposalOpinionHistoryComponent.refresh();
-		} */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -474,11 +413,12 @@ export class LoanOpsReviewDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getBucketNameSummary();
     this.getListIndustry();
+    this.setDppkNumber();
     this.lendingProgramParameter();
     this.getPositionTypeId();
     this.lovProposalType();
-    this.getBucketNameSummary();
 
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -521,14 +461,10 @@ export class LoanOpsReviewDetailComponent implements OnInit {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
     this.getTitleUrl();
-    if (this.creditProposal.cif) {
-      this.loadByPartyId(this.creditProposal.cif.partyId);
-    }
 
     this.loadDataBy();
     this.showTextMenu();
     this.getMenuPermission();
-    // this.cpGroub();
   }
 
   public goToSubMenu(menu: string): void {
@@ -546,7 +482,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
   }
 
   private getTasks(): void {
-    // this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
     this.loanOpsReviewProcessService
       .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
       .subscribe(res => {
@@ -596,7 +531,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
       type: 'credit_proposal',
     });
   }
-
   public onForwardTo(ev) {
     this.applicationRole = ev;
   }
@@ -705,7 +639,7 @@ export class LoanOpsReviewDetailComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.parentPath !== 'loan-ops-review') {
+      if (this.parentPath !== 'loan-ops-distribution') {
         if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
         }
@@ -746,11 +680,11 @@ export class LoanOpsReviewDetailComponent implements OnInit {
       }
     });
 
-    this.cekCgpgData();
+    // this.cekCgpgData();
   }
 
   public save(source: string): void {
-    this.saveCollateralAfterReport();
+    // this.saveCollateralAfterReport();
     this.setIndustryName();
     this.saveState = source;
 
@@ -823,13 +757,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
                       } else {
                         ++countValidate;
                       }
-
-                      /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
                     }
                   } else {
                     // toast opinion empty
@@ -847,17 +774,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
                         const fileReaderCondition: FileReader = new FileReader();
                         fileReaderCondition.onload = (eCondition: any) => {
                           const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-                          /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
 
                           if (
                             testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -1077,12 +993,13 @@ export class LoanOpsReviewDetailComponent implements OnInit {
   }
 
   private preSave(status: string): ILoanOPSReview {
-    this.applicationRolePreSave.id = Number(this.applicationRole.id);
-    this.applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
-    this.applicationRolePreSave.partyId = this.applicationRole.partyId;
-    this.applicationRolePreSave.partyName = this.applicationRole.partyName;
-    this.applicationRolePreSave.roleId = this.applicationRole.roleId;
-    this.applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
+    this.applicationRolePreSave.id = Number(this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].id);
+    this.applicationRolePreSave.applicationId = Number(this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].applicationId);
+    this.applicationRolePreSave.partyId = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].partyId;
+    this.applicationRolePreSave.partyName = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].partyName;
+    this.applicationRolePreSave.roleId = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].roleId;
+    this.applicationRolePreSave.roleDescription = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].roleDescription;
+
     for (let i = 0; i < this.loanOpsReviewService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.loanOpsReviewService.partySliks[i]];
     }
@@ -1179,6 +1096,8 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.groupProducts = [];
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
+    copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
+
     if (this.url === 'la-distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(this.applicationRolePreSave);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
@@ -1270,6 +1189,13 @@ export class LoanOpsReviewDetailComponent implements OnInit {
       }
     }
   }
+
+  // disabledProptype() {
+  //   if (this.parentPath === 'cp-status-approval') {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
@@ -1529,6 +1455,7 @@ export class LoanOpsReviewDetailComponent implements OnInit {
   }
   // CP/Float
   // cancel confrimation dialog
+
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
@@ -1555,7 +1482,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
       this.getAllColGroup();
     });
   }
-
   private getAllColGroup() {
     return new Promise((resolve, reject) => {
       if (this.listGroupCollateral.length > 0) {
@@ -1769,15 +1695,29 @@ export class LoanOpsReviewDetailComponent implements OnInit {
       this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
     );
   }
+
   // scroll-up
 
   readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
 
-  onScrollToTop(): void {
-    this.viewport.scrollToPosition([0, 0]);
+  // onScrollToTop(): void {
+  //   this.viewport.scrollToPosition([0, 0]);
+  // }
+
+  public setDppkNumber() {
+    const idx = this.creditProposal.entityProperties.findIndex(obj => obj.entityPropertyTypeId === 'DPPK');
+    if (idx) {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties[idx] = res;
+      });
+    } else {
+      this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
+        this.creditProposal.entityProperties.push(res);
+      });
+    }
   }
 
-  public isValuePermissionReview = [];
+  public isValueRo = [];
   public isLabel = false;
   public isElement = false;
   public matrixButton = false;
@@ -1786,9 +1726,8 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     this.menuPermissionService
       .getAppMenuPermission('LOAN_OPERATION_REVIEW', this.getLocStor('POSO'), this.creditProposal.statusId)
       .subscribe(res => {
-        console.log('WIDAGDO', res);
-        this.isValuePermissionReview = res.body;
-        if (this.isValuePermissionReview.length === 0) {
+        this.isValueRo = res.body;
+        if (this.isValueRo.length === 0) {
           this.isLabel = true;
           this.isElement = false;
           this.matrixButton = false;
@@ -1799,7 +1738,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
         }
       });
   }
-
   public onAssignTo(ev: any): void {
     let dynAttr = 'dataAssignTo';
 
