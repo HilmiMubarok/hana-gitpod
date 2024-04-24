@@ -386,13 +386,6 @@
             </section>
           </div>
 
-          <!-- compliance recomendation -->
-          <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
-            <e-card>
-              <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
-            </e-card>
-          </div>
-
           <!-- opinion -->
           <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
             <e-card>
@@ -443,11 +436,15 @@
         </div>
 
         <!-- compliance recomendation -->
-        <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <div *ngIf="clickedMenu === 'compliance-recommendation'">
           <e-card>
-            <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
+            <jhi-loan-analys-compliance [creditProposal]="creditProposal" [word]="saveDoc"></jhi-loan-analys-compliance>
           </e-card>
-          <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk'">
+          <div
+            *ngIf="
+              parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk' || parentPath === 'loan-ops-review'
+            "
+          >
             <e-card>
               <jhi-loan-analys-opinion-compliance-part
                 #loanAnalysOpinionCompliancePartComponent
@@ -459,26 +456,6 @@
               </jhi-loan-analys-opinion-compliance-part>
             </e-card>
           </div>
-        </div>
-
-        <!-- opinion -->
-        <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
-          <e-card>
-            <jhi-loan-analys-opinion
-              #loanAnalysOpinionComponent
-              (uuidPath)="setUuidPath($event)"
-              (positionLoginEmit)="setPositionLogin($event)"
-              (newItemEvent)="setOpinionRecomendation($event)"
-              (isAllowSave)="setIsAllowSave($event)"
-              (opinionFileSfdt)="setOpinionFileSfdt($event)"
-              (opinionFileWord)="setOpinionFileWord($event)"
-              (conditionFileSfdt)="setConditionFileSfdt($event)"
-              (conditionFileWord)="setConditionFileWord($event)"
-              [creditProposalItem]="creditProposal"
-              [notifyChild]="parentSubject"
-            >
-            </jhi-loan-analys-opinion>
-          </e-card>
         </div>
 
         <!-- compare data -->
