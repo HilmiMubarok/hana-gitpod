@@ -104,14 +104,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     this.getClausalAddendum();
   }
 
-  logApproval() {
-    console.log('aaaaaa', {
-      approvalDebtor: this.approvalDebtor,
-      selectedConditions: this.selectedConditions,
-      entityProperties: this.creditProposal.entityProperties,
-    });
-  }
-
   clearApprovalDebtorConditions() {
     const entityProperties = this.creditProposal.entityProperties;
 
@@ -119,7 +111,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     entityProperties.forEach((entityProperty, index) => {
       if (entityProperty.entityPropertyTypeId === 'APPROVAL_DEBTOR_CONDITIONS') {
         // Find where approvalDebtorConditionStatus === null
-        if (entityProperty.approvalDebtorConditionStatus === null) {
+        if (entityProperty.approvalDebtorConditionStatus === null || entityProperty.approvalDebtorConditionStatus === '') {
           // Delete
           this.cashCreditProposalsService.deletePropsResource(entityProperty.id).subscribe(() => {
             entityProperties.splice(index, 1);
@@ -133,8 +125,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   public getApprovalDebtorConditions() {
     this.clearApprovalDebtorConditions();
-    console.log('aaaaa getApprovalDebtorConditions', this.creditProposal.entityProperties);
-
     if (this.creditProposal.entityProperties.length > 1) {
       for (let i = 0; i < this.creditProposal.entityProperties.length - 1; i++) {
         this.selectedConditions[i] = this.creditProposal.entityProperties[i].approvalDebtorConditionStatus;
@@ -148,12 +138,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     for (let i = 0; i < this.creditProposal.entityProperties.length; i++) {
       this.selectedConditions[i] = this.creditProposal.entityProperties[i].approvalDebtorConditionStatus;
     }
-
-    setTimeout(() => {
-      console.log('aaaaa selectedConditions', this.selectedConditions);
-      console.log('aaaaa approvalDebtor', this.approvalDebtor);
-      console.log('aaaaa getApprovalDebtorConditions', this.creditProposal.entityProperties);
-    }, 5000);
   }
 
   public onSelectAgreementType(event: any) {
@@ -370,7 +354,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   }
 
   addApproval() {
-    console.log('aaaaa addApproval', this.approvalDebtor);
     if (this.creditProposal.customerType === 'PERSONAL') {
       if (this.approvalDebtor.length < 1) {
         this.cashCreditProposalsService
@@ -390,11 +373,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
             this.approvalDebtor.push({});
             this.selectedConditions.push('');
           });
-
-        setTimeout(() => {
-          console.log('aaaaa addApproval', this.selectedConditions);
-          console.log('aaaaa addApproval', this.approvalDebtor);
-        }, 5000);
       }
     }
   }
@@ -430,8 +408,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     }
 
     // You can do more with the selected value if needed
-
-    console.log('aaaaa selectedValue', selectedValue, this.selectedConditions);
   }
 
   public selectedConditionId(name: string) {
