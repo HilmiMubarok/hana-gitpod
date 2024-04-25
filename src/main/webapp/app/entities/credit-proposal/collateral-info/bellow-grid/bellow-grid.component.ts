@@ -24,6 +24,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-bellow-grid',
@@ -141,6 +142,15 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       }
       return num + 'x';
     }
+  }
+
+  public getSummaryCollateral() {
+    const applicationNumber = this.creditProposal.id;
+    this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
+      this.dataCollateral = lodash.filter(res.body, function (o) {
+        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+      });
+    });
   }
 
   private totalCoverage() {
