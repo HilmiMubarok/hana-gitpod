@@ -712,7 +712,27 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.cekCgpgData();
   }
 
+  clearApprovalDebtorConditions() {
+    const entityProperties = this.creditProposal.entityProperties;
+
+    // filter where entityProperties.entityPropertyTypeId === "APPROVAL_DEBTOR_CONDITIONS"
+    entityProperties.forEach((entityProperty, index) => {
+      if (entityProperty.entityPropertyTypeId === 'APPROVAL_DEBTOR_CONDITIONS') {
+        // Find where approvalDebtorConditionStatus === null
+        if (entityProperty.approvalDebtorConditionStatus === null) {
+          // Delete
+          this.cashCreditProposalsService.deletePropsResource(entityProperty.id).subscribe(() => {
+            entityProperties.splice(index, 1);
+          });
+        }
+      }
+    });
+  }
+
   public save(source: string): void {
+    // Clear Approval Debtor Conditions
+    this.clearApprovalDebtorConditions();
+
     this.saveCollateralAfterReport();
     this.setIndustryName();
     this.saveState = source;
