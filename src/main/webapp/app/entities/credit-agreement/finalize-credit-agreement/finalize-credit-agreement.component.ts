@@ -104,7 +104,27 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     this.getClausalAddendum();
   }
 
+  clearApprovalDebtorConditions() {
+    const entityProperties = this.creditProposal.entityProperties;
+
+    // filter where entityProperties.entityPropertyTypeId === "APPROVAL_DEBTOR_CONDITIONS"
+    entityProperties.forEach((entityProperty, index) => {
+      if (entityProperty.entityPropertyTypeId === 'APPROVAL_DEBTOR_CONDITIONS') {
+        // Find where approvalDebtorConditionStatus === null
+        if (entityProperty.approvalDebtorConditionStatus === null || entityProperty.approvalDebtorConditionStatus === '') {
+          // Delete
+          this.cashCreditProposalsService.deletePropsResource(entityProperty.id).subscribe(() => {
+            entityProperties.splice(index, 1);
+          });
+        }
+      }
+    });
+
+    this.creditProposal.entityProperties = entityProperties;
+  }
+
   public getApprovalDebtorConditions() {
+    this.clearApprovalDebtorConditions();
     if (this.creditProposal.entityProperties.length > 1) {
       for (let i = 0; i < this.creditProposal.entityProperties.length - 1; i++) {
         this.selectedConditions[i] = this.creditProposal.entityProperties[i].approvalDebtorConditionStatus;
