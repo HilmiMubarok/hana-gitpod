@@ -534,6 +534,7 @@ import { GenerateTboLegalMonitoringComponent } from './tbo-legal-monitoring/gene
 import { TboLegalMonitoringComponent } from './tbo-legal-monitoring/tbo-monitoring/tbo-legal-monitoring.component';
 import { HistoryTBOComponent } from './tbo-legal-monitoring/history-tbo/history-tbo.component';
 import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collateral-info/dialog/collateral-info-dialog-loan-ops.component';
+import { DisbursmentApproveComponent } from './loan-ops-review/disbursment -status/disbursment-approve.component';
 
 @NgModule({
   imports: [
@@ -951,6 +952,7 @@ import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collatera
     DocumentChecklistDialogTempComponent,
     CreditProposalDeviationDarAboveComponent,
     ApproveFinalComponent,
+    DisbursmentApproveComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
     // cross idd //
     ParipasuCollateralIddDebtorComponent,
@@ -1564,6 +1566,7 @@ import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collatera
     DocumentChecklistDialogTempComponent,
     CreditProposalDeviationDarAboveComponent,
     ApproveFinalComponent,
+    DisbursmentApproveComponent,
     DocumentTypeViewComponent,
     LendingProgramParameterViewComponent,
     RequestSlikViewComponent,
