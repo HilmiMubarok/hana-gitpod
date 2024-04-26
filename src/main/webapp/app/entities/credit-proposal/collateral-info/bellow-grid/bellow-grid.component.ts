@@ -72,6 +72,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   public dataCollateral: ICollateral[];
+  public dataCollateralSummary: ICollateral[];
   public certificateType: any;
   public dataItem: any;
   public dataCertyficate: any;
@@ -183,11 +184,19 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   public getSummaryCollateral() {
-    const applicationNumber = this.creditProposal.id;
-    this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
-      this.dataCollateral = lodash.filter(res.body, function (o) {
-        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
-      });
+    return new Promise((resolve, reject) => {
+      const applicationNumber = this.creditProposal.id;
+      this.collateralService.getSummaryCollateral(applicationNumber).subscribe(
+        res => {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
+            return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+          });
+          resolve(this.dataCollateralSummary);
+        },
+        error => {
+          reject(error);
+        }
+      );
     });
   }
 
@@ -769,7 +778,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1003,11 +1012,12 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
         this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
         this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
-
-        this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-        this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-        this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-        this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+        this.getSummaryCollateral().then(() => {
+          this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+          this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+          this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+          this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+        });
       });
     });
   }
@@ -1068,7 +1078,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1089,7 +1099,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1111,7 +1121,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1131,7 +1141,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
