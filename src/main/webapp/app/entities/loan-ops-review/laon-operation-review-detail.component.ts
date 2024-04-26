@@ -1097,7 +1097,7 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     copyCreditProposal.groupProducts = [];
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
-
+    copyCreditProposal.attributes['disbursementPlan'] = JSON.stringify(copyCreditProposal.attributes['disbursementPlan']);
     if (this.url === 'la-distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(this.applicationRolePreSave);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);

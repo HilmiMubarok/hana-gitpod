@@ -321,12 +321,7 @@
                 >
                 </jhi-credit-proposal-tab-summary>
                 <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
-                <!-- <jhi-assign-to
-                  (assignTo)="onAssignTo($event)"
-                  *ngIf="url == 'loan-ops-review'"
-                  [creditProposal]="creditProposal"
-                  [url]="url"
-                ></jhi-assign-to> -->
+                <jhi-disbursment-approve [creditProposal]="creditProposal"></jhi-disbursment-approve>
               </e-card>
             </div>
             <!-- Document: summary gabung -->
