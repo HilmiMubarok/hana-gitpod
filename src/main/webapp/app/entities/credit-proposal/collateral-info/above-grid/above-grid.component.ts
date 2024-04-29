@@ -26,6 +26,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { ICertificateInfo } from 'app/entities/offering-letter/certificate-info/certificate-info.model';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
@@ -72,6 +73,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public biddingValueCoverage: number;
   public insuranceTypes = [];
   public bindingTypesHobies = [];
+  public dataCollateralSummary: any[];
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -984,7 +986,22 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       return num + 'x';
     }
   }
-
+  public getSummaryCollateral() {
+    return new Promise((resolve, reject) => {
+      const applicationNumber = this.creditProposal.id;
+      this.collateralService.getSummaryCollateral(applicationNumber).subscribe(
+        res => {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
+            return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+          });
+          resolve(this.dataCollateralSummary);
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  }
   public getBindingCalculate(res: any[]) {
     const array1 = res;
     const array2 = this.creditProposal.attributes['binding'];
@@ -1001,10 +1018,10 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
         this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
 
-        this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-        this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-        this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-        this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+		this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+		this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+		this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+		this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
       });
     });
   }

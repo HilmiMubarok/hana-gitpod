@@ -72,6 +72,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   public dataCollateral: ICollateral[];
+  public dataCollateralSummary: ICollateral[];
   public certificateType: any;
   public dataItem: any;
   public dataCertyficate: any;
@@ -145,11 +146,19 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   public getSummaryCollateral() {
-    const applicationNumber = this.creditProposal.id;
-    this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
-      this.dataCollateral = lodash.filter(res.body, function (o) {
-        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
-      });
+    return new Promise((resolve, reject) => {
+      const applicationNumber = this.creditProposal.id;
+      this.collateralService.getSummaryCollateral(applicationNumber).subscribe(
+        res => {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
+            return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+          });
+          resolve(this.dataCollateralSummary);
+        },
+        error => {
+          reject(error);
+        }
+      );
     });
   }
 
@@ -1027,7 +1036,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
