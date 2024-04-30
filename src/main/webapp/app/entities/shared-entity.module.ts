@@ -535,6 +535,7 @@ import { TboLegalMonitoringComponent } from './tbo-legal-monitoring/tbo-monitori
 import { HistoryTBOComponent } from './tbo-legal-monitoring/history-tbo/history-tbo.component';
 import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collateral-info/dialog/collateral-info-dialog-loan-ops.component';
 import { DisbursmentApproveComponent } from './loan-ops-review/disbursment -status/disbursment-approve.component';
+import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/document-checklist-opinion.component';
 
 @NgModule({
   imports: [
@@ -1159,7 +1160,8 @@ import { DisbursmentApproveComponent } from './loan-ops-review/disbursment -stat
     CollateralInfoRemarksLoanOpsComponent,
     MappingFacilityLoanOpsComponent,
     CollateralInfoDialogLoanOpsComponent,
-    ...LoanOperationLoanFacilityTemplate
+    ...LoanOperationLoanFacilityTemplate,
+	DocumentChecklistOpinionComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1738,6 +1740,7 @@ import { DisbursmentApproveComponent } from './loan-ops-review/disbursment -stat
     CollateralInfoRemarksLoanOpsComponent,
     MappingFacilityLoanOpsComponent,
     CollateralInfoDialogLoanOpsComponent,
+	DocumentChecklistOpinionComponent
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
