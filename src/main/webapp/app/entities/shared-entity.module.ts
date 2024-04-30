@@ -395,6 +395,7 @@ import { GroupCollateralDarComponent } from './loan-analys/dar-final/collateral-
 import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-list-dar.component';
 import { CreditProposalSummaryGenerateMemoBandingComponent } from './credit-proposal/credit-proposal-summary-generate-memo-banding.component';
 import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposal/collateral-info/collateral-summary/credit-proposal-collateral-summary-dialog.component';
+import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/document-checklist-opinion.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -853,10 +854,13 @@ import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposa
         MemoBandingComponent,
         CreditProposalSummaryGenerateMemoBandingComponent,
         CreditProposalCollateralSummaryDialogComponent,
+
+    DocumentChecklistOpinionComponent,
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
+    DocumentChecklistOpinionComponent,
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
