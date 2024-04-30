@@ -1092,7 +1092,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
         this.tempRouter === 'review-dpdl' ||
         this.tempRouter === 'distribution' ||
         this.tempRouter === 'loan-ops-distribution' ||
-        this.tempRouter === 'loan-ops-review'
+        this.tempRouter === 'loan-ops-review' ||
+        this.tempRouter === 'review-pk'
       ) {
         if (this.notes) {
           if (this.notes.length > 0) {
