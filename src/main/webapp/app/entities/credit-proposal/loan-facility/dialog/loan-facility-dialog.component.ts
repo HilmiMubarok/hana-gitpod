@@ -73,6 +73,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public revolving: Boolean;
   public logoProvisonFee = {};
   public logoAdminFee = {};
+  public categoryDescription = [];
 
   @Input()
   get collateral() {
@@ -875,6 +876,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         })
         .subscribe(res => {
           this.listCategoryLov = res.body;
+          for (let i = 0; i < this.listCategoryLov.length; i++) {
+            this.categoryDescription = this.listCategoryLov[i].categoryDescription;
+          }
         });
       this.applicationProduct.productId = data.id;
       this.calTotalPlafond(data.revolving);
