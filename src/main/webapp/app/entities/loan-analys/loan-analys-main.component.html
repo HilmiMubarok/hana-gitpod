@@ -378,6 +378,10 @@
         <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-document-checklist>
       </div>
 
+      <div *ngIf="selectedMenu === 'doc-checklist'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-document-checklist-opinion [creditProposal]="creditProposal"></jhi-document-checklist-opinion>
+      </div>
+
       <!-- Bussines Activity -->
       <div *ngIf="selectedMenu === 'business-activity'" class="e-sample-resize-container e-card-resize-container wrapper-card">
         <e-card>
