@@ -127,9 +127,7 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
         this.mData.totalLuasLandImb =
           result.body.attributes['totalLuasTanahIMB'] !== null ? result.body.attributes['totalLuasTanahIMB'] : 0;
         this.mData.appraisalValueImbLandPerMeter =
-          result.body.attributes['appraisalValueImbTataKotaBuilding'] !== null
-            ? result.body.attributes['appraisalValueImbTataKotaBuilding']
-            : 0;
+          result.body.attributes['appraisalValueIMBPerMeterLand'] !== null ? result.body.attributes['appraisalValueIMBPerMeterLand'] : 0;
         this.mData.totalAppraisalValueLandImb = this.mData.totalLuasLandImb * this.mData.appraisalValueImbLandPerMeter;
 
         // TataKota
@@ -157,7 +155,9 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
         this.mData.totalLuasBuildingImb =
           result.body.attributes['totalLuasBangunanIMB'] !== null ? result.body.attributes['totalLuasBangunanIMB'] : 0;
         this.mData.appraisalValueImbBuildingPerMeter =
-          result.body.attributes['appraisalValueBuildingPerMeter'] !== null ? result.body.attributes['appraisalValueBuildingPerMeter'] : 0;
+          result.body.attributes['appraisalValueImbTataKotaBuilding'] !== null
+            ? result.body.attributes['appraisalValueImbTataKotaBuilding']
+            : 0;
         this.mData.totalAppraisalValueBuildingImb = this.mData.totalLuasBuildingImb * this.mData.appraisalValueImbBuildingPerMeter;
 
         // TataKota
