@@ -192,8 +192,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public disabledVisited() {
     if (this.surveyAppraisal.statusId === 'VISITED') {
       this.appraisalValidityPeriod = false;
-    }
-    {
+    } else {
       this.appraisalValidityPeriod = true;
     }
   }
