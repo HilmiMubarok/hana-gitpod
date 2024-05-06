@@ -70,4 +70,10 @@ export class StorageService {
   public deleteFile(bucket: string, body: string): Observable<HttpResponse<any>> {
     return this.http.post<any>(this.resourceUrl + '/' + bucket + '/deletefile', body, { observe: 'response' });
   }
+
+  public getTags(bucket: string, path: string, key: string, value: string): Observable<HttpResponse<Object[]>> {
+    // query untuk mendapatkn list file
+    const params = new HttpParams().set('path', path).set('key', key).set('value', value);
+    return this.http.get<Object[]>(this.resourceUrl + '/' + bucket + '/tags?', { observe: 'response', params });
+  }
 }

@@ -536,6 +536,8 @@ import { HistoryTBOComponent } from './tbo-legal-monitoring/history-tbo/history-
 import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collateral-info/dialog/collateral-info-dialog-loan-ops.component';
 import { DisbursmentApproveComponent } from './loan-ops-review/disbursment -status/disbursment-approve.component';
 import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/document-checklist-opinion.component';
+import { TboLegalMonitoringDetailComponent } from './tbo-legal-monitoring/tbo-monitoring/dialog/tbo-legal-monitoring-detail.component';
+import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-monitoring/dialog/tbo-legal-monitoring-view.component';
 
 @NgModule({
   imports: [
@@ -1087,6 +1089,12 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
 
     // tbo-legal-monitoring
     TboLegalMonitoringComponent,
+
+    // tbo-monitoring-detail
+    TboLegalMonitoringDetailComponent,
+
+    // tbo-monitoring-view
+    TboLegalMonitoringViewComponent,
 
     // history-tbo
     HistoryTBOComponent,
@@ -1664,6 +1672,12 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     // tbo-legal-monitoring
     TboLegalMonitoringComponent,
 
+    // tbo-monitoring-detail
+    TboLegalMonitoringDetailComponent,
+
+    // tbo-monitoring-view
+    TboLegalMonitoringViewComponent,
+
     // history-tbo
     HistoryTBOComponent,
 
@@ -1740,7 +1754,7 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     CollateralInfoRemarksLoanOpsComponent,
     MappingFacilityLoanOpsComponent,
     CollateralInfoDialogLoanOpsComponent,
-	DocumentChecklistOpinionComponent
+    DocumentChecklistOpinionComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
