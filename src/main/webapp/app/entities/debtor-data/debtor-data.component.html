@@ -16,7 +16,7 @@
             <section *jhiMatrixDirIDD="'input'">
               <ejs-combobox cssClass="e-outline" [dataSource]="proposalType" [(ngModel)]="tempKey"> </ejs-combobox>
               <div class="mt-3">
-                <button mat-raised-button class="button-styling" ejs-button (click)="generate()">generate</button>
+                <button mat-raised-button class="button-styling" (click)="generate()">generate</button>
               </div>
             </section>
             <section *jhiMatrixDirIDD="''">
@@ -36,8 +36,8 @@
                   (created)="created()"
                   (beforeOpen)="beforeOpen($event)"
                   (beforeSave)="beforeSave($event)"
-                  openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
-                  saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
+                  openUrl="https://services.syncfusion.com/angular/production/api/spreadsheet/open"
+                  saveUrl="https://services.syncfusion.com/angular/production/api/spreadsheet/save"
                   allowSave="true"
                   [allowEditing]="true"
                   [height]="700"
@@ -53,8 +53,8 @@
                   [showFormulaBar]="false"
                   [showRibbon]="false"
                   [isProtected]="true"
-                  openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
-                  saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
+                  openUrl="https://services.syncfusion.com/angular/production/api/spreadsheet/open"
+                  saveUrl="https://services.syncfusion.com/angular/production/api/spreadsheet/save"
                   allowSave="true"
                   [allowEditing]="false"
                   [height]="700"
