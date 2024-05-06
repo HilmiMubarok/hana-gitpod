@@ -110,6 +110,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   ];
 
   private _collateralAppraisal: ICollateralAppraisal;
+  appraisalValidity: any;
   get collateralAppraisal() {
     return this._collateralAppraisal;
   }
@@ -446,7 +447,9 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
   }
-
+  public setAppraisalValidity(ev) {
+    this.appraisalValidity = ev;
+  }
   public checkCompletedData(node: IOptionNode): boolean {
     if (this.collateralAppraisal) {
       if (node.id === 'comparison-data') {
@@ -1107,6 +1110,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
   public checkMustValidatedOnVisited() {
     const mustValidatedOnVisited = {
+      appraisalValidity: true,
       documentCollateral: true,
       documentLainnya: true,
       fotoObjectJaminan: true,
@@ -1196,7 +1200,12 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
-
+    if (this.surveyAppraisal.apprOfficer === 'Internal') {
+      if (!this.surveyAppraisal.thruDate) {
+        this._showNotification('error', 'Memilih Tanggal Appraisal Validity Period Dahulu');
+        mustValidatedOnVisited.appraisalValidity = false;
+      }
+    }
     return this._validateProcess(mustValidatedOnVisited);
   }
 
