@@ -769,8 +769,9 @@
                     matInput
                     type="text"
                     (focusout)="myFunction()"
-                    [ngModel]="deptorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
-                    (ngModelChange)="deptorData.annualSales = currencyInputChanged($event)"
+                    currencyMask
+                    [options]="logoCcy"
+                    [(ngModel)]="deptorData.annualSales"
                   />
                 </mat-form-field>
 
@@ -873,8 +874,9 @@
                     matInput
                     type="text"
                     (focusout)="myFunction()"
-                    [ngModel]="deptorData.capitalDeposit | currency: 'IDR ':'symbol':'1.0-0'"
-                    (ngModelChange)="deptorData.capitalDeposit = currencyInputChanged($event)"
+                    [(ngModel)]="deptorData.capitalDeposit"
+                    currencyMask
+                    [options]="logoCcy"
                   />
                 </mat-form-field>
               </section>

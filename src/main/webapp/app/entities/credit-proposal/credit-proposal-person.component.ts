@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { AlertService } from 'app/core/util/alert.service';
@@ -54,7 +54,7 @@ moment.locale('id');
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
 })
-export class CreditProposalPersonComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges, OnInit {
+export class CreditProposalPersonComponent extends AbstractEntityBaseViewComponent<IPerson> implements OnChanges, OnInit, AfterViewInit {
   @Input()
   public disableMaritalStatus: Boolean = false;
 
@@ -135,8 +135,13 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       (this.umkmClassification = UMKM_CLASSIFICATION);
   }
 
+  ngAfterViewInit(): void {
+    this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  }
+
   ngOnInit(): void {
     this.loadCreditType();
+
     this.loadGolongan();
     this.lovCallreport();
     this.getLov();
@@ -375,7 +380,12 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     // }
   }
 
+  public logoCcy;
+
   public myFunction() {
+    if (this.deptorData.annualSales === 0) {
+      this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
+    }
     this.getProduct();
     if (this.deptorData.applicationTypeId === 'SME') {
       const totalPlafond = 0;
@@ -459,11 +469,23 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     }
   }
 
+  // currencyInputChanged(value: string) {
+  //   let num: string;
+  //   const args = value.indexOf('IDR');
+  //   args === -1 ? (num = '0') : (num = value.replace(/[IDR,]/g, ''));
+  //   return Number(num);
+  // }
+
   currencyInputChanged(value: string) {
     let num: string;
     const args = value.indexOf('IDR');
-    args === -1 ? (num = '0') : (num = value.replace(/[IDR,]/g, ''));
-    return Number(num);
+    args === -1 ? (num = '0') : (num = value.replace(/[IDR,.]/g, ''));
+    const formattedValue = Number(num).toLocaleString('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    });
+    return formattedValue;
   }
   private loadCreditType(): void {
     this.generalParameterService
