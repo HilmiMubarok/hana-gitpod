@@ -698,9 +698,9 @@ export class LoanOpsReviewDetailComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'loan-ops-review') {
-          this.saveUpdate('not-complete', source);
-        }
+        // if (this.router.url.split('/')[1] === 'loan-ops-review') {
+        //   this.saveUpdate('not-complete', source);
+        // }
         if (this.router.url.split('/')[1] === 'loan-ops-review') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
@@ -993,12 +993,12 @@ export class LoanOpsReviewDetailComponent implements OnInit {
   }
 
   private preSave(status: string): ILoanOPSReview {
-    this.applicationRolePreSave.id = Number(this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].id);
-    this.applicationRolePreSave.applicationId = Number(this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].applicationId);
-    this.applicationRolePreSave.partyId = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].partyId;
-    this.applicationRolePreSave.partyName = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].partyName;
-    this.applicationRolePreSave.roleId = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].roleId;
-    this.applicationRolePreSave.roleDescription = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].roleDescription;
+    this.applicationRolePreSave.id = Number(this.creditProposal.attributes.id);
+    this.applicationRolePreSave.applicationId = Number(this.creditProposal.attributes.applicationId);
+    this.applicationRolePreSave.partyId = this.creditProposal.attributes.partyId;
+    this.applicationRolePreSave.partyName = this.creditProposal.attributes.partyName;
+    this.applicationRolePreSave.roleId = this.creditProposal.attributes.roleId;
+    this.applicationRolePreSave.roleDescription = this.creditProposal.attributes.roleDescription;
 
     for (let i = 0; i < this.loanOpsReviewService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.loanOpsReviewService.partySliks[i]];
