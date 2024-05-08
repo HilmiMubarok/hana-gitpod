@@ -40,6 +40,10 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
   public collateralProperty: any;
   public dataArray: IDocumentType[];
   public matrix: boolean;
+
+  public hidePencilButton: Boolean = false;
+  public statusHidePencilButton = ['CP_ASSIGNMENT', 'CP_CHECKER', 'CP_LOAN_APPROVAL'];
+
   datePipe: DatePipe = new DatePipe('en-US');
   @Input() isOnMemoBanding: Boolean = false;
   constructor(
@@ -73,6 +77,8 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.statusHidePencilButton.includes(this.creditProposal.statusId) && (this.hidePencilButton = true);
+
     this.checkMatrixLA();
     this.partyCifService.findCollateral(this.creditProposal.cif.customerId, 'R201').subscribe((find: any) => {
       const Investoris = find.body;
