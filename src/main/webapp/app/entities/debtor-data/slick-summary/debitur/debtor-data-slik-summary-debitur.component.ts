@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, ViewChild, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IPartySlik, PartySlik } from 'app/entities/party-slik/party-slik.model';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import lodash, { result } from 'lodash';
@@ -19,11 +19,27 @@ import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-
 import { Router } from '@angular/router';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
   styleUrls: ['./debtor-data-slik-summary-debitur.scss'],
+  styles: [
+    `
+      mat-progress-spinner circle,
+      .mat-spinner circle {
+        stroke: white !important;
+      }
+
+      .mat-spinner::ng-deep circle {
+        stroke: white !important;
+      }
+    `,
+  ]
 })
 export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> implements OnInit, OnChanges {
   public loading: boolean;
@@ -159,6 +175,17 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   public totalLimit = 0;
   public totalOutstanding = 0;
   public selectedManagementType = '';
+  public selection = new SelectionModel<any>(true, []);
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.items.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.items.data.forEach(row => this.selection.select(row));
+  }
 
   constructor(
     public partySlikService: PartySlikService,
@@ -167,14 +194,23 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     public TransferService: DebtorDataSlikTransferService,
     private storageService: StorageService,
     private router: Router,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    public messageService: MessageService
   ) {
-    super(_snackBar, partySlikService);
+    super(_snackBar, partySlikService, messageService);
     this.loading = false;
     this.itemsPerPage = 10;
     this.page = 0;
     this.predicate = 'id';
     this.entityKeyName = 'id';
+
+	this.selection.changed.subscribe(() => {
+      if (this.deleteAllProcess) {
+        this.deleteState = `Deleting ${this.selection.selected.length} data`;
+      } else {
+        this.deleteState = `Delete ${this.selection.selected.length} data`;
+      }
+    });
   }
   public _loanStatus: string;
   ngOnChanges(changes: SimpleChanges): void {
@@ -196,14 +232,90 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     this.getFiles();
     this.hideButtonUploadCP();
+	this.dataSource.paginator = this.paginator;
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  deleteAll() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: 'Delete Debtor Data',
+        message: `Are you sure want to delete ${this.selection.selected.length} data?. This process cannot be undone`,
+      },
+      panelClass: 'custom-dialog-container-delete',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.doDeleteAll(this.selection.selected)
+          .then(() => {
+            this.deleteState = `Delete ${this.selection.selected.length} Data`;
+          })
+          .catch(() => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to delete data, please try again',
+            });
+            this.deleteAllProcess = false;
+            this.deleteState = `Delete ${this.selection.selected.length} Data`;
+          });
+      }
+    });
+  }
+
+  public deleteState = '';
+  public deleteAllProcess = false;
+
+  public async doDeleteAll(elements: any): Promise<void> {
+    this.deleteAllProcess = true;
+
+    // Set deleteState to indicate the deletion process is running
+    this.deleteState = `Deleting ${elements.length} data`;
+
+    // Create an array to store the promises for removal operations
+    const removalPromises: Promise<void>[] = [];
+
+    // Loop through the array of elements and remove each one
+    elements.forEach((element: IPartySlik) => {
+      // Push the promise returned by remove operation to the array
+      removalPromises.push(
+        new Promise<void>((resolve, reject) => {
+          _.remove(this.partySliks, n => n === element);
+          this.TransferService.removeValue(element);
+
+          // Convert Observable to Promise
+          const deletePromise = this.partySlikService.delete(element.id).toPromise();
+
+          deletePromise
+            .then(() => {
+              // Deselect the removed element
+              this.selection.deselect(element);
+              resolve();
+            })
+            .catch(error => {
+              reject(error); // Propagate error to the outer Promise chain
+            });
+        })
+      );
+    });
+
+    // Wait for all removal operations to complete
+    await Promise.all(removalPromises);
+
+    this.deleteAllProcess = false;
+
+    this.loadDataBy();
+  }
+
+  dataSource = new MatTableDataSource<any>([]);
   public loadDataBy(): void {
     this.partySlikService
       .queryFilterBy({
         idParty: this.partyId,
-        page: this.page,
-        size: this.itemsPerPage,
+        page: 0,
+        size: 9999,
         sort: ['id,desc'],
       })
       .subscribe({
@@ -212,6 +324,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           this.totalLimit = this.countTotalLimit(res.body);
           this.totalOutstanding = this.countTotalOutstanding(res.body);
           this.initDataForMatTable(res, res.headers);
+		  this.dataSource.data = res.body;
+          this.dataSource.paginator = this.paginator;
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });

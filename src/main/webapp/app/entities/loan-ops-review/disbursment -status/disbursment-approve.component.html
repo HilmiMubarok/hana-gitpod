@@ -1,0 +1,13 @@
+<mat-card class="mb-3">
+  <mat-card-subtitle> Final Approval Status </mat-card-subtitle>
+  <div class="form-group">
+    <div class="d-flex justify-content-around">
+      <div class="mx-2">
+        <mat-radio-group [(ngModel)]="creditProposal.attributes['disbursmentStatus']">
+          <mat-radio-button value="Full Disbursement" style="margin-right: -17rem">Full Disbursement</mat-radio-button>
+          <mat-radio-button value="Partai Disbursement" style="margin-left: 36rem">Partai Disbursement</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+</mat-card>

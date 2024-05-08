@@ -26,6 +26,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { ICertificateInfo } from 'app/entities/offering-letter/certificate-info/certificate-info.model';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
@@ -72,6 +73,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public biddingValueCoverage: number;
   public insuranceTypes = [];
   public bindingTypesHobies = [];
+  public dataCollateralSummary: any[];
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -947,6 +949,59 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     return '';
   }
 
+  public presentageSummary(value: string, status: string) {
+    const num = parseFloat(value).toFixed(2);
+    if (num === 'Infinity') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
+      }
+      return '0.00' + 'x';
+    } else if (num === 'NaN') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
+      }
+      return '0.00' + 'x';
+    } else {
+      if (status === 'mv') {
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = num;
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = num;
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = num;
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = num;
+      }
+      return num + 'x';
+    }
+  }
+  public getSummaryCollateral() {
+    return new Promise((resolve, reject) => {
+      const applicationNumber = this.creditProposal.id;
+      this.collateralService.getSummaryCollateral(applicationNumber).subscribe(
+        res => {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
+            return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+          });
+          resolve(this.dataCollateralSummary);
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  }
   public getBindingCalculate(res: any[]) {
     const array1 = res;
     const array2 = this.creditProposal.attributes['binding'];
@@ -962,8 +1017,95 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         this.biddingValueCoverage = Math.round(biddingValueCoverage * 100) / 100;
         this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
         this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
+
+		this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+		this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+		this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+		this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
       });
     });
+  }
+
+  public countTotalMVSummary(): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + Number(data.marketValue);
+          }
+        }
+      }
+    }
+    this.creditProposal.attributes['collateralSummary'].countTotalMV = result;
+    return result;
+  }
+
+  public countTotalLVSummary(): number {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+
+          if (data !== undefined) {
+            result = result + Number(data.liquidationValue);
+          }
+        }
+      }
+    }
+
+    this._creditProposal.attributes['collateralSummary'].countTotalLV = result;
+    return result;
+  }
+
+  public countTotalMVKJJPSummary() {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === true);
+          if (data !== undefined && collaterals[i].collateralTypeId) {
+            result = result + data.marketValue;
+          }
+        }
+      }
+    }
+    this.creditProposal.attributes['collateralSummary'].countTotalMV = result;
+    return result;
+  }
+
+  public countTotalLVKJJPSummary() {
+    let data: ICollateralProperty;
+    let result: number;
+    result = 0;
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === true);
+          if (data !== undefined) {
+            result = result + data.liquidationValue;
+          }
+        }
+      }
+    }
+    this._creditProposal.attributes['collateralSummary'].countTotalLVKJJP = result;
+    return result;
   }
 
   public convertNan(value: any): any {

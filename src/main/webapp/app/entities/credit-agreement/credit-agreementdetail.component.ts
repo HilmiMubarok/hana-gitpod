@@ -244,11 +244,9 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
-      console.log('Isloadingg', this.baLoading);
     });
     this.baService.progress$.subscribe(res => {
       this.progress = res;
-      console.log('Progress', this.progress);
     });
 
     this.generatePkDraftService.dataReportDraft$.subscribe(res => {
@@ -425,10 +423,7 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.creditAgreementService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
       const menuItemIdByRoute = this.router.url.includes('finalize-pk') ? 'FINALIZE_CREDIT_AGREEMENT' : 'FINALIZE_CREDIT_AGREEMENT';
-      console.log('routes', menuItemIdByRoute);
       this.ca = response.body;
-      console.log('routes', this.ca);
-
       this.masterPermissionService
         .queryFilterBy({ menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.ca.statusId })
         .subscribe(permissionObject => {
@@ -518,7 +513,6 @@ export class CreditAgreementDetailComponent implements OnInit {
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
         this.resAttr.attr['idApplication'] = this.creditProposal.id;
-        console.log('resAttr', this.resAttr);
 
         if (this.validateDraft()) {
           // Validasi Final
@@ -712,7 +706,27 @@ export class CreditAgreementDetailComponent implements OnInit {
     this.cekCgpgData();
   }
 
+  clearApprovalDebtorConditions() {
+    const entityProperties = this.creditProposal.entityProperties;
+
+    // filter where entityProperties.entityPropertyTypeId === "APPROVAL_DEBTOR_CONDITIONS"
+    entityProperties.forEach((entityProperty, index) => {
+      if (entityProperty.entityPropertyTypeId === 'APPROVAL_DEBTOR_CONDITIONS') {
+        // Find where approvalDebtorConditionStatus === null
+        if (entityProperty.approvalDebtorConditionStatus === null || entityProperty.approvalDebtorConditionStatus === '') {
+          // Delete
+          this.cashCreditProposalsService.deletePropsResource(entityProperty.id).subscribe(() => {
+            entityProperties.splice(index, 1);
+          });
+        }
+      }
+    });
+  }
+
   public save(source: string): void {
+    // Clear Approval Debtor Conditions
+    this.clearApprovalDebtorConditions();
+
     this.saveCollateralAfterReport();
     this.setIndustryName();
     this.saveState = source;
@@ -1380,8 +1394,6 @@ export class CreditAgreementDetailComponent implements OnInit {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      console.log('properties ', this.collateralProperties);
-      console.log('ini data ', data);
       if (data) {
         if (type === 'buktiKepemilikan') {
           if (collateral.collateralTypeId === 'SECURITIES') {

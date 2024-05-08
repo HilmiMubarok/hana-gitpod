@@ -588,7 +588,29 @@ export class LoanOperationDetailComponent implements OnInit {
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
         this.resAttr.attr['idApplication'] = this.creditProposal.id;
 
-        this.save('process');
+        if (_res.caption === 'Submit') {
+          this.validate()
+            .then(valid => {
+              if (valid) {
+                this.save('process');
+              } else {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Please select Assignee before submit',
+                });
+              }
+            })
+            .catch(err => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Please select Assignee before submit',
+              });
+            });
+        } else {
+          this.save('process');
+        }
       }
     });
   }
@@ -1087,12 +1109,13 @@ export class LoanOperationDetailComponent implements OnInit {
   }
 
   private preSave(status: string): ILoanOPS {
-    this.applicationRolePreSave.id = Number(this.applicationRole.id);
-    this.applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
-    this.applicationRolePreSave.partyId = this.applicationRole.partyId;
-    this.applicationRolePreSave.partyName = this.applicationRole.partyName;
-    this.applicationRolePreSave.roleId = this.applicationRole.roleId;
-    this.applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
+    this.applicationRolePreSave.id = Number(this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].id);
+    this.applicationRolePreSave.applicationId = Number(this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].applicationId);
+    this.applicationRolePreSave.partyId = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].partyId;
+    this.applicationRolePreSave.partyName = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].partyName;
+    this.applicationRolePreSave.roleId = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].roleId;
+    this.applicationRolePreSave.roleDescription = this.creditProposal.attributes['dataAssignToLoanOpsOfficer'].roleDescription;
+
     for (let i = 0; i < this.loanOperationService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.loanOperationService.partySliks[i]];
     }
@@ -1216,7 +1239,6 @@ export class LoanOperationDetailComponent implements OnInit {
         copyCreditProposal.attributes['dataAssignToLoanOpsOfficer']
       );
     }
-
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
@@ -1274,6 +1296,7 @@ export class LoanOperationDetailComponent implements OnInit {
         )
       )
       .subscribe(resArt => {
+        resArt.sort((a, b) => a.menuItemSequence - b.menuItemSequence);
         this.subMenu = resArt;
         if (this.subMenu.length > 1) {
           const menuList = [];
@@ -1825,6 +1848,7 @@ export class LoanOperationDetailComponent implements OnInit {
   public isValueRo = [];
   public isLabelRo = false;
   public isElRo = false;
+  public matrixButton = false;
 
   private getMenuPermission() {
     this.menuPermissionService
@@ -1834,9 +1858,11 @@ export class LoanOperationDetailComponent implements OnInit {
         if (this.isValueRo.length === 0) {
           this.isLabelRo = true;
           this.isElRo = false;
+          this.matrixButton = false;
         } else {
           this.isElRo = true;
           this.isLabelRo = false;
+          this.matrixButton = true;
         }
       });
   }

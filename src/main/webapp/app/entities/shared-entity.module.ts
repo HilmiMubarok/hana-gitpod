@@ -534,6 +534,10 @@ import { GenerateTboLegalMonitoringComponent } from './tbo-legal-monitoring/gene
 import { TboLegalMonitoringComponent } from './tbo-legal-monitoring/tbo-monitoring/tbo-legal-monitoring.component';
 import { HistoryTBOComponent } from './tbo-legal-monitoring/history-tbo/history-tbo.component';
 import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collateral-info/dialog/collateral-info-dialog-loan-ops.component';
+import { DisbursmentApproveComponent } from './loan-ops-review/disbursment -status/disbursment-approve.component';
+import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/document-checklist-opinion.component';
+import { TboLegalMonitoringDetailComponent } from './tbo-legal-monitoring/tbo-monitoring/dialog/tbo-legal-monitoring-detail.component';
+import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-monitoring/dialog/tbo-legal-monitoring-view.component';
 
 @NgModule({
   imports: [
@@ -951,6 +955,7 @@ import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collatera
     DocumentChecklistDialogTempComponent,
     CreditProposalDeviationDarAboveComponent,
     ApproveFinalComponent,
+    DisbursmentApproveComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
     // cross idd //
     ParipasuCollateralIddDebtorComponent,
@@ -1085,6 +1090,12 @@ import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collatera
     // tbo-legal-monitoring
     TboLegalMonitoringComponent,
 
+    // tbo-monitoring-detail
+    TboLegalMonitoringDetailComponent,
+
+    // tbo-monitoring-view
+    TboLegalMonitoringViewComponent,
+
     // history-tbo
     HistoryTBOComponent,
 
@@ -1157,7 +1168,8 @@ import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collatera
     CollateralInfoRemarksLoanOpsComponent,
     MappingFacilityLoanOpsComponent,
     CollateralInfoDialogLoanOpsComponent,
-    ...LoanOperationLoanFacilityTemplate
+    ...LoanOperationLoanFacilityTemplate,
+	DocumentChecklistOpinionComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1564,6 +1576,7 @@ import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collatera
     DocumentChecklistDialogTempComponent,
     CreditProposalDeviationDarAboveComponent,
     ApproveFinalComponent,
+    DisbursmentApproveComponent,
     DocumentTypeViewComponent,
     LendingProgramParameterViewComponent,
     RequestSlikViewComponent,
@@ -1659,6 +1672,12 @@ import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collatera
     // tbo-legal-monitoring
     TboLegalMonitoringComponent,
 
+    // tbo-monitoring-detail
+    TboLegalMonitoringDetailComponent,
+
+    // tbo-monitoring-view
+    TboLegalMonitoringViewComponent,
+
     // history-tbo
     HistoryTBOComponent,
 
@@ -1735,6 +1754,7 @@ import { CollateralInfoDialogLoanOpsComponent } from './loan-operation/collatera
     CollateralInfoRemarksLoanOpsComponent,
     MappingFacilityLoanOpsComponent,
     CollateralInfoDialogLoanOpsComponent,
+    DocumentChecklistOpinionComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

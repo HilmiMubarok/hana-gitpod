@@ -26,6 +26,9 @@ export class DppkFinalizeService extends AbstractEntityService<IDppkFinalize> {
     this.resourceRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs/cif');
     this.resouceGridRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/fin-statements/cif/');
     this.resourceFacility = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.HEIMDALL + '/api/partner-source-ep/');
+    this.resourceRoleActive = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + '/api/cash-credit-proposals/claim-task-user-active/'
+    );
   }
 
   public totalChanges: Subject<any> = new Subject();
@@ -201,5 +204,8 @@ export class DppkFinalizeService extends AbstractEntityService<IDppkFinalize> {
 
   public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
+  }
+  public getRoleActive(id: number, positionId: string, role: string): Observable<HttpResponse<any>> {
+    return this.http.post<any>(`${this.resourceRoleActive}` + id + `/position/` + positionId + `/role/` + role, { observe: 'response' });
   }
 }

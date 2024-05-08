@@ -4,8 +4,9 @@
   [items]="menuItems"
   (select)="selectMenuItem($event)"
   *ngIf="!isOnCompareData"
-  [hidden]="isOnOffering | isOnCreditAgreement"
+  [hidden]="isOnOffering || isOnCreditAgreement"
 ></ejs-menu>
+
 <div *ngIf="setActiveMenu === 'COVENANT' || selectedMenu === 'COVENANT'">
   <div class="e-sample-resize-container e-card-resize-container mb-5">
     <div class="row">

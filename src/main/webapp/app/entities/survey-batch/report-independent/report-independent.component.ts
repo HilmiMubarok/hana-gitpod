@@ -155,7 +155,9 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
         this.mData.totalLuasBuildingImb =
           result.body.attributes['totalLuasBangunanIMB'] !== null ? result.body.attributes['totalLuasBangunanIMB'] : 0;
         this.mData.appraisalValueImbBuildingPerMeter =
-          result.body.attributes['appraisalValueBuildingPerMeter'] !== null ? result.body.attributes['appraisalValueBuildingPerMeter'] : 0;
+          result.body.attributes['appraisalValueImbTataKotaBuilding'] !== null
+            ? result.body.attributes['appraisalValueImbTataKotaBuilding']
+            : 0;
         this.mData.totalAppraisalValueBuildingImb = this.mData.totalLuasBuildingImb * this.mData.appraisalValueImbBuildingPerMeter;
 
         // TataKota
@@ -177,6 +179,7 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
 
         this.mData.totalMarketValueTataKotaLandBuilding =
           this.mData.totalAppraisalValueLandTataKota + this.mData.totalAppraisalValueBuildingTataKota;
+        this.mData.quantity = result.body.attributes['quantity'];
       } else {
         this.mData.quantity = result.body.attributes['quantity'];
         this.mData.totalMVMachineVehicle = result.body.totalMarketValue;

@@ -30,6 +30,7 @@ export class AbstractEntityService<T> {
   protected insuranceInformationUrl: string;
   protected cashPositionResource: string;
   protected entityPropertiesResourceUrl: string;
+  protected resourceRoleActive: string;
 
   constructor(protected http?: HttpClient) {
     this.lastReadCache = new Date();

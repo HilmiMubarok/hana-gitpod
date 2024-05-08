@@ -214,8 +214,8 @@ export class DocumentLegalUploadLoanOperationComponent implements OnChanges {
         .chain(param)
         .groupBy('tags.id')
         .map((val, key) => {
-          const matchingDocumentType = this.documentTypes.find(docType => docType.id === val[0]['tags']['documentId']);
-          const documentName = matchingDocumentType.description;
+          const documentName = this.documentTypes.find(type => type.id === val[0]['tags']['documentId']);
+          const resultDocName = documentName ? documentName.description : val[0]['tags']['documentId'];
 
           return {
             folder: key,
@@ -224,7 +224,7 @@ export class DocumentLegalUploadLoanOperationComponent implements OnChanges {
             documentDate: val[0]['tags']['documentDate'],
             nameFile: val[0]['name'],
             remarks: val[0]['tags']['remarks'],
-            documentId: documentName,
+            documentId: resultDocName,
           };
         })
         .value();

@@ -32,7 +32,7 @@
         <e-card class="mb-3">
           <div class="e-card-header">
             <div class="e-card-header-caption">
-              <div class="e-card-header-title">Loan Operation Distribution</div>
+              <div class="e-card-header-title">Loan Operation Review</div>
             </div>
           </div>
           <div class="mb-3">
@@ -46,7 +46,7 @@
                     <section *jhiMatrixDirMPS="'input'; permission: permission">Directive Input RM</section>
                     <section *jhiMatrixDirMPS="'label'; permission: permission">Directive Label RM</section>
                   </section> -->
-                  <section *ngIf="isElement">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.applicationNumber"
@@ -55,7 +55,7 @@
                       floatLabelType="Auto"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabel">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Number</div>
                       <div class="col-md-auto">:</div>
@@ -66,7 +66,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElement">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [value]="creditProposal.createdDate | formatMediumDate"
@@ -75,7 +75,7 @@
                       floatLabelType="Always"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabel">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Date</div>
                       <div class="col-md-auto">:</div>
@@ -86,7 +86,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElement">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.customerNumber"
@@ -95,7 +95,7 @@
                       floatLabelType="Auto"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabel">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">CIF Number</div>
                       <div class="col-md-auto">:</div>
@@ -106,7 +106,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElement">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       readonly
                       [(ngModel)]="creditProposal.cif.name"
@@ -115,7 +115,7 @@
                       floatLabelType="Auto"
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabel">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Customer Name</div>
                       <div class="col-md-auto">:</div>
@@ -128,14 +128,13 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <section *ngIf="isElement">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Proposal Type</mat-label>
                       <mat-select
                         name="proposalType"
                         [(ngModel)]="creditProposal.attributes.proposalType"
                         required
-                        [disabled]="disabledProptype()"
                         (selectionChange)="setSubmenu($event.value)"
                       >
                         <mat-option value="">- Please select proposal type -</mat-option>
@@ -145,7 +144,7 @@
                       </mat-select>
                     </mat-form-field>
                   </section>
-                  <section *ngIf="isLabel">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Proposal Type</div>
                       <div class="col-md-auto">:</div>
@@ -156,7 +155,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElement">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-combobox
                       disabled
                       cssClass="e-outline e-disabled"
@@ -170,7 +169,7 @@
                     >
                     </ejs-combobox>
                   </section>
-                  <section *ngIf="isLabel">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Segment</div>
                       <div class="col-md-auto">:</div>
@@ -182,7 +181,7 @@
                 </div>
 
                 <div class="form-group">
-                  <section *ngIf="isElement">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
                       placeholder="Referral"
@@ -191,7 +190,7 @@
                       required
                     ></ejs-textbox>
                   </section>
-                  <section *ngIf="isLabel">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Referral</div>
                       <div class="col-md-auto">:</div>
@@ -202,7 +201,7 @@
                   </section>
                 </div>
                 <div class="form-group">
-                  <section *ngIf="isElement">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: 'input'">
                     <mat-form-field appearance="outline" class="w-100">
                       <mat-label>Lending Program</mat-label>
                       <mat-select name="lendingProgram" [(ngModel)]="creditProposal.attributes['lendingProgramParameter']">
@@ -213,7 +212,7 @@
                       </mat-select>
                     </mat-form-field>
                   </section>
-                  <section *ngIf="isLabel">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'loan-operation'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Lending Program</div>
                       <div class="col-md-auto">:</div>
@@ -280,8 +279,8 @@
               <e-card class="mb-3">
                 <jhi-loan-operation-loan-facility-detail
                   [creditProposal]="creditProposal"
-                  [isLabel]="isLabel"
-                  [isElement]="isElement"
+                  [isLabel]="true"
+                  [isElement]="false"
                 ></jhi-loan-operation-loan-facility-detail>
               </e-card>
             </div>
@@ -296,17 +295,16 @@
             <!-- Collateral info -->
             <div class="wrapper-card">
               <e-card class="mb-3">
-                <jhi-collateral-info-loan-ops
+                <jhi-credit-proposal-collateral-info
                   #creditProposalCollateralInfoComponent
                   [creditProposal]="creditProposal"
                   [collateralProperties]="collateralProperties"
                   [collateralPropertyGroupData]="collateralPropertyGroupData"
                   [source]="'summaryAll'"
                   [parentSource]="'loan-analys'"
-                  [isLabel]="isLabelRo"
-                  [isElement]="isElRo"
+                  [isViewMode]="true"
                 >
-                </jhi-collateral-info-loan-ops>
+                </jhi-credit-proposal-collateral-info>
               </e-card>
             </div>
 
@@ -323,12 +321,7 @@
                 >
                 </jhi-credit-proposal-tab-summary>
                 <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
-                <jhi-assign-to
-                  (assignTo)="onAssignTo($event)"
-                  *ngIf="url == 'loan-ops-review'"
-                  [creditProposal]="creditProposal"
-                  [url]="url"
-                ></jhi-assign-to>
+                <jhi-disbursment-approve [creditProposal]="creditProposal"></jhi-disbursment-approve>
               </e-card>
             </div>
             <!-- Document: summary gabung -->
@@ -348,16 +341,16 @@
           <div *ngIf="clickedMenu === 'loan-facility'">
             <jhi-loan-operation-loan-facility-detail
               [creditProposal]="creditProposal"
-              [isLabel]="isLabel"
-              [isElement]="isElement"
+              [isLabel]="true"
+              [isElement]="false"
               [parentSource]="'credit-agreement'"
             ></jhi-loan-operation-loan-facility-detail>
           </div>
 
           <div *ngIf="clickedMenu === 'dppk'">
             <jhi-dppk-finalize-loan-operation
-              [isLabel]="isLabel"
-              [isElement]="isElement"
+              [isLabel]="true"
+              [isElement]="false"
               [creditProposal]="creditProposal"
             ></jhi-dppk-finalize-loan-operation>
           </div>
@@ -380,19 +373,12 @@
                   [collateralProperties]="collateralProperties"
                   [collateralPropertyGroupData]="collateralPropertyGroupData"
                   [parentSource]="'dec-offering'"
-                  [isLabel]="isLabelRo"
-                  [isElement]="isElRo"
+                  [isLabel]="true"
+                  [isElement]="false"
                 >
                 </jhi-collateral-info-loan-ops>
               </e-card>
             </section>
-          </div>
-
-          <!-- compliance recomendation -->
-          <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
-            <e-card>
-              <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
-            </e-card>
           </div>
 
           <!-- opinion -->
@@ -445,11 +431,15 @@
         </div>
 
         <!-- compliance recomendation -->
-        <div *ngIf="clickedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container wrapper-card">
+        <div *ngIf="clickedMenu === 'compliance-recommendation'">
           <e-card>
-            <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
+            <jhi-loan-analys-compliance [creditProposal]="creditProposal" [word]="saveDoc"></jhi-loan-analys-compliance>
           </e-card>
-          <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk'">
+          <div
+            *ngIf="
+              parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'finalize-pk' || parentPath === 'loan-ops-review'
+            "
+          >
             <e-card>
               <jhi-loan-analys-opinion-compliance-part
                 #loanAnalysOpinionCompliancePartComponent
@@ -461,26 +451,6 @@
               </jhi-loan-analys-opinion-compliance-part>
             </e-card>
           </div>
-        </div>
-
-        <!-- opinion -->
-        <div *ngIf="clickedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container wrapper-card">
-          <e-card>
-            <jhi-loan-analys-opinion
-              #loanAnalysOpinionComponent
-              (uuidPath)="setUuidPath($event)"
-              (positionLoginEmit)="setPositionLogin($event)"
-              (newItemEvent)="setOpinionRecomendation($event)"
-              (isAllowSave)="setIsAllowSave($event)"
-              (opinionFileSfdt)="setOpinionFileSfdt($event)"
-              (opinionFileWord)="setOpinionFileWord($event)"
-              (conditionFileSfdt)="setConditionFileSfdt($event)"
-              (conditionFileWord)="setConditionFileWord($event)"
-              [creditProposalItem]="creditProposal"
-              [notifyChild]="parentSubject"
-            >
-            </jhi-loan-analys-opinion>
-          </e-card>
         </div>
 
         <!-- compare data -->
@@ -504,7 +474,7 @@
 
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <div>
+      <div *ngIf="matrixButton">
         <button
           mat-raised-button
           *ngFor="let task of tasks"
@@ -515,7 +485,8 @@
           {{ task.caption }}
         </button>
 
-        <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
+        <!-- <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button> -->
+        <button class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
     </div>
     <!-- End Action -->

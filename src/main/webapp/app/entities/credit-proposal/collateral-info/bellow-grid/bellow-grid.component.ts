@@ -24,6 +24,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-bellow-grid',
@@ -71,6 +72,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   public dataCollateral: ICollateral[];
+  public dataCollateralSummary: ICollateral[];
   public certificateType: any;
   public dataItem: any;
   public dataCertyficate: any;
@@ -141,6 +143,23 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       }
       return num + 'x';
     }
+  }
+
+  public getSummaryCollateral() {
+    return new Promise((resolve, reject) => {
+      const applicationNumber = this.creditProposal.id;
+      this.collateralService.getSummaryCollateral(applicationNumber).subscribe(
+        res => {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
+            return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+          });
+          resolve(this.dataCollateralSummary);
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
   }
 
   private totalCoverage() {
@@ -1017,7 +1036,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false

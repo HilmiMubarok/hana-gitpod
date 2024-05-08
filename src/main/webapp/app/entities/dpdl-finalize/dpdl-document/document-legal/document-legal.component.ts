@@ -200,6 +200,7 @@ export class DocumentLegalComponent implements OnChanges {
 
           const z = val.find(values => values['tags']['parentId'] !== 'DOC_DPDL_LEGAL_COVERNOTE');
           const documentName = this.documentTypes.find(type => type.id === val[0]['tags']['documentId']);
+          const resultDocName = documentName ? documentName.description : val[0]['tags']['documentId'];
 
           return {
             folder: key,
@@ -207,7 +208,7 @@ export class DocumentLegalComponent implements OnChanges {
             files: val,
             nameFile: val[0]['name'],
             documentType,
-            documentId: documentName ? documentName.description : val[0]['tags']['documentId'],
+            documentId: resultDocName,
             category: val[0]['tags']['category'],
             status: val[0]['tags']['status'],
             attributes: JSON.parse(val[0]['tags']['attributes']),

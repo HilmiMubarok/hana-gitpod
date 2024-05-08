@@ -2,6 +2,21 @@
   <button
     style="float: right; margin-left: 10px"
     mat-raised-button
+    color="warn"
+    class="btn-save-debtor"
+    (click)="deleteAll()"
+    [hidden]="isHideButtonCp"
+    [disabled]="deleteAllProcess"
+    *ngIf="selection.hasValue()"
+  >
+    <div style="width: 100%; display: flex; align-items: center; justify-content: space-between">
+      <span>{{ deleteState }}</span>
+      <mat-spinner style="margin-left: 2px" diameter="20" *ngIf="deleteAllProcess"></mat-spinner>
+    </div>
+  </button>
+  <button
+    style="float: right; margin-left: 10px"
+    mat-raised-button
     color="primary"
     class="btn-save-debtor"
     (click)="openDialogUpload()"
@@ -22,7 +37,7 @@
   </a>
 
   <div class="table-responsive-material" style="padding-top: 8px">
-    <table mat-table [dataSource]="partySliks" class="w-100">
+    <table mat-table [dataSource]="dataSource" class="w-100">
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>No</th>
         <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
@@ -115,8 +130,25 @@
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Action
+
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            *ngIf="dataSource.data.length > 0"
+          >
+          </mat-checkbox>
+        </th>
         <td mat-cell *matCellDef="let element; let i = index">
+		  <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(element) : null"
+            [checked]="selection.isSelected(element)"
+          >
+          </mat-checkbox>
+
           <button mat-icon-button (click)="openDialog(element, i, 'view')">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
@@ -146,15 +178,7 @@
   </mat-card>
 
   <mat-card>
-    <mat-paginator
-      showFirstLastButtons
-      ngClass="transparant"
-      [length]="paginatorLength"
-      [pageSize]="paginatorPageSize"
-      [pageSizeOptions]="paginatorPageSizeOption"
-      (page)="loadDataLazy($event)"
-    >
-    </mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
   </mat-card>
 </div>
 

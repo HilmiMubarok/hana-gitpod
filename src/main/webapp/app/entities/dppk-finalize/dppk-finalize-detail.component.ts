@@ -195,6 +195,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
   public postalAdresss;
   public dataLand: any;
   public dataBuilding: any;
+  public dppkNumber: String = '';
 
   constructor(
     private partyCifService: PartyCifService,
@@ -546,12 +547,25 @@ export class DppkFinalizeDetailComponent implements OnInit {
   }
 
   private getTasks(): void {
+    if (this.creditProposal.listOfPic.length > 1) {
+      if (this.getLocStor('POSOPARID') !== this.creditProposal.listOfPic[0].partyId) {
+        this.tasks = [];
+      } else {
+        this.dppkFinalizeProcessService
+          .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
+          .subscribe(res => {
+            this.tasks = res.body;
+          });
+      }
+    } else {
+      this.dppkFinalizeProcessService
+        .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
+        .subscribe(res => {
+          this.tasks = res.body;
+        });
+    }
+
     // this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
-    this.dppkFinalizeProcessService
-      .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
-      .subscribe(res => {
-        this.tasks = res.body;
-      });
   }
 
   public processTask(task: IProcessTask): void {
@@ -1803,10 +1817,12 @@ export class DppkFinalizeDetailComponent implements OnInit {
     if (idx) {
       this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
         this.creditProposal.entityProperties[idx] = res;
+        this.dppkNumber = res.dppkNumber;
       });
     } else {
       this.entitiyPropertiesService.getData(this.creditProposal.id, 'DPPK').subscribe(res => {
         this.creditProposal.entityProperties.push(res);
+        this.dppkNumber = res.dppkNumber;
       });
     }
   }

@@ -8,7 +8,7 @@ import { map } from 'rxjs';
 import { IDppkFinalize } from './dppk-finalize.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { faBullseye, faTimeline } from '@fortawesome/free-solid-svg-icons';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
@@ -22,6 +22,8 @@ import { DppkFinalizeProcessService } from './dppk-finalize-process.service';
 import { CashDppkFinalizeService } from './cash-dppk-finalize.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { DppkFinalizeService } from './dppk-finalize.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
 
 @Component({
   selector: 'jhi-dppk-finalize',
@@ -462,5 +464,27 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
   }
   public isSMEHead(): any {
     return this.account.authorities.includes('ROLE_SME_HEAD');
+  }
+  public openCancelDialog(id, element): void {
+    if (element.listOfPic.length > 1 && element.statusDescription === 'DPPK Finalize') {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '25vw',
+        data: {
+          title: '',
+          message: 'Sure To Execute Data?',
+        },
+        panelClass: 'custom-dialog-container-cancel',
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          console.log('element', element);
+          this.dppkFinalizeService.getRoleActive(id, this.positionIdLocStor, this.getLocStor('POSO')).subscribe(() => {
+            this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']);
+          });
+        }
+      });
+    } else {
+      this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']);
+    }
   }
 }

@@ -60,7 +60,25 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
 
   private checkAccess(): void {
-    if (this.jhiMatrixDirMenu !== 'cp-and-memo') {
+    if (this.jhiMatrixDirMenu === 'loan-operation') {
+      if (this.status === 'LOAN_OPS_DISTRIBUTION') {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      } else if (this.status === 'LOAN_OPS_CHECKING') {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      } else if (this.status === 'LOAN_OPS_REVIEW') {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      } else if (this.status === 'CP_COMPLETE') {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+    } else if (this.jhiMatrixDirMenu !== 'cp-and-memo') {
       if (
         this.jhiMatrixDirMenu === 'credit-proposal' &&
         !this.router.url.includes('cp-status-approval') &&
@@ -667,9 +685,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
           }
         }
       }
-    }
-
-    if (this.jhiMatrixDirMenu === 'cp-and-memo') {
+    } else if (this.jhiMatrixDirMenu === 'cp-and-memo') {
       const queryParam = new URLSearchParams(this.router.url.split('?')[1]);
       const subroutes = queryParam.get('subroute');
       if (
@@ -756,9 +772,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
           }
         }
       }
-    }
-
-    if (this.jhiMatrixDirMenu === '/collateral-appraisal') {
+    } else if (this.jhiMatrixDirMenu === '/collateral-appraisal') {
       this.checkOnCollateralAppraisalRouter();
     }
 

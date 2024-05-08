@@ -24,10 +24,15 @@
             [creditProposal]="creditProposal"
             [collateralSummaryData]="collateralSummaryData"
           ></jhi-binding-value-information>
-          <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+          <div class="form-group" *ngIf="parentPath === 'finalize-dppk' || parentPath === 'review-dppk'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Binding Value Note</mat-label>
-              <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+              <textarea
+                matInput
+                style="height: 200px"
+                [(ngModel)]="creditProposal.attributes['bindingValueNote']"
+                [disabled]="field"
+              ></textarea>
             </mat-form-field>
           </div>
         </div>
@@ -92,10 +97,15 @@
           [collateralSummaryData]="collateralSummaryData"
         ></jhi-binding-value-information>
       </div>
-      <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+      <div class="form-group" *ngIf="parentPath === 'finalize-dppk' || parentPath === 'review-dppk'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Binding Value Note</mat-label>
-          <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+          <textarea
+            matInput
+            style="height: 200px"
+            [(ngModel)]="creditProposal.attributes['bindingValueNote']"
+            [disabled]="field"
+          ></textarea>
         </mat-form-field>
       </div>
       <div *ngIf="takeOutCompare !== true">
@@ -156,10 +166,15 @@
           [collateralSummaryData]="collateralSummaryData"
         ></jhi-binding-value-information>
       </div>
-      <div class="form-group" *ngIf="parentPath === 'finalize-dppk'">
+      <div class="form-group" *ngIf="parentPath === 'finalize-dppk' || parentPath === 'review-dppk'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Binding Value Note</mat-label>
-          <textarea matInput style="height: 200px" [(ngModel)]="creditProposal.attributes['bindingValueNote']"></textarea>
+          <textarea
+            matInput
+            style="height: 200px"
+            [(ngModel)]="creditProposal.attributes['bindingValueNote']"
+            [disabled]="field"
+          ></textarea>
         </mat-form-field>
       </div>
       <div *ngIf="takeOutCompare !== true">

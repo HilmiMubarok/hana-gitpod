@@ -86,7 +86,17 @@ export class DocumentChecklistTempComponent implements OnInit {
   }
 
   public checkMatrixDPPK() {
-    this.showDPPK = this.router.url.includes('dppk') ? true : false;
+    switch (true) {
+      case this.router.url.includes('dppk'):
+        this.showDPPK = true;
+        break;
+      case this.router.url.includes('loan-ops'):
+        this.showDPPK = true;
+        break;
+      default:
+        this.showDPPK = false;
+        break;
+    }
     if (this.router.url.includes('finalize-dppk')) {
       const argsEditable: boolean = this.getRole() === 'CREDIT_ADMIN';
       this.dppkEditable = argsEditable;
@@ -142,17 +152,8 @@ export class DocumentChecklistTempComponent implements OnInit {
               this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
                 this.documentTypeService.documentTypeList('DOC_LA').subscribe((res3: any) => {
                   this.documentTypeService.documentTypeList('DOC_DPPK').subscribe((res4: any) => {
-                    let docLaData;
-
-                    if (this.router.url.includes('credit-proposal-status')) {
-                      docLaData = [];
-                    } else {
-                      if (this.router.url.includes('cp-status-approval')) {
-                        docLaData = [];
-                      } else {
-                        docLaData = res3.body;
-                      }
-                    }
+                    const docLaData =
+                      this.router.url.includes('credit-proposal-status') || this.router.url.includes('cp-status-approval') ? [] : res3.body;
 
                     let docDppkData: any[] = [];
                     if (this.showDPPK) {
@@ -411,31 +412,32 @@ export class DocumentChecklistTempComponent implements OnInit {
                 },
               ];
             }
+
+            this.file = [...this.file1, ...this.file2];
+            if (this.showDPPK) {
+              this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res2: any) => {
+                for (let index = 0; index < res2.body.length; index++) {
+                  this.file3 = [
+                    ...this.file3,
+                    {
+                      idFile: res2.body[index].tags.id,
+                      url: res2.body[index].url,
+                      name: res2.body[index].key,
+                      remarks: res2.body[index].tags.remarks,
+                      status: res2.body[index].tags.status,
+                      dueDate: res2.body[index].tags.dueDate,
+                    },
+                  ];
+                }
+                this.file = [...this.file1, ...this.file2, ...this.file3];
+                this.fileUrl = this.file;
+                resolve();
+              });
+            } else {
+              this.fileUrl = this.file;
+              resolve();
+            }
           });
-
-          this.file = [...this.file1, ...this.file2];
-
-          if (this.showDPPK) {
-            this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res2: any) => {
-              for (let index = 0; index < res2.body.length; index++) {
-                this.file3 = [
-                  ...this.file3,
-                  {
-                    idFile: res2.body[index].tags.id,
-                    url: res2.body[index].url,
-                    name: res2.body[index].key,
-                    remarks: res2.body[index].tags.remarks,
-                    status: res2.body[index].tags.status,
-                    dueDate: res2.body[index].tags.dueDate,
-                  },
-                ];
-              }
-              this.file = [...this.file1, ...this.file2, ...this.file3];
-            });
-          }
-
-          this.fileUrl = this.file;
-          resolve();
         } else {
           this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => {
             for (let index = 0; index < res1.body.length; index++) {
@@ -466,30 +468,33 @@ export class DocumentChecklistTempComponent implements OnInit {
                   },
                 ];
               }
+
+              this.file = [...this.file1, ...this.file2];
+
+              if (this.showDPPK) {
+                this.storageService.getObjects(this.bucket, dataDPPK).subscribe((res3: any) => {
+                  for (let index = 0; index < res3.body.length; index++) {
+                    this.file3 = [
+                      ...this.file3,
+                      {
+                        idFile: res3.body[index].tags.id,
+                        url: res3.body[index].url,
+                        name: res3.body[index].key,
+                        remarks: res3.body[index].tags.remarks,
+                        status: res3.body[index].tags.status,
+                        dueDate: res3.body[index].tags.dueDate,
+                      },
+                    ];
+                  }
+                  this.file = [...this.file1, ...this.file2, ...this.file3];
+                  this.fileUrl = this.file;
+                  resolve();
+                });
+              } else {
+                this.fileUrl = this.file;
+                resolve();
+              }
             });
-
-            this.file = [...this.file1, ...this.file2];
-
-            if (this.showDPPK) {
-              this.storageService.getObjects(this.bucket, dataDPPK).subscribe((res3: any) => {
-                for (let index = 0; index < res3.body.length; index++) {
-                  this.file3 = [
-                    ...this.file3,
-                    {
-                      idFile: res3.body[index].tags.id,
-                      url: res3.body[index].url,
-                      name: res3.body[index].key,
-                      remarks: res3.body[index].tags.remarks,
-                      status: res3.body[index].tags.status,
-                      dueDate: res3.body[index].tags.dueDate,
-                    },
-                  ];
-                }
-                this.file = [...this.file1, ...this.file2, ...this.file3];
-              });
-            }
-            this.fileUrl = this.file;
-            resolve();
           });
         }
       });

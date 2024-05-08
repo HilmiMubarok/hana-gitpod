@@ -1091,7 +1091,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
         this.tempRouter === 'review-dppk' ||
         this.tempRouter === 'review-dpdl' ||
         this.tempRouter === 'distribution' ||
-        this.tempRouter === 'loan-ops-distribution'
+        this.tempRouter === 'loan-ops-distribution' ||
+        this.tempRouter === 'loan-ops-review' ||
+        this.tempRouter === 'review-pk'
       ) {
         if (this.notes) {
           if (this.notes.length > 0) {
@@ -1176,7 +1178,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
 
   public generateOpinion() {
     const id = this.creditProposalItem.id;
-    if (this.typeOfPosition === 'Business Unit Director') {
+
+    if (this.typeOfPosition === 'Business Unit Opinion') {
       this.reportUtils.downloadFile3('/services/report/api/report/bussiness_unit_opinion/pdf-word-stream/' + id, '', 'Report_' + id);
     } else if (this.typeOfPosition === 'Reviewer Opinion') {
       this.reportUtils.downloadFile3('/services/report/api/report/credit_reviewer_unit_opinion/pdf-word-stream/' + id, '', 'Report_' + id);

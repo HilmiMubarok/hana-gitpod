@@ -69,6 +69,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public kjppValue: any;
   public disableRmInfo: boolean;
   validityDate = new FormControl(moment().toDate());
+  appraisalValidityPeriod: boolean;
 
   @Input()
   get collateralAppraisal() {
@@ -107,6 +108,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   @Output() jpAdditional = new EventEmitter<Boolean>();
   @Output() jpProgress = new EventEmitter<Boolean>();
   @Output() jpOther = new EventEmitter<Boolean>();
+  @Output() appraisalValidity = new EventEmitter();
   public branch?: string;
   public bmRm?: string;
   public totalPlafond?: number;
@@ -187,7 +189,15 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
         }
       });
   }
+  public disabledVisited() {
+    if (this.surveyAppraisal.statusId === 'VISITED') {
+      this.appraisalValidityPeriod = false;
+    } else {
+      this.appraisalValidityPeriod = true;
+    }
+  }
   ngOnInit(): void {
+    this.disabledVisited();
     this.isEnablePlafond;
     this.checkLogin();
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
@@ -304,7 +314,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.jpAdditional.emit(this.surveyAppraisal.jpAdditional);
     this.jpProgress.emit(this.surveyAppraisal.jpProgress);
     this.jpOther.emit(this.surveyAppraisal.jpOther);
-
+    this.appraisalValidity.emit(this.surveyAppraisal.thruDate);
     this.loadWilayah();
 
     if (changes['collateralAppraisal']) {

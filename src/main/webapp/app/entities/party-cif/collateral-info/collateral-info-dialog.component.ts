@@ -4,6 +4,7 @@ import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collater
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { IPartyCif } from '../party-cif.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info-dialog',
@@ -25,7 +26,8 @@ export class PartyCifCollateralInfoDialogComponent {
       collateralAppraisal: ICollateralAppraisal;
       partyCif: IPartyCif;
     },
-    private _dialog: MatDialogRef<PartyCifCollateralInfoDialogComponent>
+    private _dialog: MatDialogRef<PartyCifCollateralInfoDialogComponent>,
+    private messageService: MessageService
   ) {
     _dialog.disableClose = true;
     _dialog.backdropClick().subscribe(_ => {
@@ -59,5 +61,17 @@ export class PartyCifCollateralInfoDialogComponent {
         this._dialog.close();
       }
     });
+  }
+
+  public onSave() {
+    if (!this.collateral.attributes.collateralCode) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error!',
+        detail: 'Please fill in  Collateral Code field first ',
+      });
+    } else {
+      this._dialog.close(this.collateral);
+    }
   }
 }

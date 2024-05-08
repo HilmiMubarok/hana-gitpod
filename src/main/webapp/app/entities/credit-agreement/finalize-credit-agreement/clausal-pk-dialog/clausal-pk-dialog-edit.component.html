@@ -80,17 +80,18 @@
       <div *ngIf="category === 'ADDENDUM'">
         <div class="fontsebled row py-3">
           <div class="col-4"></div>
-          <div class="col-md-auto">:</div>
+          <div class="col-md-auto"></div>
           <div class="col col-lg-2">
-            {{ valueParentClausalAgreements }}
+            {{ valueParentClausalAgreements?.description }}
           </div>
         </div>
 
         <div style="margin-left: 30px" *ngFor="let item2 of countChildFormAgreements; let i = index" class="fontsebled row py-3">
           <div class="col-4"></div>
-          <div class="col-md-auto">:</div>
+          <div class="col-md-auto"></div>
           <div class="col col-lg-2">
-            {{ valueChildAgreeements[i] }}
+            {{ valueChildAgreeements[i]?.agreementClausalParameterCode }} -
+            {{ valueChildAgreeements[i]?.agreementClausalParameterDescription }}
           </div>
         </div>
       </div>
