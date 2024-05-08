@@ -183,20 +183,6 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
     return this.collateralProp.liquidationValue;
   }
 
-  public fnCountTotalLiquid(param: ICollateralProperty[] = null): number {
-    if (param.length > 0 && param) {
-      let result: number;
-      result = 0;
-      for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValuePerMeter && param[i].landSizePerCertificate && param[i].propertyPercentage) {
-          result = result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate * (param[i].propertyPercentage / 100);
-        }
-      }
-      return result;
-    }
-    return 0;
-  }
-
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
