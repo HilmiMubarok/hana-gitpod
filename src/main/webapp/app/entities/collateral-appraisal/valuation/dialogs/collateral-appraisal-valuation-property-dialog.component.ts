@@ -42,11 +42,13 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
       this.calTotalmarket();
       this.calTotalmarketTataKotaLand();
       this.calTotalmarketValueLand();
+      this.totalLiquidationValueLand();
     }
     if (this.collateralProp.propertyType === CollateralPropertyType.BUILDING) {
       this.calTotalmarketIMBBuilding();
       this.calTotalmarketTataKotaBuilding();
       this.calTotalmarketValueBilding();
+      this.totalLiquidationValueBuilding();
     }
   }
 
@@ -147,6 +149,7 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
     // this.collateralProp.propertyMarketValueTataKota = this.collateralProp.propertyMarketValueTataKotaPerMeter * this.countTotalArea();
     this.collateralProp.propertyMarketValueTataKota =
       this.collateralProp.propertyMarketValueTataKotaPerMeter * this.collateralProp.propertyAreaTataKota;
+
     return this.collateralProp.propertyMarketValueTataKota;
   }
 
@@ -160,6 +163,38 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
     this.collateralProp.propertyMarketValue = this.countTotalArea() * this.collateralProp.propertyMarketValuePerMeter;
 
     return this.collateralProp.propertyMarketValue;
+  }
+  public totalLiquidationValueLand(): number {
+    this.collateralProp.liquidationValue =
+      this.collateralProp.propertyMarketValuePerMeter *
+      this.collateralProp.landSizePerCertificate *
+      (this.collateralProp.propertyPercentage / 100);
+
+    this.collateralProp.liquidationValue = parseFloat(this.collateralProp.liquidationValue.toFixed(0));
+
+    return this.collateralProp.liquidationValue;
+  }
+
+  public totalLiquidationValueBuilding(): number {
+    this.collateralProp.liquidationValue =
+      this.collateralProp.propertyMarketValuePerMeter * this.countTotalArea() * (this.collateralProp.propertyPercentage / 100);
+    this.collateralProp.liquidationValue = parseFloat(this.collateralProp.liquidationValue.toFixed(0));
+
+    return this.collateralProp.liquidationValue;
+  }
+
+  public fnCountTotalLiquid(param: ICollateralProperty[] = null): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValuePerMeter && param[i].landSizePerCertificate && param[i].propertyPercentage) {
+          result = result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate * (param[i].propertyPercentage / 100);
+        }
+      }
+      return result;
+    }
+    return 0;
   }
 
   public openCancelDialog(): void {
