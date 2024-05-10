@@ -1,7 +1,7 @@
 <div>
   <div *ngIf="view === 'add'">
     <h2 mat-dialog-title class="label-font-detail">Add Document Legal</h2>
-    <mat-dialog-content>
+    <mat-dialog-content *ngIf="document.parentId !== 'DOC_DPDL_LEGAL_COVERNOTE'">
       <div class="row">
         <div class="col-6">
           <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
@@ -9,13 +9,22 @@
           </ngx-dropzone>
 
           <div class="row">
-            <ngx-dropzone-preview class="col-6" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
-              [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-preview
+              class="col-6"
+              ngProjectAs="ngx-dropzone-preview"
+              *ngFor="let f of files"
+              [removable]="true"
+              (removed)="onRemove(f)"
+            >
               <ngx-dropzone-label>
-                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"
-                  *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'">
+                <ngx-dropzone-image-preview
+                  ngProjectAs="ngx-dropzone-image-preview"
+                  [file]="f"
+                  *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+                >
                 </ngx-dropzone-image-preview>
-                <div style="
+                <div
+                  style="
                     width: 170px;
                     top: 90%;
                     left: 50%;
@@ -28,17 +37,16 @@
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                     margin-top: -20px;
                     position: absolute;
-                  ">
+                  "
+                >
                   {{ f.name }}
                 </div>
               </ngx-dropzone-label>
-              <ngx-dropzone-label
-                *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
                 <img src="../../../content/images/excel.png" width="100%" height="100%" />
               </ngx-dropzone-label>
 
-              <ngx-dropzone-label
-                *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
+              <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
                 <img src="../../../content/images/word.png" width="100%" height="100%" />
               </ngx-dropzone-label>
 
@@ -86,8 +94,7 @@
                   <mat-label>Document Type</mat-label>
                   <mat-select [(ngModel)]="document.parentId" (selectionChange)="doSearch($event.value)">
                     <mat-option value="">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of parentIdValue" [value]="item.id">{{ item.description }}
-                    </mat-option>
+                    <mat-option *ngFor="let item of parentIdValue" [value]="item.id">{{ item.description }} </mat-option>
                     <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
                   </mat-select>
                 </mat-form-field>
@@ -103,10 +110,12 @@
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Document Name</mat-label>
                   <!-- Update bagian ini -->
-                  <ng-container *ngIf="
+                  <ng-container
+                    *ngIf="
                       document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN';
                       else selectDocument
-                    ">
+                    "
+                  >
                     <input matInput type="text" [(ngModel)]="document.documentId" />
                   </ng-container>
                   <ng-template #selectDocument>
@@ -140,8 +149,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Date</mat-label>
-                  <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate"
-                    disabled />
+                  <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
                   <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
                   <mat-datepicker #documentDate disabled="false"></mat-datepicker>
                 </mat-form-field>
@@ -199,8 +207,7 @@
             </div>
             <div class="col-6">
               <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline"
-                  *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+                <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
                   <mat-label>Notary Name</mat-label>
                   <input matInput type="text" [(ngModel)]="document.attributes['notaryName']" />
                 </mat-form-field>
@@ -223,8 +230,13 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Batas Waktu Penyelesaian</mat-label>
-                  <input [matDatepicker]="batasWaktuPenyelesaian" matInput type="text"
-                    [(ngModel)]="document.attributes['batasWaktuPenyelesaian']" disabled />
+                  <input
+                    [matDatepicker]="batasWaktuPenyelesaian"
+                    matInput
+                    type="text"
+                    [(ngModel)]="document.attributes['batasWaktuPenyelesaian']"
+                    disabled
+                  />
                   <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelesaian"></mat-datepicker-toggle>
                   <mat-datepicker #batasWaktuPenyelesaian disabled="false"></mat-datepicker>
                 </mat-form-field>
@@ -235,11 +247,13 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline"
-                  *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'">
+                <mat-form-field
+                  class="w-100"
+                  appearance="outline"
+                  *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'"
+                >
                   <mat-label>Description</mat-label>
-                  <textarea matInput type="multiline" style="height: 100px"
-                    [(ngModel)]="document.attributes['description']"></textarea>
+                  <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="document.attributes['description']"></textarea>
                 </mat-form-field>
               </div>
             </div>
@@ -250,8 +264,12 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_BIAYA'">
                   <mat-label>Total</mat-label>
-                  <input matInput type="text" [ngModel]="document.attributes['total'] | number: '1.0-0'"
-                    (ngModelChange)="document.attributes['total'] = numberInputChanged($event)" />
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="document.attributes['total'] | number: '1.0-0'"
+                    (ngModelChange)="document.attributes['total'] = numberInputChanged($event)"
+                  />
                 </mat-form-field>
               </div>
             </div>
@@ -259,6 +277,330 @@
         </div>
       </div>
     </mat-dialog-content>
+
+    <!-- new notaris menu -->
+    <mat-dialog-content *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+      <div class="new-notaris-menu">
+        <div class="row mb-4">
+          <div class="col">
+            <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+              <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+            </ngx-dropzone>
+
+            <div class="row">
+              <ngx-dropzone-preview
+                class="col"
+                ngProjectAs="ngx-dropzone-preview"
+                *ngFor="let f of files"
+                [removable]="true"
+                (removed)="onRemove(f)"
+              >
+                <ngx-dropzone-label>
+                  <ngx-dropzone-image-preview
+                    ngProjectAs="ngx-dropzone-image-preview"
+                    [file]="f"
+                    *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+                  >
+                  </ngx-dropzone-image-preview>
+                  <div
+                    style="
+                      width: 170px;
+                      top: 90%;
+                      left: 50%;
+                      transform: translateX(-50%);
+                      z-index: 1;
+                      background-color: gray;
+                      padding: 2px;
+                      font-size: 12px;
+                      color: white;
+                      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                      margin-top: -20px;
+                      position: absolute;
+                    "
+                  >
+                    {{ f.name }}
+                  </div>
+                </ngx-dropzone-label>
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
+                  <img src="../../../content/images/excel.png" width="100%" height="100%" />
+                </ngx-dropzone-label>
+
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
+                  <img src="../../../content/images/word.png" width="100%" height="100%" />
+                </ngx-dropzone-label>
+
+                <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
+                  <img src="../../../content/images/pdf.png" width="100%" height="100%" />
+                </ngx-dropzone-label>
+
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1">
+                  <img src="../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+                </ngx-dropzone-label>
+
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1">
+                  <img src="../../../content/images/zip-image.jpg" width="100%" height="100%" />
+                </ngx-dropzone-label>
+
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('pptx') > -1">
+                  <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
+                </ngx-dropzone-label>
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
+                  <img src="../../../content/images/csv.png" width="100%" height="100%" />
+                </ngx-dropzone-label>
+
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
+                  <img src="../../../content/images/mp3.png" width="100%" height="100%" />
+                </ngx-dropzone-label>
+
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
+                  <img src="../../../content/images/svg.jpg" width="100%" height="100%" />
+                </ngx-dropzone-label>
+
+                <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
+                  <img src="../../../content/images/tiff.png" width="100%" height="100%" />
+                </ngx-dropzone-label>
+                <ngx-dropzone-label *ngIf="f.url !== undefined">
+                  <img [src]="f.url" width="100%" height="100%" />
+                </ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Document Type</mat-label>
+                <mat-select [(ngModel)]="document.parentId" (selectionChange)="doSearch($event.value)">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of parentIdValue" [value]="item.id">{{ item.description }} </mat-option>
+                  <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Document Name</mat-label>
+                <ng-container
+                  *ngIf="
+                    document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN';
+                    else selectDocument
+                  "
+                >
+                  <input matInput type="text" [(ngModel)]="document.documentId" />
+                </ng-container>
+                <ng-template #selectDocument>
+                  <mat-select [(ngModel)]="document.documentId">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of documentTypes" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </ng-template>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]="document.status">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of status" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- left -->
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="w-100 pr-1">
+                <mat-label>Category</mat-label>
+                <mat-select [(ngModel)]="document.category">
+                  <mat-option *ngFor="let item of categoryValue" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- right -->
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Remarks</mat-label>
+                <input matInput type="text" [(ngModel)]="document.attributes['remarks']" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Covenant Type</mat-label>
+                <mat-select
+                  [(ngModel)]="document.legalCovernote.attributes['covernoteType']"
+                  (selectionChange)="getLegalCovernoteTaskDataList(); resetTaskDataSource()"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of legalCovernoteTypeDdl" [value]="item.code">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- left -->
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="w-100 pr-1">
+                <mat-label>Covernote Task</mat-label>
+                <mat-select
+                  [(ngModel)]="selectedCovernoteTask"
+                  [disabled]="
+                    document.legalCovernote.attributes['covernoteType'] === undefined ||
+                    document.legalCovernote.attributes['covernoteType'] === ''
+                  "
+                >
+                  <mat-option *ngFor="let item of legalCovernoteTaskDataList" [value]="item">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- right -->
+          <div class="col-5 me-2">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Date</mat-label>
+                <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="selectedCovernoteDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- button add -->
+          <div class="col-md-auto d-flex justify-content-center mt-1 pt-2" style="height: fit-content !important">
+            <button
+              mat-raised-button
+              (click)="addCovernoteTask(selectedCovernoteTask, selectedCovernoteDate)"
+              class="button-styling"
+              [disabled]="
+                selectedCovernoteTask === undefined ||
+                selectedCovernoteTask === '' ||
+                selectedCovernoteDate === undefined ||
+                selectedCovernoteDate === ''
+              "
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+          <!-- left -->
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Number</mat-label>
+                <input matInput type="text" [(ngModel)]="document.attributes['notaryNumber']" />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Date</mat-label>
+                <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- right -->
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" [(ngModel)]="document.attributes['notaryName']" />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Batas Waktu Penyelesaian</mat-label>
+                <input
+                  [matDatepicker]="batasWaktuPenyelesaian"
+                  matInput
+                  type="text"
+                  [(ngModel)]="document.attributes['batasWaktuPenyelesaian']"
+                  disabled
+                />
+                <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelesaian"></mat-datepicker-toggle>
+                <mat-datepicker #batasWaktuPenyelesaian disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field
+                class="w-100"
+                appearance="outline"
+                *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'"
+              >
+                <mat-label>Description</mat-label>
+                <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="document.attributes['description']"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- table task covernote -->
+      <div class="row">
+        <table mat-table [dataSource]="legalCovernoteTaskDataSource" class="w-100">
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-number rounding-table-left">No</th>
+            <td mat-cell *matCellDef="let i = index" class="grid-index-label">{{ i + 1 }}</td>
+          </ng-container>
+          <ng-container matColumnDef="covernoteTask">
+            <th mat-header-cell *matHeaderCellDef>Covernote Task</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.covernoteTask }}</td>
+          </ng-container>
+          <ng-container matColumnDef="covernoteDate">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-label-string">
+              {{ element.covernoteDate | date: 'YYYY-MM-dd' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef width="13%" class="grid-index-string-action rounding-table-right">Action</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="removeCovernoteTask(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="['no', 'covernoteTask', 'covernoteDate', 'action'].length">No records found.</td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="['no', 'covernoteTask', 'covernoteDate', 'action']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['no', 'covernoteTask', 'covernoteDate', 'action']"></tr>
+        </table>
+      </div>
+    </mat-dialog-content>
+
     <mat-dialog-actions align="center" class="align-center">
       <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
       <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
@@ -268,19 +610,28 @@
 
 <div *ngIf="view === 'edit'">
   <h2 mat-dialog-title class="label-font-detail">Edit Document Legal</h2>
-  <mat-dialog-content>
+  <mat-dialog-content *ngIf="document.parentId !== 'DOC_DPDL_LEGAL_COVERNOTE'">
     <div class="row">
       <div class="col-6">
         <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
-        <ngx-dropzone-preview class="col-6" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
-          [removable]="true" (removed)="onRemove(f)">
+        <ngx-dropzone-preview
+          class="col-6"
+          ngProjectAs="ngx-dropzone-preview"
+          *ngFor="let f of files"
+          [removable]="true"
+          (removed)="onRemove(f)"
+        >
           <ngx-dropzone-label>
-            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"
-              *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'">
+            <ngx-dropzone-image-preview
+              ngProjectAs="ngx-dropzone-image-preview"
+              [file]="f"
+              *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+            >
             </ngx-dropzone-image-preview>
-            <div style="
+            <div
+              style="
                 width: 170px;
                 top: 90%;
                 left: 50%;
@@ -293,7 +644,8 @@
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                 margin-top: -20px;
                 position: absolute;
-              ">
+              "
+            >
               {{ f.name }}
             </div>
           </ngx-dropzone-label>
@@ -342,17 +694,27 @@
         </ngx-dropzone-preview>
 
         <div class="row">
-          <ngx-dropzone-preview class="col-6" ngProjectAs="ngx-dropzone-preview" *ngFor="let item of folder.files"
-            [removable]="true" (removed)="onRemove(item)">
+          <ngx-dropzone-preview
+            class="col-6"
+            ngProjectAs="ngx-dropzone-preview"
+            *ngFor="let item of folder.files"
+            [removable]="true"
+            (removed)="onRemove(item)"
+          >
             <ngx-dropzone-label>
-              <img width="150px" [src]="item.url" *ngIf="
+              <img
+                width="150px"
+                [src]="item.url"
+                *ngIf="
                   item.key.split('.').indexOf('png') > -1 ||
                   item.key.split('.').indexOf('jpg') > -1 ||
                   item.key.split('.').indexOf('jpeg') > -1 ||
                   item.key.split('.').indexOf('gif') > -1
-                " />
+                "
+              />
 
-              <div style="
+              <div
+                style="
                   width: 170px;
                   top: 90%;
                   left: 50%;
@@ -365,39 +727,50 @@
                   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                   margin-top: -20px;
                   position: absolute;
-                ">
+                "
+              >
                 {{ item.name }}
               </div>
 
-              <img width="150px" src="../../../content/images/csv.png"
-                *ngIf="item.key.split('.').indexOf('csv') > -1" />
+              <img width="150px" src="../../../content/images/csv.png" *ngIf="item.key.split('.').indexOf('csv') > -1" />
 
-              <img width="150px" src="../../../content/images/svg.jpg"
-                *ngIf="item.key.split('.').indexOf('svg') > -1" />
+              <img width="150px" src="../../../content/images/svg.jpg" *ngIf="item.key.split('.').indexOf('svg') > -1" />
 
-              <img width="150px" src="../../../content/images/tiff.png"
-                *ngIf="item.key.split('.').indexOf('tiff') > -1" />
+              <img width="150px" src="../../../content/images/tiff.png" *ngIf="item.key.split('.').indexOf('tiff') > -1" />
 
-              <img width="150px" src="../../../content/images/mp3.png"
-                *ngIf="item.key.split('.').indexOf('mp3') > -1" />
+              <img width="150px" src="../../../content/images/mp3.png" *ngIf="item.key.split('.').indexOf('mp3') > -1" />
 
-              <img width="150px" src="../../../content/images/WinRAR-logo.jpg"
-                *ngIf="item.key.split('.').indexOf('rar') > -1" />
+              <img width="150px" src="../../../content/images/WinRAR-logo.jpg" *ngIf="item.key.split('.').indexOf('rar') > -1" />
 
-              <img width="150px" src="../../../content/images/zip-image.jpg"
-                *ngIf="item.key.split('.').indexOf('zip') > -1" />
+              <img width="150px" src="../../../content/images/zip-image.jpg" *ngIf="item.key.split('.').indexOf('zip') > -1" />
 
-              <img (click)="donwload(item.url)" width="150px" src="../../../content/images/excel.png"
-                *ngIf="item.key.split('.').indexOf('xls') > -1 || item.key.split('.').indexOf('xlsx') > -1" />
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/excel.png"
+                *ngIf="item.key.split('.').indexOf('xls') > -1 || item.key.split('.').indexOf('xlsx') > -1"
+              />
 
-              <img (click)="donwload(item.url)" width="150px" src="../../../content/images/word.png"
-                *ngIf="item.key.split('.').indexOf('doc') > -1 || item.key.split('.').indexOf('docx') > -1" />
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/word.png"
+                *ngIf="item.key.split('.').indexOf('doc') > -1 || item.key.split('.').indexOf('docx') > -1"
+              />
 
-              <img (click)="donwload(item.url)" width="150px" src="../../../content/images/pdf.png"
-                *ngIf="item.key.split('.').indexOf('pdf') > -1" />
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/pdf.png"
+                *ngIf="item.key.split('.').indexOf('pdf') > -1"
+              />
 
-              <img (click)="donwload(item.url)" width="150px" src="../../../content/images/power-point.jpg"
-                *ngIf="item.key.split('.').indexOf('pptx') > -1" />
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/power-point.jpg"
+                *ngIf="item.key.split('.').indexOf('pptx') > -1"
+              />
             </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
@@ -424,10 +797,12 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Name</mat-label>
                 <!-- Update bagian ini -->
-                <ng-container *ngIf="
+                <ng-container
+                  *ngIf="
                     document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN';
                     else selectDocument
-                  ">
+                  "
+                >
                   <input matInput type="text" [(ngModel)]="document.documentId" />
                 </ng-container>
                 <ng-template #selectDocument>
@@ -461,8 +836,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Date</mat-label>
-                <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate"
-                  disabled />
+                <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
                 <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
                 <mat-datepicker #documentDate disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -520,8 +894,7 @@
           </div>
           <div class="col-6">
             <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline"
-                *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+              <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
                 <mat-label>Notary Name</mat-label>
                 <input matInput type="text" [(ngModel)]="document.attributes['notaryName']" />
               </mat-form-field>
@@ -538,15 +911,19 @@
                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                 <mat-datepicker #dp disabled="false"></mat-datepicker>
               </mat-form-field>
-
             </div>
           </div>
           <div class="col-6">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Batas Waktu Penyelesaian</mat-label>
-                <input [matDatepicker]="batasWaktuPenyelesaian" matInput type="text"
-                  [(ngModel)]="document.attributes['batasWaktuPenyelesaian']" disabled />
+                <input
+                  [matDatepicker]="batasWaktuPenyelesaian"
+                  matInput
+                  type="text"
+                  [(ngModel)]="document.attributes['batasWaktuPenyelesaian']"
+                  disabled
+                />
                 <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelesaian"></mat-datepicker-toggle>
                 <mat-datepicker #batasWaktuPenyelesaian disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -557,11 +934,13 @@
         <div class="row">
           <div class="col-12">
             <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline"
-                *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'">
+              <mat-form-field
+                class="w-100"
+                appearance="outline"
+                *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'"
+              >
                 <mat-label>Description</mat-label>
-                <textarea matInput type="multiline" style="height: 100px"
-                  [(ngModel)]="document.attributes['description']"></textarea>
+                <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="document.attributes['description']"></textarea>
               </mat-form-field>
             </div>
           </div>
@@ -572,13 +951,420 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_BIAYA'">
                 <mat-label>Total</mat-label>
-                <input matInput type="text" [ngModel]="document.attributes['total'] | number: '1.0-0'"
-                  (ngModelChange)="document.attributes['total'] = numberInputChanged($event)" />
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="document.attributes['total'] | number: '1.0-0'"
+                  (ngModelChange)="document.attributes['total'] = numberInputChanged($event)"
+                />
               </mat-form-field>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </mat-dialog-content>
+
+  <!-- new notaris menu -->
+  <mat-dialog-content *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+    <div class="new-notaris-menu">
+      <div class="row mb-4">
+        <div class="col">
+          <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+            <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+          </ngx-dropzone>
+          <ngx-dropzone-preview
+            class="col-6"
+            ngProjectAs="ngx-dropzone-preview"
+            *ngFor="let f of files"
+            [removable]="true"
+            (removed)="onRemove(f)"
+          >
+            <ngx-dropzone-label>
+              <ngx-dropzone-image-preview
+                ngProjectAs="ngx-dropzone-image-preview"
+                [file]="f"
+                *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+              >
+              </ngx-dropzone-image-preview>
+              <div
+                style="
+                  width: 170px;
+                  top: 90%;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  z-index: 1;
+                  background-color: gray;
+                  padding: 2px;
+                  font-size: 12px;
+                  color: white;
+                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                  margin-top: -20px;
+                  position: absolute;
+                "
+              >
+                {{ f.name }}
+              </div>
+            </ngx-dropzone-label>
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
+              <img src="../../../content/images/excel.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
+              <img src="../../../content/images/word.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
+              <img src="../../../content/images/pdf.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('pptx') > -1">
+              <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1">
+              <img src="../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1">
+              <img src="../../../content/images/zip-image.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
+              <img src="../../../content/images/csv.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
+              <img src="../../../content/images/mp3.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
+              <img src="../../../content/images/svg.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
+              <img src="../../../content/images/tiff.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+            <ngx-dropzone-label *ngIf="f.url !== undefined">
+              <img [src]="f.url" width="100%" height="100%" />
+            </ngx-dropzone-label>
+          </ngx-dropzone-preview>
+
+          <div class="row">
+            <ngx-dropzone-preview
+              class="col-6"
+              ngProjectAs="ngx-dropzone-preview"
+              *ngFor="let item of folder.files"
+              [removable]="true"
+              (removed)="onRemove(item)"
+            >
+              <ngx-dropzone-label>
+                <img
+                  width="150px"
+                  [src]="item.url"
+                  *ngIf="
+                    item.key.split('.').indexOf('png') > -1 ||
+                    item.key.split('.').indexOf('jpg') > -1 ||
+                    item.key.split('.').indexOf('jpeg') > -1 ||
+                    item.key.split('.').indexOf('gif') > -1
+                  "
+                />
+
+                <div
+                  style="
+                    width: 170px;
+                    top: 90%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 1;
+                    background-color: gray;
+                    padding: 2px;
+                    font-size: 12px;
+                    color: white;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                    margin-top: -20px;
+                    position: absolute;
+                  "
+                >
+                  {{ item.name }}
+                </div>
+
+                <img width="150px" src="../../../content/images/csv.png" *ngIf="item.key.split('.').indexOf('csv') > -1" />
+
+                <img width="150px" src="../../../content/images/svg.jpg" *ngIf="item.key.split('.').indexOf('svg') > -1" />
+
+                <img width="150px" src="../../../content/images/tiff.png" *ngIf="item.key.split('.').indexOf('tiff') > -1" />
+
+                <img width="150px" src="../../../content/images/mp3.png" *ngIf="item.key.split('.').indexOf('mp3') > -1" />
+
+                <img width="150px" src="../../../content/images/WinRAR-logo.jpg" *ngIf="item.key.split('.').indexOf('rar') > -1" />
+
+                <img width="150px" src="../../../content/images/zip-image.jpg" *ngIf="item.key.split('.').indexOf('zip') > -1" />
+
+                <img
+                  (click)="donwload(item.url)"
+                  width="150px"
+                  src="../../../content/images/excel.png"
+                  *ngIf="item.key.split('.').indexOf('xls') > -1 || item.key.split('.').indexOf('xlsx') > -1"
+                />
+
+                <img
+                  (click)="donwload(item.url)"
+                  width="150px"
+                  src="../../../content/images/word.png"
+                  *ngIf="item.key.split('.').indexOf('doc') > -1 || item.key.split('.').indexOf('docx') > -1"
+                />
+
+                <img
+                  (click)="donwload(item.url)"
+                  width="150px"
+                  src="../../../content/images/pdf.png"
+                  *ngIf="item.key.split('.').indexOf('pdf') > -1"
+                />
+
+                <img
+                  (click)="donwload(item.url)"
+                  width="150px"
+                  src="../../../content/images/power-point.jpg"
+                  *ngIf="item.key.split('.').indexOf('pptx') > -1"
+                />
+              </ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Document Type</mat-label>
+              <mat-select [(ngModel)]="document.parentId" (selectionChange)="doSearch($event.value)">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of parentIdValue" [value]="item.id">{{ item.description }} </mat-option>
+                <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Document Name</mat-label>
+              <ng-container
+                *ngIf="
+                  document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN';
+                  else selectDocument
+                "
+              >
+                <input matInput type="text" [(ngModel)]="document.documentId" />
+              </ng-container>
+              <ng-template #selectDocument>
+                <mat-select [(ngModel)]="document.documentId">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of documentTypes" [value]="item.id">
+                    {{ item.description }}
+                  </mat-option>
+                </mat-select>
+              </ng-template>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select [(ngModel)]="document.status">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of status" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- left -->
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="w-100 pr-1">
+              <mat-label>Category</mat-label>
+              <mat-select [(ngModel)]="document.category">
+                <mat-option *ngFor="let item of categoryValue" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- right -->
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Remarks</mat-label>
+              <input matInput type="text" [(ngModel)]="document.attributes['remarks']" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+        <div class="col-12">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Covenant Type</mat-label>
+              <mat-select
+                [(ngModel)]="document.legalCovernote.attributes['covernoteType']"
+                (selectionChange)="getLegalCovernoteTaskDataList(); resetTaskDataSource()"
+              >
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of legalCovernoteTypeDdl" [value]="item.code">
+                  {{ item.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- left -->
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="w-100 pr-1">
+              <mat-label>Covernote Task</mat-label>
+              <mat-select
+                [(ngModel)]="selectedCovernoteTask"
+                [disabled]="
+                  document.legalCovernote.attributes['covernoteType'] === undefined ||
+                  document.legalCovernote.attributes['covernoteType'] === ''
+                "
+              >
+                <mat-option *ngFor="let item of legalCovernoteTaskDataList" [value]="item">
+                  {{ item.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- right -->
+        <div class="col-5 me-2">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Date</mat-label>
+              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="selectedCovernoteDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- button add -->
+        <div class="col-md-auto d-flex justify-content-center mt-1 pt-2" style="height: fit-content !important">
+          <button
+            mat-raised-button
+            (click)="addCovernoteTask(selectedCovernoteTask, selectedCovernoteDate)"
+            class="button-styling"
+            [disabled]="
+              selectedCovernoteTask === undefined ||
+              selectedCovernoteTask === '' ||
+              selectedCovernoteDate === undefined ||
+              selectedCovernoteDate === ''
+            "
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="row" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+        <!-- left -->
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Number</mat-label>
+              <input matInput type="text" [(ngModel)]="document.attributes['notaryNumber']" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Date</mat-label>
+              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- right -->
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+              <mat-label>Name</mat-label>
+              <input matInput type="text" [(ngModel)]="document.attributes['notaryName']" />
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Batas Waktu Penyelesaian</mat-label>
+              <input
+                [matDatepicker]="batasWaktuPenyelesaian"
+                matInput
+                type="text"
+                [(ngModel)]="document.attributes['batasWaktuPenyelesaian']"
+                disabled
+              />
+              <mat-datepicker-toggle matSuffix [for]="batasWaktuPenyelesaian"></mat-datepicker-toggle>
+              <mat-datepicker #batasWaktuPenyelesaian disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <mat-form-field
+              class="w-100"
+              appearance="outline"
+              *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_AKAD'"
+            >
+              <mat-label>Description</mat-label>
+              <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="document.attributes['description']"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- table task covernote -->
+    <div class="row">
+      <table mat-table [dataSource]="legalCovernoteTaskDataSource" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-number rounding-table-left">No</th>
+          <td mat-cell *matCellDef="let i = index" class="grid-index-label">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="covernoteTask">
+          <th mat-header-cell *matHeaderCellDef>Covernote Task</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.covernoteTask }}</td>
+        </ng-container>
+        <ng-container matColumnDef="covernoteDate">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label-string">
+            {{ element.covernoteDate | date: 'YYYY-MM-dd' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef width="13%" class="grid-index-string-action rounding-table-right">Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="removeCovernoteTask(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="['no', 'covernoteTask', 'covernoteDate', 'action'].length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="['no', 'covernoteTask', 'covernoteDate', 'action']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['no', 'covernoteTask', 'covernoteDate', 'action']"></tr>
+      </table>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center" class="align-center">
