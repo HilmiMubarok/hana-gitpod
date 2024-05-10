@@ -130,6 +130,13 @@ export class DpdlFinalizeService extends AbstractEntityService<IDpdlFinalizeMode
         entity.attributes['bindingValueNote'] = JSON.stringify(entity.attributes['bindingValueNote']);
       }
     }
+
+    if (entity.attributes['legalCovernote']) {
+      if (typeof entity.attributes['legalCovernote'] !== 'string') {
+        entity.attributes['legalCovernote'] = JSON.stringify(entity.attributes['legalCovernote']);
+      }
+    }
+
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }

@@ -77,6 +77,7 @@ export interface IDocumentLegalDpdl {
   documentDate?: Date;
   status?: string;
   attributes?: any;
+  legalCovernote?: ILegalCovernote;
   objectName?: string;
 }
 
@@ -91,9 +92,11 @@ export class DocumentLegalDpdl implements IDocumentLegalDpdl {
     public documentDate?: Date,
     public status?: string,
     public attributes?: any,
+    public legalCovernote?: ILegalCovernote,
     public objectName?: string
   ) {
     this.attributes = {};
+    this.legalCovernote = new ILegalCovernote();
   }
 }
 
@@ -133,5 +136,27 @@ export class DocumentDpdlLegalMetaData implements IDocumentDpdlLegalMetaData {
     this.documentDate = null;
     this.objectName = null;
     this.attributes = {}; // Set default value for remarks
+  }
+}
+
+export class ILegalCovernote {
+  constructor(public id?: string, public documentId?: string, public attributes?: ILegalCovernoteAttributes) {
+    this.id = '';
+    this.documentId = '';
+    this.attributes = new ILegalCovernoteAttributes();
+  }
+}
+
+export class ILegalCovernoteAttributes {
+  constructor(public covernoteType?: string, public covernoteTask?: ICovernoteTask[]) {
+    this.covernoteType = '';
+    this.covernoteTask = [];
+  }
+}
+
+export class ICovernoteTask {
+  constructor(public code?: string, public date?: Date) {
+    this.code = '';
+    this.date = new Date();
   }
 }

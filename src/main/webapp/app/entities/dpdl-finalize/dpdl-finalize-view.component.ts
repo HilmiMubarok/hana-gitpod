@@ -1424,6 +1424,13 @@ export class DpdlFinalizeViewComponent implements OnInit {
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
+
+    if (copyCreditProposal.attributes['legalCovernote']) {
+      if (typeof copyCreditProposal.attributes['legalCovernote'] !== 'string') {
+        copyCreditProposal.attributes['legalCovernote'] = JSON.stringify(copyCreditProposal.attributes['legalCovernote']);
+      }
+    }
+
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }

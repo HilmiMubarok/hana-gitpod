@@ -452,6 +452,12 @@ export class IdplFinalizeRoute implements Resolve<IDpdlFinalizeModel> {
               );
             }
 
+            if (!lodash.has(creditProposal.body.attributes, 'legalCovernote')) {
+              creditProposal.body.attributes['legalCovernote'] = [];
+            } else {
+              creditProposal.body.attributes['legalCovernote'] = JSON.parse(creditProposal.body.attributes['legalCovernote']);
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
