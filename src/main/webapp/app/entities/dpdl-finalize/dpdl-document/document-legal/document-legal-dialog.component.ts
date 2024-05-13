@@ -537,7 +537,6 @@ export class DocumentLegalDialogComponent implements OnInit {
 
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
-        console.log('this.files', this.files);
         const data = {
           existingIds: this.existingIds,
           view: this.view,
