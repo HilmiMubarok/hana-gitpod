@@ -448,12 +448,12 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       {
         name: ' TBO Checking',
         iconname: 'minus',
-        route: 'tbo-checking',
+        route: 'tbo-legal-checking',
       },
       {
         name: ' TBO Review',
         iconname: 'minus',
-        route: 'tbo-review',
+        route: 'tbo-legal-review',
       },
     ],
   },

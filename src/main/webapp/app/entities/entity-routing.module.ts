@@ -634,11 +634,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./bank-account/bank-account.module').then(m => m.BankAccountModule),
       },
       {
-        path: 'tbo-checking',
+        path: 'tbo-legal-checking',
         loadChildren: () => import('./tbo-legal-monitoring/tbo-checking/tbo-checking.module').then(m => m.TboCheckingModule),
       },
       {
-        path: 'tbo-review',
+        path: 'tbo-legal-review',
         loadChildren: () => import('./tbo-legal-monitoring/tbo-review/tbo-review.module').then(m => m.TboReviewModule),
       },
     ]),

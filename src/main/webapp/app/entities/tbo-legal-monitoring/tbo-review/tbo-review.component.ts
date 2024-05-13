@@ -283,11 +283,11 @@ export class TboReviewComponent extends AbstractEntityMaterialComponent<ITboRevi
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url === '/tbo-review') {
+      if (this.router.url === '/tbo-legal-review') {
         this.getStatusListView('CREDIT_PROPOSAL_STATUS');
         if (this.clickedChip['statusId'] !== '') {
           this.cashTboLegalMonitoringService
-            .darRevision({
+            .getTboLegalReview({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
@@ -303,7 +303,7 @@ export class TboReviewComponent extends AbstractEntityMaterialComponent<ITboRevi
           return;
         } else {
           this.cashTboLegalMonitoringService
-            .darRevision({
+            .getTboLegalReview({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
@@ -371,7 +371,7 @@ export class TboReviewComponent extends AbstractEntityMaterialComponent<ITboRevi
   }
 
   getText(value: any) {
-    if (value === 'tbo-review') {
+    if (value === 'tbo-legal-review') {
       this.title = 'TBO LEGAL MONITORING';
       sessionStorage.setItem('appName', this.title);
     }
