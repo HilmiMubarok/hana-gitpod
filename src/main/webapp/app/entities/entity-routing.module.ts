@@ -623,6 +623,11 @@ import { RouterModule } from '@angular/router';
           import('./master-parameter/master-company-type/master-company-type.module').then(m => m.LosgwMasterCompanyTypeModule),
       },
       {
+        path: 'master-document-term',
+        loadChildren: () =>
+          import('./master-parameter/master-document-term/master-document.term.module').then(m => m.LosgwMasterDocumentTermModule),
+      },
+      {
         path: 'master-financial-institution',
         loadChildren: () =>
           import('./master-parameter/financial-institution/master-financial-institution.module').then(
