@@ -29,4 +29,7 @@ export class CashCollateralService {
   public loadCollateralInsurance(idCp: number): Observable<HttpResponse<ICollateral[]>> {
     return this.http.get<ICollateral[]>(`${this.resourceUrl}/summary3/${idCp}`, { observe: 'response' });
   }
+  public getCollateralProperty(applicationId: number): Observable<HttpResponse<Object[]>> {
+    return this.http.get<any>(`${this.resourceUrl}/collateral-debitur/appId/${applicationId}`, { observe: 'response' });
+  }
 }

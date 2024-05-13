@@ -29,7 +29,7 @@ import {
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { CollateralSummaryDialogLoanOpsComponent } from './collateral-summary-dialog-loan-ops.component';
-
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-summary-grid-loan-ops',
   templateUrl: './summary-grid-loan-ops.component.html',
@@ -222,7 +222,8 @@ export class SummaryGridLoanOpsComponent
     private collateralService: CollateralService,
     private partyCifService: PartyCifService,
     private generalParameterService: GeneralParameterService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cashCollateralService: CashCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -253,6 +254,7 @@ export class SummaryGridLoanOpsComponent
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
+    this.findCollateralProperty(this.creditProposal.id);
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -266,7 +268,6 @@ export class SummaryGridLoanOpsComponent
       });
       this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
-      this.mapCollateralProperty(this.dataCollateral);
       this.getBindingCalculate(this.dataCollateral);
     });
   }
@@ -283,7 +284,6 @@ export class SummaryGridLoanOpsComponent
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          // this.findCollateralProperty(collateral);
         }
       }
     }
@@ -294,11 +294,7 @@ export class SummaryGridLoanOpsComponent
       this.loadSummaryCollateral();
     }
   }
-  public mapCollateralProperty(data: ICollateral[]) {
-    for (let i = 0; i < data.length; i++) {
-      this.findCollateralProperty(data[i]);
-    }
-  }
+
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
@@ -511,12 +507,10 @@ export class SummaryGridLoanOpsComponent
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

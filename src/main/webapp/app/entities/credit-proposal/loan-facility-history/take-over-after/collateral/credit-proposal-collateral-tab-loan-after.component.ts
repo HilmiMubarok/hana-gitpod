@@ -17,6 +17,7 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CollateralTabLoanAfterDialogHistoryComponent } from './credit-proposal-collateral-tab-loan-after-dialog.component';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-collateral-tab-loan-after-history',
@@ -53,7 +54,8 @@ export class CollateralTabLoanAfterHistoryComponent implements OnChanges {
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
@@ -79,10 +81,10 @@ export class CollateralTabLoanAfterHistoryComponent implements OnChanges {
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          this.findCollateralProperty(collateral);
         }
       }
       this.loadCollateralAfterData();
+      this.findCollateralProperty(this.creditProposal.id);
     }
   }
 
@@ -156,12 +158,10 @@ export class CollateralTabLoanAfterHistoryComponent implements OnChanges {
     return 'N/A';
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

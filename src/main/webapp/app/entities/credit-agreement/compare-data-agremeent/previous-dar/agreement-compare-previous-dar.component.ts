@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -57,13 +58,15 @@ export class AgreementComparePreviousDarComponent implements OnInit, OnChanges, 
   constructor(
     private collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private cashCollateralService: CashCollateralService
   ) {}
 
   ngOnInit(): void {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
+    this.findCollateralProperty(this.creditProposal.id);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -129,39 +132,28 @@ export class AgreementComparePreviousDarComponent implements OnInit, OnChanges, 
       }
     });
   }
-
-  private loadByPartyId(param: string): void {
-    this.collateralService
-      .queryFilterBy({
-        idParty: param,
-        isActive: true,
-      })
-      .subscribe(res => {
-        this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
-          }
-        }
-      });
-  }
-
   private destroy$: Subject<boolean> = new Subject<boolean>();
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  // find collateral property
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService
-        .queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 })
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(res => {
-          this.collateralProperties = [...this.collateralProperties, ...res.body];
-        });
-    }
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+        size: 999,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+      });
+  }
+
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
   // constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
   //   this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];

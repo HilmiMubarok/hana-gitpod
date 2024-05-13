@@ -25,6 +25,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 import { CollateralInfoDialogTempComponent } from '../dialog/collateral-info-dialog-temp.component';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { Subject, takeUntil } from 'rxjs';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-bellow-grid-dar-final',
@@ -112,7 +113,8 @@ export class BellowGridDarFinalComponent
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private cashCollateralService: CashCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -134,7 +136,7 @@ export class BellowGridDarFinalComponent
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
-
+    this.findCollateralProperty(this.creditProposal.id);
     // this.isViewMode && this.displayedColumns.pop();
 
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
@@ -168,7 +170,6 @@ export class BellowGridDarFinalComponent
       if (this.dynamicCollateral().length > 0) {
         for (let i = 0; i < this.dynamicCollateral().length; i++) {
           const collateral = this.dynamicCollateral()[i];
-          this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
           }
@@ -402,15 +403,10 @@ export class BellowGridDarFinalComponent
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService
-        .queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 })
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(res => {
-          this.collateralProperties = [...this.collateralProperties, ...res.body];
-        });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

@@ -65,6 +65,7 @@ import { CPFacilityTable, ICPFacilityTable } from '../credit-proposal/exposure/t
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
 import { LoanAnalysComplianceComponent } from './compliance/loan-analys-compliance.component';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -194,7 +195,8 @@ export class LoanAnalysMainComponent implements OnInit {
     private collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private cashCollateralService: CashCollateralService
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -1181,6 +1183,12 @@ export class LoanAnalysMainComponent implements OnInit {
       this.disabledData = false;
     }
     this.loadByPartyId(this.creditProposal.cif.partyId);
+    this.findCollateralProperty(this.creditProposal.id);
+    if (this.collateral.length > 0) {
+      for (let i = 0; i < this.collateral.length; i++) {
+        this.filterCgpg(this.collateral[i]);
+      }
+    }
   }
   private checkIsDoc() {
     for (let i = 0; i < this.dataFileDar.length; i++) {
@@ -2607,28 +2615,28 @@ export class LoanAnalysMainComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
-        this.collateralCgpg.push(collateral);
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
+  }
+  public filterCgpg(collateral: ICollateral) {
+    if (this.collateral.length > 0) {
+      for (let i = 0; i < this.collateral.length; i++) {
+        if (this.collateral[i].collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+          this.collateralCgpg.push(collateral);
+        }
       }
     }
+    this.cekCgpgData();
   }
-
   public cekCgpgData() {
     if (this.collateralCgpg.length > 0) {
       for (let i = 0; i < this.collateralCgpg.length; i++) {
@@ -2638,12 +2646,6 @@ export class LoanAnalysMainComponent implements OnInit {
         }
       }
     }
-
-    // for (let i = 0; i < this.collateralProperties.length; i++) {
-    //   if (this.collateralProperties[i].propertyType === 'GENERAL') {
-    //     this.saveCollateralProperty(this.collateralProperties[i]);
-    //   }
-    // }
   }
 
   public saveCollateralProperty(property: ICollateralProperty) {

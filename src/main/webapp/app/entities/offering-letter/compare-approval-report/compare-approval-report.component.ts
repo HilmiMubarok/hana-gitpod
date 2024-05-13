@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -28,10 +29,15 @@ export class CompareApprovalReportComponent implements OnInit {
     this._creditProposal = param;
   }
 
-  constructor(protected collateralService: CollateralService, protected collateralPropertyService: CollateralPropertyService) {}
+  constructor(
+    protected collateralService: CollateralService,
+    protected collateralPropertyService: CollateralPropertyService,
+    private cashCollateralService: CashCollateralService
+  ) {}
 
   ngOnInit() {
     this.loadByPartyId(this.creditProposal.cif.partyId);
+    this.findCollateralProperty(this.creditProposal.id);
   }
 
   private loadByPartyId(param: string): void {
@@ -42,19 +48,12 @@ export class CompareApprovalReportComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 }
