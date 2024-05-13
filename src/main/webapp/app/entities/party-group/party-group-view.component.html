@@ -854,8 +854,9 @@
                         matInput
                         type="text"
                         (focusout)="myFunction()"
-                        [ngModel]="item.capitalDeposit | currency: 'IDR ':'symbol':'1.0-0'"
-                        (ngModelChange)="item.capitalDeposit = currencyInputChanged($event)"
+                        [(ngModel)]="item.capitalDeposit"
+                        currencyMask
+                        [options]="logoCcy"
                       />
                     </mat-form-field>
                   </section>
@@ -875,8 +876,9 @@
                         matInput
                         type="text"
                         (focusout)="myFunction()"
-                        [ngModel]="item.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
-                        (ngModelChange)="item.annualSales = currencyInputChanged($event)"
+                        [(ngModel)]="item.annualSales"
+                        currencyMask
+                        [options]="logoCcy"
                       />
                     </mat-form-field>
 
