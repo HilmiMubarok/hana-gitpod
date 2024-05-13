@@ -25,6 +25,7 @@ import {
 } from '../../collateral-info/credit-proposal-collateral-info.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-above-grid-history',
   templateUrl: './above-grid.component.html',
@@ -111,7 +112,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
     private partyCifService: PartyCifService,
-    private generalParameterService: GeneralParameterService
+    private generalParameterService: GeneralParameterService,
+    private cashCollateralService: CashCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -151,6 +153,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     }
     this.setCertyficateType();
     this.getLovInsuranceType();
+    this.findCollateralProperty(this.creditProposal.id);
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -164,9 +167,6 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     if (dataFilter.length > 0) {
       this.getBindingCalculate(dataFilter);
     }
-    for (let i = 0; i < this.historyData().collaterals.length; i++) {
-      this.findCollateralProperty(this.historyData().collaterals[i]);
-    }
     if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
       this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
@@ -179,7 +179,6 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          this.findCollateralProperty(collateral);
           // if (this.creditProposal.cif) {
           //   this.loadByPartyId(this.creditProposal.cif.partyId);
           // }
@@ -349,12 +348,10 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

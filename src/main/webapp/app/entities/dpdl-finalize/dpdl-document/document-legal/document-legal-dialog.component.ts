@@ -1,7 +1,7 @@
 import { DatePipe, formatDate } from '@angular/common';
-import { Component, Inject, Injectable, OnInit } from '@angular/core';
+import { Component, Inject, Injectable, OnInit, ViewChild } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
-import { DocumentLegalDpdl, IDocumentLegalDpdl } from '../document-dpdl.model';
+import { DocumentLegalDpdl, IDocumentLegalDpdl, ILegalCovernote } from '../document-dpdl.model';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { StorageService } from 'app/entities/storage/storage.service';
@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
 import lodash from 'lodash';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { MatTable } from '@angular/material/table';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -43,6 +46,8 @@ class PickDateAdapter extends NativeDateAdapter {
   ],
 })
 export class DocumentLegalDialogComponent implements OnInit {
+  @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
+
   public datas = [];
   public files: File[] = [];
   public file: File;
@@ -74,9 +79,17 @@ export class DocumentLegalDialogComponent implements OnInit {
 
   public categoryValue = ['A', 'B', 'C'];
 
+  public selectedCovernoteTask: string;
+  public selectedCovernoteDate: Date;
+  public legalCovernoteTypeDdl: IGeneralParameter[] = [];
+  public legalCovernoteTaskDataList: IGeneralParameter[] = [];
+  public legalCovernoteTaskDataSource: any[] = [];
+  public pristine: boolean;
+
   constructor(
     private templateService: TemplateService,
     private dialog: MatDialog,
+    protected generalParameterService: GeneralParameterService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       creditProposal: ICreditProposal;
@@ -98,6 +111,8 @@ export class DocumentLegalDialogComponent implements OnInit {
     const dataDoc: any = this.data.obj;
 
     if (this.data.view === 'edit') {
+      const LegalCovernote = this.legalCovernotePrep(dataDoc.id, dataDoc.files[0].tags.parentId);
+
       this.document = {
         id: dataDoc.id,
         documentDate: new Date(dataDoc.files[0].tags.documentDate),
@@ -133,7 +148,19 @@ export class DocumentLegalDialogComponent implements OnInit {
               ? new Date(JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).batasWaktuPenyelesaian)
               : new Date(dataDoc.files[0].tags.attributes.batasWaktuPenyelesaian),
         },
+        legalCovernote:
+          LegalCovernote !== null
+            ? {
+                id: LegalCovernote[0]?.id,
+                documentId: LegalCovernote[0]?.documentId,
+                attributes: {
+                  covernoteType: LegalCovernote[0]?.attributes.covernoteType,
+                  covernoteTask: LegalCovernote[0]?.attributes.covernoteTask,
+                },
+              }
+            : {},
       };
+      this.pristine = true;
     } else {
       this.document = new DocumentLegalDpdl();
 
@@ -156,6 +183,13 @@ export class DocumentLegalDialogComponent implements OnInit {
     this.changefield = false;
   }
 
+  public legalCovernotePrep(docId, parentId): ILegalCovernote {
+    let data: ILegalCovernote = {};
+    const legalCovernoteList = this.data.creditProposal.attributes.legalCovernote;
+    data = parentId === 'DOC_DPDL_LEGAL_COVERNOTE' ? legalCovernoteList.filter(obj => obj.id === docId) : null;
+    return data;
+  }
+
   public parentIdValue = [];
   public changeDocumentType(): void {
     const value = this.documentRootId;
@@ -168,6 +202,9 @@ export class DocumentLegalDialogComponent implements OnInit {
   public doSearch(value: string): void {
     if (value) {
       this.loadAll();
+      if (value === 'DOC_DPDL_LEGAL_COVERNOTE') {
+        this.loadCovernoteTypeDdl();
+      }
     } else {
       this.parentIdValue = [];
     }
@@ -211,11 +248,17 @@ export class DocumentLegalDialogComponent implements OnInit {
       this.object = this.data.creditProposal;
     }
 
+    if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+      this.loadCovernoteTypeDdl();
+      this.getLegalCovernoteTaskDataList();
+    }
+
     this.checkObject();
   }
 
   public checkObject() {
     if (this.folder !== undefined) {
+      const LegalCovernote = this.legalCovernotePrep(this.folder['files'][0]['tags']['id'], this.folder['files'][0]['tags']['parentId']);
       this.previousObject = {
         id: this.folder['files'][0]['tags']['id'],
         documentDate: new Date(this.folder['files'][0]['tags']['documentDate']),
@@ -232,6 +275,17 @@ export class DocumentLegalDialogComponent implements OnInit {
           notaryName: this.folder['files'][0]['tags']['attributes']['notaryName'],
           batasWaktuPenyelesaian: this.folder['files'][0]['tags']['attributes']['batasWaktuPenyelesaian'],
         },
+        legalCovernote:
+          LegalCovernote !== null
+            ? {
+                id: LegalCovernote[0]['id'],
+                documentId: LegalCovernote[0]['documentId'],
+                attributes: {
+                  covernoteType: LegalCovernote[0]['attributes']['covernoteType'],
+                  covernoteTask: LegalCovernote[0]['attributes']['covernoteTask'],
+                },
+              }
+            : {},
       };
 
       this.currentObject = this.previousObject;
@@ -284,6 +338,7 @@ export class DocumentLegalDialogComponent implements OnInit {
 
   public getField() {
     if (this.folder !== undefined) {
+      const legalCovernote = this.legalCovernotePrep(this.folder['files'][0]['tags']['id'], this.folder['files'][0]['tags']['parentId']);
       this.document.id = this.folder['files'][0]['tags']['id'];
       this.document.documentDate = new Date(this.folder['files'][0]['tags']['documentDate']);
       this.document.rootId = this.folder['files'][0]['tags']['rootId'];
@@ -297,6 +352,14 @@ export class DocumentLegalDialogComponent implements OnInit {
       this.document.attributes.notaryNumber = this.folder['files'][0]['tags']['attributes']['notaryNumber'];
       this.document.attributes.notaryName = this.folder['files'][0]['tags']['attributes']['notaryName'];
       this.document.attributes.batasWaktuPenyelesaian = this.folder['files'][0]['tags']['attributes']['batasWaktuPenyelesaian'];
+      if (legalCovernote !== null) {
+        this.document.legalCovernote.id = this.data.creditProposal['attributes']['legalCovernote']['id'];
+        this.document.legalCovernote.documentId = this.data.creditProposal['attributes']['legalCovernote']['documentId'];
+        this.document.legalCovernote.attributes.covernoteType =
+          this.data.creditProposal['attributes']['legalCovernote']['attributes']['covernoteType'];
+        this.document.legalCovernote.attributes.covernoteTask =
+          this.data.creditProposal['attributes']['legalCovernote']['attributes']['covernoteTask'];
+      }
     }
   }
 
@@ -314,6 +377,18 @@ export class DocumentLegalDialogComponent implements OnInit {
       this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
         ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
         : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
+
+    const coverNoteTask = [];
+    if (this.legalCovernoteTaskDataSource.length > 0) {
+      this.legalCovernoteTaskDataSource.forEach(obj =>
+        coverNoteTask.push({
+          code: obj.covernoteCode,
+          date: this.datePipe.transform(obj.covernoteDate, 'yyyy/MM/dd'),
+        })
+      );
+    }
+
+    this.document.attributes['covernoteTask'] = coverNoteTask;
 
     this.currentObject = {
       id: this.document.id,
@@ -351,6 +426,20 @@ export class DocumentLegalDialogComponent implements OnInit {
             ? this.datePipe.transform(JSON.parse(this.document.attributes).batasWaktuPenyelesaian, 'yyyy/MM/dd')
             : this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd'),
       },
+
+      legalCovernote:
+        this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
+          ? {
+              covernoteType:
+                typeof this.document.attributes === 'string'
+                  ? JSON.parse(this.changeCharacter(this.document.attributes)).covernoteType
+                  : this.changeCharacter(this.document.attributes.covernoteType),
+              covernoteTask:
+                typeof this.document.attributes === 'string'
+                  ? JSON.parse(this.changeCharacter(this.document.attributes)).covernoteTask
+                  : this.changeCharacter(this.document.attributes.covernoteTask),
+            }
+          : {},
     };
 
     this.checkChanges();
@@ -434,8 +523,21 @@ export class DocumentLegalDialogComponent implements OnInit {
         ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
         : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
 
+    const coverNoteTask = [];
+    if (this.legalCovernoteTaskDataSource.length > 0) {
+      this.legalCovernoteTaskDataSource.forEach(obj =>
+        coverNoteTask.push({
+          code: obj.covernoteCode,
+          date: this.datePipe.transform(obj.covernoteDate, 'yyyy/MM/dd'),
+        })
+      );
+    }
+
+    this.document.attributes['covernoteTask'] = coverNoteTask;
+
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
+        console.log('this.files', this.files);
         const data = {
           existingIds: this.existingIds,
           view: this.view,
@@ -481,6 +583,20 @@ export class DocumentLegalDialogComponent implements OnInit {
           category: this.document.category,
           status: this.document.status,
           folderFiles: this.folderFiles,
+
+          legalCovernote:
+            this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
+              ? {
+                  covernoteType:
+                    typeof this.document.attributes === 'string'
+                      ? JSON.parse(this.changeCharacter(this.document.attributes)).covernoteType
+                      : this.changeCharacter(this.document.attributes.covernoteType),
+                  covernoteTask:
+                    typeof this.document.attributes === 'string'
+                      ? JSON.parse(this.changeCharacter(this.document.attributes)).covernoteTask
+                      : this.changeCharacter(this.document.attributes.covernoteTask),
+                }
+              : {},
         };
 
         resolve(data);
@@ -549,7 +665,7 @@ export class DocumentLegalDialogComponent implements OnInit {
     return randomId;
   }
 
-  changeCharacter(inputString: string): string {
+  public changeCharacter(inputString: string): string {
     if (typeof inputString === 'string') {
       // Replace '&' with a specific letter, for example 'X'
       return inputString.replace(/&/g, 'dan');
@@ -667,5 +783,106 @@ export class DocumentLegalDialogComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.validateDocument().then(() => resolve(true));
     });
+  }
+
+  public getLegalCovernoteTaskDataList() {
+    if (
+      this.document.legalCovernote.attributes['covernoteType'] !== null ||
+      this.document.legalCovernote.attributes['covernoteType'] !== undefined
+    ) {
+      let idParamType = '';
+      switch (true) {
+        case this.document.legalCovernote.attributes['covernoteType'] === '02':
+          idParamType = 'COVERNOTE_DEVELOPER';
+
+          break;
+        case this.document.legalCovernote.attributes['covernoteType'] === '03':
+          idParamType = 'COVERNOTE_LAINNYA';
+          break;
+
+        default:
+          idParamType = 'COVERNOTE_NOTARIS';
+          break;
+      }
+
+      this.generalParameterService
+        .queryFilterBy({
+          idParameterType: idParamType,
+          page: 0,
+          size: 9999,
+        })
+        .subscribe(res => {
+          if (this.legalCovernoteTaskDataSource.length > 0) {
+            const usedTaskList: any[] = [];
+            this.legalCovernoteTaskDataSource.forEach(dataSource => usedTaskList.push(dataSource.covernoteCode));
+
+            this.legalCovernoteTaskDataList = res.body.filter(task => !usedTaskList.includes(task.code));
+          } else {
+            this.legalCovernoteTaskDataList = res.body;
+          }
+          if (this.data.view === 'edit') {
+            if (this.pristine === true) {
+              this.prepTaskDataSource(this.legalCovernoteTaskDataList);
+              this.pristine = false;
+            }
+          }
+        });
+    }
+  }
+
+  public prepTaskDataSource(legalCovernoteTaskDataList): void {
+    this.document.legalCovernote.attributes['covernoteTask'].forEach(task => {
+      const filteredData = legalCovernoteTaskDataList.filter(obj => obj.code === task.code);
+      filteredData.forEach(item => {
+        if (item.code === task.code) {
+          this.legalCovernoteTaskDataSource.push({
+            covernoteTask: item.value,
+            covernoteDate: task.date,
+            covernoteCode: item.code,
+          });
+        }
+      });
+    });
+    this.getLegalCovernoteTaskDataList();
+    this.covernoteTaskTable.renderRows();
+  }
+
+  public addCovernoteTask(selectedCovernoteTask: any, selectedCovernoteDate: Date): void {
+    this.legalCovernoteTaskDataSource.push({
+      covernoteTask: selectedCovernoteTask.value,
+      covernoteDate: selectedCovernoteDate,
+      covernoteCode: selectedCovernoteTask.code,
+    });
+    this.selectedCovernoteTask = '';
+    this.getLegalCovernoteTaskDataList();
+    this.covernoteTaskTable.renderRows();
+  }
+
+  public removeCovernoteTask(row: any): void {
+    const index = this.legalCovernoteTaskDataSource.indexOf(row, 0);
+    if (index > -1) {
+      this.legalCovernoteTaskDataSource.splice(index, 1);
+    }
+    this.getLegalCovernoteTaskDataList();
+    this.covernoteTaskTable.renderRows();
+  }
+
+  public loadCovernoteTypeDdl(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVERNOTE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.legalCovernoteTypeDdl = res.body;
+      });
+  }
+
+  public resetTaskDataSource(): void {
+    if (this.legalCovernoteTaskDataSource.length > 0) {
+      this.legalCovernoteTaskDataSource = [];
+      this.covernoteTaskTable.renderRows();
+    }
   }
 }

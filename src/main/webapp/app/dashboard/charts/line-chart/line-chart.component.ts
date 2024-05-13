@@ -60,21 +60,53 @@ export class LineChartComponent implements OnInit, OnChanges {
   public fitDataToModel(): void {
     this.assingLabel();
     if (this.dataSource) {
-      const data = [];
+      const totalDraft = [];
+      const totalReject = [];
+      const totalCancel = [];
+      const totalComplete = [];
       const _initData = [];
       const _labels = [];
       this.dataSource.forEach(obj => {
-        data.push(obj.total);
+        totalDraft.push(obj.totalDraft);
+        totalReject.push(obj.totalDraft);
+        totalCancel.push(obj.totalDraft);
+        totalComplete.push(obj.totalDraft);
         _labels.push(new Date(obj.fromDate).toLocaleDateString('en-US', this.labelFormat));
       });
-      _initData.push({
-        data,
-        label: this.dataSource[0].description,
-        backgroundColor: '#003c7c96',
-        borderColor: '#003c7c',
-        pointBackgroundColor: '#003c7c96',
-        pointBorderColor: '#003c7c96',
-      });
+      _initData.push(
+        {
+          totalDraft,
+          label: this.dataSource.length > 0 ? this.dataSource[0].description : 'No Data',
+          backgroundColor: '#003c7c96',
+          borderColor: '#003c7c',
+          pointBackgroundColor: '#003c7c96',
+          pointBorderColor: '#003c7c96',
+        },
+        {
+          totalReject,
+          label: this.dataSource.length > 0 ? this.dataSource[0].description : 'No Data',
+          backgroundColor: '#d4bdd9',
+          borderColor: '#003c7c',
+          pointBackgroundColor: '#d4bdd9',
+          pointBorderColor: '#d4bdd9',
+        },
+        {
+          totalCancel,
+          label: this.dataSource.length > 0 ? this.dataSource[0].description : 'No Data',
+          backgroundColor: '#37008f',
+          borderColor: '#003c7c',
+          pointBackgroundColor: '#37008f',
+          pointBorderColor: '#37008f',
+        },
+        {
+          totalComplete,
+          label: this.dataSource.length > 0 ? this.dataSource[0].description : 'No Data',
+          backgroundColor: '#f4cf74',
+          borderColor: '#003c7c',
+          pointBackgroundColor: '#f4cf74',
+          pointBorderColor: '#f4cf74',
+        }
+      );
       this.initData = [..._initData];
       this.labels = [..._labels];
     }

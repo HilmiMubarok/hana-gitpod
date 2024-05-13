@@ -37,6 +37,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { ICertificateInfo } from 'app/entities/offering-letter/certificate-info/certificate-info.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-dar-checker-confirmation',
@@ -109,7 +110,8 @@ export class DarCheckerConfirmationComponent implements OnInit {
     private generalParameterService: GeneralParameterService,
     private lendingProgramParameterService: LendingProgramParameterService,
     protected collateralService: CollateralService,
-    protected collateralPropertyService: CollateralPropertyService
+    protected collateralPropertyService: CollateralPropertyService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
@@ -251,7 +253,7 @@ export class DarCheckerConfirmationComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
-
+    this.findCollateralProperty(this.creditProposal.id);
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -581,23 +583,13 @@ export class DarCheckerConfirmationComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   public setCertificate(collateral) {

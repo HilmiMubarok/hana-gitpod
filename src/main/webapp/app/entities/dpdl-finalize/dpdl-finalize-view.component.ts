@@ -59,6 +59,7 @@ import { CashCreditProposalsService } from '../cash-credit-proposal/cash-credit-
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
 import { GenerateReportService } from '../generate-report-service/generate-report.service';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-dpdl-finalize-view',
@@ -181,7 +182,8 @@ export class DpdlFinalizeViewComponent implements OnInit {
     protected cashDpdlService: CashCreditProposalsService,
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
-    private generateDpdlDraftService: GenerateReportService
+    private generateDpdlDraftService: GenerateReportService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -220,6 +222,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public baLoading: Boolean = false;
 
   ngOnInit() {
+    this.findCollateralProperty(this.creditProposal.id);
     this.showTextMenu();
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -263,23 +266,13 @@ export class DpdlFinalizeViewComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   public setCertificate(collateral) {
@@ -1424,6 +1417,13 @@ export class DpdlFinalizeViewComponent implements OnInit {
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
+
+    if (copyCreditProposal.attributes['legalCovernote']) {
+      if (typeof copyCreditProposal.attributes['legalCovernote'] !== 'string') {
+        copyCreditProposal.attributes['legalCovernote'] = JSON.stringify(copyCreditProposal.attributes['legalCovernote']);
+      }
+    }
+
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }

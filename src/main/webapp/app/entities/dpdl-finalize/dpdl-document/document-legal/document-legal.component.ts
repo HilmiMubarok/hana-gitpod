@@ -6,7 +6,7 @@ import { IDocumentNode } from 'app/entities/document-node/document-node.model';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import lodash from 'lodash';
-import { IDocumentLegalDpdl, DocumentDpdlLegalMetaData, IDocumentDpdlLegalMetaData } from '../document-dpdl.model';
+import { IDocumentLegalDpdl, DocumentDpdlLegalMetaData, IDocumentDpdlLegalMetaData, ILegalCovernote } from '../document-dpdl.model';
 import { DocumentLegalDetailDialogComponent } from './document-legal-detail-dialog.component';
 import { MessageService } from 'primeng/api';
 import _ from 'lodash';
@@ -146,6 +146,7 @@ export class DocumentLegalComponent implements OnChanges {
           if (this.creditProposal) {
             this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
               this.getBucket().then(() => {
+                this.deleteAttribute(element.files[i].key);
                 this.getFiles(this.creditProposal.id);
               });
             });
@@ -240,6 +241,10 @@ export class DocumentLegalComponent implements OnChanges {
         this.metaData.documentDate = res.documentDate;
         this.metaData.attributes = JSON.stringify(this.changeCharacter(res.attributes));
 
+        if (res.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+          this.saveLegalCovernoteAttributes(id, res);
+        }
+
         const formData = new FormData();
         formData.append('file', res.files[i]);
 
@@ -258,6 +263,42 @@ export class DocumentLegalComponent implements OnChanges {
     });
   }
 
+  public saveLegalCovernoteAttributes(id: string, res: any): void {
+    if (this.creditProposal.attributes.legalCovernote.length > 0) {
+      const targetId = obj => obj === id;
+      if (this.creditProposal.attributes.legalCovernote.findIndex(targetId) > -1) {
+        this.creditProposal.attributes.legalCovernote.forEach((obj, index) => {
+          if (obj.id === id) {
+            this.creditProposal.attributes.legalCovernote[index] = {
+              id,
+              documentId: res.documentId,
+              attributes: { covernoteType: res.legalCovernote.covernoteType, covernoteTask: res.legalCovernote.covernoteTask },
+            };
+          }
+        });
+      } else {
+        this.creditProposal.attributes['legalCovernote'].push({
+          id,
+          documentId: res.documentId,
+          attributes: { covernoteType: res.legalCovernote.covernoteType, covernoteTask: res.legalCovernote.covernoteTask },
+        });
+      }
+    } else {
+      this.creditProposal.attributes['legalCovernote'].push({
+        id,
+        documentId: res.documentId,
+        attributes: { covernoteType: res.legalCovernote.covernoteType, covernoteTask: res.legalCovernote.covernoteTask },
+      });
+    }
+  }
+  public deleteAttribute(key: string): void {
+    const splitKey: string[] = key.split('/');
+    this.creditProposal.attributes.legalCovernote.forEach((item, index) => {
+      if (item.id === splitKey[6]) {
+        this.creditProposal.attributes.legalCovernote.splice(index, 1);
+      }
+    });
+  }
   public edit(res: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (res && res.folderFiles && res.folderFiles.length > 0) {

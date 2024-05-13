@@ -283,11 +283,11 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.router.url === '/tbo-checking') {
-        this.getStatusListView('CREDIT_PROPOSAL_STATUS');
+      if (this.router.url === '/tbo-legal-checking') {
+        this.getStatusListView('TBO_LEGAL_CHECKING');
         if (this.clickedChip['statusId'] !== '') {
           this.cashTboLegalMonitoringService
-            .darRevision({
+            .getTboLegalChecking({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
@@ -303,7 +303,7 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
           return;
         } else {
           this.cashTboLegalMonitoringService
-            .darRevision({
+            .getTboLegalChecking({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
@@ -371,7 +371,7 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
   }
 
   getText(value: any) {
-    if (value === 'tbo-checking') {
+    if (value === 'tbo-legal-checking') {
       this.title = 'TBO LEGAL MONITORING';
       sessionStorage.setItem('appName', this.title);
     }

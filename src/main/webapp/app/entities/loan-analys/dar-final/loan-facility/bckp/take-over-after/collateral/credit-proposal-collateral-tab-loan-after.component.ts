@@ -17,7 +17,7 @@ import {
   CreditProposalCollateralBinding,
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal-collateral-tab-loan-after-dialog.component';
-
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after',
   templateUrl: './credit-proposal-collateral-tab-loan-after.component.html',
@@ -49,7 +49,8 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
@@ -64,9 +65,9 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          this.findCollateralProperty(collateral);
         }
       }
+      this.findCollateralProperty(this.creditProposal.id);
     }
   }
 
@@ -177,12 +178,10 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {
