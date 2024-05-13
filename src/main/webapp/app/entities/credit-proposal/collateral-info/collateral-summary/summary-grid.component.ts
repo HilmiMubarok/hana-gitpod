@@ -30,6 +30,7 @@ import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposal-collateral-summary-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-summary-grid',
@@ -222,7 +223,8 @@ export class SummaryGridComponent
     private collateralService: CollateralService,
     private partyCifService: PartyCifService,
     private generalParameterService: GeneralParameterService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cashCollateralService: CashCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -266,7 +268,6 @@ export class SummaryGridComponent
       });
       this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
-      this.mapCollateralProperty(this.dataCollateral);
       this.getBindingCalculate(this.dataCollateral);
     });
   }
@@ -287,11 +288,7 @@ export class SummaryGridComponent
     if (this.creditProposal.id) {
       this.loadSummaryCollateral();
     }
-  }
-  public mapCollateralProperty(data: ICollateral[]) {
-    for (let i = 0; i < data.length; i++) {
-      this.findCollateralProperty(data[i]);
-    }
+    this.findCollateralProperty(this.creditProposal.id);
   }
   public collateral: any;
   ngAfterViewInit(): void {
@@ -502,15 +499,11 @@ export class SummaryGridComponent
     }
     return new CreditProposalCollateralBinding();
   }
-
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
-
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {
     let properties: ICollateralProperty[];
     properties = [];

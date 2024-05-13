@@ -29,6 +29,7 @@ import { IGroupCollateralChecklis } from '../../collateral-info/group-collateral
 import { CreditProposalService } from '../../credit-proposal.service';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { CollateralInfoHistoryDialogComponent } from '../dialog/credit-proposal-collateral-info-dialog.component';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-group-collateral-history',
@@ -124,7 +125,8 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     private partyCifService: PartyCifService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private generalParameterService: GeneralParameterService
+    private generalParameterService: GeneralParameterService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
@@ -139,7 +141,6 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
       })
       .subscribe(res => {
         this.groupCollaterals = res.body;
-        this.mapCollateralProperty(res.body);
         this.dataItem = new MatTableDataSource(this.groupCollaterals);
         this.dataItem.paginator = this.paginator;
       });
@@ -168,6 +169,7 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.lovBindingType();
     this.loadData();
     this.getLovInsuranceType();
+    this.findCollateralProperty(this.creditProposal.id);
   }
   getLovInsuranceType() {
     this.generalParameterService
@@ -200,10 +202,6 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     // if (dataFilter.length > 0) {
     //   this.getBindingCalculate(dataFilter);
     // }
-
-    for (let i = 0; i < this.historyData().collaterals.length; i++) {
-      this.findCollateralProperty(this.historyData().collaterals[i]);
-    }
   }
   @ViewChild('paginator') paginator: MatPaginator;
 
@@ -454,12 +452,10 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {
@@ -710,12 +706,6 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
   }
 
   public groubCollateralPagination: any;
-
-  public mapCollateralProperty(data: ICollateral[]) {
-    for (let i = 0; i < data.length; i++) {
-      this.findCollateralProperty(data[i]);
-    }
-  }
 
   public getCrossStatus(status: string) {
     if (status === 'N') {

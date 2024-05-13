@@ -63,6 +63,7 @@ import { ICertificateInfo } from '../offering-letter/certificate-info/certificat
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
 import { ReviewHistoryService } from '../credit-agreement/finalize-credit-agreement/review-history/review-history.service';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-credit-agreement-review-floating',
@@ -208,7 +209,8 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     private http: HttpClient,
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
-    private reviewHistoryService: ReviewHistoryService
+    private reviewHistoryService: ReviewHistoryService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -441,7 +443,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
-
+    this.findCollateralProperty(this.creditProposal.id);
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -1230,28 +1232,18 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
-
   public setCertificate(collateral) {
     if (!this.creditProposal.attributes['syncCertificate']) {
       this.creditProposal.attributes['syncCertificate'] = 'true';

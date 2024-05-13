@@ -74,6 +74,7 @@ import { LoanOperationService } from './loan-operation.service';
 import { LoanOperationProcessService } from './loan-operation-process.service';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-loan-operation-detail',
   templateUrl: './laon-operation-detail.component.html',
@@ -230,7 +231,8 @@ export class LoanOperationDetailComponent implements OnInit {
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
     private entitiyPropertiesService: EntitiyPropertiesService,
-    private menuPermissionService: MenuPermissionService
+    private menuPermissionService: MenuPermissionService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -480,6 +482,7 @@ export class LoanOperationDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.findCollateralProperty(this.creditProposal.id);
     this.getMenuPermission();
     this.setDppkNumber();
     this.getListIndustry();
@@ -1337,26 +1340,17 @@ export class LoanOperationDetailComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
-      });
-    }
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   public setCertificate(collateral) {

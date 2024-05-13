@@ -62,6 +62,7 @@ import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { BusinessActivityService } from './busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -203,7 +204,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
     protected masterPermissionService: MasterPermissionService,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -517,6 +519,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.loadDataBy();
     this.showTextMenu();
     this.cpGroub();
+    this.findCollateralProperty(this.creditProposal.id);
+    if (this.collateral.length > 0) {
+      for (let i = 0; i < this.collateral.length; i++) {
+        this.filterCgpg(this.collateral[i]);
+      }
+    }
   }
 
   public setSubmenu(event: Object): void {
@@ -1688,25 +1696,24 @@ export class ProposalBasicInformationComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
-        this.collateralCgpg.push(collateral);
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
+  }
+  public filterCgpg(collateral: ICollateral) {
+    if (this.collateral.length > 0) {
+      for (let i = 0; i < this.collateral.length; i++) {
+        if (this.collateral[i].collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+          this.collateralCgpg.push(collateral);
+        }
       }
     }
+    this.cekCgpgData();
   }
-
   public cekCgpgData() {
     if (this.collateralCgpg.length > 0) {
       for (let i = 0; i < this.collateralCgpg.length; i++) {

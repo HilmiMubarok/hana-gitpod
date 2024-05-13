@@ -9,6 +9,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { memoBandingData } from './memo-banding';
 import { CPMemoBandingRemarkComponent } from './remarks/cp-memo-banding-remark.component';
 import { MemoBandingCollateralService } from './memo-banding-collateral/memo-banding-collateral.service';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-credit-proposal-memo-banding',
@@ -19,7 +20,8 @@ export class MemoBandingComponent implements OnInit {
     private cpMemoBandingService: CpMemoBandingService,
     private collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService,
-    private memoBandingCollateralService: MemoBandingCollateralService
+    private memoBandingCollateralService: MemoBandingCollateralService,
+    private cashCollateralService: CashCollateralService
   ) {}
 
   @ViewChild('cpMemoBandingRemarkComponent', {
@@ -35,6 +37,7 @@ export class MemoBandingComponent implements OnInit {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
+    this.findCollateralProperty(this.creditProposal.id);
   }
 
   testData = memoBandingData;
@@ -101,23 +104,16 @@ export class MemoBandingComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
+  public findCollateralProperty(applicationId: number): void {
+    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
 
-        // Set collateral properties to collateral service
-        this.memoBandingCollateralService.setCollateralProperties(this.collateralProperties);
-      });
-    }
+      // Set collateral properties to collateral service
+      this.memoBandingCollateralService.setCollateralProperties(this.collateralProperties);
+    });
   }
 
   public triggeredSave(proposalType: any) {
