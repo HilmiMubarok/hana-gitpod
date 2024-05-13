@@ -10,10 +10,37 @@
           </mat-form-field>
         </section>
         <section class="mt-2">
-          <mat-form-field class="w-100" appearance="outline">
+          <div class="row">
             <mat-label>DPD</mat-label>
-            <input matInput type="text" formControlName="dpd" />
-          </mat-form-field>
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" formControlName="fromDays" />
+                <!-- Material error -->
+                <mat-error
+                  *ngIf="
+                    masterDocumentTerm.get('fromDays')?.invalid &&
+                    (masterDocumentTerm.get('fromDays')?.dirty || masterDocumentTerm.get('fromDays')?.touched)
+                  "
+                >
+                  <span *ngIf="masterDocumentTerm.get('fromDays')?.errors?.required">DPD is required</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" formControlName="toDays" />
+                <!-- Material error -->
+                <mat-error
+                  *ngIf="
+                    masterDocumentTerm.get('toDays')?.invalid &&
+                    (masterDocumentTerm.get('toDays')?.dirty || masterDocumentTerm.get('toDays')?.touched)
+                  "
+                >
+                  <span *ngIf="masterDocumentTerm.get('toDays')?.errors?.required">DPD is required</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
@@ -26,14 +53,35 @@
             <mat-label>Scheduler Type</mat-label>
             <mat-select formControlName="schedulerType">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of ['Inan', 'Sandoro']" [value]="item"> {{ item }} </mat-option>
+              <mat-option *ngFor="let item of schedulerTypes" [value]="item.id"> {{ item.label }} </mat-option>
             </mat-select>
+            <!-- Material error -->
+            <mat-error
+              *ngIf="
+                masterDocumentTerm.get('schedulerType')?.invalid &&
+                (masterDocumentTerm.get('schedulerType')?.dirty || masterDocumentTerm.get('schedulerType')?.touched)
+              "
+            >
+              <span *ngIf="masterDocumentTerm.get('schedulerType')?.errors?.required">Scheduler Type is required</span>
+            </mat-error>
           </mat-form-field>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Scheduler Date</mat-label>
-            <input matInput type="text" formControlName="schedulerDate" />
+            <mat-label>Spesific Date</mat-label>
+            <mat-select formControlName="daysTo">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item2 of spesificDateLov | async" [value]="item2"> {{ item2 }} </mat-option>
+            </mat-select>
+            <!-- Material error -->
+            <mat-error
+              *ngIf="
+                masterDocumentTerm.get('daysTo')?.invalid &&
+                (masterDocumentTerm.get('daysTo')?.dirty || masterDocumentTerm.get('daysTo')?.touched)
+              "
+            >
+              <span *ngIf="masterDocumentTerm.get('daysTo')?.errors?.required">Spesific Date is required</span>
+            </mat-error>
           </mat-form-field>
         </section>
         <section class="mt-2">
@@ -41,8 +89,17 @@
             <mat-label>Status</mat-label>
             <mat-select formControlName="status">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item2 of ['Status1', 'Status2']" [value]="item2"> {{ item2 }} </mat-option>
+              <mat-option *ngFor="let item2 of ['ACTIVE', 'NON_ACTIVE']" [value]="item2"> {{ item2 }} </mat-option>
             </mat-select>
+            <!-- Material error -->
+            <mat-error
+              *ngIf="
+                masterDocumentTerm.get('status')?.invalid &&
+                (masterDocumentTerm.get('status')?.dirty || masterDocumentTerm.get('status')?.touched)
+              "
+            >
+              <span *ngIf="masterDocumentTerm.get('status')?.errors?.required">Status is required</span>
+            </mat-error>
           </mat-form-field>
         </section>
       </form>
@@ -51,5 +108,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">CLOSE</button>
-  <button mat-raised-button class="confirm-button-yes" (click)="onSave()">SAVE</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="save()">SAVE</button>
 </mat-dialog-actions>

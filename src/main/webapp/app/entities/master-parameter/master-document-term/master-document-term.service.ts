@@ -1,183 +1,29 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { Observable, from } from 'rxjs';
-import { IMasterDocumentTerm } from './master-document-term.model';
+import { Observable } from 'rxjs';
+import { MasterDocumentTerm, SchedulerType } from './master-document-term.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MasterDocumentTermService extends AbstractEntityService<any> {
+export class MasterDocumentTermService extends AbstractEntityService<MasterDocumentTerm> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/company-parameters');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/schedulers');
   }
-  public data: IMasterDocumentTerm[] = [
-    {
-      id: 1,
-      statusId: '123',
-      statusCode: 'ACTIVE',
-      statusDescription: 'Document ready for review',
-      createdBy: 'JohnDoe',
-      createdDate: new Date('2024-03-15'),
-      lastModifiedBy: 'JaneSmith',
-      lastModifiedDate: new Date('2024-03-17'),
-      reminderType: 'Email',
-      dpd: 2,
-      schedulerEmail: 'scheduler@example.com',
-      schedulerType: 'Daily',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'In Progress',
-    },
-    {
-      id: 2,
-      statusId: '456',
-      statusCode: 'INACTIVE',
-      statusDescription: 'Document awaiting updates',
-      createdBy: 'AliceJohnson',
-      createdDate: new Date('2024-03-10'),
-      lastModifiedBy: 'BobBrown',
-      lastModifiedDate: new Date('2024-03-16'),
-      reminderType: 'Notification',
-      dpd: 5,
-      schedulerEmail: 'another.scheduler@example.com',
-      schedulerType: 'Weekly',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'Pending',
-    },
-    {
-      id: 3,
-      statusId: '789',
-      statusCode: 'ACTIVE',
-      statusDescription: 'Document ready for approval',
-      createdBy: 'MarkDavis',
-      createdDate: new Date('2024-03-08'),
-      lastModifiedBy: 'EmilyWhite',
-      lastModifiedDate: new Date('2024-03-18'),
-      reminderType: 'Email',
-      dpd: 3,
-      schedulerEmail: 'third.scheduler@example.com',
-      schedulerType: 'Monthly',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'Approved',
-    },
-    {
-      id: 4,
-      statusId: '101',
-      statusCode: 'ACTIVE',
-      statusDescription: 'Document under review',
-      createdBy: 'SarahClark',
-      createdDate: new Date('2024-03-12'),
-      lastModifiedBy: 'MichaelGreen',
-      lastModifiedDate: new Date('2024-03-19'),
-      reminderType: 'Notification',
-      dpd: 1,
-      schedulerEmail: 'fourth.scheduler@example.com',
-      schedulerType: 'Daily',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'In Progress',
-    },
-    {
-      id: 5,
-      statusId: '111',
-      statusCode: 'INACTIVE',
-      statusDescription: 'Document awaiting validation',
-      createdBy: 'PeterLee',
-      createdDate: new Date('2024-03-05'),
-      lastModifiedBy: 'JenniferBrown',
-      lastModifiedDate: new Date('2024-03-14'),
-      reminderType: 'Email',
-      dpd: 4,
-      schedulerEmail: 'fifth.scheduler@example.com',
-      schedulerType: 'Weekly',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'Pending',
-    },
-    {
-      id: 6,
-      statusId: '222',
-      statusCode: 'ACTIVE',
-      statusDescription: 'Document ready for submission',
-      createdBy: 'ChrisTaylor',
-      createdDate: new Date('2024-03-18'),
-      lastModifiedBy: 'EmmaWilson',
-      lastModifiedDate: new Date('2024-03-20'),
-      reminderType: 'Notification',
-      dpd: 2,
-      schedulerEmail: 'sixth.scheduler@example.com',
-      schedulerType: 'Monthly',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'In Progress',
-    },
-    {
-      id: 7,
-      statusId: '333',
-      statusCode: 'ACTIVE',
-      statusDescription: 'Document under final review',
-      createdBy: 'AlexAnderson',
-      createdDate: new Date('2024-03-09'),
-      lastModifiedBy: 'OliviaMartinez',
-      lastModifiedDate: new Date('2024-03-17'),
-      reminderType: 'Email',
-      dpd: 1,
-      schedulerEmail: 'seventh.scheduler@example.com',
-      schedulerType: 'Daily',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'In Progress',
-    },
-    {
-      id: 8,
-      statusId: '444',
-      statusCode: 'INACTIVE',
-      statusDescription: 'Document awaiting finalization',
-      createdBy: 'DavidWilson',
-      createdDate: new Date('2024-03-11'),
-      lastModifiedBy: 'SophiaTaylor',
-      lastModifiedDate: new Date('2024-03-19'),
-      reminderType: 'Notification',
-      dpd: 3,
-      schedulerEmail: 'eighth.scheduler@example.com',
-      schedulerType: 'Weekly',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'Pending',
-    },
-    {
-      id: 9,
-      statusId: '555',
-      statusCode: 'ACTIVE',
-      statusDescription: 'Document ready for publication',
-      createdBy: 'EthanMoore',
-      createdDate: new Date('2024-03-07'),
-      lastModifiedBy: 'MiaHernandez',
-      lastModifiedDate: new Date('2024-03-15'),
-      reminderType: 'Email',
-      dpd: 2,
-      schedulerEmail: 'ninth.scheduler@example.com',
-      schedulerType: 'Monthly',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'Approved',
-    },
-    {
-      id: 10,
-      statusId: '666',
-      statusCode: 'INACTIVE',
-      statusDescription: 'Document awaiting review',
-      createdBy: 'NoahGarcia',
-      createdDate: new Date('2024-03-14'),
-      lastModifiedBy: 'AvaThomas',
-      lastModifiedDate: new Date('2024-03-18'),
-      reminderType: 'Notification',
-      dpd: 4,
-      schedulerEmail: 'tenth.scheduler@example.com',
-      schedulerType: 'Daily',
-      schedulerDate: new Date('2024-03-17'),
-      status: 'Pending',
-    },
-  ];
 
-  getMasterDocumentTerm(): Observable<any> {
-    return from([this.data]);
+  getMasterDocumentTerm(): Observable<HttpResponse<MasterDocumentTerm>> {
+    return this.http.get(this.resourceUrl + '/category/TBO_LEGAL_MONITORING', { observe: 'response' });
+  }
+
+  getSchedulerType(): Observable<HttpResponse<SchedulerType>> {
+    return this.http.get(this.resourceUrl + '/intervals', { observe: 'response' });
+  }
+
+  updateMasterDocumentTerm(data: MasterDocumentTerm): Observable<HttpResponse<MasterDocumentTerm>> {
+    return this.http.put(this.resourceUrl + '/', data, { observe: 'response' });
   }
 }

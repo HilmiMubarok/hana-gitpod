@@ -1,13 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { MasterDocumentTermService } from './master-document-term.service';
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { IMasterCompanyType, MasterCompanyType } from '../master-company-type/master-company-type.model';
-import { MasterCompanyTypeService } from '../master-company-type/master-company-type.service';
 import { MasterDocumentTermDialogComponent } from './master-document-term-dialog.component';
+import { MasterDocumentTerm, SchedulerType } from './master-document-term.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-master-document-term',
@@ -31,26 +28,23 @@ import { MasterDocumentTermDialogComponent } from './master-document-term-dialog
             </div>
           </div>
         </div>
-        <mat-card *ngIf="isLoading | async" id="material-loading-bar">
-          <mat-spinner color="warn" mode="indeterminate"> </mat-spinner>
-        </mat-card>
-        <mat-card style="margin: 1rem" [hidden]="isLoading | async">
-          <table mat-table [dataSource]="items" class="w-100">
+        <mat-card style="margin: 1rem">
+          <table mat-table [dataSource]="documentTerm" class="w-100">
             <ng-container matColumnDef="no">
               <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
-              <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">
-                {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
-              </td>
+              <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}.</td>
             </ng-container>
 
             <ng-container matColumnDef="reminderType">
-              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Code</th>
-              <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.code }}</td>
+              <th mat-header-cell *matHeaderCellDef class="grid-index-left">Reminder Type</th>
+              <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.name }}</td>
             </ng-container>
 
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
-              <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.statusId }}</td>
+              <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">
+                {{ element.statusId }}
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="action">
@@ -68,105 +62,46 @@ import { MasterDocumentTermDialogComponent } from './master-document-term-dialog
             <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
             <tr mat-row *matRowDef="let element; columns: displayColumns"></tr>
           </table>
-          <mat-paginator
-            showFirstLastButtons
-            ngClass="transparant"
-            [length]="paginatorLength"
-            [pageSize]="paginatorPageSize"
-            [pageSizeOptions]="paginatorPageSizeOption"
-            (page)="loadDataLazy($event)"
-          >
-          </mat-paginator>
         </mat-card>
-        <!-- <div class="e-card-actions">
-      <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
-      </div>
-    </div> -->
       </div>
     </div>
   `,
   styleUrls: ['../master-company-type/master-company-type.css'],
 })
-export class MasterDocumentTermComponent extends AbstractEntityMaterialComponent<IMasterCompanyType> implements OnInit, OnDestroy {
+export class MasterDocumentTermComponent implements OnInit {
   constructor(
-    protected _snackbar: MatSnackBar,
+    protected messageService: MessageService,
     protected masterDocumentTermService: MasterDocumentTermService,
-    protected dialog: MatDialog,
-    protected masterCompanyTypeService: MasterCompanyTypeService
-  ) {
-    super(_snackbar, masterDocumentTermService);
-    this.page = 0;
-    this.itemsPerPage = 10;
-    this.predicate = 'id';
-    this.entityKeyName = 'id';
-  }
+    protected dialog: MatDialog
+  ) {}
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public isLoading: Observable<boolean> = this.loading$.asObservable();
   public displayColumns: string[] = ['no', 'reminderType', 'status', 'action'];
 
+  public documentTerm: MasterDocumentTerm;
+  public schedulerTypes: SchedulerType;
+
   ngOnInit(): void {
-    this.loadAll();
+    this.loadData();
+    this.getSchedulerTypes();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+  getSchedulerTypes(): void {
+    this.masterDocumentTermService.getSchedulerType().subscribe(res => {
+      this.schedulerTypes = res.body;
+    });
   }
 
-  private loadAll(): void {
-    this.loadCompanyType();
-    // this.loadDocumentTerm();
-  }
-
-  // private loadDocumentTerm(): void {
-  //   this.masterDocumentTermService
-  //     .getMasterDocumentTerm()
-  //     .pipe(takeUntil(this.destroy$))
-  //     .subscribe(res => {
-  //       this.items = new MatTableDataSource(res);
-  //       console.log('Res', { res, item: this.items, pag: this.paginator });
-  //       this.items.paginator = this.paginator;
-  //     });
-  // }
-
-  private loadCompanyType(): void {
-    this.loading$.next(true);
-    this.masterCompanyTypeService
-      .query({
-        page: 0,
-        size: 9999,
-        sort: this.sortData(),
-      })
-      .subscribe({
-        next: res => {
-          const data = res.body || [];
-          this.items = new MatTableDataSource(data);
-          console.log('Data', { data, res, item: this.items, pag: this.paginator });
-
-          this.items.paginator = this.paginator;
-          this.loading$.next(false);
-        },
-        error: () => {
-          this.loading$.next(false);
-        },
-        complete: () => {
-          this.loading$.next(false);
-        },
-      });
-  }
-
-  protected postLoadDataLazy(): void {
-    this.loadAll();
+  loadData(): void {
+    this.masterDocumentTermService.getMasterDocumentTerm().subscribe(res => {
+      this.documentTerm = res.body;
+    });
   }
 
   public previousState(): void {
     window.history.back();
   }
 
-  public openDialog(element: IMasterCompanyType = null): void {
+  public openDialog(element: MasterDocumentTerm = null): void {
     let predicate: IMasterCompanyType;
     predicate = new MasterCompanyType();
 
@@ -177,23 +112,14 @@ export class MasterDocumentTermComponent extends AbstractEntityMaterialComponent
     const dialogRef = this.dialog.open(MasterDocumentTermDialogComponent, {
       width: '100%',
       data: {
-        masterCompanyType: predicate,
+        documentTerm: predicate,
+        schedulerTypes: this.schedulerTypes,
       },
     });
     dialogRef.afterClosed().subscribe((res: IMasterCompanyType) => {
       if (res) {
-        if (res.id) {
-          this.masterCompanyTypeService.update(res).subscribe(_res => {
-            this.loadAll();
-          });
-        } else {
-          this.masterCompanyTypeService.create(res).subscribe(_res => {
-            this.loadAll();
-          });
-        }
+        this.loadData();
       }
     });
   }
-
-  // public displayColumns: string[] = ['no', 'code', 'name', 'abbreviation', 'status', 'action'];
 }

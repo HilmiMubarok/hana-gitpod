@@ -1,35 +1,17 @@
-export interface IMasterDocumentTerm {
+export interface MasterDocumentTerm {
   id?: number;
+  name?: string;
+  fromDays?: number;
+  toDays?: number;
+  daysTo?: number;
+  emailTo?: string;
+  interval?: string;
+  schedulerCategoryId?: string;
+  schedulerCategoryName?: string;
   statusId?: string;
-  statusCode?: string;
-  statusDescription?: string;
-  createdBy?: string;
-  createdDate?: Date;
-  lastModifiedBy?: string;
-  lastModifiedDate?: Date;
-  reminderType?: string;
-  dpd?: number;
-  schedulerEmail?: string;
-  schedulerType?: string;
-  schedulerDate?: Date;
-  status?: string;
 }
 
-export class MasterDocumentTerm implements IMasterDocumentTerm {
-  constructor(
-    public id?: number,
-    public statusId?: string,
-    public statusCode?: string,
-    public statusDescription?: string,
-    public createdBy?: string,
-    public createdDate?: Date,
-    public lastModifiedBy?: string,
-    public lastModifiedDate?: Date,
-    public reminderType?: string,
-    public dpd?: number,
-    public schedulerEmail?: string,
-    public schedulerType?: string,
-    public schedulerDate?: Date,
-    public status?: string
-  ) {}
+export interface SchedulerType {
+  id?: string;
+  label?: string;
 }

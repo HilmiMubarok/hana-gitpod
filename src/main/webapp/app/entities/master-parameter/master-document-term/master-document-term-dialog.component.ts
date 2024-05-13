@@ -1,12 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { MessageService } from 'primeng/api';
 import { MasterCompanyTypeDialogComponent } from '../master-company-type/master-company-type-dialog.component';
-import { IMasterCompanyType } from '../master-company-type/master-company-type.model';
-import { MasterCompanyTypeService } from '../master-company-type/master-company-type.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MasterDocumentTerm, SchedulerType } from './master-document-term.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import * as lodash from 'lodash';
+import { MasterDocumentTermService } from './master-document-term.service';
 
 @Component({
   selector: 'jhi-master-document-term-dialog',
@@ -14,124 +16,108 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['../master-company-type/master-company-type.css'],
 })
 export class MasterDocumentTermDialogComponent implements OnInit {
-  public masterCompanyType: IMasterCompanyType;
+  public schedulerTypes: SchedulerType;
+  public masterDocumentTerm: FormGroup;
+  public documentTerm: MasterDocumentTerm;
+  public _spesificDateLov: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+  public spesificDateLov: Observable<number[]> = this._spesificDateLov.asObservable();
+  public weeklySpesificDate: number[] = [1, 2, 3, 4, 5, 6, 7];
+  public monthlySpesificDate: number[] = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+  ];
 
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
     protected messageService: MessageService,
-    private router: Router,
     protected activatedRoute: ActivatedRoute,
+    protected masterDocumentTermService: MasterDocumentTermService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      masterCompanyType: IMasterCompanyType;
+      documentTerm: MasterDocumentTerm;
+      schedulerTypes: SchedulerType;
     },
-    private _dialog: MatDialogRef<MasterCompanyTypeDialogComponent>,
-    protected masterCompanyTypeService: MasterCompanyTypeService
+    private _dialog: MatDialogRef<MasterCompanyTypeDialogComponent>
   ) {
     _dialog.disableClose = true;
     _dialog.backdropClick().subscribe(_ => {
       this.openCancelDialog();
     });
-    this.masterCompanyType = this.data.masterCompanyType;
-    this.masterDocumentTerm = this.fb.group({
-      reminderType: [this.data.masterCompanyType.code],
-      dpd: [this.data.masterCompanyType.abbreviation],
-      schedulerEmail: [this.data.masterCompanyType.name],
-      schedulerType: ['Inan'],
-      schedulerDate: [this.data.masterCompanyType.createdDate],
-      status: ['Status1'],
-    });
-  }
 
-  masterDocumentTerm: FormGroup;
+    this.documentTerm = this.data.documentTerm;
+
+    this.schedulerTypes = this.data.schedulerTypes;
+
+    this.masterDocumentTerm = this.fb.group({
+      reminderType: [{ value: this.data.documentTerm.name, disabled: true }, Validators.required],
+      fromDays: [this.data.documentTerm.fromDays, Validators.required],
+      toDays: [this.data.documentTerm.toDays, Validators.required],
+      schedulerEmail: [this.data.documentTerm.emailTo],
+      schedulerType: [this.data.documentTerm.interval, Validators.required],
+      daysTo: [{ value: this.data.documentTerm.daysTo, disabled: this.data.documentTerm.interval === 'DAILY' }, Validators.required],
+      status: [this.data.documentTerm.statusId, Validators.required],
+    });
+
+    if (this.data.documentTerm.interval === 'WEEKLY') {
+      this._spesificDateLov.next(this.weeklySpesificDate);
+    } else {
+      this._spesificDateLov.next(this.monthlySpesificDate);
+    }
+  }
 
   ngOnInit(): void {
-    console.log('xxx');
-  }
+    this.masterDocumentTerm.get('schedulerType').valueChanges.subscribe(value => {
+      switch (value) {
+        case 'DAILY':
+          this.masterDocumentTerm.get('daysTo').setValue(1);
+          this.masterDocumentTerm.get('daysTo').disable();
+          break;
 
-  public onSave(): void {
-    console.log(this.masterDocumentTerm.getRawValue());
-    // this.validate().then(() => this.save());
+        case 'WEEKLY':
+          this._spesificDateLov.next(this.weeklySpesificDate);
+          this.masterDocumentTerm.get('daysTo').setValue(this.masterDocumentTerm.get('daysTo').value);
+          this.masterDocumentTerm.get('daysTo').enable();
+          break;
+
+        case 'MONTHLY':
+          this._spesificDateLov.next(this.monthlySpesificDate);
+          this.masterDocumentTerm.get('daysTo').setValue(this.masterDocumentTerm.get('daysTo').value);
+          this.masterDocumentTerm.get('daysTo').enable();
+          break;
+
+        default:
+          this._spesificDateLov.next(this.monthlySpesificDate);
+          this.masterDocumentTerm.get('daysTo').setValue(this.masterDocumentTerm.get('daysTo').value);
+          this.masterDocumentTerm.get('daysTo').enable();
+          break;
+      }
+    });
   }
 
   public save() {
-    if (this.masterCompanyType.id) {
-      // update
-      this.masterCompanyTypeService.update(this.masterCompanyType).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-        this._dialog.close(res.body);
+    // check if form is valid
+    if (!this.masterDocumentTerm.valid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Please fill in the required fields',
       });
     } else {
-      // create
-      this.masterCompanyTypeService.create(this.masterCompanyType).subscribe(res => {
+      const newDocumentTerm = lodash.cloneDeep(this.documentTerm);
+
+      Object.keys(this.masterDocumentTerm.value).forEach(key => {
+        newDocumentTerm[key] = this.masterDocumentTerm.value[key];
+      });
+
+      this.masterDocumentTermService.updateMasterDocumentTerm(newDocumentTerm).subscribe(res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Save Success',
         });
-        this._dialog.close(res.body);
+        this._dialog.close(res);
       });
     }
-  }
-
-  private _validateProcess(toValidate: object) {
-    let isAllTrue = true;
-    for (const key in toValidate) {
-      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
-        if (toValidate[key] === false) {
-          isAllTrue = false;
-          break;
-        }
-      }
-    }
-
-    return isAllTrue;
-  }
-
-  private _showNotification(severity: string, message: string): void {
-    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
-    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
-  }
-
-  public checkMustValidated() {
-    const mustValidate = {
-      code: true,
-      value: true,
-    };
-
-    if (!this.masterCompanyType.code) {
-      this._showNotification('error', 'Masukkan Code terlebih dahulu');
-      mustValidate.code = false;
-    }
-
-    if (!this.masterCompanyType.name) {
-      this._showNotification('error', 'Masukkan Name terlebih dahulu');
-      mustValidate.value = false;
-    }
-
-    if (!this.masterCompanyType.abbreviation) {
-      this._showNotification('error', 'Masukkan Abbreviation terlebih dahulu');
-      mustValidate.value = false;
-    }
-
-    return this._validateProcess(mustValidate);
-  }
-
-  public validateMasterCompanyType(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.checkMustValidated() && resolve('Master Company Type Validated');
-    });
-  }
-
-  public validate(): Promise<Boolean> {
-    return new Promise((resolve, reject) => {
-      this.validateMasterCompanyType().then(() => resolve(true));
-    });
   }
 
   // cancel confrimation dialog
