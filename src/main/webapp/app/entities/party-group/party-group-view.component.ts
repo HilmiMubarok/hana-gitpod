@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -59,7 +59,7 @@ type SelectableEntity = IPartyType | IPostalAddress;
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnChanges {
+export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnChanges, AfterViewInit {
   public partyGroupModel: IPartyGroup = new PartyGroup();
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
@@ -234,6 +234,10 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     this.loadCreditType();
   }
 
+  ngAfterViewInit(): void {
+    this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id']) {
       if (changes['id'].isFirstChange()) {
@@ -377,7 +381,11 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     }
   }
 
+  public logoCcy;
   public myFunction() {
+    if (this.item.annualSales === 0) {
+      this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
+    }
     this.getProduct();
     if (this.item.applicationTypeId === 'SME') {
       const totalPlafond = 0;
