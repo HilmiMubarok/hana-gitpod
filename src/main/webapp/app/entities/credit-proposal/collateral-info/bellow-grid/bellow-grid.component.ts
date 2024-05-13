@@ -146,6 +146,44 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
   }
 
+  public presentageSummary(value: string, status: string) {
+    const num = parseFloat(value).toFixed(2);
+    if (num === 'Infinity') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
+      }
+      return '0.00' + 'x';
+    } else if (num === 'NaN') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
+      }
+      return '0.00' + 'x';
+    } else {
+      if (status === 'mv') {
+        this.creditProposal.attributes.collateralSummary.mvInternalCoverage = num;
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.collateralSummary.lvInternalCoverage = num;
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.collateralSummary.mvKjjpCoverage = num;
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = num;
+      }
+      return num + 'x';
+    }
+  }
+
   public getSummaryCollateral() {
     return new Promise((resolve, reject) => {
       const applicationNumber = this.creditProposal.id;
