@@ -80,7 +80,11 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       this.loadData(i);
     }
     this.sableFeild();
-    this.findCollateralProperty(this.creditProposalData.id);
+    if (this.creditProposalData.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposalData.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposalData.prospectOrganization.id);
+    }
   }
   public sableFeild() {
     if (
@@ -109,8 +113,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     }
   }
 
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }

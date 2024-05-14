@@ -37,7 +37,11 @@ export class MemoBandingComponent implements OnInit {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
-    this.findCollateralProperty(this.creditProposal.id);
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   testData = memoBandingData;
@@ -106,16 +110,14 @@ export class MemoBandingComponent implements OnInit {
         this.collateral = res.body;
       });
   }
-
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
 
       // Set collateral properties to collateral service
       this.memoBandingCollateralService.setCollateralProperties(this.collateralProperties);
     });
   }
-
   public triggeredSave(proposalType: any) {
     this.cpMemoBandingRemarkComponent.triggeredSave();
   }

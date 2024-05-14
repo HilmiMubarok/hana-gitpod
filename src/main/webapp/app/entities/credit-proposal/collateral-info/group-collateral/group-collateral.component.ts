@@ -142,6 +142,11 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     // this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
     //   this.checkIndividualCol(newCP);
     // });
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -155,7 +160,6 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
           const collateral = this.creditProposal.collaterals[i];
         }
       }
-      this.findCollateralProperty(this.creditProposal.id);
     }
     if (changes['partyId']) {
       this.collateralMybusiness();
@@ -458,8 +462,8 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }

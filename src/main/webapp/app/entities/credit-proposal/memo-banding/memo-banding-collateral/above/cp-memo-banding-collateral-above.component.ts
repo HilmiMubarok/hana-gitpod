@@ -195,7 +195,11 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
-    this.findCollateralProperty(this.creditProposal.id);
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     // this.fungsiSumcredit('both').then(() => {
     //   this.dataItem = new MatTableDataSource(
     //     this.cpMemoBandingservice.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals)
@@ -223,9 +227,8 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
       this.getBindingCalculate(this.dataCollateral);
     });
   }
-
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }

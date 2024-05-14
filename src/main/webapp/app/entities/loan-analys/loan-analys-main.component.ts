@@ -1183,7 +1183,11 @@ export class LoanAnalysMainComponent implements OnInit {
       this.disabledData = false;
     }
     this.loadByPartyId(this.creditProposal.cif.partyId);
-    this.findCollateralProperty(this.creditProposal.id);
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     if (this.collateral.length > 0) {
       for (let i = 0; i < this.collateral.length; i++) {
         this.filterCgpg(this.collateral[i]);
@@ -2622,8 +2626,8 @@ export class LoanAnalysMainComponent implements OnInit {
       });
   }
 
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }
