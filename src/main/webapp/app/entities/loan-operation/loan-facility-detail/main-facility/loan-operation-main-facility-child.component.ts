@@ -23,7 +23,7 @@ export class LoanOperationMainFacilityChildComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mainData']) {
-      this.dataSource = this.mainData.categoryListDTO;
+      this.dataSource = this.mainData ? this.mainData.categoryListDTO : [];
     }
   }
 
