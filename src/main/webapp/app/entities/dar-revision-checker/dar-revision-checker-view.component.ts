@@ -237,7 +237,11 @@ export class DarRevisionCheckerViewComponent implements OnInit {
   public baLoading: Boolean = false;
 
   ngOnInit() {
-    this.findCollateralProperty(this.creditProposal.id);
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     this.showTextMenu();
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -317,8 +321,8 @@ export class DarRevisionCheckerViewComponent implements OnInit {
       });
   }
 
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }

@@ -74,7 +74,11 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
     const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
     this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
     this.setUp();
-    this.findCollateralProperty(this.creditProposalData.id);
+    if (this.creditProposalData.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposalData.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposalData.prospectOrganization.id);
+    }
     if (this.applicationProductData.id === undefined) {
       this.disabled = true;
     } else {
@@ -113,8 +117,8 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
     }
   }
 
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }

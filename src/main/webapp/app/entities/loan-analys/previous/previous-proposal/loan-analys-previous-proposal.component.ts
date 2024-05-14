@@ -51,7 +51,11 @@ export class LoanAnalysPreviousProposalComponent implements OnInit {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
-    this.findCollateralProperty(this.creditProposal.id);
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   private loadByPartyId(param: string): void {
@@ -66,8 +70,8 @@ export class LoanAnalysPreviousProposalComponent implements OnInit {
   }
 
   // find collateral property
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }

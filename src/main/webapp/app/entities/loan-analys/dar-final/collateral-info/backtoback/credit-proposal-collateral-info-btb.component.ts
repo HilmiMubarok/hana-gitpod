@@ -128,7 +128,11 @@ export class CollateralInfoBTPDarFinalComponent
 
     this.setCertyficateType();
     this.totalCoverage();
-    this.findCollateralProperty(this.creditProposal.id);
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   private loadData(): void {
@@ -329,8 +333,8 @@ export class CollateralInfoBTPDarFinalComponent
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }

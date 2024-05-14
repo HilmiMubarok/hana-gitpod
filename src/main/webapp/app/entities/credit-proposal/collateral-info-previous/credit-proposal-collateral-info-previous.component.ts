@@ -74,7 +74,11 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnInit, On
     } else {
       this.dataSource = [];
     }
-    this.findCollateralProperty(this.creditProposal.id);
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   constructor(
@@ -157,8 +161,8 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnInit, On
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(applicationId: number): void {
-    this.cashCollateralService.getCollateralProperty(applicationId).subscribe(res => {
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }
