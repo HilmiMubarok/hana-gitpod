@@ -9,6 +9,7 @@ import { FidusiaAgreementService } from 'app/entities/fidusia-agreement/fidusia-
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { Router } from '@angular/router';
 import { MenuEventArgs } from '@syncfusion/ej2-angular-navigations';
+import { BindingValueGeneralDialogLoanOpsComponent } from './binding-value-general-dialog-loan-ops.component';
 
 @Component({
   selector: 'jhi-binding-value-general-grid-loan-ops',
@@ -81,7 +82,7 @@ export class BindingValueGeneralGridLoanOpsComponent implements OnInit, OnChange
   public openDialog(element?: IFidusiaAgremeent) {
     if (!element) {
       this.fidusiaAgreementService.getTemplate(this.creditProposal.id, this.collateral.id).subscribe(res => {
-        const dialogRef = this.dialog.open(BindingValueGeneralGridLoanOpsComponent, {
+        const dialogRef = this.dialog.open(BindingValueGeneralDialogLoanOpsComponent, {
           width: '80vw',
           data: {
             item: res,
@@ -97,7 +98,7 @@ export class BindingValueGeneralGridLoanOpsComponent implements OnInit, OnChange
         });
       });
     } else {
-      const dialogRef = this.dialog.open(BindingValueGeneralGridLoanOpsComponent, {
+      const dialogRef = this.dialog.open(BindingValueGeneralDialogLoanOpsComponent, {
         width: '80vw',
         data: {
           item: element,
