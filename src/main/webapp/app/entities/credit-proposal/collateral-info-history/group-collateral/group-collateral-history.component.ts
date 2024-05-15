@@ -169,11 +169,6 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.lovBindingType();
     this.loadData();
     this.getLovInsuranceType();
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
-    } else {
-      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
-    }
   }
   getLovInsuranceType() {
     this.generalParameterService
@@ -213,6 +208,7 @@ export class GroupCollateralHistoryComponent implements OnInit, OnChanges {
     this.selectedMenu = 'INFORMATION';
     if (changes['partyId']) {
       this.collateralMybusiness();
+      this.findCollateralProperty(changes.partyId.currentValue);
     }
     // if (changes['creditProposal']) {
     //   if (this.historyData().collaterals.length > 0) {

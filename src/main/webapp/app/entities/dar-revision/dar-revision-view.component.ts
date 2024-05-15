@@ -251,6 +251,15 @@ export class DarRevisionViewComponent implements OnInit {
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
+    if (this.listGroupCollateral.length > 0) {
+      for (let j = 0; j < this.listGroupCollateral.length; j++) {
+        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        } else {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        }
+      }
+    }
     this.showTextMenu();
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -288,39 +297,18 @@ export class DarRevisionViewComponent implements OnInit {
     }
   }
 
+  public findCollateralPropertyGroup(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];
+    });
+  }
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
     this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
       this.listGroupCollateral = res.body;
-      this.getAllColGroup();
     });
   }
 
-  private getAllColGroup() {
-    return new Promise((resolve, reject) => {
-      if (this.listGroupCollateral.length > 0) {
-        for (let j = 0; j < this.listGroupCollateral.length; j++) {
-          this.collateralService
-            .queryFilterBy({
-              idParty: this.listGroupCollateral[j].partyId,
-              isActive: true,
-            })
-            .subscribe(res => {
-              if (res.body) {
-                for (let i = 0; i < res.body.length; i++) {
-                  if (res.body[i].id) {
-                    this.collateralPropertyService.queryFilterBy({ idCollateral: res.body[i].id, page: 0, size: 9999 }).subscribe(res2 => {
-                      this.collateralPropertyGroupData = [...this.collateralPropertyGroupData, ...res2.body];
-                    });
-                  }
-                }
-              }
-              resolve(this.collateralPropertyGroupData);
-            });
-        }
-      }
-    });
-  }
   private loadByPartyId(param: string): void {
     this.collateralService
       .queryFilterBy({

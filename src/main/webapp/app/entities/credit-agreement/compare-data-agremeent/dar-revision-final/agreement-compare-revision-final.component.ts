@@ -7,6 +7,7 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-agremeent-compare-revision-final',
@@ -21,8 +22,10 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
   public isDataToCompareExist: Boolean = false;
   public collateral: ICollateral[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'DAR REVISION FINAL' }, { text: 'PREVIOUS DAR' }];
+  listGroupCollateral: any;
   ngOnInit(): void {
     this.selectedMenu = 'DAR REVISION FINAL';
+    this.loadDataBy();
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
@@ -30,6 +33,15 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
       this.findCollateralProperty(this.creditProposal.prospectPerson.id);
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
+    if (this.listGroupCollateral.length > 0) {
+      for (let j = 0; j < this.listGroupCollateral.length; j++) {
+        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        } else {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        }
+      }
     }
   }
 
@@ -42,7 +54,8 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
   constructor(
     private collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService,
-    private cashCollateralService: CashCollateralService
+    private cashCollateralService: CashCollateralService,
+    private partyCifService: PartyCifService
   ) {}
 
   public setMenu(value): void {
@@ -105,6 +118,17 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
   public findCollateralProperty(partyId: string): void {
     this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
+  }
+  public findCollateralPropertyGroup(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];
+    });
+  }
+  public loadDataBy(): void {
+    const cifNumber = this.creditProposal.customerNumber;
+    this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
+      this.listGroupCollateral = res.body;
     });
   }
 }
