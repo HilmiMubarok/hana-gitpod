@@ -34,6 +34,7 @@ import { GeneralParameterService } from '../master-parameter/general-parameter/g
 import lodash from 'lodash';
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { MasterProductParameterService } from '../master-parameter/master-product/master-product-parameter.service';
+import { firstValueFrom } from 'rxjs';
 
 moment.locale('id');
 
@@ -162,6 +163,8 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     if (this._deptorData.debtorData.collectabilityStatus === null) {
       this.deptorData.debtorData.collectabilityStatus = '1';
     }
+
+    this.myFunction();
   }
   public countAge(): number {
     let age: number;
@@ -382,11 +385,26 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
 
   public logoCcy;
 
-  public myFunction() {
+  public async myFunction(): Promise<void> {
     if (this.deptorData.annualSales === 0) {
       this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
     }
-    this.getProduct();
+
+    const arrTmp = (
+      await firstValueFrom(
+        this.productParameterService.filterTableData({
+          idProductType: 'MORT',
+          page: 0,
+          size: 9999,
+        })
+      )
+    ).body;
+    if (arrTmp.length > 0) {
+      for (let i = 0; i < arrTmp.length; i++) {
+        this.mortCode.push(arrTmp[i].code);
+      }
+      this.functionCek();
+    }
     if (this.deptorData.applicationTypeId === 'SME') {
       const totalPlafond = 0;
 

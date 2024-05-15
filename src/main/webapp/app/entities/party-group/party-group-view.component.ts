@@ -30,6 +30,7 @@ import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { MasterCompanyTypeService } from '../master-parameter/master-company-type/master-company-type.service';
+import { firstValueFrom } from 'rxjs';
 
 export const MY_FORMATS = {
   parse: {
@@ -59,7 +60,7 @@ type SelectableEntity = IPartyType | IPostalAddress;
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnChanges, AfterViewInit {
+export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnChanges, OnInit, AfterViewInit {
   public partyGroupModel: IPartyGroup = new PartyGroup();
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
@@ -234,6 +235,10 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     this.loadCreditType();
   }
 
+  ngOnInit(): void {
+    this.myFunction();
+  }
+
   ngAfterViewInit(): void {
     this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
   }
@@ -382,11 +387,26 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
   }
 
   public logoCcy;
-  public myFunction() {
+  public async myFunction(): Promise<void> {
     if (this.item.annualSales === 0) {
       this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
     }
-    this.getProduct();
+    // this.getProduct();
+    const arrTmp = (
+      await firstValueFrom(
+        this.productParameterService.filterTableData({
+          idProductType: 'MORT',
+          page: 0,
+          size: 9999,
+        })
+      )
+    ).body;
+    if (arrTmp.length > 0) {
+      for (let i = 0; i < arrTmp.length; i++) {
+        this.mortCode.push(arrTmp[i].code);
+      }
+      this.functionCek();
+    }
     if (this.item.applicationTypeId === 'SME') {
       const totalPlafond = 0;
 
