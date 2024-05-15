@@ -66,6 +66,7 @@ import { InsuranceCheckingProcessService } from './insurance-checking-process.se
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { ICertificateInfo } from '../offering-letter/certificate-info/certificate-info.model';
 import { InsuranceInformationService } from '../insurance-information/insurance-information.service';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-insurance-chaking-floating',
@@ -209,7 +210,8 @@ export class InsuranceCheckingDetailComponent implements OnInit {
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
     protected masterPermissionService: MasterPermissionService,
     private http: HttpClient,
-    public insuranceInformationService: InsuranceInformationService
+    public insuranceInformationService: InsuranceInformationService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -393,6 +395,11 @@ export class InsuranceCheckingDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     this.getListIndustry();
     this.lendingProgramParameter();
     this.getPositionTypeId();
@@ -1182,26 +1189,17 @@ export class InsuranceCheckingDetailComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   public setCertificate(collateral) {

@@ -11,6 +11,7 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-mapping-collateral',
   templateUrl: './mapping-collateral.component.html',
@@ -46,7 +47,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       hideField: string;
     },
     protected collateralPropertyService: CollateralPropertyService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    private cashCollateralService: CashCollateralService
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -61,7 +63,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     this.disableField = this.data.hideField;
     for (let i = 0; i < this.creditProposalData.collaterals.length; i++) {
       const collateral = this.creditProposalData.collaterals[i];
-      this.findCollateralProperty(collateral);
     }
   }
 
@@ -79,7 +80,11 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       this.loadData(i);
     }
     this.sableFeild();
-    console.log('ini parent path', this.parentPath);
+    if (this.creditProposalData.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposalData.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposalData.prospectOrganization.id);
+    }
   }
   public sableFeild() {
     if (
@@ -108,12 +113,10 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     }
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   public getCurrency(collateral: ICollateral) {

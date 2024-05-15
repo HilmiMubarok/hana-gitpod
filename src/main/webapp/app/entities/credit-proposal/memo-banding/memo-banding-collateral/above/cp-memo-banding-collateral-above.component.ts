@@ -24,6 +24,7 @@ import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { MemoBandingCollateralService } from '../memo-banding-collateral.service';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-cp-memo-banding-collateral-above',
   templateUrl: './cp-memo-banding-collateral-above.component.html',
@@ -161,7 +162,8 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     private generalParameterService: GeneralParameterService,
     private cpMemoBandingservice: CpMemoBandingService,
     private collateralPropertyService: CollateralPropertyService,
-    private memoBandingCollateralService: MemoBandingCollateralService
+    private memoBandingCollateralService: MemoBandingCollateralService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.totalMVInt = 0;
     this.totalLVInt = 0;
@@ -193,7 +195,11 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
-
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     // this.fungsiSumcredit('both').then(() => {
     //   this.dataItem = new MatTableDataSource(
     //     this.cpMemoBandingservice.compareDeepData(this.parsed.collaterals, this.creditProposal.collaterals)
@@ -218,23 +224,13 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
 
       // this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
-      this.mapCollateralProperty(this.dataCollateral);
       this.getBindingCalculate(this.dataCollateral);
     });
   }
-
-  public mapCollateralProperty(data: ICollateral[]) {
-    for (let i = 0; i < data.length; i++) {
-      this.findCollateralProperty(data[i]);
-    }
-  }
-
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -251,17 +247,10 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     }
 
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          // this.findCollateralProperty(collateral);
-
-          if (this.creditProposal.id) {
-            this.loadSummaryCollateral();
-          }
-        }
+      if (this.creditProposal.id) {
+        this.loadSummaryCollateral();
       }
     }
-    // }
   }
 
   public collateral: any;

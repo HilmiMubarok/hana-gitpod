@@ -74,6 +74,7 @@ import { ViewportScroller } from '@angular/common';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 import { IEntityProperties } from '../entity-properties/entity-properties.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-dppk-finalize-floating',
@@ -222,7 +223,8 @@ export class DppkFinalizeDetailComponent implements OnInit {
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
     private entitiyPropertiesService: EntitiyPropertiesService,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -481,7 +483,11 @@ export class DppkFinalizeDetailComponent implements OnInit {
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
-
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -1270,29 +1276,23 @@ export class DppkFinalizeDetailComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 2) {
-          this.setCertificate(this.collateral);
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
+  }
+  public filterCgpg(collateral: ICollateral) {
+    if (this.collateral.length > 0) {
+      for (let i = 0; i < this.collateral.length; i++) {
+        if (this.collateral[i].collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+          this.collateralCgpg.push(collateral);
         }
-      });
-      if (
-        collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee'] ||
-        collateral.collateralTypeId === COLLATERAL_TYPE['deposit']
-      ) {
-        this.collateralCgpg.push(collateral);
       }
     }
+    this.cekCgpgData();
   }
 
   public setCertificate(collateral) {

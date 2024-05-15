@@ -22,6 +22,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { IEmptyField } from '../../collateral-info/backtoback/empty-field.model';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-collateral-info-btb-history',
@@ -84,7 +85,8 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private cashCollateralService: CashCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -125,6 +127,11 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     }
 
     this.setCertyficateType();
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
@@ -137,10 +144,6 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
 
     if (dataFilter.length > 0) {
       this.getBindingCalculate(dataFilter);
-    }
-
-    for (let i = 0; i < this.historyData().collaterals.length; i++) {
-      this.findCollateralProperty(this.historyData().collaterals[i]);
     }
     if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
       this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
@@ -175,7 +178,6 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
           }
@@ -289,12 +291,10 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

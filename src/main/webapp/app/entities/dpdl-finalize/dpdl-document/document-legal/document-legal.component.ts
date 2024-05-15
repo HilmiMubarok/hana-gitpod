@@ -266,7 +266,6 @@ export class DocumentLegalComponent implements OnChanges {
   public saveLegalCovernoteAttributes(id: string, res: any): void {
     if (this.creditProposal.attributes.legalCovernote.length > 0) {
       const targetId = obj => obj === id;
-
       if (this.creditProposal.attributes.legalCovernote.findIndex(targetId) > -1) {
         this.creditProposal.attributes.legalCovernote.forEach((obj, index) => {
           if (obj.id === id) {

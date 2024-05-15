@@ -59,6 +59,7 @@ import { CreditProposalTabLoanFacilityDetailComponent } from '../credit-proposal
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-dar-revision-view',
   templateUrl: './dar-revision-view.component.html',
@@ -206,7 +207,8 @@ export class DarRevisionViewComponent implements OnInit {
     private darRevisionService: DarRevisionService,
     public templateService: TemplateService,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -244,6 +246,11 @@ export class DarRevisionViewComponent implements OnInit {
   public baLoading: Boolean = false;
 
   ngOnInit() {
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     this.showTextMenu();
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -319,26 +326,17 @@ export class DarRevisionViewComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   public setCertificate(collateral) {

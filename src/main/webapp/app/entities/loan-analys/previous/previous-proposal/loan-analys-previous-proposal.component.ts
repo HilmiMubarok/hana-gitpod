@@ -6,7 +6,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
-
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-loan-analys-previous-proposal',
   templateUrl: './loan-analys-previous-proposal.component.html',
@@ -41,11 +41,20 @@ export class LoanAnalysPreviousProposalComponent implements OnInit {
     this._collateralProperties = param;
   }
 
-  constructor(private collateralService: CollateralService, private collateralPropertyService: CollateralPropertyService) {}
+  constructor(
+    private collateralService: CollateralService,
+    private collateralPropertyService: CollateralPropertyService,
+    private cashCollateralService: CashCollateralService
+  ) {}
 
   ngOnInit(): void {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
   }
 
@@ -57,21 +66,14 @@ export class LoanAnalysPreviousProposalComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
-          }
-        }
       });
   }
 
   // find collateral property
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
   // constructor(private creditProposalService: CreditProposalService, protected activatedRoute: ActivatedRoute, private router: Router) {
   //   this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];

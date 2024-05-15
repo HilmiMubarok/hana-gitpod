@@ -6,6 +6,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { Subject, takeUntil } from 'rxjs';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-agremeent-compare-revision-final',
@@ -25,6 +26,11 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -33,7 +39,11 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
     this.destroy$.unsubscribe();
   }
 
-  constructor(private collateralService: CollateralService, private collateralPropertyService: CollateralPropertyService) {}
+  constructor(
+    private collateralService: CollateralService,
+    private collateralPropertyService: CollateralPropertyService,
+    private cashCollateralService: CashCollateralService
+  ) {}
 
   public setMenu(value): void {
     this.selectedMenu = value.item.properties.text;
@@ -85,27 +95,16 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
-      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
-          }
-        }
       });
   }
 
-  // find collateral property
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService
-        .queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 })
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(res => {
-          this.collateralProperties = [...this.collateralProperties, ...res.body];
-        });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 }

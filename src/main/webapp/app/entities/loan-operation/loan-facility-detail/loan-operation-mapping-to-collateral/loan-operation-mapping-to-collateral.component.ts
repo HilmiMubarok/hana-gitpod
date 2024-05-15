@@ -3,6 +3,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -48,7 +49,8 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
       isElement: boolean;
     },
     protected collateralPropertyService: CollateralPropertyService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    private cashCollateralService: CashCollateralService
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -65,7 +67,6 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
     this.isElement = this.data.isElement;
     for (let i = 0; i < this.creditProposalData.collaterals.length; i++) {
       const collateral = this.creditProposalData.collaterals[i];
-      this.findCollateralProperty(collateral);
     }
   }
 
@@ -73,7 +74,11 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
     const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
     this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
     this.setUp();
-
+    if (this.creditProposalData.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposalData.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposalData.prospectOrganization.id);
+    }
     if (this.applicationProductData.id === undefined) {
       this.disabled = true;
     } else {
@@ -112,12 +117,10 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
     }
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   public getCurrency(collateral: ICollateral) {

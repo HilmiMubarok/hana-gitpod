@@ -62,6 +62,7 @@ import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { BusinessActivityService } from './busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -203,7 +204,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
     protected masterPermissionService: MasterPermissionService,
     private baService: BusinessActivityService,
-    private viewport: ViewportScroller
+    private viewport: ViewportScroller,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -413,7 +415,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           this.creditProposalOpinionHistoryComponent.triggeredSave();
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
-		} */
+    } */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -517,6 +519,16 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.loadDataBy();
     this.showTextMenu();
     this.cpGroub();
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
+    if (this.collateral.length > 0) {
+      for (let i = 0; i < this.collateral.length; i++) {
+        this.filterCgpg(this.collateral[i]);
+      }
+    }
   }
 
   public setSubmenu(event: Object): void {
@@ -1129,9 +1141,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
 
       /* if (this.creditProposalOpinionHistoryComponent) {
-		this.creditProposalOpinionHistoryComponent.triggeredSave();
-		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-		this.creditProposalOpinionHistoryComponent.refresh();
+    this.creditProposalOpinionHistoryComponent.triggeredSave();
+    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+    this.creditProposalOpinionHistoryComponent.refresh();
     } */
 
       if (this.CreditProposalTabSummaryComponent) {
@@ -1210,16 +1222,16 @@ export class ProposalBasicInformationComponent implements OnInit {
                 fileReader.onload = (e: any) => {
                   const testSfdtFile = JSON.parse(fileReader.result as string);
                   /* if (testSfdtFile.sections[0].blocks) {
-					if (testSfdtFile.sections[0].blocks.length > 0) {
-					  ++countValidate;
-					} else {
-					  // toast opinion empty
-					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					}
-				  } else {
-					// toast opinion empty
-					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-				  } */
+          if (testSfdtFile.sections[0].blocks.length > 0) {
+            ++countValidate;
+          } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+          }
+          } else {
+          // toast opinion empty
+          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+          } */
 
                   if (
                     testSfdtFile.sections[0].blocks[0].inlines ||
@@ -1269,11 +1281,11 @@ export class ProposalBasicInformationComponent implements OnInit {
                       }
 
                       /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
+            ++countValidate;
+            } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+            } */
                     }
                   } else {
                     // toast opinion empty
@@ -1292,16 +1304,16 @@ export class ProposalBasicInformationComponent implements OnInit {
                         fileReaderCondition.onload = (eCondition: any) => {
                           const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
                           /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
+              if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+                ++countValidate;
+              } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              }
+              } else {
+              // toast condition empty
+              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              } */
 
                           if (
                             testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -1351,11 +1363,11 @@ export class ProposalBasicInformationComponent implements OnInit {
                               }
 
                               /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-								++countValidate;
-							  } else {
-								// toast condition empty
-								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							  } */
+                ++countValidate;
+                } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+                } */
                             }
                           } else {
                             // toast condition empty
@@ -1688,25 +1700,29 @@ export class ProposalBasicInformationComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i]);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
-        this.collateralCgpg.push(collateral);
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
+  }
+  public findCollateralPropertyGroup(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];
+    });
+  }
+  public filterCgpg(collateral: ICollateral) {
+    if (this.collateral.length > 0) {
+      for (let i = 0; i < this.collateral.length; i++) {
+        if (this.collateral[i].collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+          this.collateralCgpg.push(collateral);
+        }
       }
     }
+    this.cekCgpgData();
   }
-
   public cekCgpgData() {
     if (this.collateralCgpg.length > 0) {
       for (let i = 0; i < this.collateralCgpg.length; i++) {

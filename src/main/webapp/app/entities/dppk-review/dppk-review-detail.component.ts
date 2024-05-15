@@ -72,6 +72,7 @@ import { BusinessActivityService } from '../credit-proposal/busines-activity/bus
 import { ViewportScroller } from '@angular/common';
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-dppk-review-floating',
   templateUrl: './dppk-review-floating.component.html',
@@ -216,7 +217,8 @@ export class DppkReviewDetailComponent implements OnInit {
     private http: HttpClient,
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
-    private entitiyPropertiesService: EntitiyPropertiesService
+    private entitiyPropertiesService: EntitiyPropertiesService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -472,6 +474,11 @@ export class DppkReviewDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     this.getListIndustry();
     this.lendingProgramParameter();
     this.getPositionTypeId();
@@ -1219,28 +1226,18 @@ export class DppkReviewDetailComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
-
   public setCertificate(collateral) {
     if (!this.creditProposal.attributes['syncCertificate']) {
       this.creditProposal.attributes['syncCertificate'] = 'true';

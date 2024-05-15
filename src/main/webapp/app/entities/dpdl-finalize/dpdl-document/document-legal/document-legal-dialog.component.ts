@@ -854,6 +854,7 @@ export class DocumentLegalDialogComponent implements OnInit {
       covernoteCode: selectedCovernoteTask.code,
     });
     this.selectedCovernoteTask = '';
+    this.selectedCovernoteDate = null;
     this.getLegalCovernoteTaskDataList();
     this.covernoteTaskTable.renderRows();
   }

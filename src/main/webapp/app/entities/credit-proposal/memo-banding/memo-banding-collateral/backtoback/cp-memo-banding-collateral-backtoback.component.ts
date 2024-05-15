@@ -24,6 +24,7 @@ import lodash from 'lodash';
 import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { MemoBandingCollateralService } from '../memo-banding-collateral.service';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-cp-memo-banding-collateral-backtoback',
@@ -107,7 +108,8 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
     private partyCifService: PartyCifService,
     private generalParameterService: GeneralParameterService,
     private cpMemoBandingService: CpMemoBandingService,
-    private memoBandingCollateralService: MemoBandingCollateralService
+    private memoBandingCollateralService: MemoBandingCollateralService,
+    private cashCollateralService: CashCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -140,6 +142,11 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
     this.setCertyficateType();
     this.lovBindingType();
     this.totalCoverage();
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   private loadSummaryCollateral(): void {
@@ -161,23 +168,14 @@ export class CPMemoBandingCollateralBacktobackComponent extends AbstractEntityMa
       // this.dataItem = new MatTableDataSource(this.dataCollateral);
 
       this.dataItem.paginator = this.paginator;
-      this.mapCollateralProperty(this.dataCollateral);
       this.getBindingCalculate(this.dataCollateral);
     });
   }
 
-  public mapCollateralProperty(data: ICollateral[]) {
-    for (let i = 0; i < data.length; i++) {
-      this.findCollateralProperty(data[i]);
-    }
-  }
-
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private loadByPartyId(param: string): void {

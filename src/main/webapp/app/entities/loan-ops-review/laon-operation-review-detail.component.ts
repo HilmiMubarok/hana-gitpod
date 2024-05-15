@@ -67,6 +67,7 @@ import { LoanOpsReviewService } from './laon-operation-review.service';
 import { LoanOpsReviewProcessService } from './laon-operation-review-process.service';
 import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
+import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-laon-operation-review-detail',
   templateUrl: './laon-operation-review-detail.component.html',
@@ -220,7 +221,8 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     private http: HttpClient,
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
-    private menuPermissionService: MenuPermissionService
+    private menuPermissionService: MenuPermissionService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -413,6 +415,11 @@ export class LoanOpsReviewDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
     this.getBucketNameSummary();
     this.getListIndustry();
     this.setDppkNumber();
@@ -1209,28 +1216,18 @@ export class LoanOpsReviewDetailComponent implements OnInit {
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
-        if (this.collateral.length > 0) {
-          for (let i = 0; i < this.collateral.length; i++) {
-            this.findCollateralProperty(this.collateral[i], i);
-          }
-        }
       });
   }
 
-  public findCollateralProperty(collateral: ICollateral, i): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-        if (this.collateral.length === i + 1) {
-          this.setCertificate(this.collateral);
-        }
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
-
   public setCertificate(collateral) {
     if (!this.creditProposal.attributes['syncCertificate']) {
       this.creditProposal.attributes['syncCertificate'] = 'true';

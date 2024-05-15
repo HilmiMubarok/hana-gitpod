@@ -1,0 +1,112 @@
+<h2 mat-dialog-title>ADD / EDIT COMPANY TYPE</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="masterDocumentTerm">
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Reminder Type</mat-label>
+            <input matInput type="text" formControlName="reminderType" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <div class="row">
+            <mat-label>DPD</mat-label>
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" formControlName="fromDays" />
+                <!-- Material error -->
+                <mat-error
+                  *ngIf="
+                    masterDocumentTerm.get('fromDays')?.invalid &&
+                    (masterDocumentTerm.get('fromDays')?.dirty || masterDocumentTerm.get('fromDays')?.touched)
+                  "
+                >
+                  <span *ngIf="masterDocumentTerm.get('fromDays')?.errors?.required">DPD is required</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="number" formControlName="toDays" />
+                <!-- Material error -->
+                <mat-error
+                  *ngIf="
+                    masterDocumentTerm.get('toDays')?.invalid &&
+                    (masterDocumentTerm.get('toDays')?.dirty || masterDocumentTerm.get('toDays')?.touched)
+                  "
+                >
+                  <span *ngIf="masterDocumentTerm.get('toDays')?.errors?.required">DPD is required</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Scheduler Email</mat-label>
+            <input matInput type="text" formControlName="schedulerEmail" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Scheduler Type</mat-label>
+            <mat-select formControlName="schedulerType">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of schedulerTypes" [value]="item.id"> {{ item.label }} </mat-option>
+            </mat-select>
+            <!-- Material error -->
+            <mat-error
+              *ngIf="
+                masterDocumentTerm.get('schedulerType')?.invalid &&
+                (masterDocumentTerm.get('schedulerType')?.dirty || masterDocumentTerm.get('schedulerType')?.touched)
+              "
+            >
+              <span *ngIf="masterDocumentTerm.get('schedulerType')?.errors?.required">Scheduler Type is required</span>
+            </mat-error>
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Spesific Date</mat-label>
+            <mat-select formControlName="daysTo">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item2 of spesificDateLov | async" [value]="item2"> {{ item2 }} </mat-option>
+            </mat-select>
+            <!-- Material error -->
+            <mat-error
+              *ngIf="
+                masterDocumentTerm.get('daysTo')?.invalid &&
+                (masterDocumentTerm.get('daysTo')?.dirty || masterDocumentTerm.get('daysTo')?.touched)
+              "
+            >
+              <span *ngIf="masterDocumentTerm.get('daysTo')?.errors?.required">Spesific Date is required</span>
+            </mat-error>
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item2 of ['ACTIVE', 'NON_ACTIVE']" [value]="item2"> {{ item2 }} </mat-option>
+            </mat-select>
+            <!-- Material error -->
+            <mat-error
+              *ngIf="
+                masterDocumentTerm.get('status')?.invalid &&
+                (masterDocumentTerm.get('status')?.dirty || masterDocumentTerm.get('status')?.touched)
+              "
+            >
+              <span *ngIf="masterDocumentTerm.get('status')?.errors?.required">Status is required</span>
+            </mat-error>
+          </mat-form-field>
+        </section>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">CLOSE</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="save()">SAVE</button>
+</mat-dialog-actions>

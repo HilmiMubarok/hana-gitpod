@@ -13,6 +13,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import { IEmptyField } from './empty-field.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-btb-previous',
   templateUrl: './credit-proposal-collateral-info-btb-previous.component.html',
@@ -59,7 +60,8 @@ export class CreditProposalCollateralInfoBTPPreviousComponent implements OnInit,
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    private cashCollateralService: CashCollateralService
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
@@ -77,6 +79,11 @@ export class CreditProposalCollateralInfoBTPPreviousComponent implements OnInit,
       this.isChecked = true;
     }
     this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   private loadByPartyId(param: string): void {
@@ -96,7 +103,6 @@ export class CreditProposalCollateralInfoBTPPreviousComponent implements OnInit,
       if (this.parsedData.previousReturn.collaterals.length > 0) {
         for (let i = 0; i < this.parsedData.previousReturn.collaterals.length; i++) {
           const collateral = this.parsedData.previousReturn.collaterals[i];
-          this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
           }
@@ -153,12 +159,10 @@ export class CreditProposalCollateralInfoBTPPreviousComponent implements OnInit,
     return new CreditProposalCollateralBinding();
   }
 
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

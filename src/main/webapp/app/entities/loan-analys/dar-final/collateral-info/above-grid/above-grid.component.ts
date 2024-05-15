@@ -24,6 +24,7 @@ import { CollateralInfoDialogTempComponent } from '../dialog/collateral-info-dia
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { Subject, takeUntil } from 'rxjs';
 import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-above-grid-dar-final',
@@ -150,7 +151,8 @@ export class AboveGridDarFinalComponent
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private cashCollateralService: CashCollateralService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -173,6 +175,11 @@ export class AboveGridDarFinalComponent
       this.isChecked = true;
     }
     this.setCertyficateType();
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -202,7 +209,6 @@ export class AboveGridDarFinalComponent
       if (this.dynamicCollateral().length > 0) {
         for (let i = 0; i < this.dynamicCollateral().length; i++) {
           const collateral = this.dynamicCollateral()[i];
-          this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
           }
@@ -403,16 +409,10 @@ export class AboveGridDarFinalComponent
     }
     return new CreditProposalCollateralBinding();
   }
-
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService
-        .queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 })
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(res => {
-          this.collateralProperties = [...this.collateralProperties, ...res.body];
-        });
-    }
+  public findCollateralProperty(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {
