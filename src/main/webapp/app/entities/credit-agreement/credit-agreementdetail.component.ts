@@ -117,7 +117,7 @@ export class CreditAgreementDetailComponent implements OnInit {
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
   public groupProduct: IApplicationProduct[] = [];
-  public listGroupCollateral: any;
+  public listGroupCollateral = [];
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   public listLoanType: any;
   private collateralProperties: ICollateralProperty[] = [];
@@ -412,20 +412,6 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
-    } else {
-      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
-    }
-    if (this.listGroupCollateral.length > 0) {
-      for (let j = 0; j < this.listGroupCollateral.length; j++) {
-        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
-          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
-        } else {
-          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
-        }
-      }
-    }
     this.getListIndustry();
     this.lendingProgramParameter();
     this.getPositionTypeId();
@@ -478,7 +464,20 @@ export class CreditAgreementDetailComponent implements OnInit {
 
     this.loadDataBy();
     this.showTextMenu();
-
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
+    if (this.listGroupCollateral.length > 0) {
+      for (let j = 0; j < this.listGroupCollateral.length; j++) {
+        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        } else {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        }
+      }
+    }
     // this.cpGroub();
   }
 

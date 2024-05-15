@@ -66,6 +66,7 @@ export class AgreementComparePreviousDarComponent implements OnInit, OnChanges, 
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
+    this.loadDataBy();
     if (this.creditProposal.customerType === 'PERSONAL') {
       this.findCollateralProperty(this.creditProposal.prospectPerson.id);
     } else {
@@ -84,7 +85,7 @@ export class AgreementComparePreviousDarComponent implements OnInit, OnChanges, 
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralPropertyGroupData']) {
-      this.loadDataBy();
+      // this.loadDataBy();
     }
 
     if (changes['collateralProperties']) {
@@ -120,7 +121,7 @@ export class AgreementComparePreviousDarComponent implements OnInit, OnChanges, 
     return 0;
   }
 
-  public listGroupCollateral: any;
+  public listGroupCollateral = [];
   public findCollateralPropertyGroup(partyId: string): void {
     this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];

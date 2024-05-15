@@ -119,7 +119,7 @@ export class TboReviewViewComponent implements OnInit {
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
   public groupProduct: IApplicationProduct[] = [];
-  public listGroupCollateral: any;
+  public listGroupCollateral = [];
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   public listLoanType: any;
   protected collateralProperties: ICollateralProperty[] = [];
@@ -266,6 +266,11 @@ export class TboReviewViewComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
+
+    this.getBucketNameSummary();
+    this.getTasks();
+    this.getPositionTypeId();
+    this.loadDataBy();
     if (this.creditProposal.customerType === 'PERSONAL') {
       this.findCollateralProperty(this.creditProposal.prospectPerson.id);
     } else {
@@ -280,10 +285,6 @@ export class TboReviewViewComponent implements OnInit {
         }
       }
     }
-    this.getBucketNameSummary();
-    this.getTasks();
-    this.getPositionTypeId();
-    this.loadDataBy();
     this.getCollateralSummaryData();
   }
 
