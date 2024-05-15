@@ -421,7 +421,7 @@ export class DppkReviewDetailComponent implements OnInit {
           this.creditProposalOpinionHistoryComponent.triggeredSave();
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
-		} */
+    } */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -478,6 +478,16 @@ export class DppkReviewDetailComponent implements OnInit {
       this.findCollateralProperty(this.creditProposal.prospectPerson.id);
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
+
+    if (this.listGroupCollateral.length > 0) {
+      for (let j = 0; j < this.listGroupCollateral.length; j++) {
+        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        } else {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        }
+      }
     }
     this.getListIndustry();
     this.lendingProgramParameter();
@@ -701,9 +711,9 @@ export class DppkReviewDetailComponent implements OnInit {
       }
 
       /* if (this.creditProposalOpinionHistoryComponent) {
-		this.creditProposalOpinionHistoryComponent.triggeredSave();
-		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-		this.creditProposalOpinionHistoryComponent.refresh();
+    this.creditProposalOpinionHistoryComponent.triggeredSave();
+    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+    this.creditProposalOpinionHistoryComponent.refresh();
     } */
 
       if (this.CreditProposalTabSummaryComponent) {
@@ -891,11 +901,11 @@ export class DppkReviewDetailComponent implements OnInit {
                               }
 
                               /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-								++countValidate;
-							  } else {
-								// toast condition empty
-								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							  } */
+                ++countValidate;
+                } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+                } */
                             }
                           } else {
                             // toast condition empty
@@ -1483,37 +1493,15 @@ export class DppkReviewDetailComponent implements OnInit {
     this.isOpen = !this.isOpen;
   }
 
+  public findCollateralPropertyGroup(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];
+    });
+  }
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
     this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
       this.listGroupCollateral = res.body;
-      this.getAllColGroup();
-    });
-  }
-
-  private getAllColGroup() {
-    return new Promise((resolve, reject) => {
-      if (this.listGroupCollateral.length > 0) {
-        for (let j = 0; j < this.listGroupCollateral.length; j++) {
-          this.collateralService
-            .queryFilterBy({
-              idParty: this.listGroupCollateral[j].partyId,
-              isActive: true,
-            })
-            .subscribe(res => {
-              if (res.body) {
-                for (let i = 0; i < res.body.length; i++) {
-                  if (res.body[i].id) {
-                    this.collateralPropertyService.queryFilterBy({ idCollateral: res.body[i].id, page: 0, size: 9999 }).subscribe(res2 => {
-                      this.collateralPropertyGroupData = [...this.collateralPropertyGroupData, ...res2.body];
-                    });
-                  }
-                }
-              }
-              resolve(this.collateralPropertyGroupData);
-            });
-        }
-      }
     });
   }
 
