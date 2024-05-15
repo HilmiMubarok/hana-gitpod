@@ -217,3 +217,24 @@ body.tailwind-dark .e-dashboardlayout.e-control .e-panel {
   display: flex;
   align-items: center;
 }
+
+@media screen and (min-width: 1024px) {
+  /* Styles go here */
+  #layout {
+    width: 90%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .multi-select-containers > p-multiselect > .p-multiselect {
+    min-width: calc(29.602vw - (7.716vw - 80px));
+    max-width: calc(29.602vw - (7.716vw - 80px));
+  }
+}
+
+@media only screen and (min-width: 1900px) {
+  .multi-select-containers > p-multiselect > .p-multiselect {
+    min-width: calc(29.602vw - (7.716vw - 190px));
+    max-width: calc(29.602vw - (7.716vw - 190px));
+  }
+}

@@ -14,11 +14,13 @@ import { IProgress } from './charts/line-chart/line-chart.model';
 })
 export class DashboardService extends AbstractEntityService<IChartData> {
   public resourceUrlNewNew: any;
+  public resourceUrlInteral: any;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrlNewNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards');
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposals');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/collateral-appraisals');
+    this.resourceUrlInteral = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internals');
   }
 
   public creditProposals(): {
@@ -71,6 +73,11 @@ export class DashboardService extends AbstractEntityService<IChartData> {
         return this.http.get<any[]>(`${this.resourceUrlNew}/progress`, { observe: 'response', params: options });
       },
     };
+  }
+
+  public getSegment(param): Observable<HttpResponse<any[]>> {
+    const options = createRequestOption(param);
+    return this.http.get<any[]>(`${this.resourceUrlInteral}`, { observe: 'response', params: options });
   }
 
   public getInterval(): Observable<HttpResponse<IInterval[]>> {
