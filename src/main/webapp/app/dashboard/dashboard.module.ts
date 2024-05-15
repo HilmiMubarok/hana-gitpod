@@ -29,6 +29,7 @@ import { ProgressStatusBarComponent } from './status/progress/progress-status-ba
 import { NgChartsModule } from 'ng2-charts';
 import { ChartsLayoutComponent } from './charts/charts-layout.component';
 import { CalendarModule } from 'primeng/calendar';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuseable-calendar.component';
 
 @NgModule({
@@ -47,6 +48,7 @@ import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuse
 
     // primeng
     CalendarModule,
+    MultiSelectModule,
 
     // charts
     NgChartsModule,
