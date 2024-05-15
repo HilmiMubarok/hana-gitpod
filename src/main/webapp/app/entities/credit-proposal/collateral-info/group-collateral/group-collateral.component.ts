@@ -163,6 +163,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     }
     if (changes['partyId']) {
       this.collateralMybusiness();
+      this.findCollateralProperty(changes.partyId.currentValue);
     }
   }
 

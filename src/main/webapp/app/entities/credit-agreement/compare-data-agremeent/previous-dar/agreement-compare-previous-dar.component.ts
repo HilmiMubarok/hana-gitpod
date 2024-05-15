@@ -66,16 +66,26 @@ export class AgreementComparePreviousDarComponent implements OnInit, OnChanges, 
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
+    this.loadDataBy();
     if (this.creditProposal.customerType === 'PERSONAL') {
       this.findCollateralProperty(this.creditProposal.prospectPerson.id);
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
+    if (this.listGroupCollateral.length > 0) {
+      for (let j = 0; j < this.listGroupCollateral.length; j++) {
+        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        } else {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        }
+      }
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralPropertyGroupData']) {
-      this.loadDataBy();
+      // this.loadDataBy();
     }
 
     if (changes['collateralProperties']) {
@@ -111,31 +121,19 @@ export class AgreementComparePreviousDarComponent implements OnInit, OnChanges, 
     return 0;
   }
 
-  public listGroupCollateral: any;
+  public listGroupCollateral = [];
+  public findCollateralPropertyGroup(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];
+    });
+  }
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
     this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
       this.listGroupCollateral = res.body;
-      this.getAllColGroup();
     });
   }
 
-  private getAllColGroup() {
-    return new Promise((resolve, reject) => {
-      if (this.listGroupCollateral.length > 0) {
-        for (let j = 0; j < this.listGroupCollateral.length; j++) {
-          this.collateralService
-            .queryFilterBy({
-              idParty: this.listGroupCollateral[j].partyId,
-              isActive: true,
-            })
-            .subscribe(res => {
-              resolve(this.collateralPropertyGroupData);
-            });
-        }
-      }
-    });
-  }
   private destroy$: Subject<boolean> = new Subject<boolean>();
   ngOnDestroy(): void {
     this.destroy$.next(true);

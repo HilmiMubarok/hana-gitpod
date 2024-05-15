@@ -140,11 +140,6 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
     } else {
       this.creditProposal.attributes['groupChecklisCollateral'] = [];
     }
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
-    } else {
-      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
-    }
     // this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
     //   this.checkIndividualCol(newCP);
     // });
@@ -164,6 +159,7 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
     }
     if (changes['partyId']) {
       this.collateralMybusiness();
+      this.findCollateralProperty(changes.partyId.currentValue);
     }
   }
 

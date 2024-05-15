@@ -127,7 +127,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public routeHelper: string;
   private id: number;
   private collateral: ICollateral[] = [];
-  listGroupCollateral: any;
+  public listGroupCollateral = [];
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   private collateralProperties: ICollateralProperty[] = [];
   public proposType = [];
@@ -222,11 +222,6 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public baLoading: Boolean = false;
 
   ngOnInit() {
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
-    } else {
-      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
-    }
     this.showTextMenu();
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -248,7 +243,21 @@ export class DpdlFinalizeViewComponent implements OnInit {
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
-
+    this.loadDataBy();
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
+    if (this.listGroupCollateral.length > 0) {
+      for (let j = 0; j < this.listGroupCollateral.length; j++) {
+        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        } else {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        }
+      }
+    }
     this.getBucketNameSummary();
     this.getBucketNameSummaryPKDraf();
     this.getTasks();
@@ -465,39 +474,18 @@ export class DpdlFinalizeViewComponent implements OnInit {
   public saveCollateralProperty(property: ICollateralProperty) {
     this.collateralPropertyService.save(property).subscribe(res => {});
   }
+  public findCollateralPropertyGroup(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];
+    });
+  }
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
     this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
       this.listGroupCollateral = res.body;
-      this.getAllColGroup();
     });
   }
 
-  private getAllColGroup() {
-    return new Promise((resolve, reject) => {
-      if (this.listGroupCollateral.length > 0) {
-        for (let j = 0; j < this.listGroupCollateral.length; j++) {
-          this.collateralService
-            .queryFilterBy({
-              idParty: this.listGroupCollateral[j].partyId,
-              isActive: true,
-            })
-            .subscribe(res => {
-              if (res.body) {
-                for (let i = 0; i < res.body.length; i++) {
-                  if (res.body[i].id) {
-                    this.collateralPropertyService.queryFilterBy({ idCollateral: res.body[i].id, page: 0, size: 9999 }).subscribe(res2 => {
-                      this.collateralPropertyGroupData = [...this.collateralPropertyGroupData, ...res2.body];
-                    });
-                  }
-                }
-              }
-              resolve(this.collateralPropertyGroupData);
-            });
-        }
-      }
-    });
-  }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
   }
