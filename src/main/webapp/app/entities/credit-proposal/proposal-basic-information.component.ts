@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ICreditProposal } from './credit-proposal.model';
@@ -42,7 +42,7 @@ import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { StorageService } from '../storage/storage.service';
-import { Observable, Subject, fromEvent, map } from 'rxjs';
+import { Observable, Subject, firstValueFrom, fromEvent, map } from 'rxjs';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import moment from 'moment';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
@@ -63,6 +63,7 @@ import { IApplicationProduct } from '../application-product/application-product.
 import { BusinessActivityService } from './busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
+import { CreditProposalPersonComponent } from './credit-proposal-person.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -400,69 +401,71 @@ export class ProposalBasicInformationComponent implements OnInit {
     const statusPreSave = status ? 'complete' : 'not-complete';
 
     if (this.creditProposal.id) {
-      this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
-        this.creditProposal.notes = res.body.notes;
+      this.myFunction().then(resD => {
+        this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
+          this.creditProposal.notes = res.body.notes;
 
-        if (this.creditProposalTabBusinessActivityComponent) {
-          this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
-        }
-
-        if (this.CPMemoBandingRemarkComponent) {
-          this.CPMemoBandingRemarkComponent.triggeredSave();
-        }
-
-        /* if (this.creditProposalOpinionHistoryComponent) {
-          this.creditProposalOpinionHistoryComponent.triggeredSave();
-          this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-          this.creditProposalOpinionHistoryComponent.refresh();
-    } */
-
-        if (this.CreditProposalTabSummaryComponent) {
-          this.CreditProposalTabSummaryComponent.triggeredSave();
-        }
-
-        if (this.parentPath !== 'cp-status-approval') {
-          if (this.proposalBasicInformationViewComponent) {
-            this.proposalBasicInformationViewComponent.triggeredSave();
+          if (this.creditProposalTabBusinessActivityComponent) {
+            this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
           }
-        }
 
-        if (this.creditProposaTabManagementInfoComponent) {
-          this.creditProposaTabManagementInfoComponent.triggeredSave();
-        }
+          if (this.CPMemoBandingRemarkComponent) {
+            this.CPMemoBandingRemarkComponent.triggeredSave();
+          }
 
-        if (this.creditProposalCollateralInfoComponent) {
-          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-        }
+          /* if (this.creditProposalOpinionHistoryComponent) {
+			this.creditProposalOpinionHistoryComponent.triggeredSave();
+			this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+			this.creditProposalOpinionHistoryComponent.refresh();
+		  } */
 
-        if (this.remaksComponent) {
-          this.remaksComponent.triggeredSave();
-        }
+          if (this.CreditProposalTabSummaryComponent) {
+            this.CreditProposalTabSummaryComponent.triggeredSave();
+          }
 
-        if (this.creditProposalOpinionHistoryComponent) {
-          this.creditProposalOpinionHistoryComponent.refresh();
-        }
+          if (this.parentPath !== 'cp-status-approval') {
+            if (this.proposalBasicInformationViewComponent) {
+              this.proposalBasicInformationViewComponent.triggeredSave();
+            }
+          }
 
-        if (this.creditProposalOpinionHistoryComponent) {
-          this.creditProposalOpinionHistoryComponent.refresh();
-        }
+          if (this.creditProposaTabManagementInfoComponent) {
+            this.creditProposaTabManagementInfoComponent.triggeredSave();
+          }
 
-        if (this.saveState === 'process') {
-          if (this.parentPath === 'cp-status-approval') {
-            this.saveApplicationRole();
-          } else {
-            this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-              this.router.navigate([this.router.url.split('/')[1]]);
+          if (this.creditProposalCollateralInfoComponent) {
+            this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+          }
+
+          if (this.remaksComponent) {
+            this.remaksComponent.triggeredSave();
+          }
+
+          if (this.creditProposalOpinionHistoryComponent) {
+            this.creditProposalOpinionHistoryComponent.refresh();
+          }
+
+          if (this.creditProposalOpinionHistoryComponent) {
+            this.creditProposalOpinionHistoryComponent.refresh();
+          }
+
+          if (this.saveState === 'process') {
+            if (this.parentPath === 'cp-status-approval') {
+              this.saveApplicationRole();
+            } else {
+              this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+                this.router.navigate([this.router.url.split('/')[1]]);
+              });
+            }
+          } else if (this.saveState === 'default') {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Save Success',
             });
+            this.saveWord = false;
           }
-        } else if (this.saveState === 'default') {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
-          this.saveWord = false;
-        }
+        });
       });
     }
   }
@@ -1134,71 +1137,73 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.creditProposalService.update(this.preSave(status)).subscribe(res => {
-      this.creditProposal.products = res.body.products;
-      this.creditProposal.collaterals = res.body.collaterals;
+    this.myFunction().then(resD => {
+      this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+        this.creditProposal.products = res.body.products;
+        this.creditProposal.collaterals = res.body.collaterals;
 
-      if (status === 'complete') {
-        this.saveFile();
-      }
-
-      if (this.creditProposalTabBusinessActivityComponent) {
-        this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
-      }
-
-      if (this.CPMemoBandingRemarkComponent) {
-        this.CPMemoBandingRemarkComponent.triggeredSave();
-      }
-
-      /* if (this.creditProposalOpinionHistoryComponent) {
-    this.creditProposalOpinionHistoryComponent.triggeredSave();
-    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-    this.creditProposalOpinionHistoryComponent.refresh();
-    } */
-
-      if (this.CreditProposalTabSummaryComponent) {
-        this.CreditProposalTabSummaryComponent.triggeredSave();
-      }
-
-      if (this.parentPath !== 'cp-status-approval') {
-        if (this.proposalBasicInformationViewComponent) {
-          this.proposalBasicInformationViewComponent.triggeredSave();
+        if (status === 'complete') {
+          this.saveFile();
         }
-      }
 
-      if (this.creditProposaTabManagementInfoComponent) {
-        this.creditProposaTabManagementInfoComponent.triggeredSave();
-      }
+        if (this.creditProposalTabBusinessActivityComponent) {
+          this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+        }
 
-      if (this.creditProposalCollateralInfoComponent) {
-        this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
+        if (this.CPMemoBandingRemarkComponent) {
+          this.CPMemoBandingRemarkComponent.triggeredSave();
+        }
 
-      if (this.creditProposalCollateralInfoHistoryComponent) {
-        this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
+        /* if (this.creditProposalOpinionHistoryComponent) {
+		  this.creditProposalOpinionHistoryComponent.triggeredSave();
+		  this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+		  this.creditProposalOpinionHistoryComponent.refresh();
+		} */
 
-      if (this.remaksComponent) {
-        this.remaksComponent.triggeredSave();
-      }
+        if (this.CreditProposalTabSummaryComponent) {
+          this.CreditProposalTabSummaryComponent.triggeredSave();
+        }
 
-      if (source === 'process') {
-        if (this.parentPath === 'cp-status-approval') {
-          this.saveApplicationRole();
-        } else {
-          this.saveWord = false;
-          this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-            this.router.navigate([this.router.url.split('/')[1]]);
+        if (this.parentPath !== 'cp-status-approval') {
+          if (this.proposalBasicInformationViewComponent) {
+            this.proposalBasicInformationViewComponent.triggeredSave();
+          }
+        }
+
+        if (this.creditProposaTabManagementInfoComponent) {
+          this.creditProposaTabManagementInfoComponent.triggeredSave();
+        }
+
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
+
+        if (this.creditProposalCollateralInfoHistoryComponent) {
+          this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
+
+        if (this.remaksComponent) {
+          this.remaksComponent.triggeredSave();
+        }
+
+        if (source === 'process') {
+          if (this.parentPath === 'cp-status-approval') {
+            this.saveApplicationRole();
+          } else {
+            this.saveWord = false;
+            this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+              this.router.navigate([this.router.url.split('/')[1]]);
+            });
+          }
+        } else if (source === 'default') {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
           });
+          this.saveWord = false;
         }
-      } else if (source === 'default') {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-        this.saveWord = false;
-      }
+      });
     });
 
     this.cekCgpgData();
@@ -1527,6 +1532,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
 
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+    copyCreditProposal.umkmClass = this.umkmClass;
 
     if (this.router.url.split('/')[1] === 'credit-proposal-status') {
       if (copyCreditProposal.attributes.businessActivity.visitDate) {
@@ -1961,12 +1967,12 @@ export class ProposalBasicInformationComponent implements OnInit {
       value: true,
     };
 
-    if (!this.creditProposal.capitalDeposit) {
+    if (!this.creditProposal.capitalDeposit || this.creditProposal.capitalDeposit === 0) {
       this._showNotification('error', 'Masukkan modal disetor terlebih dahulu');
       mustValidate.code = false;
     }
 
-    if (!this.creditProposal.annualSales) {
+    if (!this.creditProposal.annualSales || this.creditProposal.annualSales === 0) {
       this._showNotification('error', 'Masukkan Penjualan Tahunan terlebih dahulu');
       mustValidate.value = false;
     }
@@ -1992,5 +1998,162 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  // umkm
+
+  public functionCek(): void {
+    if (this.creditProposal.products.length > 0) {
+      let element: IApplicationProduct[] = [];
+      const jumlahPlafond = [];
+      const data = [];
+      let result: number;
+      let dolar: number;
+      result = 0;
+      dolar = 0;
+
+      element = this.creditProposal.products.filter(products => !this.mortCode.includes(products.productCode));
+      if (element.length > 0) {
+        const filterUsd = element.filter(obj => obj.currencyId === 'USD');
+        const filterIdr = element.filter(obj => obj.currencyId !== 'USD');
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
+          }
+        }
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
+          }
+        }
+      }
+
+      this.totalPlafond = result + dolar;
+    }
+  }
+
+  public logoCcy;
+  private umkmClass;
+  public mortCode = [];
+  public totalPlafond: number;
+
+  private async myFunction(): Promise<void> {
+    if (this.creditProposal.annualSales === 0) {
+      this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
+    }
+    const arrTmp = (
+      await firstValueFrom(
+        this.productParameterService.filterTableData({
+          idProductType: 'MORT',
+          page: 0,
+          size: 9999,
+        })
+      )
+    ).body;
+    if (arrTmp.length > 0) {
+      for (let i = 0; i < arrTmp.length; i++) {
+        this.mortCode.push(arrTmp[i].code);
+      }
+      this.functionCek();
+    }
+
+    if (this.creditProposal.applicationTypeId === 'SME') {
+      if (this.totalPlafond <= 15000000000) {
+        if (this.creditProposal.capitalDeposit <= 1000000000) {
+          if (this.creditProposal.annualSales <= 2000000000) {
+            this.umkmClass = 'Mikro';
+          }
+          if (this.creditProposal.annualSales > 2000000000 && this.creditProposal.annualSales <= 15000000000) {
+            this.umkmClass = 'Kecil';
+          }
+          if (this.creditProposal.annualSales > 15000000000 && this.creditProposal.annualSales <= 50000000000) {
+            this.umkmClass = 'Menengah';
+          }
+          if (this.creditProposal.annualSales > 50000000000) {
+            this.umkmClass = 'Non UMKM';
+          }
+        } else if (this.creditProposal.capitalDeposit > 1000000000 && this.creditProposal.capitalDeposit <= 5000000000) {
+          if (this.creditProposal.annualSales <= 2000000000) {
+            this.umkmClass = 'Kecil';
+          }
+          if (this.creditProposal.annualSales > 2000000000 && this.creditProposal.annualSales <= 15000000000) {
+            this.umkmClass = 'Kecil';
+          }
+          if (this.creditProposal.annualSales > 2000000000 && this.creditProposal.annualSales <= 15000000000) {
+            this.umkmClass = 'Kecil';
+          }
+          if (this.creditProposal.annualSales > 15000000000 && this.creditProposal.annualSales <= 50000000000) {
+            this.umkmClass = 'Menengah';
+          }
+          if (this.creditProposal.annualSales > 50000000000) {
+            this.umkmClass = 'Non UMKM';
+          }
+        } else if (this.creditProposal.capitalDeposit > 5000000000 && this.creditProposal.capitalDeposit <= 10000000000) {
+          if (this.creditProposal.annualSales <= 2000000000) {
+            this.umkmClass = 'Menengah';
+          }
+          if (this.creditProposal.annualSales > 2000000000 && this.creditProposal.annualSales <= 15000000000) {
+            this.umkmClass = 'Menengah';
+          }
+          if (this.creditProposal.annualSales > 15000000000 && this.creditProposal.annualSales <= 50000000000) {
+            this.umkmClass = 'Menengah';
+          }
+          if (this.creditProposal.annualSales > 50000000000) {
+            this.umkmClass = 'Non  UMKM';
+          }
+        } else if (this.creditProposal.capitalDeposit > 10000000000) {
+          if (this.creditProposal.annualSales <= 2000000000) {
+            this.umkmClass = 'Non  UMKM';
+          }
+          if (this.creditProposal.annualSales > 2000000000 && this.creditProposal.annualSales <= 15000000000) {
+            this.umkmClass = 'Non  UMKM';
+          }
+          if (this.creditProposal.annualSales > 15000000000 && this.creditProposal.annualSales <= 50000000000) {
+            this.umkmClass = 'Non  UMKM';
+          }
+          if (this.creditProposal.annualSales > 50000000000) {
+            this.umkmClass = 'Non  UMKM';
+          }
+        }
+      } else {
+        this.umkmClass = 'Non UMKM';
+      }
+    } else {
+      this.umkmClass = 'Non UMKM';
+    }
+
+    if (this.creditProposal.umkmClass !== '' || this.creditProposal.umkmClass !== undefined) {
+      if (this.creditProposal.umkmClass === 'Mikro') {
+        this.creditProposal.debtorCategory = '70';
+      } else if (this.creditProposal.umkmClass === 'Kecil') {
+        this.creditProposal.debtorCategory = '80';
+      } else if (this.creditProposal.umkmClass === 'Menengah') {
+        this.creditProposal.debtorCategory = '90';
+      } else {
+        this.creditProposal.debtorCategory = '99';
+      }
+    } else {
+      this.creditProposal.debtorCategory = '';
+    }
+  }
+
+  public getDebtorcategory() {
+    if (this.creditProposal.umkmClass !== '' || this.creditProposal.umkmClass !== undefined) {
+      if (this.creditProposal.umkmClass === 'Mikro') {
+        this.creditProposal.debtorCategory = '70';
+      } else if (this.creditProposal.umkmClass === 'Kecil') {
+        this.creditProposal.debtorCategory = '80';
+      } else if (this.creditProposal.umkmClass === 'Menengah') {
+        this.creditProposal.debtorCategory = '90';
+      } else {
+        this.creditProposal.debtorCategory = '99';
+      }
+    } else {
+      this.creditProposal.debtorCategory = '';
+    }
   }
 }
