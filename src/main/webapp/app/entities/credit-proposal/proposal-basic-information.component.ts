@@ -118,7 +118,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
   public groupProduct: IApplicationProduct[] = [];
-  public listGroupCollateral: any;
+  public listGroupCollateral = [];
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   public listLoanType: any;
   private collateralProperties: ICollateralProperty[] = [];

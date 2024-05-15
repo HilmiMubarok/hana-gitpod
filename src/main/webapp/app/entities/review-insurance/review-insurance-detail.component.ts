@@ -122,7 +122,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
   public groupProduct: IApplicationProduct[] = [];
-  public listGroupCollateral: any;
+  public listGroupCollateral = [];
   public collateralPropertyGroupData: ICollateralProperty[] = [];
   public listLoanType: any;
   private collateralProperties: ICollateralProperty[] = [];
@@ -460,20 +460,6 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
-    } else {
-      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
-    }
-    if (this.listGroupCollateral.length > 0) {
-      for (let j = 0; j < this.listGroupCollateral.length; j++) {
-        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
-          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
-        } else {
-          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
-        }
-      }
-    }
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -519,6 +505,20 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     }
 
     this.loadDataBy();
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
+    }
+    if (this.listGroupCollateral.length > 0) {
+      for (let j = 0; j < this.listGroupCollateral.length; j++) {
+        if (this.listGroupCollateral[j].customerType === 'PERSONAL') {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        } else {
+          this.findCollateralPropertyGroup(this.listGroupCollateral[j].partyId);
+        }
+      }
+    }
     this.showTextMenu();
     // this.cpGroub();
   }

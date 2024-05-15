@@ -22,7 +22,7 @@ export class AgremeentCompareRevisionFinalComponent implements OnInit, OnDestroy
   public isDataToCompareExist: Boolean = false;
   public collateral: ICollateral[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'DAR REVISION FINAL' }, { text: 'PREVIOUS DAR' }];
-  listGroupCollateral: any;
+  listGroupCollateral = [];
   ngOnInit(): void {
     this.selectedMenu = 'DAR REVISION FINAL';
     this.loadDataBy();

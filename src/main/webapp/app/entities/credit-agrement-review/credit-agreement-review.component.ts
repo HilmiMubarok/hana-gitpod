@@ -123,7 +123,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
   ];
   public creditProposal: ICreditAgreementReview;
   private collateral: ICollateral[] = [];
-  listGroupCollateral: any;
+  listGroupCollateral = [];
   constructor(
     private accountService: AccountService,
     private creditAgreementReviewService: CreditAgreementReviewService,
