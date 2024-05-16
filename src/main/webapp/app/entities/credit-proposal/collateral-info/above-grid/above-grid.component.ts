@@ -244,6 +244,52 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this.collateral.paginator = this.paginator2;
   }
 
+  private loadSummaryCollateralSummary(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const applicationNumber = this.creditProposal.id;
+      this.collateralService.getSummaryCollateral(applicationNumber).subscribe(
+        res => {
+          this.dataCollateral = lodash.filter(res.body, function (o) {
+            return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+          });
+          if (res.body.length > 0) {
+            this.getBindingCalculateSummary(this.dataCollateral).then(() => {
+              resolve();
+            });
+          } else {
+            resolve();
+          }
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  public getBindingCalculateSummary(res: any[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const array1 = res;
+      const array2 = this.creditProposal.attributes['binding'];
+      let getBindingCalculateValue;
+      const data = [];
+      array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
+        data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
+        getBindingCalculateValue = data.filter(item => item !== undefined);
+        this.fungsiSumcredit('both')
+          .then(() => {
+            const biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
+            const biddingValueCoverage = this.convertNan(Number(biddingValueSum) / Number(this.totalPlafond));
+            this.creditProposal.attributes['collateralSummary'].biddingValueCoverage = biddingValueCoverage;
+            resolve(); // Resolve the promise when the operation completes
+          })
+          .catch((error: any) => {
+            reject(error); // Reject the promise if there is an error
+          });
+      });
+    });
+  }
+
   public openDialog(element: ICollateral): void {
     this.collateralStartState = lodash.cloneDeep(element);
     this.creditProposalStartState = lodash.cloneDeep(this.creditProposal);
@@ -317,12 +363,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         this.setDepositInterestRate(element, res.depositInterestRate);
 
         this.save().then(() => {
-          this.getSummaryCollateral().then(() => {
-            this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-            this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-            this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-            this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
-            this.save();
+          this.loadSummaryCollateralSummary().then(() => {
+            this.getSummaryCollateral().then(() => {
+              this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+              this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+              this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+              this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+              this.save();
+            });
           });
         });
       } else {
@@ -348,12 +396,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
           this.creditProposal.attributes['insurance'][insuranceIdx] = this.creditProposalStartState.attributes['insurance'][insuranceIdx];
         }
         this.save().then(() => {
-          this.getSummaryCollateral().then(() => {
-            this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-            this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-            this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-            this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
-            this.save();
+          this.loadSummaryCollateralSummary().then(() => {
+            this.getSummaryCollateral().then(() => {
+              this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+              this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+              this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+              this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+              this.save();
+            });
           });
         });
       }
@@ -1266,6 +1316,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
+
     copyCreditProposal.attributes['collateralSummary'] = JSON.stringify(copyCreditProposal.attributes['collateralSummary']);
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
