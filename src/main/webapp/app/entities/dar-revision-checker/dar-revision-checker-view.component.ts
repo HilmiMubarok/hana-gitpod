@@ -1403,6 +1403,21 @@ export class DarRevisionCheckerViewComponent implements OnInit {
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
+
+    if (copyCreditProposal.attributes['previousHistory']) {
+      copyCreditProposal.attributes['previousHistory'] =
+        typeof copyCreditProposal.attributes['previousHistory'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['previousHistory'])
+          : copyCreditProposal.attributes['previousHistory'];
+    }
+
+    if (copyCreditProposal.attributes['darRevHistory']) {
+      copyCreditProposal.attributes['darRevHistory'] =
+        typeof copyCreditProposal.attributes['darRevHistory'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['darRevHistory'])
+          : copyCreditProposal.attributes['darRevHistory'];
+    }
+
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
