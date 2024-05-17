@@ -1176,6 +1176,13 @@ export class CreditAgreementDetailComponent implements OnInit {
       copyCreditProposal.attributes['collateralSummary'] = JSON.stringify(copyCreditProposal.attributes['collateralSummary']);
       copyCreditProposal.attributes['groupChecklisCollateral'] = JSON.stringify(copyCreditProposal.attributes['groupChecklisCollateral']);
 
+      if (copyCreditProposal.attributes['previousHistory']) {
+        copyCreditProposal.attributes['previousHistory'] =
+          typeof copyCreditProposal.attributes['previousHistory'] !== 'string'
+            ? JSON.stringify(copyCreditProposal.attributes['previousHistory'])
+            : copyCreditProposal.attributes['previousHistory'];
+      }
+
       if (copyCreditProposal.prospectPerson) {
         copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
       }
