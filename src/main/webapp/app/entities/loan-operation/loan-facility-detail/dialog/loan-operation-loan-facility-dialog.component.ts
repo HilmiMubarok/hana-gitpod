@@ -1019,7 +1019,7 @@ export class LoanOperationLoanFacilityDetailDialogComponent
 
   public tenorChange() {
     const date = new Date(this.applicationProduct.startDateContract);
-    if (this.applicationProduct.periodType) {
+    if (this.applicationProduct.periodType && this.applicationProduct.startDateContract) {
       switch (this.applicationProduct.periodType) {
         case 'Week':
           this.dataTrhu = new Date();
