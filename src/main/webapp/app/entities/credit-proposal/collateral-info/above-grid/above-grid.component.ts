@@ -272,7 +272,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
           .then(() => {
             const biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
             const biddingValueCoverage = this.convertNan(Number(biddingValueSum) / Number(this.totalPlafond));
-            this.creditProposal.attributes['collateralSummary'].biddingValueCoverage = biddingValueCoverage;
+            this.creditProposal.attributes['collateralSummary'].biddingValueCoverage = biddingValueCoverage.toFixed(2);
             resolve(); // Resolve the promise when the operation completes
           })
           .catch((error: any) => {
