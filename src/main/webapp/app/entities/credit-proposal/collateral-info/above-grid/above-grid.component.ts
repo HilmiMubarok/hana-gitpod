@@ -181,6 +181,16 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this.totalMVInt = 0;
     this.totalLVInt = 0;
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.selectedMenu = 'INFORMATION';
+    if (changes['creditProposal']) {
+      if (this.creditProposal.customerType === 'PERSONAL') {
+        this.loadByPartyId(this.creditProposal.prospectPerson.id);
+      } else {
+        this.loadByPartyId(this.creditProposal.prospectOrganization.id);
+      }
+    }
+  }
 
   ngOnInit(): void {
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
@@ -214,24 +224,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         this.dataItem.paginator = this.paginator;
         this.getBindingCalculate(res.body);
       });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.selectedMenu = 'INFORMATION';
-    if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
-          if (this.creditProposal.cif) {
-            this.loadByPartyId(this.creditProposal.cif.partyId);
-          }
-        }
-      }
-    }
-
-    if (changes['collateralProperties']) {
-      // console.log('above ', this.collateralProperties);
-    }
   }
 
   public collateral: any;
@@ -1089,10 +1081,10 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
         this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
 
-		this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-		this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-		this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-		this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+        this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+        this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+        this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+        this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
       });
     });
   }

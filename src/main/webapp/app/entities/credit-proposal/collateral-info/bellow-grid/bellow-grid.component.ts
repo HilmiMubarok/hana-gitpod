@@ -273,13 +273,10 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
-          if (this.creditProposal.cif) {
-            this.loadByPartyId(this.creditProposal.cif.partyId);
-          }
-        }
+      if (this.creditProposal.customerType === 'PERSONAL') {
+        this.loadByPartyId(this.creditProposal.prospectPerson.id);
+      } else {
+        this.loadByPartyId(this.creditProposal.prospectOrganization.id);
       }
     }
   }
