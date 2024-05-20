@@ -29,7 +29,7 @@ export class GenerateDraftDppkComponent implements OnInit {
   public paramId: string;
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
-  private KEYG = 'aggrement';
+  private KEYG = 'dppk';
   public _item?: ICreditProposal = new CreditProposal();
   // public fileTypeSelected: string;
   public fileTypeSelected = 'Word';
@@ -69,7 +69,7 @@ export class GenerateDraftDppkComponent implements OnInit {
   }
 
   private print() {
-    this.generateFile('Word', '/services/report/api/report/agreement/word/' + this.item.agreements[0].id);
+    this.generateFile('Word', '/services/report/api/report/dppk/word/' + this.item.id);
   }
 
   private generateFile(fileType: string, api: string, req?: any) {
@@ -136,8 +136,8 @@ export class GenerateDraftDppkComponent implements OnInit {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
 
-      if (this.item.agreements[0].id) {
-        this.KEYG += `/${this.item.agreements[0].id}/document/draft/final/`;
+      if (this.item.id) {
+        this.KEYG += `/${this.item.id}/document/draft/`;
       } else {
         console.warn('Param id not found');
       }
@@ -189,7 +189,7 @@ export class GenerateDraftDppkComponent implements OnInit {
 
   private getFile(id: number): void {
     const predicate: Object = {
-      key: `/aggrement/${id}/document/draft/final`,
+      key: `dppk/${id}/document/draft/`,
     };
     this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
       if (res.body.length > 0) {
