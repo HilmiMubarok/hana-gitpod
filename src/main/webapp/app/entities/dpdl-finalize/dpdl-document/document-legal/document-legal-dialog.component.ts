@@ -389,6 +389,7 @@ export class DocumentLegalDialogComponent implements OnInit {
     }
 
     this.document.attributes['covernoteTask'] = coverNoteTask;
+    this.document.attributes['covernoteType'] = this.document.legalCovernote.attributes.covernoteType;
 
     this.currentObject = {
       id: this.document.id,
@@ -534,6 +535,7 @@ export class DocumentLegalDialogComponent implements OnInit {
     }
 
     this.document.attributes['covernoteTask'] = coverNoteTask;
+    this.document.attributes['covernoteType'] = this.document.legalCovernote.attributes.covernoteType;
 
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
