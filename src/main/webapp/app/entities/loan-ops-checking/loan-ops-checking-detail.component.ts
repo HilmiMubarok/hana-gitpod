@@ -1224,6 +1224,7 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
+        this.setCertificate(this.collateral);
       });
   }
   public findCollateralProperty(partyId: string): void {
