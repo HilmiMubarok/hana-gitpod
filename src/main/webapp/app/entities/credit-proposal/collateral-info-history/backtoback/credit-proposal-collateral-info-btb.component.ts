@@ -736,7 +736,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
 
   public getBindingCalculate(res: any[]) {
     const array1 = res;
-    const array2 = JSON.parse(this.historyData().binding);
+    const array2 = typeof this.historyData().binding === 'string' ? JSON.parse(this.historyData().binding) : this.historyData().binding;
 
     let getBindingCalculateValue;
     const data = [];

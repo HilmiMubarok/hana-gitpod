@@ -273,13 +273,10 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
-          if (this.creditProposal.cif) {
-            this.loadByPartyId(this.creditProposal.cif.partyId);
-          }
-        }
+      if (this.creditProposal.customerType === 'PERSONAL') {
+        this.loadByPartyId(this.creditProposal.prospectPerson.id);
+      } else {
+        this.loadByPartyId(this.creditProposal.prospectOrganization.id);
       }
     }
   }
@@ -367,12 +364,14 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         this.setDepositInterestRate(element, res.depositInterestRate);
 
         this.save().then(() => {
-          this.getSummaryCollateral().then(() => {
-            this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-            this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-            this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-            this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
-            this.save();
+          this.loadSummaryCollateralSummary().then(() => {
+            this.getSummaryCollateral().then(() => {
+              this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+              this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+              this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+              this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+              this.save();
+            });
           });
         });
       } else {
@@ -399,13 +398,61 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         }
       }
       this.save().then(() => {
-        this.getSummaryCollateral().then(() => {
-          this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-          this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-          this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-          this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
-          this.save();
+        this.loadSummaryCollateralSummary().then(() => {
+          this.getSummaryCollateral().then(() => {
+            this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+            this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+            this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+            this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+            this.save();
+          });
         });
+      });
+    });
+  }
+
+  private loadSummaryCollateralSummary(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const applicationNumber = this.creditProposal.id;
+      this.collateralService.getSummaryCollateral(applicationNumber).subscribe(
+        res => {
+          const dataCollateral = lodash.filter(res.body, function (o) {
+            return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+          });
+          if (res.body.length > 0) {
+            this.getBindingCalculateSummary(dataCollateral).then(() => {
+              resolve();
+            });
+          } else {
+            resolve();
+          }
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  public getBindingCalculateSummary(res: any[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const array1 = res;
+      const array2 = this.creditProposal.attributes['binding'];
+      let getBindingCalculateValue;
+      const data = [];
+      array1.filter(({ id: value1, collateralTypeId: collateralTypeId }) => {
+        data.push(array2.find(({ collateralId: value2 }) => value1 === value2 && collateralTypeId !== 'CORPORATEPERSONALGUARANTEE'));
+        getBindingCalculateValue = data.filter(item => item !== undefined);
+        this.fungsiSumcredit('both')
+          .then(() => {
+            const biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
+            const biddingValueCoverage = this.convertNan(Number(biddingValueSum) / Number(this.totalPlafond));
+            this.creditProposal.attributes['collateralSummary'].biddingValueCoverage = biddingValueCoverage.toFixed(2);
+            resolve(); // Resolve the promise when the operation completes
+          })
+          .catch((error: any) => {
+            reject(error); // Reject the promise if there is an error
+          });
       });
     });
   }

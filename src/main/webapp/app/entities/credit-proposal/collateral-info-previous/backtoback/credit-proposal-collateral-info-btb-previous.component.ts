@@ -100,13 +100,10 @@ export class CreditProposalCollateralInfoBTPPreviousComponent implements OnInit,
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.parsedData.previousReturn.collaterals.length > 0) {
-        for (let i = 0; i < this.parsedData.previousReturn.collaterals.length; i++) {
-          const collateral = this.parsedData.previousReturn.collaterals[i];
-          if (this.creditProposal.cif) {
-            this.loadByPartyId(this.creditProposal.cif.partyId);
-          }
-        }
+      if (this.creditProposal.customerType === 'PERSONAL') {
+        this.loadByPartyId(this.creditProposal.prospectPerson.id);
+      } else {
+        this.loadByPartyId(this.creditProposal.prospectOrganization.id);
       }
     }
   }

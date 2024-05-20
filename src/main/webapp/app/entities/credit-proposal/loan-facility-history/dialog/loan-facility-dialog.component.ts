@@ -924,7 +924,7 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
   }
 
   public tenorChange() {
-    if (this.applicationProduct.periodType) {
+    if (this.applicationProduct.periodType && this.applicationProduct.startDateContract) {
       switch (this.applicationProduct.periodType) {
         case 'Week':
           this.dataTrhu = new Date();

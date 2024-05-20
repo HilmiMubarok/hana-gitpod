@@ -10,18 +10,18 @@
           <td mat-cell *matCellDef="let i = index" class="grid-index-label">{{ i + 1 }}</td>
         </ng-container>
         <ng-container matColumnDef="documentName">
-          <th mat-header-cell *matHeaderCellDef width="20%" class="grid-index-string">Document Name</th>
+          <th mat-header-cell *matHeaderCellDef width="15%" class="grid-index-string">Document Name</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.documentId }}</td>
         </ng-container>
 
         <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef width="25%" class="grid-index-string">Current Date</th>
+          <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Current Date</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label-string">
             {{ element.documentDate | date: 'YYYY-MM-dd' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="documentStatus">
-          <th mat-header-cell *matHeaderCellDef width="15%" class="grid-index-string">Document Status</th>
+          <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Document Status</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.status }}</td>
         </ng-container>
         <ng-container matColumnDef="proposedDate">
@@ -35,17 +35,21 @@
           <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.attributes.proposedStatus }}</td>
         </ng-container>
         <ng-container matColumnDef="remarksTbo">
-          <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-string">Note</th>
+          <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Note</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label-string">{{ element.attributes.remarksTbo }}</td>
         </ng-container>
-        <!-- <ng-container matColumnDef="dpd">
-          <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">DPD</th>
+        <ng-container matColumnDef="dpd">
+          <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-string">DPD</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label">
-            {{ calculateDateDifference(element.documentDate, element.attributes.proposedDate) | json }}
+            {{ calculateDateDifference(element.documentDate, element.attributes.dpd) | json }}
           </td>
-        </ng-container> -->
+        </ng-container>
+        <ng-container matColumnDef="documentTerm">
+          <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-string">Document Term</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label-string">{{ element.attributes.documentTerm }}</td>
+        </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef width="40%" class="grid-index-string-action rounding-table-right">Action</th>
+          <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string-action rounding-table-right">Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="view(element)">
               <mat-icon>remove_red_eye</mat-icon>
@@ -64,8 +68,18 @@
           <td
             class="mat-cell"
             [attr.colspan]="
-              ['no', 'documentName', 'date', 'documentStatus', 'proposedDate', 'proposedStatus', 'remarksTbo', 'documentTerm', 'action']
-                .length
+              [
+                'no',
+                'documentName',
+                'date',
+                'documentStatus',
+                'proposedDate',
+                'proposedStatus',
+                'remarksTbo',
+                'dpd',
+                'documentTerm',
+                'action'
+              ].length
             "
           >
             No records found.
@@ -73,13 +87,35 @@
         </tr>
         <tr
           mat-header-row
-          *matHeaderRowDef="['no', 'documentName', 'date', 'documentStatus', 'proposedDate', 'proposedStatus', 'remarksTbo', 'action']"
+          *matHeaderRowDef="[
+            'no',
+            'documentName',
+            'date',
+            'documentStatus',
+            'proposedDate',
+            'proposedStatus',
+            'remarksTbo',
+            'dpd',
+            'documentTerm',
+            'action'
+          ]"
         ></tr>
         <tr
           mat-row
           *matRowDef="
             let row;
-            columns: ['no', 'documentName', 'date', 'documentStatus', 'proposedDate', 'proposedStatus', 'remarksTbo', 'action']
+            columns: [
+              'no',
+              'documentName',
+              'date',
+              'documentStatus',
+              'proposedDate',
+              'proposedStatus',
+              'remarksTbo',
+              'dpd',
+              'documentTerm',
+              'action'
+            ]
           "
         ></tr>
       </table>

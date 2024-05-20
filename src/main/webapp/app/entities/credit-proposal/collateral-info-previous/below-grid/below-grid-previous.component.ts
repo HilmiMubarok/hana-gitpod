@@ -117,13 +117,10 @@ export class BellowGridPreviousComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.dataItem.length > 0) {
-        for (let i = 0; i < this.dataItem.length; i++) {
-          const collateral = this.dataItem[i];
-          if (this.parsedData.previousReturn.cif) {
-            this.loadByPartyId(this.parsedData.previousReturn.cif.partyId);
-          }
-        }
+      if (this.creditProposal.customerType === 'PERSONAL') {
+        this.loadByPartyId(this.creditProposal.prospectPerson.id);
+      } else {
+        this.loadByPartyId(this.creditProposal.prospectOrganization.id);
       }
     }
 

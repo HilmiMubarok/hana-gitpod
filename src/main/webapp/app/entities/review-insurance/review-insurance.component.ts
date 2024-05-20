@@ -340,7 +340,7 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
   }
 
   public showTimeLine(element: IReviewInsurance): void {
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('INSURANCE_AGREEMENT', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },

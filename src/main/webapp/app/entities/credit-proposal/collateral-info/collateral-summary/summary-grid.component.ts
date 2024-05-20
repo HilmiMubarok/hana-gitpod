@@ -78,7 +78,7 @@ export class SummaryGridComponent
   private _creditProposal: ICreditProposal;
   public totalPlafond: number;
   public biddingValueSum: number;
-  public biddingValueCoverage: number;
+  public biddingValueCoverage: any;
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -1085,7 +1085,8 @@ export class SummaryGridComponent
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
-        this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+        const value: number = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+        this.biddingValueCoverage = value.toFixed(2);
       });
     });
   }

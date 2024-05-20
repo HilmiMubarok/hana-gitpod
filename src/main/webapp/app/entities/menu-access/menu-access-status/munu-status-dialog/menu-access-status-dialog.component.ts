@@ -44,7 +44,15 @@ export class MenuAccessStatusDialogComponent implements OnInit {
   public statusDescription: string;
 
   private getListMenuItem(): void {
-    const a = ['CREDIT_PROPOSAL', 'SLIK', 'COLLATERALAPPRAISAL', 'COLLATERAL_APPRAISAL', 'INSURANCE_AGREEMENT', 'TBO_LEGAL_MONITORING'];
+    const a = [
+      'CREDIT_PROPOSAL',
+      'SLIK',
+      'COLLATERALAPPRAISAL',
+      'COLLATERAL_APPRAISAL',
+      'INSURANCE_AGREEMENT',
+      'TBO_LEGAL_MONITORING',
+      '_NA_',
+    ];
     this.menuAccessStatusAddService
       .getListMenuItem({
         idStatusType: a,
@@ -52,7 +60,15 @@ export class MenuAccessStatusDialogComponent implements OnInit {
         sort: ['id', 'asc'],
       })
       .subscribe(res => {
-        this.status = res.body;
+        const _status: any[] = res.body;
+        const status: any[] = _status.filter(obj => obj.statusTypeId !== '_NA_');
+        _status.forEach(obj => {
+          if (obj.statusTypeId === '_NA_' && obj.id === 'CANCEL') {
+            status.push(obj);
+          }
+        });
+
+        this.status = status;
 
         if (this.status.length > 0) {
           let posId: string;
