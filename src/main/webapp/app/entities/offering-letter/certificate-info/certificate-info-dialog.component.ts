@@ -40,6 +40,7 @@ export class CertificateInfoDialogComponent {
   }
 
   public save() {
+    console.log('certificate ', this.certificateInfo);
     this._dialog.close(this.certificateInfo);
   }
 }

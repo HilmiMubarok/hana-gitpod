@@ -1203,6 +1203,7 @@ export class InsuranceCheckingDetailComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
+        this.setCertificate(this.collateral);
       });
   }
 
