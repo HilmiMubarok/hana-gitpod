@@ -811,16 +811,26 @@
         <mat-card-title>Clausal Addendum</mat-card-title>
       </mat-card-header>
 
-      <mat-form-field class="w-100" appearance="outline">
-        <textarea
-          [(ngModel)]="creditProposal.agreements[0]?.attributes.notes"
-          matInput
-          cssClass="e-outline"
-          class="text-area-input"
-          id="multiline-always"
-          name="typeAlways"
-        ></textarea>
-      </mat-form-field>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <textarea
+            [(ngModel)]="creditProposal.agreements[0]?.attributes.notes"
+            matInput
+            cssClass="e-outline"
+            class="text-area-input"
+            id="multiline-always"
+            name="typeAlways"
+          ></textarea>
+        </mat-form-field>
+      </section>
+
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-3">
+          <div class="col col-lg-2">
+            {{ creditProposal.agreements[0]?.attributes.notes }}
+          </div>
+        </div>
+      </section>
 
       <table mat-table [dataSource]="addendumClausalAgreements" class="w-100">
         <ng-container matColumnDef="code">
