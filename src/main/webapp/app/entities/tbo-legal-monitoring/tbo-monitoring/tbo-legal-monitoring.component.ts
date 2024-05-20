@@ -439,4 +439,19 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
   //   return Math.floor(differenceInDays); // Mengembalikan selisih dalam jumlah hari
   // }
+
+  calculateDateDifference(currentDate: string, proposedDate: string): number {
+    const current = new Date(currentDate);
+    const proposed = new Date(proposedDate);
+
+    // Check if the dates are valid
+    if (isNaN(current.getTime()) || isNaN(proposed.getTime())) {
+      return 0; // Or any other default value you prefer
+    }
+
+    const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
+    const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
+
+    return Math.floor(differenceInDays); // Return the difference in number of days
+  }
 }
