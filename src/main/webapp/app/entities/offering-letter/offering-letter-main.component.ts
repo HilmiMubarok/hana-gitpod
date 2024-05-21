@@ -83,8 +83,8 @@ export class OfferingLetterMainComponent implements OnInit {
   public proposType = [];
   private KEYG = 'credit_proposal/summary';
   public isOpen = false;
-  public dataBuilding: any;
-  public dataLand: any;
+  public dataBuilding: any = [];
+  public dataLand: any = [];
   private menuId = '';
 
   @Input('item')
@@ -605,13 +605,13 @@ export class OfferingLetterMainComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        this.setCertificate(this.collateral);
       });
   }
 
   public findCollateralProperty(partyId: string): void {
     this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
+      this.setCertificate(this.collateral);
     });
   }
 
@@ -638,42 +638,30 @@ export class OfferingLetterMainComponent implements OnInit {
             }
           }
           if (collateral[i].collateralTypeId === 'VEHICLE') {
-            this.collateralPropertyService
-              .queryFilterBy({
-                idCollateral: collateral[i].id,
-                size: 9999,
-                page: 0,
-                idPropertyType: CollateralPropertyType.VEHICLE,
-              })
-              .subscribe(res => {
-                if (res.body) {
-                  for (let j = 0; j < res.body.length; j++) {
-                    const certificate: ICertificateInfo = {};
-                    certificate.id = collateral[i].id;
-                    certificate.buktiKepemilikan = res.body[j].bpkbNum;
-                    this.creditProposal.attributes['certificateInfoData'].push(certificate);
-                  }
-                }
-              });
+            const dataVehicle: ICollateralProperty[] = this.collateralProperties.filter(
+              obj => obj.collateralId === collateral.id && obj.propertyType === 'VEHICLE'
+            );
+            if (dataVehicle.length > 0) {
+              for (let j = 0; j < dataVehicle.length; j++) {
+                const certificate: ICertificateInfo = {};
+                certificate.id = collateral[i].id;
+                certificate.buktiKepemilikan = dataVehicle[j].bpkbNum;
+                this.creditProposal.attributes['certificateInfoData'].push(certificate);
+              }
+            }
           }
           if (collateral[i].collateralTypeId === 'MACHINE') {
-            this.collateralPropertyService
-              .queryFilterBy({
-                idCollateral: collateral[i].id,
-                page: 0,
-                size: 9999,
-                idPropertyType: CollateralPropertyType.MACHINE,
-              })
-              .subscribe(res => {
-                if (res.body) {
-                  for (let j = 0; j < res.body.length; j++) {
-                    const certificate: ICertificateInfo = {};
-                    certificate.id = collateral[i].id;
-                    certificate.buktiKepemilikan = res.body[j].machineDocType + ' ' + res.body[j].machineDocNum;
-                    this.creditProposal.attributes['certificateInfoData'].push(certificate);
-                  }
-                }
-              });
+            const dataMachine: ICollateralProperty[] = this.collateralProperties.filter(
+              obj => obj.collateralId === collateral.id && obj.propertyType === CollateralPropertyType.MACHINE
+            );
+            if (dataMachine.length > 0) {
+              for (let j = 0; j < dataMachine.length; j++) {
+                const certificate: ICertificateInfo = {};
+                certificate.id = collateral[i].id;
+                certificate.buktiKepemilikan = dataMachine[j].machineDocType + ' ' + dataMachine[j].machineDocNum;
+                this.creditProposal.attributes['certificateInfoData'].push(certificate);
+              }
+            }
           }
           if (collateral[i].collateralTypeId === 'DEPOSIT') {
             const certificate: ICertificateInfo = {};
@@ -721,12 +709,12 @@ export class OfferingLetterMainComponent implements OnInit {
     this.dataBuilding = lodash.filter(this.collateralProperties, function (o) {
       return o.propertyType === 'BUILDING' && o.collateralId === collateral.id && o.external === false;
     });
-    if (this.dataLand) {
+    if (this.dataLand.length > 0) {
       if (type === 'luasTanah') {
         return this.dataLand[i].landSizePerCertificate;
       }
     }
-    if (this.dataBuilding) {
+    if (this.dataBuilding.length > 0) {
       if (type === 'luasBangunan') {
         return this.countTotalArea(this.dataBuilding[i].attributes['floors']);
       }
@@ -773,6 +761,7 @@ export class OfferingLetterMainComponent implements OnInit {
       return '';
     }
   }
+
   public countTotalArea(data: string): Number {
     let total: number;
     total = 0;
