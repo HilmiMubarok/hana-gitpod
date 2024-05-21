@@ -1198,6 +1198,21 @@ export class DppkFinalizeDetailComponent implements OnInit {
     copyCreditProposal.attributes['collateralGroup'] = JSON.stringify(copyCreditProposal.attributes['collateralGroup']);
     copyCreditProposal.attributes['dataAssignToDPPKReview1'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToDPPKReview1']);
     copyCreditProposal.attributes['dataAssignToDPPKReview2'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToDPPKReview2']);
+
+    if (copyCreditProposal.attributes['previousHistory']) {
+      copyCreditProposal.attributes['previousHistory'] =
+        typeof copyCreditProposal.attributes['previousHistory'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['previousHistory'])
+          : copyCreditProposal.attributes['previousHistory'];
+    }
+
+    if (copyCreditProposal.attributes['darRevHistory']) {
+      copyCreditProposal.attributes['darRevHistory'] =
+        typeof copyCreditProposal.attributes['darRevHistory'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['darRevHistory'])
+          : copyCreditProposal.attributes['darRevHistory'];
+    }
+
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }

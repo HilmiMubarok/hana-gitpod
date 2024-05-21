@@ -898,7 +898,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
       parentPath.match(/review-dppk/g) ||
       parentPath.match(/loan-ops-distribution/g) ||
       parentPath.match(/loan-ops-checking/g) ||
-      parentPath.match(/loan-ops-reviw/g)
+      parentPath.match(/loan-ops-review/g)
     ) {
       return true;
     }
