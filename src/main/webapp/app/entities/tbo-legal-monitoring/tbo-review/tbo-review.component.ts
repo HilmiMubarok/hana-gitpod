@@ -284,7 +284,7 @@ export class TboReviewComponent extends AbstractEntityMaterialComponent<ITboRevi
       this.router.navigate(['']);
     } else {
       if (this.router.url === '/tbo-legal-review') {
-        this.getStatusListView('CREDIT_PROPOSAL_STATUS');
+        this.getStatusListView('TBO_LEGAL_REVIEW');
         if (this.clickedChip['statusId'] !== '') {
           this.cashTboLegalMonitoringService
             .getTboLegalReview({
