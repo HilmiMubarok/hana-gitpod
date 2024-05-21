@@ -1114,6 +1114,21 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
     copyCreditProposal.attributes['disbursementPlan'] = JSON.stringify(copyCreditProposal.attributes['disbursementPlan']);
+
+    if (copyCreditProposal.attributes['previousHistory']) {
+      copyCreditProposal.attributes['previousHistory'] =
+        typeof copyCreditProposal.attributes['previousHistory'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['previousHistory'])
+          : copyCreditProposal.attributes['previousHistory'];
+    }
+
+    if (copyCreditProposal.attributes['darRevHistory']) {
+      copyCreditProposal.attributes['darRevHistory'] =
+        typeof copyCreditProposal.attributes['darRevHistory'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['darRevHistory'])
+          : copyCreditProposal.attributes['darRevHistory'];
+    }
+
     if (this.url === 'la-distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(this.applicationRolePreSave);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
