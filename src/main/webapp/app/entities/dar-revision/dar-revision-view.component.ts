@@ -352,7 +352,7 @@ export class DarRevisionViewComponent implements OnInit {
           }
           if (collateral[i].collateralTypeId === 'VEHICLE') {
             const dataVehicle: ICollateralProperty[] = this.collateralProperties.filter(
-              obj => obj.collateralId === collateral.id && obj.propertyType === 'VEHICLE'
+              obj => obj.collateralId === collateral[i].id && obj.propertyType === 'VEHICLE'
             );
             if (dataVehicle.length > 0) {
               for (let j = 0; j < dataVehicle.length; j++) {
@@ -365,7 +365,7 @@ export class DarRevisionViewComponent implements OnInit {
           }
           if (collateral[i].collateralTypeId === 'MACHINE') {
             const dataMachine: ICollateralProperty[] = this.collateralProperties.filter(
-              obj => obj.collateralId === collateral.id && obj.propertyType === CollateralPropertyType.MACHINE
+              obj => obj.collateralId === collateral[i].id && obj.propertyType === CollateralPropertyType.MACHINE
             );
             if (dataMachine.length > 0) {
               for (let j = 0; j < dataMachine.length; j++) {
