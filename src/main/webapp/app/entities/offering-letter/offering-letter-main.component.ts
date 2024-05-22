@@ -616,7 +616,7 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   public setCertificate(collateral) {
-    if (this.creditProposal.attributes['syncCertificate']) {
+    if (!this.creditProposal.attributes['syncCertificate']) {
       this.creditProposal.attributes['syncCertificate'] = 'true';
       this.creditProposal.attributes['certificateInfoData'] = [];
       if (collateral.length > 0) {
