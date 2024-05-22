@@ -234,7 +234,8 @@ export class DocumentLegalUploadComponent implements OnChanges {
         this.metaData.parentId = res.parentId;
         this.metaData.documentId = res.documentId;
         this.metaData.category = res.category;
-        this.metaData.remarks = this.changeCharacter(res.remarks);
+        // this.metaData.remarks = this.changeCharacter(res.remarks);
+        this.metaData.remarks = res.remarks ? this.changeCharacter(res.remarks) : '';
         this.metaData.status = res.status;
         this.metaData.documentDate = res.documentDate;
 
