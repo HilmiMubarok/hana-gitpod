@@ -1183,6 +1183,13 @@ export class CreditAgreementDetailComponent implements OnInit {
             : copyCreditProposal.attributes['previousHistory'];
       }
 
+      if (copyCreditProposal.attributes['darRevHistory']) {
+        copyCreditProposal.attributes['darRevHistory'] =
+          typeof copyCreditProposal.attributes['darRevHistory'] !== 'string'
+            ? JSON.stringify(copyCreditProposal.attributes['darRevHistory'])
+            : copyCreditProposal.attributes['darRevHistory'];
+      }
+
       if (copyCreditProposal.prospectPerson) {
         copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
       }
