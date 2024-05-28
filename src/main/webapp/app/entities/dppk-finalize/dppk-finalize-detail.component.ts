@@ -796,8 +796,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
         this.saveWord = false;
       }
     });
-
-    this.cekCgpgData();
   }
 
   public save(source: string): void {
@@ -1308,16 +1306,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
       this.setCertificate(this.collateral);
     });
   }
-  public filterCgpg(collateral: ICollateral) {
-    if (this.collateral.length > 0) {
-      for (let i = 0; i < this.collateral.length; i++) {
-        if (this.collateral[i].collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
-          this.collateralCgpg.push(collateral);
-        }
-      }
-    }
-    this.cekCgpgData();
-  }
 
   public setCertificate(collateral) {
     if (!this.creditProposal.attributes['syncCertificate']) {
@@ -1479,21 +1467,6 @@ export class DppkFinalizeDetailComponent implements OnInit {
     }
 
     return total;
-  }
-
-  public cekCgpgData() {
-    if (this.collateralCgpg.length > 0) {
-      for (let i = 0; i < this.collateralCgpg.length; i++) {
-        const collateral = this.collateralProperties.find(obj => obj.collateralId === this.collateralCgpg[i].id && obj.external === false);
-        if (collateral) {
-          this.saveCollateralProperty(collateral);
-        }
-      }
-    }
-  }
-
-  public saveCollateralProperty(property: ICollateralProperty) {
-    this.collateralPropertyService.save(property).subscribe(res => {});
   }
 
   public setTotalPlafond() {

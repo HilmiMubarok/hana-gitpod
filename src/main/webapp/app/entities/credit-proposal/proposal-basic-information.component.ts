@@ -1727,8 +1727,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public findCollateralPropertyGroup(partyId: string): void {
     this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];
-
-      console.log('collateralGroup', this.collateralPropertyGroupData);
     });
   }
   public filterCgpg(collateral: ICollateral) {
@@ -1739,13 +1737,13 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
       }
     }
-    this.cekCgpgData();
   }
+
   public cekCgpgData() {
     if (this.collateralCgpg.length > 0) {
       for (let i = 0; i < this.collateralCgpg.length; i++) {
         const collateral = this.collateralProperties.find(obj => obj.collateralId === this.collateralCgpg[i].id && obj.external === false);
-        if (collateral) {
+        if (collateral && this.creditProposal.statusId === 'DRAFT') {
           this.saveCollateralProperty(collateral);
         }
       }

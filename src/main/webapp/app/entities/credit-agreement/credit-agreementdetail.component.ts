@@ -717,8 +717,6 @@ export class CreditAgreementDetailComponent implements OnInit {
         this.saveWord = false;
       }
     });
-
-    this.cekCgpgData();
   }
 
   clearApprovalDebtorConditions() {
@@ -1443,18 +1441,6 @@ export class CreditAgreementDetailComponent implements OnInit {
     }
 
     return total;
-  }
-
-  public cekCgpgData() {
-    for (let i = 0; i < this.collateralProperties.length; i++) {
-      if (this.collateralProperties[i].propertyType === 'GENERAL') {
-        this.saveCollateralProperty(this.collateralProperties[i]);
-      }
-    }
-  }
-
-  public saveCollateralProperty(property: ICollateralProperty) {
-    this.collateralPropertyService.save(property).subscribe(res => {});
   }
 
   public setTotalPlafond() {

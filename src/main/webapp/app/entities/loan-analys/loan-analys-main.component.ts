@@ -98,7 +98,6 @@ export class LoanAnalysMainComponent implements OnInit {
   })
   creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
 
-  public collateralCgpg: ICollateral[] = [];
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
 
@@ -1188,11 +1187,6 @@ export class LoanAnalysMainComponent implements OnInit {
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
-    if (this.collateral.length > 0) {
-      for (let i = 0; i < this.collateral.length; i++) {
-        this.filterCgpg(this.collateral[i]);
-      }
-    }
   }
   private checkIsDoc() {
     for (let i = 0; i < this.dataFileDar.length; i++) {
@@ -2184,7 +2178,6 @@ export class LoanAnalysMainComponent implements OnInit {
     }
     this.saveWord = true;
     this.saveWordOpinionCondition = true;
-    this.cekCgpgData();
   }
 
   // public onSave(source: string): void {
@@ -2404,7 +2397,6 @@ export class LoanAnalysMainComponent implements OnInit {
   //   }
   //   this.saveWord = true;
   //   this.saveWordOpinionCondition = true;
-  //   this.cekCgpgData();
   // }
 
   public getTitle(): void {
@@ -2631,30 +2623,7 @@ export class LoanAnalysMainComponent implements OnInit {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
     });
   }
-  public filterCgpg(collateral: ICollateral) {
-    if (this.collateral.length > 0) {
-      for (let i = 0; i < this.collateral.length; i++) {
-        if (this.collateral[i].collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
-          this.collateralCgpg.push(collateral);
-        }
-      }
-    }
-    this.cekCgpgData();
-  }
-  public cekCgpgData() {
-    if (this.collateralCgpg.length > 0) {
-      for (let i = 0; i < this.collateralCgpg.length; i++) {
-        const collateral = this.collateralProperties.find(obj => obj.collateralId === this.collateralCgpg[i].id && obj.external === false);
-        if (collateral) {
-          this.saveCollateralProperty(collateral);
-        }
-      }
-    }
-  }
 
-  public saveCollateralProperty(property: ICollateralProperty) {
-    this.collateralPropertyService.save(property).subscribe(res => {});
-  }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
   }
