@@ -26,7 +26,6 @@
         matInput
         disabled
         type="text"
-        [disabled]="isLabel"
         [ngModel]="bindingValueHelper[i] | currency: 'IDR ':'symbol':'1.0-0'"
         (ngModelChange)="bindingValueHelper[i] = numberInputChanged($event)"
         (change)="onChangeBindingValue($event, i)"
