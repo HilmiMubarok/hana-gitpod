@@ -746,8 +746,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
         this.saveWord = false;
       }
     });
-
-    this.cekCgpgData();
   }
 
   public save(source: string): void {
@@ -1420,18 +1418,6 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     }
 
     return total;
-  }
-
-  public cekCgpgData() {
-    for (let i = 0; i < this.collateralProperties.length; i++) {
-      if (this.collateralProperties[i].propertyType === 'GENERAL') {
-        this.saveCollateralProperty(this.collateralProperties[i]);
-      }
-    }
-  }
-
-  public saveCollateralProperty(property: ICollateralProperty) {
-    this.collateralPropertyService.save(property).subscribe(res => {});
   }
 
   public setTotalPlafond() {

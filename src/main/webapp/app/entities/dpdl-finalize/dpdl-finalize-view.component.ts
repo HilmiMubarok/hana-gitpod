@@ -452,17 +452,6 @@ export class DpdlFinalizeViewComponent implements OnInit {
     return total;
   }
 
-  public cekCgpgData() {
-    for (let i = 0; i < this.collateralProperties.length; i++) {
-      if (this.collateralProperties[i].propertyType === 'GENERAL') {
-        this.saveCollateralProperty(this.collateralProperties[i]);
-      }
-    }
-  }
-
-  public saveCollateralProperty(property: ICollateralProperty) {
-    this.collateralPropertyService.save(property).subscribe(res => {});
-  }
   public findCollateralPropertyGroup(partyId: string): void {
     this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralPropertyGroupData = [...this.collateralProperties, ...res.body];
@@ -873,8 +862,6 @@ export class DpdlFinalizeViewComponent implements OnInit {
         this.saveWord = false;
       }
     });
-
-    this.cekCgpgData();
   }
 
   public save(source: string): void {
