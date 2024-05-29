@@ -1711,6 +1711,20 @@ export class LoanAnalysMainComponent implements OnInit {
           : copyCreditProposal.attributes['previousReturn'];
     }
 
+    if (copyCreditProposal.attributes['darRevHistory']) {
+      copyCreditProposal.attributes['darRevHistory'] =
+        typeof copyCreditProposal.attributes['darRevHistory'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['darRevHistory'])
+          : copyCreditProposal.attributes['darRevHistory'];
+    }
+
+    if (copyCreditProposal.attributes['previousOfferingLetter']) {
+      copyCreditProposal.attributes['previousOfferingLetter'] =
+        typeof copyCreditProposal.attributes['previousOfferingLetter'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['previousOfferingLetter'])
+          : copyCreditProposal.attributes['previousOfferingLetter'];
+    }
+
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
