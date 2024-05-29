@@ -1166,6 +1166,20 @@ export class DppkReviewDetailComponent implements OnInit {
           : copyCreditProposal.attributes['darRevHistory'];
     }
 
+    if (copyCreditProposal.attributes['previousReturn']) {
+      copyCreditProposal.attributes['previousReturn'] =
+        typeof copyCreditProposal.attributes['previousReturn'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['previousReturn'])
+          : copyCreditProposal.attributes['previousReturn'];
+    }
+
+    if (copyCreditProposal.attributes['previousOfferingLetter']) {
+      copyCreditProposal.attributes['previousOfferingLetter'] =
+        typeof copyCreditProposal.attributes['previousOfferingLetter'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['previousOfferingLetter'])
+          : copyCreditProposal.attributes['previousOfferingLetter'];
+    }
+
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
