@@ -115,9 +115,7 @@ export class LoanAnalysPreviousDarComponent implements OnInit, OnDestroy {
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: res => {
-          this.getDataToCompare(res.body);
-        },
+        next: res => this.getDataToCompare(res.body),
         error: () => this.loadingPreviousDar$.next(false),
         // eslint-disable-next-line object-shorthand
         complete: () => {
