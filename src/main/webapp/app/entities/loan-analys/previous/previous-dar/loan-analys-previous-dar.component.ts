@@ -115,12 +115,13 @@ export class LoanAnalysPreviousDarComponent implements OnInit, OnDestroy {
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: res => this.getDataToCompare(res.body),
+        next: res => {
+          this.getDataToCompare(res.body);
+        },
         error: () => this.loadingPreviousDar$.next(false),
         // eslint-disable-next-line object-shorthand
         complete: () => {
           console.log('complete');
-          this.isDataToCompareExist = true;
           this.loadingPreviousDar$.next(false);
         },
       });
@@ -131,16 +132,20 @@ export class LoanAnalysPreviousDarComponent implements OnInit, OnDestroy {
     // if data length === 1, then set this.dataToCompare = data[0]
     // if data length > 1, then set this.dataToCompare = newest data by createdDate
     if (data.length === 0) {
-      this.dataToCompare = {};
+      this.dataToCompare = [];
+      this.compareDataService.setCreditProposalPreviousDar(this.dataToCompare);
+      this.isDataToCompareExist = false;
     } else {
       data.filter((item, index) => {
         if (index === 0) {
           this.dataToCompare = item;
           this.compareDataService.setCreditProposalPreviousDar(item);
+          this.isDataToCompareExist = true;
         } else {
           if (item.createdDate > this.dataToCompare.createdDate) {
             this.dataToCompare = item;
             this.compareDataService.setCreditProposalPreviousDar(item);
+            this.isDataToCompareExist = true;
           }
         }
       });

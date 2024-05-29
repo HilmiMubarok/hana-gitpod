@@ -1697,6 +1697,20 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
 
+    if (copyCreditProposal.attributes['previousHistory']) {
+      copyCreditProposal.attributes['previousHistory'] =
+        typeof copyCreditProposal.attributes['previousHistory'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['previousHistory'])
+          : copyCreditProposal.attributes['previousHistory'];
+    }
+
+    if (copyCreditProposal.attributes['previousReturn']) {
+      copyCreditProposal.attributes['previousReturn'] =
+        typeof copyCreditProposal.attributes['previousReturn'] !== 'string'
+          ? JSON.stringify(copyCreditProposal.attributes['previousReturn'])
+          : copyCreditProposal.attributes['previousReturn'];
+    }
+
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
