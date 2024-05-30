@@ -267,6 +267,7 @@
                   <input
                     matInput
                     type="text"
+                    (keypress)="preventNonNumericalInput($event)"
                     [ngModel]="document.attributes['total'] | number: '1.0-0'"
                     (ngModelChange)="document.attributes['total'] = numberInputChanged($event)"
                   />
@@ -954,6 +955,7 @@
                 <input
                   matInput
                   type="text"
+                  (keypress)="preventNonNumericalInput($event)"
                   [ngModel]="document.attributes['total'] | number: '1.0-0'"
                   (ngModelChange)="document.attributes['total'] = numberInputChanged($event)"
                 />
