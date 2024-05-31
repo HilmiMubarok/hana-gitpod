@@ -4,7 +4,7 @@
       <div class="col-6">
         <p>Assign To Checker 1</p>
         <mat-form-field class="w-100" appearance="outline">
-          <mat-select [(ngModel)]="applicationRoleIdOne" (selectionChange)="onSelectAssignOne($event)">
+          <mat-select [(ngModel)]="applicationRoleIdOne" (selectionChange)="onSelectAssignOne($event)" [disabled]="disable">
             <!-- Adding "Please Select" option with an empty value -->
             <mat-option [value]="">Please Select</mat-option>
             <mat-option *ngFor="let item of positionCheckerOne" [value]="item.id">
@@ -16,7 +16,7 @@
       <div class="col-6">
         <p>Assign To Checker 2</p>
         <mat-form-field class="w-100" appearance="outline">
-          <mat-select [(ngModel)]="applicationRoleIdTwo" (selectionChange)="onSelectAssignTwo($event)">
+          <mat-select [(ngModel)]="applicationRoleIdTwo" (selectionChange)="onSelectAssignTwo($event)" [disabled]="disable">
             <!-- Adding "Please Select" option with an empty value -->
             <mat-option [value]="">Please Select</mat-option>
             <mat-option *ngFor="let item of positionCheckerTwo" [value]="item.id">
