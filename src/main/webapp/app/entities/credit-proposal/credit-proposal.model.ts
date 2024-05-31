@@ -58,6 +58,7 @@ export interface ICreditProposal extends ILoanApplication {
   annualSales?: number;
   capitalDeposit?: number;
   debtorCategory?: string;
+  oLFinalDocNo?: string;
   agreements?: ILoanAgreement[] | [];
   entityProperties?: IEntityProperties[];
   properties?: IEntityProperties[];
