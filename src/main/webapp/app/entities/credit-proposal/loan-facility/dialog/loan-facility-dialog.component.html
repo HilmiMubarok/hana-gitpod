@@ -1143,6 +1143,26 @@
         </div>
       </section>
 
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Take Over Bank</mat-label>
+          <mat-select [(ngModel)]="applicationProduct.attributes['takeOverBank']" name="facilityType">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of dataMasterFinancialInstitution" [value]="item.code">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <div class="col-3">Take Over Bank</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ takeOverBankView }}
+        </div>
+      </section>
+
       <div *ngIf="parentPath === 'finalize-dppk' && selectedMenu === 'loan-facility'">
         <section>
           <mat-form-field class="w-100" appearance="outline">

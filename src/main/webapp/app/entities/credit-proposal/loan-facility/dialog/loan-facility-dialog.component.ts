@@ -25,6 +25,8 @@ import { IMasterProductParameter } from 'app/entities/master-parameter/master-pr
 import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { MessageService } from 'primeng/api';
+import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
+import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -75,6 +77,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public logoAdminFee = {};
   public dataTrhu: Date;
   public categoryDescription = [];
+  public dataMasterFinancialInstitution: IMasterFinancialInstitution[] = [];
+  public takeOverBankView = '';
 
   @Input()
   get collateral() {
@@ -302,7 +306,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     protected productParameterService: MasterProductParameterService,
     protected productClasificationService: ProductClassificationService,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService
   ) {
     super(creditProposalService);
     this.activatedRoute.queryParams.subscribe(params => {
@@ -354,6 +359,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.lovInstalmentType();
     this.lovCreditTermList();
     this.lovJenisPengguna();
+    this.loadFinancialInstitution();
 
     if (!this.applicationProduct.commitedLine) {
       this.applicationProduct.commitedLine = false;
@@ -1174,5 +1180,25 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       ).id;
       console.log(this.applicationProduct.jenisPenggunaId);
     }
+  }
+
+  private loadFinancialInstitution(): void {
+    this.masterFinancialInstitutionService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataMasterFinancialInstitution = res.body;
+        this.takeOverBankView = this.getDataBank(this.applicationProduct.attributes['takeOverBank']);
+      });
+  }
+
+  public getDataBank(code: string) {
+    if (code) {
+      const data: IMasterFinancialInstitution = this.dataMasterFinancialInstitution.find(obj => obj.code === code);
+      return data.description;
+    }
+    return '';
   }
 }

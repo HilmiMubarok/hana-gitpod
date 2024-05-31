@@ -287,13 +287,13 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
         this.getStatusListView('TBO_LEGAL_CHECKING');
         if (this.clickedChip['statusId'] !== '') {
           this.cashTboLegalMonitoringService
-            .getTboLegalChecking({
+            .getTboLegalMonitoring({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              // appMenuId: 'DAR_REVISION',
+              appMenuId: 'TBO_LEGAL_CHECKING',
             })
             .pipe(map((res: HttpResponse<ITboCheckingModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -303,12 +303,12 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
           return;
         } else {
           this.cashTboLegalMonitoringService
-            .getTboLegalChecking({
+            .getTboLegalMonitoring({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              // appMenuId: 'DAR_REVISION',
+              appMenuId: 'TBO_LEGAL_CHECKING',
             })
             .pipe(map((res: HttpResponse<ITboCheckingModel[]>) => this.preLoad(res)))
             .subscribe({

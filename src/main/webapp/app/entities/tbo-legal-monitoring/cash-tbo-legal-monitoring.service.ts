@@ -225,21 +225,10 @@ export class CashTboLegalMonitoringService extends AbstractEntityService<ITboChe
     return this.http.get<any>(`${this.resourceUrlCashCreditProposal}` + idAppMenu, { observe: 'response' });
   }
 
-  getTboLegalChecking(req?: any): Observable<HttpResponse<ITboCheckingModel[]>> {
+  getTboLegalMonitoring(req?: any): Observable<HttpResponse<ITboCheckingModel[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ITboCheckingModel[]>(this.resourceUrl + '/cash-credit-proposals?idAppMenu=TBO_LEGAL_CHECKING', {
-        params: options,
-        observe: 'response',
-      })
-      .pipe(map((res: HttpResponse<ITboCheckingModel[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<ITboCheckingModel[]>) => this.preLoadItemArray(res)));
-  }
-
-  getTboLegalReview(req?: any): Observable<HttpResponse<ITboCheckingModel[]>> {
-    const options = createRequestOption(req);
-    return this.http
-      .get<ITboCheckingModel[]>(this.resourceUrl + '/cash-credit-proposals?idAppMenu=TBO_LEGAL_REVIEW', {
+      .get<ITboCheckingModel[]>(this.resourceUrl + '/cash-credit-proposals/by-document-status', {
         params: options,
         observe: 'response',
       })

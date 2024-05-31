@@ -378,18 +378,20 @@ export class DocumentLegalDialogComponent implements OnInit {
         ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
         : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
 
-    const coverNoteTask = [];
-    if (this.legalCovernoteTaskDataSource.length > 0) {
-      this.legalCovernoteTaskDataSource.forEach(obj =>
-        coverNoteTask.push({
-          code: obj.covernoteCode,
-          date: this.datePipe.transform(obj.covernoteDate, 'yyyy/MM/dd'),
-        })
-      );
-    }
+    if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+      const coverNoteTask = [];
+      if (this.legalCovernoteTaskDataSource.length > 0) {
+        this.legalCovernoteTaskDataSource.forEach(obj =>
+          coverNoteTask.push({
+            code: obj.covernoteCode,
+            date: this.datePipe.transform(obj.covernoteDate, 'yyyy/MM/dd'),
+          })
+        );
+      }
 
-    this.document.attributes['covernoteTask'] = coverNoteTask;
-    this.document.attributes['covernoteType'] = this.document.legalCovernote.attributes.covernoteType;
+      this.document.attributes['covernoteTask'] = coverNoteTask;
+      this.document.attributes['covernoteType'] = this.document.legalCovernote?.attributes.covernoteType;
+    }
 
     this.currentObject = {
       id: this.document.id,
@@ -524,18 +526,20 @@ export class DocumentLegalDialogComponent implements OnInit {
         ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
         : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
 
-    const coverNoteTask = [];
-    if (this.legalCovernoteTaskDataSource.length > 0) {
-      this.legalCovernoteTaskDataSource.forEach(obj =>
-        coverNoteTask.push({
-          code: obj.covernoteCode,
-          date: this.datePipe.transform(obj.covernoteDate, 'yyyy/MM/dd'),
-        })
-      );
-    }
+    if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+      const coverNoteTask = [];
+      if (this.legalCovernoteTaskDataSource.length > 0) {
+        this.legalCovernoteTaskDataSource.forEach(obj =>
+          coverNoteTask.push({
+            code: obj.covernoteCode,
+            date: this.datePipe.transform(obj.covernoteDate, 'yyyy/MM/dd'),
+          })
+        );
+      }
 
-    this.document.attributes['covernoteTask'] = coverNoteTask;
-    this.document.attributes['covernoteType'] = this.document.legalCovernote.attributes.covernoteType;
+      this.document.attributes['covernoteTask'] = coverNoteTask;
+      this.document.attributes['covernoteType'] = this.document.legalCovernote?.attributes.covernoteType;
+    }
 
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
@@ -886,6 +890,13 @@ export class DocumentLegalDialogComponent implements OnInit {
     if (this.legalCovernoteTaskDataSource.length > 0) {
       this.legalCovernoteTaskDataSource = [];
       this.covernoteTaskTable.renderRows();
+    }
+  }
+
+  public preventNonNumericalInput(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
     }
   }
 }
