@@ -56,8 +56,6 @@ export class OfferingLetterOfferingPageComponent implements OnChanges {
       const lastCreateDate = moment(lastElement['tags'].createDate, 'DD/MM/YYYY HH:mm:ss').format('YYYY/MM/DD');
 
       this.creditProposal.attributes['offeringLetterPreparation'].dateOffering = lastCreateDate;
-
-      console.log('Last Create Date:', lastCreateDate);
     }
   }
 }
