@@ -24,6 +24,8 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import lodash from 'lodash';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
+import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -78,7 +80,8 @@ export class LoanOperationLoanFacilityDetailDialogComponent
     protected productParameterService: MasterProductParameterService,
     protected productClasificationService: ProductClassificationService,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService
   ) {
     super(creditProposalService);
     this.activatedRoute.queryParams.subscribe(params => {
@@ -122,6 +125,9 @@ export class LoanOperationLoanFacilityDetailDialogComponent
   set creditProposal(param: ICreditProposal) {
     this._creditproposal = param;
   }
+
+  public dataMasterFinancialInstitution: IMasterFinancialInstitution[] = [];
+  public takeOverBankView = '';
 
   public isElement: boolean;
   public isLabel: boolean;
@@ -372,6 +378,7 @@ export class LoanOperationLoanFacilityDetailDialogComponent
     this.updateFormat(this.selectedType, this.selectedCurrency);
     this.lovInstalmentType();
     this.lovCreditTermList();
+    this.loadFinancialInstitution();
 
     if (!this.applicationProduct.commitedLine) {
       this.applicationProduct.commitedLine = false;
@@ -1057,6 +1064,26 @@ export class LoanOperationLoanFacilityDetailDialogComponent
   public getCreditTermLabel(index: string) {
     if (index) {
       return this.creditTermList.find(obj => obj.code === index).value;
+    }
+    return '';
+  }
+
+  private loadFinancialInstitution(): void {
+    this.masterFinancialInstitutionService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataMasterFinancialInstitution = res.body;
+        this.takeOverBankView = this.getDataBank(this.applicationProduct.attributes['takeOverBank']);
+      });
+  }
+
+  public getDataBank(code: string) {
+    if (code) {
+      const data: IMasterFinancialInstitution = this.dataMasterFinancialInstitution.find(obj => obj.code === code);
+      return data.description;
     }
     return '';
   }
