@@ -25,6 +25,8 @@ import { MasterProductParameterService } from 'app/entities/master-parameter/mas
 import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
 import { IMasterProductParameter } from 'app/entities/master-parameter/master-product/master-product-parameter.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
+import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -260,6 +262,8 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   public restructList = [];
   public installmentMethodValue: string;
   public restructMethodValue: string;
+  public dataMasterFinancialInstitution: IMasterFinancialInstitution[] = [];
+  public takeOverBankView = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -281,7 +285,8 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     protected activatedRoute: ActivatedRoute,
     protected productParameterService: MasterProductParameterService,
     protected productClasificationService: ProductClassificationService,
-    private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
+    private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>,
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService
   ) {
     super(creditProposalService);
     this.dataItem = this.data.item;
@@ -314,6 +319,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     this.lovRestructMethod();
     this.getFacilityType();
     this.berubah(this.applicationProduct.attributes.facilityType);
+    this.loadFinancialInstitution();
 
     if (!this.applicationProduct.commitedLine) {
       this.applicationProduct.commitedLine = false;
@@ -895,5 +901,25 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       return false;
     }
     return true;
+  }
+
+  private loadFinancialInstitution(): void {
+    this.masterFinancialInstitutionService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataMasterFinancialInstitution = res.body;
+        this.takeOverBankView = this.getDataBank(this.applicationProduct.attributes['takeOverBank']);
+      });
+  }
+
+  public getDataBank(code: string) {
+    if (code) {
+      const data: IMasterFinancialInstitution = this.dataMasterFinancialInstitution.find(obj => obj.code === code);
+      return data.description;
+    }
+    return '';
   }
 }
