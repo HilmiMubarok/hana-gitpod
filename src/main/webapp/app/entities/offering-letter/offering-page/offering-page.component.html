@@ -10,11 +10,11 @@
         <div>
           <div class="form-group">
             <ejs-textbox
-              [(ngModel)]="creditProposal.oLFinalDocNo"
+              [(ngModel)]="creditProposal.attributes['offeringLetterPreparation'].noLetter"
               placeholder="Offering Letter No."
               cssClass="e-outline"
               floatLabelType="Auto"
-              [disabled]="true"
+              [disabled]="field"
             >
             </ejs-textbox>
             <!-- <ejs-textbox placeholder="Offering Letter No." cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox> -->
