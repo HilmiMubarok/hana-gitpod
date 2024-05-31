@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { EntityProperties, IEntityProperties } from 'app/entities/entity-properties/entity-properties.model';
 import { EntitiyPropertiesService } from 'app/entities/entity-properties/entity-properties.service';
@@ -12,6 +12,7 @@ export class DppkPreparationComponent {
   public _creditProposal: ICreditProposal;
   public entityDppk: IEntityProperties = new EntityProperties();
   public _dppkNumber: String = '';
+  public _disable: boolean;
 
   @Input()
   get creditProposal() {
@@ -29,6 +30,13 @@ export class DppkPreparationComponent {
 
   set dppkNumber(item: String) {
     this._dppkNumber = item;
+  }
+  @Input()
+  get disable() {
+    return this._disable;
+  }
+  set disable(item: boolean) {
+    this._disable = item;
   }
 
   constructor() {}

@@ -31,6 +31,7 @@ export class DppkAssignToComponent implements OnInit {
   dataPositionCheckerTwo: any;
   dataPositionCheckerOne: any;
   dataPositionCheckerOnes: any;
+  public _disable: boolean;
 
   @Output() assignToOne = new EventEmitter();
   @Output() assignToTwo = new EventEmitter();
@@ -46,6 +47,15 @@ export class DppkAssignToComponent implements OnInit {
     this.loadPosition();
   }
 
+  @Input()
+  get disable() {
+    return this._disable;
+  }
+
+  set disable(item: boolean) {
+    this._disable = item;
+  }
+
   ngOnInit() {
     // Periksa apakah atribut dataAssignToDPPKReview1 dan dataAssignToDPPKReview2 sudah ada
     if (this.creditProposal.attributes['dataAssignToDPPKReview1']) {
@@ -54,6 +64,9 @@ export class DppkAssignToComponent implements OnInit {
 
     if (this.creditProposal.attributes['dataAssignToDPPKReview2']) {
       this.applicationRoleIdTwo = this.creditProposal.attributes['dataAssignToDPPKReview2'].id;
+    }
+    if (this.disable === undefined) {
+      this.disable = false;
     }
   }
 

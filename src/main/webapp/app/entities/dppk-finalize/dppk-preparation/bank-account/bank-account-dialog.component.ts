@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IApplicationPaymentPreferences } from 'app/entities/application-payment-preference/application-payment-preference.model';
@@ -39,6 +39,7 @@ export class BankAccountDialogComponent implements OnInit {
   public editStat = true;
   public parentPath = this.router.url.split('/')[1];
   public selectedMenu: string;
+  public _disable: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -47,6 +48,7 @@ export class BankAccountDialogComponent implements OnInit {
       dataPayment: IApplicationPaymentPreferences;
       filteredPaymentType: IPaymentType[];
       edit: boolean;
+      disable: boolean;
     },
     public dialog: MatDialog,
     private _dialog: MatDialogRef<BankAccountDialogComponent>,
@@ -208,10 +210,13 @@ export class BankAccountDialogComponent implements OnInit {
   }
 
   public checkBankAccount() {
-    if (this.bankAccountData.length > 0) {
+    if (this.data.disable !== undefined) {
+      return this.data.disable;
+    } else if (this.bankAccountData.length > 0) {
       return false;
+    } else {
+      return true;
     }
-    return true;
   }
 
   public addMessage(value: string) {

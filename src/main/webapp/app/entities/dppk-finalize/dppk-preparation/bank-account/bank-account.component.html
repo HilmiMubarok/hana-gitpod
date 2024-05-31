@@ -28,7 +28,7 @@
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="deletePaymentRef(element)">
+          <button mat-icon-button (click)="deletePaymentRef(element)" [hidden]="disable">
             <mat-icon>delete</mat-icon>
           </button>
         </section>
@@ -51,6 +51,6 @@
 
 <section *ngIf="!conditionReviewDppk()">
   <div class="mt-3 text-center">
-    <button mat-raised-button class="button-styling" (click)="openDialog()">ADD Account</button>
+    <button mat-raised-button class="button-styling" (click)="openDialog()" [hidden]="disable">ADD Account</button>
   </div>
 </section>
