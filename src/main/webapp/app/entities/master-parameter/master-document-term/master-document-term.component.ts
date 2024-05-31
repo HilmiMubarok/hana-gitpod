@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MasterDocumentTermService } from './master-document-term.service';
-import { IMasterCompanyType, MasterCompanyType } from '../master-company-type/master-company-type.model';
+import { IMasterCompanyType } from '../master-company-type/master-company-type.model';
 import { MasterDocumentTermDialogComponent } from './master-document-term-dialog.component';
 import { MasterDocumentTerm, SchedulerType } from './master-document-term.model';
 import { MessageService } from 'primeng/api';
@@ -102,8 +102,7 @@ export class MasterDocumentTermComponent implements OnInit {
   }
 
   public openDialog(element: MasterDocumentTerm = null): void {
-    let predicate: IMasterCompanyType;
-    predicate = new MasterCompanyType();
+    let predicate: MasterDocumentTerm;
 
     if (element) {
       predicate = element;

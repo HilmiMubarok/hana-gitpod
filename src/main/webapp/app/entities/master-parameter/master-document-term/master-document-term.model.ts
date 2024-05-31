@@ -1,5 +1,5 @@
 export interface MasterDocumentTerm {
-  id?: number;
+  id?: string;
   name?: string;
   fromDays?: number;
   toDays?: number;
@@ -14,4 +14,10 @@ export interface MasterDocumentTerm {
 export interface SchedulerType {
   id?: string;
   label?: string;
+}
+
+export interface SchedulerParticipant {
+  id?: number;
+  schedulerId: string;
+  employeeId: number;
 }
