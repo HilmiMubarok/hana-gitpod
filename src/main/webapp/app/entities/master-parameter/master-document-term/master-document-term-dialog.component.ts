@@ -5,17 +5,41 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { MessageService } from 'primeng/api';
 import { MasterCompanyTypeDialogComponent } from '../master-company-type/master-company-type-dialog.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MasterDocumentTerm, SchedulerType } from './master-document-term.model';
-import { BehaviorSubject, Observable } from 'rxjs';
-import * as lodash from 'lodash';
+import { MasterDocumentTerm, SchedulerParticipant, SchedulerType } from './master-document-term.model';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { MasterDocumentTermService } from './master-document-term.service';
+import { PositionTypeService } from 'app/entities/position-type/position-type.service';
+import { HttpResponse } from '@angular/common/http';
+import { PositionService } from 'app/entities/position/position.service';
+import { IPosition } from 'app/entities/position/position.model';
+import { IPositionType } from 'app/entities/position-type/position-type.model';
+import * as lodash from 'lodash';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-master-document-term-dialog',
   templateUrl: './master-document-term-dialog.component.html',
   styleUrls: ['../master-company-type/master-company-type.css'],
+  styles: [
+    `
+      ::ng-deep .participant .mat-form-field-wrapper {
+        margin-bottom: 0px !important;
+        padding-bottom: 0px !important;
+      }
+
+      .ng-invalid:not(form) {
+        border: none !important;
+      }
+    `,
+  ],
 })
 export class MasterDocumentTermDialogComponent implements OnInit {
+  public participants: MatTableDataSource<SchedulerParticipant> = new MatTableDataSource([]);
+  public schedulerParticipant: SchedulerParticipant;
+  public filterPositionLov = ['LEGAL_OFFICER', 'LEGALOFFICER_OUTREGION', 'LEGAL_HEAD', 'CREDIT_LEGAL_LEAD'];
+  public positionLov: string[] = [];
+  public nameLov: string[] = [];
+  public employeeData: IPosition[];
   public schedulerTypes: SchedulerType;
   public masterDocumentTerm: FormGroup;
   public documentTerm: MasterDocumentTerm;
@@ -30,6 +54,8 @@ export class MasterDocumentTermDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     protected messageService: MessageService,
+    protected positionTypeService: PositionTypeService,
+    protected positionService: PositionService,
     protected activatedRoute: ActivatedRoute,
     protected masterDocumentTermService: MasterDocumentTermService,
     @Inject(MAT_DIALOG_DATA)
@@ -45,17 +71,19 @@ export class MasterDocumentTermDialogComponent implements OnInit {
     });
 
     this.documentTerm = this.data.documentTerm;
-
     this.schedulerTypes = this.data.schedulerTypes;
 
     this.masterDocumentTerm = this.fb.group({
       reminderType: [{ value: this.data.documentTerm.name, disabled: true }, Validators.required],
       fromDays: [this.data.documentTerm.fromDays, Validators.required],
       toDays: [this.data.documentTerm.toDays, Validators.required],
-      schedulerEmail: [this.data.documentTerm.emailTo],
-      schedulerType: [this.data.documentTerm.interval, Validators.required],
+      interval: [this.data.documentTerm.interval, Validators.required],
       daysTo: [{ value: this.data.documentTerm.daysTo, disabled: this.data.documentTerm.interval === 'DAILY' }, Validators.required],
-      status: [this.data.documentTerm.statusId, Validators.required],
+      statusId: [this.data.documentTerm.statusId, Validators.required],
+      schedulerEmail: this.fb.group({
+        position: [this.positionLov],
+        name: [{ value: '', disabled: true }],
+      }),
     });
 
     if (this.data.documentTerm.interval === 'WEEKLY') {
@@ -65,8 +93,51 @@ export class MasterDocumentTermDialogComponent implements OnInit {
     }
   }
 
+  setValidatorsBasedOnDataLength() {
+    if (this.participants.data.length === 0) {
+      this.masterDocumentTerm.get('schedulerEmail').get('position').setValidators(Validators.required);
+      this.masterDocumentTerm.get('schedulerEmail').get('name').setValidators(Validators.required);
+    } else {
+      this.masterDocumentTerm.get('schedulerEmail').get('position').clearValidators();
+      this.masterDocumentTerm.get('schedulerEmail').get('name').clearValidators();
+    }
+
+    // Update the validity state of the controls
+    this.masterDocumentTerm.get('schedulerEmail').get('position').updateValueAndValidity();
+    this.masterDocumentTerm.get('schedulerEmail').get('name').updateValueAndValidity();
+  }
+
+  deleteParticipant(id: number) {
+    this.masterDocumentTermService.deleteParticipant(id).subscribe((res: any) => {
+      this.getParticipants();
+      this.setValidatorsBasedOnDataLength();
+    });
+  }
+
+  addParticipant() {
+    this.setParticipant().then(participant => {
+      this.masterDocumentTermService.saveParticipant(participant).subscribe((res: any) => {
+        this.getParticipants();
+        this.setValidatorsBasedOnDataLength();
+
+        // Clear form fields
+        this.masterDocumentTerm.get('schedulerEmail').get('position').setValue('');
+        this.masterDocumentTerm.get('schedulerEmail').get('name').setValue('');
+      });
+    });
+  }
+
+  getParticipants() {
+    this.masterDocumentTermService
+      .getParticipantBySchedule(this.data.documentTerm.id)
+      .subscribe((res: HttpResponse<SchedulerParticipant>) => {
+        this.participants = new MatTableDataSource<SchedulerParticipant>(res.body as any);
+        this.setValidatorsBasedOnDataLength();
+      });
+  }
+
   ngOnInit(): void {
-    this.masterDocumentTerm.get('schedulerType').valueChanges.subscribe(value => {
+    this.masterDocumentTerm.get('interval').valueChanges.subscribe(value => {
       switch (value) {
         case 'DAILY':
           this.masterDocumentTerm.get('daysTo').setValue(1);
@@ -92,9 +163,80 @@ export class MasterDocumentTermDialogComponent implements OnInit {
           break;
       }
     });
+
+    this.masterDocumentTerm
+      .get('schedulerEmail')
+      .get('position')
+      .valueChanges.subscribe(value => {
+        if (value) {
+          this.masterDocumentTerm.get('schedulerEmail.name').enable();
+          this.getNameByPosition(value);
+        } else {
+          this.masterDocumentTerm.get('schedulerEmail.name').disable();
+        }
+      });
+
+    this.getLOVPosition();
+    this.getParticipants();
+    this.setValidatorsBasedOnDataLength();
+  }
+
+  getLOVPosition(): void {
+    this.positionTypeService
+      .query({
+        page: 0,
+        size: 999,
+        sort: ['id', 'asc'],
+      })
+      .pipe(map((res: HttpResponse<IPositionType[]>) => res.body.filter(data => this.filterPositionLov.includes(data.id)) || []))
+      .subscribe(position => {
+        this.positionLov = [...position.map(item => item.id)];
+      });
+  }
+
+  getNameByPosition(positionTypeId: string) {
+    this.positionService
+      .queryFilterBy({
+        page: 0,
+        size: 999,
+        idPositionType: positionTypeId,
+      })
+      .pipe(map((res: HttpResponse<IPosition[]>) => res.body || []))
+      .subscribe(employeeData => {
+        this.employeeData = employeeData;
+        this.nameLov = [...employeeData.map(item => item.employeeFirstName + ' ' + item.employeeLastName)];
+      });
+  }
+
+  setParticipant(): Promise<SchedulerParticipant> {
+    return new Promise((resolve, reject) => {
+      const employeeName = this.masterDocumentTerm.get('schedulerEmail').get('name').value.split(' ');
+
+      const firstName = employeeName[0];
+
+      // last name is index 1 and the rest
+      const lastName = employeeName.slice(1).join(' ');
+
+      // Search in employeeData where employeeFirstName and employeeLastName is equal to firstName and lastName
+      const employee = this.employeeData.find(data => data.employeeFirstName === firstName && data.employeeLastName === lastName);
+
+      if (!employee) {
+        reject('Employee not found');
+        return;
+      }
+
+      this.schedulerParticipant = {
+        schedulerId: this.data.documentTerm.id,
+        employeeId: employee.employeeId,
+      };
+
+      resolve(this.schedulerParticipant);
+    });
   }
 
   public save() {
+    delete this.masterDocumentTerm.value.schedulerEmail;
+
     // check if form is valid
     if (!this.masterDocumentTerm.valid) {
       this.messageService.add({
@@ -105,9 +247,19 @@ export class MasterDocumentTermDialogComponent implements OnInit {
     } else {
       const newDocumentTerm = lodash.cloneDeep(this.documentTerm);
 
-      Object.keys(this.masterDocumentTerm.value).forEach(key => {
-        newDocumentTerm[key] = this.masterDocumentTerm.value[key];
+      Object.keys(this.masterDocumentTerm.getRawValue()).forEach(key => {
+        newDocumentTerm[key] = this.masterDocumentTerm.getRawValue()[key];
       });
+
+      if (this.participants.data.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Please add a participant',
+        });
+        return;
+      }
+      delete newDocumentTerm['schedulerEmail'];
 
       this.masterDocumentTermService.updateMasterDocumentTerm(newDocumentTerm).subscribe(res => {
         this.messageService.add({
@@ -120,7 +272,6 @@ export class MasterDocumentTermDialogComponent implements OnInit {
     }
   }
 
-  // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
