@@ -315,6 +315,7 @@
                   </jhi-credit-proposal-tab-summary>
                   <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
                   <jhi-dppk-assign-to
+                    [disable]="ActiveRole"
                     *ngIf="conditionShowAssignDppk()"
                     (assignToOne)="onAssignToOne($event)"
                     (assignToTwo)="onAssignToTwo($event)"
@@ -343,7 +344,11 @@
 
             <!-- dppk finalize -->
             <div *ngIf="clickedMenu === 'dppk'">
-              <jhi-dppk-preparation [creditProposal]="creditProposal" [dppkNumber]="dppkNumber"></jhi-dppk-preparation>
+              <jhi-dppk-preparation
+                [creditProposal]="creditProposal"
+                [disable]="ActiveRole"
+                [dppkNumber]="dppkNumber"
+              ></jhi-dppk-preparation>
             </div>
 
             <div *ngIf="clickedMenu === 'insurance-information'">
@@ -451,7 +456,7 @@
     <!-- End Marginm Bottom -->
 
     <!-- PART ACTION -->
-    <div class="e-card-actions mx-auto mb-5 mt-3">
+    <div class="e-card-actions mx-auto mb-5 mt-3" *ngIf="!ActiveRole">
       <div>
         <button
           mat-raised-button

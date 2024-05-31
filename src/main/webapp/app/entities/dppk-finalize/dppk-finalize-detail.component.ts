@@ -177,7 +177,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
   public dataChil: any;
   public proposType = [];
   public conditionSave: boolean;
-
+  public ActiveRole: boolean;
   private BUCKET: string;
   public sectorIndustry = [];
 
@@ -483,6 +483,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
     this.getPositionTypeId();
     this.lovProposalType();
     this.getBucketNameSummary();
+    this.checkActive();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -544,6 +545,13 @@ export class DppkFinalizeDetailComponent implements OnInit {
     this.showTextMenu();
     // this.cpGroub();
     this.setDppkNumber();
+  }
+  public checkActive(): void {
+    for (let i = 0; i < this.creditProposal.listOfPic.length; i++) {
+      if (this.creditProposal.listOfPic[i].partyId !== this.getLocStor('POSOPARID')) {
+        this.ActiveRole = true;
+      }
+    }
   }
 
   public goToSubMenu(menu: string): void {

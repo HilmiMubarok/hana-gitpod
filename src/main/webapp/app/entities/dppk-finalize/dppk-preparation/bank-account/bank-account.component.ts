@@ -26,7 +26,7 @@ export class BankAccountComponent implements OnInit {
   public filteredPaymentType: IPaymentType[] = [];
   public bankAccountData: IBankAcountModel[] = [];
   public parentPath = this.router.url.split('/')[1];
-
+  public _disable: boolean;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -48,10 +48,21 @@ export class BankAccountComponent implements OnInit {
     private router: Router,
     protected messageService: MessageService
   ) {}
+  @Input()
+  get disable() {
+    return this._disable;
+  }
+
+  set disable(item: boolean) {
+    this._disable = item;
+  }
 
   ngOnInit() {
     this.getDataApplicationPaymentReferences();
     this.getBankAccount();
+    if (this.disable === undefined) {
+      this.disable = false;
+    }
   }
 
   getDataApplicationPaymentReferences() {
@@ -84,6 +95,7 @@ export class BankAccountComponent implements OnInit {
         dataPayment: dataApplicationPayment,
         filteredPaymentType: this.filteredPaymentType,
         edit: edited,
+        disable: this.disable,
       },
     });
     dialogRef.afterClosed().subscribe(res => {
