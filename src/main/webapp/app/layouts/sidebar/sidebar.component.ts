@@ -162,7 +162,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   private setMenu(menusData: any): void {
-    let orderNum = 0;
     let parentMenus = [];
     let parentMenusLength = 0;
     const filteredParentMenus = [];
@@ -170,13 +169,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     const dataSourceTemp = [];
 
     menusData.forEach(menu => {
-      orderNum++;
       parentMenus.push({
         id: menu.parentMenuItemId,
         menuItemId: menu.menuItemId,
         descripton: menu.parentMenuItemDescription,
         icon: menu.parentMenuItemIcon,
-        order: orderNum,
+        order: menu.menuItemSequence,
       });
     });
     parentMenus = lodash.uniqBy(parentMenus, 'id');
@@ -197,7 +195,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       }
     }
 
-    // parentMenus.forEach(parentMenu => {
     filteredParentMenus.forEach(parentMenu => {
       dataSourceTemp.push({
         name: parentMenu.descripton,
@@ -217,6 +214,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         }
       });
     });
+
+	dataSourceTemp.sort(function (a, b) {
+	  return a.menuItemSequence - b.menuItemSequence || a.id - b.id;
+	});
+
     this.dataSource.data = dataSourceTemp;
   }
 
