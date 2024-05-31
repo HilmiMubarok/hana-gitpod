@@ -58,9 +58,7 @@ export class DppkAssignToComponent implements OnInit {
   }
 
   public loadPosition(): void {
-    const idPositionTypes = ['CREDIT_ADMIN_UNIT_HEAD', 'CREDIT_ADMIN_TEAM_LEAD', 'CREDIT_ADMIN_DIV_HEAD', 'CREDIT_ADMIN_DEPT_HEAD'].join(
-      ','
-    );
+    const idPositionTypes = ['CREDIT_ADMIN_TEAM_LEAD', 'CREDIT_ADMIN_DIV_HEAD', 'CREDIT_ADMIN_DEPT_HEAD'].join(',');
     this.positionService.getPositionAssignToMultiplePosition(idPositionTypes, this.creditProposal.internalId).subscribe(res => {
       this.positionCheckerOne = res.body.filter(
         o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD' || o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD'
