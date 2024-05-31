@@ -986,6 +986,41 @@
           </div>
         </div>
       </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Total Restructure</mat-label>
+          <input matInput type="number" [(ngModel)]="applicationProduct.totalRestructure" />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Total Restructure</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.totalRestructure }}
+          </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Take Over Bank</mat-label>
+          <mat-select [(ngModel)]="applicationProduct.attributes['takeOverBank']" name="facilityType">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of dataMasterFinancialInstitution" [value]="item.code">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="col-3">Take Over Bank</div>
+        <div class="col-md-auto">:</div>
+        <div class="col">
+          {{ takeOverBankView }}
+        </div>
+      </section>
     </div>
   </div>
   <mat-label>Mapping to Collateral</mat-label>

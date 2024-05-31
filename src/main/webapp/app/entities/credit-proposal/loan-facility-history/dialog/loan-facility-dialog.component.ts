@@ -21,6 +21,8 @@ import { ProductClassificationService } from 'app/entities/product-classificatio
 import { ActivatedRoute, Router } from '@angular/router';
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
+import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
+import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
 
 @Component({
   selector: 'jhi-loan-facility-dialog-history',
@@ -218,6 +220,8 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
   public restructList = [];
   public installmentMethodValue: string;
   public restructMethodValue: string;
+  public dataMasterFinancialInstitution: IMasterFinancialInstitution[] = [];
+  public takeOverBankView = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -241,7 +245,8 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     protected productParameterService: MasterProductParameterService,
-    protected productClasificationService: ProductClassificationService
+    protected productClasificationService: ProductClassificationService,
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService
   ) {
     super(creditProposalService);
     this.dataItem = this.data.item;
@@ -270,6 +275,7 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
     this.lovInterestRateTypeList();
     this.lovRestructMethod();
     // this.typeListControl;
+    this.loadFinancialInstitution();
   }
 
   public save(): void {
@@ -941,5 +947,25 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
       }
       this.applicationProduct.thruDateContract = this.dataTrhu;
     }
+  }
+
+  private loadFinancialInstitution(): void {
+    this.masterFinancialInstitutionService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataMasterFinancialInstitution = res.body;
+        this.takeOverBankView = this.getDataBank(this.applicationProduct.attributes['takeOverBank']);
+      });
+  }
+
+  public getDataBank(code: string) {
+    if (code) {
+      const data: IMasterFinancialInstitution = this.dataMasterFinancialInstitution.find(obj => obj.code === code);
+      return data.description;
+    }
+    return '';
   }
 }

@@ -32,7 +32,7 @@ export class GenerateDraftDppkLoanOperationComponent implements OnInit, OnChange
   public paramId: string;
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
-  private KEYG = 'aggrement';
+  private KEYG = 'dppk';
   public _item?: ICreditProposal = new CreditProposal();
   // public fileTypeSelected: string;
   public fileTypeSelected = 'Word';
@@ -81,7 +81,7 @@ export class GenerateDraftDppkLoanOperationComponent implements OnInit, OnChange
   }
 
   private print() {
-    this.generateFile('Word', '/services/report/api/report/agreement/word/' + this.item.agreements[0].id);
+    this.generateFile('Word', '/services/report/api/report/dppk/word/' + this.item.agreements[0].id);
   }
 
   private generateFile(fileType: string, api: string, req?: any) {
@@ -201,7 +201,7 @@ export class GenerateDraftDppkLoanOperationComponent implements OnInit, OnChange
 
   private getFile(id: number): void {
     const predicate: Object = {
-      key: `/aggrement/${id}/document/draft/final`,
+      key: `/dppk/${id}/document/draft/final`,
     };
     this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
       if (res.body.length > 0) {
