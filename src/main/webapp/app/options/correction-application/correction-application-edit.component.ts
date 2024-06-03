@@ -382,11 +382,12 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
 
       // DPPK REVIEW is SPECIAL CASE.
       case STATUS.DPPK_REVIEW: {
-        this.isDppkReview = true;
-        this.getDppkReview2();
-
         const dataAssignToDPPKReview1: object = JSON.parse(this.loanApplication.attributes.dataAssignToDPPKReview1);
         param['idParty'] = dataAssignToDPPKReview1['partyId'];
+        param['relationType'] = RELATION_TYPE.DPPK_REVIEW1;
+
+        this.isDppkReview = true;
+        this.getDppkReview2();
         break;
       }
 
@@ -406,10 +407,13 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
       page: 0,
       size: 999,
       idParty: JSON.parse(this.loanApplication.attributes.dataAssignToDPPKReview2)['partyId'],
+      relationType: RELATION_TYPE.DPPK_REVIEW2,
       sort: ['id', 'desc'],
     };
 
-    this.cashPositionService.filterBy(params).subscribe(res => (this.dppkReviewDataSource = res.body as any));
+    this.cashPositionService.filterBy(params).subscribe(res => {
+      this.dppkReviewDataSource = res.body as any;
+    });
   }
 
   private validate(loanApplication: ILoanApplication, positions: IPosition[]): void {
@@ -460,7 +464,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
     }
   }
 
-  public save(data: MatTableDataSource<IPosition>): void {
+  public save(data: MatTableDataSource<IPosition>, dppkReviewDataSource: any = []): void {
     try {
       this.validate(this.loanApplication, data.filteredData);
       const filterSelectedPositions: IPosition[] = lodash.filter(data.filteredData, function (o) {
@@ -470,6 +474,19 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
       const correctionAppraisal: ICorrectionApplication = new CorrectionApplication();
       correctionAppraisal.applicationId = this.idApplication;
       correctionAppraisal.selectedPosition = filterSelectedPositions;
+
+      if (this.isDppkReview) {
+        this.validate(this.loanApplication, dppkReviewDataSource);
+        const filterSelectedPositionsDppkReview: IPosition[] = lodash.filter(dppkReviewDataSource, function (o) {
+          return o['checked'] === true;
+        });
+        const correctionAppraisalDppkReview: ICorrectionApplication = new CorrectionApplication();
+        correctionAppraisalDppkReview.applicationId = this.idApplication;
+        correctionAppraisalDppkReview.selectedPosition = filterSelectedPositionsDppkReview;
+
+        // join data dppk review
+        correctionAppraisal.selectedPosition = correctionAppraisal.selectedPosition.concat(correctionAppraisalDppkReview.selectedPosition);
+      }
 
       this.correctionApplicationService.create(correctionAppraisal).subscribe({
         next: res => {
