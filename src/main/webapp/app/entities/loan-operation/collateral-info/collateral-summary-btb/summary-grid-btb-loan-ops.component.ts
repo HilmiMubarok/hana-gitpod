@@ -206,11 +206,6 @@ export class SummaryGridBtbLoanOpsComponent
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
-    } else {
-      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
-    }
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -231,6 +226,9 @@ export class SummaryGridBtbLoanOpsComponent
           o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
         );
       });
+      for (let i = 0; i < this.dataCollateral.length; i++) {
+        this.findCollateralProperty(this.dataCollateral[i].partyId);
+      }
       this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
       this.getBindingCalculate(this.dataCollateral);
