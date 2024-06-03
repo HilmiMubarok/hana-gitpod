@@ -34,6 +34,7 @@ export class CorrectionApplicationEditInfoComponent {
 export class CorrectionApplicationEditComponent extends AbstractEntityMaterialComponent<IPosition> implements OnInit {
   public displayColumns: string[] = ['no', 'internal', 'name', 'position', 'select'];
   private idApplication: number;
+  public isDppkReview: Boolean = false;
   public loanApplication: ILoanApplication = new LoanApplication();
   constructor(
     private loanApplicationService: LoanApplicationService,
@@ -242,6 +243,154 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         param['idPositionType'] = POSITION_TYPE.RM;
         break;
       }
+
+      // NEW STATUSES
+      case STATUS.PK_FINALIZE: {
+        const dataAssignToLegalOfficer = JSON.parse(this.loanApplication.attributes.dataAssignToLegalOfficer);
+        param['idParty'] = dataAssignToLegalOfficer['partyId'];
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
+        param['idPositionType'] = POSITION_TYPE.LEGALOFFICER_OUTREGION;
+        param['code'] = 'LEGAL_OFFICER';
+        break;
+      }
+
+      case STATUS.PK_RETURN_TO_RM: {
+        param['active'] = true;
+        param['idParty'] = this.loanApplication.ownerPosition.partyId;
+        param['idPositionType'] = POSITION_TYPE.RM;
+        param['relationType'] = RELATION_TYPE.CREDIT_PROPOSAL;
+        break;
+      }
+
+      case STATUS.PK_RETURN_TO_OL: {
+        const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
+        param['idParty'] = dataAssignToLegalOfficer['partyId'];
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.LEGALOFFICER_OUTREGION;
+        param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
+        param['code'] = 'LEGAL_OFFICER';
+        break;
+      }
+
+      case STATUS.PK_REVIEW_TEAMLEAD: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.OL_APPROVAL;
+        param['idPositionType'] = POSITION_TYPE.LEGAL_TEAM_LEAD;
+        break;
+      }
+
+      case STATUS.PK_DAR_REVISION: {
+        const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
+        param['idParty'] = dataAssignToLegalOfficer['partyId'];
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.LOAN_ANALYSIS;
+        param['idPositionType'] = POSITION_TYPE.CRO;
+        break;
+      }
+
+      case STATUS.PK_DAR_REVISION_CHECKER: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.DAR;
+        param['idPositionType'] = POSITION_TYPE.CRC + ',' + POSITION_TYPE.HCR1 + ',' + POSITION_TYPE.HCR2;
+        break;
+      }
+
+      case STATUS.PK_REVIEW_LEAD: {
+        param['active'] = true;
+        param['idPositionType'] = POSITION_TYPE.CREDIT_LEGAL_LEAD;
+        param['relationType'] = RELATION_TYPE.OL_APPROVAL;
+        break;
+      }
+
+      case STATUS.PK_GENERATED: {
+        const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
+        param['idParty'] = dataAssignToLegalOfficer['partyId'];
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
+        param['idPositionType'] = POSITION_TYPE.LEGAL_OFFICER;
+        param['code'] = 'LEGAL_OFFICER';
+        break;
+      }
+
+      case STATUS.DPDL_FINALIZE: {
+        const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
+        param['idParty'] = dataAssignToLegalOfficer['partyId'];
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
+        param['idPositionType'] = POSITION_TYPE.LEGAL_OFFICER;
+        param['code'] = 'LEGAL_OFFICER';
+        break;
+      }
+
+      case STATUS.DPDL_RETURN_TO_RM: {
+        param['active'] = true;
+        param['idParty'] = this.loanApplication.ownerPosition.partyId;
+        param['idPositionType'] = POSITION_TYPE.RM;
+        param['relationType'] = RELATION_TYPE.CREDIT_PROPOSAL;
+        break;
+      }
+
+      case STATUS.DPDL_REVIEW_TEAMLEAD: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.OL_APPROVAL;
+        param['idPositionType'] = POSITION_TYPE.LEGAL_TEAM_LEAD;
+        break;
+      }
+
+      case STATUS.DPDL_REVIEW_LEAD: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.OL_APPROVAL;
+        param['idPositionType'] = POSITION_TYPE.CREDIT_LEGAL_LEAD;
+        break;
+      }
+
+      // NEW PHASE 2
+
+      case STATUS.DPDL_REVIEW_HEAD: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.OL_APPROVAL;
+        param['idPositionType'] = POSITION_TYPE.ROLE_LEGAL_HEAD;
+        break;
+      }
+
+      case STATUS.DPPK_FINALIZE: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.DPPK;
+        param['idPositionType'] = POSITION_TYPE.ROLE_CREDIT_ADMIN;
+        break;
+      }
+
+      case STATUS.LOAN_OPS_DISTRIBUTION: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.LOAN_OPERATION;
+        param['idPositionType'] = POSITION_TYPE.LOAN_OPS_ADMIN;
+        break;
+      }
+      case STATUS.LOAN_OPS_CHECKING: {
+        const dataAssignToLoanOpsOfficer: object = JSON.parse(this.loanApplication.attributes.dataAssignToLoanOpsOfficer);
+        param['idParty'] = dataAssignToLoanOpsOfficer['partyId'];
+        param['relationType'] = RELATION_TYPE.LOAN_OPERATION;
+        break;
+      }
+      case STATUS.LOAN_OPS_REVIEW: {
+        param['active'] = true;
+        param['relationType'] = RELATION_TYPE.LOAN_OPERATION_APPROVAL;
+        param['idPositionType'] = POSITION_TYPE.LOAN_OPS_SPV;
+        break;
+      }
+
+      // DPPK REVIEW is SPECIAL CASE.
+      case STATUS.DPPK_REVIEW: {
+        const dataAssignToDPPKReview1: object = JSON.parse(this.loanApplication.attributes.dataAssignToDPPKReview1);
+        param['idParty'] = dataAssignToDPPKReview1['partyId'];
+        param['relationType'] = RELATION_TYPE.DPPK_REVIEW1;
+
+        this.isDppkReview = true;
+        this.getDppkReview2();
+        break;
+      }
+
       default: {
         param = {};
         break;
@@ -250,6 +399,21 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
 
     const resp: HttpResponse<IPosition[]> = await firstValueFrom(this.cashPositionService.filterBy(param));
     this.initDataForMatTable(resp, resp.headers);
+  }
+
+  dppkReviewDataSource: MatTableDataSource<any> = new MatTableDataSource([]);
+  getDppkReview2() {
+    const params = {
+      page: 0,
+      size: 999,
+      idParty: JSON.parse(this.loanApplication.attributes.dataAssignToDPPKReview2)['partyId'],
+      relationType: RELATION_TYPE.DPPK_REVIEW2,
+      sort: ['id', 'desc'],
+    };
+
+    this.cashPositionService.filterBy(params).subscribe(res => {
+      this.dppkReviewDataSource = res.body as any;
+    });
   }
 
   private validate(loanApplication: ILoanApplication, positions: IPosition[]): void {
@@ -300,7 +464,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
     }
   }
 
-  public save(data: MatTableDataSource<IPosition>): void {
+  public save(data: MatTableDataSource<IPosition>, dppkReviewDataSource: any = []): void {
     try {
       this.validate(this.loanApplication, data.filteredData);
       const filterSelectedPositions: IPosition[] = lodash.filter(data.filteredData, function (o) {
@@ -310,6 +474,19 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
       const correctionAppraisal: ICorrectionApplication = new CorrectionApplication();
       correctionAppraisal.applicationId = this.idApplication;
       correctionAppraisal.selectedPosition = filterSelectedPositions;
+
+      if (this.isDppkReview) {
+        this.validate(this.loanApplication, dppkReviewDataSource);
+        const filterSelectedPositionsDppkReview: IPosition[] = lodash.filter(dppkReviewDataSource, function (o) {
+          return o['checked'] === true;
+        });
+        const correctionAppraisalDppkReview: ICorrectionApplication = new CorrectionApplication();
+        correctionAppraisalDppkReview.applicationId = this.idApplication;
+        correctionAppraisalDppkReview.selectedPosition = filterSelectedPositionsDppkReview;
+
+        // join data dppk review
+        correctionAppraisal.selectedPosition = correctionAppraisal.selectedPosition.concat(correctionAppraisalDppkReview.selectedPosition);
+      }
 
       this.correctionApplicationService.create(correctionAppraisal).subscribe({
         next: res => {
