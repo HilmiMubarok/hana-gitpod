@@ -338,7 +338,11 @@
 
             <!-- loan facility detail -->
             <div *ngIf="clickedMenu === 'loan-facility'">
-              <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
+              <jhi-credit-proposal-tab-loan-facility-detail
+                [disable]="ActiveRole"
+                [parentSource]="'credit-agreement'"
+                [creditProposal]="creditProposal"
+              >
               </jhi-credit-proposal-tab-loan-facility-detail>
             </div>
 
