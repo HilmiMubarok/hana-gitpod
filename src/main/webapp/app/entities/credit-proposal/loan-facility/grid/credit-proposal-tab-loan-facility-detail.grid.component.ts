@@ -34,6 +34,15 @@ import { MessageService } from 'primeng/api';
 })
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit, OnChanges {
   public dataParty = [];
+  public _disable: boolean;
+
+  @Input()
+  get disable() {
+    return this._disable;
+  }
+  set disable(item: boolean) {
+    this._disable = item;
+  }
 
   @Input() isOnMemo: Boolean = false;
   @Input() isViewMode: Boolean = false;
@@ -210,6 +219,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
       width: '80vw',
 
       data: {
+        disable: this._disable,
         item: this.creditProposal,
         creditProposaldata: this.creditProposal,
         applicationProduct: this.applicationProduct,

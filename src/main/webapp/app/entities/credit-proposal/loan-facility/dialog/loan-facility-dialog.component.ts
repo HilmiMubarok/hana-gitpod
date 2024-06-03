@@ -284,11 +284,13 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public restructList = [];
   public installmentMethodValue: string;
   public restructMethodValue: string;
+  public disable: boolean;
 
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      disable: boolean;
       item: ICreditProposal;
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
@@ -322,6 +324,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.openCancelDialog();
       });
     }
+    this.disable = this.data.disable;
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
@@ -1157,7 +1160,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   conditionReviewDppk() {
-    if (this.parentPath === 'review-dppk') {
+    if (this.parentPath === 'review-dppk' || this.disable) {
       return true;
     }
     if (this.parentPath === 'finalize-dppk' && this.selectedMenu !== 'loan-facility') {

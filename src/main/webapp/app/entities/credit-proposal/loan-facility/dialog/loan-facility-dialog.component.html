@@ -1163,7 +1163,7 @@
         </div>
       </section>
 
-      <div *ngIf="parentPath === 'finalize-dppk' && selectedMenu === 'loan-facility'">
+      <div *ngIf="parentPath === 'finalize-dppk' && selectedMenu === 'loan-facility' && !conditionReviewDppk()">
         <section>
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Credit Term</mat-label>
