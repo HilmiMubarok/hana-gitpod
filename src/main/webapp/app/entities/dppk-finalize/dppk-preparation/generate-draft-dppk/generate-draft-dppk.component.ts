@@ -17,6 +17,8 @@ import { saveAs as importedSaveAs } from 'file-saver';
   styleUrls: ['./generate-draft-dppk.component.scss'],
 })
 export class GenerateDraftDppkComponent implements OnInit {
+  public _disable: boolean;
+
   @Input('item')
   get item() {
     return this._item;
@@ -24,6 +26,14 @@ export class GenerateDraftDppkComponent implements OnInit {
 
   set item(item: any) {
     this._item = item;
+  }
+
+  @Input()
+  get disable() {
+    return this._disable;
+  }
+  set disable(item: boolean) {
+    this._disable = item;
   }
 
   public isDataExist = false;
@@ -212,7 +222,7 @@ export class GenerateDraftDppkComponent implements OnInit {
   }
 
   conditionReviewDppk() {
-    if (this.parentPath === 'review-dppk') {
+    if (this.parentPath === 'review-dppk' || this._disable) {
       return true;
     }
     return false;

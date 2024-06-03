@@ -55,7 +55,7 @@
 
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-dppk-preparation-internal-memo [creditProposal]="creditProposal"></jhi-dppk-preparation-internal-memo>
+      <jhi-dppk-preparation-internal-memo [disable]="disable" [creditProposal]="creditProposal"></jhi-dppk-preparation-internal-memo>
     </div>
   </div>
 </div>
@@ -69,7 +69,7 @@
 
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-generate-draft-dppk [item]="creditProposal"></jhi-generate-draft-dppk>
+      <jhi-generate-draft-dppk [disable]="disable" [item]="creditProposal"></jhi-generate-draft-dppk>
     </div>
   </div>
 </div>

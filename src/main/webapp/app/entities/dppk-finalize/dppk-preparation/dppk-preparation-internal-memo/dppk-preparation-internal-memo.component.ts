@@ -22,6 +22,7 @@ import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-prepara
 })
 export class DppkPreparationInternalMemoComponent implements OnChanges {
   public _creditProposal: ICreditProposal;
+  public _disable: boolean;
 
   @Input()
   get creditProposal(): ICreditProposal {
@@ -30,6 +31,14 @@ export class DppkPreparationInternalMemoComponent implements OnChanges {
 
   set creditProposal(value: ICreditProposal) {
     this._creditProposal = value;
+  }
+
+  @Input()
+  get disable() {
+    return this._disable;
+  }
+  set disable(item: boolean) {
+    this._disable = item;
   }
 
   public metaData: IInternalMemoMetaData = new InternalMemoDocumentMetaData();
@@ -313,7 +322,7 @@ export class DppkPreparationInternalMemoComponent implements OnChanges {
   }
 
   conditionReviewDppk() {
-    if (this.parentPath === 'review-dppk') {
+    if (this.parentPath === 'review-dppk' || this._disable) {
       return true;
     }
     return false;
