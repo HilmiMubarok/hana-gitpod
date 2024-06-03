@@ -38,6 +38,8 @@ export class CovenantTempComponent implements OnInit {
 
   public finalData: any;
 
+  public _isDisabledFromDPPK: boolean;
+
   constructor(private router: Router) {}
 
   get viewMode(): Boolean {
@@ -74,7 +76,21 @@ export class CovenantTempComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
+  @Input()
+  get isDisabledFromDPPK() {
+    return this._isDisabledFromDPPK;
+  }
+
+  set isDisabledFromDPPK(param: boolean) {
+    this._isDisabledFromDPPK = param;
+  }
+
   ngOnInit(): void {
     this.selectedMenu = !this.setActiveMenu ? 'COVENANT' : this.setActiveMenu;
+    if (this.router.url.includes('finalize-dppk')) {
+      this.isDisabledFromDPPK = this.isDisabledFromDPPK === undefined ? false : this.isDisabledFromDPPK;
+    } else {
+      this.isDisabledFromDPPK = null;
+    }
   }
 }
