@@ -204,7 +204,13 @@ export class MasterDocumentTermDialogComponent implements OnInit {
       .pipe(map((res: HttpResponse<IPosition[]>) => res.body || []))
       .subscribe(employeeData => {
         this.employeeData = employeeData;
-        this.nameLov = [...employeeData.map(item => item.employeeFirstName + ' ' + item.employeeLastName)];
+
+        // Create filtered Employee. This is used for the name LOV with filtering, when the employeeData is exists inside this.participants data array, then remove it.
+        const filteredEmployee = employeeData.filter(
+          data => !this.participants.data.some(participant => participant.employeeId === data.employeeId)
+        );
+
+        this.nameLov = [...filteredEmployee.map(item => item.employeeFirstName + ' ' + item.employeeLastName)];
       });
   }
 
