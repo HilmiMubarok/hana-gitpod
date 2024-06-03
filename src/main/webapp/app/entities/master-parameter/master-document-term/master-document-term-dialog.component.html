@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>ADD / EDIT COMPANY TYPE</h2>
+<h2 mat-dialog-title>ADD / EDIT DOCUMENT TERM</h2>
 <mat-dialog-content>
   <div class="row">
     <div class="col-12">
-      <form [formGroup]="masterDocumentTerm">
+      <form [formGroup]="masterDocumentTerm" novalidate>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Reminder Type</mat-label>
@@ -15,7 +15,6 @@
             <div class="col-6">
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="number" formControlName="fromDays" />
-                <!-- Material error -->
                 <mat-error
                   *ngIf="
                     masterDocumentTerm.get('fromDays')?.invalid &&
@@ -29,7 +28,6 @@
             <div class="col-6">
               <mat-form-field class="w-100" appearance="outline">
                 <input matInput type="number" formControlName="toDays" />
-                <!-- Material error -->
                 <mat-error
                   *ngIf="
                     masterDocumentTerm.get('toDays')?.invalid &&
@@ -44,25 +42,18 @@
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Scheduler Email</mat-label>
-            <input matInput type="text" formControlName="schedulerEmail" />
-          </mat-form-field>
-        </section>
-        <section class="mt-2">
-          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Scheduler Type</mat-label>
-            <mat-select formControlName="schedulerType">
+            <mat-select formControlName="interval">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of schedulerTypes" [value]="item.id"> {{ item.label }} </mat-option>
             </mat-select>
-            <!-- Material error -->
             <mat-error
               *ngIf="
-                masterDocumentTerm.get('schedulerType')?.invalid &&
-                (masterDocumentTerm.get('schedulerType')?.dirty || masterDocumentTerm.get('schedulerType')?.touched)
+                masterDocumentTerm.get('interval')?.invalid &&
+                (masterDocumentTerm.get('interval')?.dirty || masterDocumentTerm.get('interval')?.touched)
               "
             >
-              <span *ngIf="masterDocumentTerm.get('schedulerType')?.errors?.required">Scheduler Type is required</span>
+              <span *ngIf="masterDocumentTerm.get('interval')?.errors?.required">Scheduler Type is required</span>
             </mat-error>
           </mat-form-field>
         </section>
@@ -73,7 +64,6 @@
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item2 of spesificDateLov | async" [value]="item2"> {{ item2 }} </mat-option>
             </mat-select>
-            <!-- Material error -->
             <mat-error
               *ngIf="
                 masterDocumentTerm.get('daysTo')?.invalid &&
@@ -87,20 +77,105 @@
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Status</mat-label>
-            <mat-select formControlName="status">
+            <mat-select formControlName="statusId">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item2 of ['ACTIVE', 'NON_ACTIVE']" [value]="item2"> {{ item2 }} </mat-option>
             </mat-select>
-            <!-- Material error -->
             <mat-error
               *ngIf="
-                masterDocumentTerm.get('status')?.invalid &&
-                (masterDocumentTerm.get('status')?.dirty || masterDocumentTerm.get('status')?.touched)
+                masterDocumentTerm.get('statusId')?.invalid &&
+                (masterDocumentTerm.get('statusId')?.dirty || masterDocumentTerm.get('statusId')?.touched)
               "
             >
-              <span *ngIf="masterDocumentTerm.get('status')?.errors?.required">Status is required</span>
+              <span *ngIf="masterDocumentTerm.get('statusId')?.errors?.required">Status is required</span>
             </mat-error>
           </mat-form-field>
+        </section>
+
+        <section class="mt-2">
+          <div class="card">
+            <div class="card-header">
+              <h6 class="card-title">Scheduler Emails</h6>
+            </div>
+            <div class="card-body">
+              <div class="row my-2 d-flex align-items-center" formGroupName="schedulerEmail">
+                <div class="col-5 h-100">
+                  <mat-form-field class="w-100 participant" appearance="outline">
+                    <mat-label>Position</mat-label>
+                    <mat-select formControlName="position">
+                      <mat-option value="">- Please Select -</mat-option>
+                      <mat-option *ngFor="let item of positionLov" [value]="item">
+                        {{ item }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-5 h-100">
+                  <mat-form-field class="w-100 participant" appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <mat-select formControlName="name">
+                      <mat-option value="">- Please Select -</mat-option>
+                      <mat-option *ngFor="let item of nameLov" [value]="item">
+                        {{ item }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-2 h-100">
+                  <button
+                    mat-raised-button
+                    class="button-styling"
+                    (click)="addParticipant()"
+                    [disabled]="
+                      masterDocumentTerm.get('schedulerEmail').get('name')?.invalid ||
+                      masterDocumentTerm.get('schedulerEmail').get('position')?.invalid ||
+                      masterDocumentTerm.get('schedulerEmail').get('name')?.value === '' ||
+                      masterDocumentTerm.get('schedulerEmail').get('position')?.value === ''
+                    "
+                  >
+                    ADD
+                  </button>
+                </div>
+              </div>
+              <div class="mt-2">
+                <table mat-table class="w-100" [dataSource]="participants">
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}.</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef class="grid-index-left">Name</th>
+                    <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">
+                      {{ element.employeeFirstName }} {{ element.employeeLastName }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef class="grid-index-left">Email</th>
+                    <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">
+                      {{ element.employeeEmail }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
+                    <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">
+                      <button mat-icon-button (click)="deleteParticipant(element.id)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
+
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" [attr.colspan]="['id', 'name', 'email', 'action'].length">No records found.</td>
+                  </tr>
+                  <tr mat-header-row *matHeaderRowDef="['id', 'name', 'email', 'action']"></tr>
+                  <tr mat-row *matRowDef="let element; columns: ['id', 'name', 'email', 'action']"></tr>
+                </table>
+              </div>
+            </div>
+          </div>
         </section>
       </form>
     </div>

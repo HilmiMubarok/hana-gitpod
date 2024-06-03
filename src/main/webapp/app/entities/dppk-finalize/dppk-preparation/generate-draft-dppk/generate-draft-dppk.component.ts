@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { formatBytes } from 'app/shared/helper/utils';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { saveAs as importedSaveAs } from 'file-saver';
 
 @Component({
   selector: 'jhi-generate-draft-dppk',
@@ -226,7 +227,4 @@ interface IObj {
   size?: number;
   tags?: any;
   url?: string;
-}
-function importedSaveAs(file: Blob, fileName: string) {
-  throw new Error('Function not implemented.');
 }
