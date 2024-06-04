@@ -309,7 +309,6 @@ export class ReviewHistoryComponent implements OnChanges, OnDestroy, OnInit {
 
   save() {
     this.loader.setLoading(true);
-    this.getContentWord();
     const folder = this.currentNote !== undefined && this.currentNote.path !== null ? this.currentNote.path : uuid.v4();
     const notes: INotes = this.currentNote !== undefined ? { ...this.currentNote } : {};
 
