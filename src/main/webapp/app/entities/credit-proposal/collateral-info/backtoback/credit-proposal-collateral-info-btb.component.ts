@@ -44,6 +44,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   private _group: string;
 
   @Input() parentSource?: String = '';
+  @Input() disable = false;
 
   @Input()
   get group() {
@@ -181,6 +182,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         group: this.group,
         parentSource: this.parentSource,
         depositInterestRate: this.getDepositInterestRate(value),
+        disable: this.disable,
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);
@@ -947,8 +949,6 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         const idx = this.collateralProperties.findIndex(obj => obj.id === data.id);
         if (idx) {
           this.collateralProperties[idx].depositInterestRate = depositInterestRate;
-          console.log('idx ', idx);
-          console.log('property di child ', this.collateralProperties);
         }
       }
     }
