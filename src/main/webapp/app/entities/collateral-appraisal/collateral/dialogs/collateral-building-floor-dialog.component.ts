@@ -62,6 +62,22 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
         duration: 3000,
       });
     } else {
+      if (!this.floor.floor) {
+        this._snackBar.open('Masukkan Floor Terlebih Dahulu', null, {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+      if (!this.floor.area) {
+        this._snackBar.open('Masukkan Area Terlebih Dahulu', null, {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
       const _floors: object[] = this.floors.data;
       const _floor: IFloor = Object.assign({}, this.floor);
       _floors.push(_floor);
