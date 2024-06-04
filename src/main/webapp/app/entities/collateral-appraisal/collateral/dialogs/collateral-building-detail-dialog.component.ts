@@ -12,6 +12,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { validateHorizontalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'jhi-collateral-building-detail-dialog',
@@ -275,6 +276,46 @@ export class CollateralBuildingDetailDialogComponent implements OnInit {
     }
     if (!this.collateralProp.roof) {
       this._snackBar.open('Masukan Roof terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.imb) {
+      this._snackBar.open('Masukkan Imb terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.imbDate) {
+      this._snackBar.open('Masukkan Imb Date terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.storeyTtl) {
+      this._snackBar.open('Masukkan Total Storey terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.imbArea) {
+      this._snackBar.open('Masukkan IMB Area terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProp.propertyAreaTataKota) {
+      this._snackBar.open('Masukkan Tata Kota Area terlebih dahulu', null, {
         horizontalPosition: 'center',
         verticalPosition: 'top',
         duration: 3000,

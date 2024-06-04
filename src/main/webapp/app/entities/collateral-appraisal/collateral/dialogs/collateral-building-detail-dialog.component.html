@@ -1,5 +1,5 @@
 <!-- <h2 mat-dialog-title class="sub-header">Building Detail</h2> -->
-<mat-card-header-subtitle>Building Detail ZZ</mat-card-header-subtitle>
+<mat-card-header-subtitle>Building Detail</mat-card-header-subtitle>
 <mat-dialog-content>
   <div class="row">
     <!-- LEFT SIDE -->
@@ -205,6 +205,7 @@
           [(ngModel)]="collateralProp.imb"
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
+          required
         ></ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB</mat-label>
@@ -222,6 +223,7 @@
             type="text"
             [(ngModel)]="collateralProp.imbDate"
             disabled
+            required
           />
           <mat-datepicker-toggle matSuffix [for]="imbDate"></mat-datepicker-toggle>
           <mat-datepicker #imbDate disabled="false" [disabled]="hideordisable()"></mat-datepicker>
@@ -238,6 +240,7 @@
           min="0"
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
+          required
         >
         </ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
@@ -258,6 +261,7 @@
           min="0"
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
+          required
         >
         </ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
@@ -278,6 +282,7 @@
           min="0"
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
+          required
         >
         </ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
