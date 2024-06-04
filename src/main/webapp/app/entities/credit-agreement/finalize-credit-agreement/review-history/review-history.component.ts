@@ -162,6 +162,20 @@ export class ReviewHistoryComponent implements OnChanges, OnDestroy, OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
 
+  public getContentWord(): string {
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+    docEditor.selection.selectParagraph();
+
+    const selectedContent: string = docEditor.selection.text;
+
+    if (selectedContent === '' || selectedContent === '\r') {
+      return 'DRAFT';
+    } else {
+      return 'ACTIVE';
+    }
+  }
+
   customHeadersJWT: any;
 
   public onCreate(): void {
@@ -295,6 +309,7 @@ export class ReviewHistoryComponent implements OnChanges, OnDestroy, OnInit {
 
   save() {
     this.loader.setLoading(true);
+    this.getContentWord();
     const folder = this.currentNote !== undefined && this.currentNote.path !== null ? this.currentNote.path : uuid.v4();
     const notes: INotes = this.currentNote !== undefined ? { ...this.currentNote } : {};
 
@@ -306,7 +321,7 @@ export class ReviewHistoryComponent implements OnChanges, OnDestroy, OnInit {
       this.currentNote !== undefined && this.currentNote.path !== null
         ? this.currentNote.path
         : folder + '-' + this.username + '-' + modifiedApproverName;
-    notes.statusId = 'ACTIVE';
+    notes.statusId = this.getContentWord();
 
     this.notesChange.emit(notes);
 
