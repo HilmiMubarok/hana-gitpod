@@ -57,6 +57,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   ];
   private _group: string;
 
+  @Input() disable = false;
   @Input() parentSource?: String = '';
 
   @Input()
@@ -303,6 +304,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     const predicate: object = {
       width: '80vw',
       data: {
+        disable: this.disable,
         cp: this.creditProposal,
         collateral: element,
         marketability: this.getMarketability(element),

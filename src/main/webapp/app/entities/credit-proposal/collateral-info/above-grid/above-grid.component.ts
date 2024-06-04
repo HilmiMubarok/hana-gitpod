@@ -83,6 +83,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this.selectedMenu = args.item.text;
   }
 
+  @Input() disable = false;
   @Input() parentSource?: String = '';
 
   @Input()
@@ -294,6 +295,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     const predicate: object = {
       width: '80vw',
       data: {
+        disable: this.disable,
         cp: this.creditProposal,
         collateral: element,
         marketability: this.getMarketability(element),
