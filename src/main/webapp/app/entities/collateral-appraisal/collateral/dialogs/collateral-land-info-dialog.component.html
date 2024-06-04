@@ -13,6 +13,7 @@
                 [(ngModel)]="collateralProperty.description"
                 [disabled]="hideordisable()"
                 [disabled]="hiddenRmAdmin"
+                required
               />
             </mat-form-field>
           </div>
@@ -26,6 +27,7 @@
                 (ngModelChange)="collateralProperty.landSizePerCertificate = numberInputChanged($event)"
                 [disabled]="hideordisable()"
                 [disabled]="hiddenRmAdmin"
+                required
               />
             </mat-form-field>
           </div>

@@ -7,19 +7,19 @@
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Certificate Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certNumber" [disabled]="hideordisable()" />
+              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certNumber" [disabled]="hideordisable()" required />
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>In The Name Of</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certName" [disabled]="hideordisable()" />
+              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certName" [disabled]="hideordisable()" required />
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>No GS / SU</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certGSNumber" [disabled]="hideordisable()" />
+              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certGSNumber" [disabled]="hideordisable()" required />
             </mat-form-field>
           </section>
         </div>
@@ -35,6 +35,7 @@
                 type="text"
                 [(ngModel)]="collateralLandAttribute.certIssueDate"
                 disabled
+                required
               />
               <mat-datepicker-toggle matSuffix [for]="dateOfIssue"></mat-datepicker-toggle>
               <mat-datepicker #dateOfIssue disabled="false" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin"> </mat-datepicker>
@@ -51,6 +52,7 @@
                 type="text"
                 [(ngModel)]="collateralLandAttribute.certDueDate"
                 disabled
+                required
               />
               <mat-datepicker-toggle matSuffix [for]="dueDate"></mat-datepicker-toggle>
               <mat-datepicker #dueDate disabled="false" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin"> </mat-datepicker>
@@ -66,6 +68,7 @@
                 (ngModelChange)="collateralLandAttribute.certArea = numberInputChanged($event)"
                 [disabled]="hideordisable()"
                 [disabled]="hiddenRmAdmin"
+                required
               />
 
               <!-- <input matInput type="number" [(ngModel)]="collateralProp.landSizePerCertificate" /> -->

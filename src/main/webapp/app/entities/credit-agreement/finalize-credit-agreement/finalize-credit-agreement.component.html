@@ -63,7 +63,7 @@
                 (selectionChange)="onSelectAgreementType($event)"
               >
                 <mat-option value="">Please Select Conditions</mat-option>
-                <mat-option *ngFor="let item of ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali']" [value]="item">
+                <mat-option *ngFor="let item of agreementTypeLov" [value]="item">
                   {{ item }}
                 </mat-option>
               </mat-select>
@@ -298,7 +298,9 @@
             >
           </div>
 
-          <div *ngIf="selectedConditionId(selectedConditions[i]) === 60170 || selectedConditionId(selectedConditions[i]) === 60171">
+          <div
+            *ngIf="selectedConditionId(selectedConditions[i]) === 'ADCP-002' || selectedConditionId(selectedConditions[i]) === 'ADCP-003'"
+          >
             <div class="row">
               <div class="col-6">
                 <mat-form-field class="w-100" appearance="outline">
@@ -316,7 +318,7 @@
             </div>
           </div>
 
-          <div *ngIf="selectedConditionId(selectedConditions[i]) === 60175">
+          <div *ngIf="selectedConditionId(selectedConditions[i]) === 'ADCC-003'">
             <div class="row">
               <div class="col-6">
                 <mat-form-field class="w-100" appearance="outline">
@@ -338,7 +340,7 @@
             </div>
           </div>
 
-          <div *ngIf="selectedConditionId(selectedConditions[i]) === 60172">
+          <div *ngIf="selectedConditionId(selectedConditions[i]) === 'ADCP-004'">
             <div class="row">
               <div class="col-6">
                 <mat-form-field class="w-100" appearance="outline">
@@ -402,7 +404,7 @@
             </div>
           </div>
 
-          <div *ngIf="selectedConditionId(selectedConditions[i]) === 60174">
+          <div *ngIf="selectedConditionId(selectedConditions[i]) === 'ADCC-002'">
             <div class="col-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Letter Of Name</mat-label>
@@ -441,7 +443,9 @@
             </div>
           </div>
 
-          <div *ngIf="selectedConditionId(selectedConditions[i]) === 60170 || selectedConditionId(selectedConditions[i]) === 60171">
+          <div
+            *ngIf="selectedConditionId(selectedConditions[i]) === 'ADCP-002' || selectedConditionId(selectedConditions[i]) === 'ADCP-003'"
+          >
             <div class="row">
               <div class="col-6">
                 <div class="fontsebled row py-3">
@@ -453,7 +457,7 @@
             </div>
           </div>
 
-          <div *ngIf="selectedConditionId(selectedConditions[i]) === 60175">
+          <div *ngIf="selectedConditionId(selectedConditions[i]) === 'ADCC-003'">
             <div class="row">
               <div class="col-6">
                 <div class="fontsebled row py-3">
@@ -471,7 +475,7 @@
             </div>
           </div>
 
-          <div *ngIf="selectedConditionId(selectedConditions[i]) === 60172">
+          <div *ngIf="selectedConditionId(selectedConditions[i]) === 'ADCP-004'">
             <div class="row">
               <div class="col-6">
                 <div class="fontsebled row py-3">
@@ -517,7 +521,7 @@
             </div>
           </div>
 
-          <div *ngIf="selectedConditionId(selectedConditions[i]) === 60174">
+          <div *ngIf="selectedConditionId(selectedConditions[i]) === 'ADCC-002'">
             <div class="col-6">
               <div class="fontsebled row py-3">
                 <div class="col-3">Letter Of Name</div>

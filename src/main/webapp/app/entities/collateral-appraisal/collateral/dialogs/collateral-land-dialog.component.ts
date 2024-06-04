@@ -9,6 +9,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'jhi-collateral-land-dialog',
@@ -28,7 +29,8 @@ export class CollateralLandDialogComponent implements OnInit {
     private collateralService: CollateralService,
     private accountService: AccountService,
     private templateService: TemplateService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) {
     this.collateralLandAttribute = this.data.collateralLandAttribute;
     this.collateral = this.data.collateral;
@@ -85,6 +87,55 @@ export class CollateralLandDialogComponent implements OnInit {
   }
 
   public save(): void {
+    if (!this.collateralLandAttribute.certNumber) {
+      this._snackBar.open('Masukan Certificate Number terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralLandAttribute.certName) {
+      this._snackBar.open('Masukan In The Name Of terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!this.collateralLandAttribute.certGSNumber) {
+      this._snackBar.open('Masukan No GS / SU terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralLandAttribute.certIssueDate) {
+      this._snackBar.open('Masukan Date of Issue terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralLandAttribute.certDueDate) {
+      this._snackBar.open('Masukan Due Date terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralLandAttribute.certArea) {
+      this._snackBar.open('Masukan Area terlebih dahulu', null, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
     if (typeof this.collateralLandAttribute.certIssueDate === 'object') {
       if (typeof this.collateralLandAttribute.certIssueDate === 'object') {
         this.collateralLandAttribute.certIssueDate = this.convertDate(this.collateralLandAttribute.certIssueDate);

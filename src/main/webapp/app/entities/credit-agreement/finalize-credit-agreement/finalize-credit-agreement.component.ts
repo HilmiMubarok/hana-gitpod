@@ -21,6 +21,7 @@ import { INotes } from 'app/entities/notes/notes.model';
 })
 export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   public dataAgreement: any[] = [];
+  public agreementTypeLov: string[] = ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali'];
   public approvalDebtor: any[] = [1];
   public postalAdresss: IPostalAddress;
   public valueApprovalDebtor: any[];
@@ -98,6 +99,14 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
       this.displayColumnsCreditAgreementClausal = ['code', 'category', 'description', 'clausal', 'action'];
     } else {
       this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
+    }
+
+    if (this.creditProposal.agreements[0]?.agreementTypeId === 'LOAN_AGREEMENT') {
+      // Delete index 1 of agreementTypeLov
+      this.agreementTypeLov.splice(1, 1);
+    } else {
+      // Only show index 1 of agreementTypeLov
+      this.agreementTypeLov = this.agreementTypeLov.filter((data: any) => data === 'ADDENDUM');
     }
 
     this.getApprovalDebtorConditions();
@@ -412,7 +421,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   public selectedConditionId(name: string) {
     const filter = this.selectedConditionsValue.filter((data: any) => data.value === name);
-    return filter.length > 0 ? filter[0].id : '';
+    return filter.length > 0 ? filter[0].code : '';
   }
 
   getAvailableOptions(index: number): string[] {
