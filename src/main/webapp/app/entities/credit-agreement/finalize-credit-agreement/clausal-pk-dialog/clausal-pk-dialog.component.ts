@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { CreditAgreementService } from '../../credit-agreement.service';
 import { CreditAgreementClausal, ICreditAgreementClausal } from '../agreement-clausal.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-clausal-pk-dialog',
@@ -28,6 +28,7 @@ export class ClausalPkDialogComponent {
   public clausalAgreement: any[];
   constructor(
     private storageService: StorageService,
+    private dialog: MatDialog,
     public dialogRef: MatDialogRef<ClausalPkDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
 
@@ -42,7 +43,19 @@ export class ClausalPkDialogComponent {
   public displayColumnsCreditAgreementClausal: string[] = ['code', 'category', 'description', 'action'];
 
   onNoClick(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
     this.dialogRef.close();
+      }
+    });
   }
 
   private getBucket(): Promise<string> {
