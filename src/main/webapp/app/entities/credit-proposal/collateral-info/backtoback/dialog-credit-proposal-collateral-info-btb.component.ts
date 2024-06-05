@@ -594,7 +594,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public disableDepositInterestRate() {
-    if ((this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info') || !this.disable) {
+    if (this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info' && !this.disable) {
       return false;
     }
     return true;
