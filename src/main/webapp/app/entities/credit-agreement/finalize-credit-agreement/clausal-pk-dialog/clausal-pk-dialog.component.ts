@@ -156,7 +156,7 @@ export class ClausalPkDialogComponent {
       let clausalChild = [];
 
       for (let i = 0; i < this.countChildFormAgreements.length; i++) {
-        if (this.valueParentClausalAgreements?.description === 'Pasal Addendum 1') {
+        if (this.valueParentClausalAgreements?.code === 'AD-16') {
           const filteraddendumListActive = this.addendumListActive.filter((res: any) => res.id === this.valueChildAgreeements[i].id);
 
           filteraddendumListActive.forEach((item: any) => {
