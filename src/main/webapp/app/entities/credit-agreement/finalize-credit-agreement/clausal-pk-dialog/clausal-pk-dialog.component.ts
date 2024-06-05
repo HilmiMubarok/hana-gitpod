@@ -85,6 +85,8 @@ export class ClausalPkDialogComponent {
 
     this.creditAgreementService.agreementsClausalByPartyId(this.data.creditProposal.agreements[0]?.toPartyId).subscribe((res: any) => {
       const data: any[] = res.body;
+      // Sort data desc by sequence
+      data.sort((a, b) => (a.sequence > b.sequence ? 1 : -1));
       this.addendumListActive = data.filter(obj => obj.statusCode === 'ACTIVE');
     });
 
