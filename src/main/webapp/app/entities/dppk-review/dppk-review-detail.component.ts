@@ -562,9 +562,17 @@ export class DppkReviewDetailComponent implements OnInit {
   }
 
   private getTasks(): void {
-    // this.creditAgreementProcessService.getTasks(this.id).subscribe(res => {
+    const partyId = obj => obj.partyId === this.getLocStor('POSOPARID');
+    const roleId = obj2 => obj2.roleId === this.getLocStor('POSO');
+
+    console.log('ttatat', this.getLocStor('POSOPARID'), this.getLocStor('POSO'), this.creditProposal.listOfPic.findIndex(roleId));
+
     this.dppkReviewProcessService.getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath }).subscribe(res => {
-      this.tasks = res.body;
+      this.creditProposal.listOfPic.forEach(element => {
+        if (element.partyId === this.getLocStor('POSOPARID') && element.roleId === this.getLocStor('POSO')) {
+          this.tasks = res.body;
+        }
+      });
     });
   }
 
