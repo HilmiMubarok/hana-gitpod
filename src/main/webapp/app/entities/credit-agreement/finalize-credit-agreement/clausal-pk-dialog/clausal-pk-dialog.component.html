@@ -30,6 +30,7 @@
           <div [formGroupName]="i">
             <mat-form-field appearance="outline" class="w-50" style="margin-left: 30px">
               <mat-select formControlName="selectedValue" (change)="onDropdownChange(i)">
+                <mat-option value="">Please Select</mat-option>
                 <mat-option *ngFor="let option of dropdownOptions[i]" [value]="option">
                   {{ option.agreementClausalParameterCode }} - {{ option.agreementClausalParameterDescription }}
                 </mat-option>
