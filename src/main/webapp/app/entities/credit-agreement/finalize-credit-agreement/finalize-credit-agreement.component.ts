@@ -195,8 +195,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   public updateClausalDialog(element: any, status: any) {
     const dialogRef = this.dialog.open(ClausalPkDialogComponentEditComponent, {
-      width: '200vh',
-      height: '100vh',
+      width: '100%',
       data: {
         dataClausal: element,
         creditProposal: this.creditProposal,
@@ -212,8 +211,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   public addClausalDialog() {
     const dialogRef = this.dialog.open(ClausalPkDialogComponent, {
-      width: '200vh',
-      height: '100vh',
+      width: '100%',
       data: {
         dataClausal: this.dataClausal,
         agreement: this.creditProposal.agreements,
