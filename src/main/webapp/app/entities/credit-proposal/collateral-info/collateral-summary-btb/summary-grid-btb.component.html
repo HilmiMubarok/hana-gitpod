@@ -119,10 +119,10 @@
             {{ 'IDR ' + (getBinding(element).bindingValueEqIdr | number) }}
           </td>
           <td mat-footer-cell *matFooterCellDef class="grid-index-right">
-            {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
-
-            {{ biddingValueCoverage }} %
+            <p>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+            <p>{{ biddingValueCoverage }} x</p>
           </td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right"></td>
         </ng-container>
         <ng-container matColumnDef="collateralStatus">
           <th mat-header-cell *matHeaderCellDef class="grid-index-left">Collateral Status</th>
