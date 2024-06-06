@@ -15,59 +15,34 @@
 
   <div *ngIf="agreementClausal.category === 'ADDENDUM'">
     <mat-form-field appearance="outline" class="w-50">
-      <mat-select [(ngModel)]="valueParentClausalAgreements">
+      <mat-select [(ngModel)]="valueParentClausalAgreements" (selectionChange)="showDropdown()">
         <mat-option value="">Please Select</mat-option>
         <mat-option *ngFor="let item of agreementsClausalChildList" [value]="item">
           {{ item.description }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <!-- <div *ngIf="valueParentClausalAgreements?.code === 'AD-16'">
-      <mat-form-field
-        style="margin-left: 30px"
-        *ngFor="let item2 of countChildFormAgreements; let i = index"
-        appearance="outline"
-        class="w-50"
-      >
-        index: {{ i | json }}
-        <mat-select (selectionChange)="changeClildAgreements($event, i)" [(ngModel)]="valueChildAgreeements[i]">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of optionChildAgrementAddedum(i)" [value]="item">
-            {{ item.agreementClausalParameterCode }} - {{ item.agreementClausalParameterDescription }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
 
-      <mat-icon *ngIf="countChildFormAgreements.length > 0" (click)="addCountCildAgreementsForm()">add</mat-icon>
-      <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)">delete</mat-icon> -->
-
+    <!-- NEW -->
     <div *ngIf="valueParentClausalAgreements?.code === 'AD-16'">
-      <div *ngFor="let item2 of countChildFormAgreements; let i = index" class="agreement-form-field-container">
-        index: {{ i | json }} <br />
-        item2: {{ item2 | json }}
-        <mat-form-field appearance="outline" class="w-50" style="margin-left: 30px">
-          <mat-select (selectionChange)="changeClildAgreements($event, i)" [(ngModel)]="valueChildAgreeements[i]">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of addendumListActiveLov(i)" [value]="item">
-              {{ item.agreementClausalParameterCode }} - {{ item.agreementClausalParameterDescription }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForms(i)"> add </mat-icon>
-        <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)"> delete </mat-icon>
-      </div>
-
-      <button
-        mat-raised-button
-        class="button-styling"
-        style="margin-left: 30px"
-        *ngIf="countChildFormAgreements.length > 0"
-        (click)="addCountCildAgreementsForm()"
-      >
-        <mat-icon> add </mat-icon>
-        Add
-      </button>
+      <form [formGroup]="form">
+        <div formArrayName="dropdowns" *ngFor="let dropdown of dropdownsArray.controls; let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field appearance="outline" class="w-50" style="margin-left: 30px">
+              <mat-select formControlName="selectedValue" (change)="onDropdownChange(i)">
+                <mat-option *ngFor="let option of dropdownOptions[i]" [value]="option">
+                  {{ option.agreementClausalParameterCode }} - {{ option.agreementClausalParameterDescription }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-icon (click)="deleteDropdown(i)"> delete </mat-icon>
+          </div>
+        </div>
+        <button mat-raised-button class="button-styling" style="margin-left: 30px" (click)="addDropdown()">
+          <mat-icon> add </mat-icon>
+          Add
+        </button>
+      </form>
     </div>
   </div>
 

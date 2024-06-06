@@ -1,16 +1,17 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { CreditAgreementService } from '../../credit-agreement.service';
 import { CreditAgreementClausal, ICreditAgreementClausal } from '../agreement-clausal.model';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'jhi-clausal-pk-dialog',
   templateUrl: './clausal-pk-dialog.component.html',
   styleUrls: ['../../credit-agreement.css'],
 })
-export class ClausalPkDialogComponent {
+export class ClausalPkDialogComponent implements OnInit {
   public loading: boolean;
   public dataClausalAgreement: any[] = [];
   public agreementClausal: ICreditAgreementClausal = new CreditAgreementClausal();
@@ -26,6 +27,7 @@ export class ClausalPkDialogComponent {
   public clausalAgreement: any[];
   constructor(
     private storageService: StorageService,
+    private fb: FormBuilder,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<ClausalPkDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -38,6 +40,7 @@ export class ClausalPkDialogComponent {
     };
     this.getClausalAgreement();
   }
+  public selected;
   public displayColumnsCreditAgreementClausal: string[] = ['code', 'category', 'description', 'action'];
 
   onNoClick(): void {
@@ -71,8 +74,6 @@ export class ClausalPkDialogComponent {
   }
 
   public deleteCountCildAgreementsForms(i: number): void {
-    const dataToRemove = this.valueChildAgreeements[i];
-
     this.valueChildAgreeements.splice(i, 1);
     this.countChildFormAgreements.splice(i, 1);
   }
@@ -106,6 +107,8 @@ export class ClausalPkDialogComponent {
       // Sort data desc by sequence
       data.sort((a, b) => (a.sequence > b.sequence ? 1 : -1));
       this.addendumListActive = data.filter(obj => obj.statusCode === 'ACTIVE');
+
+      this.createForm();
     });
 
     this.creditAgreementService.agreementsAddendumApplication(this.data.creditProposal.id).subscribe((res: any) => {
@@ -156,59 +159,40 @@ export class ClausalPkDialogComponent {
     }
   }
 
-  public addendumListActiveLov(index: number): any[] {
-    const valueChildAgreeements = this.valueChildAgreeements;
-    const dataToRemove = this.valueChildAgreeements[index];
-    const activeAddendum = this.addendumListActive;
-
-    console.log('hshfkjasdgfkhjagsdkf', valueChildAgreeements, dataToRemove, activeAddendum);
-
-    if (dataToRemove) {
-      // Find dataToRemove index in activeAddendum based on dataToRemove.id
-      const indexToRemove = activeAddendum.findIndex((res: any) => res.id === dataToRemove.id);
-
-      // Slice activeAddendum
-      const selectedOptions = activeAddendum.slice(0, indexToRemove);
-
-      return this.addendumListActive.filter(option => !selectedOptions.includes(option));
-    } else {
-      return this.addendumListActive;
-    }
-  }
-
   public changeClildAgreements(event: any, i: number) {
     this.valueChildAgreeements[i] = event.value;
   }
 
+  assignClausalProperties = (clausal: any, valueParentClausalAgreements: any, agreementClausal: any) => {
+    clausal.agreementClausalParameterCode = valueParentClausalAgreements.code;
+    clausal.agreementClausalParameterDescription = valueParentClausalAgreements.description;
+    clausal.statusCode = valueParentClausalAgreements.statusCode;
+    clausal.statusDescription = valueParentClausalAgreements.statusDescription;
+    clausal.agreementClausalParameterId = valueParentClausalAgreements.id;
+    clausal.id = null;
+    clausal.category = agreementClausal.category;
+  };
+
+  handleAddendumListActive = (selected: any[], data: any) =>
+    selected.flatMap(selectedItem => {
+      if (this.valueParentClausalAgreements?.code === 'AD-16') {
+        selectedItem.agreementId = data.agreement.length > 0 ? data.agreement[0].id : 0;
+        selectedItem.addendumToId = selectedItem.id;
+        selectedItem.id = null;
+        return selectedItem;
+      }
+      return [];
+    });
+
   public saveClausal() {
     if (this.agreementClausal.category === 'ADDENDUM') {
+      // NEW
       const clausal: any = Object.assign({}, this.agreementsClausalTemplate);
+      const selected: any = this.getSelectedValues();
 
-      clausal.agreementClausalParameterCode = this.valueParentClausalAgreements.code;
-      clausal.agreementClausalParameterDescription = this.valueParentClausalAgreements.description;
-      clausal.statusCode = this.valueParentClausalAgreements.statusCode;
-      clausal.statusDescription = this.valueParentClausalAgreements.statusDescription;
-      clausal.agreementClausalParameterId = this.valueParentClausalAgreements.id;
-      delete clausal.id;
-      delete clausal.category;
-      clausal.id = null;
-      clausal.category = this.agreementClausal.category;
-      let clausalChild = [];
+      this.assignClausalProperties(clausal, this.valueParentClausalAgreements, this.agreementClausal);
 
-      for (let i = 0; i < this.countChildFormAgreements.length; i++) {
-        if (this.valueParentClausalAgreements?.code === 'AD-16') {
-          const filteraddendumListActive = this.addendumListActive.filter((res: any) => res.id === this.valueChildAgreeements[i].id);
-
-          filteraddendumListActive.forEach((item: any) => {
-            item.agreementId = this.data.agreement.length > 0 ? this.data.agreement[0].id : 0;
-            item.addendumToId = item.id;
-            item.id = null;
-          });
-          clausalChild = [...clausalChild, ...filteraddendumListActive];
-        } else {
-          clausalChild = [];
-        }
-      }
+      const clausalChild = this.handleAddendumListActive(selected, this.data);
 
       this.creditAgreementService.saveClausalAgreementGroub({ clausal, clausalChild }).subscribe((res: any) => {
         this.dialogRef.close();
@@ -231,5 +215,68 @@ export class ClausalPkDialogComponent {
         }
       });
     }
+  }
+
+  // NEW
+
+  form!: FormGroup;
+  dropdownOptions: any = [];
+
+  ngOnInit(): void {
+    this.createForm();
+    this.dropdownsArray.valueChanges.subscribe(() => {
+      this.selected = this.getSelectedValues();
+      console.log('update selected', this.selected);
+    });
+  }
+
+  showDropdown() {
+    if (this.valueParentClausalAgreements.code === 'AD-16') {
+      this.createForm();
+    }
+  }
+
+  createForm(): void {
+    this.form = this.fb.group({
+      dropdowns: this.fb.array([this.createDropdown()]),
+    });
+    this.updateDropdownOptions();
+  }
+
+  get dropdownsArray(): FormArray {
+    return this.form.get('dropdowns') as FormArray;
+  }
+
+  createDropdown(): FormGroup {
+    return this.fb.group({
+      selectedValue: '',
+    });
+  }
+
+  addDropdown(): void {
+    this.dropdownsArray.push(this.createDropdown());
+    this.updateDropdownOptions();
+  }
+
+  deleteDropdown(index: number): void {
+    this.dropdownsArray.removeAt(index);
+    this.updateDropdownOptions();
+  }
+
+  onDropdownChange(index: number): void {
+    this.updateDropdownOptions();
+  }
+
+  updateDropdownOptions(): void {
+    const selectedValues = this.dropdownsArray.controls.map(control => control.value.selectedValue).filter(value => value);
+    this.dropdownOptions = this.dropdownsArray.controls.map((control, index) =>
+      this.addendumListActive.filter(
+        option => !selectedValues.find((value: any) => value.id === option.id) || option.id === control.value.selectedValue?.id
+      )
+    );
+  }
+
+  getSelectedValues(): any[] {
+    return this.dropdownsArray.controls.map(control => control.value.selectedValue).filter(value => value);
   }
 }
