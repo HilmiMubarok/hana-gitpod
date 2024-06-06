@@ -450,7 +450,12 @@
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <div>
-        <button mat-raised-button *ngIf="showButtonGenerate()" class="btn-lg text-uppercase button-styling" (click)="generateDPPKFinal()">
+        <button
+          mat-raised-button
+          *ngIf="showGenerateDPPKFinalize"
+          class="btn-lg text-uppercase button-styling"
+          (click)="generateDPPKFinal()"
+        >
           Generate
         </button>
         <button

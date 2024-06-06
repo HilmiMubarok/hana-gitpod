@@ -15,6 +15,7 @@ import { IDppkReview } from './dppk-review.model';
 @Injectable({ providedIn: 'root' })
 export class DppkReviewService extends AbstractEntityService<IDppkReview> {
   public statRemarkBusinessActivity;
+  public taskResource;
   public partySliks = [];
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
@@ -26,6 +27,9 @@ export class DppkReviewService extends AbstractEntityService<IDppkReview> {
     this.resourceRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs/cif');
     this.resouceGridRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/fin-statements/cif/');
     this.resourceFacility = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.HEIMDALL + '/api/partner-source-ep/');
+    this.taskResource = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.ANDROMEDA + '/api/tasks/variables/name/credit-proposal/key/1344'
+    );
   }
 
   public totalChanges: Subject<any> = new Subject();
@@ -201,5 +205,10 @@ export class DppkReviewService extends AbstractEntityService<IDppkReview> {
 
   public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
+  }
+  // {processName}/key/{processId}
+
+  public getTaskVariable(): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.taskResource}`, { observe: 'response' });
   }
 }
