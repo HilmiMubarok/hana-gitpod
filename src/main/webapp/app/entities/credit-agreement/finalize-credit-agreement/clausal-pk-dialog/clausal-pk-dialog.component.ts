@@ -2,8 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { CreditAgreementService } from '../../credit-agreement.service';
 import { CreditAgreementClausal, ICreditAgreementClausal } from '../agreement-clausal.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { saveAs } from 'file-saver';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
@@ -53,7 +51,7 @@ export class ClausalPkDialogComponent {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-    this.dialogRef.close();
+        this.dialogRef.close();
       }
     });
   }
@@ -70,6 +68,13 @@ export class ClausalPkDialogComponent {
   public addCountCildAgreementsForm(): void {
     this.countChildFormAgreements.push({});
     this.valueChildAgreeements.push('');
+  }
+
+  public deleteCountCildAgreementsForms(i: number): void {
+    const dataToRemove = this.valueChildAgreeements[i];
+
+    this.valueChildAgreeements.splice(i, 1);
+    this.countChildFormAgreements.splice(i, 1);
   }
 
   public deleteCountCildAgreementsForm(i: number): void {
@@ -148,6 +153,26 @@ export class ClausalPkDialogComponent {
       this.dataClausalAgreement.push(element);
     } else if (event.checked === false) {
       this.dataClausalAgreement = this.dataClausalAgreement.filter((data: any) => data.id !== element.id);
+    }
+  }
+
+  public addendumListActiveLov(index: number): any[] {
+    const valueChildAgreeements = this.valueChildAgreeements;
+    const dataToRemove = this.valueChildAgreeements[index];
+    const activeAddendum = this.addendumListActive;
+
+    console.log('hshfkjasdgfkhjagsdkf', valueChildAgreeements, dataToRemove, activeAddendum);
+
+    if (dataToRemove) {
+      // Find dataToRemove index in activeAddendum based on dataToRemove.id
+      const indexToRemove = activeAddendum.findIndex((res: any) => res.id === dataToRemove.id);
+
+      // Slice activeAddendum
+      const selectedOptions = activeAddendum.slice(0, indexToRemove);
+
+      return this.addendumListActive.filter(option => !selectedOptions.includes(option));
+    } else {
+      return this.addendumListActive;
     }
   }
 

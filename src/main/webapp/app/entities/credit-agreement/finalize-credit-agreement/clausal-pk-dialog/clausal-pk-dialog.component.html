@@ -1,96 +1,122 @@
-<div class="wrapper-card">
-  <e-card class="mb-3">
-    <mat-card-subtitle class="mat-card-header-text">Add Clausal (PK {{ agreementClausal.category }})</mat-card-subtitle>
+<h1 mat-dialog-title>Add Clausal (PK {{ agreementClausal.category }})</h1>
 
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Category</mat-label>
-      <mat-select disabled [(ngModel)]="agreementClausal.category">
+<div mat-dialog-content>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Category</mat-label>
+    <mat-select disabled [(ngModel)]="agreementClausal.category">
+      <mat-option value="">Please Select</mat-option>
+      <mat-option *ngFor="let item of ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali']" [value]="item">
+        {{ item }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-label>Clausal Agreement</mat-label>
+
+  <div *ngIf="agreementClausal.category === 'ADDENDUM'">
+    <mat-form-field appearance="outline" class="w-50">
+      <mat-select [(ngModel)]="valueParentClausalAgreements">
         <mat-option value="">Please Select</mat-option>
-        <mat-option *ngFor="let item of ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali']" [value]="item">
-          {{ item }}
+        <mat-option *ngFor="let item of agreementsClausalChildList" [value]="item">
+          {{ item.description }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-    <mat-label>Clausal Agreement</mat-label>
-
-    <div *ngIf="agreementClausal.category === 'ADDENDUM'">
-      <mat-form-field appearance="outline" class="w-50">
-        <mat-select [(ngModel)]="valueParentClausalAgreements">
+    <!-- <div *ngIf="valueParentClausalAgreements?.code === 'AD-16'">
+      <mat-form-field
+        style="margin-left: 30px"
+        *ngFor="let item2 of countChildFormAgreements; let i = index"
+        appearance="outline"
+        class="w-50"
+      >
+        index: {{ i | json }}
+        <mat-select (selectionChange)="changeClildAgreements($event, i)" [(ngModel)]="valueChildAgreeements[i]">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of agreementsClausalChildList" [value]="item">
-            {{ item.description }}
+          <mat-option *ngFor="let item of optionChildAgrementAddedum(i)" [value]="item">
+            {{ item.agreementClausalParameterCode }} - {{ item.agreementClausalParameterDescription }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div *ngIf="valueParentClausalAgreements?.code === 'AD-16'">
-        <mat-form-field
-          style="margin-left: 30px"
-          *ngFor="let item2 of countChildFormAgreements; let i = index"
-          appearance="outline"
-          class="w-50"
-        >
+
+      <mat-icon *ngIf="countChildFormAgreements.length > 0" (click)="addCountCildAgreementsForm()">add</mat-icon>
+      <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)">delete</mat-icon> -->
+
+    <div *ngIf="valueParentClausalAgreements?.code === 'AD-16'">
+      <div *ngFor="let item2 of countChildFormAgreements; let i = index" class="agreement-form-field-container">
+        index: {{ i | json }} <br />
+        item2: {{ item2 | json }}
+        <mat-form-field appearance="outline" class="w-50" style="margin-left: 30px">
           <mat-select (selectionChange)="changeClildAgreements($event, i)" [(ngModel)]="valueChildAgreeements[i]">
             <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of optionChildAgrementAddedum(i)" [value]="item">
+            <mat-option *ngFor="let item of addendumListActiveLov(i)" [value]="item">
               {{ item.agreementClausalParameterCode }} - {{ item.agreementClausalParameterDescription }}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <mat-icon *ngIf="countChildFormAgreements.length > 0" (click)="addCountCildAgreementsForm()">add</mat-icon>
-        <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)">delete</mat-icon>
+        <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForms(i)"> add </mat-icon>
+        <mat-icon *ngIf="countChildFormAgreements.length > 1" (click)="deleteCountCildAgreementsForm(i)"> delete </mat-icon>
       </div>
+
+      <button
+        mat-raised-button
+        class="button-styling"
+        style="margin-left: 30px"
+        *ngIf="countChildFormAgreements.length > 0"
+        (click)="addCountCildAgreementsForm()"
+      >
+        <mat-icon> add </mat-icon>
+        Add
+      </button>
     </div>
-    <table
-      *ngIf="agreementClausal.category === 'NEW' || agreementClausal.category === 'Perubahan dan Pernyataan Kembali'"
-      mat-table
-      [dataSource]="clausalAgreement"
-      class="w-100"
-    >
-      <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Code</th>
-        <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.code }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Category</th>
-        <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.parameterCategoryDescription }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
-        <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.description }}
-        </td>
-      </ng-container>
+  </div>
 
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="text-center">
-          Select All <mat-checkbox (change)="selectAll($event)"> </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let element" class="text-center">
-          <section class="mt-2">
-            <mat-checkbox [checked]="allSelect" (change)="onCheckboxChange($event, element)"> </mat-checkbox>
-          </section>
-        </td>
-      </ng-container>
+  <table
+    *ngIf="agreementClausal.category === 'NEW' || agreementClausal.category === 'Perubahan dan Pernyataan Kembali'"
+    mat-table
+    [dataSource]="clausalAgreement"
+    class="w-100"
+  >
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Code</th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        {{ element.code }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Category</th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        {{ element.parameterCategoryDescription }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        {{ element.description }}
+      </td>
+    </ng-container>
 
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayColumnsCreditAgreementClausal.length">No records found.</td>
-      </tr>
-      <tr mat-header-row *matHeaderRowDef="displayColumnsCreditAgreementClausal"></tr>
-      <tr mat-row *matRowDef="let element; columns: displayColumnsCreditAgreementClausal"></tr>
-    </table>
-    <mat-card *ngIf="loading" id="material-loading-bar">
-      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
-    </mat-card>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Select All <mat-checkbox (change)="selectAll($event)"> </mat-checkbox></th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        <section class="mt-2">
+          <mat-checkbox [checked]="allSelect" (change)="onCheckboxChange($event, element)"> </mat-checkbox>
+        </section>
+      </td>
+    </ng-container>
 
-    <div style="display: flex; justify-content: center; align-items: center">
-      <button class="btn-lg text-uppercase button-styling mt-2" (click)="onNoClick()" mat-raised-button>Close</button>
-      <button class="btn-lg text-uppercase button-styling mt-2" mat-button (click)="saveClausal()">Save</button>
-    </div>
-  </e-card>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayColumnsCreditAgreementClausal.length">No records found.</td>
+    </tr>
+    <tr mat-header-row *matHeaderRowDef="displayColumnsCreditAgreementClausal"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayColumnsCreditAgreementClausal"></tr>
+  </table>
+  <mat-card *ngIf="loading" id="material-loading-bar">
+    <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+  </mat-card>
+</div>
+
+<div mat-dialog-actions align="center">
+  <button class="confirm-button-no" (click)="onNoClick()" mat-dialog-close mat-raised-button>Close</button>
+  <button class="confirm-button-yes" mat-raised-button (click)="saveClausal()">Save</button>
 </div>
