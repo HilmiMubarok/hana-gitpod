@@ -201,7 +201,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   public loadDataBy(): void {
     this.partySlikService
       .queryFilterBy({
-        idParty: this.partyId,
+        idParty: this.partyCif.partyId,
         page: this.page,
         size: this.itemsPerPage,
         sort: ['id,desc'],
@@ -224,7 +224,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   private getFiles(): void {
     this.folders = [];
     const predicate: Object = {
-      key: `/party-cif/${this.partyId}/document`,
+      key: `/party-cif/${this.partyCif.partyId}/document`,
     };
     this.storageService.getBucketName().subscribe((response: any) => {
       this.storageService.getObjects(response.body.bucket, predicate).subscribe((res: any) => {
@@ -275,8 +275,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       const files = file[i].name.replace('&', '');
       const currentDate = moment().format('YYYYMMDDHHMMSSMS');
       metaData.folder = files;
-      metaData.objectName = `/party-cif/${this.partyId}/document/-${currentDate}-${files}`;
-      metaData.entityId = this.partyId;
+      metaData.objectName = `/party-cif/${this.partyCif.partyId}/document/-${currentDate}-${files}`;
+      metaData.entityId = this.partyCif.partyId;
       metaData.managementType = this.managementType;
       const formData = new FormData();
       formData.append('file', file[i]);
@@ -346,7 +346,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     partySlik.attributes = {
       name: item.debtorName,
     };
-    partySlik.partyId = this.partyId;
+    partySlik.partyId = this.partyCif.partyId;
     partySlik.bank = item.bank;
     partySlik.limit = item.limit === null ? 0 : Number(item.limit.toString().replace(/\./g, ''));
     partySlik.rate = item.rate == null ? 0 : Number(item.rate.toString().replace(' %', ''));
@@ -371,7 +371,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     const predicate: object = {
       width: '80vw',
       data: {
-        partyId: this.partyId,
+        partyId: this.partyCif.partyId,
         cif: this.partyCif !== undefined ? this.partyCif.customerNumber : this.partyCifDM,
       },
     };
