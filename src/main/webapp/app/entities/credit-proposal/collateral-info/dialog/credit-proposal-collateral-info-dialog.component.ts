@@ -282,7 +282,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        console.log('insurance type body ', res.body);
         this.insuranceTypes = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
@@ -552,7 +551,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   }
 
   public disableDepositInterestRate() {
-    if ((this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info') || !this.disable) {
+    if (this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info' && !this.disable) {
       return false;
     }
     return true;
