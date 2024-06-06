@@ -255,11 +255,6 @@ export class SummaryGridComponent
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
-    } else {
-      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
-    }
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -271,6 +266,9 @@ export class SummaryGridComponent
       this.dataCollateral = lodash.filter(res.body, function (o) {
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
+      for (let i = 0; i < this.dataCollateral.length; i++) {
+        this.findCollateralProperty(this.dataCollateral[i].partyId);
+      }
       this.dataItem = new MatTableDataSource(this.dataCollateral);
       this.dataItem.paginator = this.paginator;
       this.getBindingCalculate(this.dataCollateral);
@@ -287,9 +285,9 @@ export class SummaryGridComponent
         }
       }
     }
-    if (changes['collateralProperties']) {
-      this.collateralProperties = changes['collateralProperties'].currentValue;
-    }
+    // if (changes['collateralProperties']) {
+    //   this.collateralProperties = changes['collateralProperties'].currentValue;
+    // }
     if (this.creditProposal.id) {
       this.loadSummaryCollateral();
     }

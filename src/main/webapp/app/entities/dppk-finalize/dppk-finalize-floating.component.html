@@ -338,7 +338,11 @@
 
             <!-- loan facility detail -->
             <div *ngIf="clickedMenu === 'loan-facility'">
-              <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'credit-agreement'" [creditProposal]="creditProposal">
+              <jhi-credit-proposal-tab-loan-facility-detail
+                [disable]="ActiveRole"
+                [parentSource]="'credit-agreement'"
+                [creditProposal]="creditProposal"
+              >
               </jhi-credit-proposal-tab-loan-facility-detail>
             </div>
 
@@ -375,6 +379,7 @@
                     [collateralPropertyGroupData]="collateralPropertyGroupData"
                     [parentSource]="'dec-offering'"
                     [isViewMode]="true"
+                    [disable]="ActiveRole"
                   >
                   </jhi-credit-proposal-collateral-info>
                 </e-card>
@@ -430,7 +435,11 @@
             <!-- covenant-temp -->
             <div *ngIf="clickedMenu === 'covenant-temp'" class="e-sample-resize-container e-card-resize-container wrapper-card">
               <e-card>
-                <jhi-covenant-temp [isViewMode]="true" [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+                <jhi-covenant-temp
+                  [isViewMode]="true"
+                  [creditProposalItem]="creditProposal"
+                  [isDisabledFromDPPK]="ActiveRole"
+                ></jhi-covenant-temp>
               </e-card>
             </div>
 

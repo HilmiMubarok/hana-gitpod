@@ -35,6 +35,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
   ) {}
 
   @Input() source = '';
+  @Input() disable = false;
 
   @ViewChild('creditProposalCollateralInfoRemarksInfoComponentAbove', {
     static: false,

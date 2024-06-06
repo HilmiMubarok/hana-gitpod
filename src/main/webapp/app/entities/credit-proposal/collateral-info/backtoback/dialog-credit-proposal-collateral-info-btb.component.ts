@@ -123,6 +123,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public field = false;
   public parentPath = this.router.url.split('/')[1];
   public fields = false;
+  public disable: boolean;
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -144,8 +145,10 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       isViewMode: Boolean;
       parentSource: string;
       depositInterestRate: number;
+      disable: boolean;
     }
   ) {
+    this.disable = this.data.disable;
     this.parentSource = this.data.parentSource;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
@@ -305,7 +308,6 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public setValue() {
-    console.log('ini collateral ', this.collateralProperty);
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
       this.noDocumentJaminan = this.collateralProperty.attributes.certificateNumber;
       this.collateralValue = this.collateralProperty.attributes.amount;
@@ -592,7 +594,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public disableDepositInterestRate() {
-    if (this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info') {
+    if (this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info' && !this.disable) {
       return false;
     }
     return true;

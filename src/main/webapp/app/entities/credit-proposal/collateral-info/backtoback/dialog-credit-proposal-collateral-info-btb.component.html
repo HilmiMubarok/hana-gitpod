@@ -138,12 +138,19 @@
               <section *ngIf="showFieldDepositInterestRate()">
                 <div class="mb-2">
                   <div class="row">
-                    <div class="col-8 col md-4">
+                    <div class="col-8 col md-4" *ngIf="!disableDepositInterestRate()">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Deposito Rate (%)</mat-label>
-                        <input matInput type="number" [(ngModel)]="depositInterestRate" [disabled]="disableDepositInterestRate()" />
+                        <input matInput type="number" [(ngModel)]="depositInterestRate" />
                         <div matSuffix class="input-suffix">&nbsp;%</div>
                       </mat-form-field>
+                    </div>
+                    <div class="fontsebled row" *ngIf="disableDepositInterestRate()">
+                      <div class="col-4">Deposito Rate (%)</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col">
+                        {{ depositInterestRate }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -417,11 +424,18 @@
                 </mat-form-field>
               </div>
 
-              <div class="form-group" *ngIf="parentSource === 'dec-offering'">
+              <div class="form-group" *ngIf="parentSource === 'dec-offering' && this.parentPath === 'finalize'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Informasi Tambahan</mat-label>
-                  <input matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" [disabled]="field" />
+                  <textarea matInput type="text" [(ngModel)]="collateral.attributes.informasiTambahan" [disabled]="field"></textarea>
                 </mat-form-field>
+              </div>
+              <div class="fontsebled row" *ngIf="parentSource === 'dec-offering' && this.parentPath !== 'finalize'">
+                <div class="col-4">Informasi Tambahan</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ collateral.attributes.informasiTambahan }}
+                </div>
               </div>
             </div>
           </div>

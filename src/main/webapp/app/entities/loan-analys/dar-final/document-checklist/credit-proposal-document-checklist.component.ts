@@ -44,6 +44,8 @@ export class DocumentChecklistTempComponent implements OnInit {
   public matrix: boolean;
   public showDPPK = false;
   public dppkEditable = false;
+  public _isDisabledByDPPK: boolean;
+
   constructor(
     private storageService: StorageService,
     public dialog: MatDialog,
@@ -60,6 +62,15 @@ export class DocumentChecklistTempComponent implements OnInit {
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
+  }
+
+  @Input()
+  get isDisabledByDPPK() {
+    return this._isDisabledByDPPK;
+  }
+
+  set isDisabledByDPPK(param: boolean) {
+    this._isDisabledByDPPK = param;
   }
 
   public checkMatrixLA() {
@@ -99,7 +110,8 @@ export class DocumentChecklistTempComponent implements OnInit {
     }
     if (this.router.url.includes('finalize-dppk')) {
       const argsEditable: boolean = this.getRole() === 'CREDIT_ADMIN';
-      this.dppkEditable = argsEditable;
+      this.dppkEditable =
+        this.isDisabledByDPPK === null ? false : this.isDisabledByDPPK === false ? this.isDisabledByDPPK === false : argsEditable;
     } else {
       this.dppkEditable = false;
     }

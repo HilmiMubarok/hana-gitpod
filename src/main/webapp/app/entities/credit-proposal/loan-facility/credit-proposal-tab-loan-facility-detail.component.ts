@@ -30,6 +30,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
+  public _disable: boolean;
+
+  @Input()
+  get disable() {
+    return this._disable;
+  }
+  set disable(item: boolean) {
+    this._disable = item;
+  }
 
   @Input() isViewLoan: Boolean = false;
   @Input() takeOutCompare: Boolean = false;

@@ -133,6 +133,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public fields = false;
   public depositInterestRate: number;
   public selectedMenu: string;
+  public disable: boolean;
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -146,6 +147,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
 
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      disable: boolean;
       cp: ICreditProposal;
       collateral: ICollateral;
       marketability: string;
@@ -166,6 +168,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       depositInterestRate: number;
     }
   ) {
+    this.disable = this.data.disable;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
@@ -215,7 +218,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.cekCurrency();
     this.disableField();
     this.disableFields();
-    console.log('collateral properties ', this.collateralProperties);
   }
   public disableField() {
     if (
@@ -280,7 +282,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        console.log('insurance type body ', res.body);
         this.insuranceTypes = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
@@ -550,7 +551,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   }
 
   public disableDepositInterestRate() {
-    if (this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info') {
+    if (this.parentPath === 'finalize-dppk' && this.selectedMenu === 'collateral-info' && !this.disable) {
       return false;
     }
     return true;

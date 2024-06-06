@@ -7,6 +7,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'jhi-collateral-land-info-dialog',
@@ -23,7 +24,8 @@ export class CollateralLandInfoDialogComponent implements OnInit {
     protected dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { collateralAppraisal: ICollateralAppraisal; collateralProperty: ICollateralProperty },
     private _dialog: MatDialogRef<CollateralLandInfoDialogComponent>,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private _snackBar: MatSnackBar
   ) {
     this.collateralProperty = this.data.collateralProperty;
     this.collateralAppraisal = this.data.collateralAppraisal;
@@ -55,6 +57,22 @@ export class CollateralLandInfoDialogComponent implements OnInit {
   }
 
   public save(): void {
+    if (!this.collateralProperty.description) {
+      this._snackBar.open('Masukkan Object Name terlebih dahulu', null, {
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        duration: 3000,
+      });
+      return;
+    }
+    if (!this.collateralProperty.landSizePerCertificate) {
+      this._snackBar.open('Masukkan Area terlebih dahulu', null, {
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        duration: 3000,
+      });
+      return;
+    }
     this._dialog.close(this.collateralProperty);
   }
 

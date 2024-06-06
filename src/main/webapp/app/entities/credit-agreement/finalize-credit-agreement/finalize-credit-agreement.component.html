@@ -63,7 +63,7 @@
                 (selectionChange)="onSelectAgreementType($event)"
               >
                 <mat-option value="">Please Select Conditions</mat-option>
-                <mat-option *ngFor="let item of ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali']" [value]="item">
+                <mat-option *ngFor="let item of agreementTypeLov" [value]="item">
                   {{ item }}
                 </mat-option>
               </mat-select>
