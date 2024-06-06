@@ -233,11 +233,9 @@ export class TboReviewViewComponent implements OnInit {
 
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
-      console.log('Isloadingg', this.baLoading);
     });
     this.baService.progress$.subscribe(res => {
       this.progress = res;
-      console.log('Progress', this.progress);
     });
   }
 
@@ -438,8 +436,6 @@ export class TboReviewViewComponent implements OnInit {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      console.log('properties ', this.collateralProperties);
-      console.log('ini data ', data);
       if (data) {
         if (type === 'buktiKepemilikan') {
           if (collateral.collateralTypeId === 'SECURITIES') {
@@ -681,7 +677,7 @@ export class TboReviewViewComponent implements OnInit {
   }
 
   public conditionSaveBtn() {
-    if (this.router.url.includes('dar-revision')) {
+    if (this.router.url.includes('tbo-legal-review')) {
       this.conditionSave = true;
       //   if (this.positionTypeId === 'BM') {
       //     if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {
@@ -812,7 +808,7 @@ export class TboReviewViewComponent implements OnInit {
         }
 
         if (this.saveState === 'process') {
-          if (this.parentPath === 'cp-status-approval') {
+          if (this.parentPath === 'tbo-legal-review') {
             this.saveApplicationRole();
           } else {
             this.tboLegalMonitoringService.processTask(this.resAttr).subscribe(() => {
@@ -920,218 +916,218 @@ export class TboReviewViewComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-        if (this.router.url.split('/')[1] === 'dar-revision') {
-          this.saveUpdate('not-complete', source);
+        // if (this.router.url.split('/')[1] === 'finalize-dpdl') {
+        //   this.saveUpdate('not-complete', source);
+        // } else
+        if (this.router.url.split('/')[1] === 'tbo-legal-review') {
+          if (this.creditProposalOpinionHistoryComponent) {
+            this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
+          } else {
+            let countValidate = 0;
+            if (this.positionLogin) {
+              if (this.opinionFileSfdt && this.opinionFileWord) {
+                const fileReader: FileReader = new FileReader();
+                fileReader.onload = (e: any) => {
+                  const testSfdtFile = JSON.parse(fileReader.result as string);
+                  /* if (testSfdtFile.sections[0].blocks) {
+					if (testSfdtFile.sections[0].blocks.length > 0) {
+					  ++countValidate;
+					} else {
+					  // toast opinion empty
+					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					}
+				  } else {
+					// toast opinion empty
+					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+				  } */
+
+                  if (
+                    testSfdtFile.sections[0].blocks[0].inlines ||
+                    testSfdtFile.sections[0].blocks[0].columnCount ||
+                    testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                    testSfdtFile.sections[0].blocks[0].grid ||
+                    testSfdtFile.sections[0].blocks[0].rows ||
+                    testSfdtFile.sections[0].blocks[0].tableFormat
+                  ) {
+                    if (
+                      testSfdtFile.sections[0].blocks[0].paragraphFormat ||
+                      testSfdtFile.sections[0].blocks[0].grid ||
+                      testSfdtFile.sections[0].blocks[0].rows ||
+                      testSfdtFile.sections[0].blocks[0].tableFormat
+                    ) {
+                      ++countValidate;
+                    } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
+                      if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+                        ++countValidate;
+                      } else {
+                        // toast opinion empty
+                        this.messageService.add({
+                          severity: 'info',
+                          summary: 'Warning',
+                          detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                        });
+                      }
+                    } else if (testSfdtFile.sections[0].blocks[0].inlines) {
+                      let isEmpty = true;
+                      testSfdtFile.sections[0].blocks.forEach(block => {
+                        if (block.inlines) {
+                          if (block.inlines.length > 0) {
+                            isEmpty = false;
+                          }
+                        }
+                      });
+
+                      if (isEmpty) {
+                        // toast opinion empty
+                        this.messageService.add({
+                          severity: 'info',
+                          summary: 'Warning',
+                          detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                        });
+                      } else {
+                        ++countValidate;
+                      }
+
+                      /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+						++countValidate;
+					  } else {
+						// toast opinion empty
+						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					  } */
+                    }
+                  } else {
+                    // toast opinion empty
+                    this.messageService.add({
+                      severity: 'info',
+                      summary: 'Warning',
+                      detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                    });
+                  }
+
+                  if (this.recomendation) {
+                    ++countValidate;
+                    if (this.recomendation === 'Recommend With Condition') {
+                      if (this.conditionFileSfdt && this.conditionFileWord) {
+                        const fileReaderCondition: FileReader = new FileReader();
+                        fileReaderCondition.onload = (eCondition: any) => {
+                          const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+                          /* if (testSfdtFileCondition.sections[0].blocks) {
+							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+							  ++countValidate;
+							} else {
+							  // toast condition empty
+							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							}
+						  } else {
+							// toast condition empty
+							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						  } */
+
+                          if (
+                            testSfdtFileCondition.sections[0].blocks[0].inlines ||
+                            testSfdtFileCondition.sections[0].blocks[0].columnCount ||
+                            testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                            testSfdtFileCondition.sections[0].blocks[0].grid ||
+                            testSfdtFileCondition.sections[0].blocks[0].rows ||
+                            testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                          ) {
+                            if (
+                              testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
+                              testSfdtFileCondition.sections[0].blocks[0].grid ||
+                              testSfdtFileCondition.sections[0].blocks[0].rows ||
+                              testSfdtFileCondition.sections[0].blocks[0].tableFormat
+                            ) {
+                              ++countValidate;
+                            } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                              if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+                                ++countValidate;
+                              } else {
+                                // toast condition empty
+                                this.messageService.add({
+                                  severity: 'info',
+                                  summary: 'Warning',
+                                  detail: 'Condition Empty! All data will be save except data at tab opinion',
+                                });
+                              }
+                            } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+                              let isEmpty = true;
+                              testSfdtFileCondition.sections[0].blocks.forEach(block => {
+                                if (block.inlines) {
+                                  if (block.inlines.length > 0) {
+                                    isEmpty = false;
+                                  }
+                                }
+                              });
+
+                              if (isEmpty) {
+                                // toast condition empty
+                                this.messageService.add({
+                                  severity: 'info',
+                                  summary: 'Warning',
+                                  detail: 'Condition Empty! All data will be save except data at tab opinion',
+                                });
+                              } else {
+                                ++countValidate;
+                              }
+
+                              /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+								++countValidate;
+							  } else {
+								// toast condition empty
+								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							  } */
+                            }
+                          } else {
+                            // toast condition empty
+                            this.messageService.add({
+                              severity: 'info',
+                              summary: 'Warning',
+                              detail: 'Condition Empty! All data will be save except data at tab opinion',
+                            });
+                          }
+
+                          if (countValidate === 3) {
+                            this.saveUpdate('complete', source);
+                          } else {
+                            this.saveUpdate('not-complete', source);
+                          }
+                        };
+                        fileReaderCondition.readAsText(this.conditionFileSfdt);
+                      }
+                    } else {
+                      if (countValidate === 2) {
+                        this.saveUpdate('complete', source);
+                      } else {
+                        this.saveUpdate('not-complete', source);
+                      }
+                    }
+                  } else {
+                    // toast recomendation empty
+                    this.messageService.add({
+                      severity: 'info',
+                      summary: 'Warning',
+                      detail: 'Recommendation Empty! All data will be save except data at tab opinion',
+                    });
+                    this.saveUpdate('not-complete', source);
+                  }
+                };
+                fileReader.readAsText(this.opinionFileSfdt);
+              } else {
+                // toast opinion empty
+                this.messageService.add({
+                  severity: 'info',
+                  summary: 'Warning',
+                  detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                });
+                this.saveUpdate('not-complete', source);
+              }
+            } else {
+              this.saveUpdate('not-complete', source);
+            }
+          }
         }
-        // if (this.router.url.split('/')[1] === 'dar-revision') {
-        //   if (this.creditProposalOpinionHistoryComponent) {
-        //     this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
-        //   } else {
-        //     let countValidate = 0;
-        //     if (this.positionLogin) {
-        //       if (this.opinionFileSfdt && this.opinionFileWord) {
-        //         const fileReader: FileReader = new FileReader();
-        //         fileReader.onload = (e: any) => {
-        //           const testSfdtFile = JSON.parse(fileReader.result as string);
-        //           /* if (testSfdtFile.sections[0].blocks) {
-        // 	if (testSfdtFile.sections[0].blocks.length > 0) {
-        // 	  ++countValidate;
-        // 	} else {
-        // 	  // toast opinion empty
-        // 	  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-        // 	}
-        //   } else {
-        // 	// toast opinion empty
-        // 	this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-        //   } */
-
-        //           if (
-        //             testSfdtFile.sections[0].blocks[0].inlines ||
-        //             testSfdtFile.sections[0].blocks[0].columnCount ||
-        //             testSfdtFile.sections[0].blocks[0].paragraphFormat ||
-        //             testSfdtFile.sections[0].blocks[0].grid ||
-        //             testSfdtFile.sections[0].blocks[0].rows ||
-        //             testSfdtFile.sections[0].blocks[0].tableFormat
-        //           ) {
-        //             if (
-        //               testSfdtFile.sections[0].blocks[0].paragraphFormat ||
-        //               testSfdtFile.sections[0].blocks[0].grid ||
-        //               testSfdtFile.sections[0].blocks[0].rows ||
-        //               testSfdtFile.sections[0].blocks[0].tableFormat
-        //             ) {
-        //               ++countValidate;
-        //             } else if (testSfdtFile.sections[0].blocks[0].columnCount) {
-        //               if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
-        //                 ++countValidate;
-        //               } else {
-        //                 // toast opinion empty
-        //                 this.messageService.add({
-        //                   severity: 'info',
-        //                   summary: 'Warning',
-        //                   detail: 'Opinion Empty! All data will be save except data at tab opinion',
-        //                 });
-        //               }
-        //             } else if (testSfdtFile.sections[0].blocks[0].inlines) {
-        //               let isEmpty = true;
-        //               testSfdtFile.sections[0].blocks.forEach(block => {
-        //                 if (block.inlines) {
-        //                   if (block.inlines.length > 0) {
-        //                     isEmpty = false;
-        //                   }
-        //                 }
-        //               });
-
-        //               if (isEmpty) {
-        //                 // toast opinion empty
-        //                 this.messageService.add({
-        //                   severity: 'info',
-        //                   summary: 'Warning',
-        //                   detail: 'Opinion Empty! All data will be save except data at tab opinion',
-        //                 });
-        //               } else {
-        //                 ++countValidate;
-        //               }
-
-        //               /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-        // 		++countValidate;
-        // 	  } else {
-        // 		// toast opinion empty
-        // 		this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-        // 	  } */
-        //             }
-        //           } else {
-        //             // toast opinion empty
-        //             this.messageService.add({
-        //               severity: 'info',
-        //               summary: 'Warning',
-        //               detail: 'Opinion Empty! All data will be save except data at tab opinion',
-        //             });
-        //           }
-
-        //           if (this.recomendation) {
-        //             ++countValidate;
-        //             if (this.recomendation === 'Recommend With Condition') {
-        //               if (this.conditionFileSfdt && this.conditionFileWord) {
-        //                 const fileReaderCondition: FileReader = new FileReader();
-        //                 fileReaderCondition.onload = (eCondition: any) => {
-        //                   const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-        //                   /* if (testSfdtFileCondition.sections[0].blocks) {
-        // 			if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-        // 			  ++countValidate;
-        // 			} else {
-        // 			  // toast condition empty
-        // 			  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-        // 			}
-        // 		  } else {
-        // 			// toast condition empty
-        // 			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-        // 		  } */
-
-        //                   if (
-        //                     testSfdtFileCondition.sections[0].blocks[0].inlines ||
-        //                     testSfdtFileCondition.sections[0].blocks[0].columnCount ||
-        //                     testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
-        //                     testSfdtFileCondition.sections[0].blocks[0].grid ||
-        //                     testSfdtFileCondition.sections[0].blocks[0].rows ||
-        //                     testSfdtFileCondition.sections[0].blocks[0].tableFormat
-        //                   ) {
-        //                     if (
-        //                       testSfdtFileCondition.sections[0].blocks[0].paragraphFormat ||
-        //                       testSfdtFileCondition.sections[0].blocks[0].grid ||
-        //                       testSfdtFileCondition.sections[0].blocks[0].rows ||
-        //                       testSfdtFileCondition.sections[0].blocks[0].tableFormat
-        //                     ) {
-        //                       ++countValidate;
-        //                     } else if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
-        //                       if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
-        //                         ++countValidate;
-        //                       } else {
-        //                         // toast condition empty
-        //                         this.messageService.add({
-        //                           severity: 'info',
-        //                           summary: 'Warning',
-        //                           detail: 'Condition Empty! All data will be save except data at tab opinion',
-        //                         });
-        //                       }
-        //                     } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
-        //                       let isEmpty = true;
-        //                       testSfdtFileCondition.sections[0].blocks.forEach(block => {
-        //                         if (block.inlines) {
-        //                           if (block.inlines.length > 0) {
-        //                             isEmpty = false;
-        //                           }
-        //                         }
-        //                       });
-
-        //                       if (isEmpty) {
-        //                         // toast condition empty
-        //                         this.messageService.add({
-        //                           severity: 'info',
-        //                           summary: 'Warning',
-        //                           detail: 'Condition Empty! All data will be save except data at tab opinion',
-        //                         });
-        //                       } else {
-        //                         ++countValidate;
-        //                       }
-
-        //                       /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-        // 				++countValidate;
-        // 			  } else {
-        // 				// toast condition empty
-        // 				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-        // 			  } */
-        //                     }
-        //                   } else {
-        //                     // toast condition empty
-        //                     this.messageService.add({
-        //                       severity: 'info',
-        //                       summary: 'Warning',
-        //                       detail: 'Condition Empty! All data will be save except data at tab opinion',
-        //                     });
-        //                   }
-
-        //                   if (countValidate === 3) {
-        //                     this.saveUpdate('complete', source);
-        //                   } else {
-        //                     this.saveUpdate('not-complete', source);
-        //                   }
-        //                 };
-        //                 fileReaderCondition.readAsText(this.conditionFileSfdt);
-        //               }
-        //             } else {
-        //               if (countValidate === 2) {
-        //                 this.saveUpdate('complete', source);
-        //               } else {
-        //                 this.saveUpdate('not-complete', source);
-        //               }
-        //             }
-        //           } else {
-        //             // toast recomendation empty
-        //             this.messageService.add({
-        //               severity: 'info',
-        //               summary: 'Warning',
-        //               detail: 'Recommendation Empty! All data will be save except data at tab opinion',
-        //             });
-        //             this.saveUpdate('not-complete', source);
-        //           }
-        //         };
-        //         fileReader.readAsText(this.opinionFileSfdt);
-        //       } else {
-        //         // toast opinion empty
-        //         this.messageService.add({
-        //           severity: 'info',
-        //           summary: 'Warning',
-        //           detail: 'Opinion Empty! All data will be save except data at tab opinion',
-        //         });
-        //         this.saveUpdate('not-complete', source);
-        //       }
-        //     } else {
-        //       this.saveUpdate('not-complete', source);
-        //     }
-        //   }
-        // }
       } else {
-        /* this.darRevisionService.create(this.preSave()).subscribe(res => {
+        /* this.dpdlFinalizeService.create(this.preSave()).subscribe(res => {
           this.creditProposal.collaterals = res.body.collaterals;
           this.creditProposal.products = res.body.products;
           if (this.creditProposalTabBusinessActivityComponent) {
@@ -1161,10 +1157,10 @@ export class TboReviewViewComponent implements OnInit {
           }
 
           if (source === 'process') {
-            if (this.parentPath === 'cp-status-approval') {
+            if (this.parentPath === 'dar-revision-checker') {
               this.saveApplicationRole();
             } else {
-              this.tboLegalMonitoringService.processTask(this.resAttr).subscribe(() => {
+              this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
                 this.router.navigate([this.router.url.split('/')[1]]);
               });
             }
