@@ -193,6 +193,8 @@ export class DppkReviewDetailComponent implements OnInit {
   public dataLand: any;
   public dataBuilding: any;
 
+  public showGenerateDPPKFinalize = false;
+
   constructor(
     private partyCifService: PartyCifService,
     private dppkReviewService: DppkReviewService,
@@ -250,11 +252,9 @@ export class DppkReviewDetailComponent implements OnInit {
 
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
-      console.log('Isloadingg', this.baLoading);
     });
     this.baService.progress$.subscribe(res => {
       this.progress = res;
-      console.log('Progress', this.progress);
     });
   }
 
@@ -486,9 +486,7 @@ export class DppkReviewDetailComponent implements OnInit {
 
     this.dppkReviewService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
       const menuItemIdByRoute = this.router.url.includes('review-dppk') ? 'FINALIZE_DPPK' : 'FINALIZE_DPPK';
-      console.log('routes', menuItemIdByRoute);
       this.ca = response.body;
-      console.log('routes', this.ca);
 
       this.masterPermissionService
         .queryFilterBy({ menuItemId: menuItemIdByRoute, positionTypeId: this.position.positionTypeId, statusId: this.ca.statusId })
@@ -562,17 +560,24 @@ export class DppkReviewDetailComponent implements OnInit {
   }
 
   private getTasks(): void {
-    const partyId = obj => obj.partyId === this.getLocStor('POSOPARID');
-    const roleId = obj2 => obj2.roleId === this.getLocStor('POSO');
-
-    console.log('ttatat', this.getLocStor('POSOPARID'), this.getLocStor('POSO'), this.creditProposal.listOfPic.findIndex(roleId));
-
     this.dppkReviewProcessService.getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath }).subscribe(res => {
       this.creditProposal.listOfPic.forEach(element => {
         if (element.partyId === this.getLocStor('POSOPARID') && element.roleId === this.getLocStor('POSO')) {
           this.tasks = res.body;
+          this.checkForGenerateButton(res.body);
         }
       });
+    });
+  }
+
+  private checkForGenerateButton(taskList: any): void {
+    const captionFound = obj => obj.caption === 'Submit Checker 1';
+    this.dppkReviewService.getTaskVariable().subscribe(res => {
+      if (taskList.findIndex(captionFound) > -1) {
+        this.showGenerateDPPKFinalize = res.body.approvalChecker01 === false && res.body.approvalChecker02 === true ? true : false;
+      } else {
+        this.showGenerateDPPKFinalize = res.body.approvalChecker01 === true && res.body.approvalChecker02 === false ? true : false;
+      }
     });
   }
 
@@ -1704,16 +1709,6 @@ export class DppkReviewDetailComponent implements OnInit {
     const fileDpdlFinal = await firstValueFrom(
       this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
     );
-  }
-
-  public showButtonGenerate() {
-    const parentPath = this.router.url.split('/')[1];
-    if (parentPath.match(/review-dppk/g) && this.creditProposal.statusId === 'DPPK_REVIEW_CHECKER2') {
-      console.log('ini 2', this.creditProposal.statusId);
-      return true;
-    } else {
-      return false;
-    }
   }
 
   private async generateFileOfferingSPPK(): Promise<void> {

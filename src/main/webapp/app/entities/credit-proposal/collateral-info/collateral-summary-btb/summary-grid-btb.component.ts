@@ -129,7 +129,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
       }
-      return '0.00' + '%';
+      return '0.00' + 'x';
     } else if (num === 'NaN') {
       if (status === 'mv') {
         this.creditProposal.attributes.collateralSummary.mvInternalCoverage = '0.00';
@@ -140,7 +140,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = '0.00';
       }
-      return '0.00' + '%';
+      return '0.00' + 'x';
     } else {
       if (status === 'mv') {
         this.creditProposal.attributes.collateralSummary.mvInternalCoverage = num;
@@ -151,7 +151,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
       } else if (status === 'lvKjjp') {
         this.creditProposal.attributes.collateralSummary.lvKjjpCoverage = num;
       }
-      return num + '%';
+      return num + 'x';
     }
   }
 
@@ -1022,9 +1022,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
       getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValueEqIdr), 0);
-        this.biddingValueCoverage = this.convertNan(
-          Number(this.biddingValueSum) / Number(this.creditProposal.attributes['facilityDetail'].totalPlafond)
-        );
+        this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond)).toFixed(2);
       });
     });
   }
