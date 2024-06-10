@@ -5,7 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ITboCheckingModel } from './tbo-checking.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { map, Observable, Subject, BehaviorSubject } from 'rxjs';
+import { map, Observable, Subject, BehaviorSubject, of, delay } from 'rxjs';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
@@ -201,5 +201,19 @@ export class TboCheckingService extends AbstractEntityService<ITboCheckingModel>
 
   public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
+  }
+
+  // public generateDocument(id: number): Observable<HttpResponse<any>> {
+  //   return this.http.get<any>(`${this.resourceUrl}/generate-document/${id}`, { observe: 'response' });
+  // }
+
+  public generateDocument(): Observable<any> {
+    return of([
+      { Name: 'Hilmi Mubarok', Index: 42 },
+      { Name: 'GeorgeW Bush', Index: 43 },
+      { Name: 'Barack Obama', Index: 44 },
+      { Name: 'Donald Trump', Index: 45 },
+      { Name: 'Joseph Biden', Index: 46 },
+    ]).pipe(delay(2000));
   }
 }
