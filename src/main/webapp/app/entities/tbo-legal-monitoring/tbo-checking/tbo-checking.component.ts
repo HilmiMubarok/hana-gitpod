@@ -21,7 +21,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 import { CashTboLegalMonitoringService } from '../cash-tbo-legal-monitoring.service';
 import { TemplateService } from 'app/layouts/template/template.service';
-import { writeFile, utils } from 'xlsx';
+import { writeFile, utils, WorkSheet } from 'xlsx';
 
 @Component({
   selector: 'jhi-tbo-checking',
@@ -498,8 +498,9 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
     }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}.xlsx`;
 
     this.tboCheckingService.generateDocument().subscribe({
-      next(res: HttpResponse<any>) {
+      next: (res: HttpResponse<any>) => {
         const template_report_data = [
+          { key: 'No.', valueFrom: '', format: 'string' },
           { key: 'Proposal Number', valueFrom: 'applicationNumber', format: 'string' },
           { key: 'Debtors Name', valueFrom: 'debtorName', format: 'string' },
           { key: 'Branch', valueFrom: 'branch', format: 'string' },
@@ -514,14 +515,13 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
           { key: 'Monitoring Review Date', valueFrom: 'reviewDate', format: 'date' },
           { key: 'Monitoring Approval Date', valueFrom: 'approvalDate', format: 'date' },
           { key: 'Remark', valueFrom: 'notes', format: 'string' },
+          { key: 'Status Last Meeting', valueFrom: '', format: 'string' },
         ];
 
         const data = [];
         res.body.forEach(item => {
           const row = {};
           template_report_data.forEach(template => {
-            row['No'] = data.length + 1;
-
             if (template['format'] === 'date') {
               if (item[template.valueFrom] === null) {
                 row[template.key] = '';
@@ -535,30 +535,70 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
             }
 
             if (template['format'] === 'string') {
+              if (template.key === 'No.') {
+                row[template.key] = data.length + 1;
+                return;
+              }
+
+              if (template.key === 'Status Last Meeting') {
+                row[template.key] = '';
+                return;
+              }
+
               row[template.key] = item[template.valueFrom] === null ? '' : item[template.valueFrom];
             }
-
-            row['Status Last Meeting'] = '';
           });
           data.push(row);
         });
 
-        console.log('Final Data', data);
-
         const ws = utils.json_to_sheet(data);
+
+        // Set column width to auto size as content
+        ws['!cols'] = this.autofitColumns(
+          data,
+          ws,
+          template_report_data.map(t => t.key)
+        );
 
         const wb = utils.book_new();
         utils.book_append_sheet(wb, ws, 'Data');
 
-        writeFile(wb, fileName);
+        writeFile(wb, fileName, { bookType: 'xlsx', cellStyles: true });
       },
-      error(err: any) {
-        console.log(err);
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document, pelase try again' });
       },
       complete: () => {
         this.loadingGenerateDocument = false;
         this.generateDocumentLabel = 'Generate Document';
       },
     });
+  }
+
+  private autofitColumns(json: any[], worksheet: WorkSheet, header?: string[]) {
+    const jsonKeys = header ? header : Object.keys(json[0]);
+
+    const objectMaxLength = [];
+    for (let i = 0; i < json.length; i++) {
+      const value = json[i];
+      for (let j = 0; j < jsonKeys.length; j++) {
+        if (typeof value[jsonKeys[j]] === 'number') {
+          objectMaxLength[j] = 10;
+        } else {
+          const l = value[jsonKeys[j]] ? value[jsonKeys[j]].length : 0;
+
+          objectMaxLength[j] = objectMaxLength[j] >= l ? objectMaxLength[j] : l;
+        }
+      }
+
+      const key = jsonKeys;
+      for (let j = 0; j < key.length; j++) {
+        objectMaxLength[j] = objectMaxLength[j] >= key[j].length ? objectMaxLength[j] : key[j].length;
+      }
+    }
+
+    const wscols = objectMaxLength.map(w => ({ width: w }));
+
+    return wscols;
   }
 }
