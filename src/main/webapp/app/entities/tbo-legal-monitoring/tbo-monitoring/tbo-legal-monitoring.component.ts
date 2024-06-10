@@ -567,6 +567,23 @@ export class TboLegalMonitoringComponent implements OnChanges {
     return sortedItems;
   }
 
+  // calculateDateDifference(documentDate: string, proposedDate: string): number {
+  //   const current = new Date(documentDate);
+
+  //   const proposed = new Date(proposedDate);
+
+  //   // Check if the dates are valid
+  //   if (isNaN(current.getTime()) || isNaN(proposed.getTime())) {
+  //     return 0; // Or any other default value you prefer
+  //   }
+
+  //   const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
+
+  //   const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
+
+  //   return Math.floor(differenceInDays); // Return the difference in number of days
+  // }
+
   calculateDateDifference(documentDate: string, proposedDate: string): number {
     const current = new Date(documentDate);
     const proposed = new Date(proposedDate);
@@ -577,6 +594,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
     }
 
     const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
+
     const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
 
     return Math.floor(differenceInDays); // Return the difference in number of days
