@@ -203,6 +203,9 @@ export class DocumentLegalDialogComponent implements OnInit {
     if (value) {
       this.loadAll();
       if (value === 'DOC_DPDL_LEGAL_COVERNOTE') {
+        if (this.document.legalCovernote.attributes === undefined) {
+          this.document.legalCovernote.attributes = { covernoteType: '', covernoteTask: [] };
+        }
         this.loadCovernoteTypeDdl();
       }
     } else {
