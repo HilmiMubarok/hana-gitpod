@@ -11,10 +11,10 @@
     </thead>
     <tbody>
       <tr>
-        <td>{{ folder['files'][0]['tags']['category'] }}</td>
-        <td>{{ folder['files'][0]['tags']['documentDate'] | formatMediumDate }}</td>
+        <td>{{ folder['category'] }}</td>
+        <td>{{ folder['attributes']['documentDate'] | formatMediumDate }}</td>
         <td>{{ folder['attributes']['remarks'] }}</td>
-        <td>{{ folder['files'][0]['tags']['status'] }}</td>
+        <td>{{ folder['initialStatusId'] }}</td>
       </tr>
     </tbody>
   </table>

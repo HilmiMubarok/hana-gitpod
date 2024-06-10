@@ -39,11 +39,12 @@ export interface ITboLegalMonitoringMetaData {
   parentId?: string; // lvl 1
   documentId?: string; // lvl 2
   category?: string;
-  remarks?: string;
-  remarksTbo?: string;
+  // documentTypeParent?: string;
+  // remarks?: string;
+  // remarksTbo?: string;
   status?: string;
-  proposedStatus?: string;
-  proposedDate?: Date;
+  // proposedStatus?: string;
+  // proposedDate?: Date;
   documentDate?: Date;
   objectName?: string;
   attributes?: any;
@@ -57,26 +58,28 @@ export class TboLegalMonitoringMetaData implements ITboLegalMonitoringMetaData {
     public parentId?: string,
     public documentId?: string,
     public category?: string,
-    public remarks?: string,
-    public remarksTbo?: string,
+    // public documentTypeParent?: string,
+    // public remarks?: string,
+    // public remarksTbo?: string,
     public status?: string,
-    public proposedStatus?: string,
-    public proposedDate?: Date,
-    public documentDate?: Date,
+    // public proposedStatus?: string,
+    // public proposedDate?: Date,
+    // public documentDate?: Date,
     public objectName?: string
   ) {
     this.id = null;
     this.applicationId = null;
     this.rootId = null;
     this.parentId = null;
+    // this.documentTypeParent = null;
     this.documentId = null;
     this.category = null;
-    this.remarks = null;
-    this.remarksTbo = null;
+    // this.remarks = null;
+    // this.remarksTbo = null;
     this.status = null;
-    this.proposedStatus = null;
-    this.proposedDate = null;
-    this.documentDate = null;
+    // this.proposedStatus = null;
+    // this.proposedDate = null;
+    // this.documentDate = null;
     this.objectName = null;
   }
 }
