@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { ITboCheckingModel } from './tbo-checking.model';
+import { DocumentTBO, ITboCheckingModel } from './tbo-checking.model';
 import { TboCheckingService } from './tbo-checking.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
@@ -498,8 +498,54 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
     }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}.xlsx`;
 
     this.tboCheckingService.generateDocument().subscribe({
-      next(res: any) {
-        const ws = utils.json_to_sheet(res);
+      next(res: HttpResponse<any>) {
+        const template_report_data = [
+          { key: 'Proposal Number', valueFrom: 'applicationNumber', format: 'string' },
+          { key: 'Debtors Name', valueFrom: 'debtorName', format: 'string' },
+          { key: 'Branch', valueFrom: 'branch', format: 'string' },
+          { key: 'RM', valueFrom: 'rm', format: 'string' },
+          { key: 'PIC', valueFrom: 'pic', format: 'string' },
+          { key: 'Document Name', valueFrom: 'name', format: 'string' },
+          { key: 'Current Document Status', valueFrom: 'initialStatusId', format: 'string' },
+          { key: 'Current Document Date', valueFrom: 'date', format: 'date' },
+          { key: 'Proposed Document Status', valueFrom: 'statusAppDocId', format: 'string' },
+          { key: 'Proposed Document Date', valueFrom: 'dueDate', format: 'date' },
+          { key: 'Monitoring Checking Date', valueFrom: 'checkingDate', format: 'date' },
+          { key: 'Monitoring Review Date', valueFrom: 'reviewDate', format: 'date' },
+          { key: 'Monitoring Approval Date', valueFrom: 'approvalDate', format: 'date' },
+          { key: 'Remark', valueFrom: 'notes', format: 'string' },
+        ];
+
+        const data = [];
+        res.body.forEach(item => {
+          const row = {};
+          template_report_data.forEach(template => {
+            row['No'] = data.length + 1;
+
+            if (template['format'] === 'date') {
+              if (item[template.valueFrom] === null) {
+                row[template.key] = '';
+                return;
+              }
+
+              const dateValue = new Date(item[template.valueFrom]);
+
+              // Format to dd/mm/yyyy
+              row[template.key] = `${dateValue.getDate()}/${dateValue.getMonth() + 1}/${dateValue.getFullYear()}`;
+            }
+
+            if (template['format'] === 'string') {
+              row[template.key] = item[template.valueFrom] === null ? '' : item[template.valueFrom];
+            }
+
+            row['Status Last Meeting'] = '';
+          });
+          data.push(row);
+        });
+
+        console.log('Final Data', data);
+
+        const ws = utils.json_to_sheet(data);
 
         const wb = utils.book_new();
         utils.book_append_sheet(wb, ws, 'Data');
