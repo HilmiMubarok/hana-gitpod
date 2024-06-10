@@ -112,14 +112,14 @@
                   <!-- Update bagian ini -->
                   <ng-container
                     *ngIf="
-                      document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN';
+                      document.documentTypeId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.documentTypeId === 'DOC_DPDL_LEGAL_LAMPIRAN';
                       else selectDocument
                     "
                   >
-                    <input matInput type="text" [(ngModel)]="document.documentId" />
+                    <input matInput type="text" [(ngModel)]="document.documentTypeId" />
                   </ng-container>
                   <ng-template #selectDocument>
-                    <mat-select [(ngModel)]="document.documentId">
+                    <mat-select [(ngModel)]="document.documentTypeId">
                       <mat-option value="">- Please Select -</mat-option>
                       <mat-option *ngFor="let item of documentTypes" [value]="item.id">
                         {{ item.description }}
@@ -457,7 +457,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Type</mat-label>
-                <mat-select [(ngModel)]="document.parentId" [disabled]="isDisabled()" (selectionChange)="doSearch($event.value)">
+                <mat-select [(ngModel)]="document.documentTypeParent" [disabled]="isDisabled()" (selectionChange)="doSearch($event.value)">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of parentIdValue" [value]="item.id">{{ item.description }} </mat-option>
                   <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
@@ -475,14 +475,14 @@
                 <!-- Update bagian ini -->
                 <ng-container
                   *ngIf="
-                    document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN';
+                    document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE' || document.documentTypeParent === 'DOC_DPDL_LEGAL_LAMPIRAN';
                     else selectDocument
                   "
                 >
-                  <input matInput type="text" [(ngModel)]="document.documentId" [disabled]="isDisabled()" />
+                  <input matInput type="text" [(ngModel)]="document.documentTypeId" [disabled]="isDisabled()" />
                 </ng-container>
                 <ng-template #selectDocument>
-                  <mat-select [(ngModel)]="document.documentId" [disabled]="isDisabled()">
+                  <mat-select [(ngModel)]="document.documentTypeId" [disabled]="isDisabled()">
                     <mat-option value="">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of documentTypes" [value]="item.id">
                       {{ item.description }}
@@ -494,12 +494,12 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="document.parentId !== 'DOC_DPDL_LEGAL_COVERNOTE'">
+        <div class="row" *ngIf="document.documentTypeParent !== 'DOC_DPDL_LEGAL_COVERNOTE'">
           <div class="col-6">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="document.status" [disabled]="isDisabled()">
+                <mat-select [(ngModel)]="document.statusAppDocId" [disabled]="isDisabled()">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of status" [value]="item">
                     {{ item }}
@@ -517,7 +517,7 @@
                   matInput
                   type="text"
                   [disabled]="isDisabled()"
-                  [(ngModel)]="document.documentDate"
+                  [(ngModel)]="document.attributes.documentDate"
                   disabled
                 />
                 <mat-datepicker-toggle matSuffix [disabled]="isDisabled()" [for]="documentDate"></mat-datepicker-toggle>
@@ -527,12 +527,12 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+        <div class="row" *ngIf="document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'">
           <div class="col-12">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="document.status" [disabled]="isDisabled()">
+                <mat-select [(ngModel)]="document.statusAppDocId" [disabled]="isDisabled()">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of status" [value]="item">
                     {{ item }}
@@ -560,7 +560,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <input matInput type="text" [(ngModel)]="document.attributes['remarksTbo']" />
+                <input matInput type="text" [(ngModel)]="document.attributes.remarks" />
               </mat-form-field>
             </div>
           </div>
@@ -592,7 +592,7 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+        <div class="row" *ngIf="document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'">
           <div class="col-6">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
@@ -603,7 +603,7 @@
           </div>
           <div class="col-6">
             <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+              <mat-form-field class="w-100" appearance="outline" *ngIf="document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'">
                 <mat-label>Notary Name</mat-label>
                 <input matInput type="text" [(ngModel)]="document.attributes['notaryName']" />
               </mat-form-field>
@@ -611,12 +611,12 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'">
+        <div class="row" *ngIf="document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'">
           <div class="col-6">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Date</mat-label>
-                <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+                <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.attributes.documentDate" disabled />
                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                 <mat-datepicker #dp disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -643,7 +643,7 @@
         <div class="row">
           <div class="col-12">
             <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline" *ngIf="document.parentId === 'DOC_DPDL_LEGAL_BIAYA'">
+              <mat-form-field class="w-100" appearance="outline" *ngIf="document.documentTypeParent === 'DOC_DPDL_LEGAL_BIAYA'">
                 <mat-label>Total</mat-label>
                 <input
                   matInput

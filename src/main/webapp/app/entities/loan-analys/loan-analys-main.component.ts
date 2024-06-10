@@ -205,7 +205,11 @@ export class LoanAnalysMainComponent implements OnInit {
     });
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
-    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+    this.isHistoryExist = this.creditProposal.attributes['previousHistory']
+      ? this.creditProposal.attributes['previousOfferingLetter']
+        ? false
+        : true
+      : false;
     this.isDarRevHistoryExist = this.creditProposal.attributes.darRevHistory ? true : false;
     this.sourceSlikChecking = this.creditProposal.statusId === 'CP_ASSIGNMENT' ? 'edit' : 'loan';
     this.darRouter = this.router.url.split('/').indexOf('dar-notif') > -1;
