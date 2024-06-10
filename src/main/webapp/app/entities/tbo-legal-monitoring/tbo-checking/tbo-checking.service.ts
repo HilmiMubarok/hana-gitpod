@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { ITboCheckingModel } from './tbo-checking.model';
+import { DocumentTBO, ITboCheckingModel } from './tbo-checking.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { map, Observable, Subject, BehaviorSubject, of, delay } from 'rxjs';
@@ -203,17 +203,10 @@ export class TboCheckingService extends AbstractEntityService<ITboCheckingModel>
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
   }
 
-  // public generateDocument(id: number): Observable<HttpResponse<any>> {
-  //   return this.http.get<any>(`${this.resourceUrl}/generate-document/${id}`, { observe: 'response' });
-  // }
-
-  public generateDocument(): Observable<any> {
-    return of([
-      { Name: 'Hilmi Mubarok', Index: 42 },
-      { Name: 'GeorgeW Bush', Index: 43 },
-      { Name: 'Barack Obama', Index: 44 },
-      { Name: 'Donald Trump', Index: 45 },
-      { Name: 'Joseph Biden', Index: 46 },
-    ]).pipe(delay(2000));
+  public generateDocument(): Observable<HttpResponse<DocumentTBO>> {
+    return this.http.get<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/application-documents/tbo-monitoring-report`,
+      { observe: 'response' }
+    );
   }
 }
