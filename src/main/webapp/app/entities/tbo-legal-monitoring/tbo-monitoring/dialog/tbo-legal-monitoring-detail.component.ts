@@ -781,7 +781,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.parentPath === 'loan-ops-checking' ||
       this.parentPath === 'loan-ops-review' ||
       this.parentPath === 'review-dppk' ||
-      this.parentPath === 'tbo-checking'
+      this.parentPath === 'tbo-legal-checking'
       // this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' ||
       // this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' ||
       // this.creditProposal.statusId === 'DPDL_REVIEW_TEAMLEAD' ||
