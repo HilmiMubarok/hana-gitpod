@@ -165,3 +165,35 @@ export class TboCheckingModel implements ITboCheckingModel {
     this.appraisals = new Array<ICollateralAppraisal>();
   }
 }
+
+export interface DocumentTBO {
+  id: number;
+  documentTypeParent?: string;
+  documentTypeId?: string;
+  documentTypeCategory?: string;
+  documentTypeOrderNo?: number;
+  documentTypeStatusId?: string;
+  documentTypeCustomerType?: string;
+  path?: string;
+  documentStatusId?: string;
+  name?: string;
+  description?: string;
+  notes?: string;
+  attributes?: object;
+  applicationId?: number;
+  applicationNumber?: string;
+  dueDate?: string;
+  statusAppeal?: string;
+  category?: string;
+  statusAppDocId?: string;
+  initialStatusId?: string;
+  date?: string;
+  checkingDate?: string;
+  reviewDate?: string;
+  approvalDate?: string;
+  noteLastMeet?: string;
+  debtorName?: string;
+  branch?: string;
+  rm?: string;
+  pic?: string;
+}
