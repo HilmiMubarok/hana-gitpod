@@ -140,7 +140,6 @@ export class OtherCovenantTempComponent implements OnInit {
             this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
               this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
                 this.typeData = [...res.body, ...res1.body, ...res2.body];
-
                 for (let i = 0; i < this.typeData.length; i++) {
                   if (this.typeData[i].id.includes('DEPO')) {
                     this.typeData[i].collateralTypeId = 'DEPOSIT';
@@ -184,6 +183,7 @@ export class OtherCovenantTempComponent implements OnInit {
                 const colllateralKapalData = colllateralKapal.length > 0 ? this.typeData.filter(obj => obj.id.includes('SHIP')) : [];
                 const jaminanFactoringData = jaminanFactoring ? this.typeData.filter(obj => obj.id.includes('COLL_EARC')) : [];
                 const nonKeuanganData = nonKeuangan.length > 0 ? this.typeData.filter(obj => obj.id.includes('PIUTG')) : [];
+                const DocumentCpOther: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_OTHER');
                 const result: IDocumentType[] = [
                   ...collateralData,
                   ...INDCORData,
@@ -196,6 +196,7 @@ export class OtherCovenantTempComponent implements OnInit {
                   ...colllateralKapalData,
                   ...jaminanFactoringData,
                   ...nonKeuanganData,
+                  ...DocumentCpOther,
                 ];
 
                 for (let i = 0; i < result.length; i++) {
@@ -318,6 +319,12 @@ export class OtherCovenantTempComponent implements OnInit {
     }
     this.otherConvenantMinIO = [...sameIdObjects, ...differentIdObjects];
     if (this.filterStatus.length > 0) {
+      for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
+        if (this.otherConvenantMinIO[i].categoryName !== undefined && this.otherConvenantMinIO[i].categoryName !== null) {
+          this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
+        }
+      }
+    } else {
       for (let i = 0; i < this.otherConvenantMinIO.length; i++) {
         if (this.otherConvenantMinIO[i].categoryName !== undefined && this.otherConvenantMinIO[i].categoryName !== null) {
           this.filterStatus = [...this.filterStatus, this.otherConvenantMinIO[i]];
