@@ -17,6 +17,8 @@ import { IDocumentNode } from 'app/entities/document-node/document-node.model';
 import { TboLegalMonitoringViewComponent } from './dialog/tbo-legal-monitoring-view.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { ITboLegalMonitoringMetaData, TboLegalMonitoringMetaData } from './tbo-legal-monitoring.model';
+import { ApplicationDocument, IApplicationDocument } from 'app/entities/application-document/application-document.model';
+import { ApplicationDocumentService } from 'app/entities/application-document/application-document.service';
 
 @Component({
   selector: 'jhi-tbo-legal-monitoring',
@@ -36,10 +38,11 @@ export class TboLegalMonitoringComponent implements OnChanges {
   }
 
   public metaData: ITboLegalMonitoringMetaData = new TboLegalMonitoringMetaData();
+  public applicationDocument: IApplicationDocument[];
   // public docDpdl: IDocumentLegalDpdl;
 
   public files: Object[];
-  public folders: Object[];
+  public folders: any[];
   private bucket: string;
   public change: any;
   public parentIdValue = [];
@@ -53,7 +56,8 @@ export class TboLegalMonitoringComponent implements OnChanges {
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     private documentTypeService: DocumentTypeService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private applicationDocumentService: ApplicationDocumentService
   ) {
     this.files = [];
     this.folders = [];
@@ -133,7 +137,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
           this.getFiles(this.creditProposal.id);
         });
         this.edit(res).then(() => {
-          this.getFiles(this.creditProposal.id);
+          // this.getFiles(this.creditProposal.id);
         });
       }
     });
@@ -183,28 +187,71 @@ export class TboLegalMonitoringComponent implements OnChanges {
       });
     });
   }
-
-  private getFiles(id: number): void {
+  public getFiles(id: number): void {
     if (this.change.creditProposal !== undefined && this.change.creditProposal['currentValue'] !== undefined) {
       const predicate: Object = {
-        // key: `/dpdl/${id}/legal/`,
-        key: `/document-tbo/document-legal/${id}/legal/`,
+        key: `/document-tbo/document-legal/${id}/legal/`, // Mengganti ini sesuai dengan struktur key di minio Anda
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        this.groupByFolder(res.body.filter(e => e['tags']['status'] === 'TBO'));
+        console.log('res body:', res.body);
+        this.getApplicationDocument(res.body);
       });
-
-      // this.storageService.getTags(this.bucket, this.key, 'status', 'TBO').subscribe(res => {
-      //   const documentName = this.documentTypes.find(type => type.id === res.body[0]['documentId']);
-      //   this.folders = res.body;
-      //   if (this.folders.length > 0) {
-      //     for (let i = 0; i < this.folders.length; i++) {
-      //       this.folders[i].documentId = documentName ? documentName.description : this.folders[i].documentId;
-      //     }
-      //     //
-      //   }
-      // });
     }
+  }
+
+  public getApplicationDocument(minioData: any[]): void {
+    // Mendapatkan daftar dokumen aplikasi
+    const statuses = ['DRAFT', 'ACTIVE'];
+    const page = 0;
+    const size = 9999;
+    const sort = ['id,desc'];
+
+    this.applicationDocumentService
+      .getListApplicationDocument(this.creditProposal.id, { statusId: statuses, page, size, sort })
+      .subscribe(res => {
+        // Menginisialisasi array untuk menyimpan dokumen aplikasi dengan informasi tambahan
+        const augmentedApplicationDocuments: IApplicationDocument[] = [];
+        this.folders = res.body.filter(e => e.statusAppDocId === 'TBO');
+        console.log('folders:', this.folders);
+        console.log('minioData:', minioData);
+
+        // Iterasi melalui setiap dokumen aplikasi
+        this.folders.forEach(appDoc => {
+          // Mencari data Minio yang sesuai dengan dokumen aplikasi
+          // const minioDocument = minioData.find(m => m.tags.id === appDoc.attributes.docId);
+          const minioDocuments = minioData.filter(m => m.tags.id === appDoc.attributes.docId);
+          console.log('minioDocuments:', minioDocuments);
+
+          // Jika ditemukan, tambahkan informasi tambahan ke dokumen aplikasi
+          if (minioDocuments.length > 0) {
+            const files = [];
+            minioDocuments.forEach(minioDocument => {
+              const filesTemp = {
+                name: minioDocument.name,
+                key: minioDocument.key,
+                type: minioDocument.metaData.Value,
+                url: minioDocument.url,
+              };
+              files.push(filesTemp);
+            });
+            const augmentedAppDoc: IApplicationDocument = {
+              // Salin semua properti dari dokumen aplikasi
+              ...appDoc,
+              // Tambahkan properti tambahan
+              files,
+            };
+
+            // Tambahkan dokumen aplikasi yang diperbarui ke array
+            augmentedApplicationDocuments.push(augmentedAppDoc);
+          }
+        });
+
+        // Gunakan dokumen aplikasi yang telah diperbarui
+        this.applicationDocument = augmentedApplicationDocuments;
+
+        // Debugging: Tampilkan dokumen aplikasi yang telah diperbarui
+        console.log('Augmented application documents:', this.applicationDocument);
+      });
   }
 
   private groupByFolder(param: Object[]): void {
@@ -247,14 +294,20 @@ export class TboLegalMonitoringComponent implements OnChanges {
       const id = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
       // this.docDpdl = res;
 
+      console.log('res cek', res);
+
       for (let i = 0; i < res.files.length; i++) {
         const files = res.datePipe.transform(new Date(), 'yyyy-MM-dd:hh:mm:ss') + '-' + res.files[i].name.replace('&', '');
 
-        this.metaData.id = id;
-        this.metaData.applicationId = res.creditProposal.id;
-        this.metaData.rootId = res.rootId;
-        this.metaData.parentId = res.parentId;
-        this.metaData.documentId = res.documentId;
+        const splitPath = res.path.split('/');
+        console.log('test', splitPath);
+
+        this.metaData.id = res.docIdTags;
+        this.metaData.applicationId = this.creditProposal.id;
+        this.metaData.rootId = splitPath[4];
+        this.metaData.parentId = splitPath[5];
+        // this.metaData.documentTypeParent = res.documentTypeParent;
+        this.metaData.documentId = res.documentTypeId;
         this.metaData.category = res.category;
         this.metaData.status = res.status;
         // this.metaData.proposedStatus = res.proposedStatus;
@@ -263,8 +316,38 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
         const formData = new FormData();
         formData.append('file', res.files[i]);
+        console.log('form data', formData);
 
-        this.metaData.objectName = `/dpdl/${res.creditProposal.id}/legal/${res.rootId}/${res.parentId}/${res.documentId}/${id}/${files}`;
+        this.metaData.objectName =
+          splitPath[0] +
+          '/' +
+          splitPath[1] +
+          '/' +
+          splitPath[2] +
+          '/' +
+          splitPath[3] +
+          '/' +
+          splitPath[4] +
+          '/' +
+          splitPath[5] +
+          '/' +
+          splitPath[6] +
+          '/' +
+          splitPath[7] +
+          '/' +
+          files;
+        console.log('split 0', splitPath[0]);
+        console.log('split 1', splitPath[1]);
+        console.log('split 2', splitPath[2]);
+        console.log('split 3', splitPath[3]);
+        console.log('split 4', splitPath[4]);
+
+        console.log('split 5', splitPath[5]);
+        console.log('split 6', splitPath[6]);
+        console.log('split 7', splitPath[7]);
+
+        // this.metaData.objectName = `/document-tbo/document-legal/${this.creditProposal.id}/legal/${res.rootId}/${res.parentId}/${res.documentId}/${id}/${files}`;
+        // this.metaData.objectName = `/document-tbo/document-legal/${this.creditProposal.id}/legal/${res.rootId}/${res.parentId}/${res.documentId}/${id}/${files}`;
 
         promises.push(this.doUpload(formData, this.metaData));
       }
@@ -279,39 +362,120 @@ export class TboLegalMonitoringComponent implements OnChanges {
     });
   }
 
+  // public edit(res: any): Promise<any> {
+  //   return new Promise((resolve, reject) => {
+  //     if (res && res.folderFiles && res.folderFiles.length > 0) {
+  //       console.log('Edit:', res);
+  //       const promises: Array<any> = new Array<any>();
+  //       const fileRes = [];
+  //       const files: IDocumentNode[] = res.folderFiles;
+  //       if (files.length > 0) {
+  //         for (let i = 0; i < files.length; i++) {
+  //           const file: IDocumentNode = files[i];
+  //           file.tags['id'] = res.id;
+  //           file.tags['applicationId'] = this.creditProposal.id;
+  //           file.tags['rootId'] = res.rootId;
+  //           file.tags['documentDate'] = res.documentDate;
+  //           file.tags['parentId'] = res.parentId;
+  //           file.tags['documentId'] = res.documentId;
+  //           file.tags['category'] = res.category;
+  //           file.tags['attributes'] = JSON.stringify(this.changeCharacter(res.attributes));
+  //           file.tags['status'] = res.status;
+  //           // file.tags['proposedStatus'] = res.proposedStatus;
+
+  //           this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
+  //             fileRes.push(res1);
+  //             this.getFiles(this.creditProposal.id);
+  //           });
+  //         }
+  //       }
+
+  //       if (fileRes.length === files.length) {
+  //         resolve(fileRes[0]);
+  //       }
+  //     } else {
+  //       resolve(null);
+  //     }
+  //   });
+  // }
+
   public edit(res: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (res && res.folderFiles && res.folderFiles.length > 0) {
-        const promises: Array<any> = new Array<any>();
-        const fileRes = [];
-        const files: IDocumentNode[] = res.folderFiles;
-        if (files.length > 0) {
-          for (let i = 0; i < files.length; i++) {
-            const file: IDocumentNode = files[i];
-            file.tags['id'] = res.id;
-            file.tags['applicationId'] = this.creditProposal.id;
-            file.tags['rootId'] = res.rootId;
-            file.tags['documentDate'] = res.documentDate;
-            file.tags['parentId'] = res.parentId;
-            file.tags['documentId'] = res.documentId;
-            file.tags['category'] = res.category;
-            file.tags['attributes'] = JSON.stringify(this.changeCharacter(res.attributes));
-            file.tags['status'] = res.status;
-            // file.tags['proposedStatus'] = res.proposedStatus;
+      // if (res && res.folderFiles && res.folderFiles.length > 0) {
+      // console.log('Edit:', res);
 
-            this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
-              fileRes.push(res1);
-              this.getFiles(this.creditProposal.id);
-            });
-          }
-        }
+      const documentName = this.documentTypes.find(type => type.id === res.documentTypeId);
+      const resultDocName = documentName ? documentName.description : res.documentTypeId;
+      const attributesObj = typeof res.attributes === 'string' ? JSON.parse(res.attributes) : res.attributes;
 
-        if (fileRes.length === files.length) {
-          resolve(fileRes[0]);
-        }
-      } else {
-        resolve(null);
-      }
+      const updatedDocument: IApplicationDocument = {
+        id: res.id,
+        applicationId: this.creditProposal.id,
+        documentTypeId: res.documentTypeId,
+        // attributes: attributesObj,
+        statusAppDocId: res.statusAppDocId,
+        initialStatusId: res.initialStatusId,
+        path: res.path,
+        applicationNumber: this.creditProposal.applicationNumber,
+        name: resultDocName,
+        category: res.category,
+        attributes: {
+          docId: res.attributes.docId,
+          documentDate: res.attributes.documentDate,
+          proposedDate: res.attributes.proposedDate,
+          proposedStatus: res.attributes.proposedStatus,
+          remarks: res.attributes.remarks,
+          description: res.attributes.description,
+          total: res.attributes.total,
+          notaryNumber: res.attributes.notaryNumber,
+          notaryName: res.attributes.notaryName,
+          batasWaktuPenyelesaian: res.attributes.batasWaktuPenyelesaian,
+        },
+      };
+
+      console.log('update req aplication doc: ', updatedDocument);
+
+      this.applicationDocumentService.update(updatedDocument).subscribe(updatedRes => {
+        console.log('update app document :', updatedRes);
+      });
+
+      // const promises: Array<any> = new Array<any>();
+      // const fileRes = [];
+      // const files: IDocumentNode[] = res;
+      // console.log('files', files);
+      // if (files.length > 0) {
+      //   for (let i = 0; i < files.length; i++) {
+      //     const file: IDocumentNode = files[i];
+      //     file.tags['id'] = res.idDoc;
+      //     file.tags['applicationId'] = this.creditProposal.id;
+      //     file.tags['rootId'] = res.documentRootId;
+      //     file.tags['documentDate'] = res.documentDate;
+      //     file.tags['parentId'] = res.documentTypeParent;
+      //     file.tags['documentId'] = res.documentTypeId;
+      //     file.tags['category'] = res.category;
+      //     file.tags['attributes'] = JSON.stringify(this.changeCharacter(res.attributes));
+      //     file.tags['status'] = res.statusAppDocId;
+      //     // file.tags['proposedStatus'] = res.proposedStatus;
+
+      //     console.log('files ', file);
+      //     // Memperbarui DocumentNode
+      //     this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
+      //       console.log('res update minio :', res1);
+      //       fileRes.push(res1);
+      //       // this.getFiles(this.creditProposal.id);
+      //     });
+      //     console.log('file res ', fileRes);
+
+      //     // Memperbarui ApplicationDocument
+      //   }
+      // }
+
+      //   if (fileRes.length === files.length) {
+      //     resolve(fileRes[0]);
+      //   }
+      // } else {
+      //   resolve(null);
+      // }
     });
   }
 
@@ -403,45 +567,25 @@ export class TboLegalMonitoringComponent implements OnChanges {
     return sortedItems;
   }
 
-  // public getData() {
-  //   console.log('ini bucket kfc : {}', this.bucket);
-  //   // const url = `${this.baseUrl}${bucketName}/tags?key=dpdl/1383/legal&status=TBO`;
-  //   this.key = 'dpdl/' + this.creditProposal.id + '/legal';
+  // calculateDateDifference(documentDate: string, proposedDate: string): number {
+  //   const current = new Date(documentDate);
 
-  //   // this.storageService.getTags(this.bucket, this.key, 'status', 'TBO').subscribe(res => {
-  //   //   const documentName = this.documentTypes.find(type => type.id === res.body[0]['documentId']);
-  //   //   this.folders = res.body;
-  //   //   if (this.folders.length > 0) {
-  //   //     for (let i = 0; i < this.folders.length; i++) {
-  //   //       this.folders[i].documentId = documentName ? documentName.description : this.folders[i].documentId;
-  //   //     }
-  //   //     //
-  //   //   }
-  //   // });
-
-  //   this.storageService.getObjects(this.bucket, { key: this.key }).subscribe(res => {
-  //     const data = res.body.filter(e => e['tags']['status'] === 'TBO');
-  //     console.log('res', data);
-
-  //     // this.folders = res.body;
-  //   });
-
-  //   // return this.http.get<any>(url);
-  // }
-
-  // calculateDateDifference(currentDate: string, proposedDate: string): number {
-  //   const current = new Date(currentDate);
   //   const proposed = new Date(proposedDate);
 
-  //   const differenceInTime = current.getTime() - proposed.getTime(); // Selisih dalam milidetik
-  //   const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
-  //   // const differenceInDays = differenceInTime / (1000 * 3600 * 24); // Konversi milidetik ke hari
+  //   // Check if the dates are valid
+  //   if (isNaN(current.getTime()) || isNaN(proposed.getTime())) {
+  //     return 0; // Or any other default value you prefer
+  //   }
 
-  //   return Math.floor(differenceInDays); // Mengembalikan selisih dalam jumlah hari
+  //   const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
+
+  //   const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
+
+  //   return Math.floor(differenceInDays); // Return the difference in number of days
   // }
 
-  calculateDateDifference(currentDate: string, proposedDate: string): number {
-    const current = new Date(currentDate);
+  calculateDateDifference(documentDate: string, proposedDate: string): number {
+    const current = new Date(documentDate);
     const proposed = new Date(proposedDate);
 
     // Check if the dates are valid
@@ -450,6 +594,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
     }
 
     const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
+
     const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
 
     return Math.floor(differenceInDays); // Return the difference in number of days

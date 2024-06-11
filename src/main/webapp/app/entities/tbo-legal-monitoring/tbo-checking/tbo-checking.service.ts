@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { ITboCheckingModel } from './tbo-checking.model';
+import { DocumentTBO, ITboCheckingModel } from './tbo-checking.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { map, Observable, Subject, BehaviorSubject } from 'rxjs';
+import { map, Observable, Subject, BehaviorSubject, of, delay } from 'rxjs';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
@@ -201,5 +201,12 @@ export class TboCheckingService extends AbstractEntityService<ITboCheckingModel>
 
   public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
+  }
+
+  public generateDocument(): Observable<HttpResponse<DocumentTBO>> {
+    return this.http.get<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/application-documents/tbo-monitoring-report`,
+      { observe: 'response' }
+    );
   }
 }

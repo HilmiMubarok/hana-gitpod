@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { DocumentLegalDpdl, IDocumentLegalDpdl } from 'app/entities/dpdl-finalize/dpdl-document/document-dpdl.model';
 import { ITboLegalMonitoring, TboLegalMonitoring } from '../tbo-legal-monitoring.model';
+import { ApplicationDocument, IApplicationDocument } from 'app/entities/application-document/application-document.model';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -48,7 +49,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public datas = [];
   public files: File[] = [];
   public file: File;
-  public document: ITboLegalMonitoring;
+  // public document: ITboLegalMonitoring;
+  public document: IApplicationDocument;
   public id: string;
   public documentTypes = [];
   public object: ICreditProposal;
@@ -56,6 +58,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public indeks = 0;
   public booleanRouter: boolean;
   datePipe: DatePipe = new DatePipe('en-US');
+
   private bucket: string;
   public categoryType = [];
   public collateralView: boolean;
@@ -100,69 +103,91 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     public reportUtilService: ReportUtilService,
     private messageService: MessageService
   ) {
+    // this.view = this.data.view;
+    // const dataDoc: any = this.data.obj;
+    // console.log('dataDoc', dataDoc);
     this.view = this.data.view;
     const dataDoc: any = this.data.obj;
 
     if (this.data.view === 'edit') {
       this.document = {
         id: dataDoc.id,
-        documentDate: new Date(dataDoc.files[0].tags.documentDate),
-        rootId: dataDoc.files[0].tags.rootId,
-        parentId: dataDoc.files[0].tags.parentId,
-        documentId: dataDoc.files[0].tags.documentId,
-        category: dataDoc.files[0].tags.category,
-        status: dataDoc.files[0].tags.status,
+        docIdTags: dataDoc.attributes['docId'],
+        // documentDate: new Date(dataDoc.files[0].tags.documentDate),
+        // rootId: dataDoc.files[0].tags.rootId,
+        documentTypeParent: dataDoc.documentTypeParent,
+        documentTypeId: dataDoc.documentTypeId,
+        category: dataDoc.category,
+        statusAppDocId: dataDoc.statusAppDocId,
+        files: dataDoc.files,
+        initialStatusId: dataDoc.initialStatusId,
         // proposedStatus: dataDoc.files[0].tags.proposedStatus,
 
         attributes: {
+          docId:
+            typeof dataDoc.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).docId
+              : this.changeCharacter(dataDoc.attributes.docId),
+          documentDate: new Date(dataDoc.attributes.documentDate),
           remarks:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).remarks
-              : this.changeCharacter(dataDoc.files[0].tags.attributes.remarks),
+            typeof dataDoc.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).remarks
+              : this.changeCharacter(dataDoc.attributes.remarks),
           remarksTbo:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).remarksTbo
-              : this.changeCharacter(dataDoc.files[0].tags.attributes.remarksTbo),
+            typeof dataDoc.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).remarksTbo
+              : this.changeCharacter(dataDoc.attributes.remarksTbo),
           proposedDate:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? dataDoc.files[0].tags.attributes.includes('proposedDate') // Cek apakah ada 'proposedDate' dalam string
-                ? new Date(JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).proposedDate)
+            typeof dataDoc.attributes === 'string'
+              ? dataDoc.attributes.includes('proposedDate') // Cek apakah ada 'proposedDate' dalam string
+                ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).proposedDate)
                 : new Date() // Nilai default jika tidak ada 'proposedDate'
-              : dataDoc.files[0].tags.attributes.proposedDate
-              ? new Date(dataDoc.files[0].tags.attributes.proposedDate)
+              : dataDoc.attributes.proposedDate
+              ? new Date(dataDoc.attributes.proposedDate)
               : new Date(), // Nilai default jika undefined atau tidak valid
           proposedStatus:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).proposedStatus
-              : this.changeCharacter(dataDoc.files[0].tags.attributes.proposedStatus),
+            typeof dataDoc.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).proposedStatus || ''
+              : this.changeCharacter(dataDoc.attributes.proposedStatus) || '',
           description:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).description
-              : this.changeCharacter(dataDoc.files[0].tags.attributes.description),
+            typeof dataDoc.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).description || ''
+              : this.changeCharacter(dataDoc.attributes.description) || '',
           total:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).total
-              : this.changeCharacter(dataDoc.files[0].tags.attributes.total),
+            typeof dataDoc.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).total || ''
+              : this.changeCharacter(dataDoc.attributes.total) || '',
           notaryNumber:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).notaryNumber
-              : this.changeCharacter(dataDoc.files[0].tags.attributes.notaryNumber),
+            typeof dataDoc.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).notaryNumber || ''
+              : this.changeCharacter(dataDoc.attributes.notaryNumber) || '',
           notaryName:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).notaryName
-              : this.changeCharacter(dataDoc.files[0].tags.attributes.notaryName),
+            typeof dataDoc.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).notaryName || ''
+              : this.changeCharacter(dataDoc.attributes.notaryName) || '',
+          // batasWaktuPenyelesaian:
+          //   typeof dataDoc.attributes === 'string'
+          //     ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).batasWaktuPenyelesaian || '')
+          //     : new Date(dataDoc.attributes.batasWaktuPenyelesaian || ''),
           batasWaktuPenyelesaian:
-            typeof dataDoc.files[0].tags.attributes === 'string'
-              ? new Date(JSON.parse(this.changeCharacter(dataDoc.files[0].tags.attributes)).batasWaktuPenyelesaian)
-              : new Date(dataDoc.files[0].tags.attributes.batasWaktuPenyelesaian),
+            typeof dataDoc.attributes === 'string'
+              ? dataDoc.attributes.includes('batasWaktuPenyelesaian') // Cek apakah ada 'proposedDate' dalam string
+                ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).batasWaktuPenyelesaian)
+                : new Date() // Nilai default jika tidak ada 'proposedDate'
+              : dataDoc.attributes.batasWaktuPenyelesaian
+              ? new Date(dataDoc.attributes.batasWaktuPenyelesaian)
+              : new Date(),
         },
       };
     } else {
-      this.document = new TboLegalMonitoring();
+      this.document = new ApplicationDocument();
 
       if (this.data.view === 'add') {
-        if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.parentId === 'DOC_DPDL_LEGAL_LAMPIRAN') {
-          this.document.documentId = ''; // atau this.document.documentId = null; sesuai kebutuhan Anda
+        if (
+          this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE' ||
+          this.document.documentTypeParent === 'DOC_DPDL_LEGAL_LAMPIRAN'
+        ) {
+          this.document.documentTypeId = ''; // atau this.document.documentId = null; sesuai kebutuhan Anda
         }
       }
     }
@@ -177,6 +202,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     }
 
     this.changefield = false;
+    console.log('folder', this.folder);
+    console.log('document', this.document);
   }
 
   public parentIdValue = [];
@@ -197,10 +224,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   private loadAll(): void {
+    console.log('loadAll');
     this.documentTypeService
       .filterTableData({
         lvl2: true,
-        parentId: this.document.parentId,
+        parentId: this.document.documentTypeParent,
         page: 0,
         size: 9999,
         sort: ['id', 'desc'],
@@ -209,24 +237,25 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         this.documentTypes = res.body;
         if (this.documentTypes.length > 0) {
           for (let i = 0; i < this.documentTypes.length; i++) {
-            this.document.documentName = this.documentTypes[i].description;
+            this.document.name = this.documentTypes[i].description;
           }
+          console.log('documentTypes', this.documentTypes);
         }
       });
   }
-  public setOwnerCollateral() {
-    if (this.data.creditProposal !== null) {
-      if (this.documents === 'dpdl') {
-        this.getFilesId(this.data.creditProposal.id);
-      }
-    }
+  // public setOwnerCollateral() {
+  //   if (this.data.creditProposal !== null) {
+  //     if (this.documents === 'document-tbo') {
+  //       console.log('data', this.getFilesId(this.data.creditProposal.id));
+  //     }
+  //   }
 
-    if (this.folder !== undefined) {
-      if (this.documents === 'dpdl') {
-        this.getFiles(this.data.creditProposal.id);
-      }
-    }
-  }
+  //   if (this.folder !== undefined) {
+  //     if (this.documents === 'document-tbo') {
+  //       console.log('data 2:', this.getFiles(this.data.creditProposal.id));
+  //     }
+  //   }
+  // }
 
   ngOnInit(): void {
     this.changeDocumentType();
@@ -238,28 +267,31 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   public checkObject() {
+    console.log('folderss obj', this.folder);
     if (this.folder !== undefined) {
       this.previousObject = {
-        id: this.folder['files'][0]['tags']['id'],
-        documentDate: new Date(this.folder['files'][0]['tags']['documentDate']),
-        parentId: this.folder['files'][0]['tags']['parentId'],
-        rootId: this.folder['files'][0]['tags']['rootId'],
-        documentId: this.folder['files'][0]['tags']['documentId'],
-        category: this.folder['files'][0]['tags']['category'],
-        status: this.folder['files'][0]['tags']['status'],
+        id: this.folder['id'],
+        docIdTags: this.folder['attributes']['docId'],
+        documentDate: new Date(this.folder['attributes']['documentDate']),
+        documentTypeParent: this.folder['attributes']['documentTypeParent'],
+        initialStatusId: this.folder['initialStatusId'],
+
+        // rootId: this.folder['files'][0]['tags']['rootId'],
+        documentTypeId: this.folder['documentTypeId'],
+        category: this.folder['category'],
+        statusAppDocId: this.folder['statusAppDocId'],
         // proposedStatus: this.folder['files'][0]['tags']['proposedStatus'],
         attributes: {
-          proposedDate: this.folder['files'][0]['tags']['attributes']['proposedDate']
-            ? new Date(this.folder['files'][0]['tags']['attributes']['proposedDate'])
-            : null,
-          prosedStatus: this.folder['files'][0]['tags']['proposedStatus'],
-          remarks: this.changeCharacter(this.folder['files'][0]['tags']['attributes']['remarks']),
-          remarksTbo: this.changeCharacter(this.folder['files'][0]['tags']['attributes']['remarksTbo']),
-          description: this.changeCharacter(this.folder['files'][0]['tags']['attributes']['description']),
-          total: this.folder['files'][0]['tags']['attributes']['total'],
-          notaryNumber: this.folder['files'][0]['tags']['attributes']['notaryNumber'],
-          notaryName: this.folder['files'][0]['tags']['attributes']['notaryName'],
-          batasWaktuPenyelesaian: this.folder['files'][0]['tags']['attributes']['batasWaktuPenyelesaian'],
+          docId: this.folder['attributes']['docId'],
+          proposedDate: this.folder['attributes']['proposedDate'] ? new Date(this.folder['attributes']['proposedDate']) : null,
+          prosedStatus: this.folder['attributes']['proposedStatus'],
+          remarks: this.changeCharacter(this.folder['remarks']),
+          // remarksTbo: this.changeCharacter(this.folder['files'][0]['tags']['attributes']['remarksTbo']),
+          description: this.changeCharacter(this.folder['attributes']['description']),
+          total: this.folder['attributes']['total'],
+          notaryNumber: this.folder['attributes']['notaryNumber'],
+          notaryName: this.folder['attributes']['notaryName'],
+          batasWaktuPenyelesaian: this.folder['attributes']['batasWaktuPenyelesaian'],
         },
       };
 
@@ -269,17 +301,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.previousObject = {};
       this.currentObject = {};
       this.checkChanges();
-    }
-  }
-
-  private getFiles(id: number): void {
-    if (this.documents === 'dpdl') {
-      const predicate: Object = {
-        key: `/dpdl/${id}/legal/${this.document.rootId}/${this.document.parentId}` + this.folder['files'][0]['tags']['id'],
-      };
-      this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        this.groupByFolder(res.body);
-      });
     }
   }
 
@@ -311,30 +332,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     }
   }
 
-  public getField() {
-    if (this.folder !== undefined) {
-      this.document.id = this.folder['files'][0]['tags']['id'];
-      this.document.documentDate = new Date(this.folder['files'][0]['tags']['documentDate']);
-      this.document.rootId = this.folder['files'][0]['tags']['rootId'];
-      this.document.parentId = this.folder['files'][0]['tags']['parentId'];
-      this.document.documentId = this.folder['files'][0]['tags']['documentId'];
-      this.document.category = this.folder['files'][0]['tags']['category'];
-      this.document.status = this.folder['files'][0]['tags']['status'];
-      this.document.proposedStatus = this.folder['files'][0]['tags']['attributes']['proposedStatus'];
-      this.document.attributes.remarks = this.changeCharacter(this.folder['files'][0]['tags']['attributes']['remarks']);
-      this.document.attributes.remarksTbo = this.changeCharacter(this.folder['files'][0]['tags']['attributes']['remarksTBO']);
-      this.document.attributes.description = this.changeCharacter(this.folder['files'][0]['tags']['attributes']['description']);
-      this.document.attributes.total = this.folder['files'][0]['tags']['attributes']['total'];
-      this.document.attributes.notaryNumber = this.folder['files'][0]['tags']['attributes']['notaryNumber'];
-      this.document.attributes.notaryName = this.folder['files'][0]['tags']['attributes']['notaryName'];
-      this.document.attributes.batasWaktuPenyelesaian = this.folder['files'][0]['tags']['attributes']['batasWaktuPenyelesaian'];
-      const proposedDateString = this.folder['files'][0]['tags']['attributes']['proposedDate'];
-      if (proposedDateString) {
-        this.document.proposedDate = new Date(proposedDateString);
-      }
-    }
-  }
-
   private doUpload(frmData: FormData, metaData: object): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.storageService.uploadMeta(this.bucket, frmData, metaData).subscribe({
@@ -346,21 +343,39 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
 
   public preSave(): void {
     const formattedDate =
-      this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
-        ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
-        : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
+      this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'
+        ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
+        : this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd');
 
+    const documentName = this.documentTypes.find(type => type.id === this.document.documentTypeId);
+    const resultDocName = documentName ? documentName.description : this.document.documentTypeId;
     this.currentObject = {
-      id: this.document.id,
-      rootId: this.documentRootId,
-      documentDate: formattedDate,
-      documentId: this.document.documentId,
-      parentId: this.document.parentId,
-
+      // id: this.document.attributes.docId,
+      // documentRootId: this.documentRootId,
+      // documentDate: formattedDate,
+      documentTypeId: this.document.documentTypeId,
+      documentTypeParent: this.document.documentTypeParent,
       category: this.document.category,
-      status: this.document.status,
+      statusAppDocId: this.document.statusAppDocId,
+      initialStatusId: this.document.initialStatusId,
+      name: resultDocName,
+      path: this.folderFiles[0].Key,
+      docIdTags: this.document.attributes['docId'],
+      id: this.document.id,
+
       // proposedStatus: this.document.proposedStatus,
       attributes: {
+        docId:
+          // this.document.attributes.docId,
+          typeof this.document.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(this.document.attributes)).docId
+            : this.changeCharacter(this.document.attributes.docId),
+        documentDate:
+          typeof this.document.attributes === 'string'
+            ? this.datePipe.transform(JSON.parse(this.document.attributes).documentDate, 'yyyy/MM/dd')
+            : this.document.attributes.documentDate
+            ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
+            : null,
         proposedDate:
           typeof this.document.attributes === 'string'
             ? this.datePipe.transform(JSON.parse(this.document.attributes).proposedDate, 'yyyy/MM/dd')
@@ -375,7 +390,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           typeof this.document.attributes === 'string'
             ? JSON.parse(this.changeCharacter(this.document.attributes)).remarks
             : this.changeCharacter(this.document.attributes.remarks),
-        // remarks: this.changeCharacter(this.document.attributes.remarks),
         remarksTbo:
           typeof this.document.attributes === 'string'
             ? JSON.parse(this.changeCharacter(this.document.attributes)).remarksTbo
@@ -396,13 +410,17 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           typeof this.document.attributes === 'string'
             ? JSON.parse(this.changeCharacter(this.document.attributes)).notaryName
             : this.changeCharacter(this.document.attributes.notaryName),
+
         batasWaktuPenyelesaian:
           typeof this.document.attributes === 'string'
             ? this.datePipe.transform(JSON.parse(this.document.attributes).batasWaktuPenyelesaian, 'yyyy/MM/dd')
-            : this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd'),
+            : this.document.attributes.batasWaktuPenyelesaian
+            ? this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd')
+            : null,
       },
     };
 
+    console.log('current obj presave :', this.currentObject);
     this.checkChanges();
     if (this.folder === undefined) {
       if (this.files.length === 0) {
@@ -430,9 +448,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   private getFilesId(id: number): void {
-    if (this.documents === 'dpdl') {
+    if (this.documents === 'document-tbo/document-legal') {
       const predicate: Object = {
-        key: `/dpdl/${id}/legal/`,
+        key: `/document-tbo/document-legal/${id}/legal/`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
         if (res.body.length > 0) {
@@ -448,27 +466,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     }
   }
 
-  private groupByFolder(param: Object[]): void {
-    this.folders = [];
-    if (param.length > 0) {
-      this.folders = lodash
-        .chain(param)
-        .groupBy('tags.id')
-        .map((val, key) => ({
-          folder: key,
-          date: val[0]['tags']['documentDate'],
-          files: val,
-          nameFile: val[0]['name'],
-        }))
-        .value();
-
-      this.folder = this.folders[0];
-      this.folders2 = this.folders;
-      this.getField();
-      this.id = this.folder['files'][0]['tags']['id'];
-    }
-  }
-
   public saveAndUpdate() {
     this.validate().then(() =>
       this.save().then((res: any) => {
@@ -480,10 +477,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
 
   public save(): Promise<any> {
     const formattedDate =
-      this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
-        ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
-        : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
-
+      this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'
+        ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
+        : this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd');
+    const documentName = this.documentTypes.find(type => type.id === this.document.documentTypeId);
+    const resultDocName = documentName ? documentName.description : this.document.documentTypeId;
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -491,16 +489,31 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           view: this.view,
           files: this.files,
           datePipe: this.datePipe,
-          rootId: this.documentRootId,
-          id: this.document.id,
-          documentId: this.document.documentId,
-          parentId: this.document.parentId,
+          documentTypeId: this.document.documentTypeId,
           creditProposal: {
-            id: this.data.creditProposal.id,
+            applicationId: this.data.creditProposal.id,
+            applicationNumber: this.data.creditProposal.applicationNumber,
           },
+          name: resultDocName,
+          category: this.document.category,
+          statusAppDocId: this.document.statusAppDocId,
+          initialStatusId: this.document.initialStatusId,
 
-          documentDate: formattedDate,
+          path: this.folderFiles[0].key,
+          docIdTags: this.document.attributes['docId'],
+          id: this.document.id,
+
           attributes: {
+            docId:
+              typeof this.document.attributes === 'string'
+                ? JSON.parse(this.changeCharacter(this.document.attributes)).docId
+                : this.changeCharacter(this.document.attributes.docId),
+            documentDate:
+              typeof this.document.attributes === 'string'
+                ? this.datePipe.transform(JSON.parse(this.document.attributes).documentDate, 'yyyy/MM/dd')
+                : this.document.attributes.documentDate
+                ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
+                : null,
             proposedDate:
               typeof this.document.attributes === 'string'
                 ? this.datePipe.transform(JSON.parse(this.document.attributes).proposedDate, 'yyyy/MM/dd')
@@ -515,7 +528,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
               typeof this.document.attributes === 'string'
                 ? JSON.parse(this.changeCharacter(this.document.attributes)).remarks
                 : this.changeCharacter(this.document.attributes.remarks),
-            // remarks: this.changeCharacter(this.document.attributes.remarks),
             remarksTbo:
               typeof this.document.attributes === 'string'
                 ? JSON.parse(this.changeCharacter(this.document.attributes)).remarksTbo
@@ -539,14 +551,16 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
             batasWaktuPenyelesaian:
               typeof this.document.attributes === 'string'
                 ? this.datePipe.transform(JSON.parse(this.document.attributes).batasWaktuPenyelesaian, 'yyyy/MM/dd')
-                : this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd'),
+                : this.document.attributes.batasWaktuPenyelesaian
+                ? this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd')
+                : null,
           },
 
-          category: this.document.category,
-          status: this.document.status,
           // proposedStatus: this.document.proposedStatus,
           folderFiles: this.folderFiles,
         };
+
+        console.log('data save :', data);
 
         resolve(data);
       }
@@ -554,12 +568,22 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   public setModel(event: any) {
-    this.document.documentName = event.target.value;
+    this.document.name = event.target.value;
   }
 
   public onSelect(event: any) {
     this.files.push(...event.addedFiles);
   }
+
+  // public onRemove(event: any) {
+  //   if (event.url === undefined) {
+  //     this.document.files.splice(this.document.files.indexOf(event), 1);
+  //   } else {
+  //     this.document.files['files'] = this.document.files['files'].filter((data: any) => data.key !== event.key);
+
+  //     this.removeFile.push(event.key);
+  //   }
+  // }
 
   public onRemove(event: any) {
     if (event.url === undefined) {
@@ -654,8 +678,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       status: true,
       proposedStatus: true,
       proposedDate: true,
-      parentId: true,
-      documentId: true,
+      documentTypeParent: true,
+      documentTypeId: true,
       date: true,
       files: true,
       total: true,
@@ -672,15 +696,15 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       }
     }
 
-    if (!this.document.parentId) {
+    if (!this.document.documentTypeParent) {
       this._showNotification('error', 'Masukkan Document Type terlebih dahulu');
-      mustValidateDocument.parentId = false;
+      mustValidateDocument.documentTypeParent = false;
     }
-    if (!this.document.documentId) {
+    if (!this.document.documentTypeId) {
       this._showNotification('error', 'Masukkan Document Name terlebih dahulu');
-      mustValidateDocument.documentId = false;
+      mustValidateDocument.documentTypeId = false;
     }
-    if (!this.document.documentDate) {
+    if (!this.document.attributes.documentDate) {
       this._showNotification('error', 'Masukkan Tanggal Document terlebih dahulu');
       mustValidateDocument.date = false;
     }
@@ -688,7 +712,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this._showNotification('error', 'Masukkan Category Document terlebih dahulu');
       mustValidateDocument.category = false;
     }
-    if (!this.document.status) {
+    if (!this.document.statusAppDocId) {
       this._showNotification('error', 'Masukkan Status Document terlebih dahulu');
       mustValidateDocument.status = false;
     }
@@ -704,23 +728,23 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this._showNotification('error', 'Masukkan Remarks Document terlebih dahulu');
       mustValidateDocument.remarks = false;
     }
-    if (!this.document.attributes['remarksTbo']) {
-      this._showNotification('error', 'Masukkan Remarks TBO Document terlebih dahulu');
-      mustValidateDocument.remarksTbo = false;
-    }
-    if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.parentId === 'DOC_DPDL_LEGAL_AKAD') {
+    // if (!this.document.attributes['remarksTbo']) {
+    //   this._showNotification('error', 'Masukkan Remarks TBO Document terlebih dahulu');
+    //   mustValidateDocument.remarksTbo = false;
+    // }
+    if (this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.documentTypeParent === 'DOC_DPDL_LEGAL_AKAD') {
       if (!this.document.attributes['description']) {
         this._showNotification('error', 'Masukkan Deskripsi Document terlebih dahulu');
         mustValidateDocument.description = false;
       }
     }
-    if (this.document.parentId === 'DOC_DPDL_LEGAL_BIAYA') {
+    if (this.document.documentTypeParent === 'DOC_DPDL_LEGAL_BIAYA') {
       if (!this.document.attributes['total']) {
         this._showNotification('error', 'Masukkan Total terlebih dahulu');
         mustValidateDocument.total = false;
       }
     }
-    if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+    if (this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE') {
       if (!this.document.attributes['notaryNumber']) {
         this._showNotification('error', 'Masukkan Notary Number Document terlebih dahulu');
         mustValidateDocument.notaryNumber = false;
@@ -757,7 +781,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.parentPath === 'loan-ops-checking' ||
       this.parentPath === 'loan-ops-review' ||
       this.parentPath === 'review-dppk' ||
-      this.parentPath === 'tbo-checking'
+      this.parentPath === 'tbo-legal-checking'
       // this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' ||
       // this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' ||
       // this.creditProposal.statusId === 'DPDL_REVIEW_TEAMLEAD' ||

@@ -67,7 +67,7 @@
                     [mode]="mode"
                     [partySlik]="element['partySliks']"
                     [partyCif]="partyCif"
-                    [partyId]="element.person ? element.person?.id : element.organization?.id"
+                    [partyId]="element.person ? element.person?.id : element.shareHolderOrg?.id"
                   >
                   </jhi-debtor-data-slik-summary-debitur>
                 </mat-card-content>
@@ -175,7 +175,7 @@
                     [mode]="mode"
                     [partySlik]="element['partySliks']"
                     [partyCif]="partyCif"
-                    [partyId]="element.person ? element.person?.id : element.organization?.id"
+                    [partyId]="element.person ? element.person?.id : element.shareHolderOrg?.id"
                   >
                   </jhi-debtor-data-slik-summary-debitur>
                 </mat-card-content>

@@ -5,28 +5,84 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
-import { ITboCheckingModel } from './tbo-checking.model';
+import { DocumentTBO, ITboCheckingModel } from './tbo-checking.model';
 import { TboCheckingService } from './tbo-checking.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { faBullseye, faTimeline } from '@fortawesome/free-solid-svg-icons';
+import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
 import { IApplicationStateLog } from 'app/entities/application-state-log/application-state-log.model';
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 import { CashTboLegalMonitoringService } from '../cash-tbo-legal-monitoring.service';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { writeFile, utils, WorkSheet } from 'xlsx';
 
 @Component({
   selector: 'jhi-tbo-checking',
   templateUrl: './tbo-checking.component.html',
   styleUrls: ['./tbo-checking.style.css'],
+  styles: [
+    `
+      #generate-btn {
+        position: relative;
+        transition: background-color 0.3s ease;
+        overflow: hidden;
+      }
+
+      #generate-btn.loading {
+        pointer-events: none;
+        color: transparent;
+      }
+
+      #generate-btn.loading::after {
+        content: 'Generating...';
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        position: absolute;
+        font-weight: bold;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-width: 64px;
+        line-height: 36px;
+        padding: 0 16px;
+        border-radius: 4px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+      }
+
+      @keyframes loading-animation {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      #generate-btn.loading::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgb(255 255 255) 0%, rgb(255 255 255) 50%, rgb(147 201 198 / 0%) 100%);
+        animation: loading-animation 1s linear infinite;
+        z-index: 0;
+      }
+    `,
+  ],
   animations: [
     trigger('detailExpand', [
       state(
@@ -135,6 +191,9 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
     this.iconTimeline = faTimeline;
     this.activeRoute = this.router.url.replace(/\//g, '');
   }
+
+  public generateDocumentLabel = 'Generate Document';
+  public loadingGenerateDocument = false;
 
   ngOnInit(): void {
     this.positionIdLocStor = this.getLocStor('POS');
@@ -427,5 +486,119 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
   }
   public isSMEHead(): any {
     return this.account.authorities.includes('ROLE_SME_HEAD');
+  }
+
+  public generateDocumentTBO() {
+    this.loadingGenerateDocument = true;
+    this.generateDocumentLabel = 'Generating...';
+
+    const date = new Date();
+    const fileName = `TBO_Legal_Monitoring_${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}.xlsx`;
+
+    this.tboCheckingService.generateDocument().subscribe({
+      next: (res: HttpResponse<any>) => {
+        const template_report_data = [
+          { key: 'No.', valueFrom: '', format: 'string' },
+          { key: 'Proposal Number', valueFrom: 'applicationNumber', format: 'string' },
+          { key: 'Debtors Name', valueFrom: 'debtorName', format: 'string' },
+          { key: 'Branch', valueFrom: 'branch', format: 'string' },
+          { key: 'RM', valueFrom: 'rm', format: 'string' },
+          { key: 'PIC', valueFrom: 'pic', format: 'string' },
+          { key: 'Document Name', valueFrom: 'name', format: 'string' },
+          { key: 'Current Document Status', valueFrom: 'initialStatusId', format: 'string' },
+          { key: 'Current Document Date', valueFrom: 'date', format: 'date' },
+          { key: 'Proposed Document Status', valueFrom: 'statusAppDocId', format: 'string' },
+          { key: 'Proposed Document Date', valueFrom: 'dueDate', format: 'date' },
+          { key: 'Monitoring Checking Date', valueFrom: 'checkingDate', format: 'date' },
+          { key: 'Monitoring Review Date', valueFrom: 'reviewDate', format: 'date' },
+          { key: 'Monitoring Approval Date', valueFrom: 'approvalDate', format: 'date' },
+          { key: 'Remark', valueFrom: 'notes', format: 'string' },
+          { key: 'Status Last Meeting', valueFrom: '', format: 'string' },
+        ];
+
+        const data = [];
+        res.body.forEach(item => {
+          const row = {};
+          template_report_data.forEach(template => {
+            if (template['format'] === 'date') {
+              if (item[template.valueFrom] === null) {
+                row[template.key] = '';
+                return;
+              }
+
+              const dateValue = new Date(item[template.valueFrom]);
+
+              // Format to dd/mm/yyyy
+              row[template.key] = `${dateValue.getDate()}/${dateValue.getMonth() + 1}/${dateValue.getFullYear()}`;
+            }
+
+            if (template['format'] === 'string') {
+              if (template.key === 'No.') {
+                row[template.key] = data.length + 1;
+                return;
+              }
+
+              if (template.key === 'Status Last Meeting') {
+                row[template.key] = '';
+                return;
+              }
+
+              row[template.key] = item[template.valueFrom] === null ? '' : item[template.valueFrom];
+            }
+          });
+          data.push(row);
+        });
+
+        const ws = utils.json_to_sheet(data);
+
+        // Set column width to auto size as content
+        ws['!cols'] = this.autofitColumns(
+          data,
+          ws,
+          template_report_data.map(t => t.key)
+        );
+
+        const wb = utils.book_new();
+        utils.book_append_sheet(wb, ws, 'Data');
+
+        writeFile(wb, fileName, { bookType: 'xlsx', cellStyles: true });
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document, pelase try again' });
+      },
+      complete: () => {
+        this.loadingGenerateDocument = false;
+        this.generateDocumentLabel = 'Generate Document';
+      },
+    });
+  }
+
+  private autofitColumns(json: any[], worksheet: WorkSheet, header?: string[]) {
+    const jsonKeys = header ? header : Object.keys(json[0]);
+
+    const objectMaxLength = [];
+    for (let i = 0; i < json.length; i++) {
+      const value = json[i];
+      for (let j = 0; j < jsonKeys.length; j++) {
+        if (typeof value[jsonKeys[j]] === 'number') {
+          objectMaxLength[j] = 10;
+        } else {
+          const l = value[jsonKeys[j]] ? value[jsonKeys[j]].length : 0;
+
+          objectMaxLength[j] = objectMaxLength[j] >= l ? objectMaxLength[j] : l;
+        }
+      }
+
+      const key = jsonKeys;
+      for (let j = 0; j < key.length; j++) {
+        objectMaxLength[j] = objectMaxLength[j] >= key[j].length ? objectMaxLength[j] : key[j].length;
+      }
+    }
+
+    const wscols = objectMaxLength.map(w => ({ width: w }));
+
+    return wscols;
   }
 }
