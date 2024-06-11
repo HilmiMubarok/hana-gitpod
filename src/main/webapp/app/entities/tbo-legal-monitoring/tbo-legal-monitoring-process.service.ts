@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class TboLegalMonitoringService {
   private resourceUrl: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposal-process');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposal-tbo-process/tasks');
   }
 
   public getTasks(id: any): Observable<HttpResponse<IProcessTask[]>> {
