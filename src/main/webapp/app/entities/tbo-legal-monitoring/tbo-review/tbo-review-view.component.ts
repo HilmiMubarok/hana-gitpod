@@ -661,11 +661,9 @@ export class TboReviewViewComponent implements OnInit {
 
   private getTasks(): void {
     // this.tboLegalMonitoringService.getTasks(this.id).subscribe(res => {
-    this.tboLegalMonitoringService
-      .getTasksByPos(this.id, { idPosition: this.getLocStor('POS'), idMenu: this.parentPath })
-      .subscribe(res => {
-        this.tasks = res.body;
-      });
+    this.tboLegalMonitoringService.getTasksByPos(this.id, { idPosition: this.getLocStor('POS') }).subscribe(res => {
+      this.tasks = res.body;
+    });
   }
 
   private getPositionTypeId(): void {
