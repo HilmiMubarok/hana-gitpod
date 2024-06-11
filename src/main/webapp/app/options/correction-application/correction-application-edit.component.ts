@@ -127,7 +127,8 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         param['idPositionType'] = POSITION_TYPE.CC_ANALYST;
         break;
       }
-      case STATUS.OL_ASSIGNED: {
+      case STATUS.OL_ASSIGNED:
+      case STATUS.PK_FINALIZE: {
         param['active'] = true;
         // const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
         // param['idParty'] = dataAssignToLegalOfficer['partyId'];
@@ -244,22 +245,11 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         break;
       }
 
-      // NEW STATUSES
-      case STATUS.PK_FINALIZE: {
-        const dataAssignToLegalOfficer = JSON.parse(this.loanApplication.attributes.dataAssignToLegalOfficer);
-        param['idParty'] = dataAssignToLegalOfficer['partyId'];
-        param['active'] = true;
-        param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
-        param['idPositionType'] = POSITION_TYPE.LEGALOFFICER_OUTREGION;
-        param['code'] = 'LEGAL_OFFICER';
-        break;
-      }
-
       case STATUS.PK_RETURN_TO_RM: {
         param['active'] = true;
         param['idParty'] = this.loanApplication.ownerPosition.partyId;
         param['idPositionType'] = POSITION_TYPE.RM;
-        param['relationType'] = RELATION_TYPE.CREDIT_PROPOSAL;
+        // param['relationType'] = RELATION_TYPE.CREDIT_PROPOSAL;
         break;
       }
 
@@ -268,7 +258,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         param['idParty'] = dataAssignToLegalOfficer['partyId'];
         param['active'] = true;
         param['idPositionType'] = POSITION_TYPE.LEGALOFFICER_OUTREGION;
-        param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
+        // param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
         param['code'] = 'LEGAL_OFFICER';
         break;
       }
@@ -284,7 +274,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
         param['idParty'] = dataAssignToLegalOfficer['partyId'];
         param['active'] = true;
-        param['relationType'] = RELATION_TYPE.LOAN_ANALYSIS;
+        // param['relationType'] = RELATION_TYPE.LOAN_ANALYSIS;
         param['idPositionType'] = POSITION_TYPE.CRO;
         break;
       }
@@ -307,7 +297,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
         param['idParty'] = dataAssignToLegalOfficer['partyId'];
         param['active'] = true;
-        param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
+        // param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
         param['idPositionType'] = POSITION_TYPE.LEGAL_OFFICER;
         param['code'] = 'LEGAL_OFFICER';
         break;
@@ -317,7 +307,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         const dataAssignToLegalOfficer: object = JSON.parse(this.loanApplication.attributes['dataAssignToLegalOfficer']);
         param['idParty'] = dataAssignToLegalOfficer['partyId'];
         param['active'] = true;
-        param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
+        // param['relationType'] = RELATION_TYPE.OFFERING_LETTER;
         param['idPositionType'] = POSITION_TYPE.LEGAL_OFFICER;
         param['code'] = 'LEGAL_OFFICER';
         break;
@@ -327,7 +317,7 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
         param['active'] = true;
         param['idParty'] = this.loanApplication.ownerPosition.partyId;
         param['idPositionType'] = POSITION_TYPE.RM;
-        param['relationType'] = RELATION_TYPE.CREDIT_PROPOSAL;
+        // param['relationType'] = RELATION_TYPE.CREDIT_PROPOSAL;
         break;
       }
 
@@ -349,33 +339,33 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
 
       case STATUS.DPDL_REVIEW_HEAD: {
         param['active'] = true;
-        param['relationType'] = RELATION_TYPE.OL_APPROVAL;
-        param['idPositionType'] = POSITION_TYPE.ROLE_LEGAL_HEAD;
+        // param['relationType'] = RELATION_TYPE.OL_APPROVAL;
+        param['idPositionType'] = POSITION_TYPE.LEGAL_HEAD;
         break;
       }
 
       case STATUS.DPPK_FINALIZE: {
         param['active'] = true;
-        param['relationType'] = RELATION_TYPE.DPPK;
-        param['idPositionType'] = POSITION_TYPE.ROLE_CREDIT_ADMIN;
+        // param['relationType'] = RELATION_TYPE.DPPK;
+        param['idPositionType'] = POSITION_TYPE.CREDIT_ADMIN;
         break;
       }
 
       case STATUS.LOAN_OPS_DISTRIBUTION: {
         param['active'] = true;
-        param['relationType'] = RELATION_TYPE.LOAN_OPERATION;
+        // param['relationType'] = RELATION_TYPE.LOAN_OPERATION;
         param['idPositionType'] = POSITION_TYPE.LOAN_OPS_ADMIN;
         break;
       }
       case STATUS.LOAN_OPS_CHECKING: {
         const dataAssignToLoanOpsOfficer: object = JSON.parse(this.loanApplication.attributes.dataAssignToLoanOpsOfficer);
         param['idParty'] = dataAssignToLoanOpsOfficer['partyId'];
-        param['relationType'] = RELATION_TYPE.LOAN_OPERATION;
+        // param['relationType'] = RELATION_TYPE.LOAN_OPERATION;
         break;
       }
       case STATUS.LOAN_OPS_REVIEW: {
         param['active'] = true;
-        param['relationType'] = RELATION_TYPE.LOAN_OPERATION_APPROVAL;
+        // param['relationType'] = RELATION_TYPE.LOAN_OPERATION_APPROVAL;
         param['idPositionType'] = POSITION_TYPE.LOAN_OPS_SPV;
         break;
       }
@@ -384,7 +374,8 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
       case STATUS.DPPK_REVIEW: {
         const dataAssignToDPPKReview1: object = JSON.parse(this.loanApplication.attributes.dataAssignToDPPKReview1);
         param['idParty'] = dataAssignToDPPKReview1['partyId'];
-        param['relationType'] = RELATION_TYPE.DPPK_REVIEW1;
+        param['idPositionType'] = POSITION_TYPE.CREDIT_ADMIN_TEAM_LEAD;
+        param['code'] = 'DPPK_REVIEW';
 
         this.isDppkReview = true;
         this.getDppkReview2();
@@ -407,7 +398,9 @@ export class CorrectionApplicationEditComponent extends AbstractEntityMaterialCo
       page: 0,
       size: 999,
       idParty: JSON.parse(this.loanApplication.attributes.dataAssignToDPPKReview2)['partyId'],
-      relationType: RELATION_TYPE.DPPK_REVIEW2,
+      idPositionType: `${POSITION_TYPE.CREDIT_ADMIN_UNIT_HEAD}`,
+      code: 'DPPK_REVIEW',
+      // relationType: RELATION_TYPE.DPPK_REVIEW2,
       sort: ['id', 'desc'],
     };
 
