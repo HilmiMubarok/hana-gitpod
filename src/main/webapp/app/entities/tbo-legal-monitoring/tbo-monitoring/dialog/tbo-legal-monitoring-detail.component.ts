@@ -376,6 +376,10 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
 
     const documentName = this.documentTypes.find(type => type.id === this.document.documentTypeId);
     const resultDocName = documentName ? documentName.description : this.document.documentTypeId;
+    const DocName =
+      this.document.documentTypeId === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.documentTypeId === 'DOC_DPDL_LEGAL_LAMPIRAN'
+        ? this.document.name
+        : resultDocName;
     this.currentObject = {
       // id: this.document.attributes.docId,
       // documentRootId: this.documentRootId,
@@ -388,7 +392,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       category: this.document.category,
       statusAppDocId: this.document.statusAppDocId,
       initialStatusId: this.document.initialStatusId,
-      name: resultDocName,
+      name: DocName,
       path: this.folderFiles[0].Key,
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
@@ -513,6 +517,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     // : this.datePipe.transform(this.document.date, 'yyyy/MM/dd');
     const documentName = this.documentTypes.find(type => type.id === this.document.documentTypeId);
     const resultDocName = documentName ? documentName.description : this.document.documentTypeId;
+    const DocName =
+      this.document.documentTypeId === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.documentTypeId === 'DOC_DPDL_LEGAL_LAMPIRAN'
+        ? this.document.name
+        : resultDocName;
+
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -525,7 +534,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
             applicationId: this.data.creditProposal.id,
             applicationNumber: this.data.creditProposal.applicationNumber,
           },
-          name: resultDocName,
+          name: DocName,
           category: this.document.category,
           statusAppDocId: this.document.statusAppDocId,
           initialStatusId: this.document.initialStatusId,
