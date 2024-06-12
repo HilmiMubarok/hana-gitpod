@@ -406,6 +406,9 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
       const documentName = this.documentTypes.find(type => type.id === res.documentTypeId);
       const resultDocName = documentName ? documentName.description : res.documentTypeId;
+      const DocName =
+        res.documentTypeId === 'DOC_DPDL_LEGAL_COVERNOTE' || res.documentTypeId === 'DOC_DPDL_LEGAL_LAMPIRAN' ? res.name : resultDocName;
+
       const attributesObj = typeof res.attributes === 'string' ? JSON.parse(res.attributes) : res.attributes;
 
       const updatedDocument: IApplicationDocument = {
@@ -418,7 +421,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
         date: res.date,
         path: res.path,
         applicationNumber: this.creditProposal.applicationNumber,
-        name: resultDocName,
+        name: DocName,
         category: res.category,
         attributes: {
           docId: res.attributes.docId,
