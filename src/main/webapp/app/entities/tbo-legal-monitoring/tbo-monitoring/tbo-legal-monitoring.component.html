@@ -17,7 +17,7 @@
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Current Date</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label-string">
-            {{ element.attributes['documentDate'] | date: 'YYYY-MM-dd' }}
+            {{ element.date | date: 'YYYY-MM-dd' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="documentStatus">

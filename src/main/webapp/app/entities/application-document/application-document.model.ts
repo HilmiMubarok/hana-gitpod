@@ -22,6 +22,7 @@ export interface IApplicationDocument {
   date?: Date;
   files?: File[];
   attributes?: any;
+  covernoteType?: any;
 }
 
 export class ApplicationDocument implements IApplicationDocument {
@@ -48,7 +49,8 @@ export class ApplicationDocument implements IApplicationDocument {
     public initialStatusId?: string,
     public date?: Date,
     public files: File[] = [],
-    public attributes?: any
+    public attributes?: any,
+    public covernoteType?: any
   ) {
     this.attributes = {};
   }
