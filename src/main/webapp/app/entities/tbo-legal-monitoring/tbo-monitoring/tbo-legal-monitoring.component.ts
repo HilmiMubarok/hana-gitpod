@@ -415,6 +415,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
         // attributes: attributesObj,
         statusAppDocId: res.statusAppDocId,
         initialStatusId: res.initialStatusId,
+        date: res.date,
         path: res.path,
         applicationNumber: this.creditProposal.applicationNumber,
         name: resultDocName,
@@ -584,8 +585,8 @@ export class TboLegalMonitoringComponent implements OnChanges {
   //   return Math.floor(differenceInDays); // Return the difference in number of days
   // }
 
-  calculateDateDifference(documentDate: string, proposedDate: string): number {
-    const current = new Date(documentDate);
+  calculateDateDifference(date: string, proposedDate: string): number {
+    const current = new Date(date);
     const proposed = new Date(proposedDate);
 
     // Check if the dates are valid

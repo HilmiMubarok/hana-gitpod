@@ -6,6 +6,7 @@ export interface ITboLegalMonitoring {
   documentName?: string; // lvl 2
   category?: string;
   documentDate?: Date;
+  date?: Date;
   status?: string;
   proposedStatus?: string;
   proposedDate?: Date;
@@ -22,6 +23,7 @@ export class TboLegalMonitoring implements ITboLegalMonitoring {
     public documentName?: string, // lvl 2
     public category?: string,
     public documentDate?: Date,
+    public date?: Date,
     public status?: string,
     public proposedStatus?: string,
     public proposedDate?: Date,

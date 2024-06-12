@@ -1,5 +1,5 @@
 import { DatePipe, formatDate } from '@angular/common';
-import { Component, Inject, Injectable, OnInit } from '@angular/core';
+import { Component, Inject, Injectable, OnInit, ViewChild } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
 // import { DocumentLegalDpdl, IDocumentLegalDpdl } from '../document-dpdl.model';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -16,6 +16,9 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { DocumentLegalDpdl, IDocumentLegalDpdl } from 'app/entities/dpdl-finalize/dpdl-document/document-dpdl.model';
 import { ITboLegalMonitoring, TboLegalMonitoring } from '../tbo-legal-monitoring.model';
 import { ApplicationDocument, IApplicationDocument } from 'app/entities/application-document/application-document.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
+import { MatTable } from '@angular/material/table';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -83,9 +86,17 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
   public selectedMenu: string;
 
+  public legalCovernoteTypeDdl: IGeneralParameter[] = [];
+  public legalCovernoteTaskDataList: IGeneralParameter[] = [];
+  public legalCovernoteTaskDataSource: any[] = [];
+  public pristine: boolean;
+
+  @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
+
   constructor(
     private templateService: TemplateService,
     private dialog: MatDialog,
+    protected generalParameterService: GeneralParameterService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       creditProposal: ICreditProposal;
@@ -109,18 +120,25 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.view = this.data.view;
     const dataDoc: any = this.data.obj;
 
+    const legalDocIdx = obj => obj.docId === dataDoc.docId;
+    const i = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
+
+    console.log('index', i);
+
     if (this.data.view === 'edit') {
       this.document = {
         id: dataDoc.id,
         docIdTags: dataDoc.attributes['docId'],
         // documentDate: new Date(dataDoc.files[0].tags.documentDate),
         // rootId: dataDoc.files[0].tags.rootId,
+        date: dataDoc.date,
         documentTypeParent: dataDoc.documentTypeParent,
         documentTypeId: dataDoc.documentTypeId,
         category: dataDoc.category,
         statusAppDocId: dataDoc.statusAppDocId,
         files: dataDoc.files,
         initialStatusId: dataDoc.initialStatusId,
+        name: dataDoc.name,
         // proposedStatus: dataDoc.files[0].tags.proposedStatus,
 
         attributes: {
@@ -128,7 +146,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
             typeof dataDoc.attributes === 'string'
               ? JSON.parse(this.changeCharacter(dataDoc.attributes)).docId
               : this.changeCharacter(dataDoc.attributes.docId),
-          documentDate: new Date(dataDoc.attributes.documentDate),
           remarks:
             typeof dataDoc.attributes === 'string'
               ? JSON.parse(this.changeCharacter(dataDoc.attributes)).remarks
@@ -177,8 +194,10 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
               : dataDoc.attributes.batasWaktuPenyelesaian
               ? new Date(dataDoc.attributes.batasWaktuPenyelesaian)
               : new Date(),
+          covernoteType: JSON.parse(this.data.creditProposal.attributes.legalCovernote)[i].attributes.covernoteType,
         },
       };
+      console.log('cek1', JSON.parse(this.data.creditProposal.attributes.legalCovernote));
     } else {
       this.document = new ApplicationDocument();
 
@@ -218,6 +237,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public doSearch(value: string): void {
     if (value) {
       this.loadAll();
+      if (value === 'DOC_DPDL_LEGAL_COVERNOTE') {
+        this.loadCovernoteTypeDdl();
+      }
     } else {
       this.parentIdValue = [];
     }
@@ -242,6 +264,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           console.log('documentTypes', this.documentTypes);
         }
       });
+    console.log('documentTypes', this.documentTypes);
   }
   // public setOwnerCollateral() {
   //   if (this.data.creditProposal !== null) {
@@ -263,6 +286,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.object = this.data.creditProposal;
     }
 
+    this.loadCovernoteTypeDdl();
+    this.getLegalCovernoteTaskDataList();
+
     this.checkObject();
   }
 
@@ -272,7 +298,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.previousObject = {
         id: this.folder['id'],
         docIdTags: this.folder['attributes']['docId'],
-        documentDate: new Date(this.folder['attributes']['documentDate']),
+        date: new Date(this.folder['date']),
         documentTypeParent: this.folder['attributes']['documentTypeParent'],
         initialStatusId: this.folder['initialStatusId'],
 
@@ -286,6 +312,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           proposedDate: this.folder['attributes']['proposedDate'] ? new Date(this.folder['attributes']['proposedDate']) : null,
           prosedStatus: this.folder['attributes']['proposedStatus'],
           remarks: this.changeCharacter(this.folder['remarks']),
+          covernoteType: this.folder['attributes']['covernoteType'],
           // remarksTbo: this.changeCharacter(this.folder['files'][0]['tags']['attributes']['remarksTbo']),
           description: this.changeCharacter(this.folder['attributes']['description']),
           total: this.folder['attributes']['total'],
@@ -344,8 +371,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public preSave(): void {
     const formattedDate =
       this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'
-        ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
-        : this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd');
+        ? this.datePipe.transform(this.document.date, 'yyyy/MM/dd')
+        : this.datePipe.transform(this.document.date, 'yyyy/MM/dd');
 
     const documentName = this.documentTypes.find(type => type.id === this.document.documentTypeId);
     const resultDocName = documentName ? documentName.description : this.document.documentTypeId;
@@ -353,6 +380,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       // id: this.document.attributes.docId,
       // documentRootId: this.documentRootId,
       // documentDate: formattedDate,
+      // date: formattedDate,
+      date: this.document.date,
+      // typeof this.document.date === 'string' ? this.datePipe.transform(JSON.parse(this.document.date), 'yyyy/MM/dd') : this.document.date,
       documentTypeId: this.document.documentTypeId,
       documentTypeParent: this.document.documentTypeParent,
       category: this.document.category,
@@ -370,12 +400,12 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           typeof this.document.attributes === 'string'
             ? JSON.parse(this.changeCharacter(this.document.attributes)).docId
             : this.changeCharacter(this.document.attributes.docId),
-        documentDate:
-          typeof this.document.attributes === 'string'
-            ? this.datePipe.transform(JSON.parse(this.document.attributes).documentDate, 'yyyy/MM/dd')
-            : this.document.attributes.documentDate
-            ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
-            : null,
+        // documentDate:
+        //   typeof this.document.attributes === 'string'
+        //     ? this.datePipe.transform(JSON.parse(this.document.attributes).documentDate, 'yyyy/MM/dd')
+        //     : this.document.attributes.documentDate
+        //     ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
+        //     : null,
         proposedDate:
           typeof this.document.attributes === 'string'
             ? this.datePipe.transform(JSON.parse(this.document.attributes).proposedDate, 'yyyy/MM/dd')
@@ -476,10 +506,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   public save(): Promise<any> {
-    const formattedDate =
-      this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'
-        ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
-        : this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd');
+    // const formattedDate =
+    //   typeof this.document.date === 'string' ? this.datePipe.transform(JSON.parse(this.document.date), 'yyyy/MM/dd') : this.document.date;
+    // this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE'
+    // ? this.datePipe.transform(this.document.date, 'yyyy/MM/dd')
+    // : this.datePipe.transform(this.document.date, 'yyyy/MM/dd');
     const documentName = this.documentTypes.find(type => type.id === this.document.documentTypeId);
     const resultDocName = documentName ? documentName.description : this.document.documentTypeId;
     return new Promise((resolve, reject) => {
@@ -498,6 +529,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           category: this.document.category,
           statusAppDocId: this.document.statusAppDocId,
           initialStatusId: this.document.initialStatusId,
+          date: this.document.date,
 
           path: this.folderFiles[0].key,
           docIdTags: this.document.attributes['docId'],
@@ -508,12 +540,12 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
               typeof this.document.attributes === 'string'
                 ? JSON.parse(this.changeCharacter(this.document.attributes)).docId
                 : this.changeCharacter(this.document.attributes.docId),
-            documentDate:
-              typeof this.document.attributes === 'string'
-                ? this.datePipe.transform(JSON.parse(this.document.attributes).documentDate, 'yyyy/MM/dd')
-                : this.document.attributes.documentDate
-                ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
-                : null,
+            // documentDate:
+            //   typeof this.document.attributes === 'string'
+            //     ? this.datePipe.transform(JSON.parse(this.document.attributes).documentDate, 'yyyy/MM/dd')
+            //     : this.document.attributes.documentDate
+            //     ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
+            //     : null,
             proposedDate:
               typeof this.document.attributes === 'string'
                 ? this.datePipe.transform(JSON.parse(this.document.attributes).proposedDate, 'yyyy/MM/dd')
@@ -704,7 +736,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this._showNotification('error', 'Masukkan Document Name terlebih dahulu');
       mustValidateDocument.documentTypeId = false;
     }
-    if (!this.document.attributes.documentDate) {
+    if (!this.document.date) {
       this._showNotification('error', 'Masukkan Tanggal Document terlebih dahulu');
       mustValidateDocument.date = false;
     }
@@ -790,5 +822,76 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  public loadCovernoteTypeDdl(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVERNOTE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.legalCovernoteTypeDdl = res.body;
+      });
+  }
+
+  public getLegalCovernoteTaskDataList() {
+    if (this.document.attributes['covernoteType'] !== null || this.document.attributes['covernoteType'] !== undefined) {
+      let idParamType = '';
+      switch (true) {
+        case this.document.attributes['covernoteType'] === '02':
+          idParamType = 'COVERNOTE_DEVELOPER';
+
+          break;
+        case this.document.attributes['covernoteType'] === '03':
+          idParamType = 'COVERNOTE_LAINNYA';
+          break;
+
+        default:
+          idParamType = 'COVERNOTE_NOTARIS';
+          break;
+      }
+
+      this.generalParameterService
+        .queryFilterBy({
+          idParameterType: idParamType,
+          page: 0,
+          size: 9999,
+        })
+        .subscribe(res => {
+          if (this.legalCovernoteTaskDataSource.length > 0) {
+            const usedTaskList: any[] = [];
+            this.legalCovernoteTaskDataSource.forEach(dataSource => usedTaskList.push(dataSource.covernoteCode));
+
+            this.legalCovernoteTaskDataList = res.body.filter(task => !usedTaskList.includes(task.code));
+          } else {
+            this.legalCovernoteTaskDataList = res.body;
+          }
+          if (this.data.view === 'edit') {
+            if (this.pristine === true) {
+              this.prepTaskDataSource(this.legalCovernoteTaskDataList);
+              this.pristine = false;
+            }
+          }
+        });
+    }
+  }
+
+  public prepTaskDataSource(legalCovernoteTaskDataList): void {
+    this.document.attributes['covernoteTask'].forEach(task => {
+      const filteredData = legalCovernoteTaskDataList.filter(obj => obj.code === task.code);
+      filteredData.forEach(item => {
+        if (item.code === task.code) {
+          this.legalCovernoteTaskDataSource.push({
+            covernoteTask: item.value,
+            covernoteDate: task.date,
+            covernoteCode: item.code,
+          });
+        }
+      });
+    });
+    this.getLegalCovernoteTaskDataList();
+    this.covernoteTaskTable.renderRows();
   }
 }
