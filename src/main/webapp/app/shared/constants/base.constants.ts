@@ -3116,6 +3116,10 @@ export const BASIC_SUBMENU_DPPK_MEMO: object[] = [
     text: 'Loan Facility Detail',
   },
   {
+    id: 'dppk',
+    text: 'DPPK Finalize',
+  },
+  {
     id: 'insurance-information',
     text: 'Insurance',
   },
