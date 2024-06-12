@@ -41,7 +41,7 @@
         <ng-container matColumnDef="dpd">
           <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-string">DPD</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label">
-            {{ calculateDateDifference(element.attributes['documentDate'], element.attributes['proposedDate']) }}
+            {{ calculateDateDifference(element.date, element.attributes.proposedDate) }}
           </td>
         </ng-container>
         <ng-container matColumnDef="documentTerm">
