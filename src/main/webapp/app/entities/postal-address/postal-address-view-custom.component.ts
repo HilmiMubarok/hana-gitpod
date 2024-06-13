@@ -246,7 +246,6 @@ export class PostalAddressViewCustomComponent implements OnInit {
   }
 
   public initializeProvince(value = false): void {
-    console.log('province ', this.postalAddress.provinceId);
     this.stateBoundaryService
       .queryFilterBy({
         page: 0,
@@ -260,7 +259,10 @@ export class PostalAddressViewCustomComponent implements OnInit {
         if (this.country.id === 199) {
           this.province = this.optionsProvince.find(obj => obj.id === this.postalAddress.provinceId);
         } else {
-          this.myControlProvince.setValue({ description: 'DI LUAR INDONESIA' });
+          this.province = {
+            description: 'DI LUAR INDONESIA',
+            id: 384,
+          };
         }
         if (value === true) {
           this.myControlCity.enable();
