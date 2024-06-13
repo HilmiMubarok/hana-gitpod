@@ -11,6 +11,7 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import moment from 'moment';
 import { createRequestOption } from 'app/core/request/request-util';
+import { DocumentTBO } from '../tbo-checking/tbo-checking.model';
 
 @Injectable({ providedIn: 'root' })
 export class TboReviewService extends AbstractEntityService<ITboReviewModel> {
@@ -201,5 +202,12 @@ export class TboReviewService extends AbstractEntityService<ITboReviewModel> {
 
   public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
+  }
+
+  public generateDocument(): Observable<HttpResponse<DocumentTBO>> {
+    return this.http.get<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/application-documents/tbo-monitoring-report`,
+      { observe: 'response' }
+    );
   }
 }
