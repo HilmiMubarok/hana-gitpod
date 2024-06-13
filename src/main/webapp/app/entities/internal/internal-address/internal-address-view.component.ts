@@ -316,7 +316,10 @@ export class InternalAddressViewComponent extends AbstractEntityBaseViewComponen
         if (this.country.id === 199) {
           this.province = this.optionsProvince.find(obj => obj.id === this.internalData.provinceId);
         } else {
-          this.myControlProvince.setValue({ description: 'DI LUAR INDONESIA' });
+          this.province = {
+            description: 'DI LUAR INDONESIA',
+            id: 384,
+          };
         }
         if (value === true) {
           this.myControlCity.enable();

@@ -291,7 +291,10 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
           this.province = res.body.find(obj => obj.id === this.collateral.collateralAddress.provinceId);
           this.initializeCity();
         } else {
-          this.province.description = 'DI LUAR INDONESIA';
+          this.province = {
+            description: 'DI LUAR INDONESIA',
+            id: 384,
+          };
         }
       });
   }
