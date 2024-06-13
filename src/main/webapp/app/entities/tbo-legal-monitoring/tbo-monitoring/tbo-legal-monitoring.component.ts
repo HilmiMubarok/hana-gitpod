@@ -211,7 +211,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
       .subscribe(res => {
         // Menginisialisasi array untuk menyimpan dokumen aplikasi dengan informasi tambahan
         const augmentedApplicationDocuments: IApplicationDocument[] = [];
-        this.folders = res.body.filter(e => e.statusAppDocId === 'TBO');
+        this.folders = res.body.filter(e => e.initialStatusId === 'TBO');
         console.log('folders:', this.folders);
         console.log('minioData:', minioData);
 
@@ -402,7 +402,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
   public edit(res: any): Promise<any> {
     return new Promise((resolve, reject) => {
       // if (res && res.folderFiles && res.folderFiles.length > 0) {
-      // console.log('Edit:', res);
+      console.log('Edit:', res);
 
       const documentName = this.documentTypes.find(type => type.id === res.documentTypeId);
       const resultDocName = documentName ? documentName.description : res.documentTypeId;
@@ -419,6 +419,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
         statusAppDocId: res.statusAppDocId,
         initialStatusId: res.initialStatusId,
         date: res.date,
+        dueDate: res.dueDate,
         path: res.path,
         applicationNumber: this.creditProposal.applicationNumber,
         name: DocName,
@@ -588,9 +589,9 @@ export class TboLegalMonitoringComponent implements OnChanges {
   //   return Math.floor(differenceInDays); // Return the difference in number of days
   // }
 
-  calculateDateDifference(date: string, proposedDate: string): number {
+  calculateDateDifference(date: string, dueDate: string): number {
     const current = new Date(date);
-    const proposed = new Date(proposedDate);
+    const proposed = new Date(dueDate);
 
     // Check if the dates are valid
     if (isNaN(current.getTime()) || isNaN(proposed.getTime())) {
