@@ -81,6 +81,29 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public status: string[] = ['Available', 'TBO', 'Waived', 'Not Available'];
   public proposedStatus: string[] = ['Available', 'TBO', 'Waived'];
 
+  public statusValue = [
+    {
+      statusId: 'AVAILABLE',
+      statusDescription: 'Available',
+      statusCode: 'AVAILABLE',
+    },
+    {
+      statusId: 'TBO',
+      statusDescription: 'Tbo',
+      statusCode: 'TBO',
+    },
+    {
+      statusId: 'WAIVED',
+      statusDescription: 'Waived',
+      statusCode: 'WAIVED',
+    },
+    {
+      statusId: 'NOT_AVAILABLE',
+      statusDescription: 'Not Available',
+      statusCode: 'NOT_AVAILABLE',
+    },
+  ];
+
   public categoryValue = ['A', 'B', 'C'];
 
   public parentPath = this.router.url.split('/')[1];
@@ -90,6 +113,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public legalCovernoteTaskDataList: IGeneralParameter[] = [];
   public legalCovernoteTaskDataSource: any[] = [];
   public pristine: boolean;
+  public selectedCovernoteTask: string;
+  public selectedCovernoteDate: Date;
 
   @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
 
@@ -132,6 +157,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         // documentDate: new Date(dataDoc.files[0].tags.documentDate),
         // rootId: dataDoc.files[0].tags.rootId,
         date: dataDoc.date,
+        dueDate: dataDoc.dueDate,
         documentTypeParent: dataDoc.documentTypeParent,
         documentTypeId: dataDoc.documentTypeId,
         category: dataDoc.category,
@@ -301,6 +327,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         date: new Date(this.folder['date']),
         documentTypeParent: this.folder['attributes']['documentTypeParent'],
         initialStatusId: this.folder['initialStatusId'],
+        dueDate: new Date(this.folder['dueDate']),
 
         // rootId: this.folder['files'][0]['tags']['rootId'],
         documentTypeId: this.folder['documentTypeId'],
@@ -396,6 +423,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       path: this.folderFiles[0].Key,
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
+      dueDate: this.document.dueDate,
 
       // proposedStatus: this.document.proposedStatus,
       attributes: {
@@ -539,6 +567,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           statusAppDocId: this.document.statusAppDocId,
           initialStatusId: this.document.initialStatusId,
           date: this.document.date,
+          dueDate: this.document.dueDate,
 
           path: this.folderFiles[0].key,
           docIdTags: this.document.attributes['docId'],
@@ -718,7 +747,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       category: true,
       status: true,
       proposedStatus: true,
-      proposedDate: true,
+      statusAppDocId: true,
+      dueDate: true,
       documentTypeParent: true,
       documentTypeId: true,
       date: true,
@@ -757,13 +787,13 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this._showNotification('error', 'Masukkan Status Document terlebih dahulu');
       mustValidateDocument.status = false;
     }
-    if (!this.document.attributes.proposedStatus) {
+    if (!this.document.statusAppDocId) {
       this._showNotification('error', 'Masukkan Proposed Status Document terlebih dahulu');
-      mustValidateDocument.proposedStatus = false;
+      mustValidateDocument.statusAppDocId = false;
     }
-    if (!this.document.attributes.proposedDate) {
+    if (!this.document.dueDate) {
       this._showNotification('error', 'Masukkan Proposed Date Document terlebih dahulu');
-      mustValidateDocument.proposedDate = false;
+      mustValidateDocument.dueDate = false;
     }
     if (!this.document.attributes['remarks']) {
       this._showNotification('error', 'Masukkan Remarks Document terlebih dahulu');
@@ -900,6 +930,33 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         }
       });
     });
+    this.getLegalCovernoteTaskDataList();
+    this.covernoteTaskTable.renderRows();
+  }
+
+  public removeCovernoteTask(row: any): void {
+    const index = this.legalCovernoteTaskDataSource.indexOf(row, 0);
+    if (index > -1) {
+      this.legalCovernoteTaskDataSource.splice(index, 1);
+    }
+    this.getLegalCovernoteTaskDataList();
+    this.covernoteTaskTable.renderRows();
+  }
+
+  public resetTaskDataSource(): void {
+    if (this.legalCovernoteTaskDataSource.length > 0) {
+      this.legalCovernoteTaskDataSource = [];
+      this.covernoteTaskTable.renderRows();
+    }
+  }
+
+  public addCovernoteTask(selectedCovernoteTask: any, selectedCovernoteDate: Date): void {
+    this.legalCovernoteTaskDataSource.push({
+      covernoteTask: selectedCovernoteTask.value,
+      covernoteDate: selectedCovernoteDate,
+      covernoteCode: selectedCovernoteTask.code,
+    });
+    this.selectedCovernoteTask = '';
     this.getLegalCovernoteTaskDataList();
     this.covernoteTaskTable.renderRows();
   }

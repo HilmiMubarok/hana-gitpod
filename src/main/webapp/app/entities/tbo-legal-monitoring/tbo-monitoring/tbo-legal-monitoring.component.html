@@ -22,17 +22,17 @@
         </ng-container>
         <ng-container matColumnDef="documentStatus">
           <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Document Status</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.statusAppDocId }}</td>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.initialStatusId }}</td>
         </ng-container>
         <ng-container matColumnDef="proposedDate">
           <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Proposed Date</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label-string">
-            {{ element.attributes.proposedDate | date: 'YYYY-MM-dd' }}
+            {{ element.dueDate | date: 'YYYY-MM-dd' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="proposedStatus">
           <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Proposed Status</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.attributes.proposedStatus }}</td>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.statusAppDocId }}</td>
         </ng-container>
         <ng-container matColumnDef="remarksTbo">
           <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Note</th>
@@ -41,7 +41,7 @@
         <ng-container matColumnDef="dpd">
           <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-string">DPD</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label">
-            {{ calculateDateDifference(element.date, element.attributes.proposedDate) }}
+            {{ calculateDateDifference(element.date, element.dueDate) }}
           </td>
         </ng-container>
         <ng-container matColumnDef="documentTerm">

@@ -9,18 +9,22 @@
           <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-number rounding-table-left">No</th>
           <td mat-cell *matCellDef="let i = index" class="grid-index-label">{{ i + 1 }}</td>
         </ng-container>
+        <ng-container matColumnDef="documentName">
+          <th mat-header-cell *matHeaderCellDef width="15%" class="grid-index-string">Document Name</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.name }}</td>
+        </ng-container>
         <ng-container matColumnDef="currentDate">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Current Date</th>
+          <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Current Date</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label-string">
-            {{ element.attributes.documentDate | date: 'YYYY-MM-dd' }}
+            {{ element.date | date: 'YYYY-MM-dd' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="proposedDate">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Proposed Date</th>
-          <td mat-cell *matCellDef="let element" class="grid-index-label-string">{{ element.attributes.proposedDate }}</td>
+          <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Proposed Date</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label-string">{{ element.dueDate | date: 'YYYY-MM-dd' }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef class="grid-index-string">Status</th>
+          <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-string">Status</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label-string">{{ element.statusAppDocId }}</td>
         </ng-container>
 
@@ -41,10 +45,12 @@
           </td>
         </ng-container> -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="['no', 'currentDate', 'proposedDate', 'status'].length">No records found.</td>
+          <td class="mat-cell" [attr.colspan]="['no', 'documentName', 'currentDate', 'proposedDate', 'status'].length">
+            No records found.
+          </td>
         </tr>
-        <tr mat-header-row *matHeaderRowDef="['no', 'currentDate', 'proposedDate', 'status']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['no', 'currentDate', 'proposedDate', 'status']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['no', 'documentName', 'currentDate', 'proposedDate', 'status']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['no', 'documentName', 'currentDate', 'proposedDate', 'status']"></tr>
       </table>
     </mat-card-content>
   </mat-card>

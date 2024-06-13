@@ -9,7 +9,10 @@ export interface ITboLegalMonitoring {
   date?: Date;
   status?: string;
   proposedStatus?: string;
+  statusAppDocId?: string;
+  initialStatusId?: string;
   proposedDate?: Date;
+  dueDate?: Date;
   attributes?: any;
   objectName?: string;
 }
@@ -23,10 +26,13 @@ export class TboLegalMonitoring implements ITboLegalMonitoring {
     public documentName?: string, // lvl 2
     public category?: string,
     public documentDate?: Date,
+    public statusAppDocId?: string,
+    public initialStatusId?: string,
     public date?: Date,
     public status?: string,
     public proposedStatus?: string,
     public proposedDate?: Date,
+    public dueDate?: Date,
     public attributes?: any,
     public objectName?: string
   ) {

@@ -276,7 +276,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="document.statusAppDocId" [disabled]="isDisabled()">
+                <mat-select [(ngModel)]="document.initialStatusId" [disabled]="isDisabled()">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of status" [value]="item">
                     {{ item }}
@@ -356,7 +356,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Proposed Date</mat-label>
-                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.attributes.proposedDate" disabled />
+                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" disabled />
                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                   <mat-datepicker #dp disabled="false"></mat-datepicker>
                 </mat-form-field>
@@ -364,12 +364,21 @@
             </div>
             <div class="col-6">
               <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline">
+                <!-- <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Proposed Status</mat-label>
-                  <mat-select [(ngModel)]="document.attributes.proposedStatus">
+                  <mat-select [(ngModel)]="document.statusAppDocId">
                     <mat-option value="">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of status" [value]="item">
                       {{ item }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Proposed Status</mat-label>
+                  <mat-select [(ngModel)]="document.statusAppDocId">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+                      {{ item.statusDescription }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -674,7 +683,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Status</mat-label>
-              <mat-select [(ngModel)]="document.statusAppDocId" [disabled]="isDisabled()">
+              <mat-select [(ngModel)]="document.initialStatusId" [disabled]="isDisabled()">
                 <mat-option value="">- Please Select -</mat-option>
                 <mat-option *ngFor="let item of status" [value]="item">
                   {{ item }}
@@ -690,7 +699,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Proposed Date</mat-label>
-              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.attributes.proposedDate" disabled />
+              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" disabled />
               <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
               <mat-datepicker #dp disabled="false"></mat-datepicker>
             </mat-form-field>
@@ -698,12 +707,21 @@
         </div>
         <div class="col-6">
           <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
+            <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Proposed Status</mat-label>
-              <mat-select [(ngModel)]="document.attributes.proposedStatus">
+              <mat-select [(ngModel)]="document.statusAppDocId">
                 <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of status" [value]="item">
+                <mat-option *ngFor="let item of status" [value]="item.id">
                   {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <mat-form-field appearance="outline" class="w-100 pr-1">
+              <mat-label>Proposed Status</mat-label>
+              <mat-select [(ngModel)]="document.statusAppDocId">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+                  {{ item.statusDescription }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
