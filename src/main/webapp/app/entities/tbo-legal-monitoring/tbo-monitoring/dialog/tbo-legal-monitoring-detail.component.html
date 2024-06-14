@@ -907,7 +907,7 @@
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef width="13%" class="grid-index-string-action rounding-table-right">Action</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-icon-button (click)="removeCovernoteTask(element)">
+              <button mat-icon-button [disabled]="isDisabled()" (click)="removeCovernoteTask(element)">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>

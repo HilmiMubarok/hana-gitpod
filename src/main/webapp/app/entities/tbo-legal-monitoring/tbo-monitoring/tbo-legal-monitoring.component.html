@@ -55,7 +55,7 @@
               <mat-icon>remove_red_eye</mat-icon>
             </button>
             <ng-container>
-              <button mat-icon-button (click)="update(element)">
+              <button mat-icon-button [disabled]="disabledButton()" (click)="update(element)">
                 <mat-icon>create</mat-icon>
               </button>
               <!-- <button mat-icon-button (click)="delete(element)">

@@ -50,6 +50,8 @@ export class TboLegalMonitoringComponent implements OnChanges {
   public key: string;
   dateDifference: number;
 
+  public parentPath = this.router.url.split('/')[1];
+
   constructor(
     private storageService: StorageService,
     private dialog: MatDialog,
@@ -300,7 +302,6 @@ export class TboLegalMonitoringComponent implements OnChanges {
         const files = res.datePipe.transform(new Date(), 'yyyy-MM-dd:hh:mm:ss') + '-' + res.files[i].name.replace('&', '');
 
         const splitPath = res.path.split('/');
-        console.log('test', splitPath);
 
         this.metaData.id = res.docIdTags;
         this.metaData.applicationId = this.creditProposal.id;
@@ -316,7 +317,6 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
         const formData = new FormData();
         formData.append('file', res.files[i]);
-        console.log('form data', formData);
 
         this.metaData.objectName =
           splitPath[0] +
@@ -336,15 +336,6 @@ export class TboLegalMonitoringComponent implements OnChanges {
           splitPath[7] +
           '/' +
           files;
-        console.log('split 0', splitPath[0]);
-        console.log('split 1', splitPath[1]);
-        console.log('split 2', splitPath[2]);
-        console.log('split 3', splitPath[3]);
-        console.log('split 4', splitPath[4]);
-
-        console.log('split 5', splitPath[5]);
-        console.log('split 6', splitPath[6]);
-        console.log('split 7', splitPath[7]);
 
         // this.metaData.objectName = `/document-tbo/document-legal/${this.creditProposal.id}/legal/${res.rootId}/${res.parentId}/${res.documentId}/${id}/${files}`;
         // this.metaData.objectName = `/document-tbo/document-legal/${this.creditProposal.id}/legal/${res.rootId}/${res.parentId}/${res.documentId}/${id}/${files}`;
@@ -438,11 +429,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
         },
       };
 
-      console.log('update req aplication doc: ', updatedDocument);
-
-      this.applicationDocumentService.update(updatedDocument).subscribe(updatedRes => {
-        console.log('update app document :', updatedRes);
-      });
+      this.applicationDocumentService.update(updatedDocument).subscribe(updatedRes => {});
 
       // const promises: Array<any> = new Array<any>();
       // const fileRes = [];
@@ -603,5 +590,12 @@ export class TboLegalMonitoringComponent implements OnChanges {
     const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
 
     return Math.floor(differenceInDays); // Return the difference in number of days
+  }
+
+  disabledButton(): boolean {
+    if (this.parentPath === 'tbo-legal-review') {
+      return true;
+    }
+    return false;
   }
 }
