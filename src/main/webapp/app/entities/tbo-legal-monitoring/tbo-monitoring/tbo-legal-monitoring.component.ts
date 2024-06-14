@@ -50,6 +50,8 @@ export class TboLegalMonitoringComponent implements OnChanges {
   public key: string;
   dateDifference: number;
 
+  public parentPath = this.router.url.split('/')[1];
+
   constructor(
     private storageService: StorageService,
     private dialog: MatDialog,
@@ -603,5 +605,12 @@ export class TboLegalMonitoringComponent implements OnChanges {
     const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
 
     return Math.floor(differenceInDays); // Return the difference in number of days
+  }
+
+  disabledButton(): boolean {
+    if (this.parentPath === 'tbo-legal-review') {
+      return true;
+    }
+    return false;
   }
 }

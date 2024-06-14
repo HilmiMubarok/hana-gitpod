@@ -112,9 +112,10 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public legalCovernoteTypeDdl: IGeneralParameter[] = [];
   public legalCovernoteTaskDataList: IGeneralParameter[] = [];
   public legalCovernoteTaskDataSource: any[] = [];
-  public pristine: boolean;
+  public pristine = true;
   public selectedCovernoteTask: string;
   public selectedCovernoteDate: Date;
+  public index: any;
 
   @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
 
@@ -146,9 +147,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     const dataDoc: any = this.data.obj;
 
     const legalDocIdx = obj => obj.docId === dataDoc.docId;
-    const i = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
+    this.indeks = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
 
-    console.log('index', i);
+    console.log('index', this.indeks);
 
     if (this.data.view === 'edit') {
       this.document = {
@@ -220,8 +221,19 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
               : dataDoc.attributes.batasWaktuPenyelesaian
               ? new Date(dataDoc.attributes.batasWaktuPenyelesaian)
               : new Date(),
-          covernoteType: JSON.parse(this.data.creditProposal.attributes.legalCovernote)[i].attributes.covernoteType,
+          covernoteType: JSON.parse(this.data.creditProposal.attributes.legalCovernote)[this.indeks].attributes.covernoteType,
         },
+        // legalCovernote:
+        //   LegalCovernote !== null
+        //     ? {
+        //         id: LegalCovernote[0]?.id,
+        //         documentId: LegalCovernote[0]?.documentId,
+        //         attributes: {
+        //           covernoteType: LegalCovernote[0]?.attributes.covernoteType,
+        //           covernoteTask: LegalCovernote[0]?.attributes.covernoteTask,
+        //         },
+        //       }
+        //     : {},
       };
       console.log('cek1', JSON.parse(this.data.creditProposal.attributes.legalCovernote));
     } else {
@@ -852,7 +864,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.parentPath === 'loan-ops-checking' ||
       this.parentPath === 'loan-ops-review' ||
       this.parentPath === 'review-dppk' ||
-      this.parentPath === 'tbo-legal-checking'
+      this.parentPath === 'tbo-legal-checking' ||
+      this.parentPath === 'tbo-legal-review'
       // this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' ||
       // this.creditProposal.statusId === 'DPDL_REVIEW_HEAD' ||
       // this.creditProposal.statusId === 'DPDL_REVIEW_TEAMLEAD' ||
@@ -907,6 +920,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           } else {
             this.legalCovernoteTaskDataList = res.body;
           }
+
           if (this.data.view === 'edit') {
             if (this.pristine === true) {
               this.prepTaskDataSource(this.legalCovernoteTaskDataList);
@@ -918,7 +932,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   public prepTaskDataSource(legalCovernoteTaskDataList): void {
-    this.document.attributes['covernoteTask'].forEach(task => {
+    console.log('legalCovernoteTaskDataList');
+
+    JSON.parse(this.data.creditProposal.attributes.legalCovernote)[this.indeks].attributes.covernoteTask.forEach(task => {
       const filteredData = legalCovernoteTaskDataList.filter(obj => obj.code === task.code);
       filteredData.forEach(item => {
         if (item.code === task.code) {
@@ -927,6 +943,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
             covernoteDate: task.date,
             covernoteCode: item.code,
           });
+          console.log('test', this.legalCovernoteTaskDataSource);
         }
       });
     });
