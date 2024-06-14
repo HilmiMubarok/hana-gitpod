@@ -592,6 +592,10 @@ export class TboLegalMonitoringComponent implements OnChanges {
     return Math.floor(differenceInDays); // Return the difference in number of days
   }
 
+  getStatusAppDocId(statusAppDocId: string): string {
+    return statusAppDocId === '_NA_' ? '' : statusAppDocId;
+  }
+
   disabledButton(): boolean {
     if (this.parentPath === 'tbo-legal-review') {
       return true;
