@@ -140,16 +140,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     public reportUtilService: ReportUtilService,
     private messageService: MessageService
   ) {
-    // this.view = this.data.view;
-    // const dataDoc: any = this.data.obj;
-    // console.log('dataDoc', dataDoc);
     this.view = this.data.view;
     const dataDoc: any = this.data.obj;
 
     const legalDocIdx = obj => obj.docId === dataDoc.docId;
     this.indeks = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
-
-    console.log('index', this.indeks);
 
     if (this.data.view === 'edit') {
       this.document = {
@@ -235,7 +230,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         //       }
         //     : {},
       };
-      console.log('cek1', JSON.parse(this.data.creditProposal.attributes.legalCovernote));
     } else {
       this.document = new ApplicationDocument();
 
@@ -284,7 +278,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   private loadAll(): void {
-    console.log('loadAll');
     this.documentTypeService
       .filterTableData({
         lvl2: true,
@@ -299,24 +292,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           for (let i = 0; i < this.documentTypes.length; i++) {
             this.document.name = this.documentTypes[i].description;
           }
-          console.log('documentTypes', this.documentTypes);
         }
       });
-    console.log('documentTypes', this.documentTypes);
   }
-  // public setOwnerCollateral() {
-  //   if (this.data.creditProposal !== null) {
-  //     if (this.documents === 'document-tbo') {
-  //       console.log('data', this.getFilesId(this.data.creditProposal.id));
-  //     }
-  //   }
-
-  //   if (this.folder !== undefined) {
-  //     if (this.documents === 'document-tbo') {
-  //       console.log('data 2:', this.getFiles(this.data.creditProposal.id));
-  //     }
-  //   }
-  // }
 
   ngOnInit(): void {
     this.changeDocumentType();
@@ -331,7 +309,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   public checkObject() {
-    console.log('folderss obj', this.folder);
     if (this.folder !== undefined) {
       this.previousObject = {
         id: this.folder['id'],
@@ -494,7 +471,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       },
     };
 
-    console.log('current obj presave :', this.currentObject);
     this.checkChanges();
     if (this.folder === undefined) {
       if (this.files.length === 0) {
@@ -932,8 +908,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   public prepTaskDataSource(legalCovernoteTaskDataList): void {
-    console.log('legalCovernoteTaskDataList');
-
     JSON.parse(this.data.creditProposal.attributes.legalCovernote)[this.indeks].attributes.covernoteTask.forEach(task => {
       const filteredData = legalCovernoteTaskDataList.filter(obj => obj.code === task.code);
       filteredData.forEach(item => {
@@ -943,7 +917,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
             covernoteDate: task.date,
             covernoteCode: item.code,
           });
-          console.log('test', this.legalCovernoteTaskDataSource);
         }
       });
     });
