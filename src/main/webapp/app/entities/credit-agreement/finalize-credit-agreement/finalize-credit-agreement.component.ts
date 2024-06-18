@@ -51,12 +51,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   set creditProposal(object: ICreditProposal) {
     this._creditProposal = object;
-
-    if (this._creditProposal.entityProperties.length < 1) {
-      this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
-        this.creditProposal.entityProperties = [res.body];
-      });
-    }
   }
   public data = [];
   public loading: boolean;
@@ -86,6 +80,11 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+      this.creditProposal.entityProperties.push(res.body);
+    });
+
+    this.clearApprovalDebtorConditions();
     this.dataAgreement = JSON.parse(this.creditProposal.agreements[0]?.attributes.SIGNERS);
     this.getClausalAgreement();
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
@@ -419,6 +418,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   public selectedConditionId(name: string) {
     const filter = this.selectedConditionsValue.filter((data: any) => data.value === name);
+    console.log('filter-name', filter);
     return filter.length > 0 ? filter[0].code : '';
   }
 
