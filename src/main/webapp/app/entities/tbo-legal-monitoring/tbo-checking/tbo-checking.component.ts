@@ -420,7 +420,7 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
   }
 
   public showTimeLine(element: ITboCheckingModel): void {
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('TBO_LEGAL_MONITORING', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
