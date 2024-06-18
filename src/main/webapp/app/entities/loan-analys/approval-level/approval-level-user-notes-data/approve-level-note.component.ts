@@ -167,13 +167,14 @@ export class LoanFacilityAproveLevelNoteComponent extends AbstractEntityMaterial
 
   public getNoteData() {
     this.noteDataService
-      .query({
+      .queryFilterBy({
         size: 9999,
         page: 0,
+        idApplication: this.creditProposal.id,
+        type: 'loan_committee',
       })
       .subscribe(res => {
-        const filteredItems = res.body.filter(item => item.applicationId === this.creditProposal.id && item.type === 'loan_committee');
-        this.filteringItems = filteredItems;
+        this.filteringItems = res.body;
       });
   }
 }
