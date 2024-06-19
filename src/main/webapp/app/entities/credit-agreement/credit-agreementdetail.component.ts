@@ -737,9 +737,6 @@ export class CreditAgreementDetailComponent implements OnInit {
   }
 
   public save(source: string): void {
-    // Clear Approval Debtor Conditions
-    this.clearApprovalDebtorConditions();
-
     this.saveCollateralAfterReport();
     this.setIndustryName();
     this.saveState = source;
