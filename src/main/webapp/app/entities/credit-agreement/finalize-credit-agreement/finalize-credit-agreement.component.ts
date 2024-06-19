@@ -417,7 +417,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   public selectedConditionId(name: string) {
     const filter = this.selectedConditionsValue.filter((data: any) => data.value === name);
-    console.log('filter-name', filter);
     return filter.length > 0 ? filter[0].code : '';
   }
 
