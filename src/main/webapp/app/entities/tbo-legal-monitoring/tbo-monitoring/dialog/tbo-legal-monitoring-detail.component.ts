@@ -89,7 +89,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     },
     {
       statusId: 'TBO',
-      statusDescription: 'Tbo',
+      statusDescription: 'TBO',
       statusCode: 'TBO',
     },
     {
@@ -847,6 +847,13 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       // this.creditProposal.statusId === 'DPDL_REVIEW_TEAMLEAD' ||
       // this.creditProposal.statusId === 'DPDL_RETURN_TO_RM'
     ) {
+      return true;
+    }
+    return false;
+  }
+
+  isDisabledReview(): boolean {
+    if (this.parentPath === 'tbo-legal-review') {
       return true;
     }
     return false;

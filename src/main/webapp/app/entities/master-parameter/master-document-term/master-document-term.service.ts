@@ -39,4 +39,8 @@ export class MasterDocumentTermService extends AbstractEntityService<MasterDocum
   deleteParticipant(id: number): Observable<HttpResponse<any>> {
     return this.http.delete(this.resourceUrlNew + '/' + id, { observe: 'response' });
   }
+
+  getMasterDocumentTerms(): Observable<HttpResponse<MasterDocumentTerm[]>> {
+    return this.http.get<MasterDocumentTerm[]>(this.resourceUrl + '/category/TBO_LEGAL_MONITORING', { observe: 'response' });
+  }
 }
