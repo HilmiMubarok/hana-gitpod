@@ -337,7 +337,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Remarks</mat-label>
-                  <input matInput type="text" [(ngModel)]="document.attributes.remarks" />
+                  <input matInput type="text" [disabled]="isDisabledReview()" [(ngModel)]="document.attributes.remarks" />
                 </mat-form-field>
               </div>
             </div>
@@ -356,8 +356,8 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Proposed Date</mat-label>
-                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" disabled />
-                  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
+                  <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
                   <mat-datepicker #dp disabled="false"></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -375,7 +375,7 @@
                 </mat-form-field> -->
                 <mat-form-field appearance="outline" class="w-100 pr-1">
                   <mat-label>Proposed Status</mat-label>
-                  <mat-select [(ngModel)]="document.statusAppDocId">
+                  <mat-select [(ngModel)]="document.statusAppDocId" [disabled]="isDisabledReview()">
                     <mat-option value="">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
                       {{ item.statusDescription }}
@@ -699,8 +699,8 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Proposed Date</mat-label>
-              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" disabled />
-              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
+              <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
               <mat-datepicker #dp disabled="false"></mat-datepicker>
             </mat-form-field>
           </div>
@@ -718,7 +718,7 @@
             </mat-form-field> -->
             <mat-form-field appearance="outline" class="w-100 pr-1">
               <mat-label>Proposed Status</mat-label>
-              <mat-select [(ngModel)]="document.statusAppDocId">
+              <mat-select [(ngModel)]="document.statusAppDocId" [disabled]="isDisabledReview()">
                 <mat-option value="">- Please Select -</mat-option>
                 <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
                   {{ item.statusDescription }}
@@ -748,7 +748,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Remarks</mat-label>
-              <input matInput type="text" [(ngModel)]="document.attributes['remarks']" />
+              <input matInput type="text" [disabled]="isDisabledReview()" [(ngModel)]="document.attributes['remarks']" />
             </mat-form-field>
           </div>
         </div>

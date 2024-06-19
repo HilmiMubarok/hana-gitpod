@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
@@ -19,6 +19,9 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { ITboLegalMonitoringMetaData, TboLegalMonitoringMetaData } from './tbo-legal-monitoring.model';
 import { ApplicationDocument, IApplicationDocument } from 'app/entities/application-document/application-document.model';
 import { ApplicationDocumentService } from 'app/entities/application-document/application-document.service';
+import { MasterDocumentTermService } from 'app/entities/master-parameter/master-document-term/master-document-term.service';
+import { MasterDocumentTermComponent } from 'app/entities/master-parameter/master-document-term/master-document-term.component';
+import { MasterDocumentTerm } from 'app/entities/master-parameter/master-document-term/master-document-term.model';
 
 @Component({
   selector: 'jhi-tbo-legal-monitoring',
@@ -52,6 +55,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
   public parentPath = this.router.url.split('/')[1];
 
+  masterDocTermComponent: MasterDocumentTermComponent;
   constructor(
     private storageService: StorageService,
     private dialog: MatDialog,
@@ -59,7 +63,8 @@ export class TboLegalMonitoringComponent implements OnChanges {
     protected activatedRoute: ActivatedRoute,
     private documentTypeService: DocumentTypeService,
     private messageService: MessageService,
-    private applicationDocumentService: ApplicationDocumentService
+    private applicationDocumentService: ApplicationDocumentService,
+    protected masterDocumentTermService: MasterDocumentTermService
   ) {
     this.files = [];
     this.folders = [];
@@ -70,6 +75,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
     if (changes['creditProposal']) {
       this.changeDocumentType();
       this.loadAll();
+      this.getDocumentTerm();
 
       this.getBucket().then(res => {
         this.getFiles(this.creditProposal.id);
@@ -195,7 +201,6 @@ export class TboLegalMonitoringComponent implements OnChanges {
         key: `/document-tbo/document-legal/${id}/legal/`, // Mengganti ini sesuai dengan struktur key di minio Anda
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-        console.log('res body:', res.body);
         this.getApplicationDocument(res.body);
       });
     }
@@ -577,17 +582,16 @@ export class TboLegalMonitoringComponent implements OnChanges {
   // }
 
   calculateDateDifference(date: string, dueDate: string): number {
-    const current = new Date(date);
-    const proposed = new Date(dueDate);
+    let differenceInDays: number;
 
-    // Check if the dates are valid
-    if (isNaN(current.getTime()) || isNaN(proposed.getTime())) {
-      return 0; // Or any other default value you prefer
+    if (dueDate !== null) {
+      const current = new Date(date);
+      const proposed = new Date(dueDate);
+      const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
+      differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
+    } else {
+      return 0;
     }
-
-    const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
-
-    const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
 
     return Math.floor(differenceInDays); // Return the difference in number of days
   }
@@ -596,10 +600,25 @@ export class TboLegalMonitoringComponent implements OnChanges {
     return statusAppDocId === '_NA_' ? '' : statusAppDocId;
   }
 
-  disabledButton(): boolean {
-    if (this.parentPath === 'tbo-legal-review') {
-      return true;
+  public docTerm: MasterDocumentTerm[];
+  public getDocumentTerm() {
+    this.masterDocumentTermService.getMasterDocumentTerms().subscribe(res => {
+      this.docTerm = res.body;
+    });
+  }
+
+  public generateDocTerm(num: number): string {
+    if (this.docTerm.length === 0) {
+      return '-';
     }
-    return false;
+
+    for (let i = 0; i < this.docTerm.length; i++) {
+      const item: MasterDocumentTerm = this.docTerm[i];
+      if (item.fromDays < num && item.toDays > num) {
+        return item.name;
+      }
+    }
+
+    return '-';
   }
 }
