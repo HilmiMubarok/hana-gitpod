@@ -80,6 +80,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   documentRootId = 'DOC_DPDL_LEGAL';
   public status: string[] = ['Available', 'TBO', 'Waived', 'Not Available'];
   public proposedStatus: string[] = ['Available', 'TBO', 'Waived'];
+  public disabledStatus: boolean;
 
   public statusValue = [
     {
@@ -129,7 +130,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       bucket: string;
       documents: string;
       view: string;
-      obj: object;
+      obj: any;
       change: any;
     },
     private _dialog: MatDialogRef<TboLegalMonitoringDetailComponent>,
@@ -306,6 +307,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.getLegalCovernoteTaskDataList();
 
     this.checkObject();
+    this.isDisabledReview();
   }
 
   public checkObject() {
@@ -853,11 +855,21 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   isDisabledReview(): boolean {
-    if (this.parentPath === 'tbo-legal-review') {
+    if (this.data.obj.documentStatusId === 'ACTIVE') {
       return true;
+    } else if (this.parentPath === 'tbo-legal-review') {
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
+
+  // isDisabledStatus(): boolean {
+  //   if (this.data.obj.documentStatusId === 'ACTIVE') {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   public loadCovernoteTypeDdl(): void {
     this.generalParameterService
@@ -895,21 +907,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           size: 9999,
         })
         .subscribe(res => {
-          if (this.legalCovernoteTaskDataSource.length > 0) {
-            const usedTaskList: any[] = [];
-            this.legalCovernoteTaskDataSource.forEach(dataSource => usedTaskList.push(dataSource.covernoteCode));
-
-            this.legalCovernoteTaskDataList = res.body.filter(task => !usedTaskList.includes(task.code));
-          } else {
-            this.legalCovernoteTaskDataList = res.body;
-          }
-
-          if (this.data.view === 'edit') {
-            if (this.pristine === true) {
-              this.prepTaskDataSource(this.legalCovernoteTaskDataList);
-              this.pristine = false;
-            }
-          }
+          this.legalCovernoteTaskDataList = res.body;
+          this.prepTaskDataSource(this.legalCovernoteTaskDataList);
+          this.pristine = false;
         });
     }
   }
@@ -927,8 +927,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         }
       });
     });
-    this.getLegalCovernoteTaskDataList();
-    this.covernoteTaskTable.renderRows();
   }
 
   public removeCovernoteTask(row: any): void {
@@ -937,13 +935,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.legalCovernoteTaskDataSource.splice(index, 1);
     }
     this.getLegalCovernoteTaskDataList();
-    this.covernoteTaskTable.renderRows();
   }
 
   public resetTaskDataSource(): void {
     if (this.legalCovernoteTaskDataSource.length > 0) {
       this.legalCovernoteTaskDataSource = [];
-      this.covernoteTaskTable.renderRows();
     }
   }
 
@@ -955,6 +951,5 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     });
     this.selectedCovernoteTask = '';
     this.getLegalCovernoteTaskDataList();
-    this.covernoteTaskTable.renderRows();
   }
 }
