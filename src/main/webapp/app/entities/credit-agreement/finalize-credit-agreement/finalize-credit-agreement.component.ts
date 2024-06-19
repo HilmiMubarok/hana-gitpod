@@ -22,7 +22,7 @@ import { INotes } from 'app/entities/notes/notes.model';
 export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   public dataAgreement: any[] = [];
   public agreementTypeLov: string[] = ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali'];
-  public approvalDebtor: any[] = [1];
+  public approvalDebtor: any[] = [];
   public postalAdresss: IPostalAddress;
   public valueApprovalDebtor: any[];
   public selectedConditions: any[] = []; // Initialize as needed
@@ -81,10 +81,10 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+      this.approvalDebtor.push({});
       this.creditProposal.entityProperties.push(res.body);
     });
 
-    this.clearApprovalDebtorConditions();
     this.dataAgreement = JSON.parse(this.creditProposal.agreements[0]?.attributes.SIGNERS);
     this.getClausalAgreement();
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
@@ -132,7 +132,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   }
 
   public getApprovalDebtorConditions() {
-    this.clearApprovalDebtorConditions();
     if (this.creditProposal.entityProperties.length > 1) {
       for (let i = 0; i < this.creditProposal.entityProperties.length - 1; i++) {
         this.selectedConditions[i] = this.creditProposal.entityProperties[i].approvalDebtorConditionStatus;
