@@ -172,7 +172,7 @@ export class LoanOpsReviewComponent extends AbstractEntityMaterialComponent<ILoa
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
-    predicate['target'] = 'loan-ops-distribution';
+    predicate['target'] = 'loan-ops-review';
 
     this.cashLoanOpsReviewService
       .searchCP(predicate)
