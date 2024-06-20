@@ -348,13 +348,7 @@ export class TboReviewComponent extends AbstractEntityMaterialComponent<ITboRevi
       idPosition: this.positionIdLocStor,
     };
 
-    if (this.activeRoute === 'credit-proposal-status') {
-      predicate['target'] = 'credit_proposal_status';
-    } else if (this.activeRoute === 'cp-status-approval') {
-      predicate['target'] = 'credit_proposal_approval';
-    } else if (this.activeRoute === 'dar-revision') {
-      predicate['target'] = 'dar_revision';
-    }
+    predicate['target'] = 'tbo-legal-review';
 
     this.cashTboLegalMonitoringService
       .searchCP(predicate)
