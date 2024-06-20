@@ -60,6 +60,8 @@ import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { BusinessActivityService } from 'app/entities/credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
+import { ApplicationDocumentService } from 'app/entities/application-document/application-document.service';
+import { IApplicationDocument } from 'app/entities/application-document/application-document.model';
 @Component({
   selector: 'jhi-tbo-checking-view',
   templateUrl: './tbo-checking-view.component.html',
@@ -208,7 +210,8 @@ export class TboCheckingViewComponent implements OnInit {
     public templateService: TemplateService,
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
-    private cashCollateralService: CashCollateralService
+    private cashCollateralService: CashCollateralService,
+    private applicationDocumentService: ApplicationDocumentService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -284,6 +287,7 @@ export class TboCheckingViewComponent implements OnInit {
       }
     }
     this.getCollateralSummaryData();
+    // this.getApplicationDocument()
   }
 
   getText(value: any): string {
@@ -756,11 +760,9 @@ export class TboCheckingViewComponent implements OnInit {
     if (this.creditProposal.id) {
       this.tboCheckingService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
-
         if (this.creditProposalTabBusinessActivityComponent) {
           this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
         }
-
         if (this.CPMemoBandingRemarkComponent) {
           this.CPMemoBandingRemarkComponent.triggeredSave();
         }
@@ -770,41 +772,32 @@ export class TboCheckingViewComponent implements OnInit {
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
 		} */
-
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
-
         if (this.parentPath !== 'cp-status-approval') {
           if (this.proposalBasicInformationViewComponent) {
             this.proposalBasicInformationViewComponent.triggeredSave();
           }
         }
-
         if (this.creditProposaTabManagementInfoComponent) {
           this.creditProposaTabManagementInfoComponent.triggeredSave();
         }
-
         if (this.creditProposalCollateralInfoComponent) {
           this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
         }
-
         if (this.creditProposalTabLoanFacilityDetailComponent) {
           this.creditProposalTabLoanFacilityDetailComponent.triggeredSave();
         }
-
         if (this.remaksComponent) {
           this.remaksComponent.triggeredSave();
         }
-
         if (this.creditProposalOpinionHistoryComponent) {
           this.creditProposalOpinionHistoryComponent.refresh();
         }
-
         if (this.creditProposalOpinionHistoryComponent) {
           this.creditProposalOpinionHistoryComponent.refresh();
         }
-
         if (this.saveState === 'process') {
           if (this.parentPath === 'tbo-legal-checking') {
             this.saveApplicationRole();
@@ -826,6 +819,10 @@ export class TboCheckingViewComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
+    this.getBucket().then(res => {
+      this.getFiles(this.creditProposal.id);
+    });
+
     this.tboCheckingService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
@@ -1235,6 +1232,10 @@ export class TboCheckingViewComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
+    this.getBucket().then(res => {
+      this.getFiles(this.creditProposal.id);
+    });
+
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
       data: {
@@ -1242,23 +1243,49 @@ export class TboCheckingViewComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(_res => {
-      if (_res) {
-        this.resAttr = _res;
-        this.resAttr.attr.idPosition = this.getLocStor('POS');
-        let init = 0;
-        let change = 0;
+      for (let dataDoc = 0; dataDoc < this.applicationDocument.length; dataDoc++) {
+        if (!this.applicationDocument[dataDoc].dueDate) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Proposed Date Harus Diisi',
+          });
+          break;
+        } else if (this.applicationDocument[dataDoc].attributes.remarks === null) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Remarks Harus Diisi',
+          });
+          break;
+        } else if (!this.applicationDocument[dataDoc].statusAppDocId || this.applicationDocument[dataDoc].statusAppDocId === '_NA_') {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Proposed Status Harus Diisi',
+          });
+          break;
+        } else {
+          if (_res) {
+            this.resAttr = _res;
+            this.resAttr.attr.idPosition = this.getLocStor('POS');
+            let init = 0;
+            let change = 0;
 
-        if (this.creditProposal.products.length > 0) {
-          for (let i = 0; i < this.creditProposal.products.length; i++) {
-            init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
-            change = change + Number(this.creditProposal.products[i].attributes.changes);
+            if (this.creditProposal.products.length > 0) {
+              for (let i = 0; i < this.creditProposal.products.length; i++) {
+                init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
+                change = change + Number(this.creditProposal.products[i].attributes.changes);
+              }
+            }
+
+            this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
+            this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+
+            this.save('process');
           }
+          break;
         }
-
-        this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
-        this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-
-        this.save('process');
       }
     });
   }
@@ -1478,6 +1505,77 @@ export class TboCheckingViewComponent implements OnInit {
 
   onScrollToTop(): void {
     this.viewport.scrollToPosition([0, 0]);
+  }
+
+  public folders: any[];
+  public applicationDocument: IApplicationDocument[];
+  public change: any;
+  private bucket: string;
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
+  public getFiles(id: number): void {
+    // if (this.creditProposal !== undefined && this.creditProposal['currentValue'] !== undefined) {
+    const predicate: Object = {
+      key: `/document-tbo/document-legal/${id}/legal/`, // Mengganti ini sesuai dengan struktur key di minio Anda
+    };
+    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+      this.getApplicationDocument(res.body);
+    });
+    // }
+  }
+
+  public getApplicationDocument(minioData: any[]): void {
+    // Mendapatkan daftar dokumen aplikasi
+    const statuses = ['DRAFT', 'ACTIVE'];
+    const page = 0;
+    const size = 9999;
+    const sort = ['id,desc'];
+
+    this.applicationDocumentService
+      .getListApplicationDocument(this.creditProposal.id, { statusId: statuses, page, size, sort })
+      .subscribe(res => {
+        // Menginisialisasi array untuk menyimpan dokumen aplikasi dengan informasi tambahan
+        const augmentedApplicationDocuments: IApplicationDocument[] = [];
+        this.folders = res.body;
+        // Iterasi melalui setiap dokumen aplikasi
+        this.folders.forEach(appDoc => {
+          // Mencari data Minio yang sesuai dengan dokumen aplikasi
+          // const minioDocument = minioData.find(m => m.tags.id === appDoc.attributes.docId);
+          const minioDocuments = minioData.filter(m => m.tags.id === appDoc.attributes.docId);
+          // Jika ditemukan, tambahkan informasi tambahan ke dokumen aplikasi
+          if (minioDocuments.length > 0) {
+            const files = [];
+            minioDocuments.forEach(minioDocument => {
+              const filesTemp = {
+                name: minioDocument.name,
+                key: minioDocument.key,
+                type: minioDocument.metaData.Value,
+                url: minioDocument.url,
+              };
+              files.push(filesTemp);
+            });
+            const augmentedAppDoc: IApplicationDocument = {
+              // Salin semua properti dari dokumen aplikasi
+              ...appDoc,
+              // Tambahkan properti tambahan
+              files,
+            };
+            // Tambahkan dokumen aplikasi yang diperbarui ke array
+            augmentedApplicationDocuments.push(augmentedAppDoc);
+          }
+        });
+        // Gunakan dokumen aplikasi yang telah diperbarui
+        this.applicationDocument = augmentedApplicationDocuments;
+        // Debugging: Tampilkan dokumen aplikasi yang telah diperbarui
+      });
   }
 }
 interface IObj {
