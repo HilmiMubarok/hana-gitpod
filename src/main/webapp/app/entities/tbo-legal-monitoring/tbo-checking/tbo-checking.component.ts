@@ -218,6 +218,7 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
       })
       .subscribe((res: any) => {
         this.statusCodesData = res.body;
+        console.log(this.statusCodesData, 'bisa');
       });
   }
 
@@ -233,13 +234,7 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
       idPosition: this.positionIdLocStor,
     };
 
-    if (this.activeRoute === 'credit-proposal-status') {
-      predicate['target'] = 'credit_proposal_status';
-    } else if (this.activeRoute === 'cp-status-approval') {
-      predicate['target'] = 'credit_proposal_approval';
-    } else if (this.activeRoute === 'dar-revision') {
-      predicate['target'] = 'dar_revision';
-    }
+    predicate['target'] = 'tbo-legal-checking';
 
     this.cashTboLegalMonitoringService
       .searchCP(predicate)
@@ -352,7 +347,7 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'TBO_LEGAL_CHECKING',
+              // appMenuId: 'TBO_LEGAL_CHECKING',
             })
             .pipe(map((res: HttpResponse<ITboCheckingModel[]>) => this.preLoad(res)))
             .subscribe({
@@ -367,7 +362,7 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
-              appMenuId: 'TBO_LEGAL_CHECKING',
+              // appMenuId: 'TBO_LEGAL_CHECKING',
             })
             .pipe(map((res: HttpResponse<ITboCheckingModel[]>) => this.preLoad(res)))
             .subscribe({

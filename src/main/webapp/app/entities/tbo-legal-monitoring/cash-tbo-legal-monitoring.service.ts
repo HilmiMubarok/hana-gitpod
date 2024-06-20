@@ -228,7 +228,7 @@ export class CashTboLegalMonitoringService extends AbstractEntityService<ITboChe
   getTboLegalMonitoring(req?: any): Observable<HttpResponse<ITboCheckingModel[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ITboCheckingModel[]>(this.resourceUrl + '/cash-credit-proposals/by-document-status', {
+      .get<ITboCheckingModel[]>(this.resourceUrl + '/cash-credit-proposals/tbo-checking', {
         params: options,
         observe: 'response',
       })
