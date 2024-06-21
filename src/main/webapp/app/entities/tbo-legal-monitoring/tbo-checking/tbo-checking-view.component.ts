@@ -1231,10 +1231,13 @@ export class TboCheckingViewComponent implements OnInit {
     }
   }
 
-  public processTask(task: IProcessTask): void {
-    this.getBucket().then(res => {
-      this.getFiles(this.creditProposal.id);
-    });
+  public async processTask(task: IProcessTask): Promise<void> {
+    try {
+      await this.getBucket();
+      await this.getFiles(this.creditProposal.id);
+    } catch (error) {
+      console.error('Error fetching bucket or files:', error);
+    }
 
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
@@ -1265,7 +1268,7 @@ export class TboCheckingViewComponent implements OnInit {
             detail: 'Proposed Status Harus Diisi',
           });
           break;
-        } else {
+        } else if (dataDoc === this.applicationDocument.length - 1) {
           if (_res) {
             this.resAttr = _res;
             this.resAttr.attr.idPosition = this.getLocStor('POS');
@@ -1512,70 +1515,75 @@ export class TboCheckingViewComponent implements OnInit {
   public change: any;
   private bucket: string;
 
-  private getBucket(): Promise<void> {
+  private async getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
+      this.storageService.getBucketName().subscribe(
+        res => {
+          this.bucket = res.body['bucket'];
+          resolve();
+        },
+        err => {
+          console.error('Error fetching bucket:', err);
+          reject(err);
+        }
+      );
     });
   }
 
-  public getFiles(id: number): void {
-    // if (this.creditProposal !== undefined && this.creditProposal['currentValue'] !== undefined) {
+  public async getFiles(id: number): Promise<void> {
     const predicate: Object = {
       key: `/document-tbo/document-legal/${id}/legal/`, // Mengganti ini sesuai dengan struktur key di minio Anda
     };
-    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      this.getApplicationDocument(res.body);
-    });
-    // }
+
+    try {
+      const res = await firstValueFrom(this.storageService.getObjects(this.bucket, predicate));
+      await this.getApplicationDocument(res.body);
+    } catch (error) {
+      console.error('Error fetching files:', error);
+    }
   }
 
-  public getApplicationDocument(minioData: any[]): void {
-    // Mendapatkan daftar dokumen aplikasi
+  public async getApplicationDocument(minioData: any[]): Promise<void> {
     const statuses = ['DRAFT', 'ACTIVE'];
     const page = 0;
     const size = 9999;
     const sort = ['id,desc'];
 
-    this.applicationDocumentService
-      .getListApplicationDocument(this.creditProposal.id, { statusId: statuses, page, size, sort })
-      .subscribe(res => {
-        // Menginisialisasi array untuk menyimpan dokumen aplikasi dengan informasi tambahan
-        const augmentedApplicationDocuments: IApplicationDocument[] = [];
-        this.folders = res.body;
-        // Iterasi melalui setiap dokumen aplikasi
-        this.folders.forEach(appDoc => {
-          // Mencari data Minio yang sesuai dengan dokumen aplikasi
-          // const minioDocument = minioData.find(m => m.tags.id === appDoc.attributes.docId);
-          const minioDocuments = minioData.filter(m => m.tags.id === appDoc.attributes.docId);
-          // Jika ditemukan, tambahkan informasi tambahan ke dokumen aplikasi
-          if (minioDocuments.length > 0) {
-            const files = [];
-            minioDocuments.forEach(minioDocument => {
-              const filesTemp = {
-                name: minioDocument.name,
-                key: minioDocument.key,
-                type: minioDocument.metaData.Value,
-                url: minioDocument.url,
-              };
-              files.push(filesTemp);
+    return new Promise<void>((resolve, reject) => {
+      this.applicationDocumentService
+        .getListApplicationDocument(this.creditProposal.id, { statusId: statuses, page, size, sort })
+        .subscribe(
+          res => {
+            const augmentedApplicationDocuments: IApplicationDocument[] = [];
+            this.folders = res.body.filter(e => e.initialStatusId === 'TBO');
+
+            this.folders.forEach(appDoc => {
+              const minioDocuments = minioData.filter(m => m.tags.id === appDoc.attributes.docId);
+
+              if (minioDocuments.length > 0) {
+                const files = [];
+                minioDocuments.forEach(minioDocument => {
+                  const filesTemp = {
+                    name: minioDocument.name,
+                    key: minioDocument.key,
+                    type: minioDocument.metaData.Value,
+                    url: minioDocument.url,
+                  };
+                  files.push(filesTemp);
+                });
+                const augmentedAppDoc: IApplicationDocument = {
+                  ...appDoc,
+                  files,
+                };
+                augmentedApplicationDocuments.push(augmentedAppDoc);
+              }
             });
-            const augmentedAppDoc: IApplicationDocument = {
-              // Salin semua properti dari dokumen aplikasi
-              ...appDoc,
-              // Tambahkan properti tambahan
-              files,
-            };
-            // Tambahkan dokumen aplikasi yang diperbarui ke array
-            augmentedApplicationDocuments.push(augmentedAppDoc);
-          }
-        });
-        // Gunakan dokumen aplikasi yang telah diperbarui
-        this.applicationDocument = augmentedApplicationDocuments;
-        // Debugging: Tampilkan dokumen aplikasi yang telah diperbarui
-      });
+            this.applicationDocument = augmentedApplicationDocuments;
+            resolve();
+          },
+          err => reject(err)
+        );
+    });
   }
 }
 interface IObj {
