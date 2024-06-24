@@ -127,7 +127,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
   })
   remaksComponent: RemarskComponent;
 
-  public collateralCgpg: ICollateral[] = [];
+  public collateralDeposits: ICollateral[] = [];
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
   public groupProduct: IApplicationProduct[] = [];
@@ -1092,6 +1092,8 @@ export class DppkFinalizeDetailComponent implements OnInit {
   }
 
   private preSave(status: string): IDppkFinalize {
+    this.filterDeposit(this.collateral);
+
     for (let i = 0; i < this.dppkFinalizeService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.dppkFinalizeService.partySliks[i]];
     }
@@ -1811,7 +1813,36 @@ export class DppkFinalizeDetailComponent implements OnInit {
       });
     }
   }
+
+  public filterDeposit(collaterals: ICollateral[]) {
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
+          this.collateralDeposits.push(collaterals[i]);
+        }
+      }
+    }
+    this.cekCgpgData();
+  }
+
+  public cekCgpgData() {
+    if (this.collateralDeposits.length > 0) {
+      for (let i = 0; i < this.collateralDeposits.length; i++) {
+        const collateral = this.collateralProperties.find(
+          obj => obj.collateralId === this.collateralDeposits[i].id && obj.external === false
+        );
+        if (collateral) {
+          this.saveCollateralProperty(collateral);
+        }
+      }
+    }
+  }
+
+  public saveCollateralProperty(property: ICollateralProperty) {
+    this.collateralPropertyService.save(property).subscribe(res => {});
+  }
 }
+
 interface IObj {
   key?: string;
   metaData?: any;

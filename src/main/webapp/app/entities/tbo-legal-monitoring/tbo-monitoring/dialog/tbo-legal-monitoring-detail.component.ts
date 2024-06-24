@@ -118,6 +118,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public selectedCovernoteDate: Date;
   public index: any;
 
+  public tempVal: any;
+
   @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
 
   constructor(
@@ -148,7 +150,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.indeks = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
     this.folder = this.data.obj;
 
-    console.log('this.data : ', this.data);
+    this.tempVal = this.data.obj.dueDate;
     if (this.data.view === 'edit') {
       this.document = {
         id: dataDoc.id,
@@ -156,7 +158,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         // documentDate: new Date(dataDoc.files[0].tags.documentDate),
         // rootId: dataDoc.files[0].tags.rootId,
         date: dataDoc.date,
-        dueDate: this.data.obj.dueDate,
+        dueDate: dataDoc.dueDate,
         documentTypeParent: dataDoc.documentTypeParent,
         documentTypeId: dataDoc.documentTypeId,
         category: dataDoc.category,
@@ -416,7 +418,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       path: this.folderFiles[0].Key,
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
-      dueDate: this.document.dueDate,
+      dueDate: this.tempVal,
 
       // proposedStatus: this.document.proposedStatus,
       attributes: {
@@ -542,6 +544,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         ? this.document.name
         : resultDocName;
 
+    const convTempVal = new Date(this.tempVal).toISOString();
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -559,7 +562,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           statusAppDocId: this.document.statusAppDocId,
           initialStatusId: this.document.initialStatusId,
           date: this.document.date,
-          dueDate: this.document.dueDate,
+          dueDate: convTempVal,
 
           path: this.folderFiles[0].key,
           docIdTags: this.document.attributes['docId'],
