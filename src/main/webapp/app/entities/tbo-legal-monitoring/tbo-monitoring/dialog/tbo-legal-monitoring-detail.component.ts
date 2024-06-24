@@ -49,6 +49,8 @@ class PickDateAdapter extends NativeDateAdapter {
   ],
 })
 export class TboLegalMonitoringDetailComponent implements OnInit {
+  @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
+
   public datas = [];
   public files: File[] = [];
   public file: File;
@@ -120,8 +122,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
 
   public tempVal: any;
 
-  @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
-
   constructor(
     private templateService: TemplateService,
     private dialog: MatDialog,
@@ -146,7 +146,13 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.view = this.data.view;
     const dataDoc: any = this.data.obj;
 
-    const legalDocIdx = obj => obj.docId === dataDoc.docId;
+    let legalDocIdx: any;
+    if (dataDoc.docId === undefined) {
+      legalDocIdx = obj => obj.id === dataDoc.attributes.docId;
+    } else {
+      legalDocIdx = obj => obj.docId === dataDoc.docId;
+    }
+
     this.indeks = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
     this.folder = this.data.obj;
 
@@ -258,8 +264,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     }
 
     this.changefield = false;
-    console.log('folder', this.folder);
-    console.log('document', this.document);
   }
 
   public parentIdValue = [];
@@ -624,9 +628,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           // proposedStatus: this.document.proposedStatus,
           folderFiles: this.folderFiles,
         };
-
-        console.log('data save :', data);
-
         resolve(data);
       }
     });
@@ -932,29 +933,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         }
       });
     });
-  }
-
-  public removeCovernoteTask(row: any): void {
-    const index = this.legalCovernoteTaskDataSource.indexOf(row, 0);
-    if (index > -1) {
-      this.legalCovernoteTaskDataSource.splice(index, 1);
-    }
-    this.getLegalCovernoteTaskDataList();
-  }
-
-  public resetTaskDataSource(): void {
-    if (this.legalCovernoteTaskDataSource.length > 0) {
-      this.legalCovernoteTaskDataSource = [];
-    }
-  }
-
-  public addCovernoteTask(selectedCovernoteTask: any, selectedCovernoteDate: Date): void {
-    this.legalCovernoteTaskDataSource.push({
-      covernoteTask: selectedCovernoteTask.value,
-      covernoteDate: selectedCovernoteDate,
-      covernoteCode: selectedCovernoteTask.code,
-    });
-    this.selectedCovernoteTask = '';
-    this.getLegalCovernoteTaskDataList();
+    this.covernoteTaskTable.renderRows();
   }
 }
