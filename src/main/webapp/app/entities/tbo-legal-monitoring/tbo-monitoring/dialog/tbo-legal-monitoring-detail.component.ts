@@ -118,6 +118,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public selectedCovernoteDate: Date;
   public index: any;
 
+  private tempVal: any;
+
   @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
 
   constructor(
@@ -149,6 +151,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.folder = this.data.obj;
 
     console.log('this.data : ', this.data);
+    this.tempVal = this.data.obj.dueDate;
+    console.log('this.tempVal : ', this.tempVal);
     this.document = new ApplicationDocument();
     if (this.data.view === 'edit') {
       this.document = {
@@ -157,7 +161,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         // documentDate: new Date(dataDoc.files[0].tags.documentDate),
         // rootId: dataDoc.files[0].tags.rootId,
         date: dataDoc.date,
-        dueDate: this.data.obj.dueDate,
+        dueDate: this.tempVal,
         documentTypeParent: dataDoc.documentTypeParent,
         documentTypeId: dataDoc.documentTypeId,
         category: dataDoc.category,
@@ -234,7 +238,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         //       }
         //     : {},
       };
-      this.document.dueDate = this.data.obj.dueDate;
+      this.document.dueDate = this.tempVal;
     } else {
       this.document = new ApplicationDocument();
 
@@ -312,6 +316,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
 
     this.checkObject();
     this.isDisabledReview();
+
+    /* console.log('this.data @init : ', this.data);
+    this.document.dueDate = this.data.obj.dueDate;
+    console.log('this.tempVal @init : ', this.tempVal);
+    this.document.dueDate = this.tempVal; */
   }
 
   public checkObject() {
