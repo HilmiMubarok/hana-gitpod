@@ -15,11 +15,8 @@
 
       <div *ngIf="data.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === 'ADDENDUM'">
         <mat-form-field appearance="outline" class="w-50">
-          <mat-select disabled [(ngModel)]="valueParentClausalAgreements">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of agreementsClausalChildList" [value]="item">
-              {{ item.description }}
-            </mat-option>
+          <mat-select [value]="code + ' ' + description" disabled>
+            <mat-option [value]="code + ' ' + description">{{ code + ' ' + description }}</mat-option>
           </mat-select>
         </mat-form-field>
 
