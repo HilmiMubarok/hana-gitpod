@@ -150,10 +150,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.indeks = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
     this.folder = this.data.obj;
 
-    console.log('this.data : ', this.data);
     this.tempVal = this.data.obj.dueDate;
-    console.log('this.tempVal : ', this.tempVal);
-    this.document = new ApplicationDocument();
     if (this.data.view === 'edit') {
       this.document = {
         id: dataDoc.id,
@@ -161,7 +158,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         // documentDate: new Date(dataDoc.files[0].tags.documentDate),
         // rootId: dataDoc.files[0].tags.rootId,
         date: dataDoc.date,
-        dueDate: this.tempVal,
+        dueDate: dataDoc.dueDate,
         documentTypeParent: dataDoc.documentTypeParent,
         documentTypeId: dataDoc.documentTypeId,
         category: dataDoc.category,
@@ -238,7 +235,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         //       }
         //     : {},
       };
-      this.document.dueDate = this.tempVal;
     } else {
       this.document = new ApplicationDocument();
 
@@ -316,13 +312,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
 
     this.checkObject();
     this.isDisabledReview();
-
-    console.log('this.document @init : ', this.document);
-    console.log('this.data @init : ', this.data);
-    this.document.dueDate = this.data.obj.dueDate;
-    console.log('this.document after @init : ', this.document);
-    /* console.log('this.tempVal @init : ', this.tempVal);
-    this.document.dueDate = this.tempVal; */
   }
 
   public checkObject() {
@@ -429,7 +418,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       path: this.folderFiles[0].Key,
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
-      dueDate: this.document.dueDate,
+      dueDate: this.tempVal,
 
       // proposedStatus: this.document.proposedStatus,
       attributes: {
