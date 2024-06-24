@@ -148,6 +148,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.indeks = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
     this.folder = this.data.obj;
 
+    console.log('this.data : ', this.data);
     if (this.data.view === 'edit') {
       this.document = {
         id: dataDoc.id,
@@ -155,7 +156,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         // documentDate: new Date(dataDoc.files[0].tags.documentDate),
         // rootId: dataDoc.files[0].tags.rootId,
         date: dataDoc.date,
-        dueDate: this.folder['dueDate'],
+        dueDate: this.data.obj.dueDate,
         documentTypeParent: dataDoc.documentTypeParent,
         documentTypeId: dataDoc.documentTypeId,
         category: dataDoc.category,
