@@ -44,7 +44,7 @@ export class ClausalPkDialogComponentEditComponent {
   ) {
     this.category = this.data.dataClausal.category;
     console.log('df', this.data.dataClausal);
-    this.description = this.data.dataClausal.notes;
+    this.description = this.data.dataClausal.agreementClausalParameterDescription;
     this.code = this.data.dataClausal.agreementClausalParameterCode;
     this.checkMaster();
   }
