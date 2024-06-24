@@ -118,7 +118,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public selectedCovernoteDate: Date;
   public index: any;
 
-  private tempVal: any;
+  public tempVal: any;
 
   @ViewChild(MatTable) covernoteTaskTable: MatTable<any>;
 
@@ -544,6 +544,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         ? this.document.name
         : resultDocName;
 
+    const convTempVal = new Date(this.tempVal).toISOString();
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -561,7 +562,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           statusAppDocId: this.document.statusAppDocId,
           initialStatusId: this.document.initialStatusId,
           date: this.document.date,
-          dueDate: this.document.dueDate,
+          dueDate: convTempVal,
 
           path: this.folderFiles[0].key,
           docIdTags: this.document.attributes['docId'],

@@ -356,7 +356,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Proposed Date</mat-label>
-                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
+                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="tempVal" [disabled]="isDisabledReview()" />
                   <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
                   <mat-datepicker #dp disabled="false"></mat-datepicker>
                 </mat-form-field>
@@ -699,7 +699,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Proposed Date</mat-label>
-              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
+              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="tempVal" [disabled]="isDisabledReview()" />
               <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
               <mat-datepicker #dp disabled="false"></mat-datepicker>
             </mat-form-field>
