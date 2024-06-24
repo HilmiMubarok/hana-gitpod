@@ -250,6 +250,18 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
             // Tambahkan dokumen aplikasi yang diperbarui ke array
             augmentedApplicationDocuments.push(augmentedAppDoc);
+          } else {
+            // Jika tidak ditemukan, tambahkan dokumen aplikasi asli ke array
+            const files = [];
+            const augmentedAppDoc: IApplicationDocument = {
+              // Salin semua properti dari dokumen aplikasi
+              ...appDoc,
+              // Tambahkan properti tambahan
+              files,
+            };
+
+            // Tambahkan dokumen aplikasi yang diperbarui ke array
+            augmentedApplicationDocuments.push(augmentedAppDoc);
           }
         });
 
