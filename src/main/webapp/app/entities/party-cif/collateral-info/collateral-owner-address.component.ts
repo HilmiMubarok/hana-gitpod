@@ -139,6 +139,7 @@ export class CollateralOwnerAddressComponent implements OnInit {
               element = this.collateralConditions[i].value;
             }
           }
+          this.collateralConditionsElement = element;
         }
       });
   }

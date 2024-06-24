@@ -134,7 +134,7 @@
           <div class="col">Date of Birth</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ dobPerson }} -
+            {{ dobPerson | date: 'yyyy/dd/MM' }} -
             <strong>{{ countAge() }} years old</strong>
           </div>
         </div>
@@ -282,7 +282,7 @@
             <div class="col">Collateral Condition</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ element }}
+              {{ collateralConditionsElement }}
             </div>
           </div>
         </section>
