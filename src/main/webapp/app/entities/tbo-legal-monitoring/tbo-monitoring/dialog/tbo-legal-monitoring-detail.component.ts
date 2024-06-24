@@ -317,9 +317,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.checkObject();
     this.isDisabledReview();
 
-    /* console.log('this.data @init : ', this.data);
+    console.log('this.document @init : ', this.document);
+    console.log('this.data @init : ', this.data);
     this.document.dueDate = this.data.obj.dueDate;
-    console.log('this.tempVal @init : ', this.tempVal);
+    console.log('this.document after @init : ', this.document);
+    /* console.log('this.tempVal @init : ', this.tempVal);
     this.document.dueDate = this.tempVal; */
   }
 
