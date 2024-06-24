@@ -1544,46 +1544,66 @@ export class TboCheckingViewComponent implements OnInit {
   }
 
   public async getApplicationDocument(minioData: any[]): Promise<void> {
+    // Mendapatkan daftar dokumen aplikasi
     const statuses = ['DRAFT', 'ACTIVE'];
     const page = 0;
     const size = 9999;
     const sort = ['id,desc'];
 
-    return new Promise<void>((resolve, reject) => {
-      this.applicationDocumentService
+    try {
+      const res = await this.applicationDocumentService
         .getListApplicationDocument(this.creditProposal.id, { statusId: statuses, page, size, sort })
-        .subscribe(
-          res => {
-            const augmentedApplicationDocuments: IApplicationDocument[] = [];
-            this.folders = res.body.filter(e => e.initialStatusId === 'TBO');
+        .toPromise();
 
-            this.folders.forEach(appDoc => {
-              const minioDocuments = minioData.filter(m => m.tags.id === appDoc.attributes.docId);
+      const augmentedApplicationDocuments: IApplicationDocument[] = [];
+      this.folders = res.body.filter(e => e.initialStatusId === 'TBO');
+      // Iterasi melalui setiap dokumen aplikasi
+      this.folders.forEach(appDoc => {
+        // Mencari data Minio yang sesuai dengan dokumen aplikasi
+        const minioDocuments = minioData.filter(m => m.tags.id === appDoc.attributes.docId);
+        console.log('minioDocuments:', minioDocuments);
 
-              if (minioDocuments.length > 0) {
-                const files = [];
-                minioDocuments.forEach(minioDocument => {
-                  const filesTemp = {
-                    name: minioDocument.name,
-                    key: minioDocument.key,
-                    type: minioDocument.metaData.Value,
-                    url: minioDocument.url,
-                  };
-                  files.push(filesTemp);
-                });
-                const augmentedAppDoc: IApplicationDocument = {
-                  ...appDoc,
-                  files,
-                };
-                augmentedApplicationDocuments.push(augmentedAppDoc);
-              }
-            });
-            this.applicationDocument = augmentedApplicationDocuments;
-            resolve();
-          },
-          err => reject(err)
-        );
-    });
+        // Jika ditemukan, tambahkan informasi tambahan ke dokumen aplikasi
+        if (minioDocuments.length > 0) {
+          const files = [];
+          minioDocuments.forEach(minioDocument => {
+            const filesTemp = {
+              name: minioDocument.name,
+              key: minioDocument.key,
+              type: minioDocument.metaData.Value,
+              url: minioDocument.url,
+            };
+            files.push(filesTemp);
+          });
+          const augmentedAppDoc: IApplicationDocument = {
+            // Salin semua properti dari dokumen aplikasi
+            ...appDoc,
+            // Tambahkan properti tambahan
+            files,
+          };
+
+          // Tambahkan dokumen aplikasi yang diperbarui ke array
+          augmentedApplicationDocuments.push(augmentedAppDoc);
+        } else {
+          // Jika tidak ditemukan, tambahkan dokumen aplikasi asli ke array
+          const files = [];
+          const augmentedAppDoc: IApplicationDocument = {
+            // Salin semua properti dari dokumen aplikasi
+            ...appDoc,
+            // Tambahkan properti tambahan
+            files,
+          };
+
+          // Tambahkan dokumen aplikasi yang diperbarui ke array
+          augmentedApplicationDocuments.push(augmentedAppDoc);
+        }
+      });
+
+      // Gunakan dokumen aplikasi yang telah diperbarui
+      this.applicationDocument = augmentedApplicationDocuments;
+    } catch (error) {
+      console.error('Error fetching application documents:', error);
+    }
   }
 }
 interface IObj {
