@@ -10,7 +10,7 @@
           document.documentTypeId !== 'DOC_DPDL_LEGAL_COVERNOTE'
         "
       >
-        <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+        <ngx-dropzone accept="*" multiple="true" [disabled]="isDisabledReview()" (change)="onSelect($event)">
           <ngx-dropzone-label>Drop file here or choose your fileQ</ngx-dropzone-label>
         </ngx-dropzone>
         <ngx-dropzone-preview
@@ -95,7 +95,7 @@
             class="col-6"
             ngProjectAs="ngx-dropzone-preview"
             *ngFor="let item of folder.files"
-            [removable]="true"
+            [removable]="!isDisabledReview()"
             (removed)="onRemove(item)"
           >
             <ngx-dropzone-label>
@@ -461,7 +461,7 @@
     <div class="new-notaris-menu">
       <div class="row mb-4">
         <div class="col">
-          <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+          <ngx-dropzone accept="*" multiple="true" [disabled]="isDisabledReview()" (change)="onSelect($event)">
             <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
           </ngx-dropzone>
           <ngx-dropzone-preview
@@ -546,7 +546,7 @@
               class="col-6"
               ngProjectAs="ngx-dropzone-preview"
               *ngFor="let item of folder.files"
-              [removable]="true"
+              [removable]="!isDisabledReview()"
               (removed)="onRemove(item)"
             >
               <ngx-dropzone-label>
@@ -699,7 +699,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Proposed Date</mat-label>
-              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
+              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.date" [disabled]="isDisabledReview()" />
               <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
               <mat-datepicker #dp disabled="false"></mat-datepicker>
             </mat-form-field>

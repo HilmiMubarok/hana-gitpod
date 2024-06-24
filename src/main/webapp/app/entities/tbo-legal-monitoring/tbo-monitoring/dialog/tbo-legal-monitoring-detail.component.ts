@@ -264,6 +264,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     }
 
     this.changefield = false;
+
+    console.log('folder', this.folder);
+    console.log('document', this.document);
   }
 
   public parentIdValue = [];
@@ -628,6 +631,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           // proposedStatus: this.document.proposedStatus,
           folderFiles: this.folderFiles,
         };
+        console.log('data save :', data);
         resolve(data);
       }
     });
