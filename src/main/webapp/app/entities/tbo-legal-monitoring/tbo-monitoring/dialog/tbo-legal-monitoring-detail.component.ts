@@ -149,6 +149,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.folder = this.data.obj;
 
     console.log('this.data : ', this.data);
+    this.document = new ApplicationDocument();
     if (this.data.view === 'edit') {
       this.document = {
         id: dataDoc.id,
