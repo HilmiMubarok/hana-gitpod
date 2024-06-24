@@ -289,7 +289,16 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Current Date</mat-label>
-                <input [matDatepicker]="date" matInput type="text" [disabled]="isDisabled()" [(ngModel)]="document.date" disabled />
+                <input
+                  id="idcrdt2"
+                  nama="nmcrdt2"
+                  [matDatepicker]="date"
+                  matInput
+                  type="text"
+                  [disabled]="isDisabled()"
+                  [(ngModel)]="document.date"
+                  disabled
+                />
                 <mat-datepicker-toggle matSuffix [disabled]="isDisabled()" [for]="date"></mat-datepicker-toggle>
                 <mat-datepicker #date disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -356,7 +365,15 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Proposed Date</mat-label>
-                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.date" [disabled]="isDisabledReview()" />
+                  <input
+                    id="idprdt1"
+                    nama="nmprdt1"
+                    [matDatepicker]="dp"
+                    matInput
+                    type="text"
+                    [(ngModel)]="document.dueDate"
+                    [disabled]="isDisabledReview()"
+                  />
                   <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
                   <mat-datepicker #dp disabled="false"></mat-datepicker>
                 </mat-form-field>
@@ -699,7 +716,15 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Proposed Date</mat-label>
-              <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.date" [disabled]="isDisabledReview()" />
+              <input
+                id="idprdt2"
+                nama="nmprdt2"
+                [matDatepicker]="dp"
+                matInput
+                type="text"
+                [(ngModel)]="document.dueDate"
+                [disabled]="isDisabledReview()"
+              />
               <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
               <mat-datepicker #dp disabled="false"></mat-datepicker>
             </mat-form-field>
@@ -835,7 +860,16 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Current Date</mat-label>
-              <input [matDatepicker]="date" matInput type="text" [disabled]="isDisabled()" [(ngModel)]="document.date" disabled />
+              <input
+                id="idcrdt1"
+                nama="nmcrdt1"
+                [matDatepicker]="date"
+                matInput
+                type="text"
+                [disabled]="isDisabled()"
+                [(ngModel)]="document.date"
+                disabled
+              />
               <mat-datepicker-toggle matSuffix [disabled]="isDisabled()" [for]="date"></mat-datepicker-toggle>
               <mat-datepicker #date disabled="false"></mat-datepicker>
             </mat-form-field>
