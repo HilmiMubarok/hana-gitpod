@@ -234,6 +234,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         //       }
         //     : {},
       };
+      this.document.dueDate = this.data.obj.dueDate;
     } else {
       this.document = new ApplicationDocument();
 
