@@ -229,7 +229,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
             : dataDoc.attributes.batasWaktuPenyelesaian
             ? new Date(dataDoc.attributes.batasWaktuPenyelesaian)
             : new Date(),
-        covernoteType: JSON.parse(this.data.creditProposal.attributes.legalCovernote)[this.indeks].attributes.covernoteType,
+        covernoteType:
+          this.indeks === -1 ? '' : JSON.parse(this.data.creditProposal.attributes.legalCovernote)[this.indeks].attributes.covernoteType,
       },
       // legalCovernote:
       //   LegalCovernote !== null
