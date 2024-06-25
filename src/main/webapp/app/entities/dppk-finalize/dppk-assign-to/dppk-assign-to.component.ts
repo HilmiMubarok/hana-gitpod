@@ -77,9 +77,7 @@ export class DppkAssignToComponent implements OnInit {
     this.positionService.getPositionAssignToMultiplePosition(idPositionTypes, this.creditProposal.internalId).subscribe(res => {
       this.positionCheckerOne = res.body.filter(o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD');
       this.dataPositionCheckerOne = res.body.filter(o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD');
-      this.dataPositionCheckerOnes = res.body.filter(
-        o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD' || o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD'
-      );
+      this.dataPositionCheckerOnes = res.body.filter(o => o.positionTypeId === 'CREDIT_ADMIN_TEAM_LEAD');
       this.dataPositionCheckerTwo = res.body.filter(
         o =>
           o.positionTypeId === 'CREDIT_ADMIN_UNIT_HEAD' ||
