@@ -156,103 +156,108 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.indeks = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
     this.folder = this.data.obj;
 
+    console.log('this.data', this.data);
+
     this.tempVal = this.data.obj.dueDate;
-    if (this.data.view === 'edit') {
-      this.document = {
-        id: dataDoc.id,
-        docIdTags: dataDoc.attributes['docId'],
-        // documentDate: new Date(dataDoc.files[0].tags.documentDate),
-        // rootId: dataDoc.files[0].tags.rootId,
-        date: dataDoc.date,
-        dueDate: dataDoc.dueDate,
-        documentTypeParent: dataDoc.documentTypeParent,
-        documentTypeId: dataDoc.documentTypeId,
-        category: dataDoc.category,
-        statusAppDocId: dataDoc.statusAppDocId,
-        files: dataDoc.files,
-        initialStatusId: dataDoc.initialStatusId,
-        name: dataDoc.name,
-        // proposedStatus: dataDoc.files[0].tags.proposedStatus,
 
-        attributes: {
-          docId:
-            typeof dataDoc.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).docId
-              : this.changeCharacter(dataDoc.attributes.docId),
-          remarks:
-            typeof dataDoc.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).remarks
-              : this.changeCharacter(dataDoc.attributes.remarks),
-          remarksTbo:
-            typeof dataDoc.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).remarksTbo
-              : this.changeCharacter(dataDoc.attributes.remarksTbo),
-          proposedDate:
-            typeof dataDoc.attributes === 'string'
-              ? dataDoc.attributes.includes('proposedDate') // Cek apakah ada 'proposedDate' dalam string
-                ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).proposedDate)
-                : new Date() // Nilai default jika tidak ada 'proposedDate'
-              : dataDoc.attributes.proposedDate
-              ? new Date(dataDoc.attributes.proposedDate)
-              : new Date(), // Nilai default jika undefined atau tidak valid
-          proposedStatus:
-            typeof dataDoc.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).proposedStatus || ''
-              : this.changeCharacter(dataDoc.attributes.proposedStatus) || '',
-          description:
-            typeof dataDoc.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).description || ''
-              : this.changeCharacter(dataDoc.attributes.description) || '',
-          total:
-            typeof dataDoc.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).total || ''
-              : this.changeCharacter(dataDoc.attributes.total) || '',
-          notaryNumber:
-            typeof dataDoc.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).notaryNumber || ''
-              : this.changeCharacter(dataDoc.attributes.notaryNumber) || '',
-          notaryName:
-            typeof dataDoc.attributes === 'string'
-              ? JSON.parse(this.changeCharacter(dataDoc.attributes)).notaryName || ''
-              : this.changeCharacter(dataDoc.attributes.notaryName) || '',
-          // batasWaktuPenyelesaian:
-          //   typeof dataDoc.attributes === 'string'
-          //     ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).batasWaktuPenyelesaian || '')
-          //     : new Date(dataDoc.attributes.batasWaktuPenyelesaian || ''),
-          batasWaktuPenyelesaian:
-            typeof dataDoc.attributes === 'string'
-              ? dataDoc.attributes.includes('batasWaktuPenyelesaian') // Cek apakah ada 'proposedDate' dalam string
-                ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).batasWaktuPenyelesaian)
-                : new Date() // Nilai default jika tidak ada 'proposedDate'
-              : dataDoc.attributes.batasWaktuPenyelesaian
-              ? new Date(dataDoc.attributes.batasWaktuPenyelesaian)
-              : new Date(),
-          covernoteType: JSON.parse(this.data.creditProposal.attributes.legalCovernote)[this.indeks].attributes.covernoteType,
-        },
-        // legalCovernote:
-        //   LegalCovernote !== null
-        //     ? {
-        //         id: LegalCovernote[0]?.id,
-        //         documentId: LegalCovernote[0]?.documentId,
-        //         attributes: {
-        //           covernoteType: LegalCovernote[0]?.attributes.covernoteType,
-        //           covernoteTask: LegalCovernote[0]?.attributes.covernoteTask,
-        //         },
-        //       }
-        //     : {},
-      };
-    } else {
-      this.document = new ApplicationDocument();
+    this.document = {
+      id: dataDoc.id,
+      docIdTags: dataDoc.attributes['docId'],
+      // documentDate: new Date(dataDoc.files[0].tags.documentDate),
+      // rootId: dataDoc.files[0].tags.rootId,
+      date: dataDoc.date,
+      dueDate: dataDoc.dueDate,
+      documentTypeParent: dataDoc.documentTypeParent,
+      documentTypeId: dataDoc.documentTypeId,
+      category: dataDoc.category,
+      statusAppDocId: dataDoc.statusAppDocId,
+      files: dataDoc.files,
+      initialStatusId: dataDoc.initialStatusId,
+      name: dataDoc.name,
+      // proposedStatus: dataDoc.files[0].tags.proposedStatus,
 
-      if (this.data.view === 'add') {
-        if (
-          this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE' ||
-          this.document.documentTypeParent === 'DOC_DPDL_LEGAL_LAMPIRAN'
-        ) {
-          this.document.documentTypeId = ''; // atau this.document.documentId = null; sesuai kebutuhan Anda
-        }
-      }
-    }
+      attributes: {
+        docId:
+          typeof dataDoc.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(dataDoc.attributes)).docId
+            : this.changeCharacter(dataDoc.attributes.docId),
+        remarks:
+          typeof dataDoc.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(dataDoc.attributes)).remarks
+            : this.changeCharacter(dataDoc.attributes.remarks),
+        remarksTbo:
+          typeof dataDoc.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(dataDoc.attributes)).remarksTbo
+            : this.changeCharacter(dataDoc.attributes.remarksTbo),
+        proposedDate:
+          typeof dataDoc.attributes === 'string'
+            ? dataDoc.attributes.includes('proposedDate') // Cek apakah ada 'proposedDate' dalam string
+              ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).proposedDate)
+              : new Date() // Nilai default jika tidak ada 'proposedDate'
+            : dataDoc.attributes.proposedDate
+            ? new Date(dataDoc.attributes.proposedDate)
+            : new Date(), // Nilai default jika undefined atau tidak valid
+        proposedStatus:
+          typeof dataDoc.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(dataDoc.attributes)).proposedStatus || ''
+            : this.changeCharacter(dataDoc.attributes.proposedStatus) || '',
+        description:
+          typeof dataDoc.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(dataDoc.attributes)).description || ''
+            : this.changeCharacter(dataDoc.attributes.description) || '',
+        total:
+          typeof dataDoc.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(dataDoc.attributes)).total || ''
+            : this.changeCharacter(dataDoc.attributes.total) || '',
+        notaryNumber:
+          typeof dataDoc.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(dataDoc.attributes)).notaryNumber || ''
+            : this.changeCharacter(dataDoc.attributes.notaryNumber) || '',
+        notaryName:
+          typeof dataDoc.attributes === 'string'
+            ? JSON.parse(this.changeCharacter(dataDoc.attributes)).notaryName || ''
+            : this.changeCharacter(dataDoc.attributes.notaryName) || '',
+        // batasWaktuPenyelesaian:
+        //   typeof dataDoc.attributes === 'string'
+        //     ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).batasWaktuPenyelesaian || '')
+        //     : new Date(dataDoc.attributes.batasWaktuPenyelesaian || ''),
+        batasWaktuPenyelesaian:
+          typeof dataDoc.attributes === 'string'
+            ? dataDoc.attributes.includes('batasWaktuPenyelesaian') // Cek apakah ada 'proposedDate' dalam string
+              ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).batasWaktuPenyelesaian)
+              : new Date() // Nilai default jika tidak ada 'proposedDate'
+            : dataDoc.attributes.batasWaktuPenyelesaian
+            ? new Date(dataDoc.attributes.batasWaktuPenyelesaian)
+            : new Date(),
+        covernoteType: JSON.parse(this.data.creditProposal.attributes.legalCovernote)[this.indeks].attributes.covernoteType,
+      },
+      // legalCovernote:
+      //   LegalCovernote !== null
+      //     ? {
+      //         id: LegalCovernote[0]?.id,
+      //         documentId: LegalCovernote[0]?.documentId,
+      //         attributes: {
+      //           covernoteType: LegalCovernote[0]?.attributes.covernoteType,
+      //           covernoteTask: LegalCovernote[0]?.attributes.covernoteTask,
+      //         },
+      //       }
+      //     : {},
+    };
+
+    // if (this.data.view === 'edit') {
+
+    // } else {
+    //   this.document = new ApplicationDocument();
+
+    //   if (this.data.view === 'add') {
+    //     if (
+    //       this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE' ||
+    //       this.document.documentTypeParent === 'DOC_DPDL_LEGAL_LAMPIRAN'
+    //     ) {
+    //       this.document.documentTypeId = ''; // atau this.document.documentId = null; sesuai kebutuhan Anda
+    //     }
+    //   }
+    // }
 
     this.file = null;
     this.bucket = this.data.bucket;
