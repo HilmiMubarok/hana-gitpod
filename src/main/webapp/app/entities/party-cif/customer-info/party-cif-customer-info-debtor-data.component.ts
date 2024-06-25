@@ -336,7 +336,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         this.golongan = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.creditType.length; i++) {
+        for (let i = 0; i < this.golongan.length; i++) {
           if (this.golongan[i].code === this.partyCif.debtorData.golongan) {
             this.golonganValue = this.golongan[i].value;
           }

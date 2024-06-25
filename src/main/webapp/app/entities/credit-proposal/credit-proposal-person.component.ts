@@ -534,7 +534,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
         this.golongan = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.creditType.length; i++) {
+        for (let i = 0; i < this.golongan.length; i++) {
           if (this.golongan[i].code === this.deptorData.debtorData.golongan) {
             this.golonganValue = this.golongan[i].value;
           }
