@@ -62,7 +62,6 @@ import { ViewportScroller } from '@angular/common';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { ApplicationDocumentService } from 'app/entities/application-document/application-document.service';
 import { IApplicationDocument } from 'app/entities/application-document/application-document.model';
-import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 @Component({
   selector: 'jhi-tbo-checking-view',
   templateUrl: './tbo-checking-view.component.html',
