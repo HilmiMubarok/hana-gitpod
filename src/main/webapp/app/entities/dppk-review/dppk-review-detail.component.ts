@@ -572,11 +572,13 @@ export class DppkReviewDetailComponent implements OnInit {
 
   private checkForGenerateButton(taskList: any): void {
     const captionFound = obj => obj.caption === 'Submit Checker 1';
-    this.dppkReviewService.getTaskVariable().subscribe(res => {
+
+    this.dppkReviewService.getTaskVariable(this.creditProposal.id).subscribe(res => {
       if (taskList.findIndex(captionFound) > -1) {
-        this.showGenerateDPPKFinalize = res.body.approvalChecker01 === false && res.body.approvalChecker02 === true ? true : false;
-      } else {
-        this.showGenerateDPPKFinalize = res.body.approvalChecker01 === true && res.body.approvalChecker02 === false ? true : false;
+        this.showGenerateDPPKFinalize =
+          res.body.approvalChecker01 === false && res.body.approvalChecker02 === true
+            ? true
+            : (this.showGenerateDPPKFinalize = res.body.approvalChecker01 === true && res.body.approvalChecker02 === false ? true : false);
       }
     });
   }
@@ -1402,8 +1404,6 @@ export class DppkReviewDetailComponent implements OnInit {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      console.log('properties ', this.collateralProperties);
-      console.log('ini data ', data);
       if (data) {
         if (type === 'buktiKepemilikan') {
           if (collateral.collateralTypeId === 'SECURITIES') {
@@ -1707,7 +1707,7 @@ export class DppkReviewDetailComponent implements OnInit {
 
   private async generateFileDPPKFinal(): Promise<void> {
     const fileDpdlFinal = await firstValueFrom(
-      this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
+      this.http.get(`/services/report/api/report/dppk/word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
     );
   }
 

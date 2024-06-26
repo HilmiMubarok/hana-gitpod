@@ -28,7 +28,7 @@ export class DppkReviewService extends AbstractEntityService<IDppkReview> {
     this.resouceGridRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/fin-statements/cif/');
     this.resourceFacility = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.HEIMDALL + '/api/partner-source-ep/');
     this.taskResource = this.applicationConfigService.getEndpointFor(
-      MICROSERVICENAME.ANDROMEDA + '/api/tasks/variables/name/credit-proposal/key/1344'
+      MICROSERVICENAME.ANDROMEDA + '/api/tasks/variables/name/credit-proposal/key/'
     );
   }
 
@@ -208,7 +208,7 @@ export class DppkReviewService extends AbstractEntityService<IDppkReview> {
   }
   // {processName}/key/{processId}
 
-  public getTaskVariable(): Observable<HttpResponse<any>> {
-    return this.http.get<any>(`${this.taskResource}`, { observe: 'response' });
+  public getTaskVariable(id): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.taskResource}` + id, { observe: 'response' });
   }
 }
