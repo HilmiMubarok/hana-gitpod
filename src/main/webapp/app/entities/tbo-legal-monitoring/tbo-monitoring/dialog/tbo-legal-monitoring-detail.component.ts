@@ -19,6 +19,7 @@ import { ApplicationDocument, IApplicationDocument } from 'app/entities/applicat
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 import { MatTable } from '@angular/material/table';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -122,6 +123,10 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
 
   public tempVal: any;
 
+  public docForm: FormGroup;
+
+  dateControl = new FormControl();
+
   constructor(
     private templateService: TemplateService,
     private dialog: MatDialog,
@@ -141,7 +146,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     private documentTypeService: DocumentTypeService,
     private router: Router,
     public reportUtilService: ReportUtilService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private fb: FormBuilder
   ) {
     this.view = this.data.view;
     const dataDoc: any = this.data.obj;
@@ -156,15 +162,18 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.indeks = JSON.parse(this.data.creditProposal.attributes.legalCovernote).findIndex(legalDocIdx);
     this.folder = this.data.obj;
 
-    console.log('this.data', this.data);
-
     this.tempVal = this.data.obj.dueDate;
+
+    // this.docForm = this.fb.group({
+    //   dueDate: [new Date(this.tempVal)],
+    // });
+
+    const date = this.convertToDate(this.tempVal);
+    this.dateControl.setValue(date);
 
     this.document = {
       id: dataDoc.id,
       docIdTags: dataDoc.attributes['docId'],
-      // documentDate: new Date(dataDoc.files[0].tags.documentDate),
-      // rootId: dataDoc.files[0].tags.rootId,
       date: dataDoc.date,
       dueDate: dataDoc.dueDate,
       documentTypeParent: dataDoc.documentTypeParent,
@@ -174,7 +183,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       files: dataDoc.files,
       initialStatusId: dataDoc.initialStatusId,
       name: dataDoc.name,
-      // proposedStatus: dataDoc.files[0].tags.proposedStatus,
 
       attributes: {
         docId:
@@ -217,10 +225,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           typeof dataDoc.attributes === 'string'
             ? JSON.parse(this.changeCharacter(dataDoc.attributes)).notaryName || ''
             : this.changeCharacter(dataDoc.attributes.notaryName) || '',
-        // batasWaktuPenyelesaian:
-        //   typeof dataDoc.attributes === 'string'
-        //     ? new Date(JSON.parse(this.changeCharacter(dataDoc.attributes)).batasWaktuPenyelesaian || '')
-        //     : new Date(dataDoc.attributes.batasWaktuPenyelesaian || ''),
         batasWaktuPenyelesaian:
           typeof dataDoc.attributes === 'string'
             ? dataDoc.attributes.includes('batasWaktuPenyelesaian') // Cek apakah ada 'proposedDate' dalam string
@@ -232,17 +236,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         covernoteType:
           this.indeks === -1 ? '' : JSON.parse(this.data.creditProposal.attributes.legalCovernote)[this.indeks].attributes.covernoteType,
       },
-      // legalCovernote:
-      //   LegalCovernote !== null
-      //     ? {
-      //         id: LegalCovernote[0]?.id,
-      //         documentId: LegalCovernote[0]?.documentId,
-      //         attributes: {
-      //           covernoteType: LegalCovernote[0]?.attributes.covernoteType,
-      //           covernoteTask: LegalCovernote[0]?.attributes.covernoteTask,
-      //         },
-      //       }
-      //     : {},
     };
 
     // if (this.data.view === 'edit') {
@@ -273,6 +266,10 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
 
     console.log('folder', this.folder);
     console.log('document', this.document);
+  }
+
+  convertToDate(isoDate: string): Date {
+    return new Date(isoDate);
   }
 
   public parentIdValue = [];
@@ -315,6 +312,13 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.docForm.get('dueDate').setValue(new Date(this.data.obj.dueDate));
+
+    // this.docForm.get('dueDate').valueChanges.subscribe(val => {
+    //   this.document.dueDate = val;
+
+    // });
+
     this.changeDocumentType();
     if (this.data.creditProposal) {
       this.object = this.data.creditProposal;
@@ -416,36 +420,23 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         ? this.document.name
         : resultDocName;
     this.currentObject = {
-      // id: this.document.attributes.docId,
-      // documentRootId: this.documentRootId,
-      // documentDate: formattedDate,
-      // date: formattedDate,
       date: this.document.date,
-      // typeof this.document.date === 'string' ? this.datePipe.transform(JSON.parse(this.document.date), 'yyyy/MM/dd') : this.document.date,
       documentTypeId: this.document.documentTypeId,
       documentTypeParent: this.document.documentTypeParent,
       category: this.document.category,
       statusAppDocId: this.document.statusAppDocId,
       initialStatusId: this.document.initialStatusId,
       name: DocName,
-      path: this.folderFiles[0].Key,
+      path: this.folderFiles.length > 0 ? this.folderFiles[0].Key : null,
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
-      dueDate: this.tempVal,
+      dueDate: this.document.dueDate,
 
-      // proposedStatus: this.document.proposedStatus,
       attributes: {
         docId:
-          // this.document.attributes.docId,
           typeof this.document.attributes === 'string'
             ? JSON.parse(this.changeCharacter(this.document.attributes)).docId
             : this.changeCharacter(this.document.attributes.docId),
-        // documentDate:
-        //   typeof this.document.attributes === 'string'
-        //     ? this.datePipe.transform(JSON.parse(this.document.attributes).documentDate, 'yyyy/MM/dd')
-        //     : this.document.attributes.documentDate
-        //     ? this.datePipe.transform(this.document.attributes.documentDate, 'yyyy/MM/dd')
-        //     : null,
         proposedDate:
           typeof this.document.attributes === 'string'
             ? this.datePipe.transform(JSON.parse(this.document.attributes).proposedDate, 'yyyy/MM/dd')
@@ -557,7 +548,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         ? this.document.name
         : resultDocName;
 
-    const convTempVal = new Date(this.tempVal).toISOString();
+    const convTempVal = new Date(this.document.dueDate).toISOString();
     return new Promise((resolve, reject) => {
       if (this.data.creditProposal !== null) {
         const data = {
@@ -577,7 +568,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           date: this.document.date,
           dueDate: convTempVal,
 
-          path: this.folderFiles[0].key,
+          path: this.folderFiles.length > 0 ? this.folderFiles[0].Key : null,
           docIdTags: this.document.attributes['docId'],
           id: this.document.id,
 
