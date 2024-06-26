@@ -80,10 +80,16 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+    if (this.creditProposal.entityProperties.length < 1) {
+      this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+        this.approvalDebtor.push({});
+        this.selectedConditions.push('');
+        this.creditProposal.entityProperties.push(res.body);
+      });
+    } else {
       this.approvalDebtor.push({});
-      this.creditProposal.entityProperties.push(res.body);
-    });
+      this.selectedConditions.push('');
+    }
 
     this.dataAgreement = JSON.parse(this.creditProposal.agreements[0]?.attributes.SIGNERS);
     this.getClausalAgreement();
@@ -360,25 +366,17 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
 
   addApproval() {
     if (this.creditProposal.customerType === 'PERSONAL') {
-      if (this.approvalDebtor.length < 1) {
-        this.cashCreditProposalsService
-          .getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS')
-          .subscribe((res: any) => {
-            this.creditProposal.entityProperties = [...this.creditProposal.entityProperties, res.body];
-            this.approvalDebtor.push({});
-            this.selectedConditions.push('');
-          });
-      }
+      this.cashCreditProposalsService.getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+        this.creditProposal.entityProperties.push(res.body);
+        this.approvalDebtor.push({});
+        this.selectedConditions.push('');
+      });
     } else {
-      if (this.approvalDebtor.length < 2) {
-        this.cashCreditProposalsService
-          .getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS')
-          .subscribe((res: any) => {
-            this.creditProposal.entityProperties = [...this.creditProposal.entityProperties, res.body];
-            this.approvalDebtor.push({});
-            this.selectedConditions.push('');
-          });
-      }
+      this.cashCreditProposalsService.getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+        this.creditProposal.entityProperties.push(res.body);
+        this.approvalDebtor.push({});
+        this.selectedConditions.push('');
+      });
     }
   }
 
