@@ -1268,6 +1268,13 @@ export class TboCheckingViewComponent implements OnInit {
             detail: 'Proposed Status Harus Diisi',
           });
           break;
+        } else if (!this.applicationDocument[dataDoc].files[0]) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Upload Document Harus Diisi',
+          });
+          break;
         } else if (dataDoc === this.applicationDocument.length - 1) {
           if (_res) {
             this.resAttr = _res;
