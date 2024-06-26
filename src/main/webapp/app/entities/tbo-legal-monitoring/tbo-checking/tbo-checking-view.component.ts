@@ -62,6 +62,7 @@ import { ViewportScroller } from '@angular/common';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { ApplicationDocumentService } from 'app/entities/application-document/application-document.service';
 import { IApplicationDocument } from 'app/entities/application-document/application-document.model';
+import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 @Component({
   selector: 'jhi-tbo-checking-view',
   templateUrl: './tbo-checking-view.component.html',
@@ -1266,6 +1267,13 @@ export class TboCheckingViewComponent implements OnInit {
             severity: 'error',
             summary: 'Error',
             detail: 'Proposed Status Harus Diisi',
+          });
+          break;
+        } else if (!this.applicationDocument[dataDoc].files[0]) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Upload Document Harus Diisi',
           });
           break;
         } else if (dataDoc === this.applicationDocument.length - 1) {
