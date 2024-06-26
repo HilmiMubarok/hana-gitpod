@@ -1710,7 +1710,6 @@ export class DppkReviewDetailComponent implements OnInit {
         if (this.dataDpdlFinal.filter(e => e.tags.documentType === 'DOC_GENERATE_DPPK').length !== 0) {
           this.showGenerateDPPKFinalize = false;
         }
-        console.log('validateFinal', this.validateFinal());
       });
   }
 
