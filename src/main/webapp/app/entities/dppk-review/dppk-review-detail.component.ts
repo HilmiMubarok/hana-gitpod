@@ -609,7 +609,7 @@ export class DppkReviewDetailComponent implements OnInit {
           this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
           this.resAttr.attr['idApplication'] = this.creditProposal.id;
 
-          // this.save('process');
+          this.save('process');
         }
       });
     } else {
