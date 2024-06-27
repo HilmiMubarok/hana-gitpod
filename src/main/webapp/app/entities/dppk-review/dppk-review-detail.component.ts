@@ -584,33 +584,50 @@ export class DppkReviewDetailComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
-    const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
-      width: '80vw',
-      data: {
-        processTask: task,
-      },
-    });
-    dialogRef.afterClosed().subscribe(_res => {
-      if (_res) {
-        this.resAttr = _res;
-        this.resAttr.attr.idPosition = this.getLocStor('POS');
-        let init = 0;
-        let change = 0;
+    if (this.validateFinal() || task.name === 'return') {
+      const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
+        width: '80vw',
+        data: {
+          processTask: task,
+        },
+      });
+      dialogRef.afterClosed().subscribe(_res => {
+        if (_res) {
+          this.resAttr = _res;
+          this.resAttr.attr.idPosition = this.getLocStor('POS');
+          let init = 0;
+          let change = 0;
 
-        if (this.creditProposal.products.length > 0) {
-          for (let i = 0; i < this.creditProposal.products.length; i++) {
-            init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
-            change = change + Number(this.creditProposal.products[i].attributes.changes);
+          if (this.creditProposal.products.length > 0) {
+            for (let i = 0; i < this.creditProposal.products.length; i++) {
+              init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
+              change = change + Number(this.creditProposal.products[i].attributes.changes);
+            }
           }
+
+          this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
+          this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+          this.resAttr.attr['idApplication'] = this.creditProposal.id;
+
+          // this.save('process');
         }
+      });
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Please Generate DPPK Final first.',
+      });
+    }
+  }
 
-        this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
-        this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-        this.resAttr.attr['idApplication'] = this.creditProposal.id;
-
-        this.save('process');
-      }
-    });
+  private validateFinal(): boolean {
+    const dataGenerateDPDLFinal = this.dataDpdlFinal.filter(e => e.tags.documentType === 'DOC_GENERATE_DPPK');
+    if (this.showGenerateDPPKFinalize && dataGenerateDPDLFinal.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   private addNewNotes(positionVal: number, messageVal: any, recomendationVal: string, pathVal: string): INotes {
@@ -1690,6 +1707,9 @@ export class DppkReviewDetailComponent implements OnInit {
         });
 
         this.dataDpdlFinal = data;
+        if (this.dataDpdlFinal.filter(e => e.tags.documentType === 'DOC_GENERATE_DPPK').length !== 0) {
+          this.showGenerateDPPKFinalize = false;
+        }
       });
   }
 
