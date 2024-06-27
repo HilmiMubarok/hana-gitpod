@@ -48,8 +48,8 @@
         <mat-icon>edit</mat-icon>
       </button>
 
-      <button mat-icon-button color="primary" (click)="print(element.id, 'pdf')">PDF</button>
-      <button mat-icon-button (click)="print(element.id, 'word')" color="accent">Word</button>
+      <button *ngIf="element.apprOfficer === 'Internal'" mat-icon-button color="primary" (click)="print(element.id, 'pdf')">PDF</button>
+      <button *ngIf="element.apprOfficer === 'Internal'" mat-icon-button (click)="print(element.id, 'word')" color="accent">Word</button>
     </td>
   </ng-container>
 
