@@ -1707,9 +1707,6 @@ export class DppkReviewDetailComponent implements OnInit {
         });
 
         this.dataDpdlFinal = data;
-        if (this.dataDpdlFinal.filter(e => e.tags.documentType === 'DOC_GENERATE_DPPK').length !== 0) {
-          this.showGenerateDPPKFinalize = false;
-        }
       });
   }
 
