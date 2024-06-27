@@ -626,7 +626,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
     for (let i = 0; i < this.docTerm.length; i++) {
       const item: MasterDocumentTerm = this.docTerm[i];
-      if (item.fromDays < num && item.toDays > num) {
+      if (item.fromDays <= num && item.toDays >= num) {
         return item.name;
       }
     }
