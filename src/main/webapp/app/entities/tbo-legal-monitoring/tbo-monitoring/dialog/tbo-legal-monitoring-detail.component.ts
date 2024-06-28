@@ -168,9 +168,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     //   dueDate: [new Date(this.tempVal)],
     // });
 
-    const date = this.convertToDate(this.tempVal);
-    this.dateControl.setValue(date);
-
     this.document = {
       id: dataDoc.id,
       docIdTags: dataDoc.attributes['docId'],
@@ -310,6 +307,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         }
       });
   }
+
+  startDate = new FormControl(new Date());
+  minDate = new Date();
 
   ngOnInit(): void {
     // this.docForm.get('dueDate').setValue(new Date(this.data.obj.dueDate));
@@ -862,7 +862,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   }
 
   isDisabledReview(): boolean {
-    if (this.data.obj.documentStatusId === 'ACTIVE') {
+    if (this.data.obj.documentStatusId === 'ACTIVE' || this.data.obj.statusAppDocId === 'AVAILABLE') {
       return true;
     } else if (this.parentPath === 'tbo-legal-review') {
       return true;
