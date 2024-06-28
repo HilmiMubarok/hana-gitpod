@@ -1016,7 +1016,8 @@
     *ngIf="
       creditProposal.statusId === 'PK_GENERATED' ||
       creditProposal.statusId === 'PK_REVIEW_TEAMLEAD' ||
-      creditProposal.statusId === 'PK_REVIEW_LEAD'
+      creditProposal.statusId === 'PK_REVIEW_LEAD' ||
+      creditProposal.statusId === 'PK_FINALIZE'
     "
     [creditProposal]="creditProposal"
     (notesChange)="onNotesChange($event)"
