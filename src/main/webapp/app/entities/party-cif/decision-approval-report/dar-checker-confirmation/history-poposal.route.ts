@@ -38,7 +38,17 @@ import { ComplienceRecommendation } from '../../../loan-analys/compliance/compli
 import { RejectReason } from '../../../credit-proposal/forward-to/reject-to.model';
 import { LegalLendingLimit } from '../../../credit-proposal/exposure/legal-lending/legal-lending-limit.model';
 import { DocumentData } from '../../../loan-analys/assign-to/assign.model';
-import { DarCheckerConfirmationComponent } from './dar-checker-confirmation.component';
+import { HistoryProposalComponent } from './history-poposal.component';
+import { CollateralSummary } from 'app/entities/credit-proposal/collateral-info/collateral-summary/collateral-summary-total.model';
+import {
+  CreditProposalCollateralData,
+  CoverageTotal,
+} from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
+import { GroupCollateralTotal } from 'app/entities/credit-proposal/collateral-info/group-collateral/group-collateral-total.model';
+import { IndustryLimit } from 'app/entities/credit-proposal/exposure/industry-limit/industry-limit.model';
+import { CalculationExposure } from 'app/entities/credit-proposal/exposure/total-exposure/calculation-exposure.model';
+import { FinancialState } from 'app/entities/credit-proposal/repayment-spreadsheet/remarks/financial-statement-remarks.model';
+import { CheckRemarks } from 'app/entities/credit-proposal/trade-checking/Remarks/remarks.model';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {
@@ -394,7 +404,7 @@ export const OfferingLetterRoute: Routes = [
   // },
   {
     path: ':id/edit',
-    component: DarCheckerConfirmationComponent,
+    component: HistoryProposalComponent,
     resolve: {
       offeringLetter: CreditProposalResolve,
     },

@@ -2575,6 +2575,10 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
         text: 'business activity',
       },
       {
+        id: 'repayment-capability',
+        text: 'repayment capability',
+      },
+      {
         id: 'loan-facility',
         text: 'Loan Facility Detail',
       },
@@ -2599,8 +2603,16 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
         text: 'financial statement',
       },
       {
+        id: 'slik-checking',
+        text: 'SLIK checking',
+      },
+      {
         id: 'bank-account-analyst',
         text: 'bank account analysis',
+      },
+      {
+        id: 'trade-checking',
+        text: 'trade checking',
       },
       {
         id: 'propose-pricing',

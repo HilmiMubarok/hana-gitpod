@@ -1,15 +1,13 @@
-import { Component, ViewChild, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ICreditProposal, CreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from 'app/entities/credit-proposal/credit-proposal-process.service';
-import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
-import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { POSITION_TYPE, SUBMENU_OFFERING_LETTER, SUBMENU_OFFERING_LETTER_FINALIZE } from 'app/shared/constants/base.constants';
+import { SUBMENU_OFFERING_LETTER, SUBMENU_OFFERING_LETTER_FINALIZE } from 'app/shared/constants/base.constants';
 import { PositionService } from 'app/entities/position/position.service';
 import { IPosition } from '@syncfusion/ej2-angular-grids';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,14 +15,13 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
-import { INotes, Notes } from 'app/entities/notes/notes.model';
 
 import { IApplicationRole, ApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
 import _ from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { CreditProposalCollateralInfoComponent } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.component';
-import { Subject, firstValueFrom, takeUntil } from 'rxjs';
+import { Observable, Subject, firstValueFrom, fromEvent, map, takeUntil } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
@@ -38,13 +35,15 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { ICertificateInfo } from 'app/entities/offering-letter/certificate-info/certificate-info.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
+import { BusinessActivityService } from 'app/entities/credit-proposal/busines-activity/business-activity.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
-  selector: 'jhi-dar-checker-confirmation',
-  templateUrl: './dar-checker-confirmation.component.html',
-  styleUrls: ['./dar-checker-confirmation.style.css'],
+  selector: 'jhi-history-proposal',
+  templateUrl: './history-poposal.component.html',
+  styleUrls: ['./history-poposal.style.css'],
 })
-export class DarCheckerConfirmationComponent implements OnInit {
+export class HistoryProposalComponent implements OnInit {
   @ViewChild('creditProposalCollateralInfoComponent', {
     static: false,
   })
@@ -81,8 +80,8 @@ export class DarCheckerConfirmationComponent implements OnInit {
   public proposType = [];
   private KEYG = 'credit_proposal/summary';
   public isOpen = false;
-  public dataBuilding: any;
-  public dataLand: any;
+  public dataBuilding: any = [];
+  public dataLand: any = [];
   private menuId = '';
 
   @Input('item')
@@ -111,6 +110,8 @@ export class DarCheckerConfirmationComponent implements OnInit {
     private lendingProgramParameterService: LendingProgramParameterService,
     protected collateralService: CollateralService,
     protected collateralPropertyService: CollateralPropertyService,
+    private baService: BusinessActivityService,
+    private viewport: ViewportScroller,
     private cashCollateralService: CashCollateralService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
@@ -161,7 +162,17 @@ export class DarCheckerConfirmationComponent implements OnInit {
     });
     this.getTitleUrl();
     this.setTitleMenuByParentPath();
+
+    this.baService.isLoading$.subscribe(res => {
+      this.baLoading = res;
+    });
+    this.baService.progress$.subscribe(res => {
+      this.progress = res;
+    });
   }
+
+  public progress: number;
+  public baLoading: Boolean = false;
 
   private setTitleMenuByParentPath() {
     if (this.parentPath === 'distribution') {
@@ -253,11 +264,7 @@ export class DarCheckerConfirmationComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
-    } else {
-      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
-    }
+
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -276,6 +283,11 @@ export class DarCheckerConfirmationComponent implements OnInit {
 
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
+    if (this.creditProposal.customerType === 'PERSONAL') {
+      this.findCollateralProperty(this.creditProposal.prospectPerson.id);
+    } else {
+      this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
   }
 
@@ -322,7 +334,7 @@ export class DarCheckerConfirmationComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
-
+        this.resAttr.attr['idApplication'] = this.creditProposal.id;
         this.onSave('process');
       }
     });
@@ -438,6 +450,7 @@ export class DarCheckerConfirmationComponent implements OnInit {
     if (typeof copyCreditProposal.attributes['certificateInfoData'] !== 'string') {
       copyCreditProposal.attributes['certificateInfoData'] = JSON.stringify(copyCreditProposal.attributes['certificateInfoData']);
     }
+
     return copyCreditProposal;
   }
 
@@ -461,18 +474,28 @@ export class DarCheckerConfirmationComponent implements OnInit {
   }
 
   getText(value: any) {
-    if (value === 'distribution') {
-      this.title = 'Offering Letter Distribution';
+    switch (value) {
+      case 'distribution':
+        this.title = 'Offering Letter Distribution';
+        break;
+
+      case 'finalize':
+        this.title = 'Offering Letter Finalize';
+        break;
+
+      case 'review':
+        this.title = 'Offering Letter Review';
+        break;
+
+      case 'confirmation':
+        this.title = 'Offering Letter Confirmation';
+        break;
+
+      default:
+        this.title = 'History Proposal';
+        break;
     }
-    if (value === 'finalize') {
-      this.title = 'Offering Letter Finalize';
-    }
-    if (value === 'review') {
-      this.title = 'Offering Letter Review';
-    }
-    if (value === 'confirmation') {
-      this.title = 'Offering Letter Confirmation';
-    }
+
     return this.title;
   }
 
@@ -578,12 +601,12 @@ export class DarCheckerConfirmationComponent implements OnInit {
         }
       });
   }
-
   private loadByPartyId(param: string): void {
     this.collateralService
       .queryFilterBy({
         idParty: param,
         isActive: true,
+        size: 999,
       })
       .subscribe(res => {
         this.collateral = res.body;
@@ -691,12 +714,12 @@ export class DarCheckerConfirmationComponent implements OnInit {
     this.dataBuilding = lodash.filter(this.collateralProperties, function (o) {
       return o.propertyType === 'BUILDING' && o.collateralId === collateral.id && o.external === false;
     });
-    if (this.dataLand) {
+    if (this.dataLand.length > 0) {
       if (type === 'luasTanah') {
         return this.dataLand[i].landSizePerCertificate;
       }
     }
-    if (this.dataBuilding) {
+    if (this.dataBuilding.length > 0) {
       if (type === 'luasBangunan') {
         return this.countTotalArea(this.dataBuilding[i].attributes['floors']);
       }
@@ -710,8 +733,6 @@ export class DarCheckerConfirmationComponent implements OnInit {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      console.log('properties ', this.collateralProperties);
-      console.log('ini data ', data);
       if (data) {
         if (type === 'buktiKepemilikan') {
           if (collateral.collateralTypeId === 'SECURITIES') {
@@ -745,6 +766,7 @@ export class DarCheckerConfirmationComponent implements OnInit {
       return '';
     }
   }
+
   public countTotalArea(data: string): Number {
     let total: number;
     total = 0;
@@ -783,6 +805,14 @@ export class DarCheckerConfirmationComponent implements OnInit {
   }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
+  }
+
+  // scroll-up
+
+  readonly showScroll$: Observable<boolean> = fromEvent(window, 'scroll').pipe(map(() => this.viewport.getScrollPosition()?.[1] > 0));
+
+  onScrollToTop(): void {
+    this.viewport.scrollToPosition([0, 0]);
   }
 }
 interface IObj {

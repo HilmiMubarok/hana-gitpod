@@ -123,7 +123,12 @@
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <mat-form-field>
                       <mat-label>Proposal Type</mat-label>
-                      <mat-select name="proposalType" [(ngModel)]="creditProposal.attributes.proposalType" disabled>
+                      <mat-select
+                        name="proposalType"
+                        [(ngModel)]="creditProposal.attributes.proposalType"
+                        disabled
+                        (selectionChange)="setSubmenu($event.value)"
+                      >
                         <mat-option value="">- Please select proposal type -</mat-option>
                         <mat-option *ngFor="let item of proposType" [value]="item.code">
                           {{ item.value }}
@@ -260,6 +265,11 @@
           </e-card>
         </div>
 
+        <!-- Opinion History -->
+        <div class="mb-3">
+          <jhi-loan-analys-opinion [creditProposalItem]="item"></jhi-loan-analys-opinion>
+        </div>
+
         <!-- Document: summary gabung -->
         <div class="wrapper-card">
           <e-card class="mb-3">
@@ -274,10 +284,6 @@
             </jhi-credit-proposal-tab-summary>
             <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
           </e-card>
-        </div>
-
-        <div *ngIf="url === 'distribution' && creditProposal.statusId === 'OL_DISTRIBUTION'">
-          <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"> </jhi-assign-to>
         </div>
       </div>
 
@@ -427,14 +433,14 @@
         <jhi-loan-analys-slik-main></jhi-loan-analys-slik-main>
       </div>
 
-      <!-- Bank Account Analysis -->
-      <div *ngIf="selectedMenu === 'bank-account-analyst'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-bank-account-analyst [creditProposal]="creditProposal"> </jhi-credit-proposal-bank-account-analyst>
-      </div>
-
       <!-- Trade Chekcing -->
       <div *ngIf="selectedMenu === 'trade-checking'">
         <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"> </jhi-credit-proposal-trade-checking>
+      </div>
+
+      <!-- Bank Account Analysis -->
+      <div *ngIf="selectedMenu === 'bank-account-analyst'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-credit-proposal-bank-account-analyst [creditProposal]="creditProposal"> </jhi-credit-proposal-bank-account-analyst>
       </div>
 
       <!-- Propose Pricing -->
@@ -494,44 +500,6 @@
         <jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
         <jhi-loan-analys-opinion-compliance-part [creditProposalItem]="creditProposal"> </jhi-loan-analys-opinion-compliance-part>
       </div>
-    </div>
-
-    <div class="e-card-actions mx-auto mb-5 mt-3">
-      <button
-        style="margin-right: 25px"
-        mat-raised-button
-        *ngFor="let task of tasks"
-        (click)="processTask(task)"
-        class="btn-lg text-uppercase button-styling"
-      >
-        {{ task.caption }}
-      </button>
-      <button
-        style="margin-right: 25px"
-        mat-raised-button
-        *ngIf="creditProposal.statusId === 'OL_FINALIZE' || creditProposal.statusId === 'OL_ASSIGNED'"
-        (click)="generate()"
-        class="btn-lg text-uppercase button-styling"
-      >
-        Generate SPPK
-      </button>
-      <button
-        mat-raised-button
-        class="btn-lg text-uppercase button-styling"
-        *ngIf="creditProposal.statusId === 'OL_COMPLETE'"
-        hidden
-        (click)="onSave('default')"
-      >
-        Save
-      </button>
-      <button
-        mat-raised-button
-        class="btn-lg text-uppercase button-styling"
-        *ngIf="creditProposal.statusId !== 'OL_COMPLETE'"
-        (click)="onSave('default')"
-      >
-        Save
-      </button>
     </div>
   </div>
 

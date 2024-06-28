@@ -509,8 +509,8 @@ import { RouterModule } from '@angular/router';
       {
         path: 'history-proposal',
         loadChildren: () =>
-          import('./party-cif/decision-approval-report/dar-checker-confirmation/dar-checker-confirmation.module').then(
-            m => m.LosgwConfirmationDecisionApprovalReportModule
+          import('./party-cif/decision-approval-report/dar-checker-confirmation/history-proposal.module').then(
+            m => m.LosgwHistoryProposalModule
           ),
       },
       {

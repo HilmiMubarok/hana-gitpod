@@ -3,13 +3,13 @@ import { RouterModule } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
 
-import { OfferingLetterRoute } from './dar-checker-confirmation.route';
-import { DarCheckerConfirmationComponent } from './dar-checker-confirmation.component';
+import { OfferingLetterRoute } from './history-poposal.route';
+import { HistoryProposalComponent } from './history-poposal.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(OfferingLetterRoute)],
-  declarations: [DarCheckerConfirmationComponent],
+  declarations: [HistoryProposalComponent],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LosgwConfirmationDecisionApprovalReportModule {}
+export class LosgwHistoryProposalModule {}
