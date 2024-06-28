@@ -9,7 +9,13 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { POSITION_TYPE, SUBMENU_OFFERING_LETTER, SUBMENU_OFFERING_LETTER_FINALIZE } from 'app/shared/constants/base.constants';
+import {
+  ID_LOWER_EQUAL_15_BN,
+  POSITION_TYPE,
+  SUBMENU_OFFERING_LETTER,
+  SUBMENU_OFFERING_LETTER_BELOW,
+  SUBMENU_OFFERING_LETTER_FINALIZE,
+} from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -140,6 +146,22 @@ export class OfferingLetterMainComponent implements OnInit {
       } else {
         this.subMenu = SUBMENU_OFFERING_LETTER_FINALIZE;
       }
+    } else if (
+      this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN &&
+      this.creditProposal.attributes.proposalType !== undefined &&
+      this.parentPath === 'confirmation'
+    ) {
+      if (this.creditProposal.attributes['previousOfferingLetter']) {
+        this.subMenu = [
+          ...SUBMENU_OFFERING_LETTER_BELOW,
+          {
+            id: 'memo-banding',
+            text: 'Memo Banding',
+          },
+        ];
+      } else {
+        this.subMenu = SUBMENU_OFFERING_LETTER_BELOW;
+      }
     } else {
       if (this.creditProposal.attributes['previousOfferingLetter']) {
         this.subMenu = [
@@ -168,11 +190,9 @@ export class OfferingLetterMainComponent implements OnInit {
 
     this.baService.isLoading$.subscribe(res => {
       this.baLoading = res;
-      console.log('Isloadingg', this.baLoading);
     });
     this.baService.progress$.subscribe(res => {
       this.progress = res;
-      console.log('Progress', this.progress);
     });
   }
 

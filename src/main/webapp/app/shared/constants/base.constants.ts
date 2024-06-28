@@ -2574,6 +2574,7 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
         id: 'business-activity',
         text: 'business activity',
       },
+
       {
         id: 'loan-facility',
         text: 'Loan Facility Detail',
@@ -2601,6 +2602,119 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
       {
         id: 'bank-account-analyst',
         text: 'bank account analysis',
+      },
+
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+  {
+    id: 'compare-approval-report',
+    text: 'Compare Decision Approval Report',
+  },
+];
+
+export const SUBMENU_OFFERING_LETTER_BELOW: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'offering-letter',
+    text: 'Offering Letter',
+  },
+  {
+    id: 'compliance-recomendation',
+    text: 'Compliance Recomendation',
+  },
+  {
+    id: 'decision-approval-report',
+    text: 'Decision Approval Report',
+    child: [
+      {
+        id: 'credit-opinion',
+        text: 'Credit Opinion',
+      },
+      {
+        id: 'loan-facility-detail',
+        text: 'Loan Facility Detail',
+      },
+      {
+        id: 'covenant-document-check',
+        text: 'Covenant & Document Checklist',
+      },
+      {
+        id: 'dec-collateral-info',
+        text: 'Collateral Info',
+      },
+      // {
+      //   id: 'collateral-facility-mapping',
+      //   text: 'Collateral Facility Mapping',
+      // },
+    ],
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'repayment-capability',
+        text: 'repayment capability',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility Detail',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'slik-checking',
+        text: 'SLIK checking',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'trade-checking',
+        text: 'trade checking',
       },
       {
         id: 'propose-pricing',

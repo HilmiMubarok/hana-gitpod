@@ -11,8 +11,6 @@ import { CreditProposalResolve } from '../../../credit-proposal/credit-proposal.
 
 import { ICreditProposal, CreditProposal } from '../../../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../../../credit-proposal/credit-proposal.service';
-import { OfferingLetterComponent } from 'app/entities/offering-letter/offering-letter.component';
-import { OfferingLetterMainComponent } from 'app/entities/offering-letter/offering-letter-main.component';
 
 import lodash from 'lodash';
 
@@ -32,13 +30,12 @@ import { CreditManagementInfo } from '../../../credit-proposal/credit-proposal-t
 import { PurposePricing } from '../../../credit-proposal/propose-pricing/purpose-pricing.model';
 import { CpRacBack } from '../../../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { CpRacBelow } from '../../../credit-proposal/risk-criteria/below/risk-criteria-below.model';
-import { OfferingLetter, OfferingLetterPreparation } from 'app/entities/offering-letter/offering-page/offering-page.model';
-import { BankAccountAnalystMessage } from '../../../credit-proposal/bank-account-analyst/bank-account-analyst.model';
+import { OfferingLetterPreparation } from 'app/entities/offering-letter/offering-page/offering-page.model';
 import { ComplienceRecommendation } from '../../../loan-analys/compliance/complience.model';
 import { RejectReason } from '../../../credit-proposal/forward-to/reject-to.model';
 import { LegalLendingLimit } from '../../../credit-proposal/exposure/legal-lending/legal-lending-limit.model';
 import { DocumentData } from '../../../loan-analys/assign-to/assign.model';
-import { DarCheckerConfirmationComponent } from './dar-checker-confirmation.component';
+import { HistoryProposalComponent } from './history-poposal.component';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {
@@ -394,7 +391,7 @@ export const OfferingLetterRoute: Routes = [
   // },
   {
     path: ':id/edit',
-    component: DarCheckerConfirmationComponent,
+    component: HistoryProposalComponent,
     resolve: {
       offeringLetter: CreditProposalResolve,
     },
