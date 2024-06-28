@@ -7,6 +7,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IMenuAccess, IPositionAccess, MenuAccess, PositionAccess } from '../menu-access.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-menu-access-edit',
@@ -21,6 +23,7 @@ export class MenuAccessEditComponent implements OnInit {
 
   constructor(
     protected _snackbar: MatSnackBar,
+    protected messageService: MessageService,
     private menuAccessService: MenuAccessService,
     private activatedRoute: ActivatedRoute,
     protected dialog: MatDialog
@@ -76,9 +79,19 @@ export class MenuAccessEditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      this.menuAccessService.create(res).subscribe(response => {
-        this.loadAll();
+      this.menuAccessService.create(res).subscribe({
+        next: newState => {
+          this.loadAll();
+        },
+        error: (res2: HttpErrorResponse) => this.onSaveError(res2),
       });
+    });
+  }
+  protected onSaveError(res: HttpErrorResponse) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: res.error.title,
+      detail: res.error.detail,
     });
   }
 
