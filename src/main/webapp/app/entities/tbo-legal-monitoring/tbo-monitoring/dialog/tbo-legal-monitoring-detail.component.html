@@ -11,7 +11,7 @@
         "
       >
         <ngx-dropzone accept="*" multiple="true" [disabled]="isDisabledReview()" (change)="onSelect($event)">
-          <ngx-dropzone-label>Drop file here or choose your fileQ</ngx-dropzone-label>
+          <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
         <ngx-dropzone-preview
           class="col-6"
@@ -354,25 +354,30 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group">
+                <!-- <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Proposed Date</mat-label>
+                  <input [matDatepicker]="dpr" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
+                  <mat-datepicker-toggle matSuffix [for]="dpr" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
+                  <mat-datepicker #dpr disabled="false"></mat-datepicker>
+                </mat-form-field> -->
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Proposed Date</mat-label>
-                  <input [matDatepicker]="dp" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
-                  <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
-                  <mat-datepicker #dp disabled="false"></mat-datepicker>
+                  <input
+                    [matDatepicker]="dpr"
+                    matInput
+                    type="text"
+                    [(ngModel)]="document.dueDate"
+                    [disabled]="isDisabledReview()"
+                    [formControl]="startDate"
+                    [min]="minDate"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="dpr" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
+                  <mat-datepicker #dpr disabled="false"></mat-datepicker>
                 </mat-form-field>
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <!-- <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Proposed Status</mat-label>
-                  <mat-select [(ngModel)]="document.statusAppDocId">
-                    <mat-option value="">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of status" [value]="item">
-                      {{ item }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field> -->
                 <mat-form-field appearance="outline" class="w-100 pr-1">
                   <mat-label>Proposed Status</mat-label>
                   <mat-select [(ngModel)]="document.statusAppDocId" [disabled]="isDisabledReview()">
@@ -668,10 +673,24 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Proposed Date</mat-label>
-              <input [matDatepicker]="dpp" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
+              <input
+                [matDatepicker]="dpp"
+                matInput
+                type="text"
+                [(ngModel)]="document.dueDate"
+                [disabled]="isDisabledReview()"
+                [formControl]="startDate"
+                [min]="minDate"
+              />
               <mat-datepicker-toggle matSuffix [for]="dpp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
               <mat-datepicker #dpp disabled="false"></mat-datepicker>
             </mat-form-field>
+            <!-- <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Proposed Date</mat-label>
+              <input [matDatepicker]="dpp" matInput type="text" [(ngModel)]="document.dueDate" [disabled]="isDisabledReview()" />
+              <mat-datepicker-toggle matSuffix [for]="dpp" [disabled]="isDisabledReview()"></mat-datepicker-toggle>
+              <mat-datepicker #dpp [minDate]="today" [maxDate]="today" [dateClass]="dateClass"></mat-datepicker>
+            </mat-form-field> -->
           </div>
         </div>
         <div class="col-6">
@@ -883,6 +902,6 @@
   </mat-dialog-content>
   <mat-dialog-actions align="center" class="align-center">
     <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-    <button mat-raised-button class="confirm-button-yes" (click)="preSave()">Save</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="preSave()" *ngIf="!isDisabledReview()">Save</button>
   </mat-dialog-actions>
 </div>
