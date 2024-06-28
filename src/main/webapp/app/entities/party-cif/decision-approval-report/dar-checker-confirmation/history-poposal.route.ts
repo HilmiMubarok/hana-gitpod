@@ -11,8 +11,6 @@ import { CreditProposalResolve } from '../../../credit-proposal/credit-proposal.
 
 import { ICreditProposal, CreditProposal } from '../../../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../../../credit-proposal/credit-proposal.service';
-import { OfferingLetterComponent } from 'app/entities/offering-letter/offering-letter.component';
-import { OfferingLetterMainComponent } from 'app/entities/offering-letter/offering-letter-main.component';
 
 import lodash from 'lodash';
 
@@ -32,23 +30,12 @@ import { CreditManagementInfo } from '../../../credit-proposal/credit-proposal-t
 import { PurposePricing } from '../../../credit-proposal/propose-pricing/purpose-pricing.model';
 import { CpRacBack } from '../../../credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
 import { CpRacBelow } from '../../../credit-proposal/risk-criteria/below/risk-criteria-below.model';
-import { OfferingLetter, OfferingLetterPreparation } from 'app/entities/offering-letter/offering-page/offering-page.model';
-import { BankAccountAnalystMessage } from '../../../credit-proposal/bank-account-analyst/bank-account-analyst.model';
+import { OfferingLetterPreparation } from 'app/entities/offering-letter/offering-page/offering-page.model';
 import { ComplienceRecommendation } from '../../../loan-analys/compliance/complience.model';
 import { RejectReason } from '../../../credit-proposal/forward-to/reject-to.model';
 import { LegalLendingLimit } from '../../../credit-proposal/exposure/legal-lending/legal-lending-limit.model';
 import { DocumentData } from '../../../loan-analys/assign-to/assign.model';
 import { HistoryProposalComponent } from './history-poposal.component';
-import { CollateralSummary } from 'app/entities/credit-proposal/collateral-info/collateral-summary/collateral-summary-total.model';
-import {
-  CreditProposalCollateralData,
-  CoverageTotal,
-} from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
-import { GroupCollateralTotal } from 'app/entities/credit-proposal/collateral-info/group-collateral/group-collateral-total.model';
-import { IndustryLimit } from 'app/entities/credit-proposal/exposure/industry-limit/industry-limit.model';
-import { CalculationExposure } from 'app/entities/credit-proposal/exposure/total-exposure/calculation-exposure.model';
-import { FinancialState } from 'app/entities/credit-proposal/repayment-spreadsheet/remarks/financial-statement-remarks.model';
-import { CheckRemarks } from 'app/entities/credit-proposal/trade-checking/Remarks/remarks.model';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {

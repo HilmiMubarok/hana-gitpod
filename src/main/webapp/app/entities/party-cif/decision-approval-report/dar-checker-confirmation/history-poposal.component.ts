@@ -7,7 +7,12 @@ import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from 'app/entities/credit-proposal/credit-proposal-process.service';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { SUBMENU_OFFERING_LETTER, SUBMENU_OFFERING_LETTER_FINALIZE } from 'app/shared/constants/base.constants';
+import {
+  ID_LOWER_EQUAL_15_BN,
+  SUBMENU_OFFERING_LETTER,
+  SUBMENU_OFFERING_LETTER_BELOW,
+  SUBMENU_OFFERING_LETTER_FINALIZE,
+} from 'app/shared/constants/base.constants';
 import { PositionService } from 'app/entities/position/position.service';
 import { IPosition } from '@syncfusion/ej2-angular-grids';
 import { MatDialog } from '@angular/material/dialog';
@@ -137,6 +142,21 @@ export class HistoryProposalComponent implements OnInit {
       } else {
         this.subMenu = SUBMENU_OFFERING_LETTER_FINALIZE;
       }
+    } else if (
+      this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN &&
+      this.creditProposal.attributes.proposalType !== undefined
+    ) {
+      if (this.creditProposal.attributes['previousOfferingLetter']) {
+        this.subMenu = [
+          ...SUBMENU_OFFERING_LETTER_BELOW,
+          {
+            id: 'memo-banding',
+            text: 'Memo Banding',
+          },
+        ];
+      } else {
+        this.subMenu = SUBMENU_OFFERING_LETTER_BELOW;
+      }
     } else {
       if (this.creditProposal.attributes['previousOfferingLetter']) {
         this.subMenu = [
@@ -220,24 +240,6 @@ export class HistoryProposalComponent implements OnInit {
         detail: 'Save Success',
       });
     }
-
-    /* if (this.applicationRole.id) {
-      this.applicationRoleService.update(this.applicationRole).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-      });
-    } else {
-      this.applicationRoleService.create(this.applicationRole).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-      });
-    } */
   }
 
   private saveCollateralInfo(source: string): void {
