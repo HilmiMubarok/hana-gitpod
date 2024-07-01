@@ -4,7 +4,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { CollateralLandAttribute, ICollateral } from './collateral.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import lodash from 'lodash';
 import { CollateralLandCertificateService } from '../collateral-appraisal/collateral/dialogs/collateral-land-certificate.service';
 import { createRequestOption } from 'app/core/request/request-util';
@@ -82,7 +82,11 @@ export class CollateralService extends AbstractEntityService<ICollateral> {
   public getLovLand(): Observable<HttpResponse<object[]>> {
     return this.http.get<object[]>(this.resourceUrl + '/lov/V2/land-plantation', { observe: 'response' });
   }
-  public getSummaryCollateral(applicationId: number): Observable<HttpResponse<ICollateral[]>> {
-    return this.http.get<any>(`${this.resourceUrl}/summary3/${applicationId}`, { observe: 'response' });
+  public getSummaryCollateral(applicationId: number, req: any): Observable<HttpResponse<ICollateral[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ICollateral[]>(this.resourceUrl + '/summary3/' + applicationId, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ICollateral[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ICollateral[]>) => this.preLoadItemArray(res)));
   }
 }

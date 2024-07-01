@@ -296,7 +296,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     return new Promise((resolve, reject) => {
       const applicationNumber = this.creditProposal.id;
 
-      this.collateralService.getSummaryCollateral(applicationNumber).subscribe(
+      this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(
         res => {
           const dataCollateral = lodash.filter(res.body, function (o) {
             return (
