@@ -157,7 +157,7 @@
             <button mat-raised-button *ngIf="!view" (click)="openCancelDialog()" class="confirm-button-no">Cancel</button>
             <button mat-raised-button *ngIf="!view" (click)="Onsave()" class="confirm-button-yes">Save</button>
           </section>
-          <button mat-raised-button class="confirm-button-no" *ngIf="view" mat-dialog-close>Cancel</button>
+          <button mat-raised-button class="confirm-button-no" *ngIf="view" mat-dialog-close>Close</button>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
             <div class="mt-3 text-center">
               <button mat-raised-button class="confirm-button-yes" hidden (click)="Onsave()">Save</button>
