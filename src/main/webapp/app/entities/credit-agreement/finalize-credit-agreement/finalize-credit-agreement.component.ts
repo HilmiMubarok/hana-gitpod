@@ -82,9 +82,12 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     if (this.creditProposal.entityProperties.length < 1) {
       this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
-        this.approvalDebtor.push({});
-        this.selectedConditions.push('');
-        this.creditProposal.entityProperties.push(res.body);
+        this.cashCreditProposalsService.deletePropsResource(res.body.id).subscribe(() => {
+          this.creditProposal.entityProperties.push(res.body);
+
+          this.approvalDebtor.push({});
+          this.selectedConditions.push('');
+        });
       });
     } else {
       this.approvalDebtor.push({});
@@ -365,23 +368,23 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   }
 
   addApproval() {
-    if (this.creditProposal.customerType === 'PERSONAL') {
-      this.cashCreditProposalsService.getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
-        this.creditProposal.entityProperties.push(res.body);
+    this.cashCreditProposalsService.getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
+      this.cashCreditProposalsService.deletePropsResource(res.body.id).subscribe(() => {
+        res.body.approvalDebtorConditionDate = '';
+        res.body.approvalDebtorConditionName = '';
+        res.body.approvalDebtorConditionNotaryPublicName = '';
+        res.body.approvalDebtorConditionCivilRegistrationDate = '';
+        res.body.approvalDebtorConditionCivilRegistryDocumentNumber = '';
+        res.body.approvalDebtorConditionNotaryPublicPlace = '';
         this.approvalDebtor.push({});
         this.selectedConditions.push('');
-      });
-    } else {
-      this.cashCreditProposalsService.getEntityPropResource(this.creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
         this.creditProposal.entityProperties.push(res.body);
-        this.approvalDebtor.push({});
-        this.selectedConditions.push('');
       });
-    }
+    });
   }
 
   deleteApproval(index: number) {
-    this.cashCreditProposalsService.deletePropsResource(this.creditProposal.entityProperties[1].id).subscribe(() => {
+    this.cashCreditProposalsService.deletePropsResource(this.creditProposal.entityProperties[index].id).subscribe(() => {
       this.creditProposal.entityProperties.splice(index, 1);
       if (this.approvalDebtor.length > 1) {
         this.approvalDebtor.splice(index, 1);
