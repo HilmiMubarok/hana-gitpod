@@ -150,7 +150,7 @@
             <mat-label>Facility Category / Appl Type</mat-label>
             <mat-select [(ngModel)]="applicationProduct.categoryId" name="facilityCategory">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of listCategoryLov" [value]="item.categoryId">{{ item.categoryId }} </mat-option>
+              <mat-option *ngFor="let item of listCategoryLov" [value]="item.categoryId">{{ item.categoryDescription }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -160,7 +160,7 @@
           <div class="col-3">Facility Category / Appl Type</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.categoryId }}
+            {{ applicationProduct.categoryDescription }}
           </div>
         </div>
       </section>
