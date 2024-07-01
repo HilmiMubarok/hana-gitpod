@@ -1502,7 +1502,7 @@ export class DarRevisionViewComponent implements OnInit {
   }
 
   public getCollateralSummaryData() {
-    this.collateralService.getSummaryCollateral(this.creditProposal.id).subscribe(res => {
+    this.collateralService.getSummaryCollateral(this.creditProposal.id, { page: 0, size: 9999 }).subscribe(res => {
       this.collateralSummaryData = lodash.filter(res.body, function (o) {
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
