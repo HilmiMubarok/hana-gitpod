@@ -167,6 +167,7 @@ export class LoanAnalysMainComponent implements OnInit {
     partyName: '',
     roleDescription: '',
     roleId: '',
+    idPosition: 0,
   };
 
   public isOpen = false;
@@ -1502,6 +1503,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.applicationRolePreSave.partyName = this.applicationRole.partyName;
     this.applicationRolePreSave.roleId = this.applicationRole.roleId;
     this.applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
+    this.applicationRolePreSave.idPosition = this.applicationRole.idPosition;
 
     const tempRouter = this.router.url.split('/')[1];
 

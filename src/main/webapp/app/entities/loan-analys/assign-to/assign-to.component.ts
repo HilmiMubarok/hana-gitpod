@@ -7,6 +7,7 @@ import lodash from 'lodash';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal/credit-proposal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { Console } from 'console';
 
 @Component({
   selector: 'jhi-assign-to',
@@ -102,6 +103,7 @@ export class AssignToComponent implements OnInit {
         this.creditProposal.attributes[dynAttr].partyName = this.position[i].employeeFirstName;
         this.creditProposal.attributes[dynAttr].roleId = this.position[i].positionTypeId;
         this.creditProposal.attributes[dynAttr].roleDescription = this.position[i].positionTypeDescription;
+        this.creditProposal.attributes[dynAttr].idPosition = event.value;
       }
     }
     this.assignTo.emit(this.creditProposal.attributes[dynAttr]);

@@ -389,6 +389,7 @@ export class OfferingLetterMainComponent implements OnInit {
       partyName: '',
       roleDescription: '',
       roleId: '',
+      idPosition: 0,
     };
 
     applicationRolePreSave.id = Number(this.applicationRole.id);
@@ -397,6 +398,7 @@ export class OfferingLetterMainComponent implements OnInit {
     applicationRolePreSave.partyName = this.applicationRole.partyName;
     applicationRolePreSave.roleId = this.applicationRole.roleId;
     applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
+    applicationRolePreSave.idPosition = this.applicationRole.idPosition;
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);

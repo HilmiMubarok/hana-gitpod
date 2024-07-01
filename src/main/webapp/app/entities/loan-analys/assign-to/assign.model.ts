@@ -5,6 +5,7 @@ export interface IAssignTo {
   partyName?: string;
   roleId?: string;
   roleDescription?: string;
+  idPosition?: number;
 }
 export class DocumentData implements IAssignTo {
   constructor(
@@ -13,7 +14,8 @@ export class DocumentData implements IAssignTo {
     public partyId?: string,
     public partyName?: string,
     public roleId?: string,
-    public roleDescription?: string
+    public roleDescription?: string,
+    public idPosition?: number
   ) {
     this.id = 0;
     this.applicationId = 0;
@@ -21,5 +23,6 @@ export class DocumentData implements IAssignTo {
     this.partyName = '';
     this.roleId = '';
     this.roleDescription = '';
+    this.idPosition = 0;
   }
 }
