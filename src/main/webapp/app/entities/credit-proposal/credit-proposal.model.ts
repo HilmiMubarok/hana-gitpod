@@ -96,6 +96,7 @@ export class CreditProposal implements ICreditProposal {
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string,
+    public statusDocumentId?: string,
     public roles?: any,
     public attributes?: any,
     public notes?: INotes[],

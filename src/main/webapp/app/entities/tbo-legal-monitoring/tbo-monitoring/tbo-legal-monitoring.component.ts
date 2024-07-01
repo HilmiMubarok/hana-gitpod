@@ -576,30 +576,19 @@ export class TboLegalMonitoringComponent implements OnChanges {
     return sortedItems;
   }
 
-  // calculateDateDifference(documentDate: string, proposedDate: string): number {
-  //   const current = new Date(documentDate);
+  // untuk positif
 
-  //   const proposed = new Date(proposedDate);
-
-  //   // Check if the dates are valid
-  //   if (isNaN(current.getTime()) || isNaN(proposed.getTime())) {
-  //     return 0; // Or any other default value you prefer
-  //   }
-
-  //   const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
-
-  //   const differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
-
-  //   return Math.floor(differenceInDays); // Return the difference in number of days
-  // }
-
-  calculateDateDifference(date: string, dueDate: string): number {
+  calculateDateDifference(dueDate: string): number {
     let differenceInDays: number;
 
     if (dueDate !== null) {
-      const current = new Date(date);
+      const current = new Date();
       const proposed = new Date(dueDate);
-      const differenceInTime = current.getTime() - proposed.getTime(); // Difference in milliseconds
+
+      current.setHours(0, 0, 0, 0);
+      proposed.setHours(0, 0, 0, 0);
+
+      const differenceInTime = proposed.getTime() - current.getTime(); // Difference in milliseconds
       differenceInDays = Math.abs(differenceInTime / (1000 * 3600 * 24));
     } else {
       return 0;
@@ -607,6 +596,19 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
     return Math.floor(differenceInDays); // Return the difference in number of days
   }
+
+  // untuk negative
+  // calculateDateDifference(date: string, dueDate: string): number {
+  //   if (dueDate !== null) {
+  //     const current = new Date(date);
+  //     const proposed = new Date(dueDate);
+  //     const differenceInTime = proposed.getTime() - current.getTime(); // Difference in milliseconds
+  //     const differenceInDays = differenceInTime / (1000 * 3600 * 24); // Difference in days
+  //     return differenceInDays; // Return the difference in number of days, which can be negative
+  //   } else {
+  //     return 0;
+  //   }
+  // }
 
   getStatusAppDocId(statusAppDocId: string): string {
     return statusAppDocId === '_NA_' ? '' : statusAppDocId;
@@ -626,6 +628,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
     for (let i = 0; i < this.docTerm.length; i++) {
       const item: MasterDocumentTerm = this.docTerm[i];
+
       if (item.fromDays <= num && item.toDays >= num) {
         return item.name;
       }

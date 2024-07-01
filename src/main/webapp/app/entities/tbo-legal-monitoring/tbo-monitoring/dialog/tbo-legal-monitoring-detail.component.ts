@@ -1,5 +1,5 @@
 import { DatePipe, formatDate } from '@angular/common';
-import { Component, Inject, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Injectable, Input, OnInit, ViewChild } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
 // import { DocumentLegalDpdl, IDocumentLegalDpdl } from '../document-dpdl.model';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -126,6 +126,17 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   public docForm: FormGroup;
 
   dateControl = new FormControl();
+  public _creditProposal: ICreditProposal;
+  isDisabledReview: boolean;
+
+  @Input()
+  get creditProposal(): ICreditProposal {
+    return this._creditProposal;
+  }
+
+  set creditProposal(value: ICreditProposal) {
+    this._creditProposal = value;
+  }
 
   constructor(
     private templateService: TemplateService,
@@ -167,6 +178,14 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     // this.docForm = this.fb.group({
     //   dueDate: [new Date(this.tempVal)],
     // });
+
+    if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW') {
+      this.isDisabledReview = true;
+    } else if (this.data.obj.documentStatusId === 'ACTIVE') {
+      this.isDisabledReview = true;
+    } else {
+      this.isDisabledReview = false;
+    }
 
     this.document = {
       id: dataDoc.id,
@@ -328,7 +347,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     this.getLegalCovernoteTaskDataList();
 
     this.checkObject();
-    this.isDisabledReview();
+    // this.isDisabledReview();
   }
 
   public checkObject() {
@@ -796,10 +815,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this._showNotification('error', 'Masukkan Remarks Document terlebih dahulu');
       mustValidateDocument.remarks = false;
     }
-    // if (!this.document.attributes['remarksTbo']) {
-    //   this._showNotification('error', 'Masukkan Remarks TBO Document terlebih dahulu');
-    //   mustValidateDocument.remarksTbo = false;
-    // }
+
     if (this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.documentTypeParent === 'DOC_DPDL_LEGAL_AKAD') {
       if (!this.document.attributes['description']) {
         this._showNotification('error', 'Masukkan Deskripsi Document terlebih dahulu');
@@ -861,21 +877,14 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     return false;
   }
 
-  isDisabledReview(): boolean {
-    if (this.data.obj.documentStatusId === 'ACTIVE' || this.data.obj.statusAppDocId === 'AVAILABLE') {
-      return true;
-    } else if (this.parentPath === 'tbo-legal-review') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  // isDisabledStatus(): boolean {
-  //   if (this.data.obj.documentStatusId === 'ACTIVE') {
+  // isDisabledReview(): boolean {
+  //   if (this._creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW') {
   //     return true;
+  //   } else if (this.data.obj.documentStatusId === 'ACTIVE') {
+  //     return true;
+  //   } else {
+  //     return false;
   //   }
-  //   return false;
   // }
 
   public loadCovernoteTypeDdl(): void {
