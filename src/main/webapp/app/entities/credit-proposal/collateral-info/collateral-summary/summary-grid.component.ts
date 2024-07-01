@@ -262,7 +262,7 @@ export class SummaryGridComponent
 
   private loadSummaryCollateral(): void {
     const applicationNumber = this.creditProposal.id;
-    this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
+    this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(res => {
       this.dataCollateral = lodash.filter(res.body, function (o) {
         return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
       });
