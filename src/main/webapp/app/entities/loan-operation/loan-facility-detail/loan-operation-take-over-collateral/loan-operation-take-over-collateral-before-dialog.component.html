@@ -6,7 +6,7 @@
   <mat-card>
     <mat-card-content>
       <div class="row">
-        <section *ngIf="!isViewMode">
+        <section *ngIf="!view">
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Collateral</mat-label>
@@ -14,7 +14,7 @@
             </mat-form-field>
           </div>
         </section>
-        <section *ngIf="isViewMode">
+        <section *ngIf="view">
           <div class="fontsebled row">
             <div class="col-2">Collateral</div>
             <div class="col-md-auto">:</div>
@@ -24,7 +24,7 @@
           </div>
         </section>
         <div class="col-6">
-          <section *ngIf="!isViewMode">
+          <section *ngIf="!view">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>MV Internal in IDR</mat-label>
@@ -38,7 +38,7 @@
               </mat-form-field>
             </div>
           </section>
-          <section *ngIf="isViewMode">
+          <section *ngIf="view">
             <div class="fontsebled row">
               <div class="col-4">MV Internal in IDR</div>
               <div class="col-md-auto">:</div>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="col-6">
-          <section *ngIf="!isViewMode">
+          <section *ngIf="!view">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>LV Internal in IDR</mat-label>
@@ -64,7 +64,7 @@
               </mat-form-field>
             </div>
           </section>
-          <section *ngIf="isViewMode">
+          <section *ngIf="view">
             <div class="fontsebled row">
               <div class="col-4">LV Internal in IDR</div>
               <div class="col-md-auto">:</div>
