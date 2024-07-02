@@ -3368,6 +3368,10 @@ export const BASIC_SUBMENU_DPPK_REVIEW_MEMO: object[] = [
     text: 'Loan Facility Detail',
   },
   {
+    id: 'dppk',
+    text: 'DPPK Finalize',
+  },
+  {
     id: 'collateral-info',
     text: 'collateral info',
   },
