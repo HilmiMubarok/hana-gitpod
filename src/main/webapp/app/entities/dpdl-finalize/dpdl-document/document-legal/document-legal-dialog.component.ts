@@ -1,7 +1,7 @@
 import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, Injectable, OnInit, ViewChild } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
-import { DocumentLegalDpdl, IDocumentLegalDpdl, ILegalCovernote } from '../document-dpdl.model';
+import { DocumentLegalDpdl, IDocLegalMinIO, IDocumentLegalDpdl, ILegalCovernote } from '../document-dpdl.model';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { StorageService } from 'app/entities/storage/storage.service';
@@ -65,7 +65,7 @@ export class DocumentLegalDialogComponent implements OnInit {
 
   public documents: string;
   public view: string;
-  public folder: object;
+  public folder: IDocLegalMinIO;
   public removeFile = [];
   public currentObject: any;
   public previousObject: any;
@@ -86,6 +86,8 @@ export class DocumentLegalDialogComponent implements OnInit {
   public legalCovernoteTaskDataSource: any[] = [];
   public pristine: boolean;
 
+  private dummyTBO: any = [];
+
   constructor(
     private templateService: TemplateService,
     private dialog: MatDialog,
@@ -96,7 +98,7 @@ export class DocumentLegalDialogComponent implements OnInit {
       bucket: string;
       documents: string;
       view: string;
-      obj: object;
+      obj: IDocLegalMinIO;
       change: any;
     },
     private _dialog: MatDialogRef<DocumentLegalDialogComponent>,
@@ -178,6 +180,14 @@ export class DocumentLegalDialogComponent implements OnInit {
     this.folder = this.data.obj;
     if (this.folder !== undefined) {
       this.folderFiles = this.folder['files'];
+    }
+
+    this.isTBO();
+
+    if (this.data.view === 'edit') {
+      if (dataDoc.files[0].tags.status === 'TBO' && this.folder.files.length > 0) {
+        this.deleteDummyImage();
+      }
     }
 
     this.changefield = false;
@@ -450,7 +460,7 @@ export class DocumentLegalDialogComponent implements OnInit {
 
     this.checkChanges();
     if (this.folder === undefined) {
-      if (this.files.length === 0) {
+      if (this.files.length === 0 && this.document.status !== 'TBO') {
         this._snackBar.open('Choose file for upload', null, {
           horizontalPosition: 'right',
           verticalPosition: 'top',
@@ -545,12 +555,19 @@ export class DocumentLegalDialogComponent implements OnInit {
     }
 
     return new Promise((resolve, reject) => {
+      let isTBO: any;
+
+      if (this.data.view === 'edit') {
+        isTBO = this.document.status === 'TBO' && this.folder.files?.length === 0;
+      } else {
+        isTBO = this.document.status === 'TBO' && this.files.length === 0;
+      }
+
       if (this.data.creditProposal !== null) {
-        console.log('this.files', this.files);
         const data = {
           existingIds: this.existingIds,
           view: this.view,
-          files: this.files,
+          files: isTBO ? this.dummyTBO : this.files,
           datePipe: this.datePipe,
           rootId: this.documentRootId,
           id: this.document.id,
@@ -607,7 +624,6 @@ export class DocumentLegalDialogComponent implements OnInit {
                 }
               : {},
         };
-
         resolve(data);
       }
     });
@@ -722,7 +738,7 @@ export class DocumentLegalDialogComponent implements OnInit {
       notaryName: true,
       batasWaktuPenyelesaian: true,
     };
-    if (this.folder === undefined) {
+    if (this.folder === undefined && this.document.status !== 'TBO') {
       if (this.files.length === 0) {
         this._showNotification('error', 'Upload file terlebih dahulu');
         mustValidateDocument.files = false;
@@ -893,6 +909,34 @@ export class DocumentLegalDialogComponent implements OnInit {
     if (this.legalCovernoteTaskDataSource.length > 0) {
       this.legalCovernoteTaskDataSource = [];
       this.covernoteTaskTable.renderRows();
+    }
+  }
+
+  private isTBO(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = 'content/images/los_logo.png';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(blob => {
+          const file = new File([blob], 'los_logo.png', { type: 'image/png' });
+          this.dummyTBO.push(file);
+          resolve();
+        }, 'image/png');
+      };
+    });
+  }
+
+  public deleteDummyImage(): void {
+    if (this.data.obj.files.length > 0) {
+      if (this.folder.files[0].key.includes('los_logo.png')) {
+        this.removeFile.push(this.folder.files[0].key);
+        this.folder.files.splice(0, 1);
+      }
     }
   }
 

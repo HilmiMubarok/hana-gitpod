@@ -160,3 +160,16 @@ export class ICovernoteTask {
     this.date = new Date();
   }
 }
+
+export interface IDocLegalMinIO {
+  attributes?: any;
+  category?: string;
+  documentDate?: any;
+  documentId?: string;
+  documentType?: string;
+  files?: any;
+  folder?: string;
+  id?: string;
+  nameFile?: string;
+  status?: string;
+}

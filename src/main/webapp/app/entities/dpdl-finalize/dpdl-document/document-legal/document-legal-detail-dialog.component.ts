@@ -19,7 +19,7 @@ export class DocumentLegalDetailDialogComponent implements OnInit {
     },
     public reportUtilService: ReportUtilService
   ) {
-    this.folder = this.data;
+    this.folder = this.data['files'].filter(obj => !obj.key.includes('los_logo.png'));
   }
 
   ngOnInit(): void {

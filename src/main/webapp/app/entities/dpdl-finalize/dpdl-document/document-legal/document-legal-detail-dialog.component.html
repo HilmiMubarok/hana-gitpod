@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngIf="folder['files'] !== undefined">
         <td>{{ folder['files'][0]['tags']['category'] }}</td>
         <td>{{ folder['files'][0]['tags']['documentDate'] | formatMediumDate }}</td>
         <td>{{ folder['attributes']['remarks'] }}</td>
@@ -18,7 +18,7 @@
       </tr>
     </tbody>
   </table>
-  <ul class="list-image">
+  <ul class="list-image" *ngIf="folder['files'] !== undefined">
     <li *ngFor="let item of folder['files']">
       <div style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
         <div

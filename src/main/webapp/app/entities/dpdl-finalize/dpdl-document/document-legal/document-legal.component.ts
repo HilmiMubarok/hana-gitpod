@@ -127,6 +127,8 @@ export class DocumentLegalComponent implements OnChanges {
         this.edit(res).then(() => {
           this.getFiles(this.creditProposal.id);
         });
+      } else {
+        this.getFiles(this.creditProposal.id);
       }
     });
   }
