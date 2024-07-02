@@ -47,18 +47,6 @@ export class LoanOperationTakeOverCollateralBeforeDialogComponent {
   }
   // cancel confrimation dialog
   public openCancelDialog(): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '25vw',
-      data: {
-        title: '',
-        message: 'Are you sure to cancel this data?',
-      },
-      panelClass: 'custom-dialog-container-cancel',
-    });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this._dialog.close();
-      }
-    });
+    this._dialog.close();
   }
 }
