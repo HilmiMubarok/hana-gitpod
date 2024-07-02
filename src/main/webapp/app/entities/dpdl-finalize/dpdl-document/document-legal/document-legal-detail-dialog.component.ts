@@ -11,6 +11,7 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
 export class DocumentLegalDetailDialogComponent implements OnInit {
   public folder: object;
   private bucketName: string;
+  public hideDummy = false;
   constructor(
     public storageService: StorageService,
     @Inject(MAT_DIALOG_DATA)
@@ -19,11 +20,12 @@ export class DocumentLegalDetailDialogComponent implements OnInit {
     },
     public reportUtilService: ReportUtilService
   ) {
-    this.folder = this.data['files'].filter(obj => !obj.key.includes('los_logo.png'));
+    this.folder = this.data;
   }
 
   ngOnInit(): void {
     this.getBucketName();
+    this.hideDummy = this.folder['files'][0].key.includes('los_logo.png');
   }
 
   private getBucketName(): void {
