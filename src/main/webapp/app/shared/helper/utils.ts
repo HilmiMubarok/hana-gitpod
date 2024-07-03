@@ -1,5 +1,6 @@
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import moment from 'moment';
+import tz from 'moment-timezone';
 import lodash, { get } from 'lodash';
 
 export function formatBytes(bytes: number, decimals?: number) {
@@ -69,6 +70,9 @@ function getStaticDate(date) {
     .format()
     .split('T')[0];
 
+  // moment timezone
+  const b = tz(new Date(date), 'Asia/Jakarta').format().split('T')[0];
+
   const dateString = date.toString();
   const monthObject = convertStringMonthToNumber(dateString.substring(4, 7));
   const day = dateString.substring(8, 10);
@@ -78,7 +82,7 @@ function getStaticDate(date) {
     return '-';
   }
 
-  console.table({ a, dateString, monthObject, day, year });
+  console.table({ a, b, dateString, monthObject, day, year });
 
   return `${monthObject.desc}, ${day} ${year}`;
 }
