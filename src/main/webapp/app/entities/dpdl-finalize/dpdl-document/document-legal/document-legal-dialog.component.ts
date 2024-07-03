@@ -86,6 +86,8 @@ export class DocumentLegalDialogComponent implements OnInit {
   public legalCovernoteTaskDataSource: any[] = [];
   public pristine: boolean;
 
+  private initialData = { key: '', length: 0 };
+  private dummyDeleted = false;
   private dummyTBO: any = [];
 
   constructor(
@@ -183,12 +185,6 @@ export class DocumentLegalDialogComponent implements OnInit {
     }
 
     this.isTBO();
-
-    if (this.data.view === 'edit') {
-      if (dataDoc.files[0].tags.status === 'TBO' && this.folder.files.length > 0) {
-        this.deleteDummyImage();
-      }
-    }
 
     this.changefield = false;
   }
@@ -469,6 +465,10 @@ export class DocumentLegalDialogComponent implements OnInit {
       }
     }
 
+    if (this.data.view === 'edit' && this.initialData.key.includes('los_logo.png')) {
+      this.deleteDummyImage();
+    }
+
     if (this.removeFile.length > 1) {
       for (let i = 0; i < this.removeFile.length; i++) {
         this.storageService.deleteFile(this.bucket, this.removeFile[i]).subscribe(data => {
@@ -555,14 +555,19 @@ export class DocumentLegalDialogComponent implements OnInit {
     }
 
     return new Promise((resolve, reject) => {
-      let isTBO: any;
+      let isTBO: boolean;
 
-      if (this.data.view === 'edit') {
-        isTBO = this.document.status === 'TBO' && this.folder.files?.length === 0;
-      } else {
-        isTBO = this.document.status === 'TBO' && this.files.length === 0;
+      switch (true) {
+        case this.data.view === 'edit' && (this.files.length === undefined || this.files.length === 0):
+          isTBO = this.document.status === 'TBO' && (this.dummyDeleted || this.folder.files.length === 0);
+          break;
+        case this.data.view === 'add':
+          isTBO = this.document.status === 'TBO' && this.files.length === 0;
+          break;
+        default:
+          isTBO = false;
+          break;
       }
-
       if (this.data.creditProposal !== null) {
         const data = {
           existingIds: this.existingIds,
@@ -739,7 +744,10 @@ export class DocumentLegalDialogComponent implements OnInit {
       batasWaktuPenyelesaian: true,
     };
 
-    if ((this.folder === undefined || this.folder.nameFile.includes('los_logo.png')) && this.document.status !== 'TBO') {
+    if (
+      (this.folder === undefined || this.folder?.files.length === 0 || this.initialData.key.includes('los_logo.png')) &&
+      this.document.status !== 'TBO'
+    ) {
       if (this.files.length === 0) {
         this._showNotification('error', 'Upload file terlebih dahulu');
         mustValidateDocument.files = false;
@@ -915,6 +923,16 @@ export class DocumentLegalDialogComponent implements OnInit {
 
   private isTBO(): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (this.data.view === 'edit') {
+        if (this.data.obj.files[0].tags.status === 'TBO' && this.folder.files[0].key.includes('los_logo.png')) {
+          this.initialData = {
+            key: this.folder.files[0].key,
+            length: this.folder.files.length,
+          };
+          this.folder.files.splice(0, 1);
+        }
+      }
+
       const img = new Image();
       img.src = 'content/images/los_logo.png';
       img.onload = () => {
@@ -933,13 +951,8 @@ export class DocumentLegalDialogComponent implements OnInit {
   }
 
   public deleteDummyImage(): void {
-    if (this.data.obj.files.length > 0) {
-      if (this.folder.files[0].key.includes('los_logo.png')) {
-        this.removeFile.push(this.folder.files[0].key);
-        this.files.splice(0, 1);
-        this.folder.files.splice(0, 1);
-      }
-    }
+    this.removeFile.push(this.initialData.key);
+    this.dummyDeleted = true;
   }
 
   public preventNonNumericalInput(event: KeyboardEvent): void {
