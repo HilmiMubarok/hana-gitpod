@@ -1,5 +1,6 @@
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import moment from 'moment';
+import lodash, { get } from 'lodash';
 
 export function formatBytes(bytes: number, decimals?: number) {
   if (bytes === 0) {
@@ -59,24 +60,82 @@ export function parsePreviousAtrribute(cp: ICreditProposal): IParsePreviousAtrri
 }
 
 export function formatDateDob(dateString) {
-  // Suppress deprecation warnings temporarily, for invalid date strings
-  // e.g. '1923-09-01T00:00:00+07:00:12'
-  const originalSuppress = moment.suppressDeprecationWarnings;
-  moment.suppressDeprecationWarnings = true;
+  return getStaticDate(dateString);
+}
 
-  const date = moment.parseZone(dateString);
+function getStaticDate(date) {
+  const a = moment(new Date(date))
+    .utcOffset(moment(new Date(Date.now())).utcOffset())
+    .format()
+    .split('T')[0];
 
-  // Restore the original setting
-  moment.suppressDeprecationWarnings = originalSuppress;
+  const dateString = date.toString();
+  const monthObject = convertStringMonthToNumber(dateString.substring(4, 7));
+  const day = dateString.substring(8, 10);
+  const year = dateString.substring(11, 15);
 
-  if (!date.isValid()) {
+  if (dateString === 'Invalid Date') {
     return '-';
   }
 
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const day = date.date();
-  const month = months[date.month()];
-  const year = date.year();
+  console.table({ a, dateString, monthObject, day, year });
 
-  return `${month}, ${day}, ${year}`;
+  return `${monthObject.desc}, ${day} ${year}`;
+}
+
+function convertStringMonthToNumber(monthString) {
+  const monthArray = [
+    {
+      desc: 'Jan',
+      numString: '1',
+    },
+    {
+      desc: 'Feb',
+      numString: '2',
+    },
+    {
+      desc: 'Mar',
+      numString: '3',
+    },
+    {
+      desc: 'Apr',
+      numString: '4',
+    },
+    {
+      desc: 'May',
+      numString: '5',
+    },
+    {
+      desc: 'Jun',
+      numString: '6',
+    },
+    {
+      desc: 'Jul',
+      numString: '7',
+    },
+    {
+      desc: 'Aug',
+      numString: '8',
+    },
+    {
+      desc: 'Sep',
+      numString: '9',
+    },
+    {
+      desc: 'Oct',
+      numString: '10',
+    },
+    {
+      desc: 'Nov',
+      numString: '11',
+    },
+    {
+      desc: 'Dec',
+      numString: '12',
+    },
+  ];
+
+  return lodash.find(monthArray, function (month) {
+    return month.desc === monthString;
+  });
 }
