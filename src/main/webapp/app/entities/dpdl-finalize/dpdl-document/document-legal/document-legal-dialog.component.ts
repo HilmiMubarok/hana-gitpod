@@ -738,7 +738,8 @@ export class DocumentLegalDialogComponent implements OnInit {
       notaryName: true,
       batasWaktuPenyelesaian: true,
     };
-    if (this.folder === undefined && this.document.status !== 'TBO') {
+
+    if ((this.folder === undefined || this.folder.nameFile.includes('los_logo.png')) && this.document.status !== 'TBO') {
       if (this.files.length === 0) {
         this._showNotification('error', 'Upload file terlebih dahulu');
         mustValidateDocument.files = false;
@@ -935,6 +936,7 @@ export class DocumentLegalDialogComponent implements OnInit {
     if (this.data.obj.files.length > 0) {
       if (this.folder.files[0].key.includes('los_logo.png')) {
         this.removeFile.push(this.folder.files[0].key);
+        this.files.splice(0, 1);
         this.folder.files.splice(0, 1);
       }
     }

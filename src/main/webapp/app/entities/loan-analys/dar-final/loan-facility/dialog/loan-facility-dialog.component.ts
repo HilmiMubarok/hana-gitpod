@@ -922,4 +922,11 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     }
     return '';
   }
+
+  public preventNonNumericalInput(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+    }
+  }
 }
