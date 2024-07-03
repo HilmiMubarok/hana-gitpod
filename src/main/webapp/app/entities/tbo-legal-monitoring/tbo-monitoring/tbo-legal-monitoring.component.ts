@@ -145,7 +145,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
           this.getFiles(this.creditProposal.id);
         });
         this.edit(res).then(() => {
-          // this.getFiles(this.creditProposal.id);
+          this.getFiles(this.creditProposal.id);
         });
       }
     });
@@ -310,54 +310,66 @@ export class TboLegalMonitoringComponent implements OnChanges {
   public save(res: any): Promise<any> {
     return new Promise((resolve, reject) => {
       const promises: Array<any> = new Array<any>();
-      const id = res.view === 'add' ? this.generateUniqueRandomId(6, res.existingIds) : res.id;
+      const id = res.existingIds.length === 0 ? this.generateUniqueRandomId(6, res.existingIds) : res.docIdTags;
       // this.docDpdl = res;
 
-      console.log('res cek', res);
+      console.log('save cek res', res);
 
       for (let i = 0; i < res.files.length; i++) {
         const files = res.datePipe.transform(new Date(), 'yyyy-MM-dd:hh:mm:ss') + '-' + res.files[i].name.replace('&', '');
 
-        const splitPath = res.path.split('/');
+        const splitPath = res.path;
 
         this.metaData.id = res.docIdTags;
         this.metaData.applicationId = this.creditProposal.id;
-        this.metaData.rootId = splitPath[4];
-        this.metaData.parentId = splitPath[5];
-        // this.metaData.documentTypeParent = res.documentTypeParent;
-        this.metaData.documentId = res.documentTypeId;
+        if (res.documentTypeId === 'DOC_DPDL_LEGAL_COVERNOTE' || res.documentTypeId === 'DOC_DPDL_LEGAL_LAMPIRAN') {
+          this.metaData.rootId = 'DOC_DPDL_LEGAL';
+          this.metaData.parentId = res.documentTypeId;
+          // this.metaData.documentTypeParent = res.documentTypeParent;
+          this.metaData.documentId = res.name;
+        } else {
+          this.metaData.rootId = 'DOC_DPDL_LEGAL';
+          this.metaData.parentId = res.documentTypeParent;
+          // this.metaData.documentTypeParent = res.documentTypeParent;
+          this.metaData.documentId = res.documentTypeId;
+        }
+
         this.metaData.category = res.category;
         this.metaData.status = res.status;
-        // this.metaData.proposedStatus = res.proposedStatus;
         this.metaData.documentDate = res.documentDate;
-        this.metaData.attributes = JSON.stringify(this.changeCharacter(res.attributes));
+        // this.metaData.attributes = JSON.stringify(this.changeCharacter(res.attributes));
 
         const formData = new FormData();
         formData.append('file', res.files[i]);
 
-        this.metaData.objectName =
-          splitPath[0] +
-          '/' +
-          splitPath[1] +
-          '/' +
-          splitPath[2] +
-          '/' +
-          splitPath[3] +
-          '/' +
-          splitPath[4] +
-          '/' +
-          splitPath[5] +
-          '/' +
-          splitPath[6] +
-          '/' +
-          splitPath[7] +
-          '/' +
-          files;
-
+        // this.metaData.objectName =
+        //   splitPath[0] +
+        //   '/' +
+        //   splitPath[1] +
+        //   '/' +
+        //   splitPath[2] +
+        //   '/' +
+        //   splitPath[3] +
+        //   '/' +
+        //   splitPath[4] +
+        //   '/' +
+        //   splitPath[5] +
+        //   '/' +
+        //   splitPath[6] +
+        //   '/' +
+        //   splitPath[7] +
+        //   '/' +
+        //   files;
+        if (res.documentTypeId === 'DOC_DPDL_LEGAL_COVERNOTE' || res.documentTypeId === 'DOC_DPDL_LEGAL_LAMPIRAN') {
+          this.metaData.objectName = `/document-tbo/document-legal/${this.creditProposal.id}/legal/DOC_DPDL_LEGAL/${res.documentTypeId}/${res.name}/${id}/${files}`;
+        } else {
+          this.metaData.objectName = `/document-tbo/document-legal/${this.creditProposal.id}/legal/DOC_DPDL_LEGAL/${res.documentTypeParent}/${res.documentTypeId}/${id}/${files}`;
+        }
         // this.metaData.objectName = `/document-tbo/document-legal/${this.creditProposal.id}/legal/${res.rootId}/${res.parentId}/${res.documentId}/${id}/${files}`;
-        // this.metaData.objectName = `/document-tbo/document-legal/${this.creditProposal.id}/legal/${res.rootId}/${res.parentId}/${res.documentId}/${id}/${files}`;
 
+        console.log('metaData', this.metaData);
         promises.push(this.doUpload(formData, this.metaData));
+        console.log('promises', promises);
       }
 
       if (promises.length === res.files.length) {
@@ -446,45 +458,15 @@ export class TboLegalMonitoringComponent implements OnChanges {
         },
       };
 
-      this.applicationDocumentService.update(updatedDocument).subscribe(updatedRes => {});
-
-      // const promises: Array<any> = new Array<any>();
-      // const fileRes = [];
-      // const files: IDocumentNode[] = res;
-      // console.log('files', files);
-      // if (files.length > 0) {
-      //   for (let i = 0; i < files.length; i++) {
-      //     const file: IDocumentNode = files[i];
-      //     file.tags['id'] = res.idDoc;
-      //     file.tags['applicationId'] = this.creditProposal.id;
-      //     file.tags['rootId'] = res.documentRootId;
-      //     file.tags['documentDate'] = res.documentDate;
-      //     file.tags['parentId'] = res.documentTypeParent;
-      //     file.tags['documentId'] = res.documentTypeId;
-      //     file.tags['category'] = res.category;
-      //     file.tags['attributes'] = JSON.stringify(this.changeCharacter(res.attributes));
-      //     file.tags['status'] = res.statusAppDocId;
-      //     // file.tags['proposedStatus'] = res.proposedStatus;
-
-      //     console.log('files ', file);
-      //     // Memperbarui DocumentNode
-      //     this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res1 => {
-      //       console.log('res update minio :', res1);
-      //       fileRes.push(res1);
-      //       // this.getFiles(this.creditProposal.id);
-      //     });
-      //     console.log('file res ', fileRes);
-
-      //     // Memperbarui ApplicationDocument
-      //   }
-      // }
-
-      //   if (fileRes.length === files.length) {
-      //     resolve(fileRes[0]);
-      //   }
-      // } else {
-      //   resolve(null);
-      // }
+      if (updatedDocument.id) {
+        this.applicationDocumentService.update(updatedDocument).subscribe(updatedRes => {
+          console.log('ini res', updatedRes);
+        });
+      } else {
+        this.applicationDocumentService.save(updatedDocument).subscribe(updatedRes => {
+          console.log('ini res', updatedRes);
+        });
+      }
     });
   }
 
