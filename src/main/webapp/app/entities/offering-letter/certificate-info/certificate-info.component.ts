@@ -6,6 +6,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CertificateInfoDialogComponent } from './certificate-info-dialog.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { Router } from '@angular/router';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-certificate-info',
@@ -54,6 +55,7 @@ export class CertificateInfoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data: ICertificateInfo) => {
       if (!data.id) {
+        data.jangkaWaktuKepemilikan = moment(new Date(data.jangkaWaktuKepemilikan)).format().substring(0, 19) + 'Z';
         data.id = this.collateral.id;
         if (this.creditProposal.attributes['certificateInfoData'].length !== 0) {
           data.index = this.creditProposal.attributes['certificateInfoData'].length + 1;

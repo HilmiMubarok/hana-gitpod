@@ -885,6 +885,7 @@ export class LoanOperationLoanFacilityDetailDialogComponent
         .pipe(takeUntil(this.destroy$))
         .subscribe(res => {
           this.listCategoryLov = res.body;
+          this.getCategoryDescryption();
         });
       this.applicationProduct.productId = data.id;
       this.calTotalPlafond(data.revolving);
@@ -1086,5 +1087,14 @@ export class LoanOperationLoanFacilityDetailDialogComponent
       return data.description;
     }
     return '';
+  }
+
+  public facilityCategoryDes: string;
+  public getCategoryDescryption() {
+    if (this.applicationProduct.categoryId) {
+      this.facilityCategoryDes = this.listCategoryLov.find(
+        obj => obj.categoryId === this.applicationProduct.categoryId
+      ).categoryDescription;
+    }
   }
 }

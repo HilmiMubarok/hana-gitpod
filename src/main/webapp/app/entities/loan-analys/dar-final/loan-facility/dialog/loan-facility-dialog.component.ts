@@ -833,6 +833,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         })
         .subscribe(res => {
           this.listCategoryLov = res.body;
+          this.getCategoryDescryption();
         });
       this.applicationProduct.productId = data.id;
       this.calTotalPlafond(data.revolving);
@@ -927,6 +928,15 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     const charCode = event.which ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       event.preventDefault();
+    }
+  }
+
+  public facilityCategoryDes: string;
+  public getCategoryDescryption() {
+    if (this.applicationProduct.categoryId) {
+      this.facilityCategoryDes = this.listCategoryLov.find(
+        obj => obj.categoryId === this.applicationProduct.categoryId
+      ).categoryDescription;
     }
   }
 }
