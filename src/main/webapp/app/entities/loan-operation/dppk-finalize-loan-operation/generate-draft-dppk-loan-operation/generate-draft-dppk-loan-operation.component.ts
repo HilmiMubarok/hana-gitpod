@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { formatBytes } from 'app/shared/helper/utils';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { saveAs as importedSaveAs } from 'file-saver';
 
 @Component({
   selector: 'jhi-generate-draft-dppk-loan-operation',
@@ -58,7 +59,6 @@ export class GenerateDraftDppkLoanOperationComponent implements OnInit, OnChange
       this.isLabel = changes['isLabel'].currentValue;
     }
   }
-
   ngOnInit(): void {
     this.getBucketNameSummary();
   }
@@ -81,7 +81,7 @@ export class GenerateDraftDppkLoanOperationComponent implements OnInit, OnChange
   }
 
   private print() {
-    this.generateFile('Word', '/services/report/api/report/dppk/word/' + this.item.agreements[0].id);
+    this.generateFile('Word', '/services/report/api/report/dppk/word/' + this.item.id);
   }
 
   private generateFile(fileType: string, api: string, req?: any) {
@@ -148,8 +148,8 @@ export class GenerateDraftDppkLoanOperationComponent implements OnInit, OnChange
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
 
-      if (this.item.agreements[0].id) {
-        this.KEYG += `/${this.item.agreements[0].id}/document/draft/final/`;
+      if (this.item.id) {
+        this.KEYG += `/${this.item.id}/document/draft/`;
       } else {
         console.warn('Param id not found');
       }
@@ -201,7 +201,7 @@ export class GenerateDraftDppkLoanOperationComponent implements OnInit, OnChange
 
   private getFile(id: number): void {
     const predicate: Object = {
-      key: `/dppk/${id}/document/draft/final`,
+      key: `dppk/${id}/document/draft/`,
     };
     this.storageService.getObjects(this.BUCKET, predicate).subscribe(res => {
       if (res.body.length > 0) {
@@ -238,7 +238,4 @@ interface IObj {
   size?: number;
   tags?: any;
   url?: string;
-}
-function importedSaveAs(file: Blob, fileName: string) {
-  throw new Error('Function not implemented.');
 }
