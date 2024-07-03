@@ -1,4 +1,5 @@
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import moment from 'moment';
 
 export function formatBytes(bytes: number, decimals?: number) {
   if (bytes === 0) {
@@ -34,7 +35,7 @@ export function parsePreviousAtrribute(cp: ICreditProposal): IParsePreviousAtrri
     'collateralPrevious',
     'creditProposalCollateralData',
     'coverageTotal',
-    'collateralSummary'
+    'collateralSummary',
   ];
 
   for (const attribute of attributes) {
@@ -58,15 +59,24 @@ export function parsePreviousAtrribute(cp: ICreditProposal): IParsePreviousAtrri
 }
 
 export function formatDateDob(dateString) {
-  const date = new Date(dateString);
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const day = date.getDate();
-  const month = months[date.getMonth()];
-  const year = date.getFullYear();
+  // Suppress deprecation warnings temporarily, for invalid date strings
+  // e.g. '1923-09-01T00:00:00+07:00:12'
+  const originalSuppress = moment.suppressDeprecationWarnings;
+  moment.suppressDeprecationWarnings = true;
 
-  if (month === undefined || isNaN(day) || isNaN(year)) {
+  const date = moment.parseZone(dateString);
+
+  // Restore the original setting
+  moment.suppressDeprecationWarnings = originalSuppress;
+
+  if (!date.isValid()) {
     return '-';
   }
+
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const day = date.date();
+  const month = months[date.month()];
+  const year = date.year();
 
   return `${month}, ${day}, ${year}`;
 }
