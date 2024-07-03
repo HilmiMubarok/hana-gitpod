@@ -972,6 +972,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         })
         .subscribe(res => {
           this.listCategoryLov = res.body;
+          this.getCategoryDescryption();
           for (let i = 0; i < this.listCategoryLov.length; i++) {
             this.categoryDescription = this.listCategoryLov[i].categoryDescription;
           }
@@ -1209,6 +1210,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     const charCode = event.which ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       event.preventDefault();
+    }
+  }
+
+  public facilityCategoryDes: string;
+  public getCategoryDescryption() {
+    if (this.applicationProduct.categoryId) {
+      this.facilityCategoryDes = this.listCategoryLov.find(
+        obj => obj.categoryId === this.applicationProduct.categoryId
+      ).categoryDescription;
     }
   }
 }
