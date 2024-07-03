@@ -128,6 +128,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   dateControl = new FormControl();
   public _creditProposal: ICreditProposal;
   isDisabledReview: boolean;
+  isDisabledChecking: boolean;
 
   @Input()
   get creditProposal(): ICreditProposal {
@@ -179,7 +180,17 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     //   dueDate: [new Date(this.tempVal)],
     // });
 
-    if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW') {
+    // if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW') {
+    //   this.isDisabledReview = true;
+    // } else if (this.data.obj.documentStatusId === 'ACTIVE') {
+    //   this.isDisabledReview = true;
+    // } else {
+    //   this.isDisabledReview = false;
+    // }
+
+    if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW' && this.parentPath === 'tbo-legal-checking') {
+      this.isDisabledReview = true;
+    } else if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_CHECKING' && this.parentPath === 'tbo-legal-review') {
       this.isDisabledReview = true;
     } else if (this.data.obj.documentStatusId === 'ACTIVE') {
       this.isDisabledReview = true;
@@ -446,6 +457,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       statusAppDocId: this.document.statusAppDocId,
       initialStatusId: this.document.initialStatusId,
       name: DocName,
+      // path: this.folderFiles[0].Key,
       path: this.folderFiles.length > 0 ? this.folderFiles[0].Key : null,
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
@@ -586,7 +598,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           initialStatusId: this.document.initialStatusId,
           date: this.document.date,
           dueDate: convTempVal,
-
+          // path: this.folderFiles[0].Key,
           path: this.folderFiles.length > 0 ? this.folderFiles[0].Key : null,
           docIdTags: this.document.attributes['docId'],
           id: this.document.id,
