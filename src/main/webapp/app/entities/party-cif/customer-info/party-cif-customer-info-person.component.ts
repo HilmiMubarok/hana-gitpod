@@ -11,6 +11,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import { IOrganizationManagement } from 'app/entities/organization-management/organization-management.model';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 export const MY_FORMATS = {
   parse: {
@@ -126,7 +127,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     const fullYear = new Date(this.person.dob);
     const year = fullYear.toISOString().split('T')[0];
 
-    this.staticDob = this.getStaticDate(this.person.dob);
+    this.staticDob = formatDateDob(this.person.dob);
   }
 
   private getStaticDate(date: any) {

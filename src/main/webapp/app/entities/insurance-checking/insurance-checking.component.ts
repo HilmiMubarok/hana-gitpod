@@ -21,6 +21,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { IInsuranceChecking } from './insurance-checking.model';
 import { InsuranceCheckingService } from './insurance-checking.service';
 import { CashInsuranceCheckingService } from './cash-insurance-checking.service';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-review-insurance',
@@ -269,7 +270,7 @@ export class InsuranceCheckingComponent extends AbstractEntityMaterialComponent<
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });

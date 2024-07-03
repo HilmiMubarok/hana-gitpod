@@ -24,6 +24,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { DppkFinalizeService } from './dppk-finalize.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-dppk-finalize',
@@ -259,7 +260,7 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });

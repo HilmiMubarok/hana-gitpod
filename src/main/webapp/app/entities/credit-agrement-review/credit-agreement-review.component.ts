@@ -29,6 +29,7 @@ import { CollateralService } from '../collateral/collateral.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-agreement-review',
@@ -306,7 +307,7 @@ export class CreditAgreementReviewComponent extends AbstractEntityMaterialCompon
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });

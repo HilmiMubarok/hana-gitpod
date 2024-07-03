@@ -21,6 +21,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { ILoanOPS } from './loan-operation.model';
 import { LoanOperationService } from './loan-operation.service';
 import { CashLoanOperationService } from './cash-loan-operation.service';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-loan-operation',
@@ -244,7 +245,7 @@ export class LoanOperationComponent extends AbstractEntityMaterialComponent<ILoa
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });

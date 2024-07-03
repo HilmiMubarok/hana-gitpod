@@ -23,6 +23,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { CreditAgreementProcessService } from './credit-agreement-process.service';
 import { CashCreditAgreementService } from './cash-credit-agreement.service';
 import { CreditAgreementService } from './credit-agreement.service';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-agreement',
@@ -248,7 +249,7 @@ export class CreditAgreementComponent extends AbstractEntityMaterialComponent<IC
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });
