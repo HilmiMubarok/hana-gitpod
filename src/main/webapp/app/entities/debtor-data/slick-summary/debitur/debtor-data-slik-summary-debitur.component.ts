@@ -39,7 +39,7 @@ import { MessageService } from 'primeng/api';
         stroke: white !important;
       }
     `,
-  ]
+  ],
 })
 export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> implements OnInit, OnChanges {
   public loading: boolean;
@@ -204,7 +204,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.predicate = 'id';
     this.entityKeyName = 'id';
 
-	this.selection.changed.subscribe(() => {
+    this.selection.changed.subscribe(() => {
       if (this.deleteAllProcess) {
         this.deleteState = `Deleting ${this.selection.selected.length} data`;
       } else {
@@ -232,7 +232,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     this.getFiles();
     this.hideButtonUploadCP();
-	this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -324,7 +324,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           this.totalLimit = this.countTotalLimit(res.body);
           this.totalOutstanding = this.countTotalOutstanding(res.body);
           this.initDataForMatTable(res, res.headers);
-		  this.dataSource.data = res.body;
+          this.dataSource.data = res.body;
           this.dataSource.paginator = this.paginator;
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -477,6 +477,10 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     partySlik.collateralType = item.collateralType == null ? '' : item.collateralType;
     partySlik.facilityType = item.facilityType;
     partySlik.period = item.period;
+    partySlik.tanggalAkadAwal = item.tanggalAkadAwal;
+    partySlik.tanggalMulai = item.tanggalMulai;
+    partySlik.tanggalJatuhTempo = item.tanggalJatuhTempo;
+    partySlik.typeOfFacility = item.typeOfFacility;
 
     return partySlik;
   }

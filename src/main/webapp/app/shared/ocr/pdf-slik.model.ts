@@ -22,6 +22,10 @@ export interface IPDFSlik {
   tanggalRestrukturasiAkhir?: string;
   debtorName?: string;
   sumCollateralIdrMio?: string;
+  tanggalAkadAwal?: string;
+  tanggalMulai?: string;
+  tanggalJatuhTempo?: string;
+  typeOfFacility?: string;
 }
 
 export class PDFSlik implements IPDFSlik {
@@ -48,6 +52,10 @@ export class PDFSlik implements IPDFSlik {
     public frekuensiRestrukturasi?: string,
     public tanggalRestrukturasiAkhir?: string,
     public debtorName?: string,
-    public sumCollateralIdrMio?: string
+    public sumCollateralIdrMio?: string,
+    public tanggalAkadAwal?: string,
+    public tanggalMulai?: string,
+    public tanggalJatuhTempo?: string,
+    public typeOfFacility?: string
   ) {}
 }
