@@ -188,9 +188,11 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     //   this.isDisabledReview = false;
     // }
 
-    if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW' && this.parentPath === 'tbo-legal-checking') {
-      this.isDisabledReview = true;
-    } else if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_CHECKING' && this.parentPath === 'tbo-legal-review') {
+    if (
+      (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW' && this.parentPath === 'tbo-legal-checking') ||
+      (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_CHECKING' && this.parentPath === 'tbo-legal-review') ||
+      (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW' && this.parentPath === 'tbo-legal-review')
+    ) {
       this.isDisabledReview = true;
     } else if (this.data.obj.documentStatusId === 'ACTIVE') {
       this.isDisabledReview = true;
