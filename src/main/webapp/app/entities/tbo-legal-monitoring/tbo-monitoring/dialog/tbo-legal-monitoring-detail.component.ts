@@ -128,6 +128,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
   dateControl = new FormControl();
   public _creditProposal: ICreditProposal;
   isDisabledReview: boolean;
+  isDisabledChecking: boolean;
 
   @Input()
   get creditProposal(): ICreditProposal {
@@ -179,7 +180,17 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     //   dueDate: [new Date(this.tempVal)],
     // });
 
-    if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW') {
+    // if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW') {
+    //   this.isDisabledReview = true;
+    // } else if (this.data.obj.documentStatusId === 'ACTIVE') {
+    //   this.isDisabledReview = true;
+    // } else {
+    //   this.isDisabledReview = false;
+    // }
+
+    if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW' && this.parentPath === 'tbo-legal-checking') {
+      this.isDisabledReview = true;
+    } else if (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_CHECKING' && this.parentPath === 'tbo-legal-review') {
       this.isDisabledReview = true;
     } else if (this.data.obj.documentStatusId === 'ACTIVE') {
       this.isDisabledReview = true;
@@ -417,14 +428,14 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     }
   }
 
-  private doUpload(frmData: FormData, metaData: object): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.uploadMeta(this.bucket, frmData, metaData).subscribe({
-        next: res => resolve(),
-        error: err => reject(),
-      });
-    });
-  }
+  // private doUpload(frmData: FormData, metaData: object): Promise<void> {
+  //   return new Promise<void>((resolve, reject) => {
+  //     this.storageService.uploadMeta(this.bucket, frmData, metaData).subscribe({
+  //       next: res => resolve(),
+  //       error: err => reject(),
+  //     });
+  //   });
+  // }
 
   public preSave(): void {
     const formattedDate =
@@ -438,6 +449,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.document.documentTypeId === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.documentTypeId === 'DOC_DPDL_LEGAL_LAMPIRAN'
         ? this.document.name
         : resultDocName;
+
     this.currentObject = {
       date: this.document.date,
       documentTypeId: this.document.documentTypeId,
@@ -446,7 +458,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       statusAppDocId: this.document.statusAppDocId,
       initialStatusId: this.document.initialStatusId,
       name: DocName,
-      path: this.folderFiles.length > 0 ? this.folderFiles[0].Key : null,
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
       dueDate: this.document.dueDate,
@@ -470,10 +481,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           typeof this.document.attributes === 'string'
             ? JSON.parse(this.changeCharacter(this.document.attributes)).remarks
             : this.changeCharacter(this.document.attributes.remarks),
-        remarksTbo:
-          typeof this.document.attributes === 'string'
-            ? JSON.parse(this.changeCharacter(this.document.attributes)).remarksTbo
-            : this.changeCharacter(this.document.attributes.remarksTbo),
         description:
           typeof this.document.attributes === 'string'
             ? JSON.parse(this.changeCharacter(this.document.attributes)).description
@@ -499,6 +506,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
             : null,
       },
     };
+    console.log('pre save', this.currentObject);
 
     this.checkChanges();
     if (this.folder === undefined) {
@@ -586,8 +594,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           initialStatusId: this.document.initialStatusId,
           date: this.document.date,
           dueDate: convTempVal,
-
-          path: this.folderFiles.length > 0 ? this.folderFiles[0].Key : null,
           docIdTags: this.document.attributes['docId'],
           id: this.document.id,
 
@@ -616,10 +622,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
               typeof this.document.attributes === 'string'
                 ? JSON.parse(this.changeCharacter(this.document.attributes)).remarks
                 : this.changeCharacter(this.document.attributes.remarks),
-            remarksTbo:
-              typeof this.document.attributes === 'string'
-                ? JSON.parse(this.changeCharacter(this.document.attributes)).remarksTbo
-                : this.changeCharacter(this.document.attributes.remarksTbo),
             description:
               typeof this.document.attributes === 'string'
                 ? JSON.parse(this.changeCharacter(this.document.attributes)).description
@@ -676,7 +678,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this.files.splice(this.files.indexOf(event), 1);
     } else {
       this.folder['files'] = this.folder['files'].filter((data: any) => data.key !== event.key);
-
       this.removeFile.push(event.key);
     }
   }

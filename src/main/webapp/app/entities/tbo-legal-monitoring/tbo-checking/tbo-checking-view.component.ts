@@ -679,7 +679,7 @@ export class TboCheckingViewComponent implements OnInit {
   }
 
   public conditionSaveBtn() {
-    if (this.router.url.includes('tbo-legal-checking')) {
+    if (this.router.url.includes('tbo-legal-checking') && this.creditProposal.statusDocumentId === 'TBO_LEGAL_CHECKING') {
       this.conditionSave = true;
       //   if (this.positionTypeId === 'BM') {
       //     if (this.creditProposal.statusId === 'CP_APPROVAL_BM') {

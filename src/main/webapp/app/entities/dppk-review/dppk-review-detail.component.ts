@@ -571,7 +571,7 @@ export class DppkReviewDetailComponent implements OnInit {
   }
 
   private checkForGenerateButton(taskList: any): void {
-    const captionFound = obj => obj.caption === 'Submit Checker 1';
+    const captionFound = obj => obj.caption === 'Submit Checker 1' || 'Submit Checker 2';
 
     this.dppkReviewService.getTaskVariable(this.creditProposal.id).subscribe(res => {
       if (taskList.findIndex(captionFound) > -1) {

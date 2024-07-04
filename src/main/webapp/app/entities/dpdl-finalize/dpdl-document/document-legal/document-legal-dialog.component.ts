@@ -86,6 +86,8 @@ export class DocumentLegalDialogComponent implements OnInit {
   public legalCovernoteTaskDataSource: any[] = [];
   public pristine: boolean;
 
+  private initialData = { key: '', length: 0 };
+  private dummyDeleted = false;
   private dummyTBO: any = [];
 
   constructor(
@@ -183,12 +185,6 @@ export class DocumentLegalDialogComponent implements OnInit {
     }
 
     this.isTBO();
-
-    if (this.data.view === 'edit') {
-      if (dataDoc.files[0].tags.status === 'TBO' && this.folder.files.length > 0) {
-        this.deleteDummyImage();
-      }
-    }
 
     this.changefield = false;
   }
@@ -386,101 +382,109 @@ export class DocumentLegalDialogComponent implements OnInit {
   }
 
   public preSave(): void {
-    const formattedDate =
-      this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
-        ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
-        : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
-
-    if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
-      const coverNoteTask = [];
-      if (this.legalCovernoteTaskDataSource.length > 0) {
-        this.legalCovernoteTaskDataSource.forEach(obj =>
-          coverNoteTask.push({
-            code: obj.covernoteCode,
-            date: this.datePipe.transform(obj.covernoteDate, 'yyyy/MM/dd'),
-          })
-        );
-      }
-
-      this.document.attributes['covernoteTask'] = coverNoteTask;
-      this.document.attributes['covernoteType'] = this.document.legalCovernote?.attributes.covernoteType;
-    }
-
-    this.currentObject = {
-      id: this.document.id,
-      rootId: this.documentRootId,
-      documentDate: formattedDate,
-      documentId: this.document.documentId,
-      parentId: this.document.parentId,
-
-      category: this.document.category,
-      status: this.document.status,
-      attributes: {
-        remarks:
-          typeof this.document.attributes === 'string'
-            ? JSON.parse(this.changeCharacter(this.document.attributes)).remarks
-            : this.changeCharacter(this.document.attributes.remarks),
-        // remarks: this.changeCharacter(this.document.attributes.remarks),
-        description:
-          typeof this.document.attributes === 'string'
-            ? JSON.parse(this.changeCharacter(this.document.attributes)).description
-            : this.changeCharacter(this.document.attributes.description),
-        total:
-          typeof this.document.attributes === 'string'
-            ? JSON.parse(this.changeCharacter(this.document.attributes)).total
-            : this.changeCharacter(this.document.attributes.total),
-        notaryNumber:
-          typeof this.document.attributes === 'string'
-            ? JSON.parse(this.changeCharacter(this.document.attributes)).notaryNumber
-            : this.changeCharacter(this.document.attributes.notaryNumber),
-        notaryName:
-          typeof this.document.attributes === 'string'
-            ? JSON.parse(this.changeCharacter(this.document.attributes)).notaryName
-            : this.changeCharacter(this.document.attributes.notaryName),
-        batasWaktuPenyelesaian:
-          typeof this.document.attributes === 'string'
-            ? this.datePipe.transform(JSON.parse(this.document.attributes).batasWaktuPenyelesaian, 'yyyy/MM/dd')
-            : this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd'),
-      },
-
-      legalCovernote:
+    if (this.forceValidation()) {
+      this._showNotification('error', 'Upload file terlebih dahulu');
+    } else {
+      const formattedDate =
         this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
-          ? {
-              covernoteType:
-                typeof this.document.attributes === 'string'
-                  ? JSON.parse(this.changeCharacter(this.document.attributes)).covernoteType
-                  : this.changeCharacter(this.document.attributes.covernoteType),
-              covernoteTask:
-                typeof this.document.attributes === 'string'
-                  ? JSON.parse(this.changeCharacter(this.document.attributes)).covernoteTask
-                  : this.changeCharacter(this.document.attributes.covernoteTask),
-            }
-          : {},
-    };
+          ? this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd')
+          : this.datePipe.transform(this.document.documentDate, 'yyyy/MM/dd');
 
-    this.checkChanges();
-    if (this.folder === undefined) {
-      if (this.files.length === 0 && this.document.status !== 'TBO') {
-        this._snackBar.open('Choose file for upload', null, {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 3000,
-        });
+      if (this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+        const coverNoteTask = [];
+        if (this.legalCovernoteTaskDataSource.length > 0) {
+          this.legalCovernoteTaskDataSource.forEach(obj =>
+            coverNoteTask.push({
+              code: obj.covernoteCode,
+              date: this.datePipe.transform(obj.covernoteDate, 'yyyy/MM/dd'),
+            })
+          );
+        }
+
+        this.document.attributes['covernoteTask'] = coverNoteTask;
+        this.document.attributes['covernoteType'] = this.document.legalCovernote?.attributes.covernoteType;
       }
-    }
 
-    if (this.removeFile.length > 1) {
-      for (let i = 0; i < this.removeFile.length; i++) {
-        this.storageService.deleteFile(this.bucket, this.removeFile[i]).subscribe(data => {
+      this.currentObject = {
+        id: this.document.id,
+        rootId: this.documentRootId,
+        documentDate: formattedDate,
+        documentId: this.document.documentId,
+        parentId: this.document.parentId,
+
+        category: this.document.category,
+        status: this.document.status,
+        attributes: {
+          remarks:
+            typeof this.document.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(this.document.attributes)).remarks
+              : this.changeCharacter(this.document.attributes.remarks),
+          // remarks: this.changeCharacter(this.document.attributes.remarks),
+          description:
+            typeof this.document.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(this.document.attributes)).description
+              : this.changeCharacter(this.document.attributes.description),
+          total:
+            typeof this.document.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(this.document.attributes)).total
+              : this.changeCharacter(this.document.attributes.total),
+          notaryNumber:
+            typeof this.document.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(this.document.attributes)).notaryNumber
+              : this.changeCharacter(this.document.attributes.notaryNumber),
+          notaryName:
+            typeof this.document.attributes === 'string'
+              ? JSON.parse(this.changeCharacter(this.document.attributes)).notaryName
+              : this.changeCharacter(this.document.attributes.notaryName),
+          batasWaktuPenyelesaian:
+            typeof this.document.attributes === 'string'
+              ? this.datePipe.transform(JSON.parse(this.document.attributes).batasWaktuPenyelesaian, 'yyyy/MM/dd')
+              : this.datePipe.transform(this.document.attributes.batasWaktuPenyelesaian, 'yyyy/MM/dd'),
+        },
+
+        legalCovernote:
+          this.document.parentId === 'DOC_DPDL_LEGAL_COVERNOTE'
+            ? {
+                covernoteType:
+                  typeof this.document.attributes === 'string'
+                    ? JSON.parse(this.changeCharacter(this.document.attributes)).covernoteType
+                    : this.changeCharacter(this.document.attributes.covernoteType),
+                covernoteTask:
+                  typeof this.document.attributes === 'string'
+                    ? JSON.parse(this.changeCharacter(this.document.attributes)).covernoteTask
+                    : this.changeCharacter(this.document.attributes.covernoteTask),
+              }
+            : {},
+      };
+
+      this.checkChanges();
+      if (this.folder === undefined) {
+        if (this.files.length === 0 && this.document.status !== 'TBO') {
+          this._snackBar.open('Choose file for upload', null, {
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            duration: 3000,
+          });
+        }
+      }
+
+      if (this.data.view === 'edit' && this.initialData.key.includes('los_logo.png')) {
+        this.deleteDummyImage();
+      }
+
+      if (this.removeFile.length > 1) {
+        for (let i = 0; i < this.removeFile.length; i++) {
+          this.storageService.deleteFile(this.bucket, this.removeFile[i]).subscribe(data => {
+            this.saveAndUpdate();
+          });
+        }
+      } else if (this.removeFile.length === 1) {
+        this.storageService.deleteFile(this.bucket, this.removeFile[0]).subscribe(data => {
           this.saveAndUpdate();
         });
-      }
-    } else if (this.removeFile.length === 1) {
-      this.storageService.deleteFile(this.bucket, this.removeFile[0]).subscribe(data => {
+      } else {
         this.saveAndUpdate();
-      });
-    } else {
-      this.saveAndUpdate();
+      }
     }
   }
 
@@ -555,14 +559,19 @@ export class DocumentLegalDialogComponent implements OnInit {
     }
 
     return new Promise((resolve, reject) => {
-      let isTBO: any;
+      let isTBO: boolean;
 
-      if (this.data.view === 'edit') {
-        isTBO = this.document.status === 'TBO' && this.folder.files?.length === 0;
-      } else {
-        isTBO = this.document.status === 'TBO' && this.files.length === 0;
+      switch (true) {
+        case this.data.view === 'edit' && (this.files.length === undefined || this.files.length === 0):
+          isTBO = this.document.status === 'TBO' && (this.dummyDeleted || this.folder.files.length === 0);
+          break;
+        case this.data.view === 'add':
+          isTBO = this.document.status === 'TBO' && this.files.length === 0;
+          break;
+        default:
+          isTBO = false;
+          break;
       }
-
       if (this.data.creditProposal !== null) {
         const data = {
           existingIds: this.existingIds,
@@ -739,7 +748,10 @@ export class DocumentLegalDialogComponent implements OnInit {
       batasWaktuPenyelesaian: true,
     };
 
-    if ((this.folder === undefined || this.folder.nameFile.includes('los_logo.png')) && this.document.status !== 'TBO') {
+    if (
+      (this.folder === undefined || this.folder?.files.length === 0 || this.initialData.key.includes('los_logo.png')) &&
+      this.document.status !== 'TBO'
+    ) {
       if (this.files.length === 0) {
         this._showNotification('error', 'Upload file terlebih dahulu');
         mustValidateDocument.files = false;
@@ -915,6 +927,16 @@ export class DocumentLegalDialogComponent implements OnInit {
 
   private isTBO(): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (this.data.view === 'edit') {
+        if (this.data.obj.files[0].tags.status === 'TBO' && this.folder.files[0].key.includes('los_logo.png')) {
+          this.initialData = {
+            key: this.folder.files[0].key,
+            length: this.folder.files.length,
+          };
+          this.folder.files.splice(0, 1);
+        }
+      }
+
       const img = new Image();
       img.src = 'content/images/los_logo.png';
       img.onload = () => {
@@ -933,19 +955,29 @@ export class DocumentLegalDialogComponent implements OnInit {
   }
 
   public deleteDummyImage(): void {
-    if (this.data.obj.files.length > 0) {
-      if (this.folder.files[0].key.includes('los_logo.png')) {
-        this.removeFile.push(this.folder.files[0].key);
-        this.files.splice(0, 1);
-        this.folder.files.splice(0, 1);
-      }
-    }
+    this.removeFile.push(this.initialData.key);
+    this.dummyDeleted = true;
   }
 
   public preventNonNumericalInput(event: KeyboardEvent): void {
     const charCode = event.which ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       event.preventDefault();
+    }
+  }
+  // force validation to prevent presave when document with status other than tbo has 0 uploaded file
+  public forceValidation(): boolean {
+    if (
+      (this.folder === undefined || this.folder?.files.length === 0 || this.initialData.key.includes('los_logo.png')) &&
+      this.document.status !== 'TBO'
+    ) {
+      if (this.files.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 }
