@@ -82,6 +82,7 @@
     "jszip": "^3.10.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.45",
     "ng2-charts": "^3.0.11",
     "ngx-bootstrap": "8.0.0",
     "ngx-currency": "2.5.3",

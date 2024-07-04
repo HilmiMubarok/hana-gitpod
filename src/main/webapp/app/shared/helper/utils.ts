@@ -1,4 +1,6 @@
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import moment from 'moment-timezone';
+import lodash from 'lodash';
 
 export function formatBytes(bytes: number, decimals?: number) {
   if (bytes === 0) {
@@ -34,7 +36,7 @@ export function parsePreviousAtrribute(cp: ICreditProposal): IParsePreviousAtrri
     'collateralPrevious',
     'creditProposalCollateralData',
     'coverageTotal',
-    'collateralSummary'
+    'collateralSummary',
   ];
 
   for (const attribute of attributes) {
@@ -55,4 +57,77 @@ export function parsePreviousAtrribute(cp: ICreditProposal): IParsePreviousAtrri
   }
 
   return parsedAttribute;
+}
+
+export function formatDateDob(dateString) {
+  return getStaticDate(dateString);
+}
+
+function getStaticDate(date) {
+  const dateString = date.toString();
+  const monthObject = convertStringMonthToNumber(dateString.substring(4, 7));
+  const day = dateString.substring(8, 10);
+  const year = dateString.substring(11, 15);
+
+  if (dateString === 'Invalid Date') {
+    return '-';
+  }
+  return moment.utc(date).tz('Asia/Jakarta').locale('en').format('MMMM, D YYYY');
+}
+
+function convertStringMonthToNumber(monthString) {
+  const monthArray = [
+    {
+      desc: 'Jan',
+      numString: '1',
+    },
+    {
+      desc: 'Feb',
+      numString: '2',
+    },
+    {
+      desc: 'Mar',
+      numString: '3',
+    },
+    {
+      desc: 'Apr',
+      numString: '4',
+    },
+    {
+      desc: 'May',
+      numString: '5',
+    },
+    {
+      desc: 'Jun',
+      numString: '6',
+    },
+    {
+      desc: 'Jul',
+      numString: '7',
+    },
+    {
+      desc: 'Aug',
+      numString: '8',
+    },
+    {
+      desc: 'Sep',
+      numString: '9',
+    },
+    {
+      desc: 'Oct',
+      numString: '10',
+    },
+    {
+      desc: 'Nov',
+      numString: '11',
+    },
+    {
+      desc: 'Dec',
+      numString: '12',
+    },
+  ];
+
+  return lodash.find(monthArray, function (month) {
+    return month.desc === monthString;
+  });
 }

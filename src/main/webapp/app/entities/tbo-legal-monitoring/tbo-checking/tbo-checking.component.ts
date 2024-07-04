@@ -22,6 +22,7 @@ import lodash from 'lodash';
 import { CashTboLegalMonitoringService } from '../cash-tbo-legal-monitoring.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { writeFile, utils, WorkSheet } from 'xlsx';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-tbo-checking',
@@ -306,7 +307,7 @@ export class TboCheckingComponent extends AbstractEntityMaterialComponent<ITboCh
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });

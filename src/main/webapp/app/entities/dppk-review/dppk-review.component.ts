@@ -21,6 +21,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { IDppkReview } from './dppk-review.model';
 import { CashDppkReviewService } from './cash-dppk-review.service';
 import { DppkReviewService } from './dppk-review.service';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-dppk-review',
@@ -244,7 +245,7 @@ export class DppkReviewComponent extends AbstractEntityMaterialComponent<IDppkRe
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });

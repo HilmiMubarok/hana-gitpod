@@ -22,6 +22,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 import { CashDpdlService } from './cash-dpdl.service';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-dpdl-finalize',
@@ -250,7 +251,7 @@ export class DpdlFinalizeComponent extends AbstractEntityMaterialComponent<IDpdl
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });

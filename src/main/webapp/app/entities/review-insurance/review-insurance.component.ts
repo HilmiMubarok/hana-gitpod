@@ -21,6 +21,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 import { ReviewInsuranceService } from './review-insurance.service';
 import { CashReviewInsuranceService } from './cash-review-insurance.service';
 import { IReviewInsurance } from './review-insurance.model';
+import { formatDateDob } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-review-insurance',
   templateUrl: './review-insurance.component.html',
@@ -245,7 +246,7 @@ export class ReviewInsuranceComponent extends AbstractEntityMaterialComponent<IR
     data.forEach(item => {
       if (item.prospectPerson) {
         if (item.prospectPerson.dob) {
-          item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+          item.prospectPerson.staticDob = formatDateDob(item.prospectPerson.dob);
         }
       }
     });
