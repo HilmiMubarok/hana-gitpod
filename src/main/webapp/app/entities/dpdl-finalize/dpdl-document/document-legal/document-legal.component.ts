@@ -267,7 +267,7 @@ export class DocumentLegalComponent implements OnChanges {
 
   public saveLegalCovernoteAttributes(id: string, res: any): void {
     if (this.creditProposal.attributes.legalCovernote.length > 0) {
-      const targetId = obj => obj === id;
+      const targetId = obj => obj.id === id;
       if (this.creditProposal.attributes.legalCovernote.findIndex(targetId) > -1) {
         this.creditProposal.attributes.legalCovernote.forEach((obj, index) => {
           if (obj.id === id) {
@@ -325,6 +325,10 @@ export class DocumentLegalComponent implements OnChanges {
               this.getFiles(this.creditProposal.id);
             });
           }
+        }
+
+        if (res.parentId === 'DOC_DPDL_LEGAL_COVERNOTE') {
+          this.saveLegalCovernoteAttributes(res.id, res);
         }
 
         if (fileRes.length === files.length) {
