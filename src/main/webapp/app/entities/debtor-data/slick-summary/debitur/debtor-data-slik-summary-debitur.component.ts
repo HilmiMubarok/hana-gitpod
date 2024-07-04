@@ -456,7 +456,6 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   }
 
   private mapperIPDFSlikToPartySlik(item: IPDFSlik): IPartySlik {
-    console.log('item-slik', item);
     const partySlik: any = new PartySlik();
     partySlik.attributes = {
       name: item.debtorName,
@@ -504,11 +503,9 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
         this.getFiles();
 
         const listPartySlik: IPartySlik[] = [];
-        console.log('resData', this.resData);
         for (let y = 0; y < this.resData.length; y++) {
           const item = this.resData[y];
           const partySlik: IPartySlik = this.mapperIPDFSlikToPartySlik(item);
-          console.log('party-slik', partySlik);
           listPartySlik.push(partySlik);
         }
         if (listPartySlik.length > 0) {
