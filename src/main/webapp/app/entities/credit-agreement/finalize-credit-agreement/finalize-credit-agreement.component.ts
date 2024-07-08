@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, OnDestroy } from '@angular/core';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -14,12 +14,15 @@ import { CashCreditProposalsService } from 'app/entities/cash-credit-proposal/ca
 import { IEntityProperties } from 'app/entities/entity-properties/entity-properties.model';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { INotes } from 'app/entities/notes/notes.model';
+import { ApprovalDebtorCorporateService } from './approval-debtor-corporate.service';
+import { Subject, takeUntil } from 'rxjs';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 @Component({
   selector: 'jhi-finalize-credit-agreement',
   templateUrl: './finalize-credit-agreement.component.html',
   styleUrls: ['../credit-agreement.css'],
 })
-export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
+export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDestroy {
   public dataAgreement: any[] = [];
   public agreementTypeLov: string[] = ['NEW', 'ADDENDUM', 'Perubahan dan Pernyataan Kembali'];
   public approvalDebtor: any[] = [];
@@ -37,6 +40,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
   public bucket: string;
   public addendumClausalAgreements: any[] = [];
   public addendumClausalAgreementsHistory: any[] = [];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public displayColumns = ['No', 'Name', 'Debitor', 'Position', 'Action'];
   public displayColumnsDraftPerjanjianKredit = ['no', 'fileName', 'date', 'createdBy', 'sizeFile', 'action'];
@@ -68,15 +72,38 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges {
     public creditAgreementService: CreditAgreementService,
     public messageSeervice: MessageService,
     private storageService: StorageService,
-    public cashCreditProposalsService: CashCreditProposalsService
+    public cashCreditProposalsService: CashCreditProposalsService,
+    public approvalDebtorCorporateService: ApprovalDebtorCorporateService,
+    public creditProposalService: CreditProposalService
   ) {
     this.loading = false;
+    this.approvalDebtorCorporateService.triggeredSave.pipe(takeUntil(this.destroy$)).subscribe(value => {
+      if (value) {
+        this.refresh();
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       this.creditProposal = changes['creditProposal'].currentValue;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  refresh(): void {
+    this.creditProposalService.find(this.creditProposal.id).subscribe((response: any) => {
+      this.creditProposal = response.body;
+      this.creditProposal.entityProperties = response.body.entityProperties;
+
+      this.approvalDebtorCorporateService.setApprovalDebtorConditions(this.creditProposal.entityProperties);
+
+      // this.ngOnInit();
+    });
   }
 
   ngOnInit(): void {
