@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
@@ -62,13 +62,14 @@ import { BusinessActivityService } from '../credit-proposal/busines-activity/bus
 import { ViewportScroller } from '@angular/common';
 import { GenerateReportService } from '../generate-report-service/generate-report.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
+import { ApprovalDebtorCorporateService } from './finalize-credit-agreement/approval-debtor-corporate.service';
 
 @Component({
   selector: 'jhi-credit-agreement-floating',
   templateUrl: './credit-agreementfloating.component.html',
   styleUrls: ['./credit-agreement.css'],
 })
-export class CreditAgreementDetailComponent implements OnInit {
+export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
   @ViewChild('creditProposalTabBusinessActivityComponent', {
     static: false,
   })
@@ -187,6 +188,7 @@ export class CreditAgreementDetailComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   public dataPKFinal = [];
   public dataPkDraft: object[];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private partyCifService: PartyCifService,
@@ -214,12 +216,19 @@ export class CreditAgreementDetailComponent implements OnInit {
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
     private generatePkDraftService: GenerateReportService,
-    private cashCollateralService: CashCollateralService
+    private cashCollateralService: CashCollateralService,
+    public approvalDebtorCorporateService: ApprovalDebtorCorporateService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
+    });
+
+    this.approvalDebtorCorporateService.approvalDebtorConditions.pipe(takeUntil(this.destroy$)).subscribe(res => {
+      if (res) {
+        this.creditProposal.entityProperties = res;
+      }
     });
 
     this.subMenu = this.creditProposal.attributes['previousOfferingLetter']
@@ -481,6 +490,11 @@ export class CreditAgreementDetailComponent implements OnInit {
     // this.cpGroub();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   public goToSubMenu(menu: string): void {
     this.clickedMenu = menu;
   }
@@ -715,6 +729,7 @@ export class CreditAgreementDetailComponent implements OnInit {
           detail: 'Save Success',
         });
         this.saveWord = false;
+        this.approvalDebtorCorporateService.setTriggeredSave(true);
       }
     });
   }
