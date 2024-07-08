@@ -119,7 +119,8 @@
                 <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
                   <fa-icon [icon]="iconTimeline"></fa-icon>
                 </button>
-                <jhi-developer-area-show-diagram-state-multiple [elementData]="element"> </jhi-developer-area-show-diagram-state-multiple>
+                <jhi-developer-area-show-diagram-state-multiple [parentPath]="'tbo-legal-review'" [elementData]="element">
+                </jhi-developer-area-show-diagram-state-multiple>
               </td>
             </ng-container>
             <ng-container matColumnDef="expand">

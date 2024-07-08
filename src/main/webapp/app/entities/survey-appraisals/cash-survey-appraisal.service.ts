@@ -348,5 +348,12 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
     return this.http.get(`${this.resourceUrl}/cash-survey-appraisals/diagram-task/${id}`, { observe: 'response', responseType: 'blob' });
   }
 
+  public getTaskDiagramTbo(id: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.resourceUrl}/credit-proposal-tbo-process/diagram-task/${id}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
   protected preSave(entity: ISurveyAppraisals) {}
 }
