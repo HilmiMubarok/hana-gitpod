@@ -40,6 +40,14 @@ export class DeveloperShowDiagramStateMultipleComponent {
         _type = 'insurance';
         break;
 
+      case 'tbo-legal-checking':
+        _type = 'tbo-process';
+        break;
+
+      case 'tbo-legal-review':
+        _type = 'tbo-process-review';
+        break;
+
       default:
         _type = !param.appraisalNumber ? 'cp' : 'appraisal';
         break;

@@ -36,6 +36,14 @@ export class DeveloperShowDiagramStateMultipleDialogComponent implements OnInit 
         result = (await firstValueFrom(this.cashSurveyAppraisalsService.getTaskDiagram(this.id))).body;
         break;
 
+      case 'tbo-process':
+        result = (await firstValueFrom(this.cashSurveyAppraisalsService.getTaskDiagramTbo(this.id))).body;
+        break;
+
+      case 'tbo-process-review':
+        result = (await firstValueFrom(this.cashSurveyAppraisalsService.getTaskDiagramTbo(this.id))).body;
+        break;
+
       default:
         result = (await firstValueFrom(this.creditProposalService.getTaskDiagram(this.id))).body;
         break;
