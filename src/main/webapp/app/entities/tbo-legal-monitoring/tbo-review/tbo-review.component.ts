@@ -530,7 +530,7 @@ export class TboReviewComponent extends AbstractEntityMaterialComponent<ITboRevi
   }
 
   public showTimeLine(element: ITboReviewModel): void {
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('TBO_LEGAL_MONITORIN', element.id).subscribe(res => {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('TBO_LEGAL_MONITORING', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
