@@ -456,7 +456,7 @@ export class TboReviewComponent extends AbstractEntityMaterialComponent<ITboRevi
         this.getStatusListView('TBO_LEGAL_REVIEW');
         if (this.clickedChip['statusId'] !== '') {
           this.cashTboLegalMonitoringService
-            .getTboLegalMonitoring({
+            .getTboLegalReview({
               page: this.page,
               idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
@@ -472,7 +472,7 @@ export class TboReviewComponent extends AbstractEntityMaterialComponent<ITboRevi
           return;
         } else {
           this.cashTboLegalMonitoringService
-            .getTboLegalMonitoring({
+            .getTboLegalReview({
               page: this.page,
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
