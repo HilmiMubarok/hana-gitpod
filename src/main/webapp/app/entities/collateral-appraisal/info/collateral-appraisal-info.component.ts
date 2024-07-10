@@ -190,7 +190,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
       });
   }
   public disabledVisited() {
-    if (this.surveyAppraisal.statusId === 'VISITED') {
+    if (this.surveyAppraisal.statusId === 'VISITED' || this.surveyAppraisal.statusId === 'RETURN_TO_OFFICER') {
       this.appraisalValidityPeriod = false;
     } else {
       this.appraisalValidityPeriod = true;
