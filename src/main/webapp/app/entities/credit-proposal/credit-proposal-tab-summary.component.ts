@@ -914,6 +914,9 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
     if (element.tags.createBy === this.currentAccount.login && element.tags.documentType === DOCUMENT_TYPE_GENERATE_DOCUMENT.CP) {
       return false;
     }
+    if (element.tags.createBy === this.currentAccount.login) {
+      return false;
+    }
     return true;
   }
 }
