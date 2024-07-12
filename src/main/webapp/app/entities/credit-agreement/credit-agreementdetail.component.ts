@@ -1803,9 +1803,9 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
       }
       if (
         (this.dataPkDraft && this.dataPkDraft.length === 0) ||
-        this.creditProposal.tasks[i].name !== 'returnrm' ||
-        this.creditProposal.tasks[i].name !== 'returnol' ||
-        this.creditProposal.tasks[i].name !== 'returndar'
+        this.creditProposal.tasks[i].name === 'returnrm' ||
+        this.creditProposal.tasks[i].name === 'returnol' ||
+        this.creditProposal.tasks[i].name === 'returndar'
       ) {
         return false;
       }
