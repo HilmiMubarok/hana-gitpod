@@ -1795,13 +1795,19 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
   private validateDraft(): boolean {
     for (let i = 0; this.creditProposal.tasks.length; i++) {
       if (
+        this.creditProposal.tasks[i].name === 'returnrm' ||
+        this.creditProposal.tasks[i].name === 'returnol' ||
+        this.creditProposal.tasks[i].name === 'returndar'
+      ) {
+        return true;
+      }
+      if (
+        (this.dataPkDraft && this.dataPkDraft.length === 0) ||
         this.creditProposal.tasks[i].name !== 'returnrm' ||
         this.creditProposal.tasks[i].name !== 'returnol' ||
         this.creditProposal.tasks[i].name !== 'returndar'
       ) {
-        if (this.dataPkDraft && this.dataPkDraft.length === 0) {
-          return false;
-        }
+        return false;
       }
     }
     return true;
