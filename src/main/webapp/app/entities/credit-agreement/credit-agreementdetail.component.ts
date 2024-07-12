@@ -542,7 +542,6 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
         this.resAttr.attr['idApplication'] = this.creditProposal.id;
-
         if (this.validateDraft()) {
           // Validasi Final
           if (this.validateFinal()) {
@@ -1794,8 +1793,22 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
       });
   }
   private validateDraft(): boolean {
-    if (this.dataPkDraft && this.dataPkDraft.length === 0) {
-      return false;
+    for (let i = 0; this.creditProposal.tasks.length; i++) {
+      if (
+        this.creditProposal.tasks[i].name === 'returnrm' ||
+        this.creditProposal.tasks[i].name === 'returnol' ||
+        this.creditProposal.tasks[i].name === 'returndar'
+      ) {
+        return true;
+      }
+      if (
+        (this.dataPkDraft && this.dataPkDraft.length === 0) ||
+        this.creditProposal.tasks[i].name !== 'returnrm' ||
+        this.creditProposal.tasks[i].name !== 'returnol' ||
+        this.creditProposal.tasks[i].name !== 'returndar'
+      ) {
+        return false;
+      }
     }
     return true;
   }
