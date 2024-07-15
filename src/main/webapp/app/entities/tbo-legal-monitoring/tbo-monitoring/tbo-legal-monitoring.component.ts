@@ -55,6 +55,29 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
   public parentPath = this.router.url.split('/')[1];
 
+  public statusValue = [
+    {
+      statusId: 'AVAILABLE',
+      statusDescription: 'Available',
+      statusCode: 'AVAILABLE',
+    },
+    {
+      statusId: 'TBO',
+      statusDescription: 'TBO',
+      statusCode: 'TBO',
+    },
+    {
+      statusId: 'WAIVED',
+      statusDescription: 'Waived',
+      statusCode: 'WAIVED',
+    },
+    {
+      statusId: 'NOT_AVAILABLE',
+      statusDescription: 'Not Available',
+      statusCode: 'NOT_AVAILABLE',
+    },
+  ];
+
   masterDocTermComponent: MasterDocumentTermComponent;
   constructor(
     private storageService: StorageService,
@@ -439,6 +462,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
         initialStatusId: res.initialStatusId,
         date: res.date,
         dueDate: res.dueDate,
+        notes: res.notes,
         path: res.path,
         applicationNumber: this.creditProposal.applicationNumber,
         name: DocName,
@@ -448,7 +472,7 @@ export class TboLegalMonitoringComponent implements OnChanges {
           documentDate: res.attributes.documentDate,
           proposedDate: res.attributes.proposedDate,
           proposedStatus: res.attributes.proposedStatus,
-          remarks: res.attributes.remarks,
+          // remarks: res.attributes.remarks,
           description: res.attributes.description,
           total: res.attributes.total,
           notaryNumber: res.attributes.notaryNumber,
@@ -456,6 +480,8 @@ export class TboLegalMonitoringComponent implements OnChanges {
           batasWaktuPenyelesaian: res.attributes.batasWaktuPenyelesaian,
         },
       };
+
+      console.log('updatedDocument', updatedDocument);
 
       if (updatedDocument.id) {
         this.applicationDocumentService.update(updatedDocument).subscribe(updatedRes => {
@@ -599,7 +625,13 @@ export class TboLegalMonitoringComponent implements OnChanges {
   }
 
   getStatusAppDocId(statusAppDocId: string): string {
-    return statusAppDocId === '_NA_' ? '' : statusAppDocId;
+    if (statusAppDocId === '_NA_') {
+      return '';
+    } else {
+      const statusDoc = this.statusValue.find(status => status.statusId === statusAppDocId);
+      statusAppDocId = statusDoc ? statusDoc.statusDescription : statusAppDocId;
+    }
+    return statusAppDocId;
   }
 
   public docTerm: MasterDocumentTerm[];

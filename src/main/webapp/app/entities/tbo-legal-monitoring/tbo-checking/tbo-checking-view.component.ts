@@ -1254,7 +1254,7 @@ export class TboCheckingViewComponent implements OnInit {
             detail: 'Proposed Date Harus Diisi',
           });
           break;
-        } else if (this.applicationDocument[dataDoc].attributes.remarks === null) {
+        } else if (this.applicationDocument[dataDoc].notes === null) {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',

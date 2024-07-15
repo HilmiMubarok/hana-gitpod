@@ -7,6 +7,7 @@ export interface ITboLegalMonitoring {
   category?: string;
   documentDate?: Date;
   date?: Date;
+  notes?: string;
   status?: string;
   proposedStatus?: string;
   statusAppDocId?: string;
@@ -34,7 +35,8 @@ export class TboLegalMonitoring implements ITboLegalMonitoring {
     public proposedDate?: Date,
     public dueDate?: Date,
     public attributes?: any,
-    public objectName?: string
+    public objectName?: string,
+    public notes?: string
   ) {
     this.attributes = {};
   }

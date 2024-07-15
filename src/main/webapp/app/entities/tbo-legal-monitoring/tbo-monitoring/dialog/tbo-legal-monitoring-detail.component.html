@@ -337,7 +337,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Remarks</mat-label>
-                  <input matInput type="text" [disabled]="isDisabledReview" [(ngModel)]="document.attributes.remarks" />
+                  <input matInput type="text" [disabled]="isDisabledReview" [(ngModel)]="document.notes" />
                 </mat-form-field>
               </div>
             </div>
@@ -715,7 +715,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Remarks</mat-label>
-              <input matInput type="text" [disabled]="isDisabledReview" [(ngModel)]="document.attributes['remarks']" />
+              <input matInput type="text" [disabled]="isDisabledReview" [(ngModel)]="document.notes" />
             </mat-form-field>
           </div>
         </div>
