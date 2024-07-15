@@ -142,10 +142,9 @@ export class TboLegalMonitoringComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.save(res).then(() => {
-          this.getFiles(this.creditProposal.id);
-        });
-        this.edit(res).then(() => {
-          this.getFiles(this.creditProposal.id);
+          this.edit(res).then(() => {
+            this.getFiles(this.creditProposal.id);
+          });
         });
       }
     });
@@ -460,11 +459,11 @@ export class TboLegalMonitoringComponent implements OnChanges {
 
       if (updatedDocument.id) {
         this.applicationDocumentService.update(updatedDocument).subscribe(updatedRes => {
-          console.log('ini res', updatedRes);
+          resolve(null);
         });
       } else {
         this.applicationDocumentService.save(updatedDocument).subscribe(updatedRes => {
-          console.log('ini res', updatedRes);
+          resolve(null);
         });
       }
     });
