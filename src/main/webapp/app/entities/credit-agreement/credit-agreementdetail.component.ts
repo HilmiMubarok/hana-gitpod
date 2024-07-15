@@ -63,6 +63,7 @@ import { ViewportScroller } from '@angular/common';
 import { GenerateReportService } from '../generate-report-service/generate-report.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 import { ApprovalDebtorCorporateService } from './finalize-credit-agreement/approval-debtor-corporate.service';
+import { ESLint } from 'eslint';
 
 @Component({
   selector: 'jhi-credit-agreement-floating',
@@ -542,23 +543,35 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
         this.resAttr.attr['idApplication'] = this.creditProposal.id;
-        if (this.validateDraft()) {
-          // Validasi Final
-          if (this.validateFinal()) {
-            this.save('process');
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Please Generate PK Final first.',
+        if (_res.name === 'returnrm' || _res.name === 'returnol' || _res.name === 'returndar') {
+          this.save('process');
+        }
+        if (_res.name === 'submit' && this.creditProposal.statusId === 'PK_FINALIZE') {
+          this.validateDraft()
+            .then(() => {
+              this.save('process');
+            })
+            .catch(() => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Please Generate PK Draft first.',
+              });
             });
-          }
+        } else if (_res.name === 'submit' && this.creditProposal.statusId === 'PK_GENERATED') {
+          this.validateFinal()
+            .then(() => {
+              this.save('process');
+            })
+            .catch(() => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Please Generate PK Final first.',
+              });
+            });
         } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Please Generate PK Draft first.',
-          });
+          this.save('process');
         }
       }
     });
@@ -1792,35 +1805,27 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
         this.generatePkDraftService.setDataReportDraft(this.dataPkDraft);
       });
   }
-  private validateDraft(): boolean {
-    for (let i = 0; this.creditProposal.tasks.length; i++) {
-      if (
-        this.creditProposal.tasks[i].name === 'returnrm' ||
-        this.creditProposal.tasks[i].name === 'returnol' ||
-        this.creditProposal.tasks[i].name === 'returndar'
-      ) {
-        return true;
+  private validateDraft() {
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.dataPkDraft && this.dataPkDraft.length !== 0) {
+        resolve(true);
+      } else {
+        reject(false);
       }
-      if (
-        (this.dataPkDraft && this.dataPkDraft.length === 0) ||
-        this.creditProposal.tasks[i].name !== 'returnrm' ||
-        this.creditProposal.tasks[i].name !== 'returnol' ||
-        this.creditProposal.tasks[i].name !== 'returndar'
-      ) {
-        return false;
-      }
-    }
-    return true;
+    });
   }
 
-  private validateFinal(): boolean {
-    const dataGeneratePKFinal = this.dataPKFinal.filter(e => e.tags.documentType === 'DOC_GENERATE_PK');
-    if (this.parentPath.match(/finalize-pk/g) && this.creditProposal.statusId === 'PK_GENERATED') {
-      if (dataGeneratePKFinal && dataGeneratePKFinal.length === 0) {
-        return false;
+  private validateFinal() {
+    return new Promise<boolean>((resolve, reject) => {
+      const dataGeneratePKFinal = this.dataPKFinal.filter(e => e.tags.documentType === 'DOC_GENERATE_PK');
+      if (this.parentPath.match(/finalize-pk/g) && this.creditProposal.statusId === 'PK_GENERATED') {
+        if (dataGeneratePKFinal && dataGeneratePKFinal.length !== 0) {
+          resolve(true);
+        } else {
+          reject(false);
+        }
       }
-    }
-    return true;
+    });
   }
 }
 interface IObj {
