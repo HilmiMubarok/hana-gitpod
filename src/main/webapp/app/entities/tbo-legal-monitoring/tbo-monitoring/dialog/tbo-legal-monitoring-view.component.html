@@ -5,7 +5,7 @@
       <tr>
         <th>Category</th>
         <th>Date</th>
-        <th>Remarks</th>
+        <th>Note</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -13,7 +13,7 @@
       <tr>
         <td>{{ folder['category'] }}</td>
         <td>{{ folder['date'] | formatMediumDate }}</td>
-        <td>{{ folder['attributes']['remarks'] }}</td>
+        <td>{{ folder['notes'] }}</td>
         <td>{{ folder['initialStatusId'] }}</td>
       </tr>
     </tbody>
