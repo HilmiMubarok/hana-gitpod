@@ -195,6 +195,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_APPROVED' && this.parentPath === 'tbo-legal-review')
     ) {
       this.isDisabledReview = true;
+    } else if (this.data.obj.documentStatusId === 'ACTIVE') {
+      this.isDisabledReview = true;
     } else {
       this.isDisabledReview = false;
     }
