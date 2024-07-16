@@ -1303,10 +1303,12 @@ export class LoanAnalysMainComponent implements OnInit {
           //     detail: 'Please press button approval status before submit!',
           //     life: 3000,
           //   });
+        } else if (_res.caption === 'Return To CRO') {
+          this.onSave('process', _res.caption);
         } else if (
           this.creditProposal.statusId === 'CP_DAR_FINAL' ||
           (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && _res.caption === 'Approved as Condition') ||
-          _res.caption === 'Approved as Proposed'
+          (_res.caption === 'Approved as Proposed' && _res.caption === 'Submit')
         ) {
           this.creditProposal.attributes['approvalStatus'] = task.caption;
           this.validateDar()

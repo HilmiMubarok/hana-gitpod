@@ -63,7 +63,6 @@ import { ViewportScroller } from '@angular/common';
 import { GenerateReportService } from '../generate-report-service/generate-report.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 import { ApprovalDebtorCorporateService } from './finalize-credit-agreement/approval-debtor-corporate.service';
-import { ESLint } from 'eslint';
 
 @Component({
   selector: 'jhi-credit-agreement-floating',
