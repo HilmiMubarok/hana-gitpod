@@ -191,7 +191,8 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
     if (
       (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW' && this.parentPath === 'tbo-legal-checking') ||
       (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_CHECKING' && this.parentPath === 'tbo-legal-review') ||
-      (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW' && this.parentPath === 'tbo-legal-review')
+      (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_REVIEW' && this.parentPath === 'tbo-legal-review') ||
+      (this.data.creditProposal.statusDocumentId === 'TBO_LEGAL_APPROVED' && this.parentPath === 'tbo-legal-review')
     ) {
       this.isDisabledReview = true;
     } else if (this.data.obj.documentStatusId === 'ACTIVE') {
@@ -204,6 +205,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       id: dataDoc.id,
       docIdTags: dataDoc.attributes['docId'],
       date: dataDoc.date,
+      notes: dataDoc.notes,
       dueDate: dataDoc.dueDate,
       documentTypeParent: dataDoc.documentTypeParent,
       documentTypeId: dataDoc.documentTypeId,
@@ -372,6 +374,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
         documentTypeParent: this.folder['attributes']['documentTypeParent'],
         initialStatusId: this.folder['initialStatusId'],
         dueDate: new Date(this.folder['dueDate']),
+        notes: this.changeCharacter(this.folder['notes']),
 
         // rootId: this.folder['files'][0]['tags']['rootId'],
         documentTypeId: this.folder['documentTypeId'],
@@ -384,7 +387,6 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           prosedStatus: this.folder['attributes']['proposedStatus'],
           remarks: this.changeCharacter(this.folder['remarks']),
           covernoteType: this.folder['attributes']['covernoteType'],
-          // remarksTbo: this.changeCharacter(this.folder['files'][0]['tags']['attributes']['remarksTbo']),
           description: this.changeCharacter(this.folder['attributes']['description']),
           total: this.folder['attributes']['total'],
           notaryNumber: this.folder['attributes']['notaryNumber'],
@@ -459,6 +461,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       category: this.document.category,
       statusAppDocId: this.document.statusAppDocId,
       initialStatusId: this.document.initialStatusId,
+      notes: this.changeCharacter(this.document.notes),
       name: DocName,
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
@@ -595,6 +598,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           statusAppDocId: this.document.statusAppDocId,
           initialStatusId: this.document.initialStatusId,
           date: this.document.date,
+          notes: this.document.notes,
           dueDate: convTempVal,
           docIdTags: this.document.attributes['docId'],
           id: this.document.id,
@@ -773,7 +777,7 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       date: true,
       files: true,
       total: true,
-      remarks: true,
+      notes: true,
       remarksTbo: true,
       notaryNumber: true,
       notaryName: true,
@@ -814,9 +818,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       this._showNotification('error', 'Masukkan Proposed Date Document terlebih dahulu');
       mustValidateDocument.dueDate = false;
     }
-    if (!this.document.attributes['remarks']) {
+    if (!this.document.notes) {
       this._showNotification('error', 'Masukkan Remarks Document terlebih dahulu');
-      mustValidateDocument.remarks = false;
+      mustValidateDocument.notes = false;
     }
 
     if (this.document.documentTypeParent === 'DOC_DPDL_LEGAL_COVERNOTE' || this.document.documentTypeParent === 'DOC_DPDL_LEGAL_AKAD') {
