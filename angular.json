@@ -23,7 +23,7 @@
             "customWebpackConfig": {
               "path": "./webpack/webpack.custom.js"
             },
-            "allowedCommonJsDependencies": ["xlsx"],
+            "allowedCommonJsDependencies": ["xlsx", "moment-timezone"],
             "outputPath": "target/classes/static/",
             "index": "src/main/webapp/index.html",
             "main": "src/main/webapp/main.ts",
