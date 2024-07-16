@@ -315,7 +315,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       .queryFilterBy({
         idParty: this.partyId,
         page: this.page,
-        size: this.itemsPerPage,
+        size: 9999,
         sort: ['id,desc'],
       })
       .subscribe({
