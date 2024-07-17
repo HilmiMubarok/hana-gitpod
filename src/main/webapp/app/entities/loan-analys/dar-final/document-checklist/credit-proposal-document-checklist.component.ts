@@ -19,6 +19,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { Router } from '@angular/router';
 import _ from 'lodash';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
 
 @Component({
   selector: 'jhi-document-checklist-temp',
@@ -45,6 +46,7 @@ export class DocumentChecklistTempComponent implements OnInit {
   public showDPPK = false;
   public dppkEditable = false;
   public _isDisabledByDPPK: boolean;
+  private collaterals: any[] = [];
 
   constructor(
     private storageService: StorageService,
@@ -53,7 +55,8 @@ export class DocumentChecklistTempComponent implements OnInit {
     private messageService: MessageService,
     private partyCifService: PartyCifService,
     private router: Router,
-    private templateService: TemplateService
+    private templateService: TemplateService,
+    private collateralService: CollateralService
   ) {}
   @Input()
   get creditProposal() {
@@ -110,6 +113,18 @@ export class DocumentChecklistTempComponent implements OnInit {
     }
     if (this.router.url.includes('finalize-dppk')) {
       const argsEditable: boolean = this.getRole() === 'CREDIT_ADMIN';
+      this.collateralService
+        .queryFilterBy({
+          idParty:
+            this.creditProposal.customerType === 'PERSONAL'
+              ? this.creditProposal.prospectPerson.id
+              : this.creditProposal.prospectOrganization.id,
+          isActive: true,
+          size: 999,
+        })
+        .subscribe(res => {
+          this.collaterals = res.body;
+        });
       this.dppkEditable =
         this.isDisabledByDPPK === null ? false : this.isDisabledByDPPK === false ? this.isDisabledByDPPK === false : argsEditable;
     } else {
@@ -231,9 +246,9 @@ export class DocumentChecklistTempComponent implements OnInit {
                     let dppkData: IDocumentType[] = [];
                     if (this.showDPPK) {
                       const argsBackToBack = this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back';
-                      const argsDocJualBeli = this.creditProposal.attributes['cpRacBelow'].Ca;
+                      const argsDocJualBeli = this.creditProposal.attributes['cpRacBelow'].Ca === 'Yes';
                       const argsDocVehicle = this.creditProposal.collaterals.find(obj => obj.collateralTypeId === 'VEHICLE');
-                      const argsDocNew = this.creditProposal.attributes['basicInformation'].customerStatus === 'New';
+                      const argsDocNew = this.collaterals.findIndex(obj => obj.statusId === 'NEW') !== -1;
 
                       const docBackToBack = argsBackToBack ? this.typeData.filter(obj => obj.id === 'DOC_DPPK_BACKTOBACK') : [];
                       const docJualBeli = argsDocJualBeli ? this.typeData.filter(obj => obj.id === 'DOC_DPPK_JUALBELI') : [];
