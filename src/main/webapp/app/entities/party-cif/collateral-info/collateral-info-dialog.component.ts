@@ -64,12 +64,20 @@ export class PartyCifCollateralInfoDialogComponent {
   }
 
   public onSave() {
-    if (!this.collateral.attributes.collateralCode) {
+    if (!this.collateral.collateralConditions) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error!',
+        detail: 'Please select Collateral Condition first ',
+      });
+      return;
+    } else if (!this.collateral.attributes.collateralCode) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error!',
         detail: 'Please fill in  Collateral Code field first ',
       });
+      return;
     } else {
       this._dialog.close(this.collateral);
     }
