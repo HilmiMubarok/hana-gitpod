@@ -269,7 +269,7 @@
         <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Collateral Condition</mat-label>
-            <mat-select name="status" [(ngModel)]="collateral.collateralConditions" [disabled]="dataSource()">
+            <mat-select name="status" [(ngModel)]="collateral.collateralConditions" required>
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of collateralConditions" [value]="item.code">
                 {{ item.value }}
