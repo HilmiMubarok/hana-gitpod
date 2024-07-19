@@ -245,7 +245,7 @@ export class MasterCreditAgreementClausalDialogComponent implements OnInit {
    */
   private formatCode(code: string): string {
     if (/\s/.test(code) || /[&%^*@#!()+=`\-?<>/\\]/.test(code)) {
-      return this.changeCharacter(code.replace(/\s+/g, '-').toLowerCase());
+      return this.changeCharacter(code.replace(/\s+/g, '-'));
     } else {
       return code;
     }
