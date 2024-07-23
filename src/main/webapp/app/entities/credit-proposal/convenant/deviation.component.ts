@@ -6,7 +6,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-deviation',
   templateUrl: './deviation.component.html',
-  styleUrls: ['./back-to-back/covenant-backtoback.css'],
+  styleUrls: ['./covenant-style.css'],
 })
 export class DeviationComponent implements OnInit, OnChanges {
   private destroy$: Subject<boolean> = new Subject<boolean>();
