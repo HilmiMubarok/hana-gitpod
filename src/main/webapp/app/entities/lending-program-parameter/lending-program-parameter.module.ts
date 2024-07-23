@@ -7,6 +7,7 @@ import { LendingProgramParameterDetailComponent } from './lending-program-parame
 import { LendingProgramParameterUpdateComponent } from './lending-program-parameter-update.component';
 import { lendingProgramParameterRoute } from './lending-program-parameter.route';
 import { LendingProgramParameterDialogComponent } from './lending-program-parameter-dialog.component';
+import { LendingProgramParameterViewComponent } from './lending-program-parameter-view.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(lendingProgramParameterRoute)],
@@ -15,6 +16,7 @@ import { LendingProgramParameterDialogComponent } from './lending-program-parame
     LendingProgramParameterDetailComponent,
     LendingProgramParameterUpdateComponent,
     LendingProgramParameterDialogComponent,
+    LendingProgramParameterViewComponent,
   ],
   entryComponents: [LendingProgramParameterComponent, LendingProgramParameterUpdateComponent, LendingProgramParameterDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
