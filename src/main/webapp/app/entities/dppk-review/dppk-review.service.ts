@@ -134,9 +134,9 @@ export class DppkReviewService extends AbstractEntityService<IDppkReview> {
         entity.attributes['bindingValueNote'] = JSON.stringify(entity.attributes['bindingValueNote']);
       }
     }
-    if (entity.attributes['informasiTambahan']) {
-      if (typeof entity.attributes['informasiTambahan'] !== 'string') {
-        entity.attributes['informasiTambahan'] = JSON.stringify(entity.attributes['informasiTambahan']);
+    if (entity.attributes['informasiTambahanDppk']) {
+      if (typeof entity.attributes['informasiTambahanDppk'] !== 'string') {
+        entity.attributes['informasiTambahanDppk'] = JSON.stringify(entity.attributes['informasiTambahanDppk']);
       }
     }
     if (entity.prospectPerson) {

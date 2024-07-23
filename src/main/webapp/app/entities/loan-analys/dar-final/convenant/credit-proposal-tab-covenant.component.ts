@@ -87,13 +87,13 @@ export class CovenantTempComponent implements OnInit {
   }
   public disableFields() {
     if (
-      // this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'finalize-pk' ||
       this.parentPath === 'review-pk' ||
       this.parentPath === 'finalize-dpdl' ||
       this.parentPath === 'review-dpdl' ||
       this.parentPath === 'dar-revision' ||
       this.parentPath === 'dar-revision-checker' ||
-      this.parentPath === 'finalize-dppk' ||
+      // this.parentPath === 'finalize-dppk' ||
       this.parentPath === 'review-dppk' ||
       this.parentPath === 'loan-ops-distribution' ||
       this.parentPath === 'loan-ops-review'
