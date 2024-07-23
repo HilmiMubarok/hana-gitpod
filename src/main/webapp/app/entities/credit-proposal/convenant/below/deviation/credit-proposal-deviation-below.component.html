@@ -1,0 +1,95 @@
+<div class="e-sample-resize-container e-card-resize-container mb-5">
+  <div class="row">
+    <div class="row card-layout">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">Deviation</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <ejs-grid [dataSource]="standardCovenant" allowTextWrap="true">
+          <e-columns>
+            <e-column headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center">
+              <ng-template #template let-data>
+                <div [innerHTML]="addBRBeforeDash(data.covenant)"></div>
+              </ng-template>
+            </e-column>
+            <e-column headerText="Status" width="150" textAlign="center">
+              <ng-template #template let-data>
+                <!-- <ejs-dropdownlist
+                  *ngIf="data.formGroub === 'true' || data.formGroub === true"
+                  (change)="onKeyUpEvent('status', $event, data)"
+                  [value]="'Waived'"
+                  [dataSource]="status"
+                  placeholder="Select a Status"
+                  cssClass="e-outline"
+                  [disabled]="readonly"
+                >
+                </ejs-dropdownlist> -->
+
+                <ejs-dropdownlist
+                  (change)="onKeyUpEvent('status', $event, data)"
+                  [(ngModel)]="statusValue[data.id]"
+                  [dataSource]="status"
+                  placeholder="Select a Status"
+                  cssClass="e-outline"
+                  [disabled]="statusValue"
+                >
+                </ejs-dropdownlist>
+              </ng-template>
+            </e-column>
+            <e-column field="deviation" headerText="Deviation" width="200" textAlign="justify" headerTextAlign="center">
+              <ng-template #template let-data>
+                <!-- <ejs-textbox
+                  *ngIf="data.formGroub === true || data.formGroub === 'true'"
+                  class="txtHeight"
+                  [multiline]="true"
+                  [value]="data.deviation"
+                  cssClass="e-outline"
+                  disabled
+                >
+                </ejs-textbox> -->
+
+                <ejs-textbox
+                  class="txtHeight"
+                  [multiline]="true"
+                  (keyup)="onKeyUpEvent('deviation', $event, data)"
+                  [(ngModel)]="deviation[data.id]"
+                  [disabled]="statusValue[data.id] == 'Applied'"
+                  cssClass="e-outline"
+                  [disabled]="statusValue"
+                >
+                </ejs-textbox>
+              </ng-template>
+            </e-column>
+            <e-column field="justification" headerText="Justification" width="200" textAlign="justify" headerTextAlign="center">
+              <ng-template #template let-data>
+                <!-- <ejs-textbox
+                  *ngIf="data.formGroub === true || data.formGroub === 'true'"
+                  class="txtHeight"
+                  [multiline]="true"
+                  [value]="data.justification"
+                  cssClass="e-outline"
+                  disabled
+                >
+                </ejs-textbox> -->
+
+                <ejs-textbox
+                  class="txtHeight"
+                  [multiline]="true"
+                  (keyup)="onKeyUpEvent('justification', $event, data)"
+                  [(ngModel)]="justification[data.id]"
+                  [disabled]="statusValue[data.id] == 'Applied'"
+                  cssClass="e-outline"
+                  [disabled]="statusValue"
+                >
+                </ejs-textbox>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+</div>
