@@ -51,12 +51,10 @@ export class CovenantTempComponent implements OnInit {
     if (enabledStatus.includes(cpStatus)) {
       if (this.creditProposalItem.attributes['informasiTambahanDppk'] === '') {
         return false;
+      } else if (this.router.url.split('subroute=')[1] === 'compare-data') {
+        return true;
       } else {
-        if (this.router.url.split('subroute=')[1] === 'compare-data') {
-          return true;
-        } else {
-          return false;
-        }
+        return false;
       }
     } else {
       return true;
