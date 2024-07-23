@@ -35,10 +35,11 @@ export class CovenantTempComponent implements OnInit {
   public otherStatus?: string;
   public otherDeviation?: string;
   public otherJustification?: string;
-
+  public parentPath = this.router.url.split('/')[1];
   public finalData: any;
 
   public _isDisabledFromDPPK: boolean;
+  fields = false;
 
   constructor(private router: Router) {}
 
@@ -84,8 +85,26 @@ export class CovenantTempComponent implements OnInit {
   set isDisabledFromDPPK(param: boolean) {
     this._isDisabledFromDPPK = param;
   }
+  public disableFields() {
+    if (
+      // this.parentPath === 'finalize-pk' ||
+      this.parentPath === 'review-pk' ||
+      this.parentPath === 'finalize-dpdl' ||
+      this.parentPath === 'review-dpdl' ||
+      this.parentPath === 'dar-revision' ||
+      this.parentPath === 'dar-revision-checker' ||
+      this.parentPath === 'finalize-dppk' ||
+      this.parentPath === 'review-dppk' ||
+      this.parentPath === 'loan-ops-distribution' ||
+      this.parentPath === 'loan-ops-review'
+    ) {
+      // Default Disabled
+      this.fields = true;
+    }
+  }
 
   ngOnInit(): void {
+    this.disableFields();
     this.selectedMenu = !this.setActiveMenu ? 'COVENANT' : this.setActiveMenu;
     if (this.router.url.includes('finalize-dppk')) {
       this.isDisabledFromDPPK = this.isDisabledFromDPPK === undefined ? false : this.isDisabledFromDPPK;
