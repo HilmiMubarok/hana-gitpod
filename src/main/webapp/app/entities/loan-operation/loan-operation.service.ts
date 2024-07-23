@@ -132,6 +132,11 @@ export class LoanOperationService extends AbstractEntityService<ILoanOPS> {
         entity.attributes['bindingValueNote'] = JSON.stringify(entity.attributes['bindingValueNote']);
       }
     }
+    if (entity.attributes['informasiTambahan']) {
+      if (typeof entity.attributes['informasiTambahan'] !== 'string') {
+        entity.attributes['informasiTambahan'] = JSON.stringify(entity.attributes['informasiTambahan']);
+      }
+    }
     if (entity.prospectPerson) {
       entity.prospectPerson.dob = new Date(entity.prospectPerson.dob);
     }
