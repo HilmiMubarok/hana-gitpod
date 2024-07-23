@@ -8,6 +8,7 @@ import { DocumentTypeUpdateComponent } from './document-type-update.component';
 import { documentTypeRoute } from './document-type.route';
 import { DocumentTypeCreateComponent } from './document-type-create.component';
 import { DocumentTypeDialogComponent } from './document-type-dialog.component';
+import { DocumentTypeViewComponent } from './document-type-view.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(documentTypeRoute)],
@@ -17,7 +18,7 @@ import { DocumentTypeDialogComponent } from './document-type-dialog.component';
     DocumentTypeUpdateComponent,
     DocumentTypeCreateComponent,
     DocumentTypeDialogComponent,
-    // DocumentTypeViewComponent,
+    DocumentTypeViewComponent,
   ],
   entryComponents: [DocumentTypeComponent, DocumentTypeUpdateComponent, DocumentTypeCreateComponent, DocumentTypeDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

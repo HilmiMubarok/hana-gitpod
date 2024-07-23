@@ -31,6 +31,10 @@ import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-a
 import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
 import { MainFacilityDialogComponent } from './loan-facility/main-facility/main-facility-dialog.component';
 import { MainFacilityDialogHistoryComponent } from './loan-facility-history/main-facility/main-facility-dialog-history.component';
+import { CreditProposalOtherCovenantEditComponent } from './convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
+import { CreditProposalOtherCovenantDialogComponent } from './convenant/other-covenant/add/credit-proposal-other-covenant-dialog.component';
+import { CreditProposalRacNilaiPembelianAddComponent } from './risk-criteria/nilai-pembelian/credrit-proposal-risk-acceptance-criteria-add';
+import { CreditProposalRacNilaiPembelianEditComponent } from './risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-edit';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -59,6 +63,10 @@ import { MainFacilityDialogHistoryComponent } from './loan-facility-history/main
     ForwardToComponent,
     MainFacilityDialogComponent,
     MainFacilityDialogHistoryComponent,
+    CreditProposalOtherCovenantEditComponent,
+    CreditProposalOtherCovenantDialogComponent,
+    CreditProposalRacNilaiPembelianAddComponent,
+    CreditProposalRacNilaiPembelianEditComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

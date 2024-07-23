@@ -45,6 +45,8 @@ import { MainFacilityDarComponent } from './dar-final/loan-facility/main-facilit
 import { MainFacilityChildDarComponent } from './dar-final/loan-facility/main-facility/main-facility-child-dar.component';
 import { MainFacilityDialogDarComponent } from './dar-final/loan-facility/main-facility/main-facility-dialog-dar.component';
 import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.component';
+import { LoanAnalysPreviousDarComponent } from './previous/previous-dar/loan-analys-previous-dar.component';
+import { LoanAnalysPreviousProposalComponent } from './previous/previous-proposal/loan-analys-previous-proposal.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute), MatSlideToggleModule],
@@ -80,6 +82,8 @@ import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.comp
     // CreditProposalDeviationDarAboveComponent,
     LoanAnalysFacilityDetailGridDarNotifComponent,
     LoanAnalysFacilityDetaliMainComponent,
+    LoanAnalysPreviousDarComponent,
+    LoanAnalysPreviousProposalComponent,
     // MainFacilityDarComponent,
     // MainFacilityChildDarComponent,
     // MainFacilityDialogDarComponent,

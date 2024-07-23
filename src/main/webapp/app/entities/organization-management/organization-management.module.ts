@@ -7,6 +7,7 @@ import { OrganizationManagementDetailComponent } from './organization-management
 import { OrganizationManagementUpdateComponent } from './organization-management-update.component';
 import { organizationManagementRoute } from './organization-management.route';
 import { OrganizationManagementBusinessGroupDialogComponent } from './organization-management-business-group-dialog.component';
+import { OrganizationManagementBusinessGroupComponent } from './organization-management-business-group.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(organizationManagementRoute)],
@@ -15,6 +16,7 @@ import { OrganizationManagementBusinessGroupDialogComponent } from './organizati
     OrganizationManagementDetailComponent,
     OrganizationManagementUpdateComponent,
     OrganizationManagementBusinessGroupDialogComponent,
+    OrganizationManagementBusinessGroupComponent,
   ],
   entryComponents: [OrganizationManagementComponent, OrganizationManagementUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
