@@ -164,7 +164,9 @@ export class LoanOperationResolve implements Resolve<ILoanOPS> {
             if (!lodash.has(creditProposal.body.attributes, 'proposalType')) {
               creditProposal.body.attributes['proposalType'] = '';
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'repaymentCapability')) {
               creditProposal.body.attributes['repaymentCapability'] = [];
               creditProposal.body.attributes['repaymentCapability'].push(new RepaymentCapability());

@@ -110,7 +110,9 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
                 creditProposal.body.debtorData.attributes['prospectPerson']
               );
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'shareHolder')) {
               creditProposal.body.attributes['shareHolder'] = [];
             } else {

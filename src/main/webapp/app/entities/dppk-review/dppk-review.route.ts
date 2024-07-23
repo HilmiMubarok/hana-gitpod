@@ -164,7 +164,9 @@ export class DppkReviewResolve implements Resolve<IDppkReview> {
             if (!lodash.has(creditProposal.body.attributes, 'proposalType')) {
               creditProposal.body.attributes['proposalType'] = '';
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'repaymentCapability')) {
               creditProposal.body.attributes['repaymentCapability'] = [];
               creditProposal.body.attributes['repaymentCapability'].push(new RepaymentCapability());

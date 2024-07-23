@@ -5,7 +5,7 @@
   (select)="selectMenuItem($event)"
   [hidden]="isOnOffering || takeOutCompare"
 ></ejs-menu>
-<div *ngIf="setActiveMenu === 'COVENANT' || selectedMenu === 'COVENANT' || isViewMode === true">
+<div *ngIf="setActiveMenu === 'COVENANT' || selectedMenu === 'COVENANT'">
   <div class="e-sample-resize-container e-card-resize-container mb-5">
     <div class="row">
       <div class="row card-layout">
@@ -58,12 +58,6 @@
   <div
     class="e-sample-resize-container e-card-resize-container mb-5"
     *ngIf="
-      parentPath === 'finalize-pk' ||
-      parentPath === 'review-pk' ||
-      parentPath === 'finalize-dpdl' ||
-      parentPath === 'review-dpdl' ||
-      parentPath === 'dar-revision' ||
-      parentPath === 'dar-revision-checker' ||
       parentPath === 'finalize-dppk' ||
       parentPath === 'review-dppk' ||
       parentPath === 'loan-ops-distribution' ||
@@ -78,152 +72,13 @@
             <div class="e-card-sub-title"></div>
             <div class="card-content">
               <textarea
-                matInput
                 style="height: 200px"
-                type="text"
-                [(ngModel)]="creditProposalItem.attributes['informasiTambahanDppk']"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="setActiveMenu === 'DEVIATION' || selectedMenu === 'DEVIATION' || isViewMode === true">
-  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="header-title">Standart Deviation</div>
-        <div class="e-card-sub-title"></div>
-        <div class="card-content"></div>
-      </div>
-    </div>
-    <div class="card-content">
-      <jhi-credit-proposal-deviation-dar-above [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
-      </jhi-credit-proposal-deviation-dar-above>
-    </div>
-  </div>
-  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="header-title">Standart Deviation</div>
-        <div class="e-card-sub-title"></div>
-        <div class="card-content"></div>
-      </div>
-    </div>
-    <div class="card-content">
-      <jhi-deviation-below-temp [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem"> </jhi-deviation-below-temp>
-    </div>
-  </div>
-  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
-    <div class="card-content">
-      <jhi-credit-proposal-tab-deviation-back-to-back-general [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
-      </jhi-credit-proposal-tab-deviation-back-to-back-general>
-      <jhi-credit-proposal-tab-deviation-back-to-back-deposit [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
-      </jhi-credit-proposal-tab-deviation-back-to-back-deposit>
-    </div>
-  </div>
-  <div class="e-sample-resize-container e-card-resize-container mb-5">
-    <div class="row">
-      <div class="row card-layout">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="header-title">Other Deviation</div>
-            <div class="e-card-sub-title"></div>
-            <div class="card-content">
-              <jhi-other-covenant-temp
-                [isOtherDeviation]="true"
-                [isViewMode]="viewMode"
-                [creditProposalItem]="creditProposalItem"
-              ></jhi-other-covenant-temp>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="setActiveMenu === 'COVENANT' || selectedMenu === 'COVENANT' || isViewMode === false">
-  <div class="e-sample-resize-container e-card-resize-container mb-5">
-    <div class="row">
-      <div class="row card-layout">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="header-title">Standard Terms & Conditions</div>
-            <div class="e-card-sub-title"></div>
-          </div>
-        </div>
-        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
-          <div class="card-content">
-            <jhi-covenant-dar-above [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem"> </jhi-covenant-dar-above>
-          </div>
-        </div>
-
-        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
-          <div class="card-content">
-            <jhi-covenant-below-temp [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem"> </jhi-covenant-below-temp>
-          </div>
-        </div>
-        <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
-          <div class="card-content">
-            <jhi-dar-covenant-back-to-back-general [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
-            </jhi-dar-covenant-back-to-back-general>
-          </div>
-          <div class="card-content">
-            <jhi-dar-covenant-back-to-back-deposit [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem">
-            </jhi-dar-covenant-back-to-back-deposit>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="e-sample-resize-container e-card-resize-container mb-5">
-    <div class="row">
-      <div class="row card-layout">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="header-title">Other Covenant</div>
-            <div class="e-card-sub-title"></div>
-            <div class="card-content">
-              <jhi-other-covenant-temp [isViewMode]="viewMode" [creditProposalItem]="creditProposalItem"></jhi-other-covenant-temp>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="e-sample-resize-container e-card-resize-container mb-5"
-    *ngIf="
-      parentPath === 'finalize-pk' ||
-      parentPath === 'review-pk' ||
-      parentPath === 'finalize-dpdl' ||
-      parentPath === 'review-dpdl' ||
-      parentPath === 'dar-revision' ||
-      parentPath === 'dar-revision-checker' ||
-      parentPath === 'finalize-dppk' ||
-      parentPath === 'review-dppk' ||
-      parentPath === 'loan-ops-distribution' ||
-      parentPath === 'loan-ops-review'
-    "
-  >
-    <div class="row">
-      <div class="row card-layout">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="header-title">Informasi Tambahan</div>
-            <div class="e-card-sub-title"></div>
-            <div class="card-content">
-              <textarea
-                matInput
-                style="height: 200px"
-                type="text"
-                [(ngModel)]="creditProposalItem.attributes['informasiTambahanDppk']"
+                cssClass="e-outline"
+                class="text-area-input"
+                id="multiline-always"
+                name="typeAlways"
                 [disabled]="fields"
+                [(ngModel)]="creditProposalItem.attributes['informasiTambahanDppk']"
               ></textarea>
             </div>
           </div>
@@ -233,7 +88,7 @@
   </div>
 </div>
 
-<div *ngIf="setActiveMenu === 'DEVIATION' || selectedMenu === 'DEVIATION' || isViewMode === false">
+<div *ngIf="setActiveMenu === 'DEVIATION' || selectedMenu === 'DEVIATION'">
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
     <div class="e-card-header">
       <div class="e-card-header-caption">

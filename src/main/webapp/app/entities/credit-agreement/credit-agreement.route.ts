@@ -233,7 +233,9 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreement> {
                 creditProposal.body.attributes['creditProposalCollateralData']
               );
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'cpRacBelow')) {
               creditProposal.body.attributes['cpRacBelow'] = new CpRacBelow();
             } else {

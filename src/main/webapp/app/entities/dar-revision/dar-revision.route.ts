@@ -168,7 +168,9 @@ export class DarRevisionRoute implements Resolve<IDarRevisionModel> {
             } else {
               creditProposal.body.attributes['riksCriteria'] = JSON.parse(creditProposal.body.attributes['riksCriteria']);
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'businessActivity')) {
               creditProposal.body.attributes['businessActivity'] = new BusinessActivity();
             } else {
