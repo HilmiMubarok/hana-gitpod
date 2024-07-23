@@ -5,9 +5,10 @@ import { SharedModule } from 'app/shared/shared.module';
 
 import { OfferingLetterRoute } from './history-poposal.route';
 import { HistoryProposalComponent } from './history-poposal.component';
+import { CovenantModule } from 'app/entities/credit-proposal/convenant/covenant.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(OfferingLetterRoute)],
+  imports: [SharedModule, SharedEntityModule, CovenantModule, RouterModule.forChild(OfferingLetterRoute)],
   declarations: [HistoryProposalComponent],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

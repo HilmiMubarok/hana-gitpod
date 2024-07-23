@@ -237,7 +237,6 @@ import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.
 import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
 import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-proposal/bank-account-analyst/edit/bank-account-analyst-dialog-edit.component';
 import { DebtorDataSlikUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-upload.component';
-import { CreditProposalOtherDeviationComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-deviation.component';
 import { CollateralInfoHistoryComponent } from './credit-proposal/collateral-info-history/collateral-info-history.component';
 import { AboveGridHistoryComponent } from './credit-proposal/collateral-info-history/above-grid/above-grid.component';
 import { CollateralInfoHistoryDialogComponent } from './credit-proposal/collateral-info-history/dialog/credit-proposal-collateral-info-dialog.component';
@@ -675,7 +674,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     SlikSummaryComparisonComponent,
     LoanAnalysSlikIdebComponent,
     CreditProposalCollateralInfoComponent,
-    CreditProposalTabCovenantComponent,
+    // CreditProposalTabCovenantComponent,
     CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
@@ -695,8 +694,8 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalRiskAcceptanceCriteriaBelowComponent,
     CreditProposalAceptanceCriteriaBackToBackComponent,
     CreditProposalBankAccountAnalysisComponent,
-    CreditProposalDocumentChecklistComponent,
-    DocumentChecklistDialogComponent,
+    // CreditProposalDocumentChecklistComponent,
+    // DocumentChecklistDialogComponent,
     CreditProposalTabBusinessActivityComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
@@ -777,7 +776,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     // Above
 
     // Other Deviation
-    CreditProposalOtherDeviationComponent,
 
     // Main Covenant
     BellowGridComponent,
@@ -1267,12 +1265,11 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     SlikSummaryBusinessGroupComponent, // Remove Me
     SlikSummaryComparisonComponent, // Remove Me
     LoanAnalysSlikIdebComponent, // Remove Me
-    CreditProposalPersonalInfoComponent, // Remove Me
     CreditProposalPersonComponent, // Remove Me
     CreditProposalTabSummaryComponent, // Remove Me
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
     CreditProposalCollateralInfoComponent, // Remove Me
-    CreditProposalTabCovenantComponent, // Remove Me
+    // CreditProposalTabCovenantComponent, // Remove Me
     AddCoborowerComponent, // Remove Me
     CreditProposalTabExposureComponent, // Remove Me
     TotalExposureComponent, // Remove Me
@@ -1290,8 +1287,8 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
     CreditProposalAceptanceCriteriaBackToBackComponent, // Remove Me
     CreditProposalBankAccountAnalysisComponent, // Remove Me
-    CreditProposalDocumentChecklistComponent, // Remove Me
-    DocumentChecklistDialogComponent, // Remove Me
+    // CreditProposalDocumentChecklistComponent, // Remove Me
+    // DocumentChecklistDialogComponent, // Remove Me
     CreditProposalTabBusinessActivityComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
@@ -1364,7 +1361,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     //  ==== Previous Covenant Deviation ====  //
 
     // other Deviation
-    CreditProposalOtherDeviationComponent,
 
     // Main Covenant
     BellowGridComponent,

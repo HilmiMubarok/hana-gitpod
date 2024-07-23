@@ -15,9 +15,10 @@ import { OfferingLetterTabCovenantComponent } from './covenant-document/offering
 import { OfferingLetterTabCovenantDeviationComponent } from './covenant-deviation/offering-letter-tab-covenant-deviation.component';
 import { CompareApprovalReportComponent } from './compare-approval-report/compare-approval-report.component';
 import { CertificateInfoDialogComponent } from './certificate-info/certificate-info-dialog.component';
+import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(OfferingLetterRoute)],
+  imports: [SharedModule, SharedEntityModule, CovenantModule, RouterModule.forChild(OfferingLetterRoute)],
   declarations: [
     OfferingLetterComponent,
     OfferingLetterMainComponent,

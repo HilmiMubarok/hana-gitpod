@@ -47,9 +47,17 @@ import { MainFacilityDialogDarComponent } from './dar-final/loan-facility/main-f
 import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.component';
 import { LoanAnalysPreviousDarComponent } from './previous/previous-dar/loan-analys-previous-dar.component';
 import { LoanAnalysPreviousProposalComponent } from './previous/previous-proposal/loan-analys-previous-proposal.component';
+import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute), MatSlideToggleModule],
+  imports: [
+    SharedModule,
+    SharedLibsModule,
+    SharedEntityModule,
+    CovenantModule,
+    RouterModule.forChild(LoanAnalysRoute),
+    MatSlideToggleModule,
+  ],
   declarations: [
     LoanAnalysComponent,
     LoanAnalysMComponent,
