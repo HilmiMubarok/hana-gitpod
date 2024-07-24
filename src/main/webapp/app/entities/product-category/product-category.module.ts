@@ -6,6 +6,7 @@ import { ProductCategoryDetailComponent } from './product-category-detail.compon
 import { ProductCategoryUpdateComponent } from './product-category-update.component';
 import { productCategoryRoute } from './product-category.route';
 import { ProductCategoryEditDialogComponent } from './product-category-edit-dialog.component';
+import { SharedEntityModule } from '../shared-entity.module';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(productCategoryRoute)],
@@ -15,7 +16,7 @@ import { ProductCategoryEditDialogComponent } from './product-category-edit-dial
     ProductCategoryUpdateComponent,
     ProductCategoryEditDialogComponent,
   ],
-  entryComponents: [ProductCategoryComponent, ProductCategoryUpdateComponent],
+  entryComponents: [ProductCategoryComponent, ProductCategoryUpdateComponent, ProductCategoryEditDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwProductCategoryModule {}
