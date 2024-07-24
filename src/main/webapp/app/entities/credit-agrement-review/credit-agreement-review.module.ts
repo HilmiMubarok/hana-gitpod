@@ -5,6 +5,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CreditAgreementReviewComponent } from './credit-agreement-review.component';
 import { CreditAgreementReviewDetailComponent } from './credit-agreement-review-detail.component';
 import { creditAgrementReviewRoute } from './credit-agreement-review.route';
+import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
 // import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
 // import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-cif-customer-info-debtor-data.component';
 // import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
@@ -22,7 +23,7 @@ import { creditAgrementReviewRoute } from './credit-agreement-review.route';
 // import { PartyCifDecisionApprovalReportComponent } from './decision-approval-report/party-cif-decision-approval-report.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(creditAgrementReviewRoute)],
+  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, RouterModule.forChild(creditAgrementReviewRoute)],
   declarations: [
     CreditAgreementReviewComponent,
     CreditAgreementReviewDetailComponent,

@@ -5,9 +5,10 @@ import { SharedEntityModule } from '../shared-entity.module';
 import { RouterModule } from '@angular/router';
 import { LoanOperationRoute } from './loan-operation.router';
 import { LoanOperationDetailComponent } from './loan-operation-detail.component';
+import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanOperationRoute)],
+  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, RouterModule.forChild(LoanOperationRoute)],
   declarations: [LoanOperationComponent, LoanOperationDetailComponent],
   entryComponents: [LoanOperationComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

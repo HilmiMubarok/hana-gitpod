@@ -6,9 +6,10 @@ import { RouterModule } from '@angular/router';
 import { LoanOpsReviewRoute } from './laon-operation-review.router';
 import { LoanOpsReviewDetailComponent } from './laon-operation-review-detail.component';
 import { FormsModule } from '@angular/forms';
+import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, FormsModule, RouterModule.forChild(LoanOpsReviewRoute)],
+  imports: [SharedModule, SharedEntityModule, FormsModule, FinalizeCreditAgreementModule, RouterModule.forChild(LoanOpsReviewRoute)],
   declarations: [LoanOpsReviewComponent, LoanOpsReviewDetailComponent],
   entryComponents: [LoanOpsReviewComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

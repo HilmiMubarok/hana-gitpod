@@ -7,6 +7,7 @@ import { creditAgrementReviewRoute } from './credit-agreement.route';
 import { CreditAgreementDetailComponent } from './credit-agreementdetail.component';
 import { FinalizeCreditAgreementComponent } from './finalize-credit-agreement/finalize-credit-agreement.component';
 import { SignerPerjanjialKreditDialogComponent } from './finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
+import { FinalizeCreditAgreementModule } from './finalize-credit-agreement/finalize-credit-agreement.module';
 // import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
 // import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-cif-customer-info-debtor-data.component';
 // import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
@@ -24,7 +25,7 @@ import { SignerPerjanjialKreditDialogComponent } from './finalize-credit-agreeme
 // import { PartyCifDecisionApprovalReportComponent } from './decision-approval-report/party-cif-decision-approval-report.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(creditAgrementReviewRoute)],
+  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, RouterModule.forChild(creditAgrementReviewRoute)],
   declarations: [
     CreditAgreementComponent,
     CreditAgreementDetailComponent,

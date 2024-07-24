@@ -360,7 +360,6 @@ import { CreditProposalSummaryGenerateMemoBandingComponent } from './credit-prop
 import { CreditProposalCollateralSummaryDialogComponent } from './credit-proposal/collateral-info/collateral-summary/credit-proposal-collateral-summary-dialog.component';
 import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compare-data-agremeent/dar-revision-final/agreement-compare-revision-final.component';
 import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
-import { FinalizeCreditAgreementComponent } from './credit-agreement/finalize-credit-agreement/finalize-credit-agreement.component';
 import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
 import { CreditProposalGeneratePkReportComponent } from './credit-proposal/generate-document-pk-report/credit-proposal-generate-pk-report.component';
 import { StandartConvenantComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
@@ -368,7 +367,6 @@ import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/ot
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 import { OfferingLetterSignerPageComponent } from './offering-letter/offering-page/signer/signer-page.component';
 import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offering-page/signer/dialog/signer-page-dialog.component';
-import { ReviewHistoryDialogComponent } from './credit-agreement/review-history-dialog/review-history-dialog.component';
 import { AboveGridDarFinalComponent } from './loan-analys/dar-final/collateral-info/above-grid/above-grid.component';
 import { CollateralInfoBTPDarFinalComponent } from './loan-analys/dar-final/collateral-info/backtoback/credit-proposal-collateral-info-btb.component';
 import { CollateralInfoDialogBTBDarFinalComponent } from './loan-analys/dar-final/collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
@@ -441,7 +439,6 @@ import { LoaderBAComponent } from './credit-proposal/busines-activity/loader-ba.
 import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activity/project-analyst-remark.component';
 import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
-import { GeneratePKDraftComponent } from './credit-agreement/finalize-credit-agreement/generate-pk-draft/generate-pk-draft.component';
 import { DppkPreparationComponent } from './dppk-finalize/dppk-preparation/dppk-preparation.component';
 import { BankAccountComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account.component';
 import { BankAccountDialogComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account-dialog.component';
@@ -451,7 +448,6 @@ import { DppkPreparationInternalMemoComponent } from './dppk-finalize/dppk-prepa
 import { DppkPreparationInternalMemoDialogComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog.component';
 import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog-detail.component';
 import { CollateralOwnerAddressComponent } from './party-cif/collateral-info/collateral-owner-address.component';
-import { ReviewHistoryComponent } from './credit-agreement/finalize-credit-agreement/review-history/review-history.component';
 import { entityDppkFinalizeTemplate } from './entity-dppk-finalize-template.constant';
 import { LoanOperationLoanFacilityTemplate } from './loan-operation/loan-facility-detail/loan-operation-loan-facility-template';
 import { DocumentLegalDetailDialogLoanOperationComponent } from './loan-operation/dpdl-document/document-legal/document-legal-detail-dialog.component';
@@ -930,14 +926,12 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     // Aggrement Compare
     AgremeentCompareRevisionFinalComponent,
     AgreementComparePreviousDarComponent,
-    FinalizeCreditAgreementComponent,
     SignerPerjanjialKreditDialogComponent,
     CreditProposalGeneratePkReportComponent,
     StandartConvenantComponent,
     StandartDeviationComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
-    ReviewHistoryDialogComponent,
     ClausalPkDialogComponent,
 
 
@@ -1042,9 +1036,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     BindingValueGeneralGridComponent,
     BindingValueGeneralDialogComponent,
 
-    // Generate PK Draft
-    GeneratePKDraftComponent,
-
     // scroll-up
     ScrollComponent,
 
@@ -1058,7 +1049,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     DppkPreparationInternalMemoDialogComponent,
     DppkPreparationInternalMemoDialogDetailComponent,
     CollateralOwnerAddressComponent,
-    ReviewHistoryComponent,
     // Loan Ops Collateral Info
     CollateralInfoLoanOpsComponent,
     AboveGridLoanOpsComponent,
@@ -1096,7 +1086,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ...LoanOperationLoanFacilityTemplate,
     ...creditProposalLoanFacilityTemplate,
     ...entityDppkFinalizeTemplate,
-    ReviewHistoryComponent,
     LoanPurposeComponent,
 
     // Memo Banding Collateral
@@ -1495,14 +1484,12 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     // Agreement Compare
     AgremeentCompareRevisionFinalComponent,
     AgreementComparePreviousDarComponent,
-    FinalizeCreditAgreementComponent,
     SignerPerjanjialKreditDialogComponent,
     CreditProposalGeneratePkReportComponent,
     StandartConvenantComponent,
     StandartDeviationComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
-    ReviewHistoryDialogComponent,
     ClausalPkDialogComponent,
 
     // DAR
@@ -1582,7 +1569,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     BindingValueDepositoDialogComponent,
     BindingValueGeneralGridComponent,
     BindingValueGeneralDialogComponent,
-    GeneratePKDraftComponent,
     // scroll-up
     ScrollComponent,
 

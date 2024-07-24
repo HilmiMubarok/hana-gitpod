@@ -5,6 +5,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { DppkReviewComponent } from './dppk-review.component';
 import { DppkReviewRoute } from './dppk-review.route';
 import { DppkReviewDetailComponent } from './dppk-review-detail.component';
+import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
 // import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
 // import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-cif-customer-info-debtor-data.component';
 // import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
@@ -22,7 +23,7 @@ import { DppkReviewDetailComponent } from './dppk-review-detail.component';
 // import { PartyCifDecisionApprovalReportComponent } from './decision-approval-report/party-cif-decision-approval-report.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(DppkReviewRoute)],
+  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, RouterModule.forChild(DppkReviewRoute)],
   declarations: [
     DppkReviewComponent,
     DppkReviewDetailComponent,

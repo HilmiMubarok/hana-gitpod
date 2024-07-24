@@ -5,6 +5,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { DppkFinalizeComponent } from './dppk-finalize.component';
 import { DppkFinalizeReviewResolve, DppkFinalizeReviewRoute } from './dppk-finalize.route';
 import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
+import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
 // import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog-detail.component';
 // import { DppkPreparationInternalMemoComponent } from './dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo.component';
 // import { DppkPreparationInternalMemoDialogComponent } from './dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog.component';
@@ -29,7 +30,7 @@ import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
 // import { PartyCifDecisionApprovalReportComponent } from './decision-approval-report/party-cif-decision-approval-report.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(DppkFinalizeReviewRoute)],
+  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, RouterModule.forChild(DppkFinalizeReviewRoute)],
   declarations: [
     DppkFinalizeComponent,
     DppkFinalizeDetailComponent,
