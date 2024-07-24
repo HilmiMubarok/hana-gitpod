@@ -7,7 +7,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 @Component({
   selector: 'jhi-covenant',
   templateUrl: './covenant.component.html',
-  styleUrls: ['./back-to-back/covenant-backtoback.css'],
+  styleUrls: ['./covenant-style.css'],
   styles: [
     `
       .overlay {

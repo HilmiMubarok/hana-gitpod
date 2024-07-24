@@ -181,14 +181,6 @@ import { CustomerDetailCardComponent } from './customer/customer-detail-card.com
 import { PartyCifDebtorComponent } from './debtor-data/debtor-data.component';
 import { OrganizationLegalListComponent } from './organization-legal/organization-legal-list.component';
 import { entityDialogModule } from './entity-dialog.constant';
-import { CovenantBackToBackGeneralComponent } from './credit-proposal/convenant/back-to-back/covenant-backtoback-general.component';
-import { CovenantBackToBackDepositComponent } from './credit-proposal/convenant/back-to-back/covenant-backtoback-deposit.component';
-import { DeviationBackToBackGeneralComponent } from './credit-proposal/convenant/back-to-back/deviation/deviation-backtoback-general.component';
-import { DeviationBackToBackDepositComponent } from './credit-proposal/convenant/back-to-back/deviation/deviation-backtoback-deposit.component';
-import { CreditProposalCovenantAboveComponent } from './credit-proposal/convenant/above/credit-proposal-covenant-above.component';
-import { CreditProposalDeviationAboveComponent } from './credit-proposal/convenant/above/deviation/credit-proposal-deviation-above.component';
-import { CreditProposalCovenantBelowComponent } from './credit-proposal/convenant/below/credit-proposal-covenant-below.component';
-import { CreditProposalDeviationBelowComponent } from './credit-proposal/convenant/below/deviation/credit-proposal-deviation-below.component';
 import { CreditProposalBankAccountAnalystDialogComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst-dialog.component';
 import { DeptorDataDocumentChecklistComponent } from './debtor-data/document-checklis/document-checklis-deptor-data.component';
 import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data/document-checklis/debtor-data-document-checklis-dialog.component';
@@ -707,14 +699,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartyPostalAddressCardComponent,
     CustomerDetailCardComponent,
     OrganizationLegalListComponent,
-    CovenantBackToBackGeneralComponent,
-    CovenantBackToBackDepositComponent,
-    DeviationBackToBackGeneralComponent,
-    DeviationBackToBackDepositComponent,
-    CreditProposalCovenantAboveComponent,
-    CreditProposalDeviationAboveComponent,
-    CreditProposalCovenantBelowComponent,
-    CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     DebtorDataDocumentChecklistDialogComponent,
     CreditProposalCollateralInfoChecklistComponent,
@@ -1295,14 +1279,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartyPostalAddressCardComponent,
     CustomerDetailCardComponent,
     OrganizationLegalListComponent,
-    CovenantBackToBackGeneralComponent,
-    CovenantBackToBackDepositComponent,
-    DeviationBackToBackDepositComponent,
-    DeviationBackToBackGeneralComponent,
-    CreditProposalCovenantAboveComponent,
-    CreditProposalDeviationAboveComponent,
-    CreditProposalCovenantBelowComponent,
-    CreditProposalDeviationBelowComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     DeptorDataDocumentChecklistComponent,
     CreditProposalCollateralInfoChecklistComponent,
