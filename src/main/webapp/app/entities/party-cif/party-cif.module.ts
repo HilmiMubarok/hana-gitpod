@@ -25,6 +25,8 @@ import { PartyCifDebtorComponent } from '../debtor-data/debtor-data.component';
 import { OrganizationLegalListComponent } from '../organization-legal/organization-legal-list.component';
 import { FacilityInfoGroupComponent } from '../debtor-data/facility-info/facility-info-group.component';
 import { ParipasuCollateralIddComponent } from './paripasu-collateral-idd/paripasu-collateral-idd.component';
+import { InsuranceInformationIddComponent } from './insurance-information-idd/insurance-information-idd.component';
+import { ParipasuCollateralIddDebtorComponent } from './paripasu-collateral-idd-debtor/paripasu-collateral-idd-debtor.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCifRoute)],
@@ -51,6 +53,8 @@ import { ParipasuCollateralIddComponent } from './paripasu-collateral-idd/paripa
     OrganizationLegalListComponent,
     FacilityInfoGroupComponent,
     ParipasuCollateralIddComponent,
+    InsuranceInformationIddComponent,
+    ParipasuCollateralIddDebtorComponent,
   ],
   entryComponents: [PartyCifComponent, PartyCifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

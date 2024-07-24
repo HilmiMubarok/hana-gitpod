@@ -311,8 +311,6 @@ import { MainFacilityInfoComponent } from './debtor-data/facility-info/main-faci
 import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main-facility-info-child.component';
 import { MainFacilityComponent } from './credit-proposal/loan-facility/main-facility/main-facility.component';
 import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main-facility/main-facility-child.component';
-import { InsuranceInformationIddComponent } from './party-cif/insurance-information-idd/insurance-information-idd.component';
-import { ParipasuCollateralIddDebtorComponent } from './party-cif/paripasu-collateral-idd-debtor/paripasu-collateral-idd-debtor.component';
 import { DebtorInformationComponent } from './debtor-information/debtor-information.component';
 import { MainFacilityHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-history.component';
 import { MainFacilityChildHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-child-history.component';
@@ -339,7 +337,6 @@ import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compa
 import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
 import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
 import { CreditProposalGeneratePkReportComponent } from './credit-proposal/generate-document-pk-report/credit-proposal-generate-pk-report.component';
-import { StandartConvenantComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
 import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-deviation/standart-deviation.component';
 import { OfferingLetterSignerPageComponent } from './offering-letter/offering-page/signer/signer-page.component';
 import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offering-page/signer/dialog/signer-page-dialog.component';
@@ -355,7 +352,6 @@ import { LoanFacilityDetailGridTempComponent } from './loan-analys/dar-final/loa
 import { MainFacilityChildDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-child-dar.component';
 import { MainFacilityDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dar.component';
 import { MainFacilityDialogDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dialog-dar.component';
-import { CreditProposalMappingCollateralTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-collateral.component';
 import { MappingFacilityTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-facility.component';
 import { DeveloperShowDiagramStateMultipleComponent } from 'app/developer/reuseable/diagram-state-multiple.component';
 import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/reuseable/dialog/diagram-state-multiple-dialog.component';
@@ -830,9 +826,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ApproveFinalComponent,
     DisbursmentApproveComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
-    // cross idd //
-    ParipasuCollateralIddDebtorComponent,
-    // ParipasuCollateralIddComponent,
+
 
     GroupCollateralInfoComponent,
     GroupCollateralListComponent,
@@ -841,7 +835,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ParipasuCollateralDebiturComponent,
     GroupCollateralListCpComponent,
     SummaryGridComponent,
-    InsuranceInformationIddComponent,
+    // InsuranceInformationIddComponent,
 
     // cross appraisal //
     // GroupCollateralListAppraisalComponent,
@@ -886,8 +880,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     AgreementComparePreviousDarComponent,
     SignerPerjanjialKreditDialogComponent,
     CreditProposalGeneratePkReportComponent,
-    StandartConvenantComponent,
-    StandartDeviationComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
     ClausalPkDialogComponent,
@@ -897,7 +889,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     LoanFacilityDetailTempComponent,
     LoanFacilityDetailGridTempComponent,
     LoanFacilityDialogTempComponent,
-    CreditProposalMappingCollateralTempComponent,
     CollateralInfoDarFinalComponent,
     AboveGridDarFinalComponent,
     BellowGridDarFinalComponent,
@@ -1382,12 +1373,9 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ApproveFinalComponent,
     DisbursmentApproveComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
-    // cross idd //
-    ParipasuCollateralIddDebtorComponent,
-    // ParipasuCollateralIddComponent,
     GroupCollateralInfoComponent,
     GroupCollateralListComponent,
-    InsuranceInformationIddComponent,
+    // InsuranceInformationIddComponent,
     // cross cp //
     ParipasuCollateralGroupComponent,
     ParipasuCollateralDebiturComponent,
@@ -1427,8 +1415,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     AgreementComparePreviousDarComponent,
     SignerPerjanjialKreditDialogComponent,
     CreditProposalGeneratePkReportComponent,
-    StandartConvenantComponent,
-    StandartDeviationComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
     ClausalPkDialogComponent,
@@ -1437,7 +1423,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     LoanFacilityDetailTempComponent,
     LoanFacilityDetailGridTempComponent,
     LoanFacilityDialogTempComponent,
-    CreditProposalMappingCollateralTempComponent,
     CollateralInfoDarFinalComponent,
     AboveGridDarFinalComponent,
     BellowGridDarFinalComponent,

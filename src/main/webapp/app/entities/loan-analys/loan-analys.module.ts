@@ -48,6 +48,7 @@ import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.comp
 import { LoanAnalysPreviousDarComponent } from './previous/previous-dar/loan-analys-previous-dar.component';
 import { LoanAnalysPreviousProposalComponent } from './previous/previous-proposal/loan-analys-previous-proposal.component';
 import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
+import { StandartConvenantComponent } from './dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
 import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/risk-acceptance-criteria.module';
 
 @NgModule({
@@ -70,7 +71,7 @@ import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/r
     // LoanFacilityDetailTempComponent,
     // LoanFacilityDetailGridTempComponent,
     // LoanFacilityDialogTempComponent,
-    // CreditProposalMappingCollateralTempComponent,
+    CreditProposalMappingCollateralTempComponent,
     // CollateralInfoDarFinalComponent,
     // AboveGridDarFinalComponent,
     // BellowGridDarFinalComponent,
@@ -94,6 +95,8 @@ import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/r
     LoanAnalysFacilityDetaliMainComponent,
     LoanAnalysPreviousDarComponent,
     LoanAnalysPreviousProposalComponent,
+    StandartConvenantComponent,
+
     // MainFacilityDarComponent,
     // MainFacilityChildDarComponent,
     // MainFacilityDialogDarComponent,
