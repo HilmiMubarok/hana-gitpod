@@ -21,6 +21,10 @@ import { PartyCifRetriveInfoComponent } from './retrive-info/party-cif-retrive-i
 import { FacilityInfoDebiturComponent } from '../debtor-data/facility-info/facility-info-debitur.component';
 import { FacilityInfoCifComponent } from './facility-info-cif/facility-info-cif.component';
 import { PartyCifDecisionApprovalReportComponent } from './decision-approval-report/party-cif-decision-approval-report.component';
+import { PartyCifDebtorComponent } from '../debtor-data/debtor-data.component';
+import { OrganizationLegalListComponent } from '../organization-legal/organization-legal-list.component';
+import { FacilityInfoGroupComponent } from '../debtor-data/facility-info/facility-info-group.component';
+import { ParipasuCollateralIddComponent } from './paripasu-collateral-idd/paripasu-collateral-idd.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCifRoute)],
@@ -43,6 +47,10 @@ import { PartyCifDecisionApprovalReportComponent } from './decision-approval-rep
     FacilityInfoDebiturComponent,
     FacilityInfoCifComponent,
     PartyCifDecisionApprovalReportComponent,
+    PartyCifDebtorComponent,
+    OrganizationLegalListComponent,
+    FacilityInfoGroupComponent,
+    ParipasuCollateralIddComponent,
   ],
   entryComponents: [PartyCifComponent, PartyCifUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

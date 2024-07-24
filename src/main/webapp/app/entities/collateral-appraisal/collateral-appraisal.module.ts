@@ -31,6 +31,11 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral/collateral-appraisal-process-detail-land.component';
 import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collateral-appraisal-cif.component';
 import { CollateralAppraisalValuationMachineComponent } from './valuation/details/collateral-appraisal-valuation-machine.component';
+import { CollateralAppraisalNewInfoComponent } from './addSelect/collateral-appraisal-info.component';
+import { TypeDialogAppraisalComponent } from './addSelect/type-dialog-appraisal.component';
+import { CollateralAppraisalForwardToComponent } from './summary/forward-to/collateral-appraisal-forward-to.component';
+import { GroupCollateralListAppraisalComponent } from './groupList/group-collateral-list-appraisal.component';
+import { GroupCollateralAppraisalComponent } from './groupList/group-collateral-appraisal.component';
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
   declarations: [
@@ -54,6 +59,11 @@ import { CollateralAppraisalValuationMachineComponent } from './valuation/detail
     // CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalValuationPropertyDialogComponent,
     DialogCollateralAppraisalCifComponent,
+    CollateralAppraisalNewInfoComponent,
+    TypeDialogAppraisalComponent,
+    CollateralAppraisalForwardToComponent,
+    GroupCollateralListAppraisalComponent,
+    GroupCollateralAppraisalComponent,
   ],
   entryComponents: [
     CollateralAppraisalComponent,
