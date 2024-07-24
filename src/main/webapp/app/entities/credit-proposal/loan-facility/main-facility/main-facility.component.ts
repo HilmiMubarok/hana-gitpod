@@ -25,6 +25,8 @@ export class MainFacilityComponent implements OnChanges {
   public dataSource: MatTableDataSource<IMainFacility>;
   public dataMain: IMainFacility;
 
+  @Input() isViewMode: boolean;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
