@@ -5,11 +5,16 @@ import { ProductCategoryComponent } from './product-category.component';
 import { ProductCategoryDetailComponent } from './product-category-detail.component';
 import { ProductCategoryUpdateComponent } from './product-category-update.component';
 import { productCategoryRoute } from './product-category.route';
-import { ProductCategoryViewComponent } from './product-category-view.component';
+import { ProductCategoryEditDialogComponent } from './product-category-edit-dialog.component';
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(productCategoryRoute)],
-  declarations: [ProductCategoryComponent, ProductCategoryDetailComponent, ProductCategoryUpdateComponent, ProductCategoryViewComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(productCategoryRoute)],
+  declarations: [
+    ProductCategoryComponent,
+    ProductCategoryDetailComponent,
+    ProductCategoryUpdateComponent,
+    ProductCategoryEditDialogComponent,
+  ],
   entryComponents: [ProductCategoryComponent, ProductCategoryUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
