@@ -89,7 +89,7 @@ export class CovenantTempComponent implements OnInit {
   }
   public disableFields() {
     if (
-      this.parentPath === 'finalize-dppk' ||
+      // this.parentPath === 'finalize-dppk' ||
       this.parentPath === 'review-dppk' ||
       this.parentPath === 'loan-ops-distribution' ||
       this.parentPath === 'loan-ops-review'
