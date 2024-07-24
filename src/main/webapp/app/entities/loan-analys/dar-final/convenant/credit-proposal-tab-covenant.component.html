@@ -58,12 +58,6 @@
   <div
     class="e-sample-resize-container e-card-resize-container mb-5"
     *ngIf="
-      parentPath === 'finalize-pk' ||
-      parentPath === 'review-pk' ||
-      parentPath === 'finalize-dpdl' ||
-      parentPath === 'review-dpdl' ||
-      parentPath === 'dar-revision' ||
-      parentPath === 'dar-revision-checker' ||
       parentPath === 'finalize-dppk' ||
       parentPath === 'review-dppk' ||
       parentPath === 'loan-ops-distribution' ||
@@ -78,10 +72,13 @@
             <div class="e-card-sub-title"></div>
             <div class="card-content">
               <textarea
-                matInput
-                type="text"
-                [(ngModel)]="creditProposalItem.attributes['informasiTambahan']"
+                style="height: 200px"
+                cssClass="e-outline"
+                class="text-area-input"
+                id="multiline-always"
+                name="typeAlways"
                 [disabled]="fields"
+                [(ngModel)]="creditProposalItem.attributes['informasiTambahanDppk']"
               ></textarea>
             </div>
           </div>
@@ -145,7 +142,6 @@
     </div>
   </div>
 </div>
-
 <div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
   <div>
     <jhi-document-checklist-temp
