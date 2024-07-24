@@ -34,23 +34,9 @@ import { PersonViewComponent } from './person/person-view.component';
 import { PartyGroupViewComponent } from './party-group/party-group-view.component';
 import { PartyTypeViewComponent } from './party-type/party-type-view.component';
 import { ProductViewComponent } from './product/product-view.component';
-import { ProductTypeViewComponent } from './product-type/product-type-view.component';
-import { FeatureTypeViewComponent } from './feature-type/feature-type-view.component';
 import { FeatureViewComponent } from './feature/feature-view.component';
-import { BaseAccountViewComponent } from './base-account/base-account-view.component';
-import { AccountTypeViewComponent } from './account-type/account-type-view.component';
-import { PeriodViewComponent } from './period/period-view.component';
 import { PostalAddressViewComponent } from './postal-address/postal-address-view.component';
-import { StateBoundaryViewComponent } from './state-boundary/state-boundary-view.component';
-import { PartyRoleViewComponent } from './party-role/party-role-view.component';
-import { GeoBoundaryTypeViewComponent } from './geo-boundary-type/geo-boundary-type-view.component';
-// import { GeoBoundaryViewComponent } from './geo-boundary/geo-boundary-view.component';
-import { PartyCategoryViewComponent } from './party-category/party-category-view.component';
-import { PartyCategoryTypeViewComponent } from './party-category-type/party-category-type-view.component';
-import { PartyClassificationAsChildComponent } from './party-classification/party-classification-as-child.component';
-import { PartyClassificationViewComponent } from './party-classification/party-classification-view.component';
-import { ProductCategoryViewComponent } from './product-category/product-category-view.component';
-import { ProductCategoryTypeViewComponent } from './product-category-type/product-category-type-view.component';
+import { GeoBoundaryViewComponent } from './geo-boundary/geo-boundary-view.component';
 import { ProductCategoryDialogComponent } from './product-category/product-category-dialog.component';
 import { ProductClassificationViewComponent } from './product-classification/product-classification-view.component';
 import { PeriodTypeViewComponent } from './period-type/period-type-view.component';
@@ -569,23 +555,9 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartyGroupViewComponent,
     PartyTypeViewComponent,
     ProductViewComponent,
-    ProductTypeViewComponent,
-    FeatureTypeViewComponent,
     FeatureViewComponent,
-    BaseAccountViewComponent,
-    AccountTypeViewComponent,
-    PeriodViewComponent,
     PostalAddressViewComponent,
-    StateBoundaryViewComponent,
-    PartyRoleViewComponent,
-    GeoBoundaryTypeViewComponent,
     // GeoBoundaryViewComponent,
-    PartyCategoryViewComponent,
-    PartyCategoryTypeViewComponent,
-    PartyClassificationAsChildComponent,
-    PartyClassificationViewComponent,
-    ProductCategoryViewComponent,
-    ProductCategoryTypeViewComponent,
     ProductCategoryDialogComponent,
     ProductCategoryEditDialogComponent,
     ProductClassificationViewComponent,
@@ -1167,23 +1139,9 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartyGroupViewComponent, // Remove Me
     PartyTypeViewComponent, // Remove Me
     ProductViewComponent, // Remove Me
-    ProductTypeViewComponent, // Remove Me
-    FeatureTypeViewComponent, // Remove Me
     FeatureViewComponent, // Remove Me
-    BaseAccountViewComponent, // Remove Me
-    AccountTypeViewComponent, // Remove Me
-    PeriodViewComponent, // Remove Me
     PostalAddressViewComponent, // Remove Me
-    StateBoundaryViewComponent, // Remove Me
-    PartyRoleViewComponent, // Remove Me
-    GeoBoundaryTypeViewComponent, // Remove Me
     // GeoBoundaryViewComponent, // Remove Me
-    PartyCategoryViewComponent, // Remove Me
-    PartyCategoryTypeViewComponent, // Remove Me
-    PartyClassificationAsChildComponent, // Remove Me
-    PartyClassificationViewComponent, // Remove Me
-    ProductCategoryViewComponent, // Remove Me
-    ProductCategoryTypeViewComponent, // Remove Me
     ProductClassificationViewComponent, // Remove Me
     PeriodTypeViewComponent, // Remove Me
     WorkTypeViewComponent, // Remove Me
