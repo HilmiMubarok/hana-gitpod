@@ -147,11 +147,8 @@ import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/c
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
 import { CollateralPropertyListComponent } from './collateral-property/collateral-property-list.component';
 import { CustomerGroupListComponent } from './customer-group/customer-group-list.component';
-import { CreditProposalRiskAcceptanceCriteriaBelowComponent } from './credit-proposal/risk-criteria/below/credit-proposal-risk-acceptance-criteria-below-component';
-import { CreditProposalAceptanceCriteriaBackToBackComponent } from './credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-criteria-back-to-back-component';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
 import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/busines-activity/credit-proposal-tab-business-activity.component';
-import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/risk-criteria/credit-proposal-risk-acceptance-criteria-component';
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditProposalFinancialStatementComponent } from './credit-proposal/financial-statement/credit-proposal-financial-statement.component';
 import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
@@ -179,7 +176,6 @@ import { DebtorDataSlikSummaryShareHolderComponent } from './debtor-data/slick-s
 import { DebtorDataSlikSummaryShareHolderDialogComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { DebtorDataSlikSummaryComparisonComponent } from './debtor-data/slick-summary/comparison/debtor-data-comparison.component';
 import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparison/ideb/debtor-data-ideb.component';
-import { CreditProposalRacNilaiPembelianComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-nilai-pembelian';
 import { LoanAnalysComplianceComponent } from './loan-analys/compliance/loan-analys-compliance.component';
 import { CreditProposalTabLoanFacilityTakeOverGridComponent } from './credit-proposal/loan-facility/take-over/credit-proposal-tab-loan-facility-take-over.grid.component';
 import { CreditProposalCollateralTabLoanComponent } from './credit-proposal/loan-facility/take-over/collateral/credit-proposal-collateral-tab-loan.component';
@@ -640,14 +636,11 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalCollateralInfoRemarksInformationComponent,
     CollateralPropertyListComponent,
     CustomerGroupListComponent,
-    CreditProposalRiskAcceptanceCriteriaBelowComponent,
-    CreditProposalAceptanceCriteriaBackToBackComponent,
     CreditProposalBankAccountAnalysisComponent,
     CreditProposalTabBusinessActivityComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     ProjectAnalystRemarkComponent,
-    CreditProposalRiskAcceptanceCriteriaComponent,
     CreditProposaTabManagementInfoComponent,
     CreditProposalFinancialStatementComponent,
     RepaymentSpreadsheetComponent,
@@ -672,7 +665,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     DebtorDataSlikSummaryShareHolderDialogComponent,
     DebtorDataSlikSummaryComparisonComponent,
     DeborDataSlikIdebComponent,
-    CreditProposalRacNilaiPembelianComponent,
     LoanAnalysComplianceComponent,
     CreditProposalTabLoanFacilityTakeOverGridComponent,
     CreditProposalCollateralTabLoanComponent,
@@ -1201,14 +1193,11 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CollateralPropertyListComponent,
     CreditProposalCollateralInfoRemarksInformationComponent,
     CustomerGroupListComponent,
-    CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
-    CreditProposalAceptanceCriteriaBackToBackComponent, // Remove Me
     CreditProposalBankAccountAnalysisComponent, // Remove Me
     CreditProposalTabBusinessActivityComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     ProjectAnalystRemarkComponent,
-    CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalFinancialStatementComponent, // Remove Me
     RepaymentSpreadsheetComponent, // Remove Me
@@ -1232,7 +1221,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     DebtorDataSlikSummaryShareHolderDialogComponent,
     DebtorDataSlikSummaryComparisonComponent,
     DeborDataSlikIdebComponent,
-    CreditProposalRacNilaiPembelianComponent,
     LoanAnalysComplianceComponent,
     CreditProposalTabLoanFacilityTakeOverGridComponent,
     CreditProposalCollateralTabLoanComponent,

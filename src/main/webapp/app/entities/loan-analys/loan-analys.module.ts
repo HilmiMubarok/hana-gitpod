@@ -48,6 +48,7 @@ import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.comp
 import { LoanAnalysPreviousDarComponent } from './previous/previous-dar/loan-analys-previous-dar.component';
 import { LoanAnalysPreviousProposalComponent } from './previous/previous-proposal/loan-analys-previous-proposal.component';
 import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
+import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/risk-acceptance-criteria.module';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
     SharedLibsModule,
     SharedEntityModule,
     CovenantModule,
+    RiskAcceptanceCriteriaModule,
     RouterModule.forChild(LoanAnalysRoute),
     MatSlideToggleModule,
   ],
