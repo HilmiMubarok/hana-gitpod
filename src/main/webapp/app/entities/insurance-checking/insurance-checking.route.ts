@@ -150,7 +150,9 @@ export class InsuranceCheckingResolve implements Resolve<IInsuranceChecking> {
             } else {
               creditProposal.body.attributes['analysisOfCalculation'] = JSON.parse(creditProposal.body.attributes['analysisOfCalculation']);
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'proformaLaporanKeuangan')) {
               creditProposal.body.attributes['proformaLaporanKeuangan'] = [];
               creditProposal.body.attributes['proformaLaporanKeuangan'].push(new ProformaLaporanKeuangan());

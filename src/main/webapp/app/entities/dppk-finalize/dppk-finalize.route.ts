@@ -422,7 +422,9 @@ export class DppkFinalizeReviewResolve implements Resolve<IDppkFinalize> {
                 creditProposal.body.attributes['dataAssignToDPPKReview2']
               );
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =
