@@ -37,15 +37,6 @@ import { ProductViewComponent } from './product/product-view.component';
 import { FeatureViewComponent } from './feature/feature-view.component';
 import { PostalAddressViewComponent } from './postal-address/postal-address-view.component';
 import { GeoBoundaryViewComponent } from './geo-boundary/geo-boundary-view.component';
-import { ProductCategoryDialogComponent } from './product-category/product-category-dialog.component';
-import { ProductClassificationViewComponent } from './product-classification/product-classification-view.component';
-import { PeriodTypeViewComponent } from './period-type/period-type-view.component';
-import { WorkTypeViewComponent } from './work-type/work-type-view.component';
-import { ContactMechTypeViewComponent } from './contact-mech-type/contact-mech-type-view.component';
-import { PurposeTypeViewComponent } from './purpose-type/purpose-type-view.component';
-import { ProductConfigViewComponent } from './product-config/product-config-view.component';
-import { UomViewComponent } from './uom/uom-view.component';
-import { UomTypeViewComponent } from './uom-type/uom-type-view.component';
 import { UomConversionViewComponent } from './uom-conversion/uom-conversion-view.component';
 import { TaxTypeViewComponent } from './tax-type/tax-type-view.component';
 import { FeatureApplicableViewComponent } from './feature-applicable/feature-applicable-view.component';
@@ -535,16 +526,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     FeatureViewComponent,
     PostalAddressViewComponent,
     // GeoBoundaryViewComponent,
-    ProductCategoryDialogComponent,
     // ProductCategoryEditDialogComponent,
-    ProductClassificationViewComponent,
-    PeriodTypeViewComponent,
-    WorkTypeViewComponent,
-    ContactMechTypeViewComponent,
-    PurposeTypeViewComponent,
-    ProductConfigViewComponent,
-    UomViewComponent,
-    UomTypeViewComponent,
     UomConversionViewComponent,
     TaxTypeViewComponent,
     FeatureApplicableViewComponent,
@@ -1099,14 +1081,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     FeatureViewComponent, // Remove Me
     PostalAddressViewComponent, // Remove Me
     // GeoBoundaryViewComponent, // Remove Me
-    ProductClassificationViewComponent, // Remove Me
-    PeriodTypeViewComponent, // Remove Me
-    WorkTypeViewComponent, // Remove Me
-    ContactMechTypeViewComponent, // Remove Me
-    PurposeTypeViewComponent, // Remove Me
-    ProductConfigViewComponent, // Remove Me
-    UomViewComponent, // Remove Me
-    UomTypeViewComponent, // Remove Me
     UomConversionViewComponent, // Remove Me
     TaxTypeViewComponent, // Remove Me
     FeatureApplicableViewComponent, // Remove Me
