@@ -48,6 +48,7 @@ import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.comp
 import { LoanAnalysPreviousDarComponent } from './previous/previous-dar/loan-analys-previous-dar.component';
 import { LoanAnalysPreviousProposalComponent } from './previous/previous-proposal/loan-analys-previous-proposal.component';
 import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
+import { StandartConvenantComponent } from './dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
 
 @NgModule({
   imports: [
@@ -68,7 +69,7 @@ import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
     // LoanFacilityDetailTempComponent,
     // LoanFacilityDetailGridTempComponent,
     // LoanFacilityDialogTempComponent,
-    // CreditProposalMappingCollateralTempComponent,
+    CreditProposalMappingCollateralTempComponent,
     // CollateralInfoDarFinalComponent,
     // AboveGridDarFinalComponent,
     // BellowGridDarFinalComponent,
@@ -92,6 +93,8 @@ import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
     LoanAnalysFacilityDetaliMainComponent,
     LoanAnalysPreviousDarComponent,
     LoanAnalysPreviousProposalComponent,
+    StandartConvenantComponent,
+
     // MainFacilityDarComponent,
     // MainFacilityChildDarComponent,
     // MainFacilityDialogDarComponent,
