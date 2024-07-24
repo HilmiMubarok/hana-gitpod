@@ -132,7 +132,9 @@ export class CreditAgreementReviewResolve implements Resolve<ICreditAgreementRev
             } else {
               creditProposal.body.attributes['guaranturAnalysis'] = JSON.parse(creditProposal.body.attributes['guaranturAnalysis']);
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'convenant')) {
               creditProposal.body.attributes['convenant'] = new Covenant();
             } else {
