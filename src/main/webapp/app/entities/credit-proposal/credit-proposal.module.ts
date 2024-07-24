@@ -36,9 +36,19 @@ import { CreditProposalOtherCovenantDialogComponent } from './convenant/other-co
 import { CreditProposalRacNilaiPembelianAddComponent } from './risk-criteria/nilai-pembelian/credrit-proposal-risk-acceptance-criteria-add';
 import { CreditProposalRacNilaiPembelianEditComponent } from './risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-edit';
 import { CovenantModule } from './convenant/covenant.module';
+import { RiskAcceptanceCriteriaModule } from './risk-criteria/risk-acceptance-criteria.module';
+import { LoanFacilityModule } from './loan-facility/loan-facility.module';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, CovenantModule, RouterModule.forChild(creditProposalRoute)],
+  imports: [
+    SharedModule,
+    SharedLibsModule,
+    SharedEntityModule,
+    CovenantModule,
+    RiskAcceptanceCriteriaModule,
+    LoanFacilityModule,
+    RouterModule.forChild(creditProposalRoute),
+  ],
   declarations: [
     CreditProposalComponent,
     CreditProposalUpdateCustomComponent,

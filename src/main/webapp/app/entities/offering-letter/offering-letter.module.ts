@@ -16,9 +16,18 @@ import { OfferingLetterTabCovenantDeviationComponent } from './covenant-deviatio
 import { CompareApprovalReportComponent } from './compare-approval-report/compare-approval-report.component';
 import { CertificateInfoDialogComponent } from './certificate-info/certificate-info-dialog.component';
 import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
+import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/risk-acceptance-criteria.module';
+import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, CovenantModule, RouterModule.forChild(OfferingLetterRoute)],
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    CovenantModule,
+    RiskAcceptanceCriteriaModule,
+    LoanFacilityModule,
+    RouterModule.forChild(OfferingLetterRoute),
+  ],
   declarations: [
     OfferingLetterComponent,
     OfferingLetterMainComponent,

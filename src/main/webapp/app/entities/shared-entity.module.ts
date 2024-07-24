@@ -125,8 +125,6 @@ import { CreditProposalTabExposureComponent } from './credit-proposal/exposure/c
 import { TotalExposureComponent } from './credit-proposal/exposure/total-exposure/total-exposure.component';
 import { LegalLendingComponent } from './credit-proposal/exposure/legal-lending/legal-lending.component';
 import { IndustryLimitComponent } from './credit-proposal/exposure/industry-limit/industry-limit.component';
-import { CreditProposalTabLoanFacilityDetailComponent } from './credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.component';
-import { CreditProposalTabLoanFacilityDetailGridComponent } from './credit-proposal/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';
 import { OrganizationManagementListComponent } from './organization-management/organization-management-list.component';
 import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/party-cif-customer-info-person.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
@@ -138,11 +136,8 @@ import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/c
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
 import { CollateralPropertyListComponent } from './collateral-property/collateral-property-list.component';
 import { CustomerGroupListComponent } from './customer-group/customer-group-list.component';
-import { CreditProposalRiskAcceptanceCriteriaBelowComponent } from './credit-proposal/risk-criteria/below/credit-proposal-risk-acceptance-criteria-below-component';
-import { CreditProposalAceptanceCriteriaBackToBackComponent } from './credit-proposal/risk-criteria/back-to-back/credit-proposal-risk-acceptance-criteria-back-to-back-component';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
 import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/busines-activity/credit-proposal-tab-business-activity.component';
-import { CreditProposalRiskAcceptanceCriteriaComponent } from './credit-proposal/risk-criteria/credit-proposal-risk-acceptance-criteria-component';
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditProposalFinancialStatementComponent } from './credit-proposal/financial-statement/credit-proposal-financial-statement.component';
 import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
@@ -170,16 +165,9 @@ import { DebtorDataSlikSummaryShareHolderComponent } from './debtor-data/slick-s
 import { DebtorDataSlikSummaryShareHolderDialogComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { DebtorDataSlikSummaryComparisonComponent } from './debtor-data/slick-summary/comparison/debtor-data-comparison.component';
 import { DeborDataSlikIdebComponent } from './debtor-data/slick-summary/comparison/ideb/debtor-data-ideb.component';
-import { CreditProposalRacNilaiPembelianComponent } from './credit-proposal/risk-criteria/nilai-pembelian/credit-proposal-risk-acceptance-criteria-nilai-pembelian';
 import { LoanAnalysComplianceComponent } from './loan-analys/compliance/loan-analys-compliance.component';
-import { CreditProposalTabLoanFacilityTakeOverGridComponent } from './credit-proposal/loan-facility/take-over/credit-proposal-tab-loan-facility-take-over.grid.component';
-import { CreditProposalCollateralTabLoanComponent } from './credit-proposal/loan-facility/take-over/collateral/credit-proposal-collateral-tab-loan.component';
 import { CreditProposalCollateralTabLoanDialogComponent } from './credit-proposal/loan-facility/take-over/collateral/credit-proposal-collateral-tab-loan-dialog.component';
-import { CreditProposalTabLoanFacilityTakeOverComponent } from './credit-proposal/loan-facility/take-over/credit-proposal-tab-loan-facility-take-over.component';
-import { CreditProposalTabLoanFacilityTakeOverAfterGridComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
-import { CreditProposalCollateralTabLoanAfterComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal/loan-facility/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
-import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
 import { ParipasuCollateralComponent } from './credit-proposal/collateral-info/paripasu-collateral/paripasu-collateral.component';
 import { DebtorDataOrganizationManagementListComponent } from './debtor-data/slick-summary/management-data/debtor-data-organization-management-list.component';
 import { BellowGridComponent } from './credit-proposal/collateral-info/bellow-grid/bellow-grid.component';
@@ -278,7 +266,6 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-
 import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.component';
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 // import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility-info-group.component';
-import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-facility/mapping/mapping-facility.component';
 import { DocumentChecklistDialogHistoryComponent } from './credit-proposal/document-checklist-history/document-checklist-dialog-history.component';
 import { CreditProposalDocumentChecklistHistoryComponent } from './credit-proposal/document-checklist-history/credit-proposal-document-checklist-history.component';
 import { CovenantTempComponent } from './loan-analys/dar-final/convenant/credit-proposal-tab-covenant.component';
@@ -291,7 +278,6 @@ import { DocumentChecklistTempComponent } from './loan-analys/dar-final/document
 import { DocumentChecklistDialogTempComponent } from './loan-analys/dar-final/document-checklist/document-checklist-dialog.component';
 import { CreditProposalDeviationDarAboveComponent } from './loan-analys/dar-final/convenant/above/deviation/credit-proposal-deviation-above.component';
 import { ApproveFinalComponent } from './loan-analys/approval-final/approve-final.component';
-import { CreditProposalMappingCollateralComponent } from './credit-proposal/loan-facility/mapping/mapping-collateral.component';
 import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collateral-property/dialogs/collateral-property-personal-corporate-guarantee.component';
 
 import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/credit-proposal-branch.component';
@@ -304,8 +290,6 @@ import { SummaryGridComponent } from './credit-proposal/collateral-info/collater
 import { SummaryGridBtbComponent } from './credit-proposal/collateral-info/collateral-summary-btb/summary-grid-btb.component';
 import { MainFacilityInfoComponent } from './debtor-data/facility-info/main-facility-info.component';
 import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main-facility-info-child.component';
-import { MainFacilityComponent } from './credit-proposal/loan-facility/main-facility/main-facility.component';
-import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main-facility/main-facility-child.component';
 import { InsuranceInformationIddComponent } from './party-cif/insurance-information-idd/insurance-information-idd.component';
 import { ParipasuCollateralIddDebtorComponent } from './party-cif/paripasu-collateral-idd-debtor/paripasu-collateral-idd-debtor.component';
 import { DebtorInformationComponent } from './debtor-information/debtor-information.component';
@@ -334,7 +318,6 @@ import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compa
 import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
 import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
 import { CreditProposalGeneratePkReportComponent } from './credit-proposal/generate-document-pk-report/credit-proposal-generate-pk-report.component';
-import { StandartConvenantComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
 import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-deviation/standart-deviation.component';
 import { OfferingLetterSignerPageComponent } from './offering-letter/offering-page/signer/signer-page.component';
 import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offering-page/signer/dialog/signer-page-dialog.component';
@@ -350,7 +333,6 @@ import { LoanFacilityDetailGridTempComponent } from './loan-analys/dar-final/loa
 import { MainFacilityChildDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-child-dar.component';
 import { MainFacilityDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dar.component';
 import { MainFacilityDialogDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dialog-dar.component';
-import { CreditProposalMappingCollateralTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-collateral.component';
 import { MappingFacilityTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-facility.component';
 import { DeveloperShowDiagramStateMultipleComponent } from 'app/developer/reuseable/diagram-state-multiple.component';
 import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/reuseable/dialog/diagram-state-multiple-dialog.component';
@@ -459,7 +441,6 @@ import { CollateralInfoRemarksChecklistLoanOpsComponent } from './loan-operation
 import { CollateralInfoRemarksInformationLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-information-loan-ops.component';
 import { CollateralInfoRemarksLoanOpsComponent } from './loan-operation/collateral-info/remarks/collateral-info-remarks-loan-ops.component';
 import { MappingFacilityLoanOpsComponent } from './loan-operation/collateral-info/mapping/mapping-facility-loan-ops.component';
-import { creditProposalLoanFacilityTemplate } from './credit-proposal/loan-facility/credit-proposal-loan-facility-template.contstants';
 import { GenerateTboLegalMonitoringComponent } from './tbo-legal-monitoring/generate-tbo-legal-monitoring/generate-tbo-legal-monitoring.component';
 import { TboLegalMonitoringComponent } from './tbo-legal-monitoring/tbo-monitoring/tbo-legal-monitoring.component';
 import { HistoryTBOComponent } from './tbo-legal-monitoring/history-tbo/history-tbo.component';
@@ -509,7 +490,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ...entityDialogModule,
     ...entityTemplate,
     ...entityDppkFinalizeTemplate,
-    ...creditProposalLoanFacilityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
@@ -593,8 +573,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ApplicationProductViewComponent,
     BaseApplicationViewComponent,
     DocumentComponent,
-    CreditProposalTabLoanFacilityDetailComponent,
-    CreditProposalTabLoanFacilityDetailGridComponent,
     CreditProposalCorrespondenceComponent,
     SlikSummaryComponent,
     SlikSummaryDebiturComponent,
@@ -622,14 +600,11 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalCollateralInfoRemarksInformationComponent,
     CollateralPropertyListComponent,
     CustomerGroupListComponent,
-    CreditProposalRiskAcceptanceCriteriaBelowComponent,
-    CreditProposalAceptanceCriteriaBackToBackComponent,
     CreditProposalBankAccountAnalysisComponent,
     CreditProposalTabBusinessActivityComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     ProjectAnalystRemarkComponent,
-    CreditProposalRiskAcceptanceCriteriaComponent,
     CreditProposaTabManagementInfoComponent,
     CreditProposalFinancialStatementComponent,
     RepaymentSpreadsheetComponent,
@@ -654,16 +629,9 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     DebtorDataSlikSummaryShareHolderDialogComponent,
     DebtorDataSlikSummaryComparisonComponent,
     DeborDataSlikIdebComponent,
-    CreditProposalRacNilaiPembelianComponent,
     LoanAnalysComplianceComponent,
-    CreditProposalTabLoanFacilityTakeOverGridComponent,
-    CreditProposalCollateralTabLoanComponent,
     CreditProposalCollateralTabLoanDialogComponent,
-    CreditProposalTabLoanFacilityTakeOverComponent,
-    CreditProposalTabLoanFacilityTakeOverAfterGridComponent,
-    CreditProposalCollateralTabLoanAfterComponent,
     CreditProposalCollateralTabLoanAfterDialogComponent,
-    CreditProposalTabLoanFacilityTakeOverAfterComponent,
     
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
@@ -675,9 +643,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     ProposalBasicInformationViewComponent,
-    CreditProposalMappingFacilityComponent,
     // mapping collateral
-    CreditProposalMappingCollateralComponent,
 
 
     // === Previous === //
@@ -820,9 +786,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ApproveFinalComponent,
     DisbursmentApproveComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
-    // cross idd //
-    ParipasuCollateralIddDebtorComponent,
-    // ParipasuCollateralIddComponent,
+
 
     GroupCollateralInfoComponent,
     GroupCollateralListComponent,
@@ -831,7 +795,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ParipasuCollateralDebiturComponent,
     GroupCollateralListCpComponent,
     SummaryGridComponent,
-    InsuranceInformationIddComponent,
+    // InsuranceInformationIddComponent,
 
     // cross appraisal //
     // GroupCollateralListAppraisalComponent,
@@ -843,8 +807,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     GroupCollateralListDarComponent,
     MainFacilityInfoComponent,
     MainFacilityInfoChildComponent,
-    MainFacilityComponent,
-    MainFacilityChildComponent,
     DebtorInformationComponent,
     MainFacilityHistoryComponent,
     MainFacilityChildHistoryComponent,
@@ -876,8 +838,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     AgreementComparePreviousDarComponent,
     SignerPerjanjialKreditDialogComponent,
     CreditProposalGeneratePkReportComponent,
-    StandartConvenantComponent,
-    StandartDeviationComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
     ClausalPkDialogComponent,
@@ -887,7 +847,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     LoanFacilityDetailTempComponent,
     LoanFacilityDetailGridTempComponent,
     LoanFacilityDialogTempComponent,
-    CreditProposalMappingCollateralTempComponent,
     CollateralInfoDarFinalComponent,
     AboveGridDarFinalComponent,
     BellowGridDarFinalComponent,
@@ -1032,7 +991,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ...entityDialogModule,
     ...entityTemplate,
     ...LoanOperationLoanFacilityTemplate,
-    ...creditProposalLoanFacilityTemplate,
     ...entityDppkFinalizeTemplate,
     LoanPurposeComponent,
 
@@ -1146,8 +1104,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ApplicationProductViewComponent, // Remove Me
     BaseApplicationViewComponent, // Remove Me
     CreditProposalCorrespondenceComponent, // Remove Me
-    CreditProposalTabLoanFacilityDetailComponent, // Remove Me
-    CreditProposalTabLoanFacilityDetailGridComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
     SlikSummaryDebiturComponent, // Remove Me
     SlikSummaryDebiturDialogComponent, // Remove Me
@@ -1175,14 +1131,11 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CollateralPropertyListComponent,
     CreditProposalCollateralInfoRemarksInformationComponent,
     CustomerGroupListComponent,
-    CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
-    CreditProposalAceptanceCriteriaBackToBackComponent, // Remove Me
     CreditProposalBankAccountAnalysisComponent, // Remove Me
     CreditProposalTabBusinessActivityComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     ProjectAnalystRemarkComponent,
-    CreditProposalRiskAcceptanceCriteriaComponent, // Remove Me
     CreditProposaTabManagementInfoComponent, // Remove Me
     CreditProposalFinancialStatementComponent, // Remove Me
     RepaymentSpreadsheetComponent, // Remove Me
@@ -1206,16 +1159,9 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     DebtorDataSlikSummaryShareHolderDialogComponent,
     DebtorDataSlikSummaryComparisonComponent,
     DeborDataSlikIdebComponent,
-    CreditProposalRacNilaiPembelianComponent,
     LoanAnalysComplianceComponent,
-    CreditProposalTabLoanFacilityTakeOverGridComponent,
-    CreditProposalCollateralTabLoanComponent,
     CreditProposalCollateralTabLoanDialogComponent,
-    CreditProposalTabLoanFacilityTakeOverComponent,
-    CreditProposalTabLoanFacilityTakeOverAfterGridComponent,
-    CreditProposalCollateralTabLoanAfterComponent,
     CreditProposalCollateralTabLoanAfterDialogComponent,
-    CreditProposalTabLoanFacilityTakeOverAfterComponent,
 
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
@@ -1225,9 +1171,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalBookingBranchComponent,
     CreditProposalBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
-    CreditProposalMappingFacilityComponent,
     // mapping collateral
-    CreditProposalMappingCollateralComponent,
     // === Previous === //
 
     // Loan Facility Detail
@@ -1368,12 +1312,9 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ApproveFinalComponent,
     DisbursmentApproveComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
-    // cross idd //
-    ParipasuCollateralIddDebtorComponent,
-    // ParipasuCollateralIddComponent,
     GroupCollateralInfoComponent,
     GroupCollateralListComponent,
-    InsuranceInformationIddComponent,
+    // InsuranceInformationIddComponent,
     // cross cp //
     ParipasuCollateralGroupComponent,
     ParipasuCollateralDebiturComponent,
@@ -1387,8 +1328,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     GroupCollateralDarComponent,
     GroupCollateralListDarComponent,
     MainFacilityInfoComponent,
-    MainFacilityComponent,
-    MainFacilityChildComponent,
     DebtorInformationComponent,
     MainFacilityHistoryComponent,
     MainFacilityChildHistoryComponent,
@@ -1413,8 +1352,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     AgreementComparePreviousDarComponent,
     SignerPerjanjialKreditDialogComponent,
     CreditProposalGeneratePkReportComponent,
-    StandartConvenantComponent,
-    StandartDeviationComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
     ClausalPkDialogComponent,
@@ -1423,7 +1360,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     LoanFacilityDetailTempComponent,
     LoanFacilityDetailGridTempComponent,
     LoanFacilityDialogTempComponent,
-    CreditProposalMappingCollateralTempComponent,
     CollateralInfoDarFinalComponent,
     AboveGridDarFinalComponent,
     BellowGridDarFinalComponent,
