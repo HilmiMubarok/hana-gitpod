@@ -171,7 +171,9 @@ export class LoanOpsCheckingResolve implements Resolve<ILoanOPSChecking> {
             } else {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
               creditProposal.body.attributes['facilityDetail'] = new Facility();
             } else {

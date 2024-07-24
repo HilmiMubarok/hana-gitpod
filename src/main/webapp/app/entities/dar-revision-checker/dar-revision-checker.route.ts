@@ -161,7 +161,9 @@ export class DarRevisionCheckerRoute implements Resolve<IDarRevisionCheckerModel
             } else {
               creditProposal.body.attributes['basicInformation'] = JSON.parse(creditProposal.body.attributes['basicInformation']);
             }
-
+            if (!lodash.has(creditProposal.body.attributes, 'informasiTambahanDppk')) {
+              creditProposal.body.attributes['informasiTambahanDppk'] = '';
+            }
             if (!lodash.has(creditProposal.body.attributes, 'riksCriteria')) {
               creditProposal.body.attributes['riksCriteria'] = new RisksAcceptenceCriteria();
             } else {

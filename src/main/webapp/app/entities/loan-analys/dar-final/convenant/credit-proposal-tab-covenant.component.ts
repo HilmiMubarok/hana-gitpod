@@ -46,10 +46,12 @@ export class CovenantTempComponent implements OnInit {
   get viewMode(): Boolean {
     const cpStatus = this.creditProposalItem.statusId;
 
-    const enabledStatus = ['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE', 'PK_DAR_REVISION'];
+    const enabledStatus = ['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE', 'PK_DAR_REVISION', 'DPPK_FINALIZE'];
 
     if (enabledStatus.includes(cpStatus)) {
-      if (this.router.url.split('subroute=')[1] === 'compare-data') {
+      if (this.creditProposalItem.attributes['informasiTambahanDppk'] === '') {
+        return false;
+      } else if (this.router.url.split('subroute=')[1] === 'compare-data') {
         return true;
       } else {
         return false;
@@ -87,13 +89,7 @@ export class CovenantTempComponent implements OnInit {
   }
   public disableFields() {
     if (
-      // this.parentPath === 'finalize-pk' ||
-      this.parentPath === 'review-pk' ||
-      this.parentPath === 'finalize-dpdl' ||
-      this.parentPath === 'review-dpdl' ||
-      this.parentPath === 'dar-revision' ||
-      this.parentPath === 'dar-revision-checker' ||
-      this.parentPath === 'finalize-dppk' ||
+      // this.parentPath === 'finalize-dppk' ||
       this.parentPath === 'review-dppk' ||
       this.parentPath === 'loan-ops-distribution' ||
       this.parentPath === 'loan-ops-review'
