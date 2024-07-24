@@ -1230,6 +1230,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     SlikSummaryBusinessGroupComponent, // Remove Me
     SlikSummaryComparisonComponent, // Remove Me
     LoanAnalysSlikIdebComponent, // Remove Me
+    CreditProposalPersonalInfoComponent, // Remove Me
     CreditProposalPersonComponent, // Remove Me
     CreditProposalTabSummaryComponent, // Remove Me
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
