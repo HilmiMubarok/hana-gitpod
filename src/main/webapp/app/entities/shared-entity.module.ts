@@ -37,17 +37,7 @@ import { ProductViewComponent } from './product/product-view.component';
 import { FeatureViewComponent } from './feature/feature-view.component';
 import { PostalAddressViewComponent } from './postal-address/postal-address-view.component';
 import { GeoBoundaryViewComponent } from './geo-boundary/geo-boundary-view.component';
-import { UomConversionViewComponent } from './uom-conversion/uom-conversion-view.component';
-import { TaxTypeViewComponent } from './tax-type/tax-type-view.component';
-import { FeatureApplicableViewComponent } from './feature-applicable/feature-applicable-view.component';
-import { IdentificationTypeViewComponent } from './identification-type/identification-type-view.component';
-import { SettlementTypeViewComponent } from './settlement-type/settlement-type-view.component';
-import { SettlementViewComponent } from './settlement/settlement-view.component';
-import { OrganizationCustomerViewComponent } from './organization-customer/organization-customer-view.component';
-import { PersonalCustomerViewComponent } from './personal-customer/personal-customer-view.component';
 // import { InternalViewComponent } from './internal/internal-view.component';
-import { ParentOrganizationViewComponent } from './parent-organization/parent-organization-view.component';
-import { VendorProductViewComponent } from './vendor-product/vendor-product-view.component';
 import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-payment-pref-view.component';
 import { ServiceProductAsListComponent } from './service-product/service-product-as-list.component';
 import { ServiceProductViewComponent } from './service-product/service-product-view.component';
@@ -507,17 +497,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PostalAddressViewComponent,
     // GeoBoundaryViewComponent,
     // ProductCategoryEditDialogComponent,
-    UomConversionViewComponent,
-    TaxTypeViewComponent,
-    FeatureApplicableViewComponent,
-    IdentificationTypeViewComponent,
-    SettlementTypeViewComponent,
-    SettlementViewComponent,
-    OrganizationCustomerViewComponent,
-    PersonalCustomerViewComponent,
     // InternalViewComponent,
-    ParentOrganizationViewComponent,
-    VendorProductViewComponent,
     PartyPaymentPrefViewComponent,
     ServiceProductAsListComponent,
     ServiceProductViewComponent,
@@ -1039,17 +1019,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     FeatureViewComponent, // Remove Me
     PostalAddressViewComponent, // Remove Me
     // GeoBoundaryViewComponent, // Remove Me
-    UomConversionViewComponent, // Remove Me
-    TaxTypeViewComponent, // Remove Me
-    FeatureApplicableViewComponent, // Remove Me
-    IdentificationTypeViewComponent, // Remove Me
-    SettlementTypeViewComponent, // Remove Me
-    SettlementViewComponent, // Remove Me
-    OrganizationCustomerViewComponent, // Remove Me
-    PersonalCustomerViewComponent, // Remove Me
     // InternalViewComponent, // Remove Me
-    ParentOrganizationViewComponent, // Remove Me
-    VendorProductViewComponent, // Remove Me
     PartyPaymentPrefViewComponent, // Remove Me
     ServiceProductAsListComponent, // Remove Me
     ServiceProductViewComponent, // Remove Me
