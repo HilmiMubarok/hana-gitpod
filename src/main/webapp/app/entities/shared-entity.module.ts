@@ -42,24 +42,9 @@ import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-paymen
 import { CifViewComponent } from './cif/cif-view.component';
 import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralViewComponent } from './collateral/collateral-view.component';
-import { CollateralTypeViewComponent } from './collateral-type/collateral-type-view.component';
-import { CustomerInfoViewComponent } from './customer-info/customer-info-view.component';
 import { CreditRatingViewComponent } from './credit-rating/credit-rating-view.component';
 import { EmploymentViewComponent } from './employment/employment-view.component';
-import { OrganizationFinancialViewComponent } from './organization-financial/organization-financial-view.component';
-import { OrganizationLegalViewComponent } from './organization-legal/organization-legal-view.component';
-import { OrganizationManagementViewComponent } from './organization-management/organization-management-view.component';
-import { RelationTypeViewComponent } from './relation-type/relation-type-view.component';
-import { CreditApplicationViewComponent } from './credit-application/credit-application-view.component';
-import { CommEventViewComponent } from './comm-event/comm-event-view.component';
-import { CommEventTypeViewComponent } from './comm-event-type/comm-event-type-view.component';
-import { PartyIdentificationAsListComponent } from './party-identification/party-identification-as-list.component';
-import { PartyIdentificationViewComponent } from './party-identification/party-identification-view.component';
-import { StatusItemViewComponent } from './status-item/status-item-view.component';
-import { PartySlikAsListComponent } from './party-slik/party-slik-as-list.component';
-import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
-import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
 import { CollateralAppraisalExternalOfficerComponent } from './collateral-appraisal/external/collateral-appraisal-external-officer.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
@@ -487,23 +472,8 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartyPaymentPrefViewComponent,
     CifViewComponent,
     CollateralViewComponent,
-    CollateralTypeViewComponent,
-    CustomerInfoViewComponent,
     CreditRatingViewComponent,
     EmploymentViewComponent,
-    OrganizationFinancialViewComponent,
-    OrganizationLegalViewComponent,
-    OrganizationManagementViewComponent,
-    RelationTypeViewComponent,
-    CreditApplicationViewComponent,
-    CommEventViewComponent,
-    CommEventTypeViewComponent,
-    PartyIdentificationAsListComponent,
-    PartyIdentificationViewComponent,
-    StatusItemViewComponent,
-    PartySlikAsListComponent,
-    PartySlikViewComponent,
-    CreditFacilityAsListComponent,
     CifViewCustomComponent,
     SurveyBatchViewComponent,
     CollateralAppraisalInfoComponent,
@@ -995,23 +965,8 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartyPaymentPrefViewComponent, // Remove Me
     CifViewComponent, // Remove Me
     CollateralViewComponent, // Remove Me
-    CollateralTypeViewComponent, // Remove Me
-    CustomerInfoViewComponent, // Remove Me
     CreditRatingViewComponent, // Remove Me
     EmploymentViewComponent, // Remove Me
-    OrganizationFinancialViewComponent, // Remove Me
-    OrganizationLegalViewComponent, // Remove Me
-    OrganizationManagementViewComponent, // Remove Me
-    RelationTypeViewComponent, // Remove Me
-    CreditApplicationViewComponent, // Remove Me
-    CommEventViewComponent, // Remove Me
-    CommEventTypeViewComponent, // Remove Me
-    PartyIdentificationAsListComponent, // Remove Me
-    PartyIdentificationViewComponent, // Remove Me
-    StatusItemViewComponent, // Remove Me
-    PartySlikAsListComponent, // Remove Me
-    PartySlikViewComponent, // Remove Me
-    CreditFacilityAsListComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me

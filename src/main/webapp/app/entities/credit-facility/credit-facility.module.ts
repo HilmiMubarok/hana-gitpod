@@ -6,10 +6,17 @@ import { CreditFacilityDetailComponent } from './credit-facility-detail.componen
 import { CreditFacilityUpdateComponent } from './credit-facility-update.component';
 import { creditFacilityRoute } from './credit-facility.route';
 import { CreditFacilityViewComponent } from './credit-facility-view.component';
+import { CreditFacilityAsListComponent } from './credit-facility-as-list.component';
 
 @NgModule({
   imports: [SharedModule, RouterModule.forChild(creditFacilityRoute)],
-  declarations: [CreditFacilityComponent, CreditFacilityDetailComponent, CreditFacilityUpdateComponent, CreditFacilityViewComponent],
+  declarations: [
+    CreditFacilityComponent,
+    CreditFacilityDetailComponent,
+    CreditFacilityUpdateComponent,
+    CreditFacilityViewComponent,
+    CreditFacilityAsListComponent,
+  ],
   entryComponents: [CreditFacilityComponent, CreditFacilityUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
