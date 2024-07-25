@@ -36,6 +36,7 @@ import { TypeDialogAppraisalComponent } from './addSelect/type-dialog-appraisal.
 import { CollateralAppraisalForwardToComponent } from './summary/forward-to/collateral-appraisal-forward-to.component';
 import { GroupCollateralListAppraisalComponent } from './groupList/group-collateral-list-appraisal.component';
 import { GroupCollateralAppraisalComponent } from './groupList/group-collateral-appraisal.component';
+import { CollateralAppraisalViewComponent } from './collateral-appraisal-view.component';
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
   declarations: [
@@ -64,6 +65,7 @@ import { GroupCollateralAppraisalComponent } from './groupList/group-collateral-
     CollateralAppraisalForwardToComponent,
     GroupCollateralListAppraisalComponent,
     GroupCollateralAppraisalComponent,
+    CollateralAppraisalViewComponent,
   ],
   entryComponents: [
     CollateralAppraisalComponent,

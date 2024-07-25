@@ -39,18 +39,6 @@ import { PostalAddressViewComponent } from './postal-address/postal-address-view
 import { GeoBoundaryViewComponent } from './geo-boundary/geo-boundary-view.component';
 // import { InternalViewComponent } from './internal/internal-view.component';
 import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-payment-pref-view.component';
-import { ServiceProductAsListComponent } from './service-product/service-product-as-list.component';
-import { ServiceProductViewComponent } from './service-product/service-product-view.component';
-import { FinancialProductAsListComponent } from './financial-product/financial-product-as-list.component';
-import { FinancialProductViewComponent } from './financial-product/financial-product-view.component';
-import { ProductTypeFinancialSettingViewComponent } from './product-type-financial-setting/product-type-financial-setting-view.component';
-import { FuncSettingTemplateViewComponent } from './func-setting-template/func-setting-template-view.component';
-import { FuncSettingViewComponent } from './func-setting/func-setting-view.component';
-import { ApplicationTypeViewComponent } from './application-type/application-type-view.component';
-import { FacilityTypeViewComponent } from './facility-type/facility-type-view.component';
-import { FacilityViewComponent } from './facility/facility-view.component';
-import { InternalTypeViewComponent } from './internal-type/internal-type-view.component';
-import { ProductTypeConfigViewComponent } from './product-type-config/product-type-config-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
 import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralViewComponent } from './collateral/collateral-view.component';
@@ -72,8 +60,6 @@ import { PartySlikAsListComponent } from './party-slik/party-slik-as-list.compon
 import { PartySlikViewComponent } from './party-slik/party-slik-view.component';
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 import { CreditFacilityAsListComponent } from './credit-facility/credit-facility-as-list.component';
-import { CreditFacilityViewComponent } from './credit-facility/credit-facility-view.component';
-import { CollateralAppraisalViewComponent } from './collateral-appraisal/collateral-appraisal-view.component';
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
 import { CollateralAppraisalExternalOfficerComponent } from './collateral-appraisal/external/collateral-appraisal-external-officer.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
@@ -499,18 +485,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     // ProductCategoryEditDialogComponent,
     // InternalViewComponent,
     PartyPaymentPrefViewComponent,
-    ServiceProductAsListComponent,
-    ServiceProductViewComponent,
-    FinancialProductAsListComponent,
-    FinancialProductViewComponent,
-    ProductTypeFinancialSettingViewComponent,
-    FuncSettingTemplateViewComponent,
-    FuncSettingViewComponent,
-    ApplicationTypeViewComponent,
-    FacilityTypeViewComponent,
-    FacilityViewComponent,
-    InternalTypeViewComponent,
-    ProductTypeConfigViewComponent,
     CifViewComponent,
     CollateralViewComponent,
     CollateralTypeViewComponent,
@@ -530,9 +504,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartySlikAsListComponent,
     PartySlikViewComponent,
     CreditFacilityAsListComponent,
-    CreditFacilityViewComponent,
     CifViewCustomComponent,
-    CollateralAppraisalViewComponent,
     SurveyBatchViewComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
@@ -1021,18 +993,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     // GeoBoundaryViewComponent, // Remove Me
     // InternalViewComponent, // Remove Me
     PartyPaymentPrefViewComponent, // Remove Me
-    ServiceProductAsListComponent, // Remove Me
-    ServiceProductViewComponent, // Remove Me
-    FinancialProductAsListComponent, // Remove Me
-    FinancialProductViewComponent, // Remove Me
-    ProductTypeFinancialSettingViewComponent, // Remove Me
-    FuncSettingTemplateViewComponent, // Remove Me
-    FuncSettingViewComponent, // Remove Me
-    ApplicationTypeViewComponent, // Remove Me
-    FacilityTypeViewComponent, // Remove Me
-    FacilityViewComponent, // Remove Me
-    InternalTypeViewComponent, // Remove Me
-    ProductTypeConfigViewComponent, // Remove Me
     CifViewComponent, // Remove Me
     CollateralViewComponent, // Remove Me
     CollateralTypeViewComponent, // Remove Me
@@ -1052,9 +1012,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartySlikAsListComponent, // Remove Me
     PartySlikViewComponent, // Remove Me
     CreditFacilityAsListComponent, // Remove Me
-    CreditFacilityViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
-    CollateralAppraisalViewComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
     CollateralAppraisalExternalOfficerComponent, // Remove Me
     CollateralAppraisalDetailProcessMesinComponent, // Remove Me

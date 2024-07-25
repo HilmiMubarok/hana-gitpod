@@ -6,10 +6,11 @@ import { InternalTypeComponent } from './internal-type.component';
 import { InternalTypeDetailComponent } from './internal-type-detail.component';
 import { InternalTypeUpdateComponent } from './internal-type-update.component';
 import { internalTypeRoute } from './internal-type.route';
+import { InternalTypeViewComponent } from './internal-type-view.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(internalTypeRoute)],
-  declarations: [InternalTypeComponent, InternalTypeDetailComponent, InternalTypeUpdateComponent],
+  imports: [SharedModule, RouterModule.forChild(internalTypeRoute)],
+  declarations: [InternalTypeComponent, InternalTypeDetailComponent, InternalTypeUpdateComponent, InternalTypeViewComponent],
   entryComponents: [InternalTypeComponent, InternalTypeUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
