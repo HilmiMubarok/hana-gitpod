@@ -39,6 +39,7 @@ import { CovenantModule } from './convenant/covenant.module';
 import { RiskAcceptanceCriteriaModule } from './risk-criteria/risk-acceptance-criteria.module';
 import { LoanFacilityModule } from './loan-facility/loan-facility.module';
 import { ExposureModule } from './exposure/exposure.module';
+import { ManagementInfoModule } from './management-info/management-info.module';
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import { ExposureModule } from './exposure/exposure.module';
     RiskAcceptanceCriteriaModule,
     LoanFacilityModule,
     ExposureModule,
+    ManagementInfoModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [

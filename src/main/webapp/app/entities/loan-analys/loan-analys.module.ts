@@ -24,6 +24,7 @@ import { StandartConvenantComponent } from './dar-final/convenant/other-covenant
 import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/risk-acceptance-criteria.module';
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
+import { ManagementInfoModule } from '../credit-proposal/management-info/management-info.module';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
     RiskAcceptanceCriteriaModule,
     LoanFacilityModule,
     ExposureModule,
+    ManagementInfoModule,
     RouterModule.forChild(LoanAnalysRoute),
     MatSlideToggleModule,
   ],
