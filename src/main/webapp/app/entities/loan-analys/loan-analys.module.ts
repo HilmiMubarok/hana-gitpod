@@ -26,6 +26,7 @@ import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { ManagementInfoModule } from '../credit-proposal/management-info/management-info.module';
 import { BusinessActivityModule } from '../credit-proposal/busines-activity/business-activity.module';
 import { ProposePricingModule } from '../credit-proposal/propose-pricing/propose-pricing.module';
+import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { ProposePricingModule } from '../credit-proposal/propose-pricing/propose
     ManagementInfoModule,
     BusinessActivityModule,
     ProposePricingModule,
+    MemoBandingModule,
     RouterModule.forChild(LoanAnalysRoute),
     MatSlideToggleModule,
   ],

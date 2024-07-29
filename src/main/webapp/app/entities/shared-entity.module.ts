@@ -36,7 +36,6 @@ import { PartyTypeViewComponent } from './party-type/party-type-view.component';
 import { ProductViewComponent } from './product/product-view.component';
 import { FeatureViewComponent } from './feature/feature-view.component';
 import { PostalAddressViewComponent } from './postal-address/postal-address-view.component';
-import { GeoBoundaryViewComponent } from './geo-boundary/geo-boundary-view.component';
 // import { InternalViewComponent } from './internal/internal-view.component';
 import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-payment-pref-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
@@ -222,24 +221,10 @@ import { SummaryGridComponent } from './credit-proposal/collateral-info/collater
 import { SummaryGridBtbComponent } from './credit-proposal/collateral-info/collateral-summary-btb/summary-grid-btb.component';
 import { MainFacilityInfoComponent } from './debtor-data/facility-info/main-facility-info.component';
 import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main-facility-info-child.component';
-import { InsuranceInformationIddComponent } from './party-cif/insurance-information-idd/insurance-information-idd.component';
-import { ParipasuCollateralIddDebtorComponent } from './party-cif/paripasu-collateral-idd-debtor/paripasu-collateral-idd-debtor.component';
 import { DebtorInformationComponent } from './debtor-information/debtor-information.component';
 import { MainFacilityHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-history.component';
 import { MainFacilityChildHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-child-history.component';
 import { CertificateInfoComponent } from './offering-letter/certificate-info/certificate-info.component';
-import { CpMemoBandingLoanFacilityComponent } from './credit-proposal/memo-banding/memo-banding-loan-facility/cp-memo-banding-loan-facility.component';
-import { CpMemoBandingCollateralComponent } from './credit-proposal/memo-banding/memo-banding-collateral/cp-memo-banding-collateral.component';
-import { CpMemoBandingCollateralAboveComponent } from './credit-proposal/memo-banding/memo-banding-collateral/above/cp-memo-banding-collateral-above.component';
-import { CPMemoBandingStandardCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/cp-memo-banding-standard-covenant.component';
-import { CPMemoBandingCovenantAboveComponent } from './credit-proposal/memo-banding/memo-banding-covenant/above/cp-memo-banding-covenant-above.component';
-import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/other-covenant/cp-memo-banding-other-covenant.component';
-import { MemoBandingComponent } from './credit-proposal/memo-banding/credit-proposal-memo-banding.component';
-import { CPMemoBandingRemarkComponent } from './credit-proposal/memo-banding/remarks/cp-memo-banding-remark.component';
-import { CPMemoBandingCollateralBacktobackComponent } from './credit-proposal/memo-banding/memo-banding-collateral/backtoback/cp-memo-banding-collateral-backtoback.component';
-import { CPMemoBandingCovenantBelowComponent } from './credit-proposal/memo-banding/memo-banding-covenant/below/cp-memo-banding-covenant-below.component';
-import { CPMemoBandingCovenantBackToBackDepositComponent } from './credit-proposal/memo-banding/memo-banding-covenant/back-to-back/cp-memo-banding-covenant-back-to-back-deposit.component';
-import { CPMemoBandingCovenantBackToBackGeneralComponent } from './credit-proposal/memo-banding/memo-banding-covenant/back-to-back/cp-memo-banding-covenant-back-to-back-general.component';
 import { GroupCollateralListHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral-list-history.component';
 import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral-history.component';
 import { GroupCollateralDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-dar.component';
@@ -250,7 +235,6 @@ import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compa
 import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
 import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
 import { CreditProposalGeneratePkReportComponent } from './credit-proposal/generate-document-pk-report/credit-proposal-generate-pk-report.component';
-import { StandartDeviationComponent } from './loan-analys/dar-final/convenant/other-covenant/standart-deviation/standart-deviation.component';
 import { OfferingLetterSignerPageComponent } from './offering-letter/offering-page/signer/signer-page.component';
 import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offering-page/signer/dialog/signer-page-dialog.component';
 import { AboveGridDarFinalComponent } from './loan-analys/dar-final/collateral-info/above-grid/above-grid.component';
@@ -277,7 +261,6 @@ import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/c
 import { CompareDataCovenantOtherComponent } from './compare-data/covenant/other/compare-data-covenant-other.component';
 import { CompareDataCovenantOtherDialogComponent } from './compare-data/covenant/other/dialog/compare-data-covenant-other-dialog.component';
 import { LoanPurposeComponent } from './loan-purpose/loan-purpose.component';
-import { MemoBandingCollateralAboveBeforeComponent } from './credit-proposal/memo-banding/memo-banding-collateral/above/cp-memo-banding-collateral-above-before.component';
 import { CountMVOriginalPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-mv-original.pipe';
 import { GetCurrencyPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-currency.pipe';
 import { CountMVPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-mv.pipe';
@@ -289,7 +272,6 @@ import { GetMarketabilityPipe } from './credit-proposal/memo-banding/memo-bandin
 import { GetOwnershipPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-ownership.pipe';
 import { GetExpiryPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-expiry.pipe';
 import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-binding-type.pipe';
-import { MemoBandingCollateralBackToBackBeforeComponent } from './credit-proposal/memo-banding/memo-banding-collateral/backtoback/cp-memo-banding-collateral-backtoback-before.component';
 import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog.component';
 import { ClausalPkDialogComponentEditComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog-edit.component';
 import { InsuranceInfoDialogComponent } from './insurance-information/dialog/insurance-info-dialog.component';
@@ -673,18 +655,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     MainFacilityHistoryComponent,
     MainFacilityChildHistoryComponent,
     CertificateInfoComponent,
-    CpMemoBandingLoanFacilityComponent,
-    CpMemoBandingCollateralComponent,
-    CpMemoBandingCollateralAboveComponent,
-    CPMemoBandingStandardCovenantComponent,
-    CPMemoBandingCovenantAboveComponent,
-    CPMemoBandingCovenantBelowComponent,
-    CPMemoBandingCovenantBackToBackDepositComponent,
-    CPMemoBandingCovenantBackToBackGeneralComponent,
-    CpMemoBandingOtherCovenantComponent,
-    CPMemoBandingRemarkComponent,
-    CPMemoBandingCollateralBacktobackComponent,
-    MemoBandingComponent,
     CreditProposalSummaryGenerateMemoBandingComponent,
     CreditProposalCollateralSummaryDialogComponent,
     BindingValueInformationDialogComponent,
@@ -743,22 +713,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
 
     LoanPurposeComponent,
 
-    // Memo Banding Collateral
-    MemoBandingCollateralAboveBeforeComponent,
-    MemoBandingCollateralBackToBackBeforeComponent,
-
-    // pipes memo banding collateral
-    CountMVOriginalPipe,
-    GetCurrencyPipe,
-    CountMVPipe,
-    CustomPercentagePipe,
-    CountLVPipe,
-    CountKjjpMvPipe,
-    CountKjjpLvPipe,
-    GetMarketabilityPipe,
-    GetOwnershipPipe,
-    GetExpiryPipe,
-    GetBindingTypePipe,
     BindingValueInformationComponent,
     BindingValueInformationGridComponent,
     InternalMemoComponent,
@@ -855,23 +809,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ...LoanOperationLoanFacilityTemplate,
     ...entityDppkFinalizeTemplate,
     LoanPurposeComponent,
-
-    // Memo Banding Collateral
-    MemoBandingCollateralAboveBeforeComponent,
-    MemoBandingCollateralBackToBackBeforeComponent,
-
-    // pipes memo banding collateral
-    CountMVOriginalPipe,
-    GetCurrencyPipe,
-    CountMVPipe,
-    CustomPercentagePipe,
-    CountLVPipe,
-    CountKjjpMvPipe,
-    CountKjjpLvPipe,
-    GetMarketabilityPipe,
-    GetOwnershipPipe,
-    GetExpiryPipe,
-    GetBindingTypePipe,
 
     //   New Compare Data
     CompareDataComponent,
@@ -1125,18 +1062,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     MainFacilityHistoryComponent,
     MainFacilityChildHistoryComponent,
     CertificateInfoComponent,
-    CpMemoBandingLoanFacilityComponent,
-    CpMemoBandingCollateralComponent,
-    CpMemoBandingCollateralAboveComponent,
-    CPMemoBandingStandardCovenantComponent,
-    CPMemoBandingCovenantAboveComponent,
-    CPMemoBandingCovenantBelowComponent,
-    CPMemoBandingCovenantBackToBackDepositComponent,
-    CPMemoBandingCovenantBackToBackGeneralComponent,
-    CpMemoBandingOtherCovenantComponent,
-    CPMemoBandingRemarkComponent,
-    CPMemoBandingCollateralBacktobackComponent,
-    MemoBandingComponent,
     CreditProposalSummaryGenerateMemoBandingComponent,
     CreditProposalCollateralSummaryDialogComponent,
 

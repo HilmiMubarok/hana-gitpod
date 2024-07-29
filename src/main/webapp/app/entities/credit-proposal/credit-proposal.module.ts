@@ -43,6 +43,7 @@ import { ManagementInfoModule } from './management-info/management-info.module';
 import { BusinessActivityModule } from './busines-activity/business-activity.module';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal-bank-account-analysis';
 import { ProposePricingModule } from './propose-pricing/propose-pricing.module';
+import { MemoBandingModule } from './memo-banding/memo-banding.module';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { ProposePricingModule } from './propose-pricing/propose-pricing.module';
     ManagementInfoModule,
     BusinessActivityModule,
     ProposePricingModule,
+    MemoBandingModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [

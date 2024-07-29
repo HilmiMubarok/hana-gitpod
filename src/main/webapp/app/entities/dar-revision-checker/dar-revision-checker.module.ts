@@ -11,61 +11,18 @@ import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { DarRevisionCheckerComponent } from './dar-revision-checker.component';
 import { DarRevisionCheckerViewComponent } from './dar-revision-checker-view.component';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
-
-// import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
-// import { CreditProposalListComponent } from './credit-proposal-list.component';
-// import { CreditProposalTabCollateralInfoListComponent } from './collateral/credit-proposal-tab-collateral-info-list.component';
-// import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
-// import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
-// import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal-approval-tab-summary.component';
-// import { CreditProposalListSlikSummaryListComponent } from './credit-proposal-slik-summary-list.component';
-// import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal-slik-summary-detail.component';
-// import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal-tab-repayment-capability.component';
-// import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
-// import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
-// import { CreditProposalNewComponent } from './credit-proposal-new.component';
-// import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
-// import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
-// import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
-
-// import { CreditProposalApproveUserComponent } from './approve-user/approve-user.component';
-// import { ForwardToComponent } from './forward-to/forward-to.component';
-// import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
-// import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
-// import { MainFacilityDialogComponent } from './loan-facility/main-facility/main-facility-dialog.component';
-// import { MainFacilityDialogHistoryComponent } from './loan-facility-history/main-facility/main-facility-dialog-history.component';
-// import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-facility/main-facility-child-history.component';
+import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, ExposureModule, SharedEntityModule, RouterModule.forChild(darRevisionCheckerRoute)],
-  declarations: [
-    // CreditProposalComponent,
-    // CreditProposalUpdateCustomComponent,
-    // CreditProposalAnchorComponent,
-    // CreditProposalListComponent,
-    // CreditProposalTabCollateralInfoListComponent,
-    // ProposalBasicInformationComponent,
-    // CreditProposalLoanFacilityDialogComponent,
-    // CreditProposalCollateralInfoDialogComponent,
-    // CreditProposalApprovalTabSummaryComponent,
-    // CreditProposalListSlikSummaryListComponent,
-    // CreditProposalSlikSummaryDetailComponent,
-    // CreditProposalTabRepaymentCapabilityComponent,
-    // CreditProposalApprovalListComponent,
-    // CreditProposalGroupGuarantorAnalysisComponent,
-    // CreditProposalNewComponent,
-    // CreditProposalNewDialogComponent,
-    // CreditProposalListMaterialComponent,
-    // CreditProposalApproveUserComponent,
-    // CreditProposalLoanApplicationComponent,
-    // DialogCreditProposalCollateralInfoDialogBTBComponent,
-    // ForwardToComponent,
-    // MainFacilityDialogComponent,
-    // MainFacilityDialogHistoryComponent,
-    // DpdlFinalizeModule,
-    DarRevisionCheckerComponent,
-    DarRevisionCheckerViewComponent,
+  imports: [
+    SharedModule,
+    SharedLibsModule,
+    ExposureModule,
+    SharedEntityModule,
+    MemoBandingModule,
+    RouterModule.forChild(darRevisionCheckerRoute),
   ],
+  declarations: [DarRevisionCheckerComponent, DarRevisionCheckerViewComponent],
   entryComponents: [DarRevisionCheckerComponent],
   providers: [PageService, ToolbarService, EditService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
