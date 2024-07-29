@@ -25,6 +25,7 @@ import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/r
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { ManagementInfoModule } from '../credit-proposal/management-info/management-info.module';
+import { BusinessActivityModule } from '../credit-proposal/busines-activity/business-activity.module';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { ManagementInfoModule } from '../credit-proposal/management-info/managem
     LoanFacilityModule,
     ExposureModule,
     ManagementInfoModule,
+    BusinessActivityModule,
     RouterModule.forChild(LoanAnalysRoute),
     MatSlideToggleModule,
   ],

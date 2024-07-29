@@ -93,7 +93,6 @@ import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb
 import { CollateralPropertyListComponent } from './collateral-property/collateral-property-list.component';
 import { CustomerGroupListComponent } from './customer-group/customer-group-list.component';
 import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
-import { CreditProposalTabBusinessActivityComponent } from './credit-proposal/busines-activity/credit-proposal-tab-business-activity.component';
 import { CreditProposalFinancialStatementComponent } from './credit-proposal/financial-statement/credit-proposal-financial-statement.component';
 import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
@@ -343,7 +342,6 @@ import { BindingValueDepositoGridComponent } from './credit-proposal/collateral-
 import { BindingValueGeneralGridComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-grid.component';
 import { BindingValueGeneralDialogComponent } from './credit-proposal/collateral-info/binding-value-information/binding-value-information-dialog/binding-value-general-grid/binding-value-general-dialog.component';
 import { LoaderBAComponent } from './credit-proposal/busines-activity/loader-ba.component';
-import { ProjectAnalystRemarkComponent } from './credit-proposal/busines-activity/project-analyst-remark.component';
 import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
 import { DppkPreparationComponent } from './dppk-finalize/dppk-preparation/dppk-preparation.component';
@@ -511,10 +509,8 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CollateralPropertyListComponent,
     CustomerGroupListComponent,
     CreditProposalBankAccountAnalysisComponent,
-    CreditProposalTabBusinessActivityComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
-    ProjectAnalystRemarkComponent,
     CreditProposalFinancialStatementComponent,
     RepaymentSpreadsheetComponent,
     CreditProposalBankAccountAnalystComponent,
@@ -996,10 +992,8 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalCollateralInfoRemarksInformationComponent,
     CustomerGroupListComponent,
     CreditProposalBankAccountAnalysisComponent, // Remove Me
-    CreditProposalTabBusinessActivityComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
-    ProjectAnalystRemarkComponent,
     CreditProposalFinancialStatementComponent, // Remove Me
     RepaymentSpreadsheetComponent, // Remove Me
     CreditProposalBankAccountAnalystComponent, // Remove Me

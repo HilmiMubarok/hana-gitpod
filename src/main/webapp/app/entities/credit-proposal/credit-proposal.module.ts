@@ -40,6 +40,7 @@ import { RiskAcceptanceCriteriaModule } from './risk-criteria/risk-acceptance-cr
 import { LoanFacilityModule } from './loan-facility/loan-facility.module';
 import { ExposureModule } from './exposure/exposure.module';
 import { ManagementInfoModule } from './management-info/management-info.module';
+import { BusinessActivityModule } from './busines-activity/business-activity.module';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { ManagementInfoModule } from './management-info/management-info.module';
     LoanFacilityModule,
     ExposureModule,
     ManagementInfoModule,
+    BusinessActivityModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [

@@ -10,6 +10,7 @@ import { RiskAcceptanceCriteriaModule } from 'app/entities/credit-proposal/risk-
 import { LoanFacilityModule } from 'app/entities/credit-proposal/loan-facility/loan-facility.module';
 import { ExposureModule } from 'app/entities/credit-proposal/exposure/exposure.module';
 import { ManagementInfoModule } from 'app/entities/credit-proposal/management-info/management-info.module';
+import { BusinessActivityModule } from 'app/entities/credit-proposal/busines-activity/business-activity.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ManagementInfoModule } from 'app/entities/credit-proposal/management-in
     LoanFacilityModule,
     ExposureModule,
     ManagementInfoModule,
+    BusinessActivityModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [HistoryProposalComponent],
