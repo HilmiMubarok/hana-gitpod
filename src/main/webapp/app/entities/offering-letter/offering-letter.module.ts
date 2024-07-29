@@ -22,6 +22,7 @@ import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { ManagementInfoModule } from '../credit-proposal/management-info/management-info.module';
 import { BusinessActivityModule } from '../credit-proposal/busines-activity/business-activity.module';
 import { SlikMainModule } from '../loan-analys/slik/slik-main.module';
+import { ProposePricingModule } from '../credit-proposal/propose-pricing/propose-pricing.module';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { SlikMainModule } from '../loan-analys/slik/slik-main.module';
     ManagementInfoModule,
     BusinessActivityModule,
     SlikMainModule,
+    ProposePricingModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [

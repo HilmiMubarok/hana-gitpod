@@ -84,8 +84,7 @@ import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-sprea
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalCollateralInfoBTPComponent } from './credit-proposal/collateral-info/backtoback/credit-proposal-collateral-info-btb.component';
 
-import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
-import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
+// import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
 import { CreditProposalTabCustomerProfitabilityComponent } from './credit-proposal/tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
 import { CollateralTypeDialogComponent } from './party-cif/collateral-info/collateral-type-dialog.component';
 import { PartyPostalAddressCardComponent } from './party-postal-address/party-postal-address-card.component';
@@ -487,8 +486,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     RepaymentSpreadsheetComponent,
     CreditProposalBankAccountAnalystComponent,
     DeptorDataDocumentChecklistComponent,
-    CreditProposalProposePricingComponent,
-    ProposePricingLoanFacilityDetailComponent,
+    // CreditProposalProposePricingComponent,
     CreditProposalCollateralInfoBTPComponent,
     CreditProposalTabCustomerProfitabilityComponent,
     CollateralTypeDialogComponent,
@@ -955,8 +953,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalFinancialStatementComponent, // Remove Me
     RepaymentSpreadsheetComponent, // Remove Me
     CreditProposalBankAccountAnalystComponent, // Remove Me
-    CreditProposalProposePricingComponent, // Remove Me
-    ProposePricingLoanFacilityDetailComponent,
+    // CreditProposalProposePricingComponent, // Remove Me
     CreditProposalCollateralInfoBTPComponent,
     CreditProposalTabCustomerProfitabilityComponent,
     CollateralTypeDialogComponent,
