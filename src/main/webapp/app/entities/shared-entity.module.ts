@@ -119,7 +119,7 @@ import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-ana
 import { LoanAnalysDialogOpinionCompliancePartComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion-compliance-part.component';
 import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
-import { RemarskComponent } from './credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
+
 import { CreditProposalFinancialStatementRemarksComponent } from './credit-proposal/repayment-spreadsheet/remarks/financial-statement-remarks.component';
 import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal/collateral-appraisal-person-view.component';
 import { CollateralAppraisalPartyGroupViewComponent } from './collateral-appraisal/collateral-appraisal-party-group-view.component';
@@ -167,13 +167,6 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
 import { CreditProposalBookingBranchComponent } from './credit-proposal/booking-branch/credit-proposal-booking-branch.component';
 import { PartyCifCustomerInfoPostalAddressWarehouseComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-warehouse.component';
 import { CreditProposalRepaymentCapabilityComponent } from './credit-proposal/repayment-capability/credit-proposal-repayment-capability.component';
-import { TradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
-import { CreditProposalTradeCheckingBuyersComponent } from './credit-proposal/trade-checking/buyers/credit-proposal-trade-checking-buyers.component';
-import { CreditProposalTradeCheckingBuyersDialogComponent } from './credit-proposal/trade-checking/buyers/credit-proposal-trade-checking-buyers-dialog.component';
-import { CreditProposalTradeCheckingSupplierComponent } from './credit-proposal/trade-checking/supplier/credit-proposal-trade-checking-supplier.component';
-import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './credit-proposal/trade-checking/buyers/edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
-import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './credit-proposal/trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
-import { CreditProposalTradeCheckingSupplierDialogComponent } from './credit-proposal/trade-checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
 import { ReportIndependentCollateralComponent } from './collateral-appraisal/report-independent/report-independent-collateral.component';
 import { PartyCifCustomerManagementComponent } from './party-cif/customer-info/party-cif-customer-management.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
@@ -487,7 +480,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
     RetriveComponent,
-    RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
     CreditProposalBookingBranchComponent,
@@ -594,13 +586,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     // Repayment Capability
     CreditProposalRepaymentCapabilityComponent,
     // Trade Checking
-    TradeCheckingComponent,
-    CreditProposalTradeCheckingBuyersComponent,
-    CreditProposalTradeCheckingBuyersDialogComponent,
-    CreditProposalTradeCheckingBuyersDialogEditComponent,
-    CreditProposalTradeCheckingSupplierComponent,
-    CreditProposalTradeCheckingSupplierDialogComponent,
-    CreditProposalTradeCheckingSupplierDialogEditComponent,
     CollateralInfoComponent,
     ReportIndependentCollateralComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
@@ -903,7 +888,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
     RetriveComponent,
-    RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBookingBranchComponent,
     CreditProposalBranchComponent,
@@ -1004,14 +988,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalOtherCovenantEditHistoryComponent,
     // Repayment Capability
     CreditProposalRepaymentCapabilityComponent,
-    // Trade Checking
-    TradeCheckingComponent,
-    CreditProposalTradeCheckingBuyersComponent,
-    CreditProposalTradeCheckingBuyersDialogComponent,
-    CreditProposalTradeCheckingBuyersDialogEditComponent,
-    CreditProposalTradeCheckingSupplierComponent,
-    CreditProposalTradeCheckingSupplierDialogComponent,
-    CreditProposalTradeCheckingSupplierDialogEditComponent,
     CollateralInfoComponent,
     ReportIndependentCollateralComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
