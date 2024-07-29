@@ -8,7 +8,6 @@ import { LoanAnalysMainComponent } from './loan-analys-main.component';
 import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
 import { LoanAnalysRoute } from './loan-analys.route';
 
-import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
 import { LoanAnalysGroupGuarantorAnalysisComponent } from './guarantour/loan-analys-group-guarantor-analysis.component';
 import { LoanAnalysSlikSummaryComponent } from './slik-summary/loan-analys-slik-summary.component';
 import { LoanAnalysCreditRatingViewComponent } from './credit-rating/loan-analys-credit-rating-view.component';
@@ -47,7 +46,6 @@ import { BusinessActivityModule } from '../credit-proposal/busines-activity/busi
     LoanAnalysMainComponent,
     CreditProposalPersonalInfoAnalystComponent,
     LoanAnalysBatchBulkAssignComponent,
-    LoanAnalysSlikMainComponent,
     LoanAnalysGroupGuarantorAnalysisComponent,
     LoanAnalysSlikSummaryComponent,
     LoanAnalysCreditRatingViewComponent,

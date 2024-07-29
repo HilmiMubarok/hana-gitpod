@@ -71,7 +71,6 @@ import { DocumentComponent } from './document/document.component';
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
 
 import { SlikSummaryComponent } from './credit-proposal/slik-summary/slik-summary.component';
-import { SlikSummaryDebiturComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur.component';
 import { SlikSummaryDebiturDialogComponent } from './credit-proposal/slik-summary/debitur/slik-summary-debitur-dialog.component';
 import { SlikSummaryShareHolderComponent } from './credit-proposal/slik-summary/share-holder/slik-summary-share-holder.component';
 import { SlikSummaryShareHolderDialogComponent } from './credit-proposal/slik-summary/share-holder/slik-summary-share-holder-dialog.component';
@@ -487,7 +486,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     DocumentComponent,
     CreditProposalCorrespondenceComponent,
     SlikSummaryComponent,
-    SlikSummaryDebiturComponent,
     SlikSummaryDebiturDialogComponent,
     SlikSummaryShareHolderComponent,
     SlikSummaryShareHolderDialogComponent,
@@ -969,7 +967,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     BaseApplicationViewComponent, // Remove Me
     CreditProposalCorrespondenceComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
-    SlikSummaryDebiturComponent, // Remove Me
     SlikSummaryDebiturDialogComponent, // Remove Me
     SlikSummaryShareHolderComponent, // Remove Me
     SlikSummaryShareHolderDialogComponent, // Remove Me

@@ -21,6 +21,7 @@ import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facili
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { ManagementInfoModule } from '../credit-proposal/management-info/management-info.module';
 import { BusinessActivityModule } from '../credit-proposal/busines-activity/business-activity.module';
+import { SlikMainModule } from '../loan-analys/slik/slik-main.module';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { BusinessActivityModule } from '../credit-proposal/busines-activity/busi
     ExposureModule,
     ManagementInfoModule,
     BusinessActivityModule,
+    SlikMainModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [
