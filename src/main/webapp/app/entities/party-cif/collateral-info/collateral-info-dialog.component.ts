@@ -63,7 +63,19 @@ export class PartyCifCollateralInfoDialogComponent {
     });
   }
 
-  public onSave() {
+  public saveCGPG() {
+    if (!this.collateral.attributes.collateralCode) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error!',
+        detail: 'Please fill in  Collateral Code field first ',
+      });
+      return;
+    } else {
+      this._dialog.close(this.collateral);
+    }
+  }
+  public save() {
     if (!this.collateral.collateralConditions) {
       this.messageService.add({
         severity: 'error',
@@ -80,6 +92,13 @@ export class PartyCifCollateralInfoDialogComponent {
       return;
     } else {
       this._dialog.close(this.collateral);
+    }
+  }
+  public onSave() {
+    if (this.collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+      this.saveCGPG();
+    } else {
+      this.save();
     }
   }
 }
