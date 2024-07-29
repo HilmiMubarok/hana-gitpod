@@ -7,9 +7,16 @@ import { LoanOperationRoute } from './loan-operation.router';
 import { LoanOperationDetailComponent } from './loan-operation-detail.component';
 import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
-
+import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, ExposureModule, RouterModule.forChild(LoanOperationRoute)],
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    FinalizeCreditAgreementModule,
+    ExposureModule,
+    MemoBandingModule,
+    RouterModule.forChild(LoanOperationRoute),
+  ],
   declarations: [LoanOperationComponent, LoanOperationDetailComponent],
   entryComponents: [LoanOperationComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

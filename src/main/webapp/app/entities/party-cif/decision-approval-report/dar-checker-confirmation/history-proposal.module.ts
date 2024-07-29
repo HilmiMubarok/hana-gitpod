@@ -13,6 +13,7 @@ import { ManagementInfoModule } from 'app/entities/credit-proposal/management-in
 import { BusinessActivityModule } from 'app/entities/credit-proposal/busines-activity/business-activity.module';
 import { SlikMainModule } from 'app/entities/loan-analys/slik/slik-main.module';
 import { ProposePricingModule } from 'app/entities/credit-proposal/propose-pricing/propose-pricing.module';
+import { MemoBandingModule } from 'app/entities/credit-proposal/memo-banding/memo-banding.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { ProposePricingModule } from 'app/entities/credit-proposal/propose-prici
     BusinessActivityModule,
     SlikMainModule,
     ProposePricingModule,
+    MemoBandingModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [HistoryProposalComponent],
