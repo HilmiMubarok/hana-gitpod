@@ -82,10 +82,6 @@ import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-inf
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
 import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
-import { CreditProposalTabExposureComponent } from './credit-proposal/exposure/credit-proposal-tab-exposure.component';
-import { TotalExposureComponent } from './credit-proposal/exposure/total-exposure/total-exposure.component';
-import { LegalLendingComponent } from './credit-proposal/exposure/legal-lending/legal-lending.component';
-import { IndustryLimitComponent } from './credit-proposal/exposure/industry-limit/industry-limit.component';
 import { OrganizationManagementListComponent } from './organization-management/organization-management-list.component';
 import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/party-cif-customer-info-person.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
@@ -510,11 +506,7 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalPersonComponent,
     CreditProposalTabSummaryComponent,
     AddCoborowerComponent,
-    TotalExposureComponent,
-    LegalLendingComponent,
-    IndustryLimitComponent,
     PostalAddressViewCustomComponent,
-    CreditProposalTabExposureComponent,
     CreditProposalCollateralInfoRemarksComponent,
     CreditProposalOpinionHistoryComponent,
     CreditProposalDialogOpinionHistoryComponent,
@@ -1001,10 +993,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
     CreditProposalCollateralInfoComponent, // Remove Me
     AddCoborowerComponent, // Remove Me
-    CreditProposalTabExposureComponent, // Remove Me
-    TotalExposureComponent, // Remove Me
-    LegalLendingComponent, // Remove Me
-    IndustryLimitComponent, // Remove Me
     PostalAddressViewCustomComponent, // Remove Me
     CreditProposalCollateralInfoRemarksComponent, // Remove Me
     SurveyBatchViewComponent, // Remove Me

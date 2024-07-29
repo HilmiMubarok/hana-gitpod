@@ -38,6 +38,7 @@ import { CreditProposalRacNilaiPembelianEditComponent } from './risk-criteria/ni
 import { CovenantModule } from './convenant/covenant.module';
 import { RiskAcceptanceCriteriaModule } from './risk-criteria/risk-acceptance-criteria.module';
 import { LoanFacilityModule } from './loan-facility/loan-facility.module';
+import { ExposureModule } from './exposure/exposure.module';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { LoanFacilityModule } from './loan-facility/loan-facility.module';
     CovenantModule,
     RiskAcceptanceCriteriaModule,
     LoanFacilityModule,
+    ExposureModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [

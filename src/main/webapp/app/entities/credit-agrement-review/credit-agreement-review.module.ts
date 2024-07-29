@@ -7,6 +7,7 @@ import { CreditAgreementReviewDetailComponent } from './credit-agreement-review-
 import { creditAgrementReviewRoute } from './credit-agreement-review.route';
 import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
+import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facili
     SharedEntityModule,
     FinalizeCreditAgreementModule,
     LoanFacilityModule,
+    ExposureModule,
     RouterModule.forChild(creditAgrementReviewRoute),
   ],
   declarations: [CreditAgreementReviewComponent, CreditAgreementReviewDetailComponent],

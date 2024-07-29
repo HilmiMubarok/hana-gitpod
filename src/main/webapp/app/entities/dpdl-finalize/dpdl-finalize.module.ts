@@ -11,9 +11,17 @@ import { DpdlFinalizeViewComponent } from './dpdl-finalize-view.component';
 import { ApprovalSheetInternalMemoComponent } from './approval-sheet-internal-memo/approval-sheet-internal-memo.component';
 import { ApprovalSheetInternalMemoDialogComponent } from './approval-sheet-internal-memo/dialog-approval-sheet/approval-sheet-internal-memo-dialog.component';
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
+import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, LoanFacilityModule, RouterModule.forChild(creditProposalRoute)],
+  imports: [
+    SharedModule,
+    SharedLibsModule,
+    SharedEntityModule,
+    LoanFacilityModule,
+    ExposureModule,
+    RouterModule.forChild(creditProposalRoute),
+  ],
   declarations: [
     DpdlFinalizeComponent,
     DpdlFinalizeViewComponent,

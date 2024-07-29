@@ -8,6 +8,7 @@ import { HistoryProposalComponent } from './history-poposal.component';
 import { CovenantModule } from 'app/entities/credit-proposal/convenant/covenant.module';
 import { RiskAcceptanceCriteriaModule } from 'app/entities/credit-proposal/risk-criteria/risk-acceptance-criteria.module';
 import { LoanFacilityModule } from 'app/entities/credit-proposal/loan-facility/loan-facility.module';
+import { ExposureModule } from 'app/entities/credit-proposal/exposure/exposure.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { LoanFacilityModule } from 'app/entities/credit-proposal/loan-facility/l
     CovenantModule,
     RiskAcceptanceCriteriaModule,
     LoanFacilityModule,
+    ExposureModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [HistoryProposalComponent],

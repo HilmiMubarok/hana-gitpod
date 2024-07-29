@@ -10,6 +10,7 @@ import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angula
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { DarRevisionCheckerComponent } from './dar-revision-checker.component';
 import { DarRevisionCheckerViewComponent } from './dar-revision-checker-view.component';
+import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 
 // import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 // import { CreditProposalListComponent } from './credit-proposal-list.component';
@@ -36,7 +37,7 @@ import { DarRevisionCheckerViewComponent } from './dar-revision-checker-view.com
 // import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-facility/main-facility-child-history.component';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(darRevisionCheckerRoute)],
+  imports: [SharedModule, SharedLibsModule, ExposureModule, SharedEntityModule, RouterModule.forChild(darRevisionCheckerRoute)],
   declarations: [
     // CreditProposalComponent,
     // CreditProposalUpdateCustomComponent,

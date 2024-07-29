@@ -18,6 +18,7 @@ import { CertificateInfoDialogComponent } from './certificate-info/certificate-i
 import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
 import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/risk-acceptance-criteria.module';
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
+import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facili
     CovenantModule,
     RiskAcceptanceCriteriaModule,
     LoanFacilityModule,
+    ExposureModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [

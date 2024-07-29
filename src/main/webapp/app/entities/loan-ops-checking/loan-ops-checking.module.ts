@@ -6,8 +6,9 @@ import { LoanOpsCheckingRoute } from './loan-ops-checking.router';
 import { LoanOpsCheckingDetailComponent } from './loan-ops-checking-detail.component';
 import { LoanOpsCheckingComponent } from './loan-ops-checking.component';
 import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
+import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, RouterModule.forChild(LoanOpsCheckingRoute)],
+  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, ExposureModule, RouterModule.forChild(LoanOpsCheckingRoute)],
   declarations: [LoanOpsCheckingComponent, LoanOpsCheckingDetailComponent],
   entryComponents: [LoanOpsCheckingComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

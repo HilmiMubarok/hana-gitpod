@@ -7,9 +7,17 @@ import { DppkReviewRoute } from './dppk-review.route';
 import { DppkReviewDetailComponent } from './dppk-review-detail.component';
 import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
+import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, FinalizeCreditAgreementModule, LoanFacilityModule, RouterModule.forChild(DppkReviewRoute)],
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    FinalizeCreditAgreementModule,
+    LoanFacilityModule,
+    ExposureModule,
+    RouterModule.forChild(DppkReviewRoute),
+  ],
   declarations: [DppkReviewComponent, DppkReviewDetailComponent],
   entryComponents: [DppkReviewComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
