@@ -45,13 +45,10 @@ export class CovenantTempComponent implements OnInit {
 
   get viewMode(): Boolean {
     const cpStatus = this.creditProposalItem.statusId;
-
-    const enabledStatus = ['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE', 'PK_DAR_REVISION', 'DPPK_FINALIZE'];
+    const enabledStatus = ['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE', 'PK_DAR_REVISION'];
 
     if (enabledStatus.includes(cpStatus)) {
-      if (this.creditProposalItem.attributes['informasiTambahanDppk'] === '') {
-        return false;
-      } else if (this.router.url.split('subroute=')[1] === 'compare-data') {
+      if (this.router.url.split('subroute=')[1] === 'compare-data') {
         return true;
       } else {
         return false;
@@ -60,7 +57,6 @@ export class CovenantTempComponent implements OnInit {
       return true;
     }
   }
-
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
