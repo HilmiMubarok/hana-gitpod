@@ -24,6 +24,7 @@ import { BusinessActivityModule } from '../credit-proposal/busines-activity/busi
 import { SlikMainModule } from '../loan-analys/slik/slik-main.module';
 import { ProposePricingModule } from '../credit-proposal/propose-pricing/propose-pricing.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
+import { TradeCheckingModule } from '../credit-proposal/trade-checking/trade-checking.module';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.
     SlikMainModule,
     ProposePricingModule,
     MemoBandingModule,
+    TradeCheckingModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [
