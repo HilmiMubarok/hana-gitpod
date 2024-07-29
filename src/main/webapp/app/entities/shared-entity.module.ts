@@ -165,7 +165,6 @@ import { CreditProposalOtherCovenantHistoryComponent } from './credit-proposal/c
 import { CreditProposalOtherDeviationHistoryComponent } from './credit-proposal/convenant-history/other-covenant/credit-proposal-other-deviation.component';
 import { CreditProposalOtherCovenantDialogHistoryComponent } from './credit-proposal/convenant-history/other-covenant/add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-proposal/convenant-history/other-covenant/edit/credit-proposal-other-covenant-edit.component';
-import { ProposePricingLoanFacilityDetailDialogComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail-dialog.component';
 import { CreditProposalBookingBranchComponent } from './credit-proposal/booking-branch/credit-proposal-booking-branch.component';
 import { PartyCifCustomerInfoPostalAddressWarehouseComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-warehouse.component';
 import { CreditProposalRepaymentCapabilityComponent } from './credit-proposal/repayment-capability/credit-proposal-repayment-capability.component';
@@ -615,7 +614,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     // Dialog
     CreditProposalOtherCovenantDialogHistoryComponent,
     CreditProposalOtherCovenantEditHistoryComponent,
-    ProposePricingLoanFacilityDetailDialogComponent,
     // Repayment Capability
     CreditProposalRepaymentCapabilityComponent,
     // Trade Checking
@@ -1077,7 +1075,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     // Dialog
     CreditProposalOtherCovenantDialogHistoryComponent,
     CreditProposalOtherCovenantEditHistoryComponent,
-    ProposePricingLoanFacilityDetailDialogComponent,
     // Repayment Capability
     CreditProposalRepaymentCapabilityComponent,
     // Trade Checking
