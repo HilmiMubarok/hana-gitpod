@@ -281,7 +281,6 @@ import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agr
 import { ClausalPkDialogComponentEditComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog-edit.component';
 import { InsuranceInfoDialogComponent } from './insurance-information/dialog/insurance-info-dialog.component';
 import { GridDetailInsuranceComponent } from './insurance-information/grid-detail-insurance.component';
-import { insuranceInformationComponent } from './insurance-information/insurance-information.component';
 import { InsuranceInfoDialogDetailComponent } from './insurance-information/dialog/insurance-info-dialog-detail.component';
 import { InsuranceDocumentDialogComponent } from './insurance-information/document/insurance-document-dialog.component';
 import { InsuranceDocumentComponent } from './insurance-information/document/insurance-document.component';
@@ -699,7 +698,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     MainFacilityDarComponent,
     MainFacilityChildDarComponent,
     MainFacilityDialogDarComponent,
-    insuranceInformationComponent,
     InsuranceInfoDialogComponent,
     GridDetailInsuranceComponent,
     InsuranceInfoDialogDetailComponent,
@@ -1103,7 +1101,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     MainFacilityDarComponent,
     MainFacilityChildDarComponent,
     MainFacilityDialogDarComponent,
-    insuranceInformationComponent,
     InsuranceInfoDialogComponent,
     GridDetailInsuranceComponent,
     InsuranceInfoDialogDetailComponent,
