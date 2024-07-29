@@ -516,7 +516,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
         } else {
           this.loadDataBy();
         }
-        this.TransferService.setparam(this.partySliks);
+        this.TransferService.setparam(listPartySlik);
       }
     });
   }
