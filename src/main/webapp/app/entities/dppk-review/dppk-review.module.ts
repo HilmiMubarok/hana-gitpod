@@ -9,6 +9,7 @@ import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-cred
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
+import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.
     LoanFacilityModule,
     ExposureModule,
     MemoBandingModule,
+    InsuranceInformationModule,
     RouterModule.forChild(DppkReviewRoute),
   ],
   declarations: [DppkReviewComponent, DppkReviewDetailComponent],

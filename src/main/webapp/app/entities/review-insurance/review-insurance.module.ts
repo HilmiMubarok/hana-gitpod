@@ -7,8 +7,16 @@ import { ReviewInsuranceReviewRoute } from './review-insurance.route';
 import { ReviewInsuranceDetailComponent } from './review-insurance-detail.component'; // import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
+import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, LoanFacilityModule, ExposureModule, RouterModule.forChild(ReviewInsuranceReviewRoute)],
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    LoanFacilityModule,
+    ExposureModule,
+    InsuranceInformationModule,
+    RouterModule.forChild(ReviewInsuranceReviewRoute),
+  ],
   declarations: [ReviewInsuranceComponent, ReviewInsuranceDetailComponent],
   entryComponents: [ReviewInsuranceComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
