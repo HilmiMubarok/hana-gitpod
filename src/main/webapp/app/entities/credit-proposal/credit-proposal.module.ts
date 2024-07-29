@@ -41,6 +41,7 @@ import { LoanFacilityModule } from './loan-facility/loan-facility.module';
 import { ExposureModule } from './exposure/exposure.module';
 import { ManagementInfoModule } from './management-info/management-info.module';
 import { BusinessActivityModule } from './busines-activity/business-activity.module';
+import { ProposePricingModule } from './propose-pricing/propose-pricing.module';
 
 @NgModule({
   imports: [
@@ -53,6 +54,7 @@ import { BusinessActivityModule } from './busines-activity/business-activity.mod
     ExposureModule,
     ManagementInfoModule,
     BusinessActivityModule,
+    ProposePricingModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [
