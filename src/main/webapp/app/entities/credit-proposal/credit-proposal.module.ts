@@ -41,6 +41,7 @@ import { LoanFacilityModule } from './loan-facility/loan-facility.module';
 import { ExposureModule } from './exposure/exposure.module';
 import { ManagementInfoModule } from './management-info/management-info.module';
 import { BusinessActivityModule } from './busines-activity/business-activity.module';
+import { CollateralInfoCpModule } from './collateral-info/collateral-info-cp.module';
 
 @NgModule({
   imports: [
@@ -53,6 +54,7 @@ import { BusinessActivityModule } from './busines-activity/business-activity.mod
     ExposureModule,
     ManagementInfoModule,
     BusinessActivityModule,
+    CollateralInfoCpModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [
@@ -63,7 +65,6 @@ import { BusinessActivityModule } from './busines-activity/business-activity.mod
     CreditProposalTabCollateralInfoListComponent,
     ProposalBasicInformationComponent,
     CreditProposalLoanFacilityDialogComponent,
-    CreditProposalCollateralInfoDialogComponent,
     CreditProposalApprovalTabSummaryComponent,
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
@@ -76,7 +77,6 @@ import { BusinessActivityModule } from './busines-activity/business-activity.mod
 
     CreditProposalApproveUserComponent,
     CreditProposalLoanApplicationComponent,
-    DialogCreditProposalCollateralInfoDialogBTBComponent,
     ForwardToComponent,
     MainFacilityDialogComponent,
     MainFacilityDialogHistoryComponent,

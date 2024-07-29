@@ -26,6 +26,7 @@ import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facili
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { ManagementInfoModule } from '../credit-proposal/management-info/management-info.module';
 import { BusinessActivityModule } from '../credit-proposal/busines-activity/business-activity.module';
+import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { BusinessActivityModule } from '../credit-proposal/busines-activity/busi
     ExposureModule,
     ManagementInfoModule,
     BusinessActivityModule,
+    CollateralInfoCpModule,
     RouterModule.forChild(LoanAnalysRoute),
     MatSlideToggleModule,
   ],

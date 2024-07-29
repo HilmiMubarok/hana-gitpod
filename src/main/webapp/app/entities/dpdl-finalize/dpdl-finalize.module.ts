@@ -12,6 +12,7 @@ import { ApprovalSheetInternalMemoComponent } from './approval-sheet-internal-me
 import { ApprovalSheetInternalMemoDialogComponent } from './approval-sheet-internal-memo/dialog-approval-sheet/approval-sheet-internal-memo-dialog.component';
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
+import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
     SharedEntityModule,
     LoanFacilityModule,
     ExposureModule,
+    CollateralInfoCpModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [
