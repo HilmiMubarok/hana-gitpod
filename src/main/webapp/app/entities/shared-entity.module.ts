@@ -176,11 +176,6 @@ import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './credit-p
 import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './credit-proposal/trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 import { CreditProposalTradeCheckingSupplierDialogComponent } from './credit-proposal/trade-checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
 import { ReportIndependentCollateralComponent } from './collateral-appraisal/report-independent/report-independent-collateral.component';
-import { CollateralAppraisalValuationComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation.component';
-import { CollateralAppraisalValuationMachineComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-machine.component';
-import { CollateralAppraisalValuationLandDialogComponent } from './collateral-appraisal/valuation/dialogs/collateral-appraisal-valuation-land-dialog.component';
-import { CollateralAppraisalValuationVehicleComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-vehicle.component';
-import { CollateralAppraisalValuationPropertyComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-property.component';
 import { PartyCifCustomerManagementComponent } from './party-cif/customer-info/party-cif-customer-management.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
@@ -626,11 +621,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalTradeCheckingSupplierDialogEditComponent,
     CollateralInfoComponent,
     ReportIndependentCollateralComponent,
-    CollateralAppraisalValuationComponent,
-    CollateralAppraisalValuationMachineComponent,
-    CollateralAppraisalValuationLandDialogComponent,
-    CollateralAppraisalValuationVehicleComponent,
-    CollateralAppraisalValuationPropertyComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
@@ -1087,11 +1077,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalTradeCheckingSupplierDialogEditComponent,
     CollateralInfoComponent,
     ReportIndependentCollateralComponent,
-    CollateralAppraisalValuationComponent,
-    CollateralAppraisalValuationMachineComponent,
-    CollateralAppraisalValuationLandDialogComponent,
-    CollateralAppraisalValuationVehicleComponent,
-    CollateralAppraisalValuationPropertyComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
