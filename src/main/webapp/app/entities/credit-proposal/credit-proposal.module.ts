@@ -41,6 +41,7 @@ import { LoanFacilityModule } from './loan-facility/loan-facility.module';
 import { ExposureModule } from './exposure/exposure.module';
 import { ManagementInfoModule } from './management-info/management-info.module';
 import { BusinessActivityModule } from './busines-activity/business-activity.module';
+import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal-bank-account-analysis';
 
 @NgModule({
   imports: [
@@ -84,6 +85,7 @@ import { BusinessActivityModule } from './busines-activity/business-activity.mod
     CreditProposalOtherCovenantDialogComponent,
     CreditProposalRacNilaiPembelianAddComponent,
     CreditProposalRacNilaiPembelianEditComponent,
+    CreditProposalBankAccountAnalysisComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

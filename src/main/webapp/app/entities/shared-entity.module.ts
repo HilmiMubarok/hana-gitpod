@@ -52,20 +52,8 @@ import { CollateralAppraisalNegativeCollateralComponent } from './collateral-app
 import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/summary/collateral-appraisal-summary.component';
-import { PartyCifViewComponent } from './party-cif/party-cif-view.component';
-import { CollateralPropertyViewComponent } from './collateral-property/collateral-property-view.component';
-import { EmployeeViewComponent } from './employee/employee-view.component';
-import { EmploymentTypeViewComponent } from './employment-type/employment-type-view.component';
-import { PositionViewComponent } from './position/position-view.component';
-import { PositionTypeViewComponent } from './position-type/position-type-view.component';
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
-import { SurveyorViewComponent } from './surveyor/surveyor-view.component';
-import { PartnerViewComponent } from './partner/partner-view.component';
-import { AccountViewComponent } from './account/account-view.component';
 
-import { SurveyBatchViewComponent } from './survey-batch/survey-batch-view.component';
-import { ApplicationProductViewComponent } from './application-product/application-product-view.component';
-import { BaseApplicationViewComponent } from './base-application/base-application-view.component';
 import { DocumentComponent } from './document/document.component';
 
 import { CreditProposalCorrespondenceComponent } from './credit-proposal/correspondence/credit-proposal-correspondence.component';
@@ -91,7 +79,6 @@ import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/c
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
 import { CollateralPropertyListComponent } from './collateral-property/collateral-property-list.component';
 import { CustomerGroupListComponent } from './customer-group/customer-group-list.component';
-import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal/credit-proposal-bank-account-analysis';
 import { CreditProposalFinancialStatementComponent } from './credit-proposal/financial-statement/credit-proposal-financial-statement.component';
 import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
@@ -464,7 +451,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditRatingViewComponent,
     EmploymentViewComponent,
     CifViewCustomComponent,
-    SurveyBatchViewComponent,
     CollateralAppraisalInfoComponent,
     CollateralAppraisalExternalOfficerComponent,
     CollateralAppraisalDetailProcessMesinComponent,
@@ -472,17 +458,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CollateralAppraisalComparisonComponent,
     CollateralAppraisalProcessComponent,
     CollateralAppraisalSummaryComponent,
-    PartyCifViewComponent,
-    CollateralPropertyViewComponent,
-    EmployeeViewComponent,
-    EmploymentTypeViewComponent,
-    PositionViewComponent,
-    PositionTypeViewComponent,
-    SurveyorViewComponent,
-    PartnerViewComponent,
-    AccountViewComponent,
-    ApplicationProductViewComponent,
-    BaseApplicationViewComponent,
     DocumentComponent,
     CreditProposalCorrespondenceComponent,
     SlikSummaryComponent,
@@ -506,7 +481,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalCollateralInfoRemarksInformationComponent,
     CollateralPropertyListComponent,
     CustomerGroupListComponent,
-    CreditProposalBankAccountAnalysisComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     CreditProposalFinancialStatementComponent,
@@ -954,17 +928,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CollateralAppraisalComparisonComponent, // Remove Me
     CollateralAppraisalProcessComponent, // Remove Me
     CollateralAppraisalSummaryComponent, // Remove Me
-    PartyCifViewComponent, // Remove Me
-    CollateralPropertyViewComponent, // Remove Me
-    EmployeeViewComponent, // Remove Me
-    EmploymentTypeViewComponent, // Remove Me
-    PositionViewComponent, // Remove Me
-    PositionTypeViewComponent, // Remove Me
-    SurveyorViewComponent, // Remove Me
-    PartnerViewComponent, // Remove Me
-    AccountViewComponent, // Remove Me
-    ApplicationProductViewComponent, // Remove Me
-    BaseApplicationViewComponent, // Remove Me
     CreditProposalCorrespondenceComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
     SlikSummaryDebiturDialogComponent, // Remove Me
@@ -981,14 +944,12 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     AddCoborowerComponent, // Remove Me
     PostalAddressViewCustomComponent, // Remove Me
     CreditProposalCollateralInfoRemarksComponent, // Remove Me
-    SurveyBatchViewComponent, // Remove Me
     CreditProposalOpinionHistoryComponent, // Remove Me
     CreditProposalCollateralInfoRemarksChecklistComponent,
     CreditProposalDialogOpinionHistoryComponent, // Remove Me
     CollateralPropertyListComponent,
     CreditProposalCollateralInfoRemarksInformationComponent,
     CustomerGroupListComponent,
-    CreditProposalBankAccountAnalysisComponent, // Remove Me
     CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     CreditProposalFinancialStatementComponent, // Remove Me
