@@ -230,11 +230,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./organization-legal/organization-legal.module').then(m => m.LosgwOrganizationLegalModule),
       },
       {
-        path: 'credit-rating',
-        data: { pageTitle: 'losgwApp.creditRating.home.title' },
-        loadChildren: () => import('./credit-rating/credit-rating.module').then(m => m.LosgwCreditRatingModule),
-      },
-      {
         path: 'organization-management',
         data: { pageTitle: 'losgwApp.organizationManagement.home.title' },
         loadChildren: () =>
