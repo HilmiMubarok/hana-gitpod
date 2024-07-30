@@ -301,7 +301,6 @@ import { DppkPreparationComponent } from './dppk-finalize/dppk-preparation/dppk-
 import { BankAccountComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account.component';
 import { BankAccountDialogComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account-dialog.component';
 import { GenerateDraftDppkComponent } from './dppk-finalize/dppk-preparation/generate-draft-dppk/generate-draft-dppk.component';
-import { DppkAssignToComponent } from './dppk-finalize/dppk-assign-to/dppk-assign-to.component';
 import { DppkPreparationInternalMemoComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo.component';
 import { DppkPreparationInternalMemoDialogComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog.component';
 import { DppkPreparationInternalMemoDialogDetailComponent } from './dppk-finalize/dppk-preparation/dppk-preparation-internal-memo/dppk-preparation-internal-memo-dialog-detail.component';
@@ -750,7 +749,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     BankAccountComponent,
     BankAccountDialogComponent,
     GenerateDraftDppkComponent,
-    DppkAssignToComponent,
     DppkPreparationInternalMemoComponent,
     DppkPreparationInternalMemoDialogComponent,
     DppkPreparationInternalMemoDialogDetailComponent,
@@ -1131,7 +1129,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     BankAccountComponent,
     BankAccountDialogComponent,
     GenerateDraftDppkComponent,
-    DppkAssignToComponent,
 
     DppkPreparationInternalMemoComponent,
     DppkPreparationInternalMemoDialogComponent,
