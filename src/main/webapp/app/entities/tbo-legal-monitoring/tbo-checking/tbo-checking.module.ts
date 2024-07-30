@@ -10,6 +10,7 @@ import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angula
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { TboCheckingComponent } from './tbo-checking.component';
 import { TboCheckingViewComponent } from './tbo-checking-view.component';
+import { TboMonitoringModule } from '../tbo-monitoring/tbo-monitoring.module';
 
 // import { CreditProposalAnchorComponent } from './credit-proposal-anchor.component';
 // import { CreditProposalListComponent } from './credit-proposal-list.component';
@@ -36,7 +37,7 @@ import { TboCheckingViewComponent } from './tbo-checking-view.component';
 // import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-facility/main-facility-child-history.component';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(tboCheckingRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, TboMonitoringModule, RouterModule.forChild(tboCheckingRoute)],
   declarations: [
     // CreditProposalComponent,
     // CreditProposalUpdateCustomComponent,
