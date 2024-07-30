@@ -25,6 +25,7 @@ import { SlikMainModule } from '../loan-analys/slik/slik-main.module';
 import { ProposePricingModule } from '../credit-proposal/propose-pricing/propose-pricing.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 import { TradeCheckingModule } from '../credit-proposal/trade-checking/trade-checking.module';
+import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { TradeCheckingModule } from '../credit-proposal/trade-checking/trade-che
     ProposePricingModule,
     MemoBandingModule,
     TradeCheckingModule,
+    CollateralInfoCpModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [

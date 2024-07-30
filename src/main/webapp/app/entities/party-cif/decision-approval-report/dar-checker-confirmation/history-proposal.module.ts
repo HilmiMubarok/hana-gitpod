@@ -15,6 +15,7 @@ import { SlikMainModule } from 'app/entities/loan-analys/slik/slik-main.module';
 import { ProposePricingModule } from 'app/entities/credit-proposal/propose-pricing/propose-pricing.module';
 import { MemoBandingModule } from 'app/entities/credit-proposal/memo-banding/memo-banding.module';
 import { TradeCheckingModule } from 'app/entities/credit-proposal/trade-checking/trade-checking.module';
+import { CollateralInfoCpModule } from 'app/entities/credit-proposal/collateral-info/collateral-info-cp.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { TradeCheckingModule } from 'app/entities/credit-proposal/trade-checking
     ProposePricingModule,
     MemoBandingModule,
     TradeCheckingModule,
+    CollateralInfoCpModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [HistoryProposalComponent],

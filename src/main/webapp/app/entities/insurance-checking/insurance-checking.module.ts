@@ -8,13 +8,14 @@ import { InsuranceCheckingDetailComponent } from './insurance-checking-detail.co
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
+import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
 @NgModule({
   imports: [
     SharedModule,
     SharedEntityModule,
     LoanFacilityModule,
     ExposureModule,
-    InsuranceInformationModule,
+    CollateralInfoCpModule,
     RouterModule.forChild(InsuranceCheckingRoute),
   ],
   declarations: [InsuranceCheckingComponent, InsuranceCheckingDetailComponent],

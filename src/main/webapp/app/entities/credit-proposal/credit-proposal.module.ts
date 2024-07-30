@@ -46,6 +46,7 @@ import { ProposePricingModule } from './propose-pricing/propose-pricing.module';
 import { MemoBandingModule } from './memo-banding/memo-banding.module';
 import { TradeCheckingModule } from './trade-checking/trade-checking.module';
 import { CreditRatingModule } from '../credit-rating/credit-rating.module';
+import { CollateralInfoCpModule } from './collateral-info/collateral-info-cp.module';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { CreditRatingModule } from '../credit-rating/credit-rating.module';
     MemoBandingModule,
     TradeCheckingModule,
     CreditRatingModule,
+    CollateralInfoCpModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [
@@ -72,7 +74,6 @@ import { CreditRatingModule } from '../credit-rating/credit-rating.module';
     CreditProposalTabCollateralInfoListComponent,
     ProposalBasicInformationComponent,
     CreditProposalLoanFacilityDialogComponent,
-    CreditProposalCollateralInfoDialogComponent,
     CreditProposalApprovalTabSummaryComponent,
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
@@ -85,7 +86,6 @@ import { CreditRatingModule } from '../credit-rating/credit-rating.module';
 
     CreditProposalApproveUserComponent,
     CreditProposalLoanApplicationComponent,
-    DialogCreditProposalCollateralInfoDialogBTBComponent,
     ForwardToComponent,
     MainFacilityDialogComponent,
     MainFacilityDialogHistoryComponent,
