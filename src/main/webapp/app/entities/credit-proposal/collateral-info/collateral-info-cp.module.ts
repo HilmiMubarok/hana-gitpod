@@ -24,8 +24,10 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks
 import { CreditProposalCollateralInfoRemarksComponent } from './remarks/credit-proposal-collateral-info-remarks.component';
 import { BindingValueRealEstateDialogComponent } from './binding-value-information/binding-value-information-dialog/binding-value-real-estate-grid/binding-value-real-estate-dialog.component';
 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 @NgModule({
-  imports: [SharedModule],
+  imports: [MatSlideToggleModule, SharedModule],
   declarations: [
     // collateral info
     CreditProposalCollateralInfoComponent,
