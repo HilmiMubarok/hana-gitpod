@@ -45,6 +45,7 @@ import { CreditProposalBankAccountAnalysisComponent } from './credit-proposal-ba
 import { ProposePricingModule } from './propose-pricing/propose-pricing.module';
 import { MemoBandingModule } from './memo-banding/memo-banding.module';
 import { TradeCheckingModule } from './trade-checking/trade-checking.module';
+import { CreditRatingModule } from '../credit-rating/credit-rating.module';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { TradeCheckingModule } from './trade-checking/trade-checking.module';
     ProposePricingModule,
     MemoBandingModule,
     TradeCheckingModule,
+    CreditRatingModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [

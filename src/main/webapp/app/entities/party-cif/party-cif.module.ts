@@ -28,9 +28,10 @@ import { ParipasuCollateralIddComponent } from './paripasu-collateral-idd/paripa
 import { InsuranceInformationIddComponent } from './insurance-information-idd/insurance-information-idd.component';
 import { ParipasuCollateralIddDebtorComponent } from './paripasu-collateral-idd-debtor/paripasu-collateral-idd-debtor.component';
 import { PartyCifViewComponent } from './party-cif-view.component';
+import { CreditRatingModule } from '../credit-rating/credit-rating.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCifRoute)],
+  imports: [SharedModule, SharedEntityModule, CreditRatingModule, RouterModule.forChild(partyCifRoute)],
   declarations: [
     PartyCifComponent,
     PartyCifDetailComponent,

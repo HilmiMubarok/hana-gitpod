@@ -41,7 +41,6 @@ import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-paymen
 import { CifViewComponent } from './cif/cif-view.component';
 import { CollateralUpdateComponent } from './collateral/collateral-update.component';
 import { CollateralViewComponent } from './collateral/collateral-view.component';
-import { CreditRatingViewComponent } from './credit-rating/credit-rating-view.component';
 import { EmploymentViewComponent } from './employment/employment-view.component';
 import { CifViewCustomComponent } from './cif/cif-view-custom.component';
 import { CollateralAppraisalInfoComponent } from './collateral-appraisal/info/collateral-appraisal-info.component';
@@ -415,7 +414,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartyPaymentPrefViewComponent,
     CifViewComponent,
     CollateralViewComponent,
-    CreditRatingViewComponent,
     EmploymentViewComponent,
     CifViewCustomComponent,
     CollateralAppraisalInfoComponent,
@@ -824,7 +822,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     PartyPaymentPrefViewComponent, // Remove Me
     CifViewComponent, // Remove Me
     CollateralViewComponent, // Remove Me
-    CreditRatingViewComponent, // Remove Me
     EmploymentViewComponent, // Remove Me
     CifViewCustomComponent, // Remove Me
     CollateralAppraisalInfoComponent, // Remove Me
