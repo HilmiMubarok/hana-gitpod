@@ -87,7 +87,9 @@ export class CovenantTempComponent implements OnInit {
     if (
       // this.parentPath === 'finalize-dppk' ||
       this.parentPath === 'review-dppk' ||
+      this.creditProposalItem.statusCode === 'DPPK_REVIEW' ||
       this.parentPath === 'loan-ops-distribution' ||
+      this.parentPath === 'loan-ops-checking' ||
       this.parentPath === 'loan-ops-review'
     ) {
       // Default Disabled
