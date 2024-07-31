@@ -187,14 +187,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./service-product/service-product.module').then(m => m.LosgwServiceProductModule),
       },
       {
-        path: 'sample-ejs',
-        loadChildren: () => import('./sample-ejs/sample-ejs.module').then(m => m.LosgwSampleEjsModule),
-      },
-      {
-        path: 'func-setting-template',
-        loadChildren: () => import('./func-setting-template/func-setting-template.module').then(m => m.LosgwFuncSettingTemplateModule),
-      },
-      {
         path: 'func-setting',
         loadChildren: () => import('./func-setting/func-setting.module').then(m => m.LosgwFuncSettingModule),
       },
@@ -209,10 +201,6 @@ import { RouterModule } from '@angular/router';
       {
         path: 'internal-type',
         loadChildren: () => import('./internal-type/internal-type.module').then(m => m.LosgwInternalTypeModule),
-      },
-      {
-        path: 'product-type-config',
-        loadChildren: () => import('./product-type-config/product-type-config.module').then(m => m.LosgwProductTypeConfigModule),
       },
       {
         path: 'customer-info',
@@ -316,17 +304,6 @@ import { RouterModule } from '@angular/router';
       {
         path: 'financial-product',
         loadChildren: () => import('./financial-product/financial-product.module').then(m => m.LosgwFinancialProductModule),
-      },
-      {
-        path: 'product-type-financial-setting',
-        loadChildren: () =>
-          import('./product-type-financial-setting/product-type-financial-setting.module').then(
-            m => m.LosgwProductTypeFinancialSettingModule
-          ),
-      },
-      {
-        path: 'func-setting-template',
-        loadChildren: () => import('./func-setting-template/func-setting-template.module').then(m => m.LosgwFuncSettingTemplateModule),
       },
       {
         path: 'func-setting',

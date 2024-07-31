@@ -11,11 +11,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxCurrencyModule } from 'ngx-currency';
 
 // prime ng
-import { DataViewModule } from 'primeng/dataview';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
-import { ListboxModule } from 'primeng/listbox';
-import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -49,7 +46,7 @@ import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-drop
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
-import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
+import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import {
   RichTextEditorAllModule,
   ToolbarService,
@@ -117,7 +114,7 @@ import {
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { SearchService } from '@syncfusion/ej2-angular-grids';
-import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
+import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -207,7 +204,7 @@ import { MatMenuModule } from '@angular/material/menu';
     PdfViewerModule,
     FormsModule,
     CommonModule,
-    NgbModule,
+    // NgbModule,
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
@@ -217,11 +214,9 @@ import { MatMenuModule } from '@angular/material/menu';
     NgxDropzoneModule,
 
     // primeng
-    DataViewModule,
     TableModule,
     CalendarModule,
-    ListboxModule,
-    AutoCompleteModule,
+
     PanelModule,
     DialogModule,
     ConfirmDialogModule,
@@ -290,10 +285,8 @@ import { MatMenuModule } from '@angular/material/menu';
     GridModule,
     NumericTextBoxModule,
     EJ2DialogModule,
-    UploaderModule,
     DatePickerModule,
     TextBoxModule,
-    UploaderModule,
     RichTextEditorAllModule,
     DatePickerModule,
     AccordionModule,
