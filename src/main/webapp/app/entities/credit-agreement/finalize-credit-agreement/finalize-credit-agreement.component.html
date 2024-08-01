@@ -797,7 +797,6 @@
       </div>
     </section>
   </mat-card>
-
   <mat-card *ngIf="creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM'" class="mt-3">
     <mat-card-header>
       <mat-card-title>Credit Agreement Clausal</mat-card-title>
@@ -807,7 +806,8 @@
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <mat-form-field class="w-100" appearance="outline">
           <textarea
-            [(ngModel)]="creditProposal.agreements[0]?.attributes.notes"
+            [ngModel]="dataNotes"
+            (ngModelChange)="modelDataNotes($event)"
             matInput
             cssClass="e-outline"
             class="text-area-input"
