@@ -59,12 +59,15 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
   public data = [];
   public loading: boolean;
   public valueAddress: string;
+  public dataNotes: string;
 
   @Output() notesChange = new EventEmitter<INotes>();
 
   onNotesChange(ev) {
     this.notesChange.emit(ev);
   }
+
+  @Output() aggrementNote = new EventEmitter<any>();
 
   constructor(
     private dialog: MatDialog,
@@ -108,6 +111,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnInit(): void {
+    this.dataNotes = this.creditProposal.agreements[0].attributes.notes;
     this.valueAddress = this.creditProposal.attributes['offeringLetterPreparation'].address;
     if (this.creditProposal.entityProperties.length < 1) {
       this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
@@ -153,6 +157,11 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
   ModelValueAddress(value: string): void {
     this.valueAddress = value;
     this.creditProposal.attributes['offeringLetterPreparation'].address = value;
+  }
+
+  modelDataNotes(value: string): void {
+    // this.creditProposal.agreements[0].attributes.notes = value;
+    this.aggrementNote.emit(value);
   }
 
   clearApprovalDebtorConditions() {
