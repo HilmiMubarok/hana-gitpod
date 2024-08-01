@@ -215,9 +215,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       });
     });
 
-	dataSourceTemp.sort(function (a, b) {
-	  return a.menuItemSequence - b.menuItemSequence || a.id - b.id;
-	});
+    dataSourceTemp.sort(function (a, b) {
+      return a.menuItemSequence - b.menuItemSequence || a.id - b.id;
+    });
 
     this.dataSource.data = dataSourceTemp;
   }
@@ -226,6 +226,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.queryFilterBy({
       positionTypeId: newPositionTypeId,
       sort: ['id', 'asc'],
+      size: 999,
     }).subscribe(menus => {
       this.setMenu(menus.body.filter(obj => !obj.menuItemId.includes('DASHBOARD_')));
     });
