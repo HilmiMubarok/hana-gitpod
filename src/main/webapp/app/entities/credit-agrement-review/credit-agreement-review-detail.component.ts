@@ -778,7 +778,15 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
 
           if (this.clickedMenu === 'finalize-credit-agreement') {
             if (this.reviewHistoryService.visibleRemarks$.getValue() === true) {
-              this.reviewHistoryService.triggerSaveReviewHistory();
+              if (source === 'process') {
+                this.isReviewHistoryValidated(this.creditProposal.notes).then(isValid => {
+                  if (isValid) {
+                    this.reviewHistoryService.triggerSaveReviewHistory();
+                  }
+                });
+              } else {
+                this.reviewHistoryService.triggerSaveReviewHistory();
+              }
             }
           }
 
