@@ -1,22 +1,8 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
-import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
-import lodash from 'lodash';
-import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { CollateralTabLoanDialogHistoryComponent } from './credit-proposal-collateral-tab-loan-dialog.component';
-import {
-  ICreditProposalCollateralBinding,
-  ICreditProposalCollateralInsurance,
-  CreditProposalCollateralInsurance,
-  CreditProposalCollateralBinding,
-} from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { CollateralPrevious, ICollateralPrevious } from './collateral-previous.model';
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';

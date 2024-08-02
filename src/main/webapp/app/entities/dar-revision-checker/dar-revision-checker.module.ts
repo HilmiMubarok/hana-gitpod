@@ -12,6 +12,7 @@ import { DarRevisionCheckerComponent } from './dar-revision-checker.component';
 import { DarRevisionCheckerViewComponent } from './dar-revision-checker-view.component';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.
     ExposureModule,
     SharedEntityModule,
     MemoBandingModule,
+    CreditProposalSummaryTabModule,
     RouterModule.forChild(darRevisionCheckerRoute),
   ],
   declarations: [DarRevisionCheckerComponent, DarRevisionCheckerViewComponent],

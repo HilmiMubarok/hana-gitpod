@@ -1,9 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { CreditProposaTabManagementInfoComponent } from '../credit-proposal-tab-management-info.component';
-import { OrganizationManagementListComponent } from 'app/entities/organization-management/organization-management-list.component';
-import { DialogBorrowerComponent } from '../credit-proposal-dialog-borrower.component';
+import { CreditProposalGeneratePkReport } from '../generate-document-pk-report/credit-proposal-generate-pk-report.module';
+import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal-group-guarantor-analysis.component';
 import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
@@ -34,10 +33,9 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 @NgModule({
-  declarations: [CreditProposaTabManagementInfoComponent, OrganizationManagementListComponent, DialogBorrowerComponent],
-  imports: [CommonModule, SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
-  exports: [CreditProposaTabManagementInfoComponent, OrganizationManagementListComponent, DialogBorrowerComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [SharedModule, SharedEntityModule, CreditProposalGeneratePkReport, DocumentEditorAllModule, DocumentEditorContainerModule],
+  declarations: [CreditProposalGroupGuarantorAnalysisComponent],
+  exports: [CreditProposalGroupGuarantorAnalysisComponent],
   providers: [
     EditorService,
     SelectionService,
@@ -65,5 +63,7 @@ import {
     StylesDialogService,
     ToolbarServiceDocumentEditor,
   ],
+
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ManagementInfoModule {}
+export class CreditProposalGroupGuarantorAnalysisModule {}

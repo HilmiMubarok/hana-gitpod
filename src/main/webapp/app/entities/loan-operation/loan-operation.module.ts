@@ -9,6 +9,7 @@ import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-cred
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 @NgModule({
   imports: [
     SharedModule,
@@ -17,6 +18,7 @@ import { InsuranceInformationModule } from '../insurance-information/insurance-i
     ExposureModule,
     MemoBandingModule,
     InsuranceInformationModule,
+    CreditProposalSummaryTabModule,
     RouterModule.forChild(LoanOperationRoute),
   ],
   declarations: [LoanOperationComponent, LoanOperationDetailComponent],

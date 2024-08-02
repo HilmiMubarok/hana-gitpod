@@ -14,6 +14,7 @@ import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facili
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/colla
     ExposureModule,
     MemoBandingModule,
     CollateralInfoCpModule,
+    CreditProposalSummaryTabModule,
     RouterModule.forChild(creditProposalRoute),
   ],
   declarations: [

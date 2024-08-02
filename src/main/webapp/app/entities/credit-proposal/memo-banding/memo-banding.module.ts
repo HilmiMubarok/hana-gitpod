@@ -25,6 +25,34 @@ import { GetMarketabilityPipe } from './memo-banding-collateral/pipes/get-market
 import { GetOwnershipPipe } from './memo-banding-collateral/pipes/get-ownership.pipe';
 import { GetExpiryPipe } from './memo-banding-collateral/pipes/get-expiry.pipe';
 import { GetBindingTypePipe } from './memo-banding-collateral/pipes/get-binding-type.pipe';
+import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import {
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+  WordExportService,
+  PrintService as PrintServiceDocumentEditor,
+  TextExportService,
+  ImageResizerService,
+  EditorHistoryService,
+  OptionsPaneService,
+  HyperlinkDialogService,
+  TableDialogService,
+  BookmarkDialogService,
+  TableOfContentsDialogService,
+  PageSetupDialogService,
+  StyleDialogService,
+  ListDialogService,
+  ParagraphDialogService,
+  BulletsAndNumberingDialogService,
+  FontDialogService,
+  TablePropertiesDialogService,
+  BordersAndShadingDialogService,
+  TableOptionsDialogService,
+  CellOptionsDialogService,
+  StylesDialogService,
+  ToolbarService as ToolbarServiceDocumentEditor,
+} from '@syncfusion/ej2-angular-documenteditor';
 
 @NgModule({
   declarations: [
@@ -56,7 +84,7 @@ import { GetBindingTypePipe } from './memo-banding-collateral/pipes/get-binding-
     GetExpiryPipe,
     GetBindingTypePipe,
   ],
-  imports: [SharedModule],
+  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
   exports: [
     MemoBandingComponent,
     CpMemoBandingLoanFacilityComponent,
@@ -85,6 +113,33 @@ import { GetBindingTypePipe } from './memo-banding-collateral/pipes/get-binding-
     GetOwnershipPipe,
     GetExpiryPipe,
     GetBindingTypePipe,
+  ],
+  providers: [
+    EditorService,
+    SelectionService,
+    SfdtExportService,
+    WordExportService,
+    PrintServiceDocumentEditor,
+    TextExportService,
+    ImageResizerService,
+    EditorHistoryService,
+    OptionsPaneService,
+    HyperlinkDialogService,
+    TableDialogService,
+    BookmarkDialogService,
+    TableOfContentsDialogService,
+    PageSetupDialogService,
+    StyleDialogService,
+    ListDialogService,
+    ParagraphDialogService,
+    BulletsAndNumberingDialogService,
+    FontDialogService,
+    TablePropertiesDialogService,
+    BordersAndShadingDialogService,
+    TableOptionsDialogService,
+    CellOptionsDialogService,
+    StylesDialogService,
+    ToolbarServiceDocumentEditor,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

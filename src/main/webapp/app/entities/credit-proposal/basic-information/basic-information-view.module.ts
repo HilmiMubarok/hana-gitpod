@@ -1,9 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { CreditProposaTabManagementInfoComponent } from '../credit-proposal-tab-management-info.component';
-import { OrganizationManagementListComponent } from 'app/entities/organization-management/organization-management-list.component';
-import { DialogBorrowerComponent } from '../credit-proposal-dialog-borrower.component';
+import { ProposalBasicInformationViewComponent } from './basic-information-view.component';
+import { AddCoborowerComponent } from './add-new-coborower.component';
+import { CreditProposalPersonalInfoComponent } from './personal-info.component';
 import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
@@ -34,10 +33,9 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 @NgModule({
-  declarations: [CreditProposaTabManagementInfoComponent, OrganizationManagementListComponent, DialogBorrowerComponent],
-  imports: [CommonModule, SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
-  exports: [CreditProposaTabManagementInfoComponent, OrganizationManagementListComponent, DialogBorrowerComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  declarations: [ProposalBasicInformationViewComponent, AddCoborowerComponent, CreditProposalPersonalInfoComponent],
+  exports: [ProposalBasicInformationViewComponent, AddCoborowerComponent, CreditProposalPersonalInfoComponent],
   providers: [
     EditorService,
     SelectionService,
@@ -65,5 +63,6 @@ import {
     StylesDialogService,
     ToolbarServiceDocumentEditor,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class ManagementInfoModule {}
+export class ProposalBasicInformationViewModule {}

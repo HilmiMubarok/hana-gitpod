@@ -12,9 +12,18 @@ import { DarRevisionComponent } from './dar-revision.component';
 import { DarRevisionViewComponent } from './dar-revision-view.component';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, ExposureModule, SharedEntityModule, MemoBandingModule, RouterModule.forChild(darRevisionRoute)],
+  imports: [
+    SharedModule,
+    SharedLibsModule,
+    ExposureModule,
+    SharedEntityModule,
+    MemoBandingModule,
+    CreditProposalSummaryTabModule,
+    RouterModule.forChild(darRevisionRoute),
+  ],
   declarations: [DarRevisionComponent, DarRevisionViewComponent],
   entryComponents: [DarRevisionComponent],
   providers: [PageService, ToolbarService, EditService],

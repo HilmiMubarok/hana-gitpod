@@ -31,9 +31,17 @@ import { SurveyBatchEditApprovalComponent } from './survey-batch-edit-approval.c
 import { SurveyBatchEditProcessComponent } from './survey-batch-edit-process.component';
 import { SurveyBatchViewComponent } from './survey-batch-view.component';
 import { AppraisalValuationModule } from '../collateral-appraisal/valuation/appraisal-valuation.module';
+import { CollateralAppraisalSummaryModule } from '../collateral-appraisal/summary/collateral-appraisal-summary.module';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, AppraisalValuationModule, RouterModule.forChild(surveyBatchRoute)],
+  imports: [
+    SharedModule,
+    SharedLibsModule,
+    SharedEntityModule,
+    AppraisalValuationModule,
+    CollateralAppraisalSummaryModule,
+    RouterModule.forChild(surveyBatchRoute),
+  ],
   declarations: [
     SurveyBatchEditComponent,
     SurveyBatchComponent,

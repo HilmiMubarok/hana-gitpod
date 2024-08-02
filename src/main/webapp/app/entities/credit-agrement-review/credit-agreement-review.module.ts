@@ -10,6 +10,8 @@ import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facili
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
+import { CreditProposalGeneratePkReport } from '../credit-proposal/generate-document-pk-report/credit-proposal-generate-pk-report.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 
 @NgModule({
   imports: [
@@ -20,6 +22,8 @@ import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/colla
     CollateralInfoCpModule,
     ExposureModule,
     MemoBandingModule,
+    CreditProposalSummaryTabModule,
+    CreditProposalGeneratePkReport,
     RouterModule.forChild(creditAgrementReviewRoute),
   ],
   declarations: [CreditAgreementReviewComponent, CreditAgreementReviewDetailComponent],

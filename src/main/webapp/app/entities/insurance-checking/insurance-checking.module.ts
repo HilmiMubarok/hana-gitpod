@@ -7,8 +7,8 @@ import { InsuranceCheckingRoute } from './insurance-checking.route';
 import { InsuranceCheckingDetailComponent } from './insurance-checking-detail.component'; // import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
 import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
-import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
 import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 @NgModule({
   imports: [
     SharedModule,
@@ -16,6 +16,7 @@ import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/colla
     LoanFacilityModule,
     ExposureModule,
     CollateralInfoCpModule,
+    CreditProposalSummaryTabModule,
     RouterModule.forChild(InsuranceCheckingRoute),
   ],
   declarations: [InsuranceCheckingComponent, InsuranceCheckingDetailComponent],

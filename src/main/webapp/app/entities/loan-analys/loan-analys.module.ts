@@ -29,6 +29,12 @@ import { ProposePricingModule } from '../credit-proposal/propose-pricing/propose
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 import { TradeCheckingModule } from '../credit-proposal/trade-checking/trade-checking.module';
 import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
+import { RepaymentSpreadsheetModule } from '../credit-proposal/repayment-spreadsheet/repayment-spreadsheet.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
+import { ProposalBasicInformationViewModule } from '../credit-proposal/basic-information/basic-information-view.module';
+import { CreditProposalGroupGuarantorAnalysisModule } from '../credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.module';
+import { LoanFacilityDetailHistoryModule } from '../credit-proposal/loan-facility-history/loan-facility-detail-history.module';
+import { LoanFacilityDetailTempModule } from './dar-final/loan-facility/loan-facility-detail-temp.module';
 
 @NgModule({
   imports: [
@@ -45,6 +51,12 @@ import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/colla
     MemoBandingModule,
     TradeCheckingModule,
     CollateralInfoCpModule,
+    RepaymentSpreadsheetModule,
+    CreditProposalSummaryTabModule,
+    ProposalBasicInformationViewModule,
+    CreditProposalGroupGuarantorAnalysisModule,
+    LoanFacilityDetailHistoryModule,
+    LoanFacilityDetailTempModule,
     RouterModule.forChild(LoanAnalysRoute),
     MatSlideToggleModule,
   ],

@@ -10,6 +10,7 @@ import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
 import { DppkAssignToModule } from './dppk-assign-to/dppk-assign-to.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { DppkAssignToModule } from './dppk-assign-to/dppk-assign-to.module';
     MemoBandingModule,
     InsuranceInformationModule,
     DppkAssignToModule,
+    CreditProposalSummaryTabModule,
     RouterModule.forChild(DppkFinalizeReviewRoute),
   ],
   declarations: [DppkFinalizeComponent, DppkFinalizeDetailComponent],

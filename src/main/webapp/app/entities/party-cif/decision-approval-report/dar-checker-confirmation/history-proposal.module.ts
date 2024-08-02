@@ -16,6 +16,10 @@ import { ProposePricingModule } from 'app/entities/credit-proposal/propose-prici
 import { MemoBandingModule } from 'app/entities/credit-proposal/memo-banding/memo-banding.module';
 import { TradeCheckingModule } from 'app/entities/credit-proposal/trade-checking/trade-checking.module';
 import { CollateralInfoCpModule } from 'app/entities/credit-proposal/collateral-info/collateral-info-cp.module';
+import { RepaymentSpreadsheetModule } from 'app/entities/credit-proposal/repayment-spreadsheet/repayment-spreadsheet.module';
+import { CreditProposalSummaryTabModule } from 'app/entities/credit-proposal/summary/credit-proposal-tab-summary.module';
+import { ProposalBasicInformationViewModule } from 'app/entities/credit-proposal/basic-information/basic-information-view.module';
+import { LoanFacilityDetailHistoryModule } from 'app/entities/credit-proposal/loan-facility-history/loan-facility-detail-history.module';
 
 @NgModule({
   imports: [
@@ -32,6 +36,10 @@ import { CollateralInfoCpModule } from 'app/entities/credit-proposal/collateral-
     MemoBandingModule,
     TradeCheckingModule,
     CollateralInfoCpModule,
+    RepaymentSpreadsheetModule,
+    CreditProposalSummaryTabModule,
+    ProposalBasicInformationViewModule,
+    LoanFacilityDetailHistoryModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [HistoryProposalComponent],

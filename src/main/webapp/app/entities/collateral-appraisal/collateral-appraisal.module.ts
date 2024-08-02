@@ -31,8 +31,16 @@ import { GroupCollateralListAppraisalComponent } from './groupList/group-collate
 import { GroupCollateralAppraisalComponent } from './groupList/group-collateral-appraisal.component';
 import { CollateralAppraisalViewComponent } from './collateral-appraisal-view.component';
 import { AppraisalValuationModule } from './valuation/appraisal-valuation.module';
+import { CollateralAppraisalSummaryModule } from './summary/collateral-appraisal-summary.module';
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, AppraisalValuationModule, RouterModule.forChild(CollateralAppraisalRoute)],
+  imports: [
+    SharedModule,
+    SharedLibsModule,
+    SharedEntityModule,
+    AppraisalValuationModule,
+    CollateralAppraisalSummaryModule,
+    RouterModule.forChild(CollateralAppraisalRoute),
+  ],
   declarations: [
     CollateralAppraisalMaterialComponent,
     CollateralAppraisalComponent,

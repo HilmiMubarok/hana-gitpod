@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { CreditProposal, ICreditProposal } from './credit-proposal.model';
-import { StorageService } from '../storage/storage.service';
+import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
+import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
 import { formatBytes } from 'app/shared/helper/utils';
 import { ActivatedRoute } from '@angular/router';

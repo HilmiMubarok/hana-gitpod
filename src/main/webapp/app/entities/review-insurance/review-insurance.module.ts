@@ -9,6 +9,7 @@ import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facili
 import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
 import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
 import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 @NgModule({
   imports: [
     SharedModule,
@@ -17,6 +18,7 @@ import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/colla
     ExposureModule,
     InsuranceInformationModule,
     CollateralInfoCpModule,
+    CreditProposalSummaryTabModule,
     RouterModule.forChild(ReviewInsuranceReviewRoute),
   ],
   declarations: [ReviewInsuranceComponent, ReviewInsuranceDetailComponent],

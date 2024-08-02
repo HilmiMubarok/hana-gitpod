@@ -4,10 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { formatBytes } from 'app/shared/helper/utils';
 import { takeUntil, Subject, from, forkJoin, tap, map, switchMap } from 'rxjs';
-import { StorageService } from '../storage/storage.service';
+import { StorageService } from '../../storage/storage.service';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { CreditProposal, ICreditProposal } from './credit-proposal.model';
+import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 import { saveAs as importedSaveAs } from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
@@ -20,21 +20,21 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { CreditProposalService } from './credit-proposal.service';
-import { IDebtorData } from '../debtor-data/debtor-data.model';
+import { CreditProposalService } from '../credit-proposal.service';
+import { IDebtorData } from '../../debtor-data/debtor-data.model';
 import lodash from 'lodash';
-import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-facility-table-model';
+import { CPFacilityTable, ICPFacilityTable } from '../exposure/total-exposure/cp-facility-table-model';
 import { Router } from '@angular/router';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { AccountService } from 'app/core/auth/account.service';
 import { DOCUMENT_TYPE_GENERATE_DOCUMENT } from 'app/shared/constants/base.constants';
 import { MatTableDataSource } from '@angular/material/table';
-import { BusinessActivityService } from './busines-activity/business-activity.service';
+import { BusinessActivityService } from '../busines-activity/business-activity.service';
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
   templateUrl: './credit-proposal-tab-summary.component.html',
-  styleUrls: ['./css/credit-proposal-basic-information.css', './credit-proposal-tab-summary.style.scss'],
+  styleUrls: ['../css/credit-proposal-basic-information.css', '../credit-proposal-tab-summary.style.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnDestroy {

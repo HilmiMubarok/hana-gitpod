@@ -1,14 +1,10 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { OfferingLetterComponent } from './offering-letter.component';
 import { OfferingLetterMainComponent } from './offering-letter-main.component';
 import { OfferingLetterRoute } from './offering-letter.route';
-
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route';
 
 import { OfferingLetterOfferingPageComponent } from './offering-page/offering-page.component';
 import { OfferingLetterTabCovenantComponent } from './covenant-document/offering-letter-tab-covenant.component';
@@ -26,6 +22,10 @@ import { ProposePricingModule } from '../credit-proposal/propose-pricing/propose
 import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
 import { TradeCheckingModule } from '../credit-proposal/trade-checking/trade-checking.module';
 import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
+import { RepaymentSpreadsheetModule } from '../credit-proposal/repayment-spreadsheet/repayment-spreadsheet.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
+import { ProposalBasicInformationViewModule } from '../credit-proposal/basic-information/basic-information-view.module';
+import { LoanFacilityDetailHistoryModule } from '../credit-proposal/loan-facility-history/loan-facility-detail-history.module';
 
 @NgModule({
   imports: [
@@ -42,6 +42,10 @@ import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/colla
     MemoBandingModule,
     TradeCheckingModule,
     CollateralInfoCpModule,
+    RepaymentSpreadsheetModule,
+    CreditProposalSummaryTabModule,
+    ProposalBasicInformationViewModule,
+    LoanFacilityDetailHistoryModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [

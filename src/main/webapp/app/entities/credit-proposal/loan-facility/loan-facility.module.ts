@@ -15,8 +15,37 @@ import { CreditProposalCollateralTabLoanAfterComponent } from './take-over-after
 import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
 import { CreditProposalTabLoanFacilityTakeOverAfterGridComponent } from './take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
 
+import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import {
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+  WordExportService,
+  PrintService as PrintServiceDocumentEditor,
+  TextExportService,
+  ImageResizerService,
+  EditorHistoryService,
+  OptionsPaneService,
+  HyperlinkDialogService,
+  TableDialogService,
+  BookmarkDialogService,
+  TableOfContentsDialogService,
+  PageSetupDialogService,
+  StyleDialogService,
+  ListDialogService,
+  ParagraphDialogService,
+  BulletsAndNumberingDialogService,
+  FontDialogService,
+  TablePropertiesDialogService,
+  BordersAndShadingDialogService,
+  TableOptionsDialogService,
+  CellOptionsDialogService,
+  StylesDialogService,
+  ToolbarService as ToolbarServiceDocumentEditor,
+} from '@syncfusion/ej2-angular-documenteditor';
+
 @NgModule({
-  imports: [SharedModule],
+  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
   declarations: [
     CreditProposalTabLoanFacilityDetailComponent,
     CreditProposalTabLoanFacilityDetailGridComponent,
@@ -49,7 +78,33 @@ import { CreditProposalTabLoanFacilityTakeOverAfterGridComponent } from './take-
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
     CreditProposalTabLoanFacilityTakeOverAfterGridComponent,
   ],
-  providers: [],
+  providers: [
+    EditorService,
+    SelectionService,
+    SfdtExportService,
+    WordExportService,
+    PrintServiceDocumentEditor,
+    TextExportService,
+    ImageResizerService,
+    EditorHistoryService,
+    OptionsPaneService,
+    HyperlinkDialogService,
+    TableDialogService,
+    BookmarkDialogService,
+    TableOfContentsDialogService,
+    PageSetupDialogService,
+    StyleDialogService,
+    ListDialogService,
+    ParagraphDialogService,
+    BulletsAndNumberingDialogService,
+    FontDialogService,
+    TablePropertiesDialogService,
+    BordersAndShadingDialogService,
+    TableOptionsDialogService,
+    CellOptionsDialogService,
+    StylesDialogService,
+    ToolbarServiceDocumentEditor,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class LoanFacilityModule {}

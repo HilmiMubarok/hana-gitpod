@@ -35,7 +35,7 @@ import { IEJOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { CreditProposalOpinionHistoryComponent } from './opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from './summary/credit-proposal-tab-summary.component';
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { RemarskComponent } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';

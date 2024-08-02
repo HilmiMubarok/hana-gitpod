@@ -36,7 +36,6 @@ import { PartyTypeViewComponent } from './party-type/party-type-view.component';
 import { ProductViewComponent } from './product/product-view.component';
 import { FeatureViewComponent } from './feature/feature-view.component';
 import { PostalAddressViewComponent } from './postal-address/postal-address-view.component';
-// import { InternalViewComponent } from './internal/internal-view.component';
 import { PartyPaymentPrefViewComponent } from './party-payment-pref/party-payment-pref-view.component';
 import { CifViewComponent } from './cif/cif-view.component';
 import { CollateralUpdateComponent } from './collateral/collateral-update.component';
@@ -49,7 +48,6 @@ import { CollateralAppraisalDetailProcessMesinComponent } from './collateral-app
 import { CollateralAppraisalNegativeCollateralComponent } from './collateral-appraisal/negative/collateral-appraisal-negative-collateral.component';
 import { CollateralAppraisalComparisonComponent } from './collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalProcessComponent } from './collateral-appraisal/foto/collateral-appraisal-process.component';
-import { CollateralAppraisalSummaryComponent } from './collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { PersonEmployeeViewComponent } from './person/person-employee-view.component';
 
 import { DocumentComponent } from './document/document.component';
@@ -62,21 +60,15 @@ import { SlikSummaryShareHolderComponent } from './credit-proposal/slik-summary/
 import { SlikSummaryShareHolderDialogComponent } from './credit-proposal/slik-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { SlikSummaryBusinessGroupComponent } from './credit-proposal/slik-summary/business-group/slik-summary-business-group.component';
 import { SlikSummaryBusinessGroupDialogComponent } from './credit-proposal/slik-summary/business-group/slik-summary-business-group-dialog.component';
-import { CreditProposalPersonalInfoComponent } from './credit-proposal/basic-information/personal-info.component';
 import { CreditProposalPersonComponent } from './credit-proposal/credit-proposal-person.component';
-import { CreditProposalTabSummaryComponent } from './credit-proposal/credit-proposal-tab-summary.component';
-import { AddCoborowerComponent } from './credit-proposal/basic-information/add-new-coborower.component';
 import { PartyCifCustomerInfoPersonComponent } from './party-cif/customer-info/party-cif-customer-info-person.component';
 import { PostalAddressViewCustomComponent } from './postal-address/postal-address-view-custom.component';
-import { CreditProposalOpinionHistoryComponent } from './credit-proposal/opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalDialogOpinionHistoryComponent } from './credit-proposal/opinion-history/dialog-opinion-history/credit-proposal-dialog-opinion-history.component';
 
 import { SlikSummaryComparisonComponent } from './credit-proposal/slik-summary/comparison-slik/slik-summary-comparison.component';
 import { LoanAnalysSlikIdebComponent } from './credit-proposal/slik-summary/ideb/loan-analys-slik-ideb.component';
 import { CollateralPropertyListComponent } from './collateral-property/collateral-property-list.component';
 import { CustomerGroupListComponent } from './customer-group/customer-group-list.component';
 import { CreditProposalFinancialStatementComponent } from './credit-proposal/financial-statement/credit-proposal-financial-statement.component';
-import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
 
 // import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
@@ -111,7 +103,6 @@ import { LoanAnalysDialogOpinionCompliancePartComponent } from './loan-analys/di
 import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
 
-import { CreditProposalFinancialStatementRemarksComponent } from './credit-proposal/repayment-spreadsheet/remarks/financial-statement-remarks.component';
 import { CollateralAppraisalPersonViewComponent } from './collateral-appraisal/collateral-appraisal-person-view.component';
 import { CollateralAppraisalPartyGroupViewComponent } from './collateral-appraisal/collateral-appraisal-party-group-view.component';
 import { CollateralInfoComponent } from './collateral-appraisal/collateral-info.component';
@@ -125,22 +116,6 @@ import { BellowGridHistoryComponent } from './credit-proposal/collateral-info-hi
 import { CollateralInfoBTPHistoryComponent } from './credit-proposal/collateral-info-history/backtoback/credit-proposal-collateral-info-btb.component';
 import { CollateralInfoDialogBTBHistoryComponent } from './credit-proposal/collateral-info-history/backtoback/dialog-credit-proposal-collateral-info-btb.component';
 import { CollateralInfoChecklistHistoryComponent } from './credit-proposal/collateral-info-history/checklist/credit-proposal-collateral-info-checklist.component';
-
-// import { ParipasuCollateralHistoryComponent } from './credit-proposal/collateral-info-history/paripasu-collateral/paripasu-collateral.component';
-// import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collateral-info-history/remarks/credit-proposal-collateral-info-remarks.component';
-import { LoanFacilityDetailHistoryComponent } from './credit-proposal/loan-facility-history/loan-facility-detail-history.component';
-import { LoanFacilityDetailGridHistoryComponent } from './credit-proposal/loan-facility-history/grid/credit-proposal-tab-loan-facility-detail.grid.component';
-import { LoanFacilityTakeOverGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over/credit-proposal-tab-loan-facility-take-over.grid.component';
-import { LoanFacilityTakeOverHistoryComponent } from './credit-proposal/loan-facility-history/take-over/credit-proposal-tab-loan-facility-take-over.component';
-import { CollateralTabLoanDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over/collateral/credit-proposal-collateral-tab-loan-dialog.component';
-import { CollateralTabLoanHistoryComponent } from './credit-proposal/loan-facility-history/take-over/collateral/credit-proposal-collateral-tab-loan.component';
-import { CreditProposalLoanFacilityDialogHistoryComponent } from './credit-proposal/loan-facility-history/dialog/loan-facility-dialog.component';
-// import { MappingCollateralHistoryComponent } from './credit-proposal/loan-facility-history/mapping/mapping-collateral.component';
-import { MappingFacilityHistoryComponent } from './credit-proposal/loan-facility-history/mapping/mapping-facility.component';
-import { LoanFacilityTakeOverAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
-import { LoanFacilityTakeOverAfterGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/credit-proposal-tab-loan-facility-take-over-after.grid.component';
-import { CollateralTabLoanAfterDialogHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after-dialog.component';
-import { CollateralTabLoanAfterHistoryComponent } from './credit-proposal/loan-facility-history/take-over-after/collateral/credit-proposal-collateral-tab-loan-after.component';
 import { PostalAddressJurisdictionCountryComponent } from './postal-address/postal-address-jurisdiction-country.component';
 import { CreditProposalTabCovenantHistoryComponent } from './credit-proposal/convenant-history/credit-proposal-tab-covenant.component';
 import { CreditProposalCovenantAboveHistoryComponent } from './credit-proposal/convenant-history/above/credit-proposal-covenant-above.component';
@@ -167,18 +142,13 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
 import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address.component';
 import { PartyCifCustomerInfoPostalAddressEnCifWhComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-en-cif-wh.component';
 import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-view-upload-slik.component';
-// import { CollateralAppraisalNewInfoComponent } from './collateral-appraisal/addSelect/collateral-appraisal-info.component';
-// import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/type-dialog-appraisal.component';
 import { DarCovenantAboveComponent } from './loan-analys/dar-final/convenant/above/credit-proposal-covenant-above.component';
 import { DarCovenantBackToBackDepositComponent } from './loan-analys/dar-final/convenant/back-to-back/covenant-backtoback-deposit.component';
 import { DarCovenantBackToBackGeneralComponent } from './loan-analys/dar-final/convenant/back-to-back/covenant-backtoback-general.component';
-// import { CollateralAppraisalForwardToComponent } from './collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
 import { BellowGridPreviousComponent } from './credit-proposal/collateral-info-previous/below-grid/below-grid-previous.component';
 import { AboveGridPreviousComponent } from './credit-proposal/collateral-info-previous/above-grid/above-grid-previous.component';
 import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-facility-previous/loan-facility-detail-previous.component';
 import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.component';
-import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
-// import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility-info-group.component';
 import { DocumentChecklistDialogHistoryComponent } from './credit-proposal/document-checklist-history/document-checklist-dialog-history.component';
 import { CreditProposalDocumentChecklistHistoryComponent } from './credit-proposal/document-checklist-history/credit-proposal-document-checklist-history.component';
 import { CovenantTempComponent } from './loan-analys/dar-final/convenant/credit-proposal-tab-covenant.component';
@@ -200,18 +170,12 @@ import { SummaryGridBtbComponent } from './credit-proposal/collateral-info/colla
 import { MainFacilityInfoComponent } from './debtor-data/facility-info/main-facility-info.component';
 import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main-facility-info-child.component';
 import { DebtorInformationComponent } from './debtor-information/debtor-information.component';
-import { MainFacilityHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-history.component';
-import { MainFacilityChildHistoryComponent } from './credit-proposal/loan-facility-history/main-facility/main-facility-child-history.component';
 import { CertificateInfoComponent } from './offering-letter/certificate-info/certificate-info.component';
 import { GroupCollateralListHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral-list-history.component';
 import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral-history.component';
 import { GroupCollateralDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-dar.component';
 import { GroupCollateralListDarComponent } from './loan-analys/dar-final/collateral-info/group-collateral/group-collateral-list-dar.component';
-import { CreditProposalSummaryGenerateMemoBandingComponent } from './credit-proposal/credit-proposal-summary-generate-memo-banding.component';
-import { AgremeentCompareRevisionFinalComponent } from './credit-agreement/compare-data-agremeent/dar-revision-final/agreement-compare-revision-final.component';
-import { AgreementComparePreviousDarComponent } from './credit-agreement/compare-data-agremeent/previous-dar/agreement-compare-previous-dar.component';
 import { SignerPerjanjialKreditDialogComponent } from './credit-agreement/finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
-import { CreditProposalGeneratePkReportComponent } from './credit-proposal/generate-document-pk-report/credit-proposal-generate-pk-report.component';
 import { OfferingLetterSignerPageComponent } from './offering-letter/offering-page/signer/signer-page.component';
 import { OfferingLetterSignerPageDialogComponent } from './offering-letter/offering-page/signer/dialog/signer-page-dialog.component';
 import { AboveGridDarFinalComponent } from './loan-analys/dar-final/collateral-info/above-grid/above-grid.component';
@@ -220,13 +184,6 @@ import { CollateralInfoDialogBTBDarFinalComponent } from './loan-analys/dar-fina
 import { BellowGridDarFinalComponent } from './loan-analys/dar-final/collateral-info/bellow-grid/bellow-grid.component';
 import { CollateralInfoDarFinalComponent } from './loan-analys/dar-final/collateral-info/credit-proposal-collateral-info.component';
 import { CollateralInfoDialogTempComponent } from './loan-analys/dar-final/collateral-info/dialog/collateral-info-dialog-temp.component';
-import { LoanFacilityDetailTempComponent } from './loan-analys/dar-final/loan-facility/credit-proposal-tab-loan-facility-detail.component';
-import { LoanFacilityDialogTempComponent } from './loan-analys/dar-final/loan-facility/dialog/loan-facility-dialog.component';
-import { LoanFacilityDetailGridTempComponent } from './loan-analys/dar-final/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';
-import { MainFacilityChildDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-child-dar.component';
-import { MainFacilityDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dar.component';
-import { MainFacilityDialogDarComponent } from './loan-analys/dar-final/loan-facility/main-facility/main-facility-dialog-dar.component';
-import { MappingFacilityTempComponent } from './loan-analys/dar-final/loan-facility/mapping/mapping-facility.component';
 import { DeveloperShowDiagramStateMultipleComponent } from 'app/developer/reuseable/diagram-state-multiple.component';
 import { DeveloperShowDiagramStateMultipleDialogComponent } from 'app/developer/reuseable/dialog/diagram-state-multiple-dialog.component';
 import { CompareDataComponent, CompareDataNotFoundComponent } from './compare-data/compare-data.component';
@@ -238,19 +195,6 @@ import { CompareDataCovenantGridComponent } from './compare-data/covenant/grid/c
 import { CompareDataCovenantOtherComponent } from './compare-data/covenant/other/compare-data-covenant-other.component';
 import { CompareDataCovenantOtherDialogComponent } from './compare-data/covenant/other/dialog/compare-data-covenant-other-dialog.component';
 import { LoanPurposeComponent } from './loan-purpose/loan-purpose.component';
-import { CountMVOriginalPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-mv-original.pipe';
-import { GetCurrencyPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-currency.pipe';
-import { CountMVPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-mv.pipe';
-import { CustomPercentagePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/percentage.pipe';
-import { CountLVPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-lv.pipe';
-import { CountKjjpMvPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-kjjp-mv.pipe';
-import { CountKjjpLvPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/count-kjjp-lv.pipe';
-import { GetMarketabilityPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-marketability.pipe';
-import { GetOwnershipPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-ownership.pipe';
-import { GetExpiryPipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-expiry.pipe';
-import { GetBindingTypePipe } from './credit-proposal/memo-banding/memo-banding-collateral/pipes/get-binding-type.pipe';
-import { ClausalPkDialogComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog.component';
-import { ClausalPkDialogComponentEditComponent } from './credit-agreement/finalize-credit-agreement/clausal-pk-dialog/clausal-pk-dialog-edit.component';
 import { InsuranceInfoDialogComponent } from './insurance-information/dialog/insurance-info-dialog.component';
 import { GridDetailInsuranceComponent } from './insurance-information/grid-detail-insurance.component';
 import { InsuranceInfoDialogDetailComponent } from './insurance-information/dialog/insurance-info-dialog-detail.component';
@@ -269,7 +213,6 @@ import { InternalMemoDetailComponent } from './dpdl-finalize/internal memo/dialo
 import { DpdlPreparationComponent } from './dpdl-finalize/dpdl-document/dpdl-preparation/dpdl-preparation.component';
 import { LoaderBAComponent } from './credit-proposal/busines-activity/loader-ba.component';
 import { ScrollComponent } from 'app/shared/scroll-up/scroll-up.component';
-import { CreditProposalGroupGuarantorAnalysisComponent } from './credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.component';
 import { DppkPreparationComponent } from './dppk-finalize/dppk-preparation/dppk-preparation.component';
 import { BankAccountComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account.component';
 import { BankAccountDialogComponent } from './dppk-finalize/dppk-preparation/bank-account/bank-account-dialog.component';
@@ -379,9 +322,6 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     ProductViewComponent,
     FeatureViewComponent,
     PostalAddressViewComponent,
-    // GeoBoundaryViewComponent,
-    // ProductCategoryEditDialogComponent,
-    // InternalViewComponent,
     PartyPaymentPrefViewComponent,
     CifViewComponent,
     CollateralViewComponent,
@@ -393,7 +333,6 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     CollateralAppraisalNegativeCollateralComponent,
     CollateralAppraisalComparisonComponent,
     CollateralAppraisalProcessComponent,
-    CollateralAppraisalSummaryComponent,
     DocumentComponent,
     CreditProposalCorrespondenceComponent,
     SlikSummaryComponent,
@@ -404,27 +343,18 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     SlikSummaryBusinessGroupDialogComponent,
     SlikSummaryComparisonComponent,
     LoanAnalysSlikIdebComponent,
-    CreditProposalPersonalInfoComponent,
     CreditProposalPersonComponent,
-    CreditProposalTabSummaryComponent,
-    AddCoborowerComponent,
     PostalAddressViewCustomComponent,
-    CreditProposalOpinionHistoryComponent,
-    CreditProposalDialogOpinionHistoryComponent,
     CollateralPropertyListComponent,
     CustomerGroupListComponent,
-    CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     CreditProposalFinancialStatementComponent,
-    RepaymentSpreadsheetComponent,
     CreditProposalBankAccountAnalystComponent,
     DeptorDataDocumentChecklistComponent,
-    // CreditProposalProposePricingComponent,
     CreditProposalTabCustomerProfitabilityComponent,
     CollateralTypeDialogComponent,
     PartyPostalAddressCardComponent,
     CustomerDetailCardComponent,
-    // OrganizationLegalListComponent,
     CreditProposalBankAccountAnalystDialogComponent,
     DebtorDataDocumentChecklistDialogComponent,
     DebtorDataSlikSummaryComponent,
@@ -441,12 +371,11 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     
     DebtorDataOrganizationManagementListComponent,
     RetriveComponent,
-    CreditProposalFinancialStatementRemarksComponent,
+   
     CreditProposalBankAccountAnalystDialogEditComponent,
     CreditProposalBookingBranchComponent,
     CreditProposalBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
-    ProposalBasicInformationViewComponent,
     // mapping collateral
 
 
@@ -499,28 +428,6 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     // ParipasuCollateralHistoryComponent,
     // Remarks
     // CollateralInfoRemarksHistoryComponent,
-
-    // === Loan Facility History === //
-    LoanFacilityDetailHistoryComponent,
-    // grid
-    LoanFacilityDetailGridHistoryComponent,
-    // Take over
-    LoanFacilityTakeOverHistoryComponent,
-    LoanFacilityTakeOverGridHistoryComponent,
-    // Take over -> Collateral
-    CollateralTabLoanDialogHistoryComponent,
-    CollateralTabLoanHistoryComponent,
-    // dialog
-    CreditProposalLoanFacilityDialogHistoryComponent,
-    // mapping
-    // MappingCollateralHistoryComponent,
-    MappingFacilityHistoryComponent,
-    // Take over after
-    LoanFacilityTakeOverAfterHistoryComponent,
-    LoanFacilityTakeOverAfterGridHistoryComponent,
-    // Take over after -> Collateral
-    CollateralTabLoanAfterDialogHistoryComponent,
-    CollateralTabLoanAfterHistoryComponent,
     PostalAddressJurisdictionCountryComponent,
     // === CONVENAT HISTORY === //
     CreditProposalTabCovenantHistoryComponent,
@@ -591,35 +498,22 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     MainFacilityInfoComponent,
     MainFacilityInfoChildComponent,
     DebtorInformationComponent,
-    MainFacilityHistoryComponent,
-    MainFacilityChildHistoryComponent,
     CertificateInfoComponent,
-    CreditProposalSummaryGenerateMemoBandingComponent,
 
     // Aggrement Compare
-    AgremeentCompareRevisionFinalComponent,
-    AgreementComparePreviousDarComponent,
+  
     SignerPerjanjialKreditDialogComponent,
-    CreditProposalGeneratePkReportComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
-    ClausalPkDialogComponent,
 
 
 // DAR
-    LoanFacilityDetailTempComponent,
-    LoanFacilityDetailGridTempComponent,
-    LoanFacilityDialogTempComponent,
     CollateralInfoDarFinalComponent,
     AboveGridDarFinalComponent,
     BellowGridDarFinalComponent,
     CollateralInfoBTPDarFinalComponent,
     CollateralInfoDialogBTBDarFinalComponent,
     CollateralInfoDialogTempComponent,
-    MappingFacilityTempComponent,
-    MainFacilityDarComponent,
-    MainFacilityChildDarComponent,
-    MainFacilityDialogDarComponent,
     InsuranceInfoDialogComponent,
     GridDetailInsuranceComponent,
     InsuranceInfoDialogDetailComponent,
@@ -628,7 +522,6 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     // DEV
     DeveloperShowDiagramStateMultipleComponent,
     DeveloperShowDiagramStateMultipleDialogComponent,
-    ClausalPkDialogComponentEditComponent,
 
     //   New Compare Data
     CompareDataComponent,
@@ -772,7 +665,6 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     CollateralAppraisalNegativeCollateralComponent, // Remove Me
     CollateralAppraisalComparisonComponent, // Remove Me
     CollateralAppraisalProcessComponent, // Remove Me
-    CollateralAppraisalSummaryComponent, // Remove Me
     CreditProposalCorrespondenceComponent, // Remove Me
     SlikSummaryComponent, // Remove Me
     SlikSummaryDebiturDialogComponent, // Remove Me
@@ -781,20 +673,13 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     SlikSummaryBusinessGroupComponent, // Remove Me
     SlikSummaryComparisonComponent, // Remove Me
     LoanAnalysSlikIdebComponent, // Remove Me
-    CreditProposalPersonalInfoComponent, // Remove Me
     CreditProposalPersonComponent, // Remove Me
-    CreditProposalTabSummaryComponent, // Remove Me
     SlikSummaryBusinessGroupDialogComponent, // Remove Me
-    AddCoborowerComponent, // Remove Me
     PostalAddressViewCustomComponent, // Remove Me
-    CreditProposalOpinionHistoryComponent, // Remove Me
-    CreditProposalDialogOpinionHistoryComponent, // Remove Me
     CollateralPropertyListComponent,
     CustomerGroupListComponent,
-    CreditProposalGroupGuarantorAnalysisComponent,
     LoaderBAComponent,
     CreditProposalFinancialStatementComponent, // Remove Me
-    RepaymentSpreadsheetComponent, // Remove Me
     CreditProposalBankAccountAnalystComponent, // Remove Me
     // CreditProposalProposePricingComponent, // Remove Me
     CreditProposalTabCustomerProfitabilityComponent,
@@ -818,7 +703,7 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
 
     DebtorDataOrganizationManagementListComponent,
     RetriveComponent,
-    CreditProposalFinancialStatementRemarksComponent,
+
     CreditProposalBookingBranchComponent,
     CreditProposalBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
@@ -870,28 +755,6 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     // Remarks
     // CollateralInfoRemarksHistoryComponent,
 
-    // === Loan Facility History === //
-    LoanFacilityDetailHistoryComponent,
-    // grid
-    LoanFacilityDetailGridHistoryComponent,
-    // Take over
-    LoanFacilityTakeOverHistoryComponent,
-    LoanFacilityTakeOverGridHistoryComponent,
-    // Take over -> Collateral
-    CollateralTabLoanDialogHistoryComponent,
-    CollateralTabLoanHistoryComponent,
-    // dialog
-    CreditProposalLoanFacilityDialogHistoryComponent,
-    // mapping
-    // MappingCollateralHistoryComponent,
-    MappingFacilityHistoryComponent,
-    // Take over after
-    LoanFacilityTakeOverAfterHistoryComponent,
-    LoanFacilityTakeOverAfterGridHistoryComponent,
-    // Take over after -> Collateral
-    CollateralTabLoanAfterDialogHistoryComponent,
-    CollateralTabLoanAfterHistoryComponent,
-
     PostalAddressJurisdictionCountryComponent,
 
     // === CONVENAT HISTORY === //
@@ -929,7 +792,6 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     DarCovenantBackToBackGeneralComponent,
     // CollateralAppraisalForwardToComponent,
     AppraisalRoleComponent,
-    ProposalBasicInformationViewComponent,
     // FacilityInfoGroupComponent,
     CreditProposalDocumentChecklistHistoryComponent,
     DocumentChecklistDialogHistoryComponent,
@@ -958,34 +820,21 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     GroupCollateralListDarComponent,
     MainFacilityInfoComponent,
     DebtorInformationComponent,
-    MainFacilityHistoryComponent,
-    MainFacilityChildHistoryComponent,
     CertificateInfoComponent,
-    CreditProposalSummaryGenerateMemoBandingComponent,
 
     // Agreement Compare
-    AgremeentCompareRevisionFinalComponent,
-    AgreementComparePreviousDarComponent,
+
     SignerPerjanjialKreditDialogComponent,
-    CreditProposalGeneratePkReportComponent,
     OfferingLetterSignerPageComponent,
     OfferingLetterSignerPageDialogComponent,
-    ClausalPkDialogComponent,
 
     // DAR
-    LoanFacilityDetailTempComponent,
-    LoanFacilityDetailGridTempComponent,
-    LoanFacilityDialogTempComponent,
     CollateralInfoDarFinalComponent,
     AboveGridDarFinalComponent,
     BellowGridDarFinalComponent,
     CollateralInfoBTPDarFinalComponent,
     CollateralInfoDialogBTBDarFinalComponent,
     CollateralInfoDialogTempComponent,
-    MappingFacilityTempComponent,
-    MainFacilityDarComponent,
-    MainFacilityChildDarComponent,
-    MainFacilityDialogDarComponent,
     InsuranceInfoDialogComponent,
     GridDetailInsuranceComponent,
     InsuranceInfoDialogDetailComponent,
@@ -994,7 +843,6 @@ import { DocumentChecklistOpinionComponent } from './document-checklist-opinion/
     // DEV
     DeveloperShowDiagramStateMultipleComponent,
     DeveloperShowDiagramStateMultipleDialogComponent,
-    ClausalPkDialogComponentEditComponent,
     InternalMemoComponent,
     InternalMemoLoanOperationComponent,
     DialogInternalMemoComponent,

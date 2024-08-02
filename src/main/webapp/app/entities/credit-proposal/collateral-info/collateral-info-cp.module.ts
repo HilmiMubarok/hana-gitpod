@@ -23,11 +23,39 @@ import { ParipasuCollateralComponent } from './paripasu-collateral/paripasu-coll
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks/credit-proposal-collateral-info-remarks-checklist.component';
 import { CreditProposalCollateralInfoRemarksComponent } from './remarks/credit-proposal-collateral-info-remarks.component';
 import { BindingValueRealEstateDialogComponent } from './binding-value-information/binding-value-information-dialog/binding-value-real-estate-grid/binding-value-real-estate-dialog.component';
+import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import {
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+  WordExportService,
+  PrintService as PrintServiceDocumentEditor,
+  TextExportService,
+  ImageResizerService,
+  EditorHistoryService,
+  OptionsPaneService,
+  HyperlinkDialogService,
+  TableDialogService,
+  BookmarkDialogService,
+  TableOfContentsDialogService,
+  PageSetupDialogService,
+  StyleDialogService,
+  ListDialogService,
+  ParagraphDialogService,
+  BulletsAndNumberingDialogService,
+  FontDialogService,
+  TablePropertiesDialogService,
+  BordersAndShadingDialogService,
+  TableOptionsDialogService,
+  CellOptionsDialogService,
+  StylesDialogService,
+  ToolbarService as ToolbarServiceDocumentEditor,
+} from '@syncfusion/ej2-angular-documenteditor';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
-  imports: [MatSlideToggleModule, SharedModule],
+  imports: [MatSlideToggleModule, SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
   declarations: [
     // collateral info
     CreditProposalCollateralInfoComponent,
@@ -92,7 +120,33 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     CreditProposalCollateralInfoRemarksComponent,
     CreditProposalCollateralInfoRemarksInformationComponent,
   ],
-  providers: [],
+  providers: [
+    EditorService,
+    SelectionService,
+    SfdtExportService,
+    WordExportService,
+    PrintServiceDocumentEditor,
+    TextExportService,
+    ImageResizerService,
+    EditorHistoryService,
+    OptionsPaneService,
+    HyperlinkDialogService,
+    TableDialogService,
+    BookmarkDialogService,
+    TableOfContentsDialogService,
+    PageSetupDialogService,
+    StyleDialogService,
+    ListDialogService,
+    ParagraphDialogService,
+    BulletsAndNumberingDialogService,
+    FontDialogService,
+    TablePropertiesDialogService,
+    BordersAndShadingDialogService,
+    TableOptionsDialogService,
+    CellOptionsDialogService,
+    StylesDialogService,
+    ToolbarServiceDocumentEditor,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class CollateralInfoCpModule {}
