@@ -81,7 +81,7 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Credit Agreement Place</mat-label>
-              <input [(ngModel)]="creditProposal.agreements[0]?.attributes.AGREEMENT_PLACE" matInput type="text" />
+              <input [ngModel]="dataAgreementPlace" (ngModelChange)="modelDataPlace($event)" matInput type="text" />
             </mat-form-field>
           </section>
 
@@ -647,7 +647,8 @@
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <mat-form-field class="w-100" appearance="outline">
           <textarea
-            [(ngModel)]="creditProposal.agreements[0]?.attributes.notes"
+            [ngModel]="dataNotes"
+            (ngModelChange)="modelDataNotes($event)"
             matInput
             cssClass="e-outline"
             class="text-area-input"
