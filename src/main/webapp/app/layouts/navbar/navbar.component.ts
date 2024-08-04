@@ -273,7 +273,7 @@ export class NavbarComponent implements OnInit {
   public logout(): void {
     this.deleteCookie(this.cNamePos, this.positionIdPub);
     this.deleteCookie(this.cNameInt, this.internalIdPub);
-    this.deleteCookie('XSRF-TOKEN', this.getLocStor('XSRF-TOKEN'););
+    this.deleteCookie('XSRF-TOKEN', this.getLocStor('XSRF-TOKEN'));
     this.loginService.logout();
     this.router.navigate(['']);
   }
