@@ -18,7 +18,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Branchs</mat-label>
-        <mat-select [(ngModel)]="partyCif.debtorData.bookingBranch" disabled>
+        <mat-select [(ngModel)]="rmBranch.id" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branchs" [value]="item.id">
             {{ item.organizationName }}
