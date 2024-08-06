@@ -1,9 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { ContextMenuService, SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
-import { RepaymentSpreadsheetComponent } from './repayment-spreadsheet.component';
-import { CreditProposalFinancialStatementRemarksComponent } from './remarks/financial-statement-remarks.component';
-
+import { LoanAnalysOpinionComponent } from './loan-analys-opinion.component';
+import { LoanAnalysOpinionCompliancePartComponent } from './loan-analys-opinion-compliance-part.component';
 import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
@@ -32,13 +30,13 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { LoanAnalysDialogOpinionCompliancePartComponent } from '../dialogs/loan-analys-dialog-opinion-compliance-part.component';
 
 @NgModule({
-  imports: [SharedModule, SpreadsheetAllModule, DocumentEditorAllModule, DocumentEditorContainerModule],
-  declarations: [RepaymentSpreadsheetComponent, CreditProposalFinancialStatementRemarksComponent],
-  exports: [RepaymentSpreadsheetComponent, CreditProposalFinancialStatementRemarksComponent],
+  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  declarations: [LoanAnalysOpinionComponent, LoanAnalysOpinionCompliancePartComponent, LoanAnalysDialogOpinionCompliancePartComponent],
+  exports: [LoanAnalysOpinionComponent, LoanAnalysOpinionCompliancePartComponent, LoanAnalysDialogOpinionCompliancePartComponent],
   providers: [
-    ContextMenuService,
     EditorService,
     SelectionService,
     SfdtExportService,
@@ -67,4 +65,4 @@ import {
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class RepaymentSpreadsheetModule {}
+export class LoanAnalysOpinionModule {}

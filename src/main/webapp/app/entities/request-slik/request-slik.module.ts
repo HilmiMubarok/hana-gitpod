@@ -18,12 +18,43 @@ import { RequestSlikPopupComponent } from './dialogs/request-slik-popup.componen
 import { RequestSlikDialogSlikFileComponent } from './dialogs/request-slik-dialog-slik-file.component';
 import { RequestSlikStatusPipe } from './pipes/request-slik-status.pipe';
 import { RequestSlikViewComponent } from './request-slik-view.component';
-// import { RequestSlikShareholderGridExpandComponent } from './shareholder/expand/request-slik-shareholder-grid-expand.component';
-// import { RequestSlikManagementDataGridExpandComponent } from './management-data/expand/request-slik-management-data-grid-expand.component';
-// import { RequestSlikOtherGridExpandComponent } from './others/expand/request-slik-other-grid-expand.component';
 
+import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import {
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+  WordExportService,
+  PrintService as PrintServiceDocumentEditor,
+  TextExportService,
+  ImageResizerService,
+  EditorHistoryService,
+  OptionsPaneService,
+  HyperlinkDialogService,
+  TableDialogService,
+  BookmarkDialogService,
+  TableOfContentsDialogService,
+  PageSetupDialogService,
+  StyleDialogService,
+  ListDialogService,
+  ParagraphDialogService,
+  BulletsAndNumberingDialogService,
+  FontDialogService,
+  TablePropertiesDialogService,
+  BordersAndShadingDialogService,
+  TableOptionsDialogService,
+  CellOptionsDialogService,
+  StylesDialogService,
+  ToolbarService as ToolbarServiceDocumentEditor,
+} from '@syncfusion/ej2-angular-documenteditor';
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    DocumentEditorAllModule,
+    DocumentEditorContainerModule,
+    RouterModule.forChild(requestSlikRoute),
+  ],
   declarations: [
     RequestSlikComponent,
     RequestSlikDetailComponent,
@@ -40,9 +71,6 @@ import { RequestSlikViewComponent } from './request-slik-view.component';
     RequestSlikDialogSlikFileComponent,
     RequestSlikStatusPipe,
     RequestSlikViewComponent,
-    // RequestSlikShareholderGridExpandComponent,
-    // RequestSlikManagementDataGridExpandComponent,
-    // RequestSlikOtherGridExpandComponent,
   ],
   entryComponents: [
     RequestSlikComponent,
@@ -58,9 +86,33 @@ import { RequestSlikViewComponent } from './request-slik-view.component';
     RequestSlikDebiturGridComponent,
     RequestSlikPopupComponent,
     RequestSlikDialogSlikFileComponent,
-    // RequestSlikShareholderGridExpandComponent,
-    // RequestSlikManagementDataGridExpandComponent,
-    // RequestSlikOtherGridExpandComponent,
+  ],
+  providers: [
+    EditorService,
+    SelectionService,
+    SfdtExportService,
+    WordExportService,
+    PrintServiceDocumentEditor,
+    TextExportService,
+    ImageResizerService,
+    EditorHistoryService,
+    OptionsPaneService,
+    HyperlinkDialogService,
+    TableDialogService,
+    BookmarkDialogService,
+    TableOfContentsDialogService,
+    PageSetupDialogService,
+    StyleDialogService,
+    ListDialogService,
+    ParagraphDialogService,
+    BulletsAndNumberingDialogService,
+    FontDialogService,
+    TablePropertiesDialogService,
+    BordersAndShadingDialogService,
+    TableOptionsDialogService,
+    CellOptionsDialogService,
+    StylesDialogService,
+    ToolbarServiceDocumentEditor,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -11,6 +11,8 @@ import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.
 import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
 import { DppkAssignToModule } from './dppk-assign-to/dppk-assign-to.module';
 import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
+import { LoanAnalysOpinionModule } from '../loan-analys/opinion/loan-analys-opinion.module';
+import { LoanAnalysComplianceModule } from '../loan-analys/compliance/loan-analys-compliance.module';
 
 @NgModule({
   imports: [
@@ -22,6 +24,8 @@ import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credi
     InsuranceInformationModule,
     DppkAssignToModule,
     CreditProposalSummaryTabModule,
+    LoanAnalysOpinionModule,
+    LoanAnalysComplianceModule,
     RouterModule.forChild(DppkFinalizeReviewRoute),
   ],
   declarations: [DppkFinalizeComponent, DppkFinalizeDetailComponent],

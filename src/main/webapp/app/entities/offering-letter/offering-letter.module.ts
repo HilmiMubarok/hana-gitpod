@@ -26,6 +26,8 @@ import { RepaymentSpreadsheetModule } from '../credit-proposal/repayment-spreads
 import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
 import { ProposalBasicInformationViewModule } from '../credit-proposal/basic-information/basic-information-view.module';
 import { LoanFacilityDetailHistoryModule } from '../credit-proposal/loan-facility-history/loan-facility-detail-history.module';
+import { LoanAnalysOpinionModule } from '../loan-analys/opinion/loan-analys-opinion.module';
+import { LoanAnalysComplianceModule } from '../loan-analys/compliance/loan-analys-compliance.module';
 
 @NgModule({
   imports: [
@@ -46,6 +48,8 @@ import { LoanFacilityDetailHistoryModule } from '../credit-proposal/loan-facilit
     CreditProposalSummaryTabModule,
     ProposalBasicInformationViewModule,
     LoanFacilityDetailHistoryModule,
+    LoanAnalysOpinionModule,
+    LoanAnalysComplianceModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [

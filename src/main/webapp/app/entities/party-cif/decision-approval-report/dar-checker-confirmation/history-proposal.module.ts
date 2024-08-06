@@ -20,6 +20,8 @@ import { RepaymentSpreadsheetModule } from 'app/entities/credit-proposal/repayme
 import { CreditProposalSummaryTabModule } from 'app/entities/credit-proposal/summary/credit-proposal-tab-summary.module';
 import { ProposalBasicInformationViewModule } from 'app/entities/credit-proposal/basic-information/basic-information-view.module';
 import { LoanFacilityDetailHistoryModule } from 'app/entities/credit-proposal/loan-facility-history/loan-facility-detail-history.module';
+import { LoanAnalysOpinionModule } from 'app/entities/loan-analys/opinion/loan-analys-opinion.module';
+import { LoanAnalysComplianceModule } from 'app/entities/loan-analys/compliance/loan-analys-compliance.module';
 
 @NgModule({
   imports: [
@@ -40,6 +42,8 @@ import { LoanFacilityDetailHistoryModule } from 'app/entities/credit-proposal/lo
     CreditProposalSummaryTabModule,
     ProposalBasicInformationViewModule,
     LoanFacilityDetailHistoryModule,
+    LoanAnalysOpinionModule,
+    LoanAnalysComplianceModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [HistoryProposalComponent],

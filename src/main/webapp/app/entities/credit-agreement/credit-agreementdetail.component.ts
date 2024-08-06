@@ -364,12 +364,6 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
           this.CPMemoBandingRemarkComponent.triggeredSave();
         }
 
-        /* if (this.creditProposalOpinionHistoryComponent) {
-          this.creditProposalOpinionHistoryComponent.triggeredSave();
-          this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-          this.creditProposalOpinionHistoryComponent.refresh();
-    } */
-
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
@@ -691,12 +685,6 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
       if (this.CPMemoBandingRemarkComponent) {
         this.CPMemoBandingRemarkComponent.triggeredSave();
       }
-
-      /* if (this.creditProposalOpinionHistoryComponent) {
-    this.creditProposalOpinionHistoryComponent.triggeredSave();
-    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-    this.creditProposalOpinionHistoryComponent.refresh();
-    } */
 
       if (this.CreditProposalTabSummaryComponent) {
         this.CreditProposalTabSummaryComponent.triggeredSave();

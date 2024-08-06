@@ -1,9 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { ContextMenuService, SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
-import { RepaymentSpreadsheetComponent } from './repayment-spreadsheet.component';
-import { CreditProposalFinancialStatementRemarksComponent } from './remarks/financial-statement-remarks.component';
-
+import { LoanOperationLoanFacilityDetailComponent } from './loan-operation-loan-facility-detail';
 import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
@@ -34,11 +31,10 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 @NgModule({
-  imports: [SharedModule, SpreadsheetAllModule, DocumentEditorAllModule, DocumentEditorContainerModule],
-  declarations: [RepaymentSpreadsheetComponent, CreditProposalFinancialStatementRemarksComponent],
-  exports: [RepaymentSpreadsheetComponent, CreditProposalFinancialStatementRemarksComponent],
+  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  declarations: [LoanOperationLoanFacilityDetailComponent],
+  exports: [LoanOperationLoanFacilityDetailComponent],
   providers: [
-    ContextMenuService,
     EditorService,
     SelectionService,
     SfdtExportService,
@@ -67,4 +63,4 @@ import {
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class RepaymentSpreadsheetModule {}
+export class LoanOperationLoanFacilityDetailModule {}

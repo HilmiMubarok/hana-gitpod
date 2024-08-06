@@ -8,11 +8,9 @@ import { LoanAnalysMainComponent } from './loan-analys-main.component';
 import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
 import { LoanAnalysRoute } from './loan-analys.route';
 
-import { LoanAnalysGroupGuarantorAnalysisComponent } from './guarantour/loan-analys-group-guarantor-analysis.component';
 import { LoanAnalysSlikSummaryComponent } from './slik-summary/loan-analys-slik-summary.component';
 import { LoanAnalysCreditRatingViewComponent } from './credit-rating/loan-analys-credit-rating-view.component';
 import { LoanAnalysFacilityDetailGridDarNotifComponent } from './dar-notif/loan-facility/grid/loan-analys-facility-detail-grid-dar-notif.component';
-import { LoanAnalysFacilityDetaliMainComponent } from './dar-notif/loan-facility/loan-analys-facility-detali-main.component';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.component';
@@ -35,6 +33,8 @@ import { ProposalBasicInformationViewModule } from '../credit-proposal/basic-inf
 import { CreditProposalGroupGuarantorAnalysisModule } from '../credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.module';
 import { LoanFacilityDetailHistoryModule } from '../credit-proposal/loan-facility-history/loan-facility-detail-history.module';
 import { LoanFacilityDetailTempModule } from './dar-final/loan-facility/loan-facility-detail-temp.module';
+import { LoanAnalysOpinionModule } from './opinion/loan-analys-opinion.module';
+import { LoanAnalysComplianceModule } from './compliance/loan-analys-compliance.module';
 
 @NgModule({
   imports: [
@@ -57,6 +57,8 @@ import { LoanFacilityDetailTempModule } from './dar-final/loan-facility/loan-fac
     CreditProposalGroupGuarantorAnalysisModule,
     LoanFacilityDetailHistoryModule,
     LoanFacilityDetailTempModule,
+    LoanAnalysOpinionModule,
+    LoanAnalysComplianceModule,
     RouterModule.forChild(LoanAnalysRoute),
     MatSlideToggleModule,
   ],
@@ -66,11 +68,9 @@ import { LoanFacilityDetailTempModule } from './dar-final/loan-facility/loan-fac
     LoanAnalysMainComponent,
     CreditProposalPersonalInfoAnalystComponent,
     LoanAnalysBatchBulkAssignComponent,
-    LoanAnalysGroupGuarantorAnalysisComponent,
     LoanAnalysSlikSummaryComponent,
     LoanAnalysCreditRatingViewComponent,
     LoanAnalysFacilityDetailGridDarNotifComponent,
-    LoanAnalysFacilityDetaliMainComponent,
     LoanAnalysPreviousDarComponent,
     LoanAnalysPreviousProposalComponent,
     StandartConvenantComponent,
