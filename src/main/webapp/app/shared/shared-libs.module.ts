@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
@@ -72,19 +71,7 @@ import {
   TextSelectionService,
   PrintService,
 } from '@syncfusion/ej2-angular-pdfviewer';
-import { ChartAllModule } from '@syncfusion/ej2-angular-charts';
-import {
-  CategoryService,
-  DateTimeService,
-  ScrollBarService,
-  ColumnSeriesService,
-  LineSeriesService,
-  ChartAnnotationService,
-  RangeColumnSeriesService,
-  StackingColumnSeriesService,
-  LegendService,
-  TooltipService,
-} from '@syncfusion/ej2-angular-charts';
+
 import { SearchService } from '@syncfusion/ej2-angular-grids';
 
 import { MatCardModule } from '@angular/material/card';
@@ -132,16 +119,6 @@ import { MatMenuModule } from '@angular/material/menu';
     TextSearchService,
     TextSelectionService,
     PrintService,
-    CategoryService,
-    DateTimeService,
-    ScrollBarService,
-    ColumnSeriesService,
-    LineSeriesService,
-    ChartAnnotationService,
-    RangeColumnSeriesService,
-    StackingColumnSeriesService,
-    LegendService,
-    TooltipService,
     SearchService,
     DatePipe,
   ],
@@ -241,7 +218,6 @@ import { MatMenuModule } from '@angular/material/menu';
     MultiSelectModuleEj2,
     DateRangePickerModule,
     BreadcrumbModule,
-    ChartAllModule,
   ],
 })
 export class SharedLibsModule {}

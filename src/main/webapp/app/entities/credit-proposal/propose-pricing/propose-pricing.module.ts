@@ -4,6 +4,19 @@ import { ProposePricingLoanFacilityDetailComponent } from './propose-pricing-loa
 import { CreditProposalProposePricingComponent } from './credit-proposal-propose-pricing.component';
 import { ProposePricingLoanFacilityDetailDialogComponent } from './propose-pricing-loan-facility-detail-dialog.component';
 import { CreditProposalTabCustomerProfitabilityComponent } from '../tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
+import { ChartAllModule } from '@syncfusion/ej2-angular-charts';
+import {
+  CategoryService,
+  DateTimeService,
+  ScrollBarService,
+  ColumnSeriesService,
+  LineSeriesService,
+  ChartAnnotationService,
+  RangeColumnSeriesService,
+  StackingColumnSeriesService,
+  LegendService,
+  TooltipService,
+} from '@syncfusion/ej2-angular-charts';
 
 import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
@@ -35,7 +48,7 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 @NgModule({
-  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule, ChartAllModule],
   declarations: [
     CreditProposalProposePricingComponent,
     ProposePricingLoanFacilityDetailComponent,
@@ -74,6 +87,16 @@ import {
     CellOptionsDialogService,
     StylesDialogService,
     ToolbarServiceDocumentEditor,
+    CategoryService,
+    DateTimeService,
+    ScrollBarService,
+    ColumnSeriesService,
+    LineSeriesService,
+    ChartAnnotationService,
+    RangeColumnSeriesService,
+    StackingColumnSeriesService,
+    LegendService,
+    TooltipService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
