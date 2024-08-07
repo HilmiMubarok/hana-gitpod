@@ -31,9 +31,10 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 
 @NgModule({
-  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  imports: [SharedModule, SharedEntityModule, DocumentEditorAllModule, DocumentEditorContainerModule],
   declarations: [ProposalBasicInformationViewComponent, AddCoborowerComponent, CreditProposalPersonalInfoComponent],
   exports: [ProposalBasicInformationViewComponent, AddCoborowerComponent, CreditProposalPersonalInfoComponent],
   providers: [
