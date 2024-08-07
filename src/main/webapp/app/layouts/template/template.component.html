@@ -1,11 +1,16 @@
 <div class="container-fluid">
-  <jhi-navbar></jhi-navbar>
-  <mat-sidenav-container autosize class="template-container" class="sidanav-content-background">
-    <mat-sidenav #sidebardrawer mode="side" opened="true" disableClose="true">
-      <jhi-sidebar></jhi-sidebar>
-    </mat-sidenav>
-    <mat-sidenav-content style="position: relative; padding: 15px" [@onSideNavChange]="sidebarState">
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+  <section *ngIf="isLogIn">
+    <jhi-navbar></jhi-navbar>
+    <mat-sidenav-container autosize class="template-container" class="sidanav-content-background">
+      <mat-sidenav #sidebardrawer mode="side" opened="true" disableClose="true">
+        <jhi-sidebar></jhi-sidebar>
+      </mat-sidenav>
+      <mat-sidenav-content style="position: relative; padding: 15px" [@onSideNavChange]="sidebarState">
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </section>
+  <section *ngIf="!isLogIn">
+    <button (click)="login()">Login</button>
+  </section>
 </div>
