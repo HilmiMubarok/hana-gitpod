@@ -16,7 +16,7 @@ export class LoginService {
 
   logout(): void {
     this.authServerProvider.logout().subscribe((logout: Logout) => {
-      // window.location.href = logout.logoutUrl;
+      window.location.href = logout.logoutUrl;
     });
   }
 }
