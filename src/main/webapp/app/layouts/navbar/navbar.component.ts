@@ -53,8 +53,8 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.defineAccountMenu();
-    this.checkLogin();
+    // this.defineAccountMenu();
+    // this.checkLogin();
   }
 
   private checkLogin(): void {
