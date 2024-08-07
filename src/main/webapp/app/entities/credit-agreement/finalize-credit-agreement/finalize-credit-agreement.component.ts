@@ -58,8 +58,13 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
   }
   public data = [];
   public loading: boolean;
+  public valueAddress: string;
+  public dataNotes: string;
+  public dataAgreementPlace: string;
 
   @Output() notesChange = new EventEmitter<INotes>();
+  @Output() aggrementNote = new EventEmitter<any>();
+  @Output() aggrementPlaces = new EventEmitter<any>();
 
   onNotesChange(ev) {
     this.notesChange.emit(ev);
@@ -107,6 +112,9 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnInit(): void {
+    this.dataNotes = this.creditProposal.agreements[0].attributes.notes;
+    this.dataAgreementPlace = this.creditProposal.agreements[0].attributes.AGREEMENT_PLACE;
+    this.valueAddress = this.creditProposal.attributes['offeringLetterPreparation'].address;
     if (this.creditProposal.entityProperties.length < 1) {
       this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
         this.cashCreditProposalsService.deletePropsResource(res.body.id).subscribe(() => {
@@ -146,6 +154,20 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
 
     this.getApprovalDebtorConditions();
     this.getClausalAddendum();
+  }
+
+  ModelValueAddress(value: string): void {
+    this.valueAddress = value;
+    this.creditProposal.attributes['offeringLetterPreparation'].address = value;
+  }
+
+  modelDataNotes(value: string): void {
+    // this.creditProposal.agreements[0].attributes.notes = value;
+    this.aggrementNote.emit(value);
+  }
+
+  modelDataPlace(value: string): void {
+    this.aggrementPlaces.emit(value);
   }
 
   clearApprovalDebtorConditions() {
