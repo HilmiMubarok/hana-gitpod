@@ -181,6 +181,5 @@ export class DashboardComponent implements OnInit {
 
   public changeLoading(event: boolean): void {
     this.isLoading = event;
-    console.log('this.laoding', this.isLoading);
   }
 }

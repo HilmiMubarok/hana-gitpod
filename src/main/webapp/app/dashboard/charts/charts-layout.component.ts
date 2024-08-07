@@ -226,7 +226,6 @@ export class ChartsLayoutComponent implements OnInit, OnChanges {
             statusDescription: permissionList.menuStatusItem.statusDescription,
           });
         });
-        console.log('this.statusList', this.statusList);
         resolve();
       });
     });
