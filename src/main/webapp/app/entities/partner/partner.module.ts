@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PartnerKjppViewComponent } from './partner-kjpp-view.component';
 import { PartnerKjppEditComponent } from './partner-kjpp-edit.component';
+import { PartnerViewComponent } from './partner-view.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { PartnerKjppEditComponent } from './partner-kjpp-edit.component';
     PartnerKjppContactComponent,
     PartnerKjppViewComponent,
     PartnerKjppEditComponent,
+    PartnerViewComponent,
   ],
   entryComponents: [PartnerComponent, PartnerUpdateComponent, PartnerKjppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

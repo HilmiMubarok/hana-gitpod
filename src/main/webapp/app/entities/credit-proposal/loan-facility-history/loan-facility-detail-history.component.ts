@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
-import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
+import { ICreditProposal } from '../credit-proposal.model';
 import { Observable, Subject, forkJoin, from, map, startWith, switchMap, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
@@ -11,9 +11,6 @@ import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
   DocumentEditorKeyDownEventArgs,
-  EditorService,
-  SelectionService,
-  SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { FormControl } from '@angular/forms';
 import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';

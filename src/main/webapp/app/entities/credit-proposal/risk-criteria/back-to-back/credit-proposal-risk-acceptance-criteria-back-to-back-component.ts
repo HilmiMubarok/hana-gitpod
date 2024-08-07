@@ -1,18 +1,12 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { PositionService } from '../../../position/position.service';
-import { DropDownListComponent, BeforeOpenEventArgs } from '@syncfusion/ej2-angular-dropdowns';
 import { CreditProposalService } from '../../credit-proposal.service';
-
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-
-import { MessageService } from 'primeng/api';
 
 import { Router } from '@angular/router';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
-import { ICriteria } from './credit-proposal-risk-acceptance-back.model';
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-back-to-back',
   templateUrl: './credit-proposal-risk-acceptance-criteria-back-to-back-component.html',

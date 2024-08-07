@@ -1,5 +1,5 @@
 import { Component, Inject, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IOrganizationLegal } from '../organization-legal/organization-legal.model';
 import { OrganizationLegalService } from '../organization-legal/organization-legal.service';
 import { PartyCifService } from '../party-cif/party-cif.service';

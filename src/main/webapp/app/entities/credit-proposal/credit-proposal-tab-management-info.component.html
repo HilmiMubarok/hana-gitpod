@@ -1,6 +1,3 @@
-<!-- <ejs-textbox placeholder="Total Market Value (MV) Building" floatLabelType="Auto"
-  cssClass="e-outline">
-  </ejs-textbox> -->
 <div class="e-sample-resize-container e-card-resize-container" style="margin-left: 0 !important">
   <div class="row g-0">
     <div class="row card-layout g-0">
@@ -82,68 +79,6 @@
             <jhi-organization-management-list [cif]="item.customerNumber" managementType="CONTROL_PERSON" [type]="'approval'">
             </jhi-organization-management-list>
           </div>
-          <!-- <ejs-grid [dataSource]="data" allowTextWrap="true">
-            <e-columns>
-              <e-column field="indexNum" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
-              <e-column
-                field="prospectPerson.name"
-                headerText="Shareholder, BOD & BOC"
-                width="180"
-                headerTextAlign="center"
-                textAlign="left"
-              >
-              </e-column>
-              <e-column field="prospectPerson.name" headerText="% Ownership" width="130" headerTextAlign="center" textAlign="left">
-              </e-column>
-              <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="relationship" headerText="Relationship" width="140" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="cif.customerId" headerText="CIF" width="130" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="prospectPerson.personalIdNumber" headerText="NIK" width="180" headerTextAlign="center" textAlign="left">
-              </e-column>
-              <e-column field="deedEstablishNum" headerText="Akte" width="180" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left">
-              </e-column>
-              <e-column
-                field="prospectPerson.dob"
-                headerText="Date of Birth"
-                width="150"
-                headerTextAlign="center"
-                textAlign="right"
-                format="d/M/y"
-              >
-              </e-column>
-              <e-column field="deedEstablishDate" headerText="Date Of Deed" width="150" headerTextAlign="center" textAlign="Right">
-              </e-column>
-              <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right"> </e-column>
-            </e-columns>
-          </ejs-grid> -->
-
-          <!-- <div class="row my-3">
-            <div class="col">
-              <div class="form-space">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-textbox
-                  [multiline]="true"
-                  [(ngModel)]="creditProposalItem.attributes['managementInfo'].notes"
-                  placeholder="Describe relationship between BOC/BOD with shareholders"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
-                >
-                </ejs-textbox>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row py-3">
-                  <div class="col-3">Describe relationship between BOC/BOD with shareholders</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
-                    {{ creditProposalItem.attributes['managementInfo'].notes }}
-                  </div>
-                </div>
-              </section>
-              </div>
-            </div>
-          </div> -->
           <div
             *ngIf="
               creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio' ||

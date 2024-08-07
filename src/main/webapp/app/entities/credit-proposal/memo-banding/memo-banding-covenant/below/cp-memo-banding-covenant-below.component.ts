@@ -7,7 +7,7 @@ import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
 @Component({
   selector: 'jhi-cp-memo-banding-covenant-below',
   templateUrl: './cp-memo-banding-covenant-below.component.html',
-  styleUrls: ['../../../convenant/back-to-back/covenant-backtoback.css'],
+  styleUrls: ['../../../convenant/covenant-style.css'],
 })
 export class CPMemoBandingCovenantBelowComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();

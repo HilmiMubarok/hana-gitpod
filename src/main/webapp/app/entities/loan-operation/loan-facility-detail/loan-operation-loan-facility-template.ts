@@ -1,6 +1,5 @@
 import { LoanOperationLoanFacilityDetailDialogComponent } from './dialog/loan-operation-loan-facility-dialog.component';
 import { LoanOperationLoanFacilityDetailGridComponent } from './grid/loan-operation-loan-facility-detail-grid.component';
-import { LoanOperationLoanFacilityDetailComponent } from './loan-operation-loan-facility-detail';
 import { LoanOperationMappingToCollateralComponent } from './loan-operation-mapping-to-collateral/loan-operation-mapping-to-collateral.component';
 import { LoanOperationTakeOverCollateralAfterDialogComponent } from './loan-operation-take-over-collateral/loan-operation-take-over-collateral-after-dialog.component';
 import { LoanOperationTakeOverCollateralAfterGridComponent } from './loan-operation-take-over-collateral/loan-operation-take-over-collateral-after-grid.component';
@@ -15,7 +14,6 @@ import { LoanOperationMainFacilityDialogComponent } from './main-facility/loan-o
 import { LoanOperationMainFacilityComponent } from './main-facility/loan-operation-main-facility.component';
 
 export const LoanOperationLoanFacilityTemplate = [
-  LoanOperationLoanFacilityDetailComponent,
   LoanOperationLoanFacilityDetailGridComponent,
   LoanOperationLoanFacilityDetailDialogComponent,
   LoanOperationMainFacilityComponent,

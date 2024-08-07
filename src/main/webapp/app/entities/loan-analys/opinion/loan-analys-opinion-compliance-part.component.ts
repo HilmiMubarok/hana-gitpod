@@ -22,7 +22,6 @@ import {
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 
-import lodash from 'lodash';
 import * as uuid from 'uuid';
 
 @Component({
@@ -111,16 +110,6 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
   }
 
   public filterPositionLogin() {
-    // this.positionService.findByLogin().subscribe(posisi => {
-    // let tempLoginId = 0;
-
-    //   // for (let i = 0; i < this.positionLogin.length; i++) {
-    //   //   tempLoginId = this.positionLogin[i].id;
-    //   // }
-
-    //   this.positionLoginEmitCompliance.emit(tempLoginId);
-    //   this.refresh();
-    // });
     this.positionLoginEmitCompliance.emit(this.positionLocStor);
     this.refresh();
   }

@@ -1,11 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
-import { IndustryLimit, IIndustryLimit } from './industry-limit.model';
+import { Component, EventEmitter, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ICreditProposal } from '../../credit-proposal.model';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IndustryLimitExposureParameterService } from 'app/entities/master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 import { ListOfValueIndustryService } from '../../list-of-value-industry.service';
-import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
-import { IProduct } from 'app/entities/product/product.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 @Component({
   selector: 'jhi-industry-limit',

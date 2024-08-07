@@ -282,14 +282,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.container.restrictEditing = true;
   }
 
-  // WORD
-  // public getWord() {
-  //   this.storageService.getBucketName().subscribe(val => {
-  //     this.BUCKET = val.body['bucket'];
-  //     this.getContainer();
-  //   });
-  // }
-
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.storageService.getBucketName().subscribe(res => {
@@ -298,44 +290,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       });
     });
   }
-
-  // public triggeredSave(): void {
-  //   let paramsId = '';
-  //   this.actRoute.params.subscribe(params => {
-  //     paramsId = params['id'];
-  //   });
-  //   const key = 'credit_proposal/remark/management-info';
-  //   //  key: 'credit_proposal/remark/management-info/' + paramsId + this.creditProposalItem.attributes.proposalType + '/' + '/sfdt',
-
-  //   const timeStamp = Math.floor(Date.now() / 1000);
-
-  //   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-
-  //   docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-  //     const fileType = 'word';
-  //     const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + fileType + '.docs';
-  //     const metaData = {
-  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-  //     };
-  //     const formData = new FormData();
-  //     formData.append('file', new File([exportedDocument], fileName));
-
-  //     this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-  //   });
-
-  //   docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-  //     const fileType = 'sfdt';
-  //     const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + '-management-info-' + fileType + '.sfdt';
-  //     // const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/management-info-' + fileType + '.sfdt';
-  //     const metaData = {
-  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-  //     };
-  //     const formData = new FormData();
-  //     formData.append('file', new File([exportedDocument], fileName));
-
-  //     this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-  //   });
-  // }
 
   ngOnDestroy() {
     this.destroy$.next(true);
@@ -420,9 +374,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   private getContainer(): void {
     this.baService.isUpload$.next(false);
     this.baService.setLoading(true);
-    // const obj = {
-    //   key: 'credit_proposal/remark/management-info/' + paramsId + '/sfdt',
-    // };
     const obj = {
       key: this.getKey,
     };

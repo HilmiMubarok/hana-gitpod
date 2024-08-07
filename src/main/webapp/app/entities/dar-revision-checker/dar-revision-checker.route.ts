@@ -42,54 +42,6 @@ import { ComplienceRecommendation } from '../loan-analys/compliance/complience.m
 import { OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
 import { DarRevisionCheckerComponent } from './dar-revision-checker.component';
 import { DarRevisionCheckerViewComponent } from './dar-revision-checker-view.component';
-// import { DpdlFinalizeViewComponent } from './dpdl-finalize-view.component';
-// import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
-// import { CreditProposalComponent } from './credit-proposal.component';
-
-// import { CreditProposalListComponent } from './credit-proposal-list.component';
-// import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
-// import { AnalysisOfCalculation, ProformaLaporanKeuangan } from './financial-statement/financial-statement.constant';
-// import { BasicInformation } from './basic-information/basic-information.model';
-// import { BusinessActivity } from './busines-activity/busines-activity.model';
-// import { Guarantour } from './guarantour/guarantour.model';
-// import { Covenant } from './convenant/convenant.constant';
-// import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
-// import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
-// import {
-//   IRepaymentCapability,
-//   IRepaymentCapabilityDetail,
-//   RepaymentCapability,
-// } from './repayment-capability/repayment-capability.constant';
-// import { Facility } from './facility/facility.model';
-// import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
-// import { CreditProposalNewComponent } from './credit-proposal-new.component';
-// import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
-// import { CreditManagementInfo } from './credit-proposal-tab-management-info.model';
-
-// import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
-// import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-info-checklist.model';
-// import { CreditTabSummary } from './credit-proposal-tab-summary.model';
-// import { PurposePricing } from './propose-pricing/purpose-pricing.model';
-// import { CpRacBack } from './risk-criteria/back-to-back/credit-proposal-risk-acceptance-back.model';
-// import { CpRacBelow } from './risk-criteria/below/risk-criteria-below.model';
-// import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
-
-// import lodash from 'lodash';
-// import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
-// import { OfferingLetter, OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
-// import { CoverageTotal, CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
-// import { RetriveData } from './retrive/retrive.model';
-// import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
-// import { CheckRemarks } from './trade-checking/Remarks/remarks.model';
-// import { FinancialState } from './repayment-spreadsheet/remarks/financial-statement-remarks.model';
-// import { RejectReason } from './forward-to/reject-to.model';
-// import { LegalLendingLimit } from './exposure/legal-lending/legal-lending-limit.model';
-// import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
-// import { CalculationExposure } from './exposure/total-exposure/calculation-exposure.model';
-// import { DocumentData } from '../loan-analys/assign-to/assign.model';
-// import { LendingProgramParameter } from '../lending-program-parameter/lending-program-parameter.model';
-// import { GroupCollateralTotal } from './collateral-info/group-collateral/group-collateral-total.model';
-// import { CollateralSummary } from './collateral-info/collateral-summary/collateral-summary-total.model';
 
 @Injectable({ providedIn: 'root' })
 export class DarRevisionCheckerRoute implements Resolve<IDarRevisionCheckerModel> {
@@ -528,14 +480,6 @@ export class DarRevisionCheckerRoute implements Resolve<IDarRevisionCheckerModel
 }
 
 export const darRevisionCheckerRoute: Routes = [
-  // {
-  //   path: 'v2',
-  //   component: CreditProposalLoanApplicationComponent,
-  //   data: {
-  //     pageTitle: 'losgwApp.creditProposal.home.title',
-  //   },
-  //   canActivate: [UserRouteAccessService],
-  // },
   {
     path: '',
     component: DarRevisionCheckerComponent,
@@ -544,25 +488,6 @@ export const darRevisionCheckerRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  // {
-  //   path: 'list/:id/edit',
-  //   component: ProposalBasicInformationComponent,
-  //   resolve: {
-  //     content: CreditProposalResolve,
-  //   },
-  //   data: {
-  //     pageTitle: 'losgwApp.creditProposal.home.title',
-  //   },
-  //   canActivate: [UserRouteAccessService],
-  // },
-  // {
-  //   path: 'v2/:id/edit',
-  //   component: ProposalBasicInformationComponent,
-  //   resolve: {
-  //     content: CreditProposalResolve,
-  //   },
-  //   canActivate: [UserRouteAccessService],
-  // },
   {
     path: ':id/edit',
     component: DarRevisionCheckerViewComponent,
@@ -571,18 +496,4 @@ export const darRevisionCheckerRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
-  // {
-  //   path: 'new',
-  //   component: CreditProposalNewComponent,
-  //   data: {
-  //     authorities: ['ROLE_USER'],
-  //     pageTitle: 'losgwApp.creditProposal.home.title',
-  //   },
-  //   canActivate: [UserRouteAccessService],
-  // },
-  // {
-  //   path: 'list',
-  //   component: CreditProposalListComponent,
-  //   canActivate: [UserRouteAccessService],
-  // },
 ];

@@ -1,9 +1,8 @@
-import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICreditProposal } from '../..//credit-proposal.model';
 
 import lodash from 'lodash';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
-import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 import { CPFacilityTable } from '../total-exposure/cp-facility-table-model';
 import { FakeFacilityService } from '../total-exposure/fake-facility-type.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';

@@ -17,12 +17,44 @@ import { RequestSlikDebiturGridComponent } from './debitur/request-slik-debitur-
 import { RequestSlikPopupComponent } from './dialogs/request-slik-popup.component';
 import { RequestSlikDialogSlikFileComponent } from './dialogs/request-slik-dialog-slik-file.component';
 import { RequestSlikStatusPipe } from './pipes/request-slik-status.pipe';
-// import { RequestSlikShareholderGridExpandComponent } from './shareholder/expand/request-slik-shareholder-grid-expand.component';
-// import { RequestSlikManagementDataGridExpandComponent } from './management-data/expand/request-slik-management-data-grid-expand.component';
-// import { RequestSlikOtherGridExpandComponent } from './others/expand/request-slik-other-grid-expand.component';
+import { RequestSlikViewComponent } from './request-slik-view.component';
 
+import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import {
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+  WordExportService,
+  PrintService as PrintServiceDocumentEditor,
+  TextExportService,
+  ImageResizerService,
+  EditorHistoryService,
+  OptionsPaneService,
+  HyperlinkDialogService,
+  TableDialogService,
+  BookmarkDialogService,
+  TableOfContentsDialogService,
+  PageSetupDialogService,
+  StyleDialogService,
+  ListDialogService,
+  ParagraphDialogService,
+  BulletsAndNumberingDialogService,
+  FontDialogService,
+  TablePropertiesDialogService,
+  BordersAndShadingDialogService,
+  TableOptionsDialogService,
+  CellOptionsDialogService,
+  StylesDialogService,
+  ToolbarService as ToolbarServiceDocumentEditor,
+} from '@syncfusion/ej2-angular-documenteditor';
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    DocumentEditorAllModule,
+    DocumentEditorContainerModule,
+    RouterModule.forChild(requestSlikRoute),
+  ],
   declarations: [
     RequestSlikComponent,
     RequestSlikDetailComponent,
@@ -38,9 +70,7 @@ import { RequestSlikStatusPipe } from './pipes/request-slik-status.pipe';
     RequestSlikPopupComponent,
     RequestSlikDialogSlikFileComponent,
     RequestSlikStatusPipe,
-    // RequestSlikShareholderGridExpandComponent,
-    // RequestSlikManagementDataGridExpandComponent,
-    // RequestSlikOtherGridExpandComponent,
+    RequestSlikViewComponent,
   ],
   entryComponents: [
     RequestSlikComponent,
@@ -56,9 +86,33 @@ import { RequestSlikStatusPipe } from './pipes/request-slik-status.pipe';
     RequestSlikDebiturGridComponent,
     RequestSlikPopupComponent,
     RequestSlikDialogSlikFileComponent,
-    // RequestSlikShareholderGridExpandComponent,
-    // RequestSlikManagementDataGridExpandComponent,
-    // RequestSlikOtherGridExpandComponent,
+  ],
+  providers: [
+    EditorService,
+    SelectionService,
+    SfdtExportService,
+    WordExportService,
+    PrintServiceDocumentEditor,
+    TextExportService,
+    ImageResizerService,
+    EditorHistoryService,
+    OptionsPaneService,
+    HyperlinkDialogService,
+    TableDialogService,
+    BookmarkDialogService,
+    TableOfContentsDialogService,
+    PageSetupDialogService,
+    StyleDialogService,
+    ListDialogService,
+    ParagraphDialogService,
+    BulletsAndNumberingDialogService,
+    FontDialogService,
+    TablePropertiesDialogService,
+    BordersAndShadingDialogService,
+    TableOptionsDialogService,
+    CellOptionsDialogService,
+    StylesDialogService,
+    ToolbarServiceDocumentEditor,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

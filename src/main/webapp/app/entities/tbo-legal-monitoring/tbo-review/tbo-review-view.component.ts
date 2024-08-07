@@ -44,7 +44,7 @@ import { CPMemoBandingRemarkComponent } from 'app/entities/credit-proposal/memo-
 import { CreditProposalCollateralInfoComponent } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CollateralInfoHistoryComponent } from 'app/entities/credit-proposal/collateral-info-history/collateral-info-history.component';
 import { CreditProposalOpinionHistoryComponent } from 'app/entities/credit-proposal/opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalTabSummaryComponent } from 'app/entities/credit-proposal/credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from 'app/entities/credit-proposal/summary/credit-proposal-tab-summary.component';
 import { ProposalBasicInformationViewComponent } from 'app/entities/credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposaTabManagementInfoComponent } from 'app/entities/credit-proposal/credit-proposal-tab-management-info.component';
 import { RemarskComponent } from 'app/entities/credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';

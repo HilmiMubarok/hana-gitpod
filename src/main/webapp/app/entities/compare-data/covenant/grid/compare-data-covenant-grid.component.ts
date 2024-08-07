@@ -17,7 +17,7 @@ interface CovenantData {
 @Component({
   selector: 'jhi-compare-data-covenant-grid',
   templateUrl: './compare-data-covenant-grid.component.html',
-  styleUrls: ['../../../credit-proposal/convenant/back-to-back/covenant-backtoback.css'],
+  styleUrls: ['../../../credit-proposal/convenant/covenant-style.css'],
   styles: [
     `
       .loading-container {

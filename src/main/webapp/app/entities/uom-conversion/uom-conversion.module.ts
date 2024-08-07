@@ -6,10 +6,11 @@ import { UomConversionComponent } from './uom-conversion.component';
 import { UomConversionDetailComponent } from './uom-conversion-detail.component';
 import { UomConversionUpdateComponent } from './uom-conversion-update.component';
 import { uomConversionRoute } from './uom-conversion.route';
+import { UomConversionViewComponent } from './uom-conversion-view.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(uomConversionRoute)],
-  declarations: [UomConversionComponent, UomConversionDetailComponent, UomConversionUpdateComponent],
+  imports: [SharedModule, RouterModule.forChild(uomConversionRoute)],
+  declarations: [UomConversionComponent, UomConversionDetailComponent, UomConversionUpdateComponent, UomConversionViewComponent],
   entryComponents: [UomConversionComponent, UomConversionUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

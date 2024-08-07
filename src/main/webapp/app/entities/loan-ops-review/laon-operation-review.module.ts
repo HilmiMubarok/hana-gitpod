@@ -6,9 +6,32 @@ import { RouterModule } from '@angular/router';
 import { LoanOpsReviewRoute } from './laon-operation-review.router';
 import { LoanOpsReviewDetailComponent } from './laon-operation-review-detail.component';
 import { FormsModule } from '@angular/forms';
+import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
+import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
+import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
+import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
+import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
+import { CollateralInfoLoanOpsModule } from '../loan-operation/collateral-info/collateral-info-loan-ops.module';
+import { LoanAnalysOpinionModule } from '../loan-analys/opinion/loan-analys-opinion.module';
+import { LoanAnalysComplianceModule } from '../loan-analys/compliance/loan-analys-compliance.module';
+import { LoanOperationLoanFacilityDetailModule } from '../loan-operation/loan-facility-detail/loan-operation-loan-facility-detail.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, FormsModule, RouterModule.forChild(LoanOpsReviewRoute)],
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    FormsModule,
+    FinalizeCreditAgreementModule,
+    ExposureModule,
+    MemoBandingModule,
+    InsuranceInformationModule,
+    CreditProposalSummaryTabModule,
+    CollateralInfoLoanOpsModule,
+    LoanAnalysOpinionModule,
+    LoanAnalysComplianceModule,
+    LoanOperationLoanFacilityDetailModule,
+    RouterModule.forChild(LoanOpsReviewRoute),
+  ],
   declarations: [LoanOpsReviewComponent, LoanOpsReviewDetailComponent],
   entryComponents: [LoanOpsReviewComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
