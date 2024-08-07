@@ -29,6 +29,8 @@ export class DashboardComponent implements OnInit {
 
   public isLoading = false;
 
+  public showFilter = false;
+
   constructor(
     private menuAccessService: MenuAccessService,
     private dashboardService: DashboardService,
@@ -150,6 +152,7 @@ export class DashboardComponent implements OnInit {
               accessibleMenu: tempDataCP[0].accessibleMenuCP,
               groupByStatus,
             });
+            this.showFilter = true;
             resolve();
           });
       }

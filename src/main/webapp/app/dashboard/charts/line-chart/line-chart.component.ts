@@ -47,7 +47,7 @@ export class LineChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dataSource']) {
-      if (this.dataSource.length > 0) {
+      if (this.dataSource?.length > 0) {
         this.fitDataToModel();
       }
     }
@@ -67,46 +67,62 @@ export class LineChartComponent implements OnInit, OnChanges {
       const _initData = [];
       const _labels = [];
       this.dataSource.forEach(obj => {
-        totalDraft.push(obj.totalDraft);
-        totalReject.push(obj.totalDraft);
-        totalCancel.push(obj.totalDraft);
-        totalComplete.push(obj.totalDraft);
+        if (obj.totalDraft > 0) {
+          totalDraft.push(obj.totalDraft);
+        }
+        if (obj.totalReject > 0) {
+          totalReject.push(obj.totalReject);
+        }
+        if (obj.totalCancel > 0) {
+          totalCancel.push(obj.totalCancel);
+        }
+        if (obj.totalComplete > 0) {
+          totalComplete.push(obj.totalComplete);
+        }
+
         _labels.push(new Date(obj.fromDate).toLocaleDateString('en-US', this.labelFormat));
       });
-      _initData.push(
-        {
+      if (totalDraft.length > 0) {
+        _initData.push({
           totalDraft,
-          label: this.dataSource.length > 0 ? this.dataSource[0].description : 'No Data',
+          label: this.dataSource.length > 0 ? 'Draft' : 'No Data',
           backgroundColor: '#003c7c96',
           borderColor: '#003c7c',
           pointBackgroundColor: '#003c7c96',
           pointBorderColor: '#003c7c96',
-        },
-        {
+        });
+      }
+      if (totalReject.length > 0) {
+        _initData.push({
           totalReject,
-          label: this.dataSource.length > 0 ? this.dataSource[0].description : 'No Data',
+          label: this.dataSource.length > 0 ? 'Reject' : 'No Data',
           backgroundColor: '#d4bdd9',
           borderColor: '#003c7c',
           pointBackgroundColor: '#d4bdd9',
           pointBorderColor: '#d4bdd9',
-        },
-        {
+        });
+      }
+      if (totalCancel.length > 0) {
+        _initData.push({
           totalCancel,
-          label: this.dataSource.length > 0 ? this.dataSource[0].description : 'No Data',
+          label: this.dataSource.length > 0 ? 'Cancel' : 'No Data',
           backgroundColor: '#37008f',
           borderColor: '#003c7c',
           pointBackgroundColor: '#37008f',
           pointBorderColor: '#37008f',
-        },
-        {
+        });
+      }
+      if (totalComplete.length > 0) {
+        _initData.push({
           totalComplete,
-          label: this.dataSource.length > 0 ? this.dataSource[0].description : 'No Data',
+          label: this.dataSource.length > 0 ? 'Complete' : 'No Data',
           backgroundColor: '#f4cf74',
           borderColor: '#003c7c',
           pointBackgroundColor: '#f4cf74',
           pointBorderColor: '#f4cf74',
-        }
-      );
+        });
+      }
+
       this.initData = [..._initData];
       this.labels = [..._labels];
     }
