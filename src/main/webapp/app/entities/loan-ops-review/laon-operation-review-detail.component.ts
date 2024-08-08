@@ -61,7 +61,6 @@ import { LoanOpsReviewProcessService } from './laon-operation-review-process.ser
 import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
-import { CollateralInfoLoanOpsComponent } from '../loan-operation/collateral-info/collateral-info-loan-ops.component';
 @Component({
   selector: 'jhi-laon-operation-review-detail',
   templateUrl: './laon-operation-review-detail.component.html',
@@ -109,9 +108,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     static: false,
   })
   remaksComponent: RemarskComponent;
-
-  @ViewChild('collateralInfoLoanOpsComponent', { static: false })
-  collateralInfoLoanOpsComponent: CollateralInfoLoanOpsComponent;
 
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
@@ -374,12 +370,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
         if (this.creditProposaTabManagementInfoComponent) {
           this.creditProposaTabManagementInfoComponent.triggeredSave();
         }
-
-        if (this.collateralInfoLoanOpsComponent) {
-          this.collateralInfoLoanOpsComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-        }
-
-        console.log('this.creditProposal.attributes.proposalType', this.creditProposal.attributes.proposalType);
 
         if (this.creditProposalCollateralInfoComponent) {
           this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
@@ -668,9 +658,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
         this.creditProposaTabManagementInfoComponent.triggeredSave();
       }
 
-      if (this.collateralInfoLoanOpsComponent) {
-        this.collateralInfoLoanOpsComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
       if (this.creditProposalCollateralInfoComponent) {
         this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
       }

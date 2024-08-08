@@ -15,8 +15,6 @@ import { CollateralInfoLoanOpsModule } from '../loan-operation/collateral-info/c
 import { LoanAnalysOpinionModule } from '../loan-analys/opinion/loan-analys-opinion.module';
 import { LoanAnalysComplianceModule } from '../loan-analys/compliance/loan-analys-compliance.module';
 import { LoanOperationLoanFacilityDetailModule } from '../loan-operation/loan-facility-detail/loan-operation-loan-facility-detail.module';
-import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
-import { ProposalBasicInformationViewModule } from '../credit-proposal/basic-information/basic-information-view.module';
 
 @NgModule({
   imports: [
@@ -32,8 +30,6 @@ import { ProposalBasicInformationViewModule } from '../credit-proposal/basic-inf
     LoanAnalysOpinionModule,
     LoanAnalysComplianceModule,
     LoanOperationLoanFacilityDetailModule,
-    CollateralInfoCpModule,
-    ProposalBasicInformationViewModule,
     RouterModule.forChild(LoanOpsReviewRoute),
   ],
   declarations: [LoanOpsReviewComponent, LoanOpsReviewDetailComponent],
