@@ -8,38 +8,9 @@ import { RemarskComponent } from './Remarks/credit-proposal-trade-checking-remar
 import { CreditProposalTradeCheckingSupplierDialogComponent } from './supplier/credit-proposal-trade-checking-supplier-dialog.component';
 import { CreditProposalTradeCheckingSupplierComponent } from './supplier/credit-proposal-trade-checking-supplier.component';
 import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
-import { SharedEntityModule } from 'app/entities/shared-entity.module';
-import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
-import {
-  EditorService,
-  SelectionService,
-  SfdtExportService,
-  WordExportService,
-  PrintService as PrintServiceDocumentEditor,
-  TextExportService,
-  ImageResizerService,
-  EditorHistoryService,
-  OptionsPaneService,
-  HyperlinkDialogService,
-  TableDialogService,
-  BookmarkDialogService,
-  TableOfContentsDialogService,
-  PageSetupDialogService,
-  StyleDialogService,
-  ListDialogService,
-  ParagraphDialogService,
-  BulletsAndNumberingDialogService,
-  FontDialogService,
-  TablePropertiesDialogService,
-  BordersAndShadingDialogService,
-  TableOptionsDialogService,
-  CellOptionsDialogService,
-  StylesDialogService,
-  ToolbarService as ToolbarServiceDocumentEditor,
-} from '@syncfusion/ej2-angular-documenteditor';
 
 @NgModule({
-  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  imports: [SharedModule],
   declarations: [
     CreditProposalTradeCheckingBuyersDialogEditComponent,
     CreditProposalTradeCheckingBuyersDialogComponent,
@@ -66,33 +37,7 @@ import {
 
     TradeCheckingComponent,
   ],
-  providers: [
-    EditorService,
-    SelectionService,
-    SfdtExportService,
-    WordExportService,
-    PrintServiceDocumentEditor,
-    TextExportService,
-    ImageResizerService,
-    EditorHistoryService,
-    OptionsPaneService,
-    HyperlinkDialogService,
-    TableDialogService,
-    BookmarkDialogService,
-    TableOfContentsDialogService,
-    PageSetupDialogService,
-    StyleDialogService,
-    ListDialogService,
-    ParagraphDialogService,
-    BulletsAndNumberingDialogService,
-    FontDialogService,
-    TablePropertiesDialogService,
-    BordersAndShadingDialogService,
-    TableOptionsDialogService,
-    CellOptionsDialogService,
-    StylesDialogService,
-    ToolbarServiceDocumentEditor,
-  ],
+
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class TradeCheckingModule {}
