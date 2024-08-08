@@ -1,0 +1,209 @@
+<!-- !
+
+  ! PREVIOUS DAR => tambah kondisi if darRevHistory → darRevHistory, else entity
+
+-->
+
+<div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+  <div class="e-card-header-title">PREVIOUS DAR</div>
+</div>
+<!-- New -->
+<div *ngIf="creditProposal.attributes['darRevHistory']; else previousDarLoanFacilityEntity">
+  <jhi-loan-facility-detail-temp [creditProposal]="creditProposal" [isViewMode]="true"></jhi-loan-facility-detail-temp>
+</div>
+<ng-template #previousDarLoanFacilityEntity>
+  <jhi-credit-proposal-tab-loan-facility-detail [takeOutCompare]="true" [isViewMode]="true" [creditProposal]="creditProposal">
+  </jhi-credit-proposal-tab-loan-facility-detail>
+</ng-template>
+<!-- New -->
+
+<div class="e-card-actions"></div>
+
+<div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+  <div class="e-card-header-title">DAR REVISION</div>
+</div>
+<div>
+  <!-- Dar Revision get Entity (if darRevHistory -> get entity, else -> empty) -->
+  <div *ngIf="creditProposal.attributes['darRevHistory']; else darRevisionFacilityEmpty">
+    <jhi-credit-proposal-tab-loan-facility-detail [takeOutCompare]="true" [isViewMode]="true" [creditProposal]="creditProposal">
+    </jhi-credit-proposal-tab-loan-facility-detail>
+  </div>
+  <ng-template #darRevisionFacilityEmpty>
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Facility Details</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<div class="e-card-actions"></div>
+
+<!-- Collateral Info -->
+<div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+  <div class="e-card-header-title">PREVIOUS DAR</div>
+</div>
+
+<!-- New -->
+<div *ngIf="creditProposal.attributes['darRevHistory']; else previousDarCollateralEntity">
+  <jhi-collateral-info-dar-final
+    [isViewMode]="true"
+    [creditProposal]="creditProposal"
+    [takeOutCompare]="true"
+    [collateralProperties]="collateralProperties"
+    [collateralPropertyGroupData]="collateralPropertyGroupData"
+  ></jhi-collateral-info-dar-final>
+</div>
+<ng-template #previousDarCollateralEntity>
+  <jhi-credit-proposal-collateral-info
+    [collateralProperties]="collateralProperties"
+    [collateralPropertyGroupData]="collateralPropertyGroupData"
+    [takeOutCompare]="true"
+    [isViewMode]="true"
+    [creditProposal]="creditProposal"
+  >
+  </jhi-credit-proposal-collateral-info>
+</ng-template>
+<!-- New -->
+
+<div class="e-card-actions"></div>
+
+<div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+  <div class="e-card-header-title">DAR REVISION</div>
+</div>
+<div>
+  <div *ngIf="creditProposal.attributes['darRevHistory']; else darRevisionCollateralEmpty">
+    <jhi-credit-proposal-collateral-info
+      [collateralProperties]="collateralProperties"
+      [collateralPropertyGroupData]="collateralPropertyGroupData"
+      [takeOutCompare]="true"
+      [isViewMode]="true"
+      [creditProposal]="creditProposal"
+    >
+    </jhi-credit-proposal-collateral-info>
+  </div>
+  <ng-template #darRevisionCollateralEmpty>
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Collateral Info</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<div class="e-card-actions"></div>
+
+<!-- Covenant -->
+<div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+  <div class="e-card-header-title">PREVIOUS DAR</div>
+</div>
+
+<!-- New -->
+<div *ngIf="creditProposal.attributes['darRevHistory']; else previousDarCovenantEntity">
+  <jhi-covenant-temp
+    [creditProposalItem]="creditProposal"
+    [isViewMode]="true"
+    [setActiveMenu]="menuCovenant"
+    [takeOutCompare]="true"
+  ></jhi-covenant-temp>
+</div>
+<ng-template #previousDarCovenantEntity>
+  <jhi-credit-proposal-tab-covenant [isViewMode]="true" [setActiveMenu]="menuCovenant" [creditProposalItem]="creditProposal">
+  </jhi-credit-proposal-tab-covenant>
+</ng-template>
+<!-- New -->
+
+<div class="e-card-actions"></div>
+
+<div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+  <div class="e-card-header-title">DAR REVISION</div>
+</div>
+<div>
+  <div *ngIf="creditProposal.attributes['darRevHistory']; else darRevisionCovenantEmpty">
+    <jhi-credit-proposal-tab-covenant-history
+      [isOnCreditAgreement]="true"
+      [creditAgreement]="'DAR REVISION'"
+      [isViewMode]="true"
+      [takeOutCompare]="true"
+      [creditProposalItem]="creditProposal"
+      [setActiveMenu]="menuCovenant"
+    >
+    </jhi-credit-proposal-tab-covenant-history>
+  </div>
+  <ng-template #darRevisionCovenantEmpty>
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Standard Terms & Conditions</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<div class="e-card-actions"></div>
+
+<!-- Deviation -->
+<div class="e-card-content mt-3">
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+    <div class="e-card-header-title">PREVIOUS DAR</div>
+  </div>
+
+  <!-- New -->
+  <div *ngIf="creditProposal.attributes['darRevHistory']; else previousDarDeviationEntity">
+    <jhi-covenant-temp
+      [creditProposalItem]="creditProposal"
+      [isViewMode]="true"
+      [setActiveMenu]="menuDeviation"
+      [takeOutCompare]="true"
+    ></jhi-covenant-temp>
+  </div>
+  <ng-template #previousDarDeviationEntity>
+    <jhi-credit-proposal-tab-covenant [isViewMode]="true" [setActiveMenu]="menuDeviation" [creditProposalItem]="creditProposal">
+    </jhi-credit-proposal-tab-covenant>
+  </ng-template>
+  <!-- New -->
+</div>
+<div class="e-card-actions"></div>
+
+<div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+  <div class="e-card-header-title">DAR REVISION</div>
+</div>
+<div>
+  <div *ngIf="creditProposal.attributes['darRevHistory']; else darRevisionDeviationEmpty">
+    <jhi-credit-proposal-tab-covenant-history
+      [isOnCreditAgreement]="true"
+      [creditAgreement]="'DAR REVISION'"
+      [isViewMode]="true"
+      [takeOutCompare]="true"
+      [creditProposalItem]="creditProposal"
+      [setActiveMenu]="menuDeviation"
+    >
+    </jhi-credit-proposal-tab-covenant-history>
+  </div>
+  <ng-template #darRevisionDeviationEmpty>
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Deviation</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
+  </ng-template>
+</div>

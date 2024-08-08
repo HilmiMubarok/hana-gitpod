@@ -1,0 +1,13 @@
+// font
+@import 'font.component';
+
+// color
+@import 'color.component';
+
+.ribbonEntity {
+  position: relative;
+  width: 100%;
+  font-weight: bold;
+  font-size: 20px;
+  background-color: grey;
+}

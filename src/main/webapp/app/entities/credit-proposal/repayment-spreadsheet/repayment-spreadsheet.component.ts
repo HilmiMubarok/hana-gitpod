@@ -1,6 +1,11 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { SpreadsheetComponent } from '@syncfusion/ej2-angular-spreadsheet';
+import {
+  BeforeSaveEventArgs,
+  CellRenderEventArgs,
+  DataSourceChangedEventArgs,
+  SpreadsheetComponent,
+} from '@syncfusion/ej2-angular-spreadsheet';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject } from 'rxjs';
 import { retry, takeUntil } from 'rxjs/operators';
@@ -105,8 +110,8 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
     if (changes?.saveWordMinio?.currentValue) {
       this.saveWord = true;
     } else {
-      this.saveWord = false;
-    }
+	  this.saveWord = false;
+	}
   }
 
   getUpdatekey(): void {
@@ -230,7 +235,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
         // this.spreadsheetDisabledObj.clear({});
       });
-  }
+  }  
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(true);

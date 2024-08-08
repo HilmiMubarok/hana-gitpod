@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { CollateralService } from 'app/entities/collateral/collateral.service';

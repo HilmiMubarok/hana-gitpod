@@ -1,0 +1,57 @@
+<ejs-grid [dataSource]="standardDataGridAbove" *ngIf="creditProposalItem.attributes['previousReturn']" allowTextWrap="true">
+  <e-columns>
+    <e-column field="covenant" headerText="Covenant" width="250" textAlign="left" headerTextAlign="center"> </e-column>
+    <e-column headerText="Status" width="100" textAlign="center">
+      <ng-template #template let-data>
+        <ejs-dropdownlist
+          (change)="onKeyUpEvent('status', $event, data)"
+          [(ngModel)]="statusValue[data.id]"
+          [dataSource]="status"
+          placeholder="Select a Status"
+          cssClass="e-outline"
+          [readonly]="true"
+          [value]="statusValue[data.id]"
+        >
+        </ejs-dropdownlist>
+      </ng-template>
+    </e-column>
+    <!-- <div *ngIf="viewColumn === 'cp'">      -->
+    <!-- <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+        <ng-template #template let-data>
+          <ejs-textbox
+            [multiline]="true"
+            (keyup)="onKeyUpEvent('deviation', $event, data)"
+            [(ngModel)]="deviation[data.id]"
+            [disabled]="statusValue[data.id] == 'Applied'"
+            cssClass="e-outline"
+            [readonly]="true"
+          >
+          </ejs-textbox>
+        </ng-template>
+      </e-column>
+      <e-column field="justification" headerText="Justification" width="130" textAlign="center">
+        <ng-template #template let-data>
+          <ejs-textbox
+            [multiline]="true"
+            (keyup)="onKeyUpEvent('justification', $event, data)"
+            [(ngModel)]="justification[data.id]"
+            [disabled]="statusValue[data.id] == 'Applied'"
+            cssClass="e-outline"
+            [readonly]="true"
+          >
+          </ejs-textbox>
+        </ng-template>
+      </e-column> -->
+    <!-- </div> -->
+  </e-columns>
+</ejs-grid>
+<mat-card *ngIf="!creditProposalItem.attributes['previousReturn']">
+  <mat-card-header>
+    <!-- <mat-card-subtitle>Debtor Collateral</mat-card-subtitle> -->
+  </mat-card-header>
+  <mat-card-content>
+    <div class="alert alert-warning" role="alert">
+      <span style="font-weight: bold">No previous data was found!</span>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -6,7 +6,20 @@ import { DashboardComponent } from './dashboard.component';
 import { DASHBOARD_ROUTE } from './dashboard.route';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { ChartAllModule, AccumulationChartAllModule, RangeNavigatorAllModule } from '@syncfusion/ej2-angular-charts';
+// import { CircularGaugeAllModule } from '@syncfusion/ej2-angular-circulargauge';
+import {
+  CategoryService,
+  DateTimeService,
+  ScrollBarService,
+  ColumnSeriesService,
+  LineSeriesService,
+  ChartAnnotationService,
+  RangeColumnSeriesService,
+  StackingColumnSeriesService,
+  LegendService,
+  TooltipService,
+} from '@syncfusion/ej2-angular-charts';
 import { DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
@@ -29,6 +42,9 @@ import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuse
 
     // syncfusion
     DashboardLayoutModule,
+    ChartAllModule,
+    AccumulationChartAllModule,
+    RangeNavigatorAllModule,
 
     // primeng
     CalendarModule,
@@ -46,6 +62,19 @@ import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuse
     StatusSlidesComponent,
     ProgressStatusBarComponent,
     DashboardReusableCalendarComponent,
+  ],
+
+  providers: [
+    CategoryService,
+    DateTimeService,
+    ScrollBarService,
+    LineSeriesService,
+    ColumnSeriesService,
+    ChartAnnotationService,
+    RangeColumnSeriesService,
+    StackingColumnSeriesService,
+    LegendService,
+    TooltipService,
   ],
 })
 export class DashboardModule {}

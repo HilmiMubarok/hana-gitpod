@@ -1,12 +1,12 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { partyCategoryTypeRoute } from './party-category-type.route';
-import { PartyCategoryTypeViewComponent } from './party-category-type-view.component';
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(partyCategoryTypeRoute)],
-  declarations: [PartyCategoryTypeViewComponent],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCategoryTypeRoute)],
+  declarations: [],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -1,7 +1,23 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import { DAR_REVISION_CHECKER, DAR_REVISION_APPEAL } from 'app/shared/constants/base.constants';
+import {
+  PROPOSAL_TYPE,
+  SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
+  SEGMENTS_TYPE,
+  ID_GREATER_15_BN,
+  ID_LOWER_EQUAL_15_BN,
+  ID_BACK_TO_BACK,
+  CP_APPROVAL_MENU,
+  CP_APPROVAL_MENU_BTB,
+  CP_APPROVAL_MENU_BELOW,
+  DPDL_FINALIZE,
+  BASIC_SUBMENU_CREDITPROPOSAL,
+  DAR_REVISION_CHECKER,
+  DAR_REVISION_APPEAL,
+} from 'app/shared/constants/base.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDarRevisionCheckerModel } from './dar-revision-checker.model';
 import { Observable, Subject, firstValueFrom, fromEvent, map, takeUntil } from 'rxjs';
@@ -28,7 +44,7 @@ import { CPMemoBandingRemarkComponent } from '../credit-proposal/memo-banding/re
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CollateralInfoHistoryComponent } from '../credit-proposal/collateral-info-history/collateral-info-history.component';
 import { CreditProposalOpinionHistoryComponent } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalTabSummaryComponent } from '../credit-proposal/summary/credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
 import { RemarskComponent } from '../credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';

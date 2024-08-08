@@ -1,0 +1,8 @@
+<ejs-numerictextbox
+  cssClass="e-outline"
+  placeholder="{{name}}"
+  floatLabelType="Auto"
+  [(ngModel)]="inputVal"
+  (keyup)="change($event.target.value)"
+  format="### '%'"
+></ejs-numerictextbox>

@@ -1,0 +1,102 @@
+.card {
+  background-color: #ffff;
+  display: flex;
+  border: 1px;
+  padding-bottom: 1%;
+}
+
+.card-footer {
+  background-color: #ffff;
+}
+
+.card-body {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.padding {
+  padding-top: 2%;
+}
+
+h5 {
+  font-size: x-large;
+}
+
+.btn-info {
+  font-weight: 600;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  border-radius: 10px;
+  width: 204px;
+  height: 52px;
+  background-color: #bd0302;
+}
+
+.place-button {
+  margin-top: 3%;
+  display: flex;
+  width: 100%;
+  justify-content: right;
+}
+
+.e-acrdn-header {
+  width: auto;
+  height: 50px;
+}
+
+.e-accordion .e-acrdn-item {
+  padding: 0;
+}
+
+.e-accordion .e-acrdn-item.e-selected.e-select {
+  padding: 0;
+}
+
+.e-accordion .e-acrdn-item.e-selected {
+  padding: 0;
+}
+
+.e-accordion .e-acrdn-item.e-select > .e-acrdn-header {
+  background: #666b73 !important;
+  justify-content: center;
+}
+
+.e-accordion .e-acrdn-item.e-select > .e-acrdn-header:hover {
+  background-color: #ffffff !important;
+}
+
+.e-accordion .e-acrdn-item.e-select {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+}
+
+.e-accordion .e-acrdn-item {
+  padding-top: 0;
+  position: relative;
+}
+
+h5 {
+  display: block;
+  color: #000;
+}
+
+@media screen and (max-width: 768px) {
+  .accordion-control-section {
+    margin: 0;
+  }
+}
+@font-face {
+  font-family: 'Poppins';
+  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+.header-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #008881;
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
+}

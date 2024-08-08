@@ -1,0 +1,55 @@
+<mat-card>
+  <mat-card-header>
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Credit Approval System of Hana Bank</div>
+        <mat-card-subtitle class="e-card-header-title-version">Version 1.0.30</mat-card-subtitle>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-6 p-3">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Chart 1</mat-card-title>
+            <mat-card-subtitle>Description Chart 1</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [dataSource]="chartData">
+              <e-series-collection>
+                <e-series type="Column" xName="month" yName="sales" name="Sales"></e-series>
+                <e-series type="Column" xName="month" yName="sales1" name="Sales"></e-series>
+              </e-series-collection>
+            </ejs-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-md-6 p-3">
+        <mat-card>
+          <mat-card-title>Chart 2</mat-card-title>
+          <mat-card-subtitle>Description Chart 2</mat-card-subtitle>
+          <mat-card-content>
+            <ejs-chart
+              style="display: block"
+              align="center"
+              id="chartcontainer"
+              [title]="title"
+              [primaryXAxis]="primaryXAxis2"
+              [primaryYAxis]="primaryYAxis2"
+              [tooltip]="tooltip"
+              (load)="load($event)"
+              [chartArea]="chartArea"
+              [width]="width"
+            >
+              <e-series-collection>
+                <e-series [dataSource]="data" type="Line" xName="x" yName="y" name="Germany" width="2" [marker]="marker"> </e-series>
+                <e-series [dataSource]="data1" type="Line" xName="x" yName="y" name="England" width="2" [marker]="marker"> </e-series>
+              </e-series-collection>
+            </ejs-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

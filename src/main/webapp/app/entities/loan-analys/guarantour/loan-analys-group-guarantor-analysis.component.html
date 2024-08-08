@@ -1,0 +1,44 @@
+<div class="e-card">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class="row">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="header-title">GROUP & GUARANTOR ANALYSIS</div>
+            <div class="e-card-sub-title"></div>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [enableToolbar]="true"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDown($event)"
+              (created)="onCreate()"
+            >
+            </ejs-documenteditorcontainer>
+          </section>
+
+          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [enableToolbar]="false"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              (documentChange)="onDocumentChange()"
+              [enableEditor]="false"
+              [isReadOnly]="true"
+            >
+            </ejs-documenteditorcontainer>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

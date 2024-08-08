@@ -437,3 +437,241 @@
     </div>
   </div>
 </div>
+
+<!-- <div class="e-card" [hidden]="isViewMode === true">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Facility Details</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-credit-proposal-tab-loan-facility-detail-grid [creditProposal]="creditProposal">
+      </jhi-credit-proposal-tab-loan-facility-detail-grid>
+    </div>
+    <div class="row mb-3 mt-3">
+      <div class="col-6">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="mb-2">
+            <ejs-numerictextbox
+              [value]="fungsiSuminit()"
+              placeholder="Total Initial Limit"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-2">Total Initial Limit</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">{{ ccy }}.{{ fungsiSuminit() | number }}</div>
+          </div>
+        </section>
+
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="mb-2">
+            <ejs-numerictextbox
+              [value]="fungsiSumchange()"
+              placeholder="Total Changes"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-2">Total Changes</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">{{ ccy }}.{{ fungsiSumchange() | number }}</div>
+          </div>
+        </section>
+      </div>
+      <div class="col-6">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="mb-2">
+            <ejs-numerictextbox
+              [value]="fungsiSumOS()"
+              placeholder="Total O/S"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-2">Total O/S</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">{{ ccy }}.{{ fungsiSumOS() | number }}</div>
+          </div>
+        </section>
+
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="mb-2">
+            <ejs-numerictextbox
+              [value]="fungsiSumcredit()"
+              placeholder="Total Plafond"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafond"
+            ></ejs-numerictextbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-2">Total Plafond</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">{{ ccy }}.{{ fungsiSumcredit() | number }}</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="row mb-3 mt-3">
+      <div class="col-6">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="mb-2">
+            <ejs-numerictextbox
+              [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
+              cssClass="e-outline"
+              placeholder="Custody Fee"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+            >
+            </ejs-numerictextbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="fontsebled row">
+            <div class="col-2">Custody Fee</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">{{ ccy }}.{{ _creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="mb-2">
+      <section *ngIf="parentSource === 'credit-proposal'">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">REMARKS</div>
+          </div>
+        </div>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <ejs-documenteditorcontainer
+            #document_editor_container
+            [enableToolbar]="true"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (keyDown)="onKeyDown($event)"
+            (created)="onCreate()"
+            [enableEditor]="true"
+            [isReadOnly]="false"
+          >
+          </ejs-documenteditorcontainer>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <ejs-documenteditorcontainer
+            #document_editor_container
+            [enableToolbar]="false"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            (documentChange)="onDocumentChange()"
+            [enableEditor]="false"
+            [isReadOnly]="true"
+            disabled
+          ></ejs-documenteditorcontainer>
+        </section>
+      </section>
+      <section *ngIf="parentSource === 'loan-analys'">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">REMARKS</div>
+          </div>
+        </div>
+        <ejs-documenteditorcontainer
+          #document_editor_container_loan_analys
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          (documentChange)="onDocumentChange()"
+          [enableEditor]="false"
+          [isReadOnly]="true"
+        ></ejs-documenteditorcontainer>
+      </section>
+    </div>
+  </div>
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Take Over Scheme (If Any)</div>
+      </div>
+      <div class="e-card-content">
+        <div class="row">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="col-6">
+              <mat-label>Previous Bank</mat-label>
+              <mat-form-field class="w-100" appearance="outline">
+                <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-2">Previous Bank</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ _creditProposal.attributes['facilityDetail'].previousBank }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="row col-12">
+          <div class="col-md-6">
+            <div class="mb-2">
+              <mat-label>Previous Bank</mat-label>
+              <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal" [isViewMode]="true">
+              </jhi-credit-proposal-tab-loan-facility-take-over-grid>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="mb-2">
+              <mat-label>After Bank</mat-label>
+              <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal" [isViewMode]="true">
+              </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal" [isViewMode]="true">
+          </jhi-credit-proposal-collateral-tab-loan>
+        </div>
+        <div class="col-6">
+          <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal" [isViewMode]="true">
+          </jhi-credit-proposal-collateral-tab-loan-after>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

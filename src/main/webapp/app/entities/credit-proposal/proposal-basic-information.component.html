@@ -1,0 +1,220 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <ejs-breadcrumb cssClass="margin: 1rem;">
+        <e-breadcrumb-items>
+          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+          <e-breadcrumb-item text="Credit Proposal" url="/credit-proposal"></e-breadcrumb-item>
+          <e-breadcrumb-item text="New" url=""></e-breadcrumb-item>
+        </e-breadcrumb-items>
+      </ejs-breadcrumb>
+      <div class="header-container">
+        <div class="header-content">
+          <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+          <span class="back-prefix" (click)="previousState()">Back | </span>
+        </div>
+        <p class="e-card-sub-title">Credit Proposal</p>
+      </div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="e-card">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <p class="e-card-header-title">CREDIT PROPOSAL</p>
+          </div>
+        </div>
+        <div class="e-card-content">
+          <div class="row">
+            <div class="col-md-6" style="padding: 10px">
+              <ejs-combobox
+                cssClass="e-outline"
+                placeholder="Proposal Type"
+                (change)="onProposalTypeChange($event)"
+                [(ngModel)]="creditProposal.attributes.proposalType"
+                [dataSource]="proposalType"
+                required
+              >
+              </ejs-combobox>
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="creditProposal.applicationNumber"
+                  placeholder="Proposal Number"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [value]="creditProposal.createdDate | formatMediumDate"
+                  placeholder="Proposal Date"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
+                  placeholder="Referral"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                  required
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
+                  placeholder="Booking Branch"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="e-sample-resize-container e-card-resize-container">
+      <div class="row">
+        <div class="row card-layout">
+          <div class="e-card">
+            <ejs-menu
+              [enableScrolling]="true"
+              cssClass="e-rounded-menu e-custom-scroll"
+              [items]="menuItems"
+              (select)="selectMenuItem($event)"
+            ></ejs-menu>
+            <div class="e-card-content">
+              <div class="mx-3">
+                <div *ngIf="selectedMenu === 'BASIC INFORMATION'">
+                  <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
+                </div>
+
+                <div *ngIf="selectedMenu === 'BUSINES ACTIVITY'">
+                  <jhi-credit-proposal-busines-activity [creditProposalItem]="creditProposal" [projectAnalysis]="subMenuItems">
+                  </jhi-credit-proposal-busines-activity>
+                </div>
+
+                <div *ngIf="selectedMenu === 'RISK ACCEPTENCE CRITERIA'">
+                  <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
+                </div>
+
+                <div *ngIf="selectedMenu === 'MANAGEMENT INFORMATION'">
+                  <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
+                </div>
+
+                <div *ngIf="selectedMenu === 'LOAN FACILITY DETAIL'" class="e-sample-resize-container e-card-resize-container">
+                  <jhi-credit-proposal-tab-loan-facility-detail
+                    [creditProposal]="creditProposal"
+                    (outCreditProposal)="onGetCreditProposal($event)"
+                  >
+                  </jhi-credit-proposal-tab-loan-facility-detail>
+                </div>
+
+                <div *ngIf="selectedMenu === 'SLIK CHECKING'">
+                  <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
+                </div>
+
+                <jhi-credit-proposal-bank-account-analyst
+                  *ngIf="selectedMenu === 'BANK ACCOUNT ANALYSIS'"
+                  [creditProposal]="creditProposal"
+                >
+                </jhi-credit-proposal-bank-account-analyst>
+
+                <div [hidden]="selectedMenu !== 'FINANCIAL STATEMENT'">
+                  <jhi-credit-proposal-financial-statement
+                    *ngIf="
+                      creditProposal.attributes.proposalType === '' ||
+                      creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+                    "
+                    [creditProposal]="creditProposal"
+                  ></jhi-credit-proposal-financial-statement>
+                  <jhi-repayment-spreadsheet
+                    *ngIf="
+                      creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' ||
+                      creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
+                    "
+                    [jhifilter]="creditProposal.attributes.proposalType"
+                  ></jhi-repayment-spreadsheet>
+                </div>
+
+                <div *ngIf="selectedMenu === 'GROUP & GUARANTOUR ANALYSIS'">
+                  <jhi-credit-proposal-group-guarantor-analysis [creditProposalItem]="creditProposal">
+                  </jhi-credit-proposal-group-guarantor-analysis>
+                </div>
+
+                <div *ngIf="selectedMenu === 'TRADE CHECKING'">
+                  <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"> </jhi-credit-proposal-trade-checking>
+                </div>
+
+                <div *ngIf="selectedMenu === 'SUMMARY'">
+                  <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+                  <jhi-credit-proposal-opinion-history [creditProposalItem]="creditProposal"> </jhi-credit-proposal-opinion-history>
+                </div>
+
+                <div *ngIf="selectedMenu === 'CONVENANT & TBO'">
+                  <jhi-credit-proposal-tab-covenant [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
+                </div>
+
+                <div *ngIf="selectedMenu === 'EXPOSURE'">
+                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
+                </div>
+
+                <div *ngIf="selectedMenu === 'CREDIT RATING'">
+                  <jhi-credit-rating-view [creditProposalItem]="creditProposal"></jhi-credit-rating-view>
+                </div>
+
+                <jhi-credit-proposal-repayment-capability
+                  *ngIf="selectedMenu === 'REPAYMENT CAPABILITY'"
+                  [creditProposal]="creditProposal"
+                ></jhi-credit-proposal-repayment-capability>
+
+                <div *ngIf="selectedMenu === 'PROPOSE PRICING'">
+                  <jhi-credit-proposal-propose-pricing [creditProposal]="creditProposal"> </jhi-credit-proposal-propose-pricing>
+                  <!-- <jhi-credit-proposal-tab-customer-profitability
+                    *ngIf="
+                      creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' ||
+                      creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
+                    "
+                    [item]="creditProposal"
+                  >
+                  </jhi-credit-proposal-tab-customer-profitability> -->
+                </div>
+
+                <div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
+                  <jhi-credit-proposal-document-checklist [creditProposal]="creditProposal"> </jhi-credit-proposal-document-checklist>
+                </div>
+
+                <!-- <div *ngIf="selectedMenu === 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR'">
+                  <jhi-credit-proposal-tab-customer-profitability [item]="creditProposal"> </jhi-credit-proposal-tab-customer-profitability>
+                </div> -->
+
+                <jhi-credit-proposal-collateral-info *ngIf="selectedMenu === 'COLLATERAL INFO'" [creditProposal]="creditProposal">
+                </jhi-credit-proposal-collateral-info>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="e-card-actions text-center">
+    <button
+      style="margin-right: 25px"
+      class="btn-lg text-uppercase"
+      mat-raised-button
+      *ngFor="let task of tasks"
+      (click)="processTask(task)"
+    >
+      {{ task.caption }}
+    </button>
+    <button mat-raised-button (click)="save()" class="btn-lg text-uppercase">Save</button>
+  </div>
+</div>

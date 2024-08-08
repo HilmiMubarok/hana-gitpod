@@ -23,6 +23,7 @@ import { CashDppkFinalizeService } from './cash-dppk-finalize.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { DppkFinalizeService } from './dppk-finalize.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
 import { formatDateDob } from 'app/shared/helper/utils';
 
 @Component({

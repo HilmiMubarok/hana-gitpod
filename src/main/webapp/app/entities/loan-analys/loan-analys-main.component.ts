@@ -10,6 +10,7 @@ import { LendingProgramParameterService } from '../lending-program-parameter/len
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import {
+  COLLATERAL_TYPE,
   DOCUMENT_TYPE_GENERATE_DOCUMENT,
   STATUS_DOC_CHECKLIST_OPINION,
   SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
@@ -28,7 +29,10 @@ import {
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL_BTB,
+  SUBMENU_LOAN_ANALYS_LA_KOMITE,
+  SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB,
   SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE,
+  SUBMENU_LOAN_CP,
 } from 'app/shared/constants/base.constants';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
@@ -54,7 +58,7 @@ import { formatBytes } from 'app/shared/helper/utils';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { CollateralService } from '../collateral/collateral.service';
 import { ICollateral } from '../collateral/collateral.model';
-import { ICollateralProperty } from '../collateral-property/collateral-property.model';
+import { CollateralProperty, ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import moment from 'moment';
 import { CPFacilityTable, ICPFacilityTable } from '../credit-proposal/exposure/total-exposure/cp-facility-table-model';

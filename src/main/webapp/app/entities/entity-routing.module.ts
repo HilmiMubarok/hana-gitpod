@@ -187,6 +187,14 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./service-product/service-product.module').then(m => m.LosgwServiceProductModule),
       },
       {
+        path: 'sample-ejs',
+        loadChildren: () => import('./sample-ejs/sample-ejs.module').then(m => m.LosgwSampleEjsModule),
+      },
+      {
+        path: 'func-setting-template',
+        loadChildren: () => import('./func-setting-template/func-setting-template.module').then(m => m.LosgwFuncSettingTemplateModule),
+      },
+      {
         path: 'func-setting',
         loadChildren: () => import('./func-setting/func-setting.module').then(m => m.LosgwFuncSettingModule),
       },
@@ -203,6 +211,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./internal-type/internal-type.module').then(m => m.LosgwInternalTypeModule),
       },
       {
+        path: 'product-type-config',
+        loadChildren: () => import('./product-type-config/product-type-config.module').then(m => m.LosgwProductTypeConfigModule),
+      },
+      {
         path: 'customer-info',
         data: { pageTitle: 'losgwApp.customerInfo.home.title' },
         loadChildren: () => import('./customer-info/customer-info.module').then(m => m.LosgwCustomerInfoModule),
@@ -216,6 +228,11 @@ import { RouterModule } from '@angular/router';
         path: 'organization-legal',
         data: { pageTitle: 'losgwApp.organizationLegal.home.title' },
         loadChildren: () => import('./organization-legal/organization-legal.module').then(m => m.LosgwOrganizationLegalModule),
+      },
+      {
+        path: 'credit-rating',
+        data: { pageTitle: 'losgwApp.creditRating.home.title' },
+        loadChildren: () => import('./credit-rating/credit-rating.module').then(m => m.LosgwCreditRatingModule),
       },
       {
         path: 'organization-management',
@@ -304,6 +321,17 @@ import { RouterModule } from '@angular/router';
       {
         path: 'financial-product',
         loadChildren: () => import('./financial-product/financial-product.module').then(m => m.LosgwFinancialProductModule),
+      },
+      {
+        path: 'product-type-financial-setting',
+        loadChildren: () =>
+          import('./product-type-financial-setting/product-type-financial-setting.module').then(
+            m => m.LosgwProductTypeFinancialSettingModule
+          ),
+      },
+      {
+        path: 'func-setting-template',
+        loadChildren: () => import('./func-setting-template/func-setting-template.module').then(m => m.LosgwFuncSettingTemplateModule),
       },
       {
         path: 'func-setting',

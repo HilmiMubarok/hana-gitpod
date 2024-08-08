@@ -523,6 +523,15 @@ export const DppkFinalizeReviewRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  // {
+  //   path: ':id/edit',
+  //   component: ProposalBasicInformationComponent,
+  //   resolve: {
+  //     content: CreditProposalResolve,
+  //   },
+  //   canActivate: [UserRouteAccessService],
+  // },
+
   {
     path: ':id/:managementType/detailFiles',
     component: DebtorDataSlikSummaryDebiturViewComponent,

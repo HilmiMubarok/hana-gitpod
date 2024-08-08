@@ -1,0 +1,136 @@
+<div class="e-card-header">
+  <div class="e-card-header-caption">
+    <div class="e-card-header-title">Facility Details</div>
+  </div>
+</div>
+<div class="e-card-content">
+  <div class="row mb-3 mt-3">
+    <jhi-credit-proposal-tab-loan-facility-detail-grid [creditProposal]="creditProposal">
+    </jhi-credit-proposal-tab-loan-facility-detail-grid>
+  </div>
+  <div class="row mb-3 mt-3">
+    <div class="col-6">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSuminit()"
+          placeholder="Total Changes"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumchange()"
+          placeholder="Total Changes"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumOS()"
+          placeholder="Total O/S"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        ></ejs-numerictextbox>
+      </div>
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [value]="fungsiSumcredit()"
+          placeholder="Total Plafond"
+          cssClass="e-outline"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+          [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafond"
+        ></ejs-numerictextbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3 mt-3">
+    <div class="col-6">
+      <div class="mb-2">
+        <ejs-numerictextbox
+          [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
+          cssClass="e-outline"
+          placeholder="Custody Fee"
+          floatLabelType="auto"
+          floatLabelType="Always"
+          format="IDR 0,"
+          min="0"
+          readonly="true"
+        >
+        </ejs-numerictextbox>
+      </div>
+    </div>
+  </div>
+  <div class="mb-2">
+    <mat-label>REMARKS</mat-label>
+    <ejs-documenteditorcontainer
+      #document_editor_container
+      [enableToolbar]="false"
+      [enableLocalPaste]="false"
+      height="100vh"
+      style="display: block"
+      (documentChange)="onDocumentChange()"
+      [enableEditor]="false"
+      [isReadOnly]="true"
+    >
+    </ejs-documenteditorcontainer>
+  </div>
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Take Over Scheme (If Any)</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div class="row">
+        <div class="col-6">
+          <mat-label>Previous Bank</mat-label>
+          <mat-form-field class="w-100" appearance="outline">
+            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" disabled />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row col-12">
+        <div class="col-md-6">
+          <div class="mb-2">
+            <mat-label>Previous Bank</mat-label>
+            <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal" [isViewMode]="true">
+            </jhi-credit-proposal-tab-loan-facility-take-over-grid>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-2">
+            <mat-label>After Bank</mat-label>
+            <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal" [isViewMode]="false">
+            </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-tab-loan>
+      </div>
+      <div class="col-6">
+        <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-tab-loan-after>
+      </div>
+    </div>
+  </div>
+</div>
