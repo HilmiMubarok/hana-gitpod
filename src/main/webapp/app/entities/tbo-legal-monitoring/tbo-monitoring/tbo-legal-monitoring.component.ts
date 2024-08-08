@@ -467,6 +467,10 @@ export class TboLegalMonitoringComponent implements OnChanges {
         applicationNumber: this.creditProposal.applicationNumber,
         name: DocName,
         category: res.category,
+        checkingDate: res.checkingDate,
+        reviewDate: res.reviewDate,
+        approvalDate: res.approvalDate,
+
         attributes: {
           docId: res.attributes.docId,
           documentDate: res.attributes.documentDate,

@@ -215,6 +215,10 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       initialStatusId: dataDoc.initialStatusId,
       name: dataDoc.name,
 
+      approvalDate: dataDoc.approvalDate,
+      checkingDate: dataDoc.checkingDate,
+      reviewDate: dataDoc.reviewDate,
+
       attributes: {
         docId:
           typeof dataDoc.attributes === 'string'
@@ -466,6 +470,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
       docIdTags: this.document.attributes['docId'],
       id: this.document.id,
       dueDate: this.document.dueDate,
+      checkingDate: this.document.checkingDate,
+      approvalDate: this.document.approvalDate,
+      reviewDate: this.document.reviewDate,
 
       attributes: {
         docId:
@@ -602,6 +609,9 @@ export class TboLegalMonitoringDetailComponent implements OnInit {
           dueDate: convTempVal,
           docIdTags: this.document.attributes['docId'],
           id: this.document.id,
+          checkingDate: this.document.checkingDate,
+          reviewDate: this.document.reviewDate,
+          approvalDate: this.document.approvalDate,
 
           attributes: {
             docId:

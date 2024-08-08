@@ -15,6 +15,9 @@ export interface IApplicationDocument {
   applicationId?: number;
   applicationNumber?: string;
   dueDate?: Date;
+  approvalDate?: Date;
+  checkingDate?: Date;
+  reviewDate?: Date;
   statusAppeal?: string;
   category?: string;
   statusAppDocId?: string;
@@ -36,6 +39,9 @@ export class ApplicationDocument implements IApplicationDocument {
     public documentTypeStatusId?: string, // lvl 2
     public documentTypeCustomerType?: string,
     public path?: string,
+    public approvalDate?: Date,
+    public checkingDate?: Date,
+    public reviewDate?: Date,
     public documentStatusId?: string,
     public name?: string,
     public description?: string,
