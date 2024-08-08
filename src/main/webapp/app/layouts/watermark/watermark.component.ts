@@ -12,7 +12,7 @@ export class WatermarkComponent implements OnInit {
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
-    // this.defineWatermark();
+    this.defineWatermark();
   }
 
   private defineWatermark(): void {
