@@ -4,8 +4,8 @@
   "dataGroups":
   [
     {
-      "name": "account",
-      "urls": ["/api"],
+      "name": "api",
+      "urls": ["/api/*"],
       "cacheConfig": {
         "maxSize": 0,
         "maxAge": "0u",
