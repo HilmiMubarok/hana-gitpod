@@ -5,45 +5,28 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CreditAgreementReviewComponent } from './credit-agreement-review.component';
 import { CreditAgreementReviewDetailComponent } from './credit-agreement-review-detail.component';
 import { creditAgrementReviewRoute } from './credit-agreement-review.route';
-// import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
-// import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-cif-customer-info-debtor-data.component';
-// import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
-// import { PartyCifCustomerInfoRMInfoComponent } from './customer-info/party-cif-customer-info-rm-info.component';
-// import { PartyCifManagementDataComponent } from './management-data/management-data-list.component';
-// import { PartyCifCollateralInfoComponent } from './collateral-info/collateral-info.component';
-// import { PartyCifCollateralInfoDialogComponent } from './collateral-info/collateral-info-dialog.component';
-// import { PartyCifBusinessGroupComponent } from './business-group/party-cif-business-group.component';
-// import { PartyCifOrganizationLegalComponent } from './organization-legal/party-cif-organization-legal.component';
-// import { DebtorDataCreditRatingViewComponent } from '../debtor-data/credit-rating/debtor-data-credit-rating.component';
-// import { PartyCifFinancialInfoComponent } from './financial-info/party-cif-financial-info.component';
-// import { PartyCifRetriveInfoComponent } from './retrive-info/party-cif-retrive-info.component';
-// import { FacilityInfoDebiturComponent } from '../debtor-data/facility-info/facility-info-debitur.component';
-// import { FacilityInfoCifComponent } from './facility-info-cif/facility-info-cif.component';
-// import { PartyCifDecisionApprovalReportComponent } from './decision-approval-report/party-cif-decision-approval-report.component';
+import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
+import { CreditProposalTabSummaryModule } from '../credit-proposal/credit-proposal-tab-summary.module';
+import { CompareDataModule } from '../compare-data/compare-data.module';
+import { CreditProposalTabLoanFacilityDetailModule } from '../credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.module';
+import { CreditProposalMemoBandingModule } from '../credit-proposal/memo-banding/credit-proposal-memo-banding.module';
+import { LoanAnalysComplianceModule } from '../loan-analys/compliance/loan-analys-compliance.module';
+import { LoanAnalysOpinionCompliancePartModule } from '../loan-analys/opinion/loan-analys-opinion-compliance-part.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(creditAgrementReviewRoute)],
-  declarations: [
-    CreditAgreementReviewComponent,
-    CreditAgreementReviewDetailComponent,
-
-    // PartyCifUpdateComponent,
-    // PartyCifCustomerInfoComponent,
-    // PartyCifCustomerInfoDebtorDataComponent,
-    // PartyCifDocumentChecklistComponent,
-    // PartyCifCustomerInfoRMInfoComponent,
-    // PartyCifManagementDataComponent,
-    // PartyCifCollateralInfoComponent,
-    // PartyCifCollateralInfoDialogComponent,
-    // PartyCifBusinessGroupComponent,
-    // PartyCifOrganizationLegalComponent,
-    // DebtorDataCreditRatingViewComponent,
-    // PartyCifFinancialInfoComponent,
-    // PartyCifRetriveInfoComponent,
-    // FacilityInfoDebiturComponent,
-    // FacilityInfoCifComponent,
-    // PartyCifDecisionApprovalReportComponent,
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    FinalizeCreditAgreementModule,
+    CreditProposalTabSummaryModule,
+    CompareDataModule,
+    CreditProposalTabLoanFacilityDetailModule,
+    CreditProposalMemoBandingModule,
+    LoanAnalysComplianceModule,
+    LoanAnalysOpinionCompliancePartModule,
+    RouterModule.forChild(creditAgrementReviewRoute),
   ],
+  declarations: [CreditAgreementReviewComponent, CreditAgreementReviewDetailComponent],
   entryComponents: [CreditAgreementReviewComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

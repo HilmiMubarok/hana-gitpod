@@ -107,42 +107,6 @@ export class CPMemoBandingRemarkComponent implements OnInit, OnChanges, OnDestro
   private ngUnsubscribe = new Subject();
   private fileGet: File;
 
-  // public triggeredSave(): void {
-  //   let paramsId = '';
-  //   this.activatedRoute.params.subscribe(params => {
-  //     paramsId = params['id'];
-  //   });
-  //   const key = 'memo_banding_remarks';
-
-  //   const timeStamp = Math.floor(Date.now() / 1000);
-
-  //   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-
-  //   docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-  //     const fileType = 'word';
-  //     const fileName = 'memo-banding-remarks-' + paramsId + '-memo-' + fileType + '.docs';
-  //     const metaData = {
-  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-  //     };
-  //     const formData = new FormData();
-  //     formData.append('file', new File([exportedDocument], fileName));
-
-  //     this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-  //   });
-
-  //   docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-  //     const fileType = 'sfdt';
-  //     const fileName = 'memo-banding-remarks-' + paramsId + '-memo-' + fileType + '.sfdt';
-  //     const metaData = {
-  //       objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-  //     };
-  //     const formData = new FormData();
-  //     formData.append('file', new File([exportedDocument], fileName));
-
-  //     this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
-  //   });
-  // }
-
   public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {

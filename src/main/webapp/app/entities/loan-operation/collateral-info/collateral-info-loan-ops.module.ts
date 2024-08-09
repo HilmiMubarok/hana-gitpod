@@ -1,11 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { SharedEntityModule } from 'app/entities/shared-entity.module';
-import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { MasterCreditAgreementClausalDialogComponent } from './master-credit-agreement-clausal-dialog.component';
-import { masterCreditAgreementClausal } from './master-credit-agreement-clausal.route';
-import { MasterCreditAgreementClausalComponent } from './master-credit-agreement-clauasal.component';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
@@ -34,18 +29,18 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { CollateralInfoLoanOpsComponent } from './collateral-info-loan-ops.component';
+import { CollateralInfoRemarksChecklistLoanOpsComponent } from './remarks/collateral-info-remarks-checklist-loan-ops.component';
+import { CollateralInfoRemarksInformationLoanOpsComponent } from './remarks/collateral-info-remarks-information-loan-ops.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    SharedEntityModule,
-    SharedLibsModule,
-    DocumentEditorAllModule,
-    DocumentEditorContainerAllModule,
-    RouterModule.forChild(masterCreditAgreementClausal),
+  imports: [SharedModule, SharedEntityModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
+  declarations: [
+    CollateralInfoLoanOpsComponent,
+    CollateralInfoRemarksChecklistLoanOpsComponent,
+    CollateralInfoRemarksInformationLoanOpsComponent,
   ],
-  declarations: [MasterCreditAgreementClausalComponent, MasterCreditAgreementClausalDialogComponent],
-  entryComponents: [MasterCreditAgreementClausalDialogComponent],
+  exports: [CollateralInfoLoanOpsComponent],
   providers: [
     EditorService,
     SelectionService,
@@ -75,4 +70,4 @@ import {
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LosgwMasterCreditAgreementClausalModule {}
+export class CollateralInfoLoanOpsModule {}

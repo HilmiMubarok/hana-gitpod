@@ -1,12 +1,7 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { SharedEntityModule } from 'app/entities/shared-entity.module';
-import { SharedLibsModule } from 'app/shared/shared-libs.module';
+import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { MasterCreditAgreementClausalDialogComponent } from './master-credit-agreement-clausal-dialog.component';
-import { masterCreditAgreementClausal } from './master-credit-agreement-clausal.route';
-import { MasterCreditAgreementClausalComponent } from './master-credit-agreement-clauasal.component';
-import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
+import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
   SelectionService,
@@ -34,18 +29,12 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { CollateralAppraisalSummaryComponent } from './collateral-appraisal-summary.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    SharedEntityModule,
-    SharedLibsModule,
-    DocumentEditorAllModule,
-    DocumentEditorContainerAllModule,
-    RouterModule.forChild(masterCreditAgreementClausal),
-  ],
-  declarations: [MasterCreditAgreementClausalComponent, MasterCreditAgreementClausalDialogComponent],
-  entryComponents: [MasterCreditAgreementClausalDialogComponent],
+  imports: [SharedModule, SharedEntityModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
+  declarations: [CollateralAppraisalSummaryComponent],
+  exports: [CollateralAppraisalSummaryComponent],
   providers: [
     EditorService,
     SelectionService,
@@ -73,6 +62,5 @@ import {
     StylesDialogService,
     ToolbarServiceDocumentEditor,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LosgwMasterCreditAgreementClausalModule {}
+export class CollateralAppraisalSummaryModule {}

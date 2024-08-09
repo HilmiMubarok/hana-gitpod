@@ -64,7 +64,6 @@ import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angul
 import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 import { ResizeService } from '@syncfusion/ej2-angular-grids';
-import { ContextMenuService, SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
 import {
   PdfViewerModule,
   LinkAnnotationService,
@@ -76,48 +75,8 @@ import {
   TextSelectionService,
   PrintService,
 } from '@syncfusion/ej2-angular-pdfviewer';
-import { ChartAllModule } from '@syncfusion/ej2-angular-charts';
-import {
-  CategoryService,
-  DateTimeService,
-  ScrollBarService,
-  ColumnSeriesService,
-  LineSeriesService,
-  ChartAnnotationService,
-  RangeColumnSeriesService,
-  StackingColumnSeriesService,
-  LegendService,
-  TooltipService,
-} from '@syncfusion/ej2-angular-charts';
-import {
-  EditorService,
-  SelectionService,
-  SfdtExportService,
-  WordExportService,
-  PrintService as PrintServiceDocumentEditor,
-  TextExportService,
-  ImageResizerService,
-  EditorHistoryService,
-  OptionsPaneService,
-  HyperlinkDialogService,
-  TableDialogService,
-  BookmarkDialogService,
-  TableOfContentsDialogService,
-  PageSetupDialogService,
-  StyleDialogService,
-  ListDialogService,
-  ParagraphDialogService,
-  BulletsAndNumberingDialogService,
-  FontDialogService,
-  TablePropertiesDialogService,
-  BordersAndShadingDialogService,
-  TableOptionsDialogService,
-  CellOptionsDialogService,
-  StylesDialogService,
-  ToolbarService as ToolbarServiceDocumentEditor,
-} from '@syncfusion/ej2-angular-documenteditor';
+
 import { SearchService } from '@syncfusion/ej2-angular-grids';
-import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -164,43 +123,7 @@ import { MatMenuModule } from '@angular/material/menu';
     TextSearchService,
     TextSelectionService,
     PrintService,
-    CategoryService,
-    DateTimeService,
-    ScrollBarService,
-    ColumnSeriesService,
-    LineSeriesService,
-    ChartAnnotationService,
-    RangeColumnSeriesService,
-    StackingColumnSeriesService,
-    LegendService,
-    TooltipService,
-    ContextMenuService,
-    EditorService,
-    SelectionService,
-    SfdtExportService,
-    WordExportService,
-    PrintServiceDocumentEditor,
-    TextExportService,
-    ImageResizerService,
-    EditorHistoryService,
-    OptionsPaneService,
-    HyperlinkDialogService,
-    TableDialogService,
-    BookmarkDialogService,
-    TableOfContentsDialogService,
-    PageSetupDialogService,
-    StyleDialogService,
-    ListDialogService,
-    ParagraphDialogService,
-    BulletsAndNumberingDialogService,
-    FontDialogService,
-    TablePropertiesDialogService,
-    BordersAndShadingDialogService,
-    TableOptionsDialogService,
-    CellOptionsDialogService,
-    StylesDialogService,
     SearchService,
-    ToolbarServiceDocumentEditor,
     DatePipe,
   ],
   exports: [
@@ -303,10 +226,6 @@ import { MatMenuModule } from '@angular/material/menu';
     MultiSelectModuleEj2,
     DateRangePickerModule,
     BreadcrumbModule,
-    SpreadsheetAllModule,
-    ChartAllModule,
-    DocumentEditorAllModule,
-    DocumentEditorContainerAllModule,
   ],
 })
 export class SharedLibsModule {}

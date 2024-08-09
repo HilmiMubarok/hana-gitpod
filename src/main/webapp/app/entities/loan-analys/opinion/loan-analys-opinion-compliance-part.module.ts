@@ -1,11 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { SharedEntityModule } from 'app/entities/shared-entity.module';
-import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { MasterCreditAgreementClausalDialogComponent } from './master-credit-agreement-clausal-dialog.component';
-import { masterCreditAgreementClausal } from './master-credit-agreement-clausal.route';
-import { MasterCreditAgreementClausalComponent } from './master-credit-agreement-clauasal.component';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
+import { LoanAnalysOpinionCompliancePartComponent } from './loan-analys-opinion-compliance-part.component';
+import { LoanAnalysDialogOpinionCompliancePartComponent } from '../dialogs/loan-analys-dialog-opinion-compliance-part.component';
 import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
@@ -34,18 +31,18 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { LoanAnalysOpinionComponent } from './loan-analys-opinion.component';
+import { LoanAnalysDialogOpinionComponent } from '../dialogs/loan-analys-dialog-opinion.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    SharedEntityModule,
-    SharedLibsModule,
-    DocumentEditorAllModule,
-    DocumentEditorContainerAllModule,
-    RouterModule.forChild(masterCreditAgreementClausal),
+  imports: [SharedModule, SharedEntityModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
+  declarations: [
+    LoanAnalysOpinionCompliancePartComponent,
+    LoanAnalysDialogOpinionCompliancePartComponent,
+    LoanAnalysOpinionComponent,
+    LoanAnalysDialogOpinionComponent,
   ],
-  declarations: [MasterCreditAgreementClausalComponent, MasterCreditAgreementClausalDialogComponent],
-  entryComponents: [MasterCreditAgreementClausalDialogComponent],
+  exports: [LoanAnalysOpinionCompliancePartComponent, LoanAnalysOpinionComponent],
   providers: [
     EditorService,
     SelectionService,
@@ -75,4 +72,4 @@ import {
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LosgwMasterCreditAgreementClausalModule {}
+export class LoanAnalysOpinionCompliancePartModule {}
