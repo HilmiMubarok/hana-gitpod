@@ -5,47 +5,28 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CreditAgreementComponent } from './credit-agreement.component';
 import { creditAgrementReviewRoute } from './credit-agreement.route';
 import { CreditAgreementDetailComponent } from './credit-agreementdetail.component';
-import { FinalizeCreditAgreementComponent } from './finalize-credit-agreement/finalize-credit-agreement.component';
-import { SignerPerjanjialKreditDialogComponent } from './finalize-credit-agreement/signer-perjanjian-kredit-dialog/signer-perjanjian-kredit-dialog.component';
-// import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
-// import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-cif-customer-info-debtor-data.component';
-// import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
-// import { PartyCifCustomerInfoRMInfoComponent } from './customer-info/party-cif-customer-info-rm-info.component';
-// import { PartyCifManagementDataComponent } from './management-data/management-data-list.component';
-// import { PartyCifCollateralInfoComponent } from './collateral-info/collateral-info.component';
-// import { PartyCifCollateralInfoDialogComponent } from './collateral-info/collateral-info-dialog.component';
-// import { PartyCifBusinessGroupComponent } from './business-group/party-cif-business-group.component';
-// import { PartyCifOrganizationLegalComponent } from './organization-legal/party-cif-organization-legal.component';
-// import { DebtorDataCreditRatingViewComponent } from '../debtor-data/credit-rating/debtor-data-credit-rating.component';
-// import { PartyCifFinancialInfoComponent } from './financial-info/party-cif-financial-info.component';
-// import { PartyCifRetriveInfoComponent } from './retrive-info/party-cif-retrive-info.component';
-// import { FacilityInfoDebiturComponent } from '../debtor-data/facility-info/facility-info-debitur.component';
-// import { FacilityInfoCifComponent } from './facility-info-cif/facility-info-cif.component';
-// import { PartyCifDecisionApprovalReportComponent } from './decision-approval-report/party-cif-decision-approval-report.component';
+import { FinalizeCreditAgreementModule } from './finalize-credit-agreement/finalize-credit-agreement.module';
+import { CreditProposalTabSummaryModule } from '../credit-proposal/credit-proposal-tab-summary.module';
+import { CompareDataModule } from '../compare-data/compare-data.module';
+import { CreditProposalTabLoanFacilityDetailModule } from '../credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.module';
+import { CreditProposalMemoBandingModule } from '../credit-proposal/memo-banding/credit-proposal-memo-banding.module';
+import { LoanAnalysComplianceModule } from '../loan-analys/compliance/loan-analys-compliance.module';
+import { LoanAnalysOpinionCompliancePartModule } from '../loan-analys/opinion/loan-analys-opinion-compliance-part.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(creditAgrementReviewRoute)],
-  declarations: [
-    CreditAgreementComponent,
-    CreditAgreementDetailComponent,
-
-    // PartyCifUpdateComponent,
-    // PartyCifCustomerInfoComponent,
-    // PartyCifCustomerInfoDebtorDataComponent,
-    // PartyCifDocumentChecklistComponent,
-    // PartyCifCustomerInfoRMInfoComponent,
-    // PartyCifManagementDataComponent,
-    // PartyCifCollateralInfoComponent,
-    // PartyCifCollateralInfoDialogComponent,
-    // PartyCifBusinessGroupComponent,
-    // PartyCifOrganizationLegalComponent,
-    // DebtorDataCreditRatingViewComponent,
-    // PartyCifFinancialInfoComponent,
-    // PartyCifRetriveInfoComponent,
-    // FacilityInfoDebiturComponent,
-    // FacilityInfoCifComponent,
-    // PartyCifDecisionApprovalReportComponent,
+  imports: [
+    SharedModule,
+    SharedEntityModule,
+    FinalizeCreditAgreementModule,
+    CreditProposalTabSummaryModule,
+    CompareDataModule,
+    CreditProposalTabLoanFacilityDetailModule,
+    CreditProposalMemoBandingModule,
+    LoanAnalysComplianceModule,
+    LoanAnalysOpinionCompliancePartModule,
+    RouterModule.forChild(creditAgrementReviewRoute),
   ],
+  declarations: [CreditAgreementComponent, CreditAgreementDetailComponent],
   entryComponents: [CreditAgreementComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

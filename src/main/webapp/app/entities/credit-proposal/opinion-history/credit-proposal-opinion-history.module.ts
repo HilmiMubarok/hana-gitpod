@@ -1,12 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { SharedEntityModule } from 'app/entities/shared-entity.module';
-import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { MasterCreditAgreementClausalDialogComponent } from './master-credit-agreement-clausal-dialog.component';
-import { masterCreditAgreementClausal } from './master-credit-agreement-clausal.route';
-import { MasterCreditAgreementClausalComponent } from './master-credit-agreement-clauasal.component';
-import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
+import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
   SelectionService,
@@ -34,18 +29,13 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { CreditProposalOpinionHistoryComponent } from './credit-proposal-opinion-history.component';
+import { CreditProposalDialogOpinionHistoryComponent } from './dialog-opinion-history/credit-proposal-dialog-opinion-history.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    SharedEntityModule,
-    SharedLibsModule,
-    DocumentEditorAllModule,
-    DocumentEditorContainerAllModule,
-    RouterModule.forChild(masterCreditAgreementClausal),
-  ],
-  declarations: [MasterCreditAgreementClausalComponent, MasterCreditAgreementClausalDialogComponent],
-  entryComponents: [MasterCreditAgreementClausalDialogComponent],
+  imports: [SharedModule, SharedEntityModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
+  declarations: [CreditProposalOpinionHistoryComponent, CreditProposalDialogOpinionHistoryComponent],
+  exports: [CreditProposalOpinionHistoryComponent],
   providers: [
     EditorService,
     SelectionService,
@@ -75,4 +65,4 @@ import {
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LosgwMasterCreditAgreementClausalModule {}
+export class CreditProposalOpinionHistoryModule {}

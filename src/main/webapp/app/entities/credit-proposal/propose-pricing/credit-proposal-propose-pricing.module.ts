@@ -1,12 +1,22 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { SharedEntityModule } from 'app/entities/shared-entity.module';
-import { SharedLibsModule } from 'app/shared/shared-libs.module';
+import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { MasterCreditAgreementClausalDialogComponent } from './master-credit-agreement-clausal-dialog.component';
-import { masterCreditAgreementClausal } from './master-credit-agreement-clausal.route';
-import { MasterCreditAgreementClausalComponent } from './master-credit-agreement-clauasal.component';
-import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
+import { ChartAllModule } from '@syncfusion/ej2-angular-charts';
+import {
+  CategoryService,
+  DateTimeService,
+  ScrollBarService,
+  ColumnSeriesService,
+  LineSeriesService,
+  ChartAnnotationService,
+  RangeColumnSeriesService,
+  StackingColumnSeriesService,
+  LegendService,
+  TooltipService,
+} from '@syncfusion/ej2-angular-charts';
+import { CreditProposalProposePricingComponent } from './credit-proposal-propose-pricing.component';
+import { CreditProposalTabCustomerProfitabilityComponent } from '../tab-customer-profitability/credit-proposal-tab-customer-profitability.component';
+import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
   SelectionService,
@@ -36,17 +46,21 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    SharedEntityModule,
-    SharedLibsModule,
-    DocumentEditorAllModule,
-    DocumentEditorContainerAllModule,
-    RouterModule.forChild(masterCreditAgreementClausal),
-  ],
-  declarations: [MasterCreditAgreementClausalComponent, MasterCreditAgreementClausalDialogComponent],
-  entryComponents: [MasterCreditAgreementClausalDialogComponent],
+  imports: [SharedModule, SharedEntityModule, ChartAllModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
+  declarations: [CreditProposalProposePricingComponent, CreditProposalTabCustomerProfitabilityComponent],
+  exports: [CreditProposalProposePricingComponent],
   providers: [
+    CategoryService,
+    DateTimeService,
+    ScrollBarService,
+    ColumnSeriesService,
+    LineSeriesService,
+    ChartAnnotationService,
+    RangeColumnSeriesService,
+    StackingColumnSeriesService,
+    LegendService,
+    TooltipService,
+
     EditorService,
     SelectionService,
     SfdtExportService,
@@ -73,6 +87,5 @@ import {
     StylesDialogService,
     ToolbarServiceDocumentEditor,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LosgwMasterCreditAgreementClausalModule {}
+export class CreditProposalProposePricingModule {}
