@@ -15,6 +15,7 @@ export class LineChartComponent implements OnInit, OnChanges {
   public lineChartOptions: ChartConfiguration['options'];
   public lineChartType: ChartType;
   public _interval: string;
+  public _progressTypes: string;
 
   public initData: any[] = [];
   public data: number[] = [];
@@ -43,6 +44,15 @@ export class LineChartComponent implements OnInit, OnChanges {
     this._interval = param;
   }
 
+  @Input()
+  get progressTypes() {
+    return this._progressTypes;
+  }
+
+  set progressTypes(param: string) {
+    this._progressTypes = param;
+  }
+
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -66,62 +76,52 @@ export class LineChartComponent implements OnInit, OnChanges {
       const totalComplete = [];
       const _initData = [];
       const _labels = [];
-      this.dataSource.forEach(obj => {
-        if (obj.totalDraft > 0) {
-          totalDraft.push(obj.totalDraft);
-        }
-        if (obj.totalReject > 0) {
-          totalReject.push(obj.totalReject);
-        }
-        if (obj.totalCancel > 0) {
-          totalCancel.push(obj.totalCancel);
-        }
-        if (obj.totalComplete > 0) {
-          totalComplete.push(obj.totalComplete);
-        }
 
+      this.dataSource.forEach(obj => {
+        totalDraft.push(obj.totalDraft);
+        totalReject.push(obj.totalReject);
+        totalCancel.push(obj.totalCancel);
+        totalComplete.push(obj.totalComplete);
         _labels.push(new Date(obj.fromDate).toLocaleDateString('en-US', this.labelFormat));
       });
-      if (totalDraft.length > 0) {
+
+      _initData.push({
+        data: totalDraft,
+        label: 'Draft',
+        backgroundColor: '#003c7c96',
+        borderColor: '#003c7c',
+        pointBackgroundColor: '#003c7c96',
+        pointBorderColor: '#003c7c96',
+      });
+
+      if (this.progressTypes !== 'appraisal') {
         _initData.push({
-          totalDraft,
-          label: this.dataSource.length > 0 ? 'Draft' : 'No Data',
-          backgroundColor: '#003c7c96',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#003c7c96',
-          pointBorderColor: '#003c7c96',
-        });
-      }
-      if (totalReject.length > 0) {
-        _initData.push({
-          totalReject,
-          label: this.dataSource.length > 0 ? 'Reject' : 'No Data',
+          data: totalReject,
+          label: 'Reject',
           backgroundColor: '#d4bdd9',
           borderColor: '#003c7c',
           pointBackgroundColor: '#d4bdd9',
           pointBorderColor: '#d4bdd9',
         });
       }
-      if (totalCancel.length > 0) {
-        _initData.push({
-          totalCancel,
-          label: this.dataSource.length > 0 ? 'Cancel' : 'No Data',
-          backgroundColor: '#37008f',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#37008f',
-          pointBorderColor: '#37008f',
-        });
-      }
-      if (totalComplete.length > 0) {
-        _initData.push({
-          totalComplete,
-          label: this.dataSource.length > 0 ? 'Complete' : 'No Data',
-          backgroundColor: '#f4cf74',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#f4cf74',
-          pointBorderColor: '#f4cf74',
-        });
-      }
+
+      _initData.push({
+        data: totalCancel,
+        label: 'Cancel',
+        backgroundColor: '#37008f',
+        borderColor: '#003c7c',
+        pointBackgroundColor: '#37008f',
+        pointBorderColor: '#37008f',
+      });
+
+      _initData.push({
+        data: totalComplete,
+        label: 'Complete',
+        backgroundColor: '#f4cf74',
+        borderColor: '#003c7c',
+        pointBackgroundColor: '#f4cf74',
+        pointBorderColor: '#f4cf74',
+      });
 
       this.initData = [..._initData];
       this.labels = [..._labels];
@@ -188,6 +188,7 @@ export class LineChartComponent implements OnInit, OnChanges {
 
     this.chart?.update();
   }
+
   private static generateNumber(i: number): number {
     return Math.floor(Math.random() * (i < 2 ? 100 : 1000) + 1);
   }
