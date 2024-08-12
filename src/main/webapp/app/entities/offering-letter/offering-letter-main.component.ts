@@ -484,6 +484,7 @@ export class OfferingLetterMainComponent implements OnInit {
   public onSave(source: string): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
+        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
         this.saveCollateralInfo(source);
         // this.saveApplicationRole(source);
       });

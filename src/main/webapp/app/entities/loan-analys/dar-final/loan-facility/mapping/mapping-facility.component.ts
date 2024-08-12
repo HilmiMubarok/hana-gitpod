@@ -132,8 +132,8 @@ export class MappingFacilityTempComponent implements OnChanges, OnInit {
             collateralId: this.collateralInfo.id,
             bindingValue: this.bindingValueHelper[index],
             applicationProduct: this.applicationProductData[index],
+            id: this.creditProposalData.collateralProductRelations[index].id,
           };
-          console.log('cross jalan');
           this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
         }
       }
@@ -141,6 +141,7 @@ export class MappingFacilityTempComponent implements OnChanges, OnInit {
   }
 
   private setUp(): void {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     if (this.applicationProductData.length > 0) {
       for (let i = 0; i < this.applicationProductData.length; i++) {
         this.bindingValueHelper.push(0);
@@ -149,12 +150,15 @@ export class MappingFacilityTempComponent implements OnChanges, OnInit {
         if (this.creditProposalData.collateralProductRelations) {
           if (this.creditProposalData.collateralProductRelations.length > 0) {
             for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
-              if (
-                this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
-                this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData[i].id
-              ) {
-                this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
-                this.mappingStatusHelper[i] = 'yes';
+              for (let k = 0; k < copyCreditProposal.collateralProductRelations.length; k++) {
+                if (
+                  this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
+                  this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData[i].id &&
+                  this.creditProposalData.collateralProductRelations[j].id === copyCreditProposal.collateralProductRelations[k].id
+                ) {
+                  this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+                  this.mappingStatusHelper[i] = 'yes';
+                }
               }
             }
           }
