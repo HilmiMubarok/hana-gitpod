@@ -4,8 +4,6 @@ import { MenuAccessService } from 'app/entities/menu-access/menu-access.service'
 import { IChartData } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
-import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
-import { InternalService } from 'app/entities/internal/internal.service';
 
 @Component({
   selector: 'jhi-dashboard',
@@ -39,7 +37,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFilters();
-    this.preLoadData();
   }
 
   public loadFilters(): void {
@@ -52,7 +49,7 @@ export class DashboardComponent implements OnInit {
       .subscribe(res => {
         const filters = res.body.filter(obj => obj.statusId === 'ACTIVE');
         filters.forEach(item => this.proposalTypeList.push(item.code));
-        this.proposalType = this.proposalTypeList;
+        this.proposalType = [...this.proposalTypeList];
       });
 
     this.dashboardService
@@ -68,12 +65,21 @@ export class DashboardComponent implements OnInit {
           _segmentList.push(obj.facilityName);
         });
         this.segmentList = _segmentList;
-        this.segment = this.segmentList;
+        this.segment = [...this.segmentList];
+        this.preLoadData();
       });
   }
 
   public applyFilters(): void {
     this.filterApplied = !this.filterApplied;
+    this.dashboardService
+      .creditProposals()
+      .getGroupByStatus({ proposeType: this.proposalType, segment: this.segment, idPosition: this.positionId })
+      .subscribe(res => {
+        const groupByStatus = res.body;
+        const indexCp = this.mergedChartData.findIndex(obj => obj.chartsTitle === 'Charts Credit Proposal');
+        this.mergedChartData[indexCp].groupByStatus = groupByStatus;
+      });
   }
 
   private preLoadData(): void {
@@ -164,7 +170,7 @@ export class DashboardComponent implements OnInit {
       if (tempDataAppraisal.some(item => !item.menuItemAppraisal.includes('DASHBOARD_CHART'))) {
         this.dashboardService
           .appraisal()
-          .getGroupByStatus({ proposeType: this.proposalType, segment: this.segment, idPosition: this.positionId })
+          .getGroupByStatus({ idPosition: this.positionId })
           .subscribe(res => {
             const groupByStatus = res.body;
             this.mergedChartData.push({
