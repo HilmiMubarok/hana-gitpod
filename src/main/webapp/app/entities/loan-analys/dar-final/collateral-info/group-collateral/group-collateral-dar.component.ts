@@ -164,6 +164,7 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
   }
 
   private findAndCleanConnection(): void {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     if (
       this.creditProposal.collateralProductRelations.length > 0 &&
       this.creditProposal.products.length > 0 &&
@@ -180,11 +181,14 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
       for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           for (let k = 0; k < this.groupCollaterals.length; k++) {
-            if (
-              this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
-              this.creditProposal.collateralProductRelations[index].collateralId === this.groupCollaterals[k].id
-            ) {
-              this.creditProposal.collateralProductRelations.splice(index);
+            for (let z = 0; z < copyCreditProposal.collateralProductRelations.length; z++) {
+              if (
+                this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
+                this.creditProposal.collateralProductRelations[index].collateralId === this.groupCollaterals[k].id &&
+                this.creditProposal.collateralProductRelations[index].id === copyCreditProposal.collateralProductRelations[z].id
+              ) {
+                this.creditProposal.collateralProductRelations.splice(index);
+              }
             }
           }
         }
@@ -238,7 +242,28 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
       }
     }
   }
-
+  private checkIndividualCol(cp: ICreditProposal): void {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+    if (cp.collateralProductRelations.length > 0 && cp.products.length > 0 && this.groupCollaterals.length > 0) {
+      for (let k = 0; k < this.groupCollaterals.length; k++) {
+        for (let i = 0; i < cp.collateralProductRelations.length; i++) {
+          for (let j = 0; j < cp.products.length; j++) {
+            for (let z = 0; z < copyCreditProposal.collateralProductRelations.length; z++) {
+              if (
+                cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
+                cp.collateralProductRelations[i].collateralId === this.groupCollaterals[k].id &&
+                cp.collateralProductRelations[i].id === copyCreditProposal.collateralProductRelations[z].id
+              ) {
+                this.groupCollaterals[k].attributes['crossCollateral'] = 'yes';
+              } else {
+                this.groupCollaterals[k].attributes['crossCollateral'] = 'no';
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   public openDialog(element: ICollateral): void {
     let cp = {};
     for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
@@ -683,6 +708,9 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
       })
       .subscribe(res => {
         this.groupCollaterals = res.body;
+        if (this.creditProposal) {
+          this.checkIndividualCol(this.creditProposal);
+        }
         this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
         this.groubCollateralPagination.paginator = this.paginator;
       });

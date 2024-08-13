@@ -1747,7 +1747,7 @@ export class LoanAnalysMainComponent implements OnInit {
   private refractorSaveForIsAllowSave(statusPreSave: string): void {
     this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
       this.creditProposal.notes = res.body.notes;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       this.loanAnalysOpinionComponent.refresh();
 
       // if (this.loanAnalysOpinionComponent) {
@@ -2010,7 +2010,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.creditProposalService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.notes = res.body.notes;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       const tempRouterA = this.router.url.split('/')[1];
 
       if (tempRouterA === 'cc-review') {

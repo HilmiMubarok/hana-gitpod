@@ -730,7 +730,7 @@ export class LoanOperationDetailComponent implements OnInit {
     this.loanOperationService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }

@@ -355,7 +355,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
         this.setDepositInterestRate(element, res.depositInterestRate);
-
         this.save().then(() => {
           this.loadSummaryCollateralSummary().then(() => {
             this.getSummaryCollateral().then(() => {
@@ -1281,11 +1280,12 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       return utcDate;
     }
   }
-
   public save(): Promise<void> {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     return new Promise((resolve, reject) => {
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
-        () => {
+        res => {
+          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {
@@ -1294,7 +1294,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       );
     });
   }
-
   private preSave(status: string): ICreditProposal {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
