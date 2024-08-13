@@ -68,6 +68,7 @@ export class DashboardReusableCalendarComponent {
       const startDate = moment(this.filterRange[0]).format('YYYY-MM-DD').toString();
 
       const thruDate = moment(this.filterRange[1]).format('YYYY-MM-DD').toString();
+      this.maxDateVal = null;
       this.output.emit({ startDate, thruDate });
     }
   }
