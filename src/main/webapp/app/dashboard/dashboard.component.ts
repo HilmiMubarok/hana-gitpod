@@ -4,6 +4,7 @@ import { MenuAccessService } from 'app/entities/menu-access/menu-access.service'
 import { IChartData } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { SEGMENTS_TYPE } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-dashboard',
@@ -50,22 +51,13 @@ export class DashboardComponent implements OnInit {
         const filters = res.body.filter(obj => obj.statusId === 'ACTIVE');
         filters.forEach(item => this.proposalTypeList.push(item.code));
         this.proposalType = [...this.proposalTypeList];
-      });
 
-    this.dashboardService
-      .getSegment({
-        page: 0,
-        size: 999,
-      })
-      .subscribe(res => {
-        const segment = res.body.filter(obj => obj.parentId === '10000');
-
-        const _segmentList = [];
-        segment.forEach(obj => {
-          _segmentList.push(obj.facilityName);
+        const _SEGMENTS_TYPE: any = SEGMENTS_TYPE;
+        _SEGMENTS_TYPE.forEach(segment => {
+          this.segmentList.push(segment.id);
         });
-        this.segmentList = _segmentList;
         this.segment = [...this.segmentList];
+
         this.preLoadData();
       });
   }
