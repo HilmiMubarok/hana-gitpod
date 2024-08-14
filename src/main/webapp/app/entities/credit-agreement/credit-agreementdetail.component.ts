@@ -276,6 +276,10 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
     this.creditProposal.agreements[0].attributes.AGREEMENT_PLACE = value;
   }
 
+  aggrementTypeChange(value) {
+    this.creditProposal.agreements[0].attributes.AGREEMENT_TYPE = value;
+  }
+
   private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
