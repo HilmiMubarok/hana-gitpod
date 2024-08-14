@@ -61,10 +61,12 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
   public valueAddress: string;
   public dataNotes: string;
   public dataAgreementPlace: string;
+  public dataAggrementType: string;
 
   @Output() notesChange = new EventEmitter<INotes>();
   @Output() aggrementNote = new EventEmitter<any>();
   @Output() aggrementPlaces = new EventEmitter<any>();
+  @Output() aggrementType = new EventEmitter<any>();
 
   onNotesChange(ev) {
     this.notesChange.emit(ev);
@@ -114,6 +116,7 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
   ngOnInit(): void {
     this.dataNotes = this.creditProposal.agreements[0].attributes.notes;
     this.dataAgreementPlace = this.creditProposal.agreements[0].attributes.AGREEMENT_PLACE;
+    this.dataAggrementType = this.creditProposal.agreements[0].attributes.AGREEMENT_TYPE;
     this.valueAddress = this.creditProposal.attributes['offeringLetterPreparation'].address;
     if (this.creditProposal.entityProperties.length < 1) {
       this.cashCreditProposalsService.getEntityPropResource(this._creditProposal.id, 'APPROVAL_DEBTOR_CONDITIONS').subscribe((res: any) => {
@@ -206,8 +209,8 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
   }
 
   public onSelectAgreementType(event: any) {
+    this.aggrementType.emit(event.value);
     this.creditProposal.agreements[0].attributes.AGREEMENT_TYPE = event.value;
-
     if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'NEW') {
       this.displayColumnsCreditAgreementClausal = ['no', 'category', 'description', 'action'];
     } else if (this.creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE === 'ADDENDUM') {
