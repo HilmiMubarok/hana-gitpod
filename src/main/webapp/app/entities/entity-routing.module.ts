@@ -23,10 +23,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./application-option/application-option.module').then(m => m.LosgwApplicationOptionModule),
       },
       {
-        path: 'sample-form',
-        loadChildren: () => import('./sample-form/sample-form.module').then(m => m.LosgwSampleFormModule),
-      },
-      {
         path: 'party',
         loadChildren: () => import('./party/party.module').then(m => m.LosgwPartyModule),
       },
@@ -185,10 +181,6 @@ import { RouterModule } from '@angular/router';
       {
         path: 'service-product',
         loadChildren: () => import('./service-product/service-product.module').then(m => m.LosgwServiceProductModule),
-      },
-      {
-        path: 'sample-ejs',
-        loadChildren: () => import('./sample-ejs/sample-ejs.module').then(m => m.LosgwSampleEjsModule),
       },
       {
         path: 'func-setting-template',

@@ -17,6 +17,7 @@ import { ChartsLayoutComponent } from './charts/charts-layout.component';
 import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuseable-calendar.component';
+import { CarouselModule } from 'primeng/carousel';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuse
     // primeng
     CalendarModule,
     MultiSelectModule,
+    CarouselModule,
 
     // charts
     NgChartsModule,
