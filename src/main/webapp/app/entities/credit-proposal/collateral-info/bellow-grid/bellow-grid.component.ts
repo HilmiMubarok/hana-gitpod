@@ -334,7 +334,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         });
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -464,6 +464,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
         res => {
           this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+          this.creditProposal.collaterals = res.body.collaterals;
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {
