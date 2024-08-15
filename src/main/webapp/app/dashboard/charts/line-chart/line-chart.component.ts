@@ -88,39 +88,39 @@ export class LineChartComponent implements OnInit, OnChanges {
       _initData.push({
         data: totalDraft,
         label: 'Draft',
-        backgroundColor: '#003c7c96',
-        borderColor: '#003c7c',
-        pointBackgroundColor: '#003c7c96',
-        pointBorderColor: '#003c7c96',
+        backgroundColor: '#ff638494',
+        borderColor: '#ff638494',
+        pointBackgroundColor: '#ff638494',
+        pointBorderColor: '#ff638494',
       });
 
       if (this.progressTypes !== 'appraisal') {
         _initData.push({
           data: totalReject,
           label: 'Reject',
-          backgroundColor: '#d4bdd9',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#d4bdd9',
-          pointBorderColor: '#d4bdd9',
+          backgroundColor: '#4aacee8c',
+          borderColor: '#4aacee8c',
+          pointBackgroundColor: '#4aacee8c',
+          pointBorderColor: '#4aacee8c',
         });
       }
 
       _initData.push({
         data: totalCancel,
         label: 'Cancel',
-        backgroundColor: '#37008f',
-        borderColor: '#003c7c',
-        pointBackgroundColor: '#37008f',
-        pointBorderColor: '#37008f',
+        backgroundColor: '#ffd4aa96',
+        borderColor: '#ffd4aa96',
+        pointBackgroundColor: '#ffd4aa96',
+        pointBorderColor: '#ffd4aa96',
       });
 
       _initData.push({
         data: totalComplete,
         label: 'Complete',
-        backgroundColor: '#f4cf74',
-        borderColor: '#003c7c',
-        pointBackgroundColor: '#f4cf74',
-        pointBorderColor: '#f4cf74',
+        backgroundColor: '#b0dcc9',
+        borderColor: '#b0dcc9',
+        pointBackgroundColor: '#b0dcc9',
+        pointBorderColor: '#b0dcc9',
       });
 
       this.initData = [..._initData];
