@@ -26,6 +26,7 @@ export interface IPDFSlik {
   tanggalMulai?: string;
   tanggalJatuhTempo?: string;
   typeOfFacility?: string;
+  kondisi?: string;
 }
 
 export class PDFSlik implements IPDFSlik {
@@ -56,6 +57,7 @@ export class PDFSlik implements IPDFSlik {
     public tanggalAkadAwal?: string,
     public tanggalMulai?: string,
     public tanggalJatuhTempo?: string,
-    public typeOfFacility?: string
+    public typeOfFacility?: string,
+    public kondisi?: string
   ) {}
 }
