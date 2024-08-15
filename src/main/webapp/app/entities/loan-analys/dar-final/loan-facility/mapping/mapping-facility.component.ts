@@ -51,7 +51,7 @@ export class MappingFacilityTempComponent implements OnChanges, OnInit {
     this.collateralInfo = this.data.collateral;
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
-    this.setUp();
+    // this.setUp();
     this.checked = false;
     this.collateralProperties = this.data.properties;
   }
