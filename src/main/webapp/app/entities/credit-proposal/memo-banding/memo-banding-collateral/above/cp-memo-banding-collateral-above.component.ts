@@ -302,7 +302,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
         });
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
         }
         // replace / add binding
@@ -334,7 +334,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
         }
         const bindingIdx: number = lodash.findIndex(
