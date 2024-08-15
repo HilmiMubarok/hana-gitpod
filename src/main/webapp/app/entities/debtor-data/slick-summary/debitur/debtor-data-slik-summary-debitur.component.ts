@@ -481,6 +481,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     partySlik.tanggalMulai = item.tanggalMulai;
     partySlik.tanggalJatuhTempo = item.tanggalJatuhTempo;
     partySlik.typeOfFacility = item.typeOfFacility;
+    partySlik.kondisi = item.kondisi;
 
     return partySlik;
   }
