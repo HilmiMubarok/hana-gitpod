@@ -174,7 +174,6 @@ import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/pro
 import { CollateralTypeDialogComponent } from './party-cif/collateral-info/collateral-type-dialog.component';
 import { PartyPostalAddressCardComponent } from './party-postal-address/party-postal-address-card.component';
 import { CustomerDetailCardComponent } from './customer/customer-detail-card.component';
-import { PartyCifDebtorComponent } from './debtor-data/debtor-data.component';
 import { OrganizationLegalListComponent } from './organization-legal/organization-legal-list.component';
 import { entityDialogModule } from './entity-dialog.constant';
 import { CovenantBackToBackGeneralComponent } from './credit-proposal/convenant/back-to-back/covenant-backtoback-general.component';
@@ -716,7 +715,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalCollateralTabLoanAfterComponent,
     CreditProposalCollateralTabLoanAfterDialogComponent,
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
-    PartyCifDebtorComponent,
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
     RetriveComponent,
@@ -1296,7 +1294,6 @@ import { TboLegalMonitoringViewComponent } from './tbo-legal-monitoring/tbo-moni
     CreditProposalCollateralTabLoanAfterComponent,
     CreditProposalCollateralTabLoanAfterDialogComponent,
     CreditProposalTabLoanFacilityTakeOverAfterComponent,
-    PartyCifDebtorComponent,
     ParipasuCollateralComponent,
     DebtorDataOrganizationManagementListComponent,
     RetriveComponent,

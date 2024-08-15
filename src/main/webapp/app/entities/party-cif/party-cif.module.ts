@@ -21,9 +21,10 @@ import { PartyCifRetriveInfoComponent } from './retrive-info/party-cif-retrive-i
 import { FacilityInfoDebiturComponent } from '../debtor-data/facility-info/facility-info-debitur.component';
 import { FacilityInfoCifComponent } from './facility-info-cif/facility-info-cif.component';
 import { PartyCifDecisionApprovalReportComponent } from './decision-approval-report/party-cif-decision-approval-report.component';
+import { DebtorDataModule } from '../debtor-data/debtor-data.module';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(partyCifRoute)],
+  imports: [SharedModule, SharedEntityModule, DebtorDataModule, RouterModule.forChild(partyCifRoute)],
   declarations: [
     PartyCifComponent,
     PartyCifDetailComponent,
