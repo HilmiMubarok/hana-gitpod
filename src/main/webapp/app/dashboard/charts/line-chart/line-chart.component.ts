@@ -161,7 +161,7 @@ export class LineChartComponent implements OnInit, OnChanges {
       elements: {
         line: {
           tension: 0.3,
-          fill: true,
+          fill: false,
         },
       },
       scales: {
@@ -169,15 +169,15 @@ export class LineChartComponent implements OnInit, OnChanges {
         y: {
           position: 'left',
         },
-        y1: {
-          position: 'right',
-          grid: {
-            // color: 'rgba(255,0,0,0.3)',
-          },
-          ticks: {
-            // color: 'red',
-          },
-        },
+        // y1: {
+        //   position: 'right',
+        //   grid: {
+        //     // color: 'rgba(255,0,0,0.3)',
+        //   },
+        //   ticks: {
+        //     // color: 'red',
+        //   },
+        // },
       },
 
       plugins: {
