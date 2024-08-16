@@ -137,7 +137,7 @@ export class CollateralInfoBTPDarFinalComponent
 
   private loadData(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
-    const dataFilter = this.parsedData.previousHistory.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const dataFilter = this.parsedData.previousHistory.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
@@ -219,7 +219,7 @@ export class CollateralInfoBTPDarFinalComponent
               o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
-          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter2);
           this.dataItem.paginator = this.paginator;
         }
@@ -260,7 +260,7 @@ export class CollateralInfoBTPDarFinalComponent
               o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
-          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter2);
           this.dataItem.paginator = this.paginator;
         }

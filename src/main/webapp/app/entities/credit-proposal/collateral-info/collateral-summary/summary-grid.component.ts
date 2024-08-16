@@ -340,7 +340,7 @@ export class SummaryGridComponent
         });
         if (collateralIdx > -1) {
           this.dataItem[collateralIdx] = res['collateral'];
-          const filter = this.dataItem.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.dataItem.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -373,7 +373,7 @@ export class SummaryGridComponent
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.dataItem[collateralIdx] = this.collateralStartState;
-          const filter = this.dataItem.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.dataItem.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }

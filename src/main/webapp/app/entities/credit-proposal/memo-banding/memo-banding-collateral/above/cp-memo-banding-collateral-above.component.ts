@@ -183,7 +183,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
 
     this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposal);
 
-    this.filtered = this.parsed.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    this.filtered = this.parsed.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
 
     // this.isViewMode && this.displayedColumns.pop();
 

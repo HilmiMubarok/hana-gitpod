@@ -31,7 +31,7 @@ export class CpMemoBandingCollateralComponent implements OnChanges, OnInit {
   ngOnInit() {
     this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposal);
 
-    this.filtered = this.parsed.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    this.filtered = this.parsed.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
 
     if (this.filtered.length > 0) {
       for (let i = 0; i < this.filtered.length; i++) {

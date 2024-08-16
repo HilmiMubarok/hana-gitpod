@@ -37,7 +37,7 @@ export class MappingCollateralHistoryComponent implements OnInit {
     },
     protected collateralPropertyService: CollateralPropertyService
   ) {
-    const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
+    const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
     this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
     console.log('collateral data ', this.collateralData);
     this.applicationProductData = this.data.applicationProduct;
