@@ -268,7 +268,7 @@ export class AboveGridDarFinalComponent
         });
         if (collateralIdx > -1) {
           this.dynamicCollateral()[collateralIdx] = res['collateral'];
-          const filter = this.dynamicCollateral().filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.dynamicCollateral().filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -302,7 +302,7 @@ export class AboveGridDarFinalComponent
         const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), (o: ICollateral) => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.dynamicCollateral()[collateralIdx] = this.collateralStartState;
-          const filter = this.dynamicCollateral().filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.dynamicCollateral().filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }

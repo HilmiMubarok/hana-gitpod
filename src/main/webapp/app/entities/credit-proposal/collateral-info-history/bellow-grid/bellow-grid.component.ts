@@ -173,7 +173,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
 
   private loadData(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
-    const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
     if (dataFilter.length > 0) {
@@ -443,7 +443,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(
+      obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE'
+    );
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -515,7 +517,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(
+      obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE'
+    );
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -717,7 +721,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(
+      obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE'
+    );
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -736,7 +742,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(
+      obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE'
+    );
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);

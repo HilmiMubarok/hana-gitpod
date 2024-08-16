@@ -259,7 +259,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
               o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
-          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter2);
           this.dataItem.paginator = this.paginator;
         }
