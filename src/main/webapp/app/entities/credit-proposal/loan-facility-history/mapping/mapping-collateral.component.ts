@@ -42,7 +42,7 @@ export class MappingCollateralHistoryComponent implements OnInit {
     console.log('collateral data ', this.collateralData);
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
-    this.setUp();
+    // this.setUp();
   }
 
   ngOnInit(): void {
@@ -51,6 +51,7 @@ export class MappingCollateralHistoryComponent implements OnInit {
       this.loadData(i);
     }
     console.log('ini dataSource', this.dataSource);
+    this.setUp();
   }
 
   private setUp(): void {
