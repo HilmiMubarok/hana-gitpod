@@ -125,7 +125,7 @@
           [(ngModel)]="surveyAppraisal.thruDate"
           [disabled]="appraisalValidityPeriod"
         />
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="dp" [disabled]="appraisalValidityPeriod"></mat-datepicker-toggle>
         <mat-datepicker #dp [disabled]="appraisalValidityPeriod"></mat-datepicker>
       </mat-form-field>
     </section>

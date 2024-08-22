@@ -181,7 +181,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
             }
 
             if (this.collateralAppraisal.apprOfficer === 'Internal' || this.surveyAppraisal.apprOfficer === 'Internal') {
-              if (this.collateralAppraisal.statusId === res.body[i].status) {
+              if (res.body[i].status === 'VISITED') {
                 this.visitDate = res.body[i].lastModifiedDate.toString();
               }
             }
@@ -209,7 +209,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
       this.surveyors = res.body;
     });
-
     if (this.collateralAppraisal.apprOfficer === 'External' || this.surveyAppraisal.apprOfficer === 'External') {
       this.visitDate = this.surveyAppraisal.apprDate.toString();
     }
