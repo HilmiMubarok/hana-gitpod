@@ -44,11 +44,12 @@
             <div>
               <button
                 *ngIf="
-                  item.parentId === 'DOC_LA' &&
-                  matrix === true &&
-                  creditProposal.statusCode !== 'PK_RETURN_TO_RM' &&
-                  creditProposal.statusCode !== 'PK_DAR_REVISION_CHECKER' &&
-                  router.url.includes('dar-revision-checker') === false
+                  (item.parentId === 'DOC_LA' &&
+                    matrix === true &&
+                    creditProposal.statusCode !== 'PK_RETURN_TO_RM' &&
+                    creditProposal.statusCode !== 'PK_DAR_REVISION_CHECKER' &&
+                    router.url.includes('dar-revision-checker') === false) ||
+                  showAddButtonLegalOfficer(item) === true
                 "
                 mat-icon-button
                 (click)="openDialog(element, 'add', item.description)"
