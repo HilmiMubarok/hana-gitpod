@@ -307,6 +307,36 @@ export class DocumentChecklistTempComponent implements OnInit {
     });
   }
 
+  public showAddButtonLegalOfficer(item: any): boolean {
+    const positionTypeId = this.getLocStor('POSO');
+
+    if (
+      positionTypeId === 'LEGAL_OFFICER' &&
+      this.creditProposal.statusId === 'OL_ASSIGNED' &&
+      item.parentId === 'DOC_IDD' &&
+      item.id === 'DOC_IDD_BINDING'
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.storageService.getBucketName().subscribe(res => {
