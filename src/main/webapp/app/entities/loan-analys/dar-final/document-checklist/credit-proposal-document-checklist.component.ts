@@ -313,8 +313,8 @@ export class DocumentChecklistTempComponent implements OnInit {
     if (
       positionTypeId === 'LEGAL_OFFICER' &&
       this.creditProposal.statusId === 'OL_ASSIGNED' &&
-      item.parentId === 'DOC_IDD' &&
-      item.id === 'DOC_IDD_BINDING'
+      item.parentId === 'DOC_CP' &&
+      item.id === 'DOC_CP_BINDING'
     ) {
       return true;
     } else {
