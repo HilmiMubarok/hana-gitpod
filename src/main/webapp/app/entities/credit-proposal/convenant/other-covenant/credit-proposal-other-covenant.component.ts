@@ -81,19 +81,33 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CreditProposalOtherCovenantEditComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      const othersCovenantIndex: number = lodash.findIndex(
-        this.creditProposalItem.attributes['otherCovenant'],
-        function (o: IOtherCovenant) {
-          return o.id === res['convenant']['otherCovenant'].id;
+      if (res.caption !== 'cancel') {
+        const othersCovenantIndex: number = lodash.findIndex(
+          this.creditProposalItem.attributes['convenant']['otherCovenant'],
+          function (o: IOtherCovenant) {
+            return o.id === res['otherCovenant'].id;
+          }
+        );
+        if (othersCovenantIndex > -1) {
+          this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = res['otherCovenant'];
+        } else {
+          this.creditProposalItem.attributes['convenant']['otherCovenant'] = [
+            ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
+            res['otherCovenant'],
+          ];
         }
-      );
-      if (othersCovenantIndex > -1) {
-        this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = res['convenant']['otherCovenant'];
       } else {
-        this.creditProposalItem.attributes['convenant']['otherCovenant'] = [
-          ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
-          res['convenant']['otherCovenant'],
-        ];
+        const convenantTemp = lodash.cloneDeep(res['otherCovenant']);
+        const othersCovenantIndex: number = lodash.findIndex(
+          this.creditProposalItem.attributes['convenant']['otherCovenant'],
+          function (o: IOtherCovenant) {
+            return o.id === convenantTemp.id;
+          }
+        );
+        this.creditProposalItem.attributes['convenant']['otherCovenant'] = [];
+        if (othersCovenantIndex) {
+          this.creditProposalItem.attributes['convenant']['otherCovenant'].push(convenantTemp);
+        }
       }
     });
   }
