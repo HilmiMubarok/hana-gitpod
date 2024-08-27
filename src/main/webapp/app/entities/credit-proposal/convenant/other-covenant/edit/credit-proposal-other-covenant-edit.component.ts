@@ -102,7 +102,6 @@ export class CreditProposalOtherCovenantEditComponent implements OnInit {
       panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
       if (res) {
         this._dialog.close({
           otherCovenant: this.otherCovenantTemp,
