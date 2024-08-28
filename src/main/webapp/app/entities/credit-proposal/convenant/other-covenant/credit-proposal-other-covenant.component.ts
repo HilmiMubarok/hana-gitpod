@@ -16,12 +16,10 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
   public loading: boolean;
 
   public _creditProposalItem: ICreditProposal;
-  data: any;
 
   ngOnInit() {
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     // this.isOtherDeviation && this.filterDeviation();
-    this.data = this.creditProposalItem.attributes['convenant']['otherCovenant'];
   }
   @Input() isViewMode: Boolean = false;
   // @Input() isOtherDeviation: Boolean = false;
@@ -72,14 +70,21 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
 
   // Edit
   public editDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '80vw', data: {}, panelClass: 'custom-dialog-container' };
-    predicate.data['edit'] = true;
+    const predicate = {
+      width: '80vw',
+      data: {},
+      panelClass: 'custom-dialog-container',
+    };
+
+    // Initialize the data for the dialog
     if (element) {
       predicate.data['otherCovenant'] = element;
       predicate.data['edit'] = true;
     } else {
       predicate.data['otherCovenant'] = new OtherCovenant();
     }
+
+    const originalData = lodash.cloneDeep(this.creditProposalItem.attributes['convenant']['otherCovenant']);
 
     const dialogRef = this.dialog.open(CreditProposalOtherCovenantEditComponent, predicate);
 
@@ -91,6 +96,7 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
             return o.id === res['otherCovenant'].id;
           }
         );
+
         if (othersCovenantIndex > -1) {
           this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = res['otherCovenant'];
         } else {
@@ -99,24 +105,9 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
             res['otherCovenant'],
           ];
         }
-        this.data = this.creditProposalItem.attributes['convenant']['otherCovenant'];
       } else {
-        const convenantTemp = lodash.cloneDeep(res['otherCovenant']);
-        const othersCovenantIndex: number = lodash.findIndex(
-          this.creditProposalItem.attributes['convenant']['otherCovenant'],
-          function (o: IOtherCovenant) {
-            return o.id === convenantTemp.id;
-          }
-        );
-        if (othersCovenantIndex > -1) {
-          this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = convenantTemp;
-        } else {
-          this.creditProposalItem.attributes['convenant']['otherCovenant'] = [
-            ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
-            convenantTemp,
-          ];
-        }
-        this.data = this.creditProposalItem.attributes['convenant']['otherCovenant'];
+        // Revert to the original data if canceled
+        this.creditProposalItem.attributes['convenant']['otherCovenant'] = originalData;
       }
     });
   }
