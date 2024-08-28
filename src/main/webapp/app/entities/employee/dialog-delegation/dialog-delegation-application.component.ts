@@ -116,6 +116,7 @@ export class DialogDelegationApplicationComponent implements OnInit {
         sort: ['asc'],
       })
       .subscribe((res: any) => {
+        console.log('length res body', res.body.length);
         this.dataDelegation = res.body.map(data => ({
           ...data,
           attributes: {

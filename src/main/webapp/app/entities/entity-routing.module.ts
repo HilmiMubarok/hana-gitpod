@@ -638,6 +638,11 @@ import { RouterModule } from '@angular/router';
         path: 'tbo-legal-review',
         loadChildren: () => import('./tbo-legal-monitoring/tbo-review/tbo-review.module').then(m => m.TboReviewModule),
       },
+      {
+        path: 'mis-report-credit-proposal',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal/mis-report-credit-proposal.module').then(m => m.MisReportCreditProposalModule),
+      },
     ]),
   ],
 })
