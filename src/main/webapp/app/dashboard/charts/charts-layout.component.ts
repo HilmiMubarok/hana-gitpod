@@ -133,7 +133,7 @@ export class ChartsLayoutComponent implements OnInit, OnChanges {
   public progressInterval = 'DAILY';
 
   private pristine = true;
-
+  public progressType = undefined;
   private dataAppraisal = false;
 
   constructor(
@@ -372,6 +372,7 @@ export class ChartsLayoutComponent implements OnInit, OnChanges {
         })
         .subscribe(res => {
           this.progressDataSource = res.body;
+          this.progressType = 'appraisal';
           resolve(res.body);
         });
     });

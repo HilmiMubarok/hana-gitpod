@@ -9,7 +9,13 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 
 import {
   PROPOSAL_TYPE,
+  SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
   SEGMENTS_TYPE,
+  ID_GREATER_15_BN,
+  ID_LOWER_EQUAL_15_BN,
+  ID_BACK_TO_BACK,
   BASIC_SUBMENU_LOAN_OPS_REVIEW_DIST,
   BASIC_SUBMENU_LOAN_OPS_REVIEW_DIST_MEMO,
 } from 'app/shared/constants/base.constants';
@@ -18,6 +24,7 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import _ from 'lodash';
+import { IEJOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
@@ -46,7 +53,7 @@ import { CPMemoBandingRemarkComponent } from '../credit-proposal/memo-banding/re
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CollateralInfoHistoryComponent } from '../credit-proposal/collateral-info-history/collateral-info-history.component';
 import { CreditProposalOpinionHistoryComponent } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalTabSummaryComponent } from '../credit-proposal/summary/credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
 import { HttpClient } from '@angular/common/http';
@@ -61,7 +68,6 @@ import { LoanOpsReviewProcessService } from './laon-operation-review-process.ser
 import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
-import { CollateralInfoLoanOpsComponent } from '../loan-operation/collateral-info/collateral-info-loan-ops.component';
 @Component({
   selector: 'jhi-laon-operation-review-detail',
   templateUrl: './laon-operation-review-detail.component.html',
@@ -109,9 +115,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     static: false,
   })
   remaksComponent: RemarskComponent;
-
-  @ViewChild('collateralInfoLoanOpsComponent', { static: false })
-  collateralInfoLoanOpsComponent: CollateralInfoLoanOpsComponent;
 
   public currencyMaster: number;
   public myBusinessGroupCPFacility: ICPFacilityTable[] = [];
@@ -375,12 +378,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
           this.creditProposaTabManagementInfoComponent.triggeredSave();
         }
 
-        if (this.collateralInfoLoanOpsComponent) {
-          this.collateralInfoLoanOpsComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-        }
-
-        console.log('this.creditProposal.attributes.proposalType', this.creditProposal.attributes.proposalType);
-
         if (this.creditProposalCollateralInfoComponent) {
           this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
         }
@@ -635,7 +632,7 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     this.loanOpsReviewService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }
@@ -668,9 +665,6 @@ export class LoanOpsReviewDetailComponent implements OnInit {
         this.creditProposaTabManagementInfoComponent.triggeredSave();
       }
 
-      if (this.collateralInfoLoanOpsComponent) {
-        this.collateralInfoLoanOpsComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
       if (this.creditProposalCollateralInfoComponent) {
         this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
       }

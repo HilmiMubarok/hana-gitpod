@@ -55,7 +55,7 @@ import { CPMemoBandingRemarkComponent } from '../credit-proposal/memo-banding/re
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CollateralInfoHistoryComponent } from '../credit-proposal/collateral-info-history/collateral-info-history.component';
 import { CreditProposalOpinionHistoryComponent } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalTabSummaryComponent } from '../credit-proposal/summary/credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
 import { HttpClient } from '@angular/common/http';
@@ -673,7 +673,7 @@ export class ReviewInsuranceDetailComponent implements OnInit {
     this.reviewInsuranceService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }

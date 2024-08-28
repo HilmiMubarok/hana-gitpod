@@ -4,16 +4,17 @@
   </mat-card-header>
   <mat-card-content>
     <div style="margin: 30px">
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
-        <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)" disabled
-          >Is Collateral Cross col, All Facillities?</mat-slide-toggle
-        >
+      <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)" disabled
+        >Is Collateral Cross col, All Facillities?</mat-slide-toggle
+      >
+      <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+       
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
         <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)" disabled
           >Is Collateral Cross col, All Facillities?</mat-slide-toggle
         >
-      </section>
+      </section> -->
     </div>
     <div class="table-responsive-material">
       <table mat-table [dataSource]="dataItem" class="w-100">

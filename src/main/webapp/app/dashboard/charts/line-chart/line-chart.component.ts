@@ -15,6 +15,7 @@ export class LineChartComponent implements OnInit, OnChanges {
   public lineChartOptions: ChartConfiguration['options'];
   public lineChartType: ChartType;
   public _interval: string;
+  public _progressTypes: string;
 
   public initData: any[] = [];
   public data: number[] = [];
@@ -43,6 +44,15 @@ export class LineChartComponent implements OnInit, OnChanges {
     this._interval = param;
   }
 
+  @Input()
+  get progressTypes() {
+    return this._progressTypes;
+  }
+
+  set progressTypes(param: string) {
+    this._progressTypes = param;
+  }
+
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -66,62 +76,52 @@ export class LineChartComponent implements OnInit, OnChanges {
       const totalComplete = [];
       const _initData = [];
       const _labels = [];
-      this.dataSource.forEach(obj => {
-        if (obj.totalDraft > 0) {
-          totalDraft.push(obj.totalDraft);
-        }
-        if (obj.totalReject > 0) {
-          totalReject.push(obj.totalReject);
-        }
-        if (obj.totalCancel > 0) {
-          totalCancel.push(obj.totalCancel);
-        }
-        if (obj.totalComplete > 0) {
-          totalComplete.push(obj.totalComplete);
-        }
 
+      this.dataSource.forEach(obj => {
+        totalDraft.push(obj.totalDraft);
+        totalReject.push(obj.totalReject);
+        totalCancel.push(obj.totalCancel);
+        totalComplete.push(obj.totalComplete);
         _labels.push(new Date(obj.fromDate).toLocaleDateString('en-US', this.labelFormat));
       });
-      if (totalDraft.length > 0) {
+
+      _initData.push({
+        data: totalDraft,
+        label: 'Draft',
+        backgroundColor: '#ff638494',
+        borderColor: '#ff638494',
+        pointBackgroundColor: '#ff638494',
+        pointBorderColor: '#ff638494',
+      });
+
+      if (this.progressTypes !== 'appraisal') {
         _initData.push({
-          totalDraft,
-          label: this.dataSource.length > 0 ? 'Draft' : 'No Data',
-          backgroundColor: '#003c7c96',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#003c7c96',
-          pointBorderColor: '#003c7c96',
+          data: totalReject,
+          label: 'Reject',
+          backgroundColor: '#4aacee8c',
+          borderColor: '#4aacee8c',
+          pointBackgroundColor: '#4aacee8c',
+          pointBorderColor: '#4aacee8c',
         });
       }
-      if (totalReject.length > 0) {
-        _initData.push({
-          totalReject,
-          label: this.dataSource.length > 0 ? 'Reject' : 'No Data',
-          backgroundColor: '#d4bdd9',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#d4bdd9',
-          pointBorderColor: '#d4bdd9',
-        });
-      }
-      if (totalCancel.length > 0) {
-        _initData.push({
-          totalCancel,
-          label: this.dataSource.length > 0 ? 'Cancel' : 'No Data',
-          backgroundColor: '#37008f',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#37008f',
-          pointBorderColor: '#37008f',
-        });
-      }
-      if (totalComplete.length > 0) {
-        _initData.push({
-          totalComplete,
-          label: this.dataSource.length > 0 ? 'Complete' : 'No Data',
-          backgroundColor: '#f4cf74',
-          borderColor: '#003c7c',
-          pointBackgroundColor: '#f4cf74',
-          pointBorderColor: '#f4cf74',
-        });
-      }
+
+      _initData.push({
+        data: totalCancel,
+        label: 'Cancel',
+        backgroundColor: '#ffd4aa96',
+        borderColor: '#ffd4aa96',
+        pointBackgroundColor: '#ffd4aa96',
+        pointBorderColor: '#ffd4aa96',
+      });
+
+      _initData.push({
+        data: totalComplete,
+        label: 'Complete',
+        backgroundColor: '#b0dcc9',
+        borderColor: '#b0dcc9',
+        pointBackgroundColor: '#b0dcc9',
+        pointBorderColor: '#b0dcc9',
+      });
 
       this.initData = [..._initData];
       this.labels = [..._labels];
@@ -161,7 +161,7 @@ export class LineChartComponent implements OnInit, OnChanges {
       elements: {
         line: {
           tension: 0.3,
-          fill: true,
+          fill: false,
         },
       },
       scales: {
@@ -169,15 +169,15 @@ export class LineChartComponent implements OnInit, OnChanges {
         y: {
           position: 'left',
         },
-        y1: {
-          position: 'right',
-          grid: {
-            // color: 'rgba(255,0,0,0.3)',
-          },
-          ticks: {
-            // color: 'red',
-          },
-        },
+        // y1: {
+        //   position: 'right',
+        //   grid: {
+        //     // color: 'rgba(255,0,0,0.3)',
+        //   },
+        //   ticks: {
+        //     // color: 'red',
+        //   },
+        // },
       },
 
       plugins: {
@@ -188,6 +188,7 @@ export class LineChartComponent implements OnInit, OnChanges {
 
     this.chart?.update();
   }
+
   private static generateNumber(i: number): number {
     return Math.floor(Math.random() * (i < 2 ? 100 : 1000) + 1);
   }

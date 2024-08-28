@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { Router } from '@angular/router';
+import lodash from 'lodash';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -141,6 +142,7 @@ export class MappingFacilityLoanOpsComponent implements OnInit, OnChanges {
               collateralId: this.collateralInfo.id,
               bindingValue: this.bindingValueHelper[index],
               applicationProduct: this.applicationProductData[index],
+              id: this.creditProposalData.collateralProductRelations[index].id,
             };
             this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
           }
@@ -150,6 +152,7 @@ export class MappingFacilityLoanOpsComponent implements OnInit, OnChanges {
   }
 
   private setUp(): void {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     if (this.applicationProductData.length > 0) {
       for (let i = 0; i < this.applicationProductData.length; i++) {
         this.bindingValueHelper.push(0);
@@ -158,12 +161,15 @@ export class MappingFacilityLoanOpsComponent implements OnInit, OnChanges {
         if (this.creditProposalData.collateralProductRelations) {
           if (this.creditProposalData.collateralProductRelations.length > 0) {
             for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
-              if (
-                this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
-                this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData[i].id
-              ) {
-                this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
-                this.mappingStatusHelper[i] = 'yes';
+              for (let k = 0; k < copyCreditProposal.collateralProductRelations.length; k++) {
+                if (
+                  this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
+                  this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData[i].id &&
+                  this.creditProposalData.collateralProductRelations[j].id === copyCreditProposal.collateralProductRelations[k].id
+                ) {
+                  this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+                  this.mappingStatusHelper[i] = 'yes';
+                }
               }
             }
           }

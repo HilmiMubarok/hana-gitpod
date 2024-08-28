@@ -1,9 +1,7 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { CollateralInfoRemarksChecklistLoanOpsComponent } from './remarks/collateral-info-remarks-checklist-loan-ops.component';
-import { CollateralInfoRemarksInformationLoanOpsComponent } from './remarks/collateral-info-remarks-information-loan-ops.component';
-import { CollateralInfoLoanOpsComponent } from './collateral-info-loan-ops.component';
-import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
+import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
   SelectionService,
@@ -31,19 +29,18 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { CollateralInfoLoanOpsComponent } from './collateral-info-loan-ops.component';
+import { CollateralInfoRemarksChecklistLoanOpsComponent } from './remarks/collateral-info-remarks-checklist-loan-ops.component';
+import { CollateralInfoRemarksInformationLoanOpsComponent } from './remarks/collateral-info-remarks-information-loan-ops.component';
 
 @NgModule({
-  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  imports: [SharedModule, SharedEntityModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
   declarations: [
     CollateralInfoLoanOpsComponent,
     CollateralInfoRemarksChecklistLoanOpsComponent,
     CollateralInfoRemarksInformationLoanOpsComponent,
   ],
-  exports: [
-    CollateralInfoLoanOpsComponent,
-    CollateralInfoRemarksChecklistLoanOpsComponent,
-    CollateralInfoRemarksInformationLoanOpsComponent,
-  ],
+  exports: [CollateralInfoLoanOpsComponent],
   providers: [
     EditorService,
     SelectionService,
@@ -71,6 +68,6 @@ import {
     StylesDialogService,
     ToolbarServiceDocumentEditor,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CollateralInfoLoanOpsModule {}

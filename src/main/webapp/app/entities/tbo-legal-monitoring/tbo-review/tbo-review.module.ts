@@ -3,17 +3,14 @@ import { RouterModule } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { tboReviewRoute } from './tbo-review.route';
-// import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
-// import { CreditProposalComponent } from './credit-proposal.component';
 
 import { PageService, ToolbarService, EditService } from '@syncfusion/ej2-angular-grids';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { TboReviewComponent } from './tbo-review.component';
 import { TboReviewViewComponent } from './tbo-review-view.component';
-import { TboMonitoringModule } from '../tbo-monitoring/tbo-monitoring.module';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, TboMonitoringModule, RouterModule.forChild(tboReviewRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(tboReviewRoute)],
   declarations: [TboReviewComponent, TboReviewViewComponent],
   entryComponents: [TboReviewComponent],
   providers: [PageService, ToolbarService, EditService],

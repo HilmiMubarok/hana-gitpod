@@ -5,45 +5,35 @@ import { SharedModule } from 'app/shared/shared.module';
 
 import { OfferingLetterRoute } from './history-poposal.route';
 import { HistoryProposalComponent } from './history-poposal.component';
-import { CovenantModule } from 'app/entities/credit-proposal/convenant/covenant.module';
-import { RiskAcceptanceCriteriaModule } from 'app/entities/credit-proposal/risk-criteria/risk-acceptance-criteria.module';
-import { LoanFacilityModule } from 'app/entities/credit-proposal/loan-facility/loan-facility.module';
-import { ExposureModule } from 'app/entities/credit-proposal/exposure/exposure.module';
-import { ManagementInfoModule } from 'app/entities/credit-proposal/management-info/management-info.module';
-import { BusinessActivityModule } from 'app/entities/credit-proposal/busines-activity/business-activity.module';
-import { SlikMainModule } from 'app/entities/loan-analys/slik/slik-main.module';
-import { ProposePricingModule } from 'app/entities/credit-proposal/propose-pricing/propose-pricing.module';
-import { MemoBandingModule } from 'app/entities/credit-proposal/memo-banding/memo-banding.module';
-import { TradeCheckingModule } from 'app/entities/credit-proposal/trade-checking/trade-checking.module';
-import { CollateralInfoCpModule } from 'app/entities/credit-proposal/collateral-info/collateral-info-cp.module';
 import { RepaymentSpreadsheetModule } from 'app/entities/credit-proposal/repayment-spreadsheet/repayment-spreadsheet.module';
-import { CreditProposalSummaryTabModule } from 'app/entities/credit-proposal/summary/credit-proposal-tab-summary.module';
-import { ProposalBasicInformationViewModule } from 'app/entities/credit-proposal/basic-information/basic-information-view.module';
+import { CreditProposalProposePricingModule } from 'app/entities/credit-proposal/propose-pricing/credit-proposal-propose-pricing.module';
+import { CreditProposalTabManagementInfoModule } from 'app/entities/credit-proposal/credit-proposal-tab-management-info.module';
+import { CreditProposalTabSummaryModule } from 'app/entities/credit-proposal/credit-proposal-tab-summary.module';
+import { BasicInformationViewMoodule } from 'app/entities/credit-proposal/basic-information/basic-information-view.module';
+import { CreditProposalTabBusinessActivityModule } from 'app/entities/credit-proposal/busines-activity/credit-proposal-tab-business-activity.module';
+import { CreditProposalCollateralInfoModule } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.module';
+import { CreditProposalTabLoanFacilityDetailModule } from 'app/entities/credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.module';
 import { LoanFacilityDetailHistoryModule } from 'app/entities/credit-proposal/loan-facility-history/loan-facility-detail-history.module';
-import { LoanAnalysOpinionModule } from 'app/entities/loan-analys/opinion/loan-analys-opinion.module';
+import { CreditProposalMemoBandingModule } from 'app/entities/credit-proposal/memo-banding/credit-proposal-memo-banding.module';
 import { LoanAnalysComplianceModule } from 'app/entities/loan-analys/compliance/loan-analys-compliance.module';
+import { LoanAnalysOpinionCompliancePartModule } from 'app/entities/loan-analys/opinion/loan-analys-opinion-compliance-part.module';
 
 @NgModule({
   imports: [
     SharedModule,
     SharedEntityModule,
-    CovenantModule,
-    RiskAcceptanceCriteriaModule,
-    LoanFacilityModule,
-    ExposureModule,
-    ManagementInfoModule,
-    BusinessActivityModule,
-    SlikMainModule,
-    ProposePricingModule,
-    MemoBandingModule,
-    TradeCheckingModule,
-    CollateralInfoCpModule,
     RepaymentSpreadsheetModule,
-    CreditProposalSummaryTabModule,
-    ProposalBasicInformationViewModule,
+    CreditProposalProposePricingModule,
+    CreditProposalTabManagementInfoModule,
+    CreditProposalTabSummaryModule,
+    BasicInformationViewMoodule,
+    CreditProposalTabBusinessActivityModule,
+    CreditProposalCollateralInfoModule,
+    CreditProposalTabLoanFacilityDetailModule,
     LoanFacilityDetailHistoryModule,
-    LoanAnalysOpinionModule,
+    CreditProposalMemoBandingModule,
     LoanAnalysComplianceModule,
+    LoanAnalysOpinionCompliancePartModule,
     RouterModule.forChild(OfferingLetterRoute),
   ],
   declarations: [HistoryProposalComponent],

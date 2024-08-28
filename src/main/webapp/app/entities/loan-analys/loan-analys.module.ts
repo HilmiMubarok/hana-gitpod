@@ -8,57 +8,53 @@ import { LoanAnalysMainComponent } from './loan-analys-main.component';
 import { LoanAnalysBatchBulkAssignComponent } from './loan-analys-batch-bulk-assign.component';
 import { LoanAnalysRoute } from './loan-analys.route';
 
+import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
 import { LoanAnalysSlikSummaryComponent } from './slik-summary/loan-analys-slik-summary.component';
 import { LoanAnalysCreditRatingViewComponent } from './credit-rating/loan-analys-credit-rating-view.component';
 import { LoanAnalysFacilityDetailGridDarNotifComponent } from './dar-notif/loan-facility/grid/loan-analys-facility-detail-grid-dar-notif.component';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.component';
+import { RepaymentSpreadsheetModule } from '../credit-proposal/repayment-spreadsheet/repayment-spreadsheet.module';
+import { CreditProposalProposePricingModule } from '../credit-proposal/propose-pricing/credit-proposal-propose-pricing.module';
+import { CreditProposalTabManagementInfoModule } from '../credit-proposal/credit-proposal-tab-management-info.module';
+import { CreditProposalTabSummaryModule } from '../credit-proposal/credit-proposal-tab-summary.module';
+import { BasicInformationViewMoodule } from '../credit-proposal/basic-information/basic-information-view.module';
+import { CreditProposalTabBusinessActivityModule } from '../credit-proposal/busines-activity/credit-proposal-tab-business-activity.module';
+import { CreditProposalCollateralInfoModule } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.module';
 import { LoanAnalysPreviousDarComponent } from './previous/previous-dar/loan-analys-previous-dar.component';
 import { LoanAnalysPreviousProposalComponent } from './previous/previous-proposal/loan-analys-previous-proposal.component';
-import { CovenantModule } from '../credit-proposal/convenant/covenant.module';
-import { StandartConvenantComponent } from './dar-final/convenant/other-covenant/standart-convenant/standart-convenant.component';
-import { RiskAcceptanceCriteriaModule } from '../credit-proposal/risk-criteria/risk-acceptance-criteria.module';
-import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
-import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
-import { ManagementInfoModule } from '../credit-proposal/management-info/management-info.module';
-import { BusinessActivityModule } from '../credit-proposal/busines-activity/business-activity.module';
-import { ProposePricingModule } from '../credit-proposal/propose-pricing/propose-pricing.module';
-import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
-import { TradeCheckingModule } from '../credit-proposal/trade-checking/trade-checking.module';
-import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
-import { RepaymentSpreadsheetModule } from '../credit-proposal/repayment-spreadsheet/repayment-spreadsheet.module';
-import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
-import { ProposalBasicInformationViewModule } from '../credit-proposal/basic-information/basic-information-view.module';
+import { CollateralInfoHistoryModule } from '../credit-proposal/collateral-info-history/collateral-info-history.module';
 import { CreditProposalGroupGuarantorAnalysisModule } from '../credit-proposal/guarantour/credit-proposal-group-guarantor-analysis.module';
+import { CreditProposalTabLoanFacilityDetailModule } from '../credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.module';
 import { LoanFacilityDetailHistoryModule } from '../credit-proposal/loan-facility-history/loan-facility-detail-history.module';
-import { LoanFacilityDetailTempModule } from './dar-final/loan-facility/loan-facility-detail-temp.module';
-import { LoanAnalysOpinionModule } from './opinion/loan-analys-opinion.module';
+import { CreditProposalMemoBandingModule } from '../credit-proposal/memo-banding/credit-proposal-memo-banding.module';
+import { CreditProposalTradeCheckingRemarksModule } from '../credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.module';
 import { LoanAnalysComplianceModule } from './compliance/loan-analys-compliance.module';
+import { CreditProposalTabLoanFacilityDetaiTemplModule } from './dar-final/loan-facility/credit-proposal-tab-loan-facility-detail.module';
+import { LoanAnalysOpinionCompliancePartModule } from './opinion/loan-analys-opinion-compliance-part.module';
 
 @NgModule({
   imports: [
     SharedModule,
     SharedLibsModule,
     SharedEntityModule,
-    CovenantModule,
-    RiskAcceptanceCriteriaModule,
-    LoanFacilityModule,
-    ExposureModule,
-    ManagementInfoModule,
-    BusinessActivityModule,
-    ProposePricingModule,
-    MemoBandingModule,
-    TradeCheckingModule,
-    CollateralInfoCpModule,
     RepaymentSpreadsheetModule,
-    CreditProposalSummaryTabModule,
-    ProposalBasicInformationViewModule,
+    CreditProposalProposePricingModule,
+    CreditProposalTabManagementInfoModule,
+    CreditProposalTabSummaryModule,
+    BasicInformationViewMoodule,
+    CreditProposalTabBusinessActivityModule,
+    CreditProposalCollateralInfoModule,
+    CollateralInfoHistoryModule,
     CreditProposalGroupGuarantorAnalysisModule,
+    CreditProposalTabLoanFacilityDetailModule,
     LoanFacilityDetailHistoryModule,
-    LoanFacilityDetailTempModule,
-    LoanAnalysOpinionModule,
+    CreditProposalMemoBandingModule,
+    CreditProposalTradeCheckingRemarksModule,
     LoanAnalysComplianceModule,
+    CreditProposalTabLoanFacilityDetaiTemplModule,
+    LoanAnalysOpinionCompliancePartModule,
     RouterModule.forChild(LoanAnalysRoute),
     MatSlideToggleModule,
   ],
@@ -68,12 +64,12 @@ import { LoanAnalysComplianceModule } from './compliance/loan-analys-compliance.
     LoanAnalysMainComponent,
     CreditProposalPersonalInfoAnalystComponent,
     LoanAnalysBatchBulkAssignComponent,
+    LoanAnalysSlikMainComponent,
     LoanAnalysSlikSummaryComponent,
     LoanAnalysCreditRatingViewComponent,
     LoanAnalysFacilityDetailGridDarNotifComponent,
     LoanAnalysPreviousDarComponent,
     LoanAnalysPreviousProposalComponent,
-    StandartConvenantComponent,
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

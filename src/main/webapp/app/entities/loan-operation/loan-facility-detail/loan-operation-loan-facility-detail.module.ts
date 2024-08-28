@@ -1,7 +1,7 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { LoanOperationLoanFacilityDetailComponent } from './loan-operation-loan-facility-detail';
-import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
+import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
   SelectionService,
@@ -29,9 +29,10 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { LoanOperationLoanFacilityDetailComponent } from './loan-operation-loan-facility-detail';
 
 @NgModule({
-  imports: [SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  imports: [SharedModule, SharedEntityModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
   declarations: [LoanOperationLoanFacilityDetailComponent],
   exports: [LoanOperationLoanFacilityDetailComponent],
   providers: [
@@ -61,6 +62,6 @@ import {
     StylesDialogService,
     ToolbarServiceDocumentEditor,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LoanOperationLoanFacilityDetailModule {}

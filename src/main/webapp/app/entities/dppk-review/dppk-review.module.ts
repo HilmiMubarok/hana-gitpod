@@ -6,28 +6,24 @@ import { DppkReviewComponent } from './dppk-review.component';
 import { DppkReviewRoute } from './dppk-review.route';
 import { DppkReviewDetailComponent } from './dppk-review-detail.component';
 import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
-import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
-import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
-import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
-import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
-import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
-import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
-import { LoanAnalysOpinionModule } from '../loan-analys/opinion/loan-analys-opinion.module';
+import { CreditProposalTabSummaryModule } from '../credit-proposal/credit-proposal-tab-summary.module';
+import { CompareDataModule } from '../compare-data/compare-data.module';
+import { CreditProposalTabLoanFacilityDetailModule } from '../credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.module';
+import { CreditProposalMemoBandingModule } from '../credit-proposal/memo-banding/credit-proposal-memo-banding.module';
 import { LoanAnalysComplianceModule } from '../loan-analys/compliance/loan-analys-compliance.module';
+import { LoanAnalysOpinionCompliancePartModule } from '../loan-analys/opinion/loan-analys-opinion-compliance-part.module';
 
 @NgModule({
   imports: [
     SharedModule,
     SharedEntityModule,
     FinalizeCreditAgreementModule,
-    LoanFacilityModule,
-    ExposureModule,
-    MemoBandingModule,
-    InsuranceInformationModule,
-    CollateralInfoCpModule,
-    CreditProposalSummaryTabModule,
-    LoanAnalysOpinionModule,
+    CreditProposalTabSummaryModule,
+    CompareDataModule,
+    CreditProposalTabLoanFacilityDetailModule,
+    CreditProposalMemoBandingModule,
     LoanAnalysComplianceModule,
+    LoanAnalysOpinionCompliancePartModule,
     RouterModule.forChild(DppkReviewRoute),
   ],
   declarations: [DppkReviewComponent, DppkReviewDetailComponent],

@@ -70,8 +70,13 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
 
   // Edit
   public editDialog(element: IOtherCovenant = null): void {
-    const predicate = { width: '80vw', data: {}, panelClass: 'custom-dialog-container' };
-    predicate.data['edit'] = true;
+    const predicate = {
+      width: '80vw',
+      data: {},
+      panelClass: 'custom-dialog-container',
+    };
+
+    // Initialize the data for the dialog
     if (element) {
       predicate.data['otherCovenant'] = element;
       predicate.data['edit'] = true;
@@ -79,24 +84,34 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
       predicate.data['otherCovenant'] = new OtherCovenant();
     }
 
+    const originalData = lodash.cloneDeep(this.creditProposalItem.attributes['convenant']['otherCovenant']);
+
     const dialogRef = this.dialog.open(CreditProposalOtherCovenantEditComponent, predicate);
+
     dialogRef.afterClosed().subscribe(res => {
-      const othersCovenantIndex: number = lodash.findIndex(
-        this.creditProposalItem.attributes['otherCovenant'],
-        function (o: IOtherCovenant) {
-          return o.id === res['convenant']['otherCovenant'].id;
+      if (res.caption !== 'cancel') {
+        const othersCovenantIndex: number = lodash.findIndex(
+          this.creditProposalItem.attributes['convenant']['otherCovenant'],
+          function (o: IOtherCovenant) {
+            return o.id === res['otherCovenant'].id;
+          }
+        );
+
+        if (othersCovenantIndex > -1) {
+          this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = res['otherCovenant'];
+        } else {
+          this.creditProposalItem.attributes['convenant']['otherCovenant'] = [
+            ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
+            res['otherCovenant'],
+          ];
         }
-      );
-      if (othersCovenantIndex > -1) {
-        this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = res['convenant']['otherCovenant'];
       } else {
-        this.creditProposalItem.attributes['convenant']['otherCovenant'] = [
-          ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
-          res['convenant']['otherCovenant'],
-        ];
+        // Revert to the original data if canceled
+        this.creditProposalItem.attributes['convenant']['otherCovenant'] = originalData;
       }
     });
   }
+
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

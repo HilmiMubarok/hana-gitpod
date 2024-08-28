@@ -9,7 +9,18 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 
 import {
   PROPOSAL_TYPE,
+  SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
+  SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
   SEGMENTS_TYPE,
+  ID_GREATER_15_BN,
+  ID_LOWER_EQUAL_15_BN,
+  ID_BACK_TO_BACK,
+  CP_APPROVAL_MENU,
+  CP_APPROVAL_MENU_BTB,
+  CP_APPROVAL_MENU_BELOW,
+  BASIC_SUBMENU_CREDITAGREEMENT,
+  BASIC_SUBMENU_CREDITEGREEMENTREVIEW_MEMO,
   BASIC_SUBMENU_DPPK_MEMO,
   BASIC_SUBMENU_DPPK,
   COLLATERAL_TYPE,
@@ -19,6 +30,7 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
 import _ from 'lodash';
+import { IEJOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
@@ -47,7 +59,7 @@ import { CPMemoBandingRemarkComponent } from '../credit-proposal/memo-banding/re
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CollateralInfoHistoryComponent } from '../credit-proposal/collateral-info-history/collateral-info-history.component';
 import { CreditProposalOpinionHistoryComponent } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalTabSummaryComponent } from '../credit-proposal/summary/credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
 import { HttpClient } from '@angular/common/http';
@@ -60,6 +72,7 @@ import { ICertificateInfo } from '../offering-letter/certificate-info/certificat
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
+import { IEntityProperties } from '../entity-properties/entity-properties.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 
@@ -728,7 +741,7 @@ export class DppkFinalizeDetailComponent implements OnInit {
     this.dppkFinalizeService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }

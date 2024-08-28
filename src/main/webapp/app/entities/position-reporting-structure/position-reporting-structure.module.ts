@@ -8,7 +8,6 @@ import { PositionReportingStructureUpdateComponent } from './position-reporting-
 import { positionReportingStructureRoute } from './position-reporting-structure.route';
 import { PositionReportingStructureDialogComponent } from './position-reporting-structure-dialog.component';
 import { PositionReportingStructureUploadComponent } from './position-reporting-structure-upload.component';
-import { PositionReportingStructureViewComponent } from './position-reporting-structure-view.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(positionReportingStructureRoute)],
@@ -18,7 +17,6 @@ import { PositionReportingStructureViewComponent } from './position-reporting-st
     PositionReportingStructureUpdateComponent,
     PositionReportingStructureDialogComponent,
     PositionReportingStructureUploadComponent,
-    PositionReportingStructureViewComponent,
   ],
   entryComponents: [PositionReportingStructureComponent, PositionReportingStructureUpdateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -207,7 +207,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
               o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
-          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter2);
           this.dataItem.paginator = this.paginator;
         }
@@ -259,7 +259,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
               o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
-          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter2);
           this.dataItem.paginator = this.paginator;
         }
@@ -1151,7 +1151,9 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   public save(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
-        () => {
+        res => {
+          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+          this.creditProposal.collaterals = res.body.collaterals;
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {

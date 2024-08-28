@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ICreditProposal } from '../../credit-proposal.model';
+import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { PositionService } from '../../../position/position.service';
 import { CreditProposalService } from '../../credit-proposal.service';
 
+import { MatDialog } from '@angular/material/dialog';
 import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 

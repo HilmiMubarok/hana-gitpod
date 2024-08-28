@@ -15,12 +15,26 @@
               <div class="e-card-sub-title"></div>
             </div>
           </div>
-          <div class="card-content">
-            <jhi-covenant
-              [isViewMode]="isViewMode"
-              [creditProposalItem]="creditProposalItem"
-              [proposalType]="creditProposalItem.attributes['proposalType']"
-            ></jhi-covenant>
+          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+            <div class="card-content">
+              <jhi-credit-proposal-tab-covenant-above [creditProposalItem]="creditProposalItem"> </jhi-credit-proposal-tab-covenant-above>
+            </div>
+          </div>
+
+          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+            <div class="card-content">
+              <jhi-credit-proposal-tab-covenant-below [creditProposalItem]="creditProposalItem"> </jhi-credit-proposal-tab-covenant-below>
+            </div>
+          </div>
+          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
+            <div class="card-content">
+              <jhi-credit-proposal-tab-covenant-back-to-back-general [creditProposalItem]="creditProposalItem">
+              </jhi-credit-proposal-tab-covenant-back-to-back-general>
+            </div>
+            <div class="card-content">
+              <jhi-credit-proposal-tab-covenant-back-to-back-deposit [creditProposalItem]="creditProposalItem">
+              </jhi-credit-proposal-tab-covenant-back-to-back-deposit>
+            </div>
           </div>
         </div>
       </div>
@@ -47,12 +61,24 @@
 </div>
 
 <div *ngIf="selectedMenu === 'DEVIATION'">
-  <jhi-deviation
-    [isViewMode]="isViewMode"
-    [creditProposalItem]="creditProposalItem"
-    [proposalType]="creditProposalItem.attributes['proposalType']"
-  >
-  </jhi-deviation>
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+    <div class="card-content">
+      <jhi-credit-proposal-deviation-above [creditProposalItem]="creditProposalItem"> </jhi-credit-proposal-deviation-above>
+    </div>
+  </div>
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+    <div class="card-content">
+      <jhi-credit-proposal-deviation-below [creditProposalItem]="creditProposalItem"> </jhi-credit-proposal-deviation-below>
+    </div>
+  </div>
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
+    <div class="card-content">
+      <jhi-credit-proposal-tab-deviation-back-to-back-general [creditProposalItem]="creditProposalItem">
+      </jhi-credit-proposal-tab-deviation-back-to-back-general>
+      <jhi-credit-proposal-tab-deviation-back-to-back-deposit [creditProposalItem]="creditProposalItem">
+      </jhi-credit-proposal-tab-deviation-back-to-back-deposit>
+    </div>
+  </div>
   <div class="e-sample-resize-container e-card-resize-container mb-5">
     <div class="row">
       <div class="row card-layout">

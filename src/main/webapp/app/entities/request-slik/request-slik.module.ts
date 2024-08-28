@@ -17,9 +17,7 @@ import { RequestSlikDebiturGridComponent } from './debitur/request-slik-debitur-
 import { RequestSlikPopupComponent } from './dialogs/request-slik-popup.component';
 import { RequestSlikDialogSlikFileComponent } from './dialogs/request-slik-dialog-slik-file.component';
 import { RequestSlikStatusPipe } from './pipes/request-slik-status.pipe';
-import { RequestSlikViewComponent } from './request-slik-view.component';
-
-import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
   SelectionService,
@@ -52,7 +50,7 @@ import {
     SharedModule,
     SharedEntityModule,
     DocumentEditorAllModule,
-    DocumentEditorContainerModule,
+    DocumentEditorContainerAllModule,
     RouterModule.forChild(requestSlikRoute),
   ],
   declarations: [
@@ -70,7 +68,6 @@ import {
     RequestSlikPopupComponent,
     RequestSlikDialogSlikFileComponent,
     RequestSlikStatusPipe,
-    RequestSlikViewComponent,
   ],
   entryComponents: [
     RequestSlikComponent,

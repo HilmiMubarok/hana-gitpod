@@ -46,7 +46,7 @@ import { CPMemoBandingRemarkComponent } from '../credit-proposal/memo-banding/re
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CollateralInfoHistoryComponent } from '../credit-proposal/collateral-info-history/collateral-info-history.component';
 import { CreditProposalOpinionHistoryComponent } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalTabSummaryComponent } from '../credit-proposal/summary/credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
 import { CreditAgreementProcessService } from './credit-agreement-process.service';
@@ -276,6 +276,10 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
     this.creditProposal.agreements[0].attributes.AGREEMENT_PLACE = value;
   }
 
+  aggrementTypeChange(value) {
+    this.creditProposal.agreements[0].attributes.AGREEMENT_TYPE = value;
+  }
+
   private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
@@ -371,6 +375,12 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
         if (this.CPMemoBandingRemarkComponent) {
           this.CPMemoBandingRemarkComponent.triggeredSave();
         }
+
+        /* if (this.creditProposalOpinionHistoryComponent) {
+          this.creditProposalOpinionHistoryComponent.triggeredSave();
+          this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+          this.creditProposalOpinionHistoryComponent.refresh();
+    } */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -681,7 +691,7 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
     this.cashCreditProposalsService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }
@@ -693,6 +703,12 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
       if (this.CPMemoBandingRemarkComponent) {
         this.CPMemoBandingRemarkComponent.triggeredSave();
       }
+
+      /* if (this.creditProposalOpinionHistoryComponent) {
+    this.creditProposalOpinionHistoryComponent.triggeredSave();
+    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+    this.creditProposalOpinionHistoryComponent.refresh();
+    } */
 
       if (this.CreditProposalTabSummaryComponent) {
         this.CreditProposalTabSummaryComponent.triggeredSave();

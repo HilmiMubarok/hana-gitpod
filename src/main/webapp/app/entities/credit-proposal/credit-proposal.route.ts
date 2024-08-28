@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, Router, ExtraOptions } from '@angular/router';
 
+import { JhiResolvePagingParams } from 'app/shared/base/resolve-paging-params.service';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 
 import { Observable, of, EMPTY } from 'rxjs';
@@ -9,6 +10,8 @@ import { map, mergeMap } from 'rxjs/operators';
 
 import { ICreditProposal, CreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
+import { CreditProposalUpdateCustomComponent } from './credit-proposal-update-custom.component';
+import { CreditProposalComponent } from './credit-proposal.component';
 
 import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
@@ -19,13 +22,18 @@ import { Guarantour } from './guarantour/guarantour.model';
 import { Covenant } from './convenant/convenant.constant';
 import { RisksAcceptenceCriteria } from './risk-criteria/risk-criteria.model';
 import { ProspectPerson } from './basic-prospect-person/prospect-person.model';
-import { RepaymentCapability } from './repayment-capability/repayment-capability.constant';
+import {
+  IRepaymentCapability,
+  IRepaymentCapabilityDetail,
+  RepaymentCapability,
+} from './repayment-capability/repayment-capability.constant';
 import { Facility } from './facility/facility.model';
 import { TabCustomerProfitability } from './tab-customer-profitability/tab-customert-profitability.model';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 import { CreditManagementInfo } from './credit-proposal-tab-management-info.model';
 
+import { CreditProposalCollateralInfoChecklistComponent } from './collateral-info/checklist/credit-proposal-collateral-info-checklist.component';
 import { CollateralInfoChecklist } from './collateral-info/checklist/collateral-info-checklist.model';
 import { CreditTabSummary } from './credit-proposal-tab-summary.model';
 import { PurposePricing } from './propose-pricing/purpose-pricing.model';
@@ -35,8 +43,9 @@ import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
 
 import lodash from 'lodash';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
-import { OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
+import { OfferingLetter, OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
 import { CoverageTotal, CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
+import { RetriveData } from './retrive/retrive.model';
 import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
 import { CheckRemarks } from './trade-checking/Remarks/remarks.model';
 import { FinancialState } from './repayment-spreadsheet/remarks/financial-statement-remarks.model';
@@ -45,6 +54,7 @@ import { LegalLendingLimit } from './exposure/legal-lending/legal-lending-limit.
 import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
 import { CalculationExposure } from './exposure/total-exposure/calculation-exposure.model';
 import { DocumentData } from '../loan-analys/assign-to/assign.model';
+import { LendingProgramParameter } from '../lending-program-parameter/lending-program-parameter.model';
 import { GroupCollateralTotal } from './collateral-info/group-collateral/group-collateral-total.model';
 import { CollateralSummary } from './collateral-info/collateral-summary/collateral-summary-total.model';
 

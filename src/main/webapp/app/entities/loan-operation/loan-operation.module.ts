@@ -6,26 +6,25 @@ import { RouterModule } from '@angular/router';
 import { LoanOperationRoute } from './loan-operation.router';
 import { LoanOperationDetailComponent } from './loan-operation-detail.component';
 import { FinalizeCreditAgreementModule } from '../credit-agreement/finalize-credit-agreement/finalize-credit-agreement.module';
-import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
-import { MemoBandingModule } from '../credit-proposal/memo-banding/memo-banding.module';
-import { InsuranceInformationModule } from '../insurance-information/insurance-information.module';
-import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
-import { CollateralInfoLoanOpsModule } from './collateral-info/collateral-info-loan-ops.module';
-import { LoanAnalysOpinionModule } from '../loan-analys/opinion/loan-analys-opinion.module';
+import { CreditProposalTabSummaryModule } from '../credit-proposal/credit-proposal-tab-summary.module';
+import { CompareDataModule } from '../compare-data/compare-data.module';
+import { CreditProposalMemoBandingModule } from '../credit-proposal/memo-banding/credit-proposal-memo-banding.module';
 import { LoanAnalysComplianceModule } from '../loan-analys/compliance/loan-analys-compliance.module';
+import { LoanAnalysOpinionCompliancePartModule } from '../loan-analys/opinion/loan-analys-opinion-compliance-part.module';
+import { CollateralInfoLoanOpsModule } from './collateral-info/collateral-info-loan-ops.module';
 import { LoanOperationLoanFacilityDetailModule } from './loan-facility-detail/loan-operation-loan-facility-detail.module';
+
 @NgModule({
   imports: [
     SharedModule,
     SharedEntityModule,
     FinalizeCreditAgreementModule,
-    ExposureModule,
-    MemoBandingModule,
-    InsuranceInformationModule,
-    CreditProposalSummaryTabModule,
-    CollateralInfoLoanOpsModule,
-    LoanAnalysOpinionModule,
+    CreditProposalTabSummaryModule,
+    CompareDataModule,
+    CreditProposalMemoBandingModule,
     LoanAnalysComplianceModule,
+    LoanAnalysOpinionCompliancePartModule,
+    CollateralInfoLoanOpsModule,
     LoanOperationLoanFacilityDetailModule,
     RouterModule.forChild(LoanOperationRoute),
   ],

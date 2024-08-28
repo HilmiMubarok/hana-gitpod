@@ -43,7 +43,7 @@ import { CPMemoBandingRemarkComponent } from '../credit-proposal/memo-banding/re
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { CollateralInfoHistoryComponent } from '../credit-proposal/collateral-info-history/collateral-info-history.component';
 import { CreditProposalOpinionHistoryComponent } from '../credit-proposal/opinion-history/credit-proposal-opinion-history.component';
-import { CreditProposalTabSummaryComponent } from '../credit-proposal/summary/credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
 import { CreditProposaTabManagementInfoComponent } from '../credit-proposal/credit-proposal-tab-management-info.component';
 import { RemarskComponent } from '../credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
@@ -799,7 +799,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
     this.cashDpdlService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }
@@ -1591,7 +1591,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
           return false;
         }
       } else if (
-        this.currentAccount.authorities.includes('ROLE_LEGAL_TEAM_LEAD') &&
+        this.currentAccount.authorities.includes('ROLE_CREDIT_LEGAL_LEAD') &&
         this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' &&
         this.creditProposal['region'] === 'R2'
       ) {

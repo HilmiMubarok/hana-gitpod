@@ -506,27 +506,27 @@ export const SLIK_MENU_BUSINESS_SUPPORT: ISidebarMenuModel[] = [
 ];
 
 export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
+  // {
+  //   name: 'MIS Obet',
+  //   iconname: 'file-lines',
+  //   route: '',
+  // },
   {
     name: 'MIS Report',
-    iconname: 'file-lines',
-    route: '',
+    iconname: 'wrench',
+    children: [
+      {
+        name: 'Credit Proposal',
+        iconname: 'minus',
+        route: 'mis-report-credit-proposal',
+      },
+      // {
+      //   name: 'Menu Access',
+      //   iconname: 'minus',
+      //   route: 'menu-access',
+      // },
+    ],
   },
-  // {
-  //   name: 'Configuration',
-  //   iconname: 'wrench',
-  //   children: [
-  //     {
-  //       name: 'Parameter',
-  //       iconname: 'minus',
-  //       route: 'application-option',
-  //     },
-  //     {
-  //       name: 'Menu Access',
-  //       iconname: 'minus',
-  //       route: 'menu-access',
-  //     },
-  //   ],
-  // },
 ];
 
 export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [

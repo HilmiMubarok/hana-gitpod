@@ -1,10 +1,10 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-import { ContextMenuService, SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { RepaymentSpreadsheetComponent } from './repayment-spreadsheet.component';
+import { ContextMenuService, SpreadsheetAllModule } from '@syncfusion/ej2-angular-spreadsheet';
 import { CreditProposalFinancialStatementRemarksComponent } from './remarks/financial-statement-remarks.component';
-
-import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
   SelectionService,
@@ -34,9 +34,9 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 
 @NgModule({
-  imports: [SharedModule, SpreadsheetAllModule, DocumentEditorAllModule, DocumentEditorContainerModule],
+  imports: [SharedModule, SharedEntityModule, SpreadsheetAllModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
   declarations: [RepaymentSpreadsheetComponent, CreditProposalFinancialStatementRemarksComponent],
-  exports: [RepaymentSpreadsheetComponent, CreditProposalFinancialStatementRemarksComponent],
+  exports: [RepaymentSpreadsheetComponent],
   providers: [
     ContextMenuService,
     EditorService,
@@ -65,6 +65,5 @@ import {
     StylesDialogService,
     ToolbarServiceDocumentEditor,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class RepaymentSpreadsheetModule {}

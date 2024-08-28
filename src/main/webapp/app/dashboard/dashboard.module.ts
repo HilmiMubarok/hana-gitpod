@@ -6,7 +6,6 @@ import { DashboardComponent } from './dashboard.component';
 import { DASHBOARD_ROUTE } from './dashboard.route';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-
 import { DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
@@ -18,6 +17,7 @@ import { ChartsLayoutComponent } from './charts/charts-layout.component';
 import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuseable-calendar.component';
+import { CarouselModule } from 'primeng/carousel';
 
 @NgModule({
   imports: [
@@ -33,6 +33,7 @@ import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuse
     // primeng
     CalendarModule,
     MultiSelectModule,
+    CarouselModule,
 
     // charts
     NgChartsModule,

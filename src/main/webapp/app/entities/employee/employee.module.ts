@@ -16,7 +16,6 @@ import { DialogDelegationAppraisalComponent } from './dialog-delegation/dialog-d
 import { DialogDelegationApplicationComponent } from './dialog-delegation/dialog-delegation-application.component';
 import { LosgwMiscellaneousModule } from 'app/miscellaneous/miscellaneous.module';
 import { EmployeeUploadComponent } from './employee-upload.component';
-import { EmployeeViewComponent } from './employee-view.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(employeeRoute), LosgwMiscellaneousModule],
@@ -32,7 +31,6 @@ import { EmployeeViewComponent } from './employee-view.component';
     DialogDelegationApplicationComponent,
     RoleUpdateComponent,
     PopupPositionComponent,
-    EmployeeViewComponent,
   ],
   entryComponents: [EmployeeComponent, EmployeeUpdateComponent, RoleComponent, RoleUpdateComponent, PopupPositionComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

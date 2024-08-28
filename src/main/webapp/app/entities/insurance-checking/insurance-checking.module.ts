@@ -5,18 +5,17 @@ import { SharedModule } from 'app/shared/shared.module';
 import { InsuranceCheckingComponent } from './insurance-checking.component';
 import { InsuranceCheckingRoute } from './insurance-checking.route';
 import { InsuranceCheckingDetailComponent } from './insurance-checking-detail.component'; // import { PartyCifCustomerInfoComponent } from './customer-info/party-cif-customer-info.component';
-import { LoanFacilityModule } from '../credit-proposal/loan-facility/loan-facility.module';
-import { ExposureModule } from '../credit-proposal/exposure/exposure.module';
-import { CollateralInfoCpModule } from '../credit-proposal/collateral-info/collateral-info-cp.module';
-import { CreditProposalSummaryTabModule } from '../credit-proposal/summary/credit-proposal-tab-summary.module';
+import { CreditProposalTabSummaryModule } from '../credit-proposal/credit-proposal-tab-summary.module';
+import { CreditProposalCollateralInfoModule } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.module';
+import { CreditProposalTabLoanFacilityDetailModule } from '../credit-proposal/loan-facility/credit-proposal-tab-loan-facility-detail.module';
+
 @NgModule({
   imports: [
     SharedModule,
     SharedEntityModule,
-    LoanFacilityModule,
-    ExposureModule,
-    CollateralInfoCpModule,
-    CreditProposalSummaryTabModule,
+    CreditProposalTabSummaryModule,
+    CreditProposalCollateralInfoModule,
+    CreditProposalTabLoanFacilityDetailModule,
     RouterModule.forChild(InsuranceCheckingRoute),
   ],
   declarations: [InsuranceCheckingComponent, InsuranceCheckingDetailComponent],

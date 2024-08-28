@@ -58,10 +58,7 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Credit Agreement Type</mat-label>
-              <mat-select
-                [(ngModel)]="creditProposal.agreements[0]?.attributes.AGREEMENT_TYPE"
-                (selectionChange)="onSelectAgreementType($event)"
-              >
+              <mat-select [ngModel]="dataAggrementType" (selectionChange)="onSelectAgreementType($event)">
                 <mat-option value="">Please Select Conditions</mat-option>
                 <mat-option *ngFor="let item of agreementTypeLov" [value]="item">
                   {{ item }}

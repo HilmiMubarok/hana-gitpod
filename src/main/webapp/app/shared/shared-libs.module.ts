@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,24 +13,19 @@ import { NgxCurrencyModule } from 'ngx-currency';
 // prime ng
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
+import { ListboxModule } from 'primeng/listbox';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { SharedModule } from 'primeng/api';
-import { DividerModule } from 'primeng/divider';
-import { TabViewModule } from 'primeng/tabview';
-import { ChipsModule } from 'primeng/chips';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { TimelineModule } from 'primeng/timeline';
 import { ChipModule } from 'primeng/chip';
-import { BadgeModule } from 'primeng/badge';
 import { DropdownModule } from 'primeng/dropdown';
-import { CarouselModule } from 'primeng/carousel';
 
 // Loading Bar
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
@@ -43,7 +39,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ButtonModule, CheckBoxModule as EJ2CheckBoxModule, RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { ComboBoxModule, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DialogModule as EJ2DialogModule } from '@syncfusion/ej2-angular-popups';
-import { AccordionModule, MenuModule, TabModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { MenuModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { DetailRowService, GridModule, PageService } from '@syncfusion/ej2-angular-grids';
 import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import {
@@ -60,17 +56,6 @@ import { MultiSelectModule as MultiSelectModuleEj2 } from '@syncfusion/ej2-angul
 import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { BreadcrumbModule } from '@syncfusion/ej2-angular-navigations';
 import { ResizeService } from '@syncfusion/ej2-angular-grids';
-import {
-  PdfViewerModule,
-  LinkAnnotationService,
-  BookmarkViewService,
-  MagnificationService,
-  ThumbnailViewService,
-  NavigationService,
-  TextSearchService,
-  TextSelectionService,
-  PrintService,
-} from '@syncfusion/ej2-angular-pdfviewer';
 
 import { SearchService } from '@syncfusion/ej2-angular-grids';
 
@@ -111,22 +96,13 @@ import { MatMenuModule } from '@angular/material/menu';
     HtmlEditorService,
     DetailRowService,
     ResizeService,
-    LinkAnnotationService,
-    BookmarkViewService,
-    MagnificationService,
-    ThumbnailViewService,
-    NavigationService,
-    TextSearchService,
-    TextSelectionService,
-    PrintService,
     SearchService,
     DatePipe,
   ],
   exports: [
-    PdfViewerModule,
     FormsModule,
     CommonModule,
-    // NgbModule,
+    NgbModule,
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
@@ -138,25 +114,19 @@ import { MatMenuModule } from '@angular/material/menu';
     // primeng
     TableModule,
     CalendarModule,
-
+    ListboxModule,
+    AutoCompleteModule,
     PanelModule,
     DialogModule,
     ConfirmDialogModule,
     ToastModule,
     SharedModule,
-    DividerModule,
-    TabViewModule,
-    ChipsModule,
-    MultiSelectModule,
-    InputSwitchModule,
     InputTextareaModule,
     InputTextModule,
     TimelineModule,
     ChipModule,
-    BadgeModule,
     DropdownModule,
     CheckboxModule,
-    CarouselModule,
 
     // ngx
     TabsModule,
@@ -201,19 +171,14 @@ import { MatMenuModule } from '@angular/material/menu';
     EJ2CheckBoxModule,
     ButtonModule,
     RadioButtonModule,
-
     MenuModule,
-    TabModule,
     GridModule,
     NumericTextBoxModule,
     EJ2DialogModule,
     DatePickerModule,
     TextBoxModule,
     RichTextEditorAllModule,
-    DatePickerModule,
-    AccordionModule,
     ToolbarModule,
-    NumericTextBoxModule,
     ChipListModule,
     MultiSelectModuleEj2,
     DateRangePickerModule,

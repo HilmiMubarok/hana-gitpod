@@ -1,13 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReviewHistoryComponent } from './review-history/review-history.component';
-import { GeneratePKDraftComponent } from './generate-pk-draft/generate-pk-draft.component';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
+import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { FinalizeCreditAgreementComponent } from './finalize-credit-agreement.component';
-import { ReviewHistoryDialogComponent } from '../review-history-dialog/review-history-dialog.component';
 import { ClausalPkDialogComponentEditComponent } from './clausal-pk-dialog/clausal-pk-dialog-edit.component';
-import { ClausalPkDialogComponent } from './clausal-pk-dialog/clausal-pk-dialog.component';
-import { DocumentEditorAllModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import { DocumentEditorAllModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import {
   EditorService,
   SelectionService,
@@ -35,25 +31,18 @@ import {
   StylesDialogService,
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { ReviewHistoryComponent } from './review-history/review-history.component';
+import { ReviewHistoryDialogComponent } from '../review-history-dialog/review-history-dialog.component';
 
 @NgModule({
+  imports: [SharedModule, SharedEntityModule, DocumentEditorAllModule, DocumentEditorContainerAllModule],
   declarations: [
-    ReviewHistoryComponent,
-    ReviewHistoryDialogComponent,
-    GeneratePKDraftComponent,
     FinalizeCreditAgreementComponent,
     ClausalPkDialogComponentEditComponent,
-    ClausalPkDialogComponent,
-  ],
-  imports: [CommonModule, SharedModule, DocumentEditorAllModule, DocumentEditorContainerModule],
-  exports: [
     ReviewHistoryComponent,
     ReviewHistoryDialogComponent,
-    GeneratePKDraftComponent,
-    FinalizeCreditAgreementComponent,
-    ClausalPkDialogComponentEditComponent,
-    ClausalPkDialogComponent,
   ],
+  exports: [FinalizeCreditAgreementComponent],
   providers: [
     EditorService,
     SelectionService,

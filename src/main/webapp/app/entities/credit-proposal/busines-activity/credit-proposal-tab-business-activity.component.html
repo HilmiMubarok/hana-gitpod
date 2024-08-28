@@ -158,44 +158,11 @@
   <div *ngIf="selectedMenu === 'PROJECT ANALYSIS'">
     <div class="e-card-content">
       <div class="e-card-header-title">Project Analysis</div>
-      <!-- <jhi-credit-proposal-project-analyst-remark></jhi-credit-proposal-project-analyst-remark> -->
       <div class="form-space">
         <jhi-credit-proposal-project-analyst-remark
           #project
           [creditProposalItem]="creditProposalItem"
         ></jhi-credit-proposal-project-analyst-remark>
-        <!-- <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <ejs-documenteditorcontainer
-              #document_editor_containers
-              [headers]="customHeadersJWT"
-              [enableToolbar]="true"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDown($event)"
-              (created)="onCreate()"
-            >
-            </ejs-documenteditorcontainer>
-          </section> -->
-
-        <!-- <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <ejs-documenteditorcontainer
-              #document_editor_containers
-              [headers]="customHeadersJWT"
-              [enableToolbar]="false"
-              [enableLocalPaste]="false"
-              (documentChange)="onDocumentChangePa()"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDown($event)"
-              (created)="onCreate()"
-            >
-            </ejs-documenteditorcontainer>
-          </section> -->
 
         <div class="row mt-3 mb-5">
           <div class="col mt-5">

@@ -47,7 +47,7 @@ import { ViewportScroller } from '@angular/common';
 import { ILoanOPSChecking } from './loan-ops-checking.model';
 import { LoanOpsCheckingService } from './loan-ops-checking.service';
 import { LoanOpsCheckingProcessService } from './loan-ops-checking-process.service';
-import { CreditProposalTabSummaryComponent } from '../credit-proposal/summary/credit-proposal-tab-summary.component';
+import { CreditProposalTabSummaryComponent } from '../credit-proposal/credit-proposal-tab-summary.component';
 import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 import { formatBytes } from 'app/shared/helper/utils';
 import { ProposalBasicInformationViewComponent } from '../credit-proposal/basic-information/basic-information-view.component';
@@ -627,7 +627,7 @@ export class LoanOpsCheckingDetailComponent implements OnInit {
     this.loanOpsCheckingService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }

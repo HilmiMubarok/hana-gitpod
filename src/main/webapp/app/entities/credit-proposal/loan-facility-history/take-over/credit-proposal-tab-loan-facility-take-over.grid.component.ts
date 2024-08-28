@@ -1,9 +1,23 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
-import { ICreditProposal } from '../../credit-proposal.model';
-import { IApplicationProduct } from '../../../application-product/application-product.model';
+import { Component, ViewChild, Input, Output, EventEmitter, OnInit, SimpleChanges, OnChanges } from '@angular/core';
+import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
+import {
+  IApplicationProduct,
+  ApplicationProduct,
+  ApplicationProductAttribute,
+  IApplicationProductAttribute,
+} from '../../../application-product/application-product.model';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
+import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
+import { CreditProposalLoanFacilityDialogHistoryComponent } from '../dialog/loan-facility-dialog.component';
 import { Router } from '@angular/router';
+import { CollateralAttribute } from 'app/entities/collateral/collateral.model';
+import {
+  CollateralProductRelation,
+  ICollateralProductRelation,
+} from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { LoanFacilityTakeOverHistoryComponent } from './credit-proposal-tab-loan-facility-take-over.component';
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
@@ -11,6 +25,7 @@ import {
   IApplicationProductTakeOver,
   ApplicationProductTakeOver,
 } from 'app/entities/credit-proposal/loan-facility/application-product-take-over/application-product-take-over.model';
+import { LoanFacilityTakeOverAfterHistoryComponent } from '../take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({

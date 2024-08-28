@@ -137,7 +137,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
 
   private loadData(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
-    const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
 
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
