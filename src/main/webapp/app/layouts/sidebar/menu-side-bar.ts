@@ -506,11 +506,6 @@ export const SLIK_MENU_BUSINESS_SUPPORT: ISidebarMenuModel[] = [
 ];
 
 export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
-  // {
-  //   name: 'MIS Obet',
-  //   iconname: 'file-lines',
-  //   route: '',
-  // },
   {
     name: 'MIS Report',
     iconname: 'wrench',
@@ -519,6 +514,11 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         name: 'Credit Proposal',
         iconname: 'minus',
         route: 'mis-creditproposal-report',
+      },
+      {
+        name: 'Credit Proposal Facility',
+        iconname: 'minus',
+        route: 'mis-cpfacility-report',
       },
       // {
       //   name: 'Menu Access',
