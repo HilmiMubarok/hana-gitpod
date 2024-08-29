@@ -54,7 +54,7 @@ export class MisReportService {
           this.generateDocumentLabel.next('Generate Document');
           observer.complete(); // Complete the observable
         },
-        error: () => {
+        error() {
           observer.error(); // Emit error
         },
       });

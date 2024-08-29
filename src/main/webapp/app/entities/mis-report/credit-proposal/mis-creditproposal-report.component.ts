@@ -41,8 +41,6 @@ export class MisCreditProposalReportComponent {
       .generateMisReport(template_report_data, this.misReportService.getMisReportCP(), 'MIS_Report_Credit_Proposal')
       .subscribe({
         error: () => {
-          // Handle error if needed
-          console.log('Error');
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
         },
       });
