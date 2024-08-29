@@ -1,0 +1,63 @@
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Main Facility</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <section>
+            <div class="mb-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Filter Option 1</mat-label>
+                <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </section>
+          <section>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Filter Date 1</mat-label>
+                <input [matDatepicker]="startDate" matInput [(ngModel)]="date" />
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </section>
+        </div>
+        <div class="col-6">
+          <section>
+            <div class="mb-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Filter Option 2</mat-label>
+                <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </section>
+          <section>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Filter Date 2</mat-label>
+                <input [matDatepicker]="startDate" matInput [(ngModel)]="date" />
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="mt-3 text-center">
+        <button mat-raised-button class="confirm-button-no">Generate</button>
+      </div>
+    </div>
+  </div>
+</div>
