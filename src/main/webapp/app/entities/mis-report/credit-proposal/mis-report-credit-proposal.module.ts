@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { MisReportCreditProposalComponent } from './mis-report-credit-proposal.component';
+import { MisCreditProposalReportComponent } from './mis-creditproposal-report.component';
 import { Routes, RouterModule } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { SharedModule } from 'app/shared/shared.module';
 
 const route: Routes = [
   {
     path: '',
-    component: MisReportCreditProposalComponent,
+    component: MisCreditProposalReportComponent,
     canActivate: [UserRouteAccessService],
     data: {
       pageTitle: 'losgwApp.creditProposal.home.title',
@@ -15,9 +16,9 @@ const route: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(route)],
-  declarations: [MisReportCreditProposalComponent],
+  imports: [SharedModule, RouterModule.forChild(route)],
+  declarations: [MisCreditProposalReportComponent],
   providers: [],
   exports: [],
 })
-export class MisReportCreditProposalModule {}
+export class MisCreditProposalReportModule {}
