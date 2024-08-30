@@ -508,7 +508,7 @@ export const SLIK_MENU_BUSINESS_SUPPORT: ISidebarMenuModel[] = [
 export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
   {
     name: 'MIS Report',
-    iconname: 'wrench',
+    iconname: 'file-lines',
     children: [
       {
         name: 'Credit Proposal',
@@ -520,11 +520,6 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'mis-cpfacility-report',
       },
-      // {
-      //   name: 'Menu Access',
-      //   iconname: 'minus',
-      //   route: 'menu-access',
-      // },
     ],
   },
 ];
