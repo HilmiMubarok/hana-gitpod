@@ -72,7 +72,16 @@
         </div>
       </div>
       <div class="mt-3 text-center">
-        <button mat-raised-button class="confirm-button-no">Generate</button>
+        <button
+          mat-raised-button
+          id="generate-btn"
+          class="confirm-button-no"
+          [disabled]="misReportService.loadingGenerateDocument$ | async"
+          (click)="generateMISReportCP()"
+          [class.loading]="misReportService.loadingGenerateDocument$ | async"
+        >
+          {{ misReportService.generateDocumentLabel$ | async }}
+        </button>
       </div>
     </div>
   </div>
