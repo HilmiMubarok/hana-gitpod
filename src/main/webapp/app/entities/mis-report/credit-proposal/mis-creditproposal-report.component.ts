@@ -7,7 +7,8 @@ import { Component } from '@angular/core';
 })
 export class MisCreditProposalReportComponent {
   data = '';
-  date: any;
+  date1: any;
+  date2: any;
   listOfValue = [];
   changeOption(event) {
     console.log('test');

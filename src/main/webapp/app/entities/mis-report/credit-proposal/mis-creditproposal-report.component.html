@@ -12,7 +12,21 @@
           <section>
             <div class="mb-2">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Filter Option 1</mat-label>
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate [(ngModel)]="date1" placeholder="Start date" />
+                  <input matEndDate [(ngModel)]="date2" placeholder="End date" />
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
+          </section>
+          <section>
+            <div class="mb-2">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Status</mat-label>
                 <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
@@ -21,12 +35,13 @@
             </div>
           </section>
           <section>
-            <div class="form-group">
+            <div class="mb-2">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Filter Date 1</mat-label>
-                <input [matDatepicker]="startDate" matInput [(ngModel)]="date" />
-                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-                <mat-datepicker #startDate></mat-datepicker>
+                <mat-label>Propose Type</mat-label>
+                <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
           </section>
@@ -35,7 +50,7 @@
           <section>
             <div class="mb-2">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Filter Option 2</mat-label>
+                <mat-label>Approval LC</mat-label>
                 <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
@@ -44,12 +59,13 @@
             </div>
           </section>
           <section>
-            <div class="form-group">
+            <div class="mb-2">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Filter Date 2</mat-label>
-                <input [matDatepicker]="startDate" matInput [(ngModel)]="date" />
-                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-                <mat-datepicker #startDate></mat-datepicker>
+                <mat-label>Landing Program</mat-label>
+                <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
           </section>
