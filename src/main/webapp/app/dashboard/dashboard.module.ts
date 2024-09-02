@@ -18,6 +18,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuseable-calendar.component';
 import { CarouselModule } from 'primeng/carousel';
+import { CompleteTaskComponent } from './charts/complete-task/complete-task.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { CarouselModule } from 'primeng/carousel';
     StatusSlidesComponent,
     ProgressStatusBarComponent,
     DashboardReusableCalendarComponent,
+    CompleteTaskComponent,
   ],
 })
 export class DashboardModule {}

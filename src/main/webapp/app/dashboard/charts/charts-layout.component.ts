@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api';
 import { MasterPermissionService } from 'app/entities/master-parameter/master-permission/master-permission.service';
 import { IDueDate } from './bar-chart/bar-chart.model';
 import { IProgress } from './line-chart/line-chart.model';
+import { DashboardAbstractComponent } from '../dashboard-abstract.component';
 
 @Component({
   selector: 'jhi-charts-layout',
@@ -16,7 +17,7 @@ import { IProgress } from './line-chart/line-chart.model';
   styleUrls: ['./charts-layout.style.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ChartsLayoutComponent implements OnInit, OnChanges {
+export class ChartsLayoutComponent extends DashboardAbstractComponent implements OnInit, OnChanges {
   private _chartsAvailability: IMenuAccess[];
   private _idPosition: number;
   private _positionType: string;
@@ -140,7 +141,9 @@ export class ChartsLayoutComponent implements OnInit, OnChanges {
     protected dashboardService: DashboardService,
     protected messageService: MessageService,
     protected masterPermissionService: MasterPermissionService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.loadStatus();
@@ -151,6 +154,8 @@ export class ChartsLayoutComponent implements OnInit, OnChanges {
       this.preLoadData();
     });
     this.initSize();
+    this.setAppraisalStatus();
+    this.setCreditProposalStatus();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -352,6 +357,7 @@ export class ChartsLayoutComponent implements OnInit, OnChanges {
           idPosition: this.idPosition,
           proposeType: this.proposalTypes,
           segment: this.segments,
+          status: this.creditProposalStatus,
         })
         .subscribe(res => {
           this.progressDataSource = res.body;
@@ -369,6 +375,7 @@ export class ChartsLayoutComponent implements OnInit, OnChanges {
           thruDate: this.startDateThruDate.thruDate,
           interval: this.progressInterval,
           idPosition: this.idPosition,
+          status: this.appraisalStatus,
         })
         .subscribe(res => {
           this.progressDataSource = res.body;
