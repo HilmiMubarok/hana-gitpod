@@ -49,7 +49,7 @@
       <!-- line chart -->
       <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="2" [col]="0">
         <ng-template #header>
-          Progress Charts
+          Completed Taks
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
           <!-- <ejs-dropdownlist
@@ -60,7 +60,12 @@
             placeholder="Select Status"
             (change)="onchangeSelectStatus($event.value)"
           ></ejs-dropdownlist> -->
-
+          <!-- 
+          <jhi-dashboard-reuseable-calendar
+            [mode]="progressInterval"
+            [type]="'progress'"
+            (output)="recieveStartThruDate($event)"
+          ></jhi-dashboard-reuseable-calendar> -->
           <jhi-dashboard-reuseable-calendar
             [mode]="progressInterval"
             [type]="'progress'"
@@ -75,7 +80,13 @@
           ></p-dropdown>
         </ng-template>
         <ng-template #content>
-          <jhi-line-chart [dataSource]="progressDataSource" [interval]="progressInterval" [progressTypes]="progressType"></jhi-line-chart>
+          <!-- <jhi-line-chart [dataSource]="progressDataSource" [interval]="progressInterval" [progressTypes]="progressType"></jhi-line-chart> -->
+          <jhi-complete-task
+            [dataSource]="progressDataSource"
+            [interval]="progressInterval"
+            [startDateThruDates]="startDateThruDate"
+            [progressTypes]="progressType"
+          ></jhi-complete-task>
         </ng-template>
       </e-panel>
     </e-panels>
