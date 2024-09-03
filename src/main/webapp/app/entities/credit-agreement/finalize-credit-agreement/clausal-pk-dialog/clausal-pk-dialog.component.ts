@@ -121,7 +121,8 @@ export class ClausalPkDialogComponent implements OnInit {
           const data: any[] = res1.body;
           this.agreementsClausalChildList = data
             .filter((r: any) => r.parameterCategoryId === 'ADDENDUM')
-            .filter(item1 => !res.body.find(item2 => item1.description === item2.clausal.agreementClausalParameterDescription));
+            .filter(item1 => !res.body.find(item2 => item1.description === item2.clausal.agreementClausalParameterDescription))
+            .sort((a, b) => a.sequence - b.sequence);
         });
     });
   }
