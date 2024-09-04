@@ -87,47 +87,6 @@ export class CollateralLandDialogComponent implements OnInit {
   }
 
   public save(): void {
-    if (!this.collateralLandAttribute.certNumber) {
-      this._snackBar.open('Masukan Certificate Number terlebih dahulu', null, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.collateralLandAttribute.certName) {
-      this._snackBar.open('Masukan In The Name Of terlebih dahulu', null, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-
-    if (!this.collateralLandAttribute.certGSNumber) {
-      this._snackBar.open('Masukan No GS / SU terlebih dahulu', null, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.collateralLandAttribute.certIssueDate) {
-      this._snackBar.open('Masukan Date of Issue terlebih dahulu', null, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.collateralLandAttribute.certDueDate) {
-      this._snackBar.open('Masukan Due Date terlebih dahulu', null, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
     if (!this.collateralLandAttribute.certArea) {
       this._snackBar.open('Masukan Area terlebih dahulu', null, {
         horizontalPosition: 'center',

@@ -282,30 +282,6 @@ export class CollateralBuildingDetailDialogComponent implements OnInit {
       });
       return;
     }
-    if (!this.collateralProp.imb) {
-      this._snackBar.open('Masukkan Imb terlebih dahulu', null, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.collateralProp.imbDate) {
-      this._snackBar.open('Masukkan Imb Date terlebih dahulu', null, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
-    if (!this.collateralProp.storeyTtl) {
-      this._snackBar.open('Masukkan Total Storey terlebih dahulu', null, {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 3000,
-      });
-      return;
-    }
     if (!this.collateralProp.imbArea) {
       this._snackBar.open('Masukkan IMB Area terlebih dahulu', null, {
         horizontalPosition: 'center',
