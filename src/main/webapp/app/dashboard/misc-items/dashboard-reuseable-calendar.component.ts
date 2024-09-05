@@ -64,7 +64,6 @@ export class DashboardReusableCalendarComponent {
   }
 
   public sendOutDaily(): void {
-    console.log(this.filterRange);
     const _maxDateVal = new Date(this.filterRange[0]).setDate(this.filterRange[0].getDate() + 6);
     this.maxDateVal = new Date(_maxDateVal);
     if (this.filterRange[1] !== null) {
