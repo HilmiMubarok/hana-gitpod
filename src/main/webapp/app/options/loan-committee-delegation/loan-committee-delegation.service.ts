@@ -28,4 +28,10 @@ export class LoanCommitteeDelegationService {
     );
     return this.http.get(url, { observe: 'response' });
   }
+
+  public saveLoanCommitteeDelegation(data: any): Observable<any> {
+    const url = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/correction-note-data');
+
+    return this.http.post(url, data, { observe: 'response' });
+  }
 }

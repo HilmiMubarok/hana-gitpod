@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoanCommitteeDelegationService } from '../loan-committee-delegation.service';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-loan-committee-delegation-detail',
   templateUrl: './loan-committee-delegation-detail.component.html',
   styleUrls: ['../../correction-application/correction-application.scss'],
 })
-export class LoanCommitteeDelegationDetailComponent implements OnInit {
+export class LoanCommitteeDelegationDetailComponent {
   private isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isLoading$ = this.isLoading.asObservable();
   public idApplication: number;
@@ -22,7 +23,7 @@ export class LoanCommitteeDelegationDetailComponent implements OnInit {
   public displayedColumns: string[] = ['no', 'internal', 'name', 'position'];
   public creditProposal: ICreditProposal;
 
-  constructor(private service: LoanCommitteeDelegationService, private route: ActivatedRoute) {
+  constructor(private service: LoanCommitteeDelegationService, private route: ActivatedRoute, private message: MessageService) {
     // get id in route
     this.route.params.subscribe(params => {
       if (params.id) {
@@ -52,12 +53,15 @@ export class LoanCommitteeDelegationDetailComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // this.loadPeople();
-    console.log('INIT');
-  }
-
   save(): void {
-    console.log('SAVE', { cp: this.creditProposal, people: this.people.data });
+    const data = this.people.data.map(p => ({
+      application_id: this.idApplication,
+      type: 'loan_committee',
+      position_Id: p.positionToId,
+    }));
+
+    this.service
+      .saveLoanCommitteeDelegation(data)
+      .subscribe(res => this.message.add({ severity: 'success', summary: 'Success', detail: 'Data saved successfully' }));
   }
 }
