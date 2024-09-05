@@ -186,11 +186,11 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
   }
 
   public initSize(): void {
-    this.columnSizeX = 3;
+    this.columnSizeX = 6;
     this.columnSizeY = 2;
     this.pieSizeX = 3;
     this.pieSizeY = 2;
-    this.splineSizeX = 6;
+    this.splineSizeX = 3;
     this.splineSizeY = 2;
   }
 
@@ -275,6 +275,7 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
           date: this.dueDateDates,
           idPosition: this.idPosition,
           interval: this.selectedDuedateInterval,
+          size: 999,
         })
         .subscribe(res => {
           this.dueDateDataSource = res.body;
@@ -291,6 +292,7 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
           date: this.dueDateDates,
           idPosition: this.idPosition,
           interval: this.selectedDuedateInterval,
+          size: 999,
         })
         .subscribe(res => {
           this.dueDateDataSource = res.body;

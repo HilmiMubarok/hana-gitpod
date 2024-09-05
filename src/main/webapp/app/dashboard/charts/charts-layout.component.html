@@ -11,43 +11,8 @@
     [allowFloating]="false"
   >
     <e-panels>
-      <!-- bar chart -->
-      <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="0" [col]="0">
-        <ng-template #header>
-          <div>Due Date Charts</div>
-          <div style="flex: 1 1 auto !important"></div>
-          <!-- filter -->
-          <jhi-dashboard-reuseable-calendar
-            [dueDates]="dueDateDates"
-            [mode]="selectedDuedateInterval"
-            [type]="'dueDate'"
-            (output)="recievedDate($event)"
-          ></jhi-dashboard-reuseable-calendar>
-
-          <p-dropdown
-            [options]="intervalList"
-            [(ngModel)]="_selectedDuedateInterval"
-            optionLabel="label"
-            (onChange)="dueDateInterval(_selectedDuedateInterval.id)"
-          ></p-dropdown>
-        </ng-template>
-        <ng-template #content>
-          <jhi-bar-chart [dataSource]="dueDateDataSource" [interval]="selectedDuedateInterval"></jhi-bar-chart>
-        </ng-template>
-      </e-panel>
-      <!-- pie chart -->
-      <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="0" [col]="3">
-        <ng-template #header>
-          Summary Status Charts
-          <div style="flex: 1 1 auto !important"></div>
-          <!-- filter -->
-        </ng-template>
-        <ng-template #content>
-          <jhi-pie-chart [dataSource]="summaryStatusDataSource"></jhi-pie-chart>
-        </ng-template>
-      </e-panel>
       <!-- line chart -->
-      <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="2" [col]="0">
+      <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="0" [col]="0">
         <ng-template #header>
           Completed Taks
           <div style="flex: 1 1 auto !important"></div>
@@ -87,6 +52,42 @@
             [startDateThruDates]="startDateThruDate"
             [progressTypes]="progressType"
           ></jhi-complete-task>
+        </ng-template>
+      </e-panel>
+
+      <!-- pie chart -->
+      <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="0" [col]="3">
+        <ng-template #header>
+          Summary Status Charts
+          <div style="flex: 1 1 auto !important"></div>
+          <!-- filter -->
+        </ng-template>
+        <ng-template #content>
+          <jhi-pie-chart [dataSource]="summaryStatusDataSource"></jhi-pie-chart>
+        </ng-template>
+      </e-panel>
+      <!-- bar chart -->
+      <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="2" [col]="0">
+        <ng-template #header>
+          <div>Due Date Charts</div>
+          <div style="flex: 1 1 auto !important"></div>
+          <!-- filter -->
+          <jhi-dashboard-reuseable-calendar
+            [dueDates]="dueDateDates"
+            [mode]="selectedDuedateInterval"
+            [type]="'dueDate'"
+            (output)="recievedDate($event)"
+          ></jhi-dashboard-reuseable-calendar>
+
+          <p-dropdown
+            [options]="intervalList"
+            [(ngModel)]="_selectedDuedateInterval"
+            optionLabel="label"
+            (onChange)="dueDateInterval(_selectedDuedateInterval.id)"
+          ></p-dropdown>
+        </ng-template>
+        <ng-template #content>
+          <jhi-bar-chart [dataSource]="dueDateDataSource" [interval]="selectedDuedateInterval"></jhi-bar-chart>
         </ng-template>
       </e-panel>
     </e-panels>
