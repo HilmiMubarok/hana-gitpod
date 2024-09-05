@@ -106,7 +106,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   public monthlyLable(): void {
     const month: any[] = [];
     this.dataSource[0].showcase.forEach(obj => {
-      month.push(new Date(obj.fromDate).toLocaleDateString('en-US', { month: 'long' }));
+      month.push(new Date(obj.fromDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
     });
 
     this.labelList = [...month];
