@@ -1,7 +1,7 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { DocumentTBO } from '../tbo-legal-monitoring/tbo-checking/tbo-checking.model';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { utils, WorkSheet, writeFile } from 'xlsx';
@@ -115,5 +115,16 @@ export class MisReportService {
       `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/application-documents/tbo-monitoring-report`,
       { observe: 'response' }
     );
+  }
+
+  public getStatuses() {
+    const params = new HttpParams().set('appMenuId', 'SLIK_CHECKING_REQUEST').set('page', 0).set('sort', 'id,asc');
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
+        params,
+        observe: 'response',
+      })
+      .pipe(map(res => res.body));
   }
 }

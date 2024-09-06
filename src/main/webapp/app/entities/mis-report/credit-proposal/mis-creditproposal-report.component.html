@@ -29,44 +29,44 @@
                 <mat-label>Status</mat-label>
                 <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
+                  <mat-option *ngFor="let item of lovStatus" [value]="item.statusCode">{{ item.statusDescription }} </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
           </section>
           <section>
             <div class="mb-2">
-              <mat-form-field class="w-100" appearance="outline">
+              <!-- <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Propose Type</mat-label>
                 <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
                 </mat-select>
-              </mat-form-field>
+              </mat-form-field> -->
             </div>
           </section>
         </div>
         <div class="col-6">
           <section>
             <div class="mb-2">
-              <mat-form-field class="w-100" appearance="outline">
+              <!-- <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Approval LC</mat-label>
                 <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
                 </mat-select>
-              </mat-form-field>
+              </mat-form-field> -->
             </div>
           </section>
           <section>
             <div class="mb-2">
-              <mat-form-field class="w-100" appearance="outline">
+              <!-- <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Landing Program</mat-label>
                 <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
                 </mat-select>
-              </mat-form-field>
+              </mat-form-field> -->
             </div>
           </section>
         </div>
