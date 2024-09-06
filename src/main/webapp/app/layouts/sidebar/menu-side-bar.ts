@@ -514,24 +514,19 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
   {
     name: 'MIS Report',
     iconname: 'file-lines',
-    route: '',
+    children: [
+      {
+        name: 'Credit Proposal',
+        iconname: 'minus',
+        route: 'mis-creditproposal-report',
+      },
+      {
+        name: 'Credit Proposal Facility',
+        iconname: 'minus',
+        route: 'mis-cpfacility-report',
+      },
+    ],
   },
-  // {
-  //   name: 'Configuration',
-  //   iconname: 'wrench',
-  //   children: [
-  //     {
-  //       name: 'Parameter',
-  //       iconname: 'minus',
-  //       route: 'application-option',
-  //     },
-  //     {
-  //       name: 'Menu Access',
-  //       iconname: 'minus',
-  //       route: 'menu-access',
-  //     },
-  //   ],
-  // },
 ];
 
 export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
