@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./mis-report-credit-proposal.css', '../mis-report.css'],
 })
 export class MisCreditProposalReportComponent {
+  public lovStatus = [];
   data = '';
   date1: any;
   date2: any;
@@ -16,7 +17,18 @@ export class MisCreditProposalReportComponent {
     console.log('test');
   }
 
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {}
+  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    this.getStatus();
+  }
+
+  getStatus() {
+    this.misReportService.getStatuses().subscribe({
+      next: res => (this.lovStatus = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
+      },
+    });
+  }
 
   generateMISReportCP() {
     const template_report_data = [
