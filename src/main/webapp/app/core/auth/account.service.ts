@@ -73,7 +73,8 @@ export class AccountService {
   }
 
   private fetch(): Observable<Account> {
-    return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account?ngsw-bypass=true'));
+	// return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account?ngsw-bypass=true'));
+    return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));
   }
 
   private navigateToStoredUrl(): void {
