@@ -418,11 +418,11 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       const applicationNumber = this.creditProposal.id;
       this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(
         res => {
-          const dataCollateral = lodash.filter(res.body, function (o) {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
             return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
           });
           if (res.body.length > 0) {
-            this.getBindingCalculateSummary(dataCollateral).then(() => {
+            this.getBindingCalculateSummary(this.dataCollateralSummary).then(() => {
               resolve();
             });
           } else {
