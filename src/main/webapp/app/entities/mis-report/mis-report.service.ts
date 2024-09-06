@@ -2,7 +2,6 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { DocumentTBO } from '../tbo-legal-monitoring/tbo-checking/tbo-checking.model';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { utils, WorkSheet, writeFile } from 'xlsx';
 
@@ -19,7 +18,7 @@ export class MisReportService {
   generateMisReport(
     templateData: Array<{ key: string; valueFrom: string; format: string }>,
     generateServiceCall: Observable<HttpResponse<any>>,
-    fileNamePrefix = 'Document',
+    fileNamePrefix = 'MIS Credit Report',
     sheetName = 'Data'
   ): Observable<void> {
     return new Observable<void>(observer => {
@@ -35,6 +34,9 @@ export class MisReportService {
       generateServiceCall.subscribe({
         next: (res: HttpResponse<any>) => {
           const data = this.processDataForDocument(res.body, templateData);
+
+          console.log(data);
+
           const ws = utils.json_to_sheet(data);
 
           // Set column width to auto size as content
@@ -50,12 +52,14 @@ export class MisReportService {
           writeFile(wb, fileName, { bookType: 'xlsx', cellStyles: true });
 
           observer.next(); // Emit success
+          observer.complete(); // Complete the observable
           this.loadingGenerateDocument.next(false);
           this.generateDocumentLabel.next('Generate Document');
-          observer.complete(); // Complete the observable
         },
-        error() {
+        error: error => {
           observer.error(); // Emit error
+          this.loadingGenerateDocument.next(false);
+          this.generateDocumentLabel.next('Generate Document');
         },
       });
     });
@@ -110,9 +114,10 @@ export class MisReportService {
     });
   }
 
-  public getMisReportCP(): Observable<HttpResponse<DocumentTBO>> {
-    return this.http.get<any>(
-      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/application-documents/tbo-monitoring-report`,
+  public getMisReportCP(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/credit-proposal/`,
+      params,
       { observe: 'response' }
     );
   }

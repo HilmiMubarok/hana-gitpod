@@ -1,88 +1,48 @@
-<div class="e-card">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Main Facility</div>
-    </div>
-  </div>
+<form [formGroup]="MISReportCP" (ngSubmit)="generateMISReportCP()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h4>Filter</h4>
+      </mat-card-title>
+    </mat-card-header>
 
-  <div class="e-card-content">
-    <div class="row mb-3 mt-3">
-      <div class="row justify-content-between">
-        <div class="col-6">
-          <section>
-            <div class="mb-2">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate [(ngModel)]="date1" placeholder="Start date" />
-                  <input matEndDate [(ngModel)]="date2" placeholder="End date" />
-                </mat-date-range-input>
-                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-              </mat-form-field>
-            </div>
-          </section>
-          <section>
-            <div class="mb-2">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of lovStatus" [value]="item.statusCode">{{ item.statusDescription }} </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </section>
-          <section>
-            <div class="mb-2">
-              <!-- <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Propose Type</mat-label>
-                <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
-                </mat-select>
-              </mat-form-field> -->
-            </div>
-          </section>
+    <mat-card-content>
+      <div class="row my-3">
+        <div class="col">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate formControlName="date1" placeholder="Start date" />
+              <input matEndDate formControlName="date2" placeholder="End date" />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
         </div>
-        <div class="col-6">
-          <section>
-            <div class="mb-2">
-              <!-- <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Approval LC</mat-label>
-                <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
-                </mat-select>
-              </mat-form-field> -->
-            </div>
-          </section>
-          <section>
-            <div class="mb-2">
-              <!-- <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Landing Program</mat-label>
-                <mat-select [(ngModel)]="data" (selectionChange)="changeOption($event)">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
-                </mat-select>
-              </mat-form-field> -->
-            </div>
-          </section>
+        <div class="col">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" (selectionChange)="changeOption($event)">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of lovStatus" [value]="item.statusCode">{{ item.statusDescription }} </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
+        <div class="col"></div>
       </div>
-      <div class="mt-3 text-center">
-        <button
-          mat-raised-button
-          id="generate-btn"
-          class="confirm-button-no"
-          [disabled]="misReportService.loadingGenerateDocument$ | async"
-          (click)="generateMISReportCP()"
-          [class.loading]="misReportService.loadingGenerateDocument$ | async"
-        >
-          {{ misReportService.generateDocumentLabel$ | async }}
-        </button>
-      </div>
-    </div>
+    </mat-card-content>
+  </mat-card>
+  <div class="mt-3 text-center">
+    <button
+      mat-raised-button
+      id="generate-btn"
+      class="confirm-button-no"
+      type="submit"
+      [disabled]="misReportService.loadingGenerateDocument$ | async"
+      [class.loading]="misReportService.loadingGenerateDocument$ | async"
+    >
+      {{ misReportService.generateDocumentLabel$ | async }}
+    </button>
   </div>
-</div>
+</form>
