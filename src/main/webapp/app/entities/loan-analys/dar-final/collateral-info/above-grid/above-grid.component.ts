@@ -1033,11 +1033,11 @@ export class AboveGridDarFinalComponent
       const applicationNumber = this.creditProposal.id;
       this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(
         res => {
-          this.dataCollateral = lodash.filter(res.body, function (o) {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
             return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
           });
           if (res.body.length > 0) {
-            this.getBindingCalculateSummary(this.dataCollateral).then(() => {
+            this.getBindingCalculateSummary(this.dataCollateralSummary).then(() => {
               resolve();
             });
           } else {
@@ -1194,7 +1194,7 @@ export class AboveGridDarFinalComponent
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1214,7 +1214,7 @@ export class AboveGridDarFinalComponent
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1236,7 +1236,7 @@ export class AboveGridDarFinalComponent
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1256,7 +1256,7 @@ export class AboveGridDarFinalComponent
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);

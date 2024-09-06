@@ -73,7 +73,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     SharedEntityModule,
     AppRoutingModule,
     // Set this to true to enable service worker (PWA)
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
     TranslationModule,
