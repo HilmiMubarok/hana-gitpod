@@ -31,6 +31,11 @@ export const FORBIDDEN_MENU: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'options/correction-appraisal',
       },
+      {
+        name: 'Loan Committe Delegation',
+        iconname: 'minus',
+        route: 'options/loan-committee-delegation',
+      },
     ],
   },
 ];

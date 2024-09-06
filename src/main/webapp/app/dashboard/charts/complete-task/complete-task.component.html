@@ -1,0 +1,14 @@
+<canvas
+  *ngIf="this.dataSource.length > 0"
+  baseChart
+  class="chart"
+  [data]="barChartData"
+  [options]="barChartOptions"
+  [plugins]="barChartPlugins"
+  [type]="barChartType"
+  (chartHover)="chartHovered($event)"
+  (chartClick)="chartClicked($event)"
+>
+</canvas>
+
+<label class="d-flex justify-content-center" *ngIf="this.dataSource.length === 0"> No Data Available</label>

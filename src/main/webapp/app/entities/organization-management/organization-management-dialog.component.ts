@@ -239,7 +239,6 @@ export class OrganizationManagementDialogComponent implements OnInit {
     const mustValidate = {
       dob: true,
       name: true,
-      mothersName: true,
       gender: true,
       npwp: true,
       nik: true,
@@ -248,11 +247,6 @@ export class OrganizationManagementDialogComponent implements OnInit {
       if (!this.organizationManagement.person.firstName) {
         this._showNotification('error', 'Please Enter First Name');
         mustValidate.name = false;
-      }
-
-      if (!this.organizationManagement.person.mothersName) {
-        this._showNotification('error', "Please Enter Mother's Maiden Name ");
-        mustValidate.mothersName = false;
       }
 
       if (!this.organizationManagement.person.dob) {

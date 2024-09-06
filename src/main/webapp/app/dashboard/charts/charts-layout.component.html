@@ -11,8 +11,63 @@
     [allowFloating]="false"
   >
     <e-panels>
+      <!-- line chart -->
+      <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="0" [col]="0">
+        <ng-template #header>
+          Completed Taks
+          <div style="flex: 1 1 auto !important"></div>
+          <!-- filter -->
+          <!-- <ejs-dropdownlist
+            class="p-dropdown-label p-inputtext ej-ddl-class"
+            #ddlelement
+            [dataSource]="statusList"
+            [fields]="statusListField"
+            placeholder="Select Status"
+            (change)="onchangeSelectStatus($event.value)"
+          ></ejs-dropdownlist> -->
+          <!-- 
+          <jhi-dashboard-reuseable-calendar
+            [mode]="progressInterval"
+            [type]="'progress'"
+            (output)="recieveStartThruDate($event)"
+          ></jhi-dashboard-reuseable-calendar> -->
+          <jhi-dashboard-reuseable-calendar
+            [mode]="progressInterval"
+            [type]="'progress'"
+            (output)="recieveStartThruDate($event)"
+          ></jhi-dashboard-reuseable-calendar>
+
+          <p-dropdown
+            [options]="intervalList"
+            [(ngModel)]="_progressInterval"
+            optionLabel="label"
+            (onChange)="progressIntervalOnChange(_progressInterval.id)"
+          ></p-dropdown>
+        </ng-template>
+        <ng-template #content>
+          <!-- <jhi-line-chart [dataSource]="progressDataSource" [interval]="progressInterval" [progressTypes]="progressType"></jhi-line-chart> -->
+          <jhi-complete-task
+            [dataSource]="progressDataSource"
+            [interval]="progressInterval"
+            [startDateThruDates]="startDateThruDate"
+            [progressTypes]="progressType"
+          ></jhi-complete-task>
+        </ng-template>
+      </e-panel>
+
+      <!-- pie chart -->
+      <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="0" [col]="3">
+        <ng-template #header>
+          Summary Status Charts
+          <div style="flex: 1 1 auto !important"></div>
+          <!-- filter -->
+        </ng-template>
+        <ng-template #content>
+          <jhi-pie-chart [dataSource]="summaryStatusDataSource"></jhi-pie-chart>
+        </ng-template>
+      </e-panel>
       <!-- bar chart -->
-      <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="0" [col]="0">
+      <e-panel [sizeX]="columnSizeX" [sizeY]="columnSizeY" [row]="2" [col]="0">
         <ng-template #header>
           <div>Due Date Charts</div>
           <div style="flex: 1 1 auto !important"></div>
@@ -33,49 +88,6 @@
         </ng-template>
         <ng-template #content>
           <jhi-bar-chart [dataSource]="dueDateDataSource" [interval]="selectedDuedateInterval"></jhi-bar-chart>
-        </ng-template>
-      </e-panel>
-      <!-- pie chart -->
-      <e-panel [sizeX]="pieSizeX" [sizeY]="pieSizeY" [row]="0" [col]="3">
-        <ng-template #header>
-          Summary Status Charts
-          <div style="flex: 1 1 auto !important"></div>
-          <!-- filter -->
-        </ng-template>
-        <ng-template #content>
-          <jhi-pie-chart [dataSource]="summaryStatusDataSource"></jhi-pie-chart>
-        </ng-template>
-      </e-panel>
-      <!-- line chart -->
-      <e-panel [sizeX]="splineSizeX" [sizeY]="splineSizeY" [row]="2" [col]="0">
-        <ng-template #header>
-          Progress Charts
-          <div style="flex: 1 1 auto !important"></div>
-          <!-- filter -->
-          <!-- <ejs-dropdownlist
-            class="p-dropdown-label p-inputtext ej-ddl-class"
-            #ddlelement
-            [dataSource]="statusList"
-            [fields]="statusListField"
-            placeholder="Select Status"
-            (change)="onchangeSelectStatus($event.value)"
-          ></ejs-dropdownlist> -->
-
-          <jhi-dashboard-reuseable-calendar
-            [mode]="progressInterval"
-            [type]="'progress'"
-            (output)="recieveStartThruDate($event)"
-          ></jhi-dashboard-reuseable-calendar>
-
-          <p-dropdown
-            [options]="intervalList"
-            [(ngModel)]="_progressInterval"
-            optionLabel="label"
-            (onChange)="progressIntervalOnChange(_progressInterval.id)"
-          ></p-dropdown>
-        </ng-template>
-        <ng-template #content>
-          <jhi-line-chart [dataSource]="progressDataSource" [interval]="progressInterval" [progressTypes]="progressType"></jhi-line-chart>
         </ng-template>
       </e-panel>
     </e-panels>

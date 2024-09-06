@@ -44,7 +44,9 @@ export class DashboardReusableCalendarComponent {
 
   @Output() output = new EventEmitter<any>();
 
-  constructor() {}
+  constructor() {
+    this.filterRange = [new Date(), new Date()];
+  }
 
   public emitStartEndDate(mode: string) {
     switch (mode) {
