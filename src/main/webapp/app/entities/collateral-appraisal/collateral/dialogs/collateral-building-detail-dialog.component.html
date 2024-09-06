@@ -205,7 +205,6 @@
           [(ngModel)]="collateralProp.imb"
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
-          required
         ></ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB</mat-label>
@@ -223,7 +222,6 @@
             type="text"
             [(ngModel)]="collateralProp.imbDate"
             disabled
-            required
           />
           <mat-datepicker-toggle matSuffix [for]="imbDate"></mat-datepicker-toggle>
           <mat-datepicker #imbDate disabled="false" [disabled]="hideordisable()"></mat-datepicker>
@@ -240,7 +238,6 @@
           min="0"
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
-          required
         >
         </ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
