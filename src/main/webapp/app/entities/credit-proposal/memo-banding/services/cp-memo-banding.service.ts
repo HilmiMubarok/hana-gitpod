@@ -213,6 +213,23 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
 
     // return comparedData;
   }
+
+  compareOtherCovenant(firstData, secondData) {
+    const comparedData = secondData.map(data => {
+      const matchingData = firstData.find(d => d.id === data.id);
+      const appealStatus = matchingData ? (_.isEqualWith(data, matchingData) ? 'Not changed' : 'Changed') : 'Added';
+      return { ...data, appealStatus };
+    });
+
+    firstData.forEach(data => {
+      if (!secondData.some(d => d.id === data.id)) {
+        comparedData.push({ ...data, appealStatus: 'Removed' });
+      }
+    });
+
+    return comparedData;
+  }
+
   compareDeepData(firstData, secondData) {
     // console.log('Data', { firstData, secondData });
 
@@ -227,8 +244,6 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
         comparedData.push({ ...data, appealStatus: 'Added' });
       }
     });
-
-    // console.log('comparedData', comparedData);
 
     return comparedData;
   }

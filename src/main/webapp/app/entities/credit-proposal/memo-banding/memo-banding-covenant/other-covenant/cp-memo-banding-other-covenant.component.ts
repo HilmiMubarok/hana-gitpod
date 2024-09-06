@@ -15,7 +15,7 @@ export class CpMemoBandingOtherCovenantComponent implements OnInit {
   parsed;
   getData() {
     this.parsed = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposalItem);
-    this.dataSource = this.cpMemoBandingservice.compareDeepData(
+    this.dataSource = this.cpMemoBandingservice.compareOtherCovenant(
       this.parsed.convenant['otherCovenant'],
       this.creditProposalItem.attributes['convenant']['otherCovenant']
     );
