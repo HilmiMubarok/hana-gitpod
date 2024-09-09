@@ -8,6 +8,36 @@ import * as moment from 'moment';
   selector: 'jhi-mis-creditproposal-report',
   templateUrl: './mis-creditproposal-report.component.html',
   styleUrls: ['./mis-report-credit-proposal.css', '../mis-report.css'],
+  styles: [
+    `
+      .select-all {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        line-height: 48px;
+        height: 48px;
+        padding: 0 16px;
+        text-align: left;
+        text-decoration: none;
+        max-width: 100%;
+        position: relative;
+        liststyletype: none;
+        outline: none;
+        display: flex;
+        flex-direction: row;
+        max-width: 100%;
+        box-sizing: border-box;
+        align-items: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .select-all:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+      }
+    `,
+  ],
 })
 export class MisCreditProposalReportComponent {
   public lovStatus = [];
@@ -51,6 +81,15 @@ export class MisCreditProposalReportComponent {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+  }
+
+  convertStatusToString(status: Array<string>): string {
+    // if length is 0, return empty string
+    if (status.length === 0) {
+      return '';
+    }
+
+    return status.join(',');
   }
 
   generateMISReportCP() {
@@ -106,7 +145,7 @@ export class MisCreditProposalReportComponent {
     const params = {
       startDate: this.MISReportCP.get('date1')?.value,
       endDate: this.MISReportCP.get('date2')?.value,
-      status: this.MISReportCP.get('status')?.value,
+      status: this.convertStatusToString(this.MISReportCP.get('status')?.value),
     };
 
     this.misReportService
@@ -116,5 +155,15 @@ export class MisCreditProposalReportComponent {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
         },
       });
+  }
+  allSelected = false;
+
+  toggleSelectAll(): void {
+    this.allSelected = !this.allSelected;
+    if (this.allSelected) {
+      this.MISReportCP.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
+    } else {
+      this.MISReportCP.get('status')?.setValue('');
+    }
   }
 }
