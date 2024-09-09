@@ -650,6 +650,13 @@ import { RouterModule } from '@angular/router';
             m => m.MisReportCreditProposalFacilityModule
           ),
       },
+      {
+        path: 'mis-cptimeline-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal-timeline/mis-report-credit-proposal-timeline.module').then(
+            m => m.MisCreditProposalTimelineModule
+          ),
+      },
     ]),
   ],
 })

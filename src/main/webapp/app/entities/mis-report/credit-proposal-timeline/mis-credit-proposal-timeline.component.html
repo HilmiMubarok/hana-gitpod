@@ -1,0 +1,55 @@
+<div class="row remove-row-scroll">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Credit proposal timeline" url=""> </e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <!-- <p class="e-card-sub-title menu-title-class">{{ showTextMenu() }}</p> -->
+          <p class="e-card-sub-title menu-title-class">Credit Proposal Timeline</p>
+        </div>
+      </div>
+    </div>
+    <mat-card-content>
+      <div class="row my-3">
+        <div class="col">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate formControlName="date1" placeholder="Start date" />
+              <input matEndDate formControlName="date2" placeholder="End date" />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker>
+              <mat-datepicker-actions>
+                <button mat-button matDateRangePickerCancel>Cancel</button>
+                <button mat-raised-button matDateRangePickerApply>Apply</button>
+              </mat-datepicker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" (selectionChange)="changeOption($event)">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of lovStatus" [value]="item.statusCode">{{ item.statusDescription }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <div style="text-align: center; margin: 0 auto">
+      <button class="confirm-button-yes" mat-raised-button>Generate</button>
+    </div>
+  </div>
+</div>
