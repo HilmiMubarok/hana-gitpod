@@ -525,6 +525,11 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'mis-cpfacility-report',
       },
+      {
+        name: 'Credit Proposal Timeline',
+        iconname: 'minus',
+        route: 'mis-cptimeline-report',
+      },
     ],
   },
 ];
