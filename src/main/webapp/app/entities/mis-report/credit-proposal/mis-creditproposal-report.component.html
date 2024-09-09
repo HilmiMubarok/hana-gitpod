@@ -23,9 +23,11 @@
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Status</mat-label>
-            <mat-select formControlName="status" (selectionChange)="changeOption($event)">
-              <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of lovStatus" [value]="item.statusCode">{{ item.statusDescription }} </mat-option>
+            <mat-select formControlName="status" (selectionChange)="changeOption($event)" multiple>
+              <li class="select-all" (click)="toggleSelectAll()">
+                {{ allSelected ? 'Deselect All' : 'Select All' }}
+              </li>
+              <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
