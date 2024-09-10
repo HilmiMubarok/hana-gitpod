@@ -657,6 +657,13 @@ import { RouterModule } from '@angular/router';
             m => m.MisCreditProposalTimelineModule
           ),
       },
+      {
+        path: 'mis-cpcollateral-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal-collateral/mis-report-credit-proposal-collateral.module').then(
+            m => m.MisReportCreditProposalCollateralModule
+          ),
+      },
     ]),
   ],
 })
