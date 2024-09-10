@@ -1,0 +1,48 @@
+<div class="row remove-row-scroll">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Credit Proposal Collateral" url=""> </e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <!-- <p class="e-card-sub-title menu-title-class">{{ showTextMenu() }}</p> -->
+          <p class="e-card-sub-title menu-title-class">MIS Credit Proposal Collateral</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="status" (selectionChange)="changeOption($event)">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listOfValue" [value]="item">{{ item }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label> Date </mat-label>
+            <input [matDatepicker]="endDate" matInput [(ngModel)]="date" />
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker #endDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center; margin: 0 auto">
+      <button class="confirm-button-yes" mat-raised-button>Generate</button>
+    </div>
+  </div>
+</div>
