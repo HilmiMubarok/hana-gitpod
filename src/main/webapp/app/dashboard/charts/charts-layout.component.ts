@@ -166,7 +166,7 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
         if (this.dataAppraisal === false) {
           this.loading.emit(true);
           this.reloadCP().then(() => {
-            this.loading.emit(false);
+            setTimeout(() => this.loading.emit(false), 10000);
           });
         }
       }
