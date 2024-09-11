@@ -17,7 +17,9 @@
         <p-multiSelect [options]="segmentList" [(ngModel)]="segment" placeholder="Segment" display="chip" [filter]="false"></p-multiSelect>
       </div>
       <div class="col-auto">
-        <button mat-raised-button class="button-styling" [disabled]="isLoading" (click)="applyFilters()">Apply filter</button>
+        <button mat-raised-button class="button-styling" [disabled]="isLoading" (click)="applyFilters()">
+          {{ isLoading ? 'Loading...' : 'Apply Filter' }}
+        </button>
       </div>
     </div>
   </mat-card-content>
