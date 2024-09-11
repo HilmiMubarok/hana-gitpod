@@ -55,9 +55,9 @@ export class LoanCommitteeDelegationDetailComponent {
 
   save(): void {
     const data = this.people.data.map(p => ({
-      application_id: this.idApplication,
+      applicationId: this.idApplication,
       type: 'loan_committee',
-      position_Id: p.positionToId,
+      positionId: p.positionToId,
     }));
 
     this.service
