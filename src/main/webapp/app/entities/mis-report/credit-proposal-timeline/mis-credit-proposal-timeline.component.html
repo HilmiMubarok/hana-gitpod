@@ -1,5 +1,5 @@
 <div class="row remove-row-scroll">
-  <div class="e-card">
+  <div class="e-card" [formGroup]="misCpTimeline">
     <div class="e-card-header">
       <div class="e-card-header-caption">
         <ejs-breadcrumb cssClass="margin: 1rem;">
@@ -29,20 +29,17 @@
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker>
-              <mat-datepicker-actions>
-                <button mat-button matDateRangePickerCancel>Cancel</button>
-                <button mat-raised-button matDateRangePickerApply>Apply</button>
-              </mat-datepicker-actions>
-            </mat-date-range-picker>
+            <mat-date-range-picker #picker> </mat-date-range-picker>
           </mat-form-field>
         </div>
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Status</mat-label>
-            <mat-select formControlName="status" (selectionChange)="changeOption($event)">
-              <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of lovStatus" [value]="item.statusCode">{{ item.statusDescription }} </mat-option>
+            <mat-select formControlName="status" (selectionChange)="changeOption($event)" multiple>
+              <li class="select-all" (click)="toggleSelectAll()">
+                {{ allSelected ? 'Deselect All' : 'Select All' }}
+              </li>
+              <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

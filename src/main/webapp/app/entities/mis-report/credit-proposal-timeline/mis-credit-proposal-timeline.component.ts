@@ -12,21 +12,36 @@ import * as moment from 'moment';
 export class MisCreditProposalTimelineComponent {
   public lovStatus = [];
   listOfValue = [];
+  misCpTimeline: FormGroup;
+  allSelected = false;
   changeOption(event) {
-    console.log('test', event);
+    console.log('test', event.value);
   }
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    this.misCpTimeline = new FormGroup({
+      date1: new FormControl(''),
+      date2: new FormControl(''),
+      status: new FormControl(''),
+    });
     this.getStatus();
   }
   public previousState(): void {
     window.history.back();
   }
   getStatus() {
-    this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL').subscribe({
+    this.misReportService.getStatusCpMapping().subscribe({
       next: res => (this.lovStatus = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+  }
+  toggleSelectAll(): void {
+    this.allSelected = !this.allSelected;
+    if (this.allSelected) {
+      this.misCpTimeline.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
+    } else {
+      this.misCpTimeline.get('status')?.setValue('');
+    }
   }
 }
