@@ -132,4 +132,14 @@ export class MisReportService {
       })
       .pipe(map(res => res.body));
   }
+  public getStatusCpMapping() {
+    const params = new HttpParams().set('appMenuId', 'MIS_CREDIT_PROPOSAL_TIMELINE').set('page', 0).set('sort', 'id,asc');
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
+        params,
+        observe: 'response',
+      })
+      .pipe(map(res => res.body));
+  }
 }
