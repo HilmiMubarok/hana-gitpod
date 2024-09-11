@@ -251,3 +251,7 @@ body.tailwind-dark .e-dashboardlayout.e-control .e-panel {
   white-space: nowrap;
   margin-left: 0.5rem;
 }
+
+#dashboard-filters .p-checkbox .p-checkbox-box {
+  min-width: 1.2rem;
+}
