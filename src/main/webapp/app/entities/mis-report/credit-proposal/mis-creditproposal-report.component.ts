@@ -75,7 +75,7 @@ export class MisCreditProposalReportComponent {
   }
 
   getStatus() {
-    this.misReportService.getStatuses().subscribe({
+    this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL').subscribe({
       next: res => (this.lovStatus = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });

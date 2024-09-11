@@ -37,3 +37,33 @@
   margin-left: 10px;
   padding-top: 13px;
 }
+.e-card {
+  padding: 10px;
+  margin-bottom: 1rem;
+}
+
+.select-all {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 48px;
+  height: 48px;
+  padding: 0 16px;
+  text-align: left;
+  text-decoration: none;
+  max-width: 100%;
+  position: relative;
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.select-all:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}

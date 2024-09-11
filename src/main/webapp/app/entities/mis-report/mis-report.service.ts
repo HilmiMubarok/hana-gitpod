@@ -122,8 +122,8 @@ export class MisReportService {
     );
   }
 
-  public getStatuses() {
-    const params = new HttpParams().set('appMenuId', 'MIS_CREDIT_PROPOSAL').set('page', 0).set('sort', 'id,asc');
+  public getStatuses(appMenuId: string) {
+    const params = new HttpParams().set('appMenuId', appMenuId).set('page', 0).set('sort', 'id,asc');
 
     return this.http
       .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
