@@ -311,10 +311,9 @@ export class DocumentChecklistTempComponent implements OnInit {
     const positionTypeId = this.getLocStor('POSO');
 
     if (
-      (positionTypeId === 'LEGAL_OFFICER' || positionTypeId === 'LEGALOFFICER_OUTREGION') &&
-      this.creditProposal.statusId === 'OL_ASSIGNED' &&
-      item.parentId === 'DOC_CP' &&
-      item.id === 'DOC_CP_BINDING'
+      ((positionTypeId === 'LEGAL_OFFICER' || positionTypeId === 'LEGALOFFICER_OUTREGION') &&
+        this.creditProposal.statusId === 'OL_ASSIGNED') ||
+      (this.creditProposal.statusId === 'PK_FINALIZE' && item.parentId === 'DOC_CP' && item.id === 'DOC_CP_BINDING')
     ) {
       return true;
     } else {
