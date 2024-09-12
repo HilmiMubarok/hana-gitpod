@@ -150,6 +150,9 @@ export class DashboardComponent implements OnInit {
               accessibleMenu: tempDataCP[0].accessibleMenuCP,
               groupByStatus,
             });
+            if (this.mergedChartData[0].chartsTitle !== 'Charts Credit Proposal') {
+              this.mergedChartData.sort().reverse();
+            }
             this.showFilter = true;
             resolve();
           });
@@ -170,7 +173,9 @@ export class DashboardComponent implements OnInit {
               accessibleMenu: tempDataAppraisal[0].accessibleMenuAppraisal,
               groupByStatus,
             });
-
+            if (this.mergedChartData[0].chartsTitle === 'Charts Appraisal') {
+              this.mergedChartData.sort().reverse();
+            }
             resolve();
           });
       }

@@ -18,6 +18,7 @@ export class CompleteTaskComponent implements OnInit, OnChanges {
   public labelList: string[] = [];
   public _dataset: any[] = [];
   public _startDateThruDates: any;
+  public _loadingData: boolean;
 
   @Input()
   get dataSource() {
@@ -44,6 +45,15 @@ export class CompleteTaskComponent implements OnInit, OnChanges {
 
   set startDateThruDates(param: any) {
     this._startDateThruDates = param;
+  }
+
+  @Input()
+  get loadingData() {
+    return this._loadingData;
+  }
+
+  set loadingData(param: boolean) {
+    this._loadingData = param;
   }
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;

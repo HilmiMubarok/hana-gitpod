@@ -14,6 +14,7 @@ export class DashboardReusableCalendarComponent {
   public _type: string;
   public maxDateVal: Date;
   public progressDates: Date;
+  public _disableCalendar: boolean;
 
   @Input()
   get dueDateDates() {
@@ -40,6 +41,15 @@ export class DashboardReusableCalendarComponent {
 
   set type(param: string) {
     this._type = param;
+  }
+
+  @Input()
+  get disableCalendar() {
+    return this._disableCalendar;
+  }
+
+  set disableCalendar(param: boolean) {
+    this._disableCalendar = param;
   }
 
   @Output() output = new EventEmitter<any>();

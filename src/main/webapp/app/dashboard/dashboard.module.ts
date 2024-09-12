@@ -19,6 +19,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuseable-calendar.component';
 import { CarouselModule } from 'primeng/carousel';
 import { CompleteTaskComponent } from './charts/complete-task/complete-task.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { CompleteTaskComponent } from './charts/complete-task/complete-task.comp
     // angular material
     MatCardModule,
     MatDividerModule,
+    MatProgressSpinnerModule,
 
     // syncfusion
     DashboardLayoutModule,

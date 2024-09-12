@@ -17,40 +17,28 @@
           Completed Taks
           <div style="flex: 1 1 auto !important"></div>
           <!-- filter -->
-          <!-- <ejs-dropdownlist
-            class="p-dropdown-label p-inputtext ej-ddl-class"
-            #ddlelement
-            [dataSource]="statusList"
-            [fields]="statusListField"
-            placeholder="Select Status"
-            (change)="onchangeSelectStatus($event.value)"
-          ></ejs-dropdownlist> -->
-          <!-- 
           <jhi-dashboard-reuseable-calendar
             [mode]="progressInterval"
             [type]="'progress'"
             (output)="recieveStartThruDate($event)"
-          ></jhi-dashboard-reuseable-calendar> -->
-          <jhi-dashboard-reuseable-calendar
-            [mode]="progressInterval"
-            [type]="'progress'"
-            (output)="recieveStartThruDate($event)"
+            [disableCalendar]="loadingProgress === undefined ? loadingCPDatas : loadingProgress"
           ></jhi-dashboard-reuseable-calendar>
 
           <p-dropdown
             [options]="intervalList"
             [(ngModel)]="_progressInterval"
             optionLabel="label"
+            [disable]="loadingProgress === undefined ? loadingCPDatas : loadingProgress"
             (onChange)="progressIntervalOnChange(_progressInterval.id)"
           ></p-dropdown>
         </ng-template>
         <ng-template #content>
-          <!-- <jhi-line-chart [dataSource]="progressDataSource" [interval]="progressInterval" [progressTypes]="progressType"></jhi-line-chart> -->
           <jhi-complete-task
             [dataSource]="progressDataSource"
             [interval]="progressInterval"
             [startDateThruDates]="startDateThruDate"
             [progressTypes]="progressType"
+            [loadingData]="loadingProgress === undefined ? loadingCPDatas : loadingProgress"
           ></jhi-complete-task>
         </ng-template>
       </e-panel>
@@ -63,7 +51,10 @@
           <!-- filter -->
         </ng-template>
         <ng-template #content>
-          <jhi-pie-chart [dataSource]="summaryStatusDataSource"></jhi-pie-chart>
+          <jhi-pie-chart
+            [dataSource]="summaryStatusDataSource"
+            [loadingData]="loadingSummaryStatus === undefined ? loadingCPDatas : loadingSummaryStatus"
+          ></jhi-pie-chart>
         </ng-template>
       </e-panel>
       <!-- bar chart -->
@@ -77,17 +68,23 @@
             [mode]="selectedDuedateInterval"
             [type]="'dueDate'"
             (output)="recievedDate($event)"
+            [disableCalendar]="loadingDueDate === undefined ? loadingCPDatas : loadingDueDate"
           ></jhi-dashboard-reuseable-calendar>
 
           <p-dropdown
             [options]="intervalList"
             [(ngModel)]="_selectedDuedateInterval"
             optionLabel="label"
+            [disable]="loadingDueDate === undefined ? loadingCPDatas : loadingDueDate"
             (onChange)="dueDateInterval(_selectedDuedateInterval.id)"
           ></p-dropdown>
         </ng-template>
         <ng-template #content>
-          <jhi-bar-chart [dataSource]="dueDateDataSource" [interval]="selectedDuedateInterval"></jhi-bar-chart>
+          <jhi-bar-chart
+            [dataSource]="dueDateDataSource"
+            [interval]="selectedDuedateInterval"
+            [loadingData]="loadingDueDate === undefined ? loadingCPDatas : loadingDueDate"
+          ></jhi-bar-chart>
         </ng-template>
       </e-panel>
     </e-panels>
