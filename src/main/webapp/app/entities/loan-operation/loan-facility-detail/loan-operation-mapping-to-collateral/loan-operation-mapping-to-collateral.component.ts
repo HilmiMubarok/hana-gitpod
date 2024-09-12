@@ -304,7 +304,7 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
             this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralData[index].id &&
             this.creditProposalData.collateralProductRelations[i].applicationProduct?.id === this.applicationProductData.id
           ) {
-            this.creditProposalData.collateralProductRelations.splice(i);
+            this.creditProposalData.collateralProductRelations.splice(i, 1);
           }
         }
       }

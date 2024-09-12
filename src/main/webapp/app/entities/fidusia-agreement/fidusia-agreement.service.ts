@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IFidusiaAgremeent } from './fidusia-agreement.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { Observable } from 'rxjs';
 
@@ -15,8 +15,10 @@ export class FidusiaAgreementService {
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/fidusia-agreements');
   }
 
-  public getData(idApplication: number, idCollateral: number): Observable<IFidusiaAgremeent[]> {
-    return this.http.get<IFidusiaAgremeent[]>(this.resourceUrl + '/application/' + idApplication + '/collateral/' + idCollateral);
+  public getData(idApplication: number, idCollateral: number): Observable<HttpResponse<IFidusiaAgremeent[]>> {
+    return this.http.get<IFidusiaAgremeent[]>(this.resourceUrl + '/application/' + idApplication + '/collateral/' + idCollateral, {
+      observe: 'response',
+    });
   }
 
   public getTemplate(idApplication: number, idCollateral: number): Observable<IFidusiaAgremeent> {
