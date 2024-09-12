@@ -25,6 +25,12 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
   private _proposalTypes: string[];
   private _segments: string[];
 
+  public loadingDueDate: boolean;
+  public loadingSummaryStatus: boolean;
+  public loadingProgress: boolean;
+
+  public loadingCPDatas = false;
+
   @Input()
   get idPosition() {
     return this._idPosition;
@@ -165,8 +171,12 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
       if (changes['applyFilter']) {
         if (this.dataAppraisal === false) {
           this.loading.emit(true);
+          this.loadingCPDatas = true;
           this.reloadCP().then(() => {
-            setTimeout(() => this.loading.emit(false), 10000);
+            setTimeout(() => {
+              this.loading.emit(false);
+              this.loadingCPDatas = false;
+            }, 10000);
           });
         }
       }
@@ -286,6 +296,7 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
 
   private getDueDateAppraisal(): Promise<IDueDate[]> {
     return new Promise<IDueDate[]>((resolve, reject) => {
+      this.loadingDueDate = true;
       this.dashboardService
         .appraisal()
         .getDueDate({
@@ -297,6 +308,7 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
         .subscribe(res => {
           this.dueDateDataSource = res.body;
           resolve(res.body);
+          setTimeout(() => (this.loadingDueDate = false), 10000);
         });
     });
   }
@@ -327,12 +339,14 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
 
   private getSummaryStatusAppraisal(): Promise<IGroupByStatus[]> {
     return new Promise<IGroupByStatus[]>((resolve, reject) => {
+      this.loadingSummaryStatus = true;
       this.dashboardService
         .appraisal()
         .getSummaryStatus({ idPosition: this.idPosition })
         .subscribe(res => {
           this.summaryStatusDataSource = res.body;
           resolve(res.body);
+          setTimeout(() => (this.loadingSummaryStatus = false), 10000);
         });
     });
   }
@@ -370,6 +384,7 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
 
   private getProgressAppraisal(): Promise<IProgress[]> {
     return new Promise<IProgress[]>((resolve, reject) => {
+      this.loadingProgress = true;
       this.dashboardService
         .appraisal()
         .getProgress({
@@ -383,6 +398,7 @@ export class ChartsLayoutComponent extends DashboardAbstractComponent implements
           this.progressDataSource = res.body;
           this.progressType = 'appraisal';
           resolve(res.body);
+          setTimeout(() => (this.loadingProgress = false), 10000);
         });
     });
   }

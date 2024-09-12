@@ -6,32 +6,10 @@ canvas {
   width: 95% !important;
 }
 
-/* @media only screen and (max-width: 1920px) {
-  canvas {
-    margin: auto auto auto auto !important;
-    display: block !important;
-    box-sizing: border-box !important;
-    height: 100% !important;
-    width: 100% !important;
-  }
+.completed-task-container {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
-
-@media only screen and (max-width: 1536px) {
-  canvas {
-    margin: auto auto auto auto !important;
-    display: block !important;
-    box-sizing: border-box !important;
-    height: 100% !important;
-    width: 100% !important;
-  }
-}
-
-@media only screen and (max-width: 1280px) {
-  canvas {
-    margin: auto auto auto auto !important;
-    display: block !important;
-    box-sizing: border-box !important;
-    height: 100% !important;
-    width: 100% !important;
-  }
-} */
