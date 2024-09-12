@@ -54,9 +54,9 @@ export class BindingValueDepositoGridComponent implements OnInit {
   }
 
   public getFidusiaData() {
-    this.fidusiaAgreementService.getData(this.creditProposal.id, this._collateral.id).subscribe(res => {
-      console.log('rest item from get fidusia data', res);
-      this.dataItem = new MatTableDataSource(res);
+    this.fidusiaAgreementService.getData(this.creditProposal.id, this._collateral.id, { sort: ['rank, asc'] }).subscribe(res => {
+      console.log('rest item from get fidusia data', res.body);
+      this.dataItem = new MatTableDataSource(res.body);
       this.dataItem.paginator = this.paginator;
     });
   }

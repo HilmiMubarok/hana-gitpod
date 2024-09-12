@@ -53,8 +53,8 @@ export class BindingValueRealEstateGridComponent implements OnInit {
   }
 
   public getFidusiaData() {
-    this.fidusiaAgreementService.getData(this.creditProposal.id, this.collateral.id).subscribe(res => {
-      this.dataItem = new MatTableDataSource(res);
+    this.fidusiaAgreementService.getData(this.creditProposal.id, this.collateral.id, { sort: ['rank,asc'] }).subscribe(res => {
+      this.dataItem = new MatTableDataSource(res.body);
       this.dataItem.paginator = this.paginator;
     });
   }

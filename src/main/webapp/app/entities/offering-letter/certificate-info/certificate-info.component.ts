@@ -7,7 +7,7 @@ import { CertificateInfoDialogComponent } from './certificate-info-dialog.compon
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { Router } from '@angular/router';
 import moment from 'moment';
-
+import { formatDateDob } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-certificate-info',
   templateUrl: './certificate-info.component.html',
@@ -55,15 +55,19 @@ export class CertificateInfoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data: ICertificateInfo) => {
       if (!data.id) {
-        data.jangkaWaktuKepemilikan = moment(new Date(data.jangkaWaktuKepemilikan)).format().substring(0, 19) + 'Z';
-        data.id = this.collateral.id;
-        if (this.creditProposal.attributes['certificateInfoData'].length !== 0) {
-          data.index = this.creditProposal.attributes['certificateInfoData'].length + 1;
+        if (data.buktiKepemilikan === null || data.buktiKepemilikan === undefined || data.buktiKepemilikan === '') {
+          data.buktiKepemilikan = formatDateDob(data.buktiKepemilikan);
         } else {
-          data.index = this.creditProposal.attributes['certificateInfoData'][0];
+          data.jangkaWaktuKepemilikan = moment(new Date(data.jangkaWaktuKepemilikan)).format().substring(0, 19) + 'Z';
+          data.id = this.collateral.id;
+          if (this.creditProposal.attributes['certificateInfoData'].length !== 0) {
+            data.index = this.creditProposal.attributes['certificateInfoData'].length + 1;
+          } else {
+            data.index = this.creditProposal.attributes['certificateInfoData'][0];
+          }
+          this.creditProposal.attributes['certificateInfoData'].push(data);
+          this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
         }
-        this.creditProposal.attributes['certificateInfoData'].push(data);
-        this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
       }
     });
   }
