@@ -10,6 +10,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { Router } from '@angular/router';
 import { MenuEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { BindingValueGeneralDialogLoanOpsComponent } from './binding-value-general-dialog-loan-ops.component';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'jhi-binding-value-general-grid-loan-ops',
@@ -28,7 +29,7 @@ export class BindingValueGeneralGridLoanOpsComponent implements OnInit, OnChange
   _creditProposal: ICreditProposal;
 
   @ViewChild('paginator') paginator: MatPaginator;
-
+  @ViewChild(MatSort) sort: MatSort;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -74,8 +75,20 @@ export class BindingValueGeneralGridLoanOpsComponent implements OnInit, OnChange
   }
   public getFidusiaData() {
     this.fidusiaAgreementService.getData(this.creditProposal.id, this.collateral.id).subscribe(res => {
-      this.dataItem = new MatTableDataSource(res);
-      this.dataItem.paginator = this.paginator;
+      if (res.body.length > 0) {
+        const sortedData = res.body.sort((a, b) => {
+          if (a.rank < b.rank) {
+            return -1;
+          } else if (a.rank > b.rank) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+        this.dataItem = sortedData;
+        this.dataItem.paginator = this.paginator;
+        this.dataItem.sort = this.sort;
+      }
     });
   }
 

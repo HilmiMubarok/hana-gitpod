@@ -8,6 +8,7 @@ import { Collateral, ICollateral } from 'app/entities/collateral/collateral.mode
 import { FidusiaAgreementService } from 'app/entities/fidusia-agreement/fidusia-agreement.service';
 import { FidusiaAgreement, IFidusiaAgremeent } from 'app/entities/fidusia-agreement/fidusia-agreement.model';
 import { BindingValueMachineDialogLoanOpsComponent } from './binding-value-machine-dialog-loan-ops.component';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'jhi-binding-value-machine-grid-loan-ops',
@@ -24,7 +25,7 @@ export class BindingValueMachineGridLoanOpsComponent implements OnInit, OnChange
   _creditProposal: ICreditProposal;
 
   @ViewChild('paginator') paginator: MatPaginator;
-
+  @ViewChild(MatSort) sort: MatSort;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -61,8 +62,20 @@ export class BindingValueMachineGridLoanOpsComponent implements OnInit, OnChange
   }
   public getFidusiaData() {
     this.fidusiaAgreementService.getData(this.creditProposal.id, this.collateral.id).subscribe(res => {
-      this.dataItem = new MatTableDataSource(res);
-      this.dataItem.paginator = this.paginator;
+      if (res.body.length > 0) {
+        const sortedData = res.body.sort((a, b) => {
+          if (a.rank < b.rank) {
+            return -1;
+          } else if (a.rank > b.rank) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+        this.dataItem = sortedData;
+        this.dataItem.paginator = this.paginator;
+        this.dataItem.sort = this.sort;
+      }
     });
   }
 
