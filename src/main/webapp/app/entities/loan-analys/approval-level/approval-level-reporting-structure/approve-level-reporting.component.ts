@@ -10,6 +10,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { IPositionReportingStructure } from 'app/entities/position-reporting-structure/position-reporting-structure.model';
 import { RelationTypeService } from 'app/entities/relation-type/relation-type.service';
 import { LoanAnalysService } from '../../loan-analys.service';
+import { map } from 'rxjs';
 @Component({
   selector: 'jhi-loan-facility-approve-level-reporting',
   templateUrl: './approve-level-reporting.component.html',
@@ -176,11 +177,7 @@ export class LoanFacilityAproveLevelReportingComponent
         page: 0,
         size: 9999,
       })
-      .subscribe(res => {
-        if (res.body.length > 0) {
-          this.filteringItems = res.body.filter(e => e.relationTypeId === this.selectedRelationType);
-          console.log('filter items', this.filteringItems);
-        }
-      });
+      .pipe(map(res => res.body.filter(o => new Date(o.thruDate) >= new Date())))
+      .subscribe(res => (this.filteringItems = res.filter(e => e.relationTypeId === this.selectedRelationType)));
   }
 }
