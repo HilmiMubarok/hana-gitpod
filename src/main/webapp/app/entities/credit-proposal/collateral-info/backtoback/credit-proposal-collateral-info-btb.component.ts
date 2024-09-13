@@ -1151,7 +1151,8 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   public save(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
-        () => {
+        res => {
+          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {
