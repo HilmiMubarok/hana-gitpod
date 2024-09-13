@@ -9,7 +9,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { LoanAnalysService } from '../loan-analys.service';
 import { AccountService } from 'app/core/auth/account.service';
-import { firstValueFrom } from 'rxjs';
+import { map } from 'rxjs';
 import { Account } from 'app/core/auth/account.model';
 import { PersonService } from 'app/entities/person/person.service';
 import { IPerson } from 'app/entities/person/person.model';
@@ -160,8 +160,7 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
         page: 0,
         size: 9999,
       })
-      .subscribe(res => {
-        this.items = res.body;
-      });
+      .pipe(map(res => res.body.filter(o => new Date(o.thruDate) >= new Date())))
+      .subscribe(res => (this.items = res));
   }
 }
