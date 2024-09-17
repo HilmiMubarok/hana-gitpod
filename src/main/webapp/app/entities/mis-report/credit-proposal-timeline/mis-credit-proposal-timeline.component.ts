@@ -53,6 +53,18 @@ export class MisCreditProposalTimelineComponent {
       date2: new FormControl(''),
       status: new FormControl(''),
     });
+    this.misCpTimeline.get('date1')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.misCpTimeline.get('date1').setValue(formattedDate, { emitEvent: false });
+      }
+    });
+    this.misCpTimeline.get('date2')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.misCpTimeline.get('date2').setValue(formattedDate, { emitEvent: false });
+      }
+    });
     this.getStatus();
   }
   public previousState(): void {
