@@ -58,14 +58,15 @@ export class CertificateInfoComponent implements OnInit {
         if (data.jangkaWaktuKepemilikan) {
           data.jangkaWaktuKepemilikan = moment(new Date(data.jangkaWaktuKepemilikan)).format().substring(0, 19) + 'Z';
         }
-        data.id = this.collateral.id;
-        if (this.creditProposal.attributes['certificateInfoData'].length !== 0) {
-          data.index = this.creditProposal.attributes['certificateInfoData'].length + 1;
-        } else {
-          data.index = this.creditProposal.attributes['certificateInfoData'][0];
+          data.id = this.collateral.id;
+          if (this.creditProposal.attributes['certificateInfoData'].length !== 0) {
+            data.index = this.creditProposal.attributes['certificateInfoData'].length + 1;
+          } else {
+            data.index = this.creditProposal.attributes['certificateInfoData'][0];
+          }
+          this.creditProposal.attributes['certificateInfoData'].push(data);
+          this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
         }
-        this.creditProposal.attributes['certificateInfoData'].push(data);
-        this.dataItem = this.creditProposal.attributes['certificateInfoData'].filter(obj => obj.id === this.collateral.id);
       }
     });
   }

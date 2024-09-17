@@ -1051,7 +1051,6 @@ export class CollateralInfoBTPDarFinalComponent
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
         res => {
           this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-          this.creditProposal.collaterals = res.body.collaterals;
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {

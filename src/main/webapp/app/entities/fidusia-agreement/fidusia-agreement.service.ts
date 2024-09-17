@@ -20,7 +20,6 @@ export class FidusiaAgreementService {
       observe: 'response',
     });
   }
-
   public getTemplate(idApplication: number, idCollateral: number): Observable<IFidusiaAgremeent> {
     return this.http.get<IFidusiaAgremeent>(
       this.resourceUrl + '/template/sht/application/' + idApplication + '/collateral/' + idCollateral

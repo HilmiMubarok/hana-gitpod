@@ -13,6 +13,7 @@ export class CertificateInfo implements ICertificateInfo {
     public index?: number,
     public buktiKepemilikan?: string,
     public luasTanah?: number,
-    public luasBangunan?: number
+    public luasBangunan?: number,
+    public jangkaWaktuKepemilikan?: string
   ) {}
 }
