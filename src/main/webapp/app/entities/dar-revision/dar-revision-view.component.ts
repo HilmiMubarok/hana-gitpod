@@ -836,7 +836,7 @@ export class DarRevisionViewComponent implements OnInit {
     this.darRevisionService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }

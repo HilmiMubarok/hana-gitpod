@@ -6,20 +6,6 @@ import { DashboardComponent } from './dashboard.component';
 import { DASHBOARD_ROUTE } from './dashboard.route';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { ChartAllModule, AccumulationChartAllModule, RangeNavigatorAllModule } from '@syncfusion/ej2-angular-charts';
-// import { CircularGaugeAllModule } from '@syncfusion/ej2-angular-circulargauge';
-import {
-  CategoryService,
-  DateTimeService,
-  ScrollBarService,
-  ColumnSeriesService,
-  LineSeriesService,
-  ChartAnnotationService,
-  RangeColumnSeriesService,
-  StackingColumnSeriesService,
-  LegendService,
-  TooltipService,
-} from '@syncfusion/ej2-angular-charts';
 import { DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
@@ -31,6 +17,9 @@ import { ChartsLayoutComponent } from './charts/charts-layout.component';
 import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuseable-calendar.component';
+import { CarouselModule } from 'primeng/carousel';
+import { CompleteTaskComponent } from './charts/complete-task/complete-task.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -39,16 +28,15 @@ import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuse
     // angular material
     MatCardModule,
     MatDividerModule,
+    MatProgressSpinnerModule,
 
     // syncfusion
     DashboardLayoutModule,
-    ChartAllModule,
-    AccumulationChartAllModule,
-    RangeNavigatorAllModule,
 
     // primeng
     CalendarModule,
     MultiSelectModule,
+    CarouselModule,
 
     // charts
     NgChartsModule,
@@ -62,19 +50,7 @@ import { DashboardReusableCalendarComponent } from './misc-items/dashboard-reuse
     StatusSlidesComponent,
     ProgressStatusBarComponent,
     DashboardReusableCalendarComponent,
-  ],
-
-  providers: [
-    CategoryService,
-    DateTimeService,
-    ScrollBarService,
-    LineSeriesService,
-    ColumnSeriesService,
-    ChartAnnotationService,
-    RangeColumnSeriesService,
-    StackingColumnSeriesService,
-    LegendService,
-    TooltipService,
+    CompleteTaskComponent,
   ],
 })
 export class DashboardModule {}

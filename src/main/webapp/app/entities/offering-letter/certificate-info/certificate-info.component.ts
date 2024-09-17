@@ -55,8 +55,12 @@ export class CertificateInfoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data: ICertificateInfo) => {
       if (!data.id) {
-        if (data.buktiKepemilikan === null || data.buktiKepemilikan === undefined || data.buktiKepemilikan === '') {
-          data.buktiKepemilikan = formatDateDob(data.buktiKepemilikan);
+        if (data.jangkaWaktuKepemilikan) {
+          data.jangkaWaktuKepemilikan = moment(new Date(data.jangkaWaktuKepemilikan)).format().substring(0, 19) + 'Z';
+        }
+        data.id = this.collateral.id;
+        if (this.creditProposal.attributes['certificateInfoData'].length !== 0) {
+          data.index = this.creditProposal.attributes['certificateInfoData'].length + 1;
         } else {
           data.jangkaWaktuKepemilikan = moment(new Date(data.jangkaWaktuKepemilikan)).format().substring(0, 19) + 'Z';
           data.id = this.collateral.id;

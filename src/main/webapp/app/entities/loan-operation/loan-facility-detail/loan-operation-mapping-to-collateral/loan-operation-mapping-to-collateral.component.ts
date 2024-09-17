@@ -71,7 +71,7 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
+    const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
     this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
     this.setUp();
     if (this.creditProposalData.customerType === 'PERSONAL') {
@@ -304,7 +304,7 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
             this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralData[index].id &&
             this.creditProposalData.collateralProductRelations[i].applicationProduct?.id === this.applicationProductData.id
           ) {
-            this.creditProposalData.collateralProductRelations.splice(i);
+            this.creditProposalData.collateralProductRelations.splice(i, 1);
           }
         }
       }

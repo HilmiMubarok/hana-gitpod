@@ -31,9 +31,42 @@ import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-a
 import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
 import { MainFacilityDialogComponent } from './loan-facility/main-facility/main-facility-dialog.component';
 import { MainFacilityDialogHistoryComponent } from './loan-facility-history/main-facility/main-facility-dialog-history.component';
+import { RepaymentSpreadsheetModule } from './repayment-spreadsheet/repayment-spreadsheet.module';
+import { CreditProposalProposePricingModule } from './propose-pricing/credit-proposal-propose-pricing.module';
+import { CreditProposalTabManagementInfoModule } from './credit-proposal-tab-management-info.module';
+import { CreditProposalTabSummaryModule } from './credit-proposal-tab-summary.module';
+import { BasicInformationViewMoodule } from './basic-information/basic-information-view.module';
+import { CreditProposalTabBusinessActivityModule } from './busines-activity/credit-proposal-tab-business-activity.module';
+import { CreditProposalCollateralInfoModule } from './collateral-info/credit-proposal-collateral-info.module';
+import { CollateralInfoHistoryModule } from './collateral-info-history/collateral-info-history.module';
+import { CreditProposalGroupGuarantorAnalysisModule } from './guarantour/credit-proposal-group-guarantor-analysis.module';
+import { CreditProposalTabLoanFacilityDetailModule } from './loan-facility/credit-proposal-tab-loan-facility-detail.module';
+import { LoanFacilityDetailHistoryModule } from './loan-facility-history/loan-facility-detail-history.module';
+import { CreditProposalMemoBandingModule } from './memo-banding/credit-proposal-memo-banding.module';
+import { CreditProposalOpinionHistoryModule } from './opinion-history/credit-proposal-opinion-history.module';
+import { CreditProposalTradeCheckingRemarksModule } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.module';
 
 @NgModule({
-  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
+  imports: [
+    SharedModule,
+    SharedLibsModule,
+    SharedEntityModule,
+    RepaymentSpreadsheetModule,
+    CreditProposalProposePricingModule,
+    CreditProposalTabManagementInfoModule,
+    CreditProposalTabSummaryModule,
+    BasicInformationViewMoodule,
+    CreditProposalTabBusinessActivityModule,
+    CollateralInfoHistoryModule,
+    CreditProposalCollateralInfoModule,
+    CreditProposalGroupGuarantorAnalysisModule,
+    CreditProposalTabLoanFacilityDetailModule,
+    LoanFacilityDetailHistoryModule,
+    CreditProposalMemoBandingModule,
+    CreditProposalOpinionHistoryModule,
+    CreditProposalTradeCheckingRemarksModule,
+    RouterModule.forChild(creditProposalRoute),
+  ],
   declarations: [
     CreditProposalComponent,
     CreditProposalUpdateCustomComponent,

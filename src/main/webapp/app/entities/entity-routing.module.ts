@@ -23,10 +23,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./application-option/application-option.module').then(m => m.LosgwApplicationOptionModule),
       },
       {
-        path: 'sample-form',
-        loadChildren: () => import('./sample-form/sample-form.module').then(m => m.LosgwSampleFormModule),
-      },
-      {
         path: 'party',
         loadChildren: () => import('./party/party.module').then(m => m.LosgwPartyModule),
       },
@@ -185,10 +181,6 @@ import { RouterModule } from '@angular/router';
       {
         path: 'service-product',
         loadChildren: () => import('./service-product/service-product.module').then(m => m.LosgwServiceProductModule),
-      },
-      {
-        path: 'sample-ejs',
-        loadChildren: () => import('./sample-ejs/sample-ejs.module').then(m => m.LosgwSampleEjsModule),
       },
       {
         path: 'func-setting-template',
@@ -645,6 +637,32 @@ import { RouterModule } from '@angular/router';
       {
         path: 'tbo-legal-review',
         loadChildren: () => import('./tbo-legal-monitoring/tbo-review/tbo-review.module').then(m => m.TboReviewModule),
+      },
+      {
+        path: 'mis-creditproposal-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal/mis-report-credit-proposal.module').then(m => m.MisCreditProposalReportModule),
+      },
+      {
+        path: 'mis-cpfacility-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposa-facility/mis-report-credit-proposal-facility.module').then(
+            m => m.MisReportCreditProposalFacilityModule
+          ),
+      },
+      {
+        path: 'mis-cptimeline-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal-timeline/mis-report-credit-proposal-timeline.module').then(
+            m => m.MisCreditProposalTimelineModule
+          ),
+      },
+      {
+        path: 'mis-cpcollateral-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal-collateral/mis-report-credit-proposal-collateral.module').then(
+            m => m.MisReportCreditProposalCollateralModule
+          ),
       },
     ]),
   ],

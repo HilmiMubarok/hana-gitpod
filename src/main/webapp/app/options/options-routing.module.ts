@@ -17,6 +17,11 @@ import { SharedModule } from 'app/shared/shared.module';
         path: 'correction-appraisal',
         loadChildren: () => import('./correction-appraisal/correction-appraisal.module').then(m => m.CorrectionAppraisalAppModule),
       },
+      {
+        path: 'loan-committee-delegation',
+        loadChildren: () =>
+          import('./loan-committee-delegation/loan-committe-delegation.module').then(m => m.LoanCommitteeDelegationModule),
+      },
       /* jhipster-needle-add-admin-route - JHipster will add admin routes here */
     ]),
   ],

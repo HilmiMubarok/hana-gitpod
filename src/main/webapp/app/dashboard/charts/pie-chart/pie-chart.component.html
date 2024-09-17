@@ -1,12 +1,15 @@
-<canvas
-  *ngIf="this.dataSource.length > 0"
-  baseChart
-  class="chart"
-  [data]="pieChartData"
-  [type]="pieChartType"
-  [options]="pieChartOptions"
-  [plugins]="pieChartPlugins"
->
-</canvas>
+<div class="pie-chart-container">
+  <mat-spinner [strokeWidth]="5" [diameter]="100" *ngIf="loadingData === true"></mat-spinner>
+  <canvas
+    *ngIf="this.dataSource.length > 0 && loadingData === false"
+    baseChart
+    class="chart"
+    [data]="pieChartData"
+    [type]="pieChartType"
+    [options]="pieChartOptions"
+    [plugins]="pieChartPlugins"
+  >
+  </canvas>
 
-<label class="d-flex justify-content-center" *ngIf="this.dataSource.length === 0"> No Data Available</label>
+  <label class="d-flex justify-content-center" *ngIf="this.dataSource.length === 0 && loadingData === false"> No Data Available</label>
+</div>

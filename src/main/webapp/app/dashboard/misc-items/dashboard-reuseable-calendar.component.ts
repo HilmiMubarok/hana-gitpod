@@ -14,6 +14,7 @@ export class DashboardReusableCalendarComponent {
   public _type: string;
   public maxDateVal: Date;
   public progressDates: Date;
+  public _disableCalendar: boolean;
 
   @Input()
   get dueDateDates() {
@@ -42,9 +43,20 @@ export class DashboardReusableCalendarComponent {
     this._type = param;
   }
 
+  @Input()
+  get disableCalendar() {
+    return this._disableCalendar;
+  }
+
+  set disableCalendar(param: boolean) {
+    this._disableCalendar = param;
+  }
+
   @Output() output = new EventEmitter<any>();
 
-  constructor() {}
+  constructor() {
+    this.filterRange = [new Date(), new Date()];
+  }
 
   public emitStartEndDate(mode: string) {
     switch (mode) {
@@ -68,6 +80,7 @@ export class DashboardReusableCalendarComponent {
       const startDate = moment(this.filterRange[0]).format('YYYY-MM-DD').toString();
 
       const thruDate = moment(this.filterRange[1]).format('YYYY-MM-DD').toString();
+      this.maxDateVal = null;
       this.output.emit({ startDate, thruDate });
     }
   }

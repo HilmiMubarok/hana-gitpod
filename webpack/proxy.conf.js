@@ -14,6 +14,7 @@ function setupProxy({ tls }) {
         '/storage',
         '/httpbin',
         '/strapi',
+        '/spreadsheet',
       ],
       target: `http${tls ? 's' : ''}://localhost:8190`,
       secure: false,

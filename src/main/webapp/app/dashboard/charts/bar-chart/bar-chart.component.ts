@@ -16,6 +16,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   public overdueBetween: number[] = [];
   public moreThan: number[] = [];
   public labelList: string[] = [];
+  public _loadingData: boolean;
 
   @Input()
   get dataSource() {
@@ -33,6 +34,15 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   set interval(param: string) {
     this._interval = param;
+  }
+
+  @Input()
+  get loadingData() {
+    return this._loadingData;
+  }
+
+  set loadingData(param: boolean) {
+    this._loadingData = param;
   }
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
@@ -106,7 +116,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   public monthlyLable(): void {
     const month: any[] = [];
     this.dataSource[0].showcase.forEach(obj => {
-      month.push(new Date(obj.fromDate).toLocaleDateString('en-US', { month: 'long' }));
+      month.push(new Date(obj.fromDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
     });
 
     this.labelList = [...month];

@@ -799,7 +799,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
     this.cashDpdlService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }
@@ -1591,7 +1591,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
           return false;
         }
       } else if (
-        this.currentAccount.authorities.includes('ROLE_LEGAL_TEAM_LEAD') &&
+        this.currentAccount.authorities.includes('ROLE_CREDIT_LEGAL_LEAD') &&
         this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' &&
         this.creditProposal['region'] === 'R2'
       ) {

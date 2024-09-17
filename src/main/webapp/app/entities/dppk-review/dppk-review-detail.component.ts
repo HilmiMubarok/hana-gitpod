@@ -571,14 +571,14 @@ export class DppkReviewDetailComponent implements OnInit {
   }
 
   private checkForGenerateButton(taskList: any): void {
-    const captionFound = obj => obj.caption === 'Submit Checker 1' || 'Submit Checker 2';
+    const captionFoundChecker1 = obj => obj.caption === 'Submit Checker 1';
+    const captionFoundChecker2 = obj => obj.caption === 'Submit Checker 2';
 
     this.dppkReviewService.getTaskVariable(this.creditProposal.id).subscribe(res => {
-      if (taskList.findIndex(captionFound) > -1) {
-        this.showGenerateDPPKFinalize =
-          res.body.approvalChecker01 === false && res.body.approvalChecker02 === true
-            ? true
-            : (this.showGenerateDPPKFinalize = res.body.approvalChecker01 === true && res.body.approvalChecker02 === false ? true : false);
+      if (taskList.findIndex(captionFoundChecker1) > -1) {
+        this.showGenerateDPPKFinalize = res.body.approvalChecker01 === false && res.body.approvalChecker02 === true ? true : false;
+      } else if (taskList.findIndex(captionFoundChecker2) > -1) {
+        this.showGenerateDPPKFinalize = res.body.approvalChecker01 === true && res.body.approvalChecker02 === false ? true : false;
       }
     });
   }
@@ -729,7 +729,7 @@ export class DppkReviewDetailComponent implements OnInit {
     this.dppkReviewService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }

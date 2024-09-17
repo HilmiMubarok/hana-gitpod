@@ -31,6 +31,11 @@ export const FORBIDDEN_MENU: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'options/correction-appraisal',
       },
+      {
+        name: 'Loan Committe Delegation',
+        iconname: 'minus',
+        route: 'options/loan-committee-delegation',
+      },
     ],
   },
 ];
@@ -509,24 +514,29 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
   {
     name: 'MIS Report',
     iconname: 'file-lines',
-    route: '',
+    children: [
+      {
+        name: 'Credit Proposal',
+        iconname: 'minus',
+        route: 'mis-creditproposal-report',
+      },
+      {
+        name: 'Credit Proposal Facility',
+        iconname: 'minus',
+        route: 'mis-cpfacility-report',
+      },
+      {
+        name: 'Credit Proposal Collateral',
+        iconname: 'minus',
+        route: 'mis-cpcollateral-report',
+      },
+      {
+        name: 'Credit Proposal Timeline',
+        iconname: 'minus',
+        route: 'mis-cptimeline-report',
+      },
+    ],
   },
-  // {
-  //   name: 'Configuration',
-  //   iconname: 'wrench',
-  //   children: [
-  //     {
-  //       name: 'Parameter',
-  //       iconname: 'minus',
-  //       route: 'application-option',
-  //     },
-  //     {
-  //       name: 'Menu Access',
-  //       iconname: 'minus',
-  //       route: 'menu-access',
-  //     },
-  //   ],
-  // },
 ];
 
 export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [

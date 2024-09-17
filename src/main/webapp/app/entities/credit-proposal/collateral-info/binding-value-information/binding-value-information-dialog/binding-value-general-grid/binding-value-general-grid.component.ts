@@ -10,6 +10,7 @@ import { FidusiaAgreementService } from 'app/entities/fidusia-agreement/fidusia-
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { Router } from '@angular/router';
 import { MenuEventArgs } from '@syncfusion/ej2-angular-navigations';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'jhi-binding-value-general-grid',
@@ -27,7 +28,7 @@ export class BindingValueGeneralGridComponent implements OnInit {
   _creditProposal: ICreditProposal;
 
   @ViewChild('paginator') paginator: MatPaginator;
-
+  @ViewChild(MatSort) sort: MatSort;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -65,9 +66,21 @@ export class BindingValueGeneralGridComponent implements OnInit {
   }
 
   public getFidusiaData() {
-    this.fidusiaAgreementService.getData(this.creditProposal.id, this.collateral.id, { sort: ['rank, asc'] }).subscribe(res => {
-      this.dataItem = new MatTableDataSource(res.body);
-      this.dataItem.paginator = this.paginator;
+    this.fidusiaAgreementService.getData(this.creditProposal.id, this.collateral.id).subscribe(res => {
+      if (res.body.length > 0) {
+        const sortedData = res.body.sort((a, b) => {
+          if (a.rank < b.rank) {
+            return -1;
+          } else if (a.rank > b.rank) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+        this.dataItem = sortedData;
+        this.dataItem.paginator = this.paginator;
+        this.dataItem.sort = this.sort;
+      }
     });
   }
 

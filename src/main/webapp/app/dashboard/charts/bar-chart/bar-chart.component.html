@@ -1,14 +1,17 @@
-<canvas
-  *ngIf="this.dataSource.length > 0"
-  baseChart
-  class="chart"
-  [data]="barChartData"
-  [options]="barChartOptions"
-  [plugins]="barChartPlugins"
-  [type]="barChartType"
-  (chartHover)="chartHovered($event)"
-  (chartClick)="chartClicked($event)"
->
-</canvas>
+<div class="bar-chart-container">
+  <mat-spinner [strokeWidth]="5" [diameter]="100" *ngIf="loadingData === true"></mat-spinner>
+  <canvas
+    *ngIf="this.dataSource.length > 0 && loadingData === false"
+    baseChart
+    class="chart"
+    [data]="barChartData"
+    [options]="barChartOptions"
+    [plugins]="barChartPlugins"
+    [type]="barChartType"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)"
+  >
+  </canvas>
 
-<label class="d-flex justify-content-center" *ngIf="this.dataSource.length === 0"> No Data Available</label>
+  <label class="d-flex justify-content-center" *ngIf="this.dataSource.length === 0 && loadingData === false"> No Data Available</label>
+</div>

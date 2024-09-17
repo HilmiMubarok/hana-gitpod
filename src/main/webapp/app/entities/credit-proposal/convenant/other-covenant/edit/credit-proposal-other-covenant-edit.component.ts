@@ -15,6 +15,7 @@ export class CreditProposalOtherCovenantEditComponent implements OnInit {
   public otherCovenant: IOtherCovenant;
   public edit: boolean;
   item: ICreditProposal;
+  otherCovenantTemp: any;
 
   constructor(
     private dialog: MatDialog,
@@ -34,6 +35,7 @@ export class CreditProposalOtherCovenantEditComponent implements OnInit {
     this.edit = this.data.edit;
     this.otherCovenant = this.data.otherCovenant;
     this.item = this.data.item;
+    this.otherCovenantTemp = lodash.cloneDeep(this.data.otherCovenant);
   }
   ngOnInit(): void {
     this.subCategoryValue(this.data.otherCovenant.categoryId);
@@ -87,7 +89,7 @@ export class CreditProposalOtherCovenantEditComponent implements OnInit {
         }
       }
     }
-    this._dialog.close(this.otherCovenant);
+    this._dialog.close({ otherCovenant: this.otherCovenant, caption: 'save' });
   }
   // cancel confrimation dialog
   public openCancelDialog(): void {
@@ -101,7 +103,10 @@ export class CreditProposalOtherCovenantEditComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this._dialog.close();
+        this._dialog.close({
+          otherCovenant: this.otherCovenantTemp,
+          caption: 'cancel',
+        });
       }
     });
   }

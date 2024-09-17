@@ -238,3 +238,20 @@ body.tailwind-dark .e-dashboardlayout.e-control .e-panel {
     max-width: calc(29.602vw - (7.716vw - 190px));
   }
 }
+
+@media only screen and (min-width: 820px) {
+  .multi-select-containers > p-multiselect > .p-multiselect {
+    min-width: calc(29.602vw - (9.716vw - 220px));
+    max-width: calc(29.602vw - (9.716vw - 220px));
+  }
+}
+
+.p-multiselect-header > .p-checkbox.p-component::after {
+  content: 'Select All';
+  white-space: nowrap;
+  margin-left: 0.5rem;
+}
+
+#dashboard-filters .p-checkbox .p-checkbox-box {
+  min-width: 1.2rem;
+}

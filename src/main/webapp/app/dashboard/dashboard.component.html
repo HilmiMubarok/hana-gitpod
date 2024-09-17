@@ -1,17 +1,25 @@
-<mat-card id="dashboard-filters" class="w-100 mb-3">
+<mat-card *ngIf="showFilter" id="dashboard-filters" class="w-100 mb-3">
   <mat-card-header>
     <mat-card-title>Filters</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="row">
       <div class="multi-select-containers col-xl-5 col-lg-4">
-        <p-multiSelect [options]="proposalTypeList" [(ngModel)]="proposalType" placeholder="Proposal Type" display="chip"></p-multiSelect>
+        <p-multiSelect
+          [options]="proposalTypeList"
+          [(ngModel)]="proposalType"
+          placeholder="Proposal Type"
+          display="chip"
+          [filter]="false"
+        ></p-multiSelect>
       </div>
       <div class="multi-select-containers col-xl-5 col-lg-4">
-        <p-multiSelect [options]="segmentList" [(ngModel)]="segment" placeholder="Segment" display="chip"></p-multiSelect>
+        <p-multiSelect [options]="segmentList" [(ngModel)]="segment" placeholder="Segment" display="chip" [filter]="false"></p-multiSelect>
       </div>
       <div class="col-auto">
-        <button mat-raised-button class="button-styling" [disabled]="isLoading" (click)="applyFilters()">Apply filter</button>
+        <button mat-raised-button class="button-styling" [disabled]="isLoading" (click)="applyFilters()">
+          {{ isLoading ? 'Loading...' : 'Apply Filter' }}
+        </button>
       </div>
     </div>
   </mat-card-content>
@@ -44,5 +52,5 @@
 </div>
 
 <mat-card id="footer" class="w-100 my-2"
-  ><label>Credit Approval System of Hana Bank <br />Version 2.1.2</label></mat-card
+  ><label>Credit Approval System of Hana Bank <br />Version 2.1.5</label></mat-card
 >

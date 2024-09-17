@@ -83,9 +83,4 @@ export class DashboardService extends AbstractEntityService<IChartData> {
   public getInterval(): Observable<HttpResponse<IInterval[]>> {
     return this.http.get<any[]>(`${this.resourceUrlNewNew}/intervals`, { observe: 'response' });
   }
-
-  //   public filterBy(req?: any): Observable<HttpResponse<IMenuAccess[]>> {
-  //     const opt = createRequestOption(req);
-  //     return this.http.get<IMenuAccess[]>(`${this.resourceUrl}/filterBy`, { observe: 'response', params: opt });
-  //   }
 }

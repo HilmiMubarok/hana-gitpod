@@ -67,7 +67,6 @@
       [disabled]="true"
       [partyPostalAddress]="generalLocation"
       [creditProposal]="creditProposal"
-      [partyCif]="partyCif"
     ></jhi-party-cif-customer-info-postal-address>
   </div>
 </div>
@@ -350,7 +349,6 @@
       <div class="e-card-header-title">Remark</div>
       <div class="e-card-content">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <!-- <ejs-richtexteditor [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool"> </ejs-richtexteditor> -->
           <ejs-documenteditorcontainer
             #document_editor_container
             [headers]="customHeadersJWT"
@@ -366,8 +364,6 @@
           </ejs-documenteditorcontainer>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <!-- <ejs-richtexteditor disabled [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool">
-          </ejs-richtexteditor> -->
           <ejs-documenteditorcontainer
             #document_editor_container
             [headers]="customHeadersJWT"

@@ -334,7 +334,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         });
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -380,7 +380,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -418,11 +418,11 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       const applicationNumber = this.creditProposal.id;
       this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(
         res => {
-          const dataCollateral = lodash.filter(res.body, function (o) {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
             return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
           });
           if (res.body.length > 0) {
-            this.getBindingCalculateSummary(dataCollateral).then(() => {
+            this.getBindingCalculateSummary(this.dataCollateralSummary).then(() => {
               resolve();
             });
           } else {
@@ -462,7 +462,9 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public save(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
-        () => {
+        res => {
+          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+          this.creditProposal.collaterals = res.body.collaterals;
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {

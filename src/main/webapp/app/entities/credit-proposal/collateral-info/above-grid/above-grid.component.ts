@@ -242,11 +242,11 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       const applicationNumber = this.creditProposal.id;
       this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(
         res => {
-          this.dataCollateral = lodash.filter(res.body, function (o) {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
             return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
           });
           if (res.body.length > 0) {
-            this.getBindingCalculateSummary(this.dataCollateral).then(() => {
+            this.getBindingCalculateSummary(this.dataCollateralSummary).then(() => {
               resolve();
             });
           } else {
@@ -325,7 +325,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         });
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -355,7 +355,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
         this.setDepositInterestRate(element, res.depositInterestRate);
-
         this.save().then(() => {
           this.loadSummaryCollateralSummary().then(() => {
             this.getSummaryCollateral().then(() => {
@@ -371,7 +370,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -1095,7 +1094,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1115,7 +1114,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1137,7 +1136,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1157,7 +1156,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1281,11 +1280,13 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       return utcDate;
     }
   }
-
   public save(): Promise<void> {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     return new Promise((resolve, reject) => {
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
-        () => {
+        res => {
+          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+          this.creditProposal.collaterals = res.body.collaterals;
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {
@@ -1294,7 +1295,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       );
     });
   }
-
   private preSave(status: string): ICreditProposal {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];

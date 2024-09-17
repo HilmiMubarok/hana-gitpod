@@ -73,6 +73,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   private _creditProposal: ICreditProposal;
   private bindingTypeVal: any;
   public selectedMenu: string;
+  public dataCollateralSummary: any[];
 
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
@@ -207,7 +208,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
               o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
-          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter2);
           this.dataItem.paginator = this.paginator;
         }
@@ -259,7 +260,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
               o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
             );
           });
-          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL' && obj.statusId !== 'RELEASE');
           this.dataItem = new MatTableDataSource(filter2);
           this.dataItem.paginator = this.paginator;
         }
@@ -299,7 +300,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
 
       this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(
         res => {
-          const dataCollateral = lodash.filter(res.body, function (o) {
+          this.dataCollateralSummary = lodash.filter(res.body, function (o) {
             return (
               o.statusId !== STATUS_COLLATERAL.CANCEL &&
               o.statusId !== STATUS_COLLATERAL.RELEASE &&
@@ -312,8 +313,8 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
             );
           });
 
-          if (dataCollateral.length > 1) {
-            this.getBindingCalculateSummary(dataCollateral)
+          if (this.dataCollateralSummary.length > 1) {
+            this.getBindingCalculateSummary(this.dataCollateralSummary)
               .then((resd: any) => {
                 resolve();
               })
@@ -1071,7 +1072,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1091,7 +1092,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1112,7 +1113,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1132,7 +1133,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.dataCollateral;
+    const collaterals: ICollateral[] = this.dataCollateralSummary;
     if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterPropertiesFilterGurante(collaterals[i]);
@@ -1151,7 +1152,9 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   public save(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
-        () => {
+        res => {
+          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+          this.creditProposal.collaterals = res.body.collaterals;
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {

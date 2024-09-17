@@ -16,10 +16,8 @@ export class FidusiaAgreementService {
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/fidusia-agreements');
   }
 
-  public getData(idApplication: number, idCollateral: number, req: any): Observable<HttpResponse<IFidusiaAgremeent[]>> {
-    const options = createRequestOption(req);
+  public getData(idApplication: number, idCollateral: number): Observable<HttpResponse<IFidusiaAgremeent[]>> {
     return this.http.get<IFidusiaAgremeent[]>(this.resourceUrl + '/application/' + idApplication + '/collateral/' + idCollateral, {
-      params: options,
       observe: 'response',
     });
   }

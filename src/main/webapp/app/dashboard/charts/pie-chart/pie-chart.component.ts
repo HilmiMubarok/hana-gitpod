@@ -10,6 +10,7 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class PieChartComponent implements OnInit, OnChanges {
   public _dataSource: IGroupByStatus[];
+  public _loadingData: boolean;
 
   @Input()
   get dataSource() {
@@ -20,6 +21,14 @@ export class PieChartComponent implements OnInit, OnChanges {
     this._dataSource = param;
   }
 
+  @Input()
+  get loadingData() {
+    return this._loadingData;
+  }
+
+  set loadingData(param: boolean) {
+    this._loadingData = param;
+  }
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   // Pie

@@ -268,6 +268,18 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
   public progress: number;
   public baLoading: Boolean = false;
 
+  aggrementNoteChange(value) {
+    this.creditProposal.agreements[0].attributes.notes = value;
+  }
+
+  aggrementPlaceChange(value) {
+    this.creditProposal.agreements[0].attributes.AGREEMENT_PLACE = value;
+  }
+
+  aggrementTypeChange(value) {
+    this.creditProposal.agreements[0].attributes.AGREEMENT_TYPE = value;
+  }
+
   private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
@@ -519,61 +531,72 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
   }
 
   public processTask(task: IProcessTask): void {
-    const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
-      width: '80vw',
-      data: {
-        processTask: task,
-      },
-    });
-    dialogRef.afterClosed().subscribe(_res => {
-      if (_res) {
-        this.resAttr = _res;
-        this.resAttr.attr.idPosition = this.getLocStor('POS');
-        let init = 0;
-        let change = 0;
+    if (
+      this.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === '' ||
+      this.creditProposal.agreements[0].attributes.AGREEMENT_TYPE === null
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Credit Aggrement Type Harus Diisi',
+      });
+    } else {
+      const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
+        width: '80vw',
+        data: {
+          processTask: task,
+        },
+      });
+      dialogRef.afterClosed().subscribe(_res => {
+        if (_res) {
+          this.resAttr = _res;
+          this.resAttr.attr.idPosition = this.getLocStor('POS');
+          let init = 0;
+          let change = 0;
 
-        if (this.creditProposal.products.length > 0) {
-          for (let i = 0; i < this.creditProposal.products.length; i++) {
-            init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
-            change = change + Number(this.creditProposal.products[i].attributes.changes);
+          if (this.creditProposal.products.length > 0) {
+            for (let i = 0; i < this.creditProposal.products.length; i++) {
+              init = init + Number(this.creditProposal.products[i].attributes.initialLimit);
+              change = change + Number(this.creditProposal.products[i].attributes.changes);
+            }
+          }
+
+          this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
+          this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
+          this.resAttr.attr['idApplication'] = this.creditProposal.id;
+          if (_res.name === 'returnrm' || _res.name === 'returnol' || _res.name === 'returndar') {
+            this.save('process');
+          }
+          if (_res.name === 'submit' && this.creditProposal.statusId === 'PK_FINALIZE') {
+            this.validateDraft()
+              .then(() => {
+                this.save('process');
+              })
+              .catch(() => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Please Generate PK Draft first.',
+                });
+              });
+          } else if (_res.name === 'submit' && this.creditProposal.statusId === 'PK_GENERATED') {
+            this.validateFinal()
+              .then(() => {
+                this.save('process');
+              })
+              .catch(() => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Please Generate PK Final first.',
+                });
+              });
+          } else {
+            this.save('process');
           }
         }
-
-        this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
-        this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
-        this.resAttr.attr['idApplication'] = this.creditProposal.id;
-        if (_res.name === 'returnrm' || _res.name === 'returnol' || _res.name === 'returndar') {
-          this.save('process');
-        }
-        if (_res.name === 'submit' && this.creditProposal.statusId === 'PK_FINALIZE') {
-          this.validateDraft()
-            .then(() => {
-              this.save('process');
-            })
-            .catch(() => {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Please Generate PK Draft first.',
-              });
-            });
-        } else if (_res.name === 'submit' && this.creditProposal.statusId === 'PK_GENERATED') {
-          this.validateFinal()
-            .then(() => {
-              this.save('process');
-            })
-            .catch(() => {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Please Generate PK Final first.',
-              });
-            });
-        } else {
-          this.save('process');
-        }
-      }
-    });
+      });
+    }
   }
 
   private addNewNotes(positionVal: number, messageVal: any, recomendationVal: string, pathVal: string): INotes {
@@ -679,7 +702,7 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
     this.cashCreditProposalsService.update(this.preSave(status)).subscribe(res => {
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
-
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
       if (status === 'complete') {
         this.saveFile();
       }
