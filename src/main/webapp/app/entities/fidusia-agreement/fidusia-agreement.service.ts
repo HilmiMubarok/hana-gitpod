@@ -3,8 +3,7 @@ import { IFidusiaAgremeent } from './fidusia-agreement.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { Observable, map } from 'rxjs';
-import { createRequestOption } from 'app/core/request/request-util';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
