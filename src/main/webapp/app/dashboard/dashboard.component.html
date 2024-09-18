@@ -37,7 +37,7 @@
     </div>
 
     <!-- Charts -->
-    <div *ngIf="item.accessibleMenu.length > 1">
+    <div *ngIf="item.accessibleMenu.length > 0">
       <jhi-charts-layout
         [chartsAvailability]="item.accessibleMenu"
         [idPosition]="this.positionId"
