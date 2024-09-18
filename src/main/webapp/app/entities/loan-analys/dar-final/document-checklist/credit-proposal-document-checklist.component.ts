@@ -319,7 +319,7 @@ export class DocumentChecklistTempComponent implements OnInit {
       return true;
     } else if (
       (positionTypeId === 'LEGAL_OFFICER' || positionTypeId === 'LEGALOFFICER_OUTREGION') &&
-      this.creditProposal.statusId === 'PK_FINALIZE' &&
+      (this.creditProposal.statusId === 'PK_FINALIZE' || this.creditProposal.statusId === 'PK_GENERATED') &&
       item.parentId === 'DOC_CP' &&
       item.id === 'DOC_CP_BINDING'
     ) {
