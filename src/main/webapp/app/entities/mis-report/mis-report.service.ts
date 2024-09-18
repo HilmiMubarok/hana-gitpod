@@ -122,6 +122,14 @@ export class MisReportService {
     );
   }
 
+  public getMisReportCPFacility(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/credit-proposal-detail-facility/`,
+      params,
+      { observe: 'response' }
+    );
+  }
+
   public getStatuses(appMenuId: string) {
     const params = new HttpParams().set('appMenuId', appMenuId).set('page', 0).set('sort', 'id,asc');
 
