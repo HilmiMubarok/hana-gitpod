@@ -1370,9 +1370,17 @@
     </section>
   </section>
   <section *ngIf="parentPath === 'finalize-dppk'">
-    <div class="mt-3 text-center">
-      <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
-      <button *ngIf="!conditionReviewDppk()" mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
-    </div>
+    <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'" align="center" class="align-center">
+      <div class="mt-3 text-center">
+        <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+        <button *ngIf="!conditionReviewDppk()" mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
+      </div>
+    </section>
+    <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''" align="center" class="align-center">
+      <div class="mt-3 text-center">
+        <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Close</button>
+        <button *ngIf="!conditionReviewDppk()" mat-raised-button class="confirm-button-yes" (click)="onSave()">Save</button>
+      </div>
+    </section>
   </section>
 </mat-dialog-actions>
