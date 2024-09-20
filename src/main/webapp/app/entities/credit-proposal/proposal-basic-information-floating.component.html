@@ -262,6 +262,7 @@
                     *ngIf="!isHistoryExist"
                     [parentSource]="'summaryAll'"
                     [creditProposal]="creditProposal"
+                    [collateralProperties]="collateralProperties"
                   ></jhi-credit-proposal-tab-loan-facility-detail
                 ></e-card>
                 <jhi-loan-facility-detail-history [parentSource]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
@@ -346,8 +347,13 @@
                     [creditProposal]="creditProposal"
                     [parentSource]="'credit-proposal'"
                     [parentSourceSub]="'from-click-menu'"
+                    [collateralProperties]="collateralProperties"
                   ></jhi-credit-proposal-tab-loan-facility-detail>
-                  <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                  <jhi-loan-facility-detail-history
+                    *ngIf="isHistoryExist"
+                    [creditProposal]="creditProposal"
+                    [collateralProperties]="collateralProperties"
+                  >
                   </jhi-loan-facility-detail-history
                 ></e-card>
               </section>

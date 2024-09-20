@@ -19,6 +19,7 @@ import { IMasterFinancialInstitution } from 'app/entities/master-parameter/finan
 import { FormControl } from '@angular/forms';
 import { BusinessActivityService } from '../busines-activity/business-activity.service';
 import { MessageService } from 'primeng/api';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
@@ -63,6 +64,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   private paramsIdGet: string;
   private fileGet: File;
   public resourceUrl: string;
+  private _collateralProperty: ICollateralProperty[];
 
   @Input() saveWord: any;
 
@@ -79,6 +81,14 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
+  }
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
   }
 
   public applicationProduct: IApplicationProduct;
