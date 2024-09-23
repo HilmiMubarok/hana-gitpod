@@ -19,6 +19,7 @@ import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { FormControl } from '@angular/forms';
 import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
 import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-loan-facility-detail-temp',
@@ -36,6 +37,16 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges, OnDes
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
   public viewMode = false;
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
+  }
+
+  private _collateralProperty: ICollateralProperty[];
 
   @Input() isViewLoan: Boolean = false;
   @Input() takeOutCompare: Boolean = false;

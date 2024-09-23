@@ -271,7 +271,10 @@
               <div *ngIf="!['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'].includes(creditProposal.statusId); else entity">
                 <!-- Cek history -->
                 <ng-container *ngIf="isDarRevHistoryExist; else entity">
-                  <jhi-loan-facility-detail-temp [creditProposal]="creditProposal"></jhi-loan-facility-detail-temp>
+                  <jhi-loan-facility-detail-temp
+                    [collateralProperties]="collateralProperties"
+                    [creditProposal]="creditProposal"
+                  ></jhi-loan-facility-detail-temp>
                 </ng-container>
               </div>
 
@@ -628,6 +631,7 @@
           [creditProposal]="creditProposal"
           #loanFacilityDetailTempComponent
           [isViewMode]="true"
+          [collateralProperties]="collateralProperties"
         ></jhi-loan-facility-detail-temp>
       </e-card>
     </div>

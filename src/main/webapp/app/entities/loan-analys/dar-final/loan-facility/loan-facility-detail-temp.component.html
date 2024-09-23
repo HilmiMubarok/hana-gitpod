@@ -19,7 +19,12 @@
 
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-loan-facility-detail-grid-temp [creditProposal]="creditProposal" [isViewMode]="true"> </jhi-loan-facility-detail-grid-temp>
+      <jhi-loan-facility-detail-grid-temp
+        [collateralProperties]="collateralProperties"
+        [creditProposal]="creditProposal"
+        [isViewMode]="true"
+      >
+      </jhi-loan-facility-detail-grid-temp>
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-4">
