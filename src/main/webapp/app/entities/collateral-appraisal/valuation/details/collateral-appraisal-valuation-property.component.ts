@@ -104,6 +104,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
     this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['collateral']) {
       this.loadData(this.collateral);
+      this.loadPropertiesExternal(this.collateral);
     }
   }
 
@@ -122,6 +123,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
       if (res) {
         this.collateral = res;
         this.countAllTotalAndLiquid();
+        this.loadPropertiesExternal(this.collateral);
       }
     });
   }
@@ -273,6 +275,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.loadData(this.collateral);
+        this.loadPropertiesExternal(this.collateral);
         const copyElement: ICollateralProperty = lodash.cloneDeep(element);
         copyElement.attributes['selectionCertificates'] = JSON.stringify(res);
       }
