@@ -324,6 +324,15 @@ export class DocumentChecklistTempComponent implements OnInit {
       item.id === 'DOC_CP_BINDING'
     ) {
       return true;
+    } else if (
+      (positionTypeId === 'LEGAL_OFFICER' || positionTypeId === 'CREDIT_LEGAL_LEAD' || positionTypeId === 'LEGAL_HEAD') &&
+      (this.creditProposal.statusId === 'DPDL_FINALIZE' ||
+        this.creditProposal.statusId === 'DPDL_REVIEW_LEAD' ||
+        this.creditProposal.statusId === 'DPDL_REVIEW_HEAD') &&
+      item.parentId === 'DOC_CP' &&
+      item.id === 'DOC_CP_BINDING'
+    ) {
+      return true;
     } else {
       return false;
     }
