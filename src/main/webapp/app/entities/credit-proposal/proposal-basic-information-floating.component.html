@@ -288,7 +288,12 @@
                 >
                 </jhi-collateral-info-history>
 
-                <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>
+                <jhi-credit-proposal-tab-summary
+                  [source]="'summaryAll'"
+                  [item]="creditProposal"
+                  [collateralProperties]="collateralProperties"
+                >
+                </jhi-credit-proposal-tab-summary>
               </div>
             </div>
 
@@ -386,6 +391,7 @@
 
             <div *ngIf="clickedMenu === 'summary'">
               <jhi-credit-proposal-tab-summary
+                [collateralProperties]="collateralProperties"
                 [item]="creditProposal"
                 [sourceComponent]="'cp'"
                 #CreditProposalTabSummaryComponent
