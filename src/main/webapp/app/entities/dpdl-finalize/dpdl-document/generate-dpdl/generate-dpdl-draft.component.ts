@@ -70,7 +70,7 @@ export class GenerateDpdlDraftComponent implements OnInit {
   }
 
   private print() {
-    this.generateFile('Pdf', '/services/report/api/report/dpdl/pdf-word/' + this._item.id);
+    this.generateFile('Pdf', '/services/report/api/report/dpdl/word/' + this._item.id);
   }
 
   private generateFile(fileType: string, api: string, req?: any) {
