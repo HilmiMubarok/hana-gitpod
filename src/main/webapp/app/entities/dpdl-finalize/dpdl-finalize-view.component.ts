@@ -623,7 +623,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
 
   private async generateFileDpdlFinal(): Promise<void> {
     const fileDpdlFinal = await firstValueFrom(
-      this.http.get(`/services/report/api/report/dpdl/pdf-word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
+      this.http.get(`/services/report/api/report/dpdl/word/${this.id}?type=final`, { responseType: 'text', observe: 'response' })
     );
   }
 
