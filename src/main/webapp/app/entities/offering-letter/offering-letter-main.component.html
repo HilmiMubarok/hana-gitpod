@@ -270,6 +270,7 @@
               [fileSPPK]="dataOfferingSPPK"
               [item]="creditProposal"
               [sourceComponent]="'loan'"
+              [collateralProperties]="collateralProperties"
             >
             </jhi-credit-proposal-tab-summary>
             <jhi-approve-final [creditProposal]="creditProposal"></jhi-approve-final>
@@ -471,7 +472,10 @@
       <!-- Summary -->
       <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container wrapper-card">
         <e-card>
-          <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+          <jhi-credit-proposal-tab-summary
+            [item]="creditProposal"
+            [collateralProperties]="collateralProperties"
+          ></jhi-credit-proposal-tab-summary>
         </e-card>
       </div>
 

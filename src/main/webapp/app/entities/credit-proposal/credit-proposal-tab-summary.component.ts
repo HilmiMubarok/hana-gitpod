@@ -31,6 +31,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { DOCUMENT_TYPE_GENERATE_DOCUMENT } from 'app/shared/constants/base.constants';
 import { MatTableDataSource } from '@angular/material/table';
 import { BusinessActivityService } from './busines-activity/business-activity.service';
+import { UpdateCoverageSummary } from './update-coverage-function';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
   templateUrl: './credit-proposal-tab-summary.component.html',
@@ -96,6 +98,16 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
   @Input() fileDocPKFinal: any;
   @Input() fileDpdlFinal: any;
 
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
+  }
+
+  private _collateralProperty: ICollateralProperty[];
+
   constructor(
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
@@ -108,7 +120,8 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
     public partyCifService: PartyCifService,
     private router: Router,
     public accountService: AccountService,
-    private baService: BusinessActivityService
+    private baService: BusinessActivityService,
+    private updateCoverage: UpdateCoverageSummary
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -658,20 +671,23 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnD
   }
 
   public generate(data: any): void {
-    if (this.fileTypeSelected) {
-      this.print(this.fileTypeSelected);
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Info',
-        detail: 'Save First Before Generating, Please!',
-      });
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'File Type Not Selected',
-      });
-    }
+    const creditProposalStartState = lodash.cloneDeep(this.item);
+    this.updateCoverage.updateCoverage(this.item, creditProposalStartState, this.collateralProperties).then(() => {
+      if (this.fileTypeSelected) {
+        this.print(this.fileTypeSelected);
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Info',
+          detail: 'Save First Before Generating, Please!',
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'File Type Not Selected',
+        });
+      }
+    });
   }
 
   private print(fileType: string) {

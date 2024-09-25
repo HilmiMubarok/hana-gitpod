@@ -521,6 +521,11 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         route: 'mis-creditproposal-report',
       },
       {
+        name: 'Appraisal',
+        iconname: 'minus',
+        route: 'mis-appraisal-report',
+      },
+      {
         name: 'Credit Proposal Facility',
         iconname: 'minus',
         route: 'mis-cpfacility-report',
