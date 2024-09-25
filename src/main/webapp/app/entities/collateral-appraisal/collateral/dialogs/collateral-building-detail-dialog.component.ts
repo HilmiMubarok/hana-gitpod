@@ -221,8 +221,10 @@ export class CollateralBuildingDetailDialogComponent implements OnInit {
     this._dialog.close(this.collateralProp);
   }
   public save(): void {
-    const imbDate = new Date(moment.tz(this.collateralProp.imbDate, 'Asia/Jakarta').toDate()).setHours(12);
-    this.collateralProp.imbDate = moment(formatDateWithTimezoneOffset(new Date(imbDate))).toDate();
+    if (this.collateralProp.imbDate !== null || this.collateralProp.imbDate !== undefined) {
+      const imbDate = new Date(moment.tz(this.collateralProp.imbDate, 'Asia/Jakarta').toDate()).setHours(12);
+      this.collateralProp.imbDate = moment(formatDateWithTimezoneOffset(new Date(imbDate))).toDate();
+    }
 
     if (!this.collateralProp.buildingSpec) {
       this._snackBar.open('Masukan Building terlebih dahulu', null, {
