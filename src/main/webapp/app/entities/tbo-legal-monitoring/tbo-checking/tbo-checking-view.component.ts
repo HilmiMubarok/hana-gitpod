@@ -62,6 +62,7 @@ import { ViewportScroller } from '@angular/common';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { ApplicationDocumentService } from 'app/entities/application-document/application-document.service';
 import { IApplicationDocument } from 'app/entities/application-document/application-document.model';
+import { UpdateCoverageSummary } from 'app/entities/credit-proposal/update-coverage-function';
 @Component({
   selector: 'jhi-tbo-checking-view',
   templateUrl: './tbo-checking-view.component.html',
@@ -211,7 +212,8 @@ export class TboCheckingViewComponent implements OnInit {
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
     private cashCollateralService: CashCollateralService,
-    private applicationDocumentService: ApplicationDocumentService
+    private applicationDocumentService: ApplicationDocumentService,
+    private updateCoverage: UpdateCoverageSummary
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -635,13 +637,16 @@ export class TboCheckingViewComponent implements OnInit {
   }
 
   private generate(): void {
-    this.generateFileSppkDar().then(() => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'File Generated Successfully',
+    const creditProposalStartState = lodash.cloneDeep(this.creditProposal);
+    this.updateCoverage.updateCoverage(this.creditProposal, creditProposalStartState, this.collateralProperties).then(() => {
+      this.generateFileSppkDar().then(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'File Generated Successfully',
+        });
+        this.onRefresh();
       });
-      this.onRefresh();
     });
   }
 
