@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { saveAs as importedSaveAs } from 'file-saver';
+import { UpdateCoverageSummary } from './update-coverage-function';
+import lodash from 'lodash';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-credit-proposal-summary-generate-memo-banding',
@@ -25,6 +28,16 @@ export class CreditProposalSummaryGenerateMemoBandingComponent implements OnInit
     this._item = item;
   }
 
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
+  }
+
+  private _collateralProperty: ICollateralProperty[];
+
   public isDataExist = false;
   public paramId: string;
   private ngUnsubscribe = new Subject();
@@ -40,7 +53,8 @@ export class CreditProposalSummaryGenerateMemoBandingComponent implements OnInit
     protected messageService: MessageService,
     private http: HttpClient,
     private storageService: StorageService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private updateCoverage: UpdateCoverageSummary
   ) {}
 
   ngOnInit(): void {
@@ -48,20 +62,23 @@ export class CreditProposalSummaryGenerateMemoBandingComponent implements OnInit
   }
 
   public generate(data: any): void {
-    if (this.fileTypeSelected) {
-      this.print(this.fileTypeSelected);
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Info',
-        detail: 'Save First Before Generating, Please!',
-      });
-    } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'File Type Not Selected',
-      });
-    }
+    const creditProposalStartState = lodash.cloneDeep(this.item);
+    this.updateCoverage.updateCoverage(this.item, creditProposalStartState, this.collateralProperties).then(() => {
+      if (this.fileTypeSelected) {
+        this.print(this.fileTypeSelected);
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Info',
+          detail: 'Save First Before Generating, Please!',
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'File Type Not Selected',
+        });
+      }
+    });
   }
 
   private print(fileType: string) {
