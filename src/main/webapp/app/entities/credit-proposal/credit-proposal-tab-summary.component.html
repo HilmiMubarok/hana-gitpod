@@ -125,7 +125,8 @@
 
   <!-- batas memo banding generate -->
   <div *ngIf="memoBandingStats()">
-    <jhi-credit-proposal-summary-generate-memo-banding [item]="item"> </jhi-credit-proposal-summary-generate-memo-banding>
+    <jhi-credit-proposal-summary-generate-memo-banding [item]="item" [collateralProperties]="collateralProperties">
+    </jhi-credit-proposal-summary-generate-memo-banding>
   </div>
   <!-- batas bawah memo banding generate -->
 
