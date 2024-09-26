@@ -13,11 +13,15 @@ import { Account } from 'app/core/auth/account.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { validateHorizontalPosition } from '@angular/cdk/overlay';
+import moment from 'moment-timezone';
+import { formatDateWithTimezoneOffset } from 'app/shared/helper/utils';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'jhi-collateral-building-detail-dialog',
   templateUrl: './collateral-building-detail-dialog.component.html',
   styleUrls: ['./collateral-dialog.css'],
+  providers: [{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
 })
 export class CollateralBuildingDetailDialogComponent implements OnInit {
   public collateralAppraisal: ICollateralAppraisal;
@@ -217,6 +221,11 @@ export class CollateralBuildingDetailDialogComponent implements OnInit {
     this._dialog.close(this.collateralProp);
   }
   public save(): void {
+    if (this.collateralProp.imbDate !== null || this.collateralProp.imbDate !== undefined) {
+      const imbDate = new Date(moment.tz(this.collateralProp.imbDate, 'Asia/Jakarta').toDate()).setHours(12);
+      this.collateralProp.imbDate = moment(formatDateWithTimezoneOffset(new Date(imbDate))).toDate();
+    }
+
     if (!this.collateralProp.buildingSpec) {
       this._snackBar.open('Masukan Building terlebih dahulu', null, {
         horizontalPosition: 'center',

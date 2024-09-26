@@ -131,3 +131,17 @@ function convertStringMonthToNumber(monthString) {
     return month.desc === monthString;
   });
 }
+
+export function formatDateWithTimezoneOffset(date) {
+  const timezoneOffset = -date.getTimezoneOffset(); // in minutes
+  const sign = timezoneOffset >= 0 ? '+' : '-';
+  const pad = num => String(num).padStart(2, '0');
+
+  const offsetHours = pad(Math.floor(Math.abs(timezoneOffset) / 60));
+  const offsetMinutes = pad(Math.abs(timezoneOffset) % 60);
+
+  const isoString = date.toISOString(); // UTC string
+  const localDateString = `${isoString.slice(0, 19)}${sign}${offsetHours}:${offsetMinutes}`;
+
+  return localDateString;
+}

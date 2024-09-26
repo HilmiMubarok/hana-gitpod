@@ -142,6 +142,35 @@ export class MisReportService {
       })
       .pipe(map(res => res.body));
   }
+
+  public getOfficerSurveyors() {
+    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,asc');
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions'), {
+        params,
+        observe: 'response',
+      })
+      .pipe(
+        map(res => res.body),
+        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'SURVEYOR'))
+      );
+  }
+
+  public getGeoBoundaries() {
+    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,asc').set('idBoundaryType', 112);
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/geo-boundaries/filterBy'), {
+        params,
+        observe: 'response',
+      })
+      .pipe(
+        map(res => res.body),
+        map(boundaries => boundaries.filter((boundary: any) => boundary.boundaryTypeId === '112'))
+      );
+  }
+
   public getStatusCpMapping() {
     const params = new HttpParams().set('appMenuId', 'MIS_CREDIT_PROPOSAL_TIMELINE').set('page', 0).set('sort', 'id,asc');
 

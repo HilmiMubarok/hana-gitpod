@@ -60,6 +60,7 @@ import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { BusinessActivityService } from '../credit-proposal/busines-activity/business-activity.service';
 import { ViewportScroller } from '@angular/common';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
+import { UpdateCoverageSummary } from '../credit-proposal/update-coverage-function';
 @Component({
   selector: 'jhi-dar-revision-view',
   templateUrl: './dar-revision-view.component.html',
@@ -208,7 +209,8 @@ export class DarRevisionViewComponent implements OnInit {
     public templateService: TemplateService,
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
-    private cashCollateralService: CashCollateralService
+    private cashCollateralService: CashCollateralService,
+    private updateCoverage: UpdateCoverageSummary
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -638,13 +640,16 @@ export class DarRevisionViewComponent implements OnInit {
   }
 
   private generate(): void {
-    this.generateFileSppkDar().then(() => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'File Generated Successfully',
+    const creditProposalStartState = lodash.cloneDeep(this.creditProposal);
+    this.updateCoverage.updateCoverage(this.creditProposal, creditProposalStartState, this.collateralProperties).then(() => {
+      this.generateFileSppkDar().then(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'File Generated Successfully',
+        });
+        this.onRefresh();
       });
-      this.onRefresh();
     });
   }
 
