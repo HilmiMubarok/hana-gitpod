@@ -40,7 +40,10 @@ import * as moment from 'moment';
   ],
 })
 export class MisAppraisalComponent {
-  public lovStatus = [];
+  public lovStatusAppraisal = [];
+  public lovOfficerSurveyor = [];
+  public lovAppraisalType: string[] = ['Internal', 'External'];
+  public lovGeo = [];
   data = '';
   date1: any;
   date2: any;
@@ -49,13 +52,32 @@ export class MisAppraisalComponent {
     console.log('test');
   }
 
+  changeOptionGeoBoundaries(event) {
+    console.log('test2');
+  }
+
+  changeOptionStatusAppraisal(event) {
+    console.log('test3');
+  }
+
+  changeOptionOfficerSurveyor(event) {
+    console.log('test4');
+  }
+
+  changeOptionAppraisalType(event) {
+    console.log('test4');
+  }
+
   MISReportCP: FormGroup;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
     this.MISReportCP = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
-      status: new FormControl(''),
+      geoBoundaries: new FormControl(''),
+      statusAppraisal: new FormControl(''),
+      officerSurveyor: new FormControl(''),
+      appraisalType: new FormControl(''),
     });
     // Listen to changes on the date fields
     this.MISReportCP.get('date1')?.valueChanges.subscribe(date => {
@@ -71,25 +93,74 @@ export class MisAppraisalComponent {
         this.MISReportCP.get('date2')?.setValue(formattedDate, { emitEvent: false });
       }
     });
-    this.getStatus();
+    // this.getStatus();
+    this.getStatusesAppraisal();
+    this.getBoundaries();
+    this.getOfficerSurveyors();
   }
 
-  getStatus() {
-    this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL').subscribe({
-      next: res => (this.lovStatus = res),
+  getStatusesAppraisal() {
+    this.misReportService.getStatuses('MIS_APPRAISAL').subscribe({
+      next: res => (this.lovStatusAppraisal = res),
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Status Appraisals' });
       },
     });
   }
 
-  convertStatusToString(status: Array<string>): string {
+  getOfficerSurveyors() {
+    this.misReportService.getOfficerSurveyors().subscribe({
+      next: res => (this.lovOfficerSurveyor = res),
+
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Officer Surveyors' });
+      },
+    });
+  }
+
+  getBoundaries() {
+    this.misReportService.getGeoBoundaries().subscribe({
+      next: res => (this.lovGeo = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Geo Boundaries' });
+      },
+    });
+  }
+
+  convertGeoBoundariesToString(geoBoundaries: Array<string>): string {
     // if length is 0, return empty string
-    if (status.length === 0) {
+    if (geoBoundaries.length === 0) {
       return '';
     }
 
-    return status.join(',');
+    return geoBoundaries.join(',');
+  }
+
+  convertOfficerSurveyorToString(officerSurveyor: Array<string>): string {
+    // if length is 0, return empty string
+    if (officerSurveyor.length === 0) {
+      return '';
+    }
+
+    return officerSurveyor.join(',');
+  }
+
+  convertStatusAppraisalToString(statusAppraisal: Array<string>): string {
+    // if length is 0, return empty string
+    if (statusAppraisal.length === 0) {
+      return '';
+    }
+
+    return statusAppraisal.join(',');
+  }
+
+  convertAppraisalTypeToString(appraisalType: Array<string>): string {
+    // if length is 0, return empty string
+    if (appraisalType.length === 0) {
+      return '';
+    }
+
+    return appraisalType.join(',');
   }
 
   generateMISReportCP() {
@@ -145,7 +216,10 @@ export class MisAppraisalComponent {
     const params = {
       startDate: this.MISReportCP.get('date1')?.value,
       endDate: this.MISReportCP.get('date2')?.value,
-      status: this.convertStatusToString(this.MISReportCP.get('status')?.value),
+      statusAppraisal: this.convertStatusAppraisalToString(this.MISReportCP.get('statusAppraisal')?.value),
+      geoBoundaries: this.convertGeoBoundariesToString(this.MISReportCP.get('geoBoundaries')?.value),
+      officerSurveyor: this.convertOfficerSurveyorToString(this.MISReportCP.get('officerSurveyor')?.value),
+      appraisalType: this.convertAppraisalTypeToString(this.MISReportCP.get('appraisalType')?.value),
     };
 
     this.misReportService
@@ -156,14 +230,49 @@ export class MisAppraisalComponent {
         },
       });
   }
-  allSelected = false;
 
-  toggleSelectAll(): void {
-    this.allSelected = !this.allSelected;
-    if (this.allSelected) {
-      this.MISReportCP.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
+  allSelectedGeo = false;
+  allSelectedAppraisal = false;
+  allSelectedOfficerSurveyor = false;
+  allSelectedAppraisalType = false;
+
+  toggleSelectAllAppraisal(): void {
+    this.allSelectedAppraisal = !this.allSelectedAppraisal;
+    if (this.allSelectedAppraisal) {
+      this.MISReportCP.get('statusAppraisal')?.setValue([...this.lovStatusAppraisal.map(statusAppraisal => statusAppraisal.statusCode)]);
     } else {
-      this.MISReportCP.get('status')?.setValue('');
+      this.MISReportCP.get('statusAppraisal')?.setValue('');
     }
+  }
+
+  toggleSelectAllOfficerSurveyor(): void {
+    this.allSelectedOfficerSurveyor = !this.allSelectedOfficerSurveyor;
+    if (this.allSelectedOfficerSurveyor) {
+      this.MISReportCP.get('officerSurveyor')?.setValue([...this.lovOfficerSurveyor.map(officerSurveyor => officerSurveyor.code)]);
+    } else {
+      this.MISReportCP.get('officerSurveyor')?.setValue('');
+    }
+  }
+
+  toggleSelectAllGeo(): void {
+    this.allSelectedGeo = !this.allSelectedGeo;
+    if (this.allSelectedGeo) {
+      this.MISReportCP.get('geoBoundaries')?.setValue([...this.lovGeo.map(geoBoundaries => geoBoundaries.code)]);
+    } else {
+      this.MISReportCP.get('geoBoundaries')?.setValue('');
+    }
+  }
+
+  toggleSelectAllAppraisalType(): void {
+    this.allSelectedAppraisalType = !this.allSelectedAppraisalType;
+    if (this.allSelectedAppraisalType) {
+      this.MISReportCP.get('appraisalType')?.setValue([...this.lovAppraisalType]);
+    } else {
+      this.MISReportCP.get('appraisalType')?.setValue([]);
+    }
+  }
+
+  public previousState(): void {
+    window.history.back();
   }
 }

@@ -1,50 +1,93 @@
-<form [formGroup]="MISReportCP" (ngSubmit)="generateMISReportCP()">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        <h4>Filter</h4>
-      </mat-card-title>
-    </mat-card-header>
+<div class="row remove-row-scroll">
+  <form [formGroup]="MISReportCP" (ngSubmit)="generateMISReportCP()">
+    <div class="e-card" [formGroup]="MISReportCP" (ngSubmit)="generateMISReportCP()">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <ejs-breadcrumb cssClass="margin: 1rem;">
+            <e-breadcrumb-items>
+              <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+              <e-breadcrumb-item text="Appraisal" url=""> </e-breadcrumb-item>
+            </e-breadcrumb-items>
+          </ejs-breadcrumb>
+        </div>
+      </div>
+      <mat-card-content>
+        <div class="row my-3">
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate formControlName="date1" placeholder="Start date" />
+                <input matEndDate formControlName="date2" placeholder="End date" />
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker> </mat-date-range-picker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="statusAppraisal" (selectionChange)="changeOptionStatusAppraisal($event)" multiple>
+                <li class="select-all" (click)="toggleSelectAllAppraisal()">
+                  {{ allSelectedAppraisal ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovStatusAppraisal" [value]="item.statusCode">{{ item.statusDescription }} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Officer Surveyor</mat-label>
+              <mat-select formControlName="officerSurveyor" (selectionChange)="changeOptionOfficerSurveyor($event)" multiple>
+                <li class="select-all" (click)="toggleSelectAllOfficerSurveyor()">
+                  {{ allSelectedOfficerSurveyor ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovOfficerSurveyor" [value]="item.id">
+                  {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-    <mat-card-content>
-      <div class="row my-3">
-        <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate formControlName="date1" placeholder="Start date" />
-              <input matEndDate formControlName="date2" placeholder="End date" />
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-          </mat-form-field>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Appraisal Type</mat-label>
+              <mat-select formControlName="appraisalType" (selectionChange)="changeOptionAppraisalType($event)" multiple>
+                <li class="select-all" (click)="toggleSelectAllAppraisalType()">
+                  {{ allSelectedAppraisalType ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovAppraisalType" [value]="item">{{ item }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="status" (selectionChange)="changeOption($event)" multiple>
-              <li class="select-all" (click)="toggleSelectAll()">
-                {{ allSelected ? 'Deselect All' : 'Select All' }}
+            <mat-label>Kabupaten/Kota</mat-label>
+            <mat-select formControlName="geoBoundaries" (selectionChange)="changeOptionGeoBoundaries($event)" multiple>
+              <li class="select-all" (click)="toggleSelectAllGeo()">
+                {{ allSelectedGeo ? 'Deselect All' : 'Select All' }}
               </li>
-              <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
+              <mat-option *ngFor="let item of lovGeo" [value]="item.code">{{ item.description }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col"></div>
+      </mat-card-content>
+      <div class="mt-3 text-center">
+        <button
+          mat-raised-button
+          id="generate-btn"
+          class="confirm-button-no"
+          type="submit"
+          [disabled]="misReportService.loadingGenerateDocument$ | async"
+          [class.loading]="misReportService.loadingGenerateDocument$ | async"
+        >
+          {{ misReportService.generateDocumentLabel$ | async }}
+        </button>
       </div>
-    </mat-card-content>
-  </mat-card>
-  <div class="mt-3 text-center">
-    <button
-      mat-raised-button
-      id="generate-btn"
-      class="confirm-button-no"
-      type="submit"
-      [disabled]="misReportService.loadingGenerateDocument$ | async"
-      [class.loading]="misReportService.loadingGenerateDocument$ | async"
-    >
-      {{ misReportService.generateDocumentLabel$ | async }}
-    </button>
-  </div>
-</form>
+    </div>
+  </form>
+</div>
