@@ -55,6 +55,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public displayedColumns: string[] = [
     'no',
     'proposalNumber',
+    'appealNumber',
     'applicationTypeDescription-proposalType',
     'cif',
     'customerName',
