@@ -48,7 +48,17 @@ import { formatDateDob } from 'app/shared/helper/utils';
   ],
 })
 export class CreditProposalListMaterialComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
-  public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
+  public displayedColumns: string[] = [
+    'no',
+    'proposalNumber',
+    'appealNumber',
+    'cif',
+    'customerName',
+    'customerType',
+    'createdDate',
+    'status',
+    'action',
+  ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: any;
   public iconTimeline: any;
@@ -63,6 +73,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public parentPath = this.router.url.split('/')[1];
   public statusSearch = false;
   public positionTypeId: string;
+  public creditProposal: ICreditProposal;
   private monthArray = [
     {
       desc: 'Jan',
