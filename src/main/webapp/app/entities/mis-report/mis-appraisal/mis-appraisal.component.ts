@@ -3,6 +3,8 @@ import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
+import { saveAs } from 'file-saver';
+import * as ExcelJS from 'exceljs';
 
 @Component({
   selector: 'jhi-mis-appraisal',
@@ -47,31 +49,14 @@ export class MisAppraisalComponent {
   data = '';
   date1: any;
   date2: any;
-  listOfValue = [];
-  changeOption(event) {
-    console.log('test');
-  }
-
-  changeOptionGeoBoundaries(event) {
-    console.log('test2');
-  }
-
-  changeOptionStatusAppraisal(event) {
-    console.log('test3');
-  }
-
-  changeOptionOfficerSurveyor(event) {
-    console.log('test4');
-  }
-
-  changeOptionAppraisalType(event) {
-    console.log('test4');
-  }
-
-  MISReportCP: FormGroup;
+  allSelectedGeo = false;
+  allSelectedAppraisal = false;
+  allSelectedOfficerSurveyor = false;
+  allSelectedAppraisalType = false;
+  MISReportAppraisal: FormGroup;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
-    this.MISReportCP = new FormGroup({
+    this.MISReportAppraisal = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
       geoBoundaries: new FormControl(''),
@@ -80,20 +65,19 @@ export class MisAppraisalComponent {
       appraisalType: new FormControl(''),
     });
     // Listen to changes on the date fields
-    this.MISReportCP.get('date1')?.valueChanges.subscribe(date => {
+    this.MISReportAppraisal.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
-        this.MISReportCP.get('date1')?.setValue(formattedDate, { emitEvent: false });
+        this.MISReportAppraisal.get('date1')?.setValue(formattedDate, { emitEvent: false });
       }
     });
 
-    this.MISReportCP.get('date2')?.valueChanges.subscribe(date => {
+    this.MISReportAppraisal.get('date2')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
-        this.MISReportCP.get('date2')?.setValue(formattedDate, { emitEvent: false });
+        this.MISReportAppraisal.get('date2')?.setValue(formattedDate, { emitEvent: false });
       }
     });
-    // this.getStatus();
     this.getStatusesAppraisal();
     this.getBoundaries();
     this.getOfficerSurveyors();
@@ -111,7 +95,6 @@ export class MisAppraisalComponent {
   getOfficerSurveyors() {
     this.misReportService.getOfficerSurveyors().subscribe({
       next: res => (this.lovOfficerSurveyor = res),
-
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Officer Surveyors' });
       },
@@ -127,152 +110,177 @@ export class MisAppraisalComponent {
     });
   }
 
-  convertGeoBoundariesToString(geoBoundaries: Array<string>): string {
-    // if length is 0, return empty string
-    if (geoBoundaries.length === 0) {
-      return '';
-    }
-
-    return geoBoundaries.join(',');
-  }
-
-  convertOfficerSurveyorToString(officerSurveyor: Array<string>): string {
-    // if length is 0, return empty string
-    if (officerSurveyor.length === 0) {
-      return '';
-    }
-
-    return officerSurveyor.join(',');
-  }
-
-  convertStatusAppraisalToString(statusAppraisal: Array<string>): string {
-    // if length is 0, return empty string
-    if (statusAppraisal.length === 0) {
-      return '';
-    }
-
-    return statusAppraisal.join(',');
-  }
-
-  convertAppraisalTypeToString(appraisalType: Array<string>): string {
-    // if length is 0, return empty string
-    if (appraisalType.length === 0) {
-      return '';
-    }
-
-    return appraisalType.join(',');
-  }
-
-  generateMISReportCP() {
-    const template_report_data = [
-      { key: 'No.', valueFrom: '', format: 'string' },
-      { key: 'Proposal Number', valueFrom: 'proposalNumber', format: 'string' },
-      { key: 'Proposal Date', valueFrom: 'proposalDate', format: 'string' },
-      { key: 'Segment', valueFrom: 'segment', format: 'string' },
-      { key: 'Customer Status', valueFrom: 'customerStatus', format: 'string' },
-      { key: 'Program', valueFrom: 'program', format: 'string' },
-      { key: 'UMKM', valueFrom: 'umkm', format: 'string' },
-      { key: 'Kategori Usaha Debitur', valueFrom: 'kategoriUsahaDebitur', format: 'string' },
-      { key: 'Refferal', valueFrom: 'refferal', format: 'string' },
-      { key: 'RM First Name', valueFrom: 'rmFirstName', format: 'string' },
-      { key: 'RM Last Name', valueFrom: 'rmLastName', format: 'string' },
-      { key: 'BM', valueFrom: 'bm', format: 'string' },
-      { key: 'Head Name', valueFrom: 'headName', format: 'string' },
-      { key: 'CIF', valueFrom: 'cif', format: 'string' },
-      { key: 'Debtor Name', valueFrom: 'debtorName', format: 'string' },
-      { key: 'ID Card Number', valueFrom: 'idCardNumber', format: 'string' },
-      { key: 'Date of Birth', valueFrom: 'dateOfBirth', format: 'date' },
-      { key: 'Deed of RCNT Number', valueFrom: 'deedOfRCNTNumber', format: 'string' },
-      { key: 'Deed of RCNT Date', valueFrom: 'deedOfRCNTDate', format: 'date' },
-      { key: 'Line of Business', valueFrom: 'lineOfBusiness', format: 'string' },
-      { key: 'Total Exposure Group', valueFrom: 'totalExposureGroup', format: 'string' },
-      { key: 'Sector Industry', valueFrom: 'sectorIndustry', format: 'string' },
-      { key: 'Sales Verified', valueFrom: 'salesVerified', format: 'string' },
-      { key: 'Collectability Status', valueFrom: 'collectibilityStatus', format: 'string' },
-      { key: 'Deviation', valueFrom: 'deviation', format: 'string' },
-      { key: 'Based on FS (in IDR MN)', valueFrom: 'basedOnFS', format: 'moneyIDR' },
-      { key: 'Based on Average Balance (in IDR MN)', valueFrom: 'basedOnAvgBalance', format: 'string' },
-      { key: 'Based on Credit Mutation (in IDR MN)', valueFrom: 'basedOnCreditMutation', format: 'string' },
-      { key: 'Credit Grading', valueFrom: 'creditGrading', format: 'string' },
-      { key: 'Modal Usaha', valueFrom: 'modalUsaha', format: 'string' },
-      { key: 'STO / Penjualan Tahunan', valueFrom: 'penjualanTahunan', format: 'string' },
-      { key: 'Total Changes Eq to IDR', valueFrom: 'totalChangesEqToIDR', format: 'string' },
-      { key: 'Total Plafond Debtor Only (IDR)', valueFrom: 'totalPlafondDebtorOnlyIDR', format: 'string' },
-      { key: 'Total Plafond Debtor Only (USD)', valueFrom: 'totalPlafondDebtorOnlyUSD', format: 'string' },
-      { key: 'Total Plafond Group (IDR)', valueFrom: 'totalPlafondGroupIDR', format: 'string' },
-      { key: 'Sub Total Plafon Eq to IDR (Debtor)', valueFrom: 'subTotalPlafondEqToIDR', format: 'string' },
-      { key: 'Grand Total Plafon Eq to IDR (Include Group)', valueFrom: 'grandTotalPlafondEqToIDR', format: 'string' },
-      { key: 'Total MV Internal', valueFrom: 'totalMVInternal', format: 'string' },
-      { key: 'Total LV Internal', valueFrom: 'totalLVInternal', format: 'string' },
-      { key: 'Total MV KJPP', valueFrom: 'totalMVKJPP', format: 'string' },
-      { key: 'Total LV KJPP', valueFrom: 'totalLVKJPP', format: 'string' },
-      { key: 'Collateral Coverage MV Internal (%)', valueFrom: 'colCoverageMVInternal', format: 'string' },
-      { key: 'Collateral Coverage MV KJPP (%)', valueFrom: 'colCoverageMVKJPP', format: 'string' },
-      { key: 'Collateral Coverage LV Internal (%)', valueFrom: 'colCoverageLVInternal', format: 'string' },
-      { key: 'Collateral Coverage LV KJPP (%)', valueFrom: 'colCoverageLVKJPP', format: 'string' },
-      { key: 'Status', valueFrom: 'status', format: 'string' },
-    ];
-
-    const params = {
-      startDate: this.MISReportCP.get('date1')?.value,
-      endDate: this.MISReportCP.get('date2')?.value,
-      statusAppraisal: this.convertStatusAppraisalToString(this.MISReportCP.get('statusAppraisal')?.value),
-      geoBoundaries: this.convertGeoBoundariesToString(this.MISReportCP.get('geoBoundaries')?.value),
-      officerSurveyor: this.convertOfficerSurveyorToString(this.MISReportCP.get('officerSurveyor')?.value),
-      appraisalType: this.convertAppraisalTypeToString(this.MISReportCP.get('appraisalType')?.value),
-    };
-
-    this.misReportService
-      .generateMisReport(template_report_data, this.misReportService.getMisReportCP(params), 'MIS_Report_Credit_Proposal')
-      .subscribe({
-        error: () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
-        },
-      });
-  }
-
-  allSelectedGeo = false;
-  allSelectedAppraisal = false;
-  allSelectedOfficerSurveyor = false;
-  allSelectedAppraisalType = false;
-
   toggleSelectAllAppraisal(): void {
     this.allSelectedAppraisal = !this.allSelectedAppraisal;
     if (this.allSelectedAppraisal) {
-      this.MISReportCP.get('statusAppraisal')?.setValue([...this.lovStatusAppraisal.map(statusAppraisal => statusAppraisal.statusCode)]);
+      this.MISReportAppraisal.get('statusAppraisal')?.setValue([
+        ...this.lovStatusAppraisal.map(statusAppraisal => statusAppraisal.statusCode),
+      ]);
     } else {
-      this.MISReportCP.get('statusAppraisal')?.setValue('');
+      this.MISReportAppraisal.get('statusAppraisal')?.setValue('');
     }
   }
 
   toggleSelectAllOfficerSurveyor(): void {
     this.allSelectedOfficerSurveyor = !this.allSelectedOfficerSurveyor;
     if (this.allSelectedOfficerSurveyor) {
-      this.MISReportCP.get('officerSurveyor')?.setValue([...this.lovOfficerSurveyor.map(officerSurveyor => officerSurveyor.code)]);
+      this.MISReportAppraisal.get('officerSurveyor')?.setValue([...this.lovOfficerSurveyor.map(officerSurveyor => officerSurveyor.id)]);
     } else {
-      this.MISReportCP.get('officerSurveyor')?.setValue('');
+      this.MISReportAppraisal.get('officerSurveyor')?.setValue('');
     }
   }
 
   toggleSelectAllGeo(): void {
     this.allSelectedGeo = !this.allSelectedGeo;
     if (this.allSelectedGeo) {
-      this.MISReportCP.get('geoBoundaries')?.setValue([...this.lovGeo.map(geoBoundaries => geoBoundaries.code)]);
+      this.MISReportAppraisal.get('geoBoundaries')?.setValue([...this.lovGeo.map(geoBoundaries => geoBoundaries.id)]);
     } else {
-      this.MISReportCP.get('geoBoundaries')?.setValue('');
+      this.MISReportAppraisal.get('geoBoundaries')?.setValue('');
     }
   }
 
   toggleSelectAllAppraisalType(): void {
     this.allSelectedAppraisalType = !this.allSelectedAppraisalType;
     if (this.allSelectedAppraisalType) {
-      this.MISReportCP.get('appraisalType')?.setValue([...this.lovAppraisalType]);
+      this.MISReportAppraisal.get('appraisalType')?.setValue([...this.lovAppraisalType]);
     } else {
-      this.MISReportCP.get('appraisalType')?.setValue([]);
+      this.MISReportAppraisal.get('appraisalType')?.setValue([]);
     }
   }
 
   public previousState(): void {
     window.history.back();
+  }
+
+  private _convertLov(lov: Array<string>): string {
+    if (lov.length === 0) {
+      return '';
+    }
+    return lov.join(',');
+  }
+
+  generateMISReportAppraisal() {
+    this.misReportService.setLoading(true);
+    const params = {
+      startDate: this.MISReportAppraisal.get('date1')?.value,
+      endDate: this.MISReportAppraisal.get('date2')?.value,
+      status: this._convertLov(this.MISReportAppraisal.get('statusAppraisal')?.value),
+      city: this._convertLov(this.MISReportAppraisal.get('geoBoundaries')?.value),
+      officerSurveyor: this._convertLov(this.MISReportAppraisal.get('officerSurveyor')?.value),
+      appraisalType: this._convertLov(this.MISReportAppraisal.get('appraisalType')?.value),
+    };
+
+    this.misReportService.getMISReportAppraisal(params).subscribe({
+      next: res => this._processGenerate(res.body, 'MIS_Appraisal'),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
+      },
+    });
+  }
+
+  private _processGenerate(data, outputName: string): void {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sheet 1');
+
+    // Add header Columns
+    worksheet.columns = [
+      { header: 'No.', key: 'no', width: 5 },
+      { header: 'Appraisal Number', key: 'appraisalNumber', width: 20 },
+      { header: 'Appraisal Date', key: 'appraisalDate', width: 20 },
+      { header: 'Branch', key: 'branch', width: 20 },
+      { header: 'Marketing', key: 'marketing', width: 35 },
+      { header: 'Customer Name', key: 'customerName', width: 35 },
+      { header: 'ID', key: 'collateralId', width: 5 },
+      { header: 'Collateral', key: 'collateral', width: 20 },
+      { header: 'Location', key: 'location', width: 20 },
+      { header: 'Kelurahan', key: 'kelurahan', width: 20 },
+      { header: 'Kecamatan', key: 'kecamatan', width: 20 },
+      { header: 'Kabupaten / Kota', key: 'city', width: 20 },
+      { header: 'Provinsi', key: 'provinceName', width: 20 },
+      { header: 'Appraisal Type', key: 'appraisalType', width: 20 },
+      { header: 'Jenis Permohonan', key: 'jenisPermohonan', width: 20 },
+      { header: 'Plafond', key: 'plafond', width: 20 },
+      { header: 'Tgl. Jatem Kredit', key: 'tglJatemKredit', width: 20 },
+      { header: 'Appraiser', key: 'appraiser', width: 30 },
+      { header: 'Nilai MV', key: 'nilaiMV', width: 20 },
+      { header: 'Nilai LV', key: 'nilaiLV', width: 20 },
+      { header: 'Nama KJPP', key: 'kjppName', width: 20 },
+      { header: 'Nilai KJPP MV', key: 'totalMVKJPP', width: 20 },
+      { header: 'Nilai KJPP LV', key: 'totalLVKJPP', width: 20 },
+      { header: 'Timeline', key: 'timeline', width: 40 },
+      { header: 'Status', key: 'status', width: 20 },
+    ];
+
+    // Add data to the sheet
+    data.forEach((row, index) => {
+      // sort timeline ascending by id
+      const timelineData = row.timeLine.sort((a, b) => a.id - b.id);
+
+      worksheet.addRow({
+        no: index + 1 || '',
+        appraisalNumber: row.appraisalNumber || '',
+        appraisalDate: row.appraisalDate || '',
+        branch: row.branch || '',
+        marketing: row.marketing || '',
+        customerName: row.customerName || '',
+        collateralId: row.collateral[0].id || '',
+        collateral: row.collateral[0].collateral || '',
+        location: row.collateral[0].location || '',
+        kelurahan: row.collateral[0].kelurahan || '',
+        kecamatan: row.collateral[0].kecamatan || '',
+        city: row.collateral[0].city || '',
+        provinceName: row.collateral[0].provinceName || '',
+        appraisalType: row.appraisalType || '',
+        jenisPermohonan: row.jenisPermohonan.map(jp => jp).join('\n') || '',
+        plafond: row.plafond || '',
+        tglJatemKredit: row.tglJatemKredit || '',
+        appraiser: row.appraiser || '',
+        nilaiMV: row.totalMVInternal || '',
+        nilaiLV: row.totalLiquidationInternal || '',
+        namaKJPP: row.kjppName || '',
+        nilaiKJPPMV: row.totalMVKJPP || '',
+        nilaiKJPPLV: row.totalLVKJPP || '',
+        timeline: timelineData.map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`).join('\n') || '',
+        status: row.status || '',
+      });
+    });
+
+    // enable wrap text for timeline cell
+    worksheet.getColumn('jenisPermohonan').alignment = { wrapText: true };
+    worksheet.getColumn('timeline').alignment = { wrapText: true };
+
+    // Apply styles
+    worksheet.getRow(1).font = { bold: true };
+    worksheet.getRow(1).height = 20;
+    worksheet.getRow(1).fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'ffa0c4e4' },
+    };
+
+    worksheet.eachRow({ includeEmpty: true }, row => {
+      row.eachCell({ includeEmpty: true }, cell => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
+
+    // Set the output name
+    const date = new Date();
+    const fileName = `${outputName}_${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
+
+    // Generate and save file
+    workbook.xlsx.writeBuffer().then(buffer => {
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      saveAs(blob, fileName);
+      this.misReportService.setLoading(false);
+      this.misReportService.generateDocumentLabel.next('Generate Document');
+    });
   }
 }

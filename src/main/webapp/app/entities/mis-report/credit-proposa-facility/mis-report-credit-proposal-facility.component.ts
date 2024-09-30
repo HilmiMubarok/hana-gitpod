@@ -107,13 +107,5 @@ export class MisReportCreditProposalFacilityComponent {
       endDate: this.MisReportCPFacility.get('date2')?.value,
       status: this.convertStatusToString(this.MisReportCPFacility.get('status')?.value),
     };
-
-    this.misReportService
-      .generateMisReport(template_report_data, this.misReportService.getMisReportCPFacility(params), 'MIS_Report_Credit_Proposal_Facility')
-      .subscribe({
-        error: () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
-        },
-      });
   }
 }

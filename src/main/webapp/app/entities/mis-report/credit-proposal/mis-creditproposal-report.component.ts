@@ -150,14 +150,6 @@ export class MisCreditProposalReportComponent {
       endDate: this.MISReportCP.get('date2')?.value,
       status: this.convertStatusToString(this.MISReportCP.get('status')?.value),
     };
-
-    this.misReportService
-      .generateMisReport(template_report_data, this.misReportService.getMisReportCP(params), 'MIS_Report_Credit_Proposal')
-      .subscribe({
-        error: () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
-        },
-      });
   }
   allSelected = false;
 
@@ -174,17 +166,6 @@ export class MisCreditProposalReportComponent {
     // Convert date to format YYYY-MM-DD HH:mm
 
     return moment(date).format('YYYY-MM-DD HH:mm');
-  }
-
-  newGenerate() {
-    this.misReportService.newGenerateMisReport().subscribe({
-      next: res => {
-        this._processNewGenerate(res, 'MIS_Report_Credit_Proposal');
-      },
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
-      },
-    });
   }
 
   private _processNewGenerate(data, fileName) {

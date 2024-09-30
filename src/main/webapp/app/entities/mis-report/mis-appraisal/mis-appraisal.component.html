@@ -1,6 +1,6 @@
 <div class="row remove-row-scroll">
-  <form [formGroup]="MISReportCP" (ngSubmit)="generateMISReportCP()">
-    <div class="e-card" [formGroup]="MISReportCP" (ngSubmit)="generateMISReportCP()">
+  <form [formGroup]="MISReportAppraisal" (ngSubmit)="generateMISReportAppraisal()">
+    <div class="e-card">
       <div class="e-card-header">
         <div class="e-card-header-caption">
           <ejs-breadcrumb cssClass="margin: 1rem;">
@@ -28,7 +28,7 @@
           <div class="col">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Status</mat-label>
-              <mat-select formControlName="statusAppraisal" (selectionChange)="changeOptionStatusAppraisal($event)" multiple>
+              <mat-select formControlName="statusAppraisal" multiple>
                 <li class="select-all" (click)="toggleSelectAllAppraisal()">
                   {{ allSelectedAppraisal ? 'Deselect All' : 'Select All' }}
                 </li>
@@ -41,7 +41,7 @@
           <div class="col">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Officer Surveyor</mat-label>
-              <mat-select formControlName="officerSurveyor" (selectionChange)="changeOptionOfficerSurveyor($event)" multiple>
+              <mat-select formControlName="officerSurveyor" multiple>
                 <li class="select-all" (click)="toggleSelectAllOfficerSurveyor()">
                   {{ allSelectedOfficerSurveyor ? 'Deselect All' : 'Select All' }}
                 </li>
@@ -55,7 +55,7 @@
           <div class="col">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Type</mat-label>
-              <mat-select formControlName="appraisalType" (selectionChange)="changeOptionAppraisalType($event)" multiple>
+              <mat-select formControlName="appraisalType" multiple>
                 <li class="select-all" (click)="toggleSelectAllAppraisalType()">
                   {{ allSelectedAppraisalType ? 'Deselect All' : 'Select All' }}
                 </li>
@@ -67,11 +67,11 @@
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Kabupaten/Kota</mat-label>
-            <mat-select formControlName="geoBoundaries" (selectionChange)="changeOptionGeoBoundaries($event)" multiple>
+            <mat-select formControlName="geoBoundaries" multiple>
               <li class="select-all" (click)="toggleSelectAllGeo()">
                 {{ allSelectedGeo ? 'Deselect All' : 'Select All' }}
               </li>
-              <mat-option *ngFor="let item of lovGeo" [value]="item.code">{{ item.description }} </mat-option>
+              <mat-option *ngFor="let item of lovGeo" [value]="item.id">{{ item.description }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
