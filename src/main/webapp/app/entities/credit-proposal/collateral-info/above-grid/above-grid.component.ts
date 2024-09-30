@@ -952,7 +952,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
                 this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id &&
                 this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[k].id
               ) {
-                this.creditProposal.collateralProductRelations.splice(i);
+                this.creditProposal.collateralProductRelations.splice(i, 1);
               }
             }
           }
@@ -1285,7 +1285,16 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     return new Promise((resolve, reject) => {
       this.creditProposalService.update(this.preSave('not-complate')).subscribe(
         res => {
-          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+          for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+            for (let j = 0; j < res.body.collateralProductRelations.length; j++) {
+              if (this.creditProposal.collateralProductRelations[i].id === res.body.collateralProductRelations[j]?.id) {
+                this.creditProposal.collateralProductRelations;
+              }
+              {
+                this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+              }
+            }
+          }
           resolve(); // Panggil resolve() saat proses selesai
         },
         error => {
