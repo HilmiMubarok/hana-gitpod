@@ -71,7 +71,7 @@ export class MisCreditProposalTimelineComponent {
     window.history.back();
   }
   getStatus() {
-    this.misReportService.getStatusCpMapping().subscribe({
+    this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL_TIMELINE').subscribe({
       next: res => (this.lovStatus = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
@@ -152,17 +152,5 @@ export class MisCreditProposalTimelineComponent {
       endDate: this.misCpTimeline.get('date2')?.value,
       status: this.convertStatusToString(this.misCpTimeline.get('status')?.value),
     };
-
-    this.misReportService
-      .generateMisReport(
-        template_report_data_cp_timeline,
-        this.misReportService.getMisReportCP(params),
-        'MIS_Report_Credit_Proposal_Timeline'
-      )
-      .subscribe({
-        error: () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
-        },
-      });
   }
 }
