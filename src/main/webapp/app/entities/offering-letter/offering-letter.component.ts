@@ -54,6 +54,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public displayedColumns: string[] = [
     'no',
     'proposalNumber',
+    'appealNumber',
     'applicationTypeDescription-proposalType',
     'cif',
     'customerName',
