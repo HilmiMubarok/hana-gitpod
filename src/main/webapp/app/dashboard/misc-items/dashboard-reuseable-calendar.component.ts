@@ -16,6 +16,8 @@ export class DashboardReusableCalendarComponent {
   public progressDates: Date;
   public _disableCalendar: boolean;
 
+  public progressWeekly: any[];
+
   @Input()
   get dueDateDates() {
     return this._dueDateDates;
@@ -86,10 +88,13 @@ export class DashboardReusableCalendarComponent {
   }
 
   public sendOutWeekly(): void {
-    const startDate = moment(this.progressDates).format('YYYY-MM-DD').toString();
-    const thruDate = moment(new Date(this.progressDates.getFullYear(), this.progressDates.getMonth() + 1, 0))
-      .format('YYYY-MM-DD')
-      .toString();
+    const _thruDate = new Date();
+    _thruDate.setDate(this.progressWeekly[0].getDate() + 6);
+    this.progressWeekly = [this.progressWeekly[0], _thruDate];
+
+    const startDate = moment(this.progressWeekly[0]).format('YYYY-MM-DD').toString();
+    const thruDate = moment(this.progressWeekly[1]).format('YYYY-MM-DD').toString();
+
     this.output.emit({ startDate, thruDate });
   }
 
