@@ -59,10 +59,10 @@ export class MisAppraisalComponent {
     this.MISReportAppraisal = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
-      geoBoundaries: new FormControl(''),
+      geoBoundaries: new FormControl(null),
       statusAppraisal: new FormControl(''),
-      officerSurveyor: new FormControl(''),
-      appraisalType: new FormControl(''),
+      officerSurveyor: new FormControl(null),
+      appraisalType: new FormControl(null),
     });
     // Listen to changes on the date fields
     this.MISReportAppraisal.get('date1')?.valueChanges.subscribe(date => {
@@ -152,7 +152,15 @@ export class MisAppraisalComponent {
     window.history.back();
   }
 
-  private _convertLov(lov: Array<string>): string {
+  private _convertLov(lov: Array<string> | null | string): string {
+    if (lov === null) {
+      return null;
+    }
+
+    if (typeof lov === 'string') {
+      return '';
+    }
+
     if (lov.length === 0) {
       return '';
     }
@@ -174,6 +182,7 @@ export class MisAppraisalComponent {
       next: res => this._processGenerate(res.body, 'MIS_Appraisal'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
+        this.misReportService.setLoading(false);
       },
     });
   }
@@ -191,6 +200,7 @@ export class MisAppraisalComponent {
       { header: 'Marketing', key: 'marketing', width: 35 },
       { header: 'Customer Name', key: 'customerName', width: 35 },
       { header: 'ID', key: 'collateralId', width: 5 },
+      { header: 'Collateral Type', key: 'collateralType', width: 25 },
       { header: 'Collateral', key: 'collateral', width: 20 },
       { header: 'Location', key: 'location', width: 20 },
       { header: 'Kelurahan', key: 'kelurahan', width: 20 },
@@ -207,6 +217,7 @@ export class MisAppraisalComponent {
       { header: 'Nama KJPP', key: 'kjppName', width: 20 },
       { header: 'Nilai KJPP MV', key: 'totalMVKJPP', width: 20 },
       { header: 'Nilai KJPP LV', key: 'totalLVKJPP', width: 20 },
+      { header: 'Reviewer', key: 'reviewer', width: 40 },
       { header: 'Timeline', key: 'timeline', width: 40 },
       { header: 'Status', key: 'status', width: 20 },
     ];
@@ -224,10 +235,11 @@ export class MisAppraisalComponent {
         marketing: row.marketing || '',
         customerName: row.customerName || '',
         collateralId: row.collateral[0].id || '',
+        collateralType: row.collateral[0].collateralType || '',
         collateral: row.collateral[0].collateral || '',
         location: row.collateral[0].location || '',
-        kelurahan: row.collateral[0].kelurahan || '',
-        kecamatan: row.collateral[0].kecamatan || '',
+        kelurahan: row.collateral[0].villageName || '',
+        kecamatan: row.collateral[0].districtName || '',
         city: row.collateral[0].city || '',
         provinceName: row.collateral[0].provinceName || '',
         appraisalType: row.appraisalType || '',
@@ -240,6 +252,7 @@ export class MisAppraisalComponent {
         namaKJPP: row.kjppName || '',
         nilaiKJPPMV: row.totalMVKJPP || '',
         nilaiKJPPLV: row.totalLVKJPP || '',
+        reviewer: row.reviewerBy || '',
         timeline: timelineData.map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`).join('\n') || '',
         status: row.status || '',
       });
