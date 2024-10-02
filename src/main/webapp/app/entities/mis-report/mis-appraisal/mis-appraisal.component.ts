@@ -239,7 +239,7 @@ export class MisAppraisalComponent {
         collateral: row.collateral[0].collateral || '',
         location: row.collateral[0].location || '',
         kelurahan: row.collateral[0].villageName || '',
-        kecamatan: row.collateral[0].districName || '',
+        kecamatan: row.collateral[0].districtName || '',
         city: row.collateral[0].city || '',
         provinceName: row.collateral[0].provinceName || '',
         appraisalType: row.appraisalType || '',
