@@ -277,7 +277,7 @@ export class MisAppraisalComponent {
         nilaiKJPPMV: row.totalMVKJPP || '',
         nilaiKJPPLV: row.totalLVKJPP || '',
         reviewer: row.reviewerBy || '',
-        timeline: row.timeLineData.map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`).join('\n') || '',
+        timeline: timeLineData.map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`).join('\n') || '',
         status: row.status || '',
       });
     });
