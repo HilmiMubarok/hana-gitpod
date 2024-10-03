@@ -250,6 +250,7 @@ export class MisAppraisalComponent {
 
     // Add data to the sheet
     data.forEach((row, index) => {
+      const timeLineData = row.timeLine ? row.timeLine.sort((a, b) => a.id - b.id) : [];
       worksheet.addRow({
         no: index + 1 || '',
         appraisalNumber: row.appraisalNumber || '',
@@ -276,11 +277,7 @@ export class MisAppraisalComponent {
         nilaiKJPPMV: row.totalMVKJPP || '',
         nilaiKJPPLV: row.totalLVKJPP || '',
         reviewer: row.reviewerBy || '',
-        timeline:
-          row.timeLine
-            .sort((a, b) => a.id - b.id)
-            .map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`)
-            .join('\n') || '',
+        timeline: timeLineData.map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`).join('\n') || '',
         status: row.status || '',
       });
     });
