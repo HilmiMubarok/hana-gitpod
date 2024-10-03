@@ -64,7 +64,7 @@ export class MisAppraisalComponent {
       officerSurveyor: new FormControl(null),
       appraisalType: new FormControl(null),
     });
-    // Listen to changes on the date fields
+
     this.MISReportAppraisal.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
@@ -78,6 +78,31 @@ export class MisAppraisalComponent {
         this.MISReportAppraisal.get('date2')?.setValue(formattedDate, { emitEvent: false });
       }
     });
+
+    this.MISReportAppraisal.get('statusAppraisal')?.valueChanges.subscribe(statusAppraisal => {
+      if (typeof statusAppraisal === 'object' && statusAppraisal.length === 0) {
+        this.MISReportAppraisal.get('statusAppraisal')?.setValue('');
+      }
+    });
+
+    this.MISReportAppraisal.get('geoBoundaries')?.valueChanges.subscribe(geoBoundaries => {
+      if (typeof geoBoundaries === 'object' && geoBoundaries.length === 0) {
+        this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
+      }
+    });
+
+    this.MISReportAppraisal.get('officerSurveyor')?.valueChanges.subscribe(officerSurveyor => {
+      if (typeof officerSurveyor === 'object' && officerSurveyor.length === 0) {
+        this.MISReportAppraisal.get('officerSurveyor')?.setValue(null);
+      }
+    });
+
+    this.MISReportAppraisal.get('appraisalType')?.valueChanges.subscribe(appraisalType => {
+      if (typeof appraisalType === 'object' && appraisalType.length === 0) {
+        this.MISReportAppraisal.get('appraisalType')?.setValue(null);
+      }
+    });
+
     this.getStatusesAppraisal();
     this.getBoundaries();
     this.getOfficerSurveyors();
@@ -126,7 +151,7 @@ export class MisAppraisalComponent {
     if (this.allSelectedOfficerSurveyor) {
       this.MISReportAppraisal.get('officerSurveyor')?.setValue([...this.lovOfficerSurveyor.map(officerSurveyor => officerSurveyor.id)]);
     } else {
-      this.MISReportAppraisal.get('officerSurveyor')?.setValue('');
+      this.MISReportAppraisal.get('officerSurveyor')?.setValue(null);
     }
   }
 
@@ -135,7 +160,7 @@ export class MisAppraisalComponent {
     if (this.allSelectedGeo) {
       this.MISReportAppraisal.get('geoBoundaries')?.setValue([...this.lovGeo.map(geoBoundaries => geoBoundaries.id)]);
     } else {
-      this.MISReportAppraisal.get('geoBoundaries')?.setValue('');
+      this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
     }
   }
 
@@ -144,7 +169,7 @@ export class MisAppraisalComponent {
     if (this.allSelectedAppraisalType) {
       this.MISReportAppraisal.get('appraisalType')?.setValue([...this.lovAppraisalType]);
     } else {
-      this.MISReportAppraisal.get('appraisalType')?.setValue([]);
+      this.MISReportAppraisal.get('appraisalType')?.setValue(null);
     }
   }
 
@@ -180,7 +205,8 @@ export class MisAppraisalComponent {
 
     this.misReportService.getMISReportAppraisal(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Appraisal'),
-      error: () => {
+      error: error => {
+        console.error('Error: ', error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
         this.misReportService.setLoading(false);
       },
@@ -224,9 +250,6 @@ export class MisAppraisalComponent {
 
     // Add data to the sheet
     data.forEach((row, index) => {
-      // sort timeline ascending by id
-      const timelineData = row.timeLine.sort((a, b) => a.id - b.id);
-
       worksheet.addRow({
         no: index + 1 || '',
         appraisalNumber: row.appraisalNumber || '',
@@ -253,7 +276,11 @@ export class MisAppraisalComponent {
         nilaiKJPPMV: row.totalMVKJPP || '',
         nilaiKJPPLV: row.totalLVKJPP || '',
         reviewer: row.reviewerBy || '',
-        timeline: timelineData.map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`).join('\n') || '',
+        timeline:
+          row.timeLine
+            .sort((a, b) => a.id - b.id)
+            .map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`)
+            .join('\n') || '',
         status: row.status || '',
       });
     });
