@@ -1,4 +1,3 @@
-import { forEach } from 'lodash';
 import { Component } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
@@ -48,10 +47,7 @@ export class MisCreditProposalReportComponent {
   date1: any;
   date2: any;
   listOfValue = [];
-  changeOption(event) {
-    console.log('test');
-  }
-
+  allSelected = false;
   MISReportCP: FormGroup;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
@@ -74,6 +70,7 @@ export class MisCreditProposalReportComponent {
         this.MISReportCP.get('date2')?.setValue(formattedDate, { emitEvent: false });
       }
     });
+
     this.getStatus();
   }
 
@@ -86,72 +83,23 @@ export class MisCreditProposalReportComponent {
     });
   }
 
-  convertStatusToString(status: Array<string>): string {
-    // if length is 0, return empty string
-    if (status.length === 0) {
-      return '';
-    }
-
-    return status.join(',');
-  }
-
   generateMISReportCP() {
-    const template_report_data = [
-      { key: 'No.', valueFrom: '', format: 'string' },
-      { key: 'Proposal Number', valueFrom: 'proposalNumber', format: 'string' },
-      { key: 'Proposal Date', valueFrom: 'proposalDate', format: 'string' },
-      { key: 'Segment', valueFrom: 'segment', format: 'string' },
-      { key: 'Customer Status', valueFrom: 'customerStatus', format: 'string' },
-      { key: 'Program', valueFrom: 'program', format: 'string' },
-      { key: 'UMKM', valueFrom: 'umkm', format: 'string' },
-      { key: 'Kategori Usaha Debitur', valueFrom: 'kategoriUsahaDebitur', format: 'string' },
-      { key: 'Refferal', valueFrom: 'refferal', format: 'string' },
-      { key: 'RM First Name', valueFrom: 'rmFirstName', format: 'string' },
-      { key: 'RM Last Name', valueFrom: 'rmLastName', format: 'string' },
-      { key: 'BM', valueFrom: 'bm', format: 'string' },
-      { key: 'Head Name', valueFrom: 'headName', format: 'string' },
-      { key: 'CIF', valueFrom: 'cif', format: 'string' },
-      { key: 'Debtor Name', valueFrom: 'debtorName', format: 'string' },
-      { key: 'ID Card Number', valueFrom: 'idCardNumber', format: 'string' },
-      { key: 'Date of Birth', valueFrom: 'dateOfBirth', format: 'date' },
-      { key: 'Deed of RCNT Number', valueFrom: 'deedOfRCNTNumber', format: 'string' },
-      { key: 'Deed of RCNT Date', valueFrom: 'deedOfRCNTDate', format: 'date' },
-      { key: 'Line of Business', valueFrom: 'lineOfBusiness', format: 'string' },
-      { key: 'Total Exposure Group', valueFrom: 'totalExposureGroup', format: 'string' },
-      { key: 'Sector Industry', valueFrom: 'sectorIndustry', format: 'string' },
-      { key: 'Sales Verified', valueFrom: 'salesVerified', format: 'string' },
-      { key: 'Collectability Status', valueFrom: 'collectibilityStatus', format: 'string' },
-      { key: 'Deviation', valueFrom: 'deviation', format: 'string' },
-      { key: 'Based on FS (in IDR MN)', valueFrom: 'basedOnFS', format: 'moneyIDR' },
-      { key: 'Based on Average Balance (in IDR MN)', valueFrom: 'basedOnAvgBalance', format: 'string' },
-      { key: 'Based on Credit Mutation (in IDR MN)', valueFrom: 'basedOnCreditMutation', format: 'string' },
-      { key: 'Credit Grading', valueFrom: 'creditGrading', format: 'string' },
-      { key: 'Modal Usaha', valueFrom: 'modalUsaha', format: 'string' },
-      { key: 'STO / Penjualan Tahunan', valueFrom: 'penjualanTahunan', format: 'string' },
-      { key: 'Total Changes Eq to IDR', valueFrom: 'totalChangesEqToIDR', format: 'string' },
-      { key: 'Total Plafond Debtor Only (IDR)', valueFrom: 'totalPlafondDebtorOnlyIDR', format: 'string' },
-      { key: 'Total Plafond Debtor Only (USD)', valueFrom: 'totalPlafondDebtorOnlyUSD', format: 'string' },
-      { key: 'Total Plafond Group (IDR)', valueFrom: 'totalPlafondGroupIDR', format: 'string' },
-      { key: 'Sub Total Plafon Eq to IDR (Debtor)', valueFrom: 'subTotalPlafondEqToIDR', format: 'string' },
-      { key: 'Grand Total Plafon Eq to IDR (Include Group)', valueFrom: 'grandTotalPlafondEqToIDR', format: 'string' },
-      { key: 'Total MV Internal', valueFrom: 'totalMVInternal', format: 'string' },
-      { key: 'Total LV Internal', valueFrom: 'totalLVInternal', format: 'string' },
-      { key: 'Total MV KJPP', valueFrom: 'totalMVKJPP', format: 'string' },
-      { key: 'Total LV KJPP', valueFrom: 'totalLVKJPP', format: 'string' },
-      { key: 'Collateral Coverage MV Internal (%)', valueFrom: 'colCoverageMVInternal', format: 'string' },
-      { key: 'Collateral Coverage MV KJPP (%)', valueFrom: 'colCoverageMVKJPP', format: 'string' },
-      { key: 'Collateral Coverage LV Internal (%)', valueFrom: 'colCoverageLVInternal', format: 'string' },
-      { key: 'Collateral Coverage LV KJPP (%)', valueFrom: 'colCoverageLVKJPP', format: 'string' },
-      { key: 'Status', valueFrom: 'status', format: 'string' },
-    ];
+    this.misReportService.setLoading(true);
 
     const params = {
       startDate: this.MISReportCP.get('date1')?.value,
       endDate: this.MISReportCP.get('date2')?.value,
-      status: this.convertStatusToString(this.MISReportCP.get('status')?.value),
+      status: this._convertStatusToString(this.MISReportCP.get('status')?.value),
     };
+
+    this.misReportService.getMisReportCP(params).subscribe({
+      next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal'),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this.misReportService.setLoading(false);
+      },
+    });
   }
-  allSelected = false;
 
   toggleSelectAll(): void {
     this.allSelected = !this.allSelected;
@@ -162,143 +110,209 @@ export class MisCreditProposalReportComponent {
     }
   }
 
-  _convertDate(date: string): string {
-    // Convert date to format YYYY-MM-DD HH:mm
-
-    return moment(date).format('YYYY-MM-DD HH:mm');
+  private _convertDate(date: string): string {
+    if (!date) {
+      return '';
+    }
+    return moment(date).format('YYYY-MM-DD');
   }
 
-  private _processNewGenerate(data, fileName) {
-    this.misReportService.loadingGenerateDocument.next(true);
-    this.misReportService.generateDocumentLabel.next('Generating...');
+  private _convertStatusToString(status: Array<string>): string {
+    // if length is 0, return empty string
+    if (status.length === 0) {
+      return '';
+    }
+
+    return status.join(',');
+  }
+
+  private _processGenerate(data, fileName) {
+    console.log('Data: ', data);
+
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
 
-    // Set up columns
+    this._setUpColumns(worksheet);
+
+    // if data is empty, generate an empty file
+    if (!data || data.length === 0) {
+      this._applyStyles(worksheet);
+      this._downloadFile(workbook, fileName);
+      return;
+    }
+
+    // Add data to worksheet
+    data.forEach((proposal, index) => {
+      this._addProposalData(worksheet, proposal, index);
+    });
+
+    this._applyStyles(worksheet);
+    this._downloadFile(workbook, fileName);
+  }
+
+  private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
     worksheet.columns = [
-      { header: 'Test', key: 'test', width: 30 },
+      { header: 'No.', key: 'no', width: 5 },
       { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
-      { header: 'Proposal Type', key: 'proposalType', width: 30 },
       { header: 'Proposal Date', key: 'proposalDate', width: 15 },
-      { header: 'Product Id', key: 'productId', width: 15 },
-      { header: 'Pengajuan', key: 'pengajuan', width: 15 },
-      { header: 'Collateral Id', key: 'collateralId', width: 20 },
-      { header: 'Collateral Number', key: 'collateralNumber', width: 20 },
-      { header: 'Certificates', key: 'certificates', width: 20 },
-      { header: 'Timeline', key: 'timeline', width: 45 },
+      { header: 'Segment', key: 'segment', width: 10 },
+      { header: 'Proposal Type', key: 'proposalType', width: 30 },
+      { header: 'Customer Status', key: 'customerStatus', width: 15 },
+      { header: 'Program', key: 'program', width: 25 },
+      { header: 'UMKM', key: 'umkm', width: 20 },
+      { header: 'Kategori Usaha Debitur', key: 'kategoriUsahaDebitur', width: 15 },
+      { header: 'Refferal', key: 'refferal', width: 20 },
+      { header: 'RM First Name', key: 'rmFirstName', width: 20 },
+      { header: 'RM Last Name', key: 'rmLastName', width: 20 },
+      { header: 'BM', key: 'bm', width: 30 },
+      { header: 'Head Name', key: 'headName', width: 30 },
+      { header: 'CIF', key: 'cif', width: 15 },
+      { header: 'Debtor Name', key: 'debtorName', width: 30 },
+      { header: 'ID Card Number', key: 'idCardNumber', width: 20 },
+      { header: 'Date Of Birth', key: 'dateOfBirth', width: 12 },
+      { header: 'Deed Of RCNT Number', key: 'deedOfRCNTNumber', width: 20 },
+      { header: 'Deed of RCNT Date', key: 'deedOfRCNTDate', width: 17 },
+      { header: 'Line of Business', key: 'lineOfBusiness', width: 45 },
+      { header: 'Total Exposure Group', key: 'totalExposureGroup', width: 20 },
+      { header: 'Sector Industry', key: 'sectorIndustry', width: 20 },
+      { header: 'Sales Verified', key: 'salesVerified', width: 20 },
+      { header: 'Collectability Status', key: 'collectabilityStatus', width: 17 },
+      { header: 'Deviation', key: 'deviation', width: 10 },
+      { header: 'Based on FS (in IDR MN)', key: 'basedOnFS', width: 22 },
+      { header: 'Based on Average Balance (in IDR Mn)', key: 'basedOnAverageBalance', width: 20 },
+      { header: 'Based on Credit Mutation (in IDR Mn)', key: 'basedOnCreditMutation', width: 20 },
+      { header: 'Credit Grading', key: 'creditGrading', width: 13 },
+      { header: 'Modal Usaha', key: 'modalUsaha', width: 20 },
+      { header: 'STO/Penjualan Tahunan', key: 'stoPenjualanTahunan', width: 21 },
+      { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
+      { header: 'Pengajuan', key: 'pengajuan', width: 20 },
+      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR', width: 22 },
+      { header: 'Total Plafond Debtor only (IDR)', key: 'totalPlafondDebtorIDR', width: 20 },
+      { header: 'Total Plafond Debtor only (USD)', key: 'totalPlafondDebtorUSD', width: 20 },
+      { header: 'Total Plafond Group (IDR)', key: 'totalPlafondGroupIDR', width: 22 },
+      { header: 'Sub Total Plafond Eq to IDR (Debtor)', key: 'subTotalPlafondEqToIDRDebtor', width: 20 },
+      { header: 'Grand Total Plafond Eq to IDR (Include Group)', key: 'grandTotalPlafondEqToIDR', width: 20 },
+      { header: 'Collateral Type', key: 'collateralType', width: 30 },
+      { header: 'Total MV Internal', key: 'totalMVInternal', width: 20 },
+      { header: 'Total LV Internal', key: 'totalLVInternal', width: 20 },
+      { header: 'Total MV KJPP', key: 'totalMVKJPP', width: 20 },
+      { header: 'Total LV KJPP', key: 'totalLVKJPP', width: 20 },
+      { header: 'Collateral Coverage MV Internal (%)', key: 'collateralCoverageMVInternal', width: 20 },
+      { header: 'Collateral Coverage LV Internal (%)', key: 'collateralCoverageLVInternal', width: 20 },
+      { header: 'Collateral Coverage MV KJPP (%)', key: 'collateralCoverageMVKJPP', width: 20 },
+      { header: 'Collateral Coverage LV KJPP (%)', key: 'collateralCoverageLVKJPP', width: 20 },
+      { header: 'Status', key: 'status', width: 25 },
     ];
+  }
 
-    // Add data
-    data.forEach(proposal => {
-      const proposalRowCount = Math.max(
-        proposal.product.length,
-        proposal.collateral.reduce((sum, col) => sum + (col.certificate ? col.certificate.length : 0), 0),
-        proposal.timeline.length
-      );
+  private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
+    worksheet.addRow({
+      no: index + 1 || '',
+      proposalNumber: proposal.proposalNumber || '',
+      proposalDate: proposal.proposalDate || '',
+      segment: proposal.segment || '',
+      proposalType: proposal.proposalType || '',
+      customerStatus: proposal.customerStatus || '',
+      program: proposal.program || '',
+      umkm: proposal.umkm || '',
+      kategoriUsahaDebitur: proposal.kategoriUsahaDebitur || '',
+      refferal: proposal.refferal || '',
+      rmFirstName: proposal.rmFirstName || '',
+      rmLastName: proposal.rmLastName || '',
+      bm: proposal.bm || '',
+      headName: proposal.headName || '',
+      cif: proposal.cif || '',
+      debtorName: proposal.debtorName || '',
+      idCardNumber: proposal.idCardNumber || '',
+      dateOfBirth: this._convertDate(proposal.dateOfBirth) || '',
+      deedOfRCNTNumber: proposal.deedOfRCNTNumber || '',
+      deedOfRCNTDate: this._convertDate(proposal.deedOfRCNTDate) || '',
+      lineOfBusiness: proposal.lineOfBusiness || '',
+      totalExposureGroup: proposal.totalExposureGroup || '',
+      sectorIndustry: proposal.sectorIndustry || '',
+      salesVerified: proposal.salesVerified || '',
+      collectabilityStatus: proposal.collectibilityStatus || '',
+      deviation: proposal.deviation || '',
+      basedOnFS: proposal.basedOnFS || '',
+      basedOnAverageBalance: proposal.basedOnAvgBalance || '',
+      basedOnCreditMutation: proposal.basedOnCreditMutation || '',
+      creditGrading: proposal.creditGrading || '',
+      modalUsaha: proposal.modalUsaha || '',
+      stoPenjualanTahunan: proposal.penjualanTahunan || '',
+      loanCommApproval: proposal.approvalLc || '',
+      pengajuan: proposal.product.map(product => product.pengajuan).join(',\n') || '',
+      totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
+      totalPlafondDebtorIDR: proposal.totalPlafondDebtorOnlyIDR || '',
+      totalPlafondDebtorUSD: proposal.totalPlafondDebtorOnlyUSD || '',
+      totalPlafondGroupIDR: proposal.totalPlafondGroupIDR || '',
+      subTotalPlafondEqToIDRDebtor: proposal.subTotalPlafondEqToIDR || '',
+      grandTotalPlafondEqToIDR: proposal.grandTotalPlafondEqToIDR || '',
+      collateralType: proposal.collateral.map(col => col.collateralType).join(',\n') || '',
+      totalMVInternal: proposal.totalMVInternal || '',
+      totalLVInternal: proposal.totalLVInternal || '',
+      totalMVKJPP: proposal.totalMVKJPP || '',
+      totalLVKJPP: proposal.totalLVKJPP || '',
+      collateralCoverageMVInternal: proposal.collateralCoverageMVInternal || '',
+      collateralCoverageLVInternal: proposal.collateralCoverageLVInternal || '',
+      collateralCoverageMVKJPP: proposal.collateralCoverageMVKJPP || '',
+      collateralCoverageLVKJPP: proposal.collateralCoverageLVKJPP || '',
+      status: proposal.status || '',
+    });
+  }
 
-      const startRow = worksheet.rowCount + 1;
+  private _applyStyles(worksheet: ExcelJS.Worksheet): void {
+    worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
+      if (rowNumber === 1) {
+        worksheet.getRow(rowNumber).fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'fffefd32' },
+        };
 
-      // Add proposal data
-      for (let i = 0; i < proposalRowCount; i++) {
-        const row = worksheet.addRow({
-          test: i === 0 ? proposal.test : '',
-          proposalNumber: i === 0 ? proposal.proposalNumber : '',
-          proposalType: i === 0 ? proposal.proposalType : '',
-          proposalDate: i === 0 ? new Date(proposal.proposalDate) : '',
-          productId: proposal.product[i]?.productId || '',
-          pengajuan: proposal.product[i]?.pengajuan || '',
-        });
-
-        // Format date cell
-        if (i === 0) {
-          row.getCell('proposalDate').numFmt = 'dd/mm/yyyy';
-        }
-
-        row.getCell('test').alignment = { wrapText: true };
+        worksheet.getRow(rowNumber).font = { bold: true };
+        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
       }
 
-      // Add collateral data
-      let collateralRowIndex = startRow;
-      proposal.collateral.forEach(collateral => {
-        collateral.certificate?.forEach((cert, certIndex) => {
-          const row = worksheet.getRow(collateralRowIndex);
-          row.getCell('collateralId').value = certIndex === 0 ? collateral.id : '';
-          row.getCell('collateralNumber').value = certIndex === 0 ? collateral.collateralCode : '';
-          row.getCell('certificates').value = cert.buktiKepemilikan;
-          collateralRowIndex++;
-        });
-      });
-
-      // sort timeline asc by id
-      proposal.timeline.sort((a, b) => a.id - b.id);
-
-      const timelineRowIndex = startRow;
-
-      const row = worksheet.getRow(timelineRowIndex);
-      row.getCell('timeline').value =
-        proposal.timeline
-          .map(timeline => `${timeline.statusDescription} : ${this._convertDate(timeline.fromDate)} : ${timeline.userName}`)
-          .join('\n') || '';
-
-      // Add timeline data
-      // let timelineRowIndex = startRow;
-      // proposal.timeline.forEach(timeline => {
-      //   const row = worksheet.getRow(timelineRowIndex);
-      //   row.getCell('timeline').value =
-      //     `${timeline.statusDescription} : ${this._convertDate(timeline.fromDate)} : ${timeline.userName}` || '';
-      //   timelineRowIndex++;
-      // });
-
-      // enable wrap text for timeline cell
-      worksheet.getColumn('timeline').alignment = { wrapText: true };
-
-      // set font size to 10px in column timeline
-      worksheet.getColumn('timeline').font = { size: 10 };
-
-      // Merge cells for proposal data
-      ['test', 'proposalNumber', 'proposalType', 'proposalDate', 'timeline'].forEach(key => {
-        const colIndex = worksheet.columns.findIndex(col => col.key === key) + 1;
-        return worksheet.mergeCells(startRow, colIndex, startRow + proposalRowCount - 1, colIndex);
-      });
-
-      // Merge cells for collateral numbers
-      let collateralStartRow = startRow;
-      proposal.collateral.forEach(collateral => {
-        const certCount = collateral.certificate ? collateral.certificate.length : 0;
-        if (certCount > 1) {
-          const collateralColumnIndex = worksheet.columns.findIndex(col => col.key === 'collateralId') + 1;
-          const collateralNumberIndex = worksheet.columns.findIndex(col => col.key === 'collateralNumber') + 1;
-          worksheet.mergeCells(collateralStartRow, collateralColumnIndex, collateralStartRow + certCount - 1, collateralColumnIndex);
-          worksheet.mergeCells(collateralStartRow, collateralNumberIndex, collateralStartRow + certCount - 1, collateralNumberIndex);
-        }
-        collateralStartRow += certCount;
+      row.eachCell({ includeEmpty: true }, cell => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
     });
 
-    // Apply styles
-    worksheet.getRow(1).font = { bold: true };
+    worksheet.getColumn('pengajuan').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('kategoriUsahaDebitur').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('basedOnAverageBalance').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('basedOnCreditMutation').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('lineOfBusiness').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('totalPlafondDebtorIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('totalPlafondDebtorUSD').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('subTotalPlafondEqToIDRDebtor').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('grandTotalPlafondEqToIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageMVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageLVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageMVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageLVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+  }
 
-    // Add background color to header row
-    worksheet.getRow(1).fill = {
-      type: 'pattern',
-      pattern: 'solid',
-      fgColor: { argb: 'FFD9D9D9' },
-    };
-
-    worksheet.eachRow({ includeEmpty: true }, row => {
-      row.eachCell(cell => {
-        cell.border = {};
-      });
-    });
-
-    // Generate and save file
+  private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
     workbook.xlsx.writeBuffer().then(buffer => {
       const blob = new Blob([buffer], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      saveAs(blob, fileName);
-      this.misReportService.loadingGenerateDocument.next(false);
-      this.misReportService.generateDocumentLabel.next('Generate Document');
+      const date = new Date();
+      const outputName = `${fileName}_${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
+
+      saveAs(blob, outputName);
+      this.misReportService.setLoading(false);
     });
   }
 }
