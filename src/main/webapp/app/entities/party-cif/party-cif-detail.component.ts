@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { SUBMENU_PARTY_CIF } from 'app/shared/constants/base.constants';
+import { PURPOSE_TYPE, SUBMENU_PARTY_CIF } from 'app/shared/constants/base.constants';
 import lodash, { update } from 'lodash';
 import { MessageService } from 'primeng/api';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
@@ -47,7 +47,7 @@ export class PartyCifDetailComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
   public value: string;
   public isOpen = false;
-
+  warehouseLocation: any;
   constructor(
     private dialog: MatDialog,
     protected messageService: MessageService,
@@ -169,21 +169,42 @@ export class PartyCifDetailComponent implements OnInit {
       if (!this.internalIdLocStor) {
         this.logout();
       } else {
-        this.partyCifService.update(this.preSave()).subscribe(res => {
-          if (this.collateralInfo.length > 0) {
-            for (let i = 0; i < this.collateralInfo.length; i++) {
-              this.collateralService.save(this.collateralInfo[i]);
-              if (this.collateralInfo.length === i) {
-                this.collateralInfo = [];
+        this.warehouseLocation = this.partyCif.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
+        if (!this.warehouseLocation.address.countryId) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please, Input Country Business Location first',
+          });
+        } else if (!this.warehouseLocation.address.provinceId && this.warehouseLocation.address.countryId === 199) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please, Input Province Business Location first',
+          });
+        } else if (!this.warehouseLocation.address.cityId && this.warehouseLocation.address.countryId === 199) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please, Input City Business Location first',
+          });
+        } else {
+          this.partyCifService.update(this.preSave()).subscribe(res => {
+            if (this.collateralInfo.length > 0) {
+              for (let i = 0; i < this.collateralInfo.length; i++) {
+                this.collateralService.save(this.collateralInfo[i]);
+                if (this.collateralInfo.length === i) {
+                  this.collateralInfo = [];
+                }
               }
             }
-          }
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Save Success',
+            });
           });
-        });
+        }
       }
     }
   }

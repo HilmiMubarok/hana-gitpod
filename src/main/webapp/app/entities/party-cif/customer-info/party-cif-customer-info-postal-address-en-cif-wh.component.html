@@ -31,9 +31,9 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Country</mat-label>
-          <input type="text" matInput [formControl]="myControlCountry" [matAutocomplete]="auto" [(ngModel)]="country" />
+          <input type="text" matInput [formControl]="myControlCountry" [matAutocomplete]="auto" [(ngModel)]="country" required />
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCounrtry" (optionSelected)="getValueCountryChange()">
-            <mat-option *ngFor="let option of filteredOptionsCountry | async" [value]="option">
+            <mat-option *ngFor="let option of filteredOptionsCountry | async" [value]="option" required>
               {{ option.description }}
             </mat-option>
           </mat-autocomplete>
@@ -54,9 +54,20 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Province</mat-label>
-          <input type="text" matInput [formControl]="myControlProvince" [matAutocomplete]="autoP" [(ngModel)]="province" />
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlProvince"
+            [matAutocomplete]="autoP"
+            [(ngModel)]="province"
+            [required]="warehouseLocation.address.countryId === 199"
+          />
           <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProvince" (optionSelected)="getValueProvinceChange()">
-            <mat-option *ngFor="let option of filteredOptionsProvince | async" [value]="option">
+            <mat-option
+              *ngFor="let option of filteredOptionsProvince | async"
+              [value]="option"
+              [required]="warehouseLocation.address.countryId === 199"
+            >
               {{ option.description }}
             </mat-option>
           </mat-autocomplete>
@@ -77,9 +88,20 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>City</mat-label>
-          <input type="text" matInput [formControl]="myControlCity" [matAutocomplete]="autoC" [(ngModel)]="cities" />
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlCity"
+            [matAutocomplete]="autoC"
+            [(ngModel)]="cities"
+            [required]="warehouseLocation.address.countryId === 199"
+          />
           <mat-autocomplete #autoC="matAutocomplete" [displayWith]="displayFnCity" (optionSelected)="getValueCityChange()">
-            <mat-option *ngFor="let option of filteredOptionsCity | async" [value]="option">
+            <mat-option
+              *ngFor="let option of filteredOptionsCity | async"
+              [value]="option"
+              [required]="warehouseLocation.address.countryId === 199"
+            >
               {{ option.description }}
             </mat-option>
           </mat-autocomplete>

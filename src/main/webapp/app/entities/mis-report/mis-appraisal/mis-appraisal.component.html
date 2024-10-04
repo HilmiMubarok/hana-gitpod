@@ -32,7 +32,7 @@
                 <li class="select-all" (click)="toggleSelectAllAppraisal()">
                   {{ allSelectedAppraisal ? 'Deselect All' : 'Select All' }}
                 </li>
-                <mat-option *ngFor="let item of lovStatusAppraisal" [value]="item.statusCode">{{ item.statusDescription }} </mat-option>
+                <mat-option *ngFor="let item of lovStatusAppraisal" [value]="item.statusId">{{ item.statusDescription }} </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
