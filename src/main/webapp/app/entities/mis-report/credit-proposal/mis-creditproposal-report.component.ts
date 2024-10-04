@@ -83,22 +83,13 @@ export class MisCreditProposalReportComponent {
     });
   }
 
-  convertStatusToString(status: Array<string>): string {
-    // if length is 0, return empty string
-    if (status.length === 0) {
-      return '';
-    }
-
-    return status.join(',');
-  }
-
   generateMISReportCP() {
     this.misReportService.setLoading(true);
 
     const params = {
       startDate: this.MISReportCP.get('date1')?.value,
       endDate: this.MISReportCP.get('date2')?.value,
-      status: this.convertStatusToString(this.MISReportCP.get('status')?.value),
+      status: this._convertStatusToString(this.MISReportCP.get('status')?.value),
     };
 
     this.misReportService.getMisReportCP(params).subscribe({
@@ -119,11 +110,20 @@ export class MisCreditProposalReportComponent {
     }
   }
 
-  _convertDate(date: string): string {
+  private _convertDate(date: string): string {
     if (!date) {
       return '';
     }
     return moment(date).format('YYYY-MM-DD');
+  }
+
+  private _convertStatusToString(status: Array<string>): string {
+    // if length is 0, return empty string
+    if (status.length === 0) {
+      return '';
+    }
+
+    return status.join(',');
   }
 
   private _processGenerate(data, fileName) {
@@ -261,18 +261,6 @@ export class MisCreditProposalReportComponent {
   }
 
   private _applyStyles(worksheet: ExcelJS.Worksheet): void {
-    worksheet.getColumn('pengajuan').alignment = { wrapText: true };
-    worksheet.getColumn('collateralType').alignment = { wrapText: true };
-    worksheet.getColumn('lineOfBusiness').alignment = { wrapText: true };
-    worksheet.getColumn('totalPlafondDebtorIDR').alignment = { wrapText: true };
-    worksheet.getColumn('totalPlafondDebtorUSD').alignment = { wrapText: true };
-    worksheet.getColumn('subTotalPlafondEqToIDRDebtor').alignment = { wrapText: true };
-    worksheet.getColumn('grandTotalPlafondEqToIDR').alignment = { wrapText: true };
-    worksheet.getColumn('collateralCoverageMVInternal').alignment = { wrapText: true };
-    worksheet.getColumn('collateralCoverageLVInternal').alignment = { wrapText: true };
-    worksheet.getColumn('collateralCoverageMVKJPP').alignment = { wrapText: true };
-    worksheet.getColumn('collateralCoverageLVKJPP').alignment = { wrapText: true };
-
     worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
       if (rowNumber === 1) {
         worksheet.getRow(rowNumber).fill = {
@@ -282,7 +270,8 @@ export class MisCreditProposalReportComponent {
         };
 
         worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { wrapText: true };
+        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
       }
 
       row.eachCell({ includeEmpty: true }, cell => {
@@ -292,8 +281,24 @@ export class MisCreditProposalReportComponent {
           bottom: { style: 'thin' },
           right: { style: 'thin' },
         };
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
     });
+
+    worksheet.getColumn('pengajuan').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('kategoriUsahaDebitur').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('basedOnAverageBalance').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('basedOnCreditMutation').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('lineOfBusiness').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('totalPlafondDebtorIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('totalPlafondDebtorUSD').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('subTotalPlafondEqToIDRDebtor').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('grandTotalPlafondEqToIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageMVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageLVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageMVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageLVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
   }
 
   private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
