@@ -139,7 +139,7 @@ export class MisAppraisalComponent {
     this.allSelectedAppraisal = !this.allSelectedAppraisal;
     if (this.allSelectedAppraisal) {
       this.MISReportAppraisal.get('statusAppraisal')?.setValue([
-        ...this.lovStatusAppraisal.map(statusAppraisal => statusAppraisal.statusCode),
+        ...this.lovStatusAppraisal.map(statusAppraisal => statusAppraisal.statusId),
       ]);
     } else {
       this.MISReportAppraisal.get('statusAppraisal')?.setValue('');
@@ -220,32 +220,32 @@ export class MisAppraisalComponent {
     // Add header Columns
     worksheet.columns = [
       { header: 'No.', key: 'no', width: 5 },
-      { header: 'Appraisal Number', key: 'appraisalNumber', width: 20 },
-      { header: 'Appraisal Date', key: 'appraisalDate', width: 20 },
-      { header: 'Branch', key: 'branch', width: 20 },
+      { header: 'Appraisal Number', key: 'appraisalNumber', width: 17 },
+      { header: 'Appraisal Date', key: 'appraisalDate', width: 14 },
+      { header: 'Branch', key: 'branch', width: 22 },
       { header: 'Marketing', key: 'marketing', width: 35 },
       { header: 'Customer Name', key: 'customerName', width: 35 },
       { header: 'ID', key: 'collateralId', width: 5 },
       { header: 'Collateral Type', key: 'collateralType', width: 25 },
-      { header: 'Collateral', key: 'collateral', width: 20 },
-      { header: 'Location', key: 'location', width: 20 },
-      { header: 'Kelurahan', key: 'kelurahan', width: 20 },
-      { header: 'Kecamatan', key: 'kecamatan', width: 20 },
-      { header: 'Kabupaten / Kota', key: 'city', width: 20 },
-      { header: 'Provinsi', key: 'provinceName', width: 20 },
-      { header: 'Appraisal Type', key: 'appraisalType', width: 20 },
+      { header: 'Collateral', key: 'collateral', width: 22 },
+      { header: 'Location', key: 'location', width: 50 },
+      { header: 'Kelurahan', key: 'kelurahan', width: 22 },
+      { header: 'Kecamatan', key: 'kecamatan', width: 22 },
+      { header: 'Kabupaten / Kota', key: 'city', width: 22 },
+      { header: 'Provinsi', key: 'provinceName', width: 22 },
+      { header: 'Appraisal Type', key: 'appraisalType', width: 14 },
       { header: 'Jenis Permohonan', key: 'jenisPermohonan', width: 20 },
       { header: 'Plafond', key: 'plafond', width: 20 },
-      { header: 'Tgl. Jatem Kredit', key: 'tglJatemKredit', width: 20 },
-      { header: 'Appraiser', key: 'appraiser', width: 30 },
+      { header: 'Tgl. Jatem Kredit', key: 'tglJatemKredit', width: 15 },
+      { header: 'Appraiser', key: 'appraiser', width: 35 },
       { header: 'Nilai MV', key: 'nilaiMV', width: 20 },
       { header: 'Nilai LV', key: 'nilaiLV', width: 20 },
-      { header: 'Nama KJPP', key: 'kjppName', width: 20 },
+      { header: 'Nama KJPP', key: 'kjppName', width: 35 },
       { header: 'Nilai KJPP MV', key: 'totalMVKJPP', width: 20 },
       { header: 'Nilai KJPP LV', key: 'totalLVKJPP', width: 20 },
-      { header: 'Reviewer', key: 'reviewer', width: 40 },
-      { header: 'Timeline', key: 'timeline', width: 40 },
-      { header: 'Status', key: 'status', width: 20 },
+      { header: 'Reviewer', key: 'reviewer', width: 35 },
+      { header: 'Timeline', key: 'timeline', width: 50 },
+      { header: 'Status', key: 'status', width: 25 },
     ];
 
     // Add data to the sheet
@@ -277,7 +277,10 @@ export class MisAppraisalComponent {
         nilaiKJPPMV: row.totalMVKJPP || '',
         nilaiKJPPLV: row.totalLVKJPP || '',
         reviewer: row.reviewerBy || '',
-        timeline: timeLineData.map(timeline => `${timeline.statusDescription} : ${timeline.thruDate}`).join('\n') || '',
+        timeline:
+          timeLineData
+            .map(timeline => `${timeline.fromStatusDescription || ''} : ${timeline.fromDate || ''} : ${timeline.personName || ''}`)
+            .join('\n') || '',
         status: row.status || '',
       });
     });
@@ -285,6 +288,7 @@ export class MisAppraisalComponent {
     // enable wrap text for timeline cell
     worksheet.getColumn('jenisPermohonan').alignment = { wrapText: true };
     worksheet.getColumn('timeline').alignment = { wrapText: true };
+    worksheet.getColumn('location').alignment = { wrapText: true };
 
     // Apply styles
     worksheet.getRow(1).font = { bold: true };
