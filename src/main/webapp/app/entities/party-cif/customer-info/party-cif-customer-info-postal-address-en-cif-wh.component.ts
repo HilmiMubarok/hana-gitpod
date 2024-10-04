@@ -90,7 +90,7 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
   public cities: IStateBoundary;
   public districts: IStateBoundary;
   public villages: IStateBoundary;
-
+  warehouseLocation: any;
   constructor(private stateBoundaryService: StateBoundaryService) {}
 
   ngOnInit(): void {
@@ -99,6 +99,7 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
     this.initializeDistrict();
     this.initializeVillage();
     this.cekDataSource();
+    this.warehouseLocation = this.partyCif.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
   }
 
   filteredCountry() {
