@@ -174,19 +174,19 @@ export class PartyCifDetailComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Silahkan masukkan Country lokasi usaha terlebih dahulu',
+            detail: 'Please, Input Country Business Location first',
           });
         } else if (!this.warehouseLocation.address.provinceId && this.warehouseLocation.address.countryId === 199) {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Silahkan masukkan Province lokasi usaha terlebih dahulu',
+            detail: 'Please, Input Province Business Location first',
           });
         } else if (!this.warehouseLocation.address.cityId && this.warehouseLocation.address.countryId === 199) {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Silahkan masukkan City lokasi usaha terlebih dahulu',
+            detail: 'Please, Input City Business Location first',
           });
         } else {
           this.partyCifService.update(this.preSave()).subscribe(res => {
