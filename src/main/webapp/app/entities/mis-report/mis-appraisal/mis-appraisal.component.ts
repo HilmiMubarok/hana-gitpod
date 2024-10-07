@@ -213,6 +213,17 @@ export class MisAppraisalComponent {
     });
   }
 
+  _processTimelinePersonName(personName: string) {
+    // convert string into array by spliting it by space
+    const personNameArray = personName.split(' ');
+
+    // Check if the array has null value, if true, remove the null
+    const filteredPersonNameArray = personNameArray.filter(name => name !== 'null');
+
+    // Join the array into string
+    return filteredPersonNameArray.join(' ');
+  }
+
   private _processGenerate(data, outputName: string): void {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
@@ -279,10 +290,24 @@ export class MisAppraisalComponent {
         reviewer: row.reviewerBy || '',
         timeline:
           timeLineData
-            .map(timeline => `${timeline.fromStatusDescription || ''} : ${timeline.fromDate || ''} : ${timeline.personName || ''}`)
+            .map(
+              timeline =>
+                `${timeline.fromStatusDescription || ''} : ${timeline.fromDate || ''} : ${
+                  this._processTimelinePersonName(timeline.personName) || ''
+                }`
+            )
             .join('\n') || '',
         status: row.status || '',
       });
+    });
+
+    worksheet.columns.forEach((column, index) => {
+      worksheet.getCell(1, index + 1).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'ffa0c4e4' },
+      };
+      worksheet.getColumn(column.key as string | number).alignment = { vertical: 'middle', horizontal: 'center' };
     });
 
     // enable wrap text for timeline cell
@@ -293,13 +318,6 @@ export class MisAppraisalComponent {
     // Apply styles
     worksheet.getRow(1).font = { bold: true };
     worksheet.getRow(1).height = 20;
-    worksheet.columns.forEach((column, index) => {
-      worksheet.getCell(1, index + 1).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'ffa0c4e4' },
-      };
-    });
 
     worksheet.eachRow({ includeEmpty: true }, row => {
       row.eachCell({ includeEmpty: true }, cell => {
