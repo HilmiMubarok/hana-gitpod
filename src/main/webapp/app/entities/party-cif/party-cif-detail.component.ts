@@ -169,25 +169,27 @@ export class PartyCifDetailComponent implements OnInit {
       if (!this.internalIdLocStor) {
         this.logout();
       } else {
-        this.warehouseLocation = this.partyCif.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
-        if (!this.warehouseLocation.address.countryId) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Please, Input Country Business Location first',
-          });
-        } else if (!this.warehouseLocation.address.provinceId && this.warehouseLocation.address.countryId === 199) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Please, Input Province Business Location first',
-          });
-        } else if (!this.warehouseLocation.address.cityId && this.warehouseLocation.address.countryId === 199) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Please, Input City Business Location first',
-          });
+        if (this.partyCif.customerType === 'CORPORATE') {
+          this.warehouseLocation = this.partyCif.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
+          if (!this.warehouseLocation.address.countryId) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Please, Input Country Business Location first',
+            });
+          } else if (!this.warehouseLocation.address.provinceId && this.warehouseLocation.address.countryId === 199) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Please, Input Province Business Location first',
+            });
+          } else if (!this.warehouseLocation.address.cityId && this.warehouseLocation.address.countryId === 199) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Please, Input City Business Location first',
+            });
+          }
         } else {
           this.partyCifService.update(this.preSave()).subscribe(res => {
             if (this.collateralInfo.length > 0) {
