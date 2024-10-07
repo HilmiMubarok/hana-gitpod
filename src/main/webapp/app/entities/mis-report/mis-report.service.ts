@@ -62,7 +62,7 @@ export class MisReportService {
       })
       .pipe(
         map(res => res.body),
-        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'SURVEYOR'))
+        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'SURVEYOR' && employee.statusId === 'ACTIVE'))
       );
   }
 
