@@ -261,14 +261,16 @@ export class MisCreditProposalReportComponent {
   }
 
   private _applyStyles(worksheet: ExcelJS.Worksheet): void {
+    worksheet.columns.forEach((column, index) => {
+      worksheet.getCell(1, index + 1).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'fffefd32' },
+      };
+    });
+
     worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
       if (rowNumber === 1) {
-        worksheet.getRow(rowNumber).fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'fffefd32' },
-        };
-
         worksheet.getRow(rowNumber).font = { bold: true };
         worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
         worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };

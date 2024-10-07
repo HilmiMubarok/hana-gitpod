@@ -267,7 +267,7 @@ export class MisAppraisalComponent {
         city: row.collateral[0].city || '',
         provinceName: row.collateral[0].provinceName || '',
         appraisalType: row.appraisalType || '',
-        jenisPermohonan: row.jenisPermohonan.map(jp => jp).join('\n') || '',
+        jenisPermohonan: row.jenisPermohonan ? row.jenisPermohonan.map(jp => jp).join('\n') || '' : '',
         plafond: row.plafond || '',
         tglJatemKredit: row.tglJatemKredit || '',
         appraiser: row.appraiser || '',
@@ -293,11 +293,13 @@ export class MisAppraisalComponent {
     // Apply styles
     worksheet.getRow(1).font = { bold: true };
     worksheet.getRow(1).height = 20;
-    worksheet.getRow(1).fill = {
-      type: 'pattern',
-      pattern: 'solid',
-      fgColor: { argb: 'ffa0c4e4' },
-    };
+    worksheet.columns.forEach((column, index) => {
+      worksheet.getCell(1, index + 1).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'ffa0c4e4' },
+      };
+    });
 
     worksheet.eachRow({ includeEmpty: true }, row => {
       row.eachCell({ includeEmpty: true }, cell => {
