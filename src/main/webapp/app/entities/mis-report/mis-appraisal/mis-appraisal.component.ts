@@ -311,7 +311,7 @@ export class MisAppraisalComponent {
     });
 
     // enable wrap text for timeline cell
-    worksheet.getColumn('jenisPermohonan').alignment = { wrapText: true };
+    worksheet.getColumn('jenisPermohonan').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
     worksheet.getColumn('timeline').alignment = { wrapText: true };
     worksheet.getColumn('location').alignment = { wrapText: true };
 
