@@ -44,6 +44,8 @@ export class MisCreditProposalTimelineComponent {
   listOfValue = [];
   misCpTimeline: FormGroup;
   allSelected = false;
+  searchFieldDisabled = false;
+  dateRangeAndStatusDisabled = false;
   changeOption(event) {
     console.log('test', event.value);
   }
@@ -52,6 +54,7 @@ export class MisCreditProposalTimelineComponent {
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
+      search: new FormControl(''),
     });
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
@@ -65,8 +68,56 @@ export class MisCreditProposalTimelineComponent {
         this.misCpTimeline.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
+    this.misCpTimeline.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.misCpTimeline.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.misCpTimeline.get('status')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.getStatus();
   }
+
+  checkFieldStatus() {
+    const date1 = this.misCpTimeline.get('date1')?.value;
+    const date2 = this.misCpTimeline.get('date2')?.value;
+    const status = this.misCpTimeline.get('status')?.value;
+
+    // Disable search if date1, date2, or status is filled
+    if (date1 || date2 || (status && status.length > 0)) {
+      this.misCpTimeline.get('search')?.disable();
+    } else {
+      this.misCpTimeline.get('search')?.enable();
+    }
+  }
+
+  onSearchFocus() {
+    this.misCpTimeline.get('date1')?.disable();
+    this.misCpTimeline.get('date2')?.disable();
+    this.misCpTimeline.get('status')?.disable();
+  }
+
+  onSearchBlur() {
+    const searchValue = this.misCpTimeline.get('search')?.value;
+    if (!searchValue) {
+      this.misCpTimeline.get('date1')?.enable();
+      this.misCpTimeline.get('date2')?.enable();
+      this.misCpTimeline.get('status')?.enable();
+    }
+  }
+
+  onDateRangeFocus() {
+    this.misCpTimeline.get('search')?.disable();
+  }
+
+  onDateRangeBlur() {
+    this.checkFieldStatus(); // This ensures search field behavior is updated accordingly
+  }
+
+  onStatusOpenedChange(opened: boolean) {
+    if (opened) {
+      this.misCpTimeline.get('search')?.disable();
+    } else {
+      this.checkFieldStatus();
+    }
+  }
+
   public previousState(): void {
     window.history.back();
   }
