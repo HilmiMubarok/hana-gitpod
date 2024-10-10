@@ -255,7 +255,7 @@ export class MisAppraisalComponent {
       { header: 'Nilai KJPP MV', key: 'totalMVKJPP', width: 20 },
       { header: 'Nilai KJPP LV', key: 'totalLVKJPP', width: 20 },
       { header: 'Reviewer', key: 'reviewer', width: 35 },
-      { header: 'Timeline', key: 'timeline', width: 50 },
+      { header: 'Timeline', key: 'timeline', width: 65 },
       { header: 'Status', key: 'status', width: 25 },
     ];
 
@@ -316,7 +316,7 @@ export class MisAppraisalComponent {
 
     // enable wrap text for timeline cell
     worksheet.getColumn('jenisPermohonan').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
-    worksheet.getColumn('timeline').alignment = { wrapText: true };
+    worksheet.getColumn('timeline').alignment = { wrapText: true, vertical: 'middle' };
     worksheet.getColumn('location').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
 
     // Apply styles

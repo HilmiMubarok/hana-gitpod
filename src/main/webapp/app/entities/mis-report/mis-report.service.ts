@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class MisReportService {
@@ -78,5 +79,13 @@ export class MisReportService {
         map(res => res.body),
         map(boundaries => boundaries.filter((boundary: any) => boundary.boundaryTypeId === '112'))
       );
+  }
+
+  public searchCP(req?: any): Observable<HttpResponse<any[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<any[]>(
+      this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api') + '/_search/cash-credit-proposals',
+      { params: options, observe: 'response' }
+    );
   }
 }
