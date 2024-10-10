@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
-import { FormControl, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import moment from 'moment';
+import { saveAs } from 'file-saver';
+import * as ExcelJS from 'exceljs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-mis-credit-proposal-timeline',
@@ -36,6 +39,37 @@ import * as moment from 'moment';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+
+      .skeleton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .mat-spinner {
+        margin: auto;
+      }
+
+      .mat-cell div {
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        height: 16px;
+        width: 80%;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+        50% {
+          background-color: rgba(0, 0, 0, 0.2);
+        }
+        100% {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
     `,
   ],
 })
@@ -54,7 +88,10 @@ export class MisCreditProposalTimelineComponent {
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
-      search: new FormControl(''),
+      search: new FormControl(
+        '',
+        Validators.pattern(/^\d{5}\/\d{2}\/CP\/(Comm|CB|EB|GLO|SME)\/(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)\/\d{4}$/)
+      ),
     });
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
@@ -138,6 +175,69 @@ export class MisCreditProposalTimelineComponent {
     }
   }
 
+  clearSearch(): void {
+    this.misCpTimeline.get('search')?.reset();
+    // reset the searchResult
+    this.searchResult = null;
+  }
+
+  skeletonData = [
+    {
+      proposalNumber: '',
+      cif: '',
+      debtorName: '',
+      customerType: '',
+      proposalDate: '',
+    },
+  ];
+
+  loadingSearch: Boolean = false;
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
+  public searchResult = null;
+  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate'];
+
+  public doSearch(): void {
+    this.loadingSearch = true;
+
+    // if search not valid, show error message
+    if (this.misCpTimeline.get('search')?.invalid) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Proposal Number Format' });
+      return;
+    }
+
+    const predicate: object = {
+      page: 0,
+      query: this.misCpTimeline.get('search')?.value,
+      size: 10,
+      idPosition: this.getLocStor('POS'),
+    };
+
+    predicate['target'] = 'credit_proposal_status'; // Belum dibuat di BE
+
+    this.misReportService.searchCP(predicate).subscribe({
+      next: res => {
+        this.searchResult = res.body;
+        this.loadingSearch = false;
+      },
+      error: (res: HttpErrorResponse) => console.error(res.message),
+    });
+  }
+
   convertStatusToString(status: Array<string>): string {
     // if length is 0, return empty string
     if (status.length === 0) {
@@ -147,61 +247,239 @@ export class MisCreditProposalTimelineComponent {
     return status.join(',');
   }
 
-  generateMISCPTimeline() {
-    const template_report_data_cp_timeline = [
-      { key: 'No.', valueFrom: '', format: 'string' },
-      { key: 'Proposal Number', valueFrom: 'proposalNumber', format: 'string' },
-      { key: 'Proposal Date', valueFrom: 'proposalDate', format: 'string' },
-      { key: 'Segment', valueFrom: 'segment', format: 'string' },
-      { key: 'Customer Status', valueFrom: 'customerStatus', format: 'string' },
-      { key: 'CIF', valueFrom: 'cif', format: 'string' },
-      { key: 'Debtor Name', valueFrom: 'debtorName', format: 'string' },
-      { key: 'Credit Proposal Submit', valueFrom: 'creditProposalSubmit', format: 'string' },
-      { key: 'Name', valueFrom: 'name1', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes1', format: 'string' },
-      { key: 'BM APPROVED', valueFrom: 'bmApproved', format: 'string' },
-      { key: 'Name', valueFrom: 'name2', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes2', format: 'string' },
-      { key: 'SME HEAD', valueFrom: 'smeHead', format: 'string' },
-      { key: 'Name', valueFrom: 'name3', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes3', format: 'string' },
-      { key: 'Dept Head', valueFrom: 'deptHead', format: 'string' },
-      { key: 'Name', valueFrom: 'name4', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes4', format: 'string' },
-      { key: 'Div Head', valueFrom: 'divHead', format: 'string' },
-      { key: 'Name', valueFrom: 'name5', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes5', format: 'string' },
-      { key: 'Credit Review In', valueFrom: 'creditReviewIn', format: 'string' },
-      { key: 'Name', valueFrom: 'name6', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes6', format: 'string' },
-      { key: 'Loan Com 1', valueFrom: 'loanCom1', format: 'string' },
-      { key: 'Name', valueFrom: 'name7', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes7', format: 'string' },
-      { key: 'Loan Com 2', valueFrom: 'loanCom2', format: 'string' },
-      { key: 'Name', valueFrom: 'name8', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes8', format: 'string' },
-      { key: 'Loan Com 3', valueFrom: 'loanCom3', format: 'string' },
-      { key: 'Name', valueFrom: 'name9', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes9', format: 'string' },
-      { key: 'Loan Com 4', valueFrom: 'loanCom4', format: 'string' },
-      { key: 'Name', valueFrom: 'name10', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes10', format: 'string' },
-      { key: 'Approved', valueFrom: 'approved', format: 'string' },
-      { key: 'Name', valueFrom: 'name11', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes11', format: 'string' },
-      { key: 'Cancel', valueFrom: 'cancel', format: 'string' },
-      { key: 'Name', valueFrom: 'name12', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes12', format: 'string' },
-      { key: 'Reject', valueFrom: 'reject', format: 'string' },
-      { key: 'Name', valueFrom: 'name13', format: 'string' },
-      { key: 'Notes', valueFrom: 'notes13', format: 'string' },
-      { key: 'TAT', valueFrom: 'tat', format: 'string' },
-    ];
+  dateRangeHasValue(): boolean {
+    return this.misCpTimeline.get('date1')?.value && this.misCpTimeline.get('date2')?.value;
+  }
 
-    const params = {
-      startDate: this.misCpTimeline.get('date1')?.value,
-      endDate: this.misCpTimeline.get('date2')?.value,
-      status: this.convertStatusToString(this.misCpTimeline.get('status')?.value),
-    };
+  clearDateRange(): void {
+    this.misCpTimeline.get('date1')?.reset();
+    this.misCpTimeline.get('date2')?.reset();
+  }
+
+  generateMISCPTimeline() {
+    // Check if search field is valid
+    if (this.misCpTimeline.get('search')?.value && this.misCpTimeline.get('search')?.invalid) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Proposal Number Format' });
+      return;
+    }
+
+    let params;
+    // if search has value, create params only search
+    if (this.misCpTimeline.get('search')?.value) {
+      params = {
+        proposalNumber: this.misCpTimeline.get('search')?.value,
+      };
+    } else {
+      params = {
+        startDate: this.misCpTimeline.get('date1')?.value,
+        endDate: this.misCpTimeline.get('date2')?.value,
+        status: this.convertStatusToString(this.misCpTimeline.get('status')?.value),
+      };
+    }
+
+    this.misReportService.getMisReportCP(params).subscribe({
+      next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Timeline'),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this.misReportService.setLoading(false);
+      },
+    });
+  }
+
+  private _processGenerate(data, fileName) {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sheet 1');
+
+    this._setUpColumns(worksheet);
+
+    // if data is empty, generate an empty file
+    if (!data || data.length === 0) {
+      this._applyStyles(worksheet);
+      this._downloadFile(workbook, fileName);
+      return;
+    }
+
+    // Add data to worksheet
+    data.forEach((proposal, index) => {
+      this._addTimelineData(worksheet, proposal, index);
+    });
+
+    this._applyStyles(worksheet);
+    this._downloadFile(workbook, fileName);
+  }
+
+  private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
+    worksheet.columns = [
+      { header: 'No.', key: 'no', width: 5 },
+      { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
+      { header: 'Proposal Date', key: 'proposalDate', width: 15 },
+      { header: 'Segment', key: 'segment', width: 10 },
+      { header: 'Proposal Type', key: 'proposalType', width: 30 },
+      { header: 'Customer Status', key: 'customerStatus', width: 15 },
+      { header: 'Program', key: 'program', width: 25 },
+      { header: 'UMKM', key: 'umkm', width: 20 },
+      { header: 'Kategori Usaha Debitur', key: 'kategoriUsahaDebitur', width: 15 },
+      { header: 'Refferal', key: 'refferal', width: 20 },
+      { header: 'RM First Name', key: 'rmFirstName', width: 20 },
+      { header: 'RM Last Name', key: 'rmLastName', width: 20 },
+      { header: 'BM', key: 'bm', width: 30 },
+      { header: 'Head Name', key: 'headName', width: 30 },
+      { header: 'CIF', key: 'cif', width: 15 },
+      { header: 'Debtor Name', key: 'debtorName', width: 30 },
+      { header: 'ID Card Number', key: 'idCardNumber', width: 20 },
+      { header: 'Date Of Birth', key: 'dateOfBirth', width: 12 },
+      { header: 'Deed Of RCNT Number', key: 'deedOfRCNTNumber', width: 20 },
+      { header: 'Deed of RCNT Date', key: 'deedOfRCNTDate', width: 17 },
+      { header: 'Line of Business', key: 'lineOfBusiness', width: 45 },
+      { header: 'Total Exposure Group', key: 'totalExposureGroup', width: 20 },
+      { header: 'Sector Industry', key: 'sectorIndustry', width: 20 },
+      { header: 'Sales Verified', key: 'salesVerified', width: 20 },
+      { header: 'Collectability Status', key: 'collectabilityStatus', width: 17 },
+      { header: 'Deviation', key: 'deviation', width: 10 },
+      { header: 'Based on FS (in IDR MN)', key: 'basedOnFS', width: 22 },
+      { header: 'Based on Average Balance (in IDR Mn)', key: 'basedOnAverageBalance', width: 20 },
+      { header: 'Based on Credit Mutation (in IDR Mn)', key: 'basedOnCreditMutation', width: 20 },
+      { header: 'Credit Grading', key: 'creditGrading', width: 13 },
+      { header: 'Modal Usaha', key: 'modalUsaha', width: 20 },
+      { header: 'STO/Penjualan Tahunan', key: 'stoPenjualanTahunan', width: 21 },
+      { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
+      { header: 'Pengajuan', key: 'pengajuan', width: 20 },
+      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR', width: 22 },
+      { header: 'Total Plafond Debtor only (IDR)', key: 'totalPlafondDebtorIDR', width: 20 },
+      { header: 'Total Plafond Debtor only (USD)', key: 'totalPlafondDebtorUSD', width: 20 },
+      { header: 'Total Plafond Group (IDR)', key: 'totalPlafondGroupIDR', width: 22 },
+      { header: 'Sub Total Plafond Eq to IDR (Debtor)', key: 'subTotalPlafondEqToIDRDebtor', width: 20 },
+      { header: 'Grand Total Plafond Eq to IDR (Include Group)', key: 'grandTotalPlafondEqToIDR', width: 20 },
+      { header: 'Collateral Type', key: 'collateralType', width: 30 },
+      { header: 'Total MV Internal', key: 'totalMVInternal', width: 20 },
+      { header: 'Total LV Internal', key: 'totalLVInternal', width: 20 },
+      { header: 'Total MV KJPP', key: 'totalMVKJPP', width: 20 },
+      { header: 'Total LV KJPP', key: 'totalLVKJPP', width: 20 },
+      { header: 'Collateral Coverage MV Internal (%)', key: 'collateralCoverageMVInternal', width: 20 },
+      { header: 'Collateral Coverage LV Internal (%)', key: 'collateralCoverageLVInternal', width: 20 },
+      { header: 'Collateral Coverage MV KJPP (%)', key: 'collateralCoverageMVKJPP', width: 20 },
+      { header: 'Collateral Coverage LV KJPP (%)', key: 'collateralCoverageLVKJPP', width: 20 },
+      { header: 'Status', key: 'status', width: 25 },
+    ];
+  }
+
+  private _convertDate(date: string): string {
+    if (!date) {
+      return '';
+    }
+    return moment(date).format('YYYY-MM-DD');
+  }
+
+  private _addTimelineData(worksheet: ExcelJS.Worksheet, proposal, index): void {
+    worksheet.addRow({
+      no: index + 1 || '',
+      proposalNumber: proposal.proposalNumber || '',
+      proposalDate: proposal.proposalDate || '',
+      segment: proposal.segment || '',
+      proposalType: proposal.proposalType || '',
+      customerStatus: proposal.customerStatus || '',
+      program: proposal.program || '',
+      umkm: proposal.umkm || '',
+      kategoriUsahaDebitur: proposal.kategoriUsahaDebitur || '',
+      refferal: proposal.refferal || '',
+      rmFirstName: proposal.rmFirstName || '',
+      rmLastName: proposal.rmLastName || '',
+      bm: proposal.bm || '',
+      headName: proposal.headName || '',
+      cif: proposal.cif || '',
+      debtorName: proposal.debtorName || '',
+      idCardNumber: proposal.idCardNumber || '',
+      dateOfBirth: this._convertDate(proposal.dateOfBirth) || '',
+      deedOfRCNTNumber: proposal.deedOfRCNTNumber || '',
+      deedOfRCNTDate: this._convertDate(proposal.deedOfRCNTDate) || '',
+      lineOfBusiness: proposal.lineOfBusiness || '',
+      totalExposureGroup: proposal.totalExposureGroup || '',
+      sectorIndustry: proposal.sectorIndustry || '',
+      salesVerified: proposal.salesVerified || '',
+      collectabilityStatus: proposal.collectibilityStatus || '',
+      deviation: proposal.deviation || '',
+      basedOnFS: proposal.basedOnFS || '',
+      basedOnAverageBalance: proposal.basedOnAvgBalance || '',
+      basedOnCreditMutation: proposal.basedOnCreditMutation || '',
+      creditGrading: proposal.creditGrading || '',
+      modalUsaha: proposal.modalUsaha || '',
+      stoPenjualanTahunan: proposal.penjualanTahunan || '',
+      loanCommApproval: proposal.approvalLc || '',
+      pengajuan: proposal.product.map(product => product.pengajuan).join(',\n') || '',
+      totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
+      totalPlafondDebtorIDR: proposal.totalPlafondDebtorOnlyIDR || '',
+      totalPlafondDebtorUSD: proposal.totalPlafondDebtorOnlyUSD || '',
+      totalPlafondGroupIDR: proposal.totalPlafondGroupIDR || '',
+      subTotalPlafondEqToIDRDebtor: proposal.subTotalPlafondEqToIDR || '',
+      grandTotalPlafondEqToIDR: proposal.grandTotalPlafondEqToIDR || '',
+      collateralType: proposal.collateral.map(col => col.collateralType).join(',\n') || '',
+      totalMVInternal: proposal.totalMVInternal || '',
+      totalLVInternal: proposal.totalLVInternal || '',
+      totalMVKJPP: proposal.totalMVKJPP || '',
+      totalLVKJPP: proposal.totalLVKJPP || '',
+      collateralCoverageMVInternal: proposal.collateralCoverageMVInternal || '',
+      collateralCoverageLVInternal: proposal.collateralCoverageLVInternal || '',
+      collateralCoverageMVKJPP: proposal.collateralCoverageMVKJPP || '',
+      collateralCoverageLVKJPP: proposal.collateralCoverageLVKJPP || '',
+      status: proposal.status || '',
+    });
+  }
+
+  private _applyStyles(worksheet: ExcelJS.Worksheet): void {
+    worksheet.columns.forEach((column, index) => {
+      worksheet.getCell(1, index + 1).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'fffefd32' },
+      };
+    });
+
+    worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
+      if (rowNumber === 1) {
+        worksheet.getRow(rowNumber).font = { bold: true };
+        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
+      }
+
+      row.eachCell({ includeEmpty: true }, cell => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+    });
+
+    worksheet.getColumn('pengajuan').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('kategoriUsahaDebitur').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('basedOnAverageBalance').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('basedOnCreditMutation').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('lineOfBusiness').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('totalPlafondDebtorIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('totalPlafondDebtorUSD').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('subTotalPlafondEqToIDRDebtor').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('grandTotalPlafondEqToIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageMVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageLVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageMVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('collateralCoverageLVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+  }
+
+  private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
+    workbook.xlsx.writeBuffer().then(buffer => {
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const date = new Date();
+      const outputName = `${fileName}_${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
+
+      saveAs(blob, outputName);
+      this.misReportService.setLoading(false);
+    });
   }
 }
