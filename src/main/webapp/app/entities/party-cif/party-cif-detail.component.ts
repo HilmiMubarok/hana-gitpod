@@ -190,6 +190,21 @@ export class PartyCifDetailComponent implements OnInit {
               detail: 'Please, Input City Business Location first',
             });
           }
+          this.partyCifService.update(this.preSave()).subscribe(res => {
+            if (this.collateralInfo.length > 0) {
+              for (let i = 0; i < this.collateralInfo.length; i++) {
+                this.collateralService.save(this.collateralInfo[i]);
+                if (this.collateralInfo.length === i) {
+                  this.collateralInfo = [];
+                }
+              }
+            }
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Save Success',
+            });
+          });
         } else {
           this.partyCifService.update(this.preSave()).subscribe(res => {
             if (this.collateralInfo.length > 0) {
