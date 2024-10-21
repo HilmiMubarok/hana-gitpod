@@ -36,7 +36,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class MasterDocumentTermDialogComponent implements OnInit {
   public participants: MatTableDataSource<SchedulerParticipant> = new MatTableDataSource([]);
   public schedulerParticipant: SchedulerParticipant;
-  public filterPositionLov = ['LEGAL_OFFICER', 'LEGALOFFICER_OUTREGION', 'LEGAL_HEAD', 'CREDIT_LEGAL_LEAD'];
+  public filterPositionLov = ['LEGAL_OFFICER', 'LEGALOFFICER_OUTREGION', 'LEGAL_HEAD', 'CREDIT_LEGAL_LEAD', 'LEGAL_TEAM_LEAD'];
   public positionLov: string[] = [];
   public nameLov: string[] = [];
   public employeeData: IPosition[];
