@@ -298,7 +298,6 @@ export class MisCreditProposalTimelineComponent {
       this._downloadFile(workbook, fileName);
       return;
     }
-
     // Add data to worksheet
     data.forEach((proposal, index) => {
       this._addTimelineData(worksheet, proposal, index);
@@ -314,51 +313,19 @@ export class MisCreditProposalTimelineComponent {
       { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
       { header: 'Proposal Date', key: 'proposalDate', width: 15 },
       { header: 'Segment', key: 'segment', width: 10 },
-      { header: 'Proposal Type', key: 'proposalType', width: 30 },
+      { header: 'Branchs', key: 'branchs', width: 30 },
       { header: 'Customer Status', key: 'customerStatus', width: 15 },
-      { header: 'Program', key: 'program', width: 25 },
-      { header: 'UMKM', key: 'umkm', width: 20 },
-      { header: 'Kategori Usaha Debitur', key: 'kategoriUsahaDebitur', width: 15 },
-      { header: 'Refferal', key: 'refferal', width: 20 },
-      { header: 'RM First Name', key: 'rmFirstName', width: 20 },
-      { header: 'RM Last Name', key: 'rmLastName', width: 20 },
-      { header: 'BM', key: 'bm', width: 30 },
-      { header: 'Head Name', key: 'headName', width: 30 },
+      { header: 'BM', key: 'bm', width: 25 },
+      { header: 'RM', key: 'rm', width: 40 },
+      { header: 'SME Head Name', key: 'headName', width: 15 },
       { header: 'CIF', key: 'cif', width: 15 },
       { header: 'Debtor Name', key: 'debtorName', width: 30 },
-      { header: 'ID Card Number', key: 'idCardNumber', width: 20 },
-      { header: 'Date Of Birth', key: 'dateOfBirth', width: 12 },
-      { header: 'Deed Of RCNT Number', key: 'deedOfRCNTNumber', width: 20 },
-      { header: 'Deed of RCNT Date', key: 'deedOfRCNTDate', width: 17 },
-      { header: 'Line of Business', key: 'lineOfBusiness', width: 45 },
-      { header: 'Total Exposure Group', key: 'totalExposureGroup', width: 20 },
-      { header: 'Sector Industry', key: 'sectorIndustry', width: 20 },
-      { header: 'Sales Verified', key: 'salesVerified', width: 20 },
-      { header: 'Collectability Status', key: 'collectabilityStatus', width: 17 },
-      { header: 'Deviation', key: 'deviation', width: 10 },
-      { header: 'Based on FS (in IDR MN)', key: 'basedOnFS', width: 22 },
-      { header: 'Based on Average Balance (in IDR Mn)', key: 'basedOnAverageBalance', width: 20 },
-      { header: 'Based on Credit Mutation (in IDR Mn)', key: 'basedOnCreditMutation', width: 20 },
-      { header: 'Credit Grading', key: 'creditGrading', width: 13 },
-      { header: 'Modal Usaha', key: 'modalUsaha', width: 20 },
-      { header: 'STO/Penjualan Tahunan', key: 'stoPenjualanTahunan', width: 21 },
       { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
-      { header: 'Pengajuan', key: 'pengajuan', width: 20 },
-      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR', width: 22 },
-      { header: 'Total Plafond Debtor only (IDR)', key: 'totalPlafondDebtorIDR', width: 20 },
-      { header: 'Total Plafond Debtor only (USD)', key: 'totalPlafondDebtorUSD', width: 20 },
-      { header: 'Total Plafond Group (IDR)', key: 'totalPlafondGroupIDR', width: 22 },
-      { header: 'Sub Total Plafond Eq to IDR (Debtor)', key: 'subTotalPlafondEqToIDRDebtor', width: 20 },
-      { header: 'Grand Total Plafond Eq to IDR (Include Group)', key: 'grandTotalPlafondEqToIDR', width: 20 },
-      { header: 'Collateral Type', key: 'collateralType', width: 30 },
-      { header: 'Total MV Internal', key: 'totalMVInternal', width: 20 },
-      { header: 'Total LV Internal', key: 'totalLVInternal', width: 20 },
-      { header: 'Total MV KJPP', key: 'totalMVKJPP', width: 20 },
-      { header: 'Total LV KJPP', key: 'totalLVKJPP', width: 20 },
-      { header: 'Collateral Coverage MV Internal (%)', key: 'collateralCoverageMVInternal', width: 20 },
-      { header: 'Collateral Coverage LV Internal (%)', key: 'collateralCoverageLVInternal', width: 20 },
-      { header: 'Collateral Coverage MV KJPP (%)', key: 'collateralCoverageMVKJPP', width: 20 },
-      { header: 'Collateral Coverage LV KJPP (%)', key: 'collateralCoverageLVKJPP', width: 20 },
+      { header: 'Proposal Type', key: 'proposalType', width: 30 },
+      { header: ' Timeline Status', key: 'timelineStatus', width: 20 },
+      { header: 'Tanggal', key: 'date', width: 20 },
+      { header: 'PIC', key: 'pic', width: 30 },
+      { header: 'NOTE', key: 'note', width: 25 },
       { header: 'Status', key: 'status', width: 25 },
     ];
   }
@@ -376,51 +343,18 @@ export class MisCreditProposalTimelineComponent {
       proposalNumber: proposal.proposalNumber || '',
       proposalDate: proposal.proposalDate || '',
       segment: proposal.segment || '',
-      proposalType: proposal.proposalType || '',
-      customerStatus: proposal.customerStatus || '',
-      program: proposal.program || '',
-      umkm: proposal.umkm || '',
-      kategoriUsahaDebitur: proposal.kategoriUsahaDebitur || '',
-      refferal: proposal.refferal || '',
-      rmFirstName: proposal.rmFirstName || '',
-      rmLastName: proposal.rmLastName || '',
+      branchs: proposal.branchs || '',
       bm: proposal.bm || '',
+      rm: `${proposal.rmFirstName || ''} ${proposal.rmLastName || ''}`.trim(),
       headName: proposal.headName || '',
       cif: proposal.cif || '',
       debtorName: proposal.debtorName || '',
-      idCardNumber: proposal.idCardNumber || '',
-      dateOfBirth: this._convertDate(proposal.dateOfBirth) || '',
-      deedOfRCNTNumber: proposal.deedOfRCNTNumber || '',
-      deedOfRCNTDate: this._convertDate(proposal.deedOfRCNTDate) || '',
-      lineOfBusiness: proposal.lineOfBusiness || '',
-      totalExposureGroup: proposal.totalExposureGroup || '',
-      sectorIndustry: proposal.sectorIndustry || '',
-      salesVerified: proposal.salesVerified || '',
-      collectabilityStatus: proposal.collectibilityStatus || '',
-      deviation: proposal.deviation || '',
-      basedOnFS: proposal.basedOnFS || '',
-      basedOnAverageBalance: proposal.basedOnAvgBalance || '',
-      basedOnCreditMutation: proposal.basedOnCreditMutation || '',
-      creditGrading: proposal.creditGrading || '',
-      modalUsaha: proposal.modalUsaha || '',
-      stoPenjualanTahunan: proposal.penjualanTahunan || '',
       loanCommApproval: proposal.approvalLc || '',
-      pengajuan: proposal.product.map(product => product.pengajuan).join(',\n') || '',
-      totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
-      totalPlafondDebtorIDR: proposal.totalPlafondDebtorOnlyIDR || '',
-      totalPlafondDebtorUSD: proposal.totalPlafondDebtorOnlyUSD || '',
-      totalPlafondGroupIDR: proposal.totalPlafondGroupIDR || '',
-      subTotalPlafondEqToIDRDebtor: proposal.subTotalPlafondEqToIDR || '',
-      grandTotalPlafondEqToIDR: proposal.grandTotalPlafondEqToIDR || '',
-      collateralType: proposal.collateral.map(col => col.collateralType).join(',\n') || '',
-      totalMVInternal: proposal.totalMVInternal || '',
-      totalLVInternal: proposal.totalLVInternal || '',
-      totalMVKJPP: proposal.totalMVKJPP || '',
-      totalLVKJPP: proposal.totalLVKJPP || '',
-      collateralCoverageMVInternal: proposal.collateralCoverageMVInternal || '',
-      collateralCoverageLVInternal: proposal.collateralCoverageLVInternal || '',
-      collateralCoverageMVKJPP: proposal.collateralCoverageMVKJPP || '',
-      collateralCoverageLVKJPP: proposal.collateralCoverageLVKJPP || '',
+      proposalType: proposal.proposalType || '',
+      timelineStatus: proposal.timeLineCreditProposal.length > 0 ? proposal.timeLineCreditProposal[0].statusDescription : '',
+      date: proposal.timeLineCreditProposal.length > 0 ? proposal.timeLineCreditProposal[0].fromDate : '',
+      pic: proposal.timeLineCreditProposal.length > 0 ? proposal.timeLineCreditProposal[0].personName : '',
+      note: proposal.timeLineCreditProposal.length > 0 ? proposal.timeLineCreditProposal[0].note : '',
       status: proposal.status || '',
     });
   }
@@ -430,7 +364,7 @@ export class MisCreditProposalTimelineComponent {
       worksheet.getCell(1, index + 1).fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'fffefd32' },
+        fgColor: { argb: 'FFFFA500' },
       };
     });
 
@@ -438,7 +372,6 @@ export class MisCreditProposalTimelineComponent {
       if (rowNumber === 1) {
         worksheet.getRow(rowNumber).font = { bold: true };
         worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-        worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
       }
 
       row.eachCell({ includeEmpty: true }, cell => {
@@ -451,21 +384,6 @@ export class MisCreditProposalTimelineComponent {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
     });
-
-    worksheet.getColumn('pengajuan').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('kategoriUsahaDebitur').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('basedOnAverageBalance').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('basedOnCreditMutation').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('lineOfBusiness').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('totalPlafondDebtorIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('totalPlafondDebtorUSD').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('subTotalPlafondEqToIDRDebtor').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('grandTotalPlafondEqToIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('collateralCoverageMVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('collateralCoverageLVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('collateralCoverageMVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('collateralCoverageLVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
   }
 
   private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
