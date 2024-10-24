@@ -472,7 +472,7 @@ export class MisCreditProposalReportComponent {
       grandTotalPlafondEqToIDR: proposal.grandTotalPlafondEqToIDR || '',
       id: this._getCollateralIdAndCode(proposal).id,
       collateralIncCrosOtherCIF: this._getCollateralIdAndCode(proposal).collateralCode,
-      city: proposal.city || '', // wait backend
+      city: proposal.city || '',
       totalMVInternal: proposal.totalMVInternal || '',
       totalLVInternal: proposal.totalLVInternal || '',
       totalMVKJPP: proposal.totalMVKJPP || '',
