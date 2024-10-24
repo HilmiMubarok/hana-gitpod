@@ -262,7 +262,6 @@ export class MisReportCreditProposalDeviationComponent {
         worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
         worksheet.getColumn('covenantStatus').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
         worksheet.getColumn('covenantDeviations').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-        // worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
       }
 
       row.eachCell({ includeEmpty: true }, cell => {
