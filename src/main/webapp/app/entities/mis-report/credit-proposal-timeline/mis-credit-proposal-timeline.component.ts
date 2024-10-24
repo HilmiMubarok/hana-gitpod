@@ -337,26 +337,49 @@ export class MisCreditProposalTimelineComponent {
     return moment(date).format('YYYY-MM-DD');
   }
 
-  private _addTimelineData(worksheet: ExcelJS.Worksheet, proposal, index): void {
-    worksheet.addRow({
-      no: index + 1 || '',
-      proposalNumber: proposal.proposalNumber || '',
-      proposalDate: proposal.proposalDate || '',
-      segment: proposal.segment || '',
-      branchs: proposal.branchs || '',
-      bm: proposal.bm || '',
-      rm: `${proposal.rmFirstName || ''} ${proposal.rmLastName || ''}`.trim(),
-      headName: proposal.headName || '',
-      cif: proposal.cif || '',
-      debtorName: proposal.debtorName || '',
-      loanCommApproval: proposal.approvalLc || '',
-      proposalType: proposal.proposalType || '',
-      timelineStatus: proposal.timeLineCreditProposal.length > 0 ? proposal.timeLineCreditProposal[0].statusDescription : '',
-      date: proposal.timeLineCreditProposal.length > 0 ? proposal.timeLineCreditProposal[0].fromDate : '',
-      pic: proposal.timeLineCreditProposal.length > 0 ? proposal.timeLineCreditProposal[0].personName : '',
-      note: proposal.timeLineCreditProposal.length > 0 ? proposal.timeLineCreditProposal[0].note : '',
-      status: proposal.status || '',
+  private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal, index): void {
+    const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
+
+    timeLineCreditProposal.timeLineCreditProposal.forEach((timeline, timelineIndex) => {
+      worksheet.addRow({
+        no: timelineIndex === 0 ? index + 1 : '',
+        proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
+        proposalDate: timelineIndex === 0 ? timeLineCreditProposal.proposalDate || '' : '',
+        segment: timelineIndex === 0 ? timeLineCreditProposal.segment || '' : '',
+        branchs: timelineIndex === 0 ? timeLineCreditProposal.branchs || '' : '',
+        bm: timelineIndex === 0 ? timeLineCreditProposal.bm || '' : '',
+        rm: timelineIndex === 0 ? `${timeLineCreditProposal.rmFirstName || ''} ${timeLineCreditProposal.rmLastName || ''}`.trim() : '',
+        headName: timelineIndex === 0 ? timeLineCreditProposal.headName || '' : '',
+        cif: timelineIndex === 0 ? timeLineCreditProposal.cif || '' : '',
+        debtorName: timelineIndex === 0 ? timeLineCreditProposal.debtorName || '' : '',
+        loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc || '' : '',
+        proposalType: timelineIndex === 0 ? timeLineCreditProposal.proposalType || '' : '',
+        timelineStatus: timeline.statusDescription || '',
+        date: timeline.fromDate || '',
+        pic: timeline.personName || '',
+        note: timeline.note || '',
+        status: timelineIndex === 0 ? timeLineCreditProposal.status || '' : '',
+      });
     });
+
+    if (timeLineCreditProposal.timeLineCreditProposal.length > 0) {
+      const endRow = startRow + timeLineCreditProposal.timeLineCreditProposal.length - 1;
+
+      worksheet.mergeCells(`A${startRow}:A${endRow}`);
+      worksheet.mergeCells(`B${startRow}:B${endRow}`);
+      worksheet.mergeCells(`C${startRow}:C${endRow}`);
+      worksheet.mergeCells(`D${startRow}:D${endRow}`);
+      worksheet.mergeCells(`E${startRow}:E${endRow}`);
+      worksheet.mergeCells(`F${startRow}:F${endRow}`);
+      worksheet.mergeCells(`G${startRow}:G${endRow}`);
+      worksheet.mergeCells(`H${startRow}:H${endRow}`);
+      worksheet.mergeCells(`I${startRow}:I${endRow}`);
+      worksheet.mergeCells(`J${startRow}:J${endRow}`);
+      worksheet.mergeCells(`K${startRow}:K${endRow}`);
+      worksheet.mergeCells(`L${startRow}:L${endRow}`);
+      worksheet.mergeCells(`M${startRow}:M${endRow}`);
+      worksheet.mergeCells(`R${startRow}:R${endRow}`);
+    }
   }
 
   private _applyStyles(worksheet: ExcelJS.Worksheet): void {
@@ -371,7 +394,7 @@ export class MisCreditProposalTimelineComponent {
     worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
       if (rowNumber === 1) {
         worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center' };
       }
 
       row.eachCell({ includeEmpty: true }, cell => {
@@ -381,9 +404,14 @@ export class MisCreditProposalTimelineComponent {
           bottom: { style: 'thin' },
           right: { style: 'thin' },
         };
-        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        cell.alignment = { vertical: 'top', horizontal: 'center' };
       });
     });
+
+    worksheet.getColumn('timelineStatus').alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
+    worksheet.getColumn('note').alignment = { wrapText: true, vertical: 'top', horizontal: 'left' };
+    worksheet.getColumn('date').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
+    worksheet.getColumn('pic').alignment = { wrapText: true, vertical: 'top', horizontal: 'center' };
   }
 
   private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
