@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
-import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
+import { AbstractExcelMISReport } from '../abstract-excel-report';
 @Component({
   selector: 'jhi-mis-creditproposal-report',
   templateUrl: './mis-creditproposal-report.component.html',
@@ -40,22 +40,21 @@ import * as ExcelJS from 'exceljs';
     `,
   ],
 })
-export class MisCreditProposalReportComponent {
+export class MisCreditProposalReportComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
-  data = '';
-  date1: any;
-  date2: any;
-  listOfValue = [];
-  allSelected = false;
-  MISReportCP: FormGroup;
+  public date1: any;
+  public date2: any;
+  public allSelected = false;
+  public MISReportCP: FormGroup;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    super();
     this.MISReportCP = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
     });
-    // Listen to changes on the date fields
+
     this.MISReportCP.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
@@ -69,270 +68,10 @@ export class MisCreditProposalReportComponent {
         this.MISReportCP.get('date2')?.setValue(formattedDate, { emitEvent: false });
       }
     });
-
-    this._getStatusLOV();
   }
 
-  public generateMISReportCP() {
-    this.misReportService.setLoading(true);
-
-    const params = {
-      startDate: this.MISReportCP.get('date1')?.value,
-      endDate: this.MISReportCP.get('date2')?.value,
-      status: this._convertStatusToString(this.MISReportCP.get('status')?.value),
-    };
-
-    this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal'),
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
-        this.misReportService.setLoading(false);
-      },
-    });
-  }
-
-  public toggleSelectAll(): void {
-    this.allSelected = !this.allSelected;
-    if (this.allSelected) {
-      this.MISReportCP.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
-    } else {
-      this.MISReportCP.get('status')?.setValue('');
-    }
-  }
-
-  private _getStatusLOV() {
-    this.misReportService.getStatuses('MIS_CREDIT_PROPOSALBSU').subscribe({
-      next: res => (this.lovStatus = res),
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
-      },
-    });
-  }
-
-  private _convertStatusToString(status: Array<string>): string {
-    // if length is 0, return empty string
-    if (status.length === 0) {
-      return '';
-    }
-
-    return status.join(',');
-  }
-
-  private _getFacilityProposedDataSource(proposal) {
-    // if proposal.previousHistory null
-    if (proposal.previousHistory === null) {
-      return '';
-    }
-
-    const products = proposal.previousHistory[0].product;
-
-    // if products null
-    if (products === null) {
-      return '';
-    }
-
-    return products
-      .map(product => {
-        product.pengajuan;
-      })
-      .join(',\n');
-  }
-
-  private _gettotalPlafondProposed(proposal, currency: 'IDR' | 'USD') {
-    // if proposal.previousHistory null
-    if (proposal.previousHistory === null) {
-      return '';
-    }
-
-    const facility = proposal.previousHistory[0].facility;
-
-    // if products null
-    if (facility === null) {
-      return '';
-    }
-
-    return currency === 'IDR' ? facility.totalPlafondIDR : facility.totalPlafondUSD;
-  }
-
-  private _getTotalPlafond(proposal, currency: 'IDR' | 'USD', facilityType: 'Cash' | 'Installment') {
-    // check if proposal.product is null
-    if (proposal.product === null) {
-      return '';
-    }
-
-    const products = proposal.product;
-    const installmentFacilities = ['WCL', 'IL'];
-
-    return products
-      .filter(product => product.currency === currency) // Filter by currency
-      .filter(product => {
-        if (facilityType === 'Cash') {
-          // For 'Cash', facility should NOT be 'WCL' or 'IL'
-          return !installmentFacilities.includes(product.facility);
-        } else if (facilityType === 'Installment') {
-          // For 'Installment', facility should ONLY be 'WCL' or 'IL'
-          return installmentFacilities.includes(product.facility);
-        }
-        return false; // In case an unsupported facilityType is passed
-      })
-      .reduce((sum, product) => sum + parseFloat(product.totalPlafond), 0)
-      .toString();
-  }
-
-  private _getRate(proposal, type: 'Proposed' | 'DAR Final') {
-    const products = type === 'Proposed' ? proposal.previousHistory?.product || null : proposal.product || null;
-
-    if (!products) {
-      return '';
-    }
-
-    return products.map(product => product.rateProposed).join(',\n');
-  }
-
-  private _getdebiturGroup(proposal) {
-    // check if proposal.businessGroup is null
-    if (proposal.businessGroup === null) {
-      return '';
-    }
-
-    const customersGroup = proposal.businessGroup.customersGrup;
-
-    // if customersGroup null
-    if (customersGroup === null) {
-      return '';
-    }
-
-    return customersGroup.map(customerGroup => customerGroup.customerName).join(',\n');
-  }
-
-  private _getDeviation(proposal): 'Yes' | 'No' | '' {
-    // check if proposal.covenant is null
-    if (proposal.covenant === null) {
-      return '';
-    }
-
-    let covenant;
-
-    if (proposal.proposalType === 'Total Exposure <= IDR 15 Bio') {
-      covenant = proposal.covenant.below;
-
-      // if covenant null
-      if (covenant === null) {
-        return '';
-      }
-
-      // find in covenant if there any covenant.status NOT EQUAL 'Applied', return 'No', else return 'Yes'
-      return covenant.find(c => c.status !== 'Applied') ? 'No' : 'Yes';
-    }
-
-    if (proposal.proposalType === 'Total Exposure > IDR 15 Bio') {
-      covenant = proposal.covenant.above;
-
-      // if covenant null
-      if (covenant === null) {
-        return '';
-      }
-
-      // find in covenant if there any covenant.status NOT EQUAL 'Applied', return 'No', else return 'Yes'
-      return covenant.find(c => c.status !== 'Applied') ? 'No' : 'Yes';
-    }
-
-    covenant = proposal.covenant.general.concat(proposal.covenant.deposit);
-
-    // if covenant null
-    if (covenant === null) {
-      return '';
-    }
-
-    // find in covenant if there any covenant.status NOT EQUAL 'Applied', return 'No', else return 'Yes'
-    return covenant.find(c => c.status !== 'Applied') ? 'No' : 'Yes';
-  }
-
-  private _getCollateralIdAndCode(proposal) {
-    // check if proposal.collateral is null
-    if (proposal.collateral === null) {
-      return {
-        id: '',
-        collateralCode: '',
-      };
-    }
-
-    const collaterals = proposal.collateral;
-
-    // if collaterals null
-    if (collaterals === null) {
-      return {
-        id: '',
-        collateralCode: '',
-      };
-    }
-
-    return {
-      id: collaterals.map(collateral => collateral.id).join(',\n'),
-      collateralCode: collaterals.map(collateral => collateral.collateralCode).join(',\n'),
-    };
-  }
-
-  private _clearEmptyEntries(input) {
-    return input
-      .split(',')
-      .map(item => item.trim()) // Remove any surrounding spaces
-      .filter(item => item !== '') // Filter out empty entries
-      .join(',\n'); // Join them back with commas
-  }
-
-  private _getStatus(
-    proposal,
-    key: 'fromStatusDescription' | 'statusDescription',
-    position: 'first' | 'last',
-    statusPredicates: string[]
-  ): string | '' {
-    // check if proposal.timeLineCreditProposal is null
-    if (proposal.timeLineCreditProposal === null) {
-      return '';
-    }
-
-    const timelines: any[] = proposal.timeLineCreditProposal;
-
-    if (position === 'first') {
-      // sort statuses by id ascending
-      timelines.sort((a, b) => a.id - b.id);
-    } else {
-      // sort statuses by id descending
-      timelines.sort((a, b) => b.id - a.id);
-    }
-
-    const status = timelines.find(t => statusPredicates.includes(t[key]));
-
-    return status ? status.fromDate : '';
-  }
-
-  private _processGenerate(data, fileName) {
-    console.log('Data: ', data);
-
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Sheet 1');
-
-    this._setUpColumns(worksheet);
-
-    // if data is empty, generate an empty file
-    if (!data || data.length === 0) {
-      this._applyStyles(worksheet);
-      this._downloadFile(workbook, fileName);
-      return;
-    }
-
-    // Add data to worksheet
-    data.forEach((proposal, index) => {
-      this._addProposalData(worksheet, proposal, index);
-    });
-
-    this._applyStyles(worksheet);
-    this._downloadFile(workbook, fileName);
-  }
-
-  private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
-    worksheet.columns = [
+  get columns() {
+    return [
       { header: 'No.', key: 'no', width: 5 },
       { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
       { header: 'Proposal Date', key: 'proposalDate', width: 15 },
@@ -416,6 +155,72 @@ export class MisCreditProposalReportComponent {
     ];
   }
 
+  ngOnInit(): void {
+    this._getStatusLOV();
+  }
+
+  public generateMISReportCP() {
+    this.misReportService.setLoading(true);
+
+    const params = {
+      startDate: this.MISReportCP.get('date1')?.value,
+      endDate: this.MISReportCP.get('date2')?.value,
+      status: this._convertStatusToString(this.MISReportCP.get('status')?.value),
+    };
+
+    this.misReportService.getMisReportCP(params).subscribe({
+      next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal'),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this.misReportService.setLoading(false);
+      },
+      complete: () => this.misReportService.setLoading(false),
+    });
+  }
+
+  public toggleSelectAll(): void {
+    this.allSelected = !this.allSelected;
+    if (this.allSelected) {
+      this.MISReportCP.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
+    } else {
+      this.MISReportCP.get('status')?.setValue('');
+    }
+  }
+
+  private _getStatusLOV() {
+    this.misReportService.getStatuses('MIS_CREDIT_PROPOSALBSU').subscribe({
+      next: res => (this.lovStatus = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
+      },
+    });
+  }
+
+  private _processGenerate(data, fileName) {
+    console.log('Data: ', data);
+
+    this.setUpColumns(this.columns);
+
+    // if data is empty, generate an empty file
+    if (!data || data.length === 0) {
+      this.applyStyles();
+      this.downloadFile(fileName);
+      return;
+    }
+
+    // Add data to worksheet
+    this.processData(data);
+
+    this._applyStyles();
+    this.downloadFile(fileName);
+  }
+
+  protected processData(data: any[]): void {
+    data.forEach((proposal, index) => {
+      this._addProposalData(this.worksheet, proposal, index);
+    });
+  }
+
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     worksheet.addRow({
       no: index + 1 || '',
@@ -482,7 +287,7 @@ export class MisCreditProposalReportComponent {
       collateralCoverageMVKJPP: proposal.collateralCoverageMVKJPP || '',
       collateralCoverageLVKJPP: proposal.collateralCoverageLVKJPP || '',
       groupName: proposal.businessGroup ? proposal.businessGroup.groupCompanyName || '' : '',
-      debiturGroup: this._getdebiturGroup(proposal),
+      debiturGroup: this._getDebiturGroup(proposal),
       draft: this._getStatus(proposal, 'statusDescription', 'first', ['Draft']),
       appraisalDateDraft: '',
       approvalTeamLeader: '',
@@ -501,31 +306,8 @@ export class MisCreditProposalReportComponent {
     });
   }
 
-  private _applyStyles(worksheet: ExcelJS.Worksheet): void {
-    worksheet.columns.forEach((column, index) => {
-      worksheet.getCell(1, index + 1).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'fffefd32' },
-      };
-    });
-
-    worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-      if (rowNumber === 1) {
-        worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-      }
-
-      row.eachCell({ includeEmpty: true }, cell => {
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-        cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      });
-    });
+  private _applyStyles(): void {
+    super.applyStyles();
 
     const columnsToBeWraped = [
       'pengajuan',
@@ -561,26 +343,11 @@ export class MisCreditProposalReportComponent {
     ];
 
     columnsToBeWraped.forEach(column => {
-      worksheet.getColumn(column).alignment = {
+      this.worksheet.getColumn(column).alignment = {
         vertical: 'middle',
         horizontal: 'center',
         wrapText: true,
       };
-    });
-  }
-
-  private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
-    workbook.xlsx.writeBuffer().then(buffer => {
-      const blob = new Blob([buffer], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      });
-      const date = new Date();
-      const outputName = `${fileName}_${date.getFullYear()}-${
-        date.getMonth() + 1
-      }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
-
-      saveAs(blob, outputName);
-      this.misReportService.setLoading(false);
     });
   }
 }
