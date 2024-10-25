@@ -639,7 +639,7 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./tbo-legal-monitoring/tbo-review/tbo-review.module').then(m => m.TboReviewModule),
       },
       {
-        path: 'mis-creditproposal-report',
+        path: 'mis-creditproposalbsu-report',
         loadChildren: () =>
           import('./mis-report/credit-proposal/mis-report-credit-proposal.module').then(m => m.MisCreditProposalReportModule),
       },
