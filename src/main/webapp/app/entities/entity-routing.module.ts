@@ -658,10 +658,10 @@ import { RouterModule } from '@angular/router';
           ),
       },
       {
-        path: 'mis-cpcollateral-report',
+        path: 'mis-cpdeviation-report',
         loadChildren: () =>
-          import('./mis-report/credit-proposal-collateral/mis-report-credit-proposal-collateral.module').then(
-            m => m.MisReportCreditProposalCollateralModule
+          import('./mis-report/credit-proposal-deviation/mis-report-credit-proposal-deviation.module').then(
+            m => m.MisReportCreditProposalDeviationModule
           ),
       },
       {

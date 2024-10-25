@@ -1,10 +1,10 @@
-<form [formGroup]="MisReportCPCollateral">
+<form [formGroup]="MisReportCPDeviation" (ngSubmit)="generateMISCreditDeviation()">
   <mat-card>
     <div class="e-card-header-caption">
       <ejs-breadcrumb cssClass="margin: 1rem;">
         <e-breadcrumb-items>
           <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-          <e-breadcrumb-item text="MIS Credit Proposal Collateral" url=""> </e-breadcrumb-item>
+          <e-breadcrumb-item text="MIS Credit Proposal Deviation" url=""> </e-breadcrumb-item>
         </e-breadcrumb-items>
       </ejs-breadcrumb>
     </div>
@@ -38,8 +38,16 @@
       </div>
     </mat-card-content>
   </mat-card>
-
   <div class="mt-3 text-center">
-    <button mat-raised-button id="generate-btn" class="confirm-button-no" type="submit">Generate</button>
+    <button
+      mat-raised-button
+      id="generate-btn"
+      class="confirm-button-no"
+      type="submit"
+      [disabled]="misReportService.loadingGenerateDocument$ | async"
+      [class.loading]="misReportService.loadingGenerateDocument$ | async"
+    >
+      {{ misReportService.generateDocumentLabel$ | async }}
+    </button>
   </div>
 </form>
