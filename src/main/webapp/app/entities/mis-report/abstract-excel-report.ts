@@ -1,27 +1,32 @@
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+import { MisReportService } from './mis-report.service';
 
 export abstract class AbstractExcelMISReport {
   protected workbook: ExcelJS.Workbook;
   protected worksheet: ExcelJS.Worksheet;
 
-  constructor(sheetName = 'Sheet 1') {
+  constructor(protected service: MisReportService, sheetName = 'Sheet 1') {
     this.workbook = new ExcelJS.Workbook();
     this.worksheet = this.workbook.addWorksheet(sheetName);
   }
 
   protected abstract processData(data: any[]): void;
 
+  protected getStatusLOV(appMenuId: string) {
+    return this.service.getStatuses(appMenuId);
+  }
+
   protected setUpColumns(columns): void {
     this.worksheet.columns = columns;
   }
 
-  protected applyStyles(): void {
+  protected applyStyles(headerBackgroundColor = 'fffefd32'): void {
     this.worksheet.columns.forEach((column, index) => {
       this.worksheet.getCell(1, index + 1).fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'fffefd32' },
+        fgColor: { argb: headerBackgroundColor },
       };
     });
 

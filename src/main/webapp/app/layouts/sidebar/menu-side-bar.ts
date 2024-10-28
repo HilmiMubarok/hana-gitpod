@@ -540,6 +540,11 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'mis-cptimeline-report',
       },
+      {
+        name: 'SLA Reviewer',
+        iconname: 'minus',
+        route: 'mis-cpslareviewer-report',
+      },
     ],
   },
 ];

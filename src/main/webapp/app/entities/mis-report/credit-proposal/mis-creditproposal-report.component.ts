@@ -48,7 +48,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
   public MISReportCP: FormGroup;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
-    super();
+    super(misReportService);
     this.MISReportCP = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
