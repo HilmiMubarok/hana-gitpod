@@ -88,7 +88,7 @@ export class DashboardReusableCalendarComponent {
   }
 
   public sendOutWeekly(): void {
-    const _thruDate = new Date();
+    const _thruDate = new Date(this.progressWeekly[0]);
     _thruDate.setDate(this.progressWeekly[0].getDate() + 6);
     this.progressWeekly = [this.progressWeekly[0], _thruDate];
 
