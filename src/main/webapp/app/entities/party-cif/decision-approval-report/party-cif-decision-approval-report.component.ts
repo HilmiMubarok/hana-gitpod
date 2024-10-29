@@ -53,6 +53,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   public displayedColumns: string[] = [
     'no',
     'proposalNumber',
+    'appealNumber',
     'applicationTypeDescription-proposalType',
     'customerName',
     'customerType',
