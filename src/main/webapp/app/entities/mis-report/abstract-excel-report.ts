@@ -101,12 +101,12 @@ export abstract class AbstractExcelMISReport {
 
     const facility = proposal.previousHistory[0].facility;
 
-    // if products null
+    // if facility null
     if (facility === null) {
       return '';
     }
 
-    return currency === 'IDR' ? facility.totalPlafondIDR : facility.totalPlafondUSD;
+    return currency === 'IDR' ? facility.totalPlafondIDR : facility.totalPlafondUSD || '';
   }
 
   protected _getTotalPlafond(proposal, currency: 'IDR' | 'USD', facilityType: 'Cash' | 'Installment') {
@@ -237,5 +237,193 @@ export abstract class AbstractExcelMISReport {
 
     // Return the fromDate if status is found, otherwise return an empty string
     return status?.fromDate || '';
+  }
+
+  // ============= HELPER METHODS FOR SLA Reviewer ============= //
+  protected _getDateOfAssignment(proposal: any, type: 'single' | 'all'): string {
+    const { timeLineCreditProposal: timelines } = proposal;
+
+    // Return '' if there is no timeline data
+    if (!timelines) {
+      return '';
+    }
+
+    // Find the timeline entry that has statusDescription 'Assignment', if type is 'single', return the first object found.
+    // Otherwise, return all objects found.
+    if (type === 'single') {
+      const assignment = timelines.find(t => t.statusDescription === 'Assignment');
+      return assignment?.fromDate || '';
+    }
+
+    return timelines
+      .filter(t => t.statusDescription === 'Assignment')
+      .map(t => t.fromDate)
+      .join(',\n');
+  }
+
+  protected _getPengajuan(proposal) {
+    const products = proposal.product;
+
+    // if products null
+    if (products === null) {
+      return '';
+    }
+
+    return products.map(product => product.pengajuan).join(',\n');
+  }
+
+  protected _getTotalChangesAmountInMio(proposal, currency: 'IDR' | 'USD'): string {
+    const history = proposal.previousHistory;
+
+    // Return '' if history is null
+    if (!history) {
+      return '';
+    }
+
+    const facility = history[0].facility;
+
+    // Return '' if facility is null
+    if (!facility) {
+      return '';
+    }
+
+    // Return the total changes amount based on the currency
+    return currency === 'IDR' ? facility.totalChangesIDR.toString() : facility.totalChangesUSD.toString() || '';
+  }
+
+  protected _gettotalChangesEqToIDR(proposal, type: 'History' | 'Current'): string {
+    if (type === 'History') {
+      const history = proposal.previousHistory;
+
+      // Return '' if history is null
+      if (!history) {
+        return '';
+      }
+
+      const facility = history[0].facility;
+
+      // Return '' if facility is null
+      if (!facility) {
+        return '';
+      }
+
+      return facility.totalChangesEqToIDR.toString();
+    } else if (type === 'Current') {
+      const facility = proposal.facility;
+
+      // Return '' if facility is null
+      if (!facility) {
+        return '';
+      }
+
+      return facility.totalChangesEqToIDR.toString();
+    }
+
+    return '';
+  }
+
+  protected _getSubTotalPlafondEqToIDR(proposal, type: 'History' | 'Current'): string {
+    // if proposal.previousHistory null
+    if (proposal.previousHistory === null) {
+      return '';
+    }
+
+    const facility = proposal.previousHistory[0].facility;
+
+    // if facility null
+    if (facility === null) {
+      return '';
+    }
+
+    return facility.totalPlafond.toString() || '';
+  }
+
+  protected _getMaturityDate(proposal: any): string {
+    const products = proposal.product;
+
+    // if products null
+    if (products === null) {
+      return '';
+    }
+
+    return products.map(product => product.maturityDate).join(',\n');
+  }
+
+  protected _getFromDateBasedOnField(
+    proposal: any,
+    field: 'statusDescription' | 'fromStatusDescription',
+    status: string[],
+    outputType: 'Default' | 'Count' = 'Default'
+  ): string {
+    const timelines = proposal.timeLineCreditProposal;
+
+    // Return '' if there is no timeline data
+    if (!timelines || !Array.isArray(timelines)) {
+      return '';
+    }
+
+    // Filter timelines based on the specified field and statuses in the array
+    const filteredTimelines = timelines.filter(t => status.includes(t[field]));
+
+    if (outputType === 'Default') {
+      // Map the filtered timelines to their fromDate and join them with a newline separator
+      return filteredTimelines.map(t => t.fromDate).join(',\n');
+    }
+
+    // Return the count of the filtered timelines' fromDate
+    return filteredTimelines.length.toString();
+  }
+
+  protected _getGenerateDAR(proposal: any): string {
+    const documentGenerate = proposal.documentGenerate;
+
+    // Return '' if documentGenerate is null
+
+    if (!documentGenerate) {
+      return '';
+    }
+
+    return documentGenerate.generateDate || '';
+  }
+
+  protected _getDaysToMaturityDate(proposal: any): string {
+    const tanggalCRA = this._getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Approve To Loan Analysis']).split(',').pop();
+    const jatuhTempo = this._getMaturityDate(proposal).split(',');
+
+    // subtract tanggalCRA - each jatuhTempo. output will be how many days between tanggalCRA and jatuhTempo in array
+    if (!tanggalCRA || !jatuhTempo) {
+      return '';
+    }
+
+    const craDate = new Date(tanggalCRA);
+    const maturityDates = jatuhTempo.map(date => new Date(date));
+
+    const diffDays = maturityDates.map(date => {
+      const diffTime = Math.abs(craDate.getTime() - date.getTime());
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    });
+
+    // find the most approaching a positive value from diffDays
+    const minDiff = diffDays.filter(diff => diff >= 0);
+
+    return minDiff.length > 0 ? minDiff.reduce((a, b) => Math.min(a, b)).toString() : '';
+  }
+
+  protected _getSlaLength(proposal: any): string {
+    const generateDarDate = this._getGenerateDAR(proposal);
+    const craDate = this._getFromDateBasedOnField(proposal, 'statusDescription', ['Assignment']).split(',').pop();
+
+    // return generateDarDate - craDate. output will be how many days between generateDarDate and craDate
+    if (!generateDarDate || !craDate) {
+      return '';
+    }
+
+    const generateDate = new Date(generateDarDate);
+    const assignmentDate = new Date(craDate);
+
+    const diffTime = Math.abs(generateDate.getTime() - assignmentDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays.toString();
   }
 }

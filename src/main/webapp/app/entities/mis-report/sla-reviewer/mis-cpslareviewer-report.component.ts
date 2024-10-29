@@ -75,31 +75,31 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   get columns(): any[] {
     return [
       { header: 'No.', key: 'no', width: 5 },
-      { header: 'Date of Assignment', key: 'no', width: 5 },
+      { header: 'Date of Assignment', key: 'dateOfAssignmentSingle', width: 15 },
+      { header: 'Debtor Name', key: 'debtorName', width: 15 },
       { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
       { header: 'Proposal Type', key: 'proposalType', width: 15 },
-      { header: 'Regional', key: 'regionalParentRM', width: 10 },
+      { header: 'Regional', key: 'regional', width: 10 },
       { header: 'Head Name', key: 'headName', width: 10 },
       { header: 'Branch', key: 'branchDebitur ', width: 15 },
       { header: 'Pengajuan', key: 'pengajuan', width: 15 },
-      { header: 'Total Changes Amount (in IDR Mio)', key: 'totalChangesIDR', width: 15 },
-      { header: 'Total Changes Amount (in USD Thousand)', key: 'totalChangesUSD', width: 15 },
-      { header: 'Sub Total Plafond (in IDR Mio)', key: 'subTotalPlafondIDR', width: 10 },
-      { header: 'Sub Total Plafond (in USD Thousand)', key: 'subTotalPlafondUSD', width: 10 },
-      { header: 'Total Changes eq to IDR', key: 'totalChangesIDR', width: 10 },
-      { header: 'Sub Total Plafond Eq to IDR', key: 'subTotalPlafondIDR', width: 10 },
+      { header: 'Total Changes Amount (in IDR Mio)', key: 'totalChangesAmountInIDRMio', width: 15 },
+      { header: 'Total Changes Amount (in USD Thousand)', key: 'totalChangesAmountInUSDThousand', width: 15 },
+      { header: 'Sub Total Plafond (in IDR Mio)', key: 'subTotalPlafondIDRHistory', width: 10 },
+      { header: 'Sub Total Plafond (in USD Thousand)', key: 'subTotalPlafondUSDHistory', width: 10 },
+      { header: 'Total Changes eq to IDR', key: 'totalChangesEqToIDRHistory', width: 10 },
+      { header: 'Sub Total Plafond Eq to IDR', key: 'subTotalPlafondEqToIDRHistory', width: 10 },
       { header: 'Total Changes Amount (in IDR Mio)', key: 'totalChangesAmountIDR', width: 10 },
       { header: 'Total Changes Amount (in USD Thousand)', key: 'totalChangesAmountUSD', width: 10 },
       { header: 'Sub Total Plafond (in IDR Mio)', key: 'subTotalPlafondIDRMIO', width: 10 },
       { header: 'Sub Total Plafond (in USD Thousand)', key: 'subTotalPlafondUSDTHOUSAND', width: 10 },
       { header: 'Total Changes eq to IDR', key: 'totalChangesEqToIDR', width: 10 },
       { header: 'Sub Total Plafond Eq to IDR', key: 'subTotalPlafondEqToIDR', width: 10 },
-      { header: 'Recommendation', key: 'recommendation', width: 10 },
-      { header: 'Loan Comm Approval (Summary)', key: 'loanCommApproval', width: 10 },
+      { header: 'Loan Comm Approval (Summary)', key: 'loanCommApprovalSummary', width: 10 },
       { header: 'Maturity Date', key: 'maturityDate', width: 10 },
       { header: 'Date of Approve to LA', key: 'dateOfApproveToLA', width: 10 },
       { header: 'Days to Maturity Date', key: 'daysToMaturityDate', width: 10 },
-      { header: 'Date of Assignment', key: 'dateOfAssignment', width: 10 },
+      { header: 'Date of Assignment', key: 'dateOfAssignmentAll', width: 10 },
       { header: 'Proposal return to the branch', key: 'proposalReturnToBranch', width: 10 },
       { header: 'Proposal back to CRO', key: 'proposalBackToCRO', width: 10 },
       { header: 'Proposal check by Checker', key: 'proposalCheckByChecker', width: 10 },
@@ -155,7 +155,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
 
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
-      this.applyStyles('#ffffe49c');
+      this.applyStyles('ffffe49c');
       this.downloadFile(fileName);
       return;
     }
@@ -176,13 +176,47 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     worksheet.addRow({
       no: index + 1 || '',
+      dateOfAssignmentSingle: this._getDateOfAssignment(proposal, 'single'),
+      debtorName: proposal.debtorName || '',
+      proposalNumber: proposal.proposalNumber || '',
+      proposalType: proposal.proposalType || '',
+      regional: proposal.regionalParentRM || '',
+      headName: proposal.headName || '',
+      branchDebitur: proposal.bookingBranchName || '',
+      pengajuan: this._getPengajuan(proposal) || '',
+      totalChangesAmountInIDRMio: this._getTotalChangesAmountInMio(proposal, 'IDR'),
+      totalChangesAmountInUSDThousand: this._getTotalChangesAmountInMio(proposal, 'USD'),
+      subTotalPlafondIDRHistory: this._gettotalPlafondProposed(proposal, 'IDR'),
+      subTotalPlafondUSDHistory: this._gettotalPlafondProposed(proposal, 'USD'),
+      totalChangesEqToIDRHistory: this._gettotalChangesEqToIDR(proposal, 'History'),
+      subTotalPlafondEqToIDRHistory: this._getSubTotalPlafondEqToIDR(proposal, 'History') || '',
+      totalChangesAmountIDR: proposal.totalChangesIDR || '',
+      totalChangesAmountUSD: proposal.totalChangesUSD || '',
+      subTotalPlafondIDRMIO: proposal.totalPlafondDebtorOnlyIDR || '',
+      subTotalPlafondUSDTHOUSAND: proposal.totalPlafondDebtorOnlyUSD || '',
+      totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
+      subTotalPlafondEqToIDR: proposal.subTotalPlafondEqToIDR || '',
+      loanCommApprovalSummary: proposal.approvalStatus || '',
+      maturityDate: this._getMaturityDate(proposal) || '',
+      dateOfApproveToLA: this._getFromDateBasedOnField(proposal, 'statusDescription', ['Approve To Loan Analysis']) || '',
+      daysToMaturityDate: this._getDaysToMaturityDate(proposal) || '',
+      dateOfAssignmentAll: this._getFromDateBasedOnField(proposal, 'statusDescription', ['Assignment']) || '',
+      proposalReturnToBranch:
+        this._getFromDateBasedOnField(proposal, 'statusDescription', ['Return to Credit Proposal (CR)'], 'Count') || '',
+      proposalBackToCRO:
+        this._getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Return to Credit Proposal (CR)'], 'Count') || '',
+      proposalCheckByChecker: this._getFromDateBasedOnField(proposal, 'statusDescription', ['Checker']) || '',
+      loanApprovalLoanCommDate:
+        this._getFromDateBasedOnField(proposal, 'statusDescription', ['Loan Committee Approval', 'Loan Approval']) || '',
+      generateDAR: this._getGenerateDAR(proposal),
+      finalizedDAR: this._getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker']) || '',
+      slaLength: this._getSlaLength(proposal),
     });
   }
 
   private _applyStyles(): void {
-    super.applyStyles('#ffffe49c');
-    const columnsToBeWraped = ['no'];
-
+    super.applyStyles('ffffe49c');
+    const columnsToBeWraped = ['pengajuan', 'maturityDate', 'proposalCheckByChecker', 'loanApprovalLoanCommDate'];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {
         vertical: 'middle',
