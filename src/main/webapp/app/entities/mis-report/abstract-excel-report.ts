@@ -406,7 +406,7 @@ export abstract class AbstractExcelMISReport {
     // find the most approaching a positive value from diffDays
     const minDiff = diffDays.filter(diff => diff >= 0);
 
-    return minDiff.length > 0 ? minDiff.reduce((a, b) => Math.min(a, b)).toString() : '';
+    return minDiff.length > 0 ? minDiff.reduce((a, b) => Math.max(a, b)).toString() : '';
   }
 
   protected _getSlaLength(proposal: any): string {
