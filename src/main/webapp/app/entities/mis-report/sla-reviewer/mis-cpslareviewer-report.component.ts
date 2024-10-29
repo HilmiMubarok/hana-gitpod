@@ -216,7 +216,15 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
 
   private _applyStyles(): void {
     super.applyStyles('ffffe49c');
-    const columnsToBeWraped = ['pengajuan', 'maturityDate', 'proposalCheckByChecker', 'loanApprovalLoanCommDate'];
+    const columnsToBeWraped = [
+      'pengajuan',
+      'maturityDate',
+      'proposalCheckByChecker',
+      'loanApprovalLoanCommDate',
+      'dateOfApproveToLA',
+      'dateOfAssignmentAll',
+      'finalizedDAR',
+    ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {
         vertical: 'middle',
