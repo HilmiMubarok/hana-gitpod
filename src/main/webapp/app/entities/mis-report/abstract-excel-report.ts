@@ -421,8 +421,10 @@ export abstract class AbstractExcelMISReport {
     const generateDate = new Date(generateDarDate);
     const assignmentDate = new Date(craDate);
 
-    const diffTime = Math.abs(generateDate.getTime() - assignmentDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // Calculate the difference in time
+    const diffTime = generateDate.getTime() - assignmentDate.getTime();
+    // Calculate the difference in days
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
     return diffDays.toString();
   }
