@@ -1283,17 +1283,40 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public save(): Promise<void> {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     return new Promise((resolve, reject) => {
-      this.creditProposalService.update(this.preSave('not-complate')).subscribe(
+      this.creditProposalService.update(this.preSave('not-complete')).subscribe(
         res => {
-          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-          resolve(); // Panggil resolve() saat proses selesai
+          // Check if collateralProductRelations is empty
+          if (!this.creditProposal.collateralProductRelations || this.creditProposal.collateralProductRelations.length === 0) {
+            // Assign res.body.collateralProductRelations if empty
+            this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+          } else {
+            // If not empty, check for matching IDs
+            let hasMatchingIds = false;
+            for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+              for (let j = 0; j < res.body.collateralProductRelations.length; j++) {
+                if (this.creditProposal.collateralProductRelations[i].id === res.body.collateralProductRelations[j].id) {
+                  hasMatchingIds = true;
+                  break;
+                }
+              }
+            }
+            // If IDs match, revert to copyCreditProposal.collateralProductRelations
+            if (hasMatchingIds) {
+              this.creditProposal.collateralProductRelations = copyCreditProposal.collateralProductRelations;
+            } else {
+              // Otherwise, update with res.body.collateralProductRelations
+              this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+            }
+          }
+          resolve(); // Call resolve() when complete
         },
         error => {
-          reject(error); // Panggil reject() jika terjadi kesalahan
+          reject(error); // Call reject() if an error occurs
         }
       );
     });
   }
+
   private preSave(status: string): ICreditProposal {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
