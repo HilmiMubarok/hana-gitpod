@@ -340,7 +340,10 @@ export class MisCreditProposalTimelineComponent {
   private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal, index): void {
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
 
-    timeLineCreditProposal.timeLineCreditProposal.forEach((timeline, timelineIndex) => {
+    // Balikkan urutan timeLineCreditProposal sebelum iterasi
+    const reversedTimeline = [...timeLineCreditProposal.timeLineCreditProposal].reverse();
+
+    reversedTimeline.forEach((timeline, timelineIndex) => {
       worksheet.addRow({
         no: timelineIndex === 0 ? index + 1 : '',
         proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
@@ -353,7 +356,7 @@ export class MisCreditProposalTimelineComponent {
         headName: timelineIndex === 0 ? timeLineCreditProposal.headName || '' : '',
         cif: timelineIndex === 0 ? timeLineCreditProposal.cif || '' : '',
         debtorName: timelineIndex === 0 ? timeLineCreditProposal.debtorName || '' : '',
-        loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc || '' : '',
+        loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc?.split(' ')[0] || '' : '',
         proposalType: timelineIndex === 0 ? timeLineCreditProposal.proposalType || '' : '',
         timelineStatus: timeline.statusDescription || '',
         date: timeline.fromDate || '',
