@@ -38,8 +38,8 @@
     ></jhi-credit-proposal-person>
   </e-card>
   <e-card *ngIf="creditProposal.partyTypeId !== 'PERSON'" class="mb-3">
-    <jhi-party-group-view [mode]="'view'" [item]="creditProposal"> </jhi-party-group-view
-  ></e-card>
+    <jhi-party-group-view [mode]="'view'" [item]="creditProposal"> </jhi-party-group-view>
+  </e-card>
 </div>
 <!-- </div> -->
 
@@ -77,7 +77,7 @@
   <div class="e-card mb-5">
     <div class="e-card-header">
       <div class="e-card-header-caption">
-        <div class="e-card-header-title">Warehouse Address</div>
+        <div class="e-card-header-title">Business Location</div>
       </div>
     </div>
     <div class="e-card-content">
@@ -190,7 +190,9 @@
   </div>
   <div class="e-card-content">
     <div class="row">
-      <div class="col-6"><h6>Is Debtor Listed on Watchlist or Resturing ?</h6></div>
+      <div class="col-6">
+        <h6>Is Debtor Listed on Watchlist or Resturing ?</h6>
+      </div>
       <div class="col-6">
         <h6>
           Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high risk
