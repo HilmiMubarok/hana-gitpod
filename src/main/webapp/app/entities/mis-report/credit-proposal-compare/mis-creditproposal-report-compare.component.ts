@@ -191,7 +191,15 @@ export class MisCreditProposalReportCompareComponent {
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     // Initialize the dataCompare with previousHistory or an empty array if undefined
     const dataCompare = [...(proposal.previousHistory || [])];
-    const products = [...(proposal.product || [])];
+
+    // Sort dataCompare[0].product by productId in ascending order if it exists
+    if (dataCompare[0]?.product) {
+      dataCompare[0].product = dataCompare[0].product.sort((a, b) => a.productId - b.productId);
+    }
+
+    // Sort products by productId in ascending order
+    const products = [...(proposal.product || [])].sort((a, b) => a.productId - b.productId);
+
     // Start index for merging rows related to the current proposal
     const startRow = worksheet.rowCount + 1;
     // Calculate the maximum length of both arrays to loop through
@@ -199,10 +207,10 @@ export class MisCreditProposalReportCompareComponent {
 
     // Loop through the maximum length
     for (let idx = 0; idx < maxLength; idx++) {
-      // Get the previousHistory entry if it exists
-      const dataCompareFacility = dataCompare[0]?.product[idx] || {}; // Default to empty objecy
+      // Get the sorted previousHistory entry if it exists
+      const dataCompareFacility = dataCompare[0]?.product[idx] || {}; // Default to empty object
       const dataCompared = dataCompare[idx] || {};
-      // Get the product entry if it exists
+      // Get the sorted product entry
       const currentProduct = products[idx] || {}; // Default to empty object
 
       // Add a new row to the worksheet combining data from both
@@ -213,7 +221,7 @@ export class MisCreditProposalReportCompareComponent {
         bm: proposal.bm || '',
         rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
         debtorName: proposal.debtorName || '',
-        loanCommApproval: proposal.approvalLc || '',
+        loanCommApproval: proposal.approvalLc ? proposal.approvalLc.split(' ')[0] || '' : '',
         lineOfBusiness: proposal.lineOfBusiness || '',
         // PreviousHistory data
         pengajuan: dataCompareFacility.pengajuan || '',
@@ -229,13 +237,13 @@ export class MisCreditProposalReportCompareComponent {
         provType: dataCompareFacility.provisionFeeType || '',
         adminFee: dataCompareFacility.adminFee || '',
         adminType: dataCompareFacility.adminFeeType || '',
-        // Product data
-        pengajuanApp: currentProduct.pengajuan || '', // Data from proposal.product
+        // Sorted Product data
+        pengajuanApp: currentProduct.pengajuan || '',
         facilityApp: currentProduct.facility || '',
         changesApp: currentProduct.changes || '',
         totalChangesApp: currentProduct.totalChangesEqToIDR || '',
-        grandTotalDebtorIDRApp: '',
-        grandTotalExposureIDRApp: '',
+        grandTotalDebtorIDRApp: currentProduct.totalPlafondDebitorIDR || '',
+        grandTotalExposureIDRApp: currentProduct.grandTotalPlafondEqToIDR || '',
         tenorFasilitasApp: currentProduct.tenorFasilitas || '',
         periodTypes: currentProduct.periodType || '',
         intRateApp: currentProduct.currentRate || '',
