@@ -143,21 +143,6 @@ export class MisCPComponent {
     this.misCp.get('date2')?.reset();
   }
 
-  private _convertLov(lov: Array<string> | null | string): string {
-    if (lov === null) {
-      return null;
-    }
-
-    if (typeof lov === 'string') {
-      return '';
-    }
-
-    if (lov.length === 0) {
-      return '';
-    }
-    return lov.join(',');
-  }
-
   private _convertStatusToString(status: Array<string>): string {
     // if length is 0, return empty string
     if (status.length === 0) {
@@ -255,16 +240,92 @@ export class MisCPComponent {
     return debiturNames;
   }
 
+  // ini bergantung antara product dan collateral
+
+  // private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
+  //   const productCount = proposal.product?.length || 1;
+  //   const collateralCount = proposal.collateral?.length || 1;
+  //   const rowCount = Math.max(productCount, collateralCount);
+  //   const baseRowIndex = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
+
+  //   const collateralCodes = proposal.collateral?.map(col => col.collateralCode).join(',\n') || '';
+
+  //   for (let i = 0; i < rowCount; i++) {
+  //     const product = proposal.product[i] || {};
+
+  //     const row = worksheet.addRow({
+  //       no: i === 0 ? index + 1 : '',
+  //       segment: proposal.segment || '',
+  //       proposalType: proposal.proposalType || '',
+  //       proposalDate: proposal.proposalDate || '',
+  //       proposalNumber: proposal.proposalNumber || '',
+  //       program: proposal.program || '',
+  //       branchs: proposal.bookingBranchName || '',
+  //       regional: proposal.regionalParentRM || '',
+  //       headName: proposal.headName || '',
+  //       bm: proposal.bm || '',
+  //       rm: `${proposal.rmFirstName || ''} ${proposal.rmLastName || ''}`.trim(),
+  //       debtorName: proposal.debtorName || '',
+  //       loanCommApproval: proposal.approvalLc ? proposal.approvalLc.split(' ')[0] || '' : '',
+  //       lineOfBusiness: proposal.lineOfBusiness || '',
+  //       proposed: product.pengajuan || '',
+  //       facility: product.facility || '',
+  //       facilityTenor: product.tenorFasilitas || '',
+  //       periodType: product.periodType || '',
+  //       maturityDate: product.maturityDate || '',
+  //       currency: product.currency || '',
+  //       initialLimit: product.initialLimit || '',
+  //       totalChangesEqToIDR: i === 0 ? proposal.totalChangesEqToIDR || '' : '',
+  //       grandTotalPlafondDebtorIDR: i === 0 ? proposal.totalPlafondDebtorOnlyIDR || '' : '',
+  //       grandTotalPlafondExposureIDR: i === 0 ? proposal.grandTotalPlafondEqToIDR || '' : '',
+  //       interestRate: product.currentRate || '',
+  //       provisionFee: product.provisionFee || '',
+  //       provisionType: product.provisionFeeType || '',
+  //       adminFee: product.adminFee || '',
+  //       adminType: product.adminFeeType || '',
+  //       collateral: collateralCodes,
+  //       mv: i === 0 ? proposal.totalMVInternal || '' : '',
+  //       mvIDR: i === 0 ? proposal.totalMVInternalEqToIDR || '' : '',
+  //       lvInternal: i === 0 ? proposal.totalLVInternal || '' : '',
+  //       groupName: proposal.businessGroup?.groupCompanyName || '',
+  //       debiturGroup: this._getDebiturGroup(proposal),
+  //       reviewer: proposal.dataAssignToCROName || '',
+  //       status: proposal.status || '',
+  //       dateOfStatus: proposal.statusDate || '',
+  //       memo: proposal.approvalStatus || '',
+  //     });
+
+  //     row.getCell('collateral').alignment = { wrapText: true };
+  //   }
+
+  //   if (rowCount > 1) {
+  //     this._mergeCells(worksheet, baseRowIndex, rowCount, [
+  //       'no',
+  //       'totalChangesEqToIDR',
+  //       'grandTotalPlafondDebtorIDR',
+  //       'grandTotalPlafondExposureIDR',
+  //       'collateral',
+  //       'mv',
+  //       'mvIDR',
+  //       'lvInternal',
+  //       'groupName',
+  //       'debiturGroup',
+  //       'reviewer',
+  //       'status',
+  //       'dateOfStatus',
+  //       'memo',
+  //     ]);
+  //   }
+  // }
+
+  // ini bergantung dari jumlah si facilitynya
+
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
-    const productCount = proposal.product?.length || 1;
-    const collateralCount = proposal.collateral?.length || 1;
-    const rowCount = Math.max(productCount, collateralCount);
+    const repeatCount = proposal.product?.length || 1;
     const baseRowIndex = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
 
-    const collateralCodes = proposal.collateral?.map(col => col.collateralCode).join(',\n') || '';
-
-    for (let i = 0; i < rowCount; i++) {
-      const product = proposal.product[i] || {};
+    for (let i = 0; i < repeatCount; i++) {
+      const product = proposal.product?.[i] || {};
 
       const row = worksheet.addRow({
         no: i === 0 ? index + 1 : '',
@@ -296,10 +357,10 @@ export class MisCPComponent {
         provisionType: product.provisionFeeType || '',
         adminFee: product.adminFee || '',
         adminType: product.adminFeeType || '',
-        collateral: collateralCodes,
-        mv: i === 0 ? proposal.totalMVInternal || '' : '',
-        mvIDR: i === 0 ? proposal.totalMVInternalEqToIDR || '' : '',
-        lvInternal: i === 0 ? proposal.totalLVInternal || '' : '',
+        collateral: proposal.collateral?.map(col => col.collateralCode).join(',\n') || '',
+        mv: proposal.collateral?.map(col => col.collateralProperty?.marketValueOriginal || '').join(',\n') || '',
+        mvIDR: proposal.collateral?.map(col => col.collateralProperty?.marketValueInternal || '').join(',\n') || '',
+        lvInternal: proposal.collateral?.map(col => col.collateralProperty?.liquidationValueInternal || '').join(',\n') || '',
         groupName: proposal.businessGroup?.groupCompanyName || '',
         debiturGroup: this._getDebiturGroup(proposal),
         reviewer: proposal.dataAssignToCROName || '',
@@ -311,8 +372,8 @@ export class MisCPComponent {
       row.getCell('collateral').alignment = { wrapText: true };
     }
 
-    if (rowCount > 1) {
-      this._mergeCells(worksheet, baseRowIndex, rowCount, [
+    if (repeatCount > 1) {
+      this._mergeCells(worksheet, baseRowIndex, repeatCount, [
         'no',
         'totalChangesEqToIDR',
         'grandTotalPlafondDebtorIDR',
@@ -342,7 +403,7 @@ export class MisCPComponent {
       worksheet.getCell(1, index + 1).fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'FFFFA500' },
+        fgColor: { argb: 'FFD3D3D3' },
       };
     });
 
