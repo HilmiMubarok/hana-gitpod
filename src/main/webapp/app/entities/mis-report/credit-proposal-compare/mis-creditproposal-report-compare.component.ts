@@ -215,7 +215,7 @@ export class MisCreditProposalReportCompareComponent {
 
       // Add a new row to the worksheet combining data from both
       worksheet.addRow({
-        no: idx + 1 || '',
+        no: index + 1 || '',
         segment: proposal.segment || '',
         branch: proposal.bookingBranchName || '',
         bm: proposal.bm || '',
