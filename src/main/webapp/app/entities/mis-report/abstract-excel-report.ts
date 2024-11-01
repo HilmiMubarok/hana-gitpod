@@ -73,7 +73,7 @@ export abstract class AbstractExcelMISReport {
     return status.join(',');
   }
 
-  protected _getFacilityProposedDataSource(proposal) {
+  protected _getFacilityProposedDataSource(proposal): string {
     // if proposal.previousHistory null
     if (proposal.previousHistory === null) {
       return '';
@@ -86,11 +86,9 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    return products
-      .map(product => {
-        product.pengajuan;
-      })
-      .join(',\n');
+    const pengajuan = products.map(product => product.pengajuan).join(',\n');
+
+    return pengajuan;
   }
 
   protected _gettotalPlafondProposed(proposal, currency: 'IDR' | 'USD') {
@@ -208,7 +206,12 @@ export abstract class AbstractExcelMISReport {
     };
   }
 
-  protected _clearEmptyEntries(input) {
+  protected _clearEmptyEntries(input: string): string {
+    // if input is ''
+    if (input === '') {
+      return '';
+    }
+
     return input
       .split(',')
       .map(item => item.trim()) // Remove any surrounding spaces
@@ -237,6 +240,18 @@ export abstract class AbstractExcelMISReport {
 
     // Return the fromDate if status is found, otherwise return an empty string
     return status?.fromDate || '';
+  }
+
+  protected _getCity(proposal: any): string {
+    if (proposal.collateral === null) {
+      return '';
+    }
+
+    const collaterals = proposal.collateral;
+
+    const city = collaterals.map(collateral => collateral.city).join(',\n');
+
+    return city || '';
   }
 
   // ============= HELPER METHODS FOR SLA Reviewer ============= //

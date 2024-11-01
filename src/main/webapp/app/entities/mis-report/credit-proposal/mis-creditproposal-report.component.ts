@@ -277,15 +277,15 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       grandTotalPlafondEqToIDR: proposal.grandTotalPlafondEqToIDR || '',
       id: this._getCollateralIdAndCode(proposal).id,
       collateralIncCrosOtherCIF: this._getCollateralIdAndCode(proposal).collateralCode,
-      city: proposal.city || '',
+      city: this._getCity(proposal),
       totalMVInternal: proposal.totalMVInternal || '',
       totalLVInternal: proposal.totalLVInternal || '',
       totalMVKJPP: proposal.totalMVKJPP || '',
       totalLVKJPP: proposal.totalLVKJPP || '',
-      collateralCoverageMVInternal: proposal.collateralCoverageMVInternal || '',
-      collateralCoverageLVInternal: proposal.collateralCoverageLVInternal || '',
-      collateralCoverageMVKJPP: proposal.collateralCoverageMVKJPP || '',
-      collateralCoverageLVKJPP: proposal.collateralCoverageLVKJPP || '',
+      collateralCoverageMVInternal: proposal.colCoverageMVInternal || '',
+      collateralCoverageLVInternal: proposal.colCoverageLVInternal || '',
+      collateralCoverageMVKJPP: proposal.colCoverageMVKJPP || '',
+      collateralCoverageLVKJPP: proposal.colCoverageLVKJPP || '',
       groupName: proposal.businessGroup ? proposal.businessGroup.groupCompanyName || '' : '',
       debiturGroup: this._getDebiturGroup(proposal),
       draft: this._getStatus(proposal, 'statusDescription', 'first', ['Draft']),
@@ -348,6 +348,17 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
         horizontal: 'center',
         wrapText: true,
       };
+
+      const columnValue = this.worksheet.getColumn(column);
+
+      const newValue = columnValue.values.map(value => {
+        if (value) {
+          return this._clearEmptyEntries(value.toString());
+        }
+        return value;
+      });
+
+      columnValue.values = newValue;
     });
   }
 }
