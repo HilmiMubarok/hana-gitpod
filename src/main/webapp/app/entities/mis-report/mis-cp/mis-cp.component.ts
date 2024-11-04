@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+import { AbstractExcelMISReport } from '../abstract-excel-report';
 
 @Component({
   selector: 'jhi-mis-credit-proposal',
@@ -38,41 +39,10 @@ import { saveAs } from 'file-saver';
         background-color: #f5f5f5;
         cursor: pointer;
       }
-
-      .skeleton {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-      }
-
-      .mat-spinner {
-        margin: auto;
-      }
-
-      .mat-cell div {
-        background-color: rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        height: 16px;
-        width: 80%;
-        animation: pulse 1.5s infinite;
-      }
-
-      @keyframes pulse {
-        0% {
-          background-color: rgba(0, 0, 0, 0.1);
-        }
-        50% {
-          background-color: rgba(0, 0, 0, 0.2);
-        }
-        100% {
-          background-color: rgba(0, 0, 0, 0.1);
-        }
-      }
     `,
   ],
 })
-export class MisCPComponent {
+export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
   listOfValue = [];
   misCp: FormGroup;
@@ -82,6 +52,8 @@ export class MisCPComponent {
     console.log('test', event.value);
   }
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    super(misReportService);
+
     this.misCp = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
@@ -99,20 +71,21 @@ export class MisCPComponent {
         this.misCp.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
-    this.getStatus();
   }
 
   public previousState(): void {
     window.history.back();
   }
-  getStatus() {
-    this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL').subscribe({
+
+  ngOnInit(): void {
+    this.getStatusLOV('MIS_CREDIT_PROPOSAL').subscribe({
       next: res => (this.lovStatus = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
   }
+
   toggleSelectAll(): void {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
@@ -143,15 +116,6 @@ export class MisCPComponent {
     this.misCp.get('date2')?.reset();
   }
 
-  private _convertStatusToString(status: Array<string>): string {
-    // if length is 0, return empty string
-    if (status.length === 0) {
-      return '';
-    }
-
-    return status.join(',');
-  }
-
   generateMISCP() {
     this.misReportService.setLoading(true);
     const params = {
@@ -167,6 +131,7 @@ export class MisCPComponent {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this.misReportService.setLoading(false);
       },
+      complete: () => this.misReportService.setLoading(false),
     });
   }
 
@@ -174,25 +139,25 @@ export class MisCPComponent {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
 
-    this._setUpColumns(worksheet);
+    // this._setUpColumns(worksheet);
+    this.setUpColumns(this.columns);
 
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
-      this._applyStyles(worksheet);
-      this._downloadFile(workbook, fileName);
+      this.applyStyles('ffffe49c');
+      this.downloadFile(fileName);
       return;
     }
+
     // Add data to worksheet
-    data.forEach((proposal, index) => {
-      this._addProposalData(worksheet, proposal, index);
-    });
+    this.processData(data);
 
     this._applyStyles(worksheet);
-    this._downloadFile(workbook, fileName);
+    this.downloadFile(fileName);
   }
 
-  private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
-    worksheet.columns = [
+  get columns(): any[] {
+    return [
       { header: 'No.', key: 'no', width: 5 },
       { header: 'Segment', key: 'segment', width: 10 },
       { header: 'Proposal Type', key: 'proposalType', width: 30 },
@@ -206,7 +171,7 @@ export class MisCPComponent {
       { header: 'RM', key: 'rm', width: 40 },
       { header: 'Debtor Name', key: 'debtorName', width: 30 },
       { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
-      { header: 'Line Of Business', key: 'lineOfBusiness', width: 30 },
+      { header: 'Line Of Business', key: 'lineOfBusiness', width: 40 },
       { header: 'Proposed', key: 'proposed', width: 30 },
       { header: 'Facility', key: 'facility', width: 15 },
       { header: 'Facility Tenor', key: 'facilityTenor', width: 15 },
@@ -214,109 +179,32 @@ export class MisCPComponent {
       { header: 'Maturity Date', key: 'maturityDate', width: 15 },
       { header: 'Currency', key: 'currency', width: 15 },
       { header: 'Initial Limit', key: 'initialLimit', width: 15 },
-      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR', width: 30 },
-      { header: 'Grand Total Plafond DEBTOR ONLY (IDR)', key: 'grandTotalPlafondDebtorIDR', width: 30 },
-      { header: 'Grand Total Plafond TOTAL EXPOSURE (IDR)', key: 'grandTotalPlafondExposureIDR', width: 30 },
+      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR', width: 25 },
+      { header: 'Grand Total Plafond DEBTOR ONLY (IDR)', key: 'grandTotalPlafondDebtorIDR', width: 25 },
+      { header: 'Grand Total Plafond TOTAL EXPOSURE (IDR)', key: 'grandTotalPlafondExposureIDR', width: 25 },
       { header: 'Interest Rate (%)', key: 'interestRate', width: 15 },
       { header: 'Provision Fee', key: 'provisionFee', width: 15 },
       { header: 'Provision Type', key: 'provisionType', width: 15 },
       { header: 'Admin Fee', key: 'adminFee', width: 15 },
       { header: 'Admin Type', key: 'adminType', width: 15 },
-      { header: 'Collateral (INCLUDE CROS COLL OTHER CIF)', key: 'collateral', width: 35 },
+      { header: 'Collateral (INCLUDE CROS COLL OTHER CIF)', key: 'collateral', width: 40 },
       { header: 'MV (internal) (In Currency)', key: 'mv', width: 25 },
       { header: 'MV (internal) (Equivalen to IDR)', key: 'mvIDR', width: 30 },
       { header: 'LV Internal', key: 'lvInternal', width: 15 },
-      { header: 'Group Name', key: 'groupName', width: 15 },
-      { header: 'DEBITUR GROUP', key: 'debiturGroup', width: 15 },
-      { header: 'Reviewer', key: 'reviewer', width: 15 },
-      { header: 'Status', key: 'status', width: 15 },
-      { header: 'Date of Status', key: 'dateOfStatus', width: 30 },
+      { header: 'Group Name', key: 'groupName', width: 30 },
+      { header: 'DEBITUR GROUP', key: 'debiturGroup', width: 30 },
+      { header: 'Reviewer', key: 'reviewer', width: 20 },
+      { header: 'Status', key: 'status', width: 20 },
+      { header: 'Date of Status', key: 'dateOfStatus', width: 20 },
       { header: 'Memo', key: 'memo', width: 30 },
     ];
   }
 
-  _getDebiturGroup(proposal: any): string {
-    const debiturNames = proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(', ') || '';
-    return debiturNames;
+  protected processData(data: any[]): void {
+    data.forEach((proposal, index) => {
+      this._addProposalData(this.worksheet, proposal, index);
+    });
   }
-
-  // ini bergantung antara product dan collateral
-
-  // private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
-  //   const productCount = proposal.product?.length || 1;
-  //   const collateralCount = proposal.collateral?.length || 1;
-  //   const rowCount = Math.max(productCount, collateralCount);
-  //   const baseRowIndex = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
-
-  //   const collateralCodes = proposal.collateral?.map(col => col.collateralCode).join(',\n') || '';
-
-  //   for (let i = 0; i < rowCount; i++) {
-  //     const product = proposal.product[i] || {};
-
-  //     const row = worksheet.addRow({
-  //       no: i === 0 ? index + 1 : '',
-  //       segment: proposal.segment || '',
-  //       proposalType: proposal.proposalType || '',
-  //       proposalDate: proposal.proposalDate || '',
-  //       proposalNumber: proposal.proposalNumber || '',
-  //       program: proposal.program || '',
-  //       branchs: proposal.bookingBranchName || '',
-  //       regional: proposal.regionalParentRM || '',
-  //       headName: proposal.headName || '',
-  //       bm: proposal.bm || '',
-  //       rm: `${proposal.rmFirstName || ''} ${proposal.rmLastName || ''}`.trim(),
-  //       debtorName: proposal.debtorName || '',
-  //       loanCommApproval: proposal.approvalLc ? proposal.approvalLc.split(' ')[0] || '' : '',
-  //       lineOfBusiness: proposal.lineOfBusiness || '',
-  //       proposed: product.pengajuan || '',
-  //       facility: product.facility || '',
-  //       facilityTenor: product.tenorFasilitas || '',
-  //       periodType: product.periodType || '',
-  //       maturityDate: product.maturityDate || '',
-  //       currency: product.currency || '',
-  //       initialLimit: product.initialLimit || '',
-  //       totalChangesEqToIDR: i === 0 ? proposal.totalChangesEqToIDR || '' : '',
-  //       grandTotalPlafondDebtorIDR: i === 0 ? proposal.totalPlafondDebtorOnlyIDR || '' : '',
-  //       grandTotalPlafondExposureIDR: i === 0 ? proposal.grandTotalPlafondEqToIDR || '' : '',
-  //       interestRate: product.currentRate || '',
-  //       provisionFee: product.provisionFee || '',
-  //       provisionType: product.provisionFeeType || '',
-  //       adminFee: product.adminFee || '',
-  //       adminType: product.adminFeeType || '',
-  //       collateral: collateralCodes,
-  //       mv: i === 0 ? proposal.totalMVInternal || '' : '',
-  //       mvIDR: i === 0 ? proposal.totalMVInternalEqToIDR || '' : '',
-  //       lvInternal: i === 0 ? proposal.totalLVInternal || '' : '',
-  //       groupName: proposal.businessGroup?.groupCompanyName || '',
-  //       debiturGroup: this._getDebiturGroup(proposal),
-  //       reviewer: proposal.dataAssignToCROName || '',
-  //       status: proposal.status || '',
-  //       dateOfStatus: proposal.statusDate || '',
-  //       memo: proposal.approvalStatus || '',
-  //     });
-
-  //     row.getCell('collateral').alignment = { wrapText: true };
-  //   }
-
-  //   if (rowCount > 1) {
-  //     this._mergeCells(worksheet, baseRowIndex, rowCount, [
-  //       'no',
-  //       'totalChangesEqToIDR',
-  //       'grandTotalPlafondDebtorIDR',
-  //       'grandTotalPlafondExposureIDR',
-  //       'collateral',
-  //       'mv',
-  //       'mvIDR',
-  //       'lvInternal',
-  //       'groupName',
-  //       'debiturGroup',
-  //       'reviewer',
-  //       'status',
-  //       'dateOfStatus',
-  //       'memo',
-  //     ]);
-  //   }
-  // }
 
   // ini bergantung dari jumlah si facilitynya
 
@@ -362,7 +250,7 @@ export class MisCPComponent {
         mvIDR: proposal.collateral?.map(col => col.collateralProperty?.marketValueInternal || '').join(',\n') || '',
         lvInternal: proposal.collateral?.map(col => col.collateralProperty?.liquidationValueInternal || '').join(',\n') || '',
         groupName: proposal.businessGroup?.groupCompanyName || '',
-        debiturGroup: this._getDebiturGroup(proposal),
+        debiturGroup: proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(',\n') || '', // Ambil nama debitur
         reviewer: proposal.dataAssignToCROName || '',
         status: proposal.status || '',
         dateOfStatus: proposal.statusDate || '',
@@ -370,6 +258,7 @@ export class MisCPComponent {
       });
 
       row.getCell('collateral').alignment = { wrapText: true };
+      row.getCell('debiturGroup').alignment = { wrapText: true };
     }
 
     if (repeatCount > 1) {
@@ -399,11 +288,24 @@ export class MisCPComponent {
   }
 
   private _applyStyles(worksheet: ExcelJS.Worksheet): void {
-    worksheet.columns.forEach((column, index) => {
-      worksheet.getCell(1, index + 1).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFD3D3D3' },
+    super.applyStyles('FFD3D3D3');
+    const columnsToBeWraped = [
+      'collateral',
+      'mv',
+      'mvIDR',
+      'lvInternal',
+      'groupName',
+      'debiturGroup',
+      'reviewer',
+      'status',
+      'dateOfStatus',
+      'memo',
+    ];
+    columnsToBeWraped.forEach(column => {
+      this.worksheet.getColumn(column).alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+        wrapText: true,
       };
     });
 
@@ -422,31 +324,6 @@ export class MisCPComponent {
         };
         cell.alignment = { vertical: 'top', horizontal: 'center' };
       });
-    });
-    worksheet.getColumn('collateral').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
-    worksheet.getColumn('mv').alignment = { wrapText: true, vertical: 'middle', horizontal: 'right' };
-    worksheet.getColumn('mvIDR').alignment = { wrapText: true, vertical: 'middle', horizontal: 'right' };
-    worksheet.getColumn('lvInternal').alignment = { wrapText: true, vertical: 'middle', horizontal: 'right' };
-    worksheet.getColumn('groupName').alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
-    worksheet.getColumn('debiturGroup').alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
-    worksheet.getColumn('reviewer').alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
-    worksheet.getColumn('status').alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
-    worksheet.getColumn('dateOfStatus').alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
-    worksheet.getColumn('memo').alignment = { wrapText: true, vertical: 'top', horizontal: 'left' };
-  }
-
-  private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
-    workbook.xlsx.writeBuffer().then(buffer => {
-      const blob = new Blob([buffer], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      });
-      const date = new Date();
-      const outputName = `${fileName}_${date.getFullYear()}-${
-        date.getMonth() + 1
-      }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
-
-      saveAs(blob, outputName);
-      this.misReportService.setLoading(false);
     });
   }
 }
