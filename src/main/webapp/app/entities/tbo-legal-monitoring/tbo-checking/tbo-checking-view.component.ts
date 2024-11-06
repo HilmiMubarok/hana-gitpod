@@ -1210,6 +1210,14 @@ export class TboCheckingViewComponent implements OnInit {
       while (typeof this.creditProposal.attributes['collateralAfterReport'] === 'string') {
         this.creditProposal.attributes['collateralAfterReport'] = JSON.parse(this.creditProposal.attributes['collateralAfterReport']);
       }
+
+      if (
+        this.creditProposal.attributes['collateralAfterReport'].length === 0 ||
+        this.creditProposal.attributes['collateralAfterReport'].every(item => item == null)
+      ) {
+        return;
+      }
+
       if (this.creditProposal.attributes['collateralAfterReport'].length > 0) {
         for (let i = 0; i < this.creditProposal.attributes['collateralAfterReport'].length; i++) {
           this.creditProposal.attributes['collateralAfterReport'][i].mvInternal = this.countMV(
