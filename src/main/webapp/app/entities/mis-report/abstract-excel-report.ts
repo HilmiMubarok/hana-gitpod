@@ -175,15 +175,14 @@ export abstract class AbstractExcelMISReport {
     let covenantList: any[] = [];
 
     if (proposalType === 'Total Exposure <= IDR 15 Bio') {
-      covenantList = covenant.below || [];
+      covenantList = (covenant.below || []).concat(covenant.other || []);
     } else if (proposalType === 'Total Exposure > IDR 15 Bio') {
-      covenantList = covenant.above || [];
+      covenantList = (covenant.above || []).concat(covenant.other || []);
     } else {
-      covenantList = (covenant.general || []).concat(covenant.deposit || []);
+      covenantList = (covenant.general || []).concat(covenant.deposit || []).concat(covenant.other || []);
     }
 
-    // Find if any covenant status is NOT 'Applied', if found return 'No', otherwise return 'Yes'
-    return covenantList.find(c => c.status !== 'Applied') ? 'No' : 'Yes';
+    return covenantList.find(c => c.status !== 'Applied') ? 'Yes' : 'No';
   }
 
   protected _getCollateralIdAndCode(proposal: any): { id: string; collateralCode: string } {
@@ -239,7 +238,7 @@ export abstract class AbstractExcelMISReport {
     const status = sortedTimelines.find(t => statusPredicates.includes(t[key]));
 
     // Return the fromDate if status is found, otherwise return an empty string
-    return status?.fromDate || '';
+    return this._formatDate(status?.fromDate) || '';
   }
 
   protected _getCity(proposal: any): string {
@@ -252,6 +251,18 @@ export abstract class AbstractExcelMISReport {
     const city = collaterals.map(collateral => collateral.city).join(',\n');
 
     return city || '';
+  }
+
+  protected _formatDate(dateStr) {
+    if (typeof dateStr === 'undefined') {
+      return '';
+    }
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    const [year, month, day] = dateStr.split('-');
+
+    return `${day}-${monthNames[parseInt(month, 10) - 1]}-${year}`;
   }
 
   // ============= HELPER METHODS FOR SLA Reviewer ============= //
