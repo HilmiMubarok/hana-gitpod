@@ -197,8 +197,6 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
   }
 
   private _processGenerate(data, fileName) {
-    console.log('Data: ', data);
-
     this.setUpColumns(this.columns);
 
     // if data is empty, generate an empty file
@@ -225,7 +223,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
-      proposalDate: proposal.proposalDate || '',
+      proposalDate: this._formatDate(proposal.proposalDate) || '',
       segment: proposal.segment || '',
       proposalType: proposal.proposalType || '',
       branchs: proposal.bookingBranchName || '',
@@ -248,7 +246,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       loanCommApproval: proposal.approvalLc ? proposal.approvalLc.split(' ')[0] || '' : '',
       pengajuan: proposal.product.map(product => product.pengajuan).join(',\n') || '',
       facility: proposal.product.map(product => product.facility).join(',\n') || '',
-      maturityDate: proposal.product.map(product => product.maturityDate).join(',\n') || '',
+      maturityDate: proposal.product.map(product => this._formatDate(product.maturityDate)).join(',\n') || '',
       interestRate: proposal.product.map(product => product.currentRate).join(',\n') || '',
       provisionPa: proposal.product.map(product => (product.provisionFeeType === '%p.a' ? product.provisionFee : '')).join(',\n') || '',
       provisionIDR: proposal.product.map(product => (product.provisionFeeType === 'IDR' ? product.provisionFee : '')).join(',\n') || '',
