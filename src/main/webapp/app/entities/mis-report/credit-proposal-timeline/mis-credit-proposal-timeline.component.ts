@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
-import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AbstractExcelMISReport } from '../abstract-excel-report';
 
 @Component({
   selector: 'jhi-mis-credit-proposal-timeline',
@@ -39,41 +39,10 @@ import { HttpErrorResponse } from '@angular/common/http';
         background-color: #f5f5f5;
         cursor: pointer;
       }
-
-      .skeleton {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-      }
-
-      .mat-spinner {
-        margin: auto;
-      }
-
-      .mat-cell div {
-        background-color: rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        height: 16px;
-        width: 80%;
-        animation: pulse 1.5s infinite;
-      }
-
-      @keyframes pulse {
-        0% {
-          background-color: rgba(0, 0, 0, 0.1);
-        }
-        50% {
-          background-color: rgba(0, 0, 0, 0.2);
-        }
-        100% {
-          background-color: rgba(0, 0, 0, 0.1);
-        }
-      }
     `,
   ],
 })
-export class MisCreditProposalTimelineComponent {
+export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
   listOfValue = [];
   misCpTimeline: FormGroup;
@@ -84,6 +53,8 @@ export class MisCreditProposalTimelineComponent {
     console.log('test', event.value);
   }
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    super(misReportService);
+
     this.misCpTimeline = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
@@ -108,7 +79,16 @@ export class MisCreditProposalTimelineComponent {
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('status')?.valueChanges.subscribe(() => this.checkFieldStatus());
-    this.getStatus();
+    // this.getStatus();
+  }
+
+  ngOnInit(): void {
+    this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL_TIMELINE').subscribe({
+      next: res => (this.lovStatus = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
+      },
+    });
   }
 
   checkFieldStatus() {
@@ -158,14 +138,7 @@ export class MisCreditProposalTimelineComponent {
   public previousState(): void {
     window.history.back();
   }
-  getStatus() {
-    this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL_TIMELINE').subscribe({
-      next: res => (this.lovStatus = res),
-      error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
-      },
-    });
-  }
+
   toggleSelectAll(): void {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
@@ -290,25 +263,30 @@ export class MisCreditProposalTimelineComponent {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
 
-    this._setUpColumns(worksheet);
+    this.setUpColumns(this.columns);
 
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
-      this._applyStyles(worksheet);
-      this._downloadFile(workbook, fileName);
+      this.applyStyles('ffffe49c');
+      this.downloadFile(fileName);
       return;
     }
-    // Add data to worksheet
-    data.forEach((proposal, index) => {
-      this._addTimelineData(worksheet, proposal, index);
-    });
 
-    this._applyStyles(worksheet);
-    this._downloadFile(workbook, fileName);
+    // Add data to worksheet
+    this.processData(data);
+
+    this._applyStyles();
+    this.downloadFile(fileName);
   }
 
-  private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
-    worksheet.columns = [
+  protected processData(data: any[]): void {
+    data.forEach((timeLineCreditProposal, index) => {
+      this._addTimelineData(this.worksheet, timeLineCreditProposal, index);
+    });
+  }
+
+  get columns(): any[] {
+    return [
       { header: 'No.', key: 'no', width: 5 },
       { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
       { header: 'Proposal Date', key: 'proposalDate', width: 15 },
@@ -339,8 +317,6 @@ export class MisCreditProposalTimelineComponent {
 
   private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal, index): void {
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
-
-    // Balikkan urutan timeLineCreditProposal sebelum iterasi
     const reversedTimeline = [...timeLineCreditProposal.timeLineCreditProposal].reverse();
 
     reversedTimeline.forEach((timeline, timelineIndex) => {
@@ -386,50 +362,39 @@ export class MisCreditProposalTimelineComponent {
     }
   }
 
-  private _applyStyles(worksheet: ExcelJS.Worksheet): void {
-    worksheet.columns.forEach((column, index) => {
-      worksheet.getCell(1, index + 1).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFFFA500' },
+  private _applyStyles(): void {
+    super.applyStyles('FFFFA500');
+    const columnsToBeWraped = ['timelineStatus', 'note', 'date', 'pic'];
+    const topAlignedColumns = [
+      'no',
+      'proposalNumber',
+      'proposalDate',
+      'segment',
+      'branchs',
+      'customerStatus',
+      'bm',
+      'rm',
+      'headName',
+      'cif',
+      'debtorName',
+      'loanCommApproval',
+      'proposalType',
+      'status',
+    ];
+    columnsToBeWraped.forEach(column => {
+      this.worksheet.getColumn(column).alignment = {
+        vertical: 'top',
+        horizontal: 'center',
+        wrapText: true,
       };
     });
 
-    worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-      if (rowNumber === 1) {
-        worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center' };
-      }
-
-      row.eachCell({ includeEmpty: true }, cell => {
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-        cell.alignment = { vertical: 'top', horizontal: 'center' };
-      });
-    });
-
-    worksheet.getColumn('timelineStatus').alignment = { wrapText: true, vertical: 'middle', horizontal: 'left' };
-    worksheet.getColumn('note').alignment = { wrapText: true, vertical: 'top', horizontal: 'left' };
-    worksheet.getColumn('date').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
-    worksheet.getColumn('pic').alignment = { wrapText: true, vertical: 'top', horizontal: 'center' };
-  }
-
-  private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
-    workbook.xlsx.writeBuffer().then(buffer => {
-      const blob = new Blob([buffer], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      });
-      const date = new Date();
-      const outputName = `${fileName}_${date.getFullYear()}-${
-        date.getMonth() + 1
-      }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
-
-      saveAs(blob, outputName);
-      this.misReportService.setLoading(false);
+    topAlignedColumns.forEach(column => {
+      this.worksheet.getColumn(column).alignment = {
+        vertical: 'top',
+        horizontal: 'center',
+        wrapText: true,
+      };
     });
   }
 }
