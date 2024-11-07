@@ -1638,6 +1638,11 @@ export class LoanOperationDetailComponent implements OnInit {
         return;
       }
 
+      // Filter null data
+      this.creditProposal.attributes['collateralAfterReport'] = this.creditProposal.attributes['collateralAfterReport'].filter(
+        item => item != null
+      );
+
       if (this.creditProposal.attributes['collateralAfterReport'].length > 0) {
         for (let i = 0; i < this.creditProposal.attributes['collateralAfterReport'].length; i++) {
           this.creditProposal.attributes['collateralAfterReport'][i].mvInternal = this.countMV(
