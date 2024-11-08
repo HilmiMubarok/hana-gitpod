@@ -250,7 +250,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         mvIDR: proposal.collateral?.map(col => col.collateralProperty?.marketValueInternal || '').join(',\n') || '',
         lvInternal: proposal.collateral?.map(col => col.collateralProperty?.liquidationValueInternal || '').join(',\n') || '',
         groupName: proposal.businessGroup?.groupCompanyName || '',
-        debiturGroup: proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(',\n') || '', // Ambil nama debitur
+        debiturGroup: proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(',\n') || '',
         reviewer: proposal.dataAssignToCROName || '',
         status: proposal.status || '',
         dateOfStatus: proposal.statusDate || '',
@@ -258,7 +258,19 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       });
 
       row.getCell('collateral').alignment = { wrapText: true };
+      row.getCell('mv').alignment = { wrapText: true };
+      row.getCell('mvIDR').alignment = { wrapText: true };
+      row.getCell('lvInternal').alignment = { wrapText: true };
       row.getCell('debiturGroup').alignment = { wrapText: true };
+
+      const maxContentLength = Math.max(
+        row.getCell('collateral').value?.toString().split('\n').length || 1,
+        row.getCell('mv').value?.toString().split('\n').length || 1,
+        row.getCell('mvIDR').value?.toString().split('\n').length || 1,
+        row.getCell('lvInternal').value?.toString().split('\n').length || 1,
+        row.getCell('debiturGroup').value?.toString().split('\n').length || 1
+      );
+      row.height = maxContentLength * 15;
     }
 
     if (repeatCount > 1) {
