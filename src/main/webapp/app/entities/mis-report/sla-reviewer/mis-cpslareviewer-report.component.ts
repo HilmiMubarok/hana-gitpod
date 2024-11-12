@@ -81,7 +81,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       { header: 'Proposal Type', key: 'proposalType', width: 15 },
       { header: 'Regional', key: 'regional', width: 10 },
       { header: 'Head Name', key: 'headName', width: 10 },
-      { header: 'Branch', key: 'branchDebitur ', width: 15 },
+      { header: 'Branch', key: 'branchDebitur', width: 15 },
       { header: 'Pengajuan', key: 'pengajuan', width: 15 },
       { header: 'Total Changes Amount (in IDR Mio)', key: 'totalChangesAmountInIDRMio', width: 15 },
       { header: 'Total Changes Amount (in USD Thousand)', key: 'totalChangesAmountInUSDThousand', width: 15 },
