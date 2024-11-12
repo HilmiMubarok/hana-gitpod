@@ -234,7 +234,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         facility: product.facility || '',
         facilityTenor: product.tenorFasilitas || '',
         periodType: product.periodType || '',
-        maturityDate: product.maturityDate || '',
+        maturityDate: product.maturityDate === 'null' ? '' : product.maturityDate || '',
         currency: product.currency || '',
         initialLimit: product.initialLimit || '',
         totalChangesEqToIDR: i === 0 ? proposal.totalChangesEqToIDR || '' : '',
