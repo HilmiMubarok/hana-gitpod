@@ -205,6 +205,7 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
+    this.loadSummaryCollateral();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -236,11 +237,6 @@ export class SummaryGridBtbComponent extends AbstractEntityMaterialComponent<ICo
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
-    if (changes['creditProposal']) {
-      if (this.creditProposal.id) {
-        this.loadSummaryCollateral();
-      }
-    }
   }
   public collateral: any;
   ngAfterViewInit(): void {

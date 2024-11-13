@@ -255,6 +255,7 @@ export class SummaryGridComponent
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
+    this.loadSummaryCollateral();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -277,11 +278,6 @@ export class SummaryGridComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
-    if (changes['creditProposal']) {
-      if (this.creditProposal.id) {
-        this.loadSummaryCollateral();
-      }
-    }
     // if (changes['collateralProperties']) {
     //   this.collateralProperties = changes['collateralProperties'].currentValue;
     // }
