@@ -496,7 +496,7 @@ export class CollateralInfoBTPDarFinalComponent
             this.creditProposal.collateralProductRelations[i].collateralId === this.dynamicCollateral()[i]?.id &&
             this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
           ) {
-            this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
+            this.creditProposal.collateralProductRelations.splice(i);
           }
         }
       }
