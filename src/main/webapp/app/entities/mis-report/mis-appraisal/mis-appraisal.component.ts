@@ -314,12 +314,11 @@ export class MisAppraisalComponent {
       worksheet.getColumn(column.key as string | number).alignment = { vertical: 'middle', horizontal: 'center' };
     });
 
-    // enable wrap text for specific cells
+    // enable wrap text for timeline cell
     worksheet.getColumn('jenisPermohonan').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
     worksheet.getColumn('timeline').alignment = { wrapText: true, vertical: 'middle' };
     worksheet.getColumn('location').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
 
-    // Center-align the "Timeline" header
     const timelineColumnIndex = worksheet.columns.findIndex(column => column.header === 'Timeline') + 1;
     if (timelineColumnIndex > 0) {
       worksheet.getRow(1).getCell(timelineColumnIndex).alignment = { vertical: 'middle', horizontal: 'center' };
