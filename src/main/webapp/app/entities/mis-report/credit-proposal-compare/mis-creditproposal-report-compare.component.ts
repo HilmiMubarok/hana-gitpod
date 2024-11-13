@@ -203,7 +203,7 @@ export class MisCreditProposalReportCompareComponent {
     // Start index for merging rows related to the current proposal
     const startRow = worksheet.rowCount + 1;
     // Calculate the maximum length of both arrays to loop through
-    const maxLength = Math.max(dataCompare.length, products.length);
+    const maxLength = Math.max(dataCompare[0]?.product.length, products.length);
 
     // Loop through the maximum length
     for (let idx = 0; idx < maxLength; idx++) {
