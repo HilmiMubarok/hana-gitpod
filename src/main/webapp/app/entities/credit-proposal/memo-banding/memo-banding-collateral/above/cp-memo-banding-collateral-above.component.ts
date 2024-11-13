@@ -195,6 +195,7 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
+    this.loadSummaryCollateral();
     if (this.creditProposal.customerType === 'PERSONAL') {
       this.findCollateralProperty(this.creditProposal.prospectPerson.id);
     } else {
@@ -244,9 +245,6 @@ export class CpMemoBandingCollateralAboveComponent implements OnChanges, OnInit,
           // this.loadByPartyId(this.creditProposal.cif.partyId);
         }
       }
-    }
-
-    if (changes['creditProposal']) {
     }
   }
 

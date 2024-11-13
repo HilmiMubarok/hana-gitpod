@@ -206,6 +206,7 @@ export class SummaryGridBtbLoanOpsComponent
     this.totalCoverage();
     this.getLovInsuranceType();
     this.lovBindingType();
+    this.loadSummaryCollateral();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -242,11 +243,6 @@ export class SummaryGridBtbLoanOpsComponent
     }
     if (changes['isLabel']) {
       this.isLabel = changes['isLabel'].currentValue;
-    }
-    if (changes['creditProposal']) {
-      if (this.creditProposal.id) {
-        this.loadSummaryCollateral();
-      }
     }
   }
   public collateral: any;
