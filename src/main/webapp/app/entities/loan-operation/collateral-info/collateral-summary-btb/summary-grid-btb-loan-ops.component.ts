@@ -244,11 +244,6 @@ export class SummaryGridBtbLoanOpsComponent
       this.isLabel = changes['isLabel'].currentValue;
     }
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
-        }
-      }
       if (this.creditProposal.id) {
         this.loadSummaryCollateral();
       }

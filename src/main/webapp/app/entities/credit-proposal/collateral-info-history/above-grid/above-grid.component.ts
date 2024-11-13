@@ -898,7 +898,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
             this.historyData().collateralProductRelations[i].collateralId === this.historyData().collaterals[i]?.id &&
             this.historyData().collateralProductRelations[i].applicationProduct?.id === this.historyData().products[i]?.id
           ) {
-            this.historyData().collateralProductRelations.splice(i, this.historyData().collateralProductRelations.length);
+            this.historyData().collateralProductRelations.splice(i);
           }
         }
       }

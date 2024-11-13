@@ -278,19 +278,13 @@ export class SummaryGridComponent
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
-          // this.findCollateralProperty(collateral);
-        }
+      if (this.creditProposal.id) {
+        this.loadSummaryCollateral();
       }
     }
     // if (changes['collateralProperties']) {
     //   this.collateralProperties = changes['collateralProperties'].currentValue;
     // }
-    if (this.creditProposal.id) {
-      this.loadSummaryCollateral();
-    }
   }
   public collateral: any;
   ngAfterViewInit(): void {
@@ -1001,7 +995,7 @@ export class SummaryGridComponent
             this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
             this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
           ) {
-            this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
+            this.creditProposal.collateralProductRelations.splice(i);
           }
         }
       }
