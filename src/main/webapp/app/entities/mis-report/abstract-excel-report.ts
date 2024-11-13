@@ -254,7 +254,7 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _formatDate(dateStr) {
-    if (typeof dateStr === 'undefined') {
+    if (typeof dateStr === 'undefined' || dateStr === 'null' || dateStr === null) {
       return '';
     }
 
@@ -372,7 +372,10 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    return products.map(product => product.maturityDate).join(',\n');
+    // filter maturitydate
+    const filteredProducts = products.filter(product => product.maturityDate !== null && product.maturityDate !== 'null');
+
+    return filteredProducts.map(product => product.maturityDate).join(',\n');
   }
 
   protected _getFromDateBasedOnField(
