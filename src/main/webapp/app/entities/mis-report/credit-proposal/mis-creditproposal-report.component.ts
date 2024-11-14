@@ -172,9 +172,13 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this._resetData();
         this.misReportService.setLoading(false);
       },
-      complete: () => this.misReportService.setLoading(false),
+      complete: () => {
+        this._resetData();
+        this.misReportService.setLoading(false);
+      },
     });
   }
 
@@ -211,6 +215,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
 
     this._applyStyles();
     this.downloadFile(fileName);
+    this._resetData();
   }
 
   protected processData(data: any[]): void {

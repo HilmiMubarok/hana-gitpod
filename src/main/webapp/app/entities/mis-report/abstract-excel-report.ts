@@ -7,11 +7,19 @@ export abstract class AbstractExcelMISReport {
   protected worksheet: ExcelJS.Worksheet;
 
   constructor(protected service: MisReportService, sheetName = 'Sheet 1') {
+    this._setupReport(sheetName);
+  }
+
+  protected abstract processData(data: any[]): void;
+
+  protected _setupReport(sheetName = 'Sheet 1'): void {
     this.workbook = new ExcelJS.Workbook();
     this.worksheet = this.workbook.addWorksheet(sheetName);
   }
 
-  protected abstract processData(data: any[]): void;
+  protected _resetData(): void {
+    this._setupReport();
+  }
 
   protected getStatusLOV(appMenuId: string) {
     return this.service.getStatuses(appMenuId);
@@ -114,16 +122,16 @@ export abstract class AbstractExcelMISReport {
     }
 
     const products = proposal.product;
-    const installmentFacilities = ['WCL', 'IL'];
+    const installmentFacilities = ['WCI', 'IL'];
 
     return products
       .filter(product => product.currency === currency) // Filter by currency
       .filter(product => {
         if (facilityType === 'Cash') {
-          // For 'Cash', facility should NOT be 'WCL' or 'IL'
+          // For 'Cash', facility should NOT be 'WCI' or 'IL'
           return !installmentFacilities.includes(product.facility);
         } else if (facilityType === 'Installment') {
-          // For 'Installment', facility should ONLY be 'WCL' or 'IL'
+          // For 'Installment', facility should ONLY be 'WCI' or 'IL'
           return installmentFacilities.includes(product.facility);
         }
         return false; // In case an unsupported facilityType is passed
