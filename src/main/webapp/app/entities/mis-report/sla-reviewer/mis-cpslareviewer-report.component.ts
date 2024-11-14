@@ -142,9 +142,13 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       next: res => this._processGenerate(res.body, 'MIS_SLA_Reviewer'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this._resetData();
         this.misReportService.setLoading(false);
       },
-      complete: () => this.misReportService.setLoading(false),
+      complete: () => {
+        this._resetData();
+        this.misReportService.setLoading(false);
+      },
     });
   }
 
@@ -165,6 +169,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
 
     this._applyStyles();
     this.downloadFile(fileName);
+    this._resetData();
   }
 
   protected processData(data: any[]): void {
