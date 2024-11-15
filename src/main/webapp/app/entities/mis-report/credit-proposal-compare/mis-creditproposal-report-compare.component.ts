@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
+import { AbstractExcelMISReport } from '../abstract-excel-report';
 
 @Component({
   selector: 'jhi-mis-creditproposal-report-compare',
@@ -41,7 +42,7 @@ import * as ExcelJS from 'exceljs';
     `,
   ],
 })
-export class MisCreditProposalReportCompareComponent {
+export class MisCreditProposalReportCompareComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
   data = '';
   date1: any;
@@ -51,6 +52,7 @@ export class MisCreditProposalReportCompareComponent {
   MISReportCP: FormGroup;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    super(misReportService);
     this.MISReportCP = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
@@ -70,10 +72,10 @@ export class MisCreditProposalReportCompareComponent {
         this.MISReportCP.get('date2')?.setValue(formattedDate, { emitEvent: false });
       }
     });
-
+  }
+  ngOnInit(): void {
     this.getStatus();
   }
-
   getStatus() {
     this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL_COMPARE').subscribe({
       next: res => (this.lovStatus = res),
@@ -96,6 +98,11 @@ export class MisCreditProposalReportCompareComponent {
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Compare'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this._resetData();
+        this.misReportService.setLoading(false);
+      },
+      complete: () => {
+        this._resetData();
         this.misReportService.setLoading(false);
       },
     });
@@ -117,7 +124,7 @@ export class MisCreditProposalReportCompareComponent {
     return moment(date).format('YYYY-MM-DD');
   }
 
-  private _convertStatusToString(status: Array<string>): string {
+  public _convertStatusToString(status: Array<string>): string {
     // if length is 0, return empty string
     if (status.length === 0) {
       return '';
@@ -139,15 +146,16 @@ export class MisCreditProposalReportCompareComponent {
       return;
     }
 
-    // Add data to worksheet
-    data.forEach((proposal, index) => {
-      this._addProposalData(worksheet, proposal, index);
-    });
-
+    this.processData(data);
     this._applyStyles(worksheet);
     this._downloadFile(workbook, fileName);
+    this._resetData();
   }
-
+  protected processData(data: any[]): void {
+    data.forEach((proposal, index) => {
+      this._addProposalData(this.worksheet, proposal, index);
+    });
+  }
   private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
     worksheet.columns = [
       { header: 'No.', key: 'no', width: 5 },
