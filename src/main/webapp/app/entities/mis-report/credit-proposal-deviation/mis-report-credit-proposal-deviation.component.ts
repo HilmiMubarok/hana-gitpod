@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
+import { AbstractExcelMISReport } from '../abstract-excel-report';
 
 @Component({
   selector: 'jhi-mis-report-credit-proposal-deviation',
@@ -41,7 +42,7 @@ import * as ExcelJS from 'exceljs';
     `,
   ],
 })
-export class MisReportCreditProposalDeviationComponent {
+export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
   status: '';
   date1: any;
@@ -56,7 +57,8 @@ export class MisReportCreditProposalDeviationComponent {
   }
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
-    this.getStatus();
+    super(misReportService);
+
     this.MisReportCPDeviation;
 
     this.MisReportCPDeviation = new FormGroup({
@@ -78,7 +80,9 @@ export class MisReportCreditProposalDeviationComponent {
       }
     });
   }
-
+  ngOnInit(): void {
+    this.getStatus();
+  }
   getStatus() {
     this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL_DEVIATION').subscribe({
       next: res => (this.listOfValue = res),
@@ -107,6 +111,11 @@ export class MisReportCreditProposalDeviationComponent {
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Deviation'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this._resetData();
+        this.misReportService.setLoading(false);
+      },
+      complete: () => {
+        this._resetData();
         this.misReportService.setLoading(false);
       },
     });
@@ -121,14 +130,16 @@ export class MisReportCreditProposalDeviationComponent {
       return;
     }
     // Add data to worksheet
-    data.forEach((proposal, index, row) => {
-      this._addProposalData(worksheet, proposal, index);
-    });
-
+    this.processData(data);
     this._applyStyles(worksheet);
     this._downloadFile(workbook, fileName);
+    this._resetData();
   }
-
+  protected processData(data: any[]): void {
+    data.forEach((proposal, index, row) => {
+      this._addProposalData(this.worksheet, proposal, index);
+    });
+  }
   private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
     worksheet.columns = [
       { header: 'No.', key: 'no', width: 5 },
@@ -292,7 +303,7 @@ export class MisReportCreditProposalDeviationComponent {
       this.misReportService.setLoading(false);
     });
   }
-  private _convertStatusToString(status: Array<string>): string {
+  public _convertStatusToString(status: Array<string>): string {
     // if length is 0, return empty string
     if (status.length === 0) {
       return '';
