@@ -137,18 +137,18 @@ export class MisCreditProposalReportCompareComponent extends AbstractExcelMISRep
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
 
-    this._setUpColumns(worksheet);
+    this.setUpColumns(this.columns);
 
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
       this._applyStyles(worksheet);
-      this._downloadFile(workbook, fileName);
+      this.downloadFile(fileName);
       return;
     }
 
     this.processData(data);
-    this._applyStyles(worksheet);
-    this._downloadFile(workbook, fileName);
+    this.applyStyles('fffefd32');
+    this.downloadFile(fileName);
     this._resetData();
   }
   protected processData(data: any[]): void {
@@ -156,8 +156,8 @@ export class MisCreditProposalReportCompareComponent extends AbstractExcelMISRep
       this._addProposalData(this.worksheet, proposal, index);
     });
   }
-  private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
-    worksheet.columns = [
+  get columns(): any[] {
+    return [
       { header: 'No.', key: 'no', width: 5 },
       { header: 'Segment', key: 'segment', width: 15 },
       { header: 'Branch', key: 'branch', width: 21 },
@@ -280,58 +280,10 @@ export class MisCreditProposalReportCompareComponent extends AbstractExcelMISRep
   }
 
   private _applyStyles(worksheet: ExcelJS.Worksheet): void {
-    worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-      if (rowNumber === 1) {
-        worksheet.getRow(rowNumber).fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'fffefd32' },
-        };
-
-        worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-        // worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
-      }
-
-      row.eachCell({ includeEmpty: true }, cell => {
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-        cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      });
-    });
-
-    // worksheet.getColumn('pengajuan').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('kategoriUsahaDebitur').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('basedOnAverageBalance').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('basedOnCreditMutation').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('collateralType').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('lineOfBusiness').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('totalPlafondDebtorIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('totalPlafondDebtorUSD').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('subTotalPlafondEqToIDRDebtor').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('grandTotalPlafondEqToIDR').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('collateralCoverageMVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('collateralCoverageLVInternal').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('collateralCoverageMVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    // worksheet.getColumn('collateralCoverageLVKJPP').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-  }
-
-  private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
-    workbook.xlsx.writeBuffer().then(buffer => {
-      const blob = new Blob([buffer], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      });
-      const date = new Date();
-      const outputName = `${fileName}_${date.getFullYear()}-${
-        date.getMonth() + 1
-      }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
-
-      saveAs(blob, outputName);
-      this.misReportService.setLoading(false);
-    });
+    super.applyStyles('fffefd32');
+    // const columnsToBeWraped = [
+    //   'covenantStatus',
+    //   'covenantDeviations',
+    // ];
   }
 }
