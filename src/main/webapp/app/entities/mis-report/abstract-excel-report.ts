@@ -70,7 +70,7 @@ export abstract class AbstractExcelMISReport {
     await this.downloadFile(fileName);
   }
 
-  // ============= HELPER METHODS FOR CP GENERAL ============= //
+  // ============= HELPER METHODS FOR CP BSU ============= //
 
   protected _convertStatusToString(status: Array<string>): string {
     // if length is 0, return empty string
@@ -390,7 +390,8 @@ export abstract class AbstractExcelMISReport {
     proposal: any,
     field: 'statusDescription' | 'fromStatusDescription',
     status: string[],
-    outputType: 'Default' | 'Count' = 'Default'
+    outputType: 'Default' | 'Count' = 'Default',
+    isFormatted = true
   ): string {
     const timelines = proposal.timeLineCreditProposal;
 
@@ -399,11 +400,18 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
+    // Sort timelines asc by id
+    timelines.sort((a, b) => a.id - b.id);
+
     // Filter timelines based on the specified field and statuses in the array
     const filteredTimelines = timelines.filter(t => status.includes(t[field]));
 
     if (outputType === 'Default') {
       // Map the filtered timelines to their fromDate and join them with a newline separator
+      if (isFormatted) {
+        return filteredTimelines.map(t => this._formatDateSLA(t.fromDate)).join(',\n');
+      }
+
       return filteredTimelines.map(t => t.fromDate).join(',\n');
     }
 
@@ -411,7 +419,7 @@ export abstract class AbstractExcelMISReport {
     return filteredTimelines.length.toString();
   }
 
-  protected _getGenerateDAR(proposal: any): string {
+  protected _getGenerateDAR(proposal: any, isFormatted = true): string {
     const documentGenerate = proposal.documentGenerate;
 
     // Return '' if documentGenerate is null
@@ -420,11 +428,13 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    return documentGenerate.generateDate || '';
+    return isFormatted ? this._formatDateSLA(documentGenerate.generateDate) || '' : documentGenerate.generateDate || '';
   }
 
   protected _getDaysToMaturityDate(proposal: any): string {
-    const tanggalCRA = this._getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Approve To Loan Analysis']).split(',').pop();
+    const tanggalCRA = this._getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Approve To Loan Analysis'], 'Default', false)
+      .split(',')
+      .pop();
     const jatuhTempo = this._getMaturityDate(proposal).split(',');
 
     // subtract tanggalCRA - each jatuhTempo. output will be how many days between tanggalCRA and jatuhTempo in array
@@ -447,8 +457,8 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _getSlaLength(proposal: any): string {
-    const generateDarDate = this._getGenerateDAR(proposal);
-    const craDate = this._getFromDateBasedOnField(proposal, 'statusDescription', ['Assignment']).split(',').pop();
+    const generateDarDate = this._getGenerateDAR(proposal, false);
+    const craDate = this._getFromDateBasedOnField(proposal, 'statusDescription', ['Assignment'], 'Default', false).split(',').pop();
 
     // return generateDarDate - craDate. output will be how many days between generateDarDate and craDate
     if (!generateDarDate || !craDate) {
@@ -464,5 +474,17 @@ export abstract class AbstractExcelMISReport {
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
     return diffDays.toString();
+  }
+
+  protected _formatDateSLA(dateStr: string): string {
+    if (!dateStr) {
+      return '';
+    }
+
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${day}-${month}-${year}`;
   }
 }
