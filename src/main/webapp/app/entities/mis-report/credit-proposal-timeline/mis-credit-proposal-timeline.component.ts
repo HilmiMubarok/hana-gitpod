@@ -254,6 +254,11 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Timeline'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this._resetData();
+        this.misReportService.setLoading(false);
+      },
+      complete: () => {
+        this._resetData();
         this.misReportService.setLoading(false);
       },
     });
