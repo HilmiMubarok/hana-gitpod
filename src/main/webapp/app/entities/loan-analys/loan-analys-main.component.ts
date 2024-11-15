@@ -1307,12 +1307,11 @@ export class LoanAnalysMainComponent implements OnInit {
           //   });
         } else if (_res.caption === 'Return To CRO') {
           this.onSave('process', _res.caption);
-        } else if (
-          this.creditProposal.statusId === 'CP_DAR_FINAL' ||
-          (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && _res.caption === 'Approved as Condition') ||
-          (_res.caption === 'Approved as Proposed' && _res.caption === 'Submit')
-        ) {
-          this.creditProposal.attributes['approvalStatus'] = task.caption;
+        } else if (this.creditProposal.statusId === 'CP_DAR_FINAL' || this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+          if (_res.caption === 'Approved as Condition' || _res.caption === 'Approved as Proposed' || _res.caption === 'Reject') {
+            this.creditProposal.attributes['approvalStatus'] = task.caption;
+          }
+
           this.validateDar()
             .then(() => {
               this.onSave('process', _res.caption);
