@@ -123,25 +123,25 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   private _processGenerate(data, fileName) {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
-    this._setUpColumns(worksheet);
+    this.setUpColumns(this.columns);
     if (!data || data.length === 0) {
-      this._applyStyles(worksheet);
-      this._downloadFile(workbook, fileName);
+      this.applyStyles('ff4285f4');
+      this.downloadFile(fileName);
       return;
     }
     // Add data to worksheet
     this.processData(data);
-    this._applyStyles(worksheet);
-    this._downloadFile(workbook, fileName);
+    this._applyStyles();
+    this.downloadFile(fileName);
     this._resetData();
   }
   protected processData(data: any[]): void {
-    data.forEach((proposal, index, row) => {
+    data.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
   }
-  private _setUpColumns(worksheet: ExcelJS.Worksheet): void {
-    worksheet.columns = [
+  get columns(): any[] {
+    return [
       { header: 'No.', key: 'no', width: 5 },
       { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
       { header: 'Proposal Date', key: 'proposalDate', width: 15 },
@@ -225,7 +225,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       });
     });
 
-    const rowEnd = worksheet.lastRow.number;
+    const rowEnd = rowStart + covenantData.length - 1;
 
     // Merge columns for the proposal details (first row only)
     if (rowEnd > rowStart) {
@@ -259,48 +259,15 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       });
     }
   }
-
-  private _applyStyles(worksheet: ExcelJS.Worksheet): void {
-    worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-      if (rowNumber === 1) {
-        worksheet.getRow(rowNumber).fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'ff4285f4' },
-        };
-
-        worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-        worksheet.getColumn('covenantStatus').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-        worksheet.getColumn('covenantDeviations').alignment = { vertical: 'justify', horizontal: 'justify', wrapText: true };
-      }
-
-      row.eachCell({ includeEmpty: true }, cell => {
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-        cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      });
-    });
-    worksheet.getColumn('covenantStatus').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-    worksheet.getColumn('covenantDeviations').alignment = { vertical: 'justify', horizontal: 'justify', wrapText: true };
-  }
-
-  private _downloadFile(workbook: ExcelJS.Workbook, fileName: string): void {
-    workbook.xlsx.writeBuffer().then(buffer => {
-      const blob = new Blob([buffer], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      });
-      const date = new Date();
-      const outputName = `${fileName}_${date.getFullYear()}-${
-        date.getMonth() + 1
-      }-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
-
-      saveAs(blob, outputName);
-      this.misReportService.setLoading(false);
+  private _applyStyles(): void {
+    super.applyStyles('ff4285f4');
+    const columnsToBeWraped = ['covenantStatus', 'covenantDeviations'];
+    columnsToBeWraped.forEach(column => {
+      this.worksheet.getColumn(column).alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+        wrapText: true,
+      };
     });
   }
   public _convertStatusToString(status: Array<string>): string {
