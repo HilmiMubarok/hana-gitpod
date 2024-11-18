@@ -5,6 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
+import { AbstractExcelMISReport } from '../abstract-excel-report';
 
 @Component({
   selector: 'jhi-mis-appraisal',
@@ -41,7 +42,7 @@ import * as ExcelJS from 'exceljs';
     `,
   ],
 })
-export class MisAppraisalComponent {
+export class MisAppraisalComponent extends AbstractExcelMISReport {
   public lovStatusAppraisal = [];
   public lovOfficerSurveyor = [];
   public lovAppraisalType: string[] = ['Internal', 'External'];
@@ -56,6 +57,8 @@ export class MisAppraisalComponent {
   MISReportAppraisal: FormGroup;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    super(misReportService);
+
     this.MISReportAppraisal = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
@@ -192,6 +195,12 @@ export class MisAppraisalComponent {
     return lov.join(',');
   }
 
+  protected processData(data: any[]): void {
+    data.forEach((proposal, index) => {
+      this._processGenerate;
+    });
+  }
+
   generateMISReportAppraisal() {
     this.misReportService.setLoading(true);
     const params = {
@@ -208,6 +217,11 @@ export class MisAppraisalComponent {
       error: error => {
         console.error('Error: ', error);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
+        this._resetData();
+        this.misReportService.setLoading(false);
+      },
+      complete: () => {
+        this._resetData();
         this.misReportService.setLoading(false);
       },
     });
