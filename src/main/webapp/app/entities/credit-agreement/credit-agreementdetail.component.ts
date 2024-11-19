@@ -63,6 +63,7 @@ import { ViewportScroller } from '@angular/common';
 import { GenerateReportService } from '../generate-report-service/generate-report.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 import { ApprovalDebtorCorporateService } from './finalize-credit-agreement/approval-debtor-corporate.service';
+import { UpdateCoverageSummary } from '../credit-proposal/update-coverage-function';
 
 @Component({
   selector: 'jhi-credit-agreement-floating',
@@ -217,7 +218,8 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
     private viewport: ViewportScroller,
     private generatePkDraftService: GenerateReportService,
     private cashCollateralService: CashCollateralService,
-    public approvalDebtorCorporateService: ApprovalDebtorCorporateService
+    public approvalDebtorCorporateService: ApprovalDebtorCorporateService,
+    private updateCoverage: UpdateCoverageSummary
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -699,72 +701,74 @@ export class CreditAgreementDetailComponent implements OnInit, OnDestroy {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.cashCreditProposalsService.update(this.preSave(status)).subscribe(res => {
-      this.creditProposal.products = res.body.products;
-      this.creditProposal.collaterals = res.body.collaterals;
-      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-      if (status === 'complete') {
-        this.saveFile();
-      }
+    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralProperties).then(() => {
+      this.cashCreditProposalsService.update(this.preSave(status)).subscribe(res => {
+        this.creditProposal.products = res.body.products;
+        this.creditProposal.collaterals = res.body.collaterals;
+        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+        if (status === 'complete') {
+          this.saveFile();
+        }
 
-      if (this.creditProposalTabBusinessActivityComponent) {
-        this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
-      }
+        if (this.creditProposalTabBusinessActivityComponent) {
+          this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+        }
 
-      if (this.CPMemoBandingRemarkComponent) {
-        this.CPMemoBandingRemarkComponent.triggeredSave();
-      }
+        if (this.CPMemoBandingRemarkComponent) {
+          this.CPMemoBandingRemarkComponent.triggeredSave();
+        }
 
-      /* if (this.creditProposalOpinionHistoryComponent) {
+        /* if (this.creditProposalOpinionHistoryComponent) {
     this.creditProposalOpinionHistoryComponent.triggeredSave();
     this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
     this.creditProposalOpinionHistoryComponent.refresh();
     } */
 
-      if (this.CreditProposalTabSummaryComponent) {
-        this.CreditProposalTabSummaryComponent.triggeredSave();
-      }
-
-      if (this.parentPath !== 'finalize-pk') {
-        if (this.proposalBasicInformationViewComponent) {
-          this.proposalBasicInformationViewComponent.triggeredSave();
+        if (this.CreditProposalTabSummaryComponent) {
+          this.CreditProposalTabSummaryComponent.triggeredSave();
         }
-      }
 
-      if (this.creditProposaTabManagementInfoComponent) {
-        this.creditProposaTabManagementInfoComponent.triggeredSave();
-      }
+        if (this.parentPath !== 'finalize-pk') {
+          if (this.proposalBasicInformationViewComponent) {
+            this.proposalBasicInformationViewComponent.triggeredSave();
+          }
+        }
 
-      if (this.creditProposalCollateralInfoComponent) {
-        this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
+        if (this.creditProposaTabManagementInfoComponent) {
+          this.creditProposaTabManagementInfoComponent.triggeredSave();
+        }
 
-      if (this.creditProposalCollateralInfoHistoryComponent) {
-        this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
 
-      if (this.remaksComponent) {
-        this.remaksComponent.triggeredSave();
-      }
+        if (this.creditProposalCollateralInfoHistoryComponent) {
+          this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
 
-      if (source === 'process') {
-        if (this.parentPath === 'finalize-pk') {
-          this.saveApplicationRole();
-        } else {
-          this.saveWord = false;
-          this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
-            this.router.navigate([this.router.url.split('/')[1]]);
+        if (this.remaksComponent) {
+          this.remaksComponent.triggeredSave();
+        }
+
+        if (source === 'process') {
+          if (this.parentPath === 'finalize-pk') {
+            this.saveApplicationRole();
+          } else {
+            this.saveWord = false;
+            this.creditAgreementProcessService.processTask(this.resAttr).subscribe(() => {
+              this.router.navigate([this.router.url.split('/')[1]]);
+            });
+          }
+        } else if (source === 'default') {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
           });
+          this.saveWord = false;
+          this.approvalDebtorCorporateService.setTriggeredSave(true);
         }
-      } else if (source === 'default') {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-        this.saveWord = false;
-        this.approvalDebtorCorporateService.setTriggeredSave(true);
-      }
+      });
     });
   }
 
