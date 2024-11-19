@@ -1426,7 +1426,6 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposalCollateralInfoComponent) {
       this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
     }
-
     if (source === 'process') {
       this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
         this.router.navigate([this.router.url.split('/')[1]]);
@@ -1438,41 +1437,40 @@ export class LoanAnalysMainComponent implements OnInit {
         detail: 'Save Success',
       });
     }
-
-    /* if (this.applicationRole.id) {
-      this.applicationRoleService.update(this.applicationRole).subscribe(res => {
-        this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
-          this.cp = response.body;
-        });
-
-        if (this.creditProposalCollateralInfoComponent) {
-          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-        }
-
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-      });
-    } else {
-      this.applicationRoleService.create(this.applicationRole).subscribe(res => {
-        this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
-          this.cp = response.body;
-        });
-
-        if (this.creditProposalCollateralInfoComponent) {
-          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-        }
-
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-      });
-    } */
   }
+  /* if (this.applicationRole.id) {
+    this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+      this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
+        this.cp = response.body;
+      });
+
+      if (this.creditProposalCollateralInfoComponent) {
+        this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+      }
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
+    });
+  } else {
+    this.applicationRoleService.create(this.applicationRole).subscribe(res => {
+      this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
+        this.cp = response.body;
+      });
+
+      if (this.creditProposalCollateralInfoComponent) {
+        this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+      }
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
+    });
+  } */
 
   public userId: any;
   public InternalId: any;
@@ -1737,7 +1735,6 @@ export class LoanAnalysMainComponent implements OnInit {
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
     }
-
     return copyCreditProposal;
   }
 
@@ -2008,43 +2005,11 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.creditProposalService.update(this.preSave(status)).subscribe(res => {
-      this.creditProposal.products = res.body.products;
-      this.creditProposal.notes = res.body.notes;
-      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-      const tempRouterA = this.router.url.split('/')[1];
-
-      if (tempRouterA === 'cc-review') {
-        if (this.loanAnalysOpinionCompliancePartComponent) {
-          this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-          this.loanAnalysOpinionCompliancePartComponent.refresh();
-          this.loanAnalysOpinionCompliancePartComponent.onCreate();
-        }
-      }
-
-      if (tempRouterA === 'cc-checking') {
-        if (this.loanAnalysOpinionCompliance) {
-          this.loanAnalysOpinionCompliance.triggeredSave();
-          this.loanAnalysOpinionCompliance.onCreate();
-        }
-      }
-
-      if (this.selectedMenu === 'loan-facility') {
-        if (this.loanFacilityDetailTempComponent) {
-          this.loanFacilityDetailTempComponent.triggeredSave();
-          this.loanFacilityDetailTempComponent.onCreate();
-        }
-      }
-
-      this.saveDoc = true;
-      this.saveApplicationRole(source);
-    });
-
-    /* if (status === 'not-complete-not-visit') {
+    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralProperties).then(() => {
       this.creditProposalService.update(this.preSave(status)).subscribe(res => {
         this.creditProposal.products = res.body.products;
         this.creditProposal.notes = res.body.notes;
-
+        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
         const tempRouterA = this.router.url.split('/')[1];
 
         if (tempRouterA === 'cc-review') {
@@ -2055,6 +2020,13 @@ export class LoanAnalysMainComponent implements OnInit {
           }
         }
 
+        if (tempRouterA === 'cc-checking') {
+          if (this.loanAnalysOpinionCompliance) {
+            this.loanAnalysOpinionCompliance.triggeredSave();
+            this.loanAnalysOpinionCompliance.onCreate();
+          }
+        }
+
         if (this.selectedMenu === 'loan-facility') {
           if (this.loanFacilityDetailTempComponent) {
             this.loanFacilityDetailTempComponent.triggeredSave();
@@ -2062,6 +2034,33 @@ export class LoanAnalysMainComponent implements OnInit {
           }
         }
 
+        this.saveDoc = true;
+        this.saveApplicationRole(source);
+      });
+    });
+
+    /* if (status === 'not-complete-not-visit') {
+      this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+        this.creditProposal.products = res.body.products;
+        this.creditProposal.notes = res.body.notes;
+  
+        const tempRouterA = this.router.url.split('/')[1];
+  
+        if (tempRouterA === 'cc-review') {
+          if (this.loanAnalysOpinionCompliancePartComponent) {
+            this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+            this.loanAnalysOpinionCompliancePartComponent.refresh();
+            this.loanAnalysOpinionCompliancePartComponent.onCreate();
+          }
+        }
+  
+        if (this.selectedMenu === 'loan-facility') {
+          if (this.loanFacilityDetailTempComponent) {
+            this.loanFacilityDetailTempComponent.triggeredSave();
+            this.loanFacilityDetailTempComponent.onCreate();
+          }
+        }
+  
         this.saveDoc = true;
         this.saveApplicationRole(source);
       });
@@ -2078,18 +2077,18 @@ export class LoanAnalysMainComponent implements OnInit {
       } else {
         isAllowedSaveWith2StepVerification = true;
       }
-
+  
       if (isAllowedSaveWith2StepVerification) {
         this.creditProposalService.update(this.preSave(status)).subscribe(res => {
           this.creditProposal.products = res.body.products;
           this.creditProposal.notes = res.body.notes;
-
+  
           if (status === 'complete') {
             this.saveFile();
           }
-
+  
           const tempRouterA = this.router.url.split('/')[1];
-
+  
           if (tempRouterA === 'cc-review') {
             if (this.loanAnalysOpinionCompliancePartComponent) {
               this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
@@ -2097,14 +2096,14 @@ export class LoanAnalysMainComponent implements OnInit {
               this.loanAnalysOpinionCompliancePartComponent.onCreate();
             }
           }
-
+  
           if (this.selectedMenu === 'loan-facility') {
             if (this.loanFacilityDetailTempComponent) {
               this.loanFacilityDetailTempComponent.triggeredSave();
               this.loanFacilityDetailTempComponent.onCreate();
             }
           }
-
+  
           this.saveDoc = true;
           this.saveApplicationRole(source);
         });

@@ -68,6 +68,7 @@ import { LoanOpsReviewProcessService } from './laon-operation-review-process.ser
 import { MenuPermissionService } from '../menu-permissions/menu-permissions.service';
 import { EntitiyPropertiesService } from '../entity-properties/entity-properties.service';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
+import { UpdateCoverageSummary } from '../credit-proposal/update-coverage-function';
 @Component({
   selector: 'jhi-laon-operation-review-detail',
   templateUrl: './laon-operation-review-detail.component.html',
@@ -222,7 +223,8 @@ export class LoanOpsReviewDetailComponent implements OnInit {
     private baService: BusinessActivityService,
     private viewport: ViewportScroller,
     private menuPermissionService: MenuPermissionService,
-    private cashCollateralService: CashCollateralService
+    private cashCollateralService: CashCollateralService,
+    private updateCoverage: UpdateCoverageSummary
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -629,71 +631,73 @@ export class LoanOpsReviewDetailComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.loanOpsReviewService.update(this.preSave(status)).subscribe(res => {
-      this.creditProposal.products = res.body.products;
-      this.creditProposal.collaterals = res.body.collaterals;
-      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-      if (status === 'complete') {
-        this.saveFile();
-      }
+    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralProperties).then(() => {
+      this.loanOpsReviewService.update(this.preSave(status)).subscribe(res => {
+        this.creditProposal.products = res.body.products;
+        this.creditProposal.collaterals = res.body.collaterals;
+        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+        if (status === 'complete') {
+          this.saveFile();
+        }
 
-      if (this.creditProposalTabBusinessActivityComponent) {
-        this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
-      }
+        if (this.creditProposalTabBusinessActivityComponent) {
+          this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+        }
 
-      if (this.CPMemoBandingRemarkComponent) {
-        this.CPMemoBandingRemarkComponent.triggeredSave();
-      }
+        if (this.CPMemoBandingRemarkComponent) {
+          this.CPMemoBandingRemarkComponent.triggeredSave();
+        }
 
-      /* if (this.creditProposalOpinionHistoryComponent) {
+        /* if (this.creditProposalOpinionHistoryComponent) {
 		this.creditProposalOpinionHistoryComponent.triggeredSave();
 		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
 		this.creditProposalOpinionHistoryComponent.refresh();
     } */
 
-      if (this.CreditProposalTabSummaryComponent) {
-        this.CreditProposalTabSummaryComponent.triggeredSave();
-      }
-
-      if (this.parentPath !== 'loan-ops-distribution') {
-        if (this.proposalBasicInformationViewComponent) {
-          this.proposalBasicInformationViewComponent.triggeredSave();
+        if (this.CreditProposalTabSummaryComponent) {
+          this.CreditProposalTabSummaryComponent.triggeredSave();
         }
-      }
 
-      if (this.creditProposaTabManagementInfoComponent) {
-        this.creditProposaTabManagementInfoComponent.triggeredSave();
-      }
+        if (this.parentPath !== 'loan-ops-distribution') {
+          if (this.proposalBasicInformationViewComponent) {
+            this.proposalBasicInformationViewComponent.triggeredSave();
+          }
+        }
 
-      if (this.creditProposalCollateralInfoComponent) {
-        this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
+        if (this.creditProposaTabManagementInfoComponent) {
+          this.creditProposaTabManagementInfoComponent.triggeredSave();
+        }
 
-      if (this.creditProposalCollateralInfoHistoryComponent) {
-        this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
 
-      if (this.remaksComponent) {
-        this.remaksComponent.triggeredSave();
-      }
+        if (this.creditProposalCollateralInfoHistoryComponent) {
+          this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
 
-      if (source === 'process') {
-        if (this.parentPath === 'loan-ops-review') {
-          this.saveApplicationRole();
-        } else {
-          this.saveWord = false;
-          this.loanOpsReviewProcessService.processTask(this.resAttr).subscribe(() => {
-            this.router.navigate([this.router.url.split('/')[1]]);
+        if (this.remaksComponent) {
+          this.remaksComponent.triggeredSave();
+        }
+
+        if (source === 'process') {
+          if (this.parentPath === 'loan-ops-review') {
+            this.saveApplicationRole();
+          } else {
+            this.saveWord = false;
+            this.loanOpsReviewProcessService.processTask(this.resAttr).subscribe(() => {
+              this.router.navigate([this.router.url.split('/')[1]]);
+            });
+          }
+        } else if (source === 'default') {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
           });
+          this.saveWord = false;
         }
-      } else if (source === 'default') {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-        this.saveWord = false;
-      }
+      });
     });
   }
 

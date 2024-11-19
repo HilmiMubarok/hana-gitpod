@@ -774,7 +774,7 @@ export class TboReviewViewComponent implements OnInit {
           this.creditProposalOpinionHistoryComponent.triggeredSave();
           this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           this.creditProposalOpinionHistoryComponent.refresh();
-		} */
+    } */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -831,76 +831,78 @@ export class TboReviewViewComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-    this.tboReviewService.update(this.preSave(status)).subscribe(res => {
-      this.creditProposal.products = res.body.products;
-      this.creditProposal.collaterals = res.body.collaterals;
-      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-      if (status === 'complete') {
-        this.saveFile();
-      }
-
-      if (this.creditProposalTabBusinessActivityComponent) {
-        this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
-      }
-
-      if (this.CPMemoBandingRemarkComponent) {
-        this.CPMemoBandingRemarkComponent.triggeredSave();
-      }
-
-      /* if (this.creditProposalOpinionHistoryComponent) {
-		this.creditProposalOpinionHistoryComponent.triggeredSave();
-		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-		this.creditProposalOpinionHistoryComponent.refresh();
-    } */
-
-      if (this.CreditProposalTabSummaryComponent) {
-        this.CreditProposalTabSummaryComponent.triggeredSave();
-      }
-
-      if (this.parentPath !== 'cp-status-approval') {
-        if (this.proposalBasicInformationViewComponent) {
-          this.proposalBasicInformationViewComponent.triggeredSave();
+    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralProperties).then(() => {
+      this.tboReviewService.update(this.preSave(status)).subscribe(res => {
+        this.creditProposal.products = res.body.products;
+        this.creditProposal.collaterals = res.body.collaterals;
+        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+        if (status === 'complete') {
+          this.saveFile();
         }
-      }
 
-      if (this.creditProposaTabManagementInfoComponent) {
-        this.creditProposaTabManagementInfoComponent.triggeredSave();
-      }
+        if (this.creditProposalTabBusinessActivityComponent) {
+          this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+        }
 
-      if (this.creditProposalCollateralInfoComponent) {
-        this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
+        if (this.CPMemoBandingRemarkComponent) {
+          this.CPMemoBandingRemarkComponent.triggeredSave();
+        }
 
-      if (this.creditProposalTabLoanFacilityDetailComponent) {
-        this.creditProposalTabLoanFacilityDetailComponent.triggeredSave();
-      }
+        /* if (this.creditProposalOpinionHistoryComponent) {
+      this.creditProposalOpinionHistoryComponent.triggeredSave();
+      this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+      this.creditProposalOpinionHistoryComponent.refresh();
+      } */
 
-      if (this.creditProposalCollateralInfoHistoryComponent) {
-        this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-      }
+        if (this.CreditProposalTabSummaryComponent) {
+          this.CreditProposalTabSummaryComponent.triggeredSave();
+        }
 
-      if (this.remaksComponent) {
-        this.remaksComponent.triggeredSave();
-      }
+        if (this.parentPath !== 'cp-status-approval') {
+          if (this.proposalBasicInformationViewComponent) {
+            this.proposalBasicInformationViewComponent.triggeredSave();
+          }
+        }
 
-      if (source === 'process') {
-        if (this.parentPath === 'cp-status-approval') {
-          this.saveApplicationRole();
-        } else {
-          this.saveWord = false;
-          this.tboLegalMonitoringService.processTask(this.resAttr).subscribe(() => {
-            this.router.navigate([this.router.url.split('/')[1]]);
+        if (this.creditProposaTabManagementInfoComponent) {
+          this.creditProposaTabManagementInfoComponent.triggeredSave();
+        }
+
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
+
+        if (this.creditProposalTabLoanFacilityDetailComponent) {
+          this.creditProposalTabLoanFacilityDetailComponent.triggeredSave();
+        }
+
+        if (this.creditProposalCollateralInfoHistoryComponent) {
+          this.creditProposalCollateralInfoHistoryComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
+
+        if (this.remaksComponent) {
+          this.remaksComponent.triggeredSave();
+        }
+
+        if (source === 'process') {
+          if (this.parentPath === 'cp-status-approval') {
+            this.saveApplicationRole();
+          } else {
+            this.saveWord = false;
+            this.tboLegalMonitoringService.processTask(this.resAttr).subscribe(() => {
+              this.router.navigate([this.router.url.split('/')[1]]);
+            });
+          }
+        } else if (source === 'default') {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
           });
+          this.saveWord = false;
         }
-      } else if (source === 'default') {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-        this.saveWord = false;
-      }
-      this.getCollateralSummaryData();
+        this.getCollateralSummaryData();
+      });
     });
   }
 
@@ -933,16 +935,16 @@ export class TboReviewViewComponent implements OnInit {
                 fileReader.onload = (e: any) => {
                   const testSfdtFile = JSON.parse(fileReader.result as string);
                   /* if (testSfdtFile.sections[0].blocks) {
-					if (testSfdtFile.sections[0].blocks.length > 0) {
-					  ++countValidate;
-					} else {
-					  // toast opinion empty
-					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					}
-				  } else {
-					// toast opinion empty
-					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-				  } */
+          if (testSfdtFile.sections[0].blocks.length > 0) {
+            ++countValidate;
+          } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+          }
+          } else {
+          // toast opinion empty
+          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+          } */
 
                   if (
                     testSfdtFile.sections[0].blocks[0].inlines ||
@@ -992,11 +994,11 @@ export class TboReviewViewComponent implements OnInit {
                       }
 
                       /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
+            ++countValidate;
+            } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+            } */
                     }
                   } else {
                     // toast opinion empty
@@ -1015,16 +1017,16 @@ export class TboReviewViewComponent implements OnInit {
                         fileReaderCondition.onload = (eCondition: any) => {
                           const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
                           /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
+              if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+                ++countValidate;
+              } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              }
+              } else {
+              // toast condition empty
+              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              } */
 
                           if (
                             testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -1074,11 +1076,11 @@ export class TboReviewViewComponent implements OnInit {
                               }
 
                               /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-								++countValidate;
-							  } else {
-								// toast condition empty
-								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							  } */
+                ++countValidate;
+                } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+                } */
                             }
                           } else {
                             // toast condition empty
