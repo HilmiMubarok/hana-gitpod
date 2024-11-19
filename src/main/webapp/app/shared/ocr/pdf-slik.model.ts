@@ -27,6 +27,7 @@ export interface IPDFSlik {
   tanggalJatuhTempo?: string;
   typeOfFacility?: string;
   kondisi?: string;
+  partySlikCollaterals?: any;
 }
 
 export class PDFSlik implements IPDFSlik {
@@ -58,6 +59,7 @@ export class PDFSlik implements IPDFSlik {
     public tanggalMulai?: string,
     public tanggalJatuhTempo?: string,
     public typeOfFacility?: string,
-    public kondisi?: string
+    public kondisi?: string,
+    public partySlikCollaterals?: any
   ) {}
 }
