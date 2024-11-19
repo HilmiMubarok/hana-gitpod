@@ -86,11 +86,24 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
     this.cif = this.data.cif;
   }
   ngOnInit(): void {
-    this.dataSource.push(this.data.partySlik);
+    this.dataSource = this.formattedDataSource;
     this.paginatorLength = this.countPageLength(this.dataSource);
     this.totalCollateralValue = this.countTotalCollateralValue(this.dataSource);
     this.totalNJOP = this.countTotalNJOP(this.dataSource);
     this.totalMarketValue = this.countTotlMarketValue(this.dataSource);
+  }
+
+  get formattedDataSource() {
+    const data = JSON.parse(this.data.partySlik.attributes.partySlikCollaterals) || [];
+
+    const columnsToBeNumerize = ['collateralIdrMio', 'nilaiNJOP', 'nilaiPenilai'];
+    data.map(item => {
+      columnsToBeNumerize.map(column => {
+        item[column] = parseInt(item[column].replace(/\./g, ''), 10) || 0;
+      });
+    });
+
+    return data;
   }
 
   public countPageLength(element: any): number {

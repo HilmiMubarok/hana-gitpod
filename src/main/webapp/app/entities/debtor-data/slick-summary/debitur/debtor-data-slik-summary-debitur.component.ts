@@ -459,6 +459,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     const partySlik: any = new PartySlik();
     partySlik.attributes = {
       name: item.debtorName,
+      partySlikCollaterals: JSON.stringify(item.partySlikCollaterals),
     };
     partySlik.partyId = this.partyId;
     partySlik.bank = item.bank;
