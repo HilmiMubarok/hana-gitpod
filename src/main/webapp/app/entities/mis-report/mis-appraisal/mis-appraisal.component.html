@@ -47,7 +47,7 @@
                   {{ allSelectedOfficerSurveyor ? 'Deselect All' : 'Select All' }}
                 </li>
                 <mat-option *ngFor="let item of lovOfficerSurveyor" [value]="item.id">
-                  {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                  {{ item.employeeFirstName }} {{ item.employeeLastName }} - {{ item.internalName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
