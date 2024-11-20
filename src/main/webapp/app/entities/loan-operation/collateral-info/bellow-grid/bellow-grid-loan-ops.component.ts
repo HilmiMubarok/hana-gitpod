@@ -24,6 +24,7 @@ import {
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-bellow-grid-loan-ops',
@@ -856,8 +857,10 @@ export class BellowGridLoanOpsComponent extends AbstractEntityMaterialComponent<
       if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           if (
-            this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
-            this.creditProposal.collaterals[i].statusId !== CODE.CANCEL
+            (this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.CANCEL) ||
+            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED ||
+            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.RELEASE
           ) {
             for (let j = 0; j < this.creditProposal.products.length; j++) {
               if ($event === true) {

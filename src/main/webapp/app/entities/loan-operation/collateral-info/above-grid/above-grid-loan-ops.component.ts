@@ -25,6 +25,7 @@ import {
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { CollateralInfoDialogLoanOpsComponent } from '../dialog/collateral-info-dialog-loan-ops.component';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-above-grid-loan-ops',
   templateUrl: './above-grid-loan-ops.component.html',
@@ -855,8 +856,10 @@ export class AboveGridLoanOpsComponent extends AbstractEntityMaterialComponent<I
       if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           if (
-            this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
-            this.creditProposal.collaterals[i].statusId !== CODE.CANCEL
+            (this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.CANCEL) ||
+            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED ||
+            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.RELEASE
           ) {
             for (let j = 0; j < this.creditProposal.products.length; j++) {
               if ($event === true) {
