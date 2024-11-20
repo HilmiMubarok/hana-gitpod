@@ -21,6 +21,7 @@ import {
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-info-btb-loan-ops',
@@ -440,12 +441,14 @@ export class CollateralInfoBTBLoanOpsComponent extends AbstractEntityMaterialCom
       if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           if (
-            this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
-            this.creditProposal.collaterals[i].collateralTypeId !== 'MACHINE' &&
-            this.creditProposal.collaterals[i].collateralTypeId !== 'REALESTATE' &&
-            this.creditProposal.collaterals[i].collateralTypeId !== 'VEHICLE' &&
-            this.creditProposal.collaterals[i].collateralTypeId !== 'PERSONAL_PROPERTY' &&
-            this.creditProposal.collaterals[i].statusId !== CODE.CANCEL
+            (this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+              this.creditProposal.collaterals[i].collateralTypeId !== 'MACHINE' &&
+              this.creditProposal.collaterals[i].collateralTypeId !== 'REALESTATE' &&
+              this.creditProposal.collaterals[i].collateralTypeId !== 'VEHICLE' &&
+              this.creditProposal.collaterals[i].collateralTypeId !== 'PERSONAL_PROPERTY' &&
+              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.CANCEL) ||
+            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED ||
+            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.RELEASE
           ) {
             for (let j = 0; j < this.creditProposal.products.length; j++) {
               if ($event === true) {
