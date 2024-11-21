@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
@@ -60,7 +60,7 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
     super(misReportService);
 
     this.MISReportAppraisal = new FormGroup({
-      date1: new FormControl(''),
+      date1: new FormControl('', [Validators.required]),
       date2: new FormControl(''),
       geoBoundaries: new FormControl(null),
       statusAppraisal: new FormControl(''),
@@ -122,16 +122,33 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
 
   getOfficerSurveyors() {
     this.misReportService.getOfficerSurveyors().subscribe({
-      next: res => (this.lovOfficerSurveyor = res),
+      next: res => {
+        this.lovOfficerSurveyor = res.sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName));
+      },
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Officer Surveyors' });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to get Officer Surveyors',
+        });
       },
     });
   }
 
+  // getBoundaries() {
+  //   this.misReportService.getGeoBoundaries().subscribe({
+  //     next: res => (this.lovGeo = res),
+  //     error: () => {
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Geo Boundaries' });
+  //     },
+  //   });
+  // }
+
   getBoundaries() {
     this.misReportService.getGeoBoundaries().subscribe({
-      next: res => (this.lovGeo = res),
+      next: res => {
+        this.lovGeo = res.sort((a: any, b: any) => a.description.localeCompare(b.description));
+      },
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Geo Boundaries' });
       },
@@ -202,6 +219,24 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
   }
 
   generateMISReportAppraisal() {
+    if (this.MISReportAppraisal.invalid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please fill in both Start Date and End Date.',
+      });
+      return;
+    }
+
+    if (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please select at least one status before generating the report',
+      });
+      return;
+    }
+
     this.misReportService.setLoading(true);
     const params = {
       startDate: this.MISReportAppraisal.get('date1')?.value,

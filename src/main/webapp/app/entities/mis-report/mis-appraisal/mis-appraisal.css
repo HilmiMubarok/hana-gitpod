@@ -122,3 +122,15 @@ body {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+.mat-form-field-invalid .mat-form-field-outline {
+  border-color: red !important;
+}
+
+.mat-form-field-invalid .mat-form-field-label {
+  color: red !important;
+}
+
+.mat-form-field-invalid .mat-form-field-subscript-wrapper {
+  display: none;
+}
