@@ -14,7 +14,7 @@
       <mat-card-content>
         <div class="row my-3">
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
+            <mat-form-field class="w-100" appearance="outline" [formGroup]="MISReportAppraisal">
               <mat-label>Enter a date range</mat-label>
               <mat-date-range-input [rangePicker]="picker">
                 <input matStartDate formControlName="date1" placeholder="Start date" readonly (focus)="picker.open()" />
@@ -23,6 +23,7 @@
               <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
+              <mat-error *ngIf="MISReportAppraisal.get('date1').hasError('required')">Start date is required</mat-error>
             </mat-form-field>
           </div>
 
