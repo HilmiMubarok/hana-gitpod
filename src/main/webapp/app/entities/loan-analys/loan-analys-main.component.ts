@@ -67,6 +67,7 @@ import { ViewportScroller } from '@angular/common';
 import { LoanAnalysComplianceComponent } from './compliance/loan-analys-compliance.component';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 import { UpdateCoverageSummary } from '../credit-proposal/update-coverage-function';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -178,6 +179,8 @@ export class LoanAnalysMainComponent implements OnInit {
   public isDocDar = false;
   dataFileLaDistrib: any[];
   dataFile: any;
+  dataCollateral: any;
+  collateralPropertiesSummary: ICollateralProperty[] = [];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -1194,6 +1197,7 @@ export class LoanAnalysMainComponent implements OnInit {
     } else {
       this.findCollateralProperty(this.creditProposal.prospectOrganization.id);
     }
+    this.loadSummaryCollateral();
   }
   private checkIsDoc() {
     for (let i = 0; i < this.dataFileDar.length; i++) {
@@ -2003,9 +2007,19 @@ export class LoanAnalysMainComponent implements OnInit {
 
     return returnVal;
   }
-
+  private loadSummaryCollateral(): void {
+    const applicationNumber = this.creditProposal.id;
+    this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(res => {
+      this.dataCollateral = lodash.filter(res.body, function (o) {
+        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+      });
+      for (let i = 0; i < this.dataCollateral.length; i++) {
+        this.findCollateralPropertySummary(this.dataCollateral[i].partyId);
+      }
+    });
+  }
   private saveUpdate(status: string, source: string): void {
-    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralProperties).then(() => {
+    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary).then(() => {
       this.creditProposalService.update(this.preSave(status)).subscribe(res => {
         this.creditProposal.products = res.body.products;
         this.creditProposal.notes = res.body.notes;
@@ -2660,6 +2674,11 @@ export class LoanAnalysMainComponent implements OnInit {
   public findCollateralProperty(partyId: string): void {
     this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
       this.collateralProperties = [...this.collateralProperties, ...res.body];
+    });
+  }
+  public findCollateralPropertySummary(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralPropertiesSummary = [...this.collateralPropertiesSummary, ...res.body];
     });
   }
 
