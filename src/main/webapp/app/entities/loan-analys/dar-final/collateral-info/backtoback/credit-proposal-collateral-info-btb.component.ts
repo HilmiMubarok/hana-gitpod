@@ -477,9 +477,9 @@ export class CollateralInfoBTPDarFinalComponent
       if (this.dynamicCollateral()?.length > 0 && this.creditProposal.products?.length > 0) {
         for (let i = 0; i < this.dynamicCollateral().length; i++) {
           if (
-            (this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
-              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.CANCEL) ||
-            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED ||
+            this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.CANCEL &&
+            this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED &&
             this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.RELEASE
           ) {
             for (let j = 0; j < this.creditProposal.products.length; j++) {

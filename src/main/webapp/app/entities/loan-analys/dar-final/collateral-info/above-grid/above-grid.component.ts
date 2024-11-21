@@ -858,9 +858,9 @@ export class AboveGridDarFinalComponent
         for (let i = 0; i < this.dynamicCollateral().length; i++) {
           for (let j = 0; j < this.creditProposal.products.length; j++) {
             if (
-              (this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
-                this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.CANCEL) ||
-              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED ||
+              this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.CANCEL &&
+              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED &&
               this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.RELEASE
             ) {
               if ($event === true) {
