@@ -65,6 +65,7 @@ import { ViewportScroller } from '@angular/common';
 import { CashCollateralService } from '../cash-collateral/cash-collateral.service';
 import { CreditProposalPersonComponent } from './credit-proposal-person.component';
 import { UpdateCoverageSummary } from './update-coverage-function';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -183,6 +184,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   public permission: any;
   private position: any;
   public collateralCgpg: ICollateral[] = [];
+  dataCollateral: ICollateral[];
+  collateralPropertiesSummary: ICollateralProperty[] = [];
 
   constructor(
     private partyCifService: PartyCifService,
@@ -538,7 +541,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
       }
     }
-
+    this.loadSummaryCollateral();
     if (this.collateral.length > 0) {
       for (let i = 0; i < this.collateral.length; i++) {
         this.filterCgpg(this.collateral[i]);
@@ -1137,9 +1140,24 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
     this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
   }
-
+  private loadSummaryCollateral(): void {
+    const applicationNumber = this.creditProposal.id;
+    this.collateralService.getSummaryCollateral(applicationNumber, { page: 0, size: 9999 }).subscribe(res => {
+      this.dataCollateral = lodash.filter(res.body, function (o) {
+        return o.statusId !== STATUS_COLLATERAL.CANCEL && o.statusId !== STATUS_COLLATERAL.RELEASE;
+      });
+      for (let i = 0; i < this.dataCollateral.length; i++) {
+        this.findCollateralPropertySummary(this.dataCollateral[i].partyId);
+      }
+    });
+  }
+  public findCollateralPropertySummary(partyId: string): void {
+    this.cashCollateralService.getCollateralPropertyGroupAndDebitur(partyId).subscribe(res => {
+      this.collateralPropertiesSummary = [...this.collateralPropertiesSummary, ...res.body];
+    });
+  }
   private saveUpdate(status: string, source: string): void {
-    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralProperties).then(() => {
+    this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary).then(() => {
       this.myFunction().then(resD => {
         this.creditProposalService.update(this.preSave(status)).subscribe(res => {
           this.creditProposal.products = res.body.products;
