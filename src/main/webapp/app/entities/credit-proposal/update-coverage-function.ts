@@ -81,6 +81,7 @@ export class UpdateCoverageSummary {
       );
     });
   }
+
   private preSave(status: string): ICreditProposal {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
@@ -160,6 +161,12 @@ export class UpdateCoverageSummary {
     copyCreditProposal.attributes['dataAssignToDPPKReview2'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToDPPKReview2']);
     if (copyCreditProposal.prospectPerson) {
       copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+    }
+
+    if (copyCreditProposal.attributes['legalCovernote']) {
+      if (typeof copyCreditProposal.attributes['legalCovernote'] !== 'string') {
+        copyCreditProposal.attributes['legalCovernote'] = JSON.stringify(copyCreditProposal.attributes['legalCovernote']);
+      }
     }
 
     return copyCreditProposal;
