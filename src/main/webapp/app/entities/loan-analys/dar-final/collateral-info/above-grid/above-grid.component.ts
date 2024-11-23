@@ -858,10 +858,10 @@ export class AboveGridDarFinalComponent
         for (let i = 0; i < this.dynamicCollateral().length; i++) {
           for (let j = 0; j < this.creditProposal.products.length; j++) {
             if (
-              this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
-              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.CANCEL &&
-              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED &&
-              this.creditProposal.collaterals[i].statusId !== STATUS_COLLATERAL.RELEASE
+              this.dynamicCollateral()[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' &&
+              this.dynamicCollateral()[i].statusId !== STATUS_COLLATERAL.CANCEL &&
+              this.dynamicCollateral()[i].statusId !== STATUS_COLLATERAL.TO_BE_RELEASED &&
+              this.dynamicCollateral()[i].statusId !== STATUS_COLLATERAL.RELEASE
             ) {
               if ($event === true) {
                 const tempCollateralProductRelationObject = {
@@ -879,11 +879,13 @@ export class AboveGridDarFinalComponent
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
       if (this.creditProposal.collateralProductRelations.length > 0) {
         for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
-          if (
-            this.creditProposal.collateralProductRelations[i].collateralId === this.dynamicCollateral()[i]?.id &&
-            this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
-          ) {
-            this.creditProposal.collateralProductRelations.splice(i);
+          for (let j = 0; j < this.dynamicCollateral().length; j++) {
+            if (
+              this.creditProposal.collateralProductRelations[i].collateralId === this.dynamicCollateral()[j]?.id &&
+              this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
+            ) {
+              this.creditProposal.collateralProductRelations.splice(i);
+            }
           }
         }
       }

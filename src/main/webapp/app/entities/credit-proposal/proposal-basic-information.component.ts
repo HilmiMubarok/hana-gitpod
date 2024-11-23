@@ -1158,6 +1158,11 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
   private saveUpdate(status: string, source: string): void {
     this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary).then(() => {
+      this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+        this.creditProposal.products = res.body.products;
+        this.creditProposal.collaterals = res.body.collaterals;
+        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+      });
       this.myFunction().then(resD => {
         this.creditProposalService.update(this.preSave(status)).subscribe(res => {
           this.creditProposal.products = res.body.products;
