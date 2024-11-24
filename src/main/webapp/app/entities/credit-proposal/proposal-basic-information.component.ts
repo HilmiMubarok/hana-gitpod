@@ -1443,15 +1443,6 @@ export class ProposalBasicInformationComponent implements OnInit {
                                   this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
                                 });
                               });
-                            this.updateCoverage
-                              .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-                              .then(() => {
-                                this.creditProposalService.update(this.preSave('complete')).subscribe(res => {
-                                  this.creditProposal.products = res.body.products;
-                                  this.creditProposal.collaterals = res.body.collaterals;
-                                  this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-                                });
-                              });
                             this.saveUpdate('not-complete', source);
                           }
                         };
