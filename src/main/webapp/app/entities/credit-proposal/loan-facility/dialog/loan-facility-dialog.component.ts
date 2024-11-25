@@ -336,11 +336,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.dateIndex = this.data.applicationProduct.intResetFrequency;
     this.indexRateServiceFun();
     this.lovDisbursementLegal();
-    this.isCredamOnDppkFinalize = this.credamService.isCredamOnDppkFinalize(this.router);
   }
 
   ngOnInit(): void {
-    this.isCredamOnDppkFinalize = this.credamService.isCredamOnDppkFinalize(this.router);
+    if (this.creditProposalData) {
+      this.isCredamOnDppkFinalize = this.checkIsCredamOnDPPKFinalize(this.creditProposalData);
+    }
     if (this.applicationProduct.attributes['loanPurposeLegal'] === '') {
       this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
     }
@@ -372,6 +373,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (!this.applicationProduct.commitedLine) {
       this.applicationProduct.commitedLine = false;
     }
+  }
+
+  public checkIsCredamOnDPPKFinalize(cp: ICreditProposal): boolean {
+    const listOfPic = cp.listOfPic;
+
+    return this.credamService.isCredamOnDppkFinalize(this.router, listOfPic);
   }
 
   public cekData() {
