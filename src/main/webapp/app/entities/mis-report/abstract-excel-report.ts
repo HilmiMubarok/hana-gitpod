@@ -72,6 +72,43 @@ export abstract class AbstractExcelMISReport {
 
   // ============= HELPER METHODS FOR CP BSU ============= //
 
+  protected _getTotalPlafondPerFacility(proposal, type: 'History' | 'Current'): string {
+    // if proposal.previousHistory null
+    if (proposal.previousHistory === null) {
+      return '';
+    }
+
+    const products = type === 'History' ? proposal.previousHistory[0].product : proposal.product;
+
+    return products.map(product => product.totalPlafond).join(',\n');
+  }
+
+  protected getProductsOtherThanExisting(proposal, isFromHistory = false): any[] {
+    return proposal.product;
+
+    // previousHistory
+    const history = proposal.previousHistory;
+
+    // if history null
+    if (history === null) {
+      return [];
+    }
+
+    const products = isFromHistory ? history[0].product : proposal.product;
+
+    // filter products.pengajuan !== 'Existing'
+    const filteredProducts = products.filter(product => product.pengajuan !== 'Existing');
+
+    console.log('Product other existing: ', {
+      productsOriginal: proposal.products,
+      previousHistory: proposal.previousHistory,
+      isFromHistory,
+      productsFiltered: filteredProducts,
+    });
+
+    return filteredProducts;
+  }
+
   protected _convertStatusToString(status: Array<string>): string {
     // if length is 0, return empty string
     if (status.length === 0) {
@@ -94,7 +131,7 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    const pengajuan = products.map(product => product.pengajuan).join(',\n');
+    const pengajuan = products.map(product => product.facility).join(',\n');
 
     return pengajuan;
   }
