@@ -1,6 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+interface listOfPicInterface {
+  applicationId: number | null;
+  attributes: any | null;
+  fromDate: string | null;
+  fromPartyId: any;
+  fromPartyName: any;
+  id: number | null;
+  idDelegation: any;
+  partyId: string | null;
+  partyName: string | null;
+  positionId: any;
+  positionName: any;
+  relationTypeDescription: string | null;
+  relationTypeId: string | null;
+  roleDescription: string | null;
+  roleId: string | null;
+  thruDate: string | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class CredamService {
   public getRole(): string | null {
@@ -12,12 +31,20 @@ export class CredamService {
     );
   }
 
-  public isCredamOnDppkFinalize(router: Router): boolean {
-    const role = this.getRole();
+  public isCredamOnDppkFinalize(router: Router, listOfPic: listOfPicInterface[]): boolean {
     const path = router.url.split('/')[1];
+    const listOfPicLength = listOfPic.length;
 
-    console.log('isCredamOnDppkFinalize', { role, path, res: role === 'CREDIT_ADMIN' && path === 'finalize-dppk' });
+    const listOfPicCondition =
+      listOfPicLength === 1 && listOfPic[0].roleId === 'CREDIT_ADMIN' && listOfPic[0].thruDate?.split('-')[0] === '9999';
 
-    return role === 'CREDIT_ADMIN' && path === 'finalize-dppk';
+    console.log('isCredamOnDppkFinalize', {
+      path,
+      listOfPicLength,
+      listOfPicCondition,
+      res: path === 'finalize-dppk' && listOfPicCondition,
+    });
+
+    return path === 'finalize-dppk' && listOfPicCondition;
   }
 }
