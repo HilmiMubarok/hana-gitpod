@@ -992,7 +992,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
         }
       }
     }
-    this.creditProposal.attributes['collateralSummary'].countTotalMV = result;
+    this.creditProposal.attributes['collateralSummary'].countTotalMVKJJP = result;
     return result;
   }
 

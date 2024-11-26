@@ -1150,7 +1150,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
-    this.creditProposal.attributes['collateralSummary'].countTotalMV = result;
+    this.creditProposal.attributes['collateralSummary'].countTotalMVKJJP = result;
     return result;
   }
 
