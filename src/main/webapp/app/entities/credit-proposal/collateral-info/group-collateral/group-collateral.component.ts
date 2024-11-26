@@ -139,9 +139,9 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     } else {
       this.creditProposal.attributes['groupChecklisCollateral'] = [];
     }
-    // this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
-    //   this.checkIndividualCol(newCP);
-    // });
+    this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
+      this.checkIndividualCol(newCP);
+    });
     if (this.creditProposal.customerType === 'PERSONAL') {
       this.findCollateralProperty(this.creditProposal.prospectPerson.id);
     } else {
@@ -242,8 +242,8 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         }
         this.findAndCleanConnection();
         // do nothing; done by another function
-        // this.creditProposalService.changeColRelByCP(this.creditProposal);
       }
+      this.creditProposalService.changeColRelByCP(this.creditProposal);
     }
   }
   private checkIndividualCol(cp: ICreditProposal): void {
