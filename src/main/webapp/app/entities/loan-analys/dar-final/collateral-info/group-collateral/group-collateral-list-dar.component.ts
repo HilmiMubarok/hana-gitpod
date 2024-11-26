@@ -23,6 +23,8 @@ import { IGroupCollateral } from 'app/shared/model/group-collateral.model';
 import { PageEvent } from '@angular/material/paginator';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { IGroupCollateralChecklis } from 'app/entities/credit-proposal/collateral-info/group-collateral/group-collateral-total.model';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-group-collateral-list-dar',
@@ -151,13 +153,97 @@ export class GroupCollateralListDarComponent extends AbstractEntityMaterialCompo
       this.getAllColGroup();
     });
   }
-
-  public slideChange(event) {
-    if (event === true) {
-      this.isChecked = true;
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'Yes';
-    } else {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
+  private cleanUpColGroupRel(): void {
+    this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
+    if (
+      this.creditProposal.collateralProductRelations.length > 0 &&
+      this.creditProposal.products.length > 0 &&
+      this.listGroupCollateralItems.length > 0
+    ) {
+      /* for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+    for (let j = 0; j < this.creditProposal.products.length; j++) {
+      for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+      if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id) {
+        this.creditProposal.collateralProductRelations.splice(i,1);
+      }
+      }
     }
+    } */
+      for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
+        for (let j = 0; j < this.creditProposal.products.length; j++) {
+          for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+            if (
+              this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
+              this.creditProposal.collateralProductRelations[index].collateralId === this.listGroupCollateralItems[k].id
+            ) {
+              this.creditProposal.collateralProductRelations.splice(index);
+            }
+          }
+        }
+      }
+    }
+  }
+  public slideChange(event: boolean): void {
+    if (event) {
+      this.isChecked = true;
+      this.addCollateralRelations();
+    } else {
+      this.dataChecklis(this.listGroupCollateralItems);
+      this.cleanUpColGroupRel();
+    }
+
+    // Notify service about changes
+    this.creditProposalService.changeColRelByCP(this.creditProposal);
+  }
+
+  // Add collateral-product relations
+  private addCollateralRelations(): void {
+    if (this.creditProposal.products.length === 0 || this.listGroupCollateralItems.length === 0) {
+      return;
+    }
+
+    for (const product of this.creditProposal.products) {
+      for (const collateral of this.listGroupCollateralItems) {
+        if (this.shouldAddCollateral(collateral)) {
+          this.addCollateralRelation(product, collateral);
+        }
+      }
+    }
+  }
+
+  // Check if a collateral should be added
+  private shouldAddCollateral(collateral: any): boolean {
+    const excludedStatuses = [STATUS_COLLATERAL.CANCEL, STATUS_COLLATERAL.TO_BE_RELEASED, STATUS_COLLATERAL.RELEASE];
+
+    return collateral.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE' && !excludedStatuses.includes(collateral.statusId);
+  }
+
+  // Add a single collateral-product relation and update the checklist
+  private addCollateralRelation(product: any, collateral: any): void {
+    const relation = {
+      applicationProduct: product,
+      collateralId: collateral.id,
+      bindingValue: 0,
+    };
+    this.creditProposal.collateralProductRelations.push(relation);
+
+    const data: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
+      obj => obj.collateralId === collateral.id
+    );
+    if (data) {
+      data.checklis = this.isChecked;
+    }
+  }
+  private dataChecklis(collaterals: any[]): void {
+    collaterals.forEach(collateral => {
+      const data: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
+        obj => obj.collateralId === collateral.id
+      );
+
+      if (data) {
+        // If the data is found, update the 'checklis' property with the value of 'isChecked'
+        data.checklis = this.isChecked;
+      }
+    });
   }
 }
