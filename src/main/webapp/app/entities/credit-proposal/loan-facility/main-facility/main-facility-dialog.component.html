@@ -127,11 +127,23 @@
             </div>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row py-1">
-              <div class="col-3">Current maturity Date</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">{{ mainFacility.maturityDate | date: 'yyyy/MM/dd' }}</div>
-            </div>
+            <ng-container *ngIf="isCredamOnDppkFinalize; else currentMaturityDateView">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Current maturity Date</mat-label>
+                  <input [matDatepicker]="currentMaturityDate" matInput type="text" [(ngModel)]="mainFacility.maturityDate" />
+                  <mat-datepicker-toggle matSuffix [for]="currentMaturityDate"> </mat-datepicker-toggle>
+                  <mat-datepicker #currentMaturityDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </ng-container>
+            <ng-template #currentMaturityDateView>
+              <div class="fontsebled row py-1">
+                <div class="col-3">Current maturity Date</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">{{ mainFacility.maturityDate | date: 'yyyy/MM/dd' }}</div>
+              </div>
+            </ng-template>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
@@ -162,11 +174,24 @@
             </div>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row py-1">
-              <div class="col-3">Proposed maturity Date</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">{{ mainFacility.newMaturityDate }}</div>
-            </div>
+            <ng-container *ngIf="isCredamOnDppkFinalize; else proposedMaturityDateView">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Proposed maturity Date</mat-label>
+                  <input [matDatepicker]="proposedMaturityDate" matInput type="text" [(ngModel)]="mainFacility.newMaturityDate" />
+                  <mat-datepicker-toggle matSuffix [for]="proposedMaturityDate"> </mat-datepicker-toggle>
+                  <mat-datepicker #proposedMaturityDate></mat-datepicker>
+                  <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+                </mat-form-field>
+              </div>
+            </ng-container>
+            <ng-template #proposedMaturityDateView>
+              <div class="fontsebled row py-1">
+                <div class="col-3">Proposed maturity Date</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">{{ mainFacility.newMaturityDate }}</div>
+              </div>
+            </ng-template>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
@@ -178,19 +203,30 @@
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
-                <!-- <input [matDatepicker]="jangkaWatkuPlafondAwal" matInput type="text" [(ngModel)]="mainFacility.startPeriodDate" />
-                <mat-datepicker-toggle matSuffix [for]="jangkaWatkuPlafondAwal"> </mat-datepicker-toggle>
-                <mat-datepicker #jangkaWatkuPlafondAwal></mat-datepicker>
-                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint> -->
               </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row py-1">
-              <div class="col-3">Jangka Waktu Plafond Awal</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">{{ mainFacility.startPeriodDate }} - {{ mainFacility.endPeriodDate }}</div>
-            </div>
+            <ng-container *ngIf="isCredamOnDppkFinalize; else jangkaWatkuPlafondAwal">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Jangka Waktu Plafond Awal</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Start date" [(ngModel)]="mainFacility.startPeriodDate" />
+                    <input matEndDate placeholder="End date" [(ngModel)]="mainFacility.endPeriodDate" />
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+            </ng-container>
+            <ng-template #jangkaWatkuPlafondAwal>
+              <div class="fontsebled row py-1">
+                <div class="col-3">Jangka Waktu Plafond Awal</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">{{ mainFacility.startPeriodDate }} - {{ mainFacility.endPeriodDate }}</div>
+              </div>
+            </ng-template>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
@@ -198,22 +234,24 @@
                 <mat-label>Jangka Waktu Plafond Akhir</mat-label>
                 <input matInput type="text" [(ngModel)]="mainFacility.endPeriodRemark" />
               </mat-form-field>
-
-              <!-- <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Jangka Waktu Plafond Akhir</mat-label>
-                <input [matDatepicker]="jangkaWatkuPlafondAkhir" matInput type="text" [(ngModel)]="mainFacility.endPeriodDate" />
-                <mat-datepicker-toggle matSuffix [for]="jangkaWatkuPlafondAkhir"> </mat-datepicker-toggle>
-                <mat-datepicker #jangkaWatkuPlafondAkhir></mat-datepicker>
-                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-              </mat-form-field> -->
             </div>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row py-1">
-              <div class="col-3">Jangka Waktu Plafond Akhir</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">{{ mainFacility.endPeriodRemark }}</div>
-            </div>
+            <ng-container *ngIf="isCredamOnDppkFinalize; else jangkaWatkuPlafondAkhir">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Jangka Waktu Plafond Akhir</mat-label>
+                  <input matInput type="text" [(ngModel)]="mainFacility.endPeriodRemark" />
+                </mat-form-field>
+              </div>
+            </ng-container>
+            <ng-template #jangkaWatkuPlafondAkhir>
+              <div class="fontsebled row py-1">
+                <div class="col-3">Jangka Waktu Plafond Akhir</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">{{ mainFacility.endPeriodRemark }}</div>
+              </div>
+            </ng-template>
           </section>
         </div>
       </div>
@@ -224,6 +262,7 @@
   <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
     <div class="mt-3 text-center py-3">
       <button mat-raised-button mat-dialog-close class="confirm-button-no" style="margin-right: 7px">Close</button>
+      <button mat-raised-button class="confirm-button-yes" (click)="save()" *ngIf="isCredamOnDppkFinalize">Save</button>
     </div>
   </section>
   <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
