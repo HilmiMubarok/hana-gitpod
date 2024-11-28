@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 import _ from 'lodash';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { CredamService } from 'app/entities/dppk-finalize/credam.service';
 
 @Component({
   selector: 'jhi-document-checklist-temp',
@@ -47,6 +48,7 @@ export class DocumentChecklistTempComponent implements OnInit {
   public dppkEditable = false;
   public _isDisabledByDPPK: boolean;
   private collaterals: any[] = [];
+  public isCredamOnDppkFinalize = false;
 
   constructor(
     private storageService: StorageService,
@@ -56,7 +58,8 @@ export class DocumentChecklistTempComponent implements OnInit {
     private partyCifService: PartyCifService,
     private router: Router,
     private templateService: TemplateService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    private credamService: CredamService
   ) {}
   @Input()
   get creditProposal() {
@@ -305,6 +308,7 @@ export class DocumentChecklistTempComponent implements OnInit {
         });
       });
     });
+    this.isCredamOnDppkFinalize = this.credamService.isCredamOnDppkFinalize(this.router, this.creditProposal.listOfPic);
   }
 
   public showAddButtonLegalOfficer(item: any): boolean {
