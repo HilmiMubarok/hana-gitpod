@@ -47,4 +47,9 @@ export class CredamService {
 
     return path === 'finalize-dppk' && listOfPicCondition;
   }
+
+  public isCredamOnIDD(): boolean {
+    const role = this.getRole();
+    return role === 'CREDIT_ADMIN';
+  }
 }
