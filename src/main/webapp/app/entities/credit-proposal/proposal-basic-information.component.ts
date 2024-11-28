@@ -1244,7 +1244,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
 
       // Save the update with the given status and source
-      await this.saveUpdate(status, source);
+      this.saveUpdate(status, source);
     } catch (error) {
       console.error('An error occurred:', error);
       // Handle the error appropriately
