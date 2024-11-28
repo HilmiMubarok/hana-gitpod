@@ -102,6 +102,10 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
   }
 
   ngOnInit(): void {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
+    }
+
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
