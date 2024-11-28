@@ -1229,6 +1229,28 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.cekCgpgData();
   }
 
+  async saveCoverageAndUpdate(status: string, source: string) {
+    try {
+      // Update coverage
+      await this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
+
+      // Perform the pre-save and update credit proposal
+      const preSaveData = this.preSave(status);
+      const res = await this.creditProposalService.update(preSaveData).toPromise();
+
+      // Update credit proposal fields with response data
+      this.creditProposal.products = res.body.products;
+      this.creditProposal.collaterals = res.body.collaterals;
+      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+
+      // Save the update with the given status and source
+      await this.saveUpdate(status, source);
+    } catch (error) {
+      console.error('An error occurred:', error);
+      // Handle the error appropriately
+    }
+  }
+
   public save(source: string): void {
     this.saveCollateralAfterReport();
     this.setIndustryName();
@@ -1245,16 +1267,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
       if (this.creditProposal.id) {
         if (this.router.url.split('/')[1] === 'credit-proposal-status') {
-          this.updateCoverage
-            .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-            .then(() => {
-              this.creditProposalService.update(this.preSave('not-complete')).subscribe(res => {
-                this.creditProposal.products = res.body.products;
-                this.creditProposal.collaterals = res.body.collaterals;
-                this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-              });
-            });
-          this.saveUpdate('not-complete', source);
+          this.saveCoverageAndUpdate('not-complete', source);
         } else if (this.router.url.split('/')[1] === 'cp-status-approval') {
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
@@ -1423,54 +1436,18 @@ export class ProposalBasicInformationComponent implements OnInit {
                           }
 
                           if (countValidate === 3) {
-                            this.updateCoverage
-                              .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-                              .then(() => {
-                                this.creditProposalService.update(this.preSave('complete')).subscribe(res => {
-                                  this.creditProposal.products = res.body.products;
-                                  this.creditProposal.collaterals = res.body.collaterals;
-                                  this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-                                });
-                              });
-                            this.saveUpdate('complete', source);
+                            this.saveCoverageAndUpdate('complete', source);
                           } else {
-                            this.updateCoverage
-                              .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-                              .then(() => {
-                                this.creditProposalService.update(this.preSave('not-complete')).subscribe(res => {
-                                  this.creditProposal.products = res.body.products;
-                                  this.creditProposal.collaterals = res.body.collaterals;
-                                  this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-                                });
-                              });
-                            this.saveUpdate('not-complete', source);
+                            this.saveCoverageAndUpdate('not-complete', source);
                           }
                         };
                         fileReaderCondition.readAsText(this.conditionFileSfdt);
                       }
                     } else {
                       if (countValidate === 2) {
-                        this.updateCoverage
-                          .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-                          .then(() => {
-                            this.creditProposalService.update(this.preSave('complete')).subscribe(res => {
-                              this.creditProposal.products = res.body.products;
-                              this.creditProposal.collaterals = res.body.collaterals;
-                              this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-                            });
-                          });
-                        this.saveUpdate('complete', source);
+                        this.saveCoverageAndUpdate('complete', source);
                       } else {
-                        this.updateCoverage
-                          .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-                          .then(() => {
-                            this.creditProposalService.update(this.preSave('not-complete')).subscribe(res => {
-                              this.creditProposal.products = res.body.products;
-                              this.creditProposal.collaterals = res.body.collaterals;
-                              this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-                            });
-                          });
-                        this.saveUpdate('not-complete', source);
+                        this.saveCoverageAndUpdate('not-complete', source);
                       }
                     }
                   } else {
@@ -1480,16 +1457,7 @@ export class ProposalBasicInformationComponent implements OnInit {
                       summary: 'Warning',
                       detail: 'Recommendation Empty! All data will be save except data at tab opinion',
                     });
-                    this.updateCoverage
-                      .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-                      .then(() => {
-                        this.creditProposalService.update(this.preSave('not-complete')).subscribe(res => {
-                          this.creditProposal.products = res.body.products;
-                          this.creditProposal.collaterals = res.body.collaterals;
-                          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-                        });
-                      });
-                    this.saveUpdate('not-complete', source);
+                    this.saveCoverageAndUpdate('not-complete', source);
                   }
                 };
                 fileReader.readAsText(this.opinionFileSfdt);
@@ -1500,28 +1468,10 @@ export class ProposalBasicInformationComponent implements OnInit {
                   summary: 'Warning',
                   detail: 'Opinion Empty! All data will be save except data at tab opinion',
                 });
-                this.updateCoverage
-                  .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-                  .then(() => {
-                    this.creditProposalService.update(this.preSave('not-complete')).subscribe(res => {
-                      this.creditProposal.products = res.body.products;
-                      this.creditProposal.collaterals = res.body.collaterals;
-                      this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-                    });
-                  });
-                this.saveUpdate('not-complete', source);
+                this.saveCoverageAndUpdate('not-complete', source);
               }
             } else {
-              this.updateCoverage
-                .updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary)
-                .then(() => {
-                  this.creditProposalService.update(this.preSave('not-complete')).subscribe(res => {
-                    this.creditProposal.products = res.body.products;
-                    this.creditProposal.collaterals = res.body.collaterals;
-                    this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-                  });
-                });
-              this.saveUpdate('not-complete', source);
+              this.saveCoverageAndUpdate('not-complete', source);
             }
           }
         }
