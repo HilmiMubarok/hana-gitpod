@@ -964,9 +964,22 @@
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col">Credit Type</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col">{{ creditTypeValue }}</div>
+                      <ng-container *ngIf="isCredamOnDppkFinalize; else creditTypeView">
+                        <mat-form-field class="w-100" appearance="outline">
+                          <mat-label>Credit Type</mat-label>
+                          <mat-select [(ngModel)]="item.debtorData.creditType" name="creditType">
+                            <mat-option value="">- Please Select -</mat-option>
+                            <mat-option *ngFor="let item of creditTypeLov" [value]="item.code">
+                              {{ item.value }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </ng-container>
+                      <ng-template #creditTypeView>
+                        <div class="col">Credit Type</div>
+                        <div class="col-md-auto">:</div>
+                        <div class="col">{{ creditTypeValue }}</div>
+                      </ng-template>
                     </div>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

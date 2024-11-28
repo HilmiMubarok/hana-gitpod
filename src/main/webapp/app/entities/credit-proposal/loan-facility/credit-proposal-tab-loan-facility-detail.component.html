@@ -347,9 +347,24 @@
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
-            <div class="col-5">Custody Fee</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">IDR {{ creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
+            <ng-container *ngIf="isCredamOnDppkFinalize; else custodyFeeView">
+              <div class="mb-2">
+                <ejs-numerictextbox
+                  [(ngModel)]="creditProposal.attributes['facilityDetail'].custodianFee"
+                  cssClass="e-outline"
+                  placeholder="Custody Fee"
+                  floatLabelType="auto"
+                  floatLabelType="Always"
+                  format="IDR 0,"
+                  min="0"
+                ></ejs-numerictextbox>
+              </div>
+            </ng-container>
+            <ng-template #custodyFeeView>
+              <div class="col-5">Custody Fee</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">IDR {{ creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
+            </ng-template>
           </div>
         </section>
       </div>
