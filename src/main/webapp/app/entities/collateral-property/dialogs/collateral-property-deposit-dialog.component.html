@@ -68,11 +68,20 @@
         </section>
         <section *jhiMatrixDirIDD="''">
           <div class="fontsebled row">
-            <div class="col">Account Number</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ collateralProperty.attributes.accountNumber }}
-            </div>
+            <ng-container *ngIf="isCredamOnIDD; else accountNumberView">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Account Number</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountNumber" [disabled]="dataSource()" />
+                <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+              </mat-form-field>
+            </ng-container>
+            <ng-template #accountNumberView>
+              <div class="col">Account Number</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralProperty.attributes.accountNumber }}
+              </div>
+            </ng-template>
           </div>
         </section>
       </div>
