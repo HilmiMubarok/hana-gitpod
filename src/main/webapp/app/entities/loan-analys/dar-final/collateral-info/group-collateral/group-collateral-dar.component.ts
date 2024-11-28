@@ -140,9 +140,9 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
     } else {
       this.creditProposal.attributes['groupChecklisCollateral'] = [];
     }
-    // this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
-    //   this.checkIndividualCol(newCP);
-    // });
+    this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
+      this.checkIndividualCol(newCP);
+    });
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -240,6 +240,7 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
         // do nothing; done by another function
         // this.creditProposalService.changeColRelByCP(this.creditProposal);
       }
+      this.creditProposalService.changeColRelByCP(this.creditProposal);
     }
   }
   private checkIndividualCol(cp: ICreditProposal): void {
@@ -295,6 +296,7 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(CollateralInfoDialogTempComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.creditProposalService.changeColRelByCP(res.creditProposal);
         /* if (res.action === 'cancel') {
           this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         } */

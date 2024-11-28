@@ -22,7 +22,7 @@ export class UpdateCoverageSummary {
   public totalPlafond: number;
   public biddingValueSum: number;
 
-  public updateCoverage(
+  public async updateCoverage(
     creditProposal: ICreditProposal,
     creditProposalStartState: ICreditProposal,
     collateralProperties: ICollateralProperty[]
@@ -34,17 +34,13 @@ export class UpdateCoverageSummary {
       this.collateralProperties = collateralProperties;
 
       // save after close dialog, for update summery report coverage
-      this.save().then(() => {
-        this.loadSummaryCollateralSummary().then(() => {
-          this.getSummaryCollateral().then(() => {
-            this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-            this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-            this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-            this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
-            this.save().then(() => {
-              resolve();
-            });
-          });
+      this.loadSummaryCollateralSummary().then(() => {
+        this.getSummaryCollateral().then(() => {
+          this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+          this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+          this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+          this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+          resolve();
         });
       });
     });
@@ -393,7 +389,7 @@ export class UpdateCoverageSummary {
         }
       }
     }
-    this.creditProposal.attributes['collateralSummary'].countTotalMV = result;
+    this.creditProposal.attributes['collateralSummary'].countTotalMVKJJP = result;
     return result;
   }
 
