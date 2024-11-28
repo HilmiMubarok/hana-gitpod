@@ -208,6 +208,7 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
       this.addCollateralRelations();
     } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
       this.dataChecklis(this.listGroupCollateralItems);
       this.cleanUpColGroupRel();
     }
