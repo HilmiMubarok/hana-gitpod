@@ -23,27 +23,32 @@ interface listOfPicInterface {
 @Injectable({ providedIn: 'root' })
 export class CredamService {
   public getRole(): string | null {
-    return (
-      document.cookie
-        .split(';')
-        .find(c => c.trim().startsWith(`POSO=`))
-        ?.split('=')[1] || null
-    );
+    const cookie = document.cookie.split(';').find(c => c.trim().startsWith('POSO='));
+    return cookie ? cookie.split('=')[1] : null;
+  }
+
+  public isCredamOnDPPKReview(): boolean {
+    const role = this.getRole();
+    const credamDppkReviewRoles = ['CREDIT_ADMIN_DEPT_HEAD', 'CREDIT_ADMIN_DIV_HEAD', 'CREDIT_ADMIN_TEAM_LEAD', 'CREDIT_ADMIN_UNIT_HEAD'];
+
+    return role ? credamDppkReviewRoles.includes(role) : false;
   }
 
   public isCredamOnDppkFinalize(router: Router, listOfPic: listOfPicInterface[]): boolean {
     const path = router.url.split('/')[1];
+
+    if (path === 'review-dppk') {
+      return this.isCredamOnDPPKReview();
+    }
+
+    if (!listOfPic || listOfPic.length === 0) {
+      return false;
+    }
+
     const listOfPicLength = listOfPic.length;
 
     const listOfPicCondition =
       listOfPicLength === 1 && listOfPic[0].roleId === 'CREDIT_ADMIN' && listOfPic[0].thruDate?.split('-')[0] === '9999';
-
-    console.log('isCredamOnDppkFinalize', {
-      path,
-      listOfPicLength,
-      listOfPicCondition,
-      res: path === 'finalize-dppk' && listOfPicCondition,
-    });
 
     return path === 'finalize-dppk' && listOfPicCondition;
   }
