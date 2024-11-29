@@ -229,20 +229,11 @@
           </section>
           <section *jhiMatrixDirIDD="''">
             <div class="fontsebled row">
-              <ng-container *ngIf="isCredamOnIDD; else marketValueNJOPView">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Market Value NJOP</mat-label>
-                  <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValueNjopAmt" [options]="logoCcy" />
-                  <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-                </mat-form-field>
-              </ng-container>
-              <ng-template #marketValueNJOPView>
-                <div class="col">Market Value NJOP</div>
-                <div class="col-md-auto">:</div>
-                <div class="col">
-                  {{ collateralProperty.marketValueNjopAmt }}
-                </div>
-              </ng-template>
+              <div class="col">Market Value NJOP</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralProperty.marketValueNjopAmt }}
+              </div>
             </div>
           </section>
         </div>
@@ -288,19 +279,11 @@
         </section>
         <section *jhiMatrixDirIDD="''">
           <div class="fontsebled row">
-            <ng-container *ngIf="isCredamOnIDD; else NopView">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>NOP</mat-label>
-                <input matInput type="text" [(ngModel)]="collateralProperty.attributes.Nop" />
-              </mat-form-field>
-            </ng-container>
-            <ng-template #NopView>
-              <div class="col">NOP</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateralProperty.attributes.Nop }}
-              </div>
-            </ng-template>
+            <div class="col">NOP</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.Nop }}
+            </div>
           </div>
         </section>
       </div>

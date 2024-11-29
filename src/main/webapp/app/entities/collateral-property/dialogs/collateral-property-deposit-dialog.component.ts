@@ -29,7 +29,6 @@ import { FormControl } from '@angular/forms';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 import lodash from 'lodash';
-import { CredamService } from 'app/entities/dppk-finalize/credam.service';
 export interface User {
   name: string;
 }
@@ -112,15 +111,13 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   public detailType;
   public branceManagement: any;
   public branchesNames: any;
-  public isCredamOnIDD = false;
 
   constructor(
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
     private partyCifService: PartyCifService,
     public creditProposalService: CreditProposalService,
-    private collateralParameterService: CollateralParameterService,
-    private credamService: CredamService
+    private collateralParameterService: CollateralParameterService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -142,7 +139,6 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.cekData();
     this.setData();
     this.changeCollateralType();
-    this.isCredamOnIDD = this.credamService.isCredamOnIDD();
   }
 
   cekData() {

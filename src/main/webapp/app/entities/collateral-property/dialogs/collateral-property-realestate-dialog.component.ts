@@ -31,7 +31,6 @@ import { CollateralPropertyService } from '../collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
-import { CredamService } from 'app/entities/dppk-finalize/credam.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -96,7 +95,6 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   public MVOriCcy: IUom;
   public NjopCcy: IUom;
   public myControlNjop = new FormControl();
-  public isCredamOnIDD = false;
 
   moment = _rollupMoment || moment;
   date = new FormControl(moment());
@@ -155,8 +153,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     protected partyCifService: PartyCifService,
     protected generalParameterService: GeneralParameterService,
     protected collateralParameterService: CollateralParameterService,
-    public collateralPropertyService: CollateralPropertyService,
-    private credamService: CredamService
+    public collateralPropertyService: CollateralPropertyService
   ) {
     // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -186,7 +183,6 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     this.cekData();
     this.lovcertificateType();
     this.changeCollateralType();
-    this.isCredamOnIDD = this.credamService.isCredamOnIDD();
   }
 
   public lovcertificateType() {
