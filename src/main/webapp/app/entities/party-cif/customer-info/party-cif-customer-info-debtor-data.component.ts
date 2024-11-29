@@ -338,6 +338,13 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         this.golongan = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        // Notes:
+        /**
+         * 36 for personal
+         * 35 for company
+         *
+         * why hardcoded? because this will not change. - Syahrul 28 Nov 2024
+         */
         if (customerType === 'PERSONAL') {
           this.partyCif.debtorData.golongan = '36';
         } else {
