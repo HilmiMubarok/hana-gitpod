@@ -105,6 +105,7 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
     }
+
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup === 'Yes') {
       this.isChecked = true;
     }
@@ -208,8 +209,10 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
   public slideChange(event: boolean): void {
     if (event) {
       this.isChecked = true;
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'Yes';
       this.addCollateralRelations();
     } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
       this.dataChecklis(this.listGroupCollateralItems);
       this.cleanUpColGroupRel();
     }
