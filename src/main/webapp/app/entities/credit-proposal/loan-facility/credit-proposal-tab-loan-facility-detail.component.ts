@@ -20,6 +20,7 @@ import { FormControl } from '@angular/forms';
 import { BusinessActivityService } from '../busines-activity/business-activity.service';
 import { MessageService } from 'primeng/api';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CredamService } from 'app/entities/dppk-finalize/credam.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
@@ -113,6 +114,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public ccy: string;
 
   private getKey: string;
+  public isCredamOnDppkFinalize = false;
 
   public customHeadersJWT: any;
 
@@ -131,7 +133,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     private masterFinancialInstitutionService: MasterFinancialInstitutionService,
     private baService: BusinessActivityService,
     protected messageService: MessageService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected credamService: CredamService
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
@@ -182,6 +185,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     this.removeTagRemaks();
     // this.setCurrency();
+
+    this.isCredamOnDppkFinalize = this.credamService.isCredamOnDppkFinalize(this.router, this.creditProposal.listOfPic);
   }
 
   public remarkStatus() {

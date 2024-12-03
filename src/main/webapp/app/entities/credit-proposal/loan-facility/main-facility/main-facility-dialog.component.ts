@@ -8,6 +8,8 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { UOM_TYPE } from 'app/shared/constants/base.constants';
 import { map, Observable, startWith } from 'rxjs';
 import { ICreditProposal } from '../../credit-proposal.model';
+import { CredamService } from 'app/entities/dppk-finalize/credam.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-main-facility-dialog',
@@ -22,6 +24,7 @@ export class MainFacilityDialogComponent implements OnInit {
   public amountCcy: IUom;
   public mainFacility: IMainFacility;
   public dataItem: ICreditProposal;
+  public isCredamOnDppkFinalize = false;
 
   constructor(
     private dialog: MatDialog,
@@ -32,7 +35,9 @@ export class MainFacilityDialogComponent implements OnInit {
       mainData: IMainFacility;
       creditProposal: ICreditProposal;
     },
-    private _dialog: MatDialogRef<MainFacilityDialogComponent>
+    private _dialog: MatDialogRef<MainFacilityDialogComponent>,
+    private credamService: CredamService,
+    private router: Router
   ) {
     if (this.data.creditProposal.statusId === 'DRAFT') {
       _dialog.disableClose = true;
@@ -45,6 +50,9 @@ export class MainFacilityDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.dataItem) {
+      this.isCredamOnDppkFinalize = this.checkIsCredamOnDPPKFinalize(this.dataItem);
+    }
     this.loadCurrencyMeasure();
     this.myControlCurrency.disable();
     if (!this.mainFacility.startPeriodDate) {
@@ -54,6 +62,12 @@ export class MainFacilityDialogComponent implements OnInit {
       this.mainFacility.endPeriodDate = this.mainFacility.maturityDate;
     }
     console.log('ini date default ', this.mainFacility.startPeriodDate, 'end ', this.mainFacility.endPeriodDate);
+  }
+
+  public checkIsCredamOnDPPKFinalize(cp: ICreditProposal): boolean {
+    const listOfPic = cp.listOfPic;
+
+    return this.credamService.isCredamOnDppkFinalize(this.router, listOfPic);
   }
 
   filteredCurrency() {

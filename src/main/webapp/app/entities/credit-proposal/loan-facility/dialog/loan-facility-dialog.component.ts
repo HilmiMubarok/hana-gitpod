@@ -27,6 +27,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { MessageService } from 'primeng/api';
 import { IMasterFinancialInstitution } from 'app/entities/master-parameter/financial-institution/master-financial-institution.model';
 import { MasterFinancialInstitutionService } from 'app/entities/master-parameter/financial-institution/master-financial-institution.service';
+import { CredamService } from 'app/entities/dppk-finalize/credam.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -285,6 +286,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public installmentMethodValue: string;
   public restructMethodValue: string;
   public disable: boolean;
+  public isCredamOnDppkFinalize = false;
 
   constructor(
     private dialog: MatDialog,
@@ -309,7 +311,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     protected productClasificationService: ProductClassificationService,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>,
     protected messageService: MessageService,
-    private masterFinancialInstitutionService: MasterFinancialInstitutionService
+    private masterFinancialInstitutionService: MasterFinancialInstitutionService,
+    private credamService: CredamService
   ) {
     super(creditProposalService);
     this.activatedRoute.queryParams.subscribe(params => {
@@ -336,6 +339,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   ngOnInit(): void {
+    if (this.creditProposalData) {
+      this.isCredamOnDppkFinalize = this.checkIsCredamOnDPPKFinalize(this.creditProposalData);
+    }
     if (this.applicationProduct.attributes['loanPurposeLegal'] === '') {
       this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
     }
@@ -367,6 +373,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (!this.applicationProduct.commitedLine) {
       this.applicationProduct.commitedLine = false;
     }
+  }
+
+  public checkIsCredamOnDPPKFinalize(cp: ICreditProposal): boolean {
+    const listOfPic = cp.listOfPic;
+
+    return this.credamService.isCredamOnDppkFinalize(this.router, listOfPic);
   }
 
   public cekData() {

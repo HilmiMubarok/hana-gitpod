@@ -50,13 +50,30 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Application Type</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.applicationType }}
+        <ng-container *ngIf="isCredamOnDppkFinalize; else applicationTypeView">
+          <div class="mb-2">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Application Type</mat-label>
+              <mat-select
+                [(ngModel)]="applicationProduct.applicationType"
+                name="facilityType"
+                (selectionChange)="applicationTypeChange($event)"
+              >
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }}</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
-        </div>
+        </ng-container>
+        <ng-template #applicationTypeView>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Application Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.applicationType }}
+            </div>
+          </div>
+        </ng-template>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
@@ -118,13 +135,34 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Loan Type</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.productName }}
+        <ng-container *ngIf="isCredamOnDppkFinalize; else loanTypeView">
+          <div class="mb-2" *ngIf="applicationProduct.applicationType !== 'Existing'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Loan Type</mat-label>
+              <mat-select [(ngModel)]="applicationProduct.productName" (selectionChange)="getfacilityCategory($event.value)">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of listLoanType" [value]="item.name">
+                  {{ item.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
-        </div>
+          <div class="mb-2" *ngIf="applicationProduct.applicationType === 'Existing'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Loan Type</mat-label>
+              <input matInput type="text" [(ngModel)]="applicationProduct.productName" disabled />
+            </mat-form-field>
+          </div>
+        </ng-container>
+        <ng-template #loanTypeView>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Loan Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.productName }}
+            </div>
+          </div>
+        </ng-template>
       </section>
 
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -162,7 +200,7 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-        <div [hidden]="facilityType === 'OD'" class="mb-2">
+        <div *ngIf="facilityType !== 'OD'" class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Installment Method</mat-label>
             <mat-select [(ngModel)]="applicationProduct.installmentMethod" name="facilityType">
@@ -195,11 +233,21 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Start Date</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.startDateContract | date: 'yyyy/MM/dd' }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else startDateView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Start Date</mat-label>
+              <input [matDatepicker]="startDate2" matInput [(ngModel)]="applicationProduct.startDateContract" />
+              <mat-datepicker-toggle matSuffix [for]="startDate2"></mat-datepicker-toggle>
+              <mat-datepicker #startDate2></mat-datepicker>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #startDateView>
+            <div class="col-3">Start Date</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.startDateContract | date: 'yyyy/MM/dd' }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -227,11 +275,19 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Tenor</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.tenor }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else tenorView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Tenor</mat-label>
+              <input matInput type="number" [(ngModel)]="applicationProduct.tenor" (change)="tenorChange()" />
+            </mat-form-field>
+          </ng-container>
+          <ng-template #tenorView>
+            <div class="col-3">Tenor</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.tenor }}
+            </div>
+          </ng-template>
         </div>
         <div class="fontsebled row">
           <div class="col-3">Period Type</div>
@@ -253,11 +309,22 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">End Date</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.thruDateContract | date: 'yyyy/MM/dd' }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else endDateView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>End Date</mat-label>
+              <input [matDatepicker]="endDate" matInput [(ngModel)]="applicationProduct.attributes['thruDateContractTemp']" />
+              <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+              <mat-datepicker #endDate></mat-datepicker>
+            </mat-form-field>
+          </ng-container>
+
+          <ng-template #endDateView>
+            <div class="col-3">End Date</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.thruDateContract | date: 'yyyy/MM/dd' }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -272,11 +339,21 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Maturity Date</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.maturityDate | date: 'yyyy/MM/dd' }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else maturityDateView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Maturity Date</mat-label>
+              <input [matDatepicker]="bindingDate" matInput [(ngModel)]="applicationProduct.maturityDate" />
+              <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
+              <mat-datepicker #bindingDate></mat-datepicker>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #maturityDateView>
+            <div class="col-3">Maturity Date</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.maturityDate | date: 'yyyy/MM/dd' }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -318,18 +395,44 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Sub-Limit</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ printElement(applicationProduct.subLimit) }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else subLimitView">
+            <div class="col-3" style="padding: 1rem">
+              <mat-checkbox [(ngModel)]="applicationProduct.subLimit" (ngModelChange)="changeSublimitCheck()">Sub-Limit</mat-checkbox>
+            </div>
+          </ng-container>
+          <ng-template #subLimitView>
+            <div class="col-3">Sub-Limit</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ printElement(applicationProduct.subLimit) }}
+            </div>
+          </ng-template>
         </div>
         <div class="fontsebled row">
-          <div class="col-3">Sublimit From Existing Facility</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.sublimitFromExistingFacility }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else sublimitFromView">
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Sublimit From Existing Facility</mat-label>
+                <mat-select
+                  [(ngModel)]="applicationProduct.sublimitFromExistingFacility"
+                  [disabled]="applicationProduct.subLimit !== true"
+                  (ngModelChange)="changeSublimit($event)"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of labelSublimit" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-container>
+          <ng-template #sublimitFromView>
+            <div class="col-3">Sublimit From Existing Facility</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.sublimitFromExistingFacility }}
+            </div>
+          </ng-template>
         </div>
         <div class="fontsebled row">
           <div class="col-3">Index Facility Main</div>
@@ -377,11 +480,24 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Currency</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.currencyId }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else currencyView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Currency</mat-label>
+              <mat-select [(ngModel)]="applicationProduct.currencyId" (ngModelChange)="chnageCurrency($event)" required>
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #currencyView>
+            <div class="col-3">Currency</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.currencyId }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -424,11 +540,32 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Initial Limit</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.initialLimit | number }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else initialLimitView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Initial Limit</mat-label>
+              <div *ngIf="conCcy; then thenBlockInitialLimit; else elseBlockInitialLimit"></div>
+              <ng-template #thenBlockInitialLimit
+                ><input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="applicationProduct.initialLimit"
+                  [options]="logoCcy"
+                  [disabled]="statusFacilityDisabled"
+                />
+              </ng-template>
+              <ng-template #elseBlockInitialLimit>
+                <input matInput type="text" [(ngModel)]="applicationProduct.initialLimit" [disabled]="statusFacilityDisabled" />
+              </ng-template>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #initialLimitView>
+            <div class="col-3">Initial Limit</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.initialLimit | number }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -454,11 +591,33 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Outstanding</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.outstanding | number }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else outstandingView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Outstanding</mat-label>
+              <div *ngIf="conCcy; then aOutstanding; else bOutstanding"></div>
+              <ng-template #aOutstanding>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="applicationProduct.outstanding"
+                  [options]="logoCcy"
+                  [disabled]="statusFacilityDisabled"
+                />
+              </ng-template>
+              <ng-template #bOutstanding>
+                <input matInput type="text" [(ngModel)]="applicationProduct.outstanding" [disabled]="statusFacilityDisabled" />
+              </ng-template>
+            </mat-form-field>
+          </ng-container>
+
+          <ng-template #outstandingView>
+            <div class="col-3">Outstanding</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.outstanding | number }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -496,11 +655,25 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Changes</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.changes | number }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else changesView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Changes</mat-label>
+              <div *ngIf="conCcy; then cChanges; else dChanges"></div>
+              <ng-template #cChanges>
+                <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.changes" [options]="logoCcy" />
+              </ng-template>
+              <ng-template #dChanges>
+                <input matInput type="text" [(ngModel)]="applicationProduct.changes" />
+              </ng-template>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #changesView>
+            <div class="col-3">Changes</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.changes | number }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -676,18 +849,53 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Interest Rate Type</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.rateTypeName }}
+        <ng-container *ngIf="isCredamOnDppkFinalize; else interestRateTypeView">
+          <div class="mb-2">
+            <div class="row">
+              <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Interest Rate Type</mat-label>
+                  <mat-select [(ngModel)]="applicationProduct.rateTypeName" (ngModelChange)="changeIntRateType($event)" [disabled]="status">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of interestTypeList" [value]="item.code">{{ item.value }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
-          <div class="col-3">Current Interest Rate</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.currentInterestRate }}
+        </ng-container>
+        <ng-template #interestRateTypeView>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Interest Rate Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.rateTypeName }}
+            </div>
           </div>
-        </div>
+        </ng-template>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <ng-container *ngIf="isCredamOnDppkFinalize; else currentInterestRateView">
+          <div class="mb-2">
+            <div class="row">
+              <div class="col-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Current Interest Rate</mat-label>
+                  <input matInput type="text" [(ngModel)]="applicationProduct.currentInterestRate" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #currentInterestRateView>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Current Interest Rate</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.currentInterestRate }}
+            </div>
+          </div>
+        </ng-template>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
@@ -704,13 +912,28 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Proposed Rate / Spread</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ (applicationProduct.pricingRate != null ? applicationProduct.pricingRate : 0) + ' %' }}
+        <ng-container *ngIf="isCredamOnDppkFinalize; else proposedRateView">
+          <div class="mb-2">
+            <div class="row">
+              <div class="col-8 col md-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Proposed Rate / spread</mat-label>
+                  <input matInput type="number" [(ngModel)]="applicationProduct.pricingRate" />
+                  <div matSuffix class="input-suffix">&nbsp;%</div>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
-        </div>
+        </ng-container>
+        <ng-template #proposedRateView>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Proposed Rate / spread</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ (applicationProduct.pricingRate != null ? applicationProduct.pricingRate : 0) + ' %' }}
+            </div>
+          </div>
+        </ng-template>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
@@ -777,7 +1000,6 @@
               </div> -->
               <ejs-numerictextbox
                 [(ngModel)]="applicationProduct.provisionFeeAmount"
-                (blur)="checkForDecimalProvision(applicationProduct.provisionFeeAmount)"
                 cssClass="e-outline"
                 placeholder="Provision Fee"
                 floatLabelType="auto"
@@ -806,17 +1028,52 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <ng-container *ngIf="isCredamOnDppkFinalize; else provisionFeeView">
+          <div class="fontsebled row py-1">
+            <ejs-numerictextbox
+              [(ngModel)]="applicationProduct.provisionFeeAmount"
+              cssClass="e-outline"
+              placeholder="Provision Fee"
+              floatLabelType="auto"
+              floatLabelType="Always"
+              format="{{ logoProvisonFee }}"
+              min="0"
+              style="height: 4em"
+            ></ejs-numerictextbox>
+          </div>
+        </ng-container>
         <div class="fontsebled row py-1">
-          <div class="col-3">Provision Fee</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.provisionFeeAmount | number }}
-          </div>
-          <div class="col-3">Rate / Amount Type</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.provisionFeeType }}
-          </div>
+          <ng-template #provisionFeeView>
+            <div class="col-3">Provision Fee</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.provisionFeeAmount | number }}
+            </div>
+          </ng-template>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else rateAmountTypeView">
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Rate / Amount Type</mat-label>
+                <mat-select
+                  [(ngModel)]="applicationProduct.provisionFeeType"
+                  [disabled]="status"
+                  (selectionChange)="changeAmountType($event.value, 'provision')"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-container>
+          <ng-template #rateAmountTypeView>
+            <div class="col-3">Rate / Amount Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.provisionFeeType }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -837,7 +1094,6 @@
               </mat-form-field> -->
               <ejs-numerictextbox
                 [(ngModel)]="applicationProduct.adminFeeAmount"
-                (blur)="checkForDecimalAdmin(applicationProduct.adminFeeAmount)"
                 cssClass="e-outline"
                 placeholder="Admin Fee"
                 floatLabelType="auto"
@@ -867,16 +1123,48 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Admin Fee</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.adminFeeAmount | number }}
-          </div>
-          <div class="col-3">Rate / Amount Type</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.adminFeeType }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else adminFeeView">
+            <ejs-numerictextbox
+              [(ngModel)]="applicationProduct.adminFeeAmount"
+              cssClass="e-outline"
+              placeholder="Admin Fee"
+              floatLabelType="auto"
+              floatLabelType="Always"
+              format="{{ logoAdminFee }}"
+              min="0"
+              style="height: 4em"
+            ></ejs-numerictextbox>
+          </ng-container>
+
+          <ng-template #adminFeeView>
+            <div class="col-3">Admin Fee</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.adminFeeAmount | number }}
+            </div>
+          </ng-template>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else adminFeeTypeView">
+            <mat-form-field class="h-100" appearance="outline">
+              <mat-label>Rate / Amount Type</mat-label>
+              <mat-select
+                [(ngModel)]="applicationProduct.adminFeeType"
+                [disabled]="status"
+                (selectionChange)="changeAmountType($event.value, 'admin')"
+              >
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #adminFeeTypeView>
+            <div class="col-3">Rate / Amount Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.adminFeeType }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -1017,7 +1305,7 @@
         </div>
       </section>
       <div class="mb-2">
-        <div [hidden]="textBoxHidden">
+        <div *ngIf="!textBoxHidden">
           <section *ngIf="!statusDisabledOffering">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>loan purpose (For Legal)</mat-label>
@@ -1042,7 +1330,7 @@
         </div>
       </div>
       <div class="mb-2">
-        <div [hidden]="textBoxHidden">
+        <div *ngIf="!textBoxHidden">
           <section *ngIf="!statusDisabledOffering">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Grace period since</mat-label>
@@ -1066,7 +1354,7 @@
         </div>
       </div>
       <div class="mb-2">
-        <div [hidden]="textBoxHidden">
+        <div *ngIf="!textBoxHidden">
           <section *ngIf="!statusDisabledOffering">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Availability period since</mat-label>
@@ -1118,11 +1406,24 @@
         </section>
         <section *ngIf="statusDisabledOffering">
           <div class="fontsebled row py-1">
-            <div class="col-3">Disbursement Condition (For Legal)</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ applicationProduct.attributes['disbursementLegalRemark'] }}
-            </div>
+            <ng-container *ngIf="isCredamOnDppkFinalize; else disbursementConditionForLegalView">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Disbursement Condition (For Legal)</mat-label>
+                <textarea
+                  matInput
+                  type="multiline"
+                  style="height: 100px"
+                  [(ngModel)]="applicationProduct.attributes['disbursementLegalRemark']"
+                ></textarea>
+              </mat-form-field>
+            </ng-container>
+            <ng-template #disbursementConditionForLegalView>
+              <div class="col-3">Disbursement Condition (For Legal)</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ applicationProduct.attributes['disbursementLegalRemark'] }}
+              </div>
+            </ng-template>
           </div>
         </section>
       </div>

@@ -4,6 +4,7 @@ import { dataCovenantBelow, dataCovenantBackToBackDeposit, dataCovenantBackToBac
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
 import { Router } from '@angular/router';
+import { CredamService } from 'app/entities/dppk-finalize/credam.service';
 
 @Component({
   selector: 'jhi-covenant-temp',
@@ -41,7 +42,9 @@ export class CovenantTempComponent implements OnInit {
   public _isDisabledFromDPPK: boolean;
   fields = false;
 
-  constructor(private router: Router) {}
+  public isCredamOnDppkFinalize = false;
+
+  constructor(private router: Router, private credamService: CredamService) {}
 
   get viewMode(): Boolean {
     const cpStatus = this.creditProposalItem.statusId;
@@ -54,7 +57,11 @@ export class CovenantTempComponent implements OnInit {
         return false;
       }
     } else {
-      return true;
+      if (this.selectedMenu === 'COVENANT' && this.parentPath === 'finalize-dppk' && this.isCredamOnDppkFinalize) {
+        return false;
+      } else {
+        return true;
+      }
     }
   }
   public selectMenuItem(args: MenuEventArgs): void {
@@ -105,5 +112,6 @@ export class CovenantTempComponent implements OnInit {
     } else {
       this.isDisabledFromDPPK = null;
     }
+    this.isCredamOnDppkFinalize = this.credamService.isCredamOnDppkFinalize(this.router, this.creditProposalItem.listOfPic);
   }
 }

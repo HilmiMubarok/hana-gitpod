@@ -31,6 +31,7 @@ import { CreditProposalService } from '../credit-proposal/credit-proposal.servic
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { MasterCompanyTypeService } from '../master-parameter/master-company-type/master-company-type.service';
 import { firstValueFrom } from 'rxjs';
+import { CredamService } from '../dppk-finalize/credam.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -208,6 +209,8 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
   postaladdresses: IPostalAddress[] = [];
   partyTypeId: string;
   postalAddressId: number;
+  public isCredamOnDppkFinalize = false;
+  public creditTypeLov: any;
 
   constructor(
     protected productParameterService: MasterProductParameterService,
@@ -225,7 +228,8 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     public account: AccountService,
     protected generalParameterService: GeneralParameterService,
     protected creditProposalService: CreditProposalService,
-    protected masterCompanyTypeService: MasterCompanyTypeService
+    protected masterCompanyTypeService: MasterCompanyTypeService,
+    protected credamService: CredamService
   ) {
     super(creditProposalService, messageService, elementRef, dataUtils, account, eventManager);
     this.lovCallreport();
@@ -235,8 +239,16 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     this.loadCreditType();
   }
 
+  getLovCreditType() {
+    this.generalParameterService.queryFilterBy({ idParameterType: 'CREDIT_TYPE', page: 0, size: 9999 }).subscribe(res => {
+      this.creditTypeLov = res.body;
+    });
+  }
+
   ngOnInit(): void {
     this.myFunction();
+    this.getLovCreditType();
+    this.isCredamOnDppkFinalize = this.credamService.isCredamOnDppkFinalize(this.router, this.item.listOfPic);
   }
 
   ngAfterViewInit(): void {
