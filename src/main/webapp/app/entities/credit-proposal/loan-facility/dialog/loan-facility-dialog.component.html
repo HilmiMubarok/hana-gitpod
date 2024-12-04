@@ -545,14 +545,7 @@
               <mat-label>Initial Limit</mat-label>
               <div *ngIf="conCcy; then thenBlockInitialLimit; else elseBlockInitialLimit"></div>
               <ng-template #thenBlockInitialLimit
-                ><input
-                  currencyMask
-                  matInput
-                  type="text"
-                  [(ngModel)]="applicationProduct.initialLimit"
-                  [options]="logoCcy"
-                  [disabled]="statusFacilityDisabled"
-                />
+                ><input currencyMask matInput type="text" [(ngModel)]="applicationProduct.initialLimit" [options]="logoCcy" />
               </ng-template>
               <ng-template #elseBlockInitialLimit>
                 <input matInput type="text" [(ngModel)]="applicationProduct.initialLimit" [disabled]="statusFacilityDisabled" />
@@ -596,14 +589,7 @@
               <mat-label>Outstanding</mat-label>
               <div *ngIf="conCcy; then aOutstanding; else bOutstanding"></div>
               <ng-template #aOutstanding>
-                <input
-                  currencyMask
-                  matInput
-                  type="text"
-                  [(ngModel)]="applicationProduct.outstanding"
-                  [options]="logoCcy"
-                  [disabled]="statusFacilityDisabled"
-                />
+                <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.outstanding" [options]="logoCcy" />
               </ng-template>
               <ng-template #bOutstanding>
                 <input matInput type="text" [(ngModel)]="applicationProduct.outstanding" [disabled]="statusFacilityDisabled" />
@@ -967,16 +953,45 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Reference Rate Period</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.intResetFrequency }}
-          </div>
-          <div class="col-3">Period Type</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.intResetPeriod }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else referenceTypeView">
+            <div class="row">
+              <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Reference Rate Period</mat-label>
+                  <input
+                    matInput
+                    (ngModelChange)="periodeDate($event)"
+                    inputmode="numeric"
+                    [(ngModel)]="applicationProduct.intResetFrequency"
+                    oninput="this.value = this.value.replace(/\D+/g, '')"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Period Type</mat-label>
+                  <mat-select [(ngModel)]="applicationProduct.intResetPeriod" (ngModelChange)="setPeriodeType()" disabled>
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                      {{ item }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #referenceTypeView>
+            <div class="col-3">Reference Rate Period</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.intResetFrequency }}
+            </div>
+            <div class="col-3">Period Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.intResetPeriod }}
+            </div>
+          </ng-template>
         </div>
       </section>
 
@@ -1028,8 +1043,8 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-        <ng-container *ngIf="isCredamOnDppkFinalize; else provisionFeeView">
-          <div class="fontsebled row py-1">
+        <div class="fontsebled row py-1">
+          <ng-container *ngIf="isCredamOnDppkFinalize; else provisionFeeView">
             <ejs-numerictextbox
               [(ngModel)]="applicationProduct.provisionFeeAmount"
               cssClass="e-outline"
@@ -1040,9 +1055,8 @@
               min="0"
               style="height: 4em"
             ></ejs-numerictextbox>
-          </div>
-        </ng-container>
-        <div class="fontsebled row py-1">
+          </ng-container>
+          <!-- <div class="fontsebled row py-1"> -->
           <ng-template #provisionFeeView>
             <div class="col-3">Provision Fee</div>
             <div class="col-md-auto">:</div>
@@ -1052,7 +1066,7 @@
           </ng-template>
           <ng-container *ngIf="isCredamOnDppkFinalize; else rateAmountTypeView">
             <div class="col-4">
-              <mat-form-field class="w-100" appearance="outline">
+              <mat-form-field class="w-100 mt-2" appearance="outline">
                 <mat-label>Rate / Amount Type</mat-label>
                 <mat-select
                   [(ngModel)]="applicationProduct.provisionFeeType"
@@ -1074,6 +1088,7 @@
               {{ applicationProduct.provisionFeeType }}
             </div>
           </ng-template>
+          <!-- </div> -->
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -1124,16 +1139,18 @@
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
           <ng-container *ngIf="isCredamOnDppkFinalize; else adminFeeView">
-            <ejs-numerictextbox
-              [(ngModel)]="applicationProduct.adminFeeAmount"
-              cssClass="e-outline"
-              placeholder="Admin Fee"
-              floatLabelType="auto"
-              floatLabelType="Always"
-              format="{{ logoAdminFee }}"
-              min="0"
-              style="height: 4em"
-            ></ejs-numerictextbox>
+            <div class="mt-2">
+              <ejs-numerictextbox
+                [(ngModel)]="applicationProduct.adminFeeAmount"
+                cssClass="e-outline"
+                placeholder="Admin Fee"
+                floatLabelType="auto"
+                floatLabelType="Always"
+                format="{{ logoAdminFee }}"
+                min="0"
+                style="height: 4em"
+              ></ejs-numerictextbox>
+            </div>
           </ng-container>
 
           <ng-template #adminFeeView>

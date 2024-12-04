@@ -57,7 +57,11 @@ export class CovenantTempComponent implements OnInit {
         return false;
       }
     } else {
-      if (this.selectedMenu === 'COVENANT' && this.parentPath === 'finalize-dppk' && this.isCredamOnDppkFinalize) {
+      if (
+        (this.parentPath === 'finalize-dppk' || this.parentPath === 'review-dppk') &&
+        this.selectedMenu === 'COVENANT' &&
+        this.isCredamOnDppkFinalize
+      ) {
         return false;
       } else {
         return true;
