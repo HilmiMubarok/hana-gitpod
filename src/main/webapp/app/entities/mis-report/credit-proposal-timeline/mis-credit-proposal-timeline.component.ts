@@ -298,18 +298,21 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       { header: 'Segment', key: 'segment', width: 10 },
       { header: 'Branchs', key: 'branchs', width: 30 },
       { header: 'Customer Status', key: 'customerStatus', width: 15 },
-      { header: 'BM', key: 'bm', width: 25 },
       { header: 'RM', key: 'rm', width: 40 },
+      { header: 'BM', key: 'bm', width: 25 },
       { header: 'SME Head Name', key: 'headName', width: 15 },
       { header: 'CIF', key: 'cif', width: 15 },
       { header: 'Debtor Name', key: 'debtorName', width: 30 },
       { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
       { header: 'Proposal Type', key: 'proposalType', width: 30 },
-      { header: ' Timeline Status', key: 'timelineStatus', width: 20 },
-      { header: 'Tanggal', key: 'date', width: 20 },
+      { header: ' Previous Status', key: 'previousStatus', width: 20 },
+      { header: 'Next Status', key: 'nextStatus', width: 20 },
+      { header: 'Previous Date', key: 'previousDate', width: 20 },
+      { header: 'Next Date', key: 'nextDate', width: 20 },
       { header: 'PIC', key: 'pic', width: 30 },
       { header: 'NOTE', key: 'note', width: 25 },
       { header: 'Status', key: 'status', width: 25 },
+      { header: 'TAT', key: 'tat', width: 25 },
     ];
   }
 
@@ -325,6 +328,12 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     const reversedTimeline = [...timeLineCreditProposal.timeLineCreditProposal].reverse();
 
     reversedTimeline.forEach((timeline, timelineIndex) => {
+      const previousDate = timeline.fromDate ? new Date(timeline.fromDate) : null;
+      const adjustedNextDate = timeline.thruDate ? (timeline.thruDate === '9999-12-31' ? new Date() : new Date(timeline.thruDate)) : null;
+
+      const tat =
+        previousDate && adjustedNextDate ? Math.ceil((adjustedNextDate.getTime() - previousDate.getTime()) / (1000 * 60 * 60 * 24)) : null;
+
       worksheet.addRow({
         no: timelineIndex === 0 ? index + 1 : '',
         proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
@@ -332,18 +341,21 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         segment: timelineIndex === 0 ? timeLineCreditProposal.segment || '' : '',
         branchs: timelineIndex === 0 ? timeLineCreditProposal.bookingBranchName || '' : '',
         customerStatus: timelineIndex === 0 ? timeLineCreditProposal.customerStatus || '' : '',
-        bm: timelineIndex === 0 ? timeLineCreditProposal.bm || '' : '',
         rm: timelineIndex === 0 ? `${timeLineCreditProposal.rmFirstName || ''} ${timeLineCreditProposal.rmLastName || ''}`.trim() : '',
+        bm: timelineIndex === 0 ? timeLineCreditProposal.bm || '' : '',
         headName: timelineIndex === 0 ? timeLineCreditProposal.headName || '' : '',
         cif: timelineIndex === 0 ? timeLineCreditProposal.cif || '' : '',
         debtorName: timelineIndex === 0 ? timeLineCreditProposal.debtorName || '' : '',
         loanCommApproval: timelineIndex === 0 ? timeLineCreditProposal.approvalLc?.split(' ')[0] || '' : '',
         proposalType: timelineIndex === 0 ? timeLineCreditProposal.proposalType || '' : '',
-        timelineStatus: timeline.statusDescription || '',
-        date: timeline.fromDate || '',
+        previousStatus: timeline.fromStatusDescription || '',
+        nextStatus: timeline.statusDescription || '',
+        previousDate: timeline.fromDate || '',
+        nextDate: timeline.thruDate === '9999-12-31' ? '' : timeline.thruDate || '',
         pic: timeline.personName || '',
         note: timeline.note || '',
         status: timelineIndex === 0 ? timeLineCreditProposal.status || '' : '',
+        tat,
       });
     });
 
@@ -369,7 +381,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
 
   private _applyStyles(): void {
     super.applyStyles('FFFFA500');
-    const columnsToBeWraped = ['timelineStatus', 'note', 'date', 'pic'];
+    const columnsToBeWraped = ['previousStatus', 'nextStatus', 'previousDate', 'nextDate'];
     const topAlignedColumns = [
       'no',
       'proposalNumber',
@@ -377,14 +389,13 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       'segment',
       'branchs',
       'customerStatus',
-      'bm',
       'rm',
+      'bm',
       'headName',
       'cif',
       'debtorName',
       'loanCommApproval',
       'proposalType',
-      'status',
     ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {
