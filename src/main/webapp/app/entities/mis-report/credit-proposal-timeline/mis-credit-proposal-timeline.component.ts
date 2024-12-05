@@ -337,7 +337,14 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       worksheet.addRow({
         no: timelineIndex === 0 ? index + 1 : '',
         proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
-        proposalDate: timelineIndex === 0 ? timeLineCreditProposal.proposalDate || '' : '',
+        proposalDate:
+          timelineIndex === 0
+            ? timeLineCreditProposal.proposalDate
+              ? `${String(new Date(timeLineCreditProposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+                  new Date(timeLineCreditProposal.proposalDate).getMonth() + 1
+                ).padStart(2, '0')}-${new Date(timeLineCreditProposal.proposalDate).getFullYear()}`
+              : ''
+            : '',
         segment: timelineIndex === 0 ? timeLineCreditProposal.segment || '' : '',
         branchs: timelineIndex === 0 ? timeLineCreditProposal.bookingBranchName || '' : '',
         customerStatus: timelineIndex === 0 ? timeLineCreditProposal.customerStatus || '' : '',
@@ -350,8 +357,19 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         proposalType: timelineIndex === 0 ? timeLineCreditProposal.proposalType || '' : '',
         previousStatus: timeline.fromStatusDescription || '',
         nextStatus: timeline.statusDescription || '',
-        previousDate: timeline.fromDate || '',
-        nextDate: timeline.thruDate === '9999-12-31' ? '' : timeline.thruDate || '',
+        previousDate: timeline.fromDate
+          ? `${String(new Date(timeline.fromDate).getDate()).padStart(2, '0')}-${String(
+              new Date(timeline.fromDate).getMonth() + 1
+            ).padStart(2, '0')}-${new Date(timeline.fromDate).getFullYear()}`
+          : '',
+        nextDate:
+          timeline.thruDate === '9999-12-31'
+            ? ''
+            : timeline.thruDate
+            ? `${String(new Date(timeline.thruDate).getDate()).padStart(2, '0')}-${String(
+                new Date(timeline.thruDate).getMonth() + 1
+              ).padStart(2, '0')}-${new Date(timeline.thruDate).getFullYear()}`
+            : '',
         pic: timeline.personName || '',
         note: timeline.note || '',
         status: timelineIndex === 0 ? timeLineCreditProposal.status || '' : '',
