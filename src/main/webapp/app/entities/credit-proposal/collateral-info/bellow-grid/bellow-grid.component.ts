@@ -464,29 +464,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     return new Promise((resolve, reject) => {
       this.creditProposalService.update(this.preSave('not-complete')).subscribe(
         res => {
-          // Check if collateralProductRelations is empty
-          if (!this.creditProposal.collateralProductRelations || this.creditProposal.collateralProductRelations.length === 0) {
-            // Assign res.body.collateralProductRelations if empty
-            this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-          } else {
-            // If not empty, check for matching IDs
-            let hasMatchingIds = false;
-            for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
-              for (let j = 0; j < res.body.collateralProductRelations.length; j++) {
-                if (this.creditProposal.collateralProductRelations[i].id === res.body.collateralProductRelations[j].id) {
-                  hasMatchingIds = true;
-                  break;
-                }
-              }
-            }
-            // If IDs match, revert to copyCreditProposal.collateralProductRelations
-            if (hasMatchingIds) {
-              this.creditProposal.collateralProductRelations = copyCreditProposal.collateralProductRelations;
-            } else {
-              // Otherwise, update with res.body.collateralProductRelations
-              this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
-            }
-          }
+          this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
           resolve(); // Call resolve() when complete
         },
         error => {
