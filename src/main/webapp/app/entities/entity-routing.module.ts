@@ -669,6 +669,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./mis-report/mis-appraisal/mis-appraisal.module').then(m => m.MisAppraisalModule),
       },
       {
+        path: 'mis-appraisal-report-bsu',
+        loadChildren: () => import('./mis-report/mis-appraisal-bsu/mis-appraisal-bsu.module').then(m => m.MisAppraisalBsuModule),
+      },
+      {
         path: 'mis-cpslareviewer-report',
         loadChildren: () => import('./mis-report/sla-reviewer/mis-cpslareviewer-report.module').then(m => m.MisCpslaReviewerReportModule),
       },
