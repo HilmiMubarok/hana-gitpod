@@ -1,5 +1,5 @@
 import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
@@ -35,6 +35,7 @@ import lodash from 'lodash';
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { MasterProductParameterService } from '../master-parameter/master-product/master-product-parameter.service';
 import { firstValueFrom } from 'rxjs';
+import { CredamService } from '../dppk-finalize/credam.service';
 
 moment.locale('id');
 
@@ -107,6 +108,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public umkm = ['micro', 'small', 'intermediate', 'high'];
   public callReportCategoryData = [];
   public pep = [];
+  public isCredamOnDppkFinalize = false;
 
   constructor(
     protected productParameterService: MasterProductParameterService,
@@ -125,7 +127,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     protected partyCifService: PartyCifService,
     private masterInitialDebtorDataService: MasterInitialDebtorDataService,
     public account: AccountService,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    public credamService: CredamService,
+    public router: Router
   ) {
     super(personService, messageService, elementRef, dataUtils, account, eventManager);
     (this.collectabilityStatus = COLLECTABILITY_STATUS),
@@ -165,6 +169,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     }
 
     this.myFunction();
+    this.isCredamOnDppkFinalize = this.credamService.isCredamOnDppkFinalize(this.router, this.deptorData.listOfPic);
   }
   public countAge(): number {
     let age: number;
