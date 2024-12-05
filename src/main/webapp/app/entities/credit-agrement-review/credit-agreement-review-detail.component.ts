@@ -378,7 +378,7 @@ export class CreditAgreementReviewDetailComponent implements OnInit {
     if (this.creditProposal.id) {
       this.creditAgreementReviewService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
-
+        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
         if (this.creditProposalTabBusinessActivityComponent) {
           this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
         }

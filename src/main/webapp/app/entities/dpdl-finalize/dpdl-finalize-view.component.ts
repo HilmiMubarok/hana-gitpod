@@ -734,7 +734,7 @@ export class DpdlFinalizeViewComponent implements OnInit {
       // this.dpdlFinalizeService.update(this.preSave(statusPreSave)).subscribe(res => {
       this.cashDpdlService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
-
+        this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
         if (this.creditProposalTabBusinessActivityComponent) {
           this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
         }
