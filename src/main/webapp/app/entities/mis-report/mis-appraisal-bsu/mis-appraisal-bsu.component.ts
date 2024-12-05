@@ -1,0 +1,427 @@
+import { Component } from '@angular/core';
+import { MisReportService } from '../mis-report.service';
+import { MessageService } from 'primeng/api';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { saveAs } from 'file-saver';
+import * as ExcelJS from 'exceljs';
+import { AbstractExcelMISReport } from '../abstract-excel-report';
+
+@Component({
+  selector: 'jhi-mis-appraisal-bsu',
+  templateUrl: './mis-appraisal-bsu.component.html',
+  styleUrls: ['./mis-appraisal-bsu.css', '../mis-report.css'],
+  styles: [
+    `
+      .select-all {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        line-height: 48px;
+        height: 48px;
+        padding: 0 16px;
+        text-align: left;
+        text-decoration: none;
+        max-width: 100%;
+        position: relative;
+        liststyletype: none;
+        outline: none;
+        display: flex;
+        flex-direction: row;
+        max-width: 100%;
+        box-sizing: border-box;
+        align-items: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .select-all:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+      }
+    `,
+  ],
+})
+export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
+  public lovStatusAppraisal = [];
+  public lovOfficerSurveyor = [];
+  public lovAppraisalType: string[] = ['Internal', 'External'];
+  public lovGeo = [];
+  data = '';
+  date1: any;
+  date2: any;
+  allSelectedGeo = false;
+  allSelectedAppraisal = false;
+  allSelectedOfficerSurveyor = false;
+  allSelectedAppraisalType = false;
+  MISReportAppraisal: FormGroup;
+
+  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    super(misReportService);
+
+    this.MISReportAppraisal = new FormGroup({
+      date1: new FormControl('', [Validators.required]),
+      date2: new FormControl(''),
+      geoBoundaries: new FormControl(null),
+      statusAppraisal: new FormControl(''),
+      officerSurveyor: new FormControl(null),
+      appraisalType: new FormControl(null),
+    });
+
+    this.MISReportAppraisal.get('date1')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.MISReportAppraisal.get('date1')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
+    this.MISReportAppraisal.get('date2')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.MISReportAppraisal.get('date2')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
+    this.MISReportAppraisal.get('statusAppraisal')?.valueChanges.subscribe(statusAppraisal => {
+      if (typeof statusAppraisal === 'object' && statusAppraisal.length === 0) {
+        this.MISReportAppraisal.get('statusAppraisal')?.setValue('');
+      }
+    });
+
+    this.MISReportAppraisal.get('geoBoundaries')?.valueChanges.subscribe(geoBoundaries => {
+      if (typeof geoBoundaries === 'object' && geoBoundaries.length === 0) {
+        this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
+      }
+    });
+
+    this.MISReportAppraisal.get('officerSurveyor')?.valueChanges.subscribe(officerSurveyor => {
+      if (typeof officerSurveyor === 'object' && officerSurveyor.length === 0) {
+        this.MISReportAppraisal.get('officerSurveyor')?.setValue(null);
+      }
+    });
+
+    this.MISReportAppraisal.get('appraisalType')?.valueChanges.subscribe(appraisalType => {
+      if (typeof appraisalType === 'object' && appraisalType.length === 0) {
+        this.MISReportAppraisal.get('appraisalType')?.setValue(null);
+      }
+    });
+
+    this.getStatusesAppraisal();
+    this.getBoundaries();
+    this.getOfficerSurveyors();
+  }
+
+  getStatusesAppraisal() {
+    this.misReportService.getStatuses('MIS_APPRAISAL_BSU').subscribe({
+      next: res => (this.lovStatusAppraisal = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Status Appraisals' });
+      },
+    });
+  }
+
+  getOfficerSurveyors() {
+    this.misReportService.getOfficerSurveyors().subscribe({
+      next: res => {
+        this.lovOfficerSurveyor = res.sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName));
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to get Officer Surveyors',
+        });
+      },
+    });
+  }
+
+  // getBoundaries() {
+  //   this.misReportService.getGeoBoundaries().subscribe({
+  //     next: res => (this.lovGeo = res),
+  //     error: () => {
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Geo Boundaries' });
+  //     },
+  //   });
+  // }
+
+  getBoundaries() {
+    this.misReportService.getGeoBoundaries().subscribe({
+      next: res => {
+        this.lovGeo = res.sort((a: any, b: any) => a.description.localeCompare(b.description));
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Geo Boundaries' });
+      },
+    });
+  }
+
+  toggleSelectAllAppraisal(): void {
+    this.allSelectedAppraisal = !this.allSelectedAppraisal;
+    if (this.allSelectedAppraisal) {
+      this.MISReportAppraisal.get('statusAppraisal')?.setValue([
+        ...this.lovStatusAppraisal.map(statusAppraisal => statusAppraisal.statusId),
+      ]);
+    } else {
+      this.MISReportAppraisal.get('statusAppraisal')?.setValue('');
+    }
+  }
+
+  toggleSelectAllOfficerSurveyor(): void {
+    this.allSelectedOfficerSurveyor = !this.allSelectedOfficerSurveyor;
+    if (this.allSelectedOfficerSurveyor) {
+      this.MISReportAppraisal.get('officerSurveyor')?.setValue([...this.lovOfficerSurveyor.map(officerSurveyor => officerSurveyor.id)]);
+    } else {
+      this.MISReportAppraisal.get('officerSurveyor')?.setValue(null);
+    }
+  }
+
+  toggleSelectAllGeo(): void {
+    this.allSelectedGeo = !this.allSelectedGeo;
+    if (this.allSelectedGeo) {
+      this.MISReportAppraisal.get('geoBoundaries')?.setValue([...this.lovGeo.map(geoBoundaries => geoBoundaries.id)]);
+    } else {
+      this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
+    }
+  }
+
+  toggleSelectAllAppraisalType(): void {
+    this.allSelectedAppraisalType = !this.allSelectedAppraisalType;
+    if (this.allSelectedAppraisalType) {
+      this.MISReportAppraisal.get('appraisalType')?.setValue([...this.lovAppraisalType]);
+    } else {
+      this.MISReportAppraisal.get('appraisalType')?.setValue(null);
+    }
+  }
+
+  public previousState(): void {
+    window.history.back();
+  }
+
+  private _convertLov(lov: Array<string> | null | string): string {
+    if (lov === null) {
+      return null;
+    }
+
+    if (typeof lov === 'string') {
+      return '';
+    }
+
+    if (lov.length === 0) {
+      return '';
+    }
+    return lov.join(',');
+  }
+
+  protected processData(data: any[]): void {
+    data.forEach((proposal, index) => {
+      this._processGenerate;
+    });
+  }
+
+  generateMISReportAppraisalBsu() {
+    if (this.MISReportAppraisal.invalid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please fill in both Start Date and End Date.',
+      });
+      return;
+    }
+
+    if (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please select at least one status before generating the report',
+      });
+      return;
+    }
+
+    this.misReportService.setLoading(true);
+    const params = {
+      startDate: this.MISReportAppraisal.get('date1')?.value,
+      endDate: this.MISReportAppraisal.get('date2')?.value,
+      status: this._convertLov(this.MISReportAppraisal.get('statusAppraisal')?.value),
+      city: this._convertLov(this.MISReportAppraisal.get('geoBoundaries')?.value),
+      officerSurveyor: this._convertLov(this.MISReportAppraisal.get('officerSurveyor')?.value),
+      appraisalType: this._convertLov(this.MISReportAppraisal.get('appraisalType')?.value),
+    };
+
+    this.misReportService.getMISReportAppraisal(params).subscribe({
+      next: res => this._processGenerate(res.body, 'MIS_Appraisal_BSU'),
+      error: error => {
+        console.error('Error: ', error);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate document' });
+        this._resetData();
+        this.misReportService.setLoading(false);
+      },
+      complete: () => {
+        this._resetData();
+        this.misReportService.setLoading(false);
+      },
+    });
+  }
+
+  _processTimelinePersonName(personName: string) {
+    // convert string into array by spliting it by space
+    const personNameArray = personName.split(' ');
+
+    // Check if the array has null value, if true, remove the null
+    const filteredPersonNameArray = personNameArray.filter(name => name !== 'null');
+
+    // Join the array into string
+    return filteredPersonNameArray.join(' ');
+  }
+
+  private _processGenerate(data, outputName: string): void {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sheet 1');
+
+    // Add header Columns
+    worksheet.columns = [
+      { header: 'No.', key: 'no', width: 5 },
+      { header: 'Appraisal Number', key: 'appraisalNumber', width: 17 },
+      { header: 'Segment', key: 'segment', width: 15 },
+      { header: 'Branch', key: 'branch', width: 22 },
+      { header: 'Marketing', key: 'marketing', width: 35 },
+      { header: 'Appraisal Date', key: 'appraisalDate', width: 14 },
+      { header: 'Customer Name', key: 'customerName', width: 35 },
+      { header: 'ID', key: 'collateralId', width: 5 },
+      { header: 'Collateral Type', key: 'collateralType', width: 25 },
+      { header: 'Collateral', key: 'collateral', width: 22 },
+      { header: 'Certificate Number', key: 'certificateNumber', width: 50 },
+      { header: 'Property Usage', key: 'propertyUsage', width: 50 },
+      { header: 'Marketability', key: 'marketability', width: 50 },
+      { header: 'Land Area Based on Physical Conditions', key: 'landAreaBasedOnPhysicalConditions', width: 50 },
+      { header: 'Building Area Based on Physical Condition', key: 'buildingAreaBasedOnPhysicalCondition', width: 50 },
+      { header: 'Market Value (MV) Land on Physical Condition', key: 'marketValueLandPhysicalCondition', width: 50 },
+      { header: 'Market Value (MV) Building on Physical Condition', key: 'marketValueBuildingPhysicalCondition', width: 50 },
+      { header: 'Liquidation Value (LV) Land on Physical Condition', key: 'liquidationValueLandPhysicalCondition', width: 50 },
+      { header: 'Liquidation Value (LV) Building on Physical Condition', key: 'liquidationValueBuildingPhysicalCondition', width: 50 },
+      { header: 'Land Area Based on Physical Conditions', key: 'landAreaBasedOnPhysicalConditions', width: 50 },
+      { header: 'Building Area Based on Physical Condition', key: 'buildingAreaBasedOnPhysicalCondition', width: 50 },
+      { header: 'Market Value (MV) Land on Physical Condition', key: 'marketValueLandPhysicalCondition', width: 50 },
+      { header: 'Market Value (MV) Building on Physical Condition', key: 'marketValueBuildingPhysicalCondition', width: 50 },
+      { header: 'Liquidation Value (LV) Land on Physical Condition', key: 'liquidationValueLandPhysicalCondition', width: 50 },
+      { header: 'Liquidation Value (LV) Building on Physical Condition', key: 'liquidationValueBuildingPhysicalCondition', width: 50 },
+      { header: 'Location', key: 'location', width: 50 },
+      { header: 'Village', key: 'village', width: 22 },
+      { header: 'District', key: 'district', width: 22 },
+      { header: 'City', key: 'city', width: 22 },
+      { header: 'Province', key: 'provinceName', width: 22 },
+      { header: 'Appraisal Type', key: 'appraisalType', width: 14 },
+      { header: 'Type of Application', key: 'typeOfApplication', width: 20 },
+      { header: 'Plafond', key: 'plafond', width: 20 },
+      { header: 'Credit Maturity Date', key: 'creditMaturityDate', width: 15 },
+      { header: 'Appraiser', key: 'appraiser', width: 35 },
+      { header: 'Market Value (MV)', key: 'nilaiMV', width: 20 },
+      { header: 'Liquidation Value (LV)', key: 'nilaiLV', width: 20 },
+      { header: 'KJPP', key: 'kjppName', width: 35 },
+      { header: 'KJPP Market Value (MV)', key: 'totalMVKJPP', width: 20 },
+      { header: 'KJPP Liquidation Value (LV)', key: 'totalLVKJPP', width: 20 },
+      { header: 'Date of Application', key: 'tanggalPermohonan', width: 35 },
+      { header: 'Visited Date', key: 'visitedDate', width: 35 },
+      { header: 'Assessment Date', key: 'tanggalPenilaian', width: 35 },
+      { header: 'Report Date', key: 'tanggalLaporan', width: 35 },
+      { header: 'Reviewer', key: 'reviewer', width: 35 },
+      { header: 'Negative List Collateral', key: 'negativeList', width: 35 },
+      { header: 'Timeline', key: 'timeline', width: 65 },
+      { header: 'Status', key: 'status', width: 25 },
+    ];
+
+    // Add data to the sheet
+    data.forEach((row, index) => {
+      worksheet.addRow({
+        no: index + 1 || '',
+        appraisalNumber: row.appraisalNumber || '',
+        appraisalDate: row.appraisalDate || '',
+        branch: row.branch || '',
+        marketing: row.marketing || '',
+        customerName: row.customerName || '',
+        collateralId: row.collateral[0]?.id || '',
+        collateralType: row.collateral[0]?.collateralType || '',
+        collateral: row.collateral[0]?.collateral || '',
+        certificateNumber: row.collateral[0]?.landCertificates?.map(cert => cert.certNumber).join('\n') || '',
+        location: row.collateral[0]?.location || '',
+        village: row.collateral[0]?.villageName || '',
+        district: row.collateral[0]?.districtName || '',
+        city: row.collateral[0]?.city || '',
+        provinceName: row.collateral[0]?.provinceName || '',
+        appraisalType: row.appraisalType || '',
+        typeOfApplication: row.jenisPermohonan?.join('\n') || '',
+        plafond: row.plafond || '',
+        creditMaturityDate: row.tglJatemKredit || '',
+        appraiser: row.appraiser || '',
+        nilaiMV: row.totalMVInternal || '',
+        nilaiLV: row.totalLiquidationInternal || '',
+        kjppName: row.kjppName || '',
+        totalMVKJPP: row.totalMVKJPP || '',
+        totalLVKJPP: row.totalLVKJPP || '',
+        tanggalPermohonan: row.tanggalPermohonan || '',
+        visitedDate: row.visitedDate || '',
+        tanggalPenilaian: row.tanggalPenilaian || '',
+        tanggalLaporan: row.tanggalLaporan || '',
+        reviewer: row.reviewerBy || '',
+        timeline:
+          row.timeLine
+            ?.slice(1)
+            ?.map(
+              timeline =>
+                `${timeline.fromStatusDescription || ''} : ${timeline.fromDate || ''} : ${
+                  this._processTimelinePersonName(timeline.personName) || ''
+                }`
+            )
+            .join('\n') || '',
+        status: row.status || '',
+      });
+    });
+
+    worksheet.columns.forEach((column, index) => {
+      worksheet.getCell(1, index + 1).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'ffa0c4e4' },
+      };
+      worksheet.getColumn(column.key as string | number).alignment = { vertical: 'middle', horizontal: 'center' };
+    });
+
+    // enable wrap text for timeline cell
+    worksheet.getColumn('jenisPermohonan').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
+    worksheet.getColumn('timeline').alignment = { wrapText: true, vertical: 'middle' };
+    worksheet.getColumn('location').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
+
+    const timelineColumnIndex = worksheet.columns.findIndex(column => column.header === 'Timeline') + 1;
+    if (timelineColumnIndex > 0) {
+      worksheet.getRow(1).getCell(timelineColumnIndex).alignment = { vertical: 'middle', horizontal: 'center' };
+    }
+
+    // Apply styles
+    worksheet.getRow(1).font = { bold: true };
+    worksheet.getRow(1).height = 20;
+
+    worksheet.eachRow({ includeEmpty: true }, row => {
+      row.eachCell({ includeEmpty: true }, cell => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
+
+    // Set the output name
+    const date = new Date();
+    const fileName = `${outputName}_${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
+
+    // Generate and save file
+    workbook.xlsx.writeBuffer().then(buffer => {
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      saveAs(blob, fileName);
+      this.misReportService.setLoading(false);
+      this.misReportService.generateDocumentLabel.next('Generate Document');
+    });
+  }
+}
