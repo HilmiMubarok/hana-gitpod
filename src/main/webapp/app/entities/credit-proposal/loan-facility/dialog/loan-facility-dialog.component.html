@@ -276,10 +276,23 @@
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
           <ng-container *ngIf="isCredamOnDppkFinalize; else tenorView">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Tenor</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.tenor" (change)="tenorChange()" />
-            </mat-form-field>
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Tenor</mat-label>
+                <input matInput type="number" [(ngModel)]="applicationProduct.tenor" (change)="tenorChange()" />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.periodType" (selectionChange)="tenorChange()">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </ng-container>
           <ng-template #tenorView>
             <div class="col-3">Tenor</div>
