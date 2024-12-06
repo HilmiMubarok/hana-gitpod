@@ -685,11 +685,33 @@
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
-          <div class="col-3">Total Plafond</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.totalPlafond | number }}
-          </div>
+          <ng-container *ngIf="isCredamOnDppkFinalize; else totalPlafondView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Total Plafond</mat-label>
+              <div *ngIf="conCcy; then ee; else ff"></div>
+              <ng-template #ee>
+                <input
+                  currencyMask
+                  matInput
+                  disabled
+                  type="text"
+                  [(ngModel)]="applicationProduct.totalPlafond"
+                  [options]="logoCcy"
+                  [value]="calTotalPlafond(revolving)"
+                />
+              </ng-template>
+              <ng-template #ff>
+                <input matInput type="text" currencyMask [(ngModel)]="applicationProduct.totalPlafond" />
+              </ng-template>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #totalPlafondView>
+            <div class="col-3">Total Plafond</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.totalPlafond | number }}
+            </div>
+          </ng-template>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
