@@ -327,12 +327,27 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
     const reversedTimeline = [...timeLineCreditProposal.timeLineCreditProposal].reverse();
 
+    function calculateWorkDays(startDate: Date, endDate: Date): number {
+      let workDays = 0;
+      const currentDate = new Date(startDate);
+      currentDate.setDate(currentDate.getDate() + 1);
+
+      while (currentDate <= endDate) {
+        const day = currentDate.getDay();
+        if (day !== 0 && day !== 6) {
+          workDays++;
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+
+      return workDays;
+    }
+
     reversedTimeline.forEach((timeline, timelineIndex) => {
       const previousDate = timeline.fromDate ? new Date(timeline.fromDate) : null;
       const adjustedNextDate = timeline.thruDate ? (timeline.thruDate === '9999-12-31' ? new Date() : new Date(timeline.thruDate)) : null;
 
-      const tat =
-        previousDate && adjustedNextDate ? Math.ceil((adjustedNextDate.getTime() - previousDate.getTime()) / (1000 * 60 * 60 * 24)) : null;
+      const tat = previousDate && adjustedNextDate ? calculateWorkDays(previousDate, adjustedNextDate) : null;
 
       worksheet.addRow({
         no: timelineIndex === 0 ? index + 1 : '',
