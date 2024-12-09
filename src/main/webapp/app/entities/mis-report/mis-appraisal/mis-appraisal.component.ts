@@ -309,8 +309,12 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
     ];
 
     // Add data to the sheet
-    data.forEach((row, index) => {
+
+    const sortedData = data.sort((a, b) => new Date(a.appraisalDate).getTime() - new Date(b.appraisalDate).getTime());
+
+    sortedData.forEach((row, index) => {
       const timeLineData = row.timeLine ? row.timeLine.sort((a, b) => a.id - b.id) : [];
+
       if (timeLineData.length >= 1) {
         timeLineData.shift();
       }
@@ -322,14 +326,14 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
         branch: row.branch || '',
         marketing: row.marketing || '',
         customerName: row.customerName || '',
-        collateralId: row.collateral[0].id || '',
-        collateralType: row.collateral[0].collateralType || '',
-        collateral: row.collateral[0].collateral || '',
-        location: row.collateral[0].location || '',
-        kelurahan: row.collateral[0].villageName || '',
-        kecamatan: row.collateral[0].districtName || '',
-        city: row.collateral[0].city || '',
-        provinceName: row.collateral[0].provinceName || '',
+        collateralId: row.collateral[0]?.id || '',
+        collateralType: row.collateral[0]?.collateralType || '',
+        collateral: row.collateral[0]?.collateral || '',
+        location: row.collateral[0]?.location || '',
+        kelurahan: row.collateral[0]?.villageName || '',
+        kecamatan: row.collateral[0]?.districtName || '',
+        city: row.collateral[0]?.city || '',
+        provinceName: row.collateral[0]?.provinceName || '',
         appraisalType: row.appraisalType || '',
         jenisPermohonan: row.jenisPermohonan ? row.jenisPermohonan.map(jp => jp).join('\n') || '' : '',
         plafond: row.plafond || '',
