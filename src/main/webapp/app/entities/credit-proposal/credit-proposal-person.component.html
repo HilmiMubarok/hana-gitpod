@@ -982,9 +982,9 @@
                   <ng-container *ngIf="isCredamOnDppkFinalize; else creditTypeView">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Credit Type</mat-label>
-                      <mat-select [(ngModel)]="deptorData.debtorData.creditType" name="creditType" [disabled]="true">
+                      <mat-select [(ngModel)]="deptorData.debtorData.creditType" name="creditType">
                         <mat-option value="">- Please Select -</mat-option>
-                        <mat-option *ngFor="let item of creditType" [value]="item.code" [disabled]="true">
+                        <mat-option *ngFor="let item of creditType" [value]="item.code">
                           {{ item.value }}
                         </mat-option>
                       </mat-select>
