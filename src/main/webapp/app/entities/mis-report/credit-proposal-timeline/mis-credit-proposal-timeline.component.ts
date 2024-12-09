@@ -408,7 +408,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       worksheet.mergeCells(`K${startRow}:K${endRow}`);
       worksheet.mergeCells(`L${startRow}:L${endRow}`);
       worksheet.mergeCells(`M${startRow}:M${endRow}`);
-      worksheet.mergeCells(`R${startRow}:R${endRow}`);
+      worksheet.mergeCells(`T${startRow}:T${endRow}`);
     }
   }
 
