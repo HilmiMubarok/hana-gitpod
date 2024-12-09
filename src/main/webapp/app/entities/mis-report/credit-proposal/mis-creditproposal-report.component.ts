@@ -5,6 +5,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
+import { InternalService } from 'app/entities/internal/internal.service';
+import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { map } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'jhi-mis-creditproposal-report',
   templateUrl: './mis-creditproposal-report.component.html',
@@ -42,20 +46,29 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
 })
 export class MisCreditProposalReportComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
+  public lovRegional = [];
+  public lovCustomerType = ['NEW', 'EXISTING'];
   public date1: any;
   public date2: any;
   public allSelected = false;
+  public allSelectedRegional = false;
   public MISReportCP: FormGroup;
+  private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
+  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate'];
 
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
     this.MISReportCP = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
+      regional: new FormControl(null),
+      customerType: new FormControl(null),
+      query: new FormControl(''),
     });
 
     this.MISReportCP.get('date1')?.valueChanges.subscribe(date => {
+      this.checkFieldStatus();
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
         this.MISReportCP.get('date1')?.setValue(formattedDate, { emitEvent: false });
@@ -63,13 +76,49 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     });
 
     this.MISReportCP.get('date2')?.valueChanges.subscribe(date => {
+      this.checkFieldStatus();
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
         this.MISReportCP.get('date2')?.setValue(formattedDate, { emitEvent: false });
       }
     });
+    this.MISReportCP.get('regional')?.valueChanges.subscribe(() => {
+      this.checkFieldStatus();
+      // if type is array and length 0, change to null
+      if (Array.isArray(this.MISReportCP.get('regional')?.value) && this.MISReportCP.get('regional')?.value.length === 0) {
+        this.MISReportCP.get('regional')?.setValue(null);
+      }
+    });
+
+    this.MISReportCP.get('status')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.MISReportCP.get('customerType')?.valueChanges.subscribe(() => this.checkFieldStatus());
   }
 
+  onDateRangeFocus() {
+    this.MISReportCP.get('query')?.disable();
+  }
+
+  onDateRangeBlur() {
+    this.checkFieldStatus(); // This ensures search field behavior is updated accordingly
+  }
+
+  dateRangeHasValue(): boolean {
+    return this.MISReportCP.get('date1')?.value && this.MISReportCP.get('date2')?.value;
+  }
+
+  checkFieldStatus() {
+    const date1 = this.MISReportCP.get('date1')?.value;
+    const date2 = this.MISReportCP.get('date2')?.value;
+    const status = this.MISReportCP.get('status')?.value;
+    const regional = this.MISReportCP.get('regional')?.value;
+    const customerType = this.MISReportCP.get('customerType')?.value;
+
+    if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
+      this.MISReportCP.get('query')?.disable();
+    } else {
+      this.MISReportCP.get('query')?.enable();
+    }
+  }
   get columns() {
     return [
       { header: 'No.', key: 'no', width: 5 },
@@ -142,6 +191,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       { header: 'Group Name', key: 'groupName', width: 20 },
       { header: 'DebiturGroup', key: 'debiturGroup', width: 20 },
       { header: 'Draft', key: 'draft', width: 20 },
+      { header: 'Appraisal Date / Draft', key: 'appraisalDateDraft', width: 20 },
+      { header: 'Approval Team Leader', key: 'approvalTeamLeader', width: 20 },
       { header: 'Approval BM', key: 'approvalBM', width: 20 },
       { header: 'Approval Ho', key: 'approvalHo', width: 20 },
       { header: 'Approval Div Head', key: 'approvalDivHead', width: 20 },
@@ -159,16 +210,99 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
 
   ngOnInit(): void {
     this._getStatusLOV();
+    this._getRegionalLOV();
+  }
+
+  public onSearchFocus() {
+    this.MISReportCP.get('date1')?.disable();
+    this.MISReportCP.get('date2')?.disable();
+    this.MISReportCP.get('status')?.disable();
+    this.MISReportCP.get('regional')?.disable();
+    this.MISReportCP.get('customerType')?.disable();
+  }
+
+  public onSearchBlur() {
+    const searchValue = this.MISReportCP.get('query')?.value;
+    if (!searchValue) {
+      this.MISReportCP.get('date1')?.enable();
+      this.MISReportCP.get('date2')?.enable();
+      this.MISReportCP.get('status')?.enable();
+      this.MISReportCP.get('regional')?.enable();
+      this.MISReportCP.get('customerType')?.enable();
+    }
+  }
+
+  public searchResult = null;
+
+  public clearSearch(): void {
+    this.MISReportCP.get('query')?.reset();
+    // reset the searchResult
+    this.searchResult = null;
+  }
+
+  skeletonData = [
+    {
+      proposalNumber: '',
+      cif: '',
+      debtorName: '',
+      customerType: '',
+      proposalDate: '',
+    },
+  ];
+  public loadingSearch = false;
+  public doSearch(): void {
+    this.loadingSearch = true;
+
+    const predicate: object = {
+      page: 0,
+      query: this.MISReportCP.get('query')?.value,
+      size: 10,
+      idPosition: this.getLocStor('POS'),
+    };
+
+    predicate['target'] = 'credit_proposal_status';
+
+    this.misReportService.searchCP(predicate).subscribe({
+      next: res => {
+        this.searchResult = res.body;
+        this.loadingSearch = false;
+      },
+      error: (res: HttpErrorResponse) => console.error(res.message),
+    });
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public generateMISReportCP() {
     this.misReportService.setLoading(true);
 
-    const params = {
-      startDate: this.MISReportCP.get('date1')?.value,
-      endDate: this.MISReportCP.get('date2')?.value,
-      status: this._convertStatusToString(this.MISReportCP.get('status')?.value),
-    };
+    let params;
+    if (this.MISReportCP.get('query')?.value) {
+      params = {
+        query: this.MISReportCP.get('query')?.value,
+      };
+    } else {
+      params = {
+        startDate: this.MISReportCP.get('date1')?.value,
+        endDate: this.MISReportCP.get('date2')?.value,
+        status: this._convertStatusToString(this.MISReportCP.get('status')?.value),
+        regional: this._convertStatusToString(this.MISReportCP.get('regional')?.value),
+        customerType: this._convertStatusToString(this.MISReportCP.get('customerType')?.value),
+      };
+    }
 
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal'),
@@ -193,6 +327,25 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     }
   }
 
+  public toggleSelectRegionalAll(): void {
+    this.allSelectedRegional = !this.allSelectedRegional;
+    if (this.allSelectedRegional) {
+      this.MISReportCP.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
+    } else {
+      this.MISReportCP.get('regional')?.setValue(null);
+    }
+  }
+
+  allSelectedCustomerType = false;
+  public toggleSelectCustomerTypeAll(): void {
+    this.allSelectedCustomerType = !this.allSelectedCustomerType;
+    if (this.allSelectedCustomerType) {
+      this.MISReportCP.get('customerType')?.setValue([...this.lovCustomerType]);
+    } else {
+      this.MISReportCP.get('customerType')?.setValue(null);
+    }
+  }
+
   private _getStatusLOV() {
     this.misReportService.getStatuses('MIS_CREDIT_PROPOSALBSU').subscribe({
       next: res => (this.lovStatus = res),
@@ -200,6 +353,27 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+  }
+
+  private _getRegionalLOV(): void {
+    this.internalService
+      .queryFilterBy({
+        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
+        size: 9999,
+        page: 0,
+      })
+      .pipe(
+        map(response => response.body),
+        map(internals =>
+          internals
+            .filter(internal => this.parentIds.includes(String(internal.parentId)))
+            .map(internal => ({ id: internal.id, name: internal.facilityName }))
+        )
+      )
+      .subscribe({
+        next: internals => (this.lovRegional = internals),
+        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Regional Data' }),
+      });
   }
 
   private _processGenerate(data, fileName) {
@@ -298,6 +472,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       groupName: proposal.businessGroup ? proposal.businessGroup.groupCompanyName || '' : '',
       debiturGroup: this._getDebiturGroup(proposal),
       draft: this._getStatus(proposal, 'statusDescription', 'first', ['Draft']),
+      appraisalDateDraft: '',
+      approvalTeamLeader: '',
       approvalBM: this._getStatus(proposal, 'statusDescription', 'first', ['Approval BM']),
       approvalHo: this._getStatus(proposal, 'statusDescription', 'first', ['Approval SME Head']),
       approvalDivHead: this._getStatus(proposal, 'statusDescription', 'first', ['Approval Div Head']),
