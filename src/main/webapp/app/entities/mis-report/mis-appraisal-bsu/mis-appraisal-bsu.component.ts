@@ -281,33 +281,32 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     worksheet.columns = [
       { header: 'No.', key: 'no', width: 5 },
       { header: 'Appraisal Number', key: 'appraisalNumber', width: 17 },
-      { header: 'Segment', key: 'segment', width: 15 },
+      { header: 'Segment', key: 'segment', width: 25 },
       { header: 'Branch', key: 'branch', width: 22 },
-      { header: 'Marketing', key: 'marketing', width: 35 },
-      { header: 'Appraisal Date', key: 'appraisalDate', width: 14 },
-      { header: 'Customer Name', key: 'customerName', width: 35 },
+      { header: 'Marketing', key: 'marketing', width: 30 },
+      { header: 'Customer Name', key: 'customerName', width: 30 },
       { header: 'ID', key: 'collateralId', width: 5 },
-      { header: 'Collateral Type', key: 'collateralType', width: 25 },
-      { header: 'Collateral', key: 'collateral', width: 22 },
-      { header: 'Certificate Number', key: 'certificateNumber', width: 50 },
-      { header: 'Property Usage', key: 'propertyUsage', width: 50 },
-      { header: 'Marketability', key: 'marketability', width: 50 },
-      { header: 'Land Area Based on Physical Conditions', key: 'landAreaBasedOnPhysicalConditions', width: 50 },
-      { header: 'Building Area Based on Physical Condition', key: 'buildingAreaBasedOnPhysicalCondition', width: 50 },
-      { header: 'Market Value (MV) Land on Physical Condition', key: 'marketValueLandPhysicalCondition', width: 50 },
-      { header: 'Market Value (MV) Building on Physical Condition', key: 'marketValueBuildingPhysicalCondition', width: 50 },
-      { header: 'Liquidation Value (LV) Land on Physical Condition', key: 'liquidationValueLandPhysicalCondition', width: 50 },
+      { header: 'Collateral Type', key: 'collateralType', width: 20 },
+      { header: 'Collateral', key: 'collateral', width: 15 },
+      { header: 'Certificate Number', key: 'certificateNumber', width: 70 },
+      { header: 'Property Usage', key: 'propertyUsage', width: 15 },
+      { header: 'Marketability', key: 'marketAbility', width: 15 },
+      { header: 'Land Area Based on Physical Conditions', key: 'landAreaBasedOnPhysicalConditions', width: 40 },
+      { header: 'Building Area Based on Physical Condition', key: 'buildingAreaBasedOnPhysicalCondition', width: 40 },
+      { header: 'Market Value (MV) Land on Physical Condition', key: 'marketValueLandPhysicalCondition', width: 40 },
+      { header: 'Market Value (MV) Building on Physical Condition', key: 'marketValueBuildingPhysicalCondition', width: 45 },
+      { header: 'Liquidation Value (LV) Land on Physical Condition', key: 'liquidationValueLandPhysicalCondition', width: 45 },
       { header: 'Liquidation Value (LV) Building on Physical Condition', key: 'liquidationValueBuildingPhysicalCondition', width: 50 },
-      { header: 'Land Area Based on Physical Conditions', key: 'landAreaBasedOnPhysicalConditions', width: 50 },
-      { header: 'Building Area Based on Physical Condition', key: 'buildingAreaBasedOnPhysicalCondition', width: 50 },
-      { header: 'Market Value (MV) Land on Physical Condition', key: 'marketValueLandPhysicalCondition', width: 50 },
-      { header: 'Market Value (MV) Building on Physical Condition', key: 'marketValueBuildingPhysicalCondition', width: 50 },
-      { header: 'Liquidation Value (LV) Land on Physical Condition', key: 'liquidationValueLandPhysicalCondition', width: 50 },
-      { header: 'Liquidation Value (LV) Building on Physical Condition', key: 'liquidationValueBuildingPhysicalCondition', width: 50 },
-      { header: 'Location', key: 'location', width: 50 },
-      { header: 'Village', key: 'village', width: 22 },
-      { header: 'District', key: 'district', width: 22 },
-      { header: 'City', key: 'city', width: 22 },
+      { header: 'Land Area Based on IMB', key: 'landAreaBasedOnIMB', width: 30 },
+      { header: 'Building Area Based on IMB', key: 'buildingAreaBasedOnIMB', width: 30 },
+      { header: 'Market Value (MV) Land on IMB', key: 'marketValueLandPhysicalConditionIMB', width: 30 },
+      { header: 'Market Value (MV) Building on IMB', key: 'marketValueBuildingPhysicalConditionIMB', width: 40 },
+      { header: 'Liquidation Value (LV) Land on IMB', key: 'liquidationValueLandPhysicalConditionIMB', width: 40 },
+      { header: 'Liquidation Value (LV) Building on IMB', key: 'liquidationValueBuildingPhysicalConditionIMB', width: 40 },
+      { header: 'Location', key: 'location', width: 30 },
+      { header: 'Village', key: 'village', width: 30 },
+      { header: 'District', key: 'district', width: 30 },
+      { header: 'City', key: 'city', width: 30 },
       { header: 'Province', key: 'provinceName', width: 22 },
       { header: 'Appraisal Type', key: 'appraisalType', width: 14 },
       { header: 'Type of Application', key: 'typeOfApplication', width: 20 },
@@ -317,24 +316,41 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       { header: 'Market Value (MV)', key: 'nilaiMV', width: 20 },
       { header: 'Liquidation Value (LV)', key: 'nilaiLV', width: 20 },
       { header: 'KJPP', key: 'kjppName', width: 35 },
-      { header: 'KJPP Market Value (MV)', key: 'totalMVKJPP', width: 20 },
-      { header: 'KJPP Liquidation Value (LV)', key: 'totalLVKJPP', width: 20 },
-      { header: 'Date of Application', key: 'tanggalPermohonan', width: 35 },
-      { header: 'Visited Date', key: 'visitedDate', width: 35 },
-      { header: 'Assessment Date', key: 'tanggalPenilaian', width: 35 },
-      { header: 'Report Date', key: 'tanggalLaporan', width: 35 },
+      { header: 'KJPP Market Value (MV)', key: 'totalMVKJPP', width: 25 },
+      { header: 'KJPP Liquidation Value (LV)', key: 'totalLVKJPP', width: 25 },
+      { header: 'Date of Application', key: 'tanggalPermohonan', width: 19 },
+      { header: 'Visited Date', key: 'visitedDate', width: 15 },
+      { header: 'Assessment Date', key: 'tanggalPenilaian', width: 15 },
+      { header: 'Report Date', key: 'tanggalLaporan', width: 15 },
       { header: 'Reviewer', key: 'reviewer', width: 35 },
       { header: 'Negative List Collateral', key: 'negativeList', width: 35 },
       { header: 'Timeline', key: 'timeline', width: 65 },
       { header: 'Status', key: 'status', width: 25 },
     ];
 
-    // Add data to the sheet
     data.forEach((row, index) => {
+      const visitedTimeline = row.timeLine
+        ?.filter(timeline => timeline.statusDescription === 'Visited')
+        .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
+
+      const visitedDate = visitedTimeline?.[0]?.fromDate || '';
+
+      const approvalTimeline = row.timeLine
+        ?.filter(timeline => timeline.statusDescription === 'Approval Team Leader')
+        .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
+
+      const tanggalPenilaian = approvalTimeline?.[0]?.fromDate || '';
+
+      const approvedTimeline = row.timeLine
+        ?.filter(timeline => timeline.statusDescription === 'Approved')
+        .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
+
+      const tanggalLaporan = approvedTimeline?.[0]?.fromDate || '';
+
       worksheet.addRow({
         no: index + 1 || '',
         appraisalNumber: row.appraisalNumber || '',
-        appraisalDate: row.appraisalDate || '',
+        segment: row.segmentRMName || '',
         branch: row.branch || '',
         marketing: row.marketing || '',
         customerName: row.customerName || '',
@@ -342,13 +358,47 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         collateralType: row.collateral[0]?.collateralType || '',
         collateral: row.collateral[0]?.collateral || '',
         certificateNumber: row.collateral[0]?.landCertificates?.map(cert => cert.certNumber).join('\n') || '',
+        propertyUsage: row.collateral[0]?.propertyUsage || '',
+        marketAbility:
+          row.marketAbility === 'baik' ? 'Good' : row.marketAbility === 'cukup' ? 'Fair' : row.marketAbility === 'kurang' ? 'Minus' : '',
+        landAreaBasedOnPhysicalConditions:
+          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(land => `${land.landSizePerCertificate || ''} m²`).join('\n') || '',
+        buildingAreaBasedOnPhysicalCondition:
+          row.collateral[0]?.propertyDetail[0]?.buildingInternal?.map(building => `${building.area || ''} m²`).join('\n') || '',
+        marketValueLandPhysicalCondition:
+          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(mvPhysical => `${mvPhysical.propertyMarketValue || ''}`).join('\n') || '',
+        marketValueBuildingPhysicalCondition:
+          row.collateral[0]?.propertyDetail[0]?.buildingInternal
+            ?.map(mvBuilding => `${mvBuilding.propertyMarketValue || ''} `)
+            .join('\n') || '',
+        liquidationValueLandPhysicalCondition:
+          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(lvPhysical => `${lvPhysical.liquidationValue || ''}`).join('\n') || '',
+        liquidationValueBuildingPhysicalCondition:
+          row.collateral[0]?.propertyDetail[0]?.buildingInternal?.map(lvBuilding => `${lvBuilding.liquidationValue || ''} `).join('\n') ||
+          '',
+        landAreaBasedOnIMB:
+          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(landIMB => `${landIMB.landSizePerCertificate || ''} m²`).join('\n') || '',
+        buildingAreaBasedOnIMB:
+          row.collateral[0]?.propertyDetail[0]?.buildingInternal?.map(buildingIMB => `${buildingIMB.area || ''} m²`).join('\n') || '',
+        marketValueLandPhysicalConditionIMB:
+          row.collateral[0]?.propertyDetail[0]?.landInternal
+            ?.map(mvPhysicalIMB => `${mvPhysicalIMB.propertyMarketValueIMB || ''}`)
+            .join('\n') || '',
+        marketValueBuildingPhysicalConditionIMB:
+          row.collateral[0]?.propertyDetail[0]?.buildingInternal
+            ?.map(mvBuildingIMB => `${mvBuildingIMB.propertyMarketValueIMB || ''} `)
+            .join('\n') || '',
+        liquidationValueLandPhysicalConditionIMB:
+          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(lvPhysicalIMB => `${lvPhysicalIMB.totalLVIMB || ''}`).join('\n') || '',
+        liquidationValueBuildingPhysicalConditionIMB:
+          row.collateral[0]?.propertyDetail[0]?.buildingInternal?.map(lvBuildingIMB => `${lvBuildingIMB.totalLVIMB || ''} `).join('\n') ||
+          '',
         location: row.collateral[0]?.location || '',
         village: row.collateral[0]?.villageName || '',
         district: row.collateral[0]?.districtName || '',
         city: row.collateral[0]?.city || '',
         provinceName: row.collateral[0]?.provinceName || '',
         appraisalType: row.appraisalType || '',
-        typeOfApplication: row.jenisPermohonan?.join('\n') || '',
         plafond: row.plafond || '',
         creditMaturityDate: row.tglJatemKredit || '',
         appraiser: row.appraiser || '',
@@ -357,11 +407,12 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         kjppName: row.kjppName || '',
         totalMVKJPP: row.totalMVKJPP || '',
         totalLVKJPP: row.totalLVKJPP || '',
-        tanggalPermohonan: row.tanggalPermohonan || '',
-        visitedDate: row.visitedDate || '',
-        tanggalPenilaian: row.tanggalPenilaian || '',
-        tanggalLaporan: row.tanggalLaporan || '',
+        tanggalPermohonan: row.appraisalDate || '',
+        visitedDate,
+        tanggalPenilaian,
+        tanggalLaporan,
         reviewer: row.reviewerBy || '',
+        negativeList: row.scoreCard[0]?.criteria || '',
         timeline:
           row.timeLine
             ?.slice(1)
@@ -386,7 +437,41 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     });
 
     // enable wrap text for timeline cell
-    worksheet.getColumn('jenisPermohonan').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
+
+    worksheet.getColumn('negativeList').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('liquidationValueBuildingPhysicalConditionIMB').alignment = {
+      vertical: 'middle',
+      horizontal: 'center',
+      wrapText: true,
+    };
+    worksheet.getColumn('liquidationValueLandPhysicalConditionIMB').alignment = {
+      vertical: 'middle',
+      horizontal: 'center',
+      wrapText: true,
+    };
+    worksheet.getColumn('liquidationValueBuildingPhysicalCondition').alignment = {
+      vertical: 'middle',
+      horizontal: 'center',
+      wrapText: true,
+    };
+
+    worksheet.getColumn('marketValueBuildingPhysicalConditionIMB').alignment = {
+      vertical: 'middle',
+      horizontal: 'center',
+      wrapText: true,
+    };
+    worksheet.getColumn('marketValueLandPhysicalConditionIMB').alignment = {
+      vertical: 'middle',
+      horizontal: 'center',
+      wrapText: true,
+    };
+    worksheet.getColumn('buildingAreaBasedOnIMB').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('landAreaBasedOnIMB').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('liquidationValueLandPhysicalCondition').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('marketValueBuildingPhysicalCondition').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('marketValueLandPhysicalCondition').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('landAreaBasedOnPhysicalConditions').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    worksheet.getColumn('buildingAreaBasedOnPhysicalCondition').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
     worksheet.getColumn('timeline').alignment = { wrapText: true, vertical: 'middle' };
     worksheet.getColumn('location').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
 
