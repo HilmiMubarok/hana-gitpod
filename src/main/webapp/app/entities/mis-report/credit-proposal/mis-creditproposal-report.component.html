@@ -56,7 +56,7 @@
         </div>
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Customer Type</mat-label>
+            <mat-label>Customer Status</mat-label>
             <mat-select formControlName="customerType" multiple>
               <li class="select-all" (click)="toggleSelectCustomerTypeAll()">
                 {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
@@ -85,31 +85,29 @@
         </button>
       </mat-form-field>
 
-      <div class="row px-5" *ngIf="searchResult || loadingSearch">
+      <div class="row px-2" *ngIf="searchResult || loadingSearch">
         <table mat-table [dataSource]="loadingSearch ? skeletonData : searchResult">
           <ng-container matColumnDef="proposalNumber">
             <th mat-header-cell *matHeaderCellDef>Proposal Number</th>
             <td mat-cell *matCellDef="let element">
-              <div *ngIf="loadingSearch; else data">{{ element.applicationNumber }}</div>
-              <ng-template #data>{{ element.applicationNumber }}</ng-template>
+              <div *ngIf="loadingSearch; else dataApplicationNumber" class="skeleton-loading"></div>
+              <ng-template #dataApplicationNumber>{{ element.applicationNumber }}</ng-template>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="cif">
             <th mat-header-cell *matHeaderCellDef>CIF</th>
             <td mat-cell *matCellDef="let element">
-              <div *ngIf="loadingSearch; else data">{{ element.customerNumber }}</div>
-              <ng-template #data>{{ element.customerNumber }}</ng-template>
+              <div *ngIf="loadingSearch; else dataCustomerNumber" class="skeleton-loading">{{ element.customerNumber }}</div>
+              <ng-template #dataCustomerNumber>{{ element.customerNumber }}</ng-template>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="debtorName">
             <th mat-header-cell *matHeaderCellDef>Debtor Name</th>
             <td mat-cell *matCellDef="let element">
-              <div *ngIf="loadingSearch; else data">
-                {{ element.debtorName }}
-              </div>
-              <ng-template #data>
+              <div *ngIf="loadingSearch; else dataDebtorName" class="skeleton-loading"></div>
+              <ng-template #dataDebtorName>
                 {{ element.prospectPerson !== null ? element.prospectPerson.name : element.prospectOrganization.name }}
               </ng-template>
             </td>
@@ -118,22 +116,31 @@
           <ng-container matColumnDef="customerType">
             <th mat-header-cell *matHeaderCellDef>Customer Type</th>
             <td mat-cell *matCellDef="let element">
-              <div *ngIf="loadingSearch; else data">{{ element.customerType }}</div>
-              <ng-template #data>{{ element.customerType }}</ng-template>
+              <div *ngIf="loadingSearch; else dataCustomerType" class="skeleton-loading"></div>
+              <ng-template #dataCustomerType>{{ element.customerType }}</ng-template>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="proposalDate">
             <th mat-header-cell *matHeaderCellDef>Proposal Date</th>
             <td mat-cell *matCellDef="let element">
-              <div *ngIf="loadingSearch; else data">{{ element.proposalDate }}</div>
-              <ng-template #data>{{ element.createdDate | date: 'yyyy-MM-dd' }}</ng-template>
+              <div *ngIf="loadingSearch; else dataProposalDate" class="skeleton-loading"></div>
+              <ng-template #dataProposalDate>{{ element.createdDate | date: 'yyyy-MM-dd' }}</ng-template>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+        <mat-paginator
+          [length]="totalItems"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="currentPage"
+          (page)="doSearch($event)"
+          aria-label="Select page"
+        >
+        </mat-paginator>
       </div>
     </mat-card-content>
   </mat-card>
