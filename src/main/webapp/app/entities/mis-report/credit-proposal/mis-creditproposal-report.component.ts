@@ -9,6 +9,7 @@ import { InternalService } from 'app/entities/internal/internal.service';
 import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'jhi-mis-creditproposal-report',
   templateUrl: './mis-creditproposal-report.component.html',
@@ -40,6 +41,30 @@ import { HttpErrorResponse } from '@angular/common/http';
       .select-all:hover {
         background-color: #f5f5f5;
         cursor: pointer;
+      }
+
+      .skeleton-loading {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 16px;
+        width: 90%;
+        height: 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+      }
+
+      @keyframes skeleton-loading {
+        0% {
+          background-color: #e2e2e2;
+        }
+        50% {
+          background-color: #f2f2f2;
+        }
+        100% {
+          background-color: #e2e2e2;
+        }
       }
     `,
   ],
@@ -240,6 +265,11 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     this.searchResult = null;
   }
 
+  public pageSize = 10;
+  public currentPage = 0;
+  public totalItems = 0;
+  public pageSizeOptions: number[] = [5, 10, 25, 50];
+
   skeletonData = [
     {
       proposalNumber: '',
@@ -250,13 +280,19 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     },
   ];
   public loadingSearch = false;
-  public doSearch(): void {
+  public doSearch(pageEvent?: PageEvent): void {
     this.loadingSearch = true;
 
+    if (pageEvent) {
+      this.currentPage = pageEvent.pageIndex;
+      this.pageSize = pageEvent.pageSize;
+    }
+
     const predicate: object = {
-      page: 0,
+      page: this.currentPage,
       query: this.MISReportCP.get('query')?.value,
-      size: 10,
+      size: this.pageSize,
+      sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
     };
 
@@ -264,7 +300,9 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
-        this.searchResult = res.body;
+        this.searchResult = res.body || [];
+        const totalCount = res.headers.get('X-Total-Count');
+        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
       },
       error: (res: HttpErrorResponse) => console.error(res.message),
@@ -286,6 +324,11 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     return result;
   }
 
+  clearDateRange(): void {
+    this.MISReportCP.get('date1')?.reset();
+    this.MISReportCP.get('date2')?.reset();
+  }
+
   public generateMISReportCP() {
     this.misReportService.setLoading(true);
 
@@ -300,7 +343,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
         endDate: this.MISReportCP.get('date2')?.value,
         status: this._convertStatusToString(this.MISReportCP.get('status')?.value),
         regional: this._convertStatusToString(this.MISReportCP.get('regional')?.value),
-        customerType: this._convertStatusToString(this.MISReportCP.get('customerType')?.value),
+        customerStatus: this._convertStatusToString(this.MISReportCP.get('customerType')?.value),
       };
     }
 
