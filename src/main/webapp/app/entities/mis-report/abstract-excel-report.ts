@@ -110,6 +110,10 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _convertStatusToString(status: Array<string>): string {
+    if (status === null) {
+      return null;
+    }
+
     // if length is 0, return empty string
     if (status.length === 0) {
       return '';
