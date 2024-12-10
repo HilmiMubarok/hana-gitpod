@@ -6,7 +6,9 @@ import { MessageService } from 'primeng/api';
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
-
+import { InternalService } from 'app/entities/internal/internal.service';
+import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { map } from 'rxjs';
 @Component({
   selector: 'jhi-mis-report-credit-proposal-deviation',
   templateUrl: './mis-report-credit-proposal-deviation.component.html',
@@ -44,19 +46,18 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
 })
 export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
-  status: '';
-  date1: any;
-  date2: any;
-  listOfValue = [];
-  allSelected = false;
-
+  public status: '';
+  public date1: any;
+  public date2: any;
+  public listOfValue = [];
+  public allSelected = false;
+  public allSelectedRegion = false;
+  public allSelectedCustomerType = false;
+  public lovRegional = [];
+  public lovCustomerType = ['NEW', 'EXISTING'];
+  private parentIds = ['9901', '9902', '9903', '9904', '9905'];
   MisReportCPDeviation: FormGroup;
-
-  changeOption(event) {
-    console.log('data', event.value);
-  }
-
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
 
     this.MisReportCPDeviation;
@@ -65,6 +66,8 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
+      regional: new FormControl(''),
+      customerType: new FormControl(''),
     });
 
     this.MisReportCPDeviation.get('date1')?.valueChanges.subscribe(date => {
@@ -79,9 +82,18 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         this.MisReportCPDeviation.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
+    this.MisReportCPDeviation.get('regional')?.valueChanges.subscribe(() => {
+      if (
+        Array.isArray(this.MisReportCPDeviation.get('regional')?.value) &&
+        this.MisReportCPDeviation.get('regional')?.value.length === 0
+      ) {
+        this.MisReportCPDeviation.get('regional')?.setValue(null);
+      }
+    });
   }
   ngOnInit(): void {
     this.getStatus();
+    this._getRegionalLOV();
   }
   getStatus() {
     this.misReportService.getStatuses('MIS_CREDIT_PROPOSAL_DEVIATION').subscribe({
@@ -100,12 +112,50 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       this.MisReportCPDeviation.get('status')?.setValue('');
     }
   }
+  public toggleSelectAllRegion(): void {
+    this.allSelectedRegion = !this.allSelectedRegion;
+    if (this.allSelectedRegion) {
+      this.MisReportCPDeviation.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
+    } else {
+      this.MisReportCPDeviation.get('regional')?.setValue(null);
+    }
+  }
+  public toggleSelectAllCustomerType(): void {
+    this.allSelectedCustomerType = !this.allSelectedCustomerType;
+    if (this.allSelectedCustomerType) {
+      this.MisReportCPDeviation.get('customerType')?.setValue([...this.lovCustomerType]);
+    } else {
+      this.MisReportCPDeviation.get('customerType')?.setValue(null);
+    }
+  }
+  private _getRegionalLOV(): void {
+    this.internalService
+      .queryFilterBy({
+        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
+        size: 9999,
+        page: 0,
+      })
+      .pipe(
+        map(response => response.body),
+        map(internals =>
+          internals
+            .filter(internal => this.parentIds.includes(String(internal.parentId)))
+            .map(internal => ({ id: internal.id, name: internal.facilityName }))
+        )
+      )
+      .subscribe({
+        next: internals => (this.lovRegional = internals),
+        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Regional Data' }),
+      });
+  }
   generateMISCreditDeviation() {
     this.misReportService.setLoading(true);
     const params = {
       startDate: this.MisReportCPDeviation.get('date1')?.value,
       endDate: this.MisReportCPDeviation.get('date2')?.value,
       status: this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value),
+      regional: this._convertStatusToString(this.MisReportCPDeviation.get('regional')?.value),
+      customerType: this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value),
     };
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Deviation'),
@@ -271,6 +321,9 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     });
   }
   public _convertStatusToString(status: Array<string>): string {
+    if (status === null) {
+      return null;
+    }
     // if length is 0, return empty string
     if (status.length === 0) {
       return '';
