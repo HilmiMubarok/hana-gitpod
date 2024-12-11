@@ -6,6 +6,10 @@ import moment from 'moment';
 import * as ExcelJS from 'exceljs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
+import { map } from 'rxjs';
+import { InternalService } from 'app/entities/internal/internal.service';
+import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-mis-credit-proposal-timeline',
@@ -49,20 +53,32 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   allSelected = false;
   searchFieldDisabled = false;
   dateRangeAndStatusDisabled = false;
+  showDateRange = false;
+  showStatusAndRegional = false;
+  dateTypes: string[] = ['Proposal Date', 'Date From Status'];
+
+  public lovCustomerType = ['NEW', 'EXISTING'];
+  public allSelectedRegional = false;
+  public lovRegional = [];
+  private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
   changeOption(event) {
     console.log('test', event.value);
   }
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
 
     this.misCpTimeline = new FormGroup({
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
+      type: new FormControl(''),
       search: new FormControl(
         '',
         Validators.pattern(/^\d{5}\/\d{2}\/CP\/(Comm|CB|EB|GLO|SME)\/(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)\/\d{4}$/)
       ),
+      regional: new FormControl(null),
+      customerType: new FormControl(null),
+      query: new FormControl(''),
     });
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
@@ -79,7 +95,28 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('status')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.misCpTimeline.get('regional')?.valueChanges.subscribe(() => {
+      this.checkFieldStatus();
+      // if type is array and length 0, change to null
+      if (Array.isArray(this.misCpTimeline.get('regional')?.value) && this.misCpTimeline.get('regional')?.value.length === 0) {
+        this.misCpTimeline.get('regional')?.setValue(null);
+      }
+    });
+
+    this.misCpTimeline.get('customerType')?.valueChanges.subscribe(() => this.checkFieldStatus());
     // this.getStatus();
+    this.misCpTimeline.get('type')?.valueChanges.subscribe(type => {
+      if (type === 'Date From Status') {
+        this.showDateRange = true;
+        this.showStatusAndRegional = false;
+      } else if (type === 'Proposal Date') {
+        this.showDateRange = true;
+        this.showStatusAndRegional = true;
+      } else {
+        this.showDateRange = false;
+        this.showStatusAndRegional = false;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -89,18 +126,20 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+    this._getRegionalLOV();
   }
 
   checkFieldStatus() {
     const date1 = this.misCpTimeline.get('date1')?.value;
     const date2 = this.misCpTimeline.get('date2')?.value;
     const status = this.misCpTimeline.get('status')?.value;
+    const regional = this.misCpTimeline.get('regional')?.value;
+    const customerType = this.misCpTimeline.get('customerType')?.value;
 
-    // Disable search if date1, date2, or status is filled
-    if (date1 || date2 || (status && status.length > 0)) {
-      this.misCpTimeline.get('search')?.disable();
+    if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
+      this.misCpTimeline.get('query')?.disable();
     } else {
-      this.misCpTimeline.get('search')?.enable();
+      this.misCpTimeline.get('query')?.enable();
     }
   }
 
@@ -111,16 +150,18 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   onSearchBlur() {
-    const searchValue = this.misCpTimeline.get('search')?.value;
+    const searchValue = this.misCpTimeline.get('query')?.value;
     if (!searchValue) {
       this.misCpTimeline.get('date1')?.enable();
       this.misCpTimeline.get('date2')?.enable();
       this.misCpTimeline.get('status')?.enable();
+      this.misCpTimeline.get('regional')?.enable();
+      this.misCpTimeline.get('customerType')?.enable();
     }
   }
 
   onDateRangeFocus() {
-    this.misCpTimeline.get('search')?.disable();
+    this.misCpTimeline.get('query')?.disable();
   }
 
   onDateRangeBlur() {
@@ -149,7 +190,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   clearSearch(): void {
-    this.misCpTimeline.get('search')?.reset();
+    this.misCpTimeline.get('query')?.reset();
     // reset the searchResult
     this.searchResult = null;
   }
@@ -164,7 +205,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     },
   ];
 
-  loadingSearch: Boolean = false;
+  public loadingSearch = false;
 
   private getLocStor(cookieName: string) {
     let result = null;
@@ -184,27 +225,34 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   public searchResult = null;
   displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate'];
 
-  public doSearch(): void {
+  public pageSize = 10;
+  public currentPage = 0;
+  public totalItems = 0;
+  public pageSizeOptions: number[] = [5, 10, 25, 50];
+
+  public doSearch(pageEvent?: PageEvent): void {
     this.loadingSearch = true;
 
-    // if search not valid, show error message
-    if (this.misCpTimeline.get('search')?.invalid) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Proposal Number Format' });
-      return;
+    if (pageEvent) {
+      this.currentPage = pageEvent.pageIndex;
+      this.pageSize = pageEvent.pageSize;
     }
 
     const predicate: object = {
-      page: 0,
-      query: this.misCpTimeline.get('search')?.value,
-      size: 10,
+      page: this.currentPage,
+      query: this.misCpTimeline.get('query')?.value,
+      size: this.pageSize,
+      sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
     };
 
-    predicate['target'] = 'credit_proposal_status'; // Belum dibuat di BE
+    predicate['target'] = 'credit_proposal_status';
 
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
-        this.searchResult = res.body;
+        this.searchResult = res.body || [];
+        const totalCount = res.headers.get('X-Total-Count');
+        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
       },
       error: (res: HttpErrorResponse) => console.error(res.message),
@@ -230,23 +278,29 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   generateMISCPTimeline() {
-    // Check if search field is valid
-    if (this.misCpTimeline.get('search')?.value && this.misCpTimeline.get('search')?.invalid) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Proposal Number Format' });
-      return;
+    let params;
+    const selectedDateType = this.misCpTimeline.get('type')?.value; // Ambil nilai dateType yang dipilih
+    let dateTypeValue = null;
+
+    if (selectedDateType === 'Date From Status') {
+      dateTypeValue = 'STATELOG';
+    } else if (selectedDateType === 'Proposal Date') {
+      dateTypeValue = null;
     }
 
-    let params;
     // if search has value, create params only search
-    if (this.misCpTimeline.get('search')?.value) {
+    if (this.misCpTimeline.get('query')?.value) {
       params = {
-        proposalNumber: this.misCpTimeline.get('search')?.value,
+        query: this.misCpTimeline.get('query')?.value,
       };
     } else {
       params = {
         startDate: this.misCpTimeline.get('date1')?.value,
         endDate: this.misCpTimeline.get('date2')?.value,
-        status: this.convertStatusToString(this.misCpTimeline.get('status')?.value),
+        status: this._convertStatusToString(this.misCpTimeline.get('status')?.value),
+        regional: this._convertStatusToString(this.misCpTimeline.get('regional')?.value),
+        customerType: this._convertStatusToString(this.misCpTimeline.get('customerType')?.value),
+        dateType: dateTypeValue, // Tambahkan dateType di parameter
       };
     }
 
@@ -262,6 +316,46 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         this.misReportService.setLoading(false);
       },
     });
+  }
+
+  allSelectedCustomerType = false;
+  public toggleSelectCustomerTypeAll(): void {
+    this.allSelectedCustomerType = !this.allSelectedCustomerType;
+    if (this.allSelectedCustomerType) {
+      this.misCpTimeline.get('customerType')?.setValue([...this.lovCustomerType]);
+    } else {
+      this.misCpTimeline.get('customerType')?.setValue(null);
+    }
+  }
+
+  public toggleSelectRegionalAll(): void {
+    this.allSelectedRegional = !this.allSelectedRegional;
+    if (this.allSelectedRegional) {
+      this.misCpTimeline.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
+    } else {
+      this.misCpTimeline.get('regional')?.setValue(null);
+    }
+  }
+
+  private _getRegionalLOV(): void {
+    this.internalService
+      .queryFilterBy({
+        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
+        size: 9999,
+        page: 0,
+      })
+      .pipe(
+        map(response => response.body),
+        map(internals =>
+          internals
+            .filter(internal => this.parentIds.includes(String(internal.parentId)))
+            .map(internal => ({ id: internal.id, name: internal.facilityName }))
+        )
+      )
+      .subscribe({
+        next: internals => (this.lovRegional = internals),
+        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Regional Data' }),
+      });
   }
 
   private _processGenerate(data, fileName) {
