@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { MisReportService } from '../mis-report.service';
@@ -9,6 +9,9 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'jhi-mis-report-credit-proposal-deviation',
   templateUrl: './mis-report-credit-proposal-deviation.component.html',
@@ -56,7 +59,9 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public lovRegional = [];
   public lovCustomerType = ['NEW', 'EXISTING'];
   private parentIds = ['9901', '9902', '9903', '9904', '9905'];
+  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate'];
   MisReportCPDeviation: FormGroup;
+  searchResultPagination: any;
   constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
 
@@ -66,23 +71,27 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
-      regional: new FormControl(''),
-      customerType: new FormControl(''),
+      regional: new FormControl(null),
+      customerType: new FormControl(null),
+      query: new FormControl(''),
     });
 
     this.MisReportCPDeviation.get('date1')?.valueChanges.subscribe(date => {
+      this.checkField();
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
         this.MisReportCPDeviation.get('date1').setValue(formattedDate, { emitEvent: false });
       }
     });
     this.MisReportCPDeviation.get('date2')?.valueChanges.subscribe(date => {
+      this.checkField();
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
         this.MisReportCPDeviation.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
     this.MisReportCPDeviation.get('regional')?.valueChanges.subscribe(() => {
+      this.checkField();
       if (
         Array.isArray(this.MisReportCPDeviation.get('regional')?.value) &&
         this.MisReportCPDeviation.get('regional')?.value.length === 0
@@ -90,6 +99,95 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         this.MisReportCPDeviation.get('regional')?.setValue(null);
       }
     });
+    this.MisReportCPDeviation.get('customerType')?.valueChanges.subscribe(() => this.checkField());
+    this.MisReportCPDeviation.get('status')?.valueChanges.subscribe(() => this.checkField());
+  }
+  public checkField() {
+    const date1 = this.MisReportCPDeviation.get('date1')?.value;
+    const date2 = this.MisReportCPDeviation.get('date2')?.value;
+    const status = this.MisReportCPDeviation.get('status')?.value;
+    const regional = this.MisReportCPDeviation.get('regional')?.value;
+    const customerType = this.MisReportCPDeviation.get('customerType')?.value;
+
+    if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
+      this.MisReportCPDeviation.get('query')?.disable();
+    } else {
+      this.MisReportCPDeviation.get('query')?.enable();
+    }
+  }
+  public onSearchFocus() {
+    this.MisReportCPDeviation.get('date1')?.disable();
+    this.MisReportCPDeviation.get('date2')?.disable();
+    this.MisReportCPDeviation.get('status')?.disable();
+    this.MisReportCPDeviation.get('regional')?.disable();
+    this.MisReportCPDeviation.get('customerType')?.disable();
+  }
+
+  public onSearchBlur() {
+    const searchValue = this.MisReportCPDeviation.get('query')?.value;
+    if (!searchValue) {
+      this.MisReportCPDeviation.get('date1')?.enable();
+      this.MisReportCPDeviation.get('date2')?.enable();
+      this.MisReportCPDeviation.get('status')?.enable();
+      this.MisReportCPDeviation.get('regional')?.enable();
+      this.MisReportCPDeviation.get('customerType')?.enable();
+    }
+  }
+
+  public searchResult = null;
+
+  public clearSearch(): void {
+    this.MisReportCPDeviation.get('query')?.reset();
+    // reset the searchResult
+    this.searchResult = null;
+  }
+
+  skeletonData = [
+    {
+      proposalNumber: '',
+      cif: '',
+      debtorName: '',
+      customerType: '',
+      proposalDate: '',
+    },
+  ];
+  public loadingSearch = false;
+  public doSearch(): void {
+    this.loadingSearch = true;
+
+    const predicate: object = {
+      page: 0,
+      query: this.MisReportCPDeviation.get('query')?.value,
+      size: 10,
+      idPosition: this.getLocStor('POS'),
+    };
+
+    predicate['target'] = 'credit_proposal_status';
+
+    this.misReportService.searchCP(predicate).subscribe({
+      next: res => {
+        this.searchResult = res.body;
+        this.searchResultPagination = new MatTableDataSource(this.searchResult);
+        this.searchResultPagination.paginator = this.paginator;
+        this.loadingSearch = false;
+      },
+      error: (res: HttpErrorResponse) => console.error(res.message),
+    });
+  }
+  @ViewChild('paginator') paginator: MatPaginator;
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
   ngOnInit(): void {
     this.getStatus();
@@ -150,13 +248,21 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   }
   generateMISCreditDeviation() {
     this.misReportService.setLoading(true);
-    const params = {
-      startDate: this.MisReportCPDeviation.get('date1')?.value,
-      endDate: this.MisReportCPDeviation.get('date2')?.value,
-      status: this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value),
-      regional: this._convertStatusToString(this.MisReportCPDeviation.get('regional')?.value),
-      customerType: this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value),
-    };
+
+    let params;
+    if (this.MisReportCPDeviation.get('query')?.value) {
+      params = {
+        query: this.MisReportCPDeviation.get('query')?.value,
+      };
+    } else {
+      params = {
+        startDate: this.MisReportCPDeviation.get('date1')?.value,
+        endDate: this.MisReportCPDeviation.get('date2')?.value,
+        status: this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value),
+        regional: this._convertStatusToString(this.MisReportCPDeviation.get('regional')?.value),
+        customerType: this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value),
+      };
+    }
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Deviation'),
       error: () => {
