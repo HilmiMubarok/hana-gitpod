@@ -27,7 +27,7 @@
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Status</mat-label>
-            <mat-select formControlName="status" multiple>
+            <mat-select formControlName="status" multiple required>
               <li class="select-all" (click)="toggleSelectAll()">
                 {{ allSelected ? 'Deselect All' : 'Select All' }}
               </li>

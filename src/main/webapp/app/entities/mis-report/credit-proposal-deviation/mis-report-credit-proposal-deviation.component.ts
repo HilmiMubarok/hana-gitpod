@@ -263,6 +263,17 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         customerType: this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value),
       };
     }
+    // Validasi untuk startDate, endDate, dan status
+    if (!params.startDate) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry Start Date.' });
+      return;
+    } else if (!params.endDate) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry End Date.' });
+      return;
+    } else if (!params.status) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry Status.' });
+      return;
+    }
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Deviation'),
       error: () => {
