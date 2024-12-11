@@ -59,7 +59,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public lovRegional = [];
   public lovCustomerType = ['NEW', 'EXISTING'];
   private parentIds = ['9901', '9902', '9903', '9904', '9905'];
-  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate'];
+  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
   MisReportCPDeviation: FormGroup;
   searchResultPagination: any;
   constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
@@ -255,24 +255,27 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         query: this.MisReportCPDeviation.get('query')?.value,
       };
     } else {
+      const startDate1 = this.MisReportCPDeviation.get('date1')?.value;
+      const endDate2 = this.MisReportCPDeviation.get('date2')?.value;
+      const statuss = this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value);
+      // Validasi untuk startDate, endDate, dan status
+      if (!startDate1) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry Start Date.' });
+        return;
+      } else if (!endDate2) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry End Date.' });
+        return;
+      } else if (!statuss) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry Status.' });
+        return;
+      }
       params = {
-        startDate: this.MisReportCPDeviation.get('date1')?.value,
-        endDate: this.MisReportCPDeviation.get('date2')?.value,
-        status: this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value),
+        startDate: startDate1,
+        endDate: endDate2,
+        status: statuss,
         regional: this._convertStatusToString(this.MisReportCPDeviation.get('regional')?.value),
         customerType: this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value),
       };
-    }
-    // Validasi untuk startDate, endDate, dan status
-    if (!params.startDate) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry Start Date.' });
-      return;
-    } else if (!params.endDate) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry End Date.' });
-      return;
-    } else if (!params.status) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry Status.' });
-      return;
     }
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Deviation'),
