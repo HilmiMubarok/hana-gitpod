@@ -131,6 +131,14 @@
             </td>
           </ng-container>
 
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else data">{{ element.statusDescription }}</div>
+              <ng-template #data>{{ element.statusDescription }}</ng-template>
+            </td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
