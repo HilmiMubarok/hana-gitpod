@@ -122,3 +122,10 @@ body {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+.e-breadcrumb-text {
+  color: #597c97 !important;
+}
+.e-breadcrumb-icon.e-icons.e-home {
+  color: #597c97 !important;
+}
