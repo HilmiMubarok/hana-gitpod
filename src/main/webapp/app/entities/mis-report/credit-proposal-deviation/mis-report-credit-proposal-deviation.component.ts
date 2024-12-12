@@ -165,7 +165,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     const predicate: object = {
       page: 0,
       query: this.MisReportCPDeviation.get('query')?.value,
-      size: 10,
+      size: 9999,
       idPosition: this.getLocStor('POS'),
     };
 
