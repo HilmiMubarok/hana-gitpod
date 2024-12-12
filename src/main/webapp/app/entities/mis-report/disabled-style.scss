@@ -1,0 +1,26 @@
+.disabled-control {
+  opacity: 0.7;
+}
+
+.mat-form-field-disabled:hover {
+  cursor: not-allowed;
+}
+
+::ng-deep {
+  .mat-form-field-disabled {
+    .mat-form-field-outline {
+      background-color: rgba(0, 0, 0, 0.12);
+    }
+    .mat-form-field-label {
+      color: rgba(0, 0, 0, 0.38);
+    }
+  }
+
+  .mat-select-disabled .mat-select-value {
+    color: rgba(0, 0, 0, 0.38);
+  }
+
+  .mat-datepicker-toggle-disabled {
+    color: rgba(0, 0, 0, 0.26);
+  }
+}

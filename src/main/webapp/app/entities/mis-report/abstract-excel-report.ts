@@ -70,6 +70,14 @@ export abstract class AbstractExcelMISReport {
     await this.downloadFile(fileName);
   }
 
+  protected applyDisabledStyle(element: HTMLElement, disabled: boolean): void {
+    if (disabled) {
+      element.classList.add('disabled-form');
+    } else {
+      element.classList.remove('disabled-form');
+    }
+  }
+
   // ============= HELPER METHODS FOR CP BSU ============= //
 
   protected _getTotalPlafondPerFacility(proposal, type: 'History' | 'Current'): string {
