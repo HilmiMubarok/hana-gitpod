@@ -283,6 +283,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       debtorName: '',
       customerType: '',
       proposalDate: '',
+      status: '',
     },
   ];
   public loadingSearch = false;
