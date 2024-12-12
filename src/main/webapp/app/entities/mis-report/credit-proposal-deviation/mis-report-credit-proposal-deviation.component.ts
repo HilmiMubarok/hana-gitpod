@@ -12,6 +12,7 @@ import { map } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { style } from '@angular/animations';
 @Component({
   selector: 'jhi-mis-report-credit-proposal-deviation',
   templateUrl: './mis-report-credit-proposal-deviation.component.html',
@@ -60,8 +61,10 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public lovCustomerType = ['NEW', 'EXISTING'];
   private parentIds = ['9901', '9902', '9903', '9904', '9905'];
   public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+  isDisabled = false;
   MisReportCPDeviation: FormGroup;
   searchResultPagination: any;
+  queryDisabled = false;
   constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
 
@@ -111,11 +114,14 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
 
     if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
       this.MisReportCPDeviation.get('query')?.disable();
+      this.queryDisabled = true;
     } else {
       this.MisReportCPDeviation.get('query')?.enable();
+      this.queryDisabled = false;
     }
   }
   public onSearchFocus() {
+    this.isDisabled = true;
     this.MisReportCPDeviation.get('date1')?.disable();
     this.MisReportCPDeviation.get('date2')?.disable();
     this.MisReportCPDeviation.get('status')?.disable();
@@ -126,6 +132,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public onSearchBlur() {
     const searchValue = this.MisReportCPDeviation.get('query')?.value;
     if (!searchValue) {
+      this.isDisabled = false;
       this.MisReportCPDeviation.get('date1')?.enable();
       this.MisReportCPDeviation.get('date2')?.enable();
       this.MisReportCPDeviation.get('status')?.enable();
@@ -158,7 +165,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     const predicate: object = {
       page: 0,
       query: this.MisReportCPDeviation.get('query')?.value,
-      size: 10,
+      size: 9999,
       idPosition: this.getLocStor('POS'),
     };
 
@@ -167,7 +174,8 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     this.misReportService.searchCP(predicate).subscribe({
       next: res => {
         this.searchResult = res.body;
-        this.searchResultPagination = new MatTableDataSource(this.searchResult);
+        const searchResultSort = this.searchResult.sort((a, b) => a.proposalDate - b.proposalDate);
+        this.searchResultPagination = new MatTableDataSource(searchResultSort);
         this.searchResultPagination.paginator = this.paginator;
         this.loadingSearch = false;
       },
