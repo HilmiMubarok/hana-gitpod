@@ -523,6 +523,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       'debtorName',
       'loanCommApproval',
       'proposalType',
+      'status',
     ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {

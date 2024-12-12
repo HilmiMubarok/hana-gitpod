@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
+import { PageEvent } from '@angular/material/paginator';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-mis-appraisal-bsu',
@@ -44,7 +46,7 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
 })
 export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   public lovStatusAppraisal = [];
-  public lovOfficerSurveyor = [];
+  public lovBranch = [];
   public lovAppraisalType: string[] = ['Internal', 'External'];
   public lovGeo = [];
   data = '';
@@ -52,9 +54,15 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   date2: any;
   allSelectedGeo = false;
   allSelectedAppraisal = false;
-  allSelectedOfficerSurveyor = false;
+  allSelectedBranch = false;
   allSelectedAppraisalType = false;
   MISReportAppraisal: FormGroup;
+
+  displayedColumns: string[] = ['appraisalNumber', 'cif', 'debtorName', 'appraisalType', 'appraisalDate', 'statusDescription'];
+
+  changeOption(event) {
+    console.log('test', event.value);
+  }
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
     super(misReportService);
@@ -64,8 +72,9 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       date2: new FormControl(''),
       geoBoundaries: new FormControl(null),
       statusAppraisal: new FormControl(''),
-      officerSurveyor: new FormControl(null),
+      branch: new FormControl(null),
       appraisalType: new FormControl(null),
+      query: new FormControl(''),
     });
 
     this.MISReportAppraisal.get('date1')?.valueChanges.subscribe(date => {
@@ -94,21 +103,35 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       }
     });
 
-    this.MISReportAppraisal.get('officerSurveyor')?.valueChanges.subscribe(officerSurveyor => {
-      if (typeof officerSurveyor === 'object' && officerSurveyor.length === 0) {
-        this.MISReportAppraisal.get('officerSurveyor')?.setValue(null);
+    this.MISReportAppraisal.get('branch')?.valueChanges.subscribe(branch => {
+      if (branch && typeof branch === 'object' && Array.isArray(branch) && branch.length === 0) {
+        this.MISReportAppraisal.get('branch')?.setValue(null);
       }
     });
 
     this.MISReportAppraisal.get('appraisalType')?.valueChanges.subscribe(appraisalType => {
-      if (typeof appraisalType === 'object' && appraisalType.length === 0) {
+      if (appraisalType && typeof appraisalType === 'object' && Array.isArray(appraisalType) && appraisalType.length === 0) {
         this.MISReportAppraisal.get('appraisalType')?.setValue(null);
       }
     });
 
     this.getStatusesAppraisal();
     this.getBoundaries();
-    this.getOfficerSurveyors();
+    this.getBranch();
+  }
+
+  checkFieldStatus() {
+    const date1 = this.MISReportAppraisal.get('date1')?.value;
+    const date2 = this.MISReportAppraisal.get('date2')?.value;
+    const status = this.MISReportAppraisal.get('statusAppraisal')?.value;
+    const branch = this.MISReportAppraisal.get('branch')?.value;
+    const appraisalType = this.MISReportAppraisal.get('appraisalType')?.value;
+
+    if (date1 || date2 || (status && status.length > 0) || (branch && branch.length > 0) || (appraisalType && appraisalType.length > 0)) {
+      this.MISReportAppraisal.get('query')?.disable();
+    } else {
+      this.MISReportAppraisal.get('query')?.enable();
+    }
   }
 
   getStatusesAppraisal() {
@@ -120,29 +143,139 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     });
   }
 
-  getOfficerSurveyors() {
-    this.misReportService.getOfficerSurveyors().subscribe({
+  onStatusOpenedChange(opened: boolean) {
+    if (opened) {
+      this.MISReportAppraisal.get('query')?.disable();
+    } else {
+      this.checkFieldStatus();
+    }
+  }
+
+  public onSearchFocus() {
+    this.MISReportAppraisal.get('date1')?.disable();
+    this.MISReportAppraisal.get('date2')?.disable();
+    this.MISReportAppraisal.get('statusAppraisal')?.disable();
+    this.MISReportAppraisal.get('branch')?.disable();
+    this.MISReportAppraisal.get('appraisalType')?.disable();
+  }
+
+  onSearchBlur() {
+    const searchValue = this.MISReportAppraisal.get('query')?.value;
+    if (!searchValue) {
+      this.MISReportAppraisal.get('date1')?.enable();
+      this.MISReportAppraisal.get('date2')?.enable();
+      this.MISReportAppraisal.get('statusAppraisal')?.enable();
+      this.MISReportAppraisal.get('branch')?.enable();
+      this.MISReportAppraisal.get('appraisalType')?.enable();
+    }
+  }
+
+  onDateRangeFocus() {
+    this.MISReportAppraisal.get('query')?.disable();
+  }
+
+  onDateRangeBlur() {
+    this.checkFieldStatus(); // This ensures search field behavior is updated accordingly
+  }
+
+  clearSearch(): void {
+    this.MISReportAppraisal.get('query')?.reset();
+    // reset the searchResult
+    this.searchResult = null;
+  }
+
+  public searchResult = null;
+  public pageSize = 10;
+  public currentPage = 0;
+  public totalItems = 0;
+  public pageSizeOptions: number[] = [5, 10, 25, 50];
+  public loadingSearch = false;
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
+  public doSearch(pageEvent?: PageEvent): void {
+    this.loadingSearch = true;
+
+    if (pageEvent) {
+      this.currentPage = pageEvent.pageIndex;
+      this.pageSize = pageEvent.pageSize;
+    }
+
+    const predicate: object = {
+      page: this.currentPage,
+      query: this.MISReportAppraisal.get('query')?.value,
+      size: this.pageSize,
+      sort: ['id,desc'],
+      idPosition: this.getLocStor('POS'),
+    };
+
+    predicate['target'] = 'appraisal-result-inquiry';
+
+    this.misReportService.searchAppraisalBSU(predicate).subscribe({
       next: res => {
-        this.lovOfficerSurveyor = res.sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName));
+        console.log('res', res.body);
+
+        this.searchResult = res.body || [];
+        const totalCount = res.headers.get('X-Total-Count');
+        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+        this.loadingSearch = false;
       },
-      error: () => {
+      error: (res: HttpErrorResponse) => console.error(res.message),
+    });
+  }
+
+  skeletonData = [
+    {
+      appraisalNumber: '',
+      cif: '',
+      debtorName: '',
+      appraisalType: '',
+      appraisalDate: '',
+      statusDescription: '',
+    },
+  ];
+
+  getBranch() {
+    this.misReportService.getBranches().subscribe({
+      next: res => {
+        console.log('API Response:', res);
+
+        const branchFacilities = res
+          .filter((employee: any) => employee.internalTypeId === 'BRANCH')
+          .map((employee: any) => ({
+            facilityName: employee.facilityName,
+            id: employee.id,
+          }));
+
+        console.log('Filtered Branch Facilities:', branchFacilities);
+
+        this.lovBranch = branchFacilities.sort((a: any, b: any) => a.facilityName.localeCompare(b.facilityName));
+
+        console.log('Sorted Branch List:', this.lovBranch);
+      },
+      error: err => {
+        console.error('Error Fetching Branches:', err);
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to get Officer Surveyors',
+          detail: 'Failed to get Branch',
         });
       },
     });
   }
-
-  // getBoundaries() {
-  //   this.misReportService.getGeoBoundaries().subscribe({
-  //     next: res => (this.lovGeo = res),
-  //     error: () => {
-  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Geo Boundaries' });
-  //     },
-  //   });
-  // }
 
   getBoundaries() {
     this.misReportService.getGeoBoundaries().subscribe({
@@ -166,12 +299,14 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     }
   }
 
-  toggleSelectAllOfficerSurveyor(): void {
-    this.allSelectedOfficerSurveyor = !this.allSelectedOfficerSurveyor;
-    if (this.allSelectedOfficerSurveyor) {
-      this.MISReportAppraisal.get('officerSurveyor')?.setValue([...this.lovOfficerSurveyor.map(officerSurveyor => officerSurveyor.id)]);
+  toggleSelectBranch(): void {
+    this.allSelectedBranch = !this.allSelectedBranch; // Toggle status Select All / Deselect All
+    const branchControl = this.MISReportAppraisal.get('branch');
+
+    if (this.allSelectedBranch) {
+      branchControl?.setValue([...this.lovBranch]);
     } else {
-      this.MISReportAppraisal.get('officerSurveyor')?.setValue(null);
+      branchControl?.setValue(null);
     }
   }
 
@@ -218,34 +353,23 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     });
   }
 
-  generateMISReportAppraisalBsu() {
-    if (this.MISReportAppraisal.invalid) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Validation Error',
-        detail: 'Please fill in both Start Date and End Date.',
-      });
-      return;
-    }
-
-    if (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please select at least one status before generating the report',
-      });
-      return;
-    }
-
+  generateMISReportAppraisalBsu(): void {
     this.misReportService.setLoading(true);
-    const params = {
-      startDate: this.MISReportAppraisal.get('date1')?.value,
-      endDate: this.MISReportAppraisal.get('date2')?.value,
-      status: this._convertLov(this.MISReportAppraisal.get('statusAppraisal')?.value),
-      city: this._convertLov(this.MISReportAppraisal.get('geoBoundaries')?.value),
-      officerSurveyor: this._convertLov(this.MISReportAppraisal.get('officerSurveyor')?.value),
-      appraisalType: this._convertLov(this.MISReportAppraisal.get('appraisalType')?.value),
-    };
+
+    let params;
+    if (this.MISReportAppraisal.get('query')?.value) {
+      params = {
+        query: this.MISReportAppraisal.get('query')?.value,
+      };
+    } else {
+      params = {
+        startDate: this.MISReportAppraisal.get('date1')?.value,
+        endDate: this.MISReportAppraisal.get('date2')?.value,
+        status: this._convertStatusToString(this.MISReportAppraisal.get('statusAppraisal')?.value),
+        regional: this._convertStatusToString(this.MISReportAppraisal.get('branch')?.value),
+        customerStatus: this._convertStatusToString(this.MISReportAppraisal.get('appraisalType')?.value),
+      };
+    }
 
     this.misReportService.getMISReportAppraisal(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Appraisal_BSU'),
@@ -263,13 +387,10 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   }
 
   _processTimelinePersonName(personName: string) {
-    // convert string into array by spliting it by space
     const personNameArray = personName.split(' ');
 
-    // Check if the array has null value, if true, remove the null
     const filteredPersonNameArray = personNameArray.filter(name => name !== 'null');
 
-    // Join the array into string
     return filteredPersonNameArray.join(' ');
   }
 
@@ -431,7 +552,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       worksheet.getCell(1, index + 1).fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'ffa0c4e4' },
+        fgColor: { argb: '71ad9e' },
       };
       worksheet.getColumn(column.key as string | number).alignment = { vertical: 'middle', horizontal: 'center' };
     });
