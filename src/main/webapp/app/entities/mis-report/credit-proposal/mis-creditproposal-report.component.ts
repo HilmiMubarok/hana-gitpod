@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -13,7 +13,7 @@ import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'jhi-mis-creditproposal-report',
   templateUrl: './mis-creditproposal-report.component.html',
-  styleUrls: ['./mis-report-credit-proposal.css', '../mis-report.css'],
+  styleUrls: ['./mis-report-credit-proposal.css', '../mis-report.css', '../disabled-style.scss'],
   styles: [
     `
       .select-all {
@@ -79,7 +79,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
   public allSelectedRegional = false;
   public MISReportCP: FormGroup;
   private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
-  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate'];
+  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+  @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
@@ -121,6 +122,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
 
   onDateRangeFocus() {
     this.MISReportCP.get('query')?.disable();
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
   onDateRangeBlur() {
@@ -140,8 +142,10 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
 
     if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
       this.MISReportCP.get('query')?.disable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, true);
     } else {
       this.MISReportCP.get('query')?.enable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
   get columns() {
@@ -244,6 +248,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     this.MISReportCP.get('status')?.disable();
     this.MISReportCP.get('regional')?.disable();
     this.MISReportCP.get('customerType')?.disable();
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
   public onSearchBlur() {
@@ -254,6 +259,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       this.MISReportCP.get('status')?.enable();
       this.MISReportCP.get('regional')?.enable();
       this.MISReportCP.get('customerType')?.enable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
 
@@ -277,6 +283,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       debtorName: '',
       customerType: '',
       proposalDate: '',
+      status: '',
     },
   ];
   public loadingSearch = false;

@@ -9,81 +9,103 @@
     <mat-card-content>
       <div class="row my-3">
         <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
-              <input
-                matStartDate
-                formControlName="date1"
-                placeholder="Start date"
-                (focus)="onDateRangeFocus()"
-                (blur)="onDateRangeBlur()"
-              />
-              <input matEndDate formControlName="date2" placeholder="End date" (focus)="onDateRangeFocus()" (blur)="onDateRangeBlur()" />
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker> </mat-date-range-picker>
-            <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
-              <mat-icon matDatepickerToggleIcon>clear</mat-icon>
-            </mat-datepicker-toggle>
-          </mat-form-field>
+          <div #formContainer>
+            <mat-form-field
+              class="w-100"
+              appearance="outline"
+              [class.disabled-control]="MISReportCP.get('date1')?.disabled && MISReportCP.get('date2')?.disabled"
+            >
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input
+                  matStartDate
+                  formControlName="date1"
+                  placeholder="Start date"
+                  (focus)="onDateRangeFocus()"
+                  (blur)="onDateRangeBlur()"
+                  [class.disabled-control]="MISReportCP.get('date1')?.disabled"
+                />
+                <input
+                  matEndDate
+                  formControlName="date2"
+                  [class.disabled-control]="MISReportCP.get('date2')?.disabled"
+                  placeholder="End date"
+                  (focus)="onDateRangeFocus()"
+                  (blur)="onDateRangeBlur()"
+                />
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker> </mat-date-range-picker>
+              <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
+                <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+              </mat-datepicker-toggle>
+            </mat-form-field>
+          </div>
         </div>
         <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="status" multiple>
-              <li class="select-all" (click)="toggleSelectAll()">
-                {{ allSelected ? 'Deselect All' : 'Select All' }}
-              </li>
-              <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div #formContainer>
+            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportCP.get('status')?.disabled">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status" multiple>
+                <li class="select-all" (click)="toggleSelectAll()">
+                  {{ allSelected ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
       </div>
       <!--  -->
       <div class="row my-3">
         <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Regional</mat-label>
-            <mat-select formControlName="regional" multiple>
-              <li class="select-all" (click)="toggleSelectRegionalAll()">
-                {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
-              </li>
-              <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div #formContainer>
+            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportCP.get('regional')?.disabled">
+              <mat-label>Regional</mat-label>
+              <mat-select formControlName="regional" multiple>
+                <li class="select-all" (click)="toggleSelectRegionalAll()">
+                  {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
         <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Customer Status</mat-label>
-            <mat-select formControlName="customerType" multiple>
-              <li class="select-all" (click)="toggleSelectCustomerTypeAll()">
-                {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
-              </li>
-              <mat-option *ngFor="let item of lovCustomerType" [value]="item">{{ item }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div #formContainer>
+            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportCP.get('customerType')?.disabled">
+              <mat-label>Customer Status</mat-label>
+              <mat-select formControlName="customerType" multiple>
+                <li class="select-all" (click)="toggleSelectCustomerTypeAll()">
+                  {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
+                </li>
+                <mat-option *ngFor="let item of lovCustomerType" [value]="item">{{ item }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
       </div>
 
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Search</mat-label>
-        <input
-          matInput
-          placeholder="Search in here..."
-          type="text"
-          formControlName="query"
-          (focus)="onSearchFocus()"
-          (blur)="onSearchBlur()"
-        />
-        <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()" *ngIf="MISReportCP.get('query')?.value">
-          <mat-icon>search</mat-icon>
-        </button>
-        <button matSuffix mat-icon-button aria-label="Clear" *ngIf="MISReportCP.get('query')?.value" (click)="clearSearch()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+      <div #formContainer>
+        <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportCP.get('query')?.disabled">
+          <mat-label>Search</mat-label>
+          <input
+            matInput
+            placeholder="Search in here..."
+            type="text"
+            formControlName="query"
+            (focus)="onSearchFocus()"
+            (blur)="onSearchBlur()"
+          />
+          <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()" *ngIf="MISReportCP.get('query')?.value">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button matSuffix mat-icon-button aria-label="Clear" *ngIf="MISReportCP.get('query')?.value" (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
 
       <div class="row px-2" *ngIf="searchResult || loadingSearch">
         <table mat-table [dataSource]="loadingSearch ? skeletonData : searchResult">
@@ -126,6 +148,14 @@
             <td mat-cell *matCellDef="let element">
               <div *ngIf="loadingSearch; else dataProposalDate" class="skeleton-loading"></div>
               <ng-template #dataProposalDate>{{ element.createdDate | date: 'yyyy-MM-dd' }}</ng-template>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else dataStatus" class="skeleton-loading"></div>
+              <ng-template #dataStatus>{{ element.statusDescription }}</ng-template>
             </td>
           </ng-container>
 
