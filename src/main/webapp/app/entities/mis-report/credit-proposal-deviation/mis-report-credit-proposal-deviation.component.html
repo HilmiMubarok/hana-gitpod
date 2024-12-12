@@ -60,7 +60,7 @@
           </mat-form-field>
         </div>
       </div>
-      <mat-form-field class="w-100" appearance="outline">
+      <mat-form-field class="w-100" appearance="outline" [style.background-color]="queryDisabled ? 'rgba(0, 0, 0, 0.12)' : 'white'">
         <mat-label>Search</mat-label>
         <input
           matInput

@@ -64,6 +64,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   isDisabled = false;
   MisReportCPDeviation: FormGroup;
   searchResultPagination: any;
+  queryDisabled = false;
   constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
 
@@ -113,8 +114,10 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
 
     if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
       this.MisReportCPDeviation.get('query')?.disable();
+      this.queryDisabled = true;
     } else {
       this.MisReportCPDeviation.get('query')?.enable();
+      this.queryDisabled = false;
     }
   }
   public onSearchFocus() {
