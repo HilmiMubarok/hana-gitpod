@@ -43,6 +43,12 @@ import { PageEvent } from '@angular/material/paginator';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+      .mat-card-actions,
+      .mat-card-subtitle,
+      .mat-card-content {
+        display: block;
+        margin-bottom: 0px;
+      }
     `,
   ],
 })

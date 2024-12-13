@@ -455,9 +455,28 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   private _applyStyles(): void {
     super.applyStyles('ff4285f4');
     const columnsToBeWraped = ['covenantStatus', 'covenantDeviations'];
+    const columnsToBeTop = [
+      'no',
+      'proposalNumber',
+      'proposalDate',
+      'segment',
+      'bookingBranch',
+      'cif',
+      'debtorName',
+      'proposalType',
+      'status',
+    ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {
         vertical: 'middle',
+        horizontal: 'center',
+        wrapText: true,
+      };
+    });
+    // column Top
+    columnsToBeTop.forEach(columns => {
+      this.worksheet.getColumn(columns).alignment = {
+        vertical: 'top',
         horizontal: 'center',
         wrapText: true,
       };
