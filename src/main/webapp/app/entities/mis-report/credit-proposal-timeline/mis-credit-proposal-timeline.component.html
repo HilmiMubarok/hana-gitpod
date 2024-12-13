@@ -33,44 +33,60 @@
       <mat-card-content *ngIf="showDateRange">
         <div class="row my-3">
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
-                <input
-                  matStartDate
-                  formControlName="date1"
-                  placeholder="Start date"
-                  (focus)="onDateRangeFocus()"
-                  (blur)="onDateRangeBlur()"
-                />
-                <input matEndDate formControlName="date2" placeholder="End date" (focus)="onDateRangeFocus()" (blur)="onDateRangeBlur()" />
-              </mat-date-range-input>
+            <div #formContainer>
+              <mat-form-field
+                class="w-100"
+                appearance="outline"
+                [class.disabled-control]="misCpTimeline.get('date1')?.disabled && misCpTimeline.get('date2')?.disabled"
+              >
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input
+                    matStartDate
+                    formControlName="date1"
+                    placeholder="Start date"
+                    (focus)="onDateRangeFocus()"
+                    (blur)="onDateRangeBlur()"
+                    [class.disabled-control]="misCpTimeline.get('date1')?.disabled"
+                  />
+                  <input
+                    matEndDate
+                    formControlName="date2"
+                    placeholder="End date"
+                    (focus)="onDateRangeFocus()"
+                    (blur)="onDateRangeBlur()"
+                    [class.disabled-control]="misCpTimeline.get('date2')?.disabled"
+                  />
+                </mat-date-range-input>
 
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker> </mat-date-range-picker>
-              <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
-                <mat-icon matDatepickerToggleIcon>clear</mat-icon>
-              </mat-datepicker-toggle>
-            </mat-form-field>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker> </mat-date-range-picker>
+                <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
+                  <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                </mat-datepicker-toggle>
+              </mat-form-field>
+            </div>
           </div>
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Status</mat-label>
-              <mat-select
-                formControlName="status"
-                (selectionChange)="changeOption($event)"
-                multiple
-                (openedChange)="onStatusOpenedChange($event)"
-              >
-                <li class="select-all" (click)="toggleSelectAll()">
-                  {{ allSelected ? 'Deselect All' : 'Select All' }}
-                </li>
-                <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">
-                  {{ item.statusDescription }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('status')?.disabled">
+                <mat-label>Status</mat-label>
+                <mat-select
+                  formControlName="status"
+                  (selectionChange)="changeOption($event)"
+                  multiple
+                  (openedChange)="onStatusOpenedChange($event)"
+                >
+                  <li class="select-all" (click)="toggleSelectAll()">
+                    {{ allSelected ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">
+                    {{ item.statusDescription }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
       </mat-card-content>
@@ -78,48 +94,66 @@
       <mat-card-content *ngIf="showStatusAndRegional">
         <div class="row my-3">
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Regional</mat-label>
-              <mat-select formControlName="regional" multiple>
-                <li class="select-all" (click)="toggleSelectRegionalAll()">
-                  {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
-                </li>
-                <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('regional')?.disabled">
+                <mat-label>Regional</mat-label>
+                <mat-select formControlName="regional" multiple>
+                  <li class="select-all" (click)="toggleSelectRegionalAll()">
+                    {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Customer Type</mat-label>
-              <mat-select formControlName="customerType" multiple>
-                <li class="select-all" (click)="toggleSelectCustomerTypeAll()">
-                  {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
-                </li>
-                <mat-option *ngFor="let item of lovCustomerType" [value]="item">{{ item }}</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('customerType')?.disabled">
+                <mat-label>Customer Type</mat-label>
+                <mat-select formControlName="customerType" multiple>
+                  <li class="select-all" (click)="toggleSelectCustomerTypeAll()">
+                    {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovCustomerType" [value]="item">{{ item }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
       </mat-card-content>
 
       <!-- Search Field -->
-      <mat-form-field class="w-100" appearance="outline" *ngIf="showDateRange || showStatusAndRegional">
-        <mat-label>Search</mat-label>
-        <input
-          matInput
-          placeholder="Search in here..."
-          type="text"
-          formControlName="query"
-          (focus)="onSearchFocus()"
-          (blur)="onSearchBlur()"
-        />
-        <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()" *ngIf="misCpTimeline.get('query')?.value">
-          <mat-icon>search</mat-icon>
-        </button>
-        <button matSuffix mat-icon-button aria-label="Clear" *ngIf="misCpTimeline.get('query')?.value" (click)="clearSearch()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+      <div #formContainer>
+        <mat-form-field
+          class="w-100"
+          appearance="outline"
+          *ngIf="showDateRange || showStatusAndRegional"
+          [class.disabled-control]="misCpTimeline.get('query')?.disabled"
+        >
+          <mat-label>Search</mat-label>
+          <input
+            matInput
+            placeholder="Search in here..."
+            type="text"
+            formControlName="query"
+            (focus)="onSearchFocus()"
+            (blur)="onSearchBlur()"
+          />
+          <button
+            matSuffix
+            mat-icon-button
+            type="button"
+            aria-label="Search"
+            (click)="doSearch()"
+            *ngIf="misCpTimeline.get('query')?.value"
+          >
+            <mat-icon>search</mat-icon>
+          </button>
+          <button matSuffix mat-icon-button aria-label="Clear" *ngIf="misCpTimeline.get('query')?.value" (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
 
       <div class="row px-2" *ngIf="searchResult || loadingSearch">
         <table mat-table [dataSource]="loadingSearch ? skeletonData : searchResult">
