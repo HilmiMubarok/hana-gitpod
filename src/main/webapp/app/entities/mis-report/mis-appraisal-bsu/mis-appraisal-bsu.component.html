@@ -109,8 +109,8 @@
             <ng-container matColumnDef="cif">
               <th mat-header-cell *matHeaderCellDef>CIF</th>
               <td mat-cell *matCellDef="let element">
-                <div *ngIf="loadingSearch; else dataCustomerNumber" class="skeleton-loading">{{ element.customerNumber }}</div>
-                <ng-template #dataCustomerNumber>{{ element.customerNumber }}</ng-template>
+                <div *ngIf="loadingSearch; else dataCustomerNumber" class="skeleton-loading">{{ element.cif.customerId }}</div>
+                <ng-template #dataCustomerNumber>{{ element.cif.customerId }}</ng-template>
               </td>
             </ng-container>
 
@@ -119,7 +119,7 @@
               <td mat-cell *matCellDef="let element">
                 <div *ngIf="loadingSearch; else dataDebtorName" class="skeleton-loading"></div>
                 <ng-template #dataDebtorName>
-                  {{ element.prospectPerson !== null ? element.prospectPerson.name : element.prospectOrganization.name }}
+                  {{ element.cif.name }}
                 </ng-template>
               </td>
             </ng-container>
