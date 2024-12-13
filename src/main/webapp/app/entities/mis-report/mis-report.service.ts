@@ -67,6 +67,17 @@ export class MisReportService {
       );
   }
 
+  public getBranches() {
+    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,asc');
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internals'), {
+        params,
+        observe: 'response',
+      })
+      .pipe(map(res => res.body));
+  }
+
   public getGeoBoundaries() {
     const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,asc').set('idBoundaryType', 112);
 
@@ -85,6 +96,14 @@ export class MisReportService {
     const options = createRequestOption(req);
     return this.http.get<any[]>(
       this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api') + '/_search/cash-credit-proposals',
+      { params: options, observe: 'response' }
+    );
+  }
+
+  public searchAppraisalBSU(req?: any): Observable<HttpResponse<any[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<any[]>(
+      this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api') + '/_search/cash-survey-appraisals',
       { params: options, observe: 'response' }
     );
   }
