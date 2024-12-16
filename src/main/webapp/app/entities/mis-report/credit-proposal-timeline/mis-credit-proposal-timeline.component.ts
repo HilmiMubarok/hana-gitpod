@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -6,7 +6,7 @@ import moment from 'moment';
 import * as ExcelJS from 'exceljs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
-import { map } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { PageEvent } from '@angular/material/paginator';
@@ -14,7 +14,7 @@ import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'jhi-mis-credit-proposal-timeline',
   templateUrl: './mis-credit-proposal-timeline.component.html',
-  styleUrls: ['./mis-report-credit-proposal-timeline.css', '../mis-report.css'],
+  styleUrls: ['./mis-report-credit-proposal-timeline.css', '../mis-report.css', '../disabled-style.scss'],
   styles: [
     `
       .select-all {
@@ -67,6 +67,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   public allSelectedRegional = false;
   public lovRegional = [];
   private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
+  @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
   changeOption(event) {
     console.log('test', event.value);
   }
@@ -111,16 +112,29 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
 
     this.misCpTimeline.get('customerType')?.valueChanges.subscribe(() => this.checkFieldStatus());
     // this.getStatus();
+
     this.misCpTimeline.get('type')?.valueChanges.subscribe(type => {
       if (type === 'Date From Status') {
         this.showDateRange = true;
         this.showStatusAndRegional = false;
+        this.misCpTimeline.get('status')?.reset();
+        this.misCpTimeline.get('date1')?.reset();
+        this.misCpTimeline.get('date2')?.reset();
+        this.misCpTimeline.get('query')?.reset();
       } else if (type === 'Proposal Date') {
         this.showDateRange = true;
         this.showStatusAndRegional = true;
+        this.misCpTimeline.get('status')?.reset();
+        this.misCpTimeline.get('date1')?.reset();
+        this.misCpTimeline.get('date2')?.reset();
+        this.misCpTimeline.get('query')?.reset();
       } else {
         this.showDateRange = false;
         this.showStatusAndRegional = false;
+        this.misCpTimeline.get('status')?.reset();
+        this.misCpTimeline.get('date1')?.reset();
+        this.misCpTimeline.get('date2')?.reset();
+        this.misCpTimeline.get('query')?.reset();
       }
     });
   }
@@ -144,8 +158,10 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
 
     if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
       this.misCpTimeline.get('query')?.disable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, true);
     } else {
       this.misCpTimeline.get('query')?.enable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
 
@@ -153,6 +169,9 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     this.misCpTimeline.get('date1')?.disable();
     this.misCpTimeline.get('date2')?.disable();
     this.misCpTimeline.get('status')?.disable();
+    this.misCpTimeline.get('regional')?.disable();
+    this.misCpTimeline.get('customerType')?.disable();
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
   onSearchBlur() {
@@ -163,11 +182,13 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       this.misCpTimeline.get('status')?.enable();
       this.misCpTimeline.get('regional')?.enable();
       this.misCpTimeline.get('customerType')?.enable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
 
   onDateRangeFocus() {
     this.misCpTimeline.get('query')?.disable();
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
   onDateRangeBlur() {

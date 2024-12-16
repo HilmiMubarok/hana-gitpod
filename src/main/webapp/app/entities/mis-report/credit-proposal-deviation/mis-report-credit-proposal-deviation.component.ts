@@ -16,7 +16,7 @@ import { style } from '@angular/animations';
 @Component({
   selector: 'jhi-mis-report-credit-proposal-deviation',
   templateUrl: './mis-report-credit-proposal-deviation.component.html',
-  styleUrls: ['./mis-report-credit-proposal-deviation.css'],
+  styleUrls: ['./mis-report-credit-proposal-deviation.css', '../disabled-style.scss'],
   styles: [
     `
       .select-all {
@@ -314,6 +314,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     this._resetData();
   }
   protected processData(data: any[]): void {
+    data.sort((a, b) => a.proposalDate - b.proposalDate);
     data.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
@@ -341,7 +342,10 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       worksheet.addRow({
         no: index + 1 || '',
         proposalNumber: proposal.proposalNumber || '',
-        proposalDate: proposal.proposalDate || '',
+        proposalDate:
+          `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+            new Date(proposal.proposalDate).getMonth() + 1
+          ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}` || '',
         segment: proposal.segment || '',
         bookingBranch: proposal.bookingBranchName || '',
         customerStatus: proposal.customerStatus || '',
@@ -390,7 +394,12 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       worksheet.addRow({
         no: i === 0 ? index + 1 : '',
         proposalNumber: i === 0 ? proposal.proposalNumber || '' : '',
-        proposalDate: i === 0 ? proposal.proposalDate || '' : '',
+        proposalDate:
+          i === 0
+            ? `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+                new Date(proposal.proposalDate).getMonth() + 1
+              ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}` || ''
+            : '',
         segment: i === 0 ? proposal.segment || '' : '',
         bookingBranch: i === 0 ? proposal.bookingBranchName || '' : '',
         customerStatus: i === 0 ? proposal.customerStatus || '' : '',
@@ -424,7 +433,10 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       worksheet.addRow({
         no: index + 1 || '',
         proposalNumber: proposal.proposalNumber || '',
-        proposalDate: proposal.proposalDate || '',
+        proposalDate:
+          `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+            new Date(proposal.proposalDate).getMonth() + 1
+          ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}` || '',
         segment: proposal.segment || '',
         bookingBranch: proposal.bookingBranchName || '',
         customerStatus: proposal.customerStatus || '',
