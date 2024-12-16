@@ -394,6 +394,17 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     return filteredPersonNameArray.join(' ');
   }
 
+  private _formatDateToCustom(dateString: string): string {
+    if (!dateString) {
+      return '';
+    }
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
   private _processGenerate(data, outputName: string): void {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
@@ -454,19 +465,19 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         ?.filter(timeline => timeline.statusDescription === 'Visited')
         .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
-      const visitedDate = visitedTimeline?.[0]?.fromDate || '';
+      const visitedDate = visitedTimeline?.[0]?.fromDate ? this._formatDateToCustom(visitedTimeline[0].fromDate) : '';
 
       const approvalTimeline = row.timeLine
         ?.filter(timeline => timeline.statusDescription === 'Approval Team Leader')
         .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
-      const tanggalPenilaian = approvalTimeline?.[0]?.fromDate || '';
+      const tanggalPenilaian = approvalTimeline?.[0]?.fromDate ? this._formatDateToCustom(visitedTimeline[0].fromDate) : '';
 
       const approvedTimeline = row.timeLine
         ?.filter(timeline => timeline.statusDescription === 'Approved')
         .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
-      const tanggalLaporan = approvedTimeline?.[0]?.fromDate || '';
+      const tanggalLaporan = approvedTimeline?.[0]?.fromDate ? this._formatDateToCustom(visitedTimeline[0].fromDate) : '';
 
       worksheet.addRow({
         no: index + 1 || '',
@@ -528,7 +539,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         kjppName: row.kjppName || '',
         totalMVKJPP: row.totalMVKJPP || '',
         totalLVKJPP: row.totalLVKJPP || '',
-        tanggalPermohonan: row.appraisalDate || '',
+        tanggalPermohonan: this._formatDateToCustom(row.appraisalDate) || '',
         visitedDate,
         tanggalPenilaian,
         tanggalLaporan,
