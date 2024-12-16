@@ -134,3 +134,9 @@ body {
 .mat-form-field-invalid .mat-form-field-subscript-wrapper {
   display: none;
 }
+
+.e-breadcrumb .e-breadcrumb-item .e-breadcrumb-text .e-anchor-wrap {
+  align-items: inherit;
+  display: inherit;
+  color: #597c97;
+}

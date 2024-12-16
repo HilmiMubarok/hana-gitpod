@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'jhi-mis-appraisal-bsu',
   templateUrl: './mis-appraisal-bsu.component.html',
-  styleUrls: ['./mis-appraisal-bsu.css', '../mis-report.css'],
+  styleUrls: ['./mis-appraisal-bsu.css', '../mis-report.css', '../disabled-style.scss'],
   styles: [
     `
       .select-all {
@@ -59,6 +59,8 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   MISReportAppraisal: FormGroup;
 
   displayedColumns: string[] = ['appraisalNumber', 'cif', 'debtorName', 'appraisalType', 'appraisalDate', 'statusDescription'];
+
+  @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
 
   changeOption(event) {
     console.log('test', event.value);
@@ -129,8 +131,10 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
 
     if (date1 || date2 || (status && status.length > 0) || (branch && branch.length > 0) || (appraisalType && appraisalType.length > 0)) {
       this.MISReportAppraisal.get('query')?.disable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, true);
     } else {
       this.MISReportAppraisal.get('query')?.enable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
 
@@ -157,6 +161,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.MISReportAppraisal.get('statusAppraisal')?.disable();
     this.MISReportAppraisal.get('branch')?.disable();
     this.MISReportAppraisal.get('appraisalType')?.disable();
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
   onSearchBlur() {
@@ -167,15 +172,26 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       this.MISReportAppraisal.get('statusAppraisal')?.enable();
       this.MISReportAppraisal.get('branch')?.enable();
       this.MISReportAppraisal.get('appraisalType')?.enable();
+      this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
 
   onDateRangeFocus() {
     this.MISReportAppraisal.get('query')?.disable();
+    this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
   onDateRangeBlur() {
     this.checkFieldStatus(); // This ensures search field behavior is updated accordingly
+  }
+
+  dateRangeHasValue(): boolean {
+    return this.MISReportAppraisal.get('date1')?.value && this.MISReportAppraisal.get('date2')?.value;
+  }
+
+  clearDateRange(): void {
+    this.MISReportAppraisal.get('date1')?.reset();
+    this.MISReportAppraisal.get('date2')?.reset();
   }
 
   clearSearch(): void {
@@ -366,8 +382,8 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         startDate: this.MISReportAppraisal.get('date1')?.value,
         endDate: this.MISReportAppraisal.get('date2')?.value,
         status: this._convertStatusToString(this.MISReportAppraisal.get('statusAppraisal')?.value),
-        regional: this._convertStatusToString(this.MISReportAppraisal.get('branch')?.value),
-        customerStatus: this._convertStatusToString(this.MISReportAppraisal.get('appraisalType')?.value),
+        branch: this._convertStatusToString(this.MISReportAppraisal.get('branch')?.value),
+        appraisalType: this._convertStatusToString(this.MISReportAppraisal.get('appraisalType')?.value),
       };
     }
 

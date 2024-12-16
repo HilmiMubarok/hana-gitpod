@@ -229,6 +229,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       debtorName: '',
       customerType: '',
       proposalDate: '',
+      statusDescription: '',
     },
   ];
 
@@ -250,7 +251,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   public searchResult = null;
-  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate'];
+  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'statusDescription'];
 
   public pageSize = 10;
   public currentPage = 0;
@@ -306,8 +307,26 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
 
   generateMISCPTimeline() {
     let params;
-    const selectedDateType = this.misCpTimeline.get('type')?.value; // Ambil nilai dateType yang dipilih
+    const selectedDateType = this.misCpTimeline.get('type')?.value;
     let dateTypeValue = null;
+
+    if (!this.misCpTimeline.get('date1')?.value || this.misCpTimeline.get('date2')?.value.length === 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, entry Date Range.',
+      });
+      return;
+    }
+
+    if (!this.misCpTimeline.get('status')?.value || this.misCpTimeline.get('status')?.value.length === 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, entry Status.',
+      });
+      return;
+    }
 
     if (selectedDateType === 'Date From Status') {
       dateTypeValue = 'STATELOG';
@@ -406,6 +425,17 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   protected processData(data: any[]): void {
+    data.sort((a, b) => {
+      const dateA = new Date(a.proposalDate);
+      const dateB = new Date(b.proposalDate);
+
+      if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+        return 0;
+      }
+
+      return dateA.getTime() - dateB.getTime();
+    });
+
     data.forEach((timeLineCreditProposal, index) => {
       this._addTimelineData(this.worksheet, timeLineCreditProposal, index);
     });

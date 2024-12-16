@@ -6,7 +6,7 @@
           <ejs-breadcrumb cssClass="margin: 1rem;">
             <e-breadcrumb-items>
               <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-              <e-breadcrumb-item text="Appraisal BSU" url=""> </e-breadcrumb-item>
+              <e-breadcrumb-item text="Appraisal Business Support" url=""> </e-breadcrumb-item>
             </e-breadcrumb-items>
           </ejs-breadcrumb>
         </div>
@@ -14,87 +14,121 @@
       <mat-card-content>
         <div class="row my-3">
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline" [formGroup]="MISReportAppraisal">
-              <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
-                <input
-                  matStartDate
-                  formControlName="date1"
-                  placeholder="Start date"
-                  (focus)="onDateRangeFocus()"
-                  (blur)="onDateRangeBlur()"
-                />
-                <input matEndDate formControlName="date2" placeholder="End date" (focus)="onDateRangeFocus()" (blur)="onDateRangeBlur()" />
-              </mat-date-range-input>
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-              <mat-error *ngIf="MISReportAppraisal.get('date1').hasError('required')">Start date is required</mat-error>
-            </mat-form-field>
+            <div #formContainer>
+              <mat-form-field
+                class="w-100"
+                appearance="outline"
+                [formGroup]="MISReportAppraisal"
+                [class.disabled-control]="MISReportAppraisal.get('date1')?.disabled && MISReportAppraisal.get('date2')?.disabled"
+              >
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input
+                    matStartDate
+                    formControlName="date1"
+                    placeholder="Start date"
+                    (focus)="onDateRangeFocus()"
+                    (blur)="onDateRangeBlur()"
+                    [class.disabled-control]="MISReportAppraisal.get('date1')?.disabled"
+                  />
+                  <input
+                    matEndDate
+                    formControlName="date2"
+                    placeholder="End date"
+                    (focus)="onDateRangeFocus()"
+                    (blur)="onDateRangeBlur()"
+                    [class.disabled-control]="MISReportAppraisal.get('date2')?.disabled"
+                  />
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
+                  <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-error *ngIf="MISReportAppraisal.get('date1').hasError('required')">Start date is required</mat-error>
+              </mat-form-field>
+            </div>
           </div>
 
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Status</mat-label>
-              <mat-select formControlName="statusAppraisal" multiple>
-                <li class="select-all" (click)="toggleSelectAllAppraisal()">
-                  {{ allSelectedAppraisal ? 'Deselect All' : 'Select All' }}
-                </li>
-                <mat-option *ngFor="let item of lovStatusAppraisal" [value]="item.statusId">{{ item.statusDescription }} </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div #formContainer>
+              <mat-form-field
+                class="w-100"
+                appearance="outline"
+                [class.disabled-control]="MISReportAppraisal.get('statusAppraisal')?.disabled"
+              >
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="statusAppraisal" multiple>
+                  <li class="select-all" (click)="toggleSelectAllAppraisal()">
+                    {{ allSelectedAppraisal ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovStatusAppraisal" [value]="item.statusId">{{ item.statusDescription }} </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
         <div class="row my-3">
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Branch</mat-label>
-              <mat-select formControlName="branch" multiple>
-                <li class="select-all" (click)="toggleSelectBranch()">
-                  {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
-                </li>
-                <mat-option *ngFor="let branch of lovBranch" [value]="branch.id">{{ branch.facilityName }} </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div #formContainer>
+              <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportAppraisal.get('branch')?.disabled">
+                <mat-label>Branch</mat-label>
+                <mat-select formControlName="branch" multiple>
+                  <li class="select-all" (click)="toggleSelectBranch()">
+                    {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let branch of lovBranch" [value]="branch.id">{{ branch.facilityName }} </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
 
           <div class="col">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Appraisal Type</mat-label>
-              <mat-select formControlName="appraisalType" multiple>
-                <li class="select-all" (click)="toggleSelectAllAppraisalType()">
-                  {{ allSelectedAppraisalType ? 'Deselect All' : 'Select All' }}
-                </li>
-                <mat-option *ngFor="let item of lovAppraisalType" [value]="item">{{ item }}</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div #formContainer>
+              <mat-form-field
+                class="w-100"
+                appearance="outline"
+                [class.disabled-control]="MISReportAppraisal.get('appraisalType')?.disabled"
+              >
+                <mat-label>Appraisal Type</mat-label>
+                <mat-select formControlName="appraisalType" multiple>
+                  <li class="select-all" (click)="toggleSelectAllAppraisalType()">
+                    {{ allSelectedAppraisalType ? 'Deselect All' : 'Select All' }}
+                  </li>
+                  <mat-option *ngFor="let item of lovAppraisalType" [value]="item">{{ item }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
 
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Search</mat-label>
-          <input
-            matInput
-            placeholder="Search in here..."
-            type="text"
-            formControlName="query"
-            (focus)="onSearchFocus()"
-            (blur)="onSearchBlur()"
-          />
-          <button
-            matSuffix
-            mat-icon-button
-            type="button"
-            aria-label="Search"
-            (click)="doSearch()"
-            *ngIf="MISReportAppraisal.get('query')?.value"
-          >
-            <mat-icon>search</mat-icon>
-          </button>
-          <button matSuffix mat-icon-button aria-label="Clear" *ngIf="MISReportAppraisal.get('query')?.value" (click)="clearSearch()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
+        <div #formContainer>
+          <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportAppraisal.get('query')?.disabled">
+            <mat-label>Search</mat-label>
+            <input
+              matInput
+              placeholder="Search in here..."
+              type="text"
+              formControlName="query"
+              (focus)="onSearchFocus()"
+              (blur)="onSearchBlur()"
+            />
+            <button
+              matSuffix
+              mat-icon-button
+              type="button"
+              aria-label="Search"
+              (click)="doSearch()"
+              *ngIf="MISReportAppraisal.get('query')?.value"
+            >
+              <mat-icon>search</mat-icon>
+            </button>
+            <button matSuffix mat-icon-button aria-label="Clear" *ngIf="MISReportAppraisal.get('query')?.value" (click)="clearSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
 
         <div class="row px-2" *ngIf="searchResult || loadingSearch">
           <table mat-table [dataSource]="loadingSearch ? skeletonData : searchResult">
