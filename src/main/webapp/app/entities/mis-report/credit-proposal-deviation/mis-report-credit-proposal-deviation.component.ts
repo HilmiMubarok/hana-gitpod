@@ -497,4 +497,11 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public previousState(): void {
     window.history.back();
   }
+  clearDateRange(): void {
+    this.MisReportCPDeviation.get('date1')?.reset();
+    this.MisReportCPDeviation.get('date2')?.reset();
+  }
+  dateRangeHasValue(): boolean {
+    return this.MisReportCPDeviation.get('date1')?.value && this.MisReportCPDeviation.get('date2')?.value;
+  }
 }
