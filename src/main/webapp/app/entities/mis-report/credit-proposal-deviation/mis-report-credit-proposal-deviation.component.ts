@@ -120,6 +120,13 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       this.queryDisabled = false;
     }
   }
+  clearDateRange(): void {
+    this.MisReportCPDeviation.get('date1')?.reset();
+    this.MisReportCPDeviation.get('date2')?.reset();
+  }
+  dateRangeHasValue(): boolean {
+    return this.MisReportCPDeviation.get('date1')?.value && this.MisReportCPDeviation.get('date2')?.value;
+  }
   public onSearchFocus() {
     this.isDisabled = true;
     this.MisReportCPDeviation.get('date1')?.disable();
