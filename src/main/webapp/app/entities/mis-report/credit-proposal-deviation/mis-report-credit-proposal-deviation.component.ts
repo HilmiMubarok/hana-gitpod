@@ -269,12 +269,15 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       // Validasi untuk startDate, endDate, dan status
       if (!startDate1) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
+                this.misReportService.setLoading(false);
         return;
       } else if (!endDate2) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
+                this.misReportService.setLoading(false);
         return;
       } else if (!statuss) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
+                this.misReportService.setLoading(false);
         return;
       }
       params = {
