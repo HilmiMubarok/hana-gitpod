@@ -268,16 +268,16 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       const statuss = this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value);
       // Validasi untuk startDate, endDate, dan status
       if (!startDate1) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry Start Date.' });
-        this.misReportService.setLoading(false);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
+                this.misReportService.setLoading(false);
         return;
       } else if (!endDate2) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry End Date.' });
-        this.misReportService.setLoading(false);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
+                this.misReportService.setLoading(false);
         return;
       } else if (!statuss) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, entry Status.' });
-        this.misReportService.setLoading(false);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
+                this.misReportService.setLoading(false);
         return;
       }
       params = {
@@ -461,6 +461,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       'proposalDate',
       'segment',
       'bookingBranch',
+      'customerStatus',
       'cif',
       'debtorName',
       'proposalType',
@@ -495,5 +496,12 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   }
   public previousState(): void {
     window.history.back();
+  }
+  clearDateRange(): void {
+    this.MisReportCPDeviation.get('date1')?.reset();
+    this.MisReportCPDeviation.get('date2')?.reset();
+  }
+  dateRangeHasValue(): boolean {
+    return this.MisReportCPDeviation.get('date1')?.value && this.MisReportCPDeviation.get('date2')?.value;
   }
 }
