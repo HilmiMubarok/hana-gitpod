@@ -266,17 +266,15 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       const startDate1 = this.MisReportCPDeviation.get('date1')?.value;
       const endDate2 = this.MisReportCPDeviation.get('date2')?.value;
       const statuss = this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value);
+      const regionals = this._convertStatusToString(this.MisReportCPDeviation.get('regional')?.value);
+      const customerTypes = this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value);
       // Validasi untuk startDate, endDate, dan status
-      if (!startDate1) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
+      if (!startDate1 || !endDate2) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Date Range' });
         this.misReportService.setLoading(false);
         return;
-      } else if (!endDate2) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
-        this.misReportService.setLoading(false);
-        return;
-      } else if (!statuss) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameter' });
+      } else if (!startDate1 || !endDate2 || !statuss) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameters' });
         this.misReportService.setLoading(false);
         return;
       }
@@ -284,14 +282,14 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         startDate: startDate1,
         endDate: endDate2,
         status: statuss,
-        regional: this._convertStatusToString(this.MisReportCPDeviation.get('regional')?.value),
-        customerType: this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value),
+        regional: regionals,
+        customerType: customerTypes,
       };
     }
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Deviation'),
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Reports' });
         this._resetData();
         this.misReportService.setLoading(false);
       },
