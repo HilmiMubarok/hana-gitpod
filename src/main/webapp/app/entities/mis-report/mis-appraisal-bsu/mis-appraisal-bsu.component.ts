@@ -373,6 +373,38 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.misReportService.setLoading(true);
 
     let params;
+
+    if (
+      (!this.MISReportAppraisal.get('date1')?.value || this.MISReportAppraisal.get('date1')?.value.length === 0) &&
+      (!this.MISReportAppraisal.get('date2')?.value || this.MISReportAppraisal.get('date2')?.value.length === 0) &&
+      (!this.MISReportAppraisal.get('status')?.value || this.MISReportAppraisal.get('status')?.value.length === 0)
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, Select Parameter.',
+      });
+      return;
+    }
+
+    if (!this.MISReportAppraisal.get('date1')?.value || this.MISReportAppraisal.get('date2')?.value.length === 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, entry Date Range.',
+      });
+      return;
+    }
+
+    if (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, entry Status.',
+      });
+      return;
+    }
+
     if (this.MISReportAppraisal.get('query')?.value) {
       params = {
         query: this.MISReportAppraisal.get('query')?.value,
