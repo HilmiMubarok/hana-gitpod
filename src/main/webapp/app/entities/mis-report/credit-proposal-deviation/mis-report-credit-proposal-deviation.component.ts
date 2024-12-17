@@ -273,7 +273,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Date Range' });
         this.misReportService.setLoading(false);
         return;
-      } else if (!startDate1 && !endDate2 && !statuss) {
+      } else if (!startDate1 || !endDate2 || !statuss) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameters' });
         this.misReportService.setLoading(false);
         return;
