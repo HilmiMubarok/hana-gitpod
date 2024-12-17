@@ -310,6 +310,19 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     const selectedDateType = this.misCpTimeline.get('type')?.value;
     let dateTypeValue = null;
 
+    if (
+      (!this.misCpTimeline.get('date1')?.value || this.misCpTimeline.get('date1')?.value.length === 0) &&
+      (!this.misCpTimeline.get('date2')?.value || this.misCpTimeline.get('date2')?.value.length === 0) &&
+      (!this.misCpTimeline.get('status')?.value || this.misCpTimeline.get('status')?.value.length === 0)
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, Select Parameter.',
+      });
+      return;
+    }
+
     if (!this.misCpTimeline.get('date1')?.value || this.misCpTimeline.get('date2')?.value.length === 0) {
       this.messageService.add({
         severity: 'error',
