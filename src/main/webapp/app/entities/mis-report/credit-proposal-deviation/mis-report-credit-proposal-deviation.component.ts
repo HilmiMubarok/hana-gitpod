@@ -269,16 +269,12 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       const regionals = this._convertStatusToString(this.MisReportCPDeviation.get('regional')?.value);
       const customerTypes = this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value);
       // Validasi untuk startDate, endDate, dan status
-      if (!startDate1) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Start Date' });
+      if (!startDate1 || !endDate2) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Date Range' });
         this.misReportService.setLoading(false);
         return;
-      } else if (!endDate2) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select End Date' });
-        this.misReportService.setLoading(false);
-        return;
-      } else if (!statuss) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Status' });
+      } else if (!startDate1 && !endDate2 && !statuss) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameters' });
         this.misReportService.setLoading(false);
         return;
       }
