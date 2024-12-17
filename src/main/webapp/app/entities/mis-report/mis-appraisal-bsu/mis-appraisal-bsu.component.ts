@@ -370,8 +370,6 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   }
 
   generateMISReportAppraisalBsu(): void {
-    this.misReportService.setLoading(true);
-
     let params;
 
     if (
