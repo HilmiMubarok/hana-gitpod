@@ -257,16 +257,20 @@ export class LoanOperationMappingToCollateralComponent implements OnInit {
   private setUp(): void {
     if (this.collateralData.length > 0) {
       for (let i = 0; i < this.collateralData.length; i++) {
-        this.bindingValueHelper.push(0);
-        this.mappingStatusHelper.push('no');
-        if (this.creditProposalData.collateralProductRelations.length > 0) {
-          for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
-            if (
-              this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralData[i].id &&
-              this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData.id
-            ) {
-              this.mappingStatusHelper[i] = 'yes';
-              this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+        if (this.applicationProductData.length > 0) {
+          for (let k = 0; k < this.applicationProductData.length; k++) {
+            this.bindingValueHelper.push(0);
+            this.mappingStatusHelper.push('no');
+            if (this.creditProposalData.collateralProductRelations.length > 0) {
+              for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
+                if (
+                  this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralData[i].id &&
+                  this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData[k].id
+                ) {
+                  this.mappingStatusHelper[i] = 'yes';
+                  this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+                }
+              }
             }
           }
         }
