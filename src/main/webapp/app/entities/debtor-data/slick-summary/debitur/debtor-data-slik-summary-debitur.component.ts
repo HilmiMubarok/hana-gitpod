@@ -24,6 +24,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MessageService } from 'primeng/api';
 
+interface IResponsePDFSlik {
+  kredit: IPDFSlik[];
+  bankGaransi: IPDFSlik[];
+  fasilitasLain: IPDFSlik[];
+  lc: IPDFSlik[];
+  suratBerharga: IPDFSlik[];
+}
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
@@ -487,6 +494,42 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     return partySlik;
   }
   public resData: IPDFSlik[];
+  private _processResponseData(response: IResponsePDFSlik): IPDFSlik[] {
+    const data: IPDFSlik[] = [];
+
+    // Process kredit
+    if (response.kredit && response.kredit.length) {
+      data.push(...response.kredit);
+    }
+
+    // Process bankGaransi
+    if (response.bankGaransi && response.bankGaransi.length) {
+      response.bankGaransi.forEach(item => {
+        item.rate = null;
+      });
+      data.push(...response.bankGaransi);
+    }
+
+    // Process fasilitasLain
+    if (response.fasilitasLain && response.fasilitasLain.length) {
+      data.push(...response.fasilitasLain);
+    }
+
+    // Process lc
+    if (response.lc && response.lc.length) {
+      data.push(...response.lc);
+    }
+
+    // Process suratBerharga
+    /**
+     * !!! NOTE !!!
+     * Surat Berharga belum ada mappingannya. jadi tidak ditampilkan dulu.
+     */
+    // if (response.suratBerharga && response.suratBerharga.length) {
+    //   data.push(...response.suratBerharga);
+    // }
+    return data;
+  }
   public openDialogUpload(): void {
     const predicate: object = {
       width: '80vw',
@@ -498,7 +541,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     const dialogRef = this.dialog.open(DebtorDataSlikUploadComponent, predicate);
     dialogRef.afterClosed().subscribe((response: any) => {
-      this.resData = response.data.kredit;
+      this.resData = this._processResponseData(response.data);
 
       if (this.resData) {
         this.uploadData(response.files);
