@@ -621,12 +621,12 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         timeline:
           row.timeLine
             ?.slice(1)
-            ?.map(
-              timeline =>
-                `${timeline.fromStatusDescription || ''} : ${timeline.fromDate || ''} : ${
-                  this._processTimelinePersonName(timeline.personName) || ''
-                }`
-            )
+            ?.map(timeline => {
+              const formattedDate = timeline.fromDate ? this._formatDateToCustom(timeline.fromDate) : '';
+              return `${timeline.fromStatusDescription || ''} : ${formattedDate || ''} : ${
+                this._processTimelinePersonName(timeline.personName) || ''
+              }`;
+            })
             .join('\n') || '',
         status: row.status || '',
       });
