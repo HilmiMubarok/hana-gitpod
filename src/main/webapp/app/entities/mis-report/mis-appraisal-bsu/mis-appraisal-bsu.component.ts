@@ -552,6 +552,12 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       const tanggalLaporan = approvedTimeline?.length ? this._formatDateToCustom(approvedTimeline[0].fromDate) : '';
       const tanggalPermohonan = row.tanggalPermohonan ? this._formatDateToCustom(row.tanggalPermohonan) : 'Data tidak tersedia';
 
+      const timeLineData = row.timeLine ? row.timeLine.sort((a, b) => a.id - b.id) : [];
+
+      if (timeLineData.length >= 1) {
+        timeLineData.shift();
+      }
+
       worksheet.addRow({
         no: index + 1 || '',
         appraisalNumber: row.appraisalNumber || '',
@@ -619,9 +625,8 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         reviewer: row.reviewerBy || '',
         negativeList: row.scoreCard[0]?.criteria || '',
         timeline:
-          row.timeLine
-            ?.slice(1)
-            ?.map(timeline => {
+          timeLineData
+            .map(timeline => {
               const formattedDate = timeline.fromDate ? this._formatDateToCustom(timeline.fromDate) : '';
               return `${timeline.fromStatusDescription || ''} : ${formattedDate || ''} : ${
                 this._processTimelinePersonName(timeline.personName) || ''
