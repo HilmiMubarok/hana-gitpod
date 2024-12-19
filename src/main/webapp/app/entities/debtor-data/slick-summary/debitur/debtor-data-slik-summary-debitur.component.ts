@@ -528,7 +528,6 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     // if (response.suratBerharga && response.suratBerharga.length) {
     //   data.push(...response.suratBerharga);
     // }
-    console.log('data gabungan: ', data);
     return data;
   }
   public openDialogUpload(): void {
