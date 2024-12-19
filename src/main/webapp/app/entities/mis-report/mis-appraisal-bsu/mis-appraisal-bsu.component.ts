@@ -99,11 +99,11 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       }
     });
 
-    this.MISReportAppraisal.get('geoBoundaries')?.valueChanges.subscribe(geoBoundaries => {
-      if (typeof geoBoundaries === 'object' && geoBoundaries.length === 0) {
-        this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
-      }
-    });
+    // this.MISReportAppraisal.get('geoBoundaries')?.valueChanges.subscribe(geoBoundaries => {
+    //   if (typeof geoBoundaries === 'object' && geoBoundaries.length === 0) {
+    //     this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
+    //   }
+    // });
 
     this.MISReportAppraisal.get('branch')?.valueChanges.subscribe(branch => {
       if (branch && typeof branch === 'object' && Array.isArray(branch) && branch.length === 0) {
@@ -112,8 +112,21 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     });
 
     this.MISReportAppraisal.get('appraisalType')?.valueChanges.subscribe(appraisalType => {
+      this.checkFieldStatus();
       if (appraisalType && typeof appraisalType === 'object' && Array.isArray(appraisalType) && appraisalType.length === 0) {
         this.MISReportAppraisal.get('appraisalType')?.setValue(null);
+      }
+    });
+
+    this.MISReportAppraisal.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.MISReportAppraisal.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.MISReportAppraisal.get('statusAppraisal')?.valueChanges.subscribe(() => this.checkFieldStatus());
+
+    this.MISReportAppraisal.get('branch')?.valueChanges.subscribe(() => {
+      this.checkFieldStatus();
+      // if type is array and length 0, change to null
+      if (Array.isArray(this.MISReportAppraisal.get('branch')?.value) && this.MISReportAppraisal.get('branch')?.value.length === 0) {
+        this.MISReportAppraisal.get('branch')?.setValue(null);
       }
     });
 
@@ -364,9 +377,22 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   }
 
   protected processData(data: any[]): void {
+    data.sort((a, b) => {
+      const dateA = new Date(a.fromDate);
+      const dateB = new Date(b.fromDate);
+
+      if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+        return 0;
+      }
+
+      return dateA.getTime() - dateB.getTime();
+    });
+
     data.forEach((proposal, index) => {
       this._processGenerate;
     });
+
+    this._resetData();
   }
 
   generateMISReportAppraisalBsu(): void {
@@ -375,7 +401,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     if (
       (!this.MISReportAppraisal.get('date1')?.value || this.MISReportAppraisal.get('date1')?.value.length === 0) &&
       (!this.MISReportAppraisal.get('date2')?.value || this.MISReportAppraisal.get('date2')?.value.length === 0) &&
-      (!this.MISReportAppraisal.get('status')?.value || this.MISReportAppraisal.get('status')?.value.length === 0)
+      (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0)
     ) {
       this.messageService.add({
         severity: 'error',
@@ -440,15 +466,9 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     return filteredPersonNameArray.join(' ');
   }
 
-  private _formatDateToCustom(dateString: string): string {
-    if (!dateString) {
-      return '';
-    }
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = date.toLocaleString('en-US', { month: 'long' });
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+  _formatDateToCustom(date: string | Date): string {
+    const d = new Date(date);
+    return isNaN(d.getTime()) ? '' : `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
   }
 
   private _processGenerate(data, outputName: string): void {
@@ -506,24 +526,31 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       { header: 'Status', key: 'status', width: 25 },
     ];
 
-    data.forEach((row, index) => {
+    const sortedData = data.sort((a, b) => {
+      const dateA = new Date(a.appraisalDate).getTime();
+      const dateB = new Date(b.appraisalDate).getTime();
+      return dateA - dateB;
+    });
+
+    sortedData.forEach((row, index) => {
       const visitedTimeline = row.timeLine
-        ?.filter(timeline => timeline.statusDescription === 'Visited')
+        ?.filter(timeline => timeline.statusDescription === 'Approved')
         .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
-      const visitedDate = visitedTimeline?.[0]?.fromDate ? this._formatDateToCustom(visitedTimeline[0].fromDate) : '';
+      const visitedDate = visitedTimeline?.length ? this._formatDateToCustom(visitedTimeline[0].fromDate) : '';
 
       const approvalTimeline = row.timeLine
         ?.filter(timeline => timeline.statusDescription === 'Approval Team Leader')
         .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
-      const tanggalPenilaian = approvalTimeline?.[0]?.fromDate ? this._formatDateToCustom(visitedTimeline[0].fromDate) : '';
+      const tanggalPenilaian = approvalTimeline?.length ? this._formatDateToCustom(approvalTimeline[0].fromDate) : '';
 
       const approvedTimeline = row.timeLine
         ?.filter(timeline => timeline.statusDescription === 'Approved')
         .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
-      const tanggalLaporan = approvedTimeline?.[0]?.fromDate ? this._formatDateToCustom(visitedTimeline[0].fromDate) : '';
+      const tanggalLaporan = approvedTimeline?.length ? this._formatDateToCustom(approvedTimeline[0].fromDate) : '';
+      const tanggalPermohonan = row.tanggalPermohonan ? this._formatDateToCustom(row.tanggalPermohonan) : 'Data tidak tersedia';
 
       worksheet.addRow({
         no: index + 1 || '',
@@ -532,6 +559,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         branch: row.branch || '',
         marketing: row.marketing || '',
         customerName: row.customerName || '',
+        tanggalPermohonan: row.appraisalDate ? this._formatDateToCustom(row.appraisalDate) : '',
         collateralId: row.collateral[0]?.id || '',
         collateralType: row.collateral[0]?.collateralType || '',
         collateral: row.collateral[0]?.collateral || '',
@@ -585,7 +613,6 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         kjppName: row.kjppName || '',
         totalMVKJPP: row.totalMVKJPP || '',
         totalLVKJPP: row.totalLVKJPP || '',
-        tanggalPermohonan: this._formatDateToCustom(row.appraisalDate) || '',
         visitedDate,
         tanggalPenilaian,
         tanggalLaporan,
