@@ -61,16 +61,12 @@ export class MappingCollateralHistoryComponent implements OnInit {
         this.mappingStatusHelper.push('no');
         if (this.creditProposalData.collateralProductRelations.length > 0) {
           for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
-            if (this.creditProposalData.collateralProductRelations.length > 0) {
-              for (let k = 0; k < this.creditProposalData.collateralProductRelations.length; k++) {
-                if (
-                  this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id &&
-                  this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData[k].id
-                ) {
-                  this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
-                  this.mappingStatusHelper[i] = 'yes';
-                }
-              }
+            if (
+              this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id &&
+              this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData.id
+            ) {
+              this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+              this.mappingStatusHelper[i] = 'yes';
             }
           }
         }
