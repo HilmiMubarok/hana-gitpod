@@ -124,6 +124,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public parentPath = this.router.url.split('/')[1];
   public fields = false;
   public disable: boolean;
+  public caption: string;
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -146,6 +147,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       parentSource: string;
       depositInterestRate: number;
       disable: boolean;
+      caption: string;
     }
   ) {
     this.disable = this.data.disable;
@@ -167,6 +169,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.setBranches();
     this.loadByCollateral(this.collateral.id);
     this.depositInterestRate = data.depositInterestRate;
+    this.caption = this.data.caption;
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -258,6 +261,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public save() {
+    this.caption = 'save';
     if (!this.binding.collateralId) {
       this.binding.collateralId = this.collateral.id;
     }
@@ -272,6 +276,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       emptyField: this.empty,
       creditProposal: this.creditProposal,
       depositInterestRate: this.depositInterestRate,
+      caption: this.caption,
     });
   }
 
@@ -508,6 +513,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
   // cancel confrimation dialog
   public openCancelDialog(): void {
+    this.caption = 'cancel';
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
       data: {
@@ -518,7 +524,10 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this._dialog.close();
+        this._dialog.close({
+          creditProposal: this.creditProposalOpenState,
+          caption: this.caption,
+        });
       }
     });
   }

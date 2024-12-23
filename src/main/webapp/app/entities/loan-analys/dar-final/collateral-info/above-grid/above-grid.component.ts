@@ -75,7 +75,7 @@ export class AboveGridDarFinalComponent
   public biddingValueCoverage: number;
   private _collateralProperties: ICollateralProperty[];
   public dataCollateralSummary: any[];
-
+  public caption: string;
   public selectedMenu: string;
   public isChecked: boolean;
   public totalPlafond: number;
@@ -262,11 +262,13 @@ export class AboveGridDarFinalComponent
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
+        caption: this.caption,
       },
     };
     const dialogRef = this.dialog.open(CollateralInfoDialogTempComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
+      if (res && res.caption === 'save') {
+        this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), function (o: ICollateral) {
           return o.id === res['collateral'].id;
         });
@@ -313,7 +315,8 @@ export class AboveGridDarFinalComponent
             });
           });
         });
-      } else {
+      } else if (res && res.caption === 'cancel') {
+        this.creditProposal.collateralProductRelations = this.creditProposalStartState.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), (o: ICollateral) => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.dynamicCollateral()[collateralIdx] = this.collateralStartState;

@@ -69,6 +69,7 @@ export class CollateralInfoBTPDarFinalComponent
   private bindingTypeVal: any;
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public caption: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -203,11 +204,13 @@ export class CollateralInfoBTPDarFinalComponent
         applicationProduct: this.creditProposal.products,
         properties: this.collateralProperties,
         isViewMode: true,
+        caption: this.caption,
       },
     };
     const dialogRef = this.dialog.open(CollateralInfoDialogBTBDarFinalComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
+      if (res && res.caption === 'save') {
+        this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), function (o: ICollateral) {
           return o.id === res['collateral'].id;
         });
@@ -262,7 +265,8 @@ export class CollateralInfoBTPDarFinalComponent
             });
           });
         });
-      } else {
+      } else if (res && res.caption === 'cancel') {
+        this.creditProposal.collateralProductRelations = this.creditProposalStartState.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.dynamicCollateral(), (o: ICollateral) => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.dynamicCollateral()[collateralIdx] = this.collateralStartState;

@@ -74,7 +74,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   private bindingTypeVal: any;
   public selectedMenu: string;
   public dataCollateralSummary: any[];
-
+  public caption: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -188,11 +188,13 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         parentSource: this.parentSource,
         depositInterestRate: this.getDepositInterestRate(value),
         disable: this.disable,
+        caption: this.caption,
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
+      if (res && res.caption === 'save') {
+        this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
           return o.id === res['collateral'].id;
         });
@@ -247,7 +249,8 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
             this.save();
           });
         });
-      } else {
+      } else if (res && res.caption === 'cancel') {
+        this.creditProposal.collateralProductRelations = this.creditProposalStartState.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;

@@ -67,7 +67,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   set group(data: string) {
     this._group = data;
   }
-
+  public caption: string;
   public bindingTypesHobies = [];
   public insuranceTypes = [];
   private _collateralProperty: ICollateralProperty[];
@@ -324,11 +324,13 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         collateralProperties: this.collateralProperties,
         parentSource: this.parentSource,
         depositInterestRate: this.getDepositInterestRate(element),
+        caption: this.caption,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
+      if (res && res.caption === 'save') {
+        this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
           return o.id === res['collateral'].id;
         });
@@ -364,7 +366,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
         this.setDepositInterestRate(element, res.depositInterestRate);
-
         this.save().then(() => {
           this.loadSummaryCollateralSummary().then(() => {
             this.getSummaryCollateral().then(() => {
@@ -376,7 +377,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
             });
           });
         });
-      } else {
+      } else if (res && res === 'cancel') {
+        this.creditProposal.collateralProductRelations = this.creditProposalStartState.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
@@ -398,18 +400,18 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         if (insuranceIdx > -1) {
           this.creditProposal.attributes['insurance'][insuranceIdx] = this.creditProposalStartState.attributes['insurance'][insuranceIdx];
         }
-      }
-      this.save().then(() => {
-        this.loadSummaryCollateralSummary().then(() => {
-          this.getSummaryCollateral().then(() => {
-            this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
-            this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
-            this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
-            this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
-            this.save();
+        this.save().then(() => {
+          this.loadSummaryCollateralSummary().then(() => {
+            this.getSummaryCollateral().then(() => {
+              this.presentageSummary(String(this.countTotalMVSummary() / this.totalPlafond), 'mv');
+              this.presentageSummary(String(this.countTotalLVSummary() / this.totalPlafond), 'lv');
+              this.presentageSummary(String(this.countTotalMVKJJPSummary() / this.totalPlafond), 'mvKjjp');
+              this.presentageSummary(String(this.countTotalLVKJJPSummary() / this.totalPlafond), 'lvKjjp');
+              this.save();
+            });
           });
         });
-      });
+      }
     });
   }
 
