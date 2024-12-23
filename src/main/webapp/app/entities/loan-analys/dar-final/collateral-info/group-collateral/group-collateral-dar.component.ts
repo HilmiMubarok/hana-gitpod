@@ -75,6 +75,8 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
   public groupCollaterals: ICollateral[];
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public creditProposalStartState: ICreditProposal;
+  public caption: string;
   @Input()
   get collateralProperties() {
     return this._collateralProperty;
@@ -266,6 +268,7 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
     }
   }
   public openDialog(element: ICollateral): void {
+    this.creditProposalStartState = lodash.cloneDeep(this.creditProposal);
     let cp = {};
     for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
       if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
@@ -291,15 +294,16 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
         certDueDate: this.getExpiry(element),
         isViewMode: false,
         group: this.group,
+        caption: this.caption,
       },
     };
     const dialogRef = this.dialog.open(CollateralInfoDialogTempComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.creditProposalService.changeColRelByCP(res.creditProposal);
-        /* if (res.action === 'cancel') {
-          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-        } */
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = this.creditProposalStartState.collateralProductRelations;
+        }
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
           return o.id === res['collateral'].id;
         });

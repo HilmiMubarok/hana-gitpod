@@ -108,6 +108,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
   public sifatJaminan: string;
   public noDocumentJaminan: string;
   public jenis: string;
+  public caption: string;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -124,6 +125,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
       emptyField: IEmptyField;
       isViewMode: Boolean;
       parentSource: string;
+      caption: string;
     }
   ) {
     this.creditProposal = this.data.cp;
@@ -138,6 +140,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
     this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
     this.isViewMode = this.data.isViewMode;
     this.parentSource = this.data.parentSource;
+    this.caption = this.data.caption;
     this.setManagementBrance();
     this.setBranches();
     this.loadByCollateral(this.collateral.id);
@@ -162,6 +165,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
   }
 
   public save() {
+    this.caption = 'save';
     if (!this.binding.collateralId) {
       this.binding.collateralId = this.collateral.id;
     }
@@ -175,11 +179,16 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
       binding: this.binding,
       emptyField: this.empty,
       creditProposal: this.creditProposal,
+      caption: this.caption,
     });
   }
 
   public cancel() {
-    this._dialog.close();
+    this.caption = 'cancel';
+    this._dialog.close({
+      caption: this.caption,
+      creditProposal: this.creditProposalOpenState,
+    });
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
