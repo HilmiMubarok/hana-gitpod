@@ -1,8 +1,10 @@
+import { map } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
 import { CpMemoBandingService } from '../../services/cp-memo-banding.service';
+import { ICovenant } from 'app/entities/credit-proposal/convenant/convenant.constant';
 
 @Component({
   selector: 'jhi-cp-memo-banding-covenant-below',
@@ -86,6 +88,17 @@ export class CPMemoBandingCovenantBelowComponent implements OnInit {
     }
   }
 
+  public cleanData(data: ICovenant[]) {
+    return data.map(item => {
+      const { justification, deviation, ...rest } = item;
+      return {
+        ...rest,
+        ...(justification !== undefined && { justification }),
+        ...(deviation !== undefined && { deviation }),
+      };
+    });
+  }
+
   public LovCovenantBelow() {
     this.generalParameterService
       .queryFilterBy({
@@ -114,19 +127,16 @@ export class CPMemoBandingCovenantBelowComponent implements OnInit {
         }
 
         this.data = this.cpMemoBandingservice.parsePrevOfferingLetter(this.creditProposalItem);
-        (this.parsed = this.cpMemoBandingservice.compareDeepData(
-          this.data.convenant['standardCovenant'],
-          this.creditProposalItem.attributes['convenant']['standardCovenant']
-        )),
-          console.log('ASDHSADAS', {
-            // compared,
-            oriBefore: this.data,
-            oriAfter: this.creditProposalItem.attributes,
-            compared: this.cpMemoBandingservice.compareDeepData(
-              this.data.convenant['standardCovenant'],
-              this.creditProposalItem.attributes['convenant']['standardCovenant']
-            ),
-          });
+        const beforeCovenant: ICovenant[] = this.cleanData(lodash.cloneDeep(this.data.convenant['standardCovenant']));
+        const afterCovenant: ICovenant[] = this.cleanData(
+          lodash.cloneDeep(this.creditProposalItem.attributes['convenant']['standardCovenant'])
+        );
+
+        this.parsed = this.cpMemoBandingservice.compareDeepData(beforeCovenant, afterCovenant);
+        console.log('Final Compare', {
+          before: beforeCovenant,
+          after: afterCovenant,
+        });
       });
   }
   parsed;
