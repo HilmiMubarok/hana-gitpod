@@ -13,6 +13,7 @@ import { UomService } from 'app/entities/uom/uom.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { UOM_TYPE } from 'app/shared/constants/base.constants';
 import { MessageService } from 'primeng/api';
+import { CredamService } from '../../credam.service';
 @Component({
   selector: 'jhi-bank-account-dialog',
   templateUrl: './bank-account-dialog.component.html',
@@ -58,7 +59,8 @@ export class BankAccountDialogComponent implements OnInit {
     protected applicationPaymentPreferencesService: ApplicationPaymentPreferencesService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected credamService: CredamService
   ) {
     this.creditProposal = data.creditProposal;
     this.dataApplicationPayment = data.dataPayment;
@@ -70,6 +72,10 @@ export class BankAccountDialogComponent implements OnInit {
         this.selectedMenu = subRoute;
       }
     });
+  }
+
+  get isCredamOnDppk() {
+    return this.credamService.isCredamOnDPPKReview();
   }
 
   ngOnInit(): void {

@@ -14,6 +14,7 @@ import { BankAccountService } from 'app/entities/bank-account/bank-account.servi
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { CredamService } from '../../credam.service';
 
 @Component({
   selector: 'jhi-bank-account',
@@ -46,7 +47,8 @@ export class BankAccountComponent implements OnInit {
     private paymentTypeService: PaymentTypeService,
     private bankAccountService: BankAccountService,
     private router: Router,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected credamService: CredamService
   ) {}
   @Input()
   get disable() {
@@ -55,6 +57,10 @@ export class BankAccountComponent implements OnInit {
 
   set disable(item: boolean) {
     this._disable = item;
+  }
+
+  get isCredamOnDppk() {
+    return this.credamService.isCredamOnDPPKReview();
   }
 
   ngOnInit() {
