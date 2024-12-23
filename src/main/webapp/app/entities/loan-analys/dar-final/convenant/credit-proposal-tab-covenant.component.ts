@@ -104,7 +104,11 @@ export class CovenantTempComponent implements OnInit {
       this.parentPath === 'loan-ops-review'
     ) {
       // Default Disabled
-      this.fields = true;
+      if (this.credamService.isCredamOnDPPKReview()) {
+        this.fields = false;
+      } else {
+        this.fields = true;
+      }
     }
   }
 

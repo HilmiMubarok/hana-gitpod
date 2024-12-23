@@ -49,8 +49,17 @@
   <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
 </div>
 
-<section *ngIf="!conditionReviewDppk()">
-  <div class="mt-3 text-center">
-    <button mat-raised-button class="button-styling" (click)="openDialog()" [hidden]="disable">ADD Account</button>
-  </div>
-</section>
+<ng-container *ngIf="isCredamOnDppk; else addButtonView">
+  <section>
+    <div class="mt-3 text-center">
+      <button mat-raised-button class="button-styling" (click)="openDialog()">ADD Account</button>
+    </div>
+  </section>
+</ng-container>
+<ng-template #addButtonView>
+  <section *ngIf="!conditionReviewDppk()">
+    <div class="mt-3 text-center">
+      <button mat-raised-button class="button-styling" (click)="openDialog()" [hidden]="disable">ADD Account</button>
+    </div>
+  </section>
+</ng-template>
