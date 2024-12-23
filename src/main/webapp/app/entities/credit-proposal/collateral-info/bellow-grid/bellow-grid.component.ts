@@ -377,7 +377,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
             });
           });
         });
-      } else if (res && res === 'cancel') {
+      } else if (res && res.caption === 'cancel') {
         this.creditProposal.collateralProductRelations = this.creditProposalStartState.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
