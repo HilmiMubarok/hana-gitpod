@@ -13,6 +13,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IGroupCollateralTotal } from './group-collateral/group-collateral-total.model';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 import lodash from 'lodash';
+import { CredamService } from 'app/entities/dppk-finalize/credam.service';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info',
@@ -31,7 +32,8 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
     private router: Router,
     protected partyCifService: PartyCifService,
     protected collateralService: CollateralService,
-    protected collateralPropertyService: CollateralPropertyService
+    protected collateralPropertyService: CollateralPropertyService,
+    protected credamService: CredamService
   ) {}
 
   @Input() source = '';
@@ -170,7 +172,11 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
   public disableFields() {
     if (this.parentPath === 'review-dppk') {
       // Default Disabled
-      this.field = true;
+      if (this.credamService.isCredamOnDPPKReview()) {
+        this.field = false;
+      } else {
+        this.field = true;
+      }
     }
   }
   public hiddenField() {
