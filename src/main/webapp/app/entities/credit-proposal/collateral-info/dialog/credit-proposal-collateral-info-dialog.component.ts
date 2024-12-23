@@ -134,6 +134,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public depositInterestRate: number;
   public selectedMenu: string;
   public disable: boolean;
+  public caption: string;
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -166,6 +167,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       collateralProperties: ICollateralProperty[];
       parentSource: string;
       depositInterestRate: number;
+      caption: string;
     }
   ) {
     this.disable = this.data.disable;
@@ -194,6 +196,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.group = data.group;
     this.parentSource = data.parentSource;
     this.depositInterestRate = data.depositInterestRate;
+    this.caption = this.data.caption;
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
       if (subRoute) {
@@ -373,6 +376,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   }
 
   public save() {
+    this.caption = 'save';
     if (!this.binding.collateralId) {
       this.binding.collateralId = this.collateral.id;
     }
@@ -385,6 +389,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       insurance: this.insurance,
       creditProposal: this.creditProposal,
       depositInterestRate: this.depositInterestRate,
+      caption: this.caption,
     });
   }
 
@@ -396,6 +401,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
 
   // cancel confrimation dialog
   public openCancelDialog(): void {
+    this.caption = 'cancel';
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
       data: {
@@ -408,6 +414,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       if (res) {
         this._dialog.close({
           creditProposal: this.creditProposalOpenState,
+          caption: this.caption,
         });
       }
     });

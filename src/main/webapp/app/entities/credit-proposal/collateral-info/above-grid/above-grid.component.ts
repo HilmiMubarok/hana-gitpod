@@ -75,7 +75,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public insuranceTypes = [];
   public bindingTypesHobies = [];
   public dataCollateralSummary: any[];
-
+  public caption: string;
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
@@ -315,11 +315,13 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         collateralProperties: this.collateralProperties,
         parentSource: this.parentSource,
         depositInterestRate: this.getDepositInterestRate(element),
+        caption: this.caption,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
+      if (res && res.caption === 'save') {
+        this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
           return o.id === res['collateral'].id;
         });
@@ -366,7 +368,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
             });
           });
         });
-      } else {
+      } else if (res && res === 'cancel') {
+        this.creditProposal.collateralProductRelations = this.creditProposalStartState.collateralProductRelations;
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
           this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;

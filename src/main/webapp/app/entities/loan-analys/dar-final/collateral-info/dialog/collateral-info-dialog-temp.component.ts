@@ -62,7 +62,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public bindingTypesHobies: any;
   public facilityTypes: any;
   public creditProposal: ICreditProposal;
-  public creditProposalOpenState: ICreditProposal;
+  public creditProposalStartState: ICreditProposal;
   public disabledOpt = true;
   public collateral: ICollateral;
   public insurance: ICreditProposalCollateralInsurance;
@@ -97,7 +97,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
-
+  public caption: string;
   public logoIdr = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
   public cursIdr: number;
   logoCcy = {};
@@ -140,12 +140,13 @@ export class CollateralInfoDialogTempComponent implements OnInit {
       ownerShip: string;
       matrikBindingType: string;
       parentSource: string;
+      caption: string;
     }
   ) {
     this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
-    this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
+    this.creditProposalStartState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;
@@ -157,6 +158,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     this.insurance = this.data.insurance;
     this.parentSource = this.data.parentSource;
     this.matrikBindingType = this.data.matrikBindingType;
+    this.caption = this.data.caption;
     for (let i = 1; i < 101; i++) {
       this.lovRank.push(i.toString());
     }
@@ -237,6 +239,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   }
 
   public save() {
+    this.caption = 'save';
     if (!this.binding.collateralId) {
       this.binding.collateralId = this.collateral.id;
     }
@@ -248,6 +251,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
       collateral: this.collateral,
       insurance: this.insurance,
       creditProposal: this.creditProposal,
+      caption: this.caption,
     });
   }
 
@@ -382,7 +386,10 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this._dialog.close();
+        this._dialog.close({
+          caption: this.caption,
+          creditProposal: this.creditProposalStartState,
+        });
       }
     });
   }
