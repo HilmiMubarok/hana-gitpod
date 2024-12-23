@@ -107,13 +107,36 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-        <div class="fontsebled row py-1">
-          <div class="col-3">Facility Type</div>
-          <div class="col-md-auto">:</div>
-          <div class="col">
-            {{ applicationProduct.productTypeId }}
+        <ng-container *ngIf="isCredamOnDppkFinalize; else facilityTypeView">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Type</mat-label>
+            <input
+              type="text"
+              placeholder="Pick One"
+              aria-label="Number"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+              [(ngModel)]="applicationProduct.attributes.facilityType"
+              (ngModelChange)="berubah($event)"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let option of listGeneralLov" [value]="option.id">
+                {{ option.id }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #facilityTypeView>
+          <div class="fontsebled row py-1">
+            <div class="col-3">Facility Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ applicationProduct.productTypeId }}
+            </div>
           </div>
-        </div>
+        </ng-template>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <div class="mb-2" *ngIf="applicationProduct.applicationType !== 'Existing'">
@@ -1557,33 +1580,72 @@
       </div>
 
       <div *ngIf="conditionReviewDppk()">
-        <section>
-          <div class="fontsebled row py-1">
-            <div class="col-3">Credit Term</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ getCreditTermLabel(applicationProduct.creditTerm) }}
+        <ng-container *ngIf="isCredamOnDppkFinalize">
+          <section>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Credit Term</mat-label>
+              <mat-select [(ngModel)]="applicationProduct.creditTerm">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of creditTermList" [value]="item.code">
+                  {{ item.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section>
+            <mat-form-field class="w-100" appearance="outline">
+              <!-- installment type -->
+              <mat-label>Installment Type</mat-label>
+              <mat-select [(ngModel)]="applicationProduct.installmentType">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of installmentTypeList" [value]="item.value">
+                  {{ item.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section>
+            <mat-form-field class="w-100" appearance="outline">
+              <!-- Jenis pengguna -->
+              <mat-label>Jenis Pengguna</mat-label>
+              <mat-select [(ngModel)]="applicationProduct.jenisPenggunaCode" (selectionChange)="changePengguna()">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of jenisPenggunaList" [value]="item.code">
+                  {{ item.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+        </ng-container>
+        <ng-template #jenisPenggunaCreditTermInstallmentview>
+          <section>
+            <div class="fontsebled row py-1">
+              <div class="col-3">Credit Term</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ getCreditTermLabel(applicationProduct.creditTerm) }}
+              </div>
             </div>
-          </div>
-        </section>
-        <section>
-          <div class="fontsebled row py-1">
-            <div class="col-3">Installment Type</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ applicationProduct.installmentType }}
+          </section>
+          <section>
+            <div class="fontsebled row py-1">
+              <div class="col-3">Installment Type</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ applicationProduct.installmentType }}
+              </div>
             </div>
-          </div>
-        </section>
-        <section>
-          <div class="fontsebled row py-1">
-            <div class="col-3">Jenis pengguna</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ applicationProduct.jenisPenggunaValue }}
+          </section>
+          <section>
+            <div class="fontsebled row py-1">
+              <div class="col-3">Jenis pengguna</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ applicationProduct.jenisPenggunaValue }}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </ng-template>
       </div>
     </div>
   </div>
@@ -1653,13 +1715,22 @@
           </mat-form-field>
         </section>
         <section *ngIf="statusDisabledOffering">
-          <div class="fontsebled row py-1">
-            <div class="col-3">Early Repayment Penalty</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ applicationProduct.earlyRepaymentPenalty }}
+          <ng-container *ngIf="isCredamOnDppkFinalize; else earlyRepaymentPenaltyView">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Early Repayment Penalty</mat-label>
+              <input matInput type="number" class="example-right-align" [(ngModel)]="applicationProduct.earlyRepaymentPenalty" />
+              <span matSuffix>&nbsp;%</span>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #earlyRepaymentPenaltyView>
+            <div class="fontsebled row py-1">
+              <div class="col-3">Early Repayment Penalty</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ applicationProduct.earlyRepaymentPenalty }}
+              </div>
             </div>
-          </div>
+          </ng-template>
         </section>
       </div>
     </div>
