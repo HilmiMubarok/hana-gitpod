@@ -236,11 +236,11 @@ export class GroupCollateralListDarComponent extends AbstractEntityMaterialCompo
       const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
         return o.collateralId === collateral.id;
       });
-      this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = true;
+      this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = this.isChecked;
     } else {
       const checklis: IGroupCollateralChecklis = {};
       checklis.cifNumber = this.cif;
-      checklis.checklis = true;
+      checklis.checklis = this.isChecked;
       checklis.collateralId = collateral.id;
       this.creditProposal.attributes['groupChecklisCollateral'].push(checklis);
     }
@@ -255,7 +255,7 @@ export class GroupCollateralListDarComponent extends AbstractEntityMaterialCompo
         const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
           return o.collateralId === collateral.id;
         });
-        this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = false;
+        this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = this.isChecked;
       }
     });
   }
