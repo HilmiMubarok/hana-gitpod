@@ -186,8 +186,10 @@ export class GroupCollateralListDarComponent extends AbstractEntityMaterialCompo
   public slideChange(event: boolean): void {
     if (event) {
       this.isChecked = true;
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'Yes';
       this.addCollateralRelations();
     } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralGroup = 'No';
       this.dataChecklis(this.listGroupCollateralItems);
       this.cleanUpColGroupRel();
     }
