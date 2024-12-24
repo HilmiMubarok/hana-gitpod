@@ -174,7 +174,6 @@ export class GroupCollateralLoanOpsComponent implements OnInit, OnChanges {
   }
 
   private findAndCleanConnection(): void {
-    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     if (
       this.creditProposal.collateralProductRelations.length > 0 &&
       this.creditProposal.products.length > 0 &&
@@ -191,14 +190,11 @@ export class GroupCollateralLoanOpsComponent implements OnInit, OnChanges {
       for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           for (let k = 0; k < this.groupCollaterals.length; k++) {
-            for (let z = 0; z < copyCreditProposal.collateralProductRelations.length; z++) {
-              if (
-                this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
-                this.creditProposal.collateralProductRelations[index].collateralId === this.groupCollaterals[k].id &&
-                this.creditProposal.collateralProductRelations[index].id === copyCreditProposal.collateralProductRelations[z].id
-              ) {
-                this.creditProposal.collateralProductRelations.splice(index);
-              }
+            if (
+              this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
+              this.creditProposal.collateralProductRelations[index].collateralId === this.groupCollaterals[k].id
+            ) {
+              this.creditProposal.collateralProductRelations.splice(index);
             }
           }
         }
