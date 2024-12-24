@@ -55,7 +55,7 @@ export class GroupCollateralListDarComponent extends AbstractEntityMaterialCompo
   public listGroupCollateral: any;
   private _creditProposal: ICreditProposal;
   public _collateralProperty: ICollateralProperty[];
-  groupChecklisCollaterals: any;
+  groupChecklisCollaterals: IGroupCollateralChecklis[] = [];
   @Input()
   get collateralProperties() {
     return this._collateralProperty;
@@ -233,18 +233,29 @@ export class GroupCollateralListDarComponent extends AbstractEntityMaterialCompo
       obj => obj.collateralId === collateral.id
     );
     if (data) {
-      data.checklis = this.isChecked;
+      const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
+        return o.collateralId === collateral.id;
+      });
+      this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = true;
+    } else {
+      const checklis: IGroupCollateralChecklis = {};
+      checklis.cifNumber = this.cif;
+      checklis.checklis = true;
+      checklis.collateralId = collateral.id;
+      this.creditProposal.attributes['groupChecklisCollateral'].push(checklis);
     }
   }
   private dataChecklis(collaterals: any[]): void {
+    this.groupChecklisCollaterals = this.creditProposal.attributes['groupChecklisCollateral'];
     collaterals.forEach(collateral => {
       const data: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
         obj => obj.collateralId === collateral.id
       );
-
       if (data) {
-        // If the data is found, update the 'checklis' property with the value of 'isChecked'
-        data.checklis = this.isChecked;
+        const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
+          return o.collateralId === collateral.id;
+        });
+        this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = false;
       }
     });
   }
