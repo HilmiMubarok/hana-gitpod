@@ -1,0 +1,10 @@
+image: node:18
+
+tasks:
+  - name: Install and start
+    command: |
+      nvm install 18
+      nvm use 18
+      npm i chart.js --legacy-peer-deps
+      npm i -D @types/chart.js --legacy-peer-deps
+      npm start
