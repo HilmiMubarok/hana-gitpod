@@ -24,19 +24,29 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
-        <section *ngIf="!conditionReviewDppk()">
+        <ng-container *ngIf="isCredamOnDppk; else actionButtonView">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="deletePaymentRef(element)" [hidden]="disable">
+          <button mat-icon-button (click)="deletePaymentRef(element)">
             <mat-icon>delete</mat-icon>
           </button>
-        </section>
-        <section *ngIf="conditionReviewDppk()">
-          <button mat-icon-button (click)="openDialog(element)">
-            <mat-icon>remove_red_eye</mat-icon>
-          </button>
-        </section>
+        </ng-container>
+        <ng-template #actionButtonView>
+          <section *ngIf="!conditionReviewDppk()">
+            <button mat-icon-button (click)="openDialog(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deletePaymentRef(element)" [hidden]="disable">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </section>
+          <section *ngIf="conditionReviewDppk()">
+            <button mat-icon-button (click)="openDialog(element)">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+          </section>
+        </ng-template>
       </td>
     </ng-container>
 
