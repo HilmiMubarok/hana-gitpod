@@ -889,12 +889,13 @@ export class BellowGridDarFinalComponent
       if (this.creditProposal.collateralProductRelations.length > 0) {
         for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
           for (let j = 0; j < this.dynamicCollateral().length; j++) {
-            if (
-              this.creditProposal.collateralProductRelations[i].collateralId === this.dynamicCollateral()[j]?.id &&
-              this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
-            ) {
-              this.creditProposal.collateralProductRelations.splice(i);
-            }
+            this.creditProposal.collateralProductRelations = this.creditProposal.collateralProductRelations.filter(
+              relation =>
+                !(
+                  relation.applicationProduct.id === this.creditProposal.products[i]?.id &&
+                  relation.collateralId === this.dynamicCollateral()[j].id
+                )
+            );
           }
         }
       }
