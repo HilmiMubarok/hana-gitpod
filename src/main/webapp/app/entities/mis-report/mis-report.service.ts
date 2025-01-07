@@ -7,7 +7,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class MisReportService {
-  constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) { }
 
   public loadingGenerateDocument: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public generateDocumentLabel: BehaviorSubject<string> = new BehaviorSubject<string>('Generate Document');
@@ -38,6 +38,12 @@ export class MisReportService {
 
   public getMISReportAppraisal(params): Observable<HttpResponse<any>> {
     return this.http.post<any>(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/appraisal/`, params, {
+      observe: 'response',
+    });
+  }
+
+  public getMISReportCPCredam(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/cp-credam/`, params, {
       observe: 'response',
     });
   }
