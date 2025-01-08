@@ -181,16 +181,14 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     }
 
     protected processData(data: any[]): void {
-        let nextRow = 1;
         data.forEach((proposal, index) => {
-            const rowsAdded = this._addData(this.worksheet, proposal, nextRow, index);
-            nextRow += rowsAdded;
+            this._addData(this.worksheet, proposal);
         });
     }
 
-    private _addData(worksheet: ExcelJS.Worksheet, proposal: any, startIndex: number, index): number {
+    private _addData(worksheet: ExcelJS.Worksheet, proposal: any): void {
         const baseData = {
-            no: index + 1,
+            no: worksheet.rowCount,
             cifNumber: proposal.cif || '',
             name: proposal.debtorName || '',
             branchCode: proposal.bookingBranchId || '',
@@ -208,19 +206,19 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             outstanding: proposal.totalOsEqToIDR || ''
         };
 
-        // If no collateral, add single row
         if (!proposal.collateral || proposal.collateral.length === 0) {
             worksheet.addRow(baseData);
-            return 1; // Return 1 row added
         }
 
-        let totalRowsAdded = 0;
-        const startRow = worksheet.rowCount + 1;
+        const filteredCollateral = proposal.collateral.filter((collateral) =>
+            ['Real Estate', 'Machine', 'Vehicle', 'Personal Property'].includes(collateral.collateralType) && collateral.collateralTypeInsurance === "true")
 
         // Process each collateral
-        proposal.collateral.forEach((collateral, collateralIndex) => {
+        filteredCollateral.forEach((collateral) => {
+
             const collateralData = {
                 ...baseData,
+                no: worksheet.rowCount,
                 collateralType: collateral.collateralType || '',
                 collateralDetail: collateral.collateralCode || '',
                 collateralCode: collateral.collateralProposePricing || '',
@@ -229,17 +227,14 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
                 collateralOwner: collateral.collateralOwnerIDD || ''
             };
 
-            const collateralStartRow = worksheet.rowCount + 1;
-
-            // If no insurance, add single row for collateral
             if (!collateral.collateralInsurance || collateral.collateralInsurance.length === 0) {
                 worksheet.addRow(collateralData);
-                totalRowsAdded++;
             } else {
                 // Process each insurance
-                collateral.collateralInsurance.forEach((insurance, insuranceIndex) => {
+                collateral.collateralInsurance.forEach((insurance) => {
                     const rowData = {
                         ...collateralData,
+                        no: worksheet.rowCount,
                         insuranceNumber: '',
                         insuranceCode: insurance.insuranceTypeCode || '',
                         insuranceName: insurance.insuranceTypeName || '',
@@ -256,31 +251,9 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
                         remark: insurance.remarks || ''
                     };
                     worksheet.addRow(rowData);
-                    totalRowsAdded++;
                 });
             }
-
-            const collateralEndRow = worksheet.rowCount;
-
-            // Merge collateral columns if we have multiple rows
-            if (collateralEndRow > collateralStartRow) {
-                // Merge collateral columns (14-19)
-                for (let col = 14; col <= 19; col++) {
-                    worksheet.mergeCells(collateralStartRow, col, collateralEndRow, col);
-                }
-            }
         });
-
-        // Merge base data columns if we have multiple rows
-        const endRow = worksheet.rowCount;
-        if (endRow > startRow) {
-            // Merge base data columns (1-13)
-            for (let col = 1; col <= 13; col++) {
-                worksheet.mergeCells(startRow, col, endRow, col);
-            }
-        }
-
-        return totalRowsAdded;
     }
 
     private _applyStyles(): void {
