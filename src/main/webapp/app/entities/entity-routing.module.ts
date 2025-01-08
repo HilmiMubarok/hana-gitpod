@@ -665,6 +665,13 @@ import { RouterModule } from '@angular/router';
           ),
       },
       {
+        path: 'mis-cp-sladppk-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal-credam-dppk/mis-report-credit-proposal-credam.module').then(
+            m => m.MisReportCreditProposalCredamModule
+          ),
+      },
+      {
         path: 'mis-appraisal-report',
         loadChildren: () => import('./mis-report/mis-appraisal/mis-appraisal.module').then(m => m.MisAppraisalModule),
       },
@@ -697,4 +704,4 @@ import { RouterModule } from '@angular/router';
     ]),
   ],
 })
-export class EntityRoutingModule { }
+export class EntityRoutingModule {}
