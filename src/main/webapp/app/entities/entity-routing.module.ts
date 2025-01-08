@@ -687,7 +687,14 @@ import { RouterModule } from '@angular/router';
             m => m.MisCreditProposalReportCompareModule
           ),
       },
+      {
+        path: 'mis-cp-credit-insurance-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal-insurance-report/credit-proposal-insurance-report.module').then(
+            m => m.CreditProposalInsuranceReportModule
+          ),
+      },
     ]),
   ],
 })
-export class EntityRoutingModule {}
+export class EntityRoutingModule { }
