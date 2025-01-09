@@ -194,12 +194,13 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
       for (let index = 0; index < this.creditProposal.collateralProductRelations.length; index++) {
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-            if (
-              this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
-              this.creditProposal.collateralProductRelations[index].collateralId === this.listGroupCollateralItems[k].id
-            ) {
-              this.creditProposal.collateralProductRelations.splice(index);
-            }
+            this.creditProposal.collateralProductRelations = this.creditProposal.collateralProductRelations.filter(
+              relation =>
+                !(
+                  relation.applicationProduct.id === this.creditProposal.products[j].id &&
+                  relation.collateralId === this.listGroupCollateralItems[k].id
+                )
+            );
           }
         }
       }
@@ -251,7 +252,7 @@ export class GroupCollateralListCpComponent extends AbstractEntityMaterialCompon
       bindingValue: 0,
     };
     this.creditProposal.collateralProductRelations.push(relation);
-
+    this.groupChecklisCollaterals = this.creditProposal.attributes['groupChecklisCollateral'];
     const data: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
       obj => obj.collateralId === collateral.id
     );

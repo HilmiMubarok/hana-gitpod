@@ -268,6 +268,10 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
+    if (input === 'null') {
+      return '';
+    }
+
     return input
       .split(',')
       .map(item => item.trim()) // Remove any surrounding spaces

@@ -953,12 +953,13 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
           for (let j = 0; j < this.creditProposal.products.length; j++) {
             for (let k = 0; k < this.creditProposal.collaterals.length; k++) {
-              if (
-                this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id &&
-                this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[k].id
-              ) {
-                this.creditProposal.collateralProductRelations.splice(i);
-              }
+              this.creditProposal.collateralProductRelations = this.creditProposal.collateralProductRelations.filter(
+                relation =>
+                  !(
+                    relation.applicationProduct.id === this.creditProposal.products[j].id &&
+                    relation.collateralId === this.creditProposal.collaterals[k].id
+                  )
+              );
             }
           }
         }

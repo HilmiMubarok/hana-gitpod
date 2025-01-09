@@ -665,6 +665,13 @@ import { RouterModule } from '@angular/router';
           ),
       },
       {
+        path: 'mis-cp-sladppk-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal-credam-dppk/mis-report-credit-proposal-credam.module').then(
+            m => m.MisReportCreditProposalCredamModule
+          ),
+      },
+      {
         path: 'mis-appraisal-report',
         loadChildren: () => import('./mis-report/mis-appraisal/mis-appraisal.module').then(m => m.MisAppraisalModule),
       },
@@ -685,6 +692,13 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./mis-report/credit-proposal-compare/mis-report-credit-proposal-compare.module').then(
             m => m.MisCreditProposalReportCompareModule
+          ),
+      },
+      {
+        path: 'mis-cp-credit-insurance-report',
+        loadChildren: () =>
+          import('./mis-report/credit-proposal-insurance-report/credit-proposal-insurance-report.module').then(
+            m => m.CreditProposalInsuranceReportModule
           ),
       },
     ]),

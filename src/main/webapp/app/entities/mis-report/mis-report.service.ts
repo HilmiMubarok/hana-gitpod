@@ -20,6 +20,11 @@ export class MisReportService {
     this.generateDocumentLabel.next(loading ? 'Generating Document...' : 'Generate Document');
   }
 
+  public getMisReportCPCredam(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/cp-credam/`, params, {
+      observe: 'response',
+    });
+  }
   public getMisReportCP(params): Observable<HttpResponse<any>> {
     return this.http.post<any>(
       `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/credit-proposal/`,
@@ -38,6 +43,12 @@ export class MisReportService {
 
   public getMISReportAppraisal(params): Observable<HttpResponse<any>> {
     return this.http.post<any>(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/appraisal/`, params, {
+      observe: 'response',
+    });
+  }
+
+  public getMISReportCPCredam(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/cp-credam/`, params, {
       observe: 'response',
     });
   }
