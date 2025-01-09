@@ -416,7 +416,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
     return collateral
       .filter(item => item.collateralTypeInsurance === 'true' && allowedTypes.includes(item.collateralType))
-      .map(item => item.collateralType)
+      .map(item => item.collateralCode)
       .join(',\n');
   }
 
