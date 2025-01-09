@@ -56,6 +56,15 @@ export class CreditProposalNewComponent {
   }
 
   public search(): void {
+    if (this.currentSearch.length !== 10) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Maaf, data CIF yang Anda masukkan harus terdiri dari 10 digit. Silakan periksa kembali dan inputkan CIF yang valid.',
+      });
+      return;
+    }
+
     this.partyCifService
       .findLikeCifSegregasi(this.currentSearch, {
         page: 0,
