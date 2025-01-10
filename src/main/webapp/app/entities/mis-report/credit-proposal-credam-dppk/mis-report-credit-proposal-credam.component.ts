@@ -223,25 +223,25 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
             formattedDifference: `${latestReviewCheckerTime} - ${minutesToTime(jam8Minutes)} = `,
           };
 
-    // Perbaiki format untuk menampilkan hasil
-    const timeDifference = tatTime.timeDifference;
-    const formattedTimeDifference = timeDifference < 0 ? `-${minutesToTime(Math.abs(timeDifference))}` : `${minutesToTime(timeDifference)}`;
+    // Perbaiki format minus untuk menampilkan hasil yang benar tanpa minus
+    const timeDifference = Math.abs(tatTime.timeDifference);
+    const formattedTimeDifference = `${minutesToTime(timeDifference)}`;
 
     // Gabungkan hasil akhir
     const formattedTatTime = `${tatTime.formattedDifference}${formattedTimeDifference}`;
-    const latestDPPKFinalize = timeLineData
-      .filter(item => item.statusDescription === 'DPPK Finalize')
-      .reduce((latest, current) => {
+    const latestDPPKFinalize = timeLineData.filter(item => item.fromStatusDescription === 'DPPK Finalize');
+    if (latestDPPKFinalize.length > 0) {
+      latestDPPKFinalize.reduce((latest, current) => {
         const currentDate = new Date(current?.fromDate);
         const latestDate = new Date(latest?.fromDate);
-
         return currentDate > latestDate ? current : latest;
       });
+    }
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
       dppkNumber: proposal.dppkNumber || '',
-      picCredam: latestDPPKFinalize.personName || '',
+      picCredam: latestDPPKFinalize[0].personName || '',
       debtor: proposal.debtorName || '',
       dpdlInDate:
         timeLineData
@@ -255,12 +255,12 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           .join(',\n') || '',
       dppkOutDate:
         timeLineData
-          .filter(timeline => timeline.statusDescription === 'Loan Ops Distribution')
+          .filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution')
           .map(timeline => this._convertDate(timeline.fromDate))
           .join(',\n') || '',
       dppkOutTime:
         timeLineData
-          .filter(timeline => timeline.statusDescription === 'Loan Ops Distribution')
+          .filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution')
           .map(timeline => this._convertTime(timeline.fromTime))
           .join(',\n') || '',
 
@@ -294,12 +294,12 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       tatDays: tatDayss?.toString() || '',
       tatTime: formattedTatTime || '',
       status: proposal.status || '',
-      transaksi: currentProduct.pengajuan || '',
-      fasilitas: currentProduct.facility || '',
-      ccy: currentProduct.currency || '',
-      nominal: currentProduct.totalPlafond || '',
+      transaksi: proposal.product.map(product => product.pengajuan).join(',\n') || '',
+      fasilitas: proposal.product.map(product => product.facility).join(',\n') || '',
+      ccy: proposal.product.map(product => product.currency).join(',\n') || '',
+      nominal: proposal.product.map(product => product.totalPlafond).join(',\n') || '',
       tglEfektifFas: '',
-      jenisJaminan: proposal.collateral.map(collateral => collateral.collateralType).join('\n') || '',
+      jenisJaminan: proposal.collateral.map(collateral => collateral.collateralType).join(',\n') || '',
       segmentasi: proposal.regionalParentRM || '',
       branch: proposal.bookingBranchName || '',
       rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
