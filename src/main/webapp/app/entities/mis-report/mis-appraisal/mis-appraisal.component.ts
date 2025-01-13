@@ -315,9 +315,9 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
     sortedData.forEach((row, index) => {
       const timeLineData = row.timeLine ? row.timeLine.sort((a, b) => a.id - b.id) : [];
 
-      if (timeLineData.length >= 1) {
-        timeLineData.shift();
-      }
+      // if (timeLineData.length >= 1) {
+      //   timeLineData.shift();
+      // }
 
       worksheet.addRow({
         no: index + 1 || '',
@@ -349,7 +349,7 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
           timeLineData
             .map(
               timeline =>
-                `${timeline.fromStatusDescription || ''} : ${timeline.fromDate || ''} : ${
+                `${timeline.statusDescription || ''} : ${timeline.createdDate || ''} : ${
                   this._processTimelinePersonName(timeline.personName) || ''
                 }`
             )
