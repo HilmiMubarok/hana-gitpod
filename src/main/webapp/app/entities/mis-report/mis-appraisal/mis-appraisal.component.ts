@@ -262,14 +262,15 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
     });
   }
 
-  _processTimelinePersonName(personName: string) {
-    // convert string into array by spliting it by space
+  _processTimelinePersonName(personName: string | null | undefined): string {
+    if (!personName) {
+      return '';
+    }
+
     const personNameArray = personName.split(' ');
 
-    // Check if the array has null value, if true, remove the null
-    const filteredPersonNameArray = personNameArray.filter(name => name !== 'null');
+    const filteredPersonNameArray = personNameArray.filter(name => name.toLowerCase() !== 'null');
 
-    // Join the array into string
     return filteredPersonNameArray.join(' ');
   }
 
