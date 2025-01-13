@@ -1,6 +1,6 @@
 <div *ngIf="group !== 'group'">
   <div class="style-close">
-    <button class="button-close" mat-button mat-dialog-close>X</button>
+    <button class="button-close" mat-button mat-dialog-close (click)="openCancelDialog()">X</button>
   </div>
   <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
   <mat-dialog-content>
@@ -775,7 +775,7 @@
 <!--group-->
 <div *ngIf="group === 'group'">
   <div class="style-close">
-    <button class="button-close" mat-button mat-dialog-close>X</button>
+    <button class="button-close" mat-button mat-dialog-close (click)="openCancelDialog()">X</button>
   </div>
   <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
   <mat-dialog-content>
