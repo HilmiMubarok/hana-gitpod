@@ -172,34 +172,43 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       sort: ['id', 'desc'],
     };
 
-    this.partyCifService.findLikeCifSegregasi(this.cifNumber, predicate).subscribe(res => {
-      if (res.body.length > 0) {
-        this.initDataForMatTable(res, res.headers);
-      } else {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Warning',
-          detail:
-            'Maaf, data CIF ini tercatat sebagai debitur cabang lain di HOBIS. Silakan melakukan update cabang debitur di HOBIS apabila debitur ini adalah debitur Anda.',
-        });
-        this.initDataForMatTable(res, res.headers);
-      }
+    if (this.cifNumber.length !== 10) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Maaf, data CIF yang Anda masukkan harus terdiri dari 10 digit. Silakan periksa kembali dan inputkan CIF yang valid.',
+      });
+    } else {
+      this.partyCifService.findLikeCifSegregasi(this.cifNumber, predicate).subscribe(res => {
+        if (res.body.length > 0) {
+          this.initDataForMatTable(res, res.headers);
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail:
+              'Maaf, data CIF ini tercatat sebagai debitur cabang lain di HOBIS. Silakan melakukan update cabang debitur di HOBIS apabila debitur ini adalah debitur Anda.',
+          });
+          this.initDataForMatTable(res, res.headers);
+        }
 
-      // Validation Kepemilikan Data - Start - Commented with wa group @28.12.2022 (Keys : Dwi)//
-      /* let filteredData = [];
+        // Validation Kepemilikan Data - Start - Commented with wa group @28.12.2022 (Keys : Dwi)//
+        /* let filteredData = [];
     this.accountService.identity().subscribe(account => {
-    filteredData = lodash.filter(res.body, function (item: IPartyCif) {
-      return item.rm.userLogin === account.login;
-    });
+      filteredData = lodash.filter(res.body, function (item: IPartyCif) {
+        return item.rm.userLogin === account.login;
+      });
     });
     if (filteredData.length > 0) {
-    this.initDataForMatTable(res, res.headers);
+      this.initDataForMatTable(res, res.headers);
     } else {
-    this.messageService.add({ severity: 'info', summary: 'DATA CIF!!!', detail: 'DATA CIF TELAH DIAJUKAN OLEH RM LAIN' });
-    // this.loading = false;
-    } */
-      // Validation Kepemilikan Data - End - Commented with wa group @28.12.2022 (Keys : Dwi)//
-    });
+      this.messageService.add({ severity: 'info', summary: 'DATA CIF!!!', detail: 'DATA CIF TELAH DIAJUKAN OLEH RM LAIN' });
+      // this.loading = false;
+    }
+    */
+        // Validation Kepemilikan Data - End - Commented with wa group @28.12.2022 (Keys : Dwi)
+      });
+    }
   }
 
   protected postLoadDataLazy(): void {

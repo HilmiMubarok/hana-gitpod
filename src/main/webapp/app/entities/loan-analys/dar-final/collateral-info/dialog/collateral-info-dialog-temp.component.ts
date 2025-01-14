@@ -376,6 +376,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   }
   // cancel confrimation dialog
   public openCancelDialog(): void {
+    this.caption = 'cancel';
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '25vw',
       data: {

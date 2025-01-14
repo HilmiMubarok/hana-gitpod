@@ -551,6 +551,11 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         route: 'mis-cpslareviewer-report',
       },
       {
+        name: 'SLA Credit Insurance',
+        iconname: 'minus',
+        route: 'mis-sla-credit-insurance-report',
+      },
+      {
         name: 'Credit Proposal',
         iconname: 'minus',
         route: 'mis-creditproposal-report',

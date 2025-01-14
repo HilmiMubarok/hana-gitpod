@@ -69,6 +69,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
 import { CollateralAppraisalSummaryComponent } from './summary/collateral-appraisal-summary.component';
 import { Subject, takeUntil } from 'rxjs';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { CollateralAppraisalValuationPropertyComponent } from './valuation/details/collateral-appraisal-valuation-property.component';
 
 @Component({
   providers: [
@@ -80,6 +81,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalValuationPropertyComponent,
   ],
   selector: 'jhi-collateral-appraisal-main',
   templateUrl: './collateral-appraisal-main-floating.component.html',
@@ -106,6 +108,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   appName: any;
   appNameMenu: any;
   appraisalValidity: any;
+  public valuationData: any[] = [];
   get collateralAppraisal() {
     return this._collateralAppraisal;
   }
@@ -189,7 +192,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
-    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
+    public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent
   ) {
     this.postalAddress = new PartyPostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -333,6 +337,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         }
       });
       this.loadProperty(this.collateral);
+      this.getValuationMVLV();
     });
     this.getTasks();
     this.timeLine();
@@ -473,6 +478,21 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
+    console.log('Copy SurveyAppraisal: ', this.surveyAppraisal);
+
+    if (
+      this.surveyAppraisal.statusId === STATUS.ASSIGNED ||
+      this.surveyAppraisal.statusId === STATUS.VISITED ||
+      this.surveyAppraisal.statusId === STATUS.APPROVAL_TL ||
+      this.surveyAppraisal.statusId === STATUS.APPROVE ||
+      this.surveyAppraisal.statusId === STATUS.COMPLETE
+    ) {
+      if (this.valuationData && this.valuationData.length > 0) {
+        copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.valuationData);
+      } else {
+        copySurveyAppraisal.attributes['valuation'] = {};
+      }
+    }
 
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
 
@@ -1215,5 +1235,19 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
+  }
+
+  // setValuation in Attributes
+  getValuationMVLV(): void {
+    this.collateralPropertyService
+      .getValuationAndProperties(this.collateral, this.surveyAppraisal.id, this.collateralAppraisalValuationPropertyComponent)
+      .subscribe(
+        (result: any[]) => {
+          this.valuationData = result;
+        },
+        error => {
+          console.error('Error fetching valuations:', error);
+        }
+      );
   }
 }

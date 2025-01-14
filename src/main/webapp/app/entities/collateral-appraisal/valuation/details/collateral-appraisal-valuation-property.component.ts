@@ -353,7 +353,9 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
   }
 
   public fnCountTotalLiquidTataKota(param: ICollateralProperty[] = null): number {
-    const totalAreaCertificate = this.totalCountAreaLand - this.collateral.truncatedArea - this.collateral.publicFacilities;
+    const totalAreaCertificate = this.totalCountAreaLand - (this.collateral?.truncatedArea ?? 0) - (this.collateral?.publicFacilities ?? 0);
+
+    // const totalAreaCertificate = this.totalCountAreaLand - this.collateral.truncatedArea - this.collateral.publicFacilities;
     if (param.length > 0 && param) {
       let result: number;
       result = 0;
@@ -391,7 +393,8 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
   // ---------------------------------------------------------------------------------
 
   public fnCountTotalMVTataKota(param: ICollateralProperty[] = null): number {
-    const totalAreaCertificate = this.totalCountAreaLand - this.collateral.truncatedArea - this.collateral.publicFacilities;
+    const totalAreaCertificate = this.totalCountAreaLand - (this.collateral?.truncatedArea ?? 0) - (this.collateral?.publicFacilities ?? 0);
+
     if (param.length > 0 && param) {
       let result: number;
       result = 0;
