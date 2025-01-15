@@ -69,6 +69,7 @@ import { CollateralAppraisalValuationPropertyComponent } from '../collateral-app
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
+	CollateralAppraisalValuationPropertyComponent
     // ReportIndependentCollateralComponent,
   ],
   selector: 'jhi-survey-batch-edit',
