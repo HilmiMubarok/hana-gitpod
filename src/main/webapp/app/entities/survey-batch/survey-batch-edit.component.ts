@@ -57,7 +57,6 @@ import { CollateralAppraisalDetailProcessLandComponent } from '../collateral-app
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import { CollateralAppraisalValuationPropertyComponent } from '../collateral-appraisal/valuation/details/collateral-appraisal-valuation-property.component';
 
 @Component({
   providers: [
@@ -119,7 +118,6 @@ export class SurveyBatchEditComponent implements OnInit {
 
   private _collateralAppraisal: ICollateralAppraisal;
   appraisalValidity: any;
-  valuationData: any[];
   get collateralAppraisal() {
     return this._collateralAppraisal;
   }
@@ -228,8 +226,7 @@ export class SurveyBatchEditComponent implements OnInit {
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
-    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
-    public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -249,20 +246,8 @@ export class SurveyBatchEditComponent implements OnInit {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
-    this.getValuationMVLV();
   }
-  getValuationMVLV(): void {
-    this.collateralPropertyService
-      .getValuationAndProperties(this.collateral, this.surveyAppraisal.id, this.collateralAppraisalValuationPropertyComponent)
-      .subscribe(
-        (result: any[]) => {
-          this.valuationData = result;
-        },
-        error => {
-          console.error('Error fetching valuations:', error);
-        }
-      );
-  }
+
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
@@ -1215,19 +1200,7 @@ export class SurveyBatchEditComponent implements OnInit {
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-    if (
-      this.surveyAppraisal.statusId === STATUS.ASSIGNED ||
-      this.surveyAppraisal.statusId === STATUS.VISITED ||
-      this.surveyAppraisal.statusId === STATUS.APPROVAL_TL ||
-      this.surveyAppraisal.statusId === STATUS.APPROVE ||
-      this.surveyAppraisal.statusId === STATUS.COMPLETE
-    ) {
-      if (this.valuationData && this.valuationData.length > 0) {
-        copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.valuationData);
-      } else {
-        copySurveyAppraisal.attributes['valuation'] = {};
-      }
-    }
+
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
 
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
