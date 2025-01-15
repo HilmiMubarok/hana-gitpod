@@ -73,7 +73,7 @@ import { CollateralAppraisalValuationPropertyComponent } from '../collateral-app
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
-	CollateralAppraisalValuationPropertyComponent
+    CollateralAppraisalValuationPropertyComponent,
   ],
   selector: 'jhi-survey-batch-edit-approval',
   templateUrl: './survey-batch-edit-approval.component.html',
@@ -253,7 +253,6 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
-    this.getValuationMVLV();
   }
   getValuationMVLV(): void {
     this.collateralPropertyService
@@ -679,6 +678,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
           }
         }
       });
+      this.getValuationMVLV();
     });
     this.getTasks();
     this.timeLine();
