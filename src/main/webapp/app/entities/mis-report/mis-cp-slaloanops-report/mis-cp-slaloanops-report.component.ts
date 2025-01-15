@@ -227,7 +227,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
                 fasilitas: prod.facility || '',
                 ccy: prod.currency || '',
                 nominal: prod.totalPlafond || '',
-                tglEfektifFasilitas: '',
+                tglEfektifFasilitas: this.getTanggalEfektifFasilitas(prod),
                 jenisJaminan: prop.collateral.map(coll => coll.collateralCode).join(',\n'),
                 segmentasi: prop.regionalParentRM || '',
                 branch: prop.bookingBranchName || '',
@@ -429,4 +429,22 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         }
     }
 
+    private getTanggalEfektifFasilitas(prod: any) {
+        switch (prod.pengajuan) {
+            case 'New':
+                return `${prod.tenorFasilitas}  ${prod.periodType}` || ''
+            case 'Renewal':
+                return `${prod.mainProduct.maturityDate} s/d ${prod.mainProduct.proposeMaturityDate}` || ''
+            case 'Renewal + Additional':
+                return ``
+            case 'Renewal + Decrease':
+                return ``
+            case 'Existing':
+                return ``
+            case 'Additional / Top Up':
+                return prod.mainProduct.proposeMaturityDate || ''
+            default:
+                return prod.mainProduct.endPeriodRemark || ''
+        }
+    }
 }
