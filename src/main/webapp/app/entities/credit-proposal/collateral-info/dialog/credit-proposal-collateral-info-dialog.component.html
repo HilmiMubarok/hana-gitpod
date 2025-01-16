@@ -1,6 +1,6 @@
 <div *ngIf="group !== 'group'">
   <div class="style-close">
-    <button class="button-close" mat-button mat-dialog-close (click)="openCancelDialog()">X</button>
+    <button class="button-close" mat-button (click)="openCancelDialog()">X</button>
   </div>
   <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
   <mat-dialog-content>
@@ -759,7 +759,7 @@
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
       <div class="form-group" [hidden]="parentPath === 'finalize' ? true : false">
-        <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
+        <button mat-raised-button class="confirm-button-no">Cancel</button>
         <button *ngIf="!disable" mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
       </div>
     </section>
@@ -775,7 +775,7 @@
 <!--group-->
 <div *ngIf="group === 'group'">
   <div class="style-close">
-    <button class="button-close" mat-button mat-dialog-close (click)="openCancelDialog()">X</button>
+    <button class="button-close" mat-button (click)="openCancelDialog()">X</button>
   </div>
   <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
   <mat-dialog-content>

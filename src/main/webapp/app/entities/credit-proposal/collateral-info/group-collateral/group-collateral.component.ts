@@ -232,16 +232,24 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         const filter: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
           obj => obj.collateralId === element.id
         );
+
         if (filter) {
           const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
             return o.collateralId === element.id;
           });
-          this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = false;
+
+          if (idx !== -1) {
+            this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = false;
+
+            if (!this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis) {
+              this.creditProposal.collateralProductRelations = this.creditProposal.collateralProductRelations.filter(
+                relation => relation.collateralId !== this.creditProposal.attributes['groupChecklisCollateral'][idx].collateralId
+              );
+            }
+          }
         }
-        this.findAndCleanConnection();
-        // do nothing; done by another function
+        this.creditProposalService.changeColRelByCP(this.creditProposal);
       }
-      this.creditProposalService.changeColRelByCP(this.creditProposal);
     }
   }
   private checkIndividualCol(cp: ICreditProposal): void {
