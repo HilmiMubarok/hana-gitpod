@@ -186,7 +186,7 @@ export class GroupCollateralDarComponent implements OnInit, OnChanges {
               this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
               this.creditProposal.collateralProductRelations[index].collateralId === this.groupCollaterals[k].id
             ) {
-              this.creditProposal.collateralProductRelations.splice(index);
+              this.creditProposal.collateralProductRelations.splice(index, 1);
             }
           }
         }
