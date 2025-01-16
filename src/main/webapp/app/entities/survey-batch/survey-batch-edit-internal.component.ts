@@ -1272,7 +1272,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       if (this.valuationData && this.valuationData.length > 0) {
         copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.valuationData);
       } else {
-        copySurveyAppraisal.attributes['valuation'] = {};
+        copySurveyAppraisal.attributes['valuation'];
       }
     }
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {

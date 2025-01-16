@@ -1226,7 +1226,7 @@ export class SurveyBatchEditComponent implements OnInit {
       if (this.valuationData && this.valuationData.length > 0) {
         copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.valuationData);
       } else {
-        copySurveyAppraisal.attributes['valuation'] = {};
+        copySurveyAppraisal.attributes['valuation'];
       }
     }
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
