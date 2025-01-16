@@ -195,12 +195,12 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
               liquidationValue = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquid([collateralProperty]);
               liquidationValueIMB = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquidIMB([collateralProperty]);
               liquidationValueTataKota = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquidTataKota([collateralProperty]);
-            } else if (
-              collateralProperty.propertyType === CollateralPropertyType.MACHINE ||
-              collateralProperty.propertyType === CollateralPropertyType.VEHICLE
-            ) {
-              marketValue = collateralProperty.marketValue;
-              liquidationValue = collateralProperty.liquidationValue;
+            } else if (collateralProperty.propertyType === CollateralPropertyType.VEHICLE) {
+              marketValue = this.roundHundred(collateralProperty.vehicleMarketValue);
+              liquidationValue = this.roundHundred(this.fnCountTotalLiquidVehicle([collateralProperty]));
+            } else if (collateralProperty.propertyType === CollateralPropertyType.MACHINE) {
+              marketValue = this.roundHundred(collateralProperty.machineMarketValue);
+              liquidationValue = this.roundHundred(this.fnCountTotalLiquidMachine([collateralProperty]));
             }
 
             const key = `${collateralProperty.collateralId}_${collateralProperty.propertyType}`;
