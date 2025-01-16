@@ -59,6 +59,7 @@ import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-ap
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { CollateralAppraisalValuationPropertyComponent } from '../collateral-appraisal/valuation/details/collateral-appraisal-valuation-property.component';
 @Component({
   providers: [
     CollateralAppraisalProcessComponent,
@@ -70,6 +71,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
+    CollateralAppraisalValuationPropertyComponent,
   ],
   selector: 'jhi-survey-batch-edit-internal',
   templateUrl: './survey-batch-edit-internal.component.html',
@@ -111,6 +113,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
   private _collateralAppraisal: ICollateralAppraisal;
   appraisalValidity: any;
+  public valuationData: any[] = [];
   get collateralAppraisal() {
     return this._collateralAppraisal;
   }
@@ -222,6 +225,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
     public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
     public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent,
+    public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent,
     public templateService: TemplateService
   ) {
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
@@ -243,10 +247,20 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
-
     this.getPositionTypeId();
   }
-
+  getValuationMVLV(): void {
+    this.collateralPropertyService
+      .getValuationAndProperties(this.collateral, this.surveyAppraisal.id, this.collateralAppraisalValuationPropertyComponent)
+      .subscribe(
+        (result: any[]) => {
+          this.valuationData = result;
+        },
+        error => {
+          console.error('Error fetching valuations:', error);
+        }
+      );
+  }
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.positionTypeId = newPos.positionTypeId;
@@ -652,6 +666,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
           }
         }
       });
+      this.getValuationMVLV();
     });
     this.getTasks();
     this.timeLine();
@@ -1247,7 +1262,19 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
 
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
-
+    if (
+      this.surveyAppraisal.statusId === STATUS.ASSIGNED ||
+      this.surveyAppraisal.statusId === STATUS.VISITED ||
+      this.surveyAppraisal.statusId === STATUS.APPROVAL_TL ||
+      this.surveyAppraisal.statusId === STATUS.APPROVE ||
+      this.surveyAppraisal.statusId === STATUS.COMPLETE
+    ) {
+      if (this.valuationData && this.valuationData.length > 0) {
+        copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.valuationData);
+      } else {
+        copySurveyAppraisal.attributes['valuation'] = {};
+      }
+    }
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
       copySurveyAppraisal.attributes['marketbility'] = JSON.stringify(this.collateralAppraisal.attributes['marketbility']);
     } else {

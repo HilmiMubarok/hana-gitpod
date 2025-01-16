@@ -37,7 +37,7 @@
           <div class="col-6">
             <mat-form-field appearance="outline" style="float: right; width: 100%">
               <mat-label>Search</mat-label>
-              <input matInput type="text" [(ngModel)]="currentSearch" />
+              <input (keyup.enter)="doSearch($event)" matInput type="text" [(ngModel)]="currentSearch" />
               <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch($event)">
                 <mat-icon>search</mat-icon>
               </button>
