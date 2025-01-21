@@ -104,7 +104,6 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
 
   refresh(): void {
     this.creditProposalService.find(this.creditProposal.id).subscribe((response: any) => {
-      this.creditProposal = response.body;
       this.creditProposal.entityProperties = response.body.entityProperties;
 
       this.approvalDebtorCorporateService.setApprovalDebtorConditions(this.creditProposal.entityProperties);
@@ -495,5 +494,5 @@ export class FinalizeCreditAgreementComponent implements OnInit, OnChanges, OnDe
     });
   }
 
-  public addRow() {}
+  public addRow() { }
 }
