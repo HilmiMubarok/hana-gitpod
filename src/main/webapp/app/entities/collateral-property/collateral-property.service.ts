@@ -162,18 +162,11 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
               o.propertyType === CollateralPropertyType.LAND
           );
 
-          const valuationsMap: {
-            [key: string]: {
-              marketValue: number;
-              marketValueIMB: number;
-              marketValueTataKota: number;
-              liquidationValue: number;
-              liquidationValueIMB: number;
-              liquidationValueTataKota: number;
-            };
-          } = {};
-
-          collateralProperties.forEach(collateralProperty => {
+          const result = collateralProperties.map(collateralProperty => {
+            let landSizePerCertificate = 0;
+            let area = 0;
+            let imbArea = 0;
+            let propertyTatakota = 0;
             let marketValue = 0;
             let marketValueIMB = 0;
             let marketValueTataKota = 0;
@@ -182,6 +175,10 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
             let liquidationValueTataKota = 0;
 
             if (collateralProperty.propertyType === CollateralPropertyType.BUILDING) {
+              landSizePerCertificate = collateralProperty.landSizePerCertificate;
+              area = collateralAppraisalValuationPropertyComponent.countTotalArea(collateralProperty);
+              imbArea = collateralProperty.imbArea;
+              propertyTatakota = collateralProperty.propertyAreaTataKota;
               marketValue = collateralAppraisalValuationPropertyComponent.fnCountTotalMVbuil([collateralProperty]);
               marketValueIMB = collateralAppraisalValuationPropertyComponent.fnCountTotalMVIMBbuil([collateralProperty]);
               marketValueTataKota = collateralAppraisalValuationPropertyComponent.fnCountTotalMVTataKotabuil([collateralProperty]);
@@ -189,63 +186,47 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
               liquidationValueIMB = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquidIMBbuil([collateralProperty]);
               liquidationValueTataKota = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquidTataKotabuil([collateralProperty]);
             } else if (collateralProperty.propertyType === CollateralPropertyType.LAND) {
+              landSizePerCertificate = collateralProperty.landSizePerCertificate;
+              area = collateralAppraisalValuationPropertyComponent.countTotalArea(collateralProperty);
+              imbArea = collateralProperty.imbArea;
+              propertyTatakota = collateralProperty.propertyAreaTataKota;
               marketValue = collateralAppraisalValuationPropertyComponent.fnCountTotalMV([collateralProperty]);
               marketValueIMB = collateralAppraisalValuationPropertyComponent.fnCountTotalMVIMB([collateralProperty]);
               marketValueTataKota = collateralAppraisalValuationPropertyComponent.fnCountTotalMVTataKota([collateralProperty]);
               liquidationValue = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquid([collateralProperty]);
               liquidationValueIMB = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquidIMB([collateralProperty]);
               liquidationValueTataKota = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquidTataKota([collateralProperty]);
-            } else if (
-              collateralProperty.propertyType === CollateralPropertyType.MACHINE ||
+            } else if (collateralProperty.propertyType === CollateralPropertyType.VEHICLE) {
+              marketValue = this.roundHundred(collateralProperty.vehicleMarketValue);
+              liquidationValue = this.roundHundred(this.fnCountTotalLiquidVehicle([collateralProperty]));
+            } else if (collateralProperty.propertyType === CollateralPropertyType.MACHINE) {
+              marketValue = this.roundHundred(collateralProperty.machineMarketValue);
+              liquidationValue = this.roundHundred(this.fnCountTotalLiquidMachine([collateralProperty]));
+            }
+
+            return collateralProperty.propertyType === CollateralPropertyType.MACHINE ||
               collateralProperty.propertyType === CollateralPropertyType.VEHICLE
-            ) {
-              marketValue = collateralProperty.marketValue;
-              liquidationValue = collateralProperty.liquidationValue;
-            }
-
-            const key = `${collateralProperty.collateralId}_${collateralProperty.propertyType}`;
-
-            if (valuationsMap[key]) {
-              valuationsMap[key].marketValue += collateralAppraisalValuationPropertyComponent.roundHundred(marketValue);
-              valuationsMap[key].marketValueIMB += collateralAppraisalValuationPropertyComponent.roundHundred(marketValueIMB);
-              valuationsMap[key].marketValueTataKota += collateralAppraisalValuationPropertyComponent.roundHundred(marketValueTataKota);
-              valuationsMap[key].liquidationValue += collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValue);
-              valuationsMap[key].liquidationValueIMB += collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValueIMB);
-              valuationsMap[key].liquidationValueTataKota +=
-                collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValueTataKota);
-            } else {
-              valuationsMap[key] = {
-                marketValue: collateralAppraisalValuationPropertyComponent.roundHundred(marketValue),
-                marketValueIMB: collateralAppraisalValuationPropertyComponent.roundHundred(marketValueIMB),
-                marketValueTataKota: collateralAppraisalValuationPropertyComponent.roundHundred(marketValueTataKota),
-                liquidationValue: collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValue),
-                liquidationValueIMB: collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValueIMB),
-                liquidationValueTataKota: collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValueTataKota),
-              };
-            }
-          });
-
-          const result = Object.keys(valuationsMap).map(key => {
-            const [collateralId, propertyType] = key.split('_');
-            const valuation = valuationsMap[key];
-            return propertyType === CollateralPropertyType.MACHINE || propertyType === CollateralPropertyType.VEHICLE
               ? {
                   appraisalId,
-                  collateralId,
-                  propertyType,
-                  marketValue: valuation.marketValue,
-                  liquidationValue: valuation.liquidationValue,
+                  collateralId: collateralProperty.collateralId,
+                  propertyType: collateralProperty.propertyType,
+                  marketValue: collateralAppraisalValuationPropertyComponent.roundHundred(marketValue),
+                  liquidationValue: collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValue),
                 }
               : {
                   appraisalId,
-                  collateralId,
-                  propertyType,
-                  marketValue: valuation.marketValue,
-                  marketValueIMB: valuation.marketValueIMB,
-                  marketValueTataKota: valuation.marketValueTataKota,
-                  liquidationValue: valuation.liquidationValue,
-                  liquidationValueIMB: valuation.liquidationValueIMB,
-                  liquidationValueTataKota: valuation.liquidationValueTataKota,
+                  collateralId: collateralProperty.collateralId,
+                  propertyType: collateralProperty.propertyType,
+                  landSizePerCertificate,
+                  area,
+                  imbArea,
+                  propertyTatakota,
+                  marketValue: collateralAppraisalValuationPropertyComponent.roundHundred(marketValue),
+                  marketValueIMB: collateralAppraisalValuationPropertyComponent.roundHundred(marketValueIMB),
+                  marketValueTataKota: collateralAppraisalValuationPropertyComponent.roundHundred(marketValueTataKota),
+                  liquidationValue: collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValue),
+                  liquidationValueIMB: collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValueIMB),
+                  liquidationValueTataKota: collateralAppraisalValuationPropertyComponent.roundHundred(liquidationValueTataKota),
                 };
           });
 

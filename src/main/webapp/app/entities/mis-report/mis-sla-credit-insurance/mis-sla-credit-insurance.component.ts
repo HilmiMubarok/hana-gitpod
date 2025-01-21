@@ -464,9 +464,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
         let tatTime = '';
         if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
-          let differenceMs = targetDate.getTime() - fromDateTimeObject.getTime();
-
-          differenceMs = Math.abs(differenceMs);
+          const differenceMs = targetDate.getTime() - fromDateTimeObject.getTime();
 
           const hours = Math.floor(differenceMs / (1000 * 60 * 60));
           const minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));

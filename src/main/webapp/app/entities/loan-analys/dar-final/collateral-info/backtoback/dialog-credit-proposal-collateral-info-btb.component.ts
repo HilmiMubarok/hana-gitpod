@@ -151,6 +151,7 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
       this.setCollateralDetail();
     });
     this.setBranches();
+    this.cekCurrency();
   }
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
