@@ -109,6 +109,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             { header: 'Expiry Date', key: 'expiryDate', width: 15 },
             { header: 'Insurance Currency', key: 'insuranceCurrency', width: 20 },
             { header: 'Insurance Amount', key: 'insuranceAmount', width: 20 },
+            { header: 'Broker Name', key: 'brokerName', width: 25 },
             { header: 'Company Name', key: 'companyName', width: 25 },
             { header: 'Status Banker Clause', key: 'statusBankerClause', width: 25 },
             { header: 'Policy Document', key: 'policyDocument', width: 20 },
@@ -242,18 +243,47 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
                         expiryDate: insurance.expiryDate ? this._formatDateSLA(insurance.expDate) : '',
                         insuranceCurrency: insurance.currency || '',
                         insuranceAmount: insurance.insuranceAmount || '',
+                        brokerName: insurance.brokerCompany || '',
                         companyName: insurance.corpName || '',
                         statusBankerClause: insurance.statusBankerClause || '',
                         policyDocument: insurance.policyDocument || '',
                         paymentStatus: insurance.paymentStatus || '',
-                        time: '',
-                        operatorName: '',
+                        time: this._getMakerOutDate(proposal.timeLineInsurance),
+                        operatorName: this._getOperatorName(proposal.timeLineInsurance),
                         remark: insurance.remarks || ''
                     };
                     worksheet.addRow(rowData);
                 });
             }
         });
+    }
+
+    private _getOperatorName(timeLineInsurance: any[]): string {
+        if (!Array.isArray(timeLineInsurance)) {
+            return '';
+        }
+
+        return timeLineInsurance
+            .filter((item: any) => item.statusDescription === 'Insurance Review')
+            .map((item: any) => item.personName)
+            .join(',\n');
+    }
+
+    private _getMakerOutDate(timeLineInsurance: any[]): string {
+        console.log(timeLineInsurance);
+        if (!Array.isArray(timeLineInsurance)) {
+            return '';
+        }
+
+        return timeLineInsurance
+            .filter((item: any) => item.statusDescription === 'Insurance Review')
+            .map((item: any) => {
+                const date = new Date(item.fromDate);
+                console.log(date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }));
+                return isNaN(date.getTime()) ? '' : date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            })
+            .filter(Boolean)
+            .join(',\n');
     }
 
     private _applyStyles(): void {
@@ -266,6 +296,8 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             'approvalNumber',
             'productName',
             'certificateNumber',
+            'time',
+            'operatorName'
         ];
 
         columnsToBeWraped.forEach(column => {
