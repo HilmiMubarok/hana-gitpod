@@ -88,8 +88,8 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       { header: 'DPPK Number', key: 'dppkNumber', width: 40 },
       { header: 'PIC Credam', key: 'picCredam', width: 50 },
       { header: 'Debtor', key: 'debtor', width: 50 },
-      { header: 'DPDL In Date', key: 'dpdlInDate', width: 50 },
-      { header: 'DPDL In Time', key: 'dpdlInTime', width: 50 },
+      { header: 'DPPK In Date', key: 'dppkInDate', width: 50 },
+      { header: 'DPPK In Time', key: 'dppkInTime', width: 50 },
       { header: 'DPPK Out Date', key: 'dppkOutDate', width: 50 },
       { header: 'DPPK Out Time', key: 'dppkOutTime', width: 50 },
       { header: 'Checker Out Name', key: 'checkOutName', width: 50 },
@@ -122,14 +122,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     });
   }
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
-    const timeLineData = proposal.timeLineCreditProposal ? proposal.timeLineCreditProposal.sort((a, b) => a.id - b.id) : [];
-    if (timeLineData.length >= 1) {
-      timeLineData.shift();
-    }
-    // Sort products by productId in ascending order
-    const products = [...(proposal.product || [])].sort((a, b) => a.productId - b.productId);
-    const currentProduct = products[index] || {};
-    // Start index for merging rows related to the current proposal
+    const timeLineData = proposal.timeLineCreditProposal.sort((a, b) => a.id - b.id);
     const startRow = worksheet.rowCount + 1;
     const latestReviewCheckerDate = timeLineData.filter(item => item.statusDescription === 'Review Checker 2');
     if (latestReviewCheckerDate.length > 0) {
@@ -139,35 +132,22 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         return currentDate > latestDate ? current : latest;
       });
     }
-    const latestDPDLFinalizeDate = timeLineData.filter(item => item.statusDescription === 'DPDL Finalize');
-    if (latestDPDLFinalizeDate.length > 0) {
-      latestDPDLFinalizeDate.reduce((latest, current) => {
-        const currentDate = new Date(current?.fromDate);
-        const latestDate = new Date(latest?.fromDate);
-        return currentDate > latestDate ? current : latest;
-      });
-    }
+    const latestDPPKFinalizeDate = timeLineData.filter(item => item.statusDescription === 'DPPK Finalize');
     const reviewCheckerDate = latestReviewCheckerDate[0]?.fromDate;
-    const dpdlFinalizeDate = latestDPDLFinalizeDate[0]?.fromDate;
+    const latestDPPKFinalizeDates = latestDPPKFinalizeDate[0]?.fromDate;
     function calculateDaysDifference(date1, date2) {
+      if (!date1 || !date2) {
+        return '';
+      }
       const d1 = new Date(date1).getTime();
       const d2 = new Date(date2).getTime();
       const timeDifference = d1 - d2;
       return Math.round(timeDifference / (1000 * 60 * 60 * 24)); // Konversi ke hari
     }
     // Hitung Tatdays
-    const tatDayss = calculateDaysDifference(reviewCheckerDate, dpdlFinalizeDate);
-    const latestDPDLFinalizeTime = timeLineData
-      .filter(item => item.statusDescription === 'DPDL Finalize')
-      .reduce(
-        (latest, current) => {
-          const latestTimeInMinutes = toMinutes(latest.fromTime);
-          const currentTimeInMinutes = toMinutes(current.fromTime);
-          return currentTimeInMinutes > latestTimeInMinutes ? current : latest;
-        },
-        { fromTime: '' }
-      )
-      .fromTime.slice(0, 5); // Ambil hanya jam dan menit
+    const tatDayss = calculateDaysDifference(reviewCheckerDate, latestDPPKFinalizeDates);
+    const latestDPPKFinalizeTime = timeLineData.filter(item => item.statusDescription === 'DPPK Finalize');
+    const firstEntryTime = latestDPPKFinalizeTime.length > 0 ? latestDPPKFinalizeTime[0].fromTime.slice(0, 5) : null;
     const latestReviewCheckerTime = timeLineData
       .filter(item => item.fromStatusDescription === 'Review Checker 2')
       .reduce(
@@ -209,26 +189,21 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     // Hardcoded jam 08:00 untuk referensi
     const jam8Minutes = timeStringToMinutes('08:00');
     // Konversi waktu dari data
-    const latestDPDLFinalizeTimeM = timeStringToMinutes(latestDPDLFinalizeTime);
+    const latestDPPKFinalizeTimeM = timeStringToMinutes(firstEntryTime);
     const latestReviewCheckerTimeM = timeStringToMinutes(latestReviewCheckerTime);
     // Hitung selisih waktu
     const tatTime =
       tatDayss === 0
         ? {
-            timeDifference: latestReviewCheckerTimeM - latestDPDLFinalizeTimeM,
-            formattedDifference: `${latestReviewCheckerTime} - ${latestDPDLFinalizeTime} = `,
+            timeDifference: latestReviewCheckerTimeM - latestDPPKFinalizeTimeM,
+            formattedDifference: `${latestReviewCheckerTime} - ${firstEntryTime} = `,
           }
         : {
             timeDifference: latestReviewCheckerTimeM - jam8Minutes,
             formattedDifference: `${latestReviewCheckerTime} - ${minutesToTime(jam8Minutes)} = `,
           };
-
-    // Perbaiki format minus untuk menampilkan hasil yang benar tanpa minus
-    const timeDifference = Math.abs(tatTime.timeDifference);
-    const formattedTimeDifference = `${minutesToTime(timeDifference)}`;
-
     // Gabungkan hasil akhir
-    const formattedTatTime = `${tatTime.formattedDifference}${formattedTimeDifference}`;
+    const formattedTatTime = `${tatTime.formattedDifference}${tatTime.timeDifference}`;
     const latestDPPKFinalize = timeLineData.filter(item => item.fromStatusDescription === 'DPPK Finalize');
     if (latestDPPKFinalize.length > 0) {
       latestDPPKFinalize.reduce((latest, current) => {
@@ -243,24 +218,24 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       dppkNumber: proposal.dppkNumber || '',
       picCredam: latestDPPKFinalize[0].personName || '',
       debtor: proposal.debtorName || '',
-      dpdlInDate:
+      dppkInDate:
         timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPDL Finalize')
+          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
           .map(timeline => this._convertDate(timeline.fromDate))
           .join(',\n') || '',
-      dpdlInTime:
+      dppkInTime:
         timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPDL Finalize')
+          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
           .map(timeline => this._convertTime(timeline.fromTime))
           .join(',\n') || '',
       dppkOutDate:
         timeLineData
-          .filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution')
+          .filter(timeline => timeline.statusDescription === 'DPPK Review')
           .map(timeline => this._convertDate(timeline.fromDate))
           .join(',\n') || '',
       dppkOutTime:
         timeLineData
-          .filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution')
+          .filter(timeline => timeline.statusDescription === 'DPPK Review')
           .map(timeline => this._convertTime(timeline.fromTime))
           .join(',\n') || '',
 
@@ -362,7 +337,22 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   }
   private _applyStyles(worksheet: ExcelJS.Worksheet): void {
     super.applyStyles('fffefd32');
-    const columnsToBeWraped = ['dpdlInDate', 'dpdlInTime'];
+    const columnsToBeWraped = [
+      'dppkInDate',
+      'dppkInTime',
+      'jenisJaminan',
+      'keterangan',
+      'transaksi',
+      'fasilitas',
+      'ccy',
+      'nominal',
+      'dppkOutDate',
+      'dppkOutTime',
+      'checkerOutDate',
+      'checkerOutTime',
+      'approvalOutDate',
+      'approvalOutTime',
+    ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {
         vertical: 'middle',
