@@ -546,7 +546,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
           const differenceMs = targetDate.getTime() - fromDateTimeObject.getTime();
 
           const hours = Math.floor(differenceMs / (1000 * 60 * 60));
-          const minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));
+          const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
 
           tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
         }
