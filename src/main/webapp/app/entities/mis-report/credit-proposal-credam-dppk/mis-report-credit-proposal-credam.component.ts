@@ -134,7 +134,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     }
     const latestDPPKFinalizeDate = timeLineData.filter(item => item.statusDescription === 'DPPK Finalize');
     const reviewCheckerDate = latestReviewCheckerDate[0]?.fromDate;
-    const latestDPPKFinalizeDates = latestDPPKFinalizeDate[0]?.fromDate;
+    const latestDPPKFinalizeDates = latestDPPKFinalizeDate[latestDPPKFinalizeDate.length - 1].fromDate;
     function calculateDaysDifference(date1, date2) {
       if (!date1 || !date2) {
         return '';
@@ -142,7 +142,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       const d1 = new Date(date1).getTime();
       const d2 = new Date(date2).getTime();
       const timeDifference = d1 - d2;
-      return Math.round(timeDifference / (1000 * 60 * 60 * 24)); // Konversi ke hari
+      return Math.abs(Math.round(timeDifference / (1000 * 60 * 60 * 24))); // Konversi ke hari
     }
     // Hitung Tatdays
     const tatDayss = calculateDaysDifference(reviewCheckerDate, latestDPPKFinalizeDates);
@@ -203,7 +203,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
             formattedDifference: `${latestReviewCheckerTime} - ${minutesToTime(jam8Minutes)} = `,
           };
     // Gabungkan hasil akhir
-    const formattedTatTime = `${tatTime.formattedDifference}${tatTime.timeDifference}`;
+    const formattedTatTime = `${tatTime.formattedDifference}${minutesToTime(tatTime.timeDifference)}`;
     const latestDPPKFinalize = timeLineData.filter(item => item.fromStatusDescription === 'DPPK Finalize');
     if (latestDPPKFinalize.length > 0) {
       latestDPPKFinalize.reduce((latest, current) => {
