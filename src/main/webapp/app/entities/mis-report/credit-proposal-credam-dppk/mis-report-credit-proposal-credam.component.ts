@@ -136,6 +136,9 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     const reviewCheckerDate = latestReviewCheckerDate[0]?.fromDate;
     const latestDPPKFinalizeDates = latestDPPKFinalizeDate[latestDPPKFinalizeDate.length - 1].fromDate;
     function calculateDaysDifference(date1, date2) {
+      if (!date1 || !date2) {
+        return '';
+      }
       const d1 = new Date(date1).getTime();
       const d2 = new Date(date2).getTime();
       const timeDifference = d1 - d2;
