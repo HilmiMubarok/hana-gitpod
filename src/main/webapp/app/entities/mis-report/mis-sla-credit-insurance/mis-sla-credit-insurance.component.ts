@@ -209,13 +209,21 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       .filter((item: any) => item.statusDescription === 'Insurance Checking')
       .map((item: any) => {
         const date = new Date(item.fromDate);
-        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        if (isNaN(date.getTime())) {
+          return '';
+        }
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
       })
       .filter(Boolean)
       .join(',\n');
   }
 
-  private _getMakerInDateFiladsadtered(timeLineInsurance: any[]): string {
+  private _getMakerInDateFilteredLast(timeLineInsurance: any[]): string {
     if (!Array.isArray(timeLineInsurance)) {
       return '';
     }
@@ -229,6 +237,22 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       .filter(Boolean);
 
     return data.length ? data[data.length - 1] : '';
+  }
+
+  private _getMakerInDateFilteredFirst(timeLineInsurance: any[]): string {
+    if (!Array.isArray(timeLineInsurance)) {
+      return '';
+    }
+
+    const data = timeLineInsurance
+      .filter((item: any) => item.statusDescription === 'Insurance Checking')
+      .map((item: any) => {
+        const date = new Date(item.fromDate);
+        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      })
+      .filter(Boolean);
+
+    return data.length ? data[0] : '';
   }
 
   private _getMakerInTimeFiltered(timeLineInsurance: any[]): string {
@@ -260,7 +284,15 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       .filter((item: any) => item.statusDescription === 'Insurance Review')
       .map((item: any) => {
         const date = new Date(item.fromDate);
-        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        if (isNaN(date.getTime())) {
+          return '';
+        }
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
       })
       .filter(Boolean)
       .join(',\n');
@@ -316,7 +348,19 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
     return timeLineInsurance
       .filter((item: any) => item.statusDescription === 'Insurance Complete')
-      .map((item: any) => item.fromDate)
+      .map((item: any) => {
+        const date = new Date(item.fromDate);
+        if (isNaN(date.getTime())) {
+          return '';
+        }
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+      })
+      .filter(Boolean)
       .join(',\n');
   }
 
@@ -343,7 +387,16 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
     return timeLineInsurance
       .filter((item: any) => item.statusDescription === 'Insurance Complete')
-      .map((item: any) => item.fromTime)
+      .map((item: any) => {
+        const timeParts = item.fromTime?.split(':');
+        if (!timeParts || timeParts.length < 2) {
+          return '';
+        }
+        const hours = timeParts[0].padStart(2, '0');
+        const minutes = timeParts[1].padStart(2, '0');
+        return `${hours}:${minutes}`;
+      })
+      .filter(Boolean)
       .join(',\n');
   }
 
@@ -364,7 +417,20 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
     return timeLineCreditProposal
       .filter((item: any) => item.statusDescription === 'OL Distribution')
-      .map((item: any) => item.fromTime)
+      .map((item: any) => {
+        const time = item.fromTime;
+
+        const timeParts = time.split(':');
+        if (timeParts.length !== 3) {
+          console.error(`Invalid time format: ${item.fromTime}`);
+          return '';
+        }
+
+        const hours = timeParts[0].padStart(2, '0');
+        const minutes = timeParts[1].padStart(2, '0');
+        return `${hours}:${minutes}`;
+      })
+      .filter(Boolean)
       .join(',\n');
   }
 
@@ -385,10 +451,20 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       return '';
     }
 
-    return timeLineCreditProposal
+    const formattedDates = timeLineCreditProposal
       .filter((item: any) => item.statusDescription === 'OL Distribution')
-      .map((item: any) => item.fromDate)
+      .map((item: any) => {
+        const date = new Date(item.fromDate);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const formattedDate = `${day}-${month}-${year}`;
+
+        return formattedDate;
+      })
       .join(',\n');
+
+    return formattedDates;
   }
 
   private _getDarIssuedDateFilteredLast(timeLineCreditProposal: any[]): string {
@@ -421,11 +497,14 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
   }
 
   private _addProposalData(ws: ExcelJS.Worksheet, prop: any, idx: number): void {
-    const startRow = ws.rowCount + 1;
+    const startRow = ws.rowCount;
+
+    let counter = startRow;
 
     prop.collateral?.forEach((col: any) => {
-      col.collateralInsurance?.forEach((insurance: any) => {
-        const latestMakerInDate = this._getMakerInDateFiltered(prop.timeLineInsurance);
+      col.collateralInsurance?.forEach((insurance: any, index: number) => {
+        const latestMakerInDate = this._getMakerInDateFilteredLast(prop.timeLineInsurance);
+        const firstMakerInDdate = this._getMakerInDateFilteredFirst(prop.timeLineInsurance);
         const latestApprovalOutDate = this._getApprovalOutDateFilteredLast(prop.timeLineInsurance);
         const latestApprovalOutTime = this._getApprovalOutTimeFilteredLast(prop.timeLineInsurance);
         const latestDarIssuedDate = this._getDarIssuedDateFilteredLast(prop.timeLineCreditProposal);
@@ -433,8 +512,8 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
         // Hitung TAT Days
         let tatDays = null;
-        if (latestMakerInDate && latestApprovalOutDate) {
-          const makerDateParts = latestMakerInDate.split('/');
+        if (firstMakerInDdate && latestApprovalOutDate) {
+          const makerDateParts = firstMakerInDdate.split('/');
           const approvalDateParts = latestApprovalOutDate.split('/');
 
           const makerDate = new Date(`${makerDateParts[2]}-${makerDateParts[1]}-${makerDateParts[0]}`);
@@ -464,18 +543,16 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
         let tatTime = '';
         if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
-          let differenceMs = targetDate.getTime() - fromDateTimeObject.getTime();
-
-          differenceMs = Math.abs(differenceMs);
+          const differenceMs = targetDate.getTime() - fromDateTimeObject.getTime();
 
           const hours = Math.floor(differenceMs / (1000 * 60 * 60));
-          const minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));
+          const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
 
           tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
         }
 
         const dataRow = {
-          no: idx + 1,
+          no: counter++,
           debtor: prop.debtorName || '',
           picCreditIns: this._getPICCreditInsNameFiltered(prop.timeLineInsurance),
           transaksiKredit: prop.product?.map((prod: any) => prod.pengajuan).join(',\n') || '',
@@ -497,8 +574,18 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
           currency: insurance.currency || '',
           np: insurance.insuranceAmount || '',
           jatuhTempo: insurance.expDate
-            ? new Date(insurance.expDate).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' })
+            ? (() => {
+                const date = new Date(insurance.expDate);
+                if (isNaN(date.getTime())) {
+                  return '';
+                }
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}-${month}-${year}`;
+              })()
             : '',
+
           keterangan: insurance.remarks || '',
           segment: prop.regionalParentRM || '',
           branch: prop.bookingBranchName || '',
@@ -510,13 +597,6 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
         ws.addRow(dataRow);
       });
     });
-
-    const endRow = ws.rowCount;
-    const rowCount = endRow - startRow + 1;
-
-    if (rowCount > 1) {
-      this._mergeCells(ws, startRow, rowCount, ['A']);
-    }
   }
 
   private _mergeCells(worksheet: ExcelJS.Worksheet, startRow: number, rowCount: number, columns: string[]): void {

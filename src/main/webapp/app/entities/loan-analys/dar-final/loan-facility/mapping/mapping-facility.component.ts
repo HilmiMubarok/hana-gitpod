@@ -146,7 +146,13 @@ export class MappingFacilityTempComponent implements OnChanges, OnInit {
       for (let i = 0; i < this.applicationProductData.length; i++) {
         this.bindingValueHelper.push(0);
         this.mappingStatusHelper.push('no');
-        this.setCrossCollateral(i);
+        const exists = this.creditProposalData.collateralProductRelations?.some(
+          relation =>
+            relation.collateralId === this.collateralInfo.id && relation.applicationProduct?.id === this.applicationProductData[i].id
+        );
+        if (this.checked && !exists) {
+          this.setCrossCollateral(i);
+        }
         if (this.creditProposalData.collateralProductRelations) {
           if (this.creditProposalData.collateralProductRelations.length > 0) {
             for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {

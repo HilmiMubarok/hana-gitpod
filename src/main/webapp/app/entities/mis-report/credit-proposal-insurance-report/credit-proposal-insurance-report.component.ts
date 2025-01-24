@@ -85,11 +85,11 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         return [
             { header: 'No', key: 'no', width: 5 },
             { header: 'CIF Number', key: 'cifNumber', width: 15 },
-            { header: 'Name', key: 'name', width: 20 },
-            { header: 'Collateral No', key: 'collateralNo', width: 15 },
+            { header: 'Name', key: 'name', width: 30 },
+            { header: 'Collateral No', key: 'collateralNo', width: 20 },
             { header: 'Branch Code', key: 'branchCode', width: 10 },
-            { header: 'Branch Name', key: 'branchName', width: 20 },
-            { header: 'Business Unit', key: 'businessUnit', width: 15 },
+            { header: 'Branch Name', key: 'branchName', width: 25 },
+            { header: 'Business Unit', key: 'businessUnit', width: 25 },
             { header: 'Open Date', key: 'openDate', width: 15 },
             { header: 'Expiry Date', key: 'expiryDate', width: 15 },
             { header: 'Approval Number', key: 'approvalNumber', width: 20 },
@@ -98,9 +98,9 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             { header: 'Outstanding (IDR)', key: 'outstanding', width: 20 },
             { header: 'Collateral Type', key: 'collateralType', width: 15 },
             { header: 'Collateral Detail', key: 'collateralDetail', width: 20 },
-            { header: 'Collateral Code', key: 'collateralCode', width: 15 },
+            { header: 'Collateral Code', key: 'collateralCode', width: 20 },
             { header: 'Certificate Number', key: 'certificateNumber', width: 20 },
-            { header: 'Location', key: 'location', width: 20 },
+            { header: 'Location', key: 'location', width: 45 },
             { header: 'Collateral Owner', key: 'collateralOwner', width: 20 },
             { header: 'Insurance Number', key: 'insuranceNumber', width: 20 },
             { header: 'Insurance Code', key: 'insuranceCode', width: 15 },
@@ -109,13 +109,14 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             { header: 'Expiry Date', key: 'expiryDate', width: 15 },
             { header: 'Insurance Currency', key: 'insuranceCurrency', width: 20 },
             { header: 'Insurance Amount', key: 'insuranceAmount', width: 20 },
+            { header: 'Broker Name', key: 'brokerName', width: 25 },
             { header: 'Company Name', key: 'companyName', width: 25 },
             { header: 'Status Banker Clause', key: 'statusBankerClause', width: 25 },
             { header: 'Policy Document', key: 'policyDocument', width: 20 },
             { header: 'Payment Status', key: 'paymentStatus', width: 15 },
-            { header: 'Time', key: 'time', width: 10 },
+            { header: 'Time', key: 'time', width: 15 },
             { header: 'Operator Name', key: 'operatorName', width: 20 },
-            { header: 'Remark', key: 'remark', width: 25 }
+            { header: 'Remark', key: 'remark', width: 30 }
         ]
     }
 
@@ -191,6 +192,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             no: worksheet.rowCount,
             cifNumber: proposal.cif || '',
             name: proposal.debtorName || '',
+            collateralNo: proposal.collateral.map(collateral => collateral.dclColNo).join(',\n') || '',
             branchCode: proposal.bookingBranchId || '',
             branchName: proposal.bookingBranchName || '',
             businessUnit: proposal.segmentParentRM || '',
@@ -242,12 +244,13 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
                         expiryDate: insurance.expiryDate ? this._formatDateSLA(insurance.expDate) : '',
                         insuranceCurrency: insurance.currency || '',
                         insuranceAmount: insurance.insuranceAmount || '',
+                        brokerName: insurance.brokerCompany || '',
                         companyName: insurance.corpName || '',
                         statusBankerClause: insurance.statusBankerClause || '',
                         policyDocument: insurance.policyDocument || '',
                         paymentStatus: insurance.paymentStatus || '',
-                        time: '',
-                        operatorName: '',
+                        time: this._getMakerOutDate(proposal.timeLineInsurance),
+                        operatorName: this._getOperatorName(proposal.timeLineInsurance),
                         remark: insurance.remarks || ''
                     };
                     worksheet.addRow(rowData);
@@ -256,17 +259,43 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         });
     }
 
+    private _getOperatorName(timeLineInsurance: any[]): string {
+        if (!Array.isArray(timeLineInsurance)) {
+            return '';
+        }
+
+        return timeLineInsurance
+            .filter((item: any) => item.statusDescription === 'Insurance Review')
+            .map((item: any) => item.personName)
+            .join(',\n');
+    }
+
+    private _getMakerOutDate(timeLineInsurance: any[]): string {
+        console.log(timeLineInsurance);
+        if (!Array.isArray(timeLineInsurance)) {
+            return '';
+        }
+
+        return timeLineInsurance
+            .filter((item: any) => item.statusDescription === 'Insurance Review')
+            .map((item: any) => this._formatDateSLA(item.fromDate))
+            .filter(Boolean)
+            .join(',\n');
+    }
+
     private _applyStyles(): void {
         super.applyStyles('ff007f7f');
 
         const columnsToBeWraped = [
-            'collateralNo',
-            'openDate',
-            'expiryDate',
-            'approvalNumber',
-            'productName',
-            'certificateNumber',
-        ];
+            'cifNumber', 'name', 'collateralNo', 'branchCode', 'branchName',
+            'businessUnit', 'openDate', 'expiryDate', 'approvalNumber', 'productName',
+            'plafond', 'outstanding', 'collateralType', 'collateralDetail', 'collateralCode',
+            'certificateNumber', 'location', 'collateralOwner', 'insuranceNumber',
+            'insuranceCode', 'insuranceName', 'policyNumber', 'expiryDate',
+            'insuranceCurrency', 'insuranceAmount', 'brokerName', 'companyName',
+            'statusBankerClause', 'policyDocument', 'paymentStatus', 'time',
+            'operatorName', 'remark'
+        ]
 
         columnsToBeWraped.forEach(column => {
             this.worksheet.getColumn(column).alignment = {
