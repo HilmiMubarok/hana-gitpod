@@ -220,7 +220,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
               liquidationValueTataKota = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquidTataKotabuil([collateralProperty]);
             } else if (collateralProperty.propertyType === CollateralPropertyType.LAND) {
               landSizePerCertificate = collateralProperty.landSizePerCertificate;
-              area = totalCountAreaLand; // Menggunakan totalCountAreaLand yang dihitung
+              area = totalCountAreaLand; 
               imbArea = collateralProperty.imbArea;
               propertyTatakota = collateralProperty.propertyAreaTataKota;
               marketValue = collateralAppraisalValuationPropertyComponent.fnCountTotalMV([collateralProperty]);
@@ -228,7 +228,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
               marketValueTataKota = collateralAppraisalValuationPropertyComponent.fnCountTotalMVTataKota([collateralProperty]);
               liquidationValue = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquid([collateralProperty]);
               liquidationValueIMB = collateralAppraisalValuationPropertyComponent.fnCountTotalLiquidIMB([collateralProperty]);
-              liquidationValueTataKota = totalLiquidationValueTataKota; // Menggunakan liquidation value Tata Kota yang dihitung
+              liquidationValueTataKota = totalLiquidationValueTataKota; 
             } else if (collateralProperty.propertyType === CollateralPropertyType.VEHICLE) {
               marketValue = this.roundHundred(collateralProperty.vehicleMarketValue);
               liquidationValue = this.roundHundred(this.fnCountTotalLiquidVehicle([collateralProperty]));

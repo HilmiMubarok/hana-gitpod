@@ -1,14 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { map } from 'rxjs';
+import { catchError, EMPTY, map, Subject, switchMap, takeUntil } from 'rxjs';
 import { IDppkFinalize } from './dppk-finalize.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { faBullseye, faTimeline } from '@fortawesome/free-solid-svg-icons';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { faTimeline } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog } from '@angular/material/dialog';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
@@ -23,8 +23,32 @@ import { CashDppkFinalizeService } from './cash-dppk-finalize.service';
 import { TemplateService } from 'app/layouts/template/template.service';
 import { DppkFinalizeService } from './dppk-finalize.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import { DppkFinalizeDetailComponent } from './dppk-finalize-detail.component';
 import { formatDateDob } from 'app/shared/helper/utils';
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { EmployeeService } from '../employee/employee.service';
+
+interface DppkFinalizeData {
+  id: number;
+  applicationId: number;
+  partyId: string;
+  partyName: string;
+  roleId: string;
+  roleDescription: string;
+  idPosition: number;
+}
+
+interface Position {
+  id: number;
+  employeeFirstName: string;
+  [key: string]: any;
+}
+
+interface CreditProposal {
+  attributes: {
+    [key: string]: string;
+  };
+  [key: string]: any;
+}
 
 @Component({
   selector: 'jhi-dppk-finalize',
@@ -49,7 +73,7 @@ import { formatDateDob } from 'app/shared/helper/utils';
     ]),
   ],
 })
-export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppkFinalize> implements OnInit {
+export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppkFinalize> implements OnInit, OnDestroy {
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: any;
@@ -123,9 +147,10 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    private dppkFinalizeProcessService: DppkFinalizeProcessService,
     private cashDppkFinalizeService: CashDppkFinalizeService,
-    private templateService: TemplateService
+    private templateService: TemplateService,
+    private creditProposalService: CreditProposalService,
+    private employeeService: EmployeeService,
   ) {
     super(_snackBar, dppkFinalizeService);
     this.page = 0;
@@ -404,7 +429,7 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
       });
-      dialogRef.afterClosed().subscribe(res2 => {});
+      dialogRef.afterClosed().subscribe(res2 => { });
     });
   }
 
@@ -478,9 +503,8 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
       });
       dialogRef.afterClosed().subscribe(res => {
         if (res) {
-          console.log('element', element);
           this.dppkFinalizeService.getRoleActive(id, this.positionIdLocStor, this.getLocStor('POSO')).subscribe(() => {
-            this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']);
+            this._saveAttributeAndRedirect(id)
           });
         }
       });
@@ -488,4 +512,73 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
       this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']);
     }
   }
+
+  private readonly destroy$ = new Subject<void>();
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private _saveAttributeAndRedirect(id: number): void {
+    const dataAssignDppkFinalize: DppkFinalizeData = {
+      id: Number(this.positionIdLocStor),
+      applicationId: id,
+      partyId: this.getLocStor('POSOPARID'),
+      partyName: '',
+      roleId: this.getLocStor('POSO'),
+      roleDescription: this.getLocStor('POSOD'),
+      idPosition: Number(this.positionIdLocStor)
+    };
+
+    this.creditProposalService.find(id).pipe(
+      map(response => response.body as CreditProposal),
+      switchMap(cp => this.accountService.identity().pipe(
+        map(account => ({ cp, account }))
+      )),
+      switchMap(({ cp, account }) => {
+        if (!account) {
+          throw new Error('Account not found');
+        }
+
+        return this.employeeService.queryFilterBy({
+          page: 0,
+          query: 999,
+          sort: ['id,desc'],
+          eqLogin: account.login
+        }).pipe(
+          map(employee => ({
+            cp,
+            positions: (employee.body[0] as any).positions as Position[]
+          }))
+        );
+      }),
+      map(({ cp, positions }) => {
+        const partyName = this._findPartyName(positions);
+        dataAssignDppkFinalize.partyName = partyName;
+
+        cp.attributes['dataAssignDppkFinalize'] = JSON.stringify(dataAssignDppkFinalize);
+        return cp;
+      }),
+      // Update save CP
+      switchMap(cp => this.dppkFinalizeService.update(cp)),
+      catchError(error => {
+        console.error('Error in save and redirect process:', error);
+        return EMPTY;
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: result => this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']),
+      error: error => console.error('Unexpected error:', error)
+    });
+  }
+
+  private _findPartyName(positions: Position[]): string {
+    const filteredPosition = positions.find(pos => pos.id === Number(this.positionIdLocStor));
+    if (!filteredPosition) {
+      throw new Error('Position not found');
+    }
+    return filteredPosition.employeeFirstName;
+  }
+
 }
