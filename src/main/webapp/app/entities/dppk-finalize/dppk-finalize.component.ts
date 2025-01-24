@@ -560,7 +560,6 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
         cp.attributes['dataAssignDppkFinalize'] = JSON.stringify(dataAssignDppkFinalize);
         return cp;
       }),
-      // Update save CP
       switchMap(cp => this.dppkFinalizeService.update(cp)),
       catchError(error => {
         console.error('Error in save and redirect process:', error);
@@ -568,8 +567,9 @@ export class DppkFinalizeComponent extends AbstractEntityMaterialComponent<IDppk
       }),
       takeUntil(this.destroy$)
     ).subscribe({
-      next: result => this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']),
-      error: error => console.error('Unexpected error:', error)
+      next: () => {
+        this.router.navigate(['/' + this.parentPath + '/' + id + '/' + 'edit']);
+      }
     });
   }
 
