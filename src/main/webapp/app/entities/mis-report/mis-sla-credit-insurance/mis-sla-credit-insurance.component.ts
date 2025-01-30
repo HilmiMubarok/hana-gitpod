@@ -166,7 +166,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       { header: 'No.', key: 'no', width: 5 },
       { header: 'PIC Credit Insurance', key: 'picCreditIns', width: 35 },
       { header: 'Debtor', key: 'debtor', width: 35 },
-      { header: 'Transaksi Kredit', key: 'transaksiKredit', width: 40 },
+      { header: 'Transaksi Kredit', key: 'transaksiKredit', width: 15 },
       { header: 'DAR Issued Date', key: 'darIssuedDate', width: 25 },
       { header: 'DAR Issued Time', key: 'darIssuedTime', width: 25 },
       { header: 'Maker In Date', key: 'makerInDate', width: 25 },
@@ -187,7 +187,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       { header: 'Ccy', key: 'currency', width: 10 },
       { header: 'NP', key: 'np', width: 15 },
       { header: 'Jatuh Tempo', key: 'jatuhTempo', width: 15 },
-      { header: 'Keterangan', key: 'keterangan', width: 30 },
+      { header: 'Keterangan', key: 'keterangan', width: 50 },
       { header: 'Segmentasi', key: 'segment', width: 15 },
       { header: 'Branch', key: 'branch', width: 25 },
       { header: 'RM', key: 'rm', width: 25 },
@@ -451,16 +451,17 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       return '';
     }
 
-    const formattedDates = timeLineCreditProposal
-      .filter((item: any) => item.statusDescription === 'OL Distribution')
+    const filteredDates = timeLineCreditProposal.filter((item: any) => item.statusDescription === 'OL Distribution');
+
+    filteredDates.sort((a: any, b: any) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
+
+    const formattedDates = filteredDates
       .map((item: any) => {
         const date = new Date(item.fromDate);
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
-        const formattedDate = `${day}-${month}-${year}`;
-
-        return formattedDate;
+        return `${day}-${month}-${year}`;
       })
       .join(',\n');
 
@@ -523,10 +524,8 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
         }
 
         // hitung tat time
-        const formatDate = (date: string) => {
-          const [month, day, year] = date.split('/');
-          return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-        };
+        const formatDate = (date: string) =>
+          `${date.split('/')[2]}-${date.split('/')[1].padStart(2, '0')}-${date.split('/')[0].padStart(2, '0')}`;
 
         const formatTime = (time: string) => time || '00:00:00';
 
@@ -543,11 +542,9 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
         let tatTime = '';
         if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
-          const differenceMs = targetDate.getTime() - fromDateTimeObject.getTime();
-
+          const differenceMs = fromDateTimeObject.getTime() - targetDate.getTime();
           const hours = Math.floor(differenceMs / (1000 * 60 * 60));
           const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
-
           tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
         }
 
@@ -607,7 +604,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
   private _applyStyles(): void {
     super.applyStyles('ff2c9a48');
-    const columnsToBeWraped = ['transaksiKredit', 'makerInDate', 'makerInTime', 'makerOutDate', 'makerOutTime'];
+    const columnsToBeWraped = ['makerInDate', 'makerInTime', 'makerOutDate', 'makerOutTime', 'jaminanTipe', 'keterangan'];
     columnsToBeWraped.forEach(column => {
       const col = this.worksheet.getColumn(column);
       col.alignment = {
