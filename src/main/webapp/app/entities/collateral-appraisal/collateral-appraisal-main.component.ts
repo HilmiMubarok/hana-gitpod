@@ -480,20 +480,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
     console.log('Copy SurveyAppraisal: ', this.surveyAppraisal);
 
-    if (
-      this.surveyAppraisal.statusId === STATUS.ASSIGNED ||
-      this.surveyAppraisal.statusId === STATUS.VISITED ||
-      this.surveyAppraisal.statusId === STATUS.APPROVAL_TL ||
-      this.surveyAppraisal.statusId === STATUS.APPROVE ||
-      this.surveyAppraisal.statusId === STATUS.COMPLETE
-    ) {
-      if (this.valuationData && this.valuationData.length > 0) {
-        copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.valuationData);
-      } else {
-        copySurveyAppraisal.attributes['valuation'];
-      }
-    }
-
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
 
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
@@ -529,6 +515,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         this.getTasks();
+        this.saveMVLV(copySurveyAppraisal);
+
         this.surveyAppraisal.surveyorId = res.body.surveyorId;
         this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
         this.collateralAppraisal.surveyorId = res.body.surveyorId;
@@ -549,6 +537,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
     } else {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
+        this.saveMVLV(copySurveyAppraisal);
+
         this.surveyAppraisal.surveyorId = res.body.surveyorId;
         this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
         this.collateralAppraisal.surveyorId = res.body.surveyorId;
@@ -1239,15 +1229,54 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   // setValuation in Attributes
   getValuationMVLV(): void {
-    this.collateralPropertyService
-      .getValuationAndProperties(this.collateral, this.surveyAppraisal.id, this.collateralAppraisalValuationPropertyComponent)
-      .subscribe(
-        (result: any[]) => {
-          this.valuationData = result;
-        },
-        error => {
-          console.error('Error fetching valuations:', error);
+    this.collateralPropertyService.getValuationAndProperties(this.collateral, this.surveyAppraisal.id).subscribe(
+      (result: any[]) => {
+        this.valuationData = result;
+      },
+      error => {
+        console.error('Error fetching valuations:', error);
+      }
+    );
+  }
+
+  public saveMVLV(copySurveyAppraisal: ISurveyAppraisals) {
+    let totalMarketValue = 0;
+    let totalMarketValueIMB = 0;
+    let totalMarketValueTataKota = 0;
+    let totalLiquidationValue = 0;
+    let totalLiquidationValueIMB = 0;
+    let totalLiquidationValueTataKota = 0;
+
+    // Cek apakah valuationData ada dan iterasi untuk mengakumulasi nilai
+    if (this.valuationData && this.valuationData.length > 0) {
+      this.valuationData.forEach(item => {
+        if (item.marketValue) {
+          totalMarketValue += item.marketValue;
         }
-      );
+        if (item.marketValueIMB) {
+          totalMarketValueIMB += item.marketValueIMB;
+        }
+        if (item.totalMarketValueTataKota) {
+          totalMarketValueTataKota += item.marketValueTataKota;
+        }
+        if (item.liquidationValue) {
+          totalLiquidationValue += item.liquidationValue;
+        }
+        if (item.liquidationValueIMB) {
+          totalLiquidationValueIMB += item.liquidationValueIMB;
+        }
+        if (item.liquidationValueTataKota) {
+          totalLiquidationValueTataKota += item.liquidationValueTataKota;
+        }
+      });
+      copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.valuationData);
+      // Simpan total ke dalam surveyAppraisal
+      copySurveyAppraisal.totalMarketValue = totalMarketValue;
+      copySurveyAppraisal.totalMarketValueIMB = totalMarketValueIMB;
+      copySurveyAppraisal.totalMarketValueTataKota = totalMarketValueTataKota;
+      copySurveyAppraisal.totalLiquidationValue = totalLiquidationValue;
+      copySurveyAppraisal.totalLiquidationValueIMB = totalLiquidationValueIMB;
+      copySurveyAppraisal.totalLiquidationValueTataKota = totalLiquidationValueTataKota;
+    }
   }
 }
