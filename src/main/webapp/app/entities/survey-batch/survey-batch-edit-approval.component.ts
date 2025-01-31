@@ -254,18 +254,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       this.initialize();
     });
   }
-  getValuationMVLV(): void {
-    this.collateralPropertyService
-      .getValuationAndProperties(this.collateral, this.surveyAppraisal.id, this.collateralAppraisalValuationPropertyComponent)
-      .subscribe(
-        (result: any[]) => {
-          this.valuationData = result;
-        },
-        error => {
-          console.error('Error fetching valuations:', error);
-        }
-      );
-  }
+
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
@@ -1317,6 +1306,8 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         this.getTasks();
+        this.saveMVLV(copySurveyAppraisal);
+
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
@@ -1339,6 +1330,8 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
+          this.saveMVLV(copySurveyAppraisal);
+
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
             this.getWord();
@@ -1379,5 +1372,57 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
   public triggerToggle() {
     this.isOpen = !this.isOpen;
+  }
+
+  getValuationMVLV(): void {
+    this.collateralPropertyService.getValuationAndProperties(this.collateral, this.surveyAppraisal.id).subscribe(
+      (result: any[]) => {
+        this.valuationData = result;
+      },
+      error => {
+        console.error('Error fetching valuations:', error);
+      }
+    );
+  }
+
+  public saveMVLV(copySurveyAppraisal: ISurveyAppraisals) {
+    let totalMarketValue = 0;
+    let totalMarketValueIMB = 0;
+    let totalMarketValueTataKota = 0;
+    let totalLiquidationValue = 0;
+    let totalLiquidationValueIMB = 0;
+    let totalLiquidationValueTataKota = 0;
+
+    // Cek apakah valuationData ada dan iterasi untuk mengakumulasi nilai
+    if (this.valuationData && this.valuationData.length > 0) {
+      this.valuationData.forEach(item => {
+        if (item.marketValue) {
+          totalMarketValue += item.marketValue;
+        }
+        if (item.marketValueIMB) {
+          totalMarketValueIMB += item.marketValueIMB;
+        }
+        if (item.totalMarketValueTataKota) {
+          totalMarketValueTataKota += item.marketValueTataKota;
+        }
+        if (item.liquidationValue) {
+          totalLiquidationValue += item.liquidationValue;
+        }
+        if (item.liquidationValueIMB) {
+          totalLiquidationValueIMB += item.liquidationValueIMB;
+        }
+        if (item.liquidationValueTataKota) {
+          totalLiquidationValueTataKota += item.liquidationValueTataKota;
+        }
+      });
+      copySurveyAppraisal.attributes['valuation'] = JSON.stringify(this.valuationData);
+      // Simpan total ke dalam surveyAppraisal
+      copySurveyAppraisal.totalMarketValue = totalMarketValue;
+      copySurveyAppraisal.totalMarketValueIMB = totalMarketValueIMB;
+      copySurveyAppraisal.totalMarketValueTataKota = totalMarketValueTataKota;
+      copySurveyAppraisal.totalLiquidationValue = totalLiquidationValue;
+      copySurveyAppraisal.totalLiquidationValueIMB = totalLiquidationValueIMB;
+      copySurveyAppraisal.totalLiquidationValueTataKota = totalLiquidationValueTataKota;
+    }
   }
 }

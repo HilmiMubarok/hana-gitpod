@@ -103,7 +103,11 @@ export interface ISurveyAppraisals {
   latitude?: number;
   longitude?: number;
   totalMarketValue?: number;
+  totalMarketValueIMB?: number;
+  totalMarketValueTataKota?: number;
   totalLiquidationValue?: number;
+  totalLiquidationValueIMB?: number;
+  totalLiquidationValueTataKota?: number;
   cif?: ICif;
   properties?: ICollateralProperty[];
   tasks?: IProcessTask[];
@@ -226,6 +230,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public latitude?: number,
     public longitude?: number,
     public totalMarketValue?: number,
+    public totalMarketValueIMB?: number,
     public totalLiquidationValue?: number,
     public cif?: ICif,
     public properties?: ICollateralProperty[],
