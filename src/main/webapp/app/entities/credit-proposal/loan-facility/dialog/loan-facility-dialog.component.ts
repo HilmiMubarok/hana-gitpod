@@ -375,6 +375,19 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     }
   }
 
+  paymentObligationChange(data) {
+    this.applicationProduct.attributes['paymentObligation'] = data;
+  }
+
+  get paymentObligation(): string {
+    const paymentObl: string = this.applicationProduct.attributes['paymentObligation'];
+
+    if (!paymentObl || paymentObl.trim() === '') {
+      return '';
+    }
+    return paymentObl.replace(/\\r\\n/g, '\n').replace(/\t/g, '    ');
+  }
+
   public checkIsCredamOnDPPKFinalize(cp: ICreditProposal): boolean {
     const listOfPic = cp.listOfPic;
 

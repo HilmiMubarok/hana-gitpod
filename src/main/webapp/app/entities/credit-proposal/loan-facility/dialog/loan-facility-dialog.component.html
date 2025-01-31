@@ -1740,13 +1740,8 @@
         <section *ngIf="!statusDisabledOffering">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Payment Obligations</mat-label>
-            <textarea
-              matInput
-              cdkTextareaAutosize
-              #autosize="cdkTextareaAutosize"
-              [(ngModel)]="applicationProduct.attributes['paymentObligation']"
-              [disabled]="statusDisabledOffering"
-            ></textarea>
+            <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" matInput [ngModel]="paymentObligation"
+              (ngModelChange)="paymentObligationChange($event)" [disabled]="statusDisabledOffering"></textarea>
           </mat-form-field>
         </section>
         <section *ngIf="statusDisabledOffering">
@@ -1754,7 +1749,7 @@
             <div class="col-3">Payment Obligations</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ applicationProduct.attributes['paymentObligation'] }}
+              <div style="white-space: pre-wrap" [innerHTML]="paymentObligation"></div>
             </div>
           </div>
         </section>
