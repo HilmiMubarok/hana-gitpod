@@ -604,7 +604,15 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
   private _applyStyles(): void {
     super.applyStyles('ff2c9a48');
-    const columnsToBeWraped = ['makerInDate', 'makerInTime', 'makerOutDate', 'makerOutTime', 'jaminanTipe', 'keterangan'];
+    const columnsToBeWraped = [
+      'makerInDate',
+      'makerInTime',
+      'makerOutDate',
+      'makerOutTime',
+      'jaminanTipe',
+      'keterangan',
+      'transaksiKredit',
+    ];
     columnsToBeWraped.forEach(column => {
       const col = this.worksheet.getColumn(column);
       col.alignment = {
