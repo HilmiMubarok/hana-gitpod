@@ -196,14 +196,14 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       tatDayss === 0
         ? {
             timeDifference: latestReviewCheckerTimeM - latestDPPKFinalizeTimeM,
-            formattedDifference: `${latestReviewCheckerTime} - ${firstEntryTime} = `,
+            formattedDifference: `${latestReviewCheckerTime} - ${firstEntryTime}`,
           }
         : {
             timeDifference: latestReviewCheckerTimeM - jam8Minutes,
-            formattedDifference: `${latestReviewCheckerTime} - ${minutesToTime(jam8Minutes)} = `,
+            formattedDifference: `${latestReviewCheckerTime} - ${minutesToTime(jam8Minutes)}`,
           };
     // Gabungkan hasil akhir
-    const formattedTatTime = `${tatTime.formattedDifference}${minutesToTime(tatTime.timeDifference)}`;
+    const formattedTatTime = `${tatTime.formattedDifference}`;
     const latestDPPKFinalize = timeLineData.filter(item => item.fromStatusDescription === 'DPPK Finalize');
     if (latestDPPKFinalize.length > 0) {
       latestDPPKFinalize.reduce((latest, current) => {
@@ -221,6 +221,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       dppkInDate:
         timeLineData
           .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
+          .sort((a, b) => a.fromDate - b.fromDate)
           .map(timeline => this._convertDate(timeline.fromDate))
           .join(',\n') || '',
       dppkInTime:
@@ -245,7 +246,6 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           .filter(timeline => timeline.statusDescription === 'Review Checker 1')
           .map(timeline => this._convertDate(timeline.fromDate))
           .join(',\n') || '',
-
       checkerOutTime:
         timeLineData
           .filter(timeline => timeline.statusDescription === 'Review Checker 1')
@@ -274,7 +274,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       ccy: proposal.product.map(product => product.currency).join(',\n') || '',
       nominal: proposal.product.map(product => product.totalPlafond).join(',\n') || '',
       tglEfektifFas: '',
-      jenisJaminan: proposal.collateral.map(collateral => collateral.collateralType).join(',\n') || '',
+      jenisJaminan: proposal.collateral.map(collateral => collateral.collateralCode).join(',\n') || '',
       segmentasi: proposal.regionalParentRM || '',
       branch: proposal.bookingBranchName || '',
       rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
