@@ -117,7 +117,17 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   }
 
   protected processData(data: any[]): void {
-    data.forEach((proposal, index) => {
+    const sortedProposals = data
+      .map(proposal => ({
+        ...proposal,
+        dppkInDate:
+          proposal.timeLineCreditProposal
+            .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
+            .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime())
+            .map(timeline => timeline.fromDate)[0] || null,
+      }))
+      .sort((a, b) => new Date(a.dppkInDate).getTime() - new Date(b.dppkInDate).getTime());
+    sortedProposals.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
   }
