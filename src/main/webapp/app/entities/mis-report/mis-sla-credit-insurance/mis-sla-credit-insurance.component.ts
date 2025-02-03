@@ -195,7 +195,10 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
   }
 
   protected processData(data: any[]): void {
-    data.forEach((proposal, index) => {
+    const statuses = ['OL Distribution'];
+    const sortedCreditProposals = this.sortCreditProposalByEarliestDate(data, statuses);
+
+    sortedCreditProposals.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
   }
