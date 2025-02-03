@@ -4,7 +4,6 @@ import moment from 'moment';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import * as ExcelJS from 'exceljs';
-import { saveAs } from 'file-saver';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
 
 @Component({
@@ -157,47 +156,53 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         this.processData(data);
 
         this._applyStyles();
+        this._setAutoWidthForAllColumns();
+        this._setAutoHeightForAllRows();
         this.downloadFile(fileName);
         this._resetData();
     }
 
     get columns(): any[] {
         return [
-            { header: 'No', key: 'no', width: 5 },
-            { header: 'Proposal Number', key: 'proposalNumber', width: 20 },
-            { header: 'DPK Number', key: 'dpkNumber', width: 15 },
-            { header: 'PIC Loan Ops', key: 'picLoanOps', width: 20 },
-            { header: 'Debtor', key: 'debtor', width: 20 },
-            { header: 'Loan Ops (Distribution) In Date', key: 'loanOpsDistributionInDate', width: 30 },
-            { header: 'Loan Ops (Distribution) In Time', key: 'loanOpsDistributionInTime', width: 30 },
-            { header: 'Loan Ops (Officer) Out Date', key: 'loanOpsOfficerOutDate', width: 30 },
-            { header: 'Loan Ops (Officer) Out Time', key: 'loanOpsOfficerOutTime', width: 30 },
-            { header: 'Loan Ops (Officer) Spv Out Name', key: 'loanOpsOfficerSpvOutName', width: 30 },
-            { header: 'Loan Ops (Officer) Spv Out Date', key: 'loanOpsOfficerSpvOutDate', width: 30 },
-            { header: 'Loan Ops (Officer) Spv Out Time', key: 'loanOpsOfficerSpvOutTime', width: 30 },
-            { header: 'Completed Name', key: 'completedName', width: 25 },
-            { header: 'Completed Date', key: 'completedDate', width: 20 },
-            { header: 'Completed Time', key: 'completedTime', width: 20 },
-            { header: 'TAT Date', key: 'tatDate', width: 15 },
-            { header: 'TAT Time', key: 'tatTime', width: 15 },
-            { header: 'Status', key: 'status', width: 15 },
-            { header: 'Transaksi', key: 'transaksi', width: 15 },
-            { header: 'Fasilitas', key: 'fasilitas', width: 20 },
-            { header: 'CCY', key: 'ccy', width: 10 },
-            { header: 'Nominal', key: 'nominal', width: 20 },
-            { header: 'Tgl Efektif Fasilitas', key: 'tglEfektifFasilitas', width: 25 },
-            { header: 'Jenis Jaminan', key: 'jenisJaminan', width: 20 },
-            { header: 'Segmentasi', key: 'segmentasi', width: 20 },
-            { header: 'Branch', key: 'branch', width: 15 },
-            { header: 'RM', key: 'rm', width: 10 },
-            { header: 'Keterangan', key: 'keterangan', width: 25 },
-            { header: 'Deviasi', key: 'deviasi', width: 15 },
-            { header: 'TBO', key: 'tbo', width: 15 }
+            { header: 'No', key: 'no' },
+            { header: 'Proposal Number', key: 'proposalNumber' },
+            { header: 'DPK Number', key: 'dpkNumber' },
+            { header: 'PIC Loan Ops', key: 'picLoanOps' },
+            { header: 'Debtor', key: 'debtor' },
+            { header: 'Loan Ops (Distribution) In Date', key: 'loanOpsDistributionInDate' },
+            { header: 'Loan Ops (Distribution) In Time', key: 'loanOpsDistributionInTime' },
+            { header: 'Loan Ops (Officer) Out Date', key: 'loanOpsOfficerOutDate' },
+            { header: 'Loan Ops (Officer) Out Time', key: 'loanOpsOfficerOutTime' },
+            { header: 'Loan Ops (Officer) Spv Out Name', key: 'loanOpsOfficerSpvOutName' },
+            { header: 'Loan Ops (Officer) Spv Out Date', key: 'loanOpsOfficerSpvOutDate' },
+            { header: 'Loan Ops (Officer) Spv Out Time', key: 'loanOpsOfficerSpvOutTime' },
+            { header: 'Completed Name', key: 'completedName' },
+            { header: 'Completed Date', key: 'completedDate' },
+            { header: 'Completed Time', key: 'completedTime' },
+            { header: 'TAT Date', key: 'tatDate' },
+            { header: 'TAT Time', key: 'tatTime' },
+            { header: 'Status', key: 'status' },
+            { header: 'Transaksi', key: 'transaksi' },
+            { header: 'Fasilitas', key: 'fasilitas' },
+            { header: 'CCY', key: 'ccy' },
+            { header: 'Nominal', key: 'nominal' },
+            { header: 'Tgl Efektif Fasilitas', key: 'tglEfektifFasilitas' },
+            { header: 'Jenis Jaminan', key: 'jenisJaminan' },
+            { header: 'Segmentasi', key: 'segmentasi' },
+            { header: 'Branch', key: 'branch' },
+            { header: 'RM', key: 'rm' },
+            { header: 'Keterangan', key: 'keterangan' },
+            { header: 'Deviasi', key: 'deviasi' },
+            { header: 'TBO', key: 'tbo' }
         ]
     }
 
     protected processData(data: any[]): void {
-        data.forEach((proposal, index) => {
+
+        const statuses = ['Loan Ops Ditribution', 'Loan Ops Checking', 'Loan Ops Review', 'Complete']
+        const sortedCreditProposals = this.sortCreditProposalByEarliestDate(data, statuses);
+
+        sortedCreditProposals.forEach((proposal, index) => {
             this._addProposalData(this.worksheet, proposal, index);
         });
     }
@@ -205,7 +210,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
     private _addProposalData(ws: ExcelJS.Worksheet, prop: any, idx: number): void {
         prop.product?.forEach((prod: any, index: number) => {
             const dataRow = {
-                no: index + 1,
+                no: ws.rowCount,
                 proposalNumber: prop.proposalNumber || '',
                 dpkNumber: prop.dppkNumber || '',
                 picLoanOps: prop.dataAssignToLoanOpsOfficerName || '',
@@ -255,15 +260,16 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
             'completedDate',
             'completedTime'
         ];
-        columnsToBeWraped.forEach(column => {
-            const col = this.worksheet.getColumn(column);
+        this.columns.forEach(column => {
+            const col = this.worksheet.getColumn(column.key);
+            console.log({ column, col });
             col.alignment = {
                 vertical: 'middle',
                 horizontal: 'center',
                 wrapText: true,
             };
 
-            const columnValue = this.worksheet.getColumn(column);
+            const columnValue = this.worksheet.getColumn(column.key);
 
             const newValue = columnValue.values.map(value => {
                 if (value) {
@@ -278,8 +284,8 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
 
     }
 
-    private getLoanOpsDistributionInDate(product: any): string {
-        return product.timeLineCreditProposal
+    private getLoanOpsDistributionInDate(proposal: any): string {
+        return proposal.timeLineCreditProposal
             .filter((t: any) => t.statusDescription === 'Loan Ops Ditribution')
             .map((timeline: any) => timeline.fromDate)
             .join(',\n');
@@ -295,7 +301,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
     private getLoanOpsDistributionInTime(proposal: any): string {
         return proposal.timeLineCreditProposal
             .filter((t: any) => t.statusDescription === 'Loan Ops Ditribution')
-            .map((timeline: any) => timeline.fromTime)
+            .map((timeline: any) => timeline.fromTime.split(':').slice(0, 2).join(':'))
             .join(',\n');
     }
 
@@ -317,7 +323,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
     private getLoanOpsOfficerOutTime(proposal: any): string {
         return proposal.timeLineCreditProposal
             .filter((t: any) => t.statusDescription === 'Loan Ops Checking')
-            .map((timeline: any) => timeline.fromTime)
+            .map((timeline: any) => timeline.fromTime.split(':').slice(0, 2).join(':'))
             .join(',\n');
     }
 
@@ -338,7 +344,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
     private getLoanOpsOfficerSpvOutTime(proposal: any): string {
         return proposal.timeLineCreditProposal
             .filter((t: any) => t.statusDescription === 'Loan Ops Review')
-            .map((timeline: any) => timeline.fromTime)
+            .map((timeline: any) => timeline.fromTime.split(':').slice(0, 2).join(':'))
             .join(',\n');
     }
 
@@ -353,7 +359,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         return proposal.timeLineCreditProposal
             .sort((a: any, b: any) => a.id - b.id)
             .filter((t: any) => t.statusDescription === 'Complete')
-            .map((timeline: any) => timeline.fromDate)
+            .map((timeline: any) => this._formatDateSLA(timeline.fromDate))
             .join(',\n');
     }
 
@@ -369,7 +375,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         return proposal.timeLineCreditProposal
             .sort((a: any, b: any) => a.id - b.id)
             .filter((t: any) => t.statusDescription === 'Complete')
-            .map((timeline: any) => timeline.fromTime)
+            .map((timeline: any) => timeline.fromTime.split(':').slice(0, 2).join(':'))
             .join(',\n');
     }
 
@@ -386,11 +392,6 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         // this.getCompletedDate(prop)[this.getCompletedDate(prop).length - 1]
         const loanOpsDistributionInDate = new Date(this.getLastLoanOpsDistributionInDate(prop))
         // this.getLoanOpsDistributionInDate(prop)[this.getLoanOpsDistributionInDate(prop).length - 1]
-
-        console.group("TAT DATE")
-        console.log(completedDate)
-        console.log(loanOpsDistributionInDate)
-
         const diffDays = Math.abs(completedDate.getTime() - loanOpsDistributionInDate.getTime()) / (1000 * 60 * 60 * 24);
 
         if (!completedDate || !loanOpsDistributionInDate) {
@@ -400,33 +401,28 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
 
     }
 
-    private getTatTime(prop) {
-
+    private getTatTime(prop): string {
         const tatDate = Number(this.getTatDate(prop));
         const completedTime = this.getLastCompletedTime(prop);
         const loanOpsDistributionInTime = this.getLastLoanOpsDistributionInTime(prop);
 
         const date = new Date().toLocaleDateString();
-        const dateCompletedTime = new Date(date + ' ' + completedTime).getHours();
-        const dateLoanOpsDistributionInTime = new Date(date + ' ' + loanOpsDistributionInTime).getHours();
-        const eightHours = new Date(date + ' 08:00:00').getHours();
+        const dateCompletedTime = new Date(date + ' ' + completedTime);
+        const dateLoanOpsDistributionInTime = new Date(date + ' ' + loanOpsDistributionInTime);
+        const eightHours = new Date(date + ' 08:00:00');
 
-        console.group('getTimeDifference');
-        console.log('date', date);
-        console.log('completedTime', completedTime);
-        console.log('loanOpsDistributionInTime', loanOpsDistributionInTime);
-        console.log('eightHours', eightHours);
-        console.log('tatDate', tatDate);
-
-        console.log('dateLoanOpsDistributionInTime', dateLoanOpsDistributionInTime);
-        console.log('dateCompletedTime', dateCompletedTime);
-        console.groupEnd();
+        let diffInMinutes: number;
 
         if (tatDate === 0) {
-            return dateLoanOpsDistributionInTime - dateCompletedTime;
+            diffInMinutes = (dateLoanOpsDistributionInTime.getTime() - dateCompletedTime.getTime()) / (1000 * 60);
         } else {
-            return dateCompletedTime - eightHours
+            diffInMinutes = (dateCompletedTime.getTime() - eightHours.getTime()) / (1000 * 60);
         }
+
+        const hours = Math.floor(diffInMinutes / 60);
+        const minutes = Math.floor(diffInMinutes % 60);
+
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     }
 
     private getTanggalEfektifFasilitas(prod: any) {
