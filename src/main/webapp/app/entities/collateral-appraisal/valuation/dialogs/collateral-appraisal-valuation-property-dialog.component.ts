@@ -36,7 +36,7 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
     this.getRole();
     this.cekData();
     this.getTotalAreaCertificate();
-    // this.countTotalAreaTataKotaBuilding();
+    this.loadDataValuation();
 
     if (this.collateralProp.propertyType === CollateralPropertyType.LAND) {
       this.calTotalmarket();
@@ -239,5 +239,17 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
       }
     }
     return this.totalCountAreaLand;
+  }
+
+  public loadDataValuation(): void {
+    console.log('jalan');
+    this.collateralPropertyService.getValuationAndProperties(this.collateralAppraisal.collateral, this.collateralAppraisal.id).subscribe(
+      (result: any[]) => {
+        console.log('result', result);
+      },
+      error => {
+        console.error('Error fetching valuations:', error);
+      }
+    );
   }
 }

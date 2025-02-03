@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -86,25 +86,25 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
   }
   ngOnInit(): void {
     this.loadPropertiesExternal(this.collateral);
-    if (
-      this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
-      this.collateralAppraisal.statusId === STATUS.VISITED ||
-      this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
-      this.collateralAppraisal.statusId === STATUS.APPROVE ||
-      this.collateralAppraisal.statusId === STATUS.COMPLETE
-    ) {
-      this.updateMarketValueLandRound();
-      this.updateMarketValueBuildingRound();
-    }
+
     // this.getCollateral();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log('collateral', this.collateral);
     this.dataCollateralAppraisal = changes.collateralAppraisal.currentValue;
     if (changes['collateral']) {
       this.loadData(this.collateral);
       this.loadPropertiesExternal(this.collateral);
+      if (
+        this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+        this.collateralAppraisal.statusId === STATUS.VISITED ||
+        this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+        this.collateralAppraisal.statusId === STATUS.APPROVE ||
+        this.collateralAppraisal.statusId === STATUS.COMPLETE
+      ) {
+        this.updateMarketValueLandRound();
+        this.updateMarketValueBuildingRound();
+      }
     }
   }
 
@@ -206,6 +206,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
         this.countAllTotalAndLiquid();
         this.cekData();
         this.getTotalAreaCertificate();
+        this.loadDataValuation();
       });
   }
 
@@ -568,5 +569,16 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges,
       }
     }
     return this.totalCountAreaLand;
+  }
+
+  public loadDataValuation(): void {
+    this.collateralPropertyService.getValuationAndProperties(this.collateral, this.collateralAppraisal.id).subscribe(
+      (result: any[]) => {
+        this.collateralAppraisalService.valuationData = result;
+      },
+      error => {
+        console.error('Error fetching valuations:', error);
+      }
+    );
   }
 }
