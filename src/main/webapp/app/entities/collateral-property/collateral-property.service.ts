@@ -411,7 +411,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
               propertyTatakota = collateralProperty.propertyAreaTataKota;
               marketValue = this.fnCountTotalMV([collateralProperty]);
               marketValueIMB = this.fnCountTotalMVIMB([collateralProperty]);
-              marketValueTataKota = totalMarketValueTataKota;
+              marketValueTataKota = collateralProperty.propertyMarketValueTataKotaPerMeter * area;
               liquidationValue = this.fnCountTotalLiquid([collateralProperty]);
               liquidationValueIMB = this.fnCountTotalLiquidIMB([collateralProperty]);
               liquidationValueTataKota =
