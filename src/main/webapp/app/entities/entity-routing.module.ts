@@ -707,7 +707,14 @@ import { RouterModule } from '@angular/router';
             m => m.CreditProposalInsuranceReportModule
           ),
       },
+      {
+        path: 'mis-cp-slaloanops-report',
+        loadChildren: () =>
+          import('./mis-report/mis-cp-slaloanops-report/mis-cp-slaloanops-report.module').then(
+            m => m.MisCpSlaloanopsReportModule
+          ),
+      },
     ]),
   ],
 })
-export class EntityRoutingModule {}
+export class EntityRoutingModule { }

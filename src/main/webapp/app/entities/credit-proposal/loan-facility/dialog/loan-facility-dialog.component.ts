@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -54,7 +54,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit {
+export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit, AfterViewInit {
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
@@ -80,6 +80,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public categoryDescription = [];
   public dataMasterFinancialInstitution: IMasterFinancialInstitution[] = [];
   public takeOverBankView = '';
+  ngAfterViewInit(): void {
+    this.applicationProduct.attributes['paymentObligation'] = this.paymentObligation;
+  }
 
   @Input()
   get collateral() {
@@ -373,6 +376,19 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (!this.applicationProduct.commitedLine) {
       this.applicationProduct.commitedLine = false;
     }
+  }
+
+  paymentObligationChange(data) {
+    this.applicationProduct.attributes['paymentObligation'] = data;
+  }
+
+  get paymentObligation(): string {
+    const paymentObl: string = this.data.applicationProduct.attributes['paymentObligation'];
+
+    if (!paymentObl || paymentObl.trim() === '') {
+      return '';
+    }
+    return paymentObl.replace(/\\r\\n/g, '\n').replace(/\t/g, '    ');
   }
 
   public checkIsCredamOnDPPKFinalize(cp: ICreditProposal): boolean {
@@ -757,7 +773,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
             this.applicationProduct.attributes['paymentObligation'] === undefined
           ) {
             if (this.applicationProduct.productTypeId === 'BG' || this.applicationProduct.productTypeId === 'LC') {
-              this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+              if (this.applicationProduct.attributes['paymentObligation'] === undefined || this.applicationProduct.attributes['paymentObligation'] === '' || this.applicationProduct.attributes['paymentObligation'] === null) {
+                this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+              }
             }
           }
         }
@@ -773,7 +791,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
               this.applicationProduct.productTypeId === 'IL' ||
               this.applicationProduct.productTypeId === 'OD'
             ) {
-              this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+              if (this.applicationProduct.attributes['paymentObligation'] === undefined || this.applicationProduct.attributes['paymentObligation'] === '' || this.applicationProduct.attributes['paymentObligation'] === null) {
+                this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+              }
             }
           }
         }
@@ -993,7 +1013,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.calTotalPlafond(data.revolving);
       const disbursementLegal = this.lovDisbursementLegalList.find(obj => obj.code === data.code);
       if (disbursementLegal) {
-        this.applicationProduct.attributes['paymentObligation'] = disbursementLegal.value;
+        if (this.applicationProduct.attributes['paymentObligation'] === undefined || this.applicationProduct.attributes['paymentObligation'] === '' || this.applicationProduct.attributes['paymentObligation'] === null) {
+          this.applicationProduct.attributes['paymentObligation'] = disbursementLegal.value;
+        }
       }
     }
   }

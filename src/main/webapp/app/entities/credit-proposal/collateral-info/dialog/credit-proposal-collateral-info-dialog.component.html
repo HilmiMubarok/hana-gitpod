@@ -759,7 +759,7 @@
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
       <div class="form-group" [hidden]="parentPath === 'finalize' ? true : false">
-        <button mat-raised-button class="confirm-button-no">Cancel</button>
+        <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
         <button *ngIf="!disable" mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
       </div>
     </section>

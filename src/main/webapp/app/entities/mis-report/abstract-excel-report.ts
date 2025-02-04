@@ -21,6 +21,61 @@ export abstract class AbstractExcelMISReport {
     this._setupReport();
   }
 
+  protected _setAutoWidthForAllColumns(): void {
+    this.worksheet.columns.forEach((column) => {
+      let maxLength = 0;
+      let cloneValues
+      column["eachCell"]({ includeEmpty: true }, (cell) => {
+        if (cell.value) {
+          cloneValues = cell.value.toString().replace(/\n/g, '').split(',')[0];
+        }
+        const columnLength = cloneValues ? cloneValues.toString().length + 1 : 10;
+        if (cell.type === ExcelJS.ValueType.Date) {
+          maxLength = 20;
+        }
+        else if (columnLength > maxLength) {
+          maxLength = columnLength + 1;
+        }
+      });
+      if (column.key === 'no') {
+        column.width = 5;
+      } else {
+        let finalLength = maxLength < 10 ? 10 : maxLength;
+
+        if (finalLength > 100) {
+          finalLength = 50;
+        }
+
+        column.width = finalLength
+      }
+    });
+  }
+
+  protected _setAutoHeightForAllRows(): void {
+    this.worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
+      let maxHeight = 0;
+      row.eachCell({ includeEmpty: true }, (cell) => {
+        if (cell.value) {
+          const cellValue = cell.value.toString();
+          const cellLines = cellValue.split('\n');
+          const lineCount = cellLines.length;
+          const maxLineLength = Math.max(...cellLines.map(line => line.length));
+
+          // Estimate height based on line count and length
+          const estimatedHeight = Math.max(lineCount * 7, Math.ceil(maxLineLength / 7) * 7);
+
+          if (estimatedHeight > maxHeight) {
+            maxHeight = estimatedHeight;
+          }
+        }
+      });
+
+      // Set a minimum height and cap the maximum height
+      const finalHeight = Math.max(20, maxHeight);
+      row.height = finalHeight;
+    });
+  }
+
   protected getStatusLOV(appMenuId: string) {
     return this.service.getStatuses(appMenuId);
   }
@@ -539,5 +594,24 @@ export abstract class AbstractExcelMISReport {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
     return `${day}-${month}-${year}`;
+  }
+
+  protected sortCreditProposalByEarliestDate(creditProposal, statuses) {
+
+    return creditProposal
+      .map(user => ({
+        ...user,
+        timeLineCreditProposal: user.timeLineCreditProposal.filter(item => statuses.includes(item.statusDescription)).sort((a, b) =>
+          new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime()
+        )
+      }))
+      .sort((a, b) => {
+        const earliestA = new Date(a.timeLineCreditProposal[0].fromDate).getTime();
+        const earliestB = new Date(b.timeLineCreditProposal[0].fromDate).getTime();
+        if (earliestA !== earliestB) {
+          return earliestA - earliestB;
+        }
+        return a.id - b.id;
+      });
   }
 }
