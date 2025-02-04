@@ -177,7 +177,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
           result = result + param[i].propertyMarketValuePerMeter * this.countTotalAreaBuilding(param[i]);
         }
       }
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -191,7 +191,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
           result = result + param[i].propertyMarketValueIMBPerMeter * param[i].imbArea;
         }
       }
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -206,7 +206,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
         }
       }
 
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -221,7 +221,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
             result + param[i].propertyMarketValuePerMeter * this.countTotalAreaBuilding(param[i]) * (param[i].propertyPercentage / 100);
         }
       }
-      return result;
+      return Math.floor(result);
     }
 
     return 0;
@@ -237,7 +237,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
         }
       }
 
-      return result;
+      return Math.floor(result);
     }
 
     return 0;
@@ -254,7 +254,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
             param[i].propertyMarketValueTataKotaPerMeter * param[i].propertyAreaTataKota * (param[i].propertyPercentageTataKota / 100);
         }
       }
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -269,7 +269,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
           result = result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate;
         }
       }
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -283,7 +283,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
           result = result + param[i].propertyMarketValueIMBPerMeter * param[i].landSizePerCertificate;
         }
       }
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -299,7 +299,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
           result = result + param[i].propertyMarketValueTataKotaPerMeter * totalAreaCertificate;
         }
       }
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -313,7 +313,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
           result = result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate * (param[i].propertyPercentage / 100);
         }
       }
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -328,7 +328,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
             result + param[i].propertyMarketValueIMBPerMeter * param[i].landSizePerCertificate * (param[i].propertyPercentageIMB / 100);
         }
       }
-      return result;
+      return Math.floor(result);
     }
     return 0;
   }
@@ -411,7 +411,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
               propertyTatakota = collateralProperty.propertyAreaTataKota;
               marketValue = this.fnCountTotalMV([collateralProperty]);
               marketValueIMB = this.fnCountTotalMVIMB([collateralProperty]);
-              marketValueTataKota = collateralProperty.propertyMarketValueTataKotaPerMeter * area;
+              marketValueTataKota = totalMarketValueTataKota;
               liquidationValue = this.fnCountTotalLiquid([collateralProperty]);
               liquidationValueIMB = this.fnCountTotalLiquidIMB([collateralProperty]);
               liquidationValueTataKota =

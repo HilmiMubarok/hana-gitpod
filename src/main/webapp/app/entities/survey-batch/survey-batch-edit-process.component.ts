@@ -1478,7 +1478,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         if (item.marketValueIMB) {
           totalMarketValueIMB += item.marketValueIMB;
         }
-        if (item.totalMarketValueTataKota) {
+        if (item.marketValueTataKota) {
           totalMarketValueTataKota += item.marketValueTataKota;
         }
         if (item.liquidationValue) {
