@@ -583,7 +583,7 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges, OnDes
     }
     if (value === 'both') {
       this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
-      this.creditProposal.attributes['calculationExposure'].grandTotalPlafond = this.creditProposal.attributes['calculationExposure'].totalDebiturCashLoan + this.creditProposal.attributes['calculationExposure'].totalGroubCashLoan;
+      this.creditProposal.attributes['calculationExposure'].grandTotalPlafond = this.creditProposal.attributes['calculationExposure'].totalPlafondDebtor + this.creditProposal.attributes['calculationExposure'].totalPlafondGroub;
     }
     if (value === 'USD') {
       this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
