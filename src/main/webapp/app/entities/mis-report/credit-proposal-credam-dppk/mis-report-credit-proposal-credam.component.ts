@@ -213,7 +213,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
             formattedDifference: `${latestReviewCheckerTime} - ${minutesToTime(jam8Minutes)}`,
           };
     // Gabungkan hasil akhir
-    const formattedTatTime = `${tatTime.formattedDifference}`;
+    const formattedTatTime = `${minutesToTime(Math.abs(tatTime.timeDifference))}`;
     const latestDPPKFinalize = timeLineData.filter(item => item.fromStatusDescription === 'DPPK Finalize');
     if (latestDPPKFinalize.length > 0) {
       latestDPPKFinalize.reduce((latest, current) => {
@@ -292,6 +292,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       tbo: proposal.statusDocumentTbo || '',
       keterangan:
         timeLineData
+          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
           .map(timeline => timeline.note || '')
           .filter(note => note.trim() !== '')
           .join(',\n') || '',
