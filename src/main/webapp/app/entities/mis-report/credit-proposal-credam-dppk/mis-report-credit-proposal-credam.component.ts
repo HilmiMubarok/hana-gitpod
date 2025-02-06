@@ -225,25 +225,40 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     const tglEfekFasArr = [];
 
     for (let i = 0; i < proposal.product.length; i++) {
-      for (let z = 0; z < proposal.product[i].mainProduct.length; z++) {
-        const product = proposal.product[i];
-        const mainProduct = proposal.product[i].mainProduct[z];
+      const product = proposal.product[i];
 
-        if (proposal.product.some(p => p.pengajuan === 'New')) {
-          tglEfekFasArr.push(product.tenorFasilitas + ' ' + product.periodType);
-        } else if (proposal.product.some(p => p.pengajuan === 'Renewal')) {
-          tglEfekFasArr.push(this._convertDate(product.maturityDate) + ' s/d ' + this._convertDate(mainProduct.proposeMaturityDate));
-        } else if (proposal.product.some(p => p.pengajuan === 'Renewal + Decrease' || p.pengajuan === 'Renewal + Additional')) {
-          tglEfekFasArr.push(this._convertDate(mainProduct.startPeriodType));
-        } else if (proposal.product.some(p => p.pengajuan === 'Existing')) {
-          tglEfekFasArr.push(this._convertDate(product.maturityDate));
-        } else if (proposal.product.some(p => p.pengajuan === 'Additional / Top Up')) {
-          tglEfekFasArr.push(this._convertDate(mainProduct.proposeMaturityDate));
-        } else {
-          tglEfekFasArr.push(mainProduct.endPeriodRemark);
+      for (let z = 0; z < product.mainProduct.length; z++) {
+        const mainProduct = product.mainProduct[z];
+
+        switch (product.pengajuan) {
+          case 'New':
+            tglEfekFasArr.push(product.tenorFasilitas + ' ' + product.periodType);
+            break;
+
+          case 'Renewal':
+            tglEfekFasArr.push(this._convertDate(product.maturityDate) + ' s/d ' + this._convertDate(mainProduct.proposeMaturityDate));
+            break;
+
+          case 'Renewal + Additional':
+          case 'Renewal + Decrease':
+            tglEfekFasArr.push(this._convertDate(mainProduct.startPeriodType));
+            break;
+
+          case 'Existing':
+            tglEfekFasArr.push(this._convertDate(product.maturityDate));
+            break;
+
+          case 'Additional / Top Up':
+            tglEfekFasArr.push(this._convertDate(mainProduct.proposeMaturityDate));
+            break;
+
+          default:
+            tglEfekFasArr.push(mainProduct.endPeriodRemark);
+            break;
         }
       }
     }
+
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
