@@ -430,15 +430,15 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
             case 'New':
                 return `${prod.tenorFasilitas}  ${prod.periodType}` || ''
             case 'Renewal':
-                return `${prod.mainProduct.maturityDate} s/d ${prod.mainProduct.proposeMaturityDate}` || ''
+                return `${this._formatDateSLA(prod.mainProduct.maturityDate)} s/d ${this._formatDateSLA(prod.mainProduct.proposeMaturityDate)}` || ''
             case 'Renewal + Additional':
-                return ``
+                return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || ''
             case 'Renewal + Decrease':
-                return ``
+                return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || ''
             case 'Existing':
-                return ``
+                return this._formatDateSLA(prod.maturityDate) || ''
             case 'Additional / Top Up':
-                return prod.mainProduct.proposeMaturityDate || ''
+                return this._formatDateSLA(prod.mainProduct.proposeMaturityDate) || ''
             default:
                 return prod.mainProduct.endPeriodRemark || ''
         }
