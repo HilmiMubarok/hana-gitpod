@@ -31,6 +31,7 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
   public totalDataValuationLand: ICollateralProperty[];
   public totalDataValuationVehicle: ICollateralProperty[];
   public totalDataValuationMachine: ICollateralProperty[];
+  public valuationData: any[];
 
   public collateralProperty: ICollateralProperty[];
   public collateralPropertyMod: any;
@@ -51,6 +52,7 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
     this.totalDataValuationLand = [];
     this.totalDataValuationMachine = [];
     this.totalDataValuationVehicle = [];
+    this.valuationData = [];
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/collateral-appraisals');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/collateral-appraisals');
