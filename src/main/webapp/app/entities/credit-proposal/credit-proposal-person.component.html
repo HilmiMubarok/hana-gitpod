@@ -692,52 +692,28 @@
           <hr />
 
           <div class="row my-3">
-            <div class="col-2">
-              <!-- <div class="form-space"> -->
-              <div color="#A3A3A3" class="e-headertext">Customer Status</div>
-            </div>
-
-            <div class="col-2">
+            <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-radiobutton
+                <div class="e-headertext mb-2" color="#A3A3A3">Customer Status :</div>
+                <mat-radio-group
                   [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
-                  [value]="'New'"
                   name="customer"
-                  label="New"
-                ></ejs-radiobutton>
+                  class="d-flex align-items-center"
+                >
+                  <mat-radio-button [value]="'New'" class="me-3">New</mat-radio-button>
+                  <mat-radio-button [value]="'Existing'">Existing</mat-radio-button>
+                </mat-radio-group>
               </section>
-
-              <!-- <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-radiobutton [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus" [value]="'New'"
-                  name="customer" label="New" readonly></ejs-radiobutton>
-              </section> -->
-              <!-- </div> -->
-            </div>
-            <div class="col-2">
-              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-radiobutton
-                  [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
-                  [value]="'Existing'"
-                  name="customer"
-                  label="Existing"
-                ></ejs-radiobutton>
+              <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <div class="fontsebled row">
+                  <div class="col">Customer Status</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">{{ deptorData.attributes['basicInformation'].customerStatus }}</div>
+                </div>
               </section>
-              <!-- <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-radiobutton [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
-                  [value]="'Existing'" name="customer" label="Existing" readonly></ejs-radiobutton>
-              </section> -->
-              <!-- </div> -->
             </div>
-            <!-- <div class="col"> -->
-            <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <div class="fontsebled row">
-                <div class="col"></div>
-                <div class="col-md-auto">:</div>
-                <div class="col">{{ deptorData.attributes['basicInformation'].customerStatus }}</div>
-              </div>
-            </section>
             <!-- </div> -->
-            <div class="col-6">
+            <div class="col">
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Call Report Category</mat-label>
@@ -751,7 +727,7 @@
               </section>
               <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <div class="fontsebled row">
-                  <div class="col">Call Report Category</div>
+                  <div class="col-4">Call Report Category</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
                     {{ callReportCategory }}
