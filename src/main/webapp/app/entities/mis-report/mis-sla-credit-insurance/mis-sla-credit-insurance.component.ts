@@ -527,8 +527,20 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
         }
 
         // hitung tat time
-        const formatDate = (date: string) =>
-          `${date.split('/')[2]}-${date.split('/')[1].padStart(2, '0')}-${date.split('/')[0].padStart(2, '0')}`;
+        const formatDate = (date: string | undefined | null) => {
+          if (!date || typeof date !== 'string' || !date.includes('/')) {
+            return '';
+          }
+
+          const parts = date.split('/');
+          if (parts.length < 3) {
+            return '';
+          }
+
+          const [day, month, year] = parts;
+
+          return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        };
 
         const formatTime = (time: string) => time || '00:00:00';
 
@@ -616,13 +628,25 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       'keterangan',
       'transaksiKredit',
     ];
-    columnsToBeWraped.forEach(column => {
-      const col = this.worksheet.getColumn(column);
+    this.columns.forEach(column => {
+      const col = this.worksheet.getColumn(column.key);
+
       col.alignment = {
         vertical: 'middle',
         horizontal: 'center',
         wrapText: true,
       };
+
+      const columnValue = this.worksheet.getColumn(column.key);
+
+      const newValue = columnValue.values.map(value => {
+        if (value) {
+          return this._clearEmptyEntries(value.toString());
+        }
+        return value;
+      });
+
+      columnValue.values = newValue;
     });
   }
 }
