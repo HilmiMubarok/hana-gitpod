@@ -222,6 +222,28 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         return currentDate > latestDate ? current : latest;
       });
     }
+    const tglEfekFasArr = [];
+
+    for (let i = 0; i < proposal.product.length; i++) {
+      for (let z = 0; z < proposal.product[i].mainProduct.length; z++) {
+        const product = proposal.product[i];
+        const mainProduct = proposal.product[i].mainProduct[z];
+
+        if (proposal.product.some(p => p.pengajuan === 'New')) {
+          tglEfekFasArr.push(product.tenorFasilitas + ' ' + product.periodType);
+        } else if (proposal.product.some(p => p.pengajuan === 'Renewal')) {
+          tglEfekFasArr.push(this._convertDate(product.maturityDate) + ' s/d ' + this._convertDate(mainProduct.proposeMaturityDate));
+        } else if (proposal.product.some(p => p.pengajuan === 'Renewal + Decrease' || p.pengajuan === 'Renewal + Additional')) {
+          tglEfekFasArr.push(this._convertDate(mainProduct.startPeriodType));
+        } else if (proposal.product.some(p => p.pengajuan === 'Existing')) {
+          tglEfekFasArr.push(this._convertDate(product.maturityDate));
+        } else if (proposal.product.some(p => p.pengajuan === 'Additional / Top Up')) {
+          tglEfekFasArr.push(this._convertDate(mainProduct.proposeMaturityDate));
+        } else {
+          tglEfekFasArr.push(mainProduct.endPeriodRemark);
+        }
+      }
+    }
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
@@ -283,7 +305,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       fasilitas: proposal.product.map(product => product.facility).join(',\n') || '',
       ccy: proposal.product.map(product => product.currency).join(',\n') || '',
       nominal: proposal.product.map(product => product.totalPlafond).join(',\n') || '',
-      tglEfektifFas: '',
+      tglEfektifFas: tglEfekFasArr.join(',\n') || '',
       jenisJaminan: proposal.collateral.map(collateral => collateral.collateralCode).join(',\n') || '',
       segmentasi: proposal.regionalParentRM || '',
       branch: proposal.bookingBranchName || '',
@@ -363,6 +385,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       'checkerOutTime',
       'approvalOutDate',
       'approvalOutTime',
+      'tglEfektifFas',
     ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {
