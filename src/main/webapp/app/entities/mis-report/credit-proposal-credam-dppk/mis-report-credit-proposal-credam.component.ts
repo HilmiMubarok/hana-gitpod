@@ -223,7 +223,8 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       });
     }
     const tglEfekFasArr = [];
-
+    const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution');
+    const startDateInLoanOps = filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createDate;
     for (let i = 0; i < proposal.product.length; i++) {
       const product = proposal.product[i];
 
@@ -232,7 +233,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
 
         switch (product.pengajuan) {
           case 'New':
-            tglEfekFasArr.push(product.tenorFasilitas + ' ' + product.periodType);
+            tglEfekFasArr.push(this._convertDate(startDateInLoanOps));
             break;
 
           case 'Renewal':
@@ -245,11 +246,11 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
             break;
 
           case 'Existing':
-            tglEfekFasArr.push(this._convertDate(product.maturityDate));
+            tglEfekFasArr.push(this._convertDate(product.firstDisbursementDate));
             break;
 
           case 'Additional / Top Up':
-            tglEfekFasArr.push(this._convertDate(mainProduct.proposeMaturityDate));
+            tglEfekFasArr.push(this._convertDate(startDateInLoanOps));
             break;
 
           default:
