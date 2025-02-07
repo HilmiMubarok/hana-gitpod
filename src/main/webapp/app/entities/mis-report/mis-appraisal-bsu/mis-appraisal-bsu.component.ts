@@ -328,23 +328,29 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     }
   }
 
-  toggleSelectBranch(): void {
-    this.allSelectedBranch = !this.allSelectedBranch; // Toggle status Select All / Deselect All
-    const branchControl = this.MISReportAppraisal.get('branch');
-
-    if (this.allSelectedBranch) {
-      branchControl?.setValue([...this.lovBranch]);
-    } else {
-      branchControl?.setValue(null);
-    }
-  }
-
   toggleSelectAllGeo(): void {
     this.allSelectedGeo = !this.allSelectedGeo;
     if (this.allSelectedGeo) {
       this.MISReportAppraisal.get('geoBoundaries')?.setValue([...this.lovGeo.map(geoBoundaries => geoBoundaries.id)]);
     } else {
       this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
+    }
+  }
+
+  toggleSelectBranch(): void {
+    this.allSelectedBranch = !this.allSelectedBranch; // Toggle status Select All / Deselect All
+    // const branchControl = this.MISReportAppraisal.get('branch');
+
+    // if (this.allSelectedBranch) {
+    //   branchControl?.setValue([...this.lovBranch]);
+    // } else {
+    //   branchControl?.setValue(null);
+    // }
+
+    if (this.allSelectedBranch) {
+      this.MISReportAppraisal.get('branch')?.setValue([...this.lovBranch.map(branch => branch.id)]);
+    } else {
+      this.MISReportAppraisal.get('branch')?.setValue(null);
     }
   }
 
@@ -396,44 +402,42 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   }
 
   generateMISReportAppraisalBsu(): void {
-    let params;
-
-    if (
-      (!this.MISReportAppraisal.get('date1')?.value || this.MISReportAppraisal.get('date1')?.value.length === 0) &&
-      (!this.MISReportAppraisal.get('date2')?.value || this.MISReportAppraisal.get('date2')?.value.length === 0) &&
-      (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0)
-    ) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please, Select Parameter.',
-      });
-      return;
-    }
-
-    if (!this.MISReportAppraisal.get('date1')?.value || this.MISReportAppraisal.get('date2')?.value.length === 0) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please, entry Date Range.',
-      });
-      return;
-    }
-
-    if (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please, entry Status.',
-      });
-      return;
-    }
+    let params: any = {};
 
     if (this.MISReportAppraisal.get('query')?.value) {
-      params = {
-        query: this.MISReportAppraisal.get('query')?.value,
-      };
+      params.query = this.MISReportAppraisal.get('query')?.value;
     } else {
+      if (
+        (!this.MISReportAppraisal.get('date1')?.value || this.MISReportAppraisal.get('date1')?.value.length === 0) &&
+        (!this.MISReportAppraisal.get('date2')?.value || this.MISReportAppraisal.get('date2')?.value.length === 0) &&
+        (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0)
+      ) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Parameter.',
+        });
+        return;
+      }
+
+      if (!this.MISReportAppraisal.get('date1')?.value || this.MISReportAppraisal.get('date2')?.value.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, entry Date Range.',
+        });
+        return;
+      }
+
+      if (!this.MISReportAppraisal.get('statusAppraisal')?.value || this.MISReportAppraisal.get('statusAppraisal')?.value.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, entry Status.',
+        });
+        return;
+      }
+
       params = {
         startDate: this.MISReportAppraisal.get('date1')?.value,
         endDate: this.MISReportAppraisal.get('date2')?.value,
@@ -469,6 +473,469 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   _formatDateToCustom(date: string | Date): string {
     const d = new Date(date);
     return isNaN(d.getTime()) ? '' : `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
+  }
+
+  private _getLandAreaBasedOnPhysicalConditions(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const internalLandSizes = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.landInternal) ? property.landInternal : []).map(land => {
+          console.log('Processing landInternal:', land);
+          return `${land.landSizePerCertificate || ''} `;
+        });
+      });
+
+      console.log('Final internal land sizes:', internalLandSizes);
+      return internalLandSizes.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const external = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (external):', property);
+        return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(land => {
+          console.log('Processing external:', land);
+          return `${land.totalLuasTanahFisik || ''} `;
+        });
+      });
+
+      console.log('Final totalLuasTanahFisik:', external);
+      return external.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getbuildingAreaBasedOnPhysicalCondition(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const areaInternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.buildingInternal) ? property.buildingInternal : []).map(building => {
+          console.log('Processing buildingInternal:', building);
+          return `${building.area || ''} `;
+        });
+      });
+
+      console.log('Final area:', areaInternal);
+      return areaInternal.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const external = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (external):', property);
+        return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(building => {
+          console.log('Processing external:', building);
+          return `${building.totalLuasBangunanFisik || ''} `;
+        });
+      });
+
+      console.log('Final totalLuasBangunanFisik:', external);
+      return external.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getMarketValueLandPhysicalCondition(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const marketValueInternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.landInternal) ? property.landInternal : []).map(mvPhysical => {
+          console.log('Processing landInternal:', mvPhysical);
+          return `${mvPhysical.marketValue || ''} `;
+        });
+      });
+
+      console.log('Final marketValue:', marketValueInternal);
+      return marketValueInternal.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const external = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (external):', property);
+        return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(mvPhysicalExternal => {
+          console.log('Processing external:', mvPhysicalExternal);
+          const totalValue = (mvPhysicalExternal.totalLuasTanahFisik || 0) * (mvPhysicalExternal.appraisalValueLandPerMeter || 0);
+          return `${totalValue || ''} `;
+        });
+      });
+
+      console.log('Final total appraisal value:', external);
+      return external.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getmarketValueBuildingPhysicalCondition(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const marketValueInternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.buildingInternal) ? property.buildingInternal : []).map(mvBuilding => {
+          console.log('Processing buildingInternal:', mvBuilding);
+          return `${mvBuilding.marketValue || ''} `;
+        });
+      });
+
+      console.log('Final marketValue:', marketValueInternal);
+      return marketValueInternal.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const external = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (external):', property);
+        return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(mvBuildingExternal => {
+          console.log('Processing external:', mvBuildingExternal);
+          const totalMv = (mvBuildingExternal.totalLuasBangunanFisik || 0) * (mvBuildingExternal.appraisalValueBuildingPerMeter || 0);
+          return `${totalMv || ''} `;
+        });
+      });
+
+      console.log('Final total appraisal value:', external);
+      return external.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getliquidationValueLandPhysicalCondition(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const liquidationValueLandPhysicalCondition = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.landInternal) ? property.landInternal : []).map(liquidationInternal => {
+          console.log('Processing landInternal:', liquidationInternal);
+          return `${liquidationInternal.liquidationValue || ''}`;
+        });
+      });
+
+      console.log('Final internal liquidationValueLandPhysicalCondition:', liquidationValueLandPhysicalCondition);
+      return liquidationValueLandPhysicalCondition.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const liquidationValueLandPhysicalConditionExternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(
+        property => {
+          console.log('Processing propertyDetail (external):', property);
+          return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(land => {
+            console.log('Processing external:', land);
+            return `${land.appraisalLiquidationLand || ''} `;
+          });
+        }
+      );
+
+      console.log('Final appraisalLiquidationLand:', liquidationValueLandPhysicalConditionExternal);
+      return liquidationValueLandPhysicalConditionExternal.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getliquidationValueBuildingPhysicalCondition(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const liquidationValueLandPhysicalCondition = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.buildingInternal) ? property.buildingInternal : []).map(liquidationInternal => {
+          console.log('Processing landInternal:', liquidationInternal);
+          return `${liquidationInternal.liquidationValue || ''}`;
+        });
+      });
+
+      console.log('Final internal liquidationValueBuildingPhysicalCondition:', liquidationValueLandPhysicalCondition);
+      return liquidationValueLandPhysicalCondition.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const liquidationValueLandPhysicalConditionExternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(
+        property => {
+          console.log('Processing propertyDetail (external):', property);
+          return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(liquidationExternal => {
+            console.log('Processing external:', liquidationExternal);
+            return `${liquidationExternal.appraisalLiquidationBuilding || ''} `;
+          });
+        }
+      );
+
+      console.log('Final appraisalLiquidationLand:', liquidationValueLandPhysicalConditionExternal);
+      return liquidationValueLandPhysicalConditionExternal.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getlandAreaBasedOnIMB(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const landAreaBasedOnIMB = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.landInternal) ? property.landInternal : []).map(landAreaOnIMB => {
+          console.log('Processing landInternal:', landAreaOnIMB);
+          return `${landAreaOnIMB.landSizePerCertificate || ''}`;
+        });
+      });
+
+      console.log('Final internal landAreaBasedOnIMB:', landAreaBasedOnIMB);
+      return landAreaBasedOnIMB.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const landAreaBasedOnIMBExternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (external):', property);
+        return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(totalLuasTanahIMBExternal => {
+          console.log('Processing external:', totalLuasTanahIMBExternal);
+          return `${totalLuasTanahIMBExternal.totalLuasTanahIMB || ''} `;
+        });
+      });
+
+      console.log('Final totalLuasTanahIMB:', landAreaBasedOnIMBExternal);
+      return landAreaBasedOnIMBExternal.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getBuildingAreaBasedOnIMB(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const buildingAreaBasedOnIMBInternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.buildingInternal) ? property.buildingInternal : []).map(IMBInternal => {
+          console.log('Processing buildingInternal:', IMBInternal);
+          return `${IMBInternal.imbArea || ''}`;
+        });
+      });
+
+      console.log('Final internal buildingAreaBasedOnIMBInternal:', buildingAreaBasedOnIMBInternal);
+      return buildingAreaBasedOnIMBInternal.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const buildingAreaBasedOnIMBExternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (external):', property);
+        return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(IMBExternal => {
+          console.log('Processing external:', IMBExternal);
+          return `${IMBExternal.totalLuasBangunanIMB || ''}`;
+        });
+      });
+
+      console.log('Final buildingAreaBasedOnIMBExternal:', buildingAreaBasedOnIMBExternal);
+      return buildingAreaBasedOnIMBExternal.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getMarketValueLandIMB(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const marketValueInternalIMB = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.landInternal) ? property.landInternal : []).map(mvIMB => {
+          console.log('Processing landInternal:', mvIMB);
+          return `${mvIMB.marketValueIMB || ''}`;
+        });
+      });
+
+      console.log('Final marketValue:', marketValueInternalIMB);
+      return marketValueInternalIMB.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const external = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (external):', property);
+        return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(mvPhysicalExternal => {
+          console.log('Processing external:', mvPhysicalExternal);
+          const totalValue = (mvPhysicalExternal.totalLuasTanahIMB || 0) * (mvPhysicalExternal.appraisalValueIMBPerMeterLand || 0);
+          return `${totalValue || ''}`;
+        });
+      });
+
+      console.log('Final total appraisal value:', external);
+      return external.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getmarketValueBuildingPhysicalConditionIMB(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const marketValueInternal = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.buildingInternal) ? property.buildingInternal : []).map(mvBuilding => {
+          console.log('Processing buildingInternal:', mvBuilding);
+          return `${mvBuilding.marketValueIMB || ''}`;
+        });
+      });
+
+      console.log('Final marketValue:', marketValueInternal);
+      return marketValueInternal.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      const external = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (external):', property);
+        return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(mvBuildingExternal => {
+          console.log('Processing external:', mvBuildingExternal);
+          const totalMv = (mvBuildingExternal.totalLuasBangunanIMB || 0) * (mvBuildingExternal.appraisalValueIMBTataKotaBuilding || 0);
+          return `${totalMv || ''} `;
+        });
+      });
+
+      console.log('Final total appraisal value:', external);
+      return external.join('\n') || '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getLiquidationValueLandPhysicalConditionIMB(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const liquidationValueLandPhysicalConditionIMB = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(property => {
+        console.log('Processing propertyDetail (Internal):', property);
+        return (Array.isArray(property.landInternal) ? property.landInternal : []).map(liquidationInternal => {
+          console.log('Processing landInternal:', liquidationInternal);
+          return `${liquidationInternal.liquidationValueIMB || ''}`;
+        });
+      });
+
+      console.log('Final internal liquidationValueLandPhysicalConditionIMB:', liquidationValueLandPhysicalConditionIMB);
+      return liquidationValueLandPhysicalConditionIMB.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      return '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  private _getLiquidationValueBuildingPhysicalConditionIMB(row: any): string {
+    console.log('Received row:', row);
+
+    if (row.appraisalType === 'Internal') {
+      const liquidationValueBuildingPhysicalConditionIMB = (Array.isArray(row.propertyDetail) ? row.propertyDetail : []).flatMap(
+        property => {
+          console.log('Processing propertyDetail (Internal):', property);
+          return (Array.isArray(property.buildingInternal) ? property.buildingInternal : []).map(liquidationInternal => {
+            console.log('Processing landInternal:', liquidationInternal);
+            return `${liquidationInternal.liquidationValueIMB || ''}`;
+          });
+        }
+      );
+
+      console.log('Final internal liquidationValueBuildingPhysicalConditionIMB:', liquidationValueBuildingPhysicalConditionIMB);
+      return liquidationValueBuildingPhysicalConditionIMB.join('\n') || '';
+    }
+
+    if (row.appraisalType === 'External') {
+      return '';
+    }
+
+    console.log('No valid appraisalType found.');
+    return '';
+  }
+
+  // private _getApprovedFromDate(row: any): string {
+  //   console.log('Received row report date:', row);
+
+  //   if (row.appraisalType === 'Internal' && Array.isArray(row.timeline)) {
+  //     const approvedDates = row.timeline
+  //       .filter(entry => entry.statusDescription === 'Approved') // Filter hanya yang 'Approved'
+  //       .map(entry => entry.fromDate) // Ambil fromDate
+  //       .filter(date => date) // Pastikan tidak null atau undefined
+  //       .map(date => {
+  //         const parsedDate = new Date(date);
+  //         return isNaN(parsedDate.getTime()) ? null : parsedDate; // Konversi ke Date object
+  //       })
+  //       .filter(date => date !== null) // Hapus yang null jika ada
+  //       .sort((a, b) => a.getTime() - b.getTime()); // Urutkan dari yang paling lama
+
+  //     if (approvedDates.length > 0) {
+  //       const earliestDate = approvedDates[0]; // Ambil yang paling awal
+  //       const formattedDate = `${earliestDate.getDate().toString().padStart(2, '0')}-${(earliestDate.getMonth() + 1)
+  //         .toString()
+  //         .padStart(2, '0')}-${earliestDate.getFullYear()}`;
+  //       console.log('Earliest Approved fromDate:', formattedDate);
+  //       return formattedDate;
+  //     }
+  //   }
+
+  //   console.log('No valid approved fromDate found.');
+  //   return '';
+  // }
+
+  // private _getApprovedFromDate(cp): string {
+  //   if (Array.isArray(cp)) {
+  //     const result = cp
+  //       .filter(item => item.appraisalType === 'Internal')
+  //       .flatMap(item => item.timeLine)
+  //       .find(timeline => timeline.statusDescription === 'Approved');
+  //     return result ? result.fromDate : '';
+  //   } else if (typeof cp === 'object' && cp !== null && cp.appraisalType === 'Internal' && Array.isArray(cp.timeLine)) {
+  //     const result = cp.timeLine.find(timeline => timeline.statusDescription === 'Approved');
+  //     return result ? result.fromDate : '';
+  //   }
+  //   return '';
+  // }
+
+  private _getApprovedFromDate(cp): string {
+    if (Array.isArray(cp)) {
+      const result = cp
+        .filter(item => item.appraisalType === 'Internal')
+        .flatMap(item => item.timeLine)
+        .find(timeline => timeline.statusDescription === 'Approved');
+      return result ? result.fromDate : '';
+    }
+
+    if (typeof cp === 'object' && cp !== null) {
+      if (cp.appraisalType === 'Internal' && Array.isArray(cp.timeLine)) {
+        const result = cp.timeLine.find(timeline => timeline.statusDescription === 'Approved');
+        return result ? result.fromDate : '';
+      }
+
+      if (cp.appraisalType === 'External') {
+        const reportDateEksternal = (Array.isArray(cp.propertyDetail) ? cp.propertyDetail : []).flatMap(property => {
+          console.log('Processing propertyDetail (external):', property);
+          return (Array.isArray(property.landAndBuildingExternal) ? property.landAndBuildingExternal : []).map(dateExternal => {
+            console.log('Processing external:', dateExternal);
+            return `${dateExternal.reportDate || ''}`;
+          });
+        });
+
+        console.log('Final reportDate:', reportDateEksternal);
+        return reportDateEksternal.join('\n') || '';
+      }
+    }
+
+    return '';
   }
 
   private _processGenerate(data, outputName: string): void {
@@ -549,7 +1016,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         ?.filter(timeline => timeline.statusDescription === 'Approved')
         .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
-      const tanggalLaporan = approvedTimeline?.length ? this._formatDateToCustom(approvedTimeline[0].fromDate) : '';
+      // const tanggalLaporan = approvedTimeline?.length ? this._formatDateToCustom(approvedTimeline[0].fromDate) : '';
       const tanggalPermohonan = row.tanggalPermohonan ? this._formatDateToCustom(row.tanggalPermohonan) : 'Data tidak tersedia';
 
       const timeLineData = row.timeLine ? row.timeLine.sort((a, b) => a.id - b.id) : [];
@@ -566,50 +1033,34 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         marketing: row.marketing || '',
         customerName: row.customerName || '',
         tanggalPermohonan: row.appraisalDate ? this._formatDateToCustom(row.appraisalDate) : '',
-        collateralId: row.collateral[0]?.id || '',
-        collateralType: row.collateral[0]?.collateralType || '',
-        collateral: row.collateral[0]?.collateral || '',
-        certificateNumber: row.collateral[0]?.landCertificates?.map(cert => cert.certNumber).join('\n') || '',
-        propertyUsage: row.collateral[0]?.propertyUsage || '',
+        collateralId: row.collateral?.[0]?.id || '', // Gunakan optional chaining
+        collateralType: row.collateral?.[0]?.collateralType || '',
+        collateral: row.collateral?.[0]?.collateral || '',
+        certificateNumber: row.collateral?.[0]?.landCertificates?.map(cert => cert.certNumber).join('\n') || '',
+        propertyUsage: row.collateral?.[0]?.propertyUsage || '',
         marketAbility:
           row.marketAbility === 'baik' ? 'Good' : row.marketAbility === 'cukup' ? 'Fair' : row.marketAbility === 'kurang' ? 'Minus' : '',
-        landAreaBasedOnPhysicalConditions:
-          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(land => `${land.landSizePerCertificate || ''} m²`).join('\n') || '',
-        buildingAreaBasedOnPhysicalCondition:
-          row.collateral[0]?.propertyDetail[0]?.buildingInternal?.map(building => `${building.area || ''} m²`).join('\n') || '',
-        marketValueLandPhysicalCondition:
-          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(mvPhysical => `${mvPhysical.propertyMarketValue || ''}`).join('\n') || '',
-        marketValueBuildingPhysicalCondition:
-          row.collateral[0]?.propertyDetail[0]?.buildingInternal
-            ?.map(mvBuilding => `${mvBuilding.propertyMarketValue || ''} `)
-            .join('\n') || '',
-        liquidationValueLandPhysicalCondition:
-          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(lvPhysical => `${lvPhysical.liquidationValue || ''}`).join('\n') || '',
-        liquidationValueBuildingPhysicalCondition:
-          row.collateral[0]?.propertyDetail[0]?.buildingInternal?.map(lvBuilding => `${lvBuilding.liquidationValue || ''} `).join('\n') ||
-          '',
-        landAreaBasedOnIMB:
-          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(landIMB => `${landIMB.landSizePerCertificate || ''} m²`).join('\n') || '',
-        buildingAreaBasedOnIMB:
-          row.collateral[0]?.propertyDetail[0]?.buildingInternal?.map(buildingIMB => `${buildingIMB.area || ''} m²`).join('\n') || '',
-        marketValueLandPhysicalConditionIMB:
-          row.collateral[0]?.propertyDetail[0]?.landInternal
-            ?.map(mvPhysicalIMB => `${mvPhysicalIMB.propertyMarketValueIMB || ''}`)
-            .join('\n') || '',
-        marketValueBuildingPhysicalConditionIMB:
-          row.collateral[0]?.propertyDetail[0]?.buildingInternal
-            ?.map(mvBuildingIMB => `${mvBuildingIMB.propertyMarketValueIMB || ''} `)
-            .join('\n') || '',
-        liquidationValueLandPhysicalConditionIMB:
-          row.collateral[0]?.propertyDetail[0]?.landInternal?.map(lvPhysicalIMB => `${lvPhysicalIMB.totalLVIMB || ''}`).join('\n') || '',
-        liquidationValueBuildingPhysicalConditionIMB:
-          row.collateral[0]?.propertyDetail[0]?.buildingInternal?.map(lvBuildingIMB => `${lvBuildingIMB.totalLVIMB || ''} `).join('\n') ||
-          '',
-        location: row.collateral[0]?.location || '',
-        village: row.collateral[0]?.villageName || '',
-        district: row.collateral[0]?.districtName || '',
-        city: row.collateral[0]?.city || '',
-        provinceName: row.collateral[0]?.provinceName || '',
+        landAreaBasedOnPhysicalConditions: this._getLandAreaBasedOnPhysicalConditions(row),
+
+        buildingAreaBasedOnPhysicalCondition: this._getbuildingAreaBasedOnPhysicalCondition(row),
+
+        marketValueLandPhysicalCondition: this._getMarketValueLandPhysicalCondition(row),
+
+        marketValueBuildingPhysicalCondition: this._getmarketValueBuildingPhysicalCondition(row),
+        liquidationValueLandPhysicalCondition: this._getliquidationValueLandPhysicalCondition(row),
+        liquidationValueBuildingPhysicalCondition: this._getliquidationValueBuildingPhysicalCondition(row),
+        landAreaBasedOnIMB: this._getlandAreaBasedOnIMB(row),
+        buildingAreaBasedOnIMB: this._getBuildingAreaBasedOnIMB(row),
+        marketValueLandPhysicalConditionIMB: this._getMarketValueLandIMB(row),
+
+        marketValueBuildingPhysicalConditionIMB: this._getmarketValueBuildingPhysicalConditionIMB(row),
+        liquidationValueLandPhysicalConditionIMB: this._getLiquidationValueLandPhysicalConditionIMB(row),
+        liquidationValueBuildingPhysicalConditionIMB: this._getLiquidationValueBuildingPhysicalConditionIMB(row),
+        location: row.collateral?.[0]?.location || '',
+        village: row.collateral?.[0]?.villageName || '',
+        district: row.collateral?.[0]?.districtName || '',
+        city: row.collateral?.[0]?.city || '',
+        provinceName: row.collateral?.[0]?.provinceName || '',
         appraisalType: row.appraisalType || '',
         plafond: row.plafond || '',
         creditMaturityDate: row.tglJatemKredit || '',
@@ -621,12 +1072,12 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
         totalLVKJPP: row.totalLVKJPP || '',
         visitedDate,
         tanggalPenilaian,
-        tanggalLaporan,
+        tanggalLaporan: this._getApprovedFromDate(row),
         reviewer: row.reviewerBy || '',
-        negativeList: row.scoreCard[0]?.criteria || '',
+        negativeList: row.scoreCard?.[0]?.criteria || '', // Gunakan optional chaining
         timeline:
           timeLineData
-            .map(timeline => {
+            ?.map(timeline => {
               const formattedDate = timeline.fromDate ? this._formatDateToCustom(timeline.fromDate) : '';
               return `${timeline.fromStatusDescription || ''} : ${formattedDate || ''} : ${
                 this._processTimelinePersonName(timeline.personName) || ''
