@@ -215,7 +215,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
                 dpkNumber: prop.dppkNumber || '',
                 picLoanOps: prop.dataAssignToLoanOpsOfficerName || '',
                 debtor: prop.debtorName || '',
-                loanOpsDistributionInDate: this._formatDateSLA(this.getLoanOpsDistributionInDate(prop)),
+                loanOpsDistributionInDate: this.getLoanOpsDistributionInDate(prop),
                 loanOpsDistributionInTime: this.getLoanOpsDistributionInTime(prop),
                 loanOpsOfficerOutDate: this._formatDateSLA(this.getLoanOpsOfficerOutDate(prop)),
                 loanOpsOfficerOutTime: this.getLoanOpsOfficerOutTime(prop),
@@ -232,7 +232,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
                 fasilitas: prod.facility || '',
                 ccy: prod.currency || '',
                 nominal: prod.totalPlafond || '',
-                tglEfektifFasilitas: this.getTanggalEfektifFasilitas(prod),
+                tglEfektifFasilitas: this.getTanggalEfektifFasilitas(prod, prop),
                 jenisJaminan: prop.collateral.map(coll => coll.collateralCode).join(',\n'),
                 segmentasi: prop.regionalParentRM || '',
                 branch: prop.bookingBranchName || '',
@@ -262,7 +262,6 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         ];
         this.columns.forEach(column => {
             const col = this.worksheet.getColumn(column.key);
-            console.log({ column, col });
             col.alignment = {
                 vertical: 'middle',
                 horizontal: 'center',
@@ -287,7 +286,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
     private getLoanOpsDistributionInDate(proposal: any): string {
         return proposal.timeLineCreditProposal
             .filter((t: any) => t.statusDescription === 'Loan Ops Ditribution')
-            .map((timeline: any) => timeline.fromDate)
+            .map((timeline: any) => this._formatDateSLA(timeline.fromDate))
             .join(',\n');
     }
 
@@ -425,10 +424,25 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     }
 
-    private getTanggalEfektifFasilitas(prod: any) {
+    private _getEarliestDate(dateStr: string): string {
+        const dates = dateStr.split(/,\s*|\n/).map(date => date.trim());
+
+        const earliestDate = dates.reduce((earliest, current) => {
+            const [day1, month1, year1] = earliest.split("-").map(Number);
+            const [day2, month2, year2] = current.split("-").map(Number);
+
+            const date1 = new Date(year1, month1 - 1, day1);
+            const date2 = new Date(year2, month2 - 1, day2);
+
+            return date2 < date1 ? current : earliest;
+        });
+        return earliestDate;
+    }
+
+    private getTanggalEfektifFasilitas(prod: any, proposal = null) {
         switch (prod.pengajuan) {
             case 'New':
-                return `${prod.tenorFasilitas}  ${prod.periodType}` || ''
+                return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal))
             case 'Renewal':
                 return `${this._formatDateSLA(prod.mainProduct.maturityDate)} s/d ${this._formatDateSLA(prod.mainProduct.proposeMaturityDate)}` || ''
             case 'Renewal + Additional':
@@ -436,9 +450,9 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
             case 'Renewal + Decrease':
                 return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || ''
             case 'Existing':
-                return this._formatDateSLA(prod.maturityDate) || ''
+                return this._formatDateSLA(prod.firstDisbursementDate) || ''
             case 'Additional / Top Up':
-                return this._formatDateSLA(prod.mainProduct.proposeMaturityDate) || ''
+                return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal))
             default:
                 return prod.mainProduct.endPeriodRemark || ''
         }
