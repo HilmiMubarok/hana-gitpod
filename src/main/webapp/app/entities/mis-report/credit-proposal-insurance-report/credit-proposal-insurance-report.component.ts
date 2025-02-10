@@ -212,8 +212,10 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             worksheet.addRow(baseData);
         }
 
+        const debtorName = proposal.debtorName || '';
+
         const filteredCollateral = proposal.collateral.filter((collateral) =>
-            ['Real Estate', 'Machine', 'Vehicle', 'Personal Property'].includes(collateral.collateralType) && collateral.collateralTypeInsurance === "true")
+            ['Real Estate', 'Machine', 'Vehicle', 'Personal Property'].includes(collateral.collateralType) && collateral.collateralTypeInsurance === "true" && collateral.partyName === debtorName)
 
         // Process each collateral
         filteredCollateral.forEach((collateral) => {
