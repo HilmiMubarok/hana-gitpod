@@ -79,6 +79,10 @@ export abstract class AbstractExcelMISReport {
     return this.service.getStatuses(appMenuId);
   }
 
+  protected getUsernameLOV(positionTypeId) {
+    return this.service.getLovUsername(positionTypeId);
+  }
+
   protected setUpColumns(columns): void {
     this.worksheet.columns = columns;
   }
