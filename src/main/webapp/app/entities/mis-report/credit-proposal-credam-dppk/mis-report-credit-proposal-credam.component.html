@@ -31,11 +31,25 @@
               <li class="select-all" (click)="toggleSelectAll()">
                 {{ allSelected ? 'Deselect All' : 'Select All' }}
               </li>
-              <mat-option *ngFor="let item of listOfValue" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
+              <mat-option *ngFor="let item of listOfValue" [value]="item.statusId">{{ item.statusDescription }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col"></div>
+      </div>
+      <div class="row my-3">
+        <div class="col-6">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Username</mat-label>
+            <mat-select formControlName="userDPPK" multiple>
+              <li class="select-all" (click)="toggleSelectAllUsernameDppk()">
+                {{ allSelectedUsernameDppk ? 'Deselect All' : 'Select All' }}
+              </li>
+              <mat-option *ngFor="let item of lovUsernameDppk" [value]="item.partyId">
+                {{ item.employeeFirstName }} {{ item.employeeLastName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
