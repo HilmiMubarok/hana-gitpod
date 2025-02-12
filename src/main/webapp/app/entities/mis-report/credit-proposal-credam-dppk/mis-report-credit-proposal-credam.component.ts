@@ -251,7 +251,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     }
     const tglEfekFasArr = [];
     const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution');
-    const startDateInLoanOps = filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createDate;
+    const startDateInLoanOps = filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createdDate;
     for (let i = 0; i < proposal.product.length; i++) {
       const product = proposal.product[i];
 
