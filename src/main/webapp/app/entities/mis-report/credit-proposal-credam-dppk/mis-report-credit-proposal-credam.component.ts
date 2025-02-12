@@ -251,7 +251,8 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     }
     const tglEfekFasArr = [];
     const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution');
-    const startDateInLoanOps = filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createdDate;
+    const startDateInLoanOps =
+      filteringStatusLoanOps.length > 0 ? filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createdDate : '';
     for (let i = 0; i < proposal.product.length; i++) {
       const product = proposal.product[i];
 
@@ -291,7 +292,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
       dppkNumber: proposal.dppkNumber || '',
-      picCredam: latestDPPKFinalize[0].personName || '',
+      picCredam: latestDPPKFinalize.length > 0 ? latestDPPKFinalize[0].personName : latestDPPKFinalize.personName || '',
       debtor: proposal.debtorName || '',
       dppkInDate:
         timeLineData
