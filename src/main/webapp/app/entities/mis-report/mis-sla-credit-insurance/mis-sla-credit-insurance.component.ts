@@ -44,8 +44,10 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
 export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
   listOfValue = [];
-  misCp: FormGroup;
+  public lovUsername = [];
+  public misCp: FormGroup;
   allSelected = false;
+  public allSelectedUsername = false;
 
   changeOption(event) {
     console.log('test', event.value);
@@ -57,6 +59,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
+      username: new FormControl(''),
     });
     this.misCp.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
@@ -83,6 +86,12 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+    this.getUsernameLOV('INSURANCE_ADMIN').subscribe({
+      next: res => (this.lovUsername = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get List Username' });
+      },
+    });
   }
 
   toggleSelectAll(): void {
@@ -91,6 +100,15 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       this.misCp.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
     } else {
       this.misCp.get('status')?.setValue('');
+    }
+  }
+
+  public toggleSelectUsernameAll(): void {
+    this.allSelectedUsername = !this.allSelectedUsername;
+    if (this.allSelectedUsername) {
+      this.misCp.get('username')?.setValue([...this.lovUsername.map(username => username.userLogin)]);
+    } else {
+      this.misCp.get('username')?.setValue('');
     }
   }
 
@@ -121,6 +139,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       startDate: this.misCp.get('date1')?.value,
       endDate: this.misCp.get('date2')?.value,
       status: this._convertStatusToString(this.misCp.get('status')?.value),
+      userLogin: this._convertStatusToString(this.misCp.get('username')?.value),
       type: 'STATELOG',
     };
 

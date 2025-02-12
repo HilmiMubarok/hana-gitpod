@@ -35,7 +35,18 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col"></div>
+
+        <div class="col">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Username</mat-label>
+            <mat-select formControlName="username" multiple>
+              <li class="select-all" (click)="toggleSelectUsernameAll()">
+                {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
+              </li>
+              <mat-option *ngFor="let item of lovUsername" [value]="item.userLogin">{{ item.firstName + ' ' + item.lastName }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
