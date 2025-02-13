@@ -27,7 +27,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   public applicationProductData: any;
   public disabled = true;
   public collateralProperties: ICollateralProperty[];
-  public displayColumns: string[] = ['no', 'collateralType', 'address', 'lvInternal', 'mvInternal', 'bindingValue', 'select'];
+  public displayColumns: string[] = ['no', 'collateralType', 'address', 'mvInternal', 'lvInternal', 'bindingValue', 'select'];
 
   public bindingValueHelper: any = [];
   public mappingStatusHelper: any = [];
