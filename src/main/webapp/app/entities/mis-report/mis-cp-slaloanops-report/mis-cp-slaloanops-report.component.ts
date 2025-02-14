@@ -171,9 +171,9 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
             { header: 'Debtor', key: 'debtor' },
             { header: 'Loan Ops (Distribution) In Date', key: 'loanOpsDistributionInDate' },
             { header: 'Loan Ops (Distribution) In Time', key: 'loanOpsDistributionInTime' },
-            { header: 'Loan Ops (Officer) Out Date', key: 'loanOpsOfficerOutDate' },
-            { header: 'Loan Ops (Officer) Out Time', key: 'loanOpsOfficerOutTime' },
-            { header: 'Loan Ops (Officer) Spv Out Name', key: 'loanOpsOfficerSpvOutName' },
+            { header: 'Loan Ops (Officer) Out Name', key: 'loanOpsOfficerOutName' },
+            { header: 'Loan Ops (Officer) Out In Date', key: 'loanOpsOfficerOutDate' },
+            { header: 'Loan Ops (Officer) Out In Time', key: 'loanOpsOfficerOutTime' },
             { header: 'Loan Ops (Officer) Spv Out Date', key: 'loanOpsOfficerSpvOutDate' },
             { header: 'Loan Ops (Officer) Spv Out Time', key: 'loanOpsOfficerSpvOutTime' },
             { header: 'Completed Name', key: 'completedName' },
@@ -213,13 +213,13 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
                 no: ws.rowCount,
                 proposalNumber: prop.proposalNumber || '',
                 dpkNumber: prop.dppkNumber || '',
-                picLoanOps: prop.dataAssignToLoanOpsOfficerName || '',
+                picLoanOps: this.getPICLoanOps(prop),
                 debtor: prop.debtorName || '',
                 loanOpsDistributionInDate: this.getLoanOpsDistributionInDate(prop),
                 loanOpsDistributionInTime: this.getLoanOpsDistributionInTime(prop),
+                loanOpsOfficerOutName: prop.dataAssignToLoanOpsOfficerName || '',
                 loanOpsOfficerOutDate: this._formatDateSLA(this.getLoanOpsOfficerOutDate(prop)),
                 loanOpsOfficerOutTime: this.getLoanOpsOfficerOutTime(prop),
-                loanOpsOfficerSpvOutName: this.getLoanOpsOfficerSpvOutName(prop),
                 loanOpsOfficerSpvOutDate: this._formatDateSLA(this.getLoanOpsOfficerSpvOutDate(prop)),
                 loanOpsOfficerSpvOutTime: this.getLoanOpsOfficerSpvOutTime(prop),
                 completedName: this.getCompletedName(prop),
@@ -253,7 +253,6 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
             'loanOpsDistributionInTime',
             'loanOpsOfficerOutDate',
             'loanOpsOfficerOutTime',
-            'loanOpsOfficerSpvOutName',
             'loanOpsOfficerSpvOutDate',
             'loanOpsOfficerSpvOutTime',
             'completedName',
@@ -323,13 +322,6 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         return proposal.timeLineCreditProposal
             .filter((t: any) => t.statusDescription === 'Loan Ops Checking')
             .map((timeline: any) => timeline.fromTime.split(':').slice(0, 2).join(':'))
-            .join(',\n');
-    }
-
-    private getLoanOpsOfficerSpvOutName(proposal: any): string {
-        return proposal.timeLineCreditProposal
-            .filter((t: any) => t.statusDescription === 'Loan Ops Review')
-            .map((timeline: any) => timeline.personName)
             .join(',\n');
     }
 
@@ -456,5 +448,15 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
             default:
                 return prod.mainProduct.endPeriodRemark || ''
         }
+    }
+
+    private getPICLoanOps(proposal: any): string {
+        const timeLine = proposal.timeLineCreditProposal.filter(t => t.fromStatusDescription === 'Loan Ops Checking')
+        timeLine.sort((a, b) => b.id - a.id)
+
+        if (timeLine.length > 0) {
+            return timeLine[0].personName
+        }
+        return ''
     }
 }
