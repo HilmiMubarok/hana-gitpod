@@ -48,7 +48,6 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     public startDate: any
     public endDate: any
     public allSelected = false
-    public allSelectedUsername = false
     public MISReportCPInsuranceReport: FormGroup
 
     constructor(public misReportService: MisReportService, public messageService: MessageService) {
@@ -57,7 +56,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             startDate: new FormControl(''),
             endDate: new FormControl(''),
             status: new FormControl(''),
-            username: new FormControl(''),
+            username: new FormControl(null),
         });
 
         this.MISReportCPInsuranceReport.get('startDate')?.valueChanges.subscribe(date => {
@@ -148,15 +147,6 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         }
     }
 
-    public toggleSelectUsernameAll(): void {
-        this.allSelectedUsername = !this.allSelectedUsername;
-        if (this.allSelectedUsername) {
-            this.MISReportCPInsuranceReport.get('username')?.setValue([...this.lovUsername.map(username => username.userLogin)]);
-        } else {
-            this.MISReportCPInsuranceReport.get('username')?.setValue('');
-        }
-    }
-
     public generateMISReportCPInsuranceReport(): void {
         this.misReportService.setLoading(true)
 
@@ -164,7 +154,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             startDate: this.MISReportCPInsuranceReport.get('startDate')?.value,
             endDate: this.MISReportCPInsuranceReport.get('endDate')?.value,
             status: this._convertStatusToString(this.MISReportCPInsuranceReport.get('status')?.value),
-            userLogin: this._convertStatusToString(this.MISReportCPInsuranceReport.get('username')?.value),
+            userLogin: this.MISReportCPInsuranceReport.get('username')?.value,
             type: 'STATELOG'
         }
 
