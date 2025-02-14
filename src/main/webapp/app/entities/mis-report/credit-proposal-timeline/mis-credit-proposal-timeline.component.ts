@@ -99,6 +99,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         this.misCpTimeline.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
+
     this.misCpTimeline.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.misCpTimeline.get('status')?.valueChanges.subscribe(() => this.checkFieldStatus());
@@ -114,28 +115,37 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     // this.getStatus();
 
     this.misCpTimeline.get('type')?.valueChanges.subscribe(type => {
+      this.searchResult = null;
+
       if (type === 'Date From Status') {
         this.showDateRange = true;
         this.showStatusAndRegional = false;
-        this.misCpTimeline.get('status')?.reset();
-        this.misCpTimeline.get('date1')?.reset();
-        this.misCpTimeline.get('date2')?.reset();
-        this.misCpTimeline.get('query')?.reset();
+
+        this.misCpTimeline.get('date1')?.enable();
+        this.misCpTimeline.get('date2')?.enable();
+        this.misCpTimeline.get('status')?.enable();
       } else if (type === 'Proposal Date') {
         this.showDateRange = true;
         this.showStatusAndRegional = true;
-        this.misCpTimeline.get('status')?.reset();
-        this.misCpTimeline.get('date1')?.reset();
-        this.misCpTimeline.get('date2')?.reset();
-        this.misCpTimeline.get('query')?.reset();
+
+        this.misCpTimeline.get('date1')?.enable();
+        this.misCpTimeline.get('date2')?.enable();
+        this.misCpTimeline.get('status')?.enable();
+        this.misCpTimeline.get('regional')?.enable();
+        this.misCpTimeline.get('customerType')?.enable();
       } else {
         this.showDateRange = false;
         this.showStatusAndRegional = false;
-        this.misCpTimeline.get('status')?.reset();
-        this.misCpTimeline.get('date1')?.reset();
-        this.misCpTimeline.get('date2')?.reset();
-        this.misCpTimeline.get('query')?.reset();
+
+        this.misCpTimeline.get('date1')?.disable();
+        this.misCpTimeline.get('date2')?.disable();
+        this.misCpTimeline.get('status')?.disable();
       }
+
+      this.misCpTimeline.get('status')?.reset();
+      this.misCpTimeline.get('date1')?.reset();
+      this.misCpTimeline.get('date2')?.reset();
+      this.misCpTimeline.get('query')?.reset();
     });
   }
 
@@ -310,9 +320,26 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     const selectedDateType = this.misCpTimeline.get('type')?.value;
     let dateTypeValue = null;
 
+    if (this.misCpTimeline.get('query')?.value) {
+      params = { query: this.misCpTimeline.get('query')?.value };
+
+      this.misReportService.getMisReportCP(params).subscribe({
+        next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Timeline'),
+        error: () => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+          this._resetData();
+          this.misReportService.setLoading(false);
+        },
+        complete: () => {
+          this._resetData();
+          this.misReportService.setLoading(false);
+        },
+      });
+      return;
+    }
+
     if (
-      (!this.misCpTimeline.get('date1')?.value || this.misCpTimeline.get('date1')?.value.length === 0) &&
-      (!this.misCpTimeline.get('date2')?.value || this.misCpTimeline.get('date2')?.value.length === 0) &&
+      (!this.misCpTimeline.get('date1')?.value || !this.misCpTimeline.get('date2')?.value) &&
       (!this.misCpTimeline.get('status')?.value || this.misCpTimeline.get('status')?.value.length === 0)
     ) {
       this.messageService.add({
@@ -323,7 +350,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       return;
     }
 
-    if (!this.misCpTimeline.get('date1')?.value || this.misCpTimeline.get('date2')?.value.length === 0) {
+    if (!this.misCpTimeline.get('date1')?.value || !this.misCpTimeline.get('date2')?.value) {
       this.messageService.add({
         severity: 'error',
         summary: 'Warning',
@@ -347,21 +374,14 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       dateTypeValue = null;
     }
 
-    // if search has value, create params only search
-    if (this.misCpTimeline.get('query')?.value) {
-      params = {
-        query: this.misCpTimeline.get('query')?.value,
-      };
-    } else {
-      params = {
-        startDate: this.misCpTimeline.get('date1')?.value,
-        endDate: this.misCpTimeline.get('date2')?.value,
-        status: this._convertStatusToString(this.misCpTimeline.get('status')?.value),
-        regional: this._convertStatusToString(this.misCpTimeline.get('regional')?.value),
-        customerType: this._convertStatusToString(this.misCpTimeline.get('customerType')?.value),
-        dateType: dateTypeValue, // Tambahkan dateType di parameter
-      };
-    }
+    params = {
+      startDate: this.misCpTimeline.get('date1')?.value,
+      endDate: this.misCpTimeline.get('date2')?.value,
+      status: this._convertStatusToString(this.misCpTimeline.get('status')?.value),
+      regional: this._convertStatusToString(this.misCpTimeline.get('regional')?.value),
+      customerType: this._convertStatusToString(this.misCpTimeline.get('customerType')?.value),
+      dateType: dateTypeValue, // Tambahkan dateType di parameter
+    };
 
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Timeline'),
