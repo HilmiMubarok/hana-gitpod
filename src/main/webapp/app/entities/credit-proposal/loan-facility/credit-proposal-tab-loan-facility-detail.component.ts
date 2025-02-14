@@ -33,6 +33,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
   public _disable: boolean;
+  nonCashLoanDebitur: any;
+  totalDebiturNonCashLoan: any;
+  totalDebiturCashLoan: number;
+  dataSource = [];
+  nonCashLoan: any;
 
   @Input()
   get disable() {
@@ -187,6 +192,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     // this.setCurrency();
 
     this.isCredamOnDppkFinalize = this.credamService.isCredamOnDppkFinalize(this.router, this.creditProposal.listOfPic);
+    this.dataSource = this.creditProposal.products;
   }
 
   public remarkStatus() {
@@ -243,6 +249,9 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.fungsiSumchangeCalculation(changes.creditProposal.currentValue);
       this.fungsiSumOSCalculation(changes.creditProposal.currentValue);
       this.fungsiSumcreditCalculation(changes.creditProposal.currentValue);
+      this.fungsiSumTotalDebiturCashLoan();
+      this.totalCashLoan();
+      this.totalNonCashLoan();
     }
   }
 
@@ -373,7 +382,46 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     }
     this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = result + dolar;
   }
+  totalCashLoan() {
+    if (this.nonCashLoanDebitur.length > 0) {
+      this.totalDebiturCashLoan = this.fungsiSumcredit('both') - this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+      this.creditProposal.attributes['calculationExposure'].totalDebiturCashLoan = this.totalDebiturCashLoan;
+    } else {
+      this.totalDebiturCashLoan = this.fungsiSumcredit('both') - 0;
+      this.creditProposal.attributes['calculationExposure'].totalDebiturCashLoan = this.totalDebiturCashLoan;
+    }
+  }
 
+  totalNonCashLoan() {
+    if (this.nonCashLoanDebitur.length > 0) {
+      this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+
+      this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
+    } else {
+      this.totalDebiturNonCashLoan = 0;
+      this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
+    }
+  }
+  fungsiSumTotalDebiturCashLoan() {
+    for (let i = 0; i < this.dataSource.length; i++) {
+      if (this.dataSource[i].subLimit === false || this.dataSource[i].subLimit === 'false') {
+        for (let j = 0; j < this.nonCashLoan.length; j++) {
+          if (this.dataSource[i].currencyId === 'IDR') {
+            if (this.dataSource[i].productTypeId === this.nonCashLoan[j]) {
+              this.nonCashLoanDebitur = [...this.nonCashLoanDebitur, Number(this.dataSource[i].totalPlafond)];
+            }
+          } else {
+            if (this.dataSource[i].productTypeId === this.nonCashLoan[j]) {
+              this.nonCashLoanDebitur = [
+                ...this.nonCashLoanDebitur,
+                Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs),
+              ];
+            }
+          }
+        }
+      }
+    }
+  }
   // WORD
   // public getWord() {
   //   this.storageService.getBucketName().subscribe(val => {
