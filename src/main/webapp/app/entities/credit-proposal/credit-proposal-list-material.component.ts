@@ -175,13 +175,11 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
 
   public doSearch(): void {
-    this.page = 0;
-    this.itemsPerPage = 10;
     this.statusSearch = true;
     const predicate: object = {
       page: this.page,
       query: this.currentSearch,
-      size: this.itemsPerPage,
+      size: this.paginatorPageSize,
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
@@ -407,7 +405,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
       });
-      dialogRef.afterClosed().subscribe(res2 => {});
+      dialogRef.afterClosed().subscribe(res2 => { });
     });
   }
 
