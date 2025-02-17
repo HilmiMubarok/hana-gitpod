@@ -179,7 +179,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     const predicate: object = {
       page: this.page,
       query: this.currentSearch,
-      size: this.paginatorPageSize,
+      size: this.itemsPerPage,
       sort: this.sortData(),
       idPosition: this.positionIdLocStor,
     };
