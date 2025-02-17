@@ -7,7 +7,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class MisReportService {
-  constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) { }
 
   public loadingGenerateDocument: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public generateDocumentLabel: BehaviorSubject<string> = new BehaviorSubject<string>('Generate Document');
@@ -58,6 +58,17 @@ export class MisReportService {
 
     return this.http
       .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
+        params,
+        observe: 'response',
+      })
+      .pipe(map(res => res.body));
+  }
+
+  public getLovUsername(positionTypeId) {
+    const params = new HttpParams().set('positionTypeIds', positionTypeId);
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/mis/get-persons'), {
         params,
         observe: 'response',
       })
@@ -117,5 +128,18 @@ export class MisReportService {
       this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api') + '/_search/cash-survey-appraisals',
       { params: options, observe: 'response' }
     );
+  }
+  public getLovUsernameDppk() {
+    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,asc');
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions'), {
+        params,
+        observe: 'response',
+      })
+      .pipe(
+        map(res => res.body),
+        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'CREDIT_ADMIN' && employee.statusId === 'ACTIVE'))
+      );
   }
 }

@@ -22,18 +22,17 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _setAutoWidthForAllColumns(): void {
-    this.worksheet.columns.forEach((column) => {
+    this.worksheet.columns.forEach(column => {
       let maxLength = 0;
-      let cloneValues
-      column["eachCell"]({ includeEmpty: true }, (cell) => {
+      let cloneValues;
+      column['eachCell']({ includeEmpty: true }, cell => {
         if (cell.value) {
           cloneValues = cell.value.toString().replace(/\n/g, '').split(',')[0];
         }
         const columnLength = cloneValues ? cloneValues.toString().length + 1 : 10;
         if (cell.type === ExcelJS.ValueType.Date) {
           maxLength = 20;
-        }
-        else if (columnLength > maxLength) {
+        } else if (columnLength > maxLength) {
           maxLength = columnLength + 1;
         }
       });
@@ -46,7 +45,7 @@ export abstract class AbstractExcelMISReport {
           finalLength = 50;
         }
 
-        column.width = finalLength
+        column.width = finalLength;
       }
     });
   }
@@ -54,7 +53,7 @@ export abstract class AbstractExcelMISReport {
   protected _setAutoHeightForAllRows(): void {
     this.worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
       let maxHeight = 0;
-      row.eachCell({ includeEmpty: true }, (cell) => {
+      row.eachCell({ includeEmpty: true }, cell => {
         if (cell.value) {
           const cellValue = cell.value.toString();
           const cellLines = cellValue.split('\n');
@@ -71,13 +70,17 @@ export abstract class AbstractExcelMISReport {
       });
 
       // Set a minimum height and cap the maximum height
-      const finalHeight = Math.max(20, maxHeight);
+      const finalHeight = Math.max(50, maxHeight);
       row.height = finalHeight;
     });
   }
 
   protected getStatusLOV(appMenuId: string) {
     return this.service.getStatuses(appMenuId);
+  }
+
+  protected getUsernameLOV(positionTypeId) {
+    return this.service.getLovUsername(positionTypeId);
   }
 
   protected setUpColumns(columns): void {
@@ -597,17 +600,22 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected sortCreditProposalByEarliestDate(creditProposal, statuses) {
-
     return creditProposal
-      .map(user => ({
-        ...user,
-        timeLineCreditProposal: user.timeLineCreditProposal.filter(item => statuses.includes(item.statusDescription)).sort((a, b) =>
-          new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime()
-        )
-      }))
+      .map(user => {
+        const filteredTimeLine =
+          user.timeLineCreditProposal
+            ?.filter(item => statuses.includes(item.statusDescription) && item.fromDate)
+            .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime()) || [];
+
+        return {
+          ...user,
+          timeLineCreditProposal: filteredTimeLine,
+        };
+      })
       .sort((a, b) => {
-        const earliestA = new Date(a.timeLineCreditProposal[0].fromDate).getTime();
-        const earliestB = new Date(b.timeLineCreditProposal[0].fromDate).getTime();
+        const earliestA = a.timeLineCreditProposal.length > 0 ? new Date(a.timeLineCreditProposal[0].fromDate).getTime() : Number.MAX_VALUE;
+        const earliestB = b.timeLineCreditProposal.length > 0 ? new Date(b.timeLineCreditProposal[0].fromDate).getTime() : Number.MAX_VALUE;
+
         if (earliestA !== earliestB) {
           return earliestA - earliestB;
         }

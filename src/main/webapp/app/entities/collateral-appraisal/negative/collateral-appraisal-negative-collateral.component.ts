@@ -101,6 +101,7 @@ export class CollateralAppraisalNegativeCollateralComponent implements OnChanges
         idParameterType: 'NEGATIVE_COLLATERAL',
         page: 0,
         size: 9999,
+        sort: ['id,asc'],
       })
       .subscribe(res => {
         const dataScoreCard = lodash.filter(res.body, function (o) {

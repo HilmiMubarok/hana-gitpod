@@ -120,6 +120,15 @@ export class MisAppraisalComponent extends AbstractExcelMISReport {
     });
   }
 
+  clearDateRange(): void {
+    this.MISReportAppraisal.get('date1')?.reset();
+    this.MISReportAppraisal.get('date2')?.reset();
+  }
+
+  dateRangeHasValue(): boolean {
+    return this.MISReportAppraisal.get('date1')?.value && this.MISReportAppraisal.get('date2')?.value;
+  }
+
   getOfficerSurveyors() {
     this.misReportService.getOfficerSurveyors().subscribe({
       next: res => {

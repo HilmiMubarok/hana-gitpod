@@ -17,7 +17,8 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   date2: any;
   public listOfValue = [];
   allSelected = false;
-
+  allSelectedUsernameDppk = false;
+  lovUsernameDppk = [];
   MisReportCPCredam: FormGroup;
 
   changeOption(event) {
@@ -31,7 +32,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
-      type: new FormControl(''),
+      userDPPK: new FormControl(''),
     });
 
     this.MisReportCPCredam.get('date1')?.valueChanges.subscribe(date => {
@@ -46,10 +47,15 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         this.MisReportCPCredam.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
-    this.MisReportCPCredam.get('type')?.setValue('STATELOG');
+    this.MisReportCPCredam.get('userDPPK')?.valueChanges.subscribe(userDPPK => {
+      if (typeof userDPPK === 'object' && userDPPK.length === 0) {
+        this.MisReportCPCredam.get('userDPPK')?.setValue(null);
+      }
+    });
   }
   ngOnInit() {
     this.getSatus();
+    this.loadLovUsernameDppk();
   }
   getSatus() {
     this.misReportService.getStatuses('MIS_SLA_DPPK').subscribe({
@@ -59,7 +65,28 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       },
     });
   }
-
+  loadLovUsernameDppk(): void {
+    this.misReportService.getLovUsernameDppk().subscribe({
+      next: res => {
+        this.lovUsernameDppk = res.sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName));
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to get Officer Surveyors',
+        });
+      },
+    });
+  }
+  toggleSelectAllUsernameDppk(): void {
+    this.allSelectedUsernameDppk = !this.allSelectedUsernameDppk;
+    if (this.allSelectedUsernameDppk) {
+      this.MisReportCPCredam.get('userDPPK')?.setValue([...this.lovUsernameDppk.map(userDPPK => userDPPK.partyId)]);
+    } else {
+      this.MisReportCPCredam.get('userDPPK')?.setValue(null);
+    }
+  }
   toggleSelectAll(): void {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
@@ -222,11 +249,50 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         return currentDate > latestDate ? current : latest;
       });
     }
+    const tglEfekFasArr = [];
+    const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution');
+    const startDateInLoanOps =
+      filteringStatusLoanOps.length > 0 ? filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createdDate : '';
+    for (let i = 0; i < proposal.product.length; i++) {
+      const product = proposal.product[i];
+
+      for (let z = 0; z < product.mainProduct.length; z++) {
+        const mainProduct = product.mainProduct[z];
+
+        switch (product.pengajuan) {
+          case 'New':
+            tglEfekFasArr.push(this._convertDate(startDateInLoanOps));
+            break;
+
+          case 'Renewal':
+            tglEfekFasArr.push(this._convertDate(product.maturityDate) + ' s/d ' + this._convertDate(mainProduct.proposeMaturityDate));
+            break;
+
+          case 'Renewal + Additional':
+          case 'Renewal + Decrease':
+            tglEfekFasArr.push(this._convertDate(mainProduct.startPeriodType));
+            break;
+
+          case 'Existing':
+            tglEfekFasArr.push(this._convertDate(product.firstDisbursementDate));
+            break;
+
+          case 'Additional / Top Up':
+            tglEfekFasArr.push(this._convertDate(startDateInLoanOps));
+            break;
+
+          default:
+            tglEfekFasArr.push(mainProduct.endPeriodRemark);
+            break;
+        }
+      }
+    }
+
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
       dppkNumber: proposal.dppkNumber || '',
-      picCredam: latestDPPKFinalize[0].personName || '',
+      picCredam: latestDPPKFinalize.length > 0 ? latestDPPKFinalize[0].personName : latestDPPKFinalize.personName || '',
       debtor: proposal.debtorName || '',
       dppkInDate:
         timeLineData
@@ -283,7 +349,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       fasilitas: proposal.product.map(product => product.facility).join(',\n') || '',
       ccy: proposal.product.map(product => product.currency).join(',\n') || '',
       nominal: proposal.product.map(product => product.totalPlafond).join(',\n') || '',
-      tglEfektifFas: '',
+      tglEfektifFas: tglEfekFasArr.join(',\n') || '',
       jenisJaminan: proposal.collateral.map(collateral => collateral.collateralCode).join(',\n') || '',
       segmentasi: proposal.regionalParentRM || '',
       branch: proposal.bookingBranchName || '',
@@ -312,7 +378,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       startDate: this.MisReportCPCredam.get('date1')?.value,
       endDate: this.MisReportCPCredam.get('date2')?.value,
       status: this.convertStatusToString(this.MisReportCPCredam.get('status')?.value),
-      type: this.MisReportCPCredam.get('type')?.value,
+      userDPPK: this.MisReportCPCredam.get('userDPPK')?.value,
     };
 
     this.misReportService.getMisReportCPCredam(params).subscribe({
@@ -363,6 +429,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       'checkerOutTime',
       'approvalOutDate',
       'approvalOutTime',
+      'tglEfektifFas',
     ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {

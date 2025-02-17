@@ -23,6 +23,9 @@
               <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
+              <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
+                <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+              </mat-datepicker-toggle>
               <mat-error *ngIf="MISReportAppraisal.get('date1').hasError('required')">Start date is required</mat-error>
             </mat-form-field>
           </div>

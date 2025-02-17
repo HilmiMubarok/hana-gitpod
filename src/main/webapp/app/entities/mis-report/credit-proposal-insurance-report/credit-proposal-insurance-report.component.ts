@@ -44,9 +44,11 @@ import * as ExcelJS from 'exceljs';
 export class CreditProposalInsuranceReportComponent extends AbstractExcelMISReport implements OnInit {
 
     public lovStatus = []
+    public lovUsername = []
     public startDate: any
     public endDate: any
     public allSelected = false
+    public allSelectedUsername = false
     public MISReportCPInsuranceReport: FormGroup
 
     constructor(public misReportService: MisReportService, public messageService: MessageService) {
@@ -55,6 +57,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             startDate: new FormControl(''),
             endDate: new FormControl(''),
             status: new FormControl(''),
+            username: new FormControl(''),
         });
 
         this.MISReportCPInsuranceReport.get('startDate')?.valueChanges.subscribe(date => {
@@ -127,6 +130,12 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
             },
         });
+        this.getUsernameLOV('INSURANCE_ADMIN').subscribe({
+            next: res => (this.lovUsername = res),
+            error: () => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get List Username' });
+            },
+        });
     }
 
 
@@ -139,6 +148,15 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         }
     }
 
+    public toggleSelectUsernameAll(): void {
+        this.allSelectedUsername = !this.allSelectedUsername;
+        if (this.allSelectedUsername) {
+            this.MISReportCPInsuranceReport.get('username')?.setValue([...this.lovUsername.map(username => username.userLogin)]);
+        } else {
+            this.MISReportCPInsuranceReport.get('username')?.setValue('');
+        }
+    }
+
     public generateMISReportCPInsuranceReport(): void {
         this.misReportService.setLoading(true)
 
@@ -146,6 +164,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             startDate: this.MISReportCPInsuranceReport.get('startDate')?.value,
             endDate: this.MISReportCPInsuranceReport.get('endDate')?.value,
             status: this._convertStatusToString(this.MISReportCPInsuranceReport.get('status')?.value),
+            userLogin: this._convertStatusToString(this.MISReportCPInsuranceReport.get('username')?.value),
             type: 'STATELOG'
         }
 
@@ -212,8 +231,10 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             worksheet.addRow(baseData);
         }
 
+        const debtorName = proposal.debtorName || '';
+
         const filteredCollateral = proposal.collateral.filter((collateral) =>
-            ['Real Estate', 'Machine', 'Vehicle', 'Personal Property'].includes(collateral.collateralType) && collateral.collateralTypeInsurance === "true")
+            ['Real Estate', 'Machine', 'Vehicle', 'Personal Property'].includes(collateral.collateralType) && collateral.collateralTypeInsurance === "true" && collateral.partyName === debtorName)
 
         // Process each collateral
         filteredCollateral.forEach((collateral) => {
@@ -265,13 +286,13 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         }
 
         return timeLineInsurance
-            .filter((item: any) => item.statusDescription === 'Insurance Review')
-            .map((item: any) => item.personName)
-            .join(',\n');
+            .filter((item: any) => item.fromStatusDescription === 'Insurance Checking')
+            .sort((a, b) => b.id - a.id)
+            .map((item: any) => item.personName)[0]
     }
 
     private _getMakerOutDate(timeLineInsurance: any[]): string {
-        console.log(timeLineInsurance);
+
         if (!Array.isArray(timeLineInsurance)) {
             return '';
         }
@@ -281,6 +302,11 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             .map((item: any) => this._formatDateSLA(item.fromDate))
             .filter(Boolean)
             .join(',\n');
+
+        // return timeLineInsurance
+        //     .filter((item: any) => item.fromStatusDescription === 'Insurance Checking')
+        //     .sort((a, b) => b.id - a.id)
+        //     .map((item: any) => this._formatDateSLA(item.fromDate))[0]
     }
 
     private _applyStyles(): void {

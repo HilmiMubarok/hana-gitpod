@@ -28,6 +28,11 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 })
 export class LoanFacilityDetailTempComponent implements OnInit, OnChanges, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  nonCashLoanDebitur: any;
+  totalDebiturCashLoan: number;
+  totalDebiturNonCashLoan: any;
+  dataSource = [];
+  nonCashLoan: any;
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -157,6 +162,7 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges, OnDes
 
     this.removeTagRemaks();
     this.setCurrency();
+    this.dataSource = this.creditProposal.products;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -176,6 +182,49 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges, OnDes
       this.fungsiSumcredit('IDR');
       this.fungsiSumcredit('USD');
       this.fungsiSumcredit('both');
+      this.fungsiSumTotalDebiturCashLoan();
+      this.totalCashLoan();
+      this.totalNonCashLoan();
+    }
+  }
+  totalCashLoan() {
+    if (this.nonCashLoanDebitur.length > 0) {
+      this.totalDebiturCashLoan = this.fungsiSumcredit('both') - this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+      this.creditProposal.attributes['calculationExposure'].totalDebiturCashLoan = this.totalDebiturCashLoan;
+    } else {
+      this.totalDebiturCashLoan = this.fungsiSumcredit('both') - 0;
+      this.creditProposal.attributes['calculationExposure'].totalDebiturCashLoan = this.totalDebiturCashLoan;
+    }
+  }
+
+  totalNonCashLoan() {
+    if (this.nonCashLoanDebitur.length > 0) {
+      this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+
+      this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
+    } else {
+      this.totalDebiturNonCashLoan = 0;
+      this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
+    }
+  }
+  fungsiSumTotalDebiturCashLoan() {
+    for (let i = 0; i < this.dataSource.length; i++) {
+      if (this.dataSource[i].subLimit === false || this.dataSource[i].subLimit === 'false') {
+        for (let j = 0; j < this.nonCashLoan.length; j++) {
+          if (this.dataSource[i].currencyId === 'IDR') {
+            if (this.dataSource[i].productTypeId === this.nonCashLoan[j]) {
+              this.nonCashLoanDebitur = [...this.nonCashLoanDebitur, Number(this.dataSource[i].totalPlafond)];
+            }
+          } else {
+            if (this.dataSource[i].productTypeId === this.nonCashLoan[j]) {
+              this.nonCashLoanDebitur = [
+                ...this.nonCashLoanDebitur,
+                Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs),
+              ];
+            }
+          }
+        }
+      }
     }
   }
   // WORD
@@ -583,7 +632,10 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges, OnDes
     }
     if (value === 'both') {
       this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
-      this.creditProposal.attributes['calculationExposure'].grandTotalPlafond = this.creditProposal.attributes['calculationExposure'].totalPlafondDebtor + this.creditProposal.attributes['calculationExposure'].totalPlafondGroub;
+      this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = result + dolar;
+      this.creditProposal.attributes['calculationExposure'].grandTotalPlafond =
+        this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor +
+        this.creditProposal.attributes['calculationExposure'].totalPLafondGroub;
     }
     if (value === 'USD') {
       this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;

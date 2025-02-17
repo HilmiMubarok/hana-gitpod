@@ -30,13 +30,13 @@ import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/materia
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'YYYY/MM/DD',
+    dateInput: 'YYYY/DD/MM',
   },
   display: {
-    dateInput: 'YYYY/MM/DD',
-    monthYearLabel: 'YYYY/MM/DD',
-    dateA11yLabel: 'YYYY/MM/DD',
-    monthYearA11yLabel: 'YYYY/MM/DD',
+    dateInput: 'YYYY/DD/MM',
+    monthYearLabel: 'YYYY/DD/MM',
+    dateA11yLabel: 'YYYY/DD/MM',
+    monthYearA11yLabel: 'YYYY/DD/MM',
   },
 };
 @Component({
@@ -68,7 +68,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public account: Account;
   public kjppValue: any;
   public disableRmInfo: boolean;
-  validityDate = new FormControl(moment().toDate());
+  validityDate = new FormControl(moment().format('YYYY/DD/MM'));
   appraisalValidityPeriod: boolean;
 
   @Input()
