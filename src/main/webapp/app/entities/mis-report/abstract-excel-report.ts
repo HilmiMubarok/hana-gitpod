@@ -70,7 +70,7 @@ export abstract class AbstractExcelMISReport {
       });
 
       // Set a minimum height and cap the maximum height
-      const finalHeight = Math.max(20, maxHeight);
+      const finalHeight = Math.max(50, maxHeight);
       row.height = finalHeight;
     });
   }
