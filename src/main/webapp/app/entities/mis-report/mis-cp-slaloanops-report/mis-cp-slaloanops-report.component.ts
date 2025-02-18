@@ -238,7 +238,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
                 branch: prop.bookingBranchName || '',
                 rm: prop.rmFirstName + ' ' + prop.rmLastName || '',
                 keterangan: '',
-                deviasi: prop.covenant ? 'YES' : 'NO',
+                deviasi: this._getDeviation(prop),
                 tbo: prop.statusDocumentTbo || ''
             };
 
@@ -303,12 +303,12 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
             .join(',\n');
     }
 
-    private getLastLoanOpsDistributionInTime(proposal: any): string {
+    private getFirstLoanOpsDistributionInTime(proposal: any): string {
         const timelines = proposal.timeLineCreditProposal
             .sort((a: any, b: any) => a.id - b.id)
             .filter((t: any) => t.statusDescription === 'Loan Ops Ditribution')
 
-        return timelines[timelines.length - 1].fromTime
+        return timelines[0].fromTime
     }
 
     private getLoanOpsOfficerOutDate(proposal: any): string {
@@ -395,25 +395,26 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
     private getTatTime(prop): string {
         const tatDate = Number(this.getTatDate(prop));
         const completedTime = this.getLastCompletedTime(prop);
-        const loanOpsDistributionInTime = this.getLastLoanOpsDistributionInTime(prop);
+        const loanOpsDistributionInTime = this.getFirstLoanOpsDistributionInTime(prop);
 
-        const date = new Date().toLocaleDateString();
-        const dateCompletedTime = new Date(date + ' ' + completedTime);
-        const dateLoanOpsDistributionInTime = new Date(date + ' ' + loanOpsDistributionInTime);
-        const eightHours = new Date(date + ' 08:00:00');
+        const date = new Date().toLocaleDateString('en-US'); // Use a standard date format
+        const dateCompletedTime = new Date(`${date} ${completedTime} UTC`);
+        const dateLoanOpsDistributionInTime = new Date(`${date} ${loanOpsDistributionInTime} UTC`);
+        const eightHours = new Date(`${date} 08:00:00 UTC`);
 
-        let diffInMinutes: number;
+        let diffInMinutes;
 
         if (tatDate === 0) {
-            diffInMinutes = (dateLoanOpsDistributionInTime.getTime() - dateCompletedTime.getTime()) / (1000 * 60);
+            diffInMinutes = (dateCompletedTime.getTime() - dateLoanOpsDistributionInTime.getTime()) / (1000 * 60);
         } else {
             diffInMinutes = (dateCompletedTime.getTime() - eightHours.getTime()) / (1000 * 60);
         }
 
-        const hours = Math.floor(diffInMinutes / 60);
-        const minutes = Math.floor(diffInMinutes % 60);
+        const totalMinutes = Math.abs(diffInMinutes);
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = Math.floor(totalMinutes % 60);
 
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        return hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
     }
 
     private _getEarliestDate(dateStr: string): string {
@@ -451,7 +452,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
     }
 
     private getPICLoanOps(proposal: any): string {
-        const timeLine = proposal.timeLineCreditProposal.filter(t => t.fromStatusDescription === 'Loan Ops Checking')
+        const timeLine = proposal.timeLineCreditProposal.filter(t => t.statusDescription === 'Loan Ops Checking')
         timeLine.sort((a, b) => b.id - a.id)
 
         if (timeLine.length > 0) {
