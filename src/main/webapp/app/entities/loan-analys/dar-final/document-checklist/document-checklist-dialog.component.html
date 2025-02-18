@@ -234,7 +234,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <input matInput type="text" [(ngModel)]="filesRemarks" />
+                <input matInput type="text" [(ngModel)]="filesRemarks" [value]="convertDan(filesRemarks)" />
               </mat-form-field>
             </div>
           </div>
