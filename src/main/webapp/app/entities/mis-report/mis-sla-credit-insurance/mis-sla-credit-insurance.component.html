@@ -12,7 +12,7 @@
     <mat-card-content>
       <div class="row my-3">
         <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
               <input matStartDate formControlName="date1" placeholder="Start date" />
@@ -25,7 +25,7 @@
         </div>
 
         <div class="col">
-          <mat-form-field class="w-100" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
             <mat-label>Status</mat-label>
             <mat-select formControlName="status" (selectionChange)="changeOption($event)" multiple>
               <li class="select-all" (click)="toggleSelectAll()">
@@ -35,8 +35,9 @@
             </mat-select>
           </mat-form-field>
         </div>
-
-        <div class="col">
+      </div>
+      <div class="row my-3">
+        <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Username</mat-label>
             <mat-select name="status" (selectionChange)="toggleSelectUsernameAll()">
