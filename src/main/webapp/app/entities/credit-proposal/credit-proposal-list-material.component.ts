@@ -175,7 +175,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
 
   public doSearch(): void {
-    this.page = 0;
     this.statusSearch = true;
     const predicate: object = {
       page: this.page,
