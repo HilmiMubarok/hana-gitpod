@@ -372,16 +372,16 @@ export abstract class AbstractExcelMISReport {
     return city || '';
   }
 
-  protected _formatDate(dateStr) {
-    if (typeof dateStr === 'undefined' || dateStr === 'null' || dateStr === null) {
+  protected _formatDate(dateStr: string): string {
+    if (!dateStr) {
       return '';
     }
 
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    const [year, month, day] = dateStr.split('-');
-
-    return `${day}-${monthNames[parseInt(month, 10) - 1]}-${year}`;
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'long' }); // "August"
+    const year = date.getFullYear().toString();
+    return `${day} ${month} ${year}`;
   }
 
   // ============= HELPER METHODS FOR SLA Reviewer ============= //
