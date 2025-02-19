@@ -373,6 +373,19 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   }
 
   public generateMISReportCP() {
+    const startDate1 = this.MisReportCPCredam.get('date1')?.value;
+    const endDate2 = this.MisReportCPCredam.get('date2')?.value;
+    const statuss = this._convertStatusToString(this.MisReportCPCredam.get('status')?.value);
+
+    if (!startDate1 || !endDate2) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Date Range' });
+      this.misReportService.setLoading(false);
+      return;
+    } else if (!statuss) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Status' });
+      this.misReportService.setLoading(false);
+      return;
+    }
     this.misReportService.setLoading(true);
     const params = {
       startDate: this.MisReportCPCredam.get('date1')?.value,
@@ -384,7 +397,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     this.misReportService.getMisReportCPCredam(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_SLA_DPPK'),
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Select Parameters' });
         this._resetData();
         this.misReportService.setLoading(false);
       },
