@@ -206,6 +206,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.statusSearch = false;
     this.currentSearch = '';
     this.page = 0;
+    this.itemsPerPage = 10;
     this.loadAll();
   }
 
