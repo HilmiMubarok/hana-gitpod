@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { MisReportService } from '../mis-report.service';
 import moment from 'moment';
@@ -38,6 +38,10 @@ import * as ExcelJS from 'exceljs';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
     `,
   ],
 })
@@ -52,9 +56,9 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
     super(misReportService);
     this.MISReportCPInsuranceReport = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl(''),
-      status: new FormControl(''),
+      startDate: new FormControl('', [Validators.required]),
+      endDate: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
       username: new FormControl(null),
     });
 
@@ -74,12 +78,12 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
   }
 
   dateRangeHasValue(): boolean {
-    return this.MISReportCPInsuranceReport.get('date1')?.value && this.MISReportCPInsuranceReport.get('date2')?.value;
+    return this.MISReportCPInsuranceReport.get('startDate')?.value && this.MISReportCPInsuranceReport.get('endDate')?.value;
   }
 
   clearDateRange(): void {
-    this.MISReportCPInsuranceReport.get('date1')?.reset();
-    this.MISReportCPInsuranceReport.get('date2')?.reset();
+    this.MISReportCPInsuranceReport.get('startDate')?.reset();
+    this.MISReportCPInsuranceReport.get('endDate')?.reset();
   }
 
   get columns(): any[] {
@@ -145,7 +149,39 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     }
   }
 
+  private getFormValidationMessage(): string | null {
+    const startDate = this.MISReportCPInsuranceReport.get('startDate');
+    const endDate = this.MISReportCPInsuranceReport.get('endDate');
+    const status = this.MISReportCPInsuranceReport.get('status');
+
+    const isDateRangeInvalid = startDate?.invalid || endDate?.invalid;
+    const isStatusInvalid = status?.invalid;
+
+    if (isDateRangeInvalid && !isStatusInvalid) {
+      return 'Please Select Date Range';
+    }
+  }
+
+    if (isStatusInvalid && !isDateRangeInvalid) {
+      return 'Please Select Status';
+    }
+
+    if (isDateRangeInvalid && isStatusInvalid) {
+      return 'Please Select Parameters';
+    }
+
+    return null;
+  }
+
   public generateMISReportCPInsuranceReport(): void {
+    if (this.MISReportCPInsuranceReport.invalid) {
+      const errorMessage = this.getFormValidationMessage();
+      if (errorMessage) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+        return;
+      }
+    }
+
     this.misReportService.setLoading(true);
 
     const params = {
