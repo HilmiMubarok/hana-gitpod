@@ -174,7 +174,7 @@
               <th mat-header-cell *matHeaderCellDef>Appraisal Date</th>
               <td mat-cell *matCellDef="let element">
                 <div *ngIf="loadingSearch; else dataAppraisalDate" class="skeleton-loading"></div>
-                <ng-template #dataAppraisalDate>{{ element.createdDate | date: 'yyyy-MM-dd' }}</ng-template>
+                <ng-template #dataAppraisalDate>{{ _formatDate(element.createdDate) }}</ng-template>
               </td>
             </ng-container>
 
