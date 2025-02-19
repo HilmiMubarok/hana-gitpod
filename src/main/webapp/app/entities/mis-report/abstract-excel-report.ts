@@ -70,13 +70,17 @@ export abstract class AbstractExcelMISReport {
       });
 
       // Set a minimum height and cap the maximum height
-      const finalHeight = Math.max(20, maxHeight);
+      const finalHeight = Math.max(50, maxHeight);
       row.height = finalHeight;
     });
   }
 
   protected getStatusLOV(appMenuId: string) {
     return this.service.getStatuses(appMenuId);
+  }
+
+  protected getUsernameLOV(positionTypeId) {
+    return this.service.getLovUsername(positionTypeId);
   }
 
   protected setUpColumns(columns): void {

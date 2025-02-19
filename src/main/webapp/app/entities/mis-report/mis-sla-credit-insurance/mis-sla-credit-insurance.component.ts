@@ -4,7 +4,6 @@ import moment from 'moment';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import * as ExcelJS from 'exceljs';
-import { saveAs } from 'file-saver';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
 
 @Component({
@@ -45,8 +44,10 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
 export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
   listOfValue = [];
-  misCp: FormGroup;
+  public lovUsername = [];
+  public misCp: FormGroup;
   allSelected = false;
+  public allSelectedUsername = false;
 
   changeOption(event) {
     console.log('test', event.value);
@@ -58,6 +59,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
+      username: new FormControl(''),
     });
     this.misCp.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
@@ -84,6 +86,12 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+    this.getUsernameLOV('INSURANCE_ADMIN').subscribe({
+      next: res => (this.lovUsername = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get List Username' });
+      },
+    });
   }
 
   toggleSelectAll(): void {
@@ -92,6 +100,15 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       this.misCp.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
     } else {
       this.misCp.get('status')?.setValue('');
+    }
+  }
+
+  public toggleSelectUsernameAll(): void {
+    this.allSelectedUsername = !this.allSelectedUsername;
+    if (this.allSelectedUsername) {
+      this.misCp.get('username')?.setValue([...this.lovUsername.map(username => username.userLogin)]);
+    } else {
+      this.misCp.get('username')?.setValue('');
     }
   }
 
@@ -122,6 +139,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       startDate: this.misCp.get('date1')?.value,
       endDate: this.misCp.get('date2')?.value,
       status: this._convertStatusToString(this.misCp.get('status')?.value),
+      userLogin: this.misCp.get('username')?.value ? this._convertStatusToString(this.misCp.get('username')?.value) : null,
       type: 'STATELOG',
     };
 
@@ -141,7 +159,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
   private _processGenerate(data, fileName) {
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Sheet 1');
+    // const worksheet = workbook.addWorksheet('Sheet 1');
 
     // this._setUpColumns(worksheet);
     this.setUpColumns(this.columns);
@@ -492,7 +510,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       return '';
     }
 
-    const allowedTypes = ['Real Estate', 'Machine', 'Vehicle', 'Personal Property'];
+    const allowedTypes = ['Real Estate', 'Personal Properties', 'Personal Property Vehicle', 'Personal Property Machine'];
 
     return collateral
       .filter(item => item.collateralTypeInsurance === 'true' && allowedTypes.includes(item.collateralType))
@@ -505,110 +523,114 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
     let counter = startRow;
 
-    prop.collateral?.forEach((col: any) => {
-      col.collateralInsurance?.forEach((insurance: any, index: number) => {
-        const latestMakerInDate = this._getMakerInDateFilteredLast(prop.timeLineInsurance);
-        const firstMakerInDdate = this._getMakerInDateFilteredFirst(prop.timeLineInsurance);
-        const latestApprovalOutDate = this._getApprovalOutDateFilteredLast(prop.timeLineInsurance);
-        const latestApprovalOutTime = this._getApprovalOutTimeFilteredLast(prop.timeLineInsurance);
-        const latestDarIssuedDate = this._getDarIssuedDateFilteredLast(prop.timeLineCreditProposal);
-        const latestDarIssuedTime = this._getDarIssuedTimeFilteredLast(prop.timeLineCreditProposal);
+    const debtorName = prop.debtorName || '';
 
-        // Hitung TAT Days
-        let tatDays = null;
-        if (firstMakerInDdate && latestApprovalOutDate) {
-          const makerDateParts = firstMakerInDdate.split('/');
-          const approvalDateParts = latestApprovalOutDate.split('/');
+    prop.collateral
+      ?.filter(col => col.partyName === debtorName)
+      .forEach((col: any) => {
+        col.collateralInsurance?.forEach((insurance: any, index: number) => {
+          const firstMakerInDdate = this._getMakerInDateFilteredFirst(prop.timeLineInsurance);
+          const latestApprovalOutDate = this._getApprovalOutDateFilteredLast(prop.timeLineInsurance);
+          const latestApprovalOutTime = this._getApprovalOutTimeFilteredLast(prop.timeLineInsurance);
+          const latestDarIssuedDate = this._getDarIssuedDateFilteredLast(prop.timeLineCreditProposal);
+          const latestDarIssuedTime = this._getDarIssuedTimeFilteredLast(prop.timeLineCreditProposal);
 
-          const makerDate = new Date(`${makerDateParts[2]}-${makerDateParts[1]}-${makerDateParts[0]}`);
-          const approvalDate = new Date(`${approvalDateParts[2]}-${approvalDateParts[1]}-${approvalDateParts[0]}`);
+          // Hitung TAT Days
+          let tatDays = null;
+          if (firstMakerInDdate && latestApprovalOutDate) {
+            const makerDateParts = firstMakerInDdate.split('/');
+            const approvalDateParts = latestApprovalOutDate.split('/');
 
-          tatDays = Math.ceil(Math.abs(approvalDate.getTime() - makerDate.getTime()) / (1000 * 60 * 60 * 24));
-        }
+            const makerDate = new Date(`${makerDateParts[2]}-${makerDateParts[1]}-${makerDateParts[0]}`);
+            const approvalDate = new Date(`${approvalDateParts[2]}-${approvalDateParts[1]}-${approvalDateParts[0]}`);
 
-        // hitung tat time
-        const formatDate = (date: string | undefined | null) => {
-          if (!date || typeof date !== 'string' || !date.includes('/')) {
-            return '';
+            tatDays = Math.ceil(Math.abs(approvalDate.getTime() - makerDate.getTime()) / (1000 * 60 * 60 * 24));
           }
 
-          const parts = date.split('/');
-          if (parts.length < 3) {
-            return '';
+          // hitung tat time
+          const formatDate = (date: string | undefined | null) => {
+            if (!date || typeof date !== 'string' || !date.includes('/')) {
+              return '';
+            }
+
+            const parts = date.split('/');
+            if (parts.length < 3) {
+              return '';
+            }
+
+            const [day, month, year] = parts;
+
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+          };
+
+          const formatTime = (time: string) => time || '00:00:00';
+
+          const latestApprovalOutDateISO = formatDate(latestApprovalOutDate);
+          const latestApprovalOutTimeISO = formatTime(latestApprovalOutTime);
+          const latestDarIssuedDateISO = formatDate(latestDarIssuedDate);
+          const latestDarIssuedTimeISO = formatTime(latestDarIssuedTime);
+
+          const fromDateTime = `${latestApprovalOutDateISO}T${latestApprovalOutTimeISO}`;
+          const darIssuedDateTime = `${latestDarIssuedDateISO}T${latestDarIssuedTimeISO}`;
+
+          const fromDateTimeObject = new Date(`${fromDateTime}+07:00`); // GMT+7
+          const targetDate =
+            tatDays === 0 ? new Date(`${darIssuedDateTime}+07:00`) : new Date(`${latestApprovalOutDateISO}T08:00:00+07:00`);
+
+          let tatTime = '';
+          if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
+            const differenceMs = fromDateTimeObject.getTime() - targetDate.getTime();
+            const hours = Math.floor(differenceMs / (1000 * 60 * 60));
+            const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
+            tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
           }
 
-          const [day, month, year] = parts;
+          const dataRow = {
+            no: counter++,
+            debtor: prop.debtorName || '',
+            picCreditIns: this._getPICCreditInsNameFiltered(prop.timeLineInsurance),
+            transaksiKredit: prop.product?.map((prod: any) => prod.pengajuan).join(',\n') || '',
+            makerInDate: this._getMakerInDateFiltered(prop.timeLineInsurance),
+            makerInTime: this._getMakerInTimeFiltered(prop.timeLineInsurance),
+            makerOutDate: this._getMakerOutDateFiltered(prop.timeLineInsurance),
+            makerOutTime: this._getMakerOutTimeFiltered(prop.timeLineInsurance),
+            approvalOutName: this._getApprovalOutNameFiltered(prop.timeLineInsurance),
+            approvalOutDate: this._getApprovalOutDateFiltered(prop.timeLineInsurance),
+            approvalOutTime: this._getApprovalOutTimeFiltered(prop.timeLineInsurance),
+            darIssuedTime: this._getDarIssuedTimeFiltered(prop.timeLineCreditProposal),
+            darIssuedDate: this._getDarIssuedDateFiltered(prop.timeLineCreditProposal),
+            status: prop.statusInsuranceDescription || '',
+            jaminanTipe: this._getFilteredCollateralType(prop.collateral),
+            ccy: col.collateralProperty?.marketValueOriginalCcy || '',
+            mvBangunan: col.collateralProperty?.marketValueOriginal || '',
+            transaksi: col.collateralStatus || '',
+            tipe: insurance.insuranceTypeName || '',
+            currency: insurance.currency || '',
+            np: insurance.insuranceAmount || '',
+            jatuhTempo: insurance.expDate
+              ? (() => {
+                  const date = new Date(insurance.expDate);
+                  if (isNaN(date.getTime())) {
+                    return '';
+                  }
+                  const day = String(date.getDate()).padStart(2, '0');
+                  const month = String(date.getMonth() + 1).padStart(2, '0');
+                  const year = date.getFullYear();
+                  return `${day}-${month}-${year}`;
+                })()
+              : '',
 
-          return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-        };
+            keterangan: insurance.remarks || '',
+            segment: prop.regionalParentRM || '',
+            branch: prop.bookingBranchName || '',
+            rm: `${prop.rmFirstName || ''} ${prop.rmLastName || ''}`,
+            tatDays,
+            tatTime,
+          };
 
-        const formatTime = (time: string) => time || '00:00:00';
-
-        const latestApprovalOutDateISO = formatDate(latestApprovalOutDate);
-        const latestApprovalOutTimeISO = formatTime(latestApprovalOutTime);
-        const latestDarIssuedDateISO = formatDate(latestDarIssuedDate);
-        const latestDarIssuedTimeISO = formatTime(latestDarIssuedTime);
-
-        const fromDateTime = `${latestApprovalOutDateISO}T${latestApprovalOutTimeISO}`;
-        const darIssuedDateTime = `${latestDarIssuedDateISO}T${latestDarIssuedTimeISO}`;
-
-        const fromDateTimeObject = new Date(`${fromDateTime}+07:00`); // GMT+7
-        const targetDate = tatDays === 0 ? new Date(`${darIssuedDateTime}+07:00`) : new Date(`${latestApprovalOutDateISO}T08:00:00+07:00`);
-
-        let tatTime = '';
-        if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
-          const differenceMs = fromDateTimeObject.getTime() - targetDate.getTime();
-          const hours = Math.floor(differenceMs / (1000 * 60 * 60));
-          const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
-          tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-        }
-
-        const dataRow = {
-          no: counter++,
-          debtor: prop.debtorName || '',
-          picCreditIns: this._getPICCreditInsNameFiltered(prop.timeLineInsurance),
-          transaksiKredit: prop.product?.map((prod: any) => prod.pengajuan).join(',\n') || '',
-          makerInDate: this._getMakerInDateFiltered(prop.timeLineInsurance),
-          makerInTime: this._getMakerInTimeFiltered(prop.timeLineInsurance),
-          makerOutDate: this._getMakerOutDateFiltered(prop.timeLineInsurance),
-          makerOutTime: this._getMakerOutTimeFiltered(prop.timeLineInsurance),
-          approvalOutName: this._getApprovalOutNameFiltered(prop.timeLineInsurance),
-          approvalOutDate: this._getApprovalOutDateFiltered(prop.timeLineInsurance),
-          approvalOutTime: this._getApprovalOutTimeFiltered(prop.timeLineInsurance),
-          darIssuedTime: this._getDarIssuedTimeFiltered(prop.timeLineCreditProposal),
-          darIssuedDate: this._getDarIssuedDateFiltered(prop.timeLineCreditProposal),
-          status: prop.statusInsuranceDescription || '',
-          jaminanTipe: this._getFilteredCollateralType(prop.collateral),
-          ccy: col.collateralProperty?.marketValueOriginalCcy || '',
-          mvBangunan: col.collateralProperty?.marketValueOriginal || '',
-          transaksi: col.collateralStatus || '',
-          tipe: insurance.insuranceTypeName || '',
-          currency: insurance.currency || '',
-          np: insurance.insuranceAmount || '',
-          jatuhTempo: insurance.expDate
-            ? (() => {
-                const date = new Date(insurance.expDate);
-                if (isNaN(date.getTime())) {
-                  return '';
-                }
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                return `${day}-${month}-${year}`;
-              })()
-            : '',
-
-          keterangan: insurance.remarks || '',
-          segment: prop.regionalParentRM || '',
-          branch: prop.bookingBranchName || '',
-          rm: `${prop.rmFirstName || ''} ${prop.rmLastName || ''}`,
-          tatDays,
-          tatTime,
-        };
-
-        ws.addRow(dataRow);
+          ws.addRow(dataRow);
+        });
       });
-    });
   }
 
   private _mergeCells(worksheet: ExcelJS.Worksheet, startRow: number, rowCount: number, columns: string[]): void {

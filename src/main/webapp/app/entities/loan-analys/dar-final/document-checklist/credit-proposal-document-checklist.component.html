@@ -34,7 +34,7 @@
         <ng-container matColumnDef="remarks">
           <th mat-header-cell *matHeaderCellDef>Remarks</th>
           <td mat-cell *matCellDef="let element">
-            <span *ngIf="element.remarks !== 'null'">{{ element.remarks }}</span>
+            <span *ngIf="element.remarks !== 'null'">{{ convertDan(element.remarks) }}</span>
           </td>
         </ng-container>
 

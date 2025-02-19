@@ -64,6 +64,17 @@ export class MisReportService {
       .pipe(map(res => res.body));
   }
 
+  public getLovUsername(positionTypeId) {
+    const params = new HttpParams().set('positionTypeIds', positionTypeId);
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/mis/get-persons'), {
+        params,
+        observe: 'response',
+      })
+      .pipe(map(res => res.body));
+  }
+
   public getOfficerSurveyors() {
     const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,asc');
 

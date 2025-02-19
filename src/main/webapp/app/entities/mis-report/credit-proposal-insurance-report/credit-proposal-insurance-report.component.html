@@ -42,6 +42,19 @@
             </mat-form-field>
           </div>
         </div>
+        <div class="row my-3">
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Username</mat-label>
+              <mat-select formControlName="username">
+                <mat-option [value]="null">--Select Username--</mat-option>
+                <mat-option *ngFor="let item of lovUsername" [value]="item.userLogin"
+                  >{{ item.firstName + ' ' + item.lastName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
       </mat-card-content>
       <div class="mt-3 text-center">
         <button
