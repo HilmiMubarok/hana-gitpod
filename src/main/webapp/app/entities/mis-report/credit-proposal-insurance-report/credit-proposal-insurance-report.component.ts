@@ -160,7 +160,6 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     if (isDateRangeInvalid && !isStatusInvalid) {
       return 'Please Select Date Range';
     }
-  }
 
     if (isStatusInvalid && !isDateRangeInvalid) {
       return 'Please Select Status';
