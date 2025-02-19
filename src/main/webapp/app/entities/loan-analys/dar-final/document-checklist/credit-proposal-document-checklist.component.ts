@@ -368,7 +368,7 @@ export class DocumentChecklistTempComponent implements OnInit {
 
   public convertDan(value: string): any {
     if (value !== null && value !== undefined) {
-      return value.replace('codeSpecialDan', '&');
+      return value.replace(/codeSpecialDan/g, '&');
     } else {
       return '';
     }
