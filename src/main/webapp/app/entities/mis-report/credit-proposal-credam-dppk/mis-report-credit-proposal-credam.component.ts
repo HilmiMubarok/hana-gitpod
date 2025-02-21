@@ -377,6 +377,12 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     const endDate2 = this.MisReportCPCredam.get('date2')?.value;
     const statuss = this._convertStatusToString(this.MisReportCPCredam.get('status')?.value);
 
+    if (!startDate1 && !endDate2 && !statuss) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameters' });
+      this.misReportService.setLoading(false);
+      return;
+    }
+
     if (!startDate1 || !endDate2) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Date Range' });
       this.misReportService.setLoading(false);
