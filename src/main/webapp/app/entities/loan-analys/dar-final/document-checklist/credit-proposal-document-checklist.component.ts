@@ -366,7 +366,7 @@ export class DocumentChecklistTempComponent implements OnInit {
     });
   }
 
-  public convertDan(value: string): any {
+  public handleAmpersandIcon(value: string): any {
     if (value !== null && value !== undefined) {
       return value.replace(/codeSpecialDan/g, '&');
     } else {
