@@ -21,6 +21,9 @@
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
+              <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+            </mat-datepicker-toggle>
           </mat-form-field>
         </div>
 
@@ -35,8 +38,9 @@
             </mat-select>
           </mat-form-field>
         </div>
-
-        <div class="col">
+      </div>
+      <div class="row my-3">
+        <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Username</mat-label>
             <mat-select name="status" (selectionChange)="toggleSelectUsernameAll()">
