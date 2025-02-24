@@ -21,7 +21,7 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
   public rmSegment: IInternal;
   public rmRegional: IInternal;
   public rmBranch: IInternal;
-  public rmPosition: IPosition;
+  public rmPosition: IPosition[];
 
   private _creditProposal: ICreditProposal;
   @Input()
@@ -36,7 +36,7 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
   constructor(private internalService: InternalService, private positionService: PositionService) {
     this.internals = [];
     this.rmRegional = new Internal();
-    this.rmPosition = new Position();
+    this.rmPosition = [];
     this.rmBranch = new Internal();
     this.rmSegment = new Internal();
   }
@@ -48,7 +48,6 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
       }
     }
   }
-
   ngOnInit(): void {
     this.loadPositionRM();
   }
@@ -96,11 +95,11 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
   private findPositionByIdParty(partyId: string): Promise<IPosition> {
     return new Promise<IPosition>((resolve, reject) => {
       if (this.creditProposal.ownerPosition.partyId) {
-        this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
+        this.positionService.queryFilterBy({ idParty: partyId, size: 9999, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
-            this.rmPosition = res.body[0];
-
-            resolve(this.rmPosition);
+            this.rmPosition = res.body;
+            const activeRM = this.rmPosition.find(item => item.statusId === 'ACTIVE' && item.id === this.creditProposal.ownerPosition?.id);
+            resolve(activeRM);
           } else {
             resolve(null);
           }
