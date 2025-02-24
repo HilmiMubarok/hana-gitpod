@@ -540,21 +540,6 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
     return data.length ? data[data.length - 1] : '';
   }
 
-  // private _getFilteredCollateralType(collateral: any[], debtorName: string): string {
-  //   if (!Array.isArray(collateral) || !debtorName) {
-  //     return '';
-  //   }
-
-  //   const allowedTypes = ['Real Estate', 'Personal Properties', 'Personal Property Vehicle', 'Personal Property Machine'];
-
-  //   return collateral
-  //     .filter(
-  //       item => item.collateralTypeInsurance === 'true' && allowedTypes.includes(item.collateralType) && item.partyName === debtorName
-  //     )
-  //     .map(item => item.collateralCode)
-  //     .join(',\n');
-  // }
-
   private _getFilteredCollateralType(collateral: any[], debtorName: string): string {
     if (!Array.isArray(collateral) || !debtorName) {
       return '';
@@ -573,114 +558,118 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
 
   private _addProposalData(ws: ExcelJS.Worksheet, prop: any, idx: number): void {
     const startRow = ws.rowCount;
+    const debtorName = prop.debtorName || '';
 
     let counter = startRow;
 
     // const debtorName = prop.debtorName || '';
 
-    prop.collateral?.forEach((col: any) => {
-      col.collateralInsurance?.forEach((insurance: any, index: number) => {
-        const firstMakerInDdate = this._getMakerInDateFilteredFirst(prop.timeLineInsurance);
-        const latestApprovalOutDate = this._getApprovalOutDateFilteredLast(prop.timeLineInsurance);
-        const latestApprovalOutTime = this._getApprovalOutTimeFilteredLast(prop.timeLineInsurance);
-        const latestDarIssuedDate = this._getDarIssuedDateFilteredLast(prop.timeLineCreditProposal);
-        const latestDarIssuedTime = this._getDarIssuedTimeFilteredLast(prop.timeLineCreditProposal);
+    prop.collateral
+      ?.filter(col => col.partyName === debtorName)
+      .forEach((col: any) => {
+        col.collateralInsurance?.forEach((insurance: any, index: number) => {
+          const firstMakerInDdate = this._getMakerInDateFilteredFirst(prop.timeLineInsurance);
+          const latestApprovalOutDate = this._getApprovalOutDateFilteredLast(prop.timeLineInsurance);
+          const latestApprovalOutTime = this._getApprovalOutTimeFilteredLast(prop.timeLineInsurance);
+          const latestDarIssuedDate = this._getDarIssuedDateFilteredLast(prop.timeLineCreditProposal);
+          const latestDarIssuedTime = this._getDarIssuedTimeFilteredLast(prop.timeLineCreditProposal);
 
-        // Hitung TAT Days
-        let tatDays = null;
-        if (firstMakerInDdate && latestApprovalOutDate) {
-          const makerDateParts = firstMakerInDdate.split('/');
-          const approvalDateParts = latestApprovalOutDate.split('/');
+          // Hitung TAT Days
+          let tatDays = null;
+          if (firstMakerInDdate && latestApprovalOutDate) {
+            const makerDateParts = firstMakerInDdate.split('/');
+            const approvalDateParts = latestApprovalOutDate.split('/');
 
-          const makerDate = new Date(`${makerDateParts[2]}-${makerDateParts[1]}-${makerDateParts[0]}`);
-          const approvalDate = new Date(`${approvalDateParts[2]}-${approvalDateParts[1]}-${approvalDateParts[0]}`);
+            const makerDate = new Date(`${makerDateParts[2]}-${makerDateParts[1]}-${makerDateParts[0]}`);
+            const approvalDate = new Date(`${approvalDateParts[2]}-${approvalDateParts[1]}-${approvalDateParts[0]}`);
 
-          tatDays = Math.ceil(Math.abs(approvalDate.getTime() - makerDate.getTime()) / (1000 * 60 * 60 * 24));
-        }
-
-        // hitung tat time
-        const formatDate = (date: string | undefined | null) => {
-          if (!date || typeof date !== 'string' || !date.includes('/')) {
-            return '';
+            tatDays = Math.ceil(Math.abs(approvalDate.getTime() - makerDate.getTime()) / (1000 * 60 * 60 * 24));
           }
 
-          const parts = date.split('/');
-          if (parts.length < 3) {
-            return '';
+          // hitung tat time
+          const formatDate = (date: string | undefined | null) => {
+            if (!date || typeof date !== 'string' || !date.includes('/')) {
+              return '';
+            }
+
+            const parts = date.split('/');
+            if (parts.length < 3) {
+              return '';
+            }
+
+            const [day, month, year] = parts;
+
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+          };
+
+          const formatTime = (time: string) => time || '00:00:00';
+
+          const latestApprovalOutDateISO = formatDate(latestApprovalOutDate);
+          const latestApprovalOutTimeISO = formatTime(latestApprovalOutTime);
+          const latestDarIssuedDateISO = formatDate(latestDarIssuedDate);
+          const latestDarIssuedTimeISO = formatTime(latestDarIssuedTime);
+
+          const fromDateTime = `${latestApprovalOutDateISO}T${latestApprovalOutTimeISO}`;
+          const darIssuedDateTime = `${latestDarIssuedDateISO}T${latestDarIssuedTimeISO}`;
+
+          const fromDateTimeObject = new Date(`${fromDateTime}+07:00`); // GMT+7
+          const targetDate =
+            tatDays === 0 ? new Date(`${darIssuedDateTime}+07:00`) : new Date(`${latestApprovalOutDateISO}T08:00:00+07:00`);
+
+          let tatTime = '';
+          if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
+            const differenceMs = fromDateTimeObject.getTime() - targetDate.getTime();
+            const hours = Math.floor(differenceMs / (1000 * 60 * 60));
+            const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
+            tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
           }
 
-          const [day, month, year] = parts;
+          const dataRow = {
+            no: counter++,
+            debtor: prop.debtorName || '',
+            picCreditIns: this._getPICCreditInsNameFiltered(prop.timeLineInsurance),
+            transaksiKredit: prop.product?.map((prod: any) => prod.pengajuan).join(',\n') || '',
+            makerInDate: this._getMakerInDateFiltered(prop.timeLineInsurance),
+            makerInTime: this._getMakerInTimeFiltered(prop.timeLineInsurance),
+            makerOutDate: this._getMakerOutDateFiltered(prop.timeLineInsurance),
+            makerOutTime: this._getMakerOutTimeFiltered(prop.timeLineInsurance),
+            approvalOutName: this._getApprovalOutNameFiltered(prop.timeLineInsurance),
+            approvalOutDate: this._getApprovalOutDateFiltered(prop.timeLineInsurance),
+            approvalOutTime: this._getApprovalOutTimeFiltered(prop.timeLineInsurance),
+            darIssuedTime: this._getDarIssuedTimeFiltered(prop.timeLineCreditProposal),
+            darIssuedDate: this._getDarIssuedDateFiltered(prop.timeLineCreditProposal),
+            status: prop.statusInsuranceDescription || '',
+            jaminanTipe: this._getFilteredCollateralType(prop.collateral, prop.debtorName),
+            ccy: col.collateralProperty?.marketValueOriginalCcy || '',
+            mvBangunan: col.collateralProperty?.marketValueOriginal || '',
+            transaksi: col.collateralStatus || '',
+            tipe: insurance.insuranceTypeName || '',
+            currency: insurance.currency || '',
+            np: insurance.insuranceAmount || '',
+            jatuhTempo: insurance.expDate
+              ? (() => {
+                  const date = new Date(insurance.expDate);
+                  if (isNaN(date.getTime())) {
+                    return '';
+                  }
+                  const day = String(date.getDate()).padStart(2, '0');
+                  const month = String(date.getMonth() + 1).padStart(2, '0');
+                  const year = date.getFullYear();
+                  return `${day}-${month}-${year}`;
+                })()
+              : '',
 
-          return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-        };
+            keterangan: insurance.remarks || '',
+            segment: prop.regionalParentRM || '',
+            branch: prop.bookingBranchName || '',
+            rm: `${prop.rmFirstName || ''} ${prop.rmLastName || ''}`,
+            tatDays,
+            tatTime,
+          };
 
-        const formatTime = (time: string) => time || '00:00:00';
-
-        const latestApprovalOutDateISO = formatDate(latestApprovalOutDate);
-        const latestApprovalOutTimeISO = formatTime(latestApprovalOutTime);
-        const latestDarIssuedDateISO = formatDate(latestDarIssuedDate);
-        const latestDarIssuedTimeISO = formatTime(latestDarIssuedTime);
-
-        const fromDateTime = `${latestApprovalOutDateISO}T${latestApprovalOutTimeISO}`;
-        const darIssuedDateTime = `${latestDarIssuedDateISO}T${latestDarIssuedTimeISO}`;
-
-        const fromDateTimeObject = new Date(`${fromDateTime}+07:00`); // GMT+7
-        const targetDate = tatDays === 0 ? new Date(`${darIssuedDateTime}+07:00`) : new Date(`${latestApprovalOutDateISO}T08:00:00+07:00`);
-
-        let tatTime = '';
-        if (!isNaN(fromDateTimeObject.getTime()) && !isNaN(targetDate.getTime())) {
-          const differenceMs = fromDateTimeObject.getTime() - targetDate.getTime();
-          const hours = Math.floor(differenceMs / (1000 * 60 * 60));
-          const minutes = Math.floor(Math.abs((differenceMs % (1000 * 60 * 60)) / (1000 * 60)));
-          tatTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-        }
-
-        const dataRow = {
-          no: counter++,
-          debtor: prop.debtorName || '',
-          picCreditIns: this._getPICCreditInsNameFiltered(prop.timeLineInsurance),
-          transaksiKredit: prop.product?.map((prod: any) => prod.pengajuan).join(',\n') || '',
-          makerInDate: this._getMakerInDateFiltered(prop.timeLineInsurance),
-          makerInTime: this._getMakerInTimeFiltered(prop.timeLineInsurance),
-          makerOutDate: this._getMakerOutDateFiltered(prop.timeLineInsurance),
-          makerOutTime: this._getMakerOutTimeFiltered(prop.timeLineInsurance),
-          approvalOutName: this._getApprovalOutNameFiltered(prop.timeLineInsurance),
-          approvalOutDate: this._getApprovalOutDateFiltered(prop.timeLineInsurance),
-          approvalOutTime: this._getApprovalOutTimeFiltered(prop.timeLineInsurance),
-          darIssuedTime: this._getDarIssuedTimeFiltered(prop.timeLineCreditProposal),
-          darIssuedDate: this._getDarIssuedDateFiltered(prop.timeLineCreditProposal),
-          status: prop.statusInsuranceDescription || '',
-          jaminanTipe: this._getFilteredCollateralType(prop.collateral, prop.debtorName),
-          ccy: col.collateralProperty?.marketValueOriginalCcy || '',
-          mvBangunan: col.collateralProperty?.marketValueOriginal || '',
-          transaksi: col.collateralStatus || '',
-          tipe: insurance.insuranceTypeName || '',
-          currency: insurance.currency || '',
-          np: insurance.insuranceAmount || '',
-          jatuhTempo: insurance.expDate
-            ? (() => {
-                const date = new Date(insurance.expDate);
-                if (isNaN(date.getTime())) {
-                  return '';
-                }
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                return `${day}-${month}-${year}`;
-              })()
-            : '',
-
-          keterangan: insurance.remarks || '',
-          segment: prop.regionalParentRM || '',
-          branch: prop.bookingBranchName || '',
-          rm: `${prop.rmFirstName || ''} ${prop.rmLastName || ''}`,
-          tatDays,
-          tatTime,
-        };
-
-        ws.addRow(dataRow);
+          ws.addRow(dataRow);
+        });
       });
-    });
   }
 
   private _mergeCells(worksheet: ExcelJS.Worksheet, startRow: number, rowCount: number, columns: string[]): void {

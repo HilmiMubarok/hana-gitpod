@@ -247,8 +247,8 @@
                 <input
                   matInput
                   type="text"
-                  [value]="convertDanDialog(filesRemarks)"
-                  (input)="filesRemarks = revertDan($event.target.value)"
+                  [value]="handleAmpersandIconDialog(filesRemarks)"
+                  (input)="filesRemarks = revertHandleAmpersandIconDialog($event.target.value)"
                 />
               </mat-form-field>
             </div>
@@ -277,14 +277,14 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ convertDan(files.category) }}</td>
+          <td>{{ handleAmpersandIcon(files.category) }}</td>
           <td>
             <span *ngIf="files.dueDate !== 'null'">{{ files.dueDate | date: 'YYYY-MM-dd' }}</span>
           </td>
           <td>
-            <span *ngIf="files.remarks !== 'null'">{{ convertDan(files.remarks) }}</span>
+            <span *ngIf="files.remarks !== 'null'">{{ handleAmpersandIcon(files.remarks) }}</span>
           </td>
-          <td>{{ convertDan(files.status) }}</td>
+          <td>{{ handleAmpersandIcon(files.status) }}</td>
         </tr>
       </tbody>
     </table>

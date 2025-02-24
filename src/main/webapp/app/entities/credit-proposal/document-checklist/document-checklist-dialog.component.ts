@@ -70,11 +70,11 @@ export class DocumentChecklistDialogComponent {
   public filesDescription: string;
   public parentDescription: string;
 
-  public convertDanDialog(value: string): string {
+  public handleAmpersandIconDialog(value: string): string {
     return value ? value.replace(/codeSpecialDan/g, '&') : '';
   }
 
-  public revertDan(value: string): string {
+  public revertHandleAmpersandIconDialog(value: string): string {
     return value ? value.replace(/&/g, 'codeSpecialDan') : '';
   }
   constructor(
@@ -346,7 +346,7 @@ export class DocumentChecklistDialogComponent {
     });
   }
 
-  public convertDan(value: string): any {
+  public handleAmpersandIcon(value: string): any {
     if (value !== null && value !== undefined) {
       return value.replace(/codeSpecialDan/g, '&');
     } else {
