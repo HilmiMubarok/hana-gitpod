@@ -98,7 +98,7 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
         this.positionService.queryFilterBy({ idParty: partyId, size: 9999, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
             this.rmPosition = res.body;
-            const activeRM = this.rmPosition.find(item => item.statusId === 'ACTIVE' && item.id === this.creditProposal.ownerPosition?.id);
+            const activeRM = this.rmPosition.find(item => item.statusId === 'ACTIVE' && item.id === this.creditProposal.ownerPosition.id);
             resolve(activeRM);
           } else {
             resolve(null);
