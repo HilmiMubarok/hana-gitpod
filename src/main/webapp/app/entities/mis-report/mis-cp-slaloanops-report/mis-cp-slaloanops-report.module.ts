@@ -3,6 +3,9 @@ import { MisCpSlaloanopsReportComponent } from "./mis-cp-slaloanops-report.compo
 import { SharedModule } from "app/shared/shared.module";
 import { RouterModule, Routes } from "@angular/router";
 import { UserRouteAccessService } from "app/core/auth/user-route-access.service";
+import { MisLoanOpsReportComponent } from "./report/mis-loan-ops-report.component";
+import { MisLoanOpsDashboardCreditInsuranceComponent } from "./dashboard/credit-insurance/mis-loan-ops-dashboard-credit-insurance.component";
+import { MisLoanOpsDashboardCreditAdminComponent } from "./dashboard/credit-admin/mis-loan-ops-dashboard-credit-admin.component";
 
 const routes: Routes = [
     {
@@ -19,7 +22,10 @@ const routes: Routes = [
 @NgModule({
     imports: [SharedModule, RouterModule.forChild(routes)],
     declarations: [
-        MisCpSlaloanopsReportComponent
+        MisCpSlaloanopsReportComponent,
+        MisLoanOpsReportComponent,
+        MisLoanOpsDashboardCreditInsuranceComponent,
+        MisLoanOpsDashboardCreditAdminComponent
     ],
 })
 export class MisCpSlaloanopsReportModule { }
