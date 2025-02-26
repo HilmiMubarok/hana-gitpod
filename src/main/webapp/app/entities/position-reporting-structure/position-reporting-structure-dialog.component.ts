@@ -79,12 +79,16 @@ export class PositionReportingStructureDialogComponent implements OnInit {
         idInternal: val,
       })
       .subscribe(res => {
-        if (target === 'from') {
-          this.positionListFrom = res.body;
-        } else if (target === 'to') {
-          this.positionListTo = res.body;
-        } else if (target === 'delegation') {
-          this.positionListDelegation = res.body;
+        if (res.body) {
+          const filteredData = res.body.filter((item: any) => item.statusCode === 'ACTIVE');
+
+          if (target === 'from') {
+            this.positionListFrom = filteredData;
+          } else if (target === 'to') {
+            this.positionListTo = filteredData;
+          } else if (target === 'delegation') {
+            this.positionListDelegation = res.body; // Tanpa filter untuk 'delegation'
+          }
         }
       });
   }
