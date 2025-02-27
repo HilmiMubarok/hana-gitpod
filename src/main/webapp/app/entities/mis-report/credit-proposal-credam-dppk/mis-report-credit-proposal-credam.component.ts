@@ -287,7 +287,31 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         }
       }
     }
-
+    const checkerOutData = [];
+    const approvalOutData = [];
+    const checker1Data = timeLineData
+      .filter(item => item.fromStatusDescription === 'Review Checker 1')
+      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+    const checker2Data = timeLineData
+      .filter(item => item.fromStatusDescription === 'Review Checker 2')
+      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+    const firstChecker1 = checker1Data.length ? checker1Data[0] : null;
+    const firstChecker2 = checker2Data.length ? checker2Data[0] : null;
+    if (firstChecker1 && firstChecker2) {
+      const checker1DateTime = new Date(`${firstChecker1.fromDate}T${firstChecker1.fromTime}`).getTime();
+      const checker2DateTime = new Date(`${firstChecker2.fromDate}T${firstChecker2.fromTime}`).getTime();
+      if (checker1DateTime < checker2DateTime) {
+        checkerOutData.push(firstChecker1);
+        approvalOutData.push(firstChecker2);
+        checkerOutData.push(...checker1Data.slice(1));
+        approvalOutData.push(...checker2Data.slice(1));
+      } else {
+        checkerOutData.push(firstChecker2);
+        approvalOutData.push(firstChecker1);
+        checkerOutData.push(...checker2Data.slice(1));
+        approvalOutData.push(...checker1Data.slice(1));
+      }
+    }
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
@@ -317,31 +341,11 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           .join(',\n') || '',
 
       checkOutName: proposal.dataAssignToDPPKReviewOneName || '',
-      checkerOutDate:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'Review Checker 1')
-          .map(timeline => this._convertDate(timeline.fromDate))
-          .join(',\n') || '',
-      checkerOutTime:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'Review Checker 1')
-          .map(timeline => this._convertTime(timeline.fromTime))
-          .join(',\n') || '',
-
+      checkerOutDate: checkerOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
+      checkerOutTime: checkerOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
       approvalOutName: proposal.dataAssignToDPPKReviewTwoName || '',
-
-      approvalOutDate:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'Review Checker 2')
-          .map(timeline => this._convertDate(timeline.fromDate))
-          .join(',\n') || '',
-
-      approvalOutTime:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'Review Checker 2')
-          .map(timeline => this._convertTime(timeline.fromTime))
-          .join(',\n') || '',
-
+      approvalOutDate: approvalOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
+      approvalOutTime: approvalOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
       tatDays: tatDayss?.toString() || '',
       tatTime: formattedTatTime || '',
       status: proposal.status || '',
@@ -395,8 +399,9 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     const params = {
       startDate: this.MisReportCPCredam.get('date1')?.value,
       endDate: this.MisReportCPCredam.get('date2')?.value,
-      status: this.convertStatusToString(this.MisReportCPCredam.get('status')?.value),
-      userDPPK: this.MisReportCPCredam.get('userDPPK')?.value,
+      status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
+      type: 'STATELOG',
+      userDPPK: this._convertStatusToString(this.MisReportCPCredam.get('userDPPK')?.value),
     };
 
     this.misReportService.getMisReportCPCredam(params).subscribe({
