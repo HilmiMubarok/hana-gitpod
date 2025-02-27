@@ -161,16 +161,19 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     const timeLineData = proposal.timeLineCreditProposal.sort((a, b) => a.id - b.id);
     const startRow = worksheet.rowCount + 1;
-    const latestReviewCheckerDate = timeLineData.filter(item => item.statusDescription === 'Review Checker 2');
+    const latestReviewCheckerDate = timeLineData.filter(item => item.fromStatusDescription === 'Review Checker 2');
+
+    let latestReviewChecker = null;
+
     if (latestReviewCheckerDate.length > 0) {
-      latestReviewCheckerDate.reduce((latest, current) => {
-        const currentDate = new Date(current?.fromDate);
-        const latestDate = new Date(latest?.fromDate);
-        return currentDate > latestDate ? current : latest;
+      latestReviewChecker = latestReviewCheckerDate.reduce((latest, current) => {
+        const currentDateTime = new Date(`${current.fromDate}T${current.fromTime}`).getTime();
+        const latestDateTime = new Date(`${latest.fromDate}T${latest.fromTime}`).getTime();
+        return currentDateTime > latestDateTime ? current : latest;
       });
     }
+    const reviewCheckerDate = latestReviewCheckerDate?.fromDate;
     const latestDPPKFinalizeDate = timeLineData.filter(item => item.statusDescription === 'DPPK Finalize');
-    const reviewCheckerDate = latestReviewCheckerDate[0]?.fromDate;
     const latestDPPKFinalizeDates = latestDPPKFinalizeDate[latestDPPKFinalizeDate.length - 1].fromDate;
     function calculateDaysDifference(date1, date2) {
       if (!date1 || !date2) {
