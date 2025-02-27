@@ -161,20 +161,14 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     const timeLineData = proposal.timeLineCreditProposal.sort((a, b) => a.id - b.id);
     const startRow = worksheet.rowCount + 1;
-    const latestReviewCheckerDate = timeLineData.filter(item => item.fromStatusDescription === 'Review Checker 2');
-
-    let latestReviewChecker = null;
-
-    if (latestReviewCheckerDate.length > 0) {
-      latestReviewChecker = latestReviewCheckerDate.reduce((latest, current) => {
-        const currentDateTime = new Date(`${current.fromDate}T${current.fromTime}`).getTime();
-        const latestDateTime = new Date(`${latest.fromDate}T${latest.fromTime}`).getTime();
-        return currentDateTime > latestDateTime ? current : latest;
-      });
-    }
-    const reviewCheckerDate = latestReviewCheckerDate?.fromDate;
-    const latestDPPKFinalizeDate = timeLineData.filter(item => item.statusDescription === 'DPPK Finalize');
-    const latestDPPKFinalizeDates = latestDPPKFinalizeDate[latestDPPKFinalizeDate.length - 1].fromDate;
+    const latestReviewCheckerDate = timeLineData
+      .filter(item => item.fromStatusDescription === 'Review Checker 2')
+      .sort((b, a) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
+    const reviewCheckerDate = latestReviewCheckerDate.length > 0 ? latestReviewCheckerDate[0].fromDate : '';
+    const latestDPPKFinalizeDate = timeLineData
+      .filter(item => item.statusDescription === 'DPPK Finalize')
+      .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
+    const latestDPPKFinalizeDates = latestDPPKFinalizeDate.length > 0 ? latestDPPKFinalizeDate[0].fromDate : '';
     function calculateDaysDifference(date1, date2) {
       if (!date1 || !date2) {
         return '';
@@ -186,20 +180,23 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     }
     // Hitung Tatdays
     const tatDayss = calculateDaysDifference(reviewCheckerDate, latestDPPKFinalizeDates);
-    const latestDPPKFinalizeTime = timeLineData.filter(item => item.statusDescription === 'DPPK Finalize');
+    const latestDPPKFinalizeTime = timeLineData
+      .filter(item => item.statusDescription === 'DPPK Finalize')
+      .sort((a, b) => {
+        const timeA = toMinutes(a.fromTime);
+        const timeB = toMinutes(b.fromTime);
+        return timeB - timeA;
+      });
     const firstEntryTime = latestDPPKFinalizeTime.length > 0 ? latestDPPKFinalizeTime[0].fromTime.slice(0, 5) : null;
-    const latestReviewCheckerTime = timeLineData
+    const latestReviewCheckersTime = timeLineData
       .filter(item => item.fromStatusDescription === 'Review Checker 2')
-      .reduce(
-        (latest, current) => {
-          const latestTimeInMinutes = toMinutes(latest.fromTime);
-          const currentTimeInMinutes = toMinutes(current.fromTime);
-          return currentTimeInMinutes > latestTimeInMinutes ? current : latest;
-        },
-        { fromTime: '' }
-      )
-      .fromTime.slice(0, 5); // Ambil hanya jam dan menit
+      .sort((a, b) => {
+        const timeA = toMinutes(a.fromTime);
+        const timeB = toMinutes(b.fromTime);
+        return timeB - timeA;
+      });
 
+    const latestReviewCheckerTime = latestReviewCheckersTime.length > 0 ? latestReviewCheckersTime[0].fromTime.slice(0, 5) : null;
     // Fungsi untuk mengonversi waktu ke menit
     function toMinutes(time) {
       if (!time) {
