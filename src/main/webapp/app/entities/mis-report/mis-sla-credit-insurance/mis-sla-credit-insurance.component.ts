@@ -257,42 +257,13 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
   }
 
   private _getMakerInDateFiltered(timeLineInsurance: any[]): string {
-    if (!Array.isArray(timeLineInsurance)) {
-      return '';
-    }
-
-    return timeLineInsurance
-      .filter((item: any) => item.statusDescription === 'Insurance Checking')
-      .map((item: any) => {
-        const date = new Date(item.fromDate);
-        if (isNaN(date.getTime())) {
-          return '';
-        }
-
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
-        const year = date.getFullYear();
-
-        return `${day}-${month}-${year}`;
-      })
-      .filter(Boolean)
+    return (Array.isArray(timeLineInsurance) ? timeLineInsurance : [])
+      .filter(item => item.statusDescription === 'Insurance Checking' && item.fromDate)
+      .map(item => new Date(item.fromDate))
+      .filter(date => !isNaN(date.getTime()))
+      .sort((a, b) => a.getTime() - b.getTime())
+      .map(date => `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`)
       .join(',\n');
-  }
-
-  private _getMakerInDateFilteredLast(timeLineInsurance: any[]): string {
-    if (!Array.isArray(timeLineInsurance)) {
-      return '';
-    }
-
-    const data = timeLineInsurance
-      .filter((item: any) => item.statusDescription === 'Insurance Checking')
-      .map((item: any) => {
-        const date = new Date(item.fromDate);
-        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      })
-      .filter(Boolean);
-
-    return data.length ? data[data.length - 1] : '';
   }
 
   private _getMakerInDateFilteredFirst(timeLineInsurance: any[]): string {
@@ -300,15 +271,21 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       return '';
     }
 
-    const data = timeLineInsurance
-      .filter((item: any) => item.statusDescription === 'Insurance Checking')
-      .map((item: any) => {
-        const date = new Date(item.fromDate);
-        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      })
-      .filter(Boolean);
+    const earliestDate = timeLineInsurance
+      .filter(item => item.statusDescription === 'Insurance Checking' && item.fromDate)
+      .map(item => new Date(item.fromDate))
+      .filter(date => !isNaN(date.getTime()))
+      .sort((a, b) => a.getTime() - b.getTime())[0];
 
-    return data.length ? data[0] : '';
+    if (!earliestDate) {
+      return '';
+    }
+
+    return earliestDate.toLocaleDateString('id-ID', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
   }
 
   private _getMakerInTimeFiltered(timeLineInsurance: any[]): string {
