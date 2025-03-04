@@ -7,7 +7,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class MisReportService {
-  constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
+  constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) { }
 
   public loadingGenerateDocument: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public generateDocumentLabel: BehaviorSubject<string> = new BehaviorSubject<string>('Generate Document');
@@ -140,6 +140,19 @@ export class MisReportService {
       .pipe(
         map(res => res.body),
         map(employees => employees.filter((employee: any) => employee.positionTypeId === 'CREDIT_ADMIN' && employee.statusId === 'ACTIVE'))
+      );
+  }
+  public getLovUsernameLoanOps() {
+    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,asc');
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions'), {
+        params,
+        observe: 'response',
+      })
+      .pipe(
+        map(res => res.body),
+        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'LOAN_OPS_OFFICER' && employee.statusId === 'ACTIVE'))
       );
   }
 }
