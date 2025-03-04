@@ -221,16 +221,16 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
             { header: 'No', key: 'no' },
             { header: 'Proposal Number', key: 'proposalNumber' },
             { header: 'DPK Number', key: 'dpkNumber' },
-            { header: 'PIC Loan Ops', key: 'picLoanOps' },
+            { header: 'PIC Loan Ops Admin', key: 'picLoanOps' },
             { header: 'Debtor', key: 'debtor' },
-            { header: 'Loan Ops (Distribution) In Date', key: 'loanOpsDistributionInDate' },
-            { header: 'Loan Ops (Distribution) In Time', key: 'loanOpsDistributionInTime' },
-            { header: 'Loan Ops (Officer) Out Name', key: 'loanOpsOfficerOutName' },
-            { header: 'Loan Ops (Officer) Out In Date', key: 'loanOpsOfficerOutDate' },
-            { header: 'Loan Ops (Officer) Out In Time', key: 'loanOpsOfficerOutTime' },
-            { header: 'Loan Ops (Officer) Spv Out Date', key: 'loanOpsOfficerSpvOutDate' },
-            { header: 'Loan Ops (Officer) Spv Out Time', key: 'loanOpsOfficerSpvOutTime' },
-            { header: 'Completed Name', key: 'completedName' },
+            { header: 'Loan Ops Distribution in Date', key: 'loanOpsDistributionInDate' },
+            { header: 'Loan Ops Distribution in Time', key: 'loanOpsDistributionInTime' },
+            { header: 'Checker Out Name', key: 'loanOpsOfficerOutName' },
+            { header: 'Checker Out Date', key: 'loanOpsOfficerOutDate' },
+            { header: 'Checker out Time', key: 'loanOpsOfficerOutTime' },
+            { header: 'Loan Ops Review', key: 'getLoanOpsOfficerSpvOutName' },
+            { header: 'Review out Date', key: 'loanOpsOfficerSpvOutDate' },
+            { header: 'Review out Time', key: 'loanOpsOfficerSpvOutTime' },
             { header: 'Completed Date', key: 'completedDate' },
             { header: 'Completed Time', key: 'completedTime' },
             { header: 'TAT Date', key: 'tatDate' },
@@ -273,9 +273,9 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
                 loanOpsOfficerOutName: prop.dataAssignToLoanOpsOfficerName || '',
                 loanOpsOfficerOutDate: this._formatDateSLA(this.getLoanOpsOfficerOutDate(prop)),
                 loanOpsOfficerOutTime: this.getLoanOpsOfficerOutTime(prop),
+                getLoanOpsOfficerSpvOutName: this.getLoanOpsOfficerSpvOutName(prop),
                 loanOpsOfficerSpvOutDate: this._formatDateSLA(this.getLoanOpsOfficerSpvOutDate(prop)),
                 loanOpsOfficerSpvOutTime: this.getLoanOpsOfficerSpvOutTime(prop),
-                completedName: this.getCompletedName(prop),
                 completedDate: this.getCompletedDate(prop),
                 completedTime: this.getCompletedTime(prop),
                 tatDate: this.getTatDate(prop),
@@ -500,5 +500,12 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
             return timeLine[0].personName;
         }
         return '';
+    }
+
+    private getLoanOpsOfficerSpvOutName(proposal: any): string {
+        return proposal.timeLineCreditProposal
+            .filter((t: any) => t.fromStatusDescription === 'Loan Ops Review')
+            .map((timeline: any) => timeline.personName)
+            .join(',\n');
     }
 }
