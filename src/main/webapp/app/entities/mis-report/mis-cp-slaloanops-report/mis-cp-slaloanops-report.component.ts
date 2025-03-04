@@ -170,9 +170,9 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
       { header: 'Checker Out Name', key: 'loanOpsOfficerOutName' },
       { header: 'Checker Out Date', key: 'loanOpsOfficerOutDate' },
       { header: 'Checker out Time', key: 'loanOpsOfficerOutTime' },
-      { header: 'Loan Ops Review', key: 'loanOpsOfficerSpvOutDate' },
-      { header: 'Review out Date', key: 'loanOpsOfficerSpvOutTime' },
-      { header: 'Review out Time', key: 'completedName' },
+      { header: 'Loan Ops Review', key: 'getLoanOpsOfficerSpvOutName' },
+      { header: 'Review out Date', key: 'loanOpsOfficerSpvOutDate' },
+      { header: 'Review out Time', key: 'loanOpsOfficerSpvOutTime' },
       { header: 'Completed Date', key: 'completedDate' },
       { header: 'Completed Time', key: 'completedTime' },
       { header: 'TAT Date', key: 'tatDate' },
@@ -215,9 +215,9 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         loanOpsOfficerOutName: prop.dataAssignToLoanOpsOfficerName || '',
         loanOpsOfficerOutDate: this._formatDateSLA(this.getLoanOpsOfficerOutDate(prop)),
         loanOpsOfficerOutTime: this.getLoanOpsOfficerOutTime(prop),
+        getLoanOpsOfficerSpvOutName: this.getLoanOpsOfficerSpvOutName(prop),
         loanOpsOfficerSpvOutDate: this._formatDateSLA(this.getLoanOpsOfficerSpvOutDate(prop)),
         loanOpsOfficerSpvOutTime: this.getLoanOpsOfficerSpvOutTime(prop),
-        completedName: this.getCompletedName(prop),
         completedDate: this.getCompletedDate(prop),
         completedTime: this.getCompletedTime(prop),
         tatDate: this.getTatDate(prop),
@@ -243,17 +243,6 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
 
   private _applyStyles(): void {
     super.applyStyles('ff2c9a48');
-    const columnsToBeWraped = [
-      'loanOpsDistributionInDate',
-      'loanOpsDistributionInTime',
-      'loanOpsOfficerOutDate',
-      'loanOpsOfficerOutTime',
-      'loanOpsOfficerSpvOutDate',
-      'loanOpsOfficerSpvOutTime',
-      'completedName',
-      'completedDate',
-      'completedTime',
-    ];
     this.columns.forEach(column => {
       const col = this.worksheet.getColumn(column.key);
       col.alignment = {
@@ -453,5 +442,12 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
       return timeLine[0].personName;
     }
     return '';
+  }
+
+  private getLoanOpsOfficerSpvOutName(proposal: any): string {
+    return proposal.timeLineCreditProposal
+      .filter((t: any) => t.fromStatusDescription === 'Loan Ops Review')
+      .map((timeline: any) => timeline.personName)
+      .join(',\n');
   }
 }
