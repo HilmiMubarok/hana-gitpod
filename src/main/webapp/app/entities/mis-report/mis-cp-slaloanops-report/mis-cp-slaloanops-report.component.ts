@@ -14,13 +14,13 @@ import { Component } from '@angular/core';
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         border-radius: 12px;
         height: 74px;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
       }
 
       .department-name {
-        font-size: 24px;
-        font-weight: 600;
-        color: #5bafaa;
+        font-weight: bold;
+        margin-top: 10px;
+        color: #5BAFAA;
       }
 
       .nav-buttons {
@@ -37,7 +37,7 @@ import { Component } from '@angular/core';
       }
 
       .nav-button.active {
-        background-color: #9DCAC7;
+        background-color: #5BAFAA;
         color: white;
       }
       
