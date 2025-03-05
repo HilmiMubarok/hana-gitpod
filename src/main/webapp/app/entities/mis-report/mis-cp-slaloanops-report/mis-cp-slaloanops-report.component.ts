@@ -416,23 +416,19 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
   private getTanggalEfektifFasilitas(prod: any, proposal = null) {
     switch (prod.pengajuan) {
       case 'New':
-      case 'Additional / Top Up':
-        return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal)) || '';
-
+        return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       case 'Renewal':
-        return prod.mainProduct && prod.mainProduct.maturityDate && prod.mainProduct.proposeMaturityDate
-          ? `${this._formatDateSLA(prod.mainProduct.maturityDate)} s/d ${this._formatDateSLA(prod.mainProduct.proposeMaturityDate)}`
-          : '';
-
+        return `${this._formatDateSLA(prod.mainProduct?.maturityDate) || ''} s/d ${
+          this._formatDateSLA(prod.mainProduct?.proposeMaturityDate) || ''
+        }`;
       case 'Renewal + Additional':
+        return prod.mainProduct?.mainProduct?.length > 0 ? this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '' : '';
       case 'Renewal + Decrease':
-        return prod.mainProduct?.mainProduct?.length > 0 && prod.mainProduct.mainProduct[0].startPeriodDate
-          ? this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate)
-          : '';
-
+        return prod.mainProduct?.mainProduct?.length > 0 ? this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '' : '';
       case 'Existing':
-        return prod.firstDisbursementDate ? this._formatDateSLA(prod.firstDisbursementDate) : '';
-
+        return this._formatDateSLA(prod.firstDisbursementDate) || '';
+      case 'Additional / Top Up':
+        return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       default:
         return prod.mainProduct?.endPeriodRemark || '';
     }
