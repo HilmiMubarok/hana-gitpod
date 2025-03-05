@@ -485,19 +485,19 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
       case 'New':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       case 'Renewal':
-        return (
-          `${this._formatDateSLA(prod.mainProduct.maturityDate)} s/d ${this._formatDateSLA(prod.mainProduct.proposeMaturityDate)}` || ''
-        );
+        return `${this._formatDateSLA(prod.mainProduct?.maturityDate) || ''} s/d ${
+          this._formatDateSLA(prod.mainProduct?.proposeMaturityDate) || ''
+        }`;
       case 'Renewal + Additional':
-        return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
+        return prod.mainProduct?.mainProduct?.length > 0 ? this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '' : '';
       case 'Renewal + Decrease':
-        return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
+        return prod.mainProduct?.mainProduct?.length > 0 ? this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '' : '';
       case 'Existing':
         return this._formatDateSLA(prod.firstDisbursementDate) || '';
       case 'Additional / Top Up':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       default:
-        return prod.mainProduct.endPeriodRemark || '';
+        return prod.mainProduct?.endPeriodRemark || '';
     }
   }
 
