@@ -280,7 +280,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         loanOpsDistributionInDate: this.getLoanOpsDistributionInDate(prop),
         loanOpsDistributionInTime: this.getLoanOpsDistributionInTime(prop),
         loanOpsOfficerOutName: prop.dataAssignToLoanOpsOfficerName || '',
-        loanOpsOfficerOutDate: this._formatDateSLA(this.getLoanOpsOfficerOutDate(prop)),
+        loanOpsOfficerOutDate: this.getLoanOpsOfficerOutDate(prop),
         loanOpsOfficerOutTime: this.getLoanOpsOfficerOutTime(prop),
         getLoanOpsOfficerSpvOutName: this.getLoanOpsOfficerSpvOutName(prop),
         loanOpsOfficerSpvOutDate: this._formatDateSLA(this.getLoanOpsOfficerSpvOutDate(prop)),
@@ -363,7 +363,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
   private getLoanOpsOfficerOutDate(proposal: any): string {
     return proposal.timeLineCreditProposal
       .filter((t: any) => t.statusDescription === 'Loan Ops Checking')
-      .map((timeline: any) => timeline.fromDate)
+      .map((timeline: any) => this._formatDateSLA(timeline.fromDate))
       .join(',\n');
   }
 
