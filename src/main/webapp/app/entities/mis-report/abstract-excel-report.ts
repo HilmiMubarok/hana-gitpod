@@ -54,14 +54,14 @@ export abstract class AbstractExcelMISReport {
     this.worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
       let maxHeight = 0;
       row.eachCell({ includeEmpty: true }, cell => {
-        if (cell.value) {
+        if (cell.value && rowNumber > 1) {
           const cellValue = cell.value.toString();
           const cellLines = cellValue.split('\n');
           const lineCount = cellLines.length;
           const maxLineLength = Math.max(...cellLines.map(line => line.length));
 
           // Estimate height based on line count and length
-          const estimatedHeight = Math.max(lineCount * 7, Math.ceil(maxLineLength / 7) * 7);
+          const estimatedHeight = Math.max(lineCount * 7, Math.ceil(maxLineLength / 7) * 7) * 5;
 
           if (estimatedHeight > maxHeight) {
             maxHeight = estimatedHeight;
