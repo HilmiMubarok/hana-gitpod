@@ -622,4 +622,41 @@ export abstract class AbstractExcelMISReport {
         return a.id - b.id;
       });
   }
+
+  protected formatDateID(dateStr: string) {
+    if (!dateStr) {
+      return {
+        getDay: () => '',
+        getMonth: () => '',
+        getYear: () => '',
+        getFullDate: () => '',
+      };
+    }
+
+    const months = [
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = months[date.getMonth()];
+    const year = date.getFullYear().toString();
+    return {
+      getDay: () => day,
+      getMonth: () => month,
+      getYear: () => year,
+      getFullDate: () => `${day} ${month} ${year}`
+    }
+  }
+
 }
