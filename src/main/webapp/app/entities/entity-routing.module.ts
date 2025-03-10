@@ -714,6 +714,13 @@ import { RouterModule } from '@angular/router';
             m => m.MisCpSlaloanopsReportModule
           ),
       },
+      {
+        path: 'mis-legalclho-report',
+        loadChildren: () =>
+          import('./mis-report/mis-credit-legal-ho/mis-credit-legal-ho.module').then(
+            m => m.MisCreditLegalHoModule
+          ),
+      },
     ]),
   ],
 })
