@@ -20,6 +20,7 @@ export interface INotes {
   updateAction?: boolean;
   attributes?: any;
   statusId?: string;
+  mailStatus?: string;
 }
 
 export class Notes implements INotes {
@@ -44,6 +45,7 @@ export class Notes implements INotes {
     public modifiedDate?: Date,
     public updateAction?: boolean,
     public attributes?: any,
-    public statusId?: string
+    public statusId?: string,
+    public mailStatus?: string
   ) {}
 }
