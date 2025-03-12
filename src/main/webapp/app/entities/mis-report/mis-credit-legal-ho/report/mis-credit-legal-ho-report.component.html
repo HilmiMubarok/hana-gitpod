@@ -1,10 +1,10 @@
-<form [formGroup]="misLoanOpsForm" (ngSubmit)="generateMISLoanOps()">
+<form [formGroup]="form" (ngSubmit)="generateMISLegalReport()">
     <mat-card>
         <div class="e-card-header-caption">
             <ejs-breadcrumb cssClass="margin: 1rem;">
                 <e-breadcrumb-items>
                     <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-                    <e-breadcrumb-item text="SLA Loan Operations" url=""> </e-breadcrumb-item>
+                    <e-breadcrumb-item text="Legal Task - HO" url=""> </e-breadcrumb-item>
                 </e-breadcrumb-items>
             </ejs-breadcrumb>
         </div>
@@ -40,7 +40,7 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12 col-md-6">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Username</mat-label>
@@ -54,7 +54,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-            </div>
+            </div> -->
         </mat-card-content>
     </mat-card>
 

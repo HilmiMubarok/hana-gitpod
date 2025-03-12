@@ -694,6 +694,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./mis-report/mis-cp/mis-cp.module').then(m => m.MisReportCreditProposalModule),
       },
       {
+        path: 'mis-legalclor-report',
+        loadChildren: () =>
+          import('./mis-report/mis-credit-legal-or/mis-credit-legal-or.component.module').then(m => m.MisCreditLegalOrModule),
+      },
+      {
         path: 'mis-cpcompare-report',
         loadChildren: () =>
           import('./mis-report/credit-proposal-compare/mis-report-credit-proposal-compare.module').then(
@@ -710,11 +715,13 @@ import { RouterModule } from '@angular/router';
       {
         path: 'mis-cp-slaloanops-report',
         loadChildren: () =>
-          import('./mis-report/mis-cp-slaloanops-report/mis-cp-slaloanops-report.module').then(
-            m => m.MisCpSlaloanopsReportModule
-          ),
+          import('./mis-report/mis-cp-slaloanops-report/mis-cp-slaloanops-report.module').then(m => m.MisCpSlaloanopsReportModule),
+      },
+      {
+        path: 'mis-legalclho-report',
+        loadChildren: () => import('./mis-report/mis-credit-legal-ho/mis-credit-legal-ho.module').then(m => m.MisCreditLegalHoModule),
       },
     ]),
   ],
 })
-export class EntityRoutingModule { }
+export class EntityRoutingModule {}

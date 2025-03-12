@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
@@ -38,22 +38,29 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
     `,
   ],
 })
 export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
-  listOfValue = [];
+  public listOfValue = [];
+  public lovUsername = [];
   misLoanOpsForm: FormGroup;
   allSelected = false;
+  allSelectedUsername = false;
 
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
     super(misReportService);
 
     this.misLoanOpsForm = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl(''),
-      status: new FormControl(''),
+      startDate: new FormControl('', [Validators.required]),
+      endDate: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
+      username: new FormControl(null),
     });
 
     this.misLoanOpsForm.get('startDate')?.valueChanges.subscribe(date => {
@@ -69,6 +76,12 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         this.misLoanOpsForm.get('endDate').setValue(formattedDate, { emitEvent: false });
       }
     });
+
+    this.misLoanOpsForm.get('username')?.valueChanges.subscribe(username => {
+      if (typeof username === 'object' && username.length === 0) {
+        this.misLoanOpsForm.get('username')?.setValue(null);
+      }
+    });
   }
 
   public previousState(): void {
@@ -82,6 +95,19 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
+
+    this.misReportService.getLovUsernameLoanOps().subscribe({
+      next: res => {
+        this.lovUsername = res.sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName));
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to get Officer Surveyors',
+        });
+      },
+    });
   }
 
   toggleSelectAll(): void {
@@ -90,6 +116,15 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
       this.misLoanOpsForm.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
     } else {
       this.misLoanOpsForm.get('status')?.setValue('');
+    }
+  }
+
+  toggleSelectAllUsername(): void {
+    this.allSelectedUsername = !this.allSelectedUsername;
+    if (this.allSelectedUsername) {
+      this.misLoanOpsForm.get('username')?.setValue([...this.lovUsername.map(user => user.partyId)]);
+    } else {
+      this.misLoanOpsForm.get('username')?.setValue(null);
     }
   }
 
@@ -111,13 +146,45 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
     this.misLoanOpsForm.get('endDate')?.reset();
   }
 
+  private getFormValidationMessage(): string | null {
+    const startDate = this.misLoanOpsForm.get('startDate');
+    const endDate = this.misLoanOpsForm.get('endDate');
+    const status = this.misLoanOpsForm.get('status');
+
+    const isDateRangeInvalid = startDate?.invalid || endDate?.invalid;
+    const isStatusInvalid = status?.invalid;
+
+    if (isDateRangeInvalid && !isStatusInvalid) {
+      return 'Please Select Date Range';
+    }
+
+    if (isStatusInvalid && !isDateRangeInvalid) {
+      return 'Please Select Status';
+    }
+
+    if (isDateRangeInvalid && isStatusInvalid) {
+      return 'Please Select Parameters';
+    }
+
+    return null;
+  }
+
   generateMISLoanOps() {
+    if (this.misLoanOpsForm.invalid) {
+      const errorMessage = this.getFormValidationMessage();
+      if (errorMessage) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+        return;
+      }
+    }
+
     this.misReportService.setLoading(true);
     const params = {
       startDate: this.misLoanOpsForm.get('startDate')?.value,
       endDate: this.misLoanOpsForm.get('endDate')?.value,
       status: this._convertStatusToString(this.misLoanOpsForm.get('status')?.value),
       type: 'STATELOG',
+      userLoanOps: this._convertStatusToString(this.misLoanOpsForm.get('username')?.value),
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({
@@ -163,16 +230,16 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
       { header: 'No', key: 'no' },
       { header: 'Proposal Number', key: 'proposalNumber' },
       { header: 'DPK Number', key: 'dpkNumber' },
-      { header: 'PIC Loan Ops', key: 'picLoanOps' },
+      { header: 'PIC Loan Ops Admin', key: 'picLoanOps' },
       { header: 'Debtor', key: 'debtor' },
-      { header: 'Loan Ops (Distribution) In Date', key: 'loanOpsDistributionInDate' },
-      { header: 'Loan Ops (Distribution) In Time', key: 'loanOpsDistributionInTime' },
-      { header: 'Loan Ops (Officer) Out Name', key: 'loanOpsOfficerOutName' },
-      { header: 'Loan Ops (Officer) Out In Date', key: 'loanOpsOfficerOutDate' },
-      { header: 'Loan Ops (Officer) Out In Time', key: 'loanOpsOfficerOutTime' },
-      { header: 'Loan Ops (Officer) Spv Out Date', key: 'loanOpsOfficerSpvOutDate' },
-      { header: 'Loan Ops (Officer) Spv Out Time', key: 'loanOpsOfficerSpvOutTime' },
-      { header: 'Completed Name', key: 'completedName' },
+      { header: 'Loan Ops Distribution in Date', key: 'loanOpsDistributionInDate' },
+      { header: 'Loan Ops Distribution in Time', key: 'loanOpsDistributionInTime' },
+      { header: 'Checker Out Name', key: 'loanOpsOfficerOutName' },
+      { header: 'Checker Out Date', key: 'loanOpsOfficerOutDate' },
+      { header: 'Checker out Time', key: 'loanOpsOfficerOutTime' },
+      { header: 'Loan Ops Review', key: 'getLoanOpsOfficerSpvOutName' },
+      { header: 'Review out Date', key: 'loanOpsOfficerSpvOutDate' },
+      { header: 'Review out Time', key: 'loanOpsOfficerSpvOutTime' },
       { header: 'Completed Date', key: 'completedDate' },
       { header: 'Completed Time', key: 'completedTime' },
       { header: 'TAT Date', key: 'tatDate' },
@@ -213,11 +280,11 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
         loanOpsDistributionInDate: this.getLoanOpsDistributionInDate(prop),
         loanOpsDistributionInTime: this.getLoanOpsDistributionInTime(prop),
         loanOpsOfficerOutName: prop.dataAssignToLoanOpsOfficerName || '',
-        loanOpsOfficerOutDate: this._formatDateSLA(this.getLoanOpsOfficerOutDate(prop)),
+        loanOpsOfficerOutDate: this.getLoanOpsOfficerOutDate(prop),
         loanOpsOfficerOutTime: this.getLoanOpsOfficerOutTime(prop),
+        getLoanOpsOfficerSpvOutName: this.getLoanOpsOfficerSpvOutName(prop),
         loanOpsOfficerSpvOutDate: this._formatDateSLA(this.getLoanOpsOfficerSpvOutDate(prop)),
         loanOpsOfficerSpvOutTime: this.getLoanOpsOfficerSpvOutTime(prop),
-        completedName: this.getCompletedName(prop),
         completedDate: this.getCompletedDate(prop),
         completedTime: this.getCompletedTime(prop),
         tatDate: this.getTatDate(prop),
@@ -243,17 +310,6 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
 
   private _applyStyles(): void {
     super.applyStyles('ff2c9a48');
-    const columnsToBeWraped = [
-      'loanOpsDistributionInDate',
-      'loanOpsDistributionInTime',
-      'loanOpsOfficerOutDate',
-      'loanOpsOfficerOutTime',
-      'loanOpsOfficerSpvOutDate',
-      'loanOpsOfficerSpvOutTime',
-      'completedName',
-      'completedDate',
-      'completedTime',
-    ];
     this.columns.forEach(column => {
       const col = this.worksheet.getColumn(column.key);
       col.alignment = {
@@ -307,7 +363,7 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
   private getLoanOpsOfficerOutDate(proposal: any): string {
     return proposal.timeLineCreditProposal
       .filter((t: any) => t.statusDescription === 'Loan Ops Checking')
-      .map((timeline: any) => timeline.fromDate)
+      .map((timeline: any) => this._formatDateSLA(timeline.fromDate))
       .join(',\n');
   }
 
@@ -429,19 +485,19 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
       case 'New':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       case 'Renewal':
-        return (
-          `${this._formatDateSLA(prod.mainProduct.maturityDate)} s/d ${this._formatDateSLA(prod.mainProduct.proposeMaturityDate)}` || ''
-        );
+        return `${this._formatDateSLA(prod.mainProduct?.maturityDate) || ''} s/d ${
+          this._formatDateSLA(prod.mainProduct?.proposeMaturityDate) || ''
+        }`;
       case 'Renewal + Additional':
-        return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
+        return prod.mainProduct?.mainProduct?.length > 0 ? this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '' : '';
       case 'Renewal + Decrease':
-        return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
+        return prod.mainProduct?.mainProduct?.length > 0 ? this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '' : '';
       case 'Existing':
         return this._formatDateSLA(prod.firstDisbursementDate) || '';
       case 'Additional / Top Up':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       default:
-        return prod.mainProduct.endPeriodRemark || '';
+        return prod.mainProduct?.endPeriodRemark || '';
     }
   }
 
@@ -453,5 +509,12 @@ export class MisCpSlaloanopsReportComponent extends AbstractExcelMISReport imple
       return timeLine[0].personName;
     }
     return '';
+  }
+
+  private getLoanOpsOfficerSpvOutName(proposal: any): string {
+    return proposal.timeLineCreditProposal
+      .filter((t: any) => t.fromStatusDescription === 'Loan Ops Review')
+      .map((timeline: any) => timeline.personName)
+      .join(',\n');
   }
 }
