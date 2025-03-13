@@ -73,8 +73,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport implements OnInit {
 
     public lovStatus = [];
+    public lovUsername = [];
     public form: FormGroup;
     public allSelected = false;
+    public allSelectedUsername = false;
     public searchResult = null;
     public pageSize = 10;
     public currentPage = 0;
@@ -108,6 +110,17 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
             },
         })
+
+        this.misReportService.getPicLegalHO().subscribe({
+            next: res => this.lovUsername = res.sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName)),
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Failed to get PIC',
+                });
+            },
+        });
     }
 
     public toggleSelectAll(): void {
@@ -116,6 +129,15 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             this.form.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
         } else {
             this.form.get('status')?.setValue('');
+        }
+    }
+
+    public toggleSelectAllUsername(): void {
+        this.allSelectedUsername = !this.allSelectedUsername;
+        if (this.allSelectedUsername) {
+            this.form.get('username')?.setValue([...this.lovUsername.map(username => username.partyId)]);
+        } else {
+            this.form.get('username')?.setValue(null);
         }
     }
 
@@ -133,6 +155,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             startDate: new FormControl(''),
             endDate: new FormControl(''),
             status: new FormControl(''),
+            username: new FormControl(''),
             query: new FormControl(''),
         });
 
@@ -160,6 +183,17 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 this.allSelected = true;
             }
         });
+
+        this.form.get('username')?.valueChanges.subscribe(username => {
+            if (typeof username === 'object' && username.length === 0) {
+                this.form.get('username')?.setValue(null);
+                this.allSelectedUsername = false;
+            }
+
+            if (username && username.length === this.lovUsername.length) {
+                this.allSelectedUsername = true;
+            }
+        });
     }
 
     public generateMISLegalReport(): void {
@@ -175,6 +209,8 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 startDate: this.form.get('startDate')?.value,
                 endDate: this.form.get('endDate')?.value,
                 status: this._convertStatusToString(this.form.get('status')?.value),
+                userName: this._convertStatusToString(this.form.get('username')?.value),
+                assignTo: "dataAssignToLegalOfficer",
                 type: 'STATELOG',
             };
         }

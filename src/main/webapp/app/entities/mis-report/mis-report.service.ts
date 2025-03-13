@@ -155,4 +155,18 @@ export class MisReportService {
         map(employees => employees.filter((employee: any) => employee.positionTypeId === 'LOAN_OPS_OFFICER' && employee.statusId === 'ACTIVE'))
       );
   }
+
+  public getPicLegalHO() {
+    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,desc')
+
+    return this.http
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions'), {
+        params,
+        observe: 'response',
+      })
+      .pipe(
+        map(res => res.body),
+        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'LEGAL_OFFICER' && employee.statusId === 'ACTIVE'))
+      );
+  }
 }
