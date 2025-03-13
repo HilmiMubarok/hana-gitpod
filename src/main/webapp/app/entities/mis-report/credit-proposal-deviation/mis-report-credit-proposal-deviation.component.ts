@@ -74,7 +74,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
-      regional: new FormControl(null),
+      regionalRM: new FormControl(null),
       customerType: new FormControl(null),
       query: new FormControl(''),
     });
@@ -93,13 +93,13 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         this.MisReportCPDeviation.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
-    this.MisReportCPDeviation.get('regional')?.valueChanges.subscribe(() => {
+    this.MisReportCPDeviation.get('regionalRM')?.valueChanges.subscribe(() => {
       this.checkField();
       if (
-        Array.isArray(this.MisReportCPDeviation.get('regional')?.value) &&
-        this.MisReportCPDeviation.get('regional')?.value.length === 0
+        Array.isArray(this.MisReportCPDeviation.get('regionalRM')?.value) &&
+        this.MisReportCPDeviation.get('regionalRM')?.value.length === 0
       ) {
-        this.MisReportCPDeviation.get('regional')?.setValue(null);
+        this.MisReportCPDeviation.get('regionalRM')?.setValue(null);
       }
     });
     this.MisReportCPDeviation.get('customerType')?.valueChanges.subscribe(() => this.checkField());
@@ -109,10 +109,16 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     const date1 = this.MisReportCPDeviation.get('date1')?.value;
     const date2 = this.MisReportCPDeviation.get('date2')?.value;
     const status = this.MisReportCPDeviation.get('status')?.value;
-    const regional = this.MisReportCPDeviation.get('regional')?.value;
+    const regionalRM = this.MisReportCPDeviation.get('regionalRM')?.value;
     const customerType = this.MisReportCPDeviation.get('customerType')?.value;
 
-    if (date1 || date2 || (status && status.length > 0) || (regional && regional.length > 0) || (customerType && customerType.length > 0)) {
+    if (
+      date1 ||
+      date2 ||
+      (status && status.length > 0) ||
+      (regionalRM && regionalRM.length > 0) ||
+      (customerType && customerType.length > 0)
+    ) {
       this.MisReportCPDeviation.get('query')?.disable();
       this.queryDisabled = true;
     } else {
@@ -125,7 +131,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     this.MisReportCPDeviation.get('date1')?.disable();
     this.MisReportCPDeviation.get('date2')?.disable();
     this.MisReportCPDeviation.get('status')?.disable();
-    this.MisReportCPDeviation.get('regional')?.disable();
+    this.MisReportCPDeviation.get('regionalRM')?.disable();
     this.MisReportCPDeviation.get('customerType')?.disable();
   }
 
@@ -136,7 +142,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       this.MisReportCPDeviation.get('date1')?.enable();
       this.MisReportCPDeviation.get('date2')?.enable();
       this.MisReportCPDeviation.get('status')?.enable();
-      this.MisReportCPDeviation.get('regional')?.enable();
+      this.MisReportCPDeviation.get('regionalRM')?.enable();
       this.MisReportCPDeviation.get('customerType')?.enable();
     }
   }
@@ -221,9 +227,9 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public toggleSelectAllRegion(): void {
     this.allSelectedRegion = !this.allSelectedRegion;
     if (this.allSelectedRegion) {
-      this.MisReportCPDeviation.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
+      this.MisReportCPDeviation.get('regionalRM')?.setValue([...this.lovRegional.map(internal => internal.id)]);
     } else {
-      this.MisReportCPDeviation.get('regional')?.setValue(null);
+      this.MisReportCPDeviation.get('regionalRM')?.setValue(null);
     }
   }
   public toggleSelectAllCustomerType(): void {
@@ -251,7 +257,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       )
       .subscribe({
         next: internals => (this.lovRegional = internals),
-        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Regional Data' }),
+        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get regionalRM Data' }),
       });
   }
   generateMISCreditDeviation() {
@@ -266,7 +272,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       const startDate1 = this.MisReportCPDeviation.get('date1')?.value;
       const endDate2 = this.MisReportCPDeviation.get('date2')?.value;
       const statuss = this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value);
-      const regionals = this._convertStatusToString(this.MisReportCPDeviation.get('regional')?.value);
+      const regionals = this._convertStatusToString(this.MisReportCPDeviation.get('regionalRM')?.value);
       const customerTypes = this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value);
       // Validasi untuk startDate, endDate, dan status
 
@@ -290,7 +296,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         startDate: startDate1,
         endDate: endDate2,
         status: statuss,
-        regional: regionals,
+        regionalRM: regionals,
         customerType: customerTypes,
       };
     }
