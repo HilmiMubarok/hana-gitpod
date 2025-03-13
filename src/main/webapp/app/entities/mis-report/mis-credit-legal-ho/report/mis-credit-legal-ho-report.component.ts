@@ -1,10 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { AbstractExcelMISReport } from "../../abstract-excel-report";
 import { MisReportService } from "../../mis-report.service";
 import { MessageService } from "primeng/api";
 import { FormControl, FormGroup } from "@angular/forms";
 import moment from "moment";
 import * as ExcelJS from 'exceljs';
+import { PageEvent } from "@angular/material/paginator";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
     selector: "jhi-mis-credit-legal-ho-report",
@@ -41,6 +43,30 @@ import * as ExcelJS from 'exceljs';
       :host ::ng-deep .ng-invalid:not(form) {
         border: none !important;
       }
+
+      .skeleton-loading {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 16px;
+        width: 90%;
+        height: 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+      }
+
+      @keyframes skeleton-loading {
+        0% {
+          background-color: #e2e2e2;
+        }
+        50% {
+          background-color: #f2f2f2;
+        }
+        100% {
+          background-color: #e2e2e2;
+        }
+      }
     `,
     ],
 })
@@ -49,6 +75,26 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     public lovStatus = [];
     public form: FormGroup;
     public allSelected = false;
+    public searchResult = null;
+    public pageSize = 10;
+    public currentPage = 0;
+    public totalItems = 0;
+    public pageSizeOptions: number[] = [5, 10, 25, 50];
+    public loadingSearch = false;
+    public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+    public skeletonData = [
+        {
+            proposalNumber: '',
+            cif: '',
+            debtorName: '',
+            customerType: '',
+            proposalDate: '',
+            status: '',
+        },
+    ];
+
+    private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
+    @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
 
     constructor(public misReportService: MisReportService, public messageService: MessageService) {
         super(misReportService);
@@ -87,6 +133,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             startDate: new FormControl(''),
             endDate: new FormControl(''),
             status: new FormControl(''),
+            query: new FormControl(''),
         });
 
         this.form.get('startDate')?.valueChanges.subscribe(date => {
@@ -118,12 +165,19 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     public generateMISLegalReport(): void {
         this.misReportService.setLoading(true);
 
-        const params = {
-            startDate: this.form.get('startDate')?.value,
-            endDate: this.form.get('endDate')?.value,
-            status: this._convertStatusToString(this.form.get('status')?.value),
-            type: 'STATELOG',
-        };
+        let params;
+        if (this.form.get('query')?.value) {
+            params = {
+                query: this.form.get('query')?.value,
+            };
+        } else {
+            params = {
+                startDate: this.form.get('startDate')?.value,
+                endDate: this.form.get('endDate')?.value,
+                status: this._convertStatusToString(this.form.get('status')?.value),
+                type: 'STATELOG',
+            };
+        }
 
         this.misReportService.getMisReportCP(params).subscribe({
             next: res => this._processGenerate(res.body, 'MIS_CL_Task_HO'),
@@ -252,6 +306,79 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             worksheet.addRow(row);
         })
     }
+
+    // ==== Form Search Section ==== //
+    public onSearchBlur() {
+        const searchValue = this.form.get('query')?.value;
+        if (!searchValue) {
+            this.form.get('startDate')?.enable();
+            this.form.get('endDate')?.enable();
+            this.form.get('status')?.enable();
+            // this.form.get('regional')?.enable();
+            // this.form.get('customerType')?.enable();
+            this.applyDisabledStyle(this.formContainer.nativeElement, false);
+        }
+    }
+
+    public onSearchFocus() {
+        this.form.get('startDate')?.disable();
+        this.form.get('endDate')?.disable();
+        this.form.get('status')?.disable();
+        // this.form.get('regional')?.disable();
+        // this.form.get('customerType')?.disable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, true);
+    }
+
+    public clearSearch(): void {
+        this.form.get('query')?.reset();
+        this.searchResult = null;
+    }
+
+    public doSearch(pageEvent?: PageEvent): void {
+        this.loadingSearch = true;
+
+        if (pageEvent) {
+            this.currentPage = pageEvent.pageIndex;
+            this.pageSize = pageEvent.pageSize;
+        }
+
+        const predicate: object = {
+            page: this.currentPage,
+            query: this.form.get('query')?.value,
+            size: this.pageSize,
+            sort: ['id,desc'],
+            idPosition: this.getLocStor('POS'),
+        };
+
+        predicate['target'] = 'credit_proposal_status';
+
+        this.misReportService.searchCP(predicate).subscribe({
+            next: res => {
+                this.searchResult = res.body || [];
+                const totalCount = res.headers.get('X-Total-Count');
+                this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+                this.loadingSearch = false;
+            },
+            error: (res: HttpErrorResponse) => console.error(res.message),
+        });
+    }
+
+    private getLocStor(cookieName: string) {
+        let result = null;
+        const cookies: string[] = document.cookie.split(';');
+
+        cookies.forEach(o => {
+            const cookie: string[] = o.split('=');
+            const name: string = cookie[0].trim();
+            if (name === cookieName) {
+                result = cookie[1];
+            }
+        });
+
+        return result;
+    }
+
+    // ==== End Form Search Section ==== //
 
     private _getPicTimeline(timeLineCreditProposal) {
         return timeLineCreditProposal.filter(timeline => timeline.fromStatusDescription === 'DPPK Finalize').map(timeline => timeline.personName).join(',\n');
