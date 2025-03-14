@@ -14,6 +14,7 @@ import { map, switchMap, tap } from "rxjs";
 @Component({
     selector: "jhi-mis-credit-legal-ho-report",
     templateUrl: "./mis-credit-legal-ho-report.component.html",
+    styleUrls: ['../../disabled-style.scss'],
     styles: [
         `
       .select-all {
@@ -222,7 +223,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelected) {
             this.form.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
         } else {
-            this.form.get('status')?.setValue('');
+            this.form.get('status')?.setValue(null);
         }
     }
 
@@ -267,6 +268,33 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this.form.get('endDate')?.reset();
     }
 
+    onDateRangeFocus() {
+        this.form.get('query')?.disable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, true);
+    }
+
+    onDateRangeBlur() {
+        this.checkFieldStatus();
+    }
+
+    checkFieldStatus() {
+        const startDate = this.form.get('startDate')?.value;
+        const endDate = this.form.get('endDate')?.value;
+        const status = this.form.get('status')?.value;
+        const username = this.form.get('username')?.value;
+        const regional = this.form.get('regional')?.value;
+        const branch = this.form.get('branch')?.value;
+        const summary = this.form.get('summary')?.value;
+
+        if (startDate || endDate || (status && status.length > 0) || (regional && regional.length > 0) || (username && username.length > 0) || (branch && branch.length > 0) || (summary && summary.length > 0)) {
+            this.form.get('query')?.disable();
+            this.applyDisabledStyle(this.formContainer.nativeElement, true);
+        } else {
+            this.form.get('query')?.enable();
+            this.applyDisabledStyle(this.formContainer.nativeElement, false);
+        }
+    }
+
     public dateRangeHasValue(): boolean {
         return this.form.get('startDate')?.value && this.form.get('endDate')?.value;
     }
@@ -286,6 +314,8 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
     private _handleFormChanges(): void {
         this.form.valueChanges.subscribe(changes => {
+            this.checkFieldStatus();
+
             if (moment.isMoment(changes.startDate)) {
                 this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
             }
@@ -509,8 +539,11 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             this.form.get('startDate')?.enable();
             this.form.get('endDate')?.enable();
             this.form.get('status')?.enable();
-            // this.form.get('regional')?.enable();
-            // this.form.get('customerType')?.enable();
+            this.form.get('username')?.enable();
+            this.form.get('regional')?.enable();
+            this.form.get('branch')?.enable();
+            this.form.get('summary')?.enable();
+
             this.applyDisabledStyle(this.formContainer.nativeElement, false);
         }
     }
@@ -519,8 +552,11 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this.form.get('startDate')?.disable();
         this.form.get('endDate')?.disable();
         this.form.get('status')?.disable();
-        // this.form.get('regional')?.disable();
-        // this.form.get('customerType')?.disable();
+        this.form.get('username')?.disable();
+        this.form.get('regional')?.disable();
+        this.form.get('branch')?.disable();
+        this.form.get('summary')?.disable();
+
         this.applyDisabledStyle(this.formContainer.nativeElement, true);
     }
 
