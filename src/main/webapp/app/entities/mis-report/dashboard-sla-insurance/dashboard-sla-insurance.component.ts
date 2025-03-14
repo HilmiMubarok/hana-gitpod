@@ -5,6 +5,7 @@ import { DashboardService } from 'app/dashboard/dashboard.service';
 @Component({
   selector: 'jhi-dashboard-sla-insurance',
   templateUrl: './dashboard-sla-insurance.component.html',
+  styleUrls: ['../dashboard-credam/dashboard.style.css'],
 })
 export class dashboardSlaInsuranceComponent implements OnInit {
   selectedTab: string;
