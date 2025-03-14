@@ -61,27 +61,53 @@ export class DashboardCredamComponent implements OnInit {
       if (!Array.isArray(dataArray)) {
         return;
       }
+
       let allInformation: any[] = [];
       dataArray.forEach(data => {
-        if (Array.isArray(data.information)) {
+        if (Array.isArray(data.showcase)) {
           allInformation = allInformation.concat(
-            data.information.filter(item => item.fromDate && item.thruDate) // Pastikan ada fromDate & thruDate
+            data.showcase.filter(item => item.fromDate && item.thruDate) // Pastikan ada fromDate & thruDate
           );
         }
       });
 
-      // Kelompokkan data berdasarkan bulan (dengan filter `description`)
+      // Kelompokkan data berdasarkan bulan dari `fromDate` & `thruDate`
       const monthlyData = this.groupDataByMonth(allInformation);
       console.log(monthlyData, 'monthlyData');
+
+      // Urutkan data berdasarkan bulan terkecil ke terbesar
+      const sortedMonths = Object.keys(monthlyData).sort((a, b) => new Date(`${a}`).getTime() - new Date(`${b}`).getTime());
+
+      const getArrayData = (key: string) => dataArray.map(item => item[key] || 0);
+
+      // Bangun data untuk chart berdasarkan hasil pengelompokan
       this.chartData = {
-        labels: Object.keys(monthlyData), // Label bulan
+        labels: sortedMonths,
         datasets: [
-          { data: Object.values(monthlyData).map(item => item.new || 0), label: 'New', backgroundColor: 'green' },
-          { data: Object.values(monthlyData).map(item => item.restructure || 0), label: 'Restructure', backgroundColor: 'brown' },
-          { data: Object.values(monthlyData).map(item => item.additional || 0), label: 'Additional', backgroundColor: 'orange' },
-          { data: Object.values(monthlyData).map(item => item.other || 0), label: 'Other', backgroundColor: 'purple' },
-          { data: Object.values(monthlyData).map(item => item.renewal || 0), label: 'Renewal', backgroundColor: 'blue' },
-          { data: Object.values(monthlyData).map(item => item.decrease || 0), label: 'Decrease', backgroundColor: 'red' },
+          { data: getArrayData('newFacility'), label: 'New', backgroundColor: 'green' },
+          { data: getArrayData('restructureFacility'), label: 'Restructure', backgroundColor: 'brown' },
+          {
+            data: getArrayData('additionalOthersFacility').map((val, i) => val + (getArrayData('additionalTopupFacility')[i] || 0)),
+            label: 'Additional',
+            backgroundColor: 'orange',
+          },
+          { data: getArrayData('othersFacility'), label: 'Other', backgroundColor: 'purple' },
+          {
+            data: getArrayData('renewalAdditionalFacility').map(
+              (val, i) =>
+                val +
+                (getArrayData('renewalDecreaseFacility')[i] || 0) +
+                (getArrayData('renewalFacility')[i] || 0) +
+                (getArrayData('renewalOthersFacility')[i] || 0)
+            ),
+            label: 'Renewal',
+            backgroundColor: 'blue',
+          },
+          {
+            data: getArrayData('decreaseFacility').map((val, i) => val + (getArrayData('decreaseOthersFacility')[i] || 0)),
+            label: 'Decrease',
+            backgroundColor: 'red',
+          },
         ],
       };
     });
@@ -90,25 +116,19 @@ export class DashboardCredamComponent implements OnInit {
   // Fungsi untuk mengelompokkan data berdasarkan bulan dari fromDate & thruDate
   groupDataByMonth(information: any[]): Record<string, any> {
     const groupedData: Record<string, any> = {};
-
     information.forEach(item => {
       if (!item.thruDate) {
         return;
       }
-
       const dueDate = new Date(item.thruDate);
-      const dueMonthYear = dueDate.toLocaleString('en-US', { month: 'short', year: 'numeric' });
-
+      const dueMonthYear = dueDate.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
       if (!groupedData[dueMonthYear]) {
         groupedData[dueMonthYear] = { new: 0, restructure: 0, additional: 0, other: 0, renewal: 0, decrease: 0 };
       }
-
       this.incrementCategoryCount(groupedData[dueMonthYear], item);
     });
-
     return groupedData;
   }
-
   // Fungsi untuk menambah jumlah kategori berdasarkan description
   incrementCategoryCount(target: any, item: any): void {
     if (item.description === 'New') {
