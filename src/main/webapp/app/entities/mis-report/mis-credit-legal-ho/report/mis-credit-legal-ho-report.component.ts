@@ -9,7 +9,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { HttpErrorResponse } from "@angular/common/http";
 import { InternalService } from "app/entities/internal/internal.service";
 import { APPLICATION_TYPE } from "app/shared/constants/base.constants";
-import { map } from "rxjs";
+import { map, switchMap, tap } from "rxjs";
 
 @Component({
     selector: "jhi-mis-credit-legal-ho-report",
@@ -78,10 +78,26 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     public lovStatus = [];
     public lovUsername = [];
     public lovRegional = [];
+    public lovBranch = [];
+    public lovApplicationType = [
+        'New',
+        'Additional / Top Up',
+        'Renewal',
+        'Restructure',
+        'Existing',
+        'Others',
+        'Renewal + Additional',
+        'Renewal + Decrease',
+        'Decrease',
+        'Renewal + Others',
+        'Additional + Others',
+        'Decrease + Others',
+    ];
     public form: FormGroup;
     public allSelected = false;
     public allSelectedUsername = false;
     public allSelectedRegional = false;
+    public allSelectedBranch = false;
     public searchResult = null;
     public pageSize = 10;
     public currentPage = 0;
@@ -134,19 +150,41 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 page: 0,
             })
             .pipe(
-                map(response => {
-                    console.log('Response Body:', response.body);
-                    return response.body;
-                }),
+                map(response => response.body),
                 map(internals => internals
                     .filter(internal => this.parentIds.includes(String(internal.parentId)))
-                    .map(internal => ({ id: internal.id, name: internal.facilityName }))
-                )
+                    .map(internal => ({ id: internal.id, name: internal.facilityName, parentId: internal.parentId }))
+                ),
+                tap(filteredInternals => this.lovRegional = filteredInternals),
+                switchMap(internals => this.internalService.queryFilterBy({
+                    idInternalType: 'BRANCH',
+                    size: 9999,
+                    page: 0,
+                }).pipe(
+                    map(response => response.body),
+                    map(branches => branches
+                        .filter(branch => internals.some(internal => internal.id === branch.parentId))
+                        .map(branch => ({ id: branch.id, name: branch.facilityName, parentId: branch.parentId }))
+                    ),
+                    tap(filteredBranches => this.lovBranch = filteredBranches)
+                ))
             )
             .subscribe({
-                next: internals => (this.lovRegional = internals),
-                error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Regional Data' }),
+                next: () => console.log("Success"),
+                error: err => {
+                    console.error('Error Occurred:', err);
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+                },
             });
+    }
+
+    _handleRegionalChanges(regionalData) {
+        if (regionalData === null) {
+            return;
+        }
+
+        const copyBranches = [...this.lovBranch];
+        this.lovBranch = copyBranches.filter(branch => regionalData.some(region => region === branch.parentId));
     }
 
     public toggleSelectAll(): void {
@@ -173,6 +211,15 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             this.form.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
         } else {
             this.form.get('regional')?.setValue(null);
+        }
+    }
+
+    public toggleSelectBranchAll(): void {
+        this.allSelectedBranch = !this.allSelectedBranch;
+        if (this.allSelectedBranch) {
+            this.form.get('branch')?.setValue([...this.lovBranch.map(internal => internal.id)]);
+        } else {
+            this.form.get('branch')?.setValue(null);
         }
     }
 
@@ -230,6 +277,11 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 this.allSelectedUsername = true;
             }
         });
+
+        this.form.get('regional')?.valueChanges.subscribe(regional => {
+
+            this._handleRegionalChanges(regional);
+        })
     }
 
     public generateMISLegalReport(): void {

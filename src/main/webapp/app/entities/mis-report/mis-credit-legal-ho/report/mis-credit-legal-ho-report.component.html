@@ -80,6 +80,28 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div #formContainer>
+                        <mat-form-field class="w-100" appearance="outline"
+                            [class.disabled-control]="form.get('regional')?.disabled">
+                            <mat-label>Branch</mat-label>
+                            <mat-select multiple>
+                                <li class="select-all" (click)="toggleSelectBranchAll()">
+                                    {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+                                </li>
+                                <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 mb-3">
+                    <div #formContainer></div>
+                </div>
+            </div>
+
             <div class="row mb-3">
                 <div class="col">
                     <div #formContainer>
