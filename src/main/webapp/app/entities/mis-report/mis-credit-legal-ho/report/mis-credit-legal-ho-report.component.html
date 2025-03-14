@@ -1,17 +1,24 @@
+<div class="e-card-header-caption">
+    <ejs-breadcrumb cssClass="margin: 1rem;">
+        <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Legal Task - HO" url=""> </e-breadcrumb-item>
+        </e-breadcrumb-items>
+    </ejs-breadcrumb>
+</div>
+
+<div class="row my-3">
+    <mat-button-toggle-group name="menu" [(ngModel)]="menu" (ngModelChange)="onMenuChanged()">
+        <mat-button-toggle value="dateFromStatus">Date From Status</mat-button-toggle>
+        <mat-button-toggle value="proposalDate">Proposal Date</mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+
 <form [formGroup]="form" (ngSubmit)="generateMISLegalReport()">
     <mat-card>
-        <div class="e-card-header-caption">
-            <ejs-breadcrumb cssClass="margin: 1rem;">
-                <e-breadcrumb-items>
-                    <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-                    <e-breadcrumb-item text="Legal Task - HO" url=""> </e-breadcrumb-item>
-                </e-breadcrumb-items>
-            </ejs-breadcrumb>
-        </div>
-
         <mat-card-content>
             <div class="row">
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-md-6 mb-1" [hidden]="menu !== 'dateFromStatus'">
                     <div #formContainer>
                         <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
                             <mat-label>Enter a date range</mat-label>
@@ -19,7 +26,6 @@
                                 <input matStartDate formControlName="startDate" placeholder="Start date" />
                                 <input matEndDate formControlName="endDate" placeholder="End date" />
                             </mat-date-range-input>
-                            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker></mat-date-range-picker>
                             <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
@@ -29,7 +35,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-md-6 mb-1">
                     <div #formContainer>
                         <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
                             <mat-label>Status</mat-label>
@@ -47,7 +53,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-md-6 mb-1">
                     <div #formContainer>
                         <mat-form-field class="w-100" appearance="outline">
                             <mat-label>PIC</mat-label>
@@ -63,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-md-6 mb-1">
                     <div #formContainer>
                         <mat-form-field class="w-100" appearance="outline"
                             [class.disabled-control]="form.get('regional')?.disabled">
@@ -81,12 +87,12 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-md-6 mb-1">
                     <div #formContainer>
                         <mat-form-field class="w-100" appearance="outline"
                             [class.disabled-control]="form.get('regional')?.disabled">
                             <mat-label>Branch</mat-label>
-                            <mat-select multiple>
+                            <mat-select formControlName="branch" multiple>
                                 <li class="select-all" (click)="toggleSelectBranchAll()">
                                     {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
                                 </li>
@@ -97,12 +103,24 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 mb-3">
-                    <div #formContainer></div>
+                <div class="col-12 col-md-6 mb-1">
+                    <div #formContainer>
+                        <mat-form-field class="w-100" appearance="outline"
+                            [class.disabled-control]="form.get('regional')?.disabled">
+                            <mat-label>Summary</mat-label>
+                            <mat-select multiple formControlName="summary">
+                                <li class="select-all" (click)="toggleSelectSummaryAll()">
+                                    {{ allSelectedSummary ? 'Deselect All' : 'Select All' }}
+                                </li>
+                                <mat-option *ngFor="let item of lovApplicationType" [value]="item">{{ item
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-1">
                 <div class="col">
                     <div #formContainer>
                         <mat-form-field class="w-100" appearance="outline"
@@ -123,7 +141,7 @@
                 </div>
             </div>
 
-            <div class="row px-2" *ngIf="searchResult || loadingSearch">
+            <div class="row px-1" *ngIf="searchResult || loadingSearch">
                 <table mat-table [dataSource]="loadingSearch ? skeletonData : searchResult">
                     <ng-container matColumnDef="proposalNumber">
                         <th mat-header-cell *matHeaderCellDef>Proposal Number</th>
