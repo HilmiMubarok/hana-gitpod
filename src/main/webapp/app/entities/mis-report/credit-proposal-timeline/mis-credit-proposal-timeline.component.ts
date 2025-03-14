@@ -378,7 +378,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       startDate: this.misCpTimeline.get('date1')?.value,
       endDate: this.misCpTimeline.get('date2')?.value,
       status: this._convertStatusToString(this.misCpTimeline.get('status')?.value),
-      regional: this._convertStatusToString(this.misCpTimeline.get('regional')?.value),
+      regionalRM: this._convertStatusToString(this.misCpTimeline.get('regional')?.value),
       customerType: this._convertStatusToString(this.misCpTimeline.get('customerType')?.value),
       dateType: dateTypeValue, // Tambahkan dateType di parameter
     };
@@ -496,15 +496,116 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       { header: 'PIC', key: 'pic', width: 30 },
       { header: 'NOTE', key: 'note', width: 25 },
       { header: 'Status', key: 'status', width: 25 },
+      { header: 'TAT Pipeline Process', key: 'tatPipelineProcess', width: 25 },
+      { header: 'TAT Review Process', key: 'tatReviewProcess', width: 25 },
+      { header: 'TAT Pending Acceptance', key: 'tatPendingAcceptance', width: 25 },
+      { header: 'TAT Appeal Pipeline Process', key: 'tatAppealPipelineProcess', width: 25 },
+      { header: 'TAT Appeal Review Process', key: 'tatAppealReviewProcess', width: 25 },
+      { header: 'TAT Appeal Pending Acceptance', key: 'tatAppealPendingAcceptance', width: 25 },
+      { header: 'TAT Signed', key: 'tatSigned', width: 25 },
       { header: 'TAT', key: 'tat', width: 25 },
     ];
   }
 
-  private _convertDate(date: string): string {
-    if (!date) {
-      return '';
+  private _tatPipelineProcess(timeline) {
+    const draft = this._getDate(timeline, 'Draft', 'createdDate');
+    const assignment = this._getDate(timeline, 'Assignment', 'createdDate', true);
+
+    console.log('asdkasjhdgsakdksagdasdgsagdks', { draft, assignment });
+
+    console.log('sadjshgjgh: ', this.countWeekdays(draft, assignment));
+
+    return this.countWeekdays(draft, assignment);
+  }
+
+  private _tatAppealPipelineProcess(timeline) {
+    const darAppeal = this._getDate(timeline, 'DAR Appeal', 'createdDate');
+    const assignment = this._getDate(timeline, 'Assignment', 'createdDate');
+
+    console.log('tatAppealPipelineProcess', { darAppeal, assignment });
+
+    console.log('tatAppealPipelineProcess: ', this.countWeekdays(darAppeal, assignment));
+
+    return this.countWeekdays(darAppeal, assignment);
+  }
+
+  private _tatAppealReviewProcess(timeline) {
+    const assignment = this._getDate(timeline, 'Assignment', 'createdDate');
+    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate');
+
+    if (!loanComm) {
+      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate');
     }
-    return moment(date).format('YYYY-MM-DD');
+
+    console.log('_tatAppealReviewProcess', { assignment, loanComm });
+
+    console.log('_tatAppealReviewProcess: ', this.countWeekdays(assignment, loanComm));
+
+    return this.countWeekdays(assignment, loanComm);
+  }
+
+  private _getDate(timeLineCreditProposal, status, date, isLast = false): string | null {
+    console.log({ timeLineCreditProposal });
+
+    const data = timeLineCreditProposal.timeLineCreditProposal?.filter(t => t.statusDescription === status).map(t => t[date]);
+
+    if (isLast) {
+      return data.length > 0 ? data[data.length - 1] : null;
+    }
+
+    return data.length > 0 ? data[0] : null;
+  }
+
+  private _tatReviewProcess(timeline) {
+    const assignment = this._getDate(timeline, 'Assignment', 'createdDate', true);
+    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate', true);
+
+    if (!loanComm) {
+      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate', true);
+    }
+
+    return this.countWeekdays(assignment, loanComm);
+  }
+
+  private _tatPendingAcceptance(timeline) {
+    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate', true);
+    const confirmation = this._getDate(timeline, 'Confirmation', 'createdDate', true);
+
+    if (!loanComm) {
+      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate');
+    }
+
+    console.log('_tatPendingAcceptance', { loanComm, confirmation });
+
+    console.log('_tatPendingAcceptance: ', this.countWeekdays(loanComm, confirmation));
+
+    return this.countWeekdays(loanComm, confirmation);
+  }
+
+  private _tatAppealPendingAcceptance(timeline) {
+    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate');
+    const confirmation = this._getDate(timeline, 'Confirmation', 'createdDate');
+
+    if (!loanComm) {
+      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate');
+    }
+
+    console.log('_tatAppealPendingAcceptance', { loanComm, confirmation });
+
+    console.log('_tatAppealPendingAcceptance: ', this.countWeekdays(loanComm, confirmation));
+
+    return this.countWeekdays(loanComm, confirmation);
+  }
+
+  private _tatSigned(timeline) {
+    const confirmation = this._getDate(timeline, 'Confirmation', 'createdDate', true);
+    const complete = this._getDate(timeline, 'Complete', 'createdDate');
+
+    console.log('_tatSigned', { confirmation, complete });
+
+    console.log('_tatSigned: ', this.countWeekdays(confirmation, complete));
+
+    return this.countWeekdays(confirmation, complete);
   }
 
   private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal, index): void {
@@ -572,6 +673,13 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         pic: timeline.personName || '',
         note: timeline.note || '',
         status: timelineIndex === 0 ? timeLineCreditProposal.status || '' : '',
+        tatPipelineProcess: timelineIndex === 0 ? this._tatPipelineProcess(timeLineCreditProposal) : '',
+        tatReviewProcess: timelineIndex === 0 ? this._tatReviewProcess(timeLineCreditProposal) : '',
+        tatPendingAcceptance: timelineIndex === 0 ? this._tatPendingAcceptance(timeLineCreditProposal) : '',
+        tatAppealPipelineProcess: timelineIndex === 0 ? this._tatAppealPipelineProcess(timeLineCreditProposal) : '',
+        tatAppealReviewProcess: timelineIndex === 0 ? this._tatAppealReviewProcess(timeLineCreditProposal) : '',
+        tatAppealPendingAcceptance: timelineIndex === 0 ? this._tatAppealPendingAcceptance(timeLineCreditProposal) : '',
+        tatSigned: timelineIndex === 0 ? this._tatSigned(timeLineCreditProposal) : '',
         tat,
       });
     });
@@ -593,6 +701,13 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       worksheet.mergeCells(`L${startRow}:L${endRow}`);
       worksheet.mergeCells(`M${startRow}:M${endRow}`);
       worksheet.mergeCells(`T${startRow}:T${endRow}`);
+      worksheet.mergeCells(`U${startRow}:U${endRow}`);
+      worksheet.mergeCells(`V${startRow}:V${endRow}`);
+      worksheet.mergeCells(`W${startRow}:W${endRow}`);
+      worksheet.mergeCells(`X${startRow}:X${endRow}`);
+      worksheet.mergeCells(`Y${startRow}:Y${endRow}`);
+      worksheet.mergeCells(`Z${startRow}:Z${endRow}`);
+      worksheet.mergeCells(`AA${startRow}:AA${endRow}`);
     }
   }
 
@@ -614,6 +729,13 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       'loanCommApproval',
       'proposalType',
       'status',
+      'tatPipelineProcess',
+      'tatReviewProcess',
+      'tatPendingAcceptance',
+      'tatAppealPipelineProcess',
+      'tatAppealReviewProcess',
+      'tatAppealPendingAcceptance',
+      'tatSigned',
     ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {

@@ -8,7 +8,6 @@
         </e-breadcrumb-items>
       </ejs-breadcrumb>
     </div>
-
     <mat-card-content>
       <div class="row my-3">
         <div class="col">
@@ -40,7 +39,7 @@
         <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Username</mat-label>
-            <mat-select formControlName="userDPPK" multiple>
+            <mat-select formControlName="userName" multiple>
               <li class="select-all" (click)="toggleSelectAllUsernameDppk()">
                 {{ allSelectedUsernameDppk ? 'Deselect All' : 'Select All' }}
               </li>
