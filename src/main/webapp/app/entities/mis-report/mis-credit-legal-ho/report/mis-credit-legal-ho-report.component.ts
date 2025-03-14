@@ -1,14 +1,20 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { AbstractExcelMISReport } from "../../abstract-excel-report";
 import { MisReportService } from "../../mis-report.service";
 import { MessageService } from "primeng/api";
 import { FormControl, FormGroup } from "@angular/forms";
 import moment from "moment";
 import * as ExcelJS from 'exceljs';
+import { PageEvent } from "@angular/material/paginator";
+import { HttpErrorResponse } from "@angular/common/http";
+import { InternalService } from "app/entities/internal/internal.service";
+import { APPLICATION_TYPE } from "app/shared/constants/base.constants";
+import { map, switchMap, tap } from "rxjs";
 
 @Component({
     selector: "jhi-mis-credit-legal-ho-report",
     templateUrl: "./mis-credit-legal-ho-report.component.html",
+    styleUrls: ['../../disabled-style.scss'],
     styles: [
         `
       .select-all {
@@ -41,17 +47,111 @@ import * as ExcelJS from 'exceljs';
       :host ::ng-deep .ng-invalid:not(form) {
         border: none !important;
       }
+
+      .skeleton-loading {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 16px;
+        width: 90%;
+        height: 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+      }
+
+      .mat-button-toggle-standalone.mat-button-toggle-appearance-standard, .mat-button-toggle-group-appearance-standard {
+        border: none !important;
+      }
+
+      .mat-button-toggle {
+        margin: 0 3px;
+        border-radius: 5px !important;
+        font-weight: 400;
+      }
+
+      .mat-button-toggle-appearance-standard {
+        background: #e5e5e5;
+      }
+
+      .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+        border: none;
+      }
+
+      .mat-button-toggle-checked {
+        color: rgb(255 255 255 / 87%);
+        background: #48a5a0;
+      }
+
+      @keyframes skeleton-loading {
+        0% {
+          background-color: #e2e2e2;
+        }
+        50% {
+          background-color: #f2f2f2;
+        }
+        100% {
+          background-color: #e2e2e2;
+        }
+      }
     `,
     ],
 })
 export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport implements OnInit {
 
+    public menu = 'dateFromStatus';
     public lovStatus = [];
+    public lovUsername = [];
+    public lovRegional = [];
+    public lovBranch = [];
+    public lovApplicationType = [
+        'New',
+        'Additional / Top Up',
+        'Renewal',
+        'Restructure',
+        'Existing',
+        'Others',
+        'Renewal + Additional',
+        'Renewal + Decrease',
+        'Decrease',
+        'Renewal + Others',
+        'Additional + Others',
+        'Decrease + Others',
+    ];
     public form: FormGroup;
     public allSelected = false;
+    public allSelectedUsername = false;
+    public allSelectedRegional = false;
+    public allSelectedBranch = false;
+    public allSelectedSummary = false;
+    public searchResult = null;
+    public pageSize = 10;
+    public currentPage = 0;
+    public totalItems = 0;
+    public pageSizeOptions: number[] = [5, 10, 25, 50];
+    public loadingSearch = false;
+    public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+    public skeletonData = [
+        {
+            proposalNumber: '',
+            cif: '',
+            debtorName: '',
+            customerType: '',
+            proposalDate: '',
+            status: '',
+        },
+    ];
 
-    constructor(public misReportService: MisReportService, public messageService: MessageService) {
+    private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
+    @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
+
+    constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
         super(misReportService);
+        this._initializeForm();
+        this._handleFormChanges();
+    }
+
+    onMenuChanged(): void {
         this._initializeForm();
     }
 
@@ -62,6 +162,60 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
             },
         })
+
+        this.misReportService.getPicLegalHO().subscribe({
+            next: res => this.lovUsername = res.sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName)),
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Failed to get PIC',
+                });
+            },
+        });
+
+        this.internalService
+            .queryFilterBy({
+                idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
+                size: 9999,
+                page: 0,
+            })
+            .pipe(
+                map(response => response.body),
+                map(internals => internals
+                    .filter(internal => this.parentIds.includes(String(internal.parentId)))
+                    .map(internal => ({ id: internal.id, name: internal.facilityName, parentId: internal.parentId }))
+                ),
+                tap(filteredInternals => this.lovRegional = filteredInternals),
+                switchMap(internals => this.internalService.queryFilterBy({
+                    idInternalType: 'BRANCH',
+                    size: 9999,
+                    page: 0,
+                }).pipe(
+                    map(response => response.body),
+                    map(branches => branches
+                        .filter(branch => internals.some(internal => internal.id === branch.parentId))
+                        .map(branch => ({ id: branch.id, name: branch.facilityName, parentId: branch.parentId }))
+                    ),
+                    tap(filteredBranches => this.lovBranch = filteredBranches)
+                ))
+            )
+            .subscribe({
+                next: () => console.log("Success"),
+                error: err => {
+                    console.error('Error Occurred:', err);
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+                },
+            });
+    }
+
+    _handleRegionalChanges(regionalData) {
+        if (regionalData === null) {
+            return;
+        }
+
+        const copyBranches = [...this.lovBranch];
+        this.lovBranch = copyBranches.filter(branch => regionalData.some(region => region === branch.parentId));
     }
 
     public toggleSelectAll(): void {
@@ -69,7 +223,43 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelected) {
             this.form.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
         } else {
-            this.form.get('status')?.setValue('');
+            this.form.get('status')?.setValue(null);
+        }
+    }
+
+    public toggleSelectAllUsername(): void {
+        this.allSelectedUsername = !this.allSelectedUsername;
+        if (this.allSelectedUsername) {
+            this.form.get('username')?.setValue([...this.lovUsername.map(username => username.partyId)]);
+        } else {
+            this.form.get('username')?.setValue(null);
+        }
+    }
+
+    public toggleSelectRegionalAll(): void {
+        this.allSelectedRegional = !this.allSelectedRegional;
+        if (this.allSelectedRegional) {
+            this.form.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
+        } else {
+            this.form.get('regional')?.setValue(null);
+        }
+    }
+
+    public toggleSelectBranchAll(): void {
+        this.allSelectedBranch = !this.allSelectedBranch;
+        if (this.allSelectedBranch) {
+            this.form.get('branch')?.setValue([...this.lovBranch.map(internal => internal.id)]);
+        } else {
+            this.form.get('branch')?.setValue(null);
+        }
+    }
+
+    public toggleSelectSummaryAll(): void {
+        this.allSelectedSummary = !this.allSelectedSummary;
+        if (this.allSelectedSummary) {
+            this.form.get('summary')?.setValue([...this.lovApplicationType.map(appType => appType)]);
+        } else {
+            this.form.get('summary')?.setValue(null);
         }
     }
 
@@ -78,52 +268,123 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this.form.get('endDate')?.reset();
     }
 
+    onDateRangeFocus() {
+        this.form.get('query')?.disable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, true);
+    }
+
+    onDateRangeBlur() {
+        this.checkFieldStatus();
+    }
+
+    checkFieldStatus() {
+        const startDate = this.form.get('startDate')?.value;
+        const endDate = this.form.get('endDate')?.value;
+        const status = this.form.get('status')?.value;
+        const username = this.form.get('username')?.value;
+        const regional = this.form.get('regional')?.value;
+        const branch = this.form.get('branch')?.value;
+        const summary = this.form.get('summary')?.value;
+
+        if (startDate || endDate || (status && status.length > 0) || (regional && regional.length > 0) || (username && username.length > 0) || (branch && branch.length > 0) || (summary && summary.length > 0)) {
+            this.form.get('query')?.disable();
+            this.applyDisabledStyle(this.formContainer.nativeElement, true);
+        } else {
+            this.form.get('query')?.enable();
+            this.applyDisabledStyle(this.formContainer.nativeElement, false);
+        }
+    }
+
     public dateRangeHasValue(): boolean {
         return this.form.get('startDate')?.value && this.form.get('endDate')?.value;
     }
 
     private _initializeForm() {
         this.form = new FormGroup({
-            startDate: new FormControl(''),
-            endDate: new FormControl(''),
-            status: new FormControl(''),
+            startDate: new FormControl(null),
+            endDate: new FormControl(null),
+            status: new FormControl(null),
+            username: new FormControl(null),
+            regional: new FormControl(null),
+            branch: new FormControl(''),
+            summary: new FormControl(''),
+            query: new FormControl(''),
         });
+    }
 
-        this.form.get('startDate')?.valueChanges.subscribe(date => {
-            if (moment.isMoment(date)) {
-                const formattedDate = date.format('YYYY-MM-DD');
-                this.form.get('startDate')?.setValue(formattedDate, { emitEvent: false });
-            }
-        });
+    private _handleFormChanges(): void {
+        this.form.valueChanges.subscribe(changes => {
+            this.checkFieldStatus();
 
-        this.form.get('endDate')?.valueChanges.subscribe(date => {
-            if (moment.isMoment(date)) {
-                const formattedDate = date.format('YYYY-MM-DD');
-                this.form.get('endDate')?.setValue(formattedDate, { emitEvent: false });
-            }
-        });
-
-        this.form.get('status')?.valueChanges.subscribe(status => {
-            if (typeof status === 'object' && status.length === 0) {
-                this.form.get('status')?.setValue(null);
-                this.allSelected = false;
+            if (moment.isMoment(changes.startDate)) {
+                this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
             }
 
-            if (status && status.length === this.lovStatus.length) {
-                this.allSelected = true;
+            if (moment.isMoment(changes.endDate)) {
+                this._updateFormControl('endDate', changes.endDate.format('YYYY-MM-DD'));
+            }
+
+            if (Array.isArray(changes.status)) {
+                if (changes.status.length === 0) {
+                    this._updateFormControl('status', null);
+                    this.allSelected = false;
+                } else if (changes.status.length === this.lovStatus.length) {
+                    this.allSelected = true;
+                }
+            }
+
+            if (Array.isArray(changes.username)) {
+                if (changes.username.length === 0) {
+                    this._updateFormControl('username', null);
+                    this.allSelectedUsername = false;
+                } else if (changes.username.length === this.lovUsername.length) {
+                    this.allSelectedUsername = true;
+                }
+            }
+
+            if (changes.regional !== undefined) {
+                this._handleRegionalChanges(changes.regional);
             }
         });
+    }
+
+    private _updateFormControl(field: string, value: any): void {
+        this.form.get(field)?.setValue(value, { emitEvent: false });
     }
 
     public generateMISLegalReport(): void {
         this.misReportService.setLoading(true);
 
-        const params = {
-            startDate: this.form.get('startDate')?.value,
-            endDate: this.form.get('endDate')?.value,
-            status: this._convertStatusToString(this.form.get('status')?.value),
-            type: 'STATELOG',
-        };
+        let params;
+        if (this.form.get('query')?.value) {
+            params = {
+                query: this.form.get('query')?.value,
+            };
+        } else {
+
+            if (this.menu === 'dateFromStatus') {
+                params = {
+                    startDate: this.form.get('startDate')?.value,
+                    endDate: this.form.get('endDate')?.value,
+                    status: this._convertStatusToString(this.form.get('status')?.value),
+                    userName: this._convertStatusToString(this.form.get('username')?.value),
+                    assignTo: "dataAssignToLegalOfficer",
+                    regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
+                    type: 'STATELOG',
+                };
+            } else {
+                params = {
+                    startDate: null,
+                    endDate: null,
+                    status: this._convertStatusToString(this.form.get('status')?.value),
+                    userName: this._convertStatusToString(this.form.get('username')?.value),
+                    assignTo: "dataAssignToLegalOfficer",
+                    regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
+                    type: null,
+                };
+            }
+
+        }
 
         this.misReportService.getMisReportCP(params).subscribe({
             next: res => this._processGenerate(res.body, 'MIS_CL_Task_HO'),
@@ -184,7 +445,17 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     }
 
     protected processData(data: any[]): void {
-        data.forEach((proposal, index) => {
+        const branch = this.form.get('branch')?.value;
+        const search = this.form.get('query')?.value;
+        let cp
+
+        if (branch !== '' && search === '') {
+            cp = data.filter(proposal => proposal.branchNameRM === branch);
+        } else {
+            cp = data
+        }
+
+        cp.forEach((proposal, index) => {
             this._addProposalData(this.worksheet, proposal, index);
         });
     }
@@ -219,7 +490,15 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     }
 
     private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, index: number) {
-        const filteredProduct = proposal.product.filter(prod => prod.pengajuan !== 'Existing')
+
+        const summary = this.form.get('summary')?.value
+        const search = this.form.get('query')?.value
+        let filteredProduct;
+        if (summary !== '' && search === '') {
+            filteredProduct = proposal.product.filter(prod => prod.pengajuan === summary)
+        } else {
+            filteredProduct = proposal.product
+        }
 
         filteredProduct.forEach(product => {
             const row = {
@@ -252,6 +531,85 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             worksheet.addRow(row);
         })
     }
+
+    // ==== Form Search Section ==== //
+    public onSearchBlur() {
+        const searchValue = this.form.get('query')?.value;
+        if (!searchValue) {
+            this.form.get('startDate')?.enable();
+            this.form.get('endDate')?.enable();
+            this.form.get('status')?.enable();
+            this.form.get('username')?.enable();
+            this.form.get('regional')?.enable();
+            this.form.get('branch')?.enable();
+            this.form.get('summary')?.enable();
+
+            this.applyDisabledStyle(this.formContainer.nativeElement, false);
+        }
+    }
+
+    public onSearchFocus() {
+        this.form.get('startDate')?.disable();
+        this.form.get('endDate')?.disable();
+        this.form.get('status')?.disable();
+        this.form.get('username')?.disable();
+        this.form.get('regional')?.disable();
+        this.form.get('branch')?.disable();
+        this.form.get('summary')?.disable();
+
+        this.applyDisabledStyle(this.formContainer.nativeElement, true);
+    }
+
+    public clearSearch(): void {
+        this.form.get('query')?.reset();
+        this.searchResult = null;
+    }
+
+    public doSearch(pageEvent?: PageEvent): void {
+        this.loadingSearch = true;
+
+        if (pageEvent) {
+            this.currentPage = pageEvent.pageIndex;
+            this.pageSize = pageEvent.pageSize;
+        }
+
+        const predicate: object = {
+            page: this.currentPage,
+            query: this.form.get('query')?.value,
+            size: this.pageSize,
+            sort: ['id,desc'],
+            idPosition: this.getLocStor('POS'),
+        };
+
+        predicate['target'] = 'credit_proposal_status';
+
+        this.misReportService.searchCP(predicate).subscribe({
+            next: res => {
+                this.searchResult = res.body || [];
+                const totalCount = res.headers.get('X-Total-Count');
+                this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+                this.loadingSearch = false;
+            },
+            error: (res: HttpErrorResponse) => console.error(res.message),
+        });
+    }
+
+    private getLocStor(cookieName: string) {
+        let result = null;
+        const cookies: string[] = document.cookie.split(';');
+
+        cookies.forEach(o => {
+            const cookie: string[] = o.split('=');
+            const name: string = cookie[0].trim();
+            if (name === cookieName) {
+                result = cookie[1];
+            }
+        });
+
+        return result;
+    }
+
+    // ==== End Form Search Section ==== //
 
     private _getPicTimeline(timeLineCreditProposal) {
         return timeLineCreditProposal.filter(timeline => timeline.fromStatusDescription === 'DPPK Finalize').map(timeline => timeline.personName).join(',\n');
