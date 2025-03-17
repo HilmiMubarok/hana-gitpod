@@ -130,6 +130,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     public totalItems = 0;
     public pageSizeOptions: number[] = [5, 10, 25, 50];
     public loadingSearch = false;
+    private debounceTimer: any;
     public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
     public skeletonData = [
         {
@@ -278,21 +279,27 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     }
 
     checkFieldStatus() {
-        const startDate = this.form.get('startDate')?.value;
-        const endDate = this.form.get('endDate')?.value;
-        const status = this.form.get('status')?.value;
-        const username = this.form.get('username')?.value;
-        const regional = this.form.get('regional')?.value;
-        const branch = this.form.get('branch')?.value;
-        const summary = this.form.get('summary')?.value;
-
-        if (startDate || endDate || (status && status.length > 0) || (regional && regional.length > 0) || (username && username.length > 0) || (branch && branch.length > 0) || (summary && summary.length > 0)) {
-            this.form.get('query')?.disable();
-            this.applyDisabledStyle(this.formContainer.nativeElement, true);
-        } else {
-            this.form.get('query')?.enable();
-            this.applyDisabledStyle(this.formContainer.nativeElement, false);
+        if (this.debounceTimer) {
+            clearTimeout(this.debounceTimer);
         }
+
+        this.debounceTimer = setTimeout(() => {
+            const startDate = this.form.get('startDate')?.value;
+            const endDate = this.form.get('endDate')?.value;
+            const status = this.form.get('status')?.value;
+            const username = this.form.get('username')?.value;
+            const regional = this.form.get('regional')?.value;
+            const branch = this.form.get('branch')?.value;
+            const summary = this.form.get('summary')?.value;
+
+            if ((startDate || endDate) || (status && status.length > 0) || (regional && regional.length > 0) || (username && username.length > 0) || (branch && branch.length > 0) || (summary && summary.length > 0)) {
+                this.form.get('query')?.disable();
+                this.applyDisabledStyle(this.formContainer.nativeElement, true);
+            } else {
+                this.form.get('query')?.enable();
+                this.applyDisabledStyle(this.formContainer.nativeElement, false);
+            }
+        }, 50);
     }
 
     public dateRangeHasValue(): boolean {
@@ -301,8 +308,8 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
     private _initializeForm() {
         this.form = new FormGroup({
-            startDate: new FormControl(null),
-            endDate: new FormControl(null),
+            startDate: new FormControl(''),
+            endDate: new FormControl(''),
             status: new FormControl(null),
             username: new FormControl(null),
             regional: new FormControl(null),
@@ -314,7 +321,6 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
     private _handleFormChanges(): void {
         this.form.valueChanges.subscribe(changes => {
-            this.checkFieldStatus();
 
             if (moment.isMoment(changes.startDate)) {
                 this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
