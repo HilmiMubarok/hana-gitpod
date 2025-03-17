@@ -24,7 +24,7 @@ export class DashboardService extends AbstractEntityService<IChartData> {
     this.resourceUrls = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/collateral-appraisals');
     this.resourceUrlInsurance = this.applicationConfigService.getEndpointFor(
-      MICROSERVICENAME.LOS + 'api/dashboards/credit-proposal/insurance'
+      MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/insurance'
     );
     this.resourceUrlInteral = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internals');
   }
