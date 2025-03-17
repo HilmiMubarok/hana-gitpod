@@ -64,12 +64,19 @@ export class DocumentChecklistDialogComponent {
   public memoryFiles = [];
   public fileDeleted = [];
   public fileTbo = [];
-
+  public filesRemarks: string;
   public filesStatus: string;
   public filesdueDate: string;
-  public filesRemarks: string;
   public filesDescription: string;
   public parentDescription: string;
+
+  public handleAmpersandIconDialog(value: string): string {
+    return value ? value.replace(/codeSpecialDan/g, '&') : '';
+  }
+
+  public revertHandleAmpersandIconDialog(value: string): string {
+    return value ? value.replace(/&/g, 'codeSpecialDan') : '';
+  }
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -339,9 +346,9 @@ export class DocumentChecklistDialogComponent {
     });
   }
 
-  public convertDan(value: string): any {
+  public handleAmpersandIcon(value: string): any {
     if (value !== null && value !== undefined) {
-      return value.replace('codeSpecialDan', '&');
+      return value.replace(/codeSpecialDan/g, '&');
     } else {
       return '';
     }

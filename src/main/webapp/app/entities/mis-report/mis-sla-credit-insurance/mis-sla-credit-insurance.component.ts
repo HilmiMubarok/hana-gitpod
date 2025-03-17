@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
@@ -38,6 +38,10 @@ import { AbstractExcelMISReport } from '../abstract-excel-report';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
     `,
   ],
 })
@@ -47,7 +51,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
   public lovUsername = [];
   public misCp: FormGroup;
   allSelected = false;
-  public allSelectedUsername = false;
+  allSelectedUsername = false;
 
   changeOption(event) {
     console.log('test', event.value);
@@ -56,10 +60,10 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
     super(misReportService);
 
     this.misCp = new FormGroup({
-      date1: new FormControl(''),
-      date2: new FormControl(''),
-      status: new FormControl(''),
-      username: new FormControl(''),
+      date1: new FormControl('', [Validators.required]),
+      date2: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required]),
     });
     this.misCp.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
@@ -133,13 +137,44 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
     this.misCp.get('date2')?.reset();
   }
 
+  private getFormValidationMessage(): string | null {
+    const startDate = this.misCp.get('startDate');
+    const endDate = this.misCp.get('endDate');
+    const status = this.misCp.get('status');
+
+    const isDateRangeInvalid = startDate?.invalid || endDate?.invalid;
+    const isStatusInvalid = status?.invalid;
+
+    if (isDateRangeInvalid && !isStatusInvalid) {
+      return 'Please Select Date Range';
+    }
+
+    if (isStatusInvalid && !isDateRangeInvalid) {
+      return 'Please Select Status';
+    }
+
+    if (isDateRangeInvalid && isStatusInvalid) {
+      return 'Please Select Parameters';
+    }
+
+    return null;
+  }
+
   generateMISSLAInsurance() {
+    if (this.misCp.invalid) {
+      const errorMessage = this.getFormValidationMessage();
+      if (errorMessage) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+        return;
+      }
+    }
+
     this.misReportService.setLoading(true);
     const params = {
       startDate: this.misCp.get('date1')?.value,
       endDate: this.misCp.get('date2')?.value,
       status: this._convertStatusToString(this.misCp.get('status')?.value),
-      userLogin: this._convertStatusToString(this.misCp.get('username')?.value),
+      userLoanOps: this._convertStatusToString(this.misCp.get('username')?.value),
       type: 'STATELOG',
     };
 
@@ -222,42 +257,13 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
   }
 
   private _getMakerInDateFiltered(timeLineInsurance: any[]): string {
-    if (!Array.isArray(timeLineInsurance)) {
-      return '';
-    }
-
-    return timeLineInsurance
-      .filter((item: any) => item.statusDescription === 'Insurance Checking')
-      .map((item: any) => {
-        const date = new Date(item.fromDate);
-        if (isNaN(date.getTime())) {
-          return '';
-        }
-
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
-        const year = date.getFullYear();
-
-        return `${day}-${month}-${year}`;
-      })
-      .filter(Boolean)
+    return (Array.isArray(timeLineInsurance) ? timeLineInsurance : [])
+      .filter(item => item.statusDescription === 'Insurance Checking' && item.fromDate)
+      .map(item => new Date(item.fromDate))
+      .filter(date => !isNaN(date.getTime()))
+      .sort((a, b) => a.getTime() - b.getTime())
+      .map(date => `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`)
       .join(',\n');
-  }
-
-  private _getMakerInDateFilteredLast(timeLineInsurance: any[]): string {
-    if (!Array.isArray(timeLineInsurance)) {
-      return '';
-    }
-
-    const data = timeLineInsurance
-      .filter((item: any) => item.statusDescription === 'Insurance Checking')
-      .map((item: any) => {
-        const date = new Date(item.fromDate);
-        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      })
-      .filter(Boolean);
-
-    return data.length ? data[data.length - 1] : '';
   }
 
   private _getMakerInDateFilteredFirst(timeLineInsurance: any[]): string {
@@ -265,15 +271,21 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       return '';
     }
 
-    const data = timeLineInsurance
-      .filter((item: any) => item.statusDescription === 'Insurance Checking')
-      .map((item: any) => {
-        const date = new Date(item.fromDate);
-        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      })
-      .filter(Boolean);
+    const earliestDate = timeLineInsurance
+      .filter(item => item.statusDescription === 'Insurance Checking' && item.fromDate)
+      .map(item => new Date(item.fromDate))
+      .filter(date => !isNaN(date.getTime()))
+      .sort((a, b) => a.getTime() - b.getTime())[0];
 
-    return data.length ? data[0] : '';
+    if (!earliestDate) {
+      return '';
+    }
+
+    return earliestDate.toLocaleDateString('id-ID', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
   }
 
   private _getMakerInTimeFiltered(timeLineInsurance: any[]): string {
@@ -505,25 +517,29 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
     return data.length ? data[data.length - 1] : '';
   }
 
-  private _getFilteredCollateralType(collateral: any[]): string {
-    if (!Array.isArray(collateral)) {
+  private _getFilteredCollateralType(collateral: any[], debtorName: string): string {
+    if (!Array.isArray(collateral) || !debtorName) {
       return '';
     }
 
     const allowedTypes = ['Real Estate', 'Personal Properties', 'Personal Property Vehicle', 'Personal Property Machine'];
 
-    return collateral
-      .filter(item => item.collateralTypeInsurance === 'true' && allowedTypes.includes(item.collateralType))
-      .map(item => item.collateralCode)
-      .join(',\n');
+    const filteredCollateral = collateral.filter(
+      item => item.collateralTypeInsurance === 'true' && allowedTypes.includes(item.collateralType) && item.partyName === debtorName
+    );
+
+    console.log('Filtered Collateral:', filteredCollateral);
+
+    return filteredCollateral.map(item => item.collateralCode).join(',\n');
   }
 
   private _addProposalData(ws: ExcelJS.Worksheet, prop: any, idx: number): void {
     const startRow = ws.rowCount;
+    const debtorName = prop.debtorName || '';
 
     let counter = startRow;
 
-    const debtorName = prop.debtorName || '';
+    // const debtorName = prop.debtorName || '';
 
     prop.collateral
       ?.filter(col => col.partyName === debtorName)
@@ -600,7 +616,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
             darIssuedTime: this._getDarIssuedTimeFiltered(prop.timeLineCreditProposal),
             darIssuedDate: this._getDarIssuedDateFiltered(prop.timeLineCreditProposal),
             status: prop.statusInsuranceDescription || '',
-            jaminanTipe: this._getFilteredCollateralType(prop.collateral),
+            jaminanTipe: this._getFilteredCollateralType(prop.collateral, prop.debtorName),
             ccy: col.collateralProperty?.marketValueOriginalCcy || '',
             mvBangunan: col.collateralProperty?.marketValueOriginal || '',
             transaksi: col.collateralStatus || '',

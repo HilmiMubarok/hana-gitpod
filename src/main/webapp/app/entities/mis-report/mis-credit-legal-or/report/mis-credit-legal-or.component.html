@@ -1,21 +1,22 @@
-<form [formGroup]="MisReportCPCredam" (ngSubmit)="generateMISReportCP()">
+<form [formGroup]="misCreditLegalOr" (ngSubmit)="generateMISCreditLegalOr()">
   <mat-card>
     <div class="e-card-header-caption">
       <ejs-breadcrumb cssClass="margin: 1rem;">
         <e-breadcrumb-items>
           <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-          <e-breadcrumb-item text="SLA Credit Admin" url=""> </e-breadcrumb-item>
+          <e-breadcrumb-item text="Legal Task - OR" url=""> </e-breadcrumb-item>
         </e-breadcrumb-items>
       </ejs-breadcrumb>
     </div>
+
     <mat-card-content>
       <div class="row my-3">
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate formControlName="date1" placeholder="Start date" />
-              <input matEndDate formControlName="date2" placeholder="End date" />
+              <input matStartDate formControlName="startDate" placeholder="Start date" />
+              <input matEndDate formControlName="endDate" placeholder="End date" />
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -30,22 +31,7 @@
               <li class="select-all" (click)="toggleSelectAll()">
                 {{ allSelected ? 'Deselect All' : 'Select All' }}
               </li>
-              <mat-option *ngFor="let item of listOfValue" [value]="item.statusId">{{ item.statusDescription }} </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row my-3">
-        <div class="col-6">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Username</mat-label>
-            <mat-select formControlName="userName" multiple>
-              <li class="select-all" (click)="toggleSelectAllUsernameDppk()">
-                {{ allSelectedUsernameDppk ? 'Deselect All' : 'Select All' }}
-              </li>
-              <mat-option *ngFor="let item of lovUsernameDppk" [value]="item.partyId">
-                {{ item.employeeFirstName }} {{ item.employeeLastName }}
-              </mat-option>
+              <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

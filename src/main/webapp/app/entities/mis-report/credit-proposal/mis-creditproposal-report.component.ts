@@ -349,7 +349,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
         startDate: this.MISReportCP.get('date1')?.value,
         endDate: this.MISReportCP.get('date2')?.value,
         status: this._convertStatusToString(this.MISReportCP.get('status')?.value),
-        regional: this._convertStatusToString(this.MISReportCP.get('regional')?.value),
+        regionalRM: this._convertStatusToString(this.MISReportCP.get('regional')?.value),
         customerStatus: this._convertStatusToString(this.MISReportCP.get('customerType')?.value),
       };
     }

@@ -50,7 +50,7 @@ import { HttpResponse } from '@angular/common/http';
             <ng-container matColumnDef="remarks">
               <th mat-header-cell *matHeaderCellDef>Remarks</th>
               <td mat-cell *matCellDef="let element">
-                <span *ngIf="element.remarks !== 'null'">{{ element.remarks }}</span>
+                <span *ngIf="element.remarks !== 'null'">{{ handleAmpersandIcon(element.remarks) }}</span>
               </td>
             </ng-container>
 
@@ -98,6 +98,15 @@ export class DocumentChecklistOpinionComponent implements OnInit {
   public _isViewMode: boolean;
   datePipe: DatePipe = new DatePipe('en-US');
   @Input() isOnMemoBanding: Boolean = false;
+
+  public handleAmpersandIconDialog(value: string): string {
+    return value ? value.replace(/codeSpecialDan/g, '&') : '';
+  }
+
+  public revertHandleAmpersandIconDialog(value: string): string {
+    return value ? value.replace(/&/g, 'codeSpecialDan') : '';
+  }
+
   constructor(
     private storageService: StorageService,
     public dialog: MatDialog,
@@ -298,9 +307,9 @@ export class DocumentChecklistOpinionComponent implements OnInit {
     });
   }
 
-  public convertDan(value: string): any {
+  public handleAmpersandIcon(value: string): any {
     if (value !== null && value !== undefined) {
-      return value.replace('codeSpecialDan', '&');
+      return value.replace(/codeSpecialDan/g, '&');
     } else {
       return '';
     }

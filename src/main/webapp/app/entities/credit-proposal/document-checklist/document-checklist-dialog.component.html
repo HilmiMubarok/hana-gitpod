@@ -58,7 +58,7 @@
                     f.name.split('.').indexOf('png') > -1 ||
                     f.name.split('.').indexOf('jpg') > -1 ||
                     f.name.split('.').indexOf('jpeg') > -1 ||
-                    f.name.split('.').indexOf('gif') > -1 || 
+                    f.name.split('.').indexOf('gif') > -1 ||
                     f.name.split('.').indexOf('PNG') > -1 ||
                     f.name.split('.').indexOf('JPG') > -1 ||
                     f.name.split('.').indexOf('JPEG') > -1 ||
@@ -91,23 +91,50 @@
               </div>
             </ngx-dropzone-label>
             <ngx-dropzone-label>
-              <div *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1 || f.name.split('.').indexOf('XLS') > -1 || f.name.split('.').indexOf('XLSX') > -1">
+              <div
+                *ngIf="
+                  f.name.split('.').indexOf('xls') > -1 ||
+                  f.name.split('.').indexOf('xlsx') > -1 ||
+                  f.name.split('.').indexOf('XLS') > -1 ||
+                  f.name.split('.').indexOf('XLSX') > -1
+                "
+              >
                 <img src="../../../../content/images/excel.png" width="100%" height="100%" />
               </div>
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1 || f.name.split('.').indexOf('DOC') > -1 || f.name.split('.').indexOf('DOCX') > -1">
+            <ngx-dropzone-label
+              *ngIf="
+                f.name.split('.').indexOf('doc') > -1 ||
+                f.name.split('.').indexOf('docx') > -1 ||
+                f.name.split('.').indexOf('DOC') > -1 ||
+                f.name.split('.').indexOf('DOCX') > -1
+              "
+            >
               <img src="../../../../content/images/word.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('zip') > -1 || f.name.split('.').indexOf('ZIP') > -1 || f.name.split('.').indexOf('DOC') > -1 || f.name.split('.').indexOf('DOCX') > -1">
+            <ngx-dropzone-label
+              *ngIf="
+                f.name.split('.').indexOf('zip') > -1 ||
+                f.name.split('.').indexOf('ZIP') > -1 ||
+                f.name.split('.').indexOf('DOC') > -1 ||
+                f.name.split('.').indexOf('DOCX') > -1
+              "
+            >
               <img src="../../../../content/images/zip-image.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('rar') > -1 || f.name.split('.').indexOf('RAR') > -1 || f.name.split('.').indexOf('DOC') > -1 || f.name.split('.').indexOf('DOCX') > -1">
+            <ngx-dropzone-label
+              *ngIf="
+                f.name.split('.').indexOf('rar') > -1 ||
+                f.name.split('.').indexOf('RAR') > -1 ||
+                f.name.split('.').indexOf('DOC') > -1 ||
+                f.name.split('.').indexOf('DOCX') > -1
+              "
+            >
               <img src="../../../../content/images/WinRAR-logo.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
-
 
             <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('aac') > -1 || f.name.split('.').indexOf('AAC') > -1">
               <img src="../../../../content/images/acc.jpg" width="100%" height="100%" />
@@ -217,7 +244,12 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <input matInput type="text" [(ngModel)]="filesRemarks" />
+                <input
+                  matInput
+                  type="text"
+                  [value]="handleAmpersandIconDialog(filesRemarks)"
+                  (input)="filesRemarks = revertHandleAmpersandIconDialog($event.target.value)"
+                />
               </mat-form-field>
             </div>
           </div>
@@ -245,14 +277,14 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ convertDan(files.category) }}</td>
+          <td>{{ handleAmpersandIcon(files.category) }}</td>
           <td>
             <span *ngIf="files.dueDate !== 'null'">{{ files.dueDate | date: 'YYYY-MM-dd' }}</span>
           </td>
           <td>
-            <span *ngIf="files.remarks !== 'null'">{{ convertDan(files.remarks) }}</span>
+            <span *ngIf="files.remarks !== 'null'">{{ handleAmpersandIcon(files.remarks) }}</span>
           </td>
-          <td>{{ convertDan(files.status) }}</td>
+          <td>{{ handleAmpersandIcon(files.status) }}</td>
         </tr>
       </tbody>
     </table>
@@ -280,7 +312,15 @@
             <!-- </div> -->
           </div>
 
-          <div *ngIf="item.name.split('.').indexOf('xlsx') > -1 || item.name.split('.').indexOf('xls') > -1 || item.name.split('.').indexOf('XLXS') > -1 || item.name.split('.').indexOf('XLS') > -1" style="width: 300px">
+          <div
+            *ngIf="
+              item.name.split('.').indexOf('xlsx') > -1 ||
+              item.name.split('.').indexOf('xls') > -1 ||
+              item.name.split('.').indexOf('XLXS') > -1 ||
+              item.name.split('.').indexOf('XLS') > -1
+            "
+            style="width: 300px"
+          >
             <img width="300px" src="../../../../content/images/excel.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
@@ -301,7 +341,14 @@
             </div>
           </div>
 
-          <div *ngIf="item.name.split('.').indexOf('doc') > -1 || item.name.split('.').indexOf('docx') > -1 || item.name.split('.').indexOf('DOC') > -1 || item.name.split('.').indexOf('DOCX') > -1">
+          <div
+            *ngIf="
+              item.name.split('.').indexOf('doc') > -1 ||
+              item.name.split('.').indexOf('docx') > -1 ||
+              item.name.split('.').indexOf('DOC') > -1 ||
+              item.name.split('.').indexOf('DOCX') > -1
+            "
+          >
             <img width="300px" src="../../../../content/images/word.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>

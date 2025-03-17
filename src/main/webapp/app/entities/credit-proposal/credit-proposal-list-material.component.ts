@@ -175,8 +175,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
 
   public doSearch(): void {
-    this.page = 0;
-    this.itemsPerPage = 10;
     this.statusSearch = true;
     const predicate: object = {
       page: this.page,
@@ -208,7 +206,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.statusSearch = false;
     this.currentSearch = '';
     this.page = 0;
-
     this.itemsPerPage = 10;
     this.loadAll();
   }

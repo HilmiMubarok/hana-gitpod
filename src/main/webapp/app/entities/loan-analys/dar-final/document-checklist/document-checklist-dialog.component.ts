@@ -69,6 +69,14 @@ export class DocumentChecklistDialogTempComponent {
   public filesRemarks: string;
   public filesDescription: string;
 
+  public handleAmpersandIconDialog(value: string): string {
+    return value ? value.replace(/codeSpecialDan/g, '&') : '';
+  }
+
+  public revertHandleAmpersandIconDialog(value: string): string {
+    return value ? value.replace(/&/g, 'codeSpecialDan') : '';
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -386,9 +394,9 @@ export class DocumentChecklistDialogTempComponent {
     });
   }
 
-  public convertDan(value: string): any {
+  public handleAmpersandIcon(value: string): any {
     if (value !== null && value !== undefined) {
-      return value.replace('codeSpecialDan', '&');
+      return value.replace(/codeSpecialDan/g, '&');
     } else {
       return '';
     }

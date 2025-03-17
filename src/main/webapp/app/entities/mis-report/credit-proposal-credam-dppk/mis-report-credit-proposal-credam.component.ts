@@ -20,11 +20,10 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   allSelectedUsernameDppk = false;
   lovUsernameDppk = [];
   MisReportCPCredam: FormGroup;
-
   changeOption(event) {
     console.log('data', event.value);
   }
-
+  assignToDppk: any;
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
     super(misReportService);
 
@@ -32,7 +31,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
-      userDPPK: new FormControl(''),
+      userName: new FormControl(''),
     });
 
     this.MisReportCPCredam.get('date1')?.valueChanges.subscribe(date => {
@@ -47,9 +46,9 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         this.MisReportCPCredam.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
-    this.MisReportCPCredam.get('userDPPK')?.valueChanges.subscribe(userDPPK => {
-      if (typeof userDPPK === 'object' && userDPPK.length === 0) {
-        this.MisReportCPCredam.get('userDPPK')?.setValue(null);
+    this.MisReportCPCredam.get('userName')?.valueChanges.subscribe(userName => {
+      if (typeof userName === 'object' && userName.length === 0) {
+        this.MisReportCPCredam.get('userName')?.setValue(null);
       }
     });
   }
@@ -82,9 +81,9 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   toggleSelectAllUsernameDppk(): void {
     this.allSelectedUsernameDppk = !this.allSelectedUsernameDppk;
     if (this.allSelectedUsernameDppk) {
-      this.MisReportCPCredam.get('userDPPK')?.setValue([...this.lovUsernameDppk.map(userDPPK => userDPPK.partyId)]);
+      this.MisReportCPCredam.get('userName')?.setValue([...this.lovUsernameDppk.map(userName => userName.partyId)]);
     } else {
-      this.MisReportCPCredam.get('userDPPK')?.setValue(null);
+      this.MisReportCPCredam.get('userName')?.setValue(null);
     }
   }
   toggleSelectAll(): void {
@@ -161,17 +160,14 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     const timeLineData = proposal.timeLineCreditProposal.sort((a, b) => a.id - b.id);
     const startRow = worksheet.rowCount + 1;
-    const latestReviewCheckerDate = timeLineData.filter(item => item.statusDescription === 'Review Checker 2');
-    if (latestReviewCheckerDate.length > 0) {
-      latestReviewCheckerDate.reduce((latest, current) => {
-        const currentDate = new Date(current?.fromDate);
-        const latestDate = new Date(latest?.fromDate);
-        return currentDate > latestDate ? current : latest;
-      });
-    }
-    const latestDPPKFinalizeDate = timeLineData.filter(item => item.statusDescription === 'DPPK Finalize');
-    const reviewCheckerDate = latestReviewCheckerDate[0]?.fromDate;
-    const latestDPPKFinalizeDates = latestDPPKFinalizeDate[latestDPPKFinalizeDate.length - 1].fromDate;
+    const latestReviewCheckerDate = timeLineData
+      .filter(item => item.fromStatusDescription === 'Review Checker 2')
+      .sort((b, a) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
+    const reviewCheckerDate = latestReviewCheckerDate.length > 0 ? latestReviewCheckerDate[0].fromDate : '';
+    const latestDPPKFinalizeDate = timeLineData
+      .filter(item => item.statusDescription === 'DPPK Finalize')
+      .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
+    const latestDPPKFinalizeDates = latestDPPKFinalizeDate.length > 0 ? latestDPPKFinalizeDate[0].fromDate : '';
     function calculateDaysDifference(date1, date2) {
       if (!date1 || !date2) {
         return '';
@@ -183,20 +179,22 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     }
     // Hitung Tatdays
     const tatDayss = calculateDaysDifference(reviewCheckerDate, latestDPPKFinalizeDates);
-    const latestDPPKFinalizeTime = timeLineData.filter(item => item.statusDescription === 'DPPK Finalize');
+    const latestDPPKFinalizeTime = timeLineData
+      .filter(item => item.statusDescription === 'DPPK Finalize')
+      .sort((a, b) => {
+        const timeA = toMinutes(a.fromTime);
+        const timeB = toMinutes(b.fromTime);
+        return timeB - timeA;
+      });
     const firstEntryTime = latestDPPKFinalizeTime.length > 0 ? latestDPPKFinalizeTime[0].fromTime.slice(0, 5) : null;
-    const latestReviewCheckerTime = timeLineData
+    const latestReviewCheckersTime = timeLineData
       .filter(item => item.fromStatusDescription === 'Review Checker 2')
-      .reduce(
-        (latest, current) => {
-          const latestTimeInMinutes = toMinutes(latest.fromTime);
-          const currentTimeInMinutes = toMinutes(current.fromTime);
-          return currentTimeInMinutes > latestTimeInMinutes ? current : latest;
-        },
-        { fromTime: '' }
-      )
-      .fromTime.slice(0, 5); // Ambil hanya jam dan menit
-
+      .sort((a, b) => {
+        const timeA = toMinutes(a.fromTime);
+        const timeB = toMinutes(b.fromTime);
+        return timeB - timeA;
+      });
+    const latestReviewCheckerTime = latestReviewCheckersTime.length > 0 ? latestReviewCheckersTime[0].fromTime.slice(0, 5) : null;
     // Fungsi untuk mengonversi waktu ke menit
     function toMinutes(time) {
       if (!time) {
@@ -287,7 +285,32 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         }
       }
     }
-
+    const checkerOutData = [];
+    const approvalOutData = [];
+    const checker1Data = timeLineData
+      .filter(item => item.fromStatusDescription === 'Review Checker 1')
+      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+    const checker2Data = timeLineData
+      .filter(item => item.fromStatusDescription === 'Review Checker 2')
+      .sort((a, b) => new Date(`${a.fromDate}T${a.fromTime}`).getTime() - new Date(`${b.fromDate}T${b.fromTime}`).getTime());
+    const firstChecker1 = checker1Data.length ? checker1Data[0] : null;
+    const firstChecker2 = checker2Data.length ? checker2Data[0] : null;
+    if (firstChecker1 && firstChecker2) {
+      const checker1DateTime = new Date(`${firstChecker1.fromDate}T${firstChecker1.fromTime}`).getTime();
+      const checker2DateTime = new Date(`${firstChecker2.fromDate}T${firstChecker2.fromTime}`).getTime();
+      if (checker1DateTime < checker2DateTime) {
+        checkerOutData.push(firstChecker1);
+        approvalOutData.push(firstChecker2);
+        checkerOutData.push(...checker1Data.slice(1));
+        approvalOutData.push(...checker2Data.slice(1));
+      } else {
+        checkerOutData.push(firstChecker2);
+        approvalOutData.push(firstChecker1);
+        checkerOutData.push(...checker2Data.slice(1));
+        approvalOutData.push(...checker1Data.slice(1));
+      }
+    }
+    this.assignToDppk = proposal.dataAssignDppkFinalize;
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
@@ -317,31 +340,11 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           .join(',\n') || '',
 
       checkOutName: proposal.dataAssignToDPPKReviewOneName || '',
-      checkerOutDate:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'Review Checker 1')
-          .map(timeline => this._convertDate(timeline.fromDate))
-          .join(',\n') || '',
-      checkerOutTime:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'Review Checker 1')
-          .map(timeline => this._convertTime(timeline.fromTime))
-          .join(',\n') || '',
-
+      checkerOutDate: checkerOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
+      checkerOutTime: checkerOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
       approvalOutName: proposal.dataAssignToDPPKReviewTwoName || '',
-
-      approvalOutDate:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'Review Checker 2')
-          .map(timeline => this._convertDate(timeline.fromDate))
-          .join(',\n') || '',
-
-      approvalOutTime:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'Review Checker 2')
-          .map(timeline => this._convertTime(timeline.fromTime))
-          .join(',\n') || '',
-
+      approvalOutDate: approvalOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
+      approvalOutTime: approvalOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
       tatDays: tatDayss?.toString() || '',
       tatTime: formattedTatTime || '',
       status: proposal.status || '',
@@ -373,18 +376,38 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   }
 
   public generateMISReportCP() {
+    const startDate1 = this.MisReportCPCredam.get('date1')?.value;
+    const endDate2 = this.MisReportCPCredam.get('date2')?.value;
+    const statuss = this._convertStatusToString(this.MisReportCPCredam.get('status')?.value);
+
+    if (!startDate1 && !endDate2 && !statuss) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameters' });
+      this.misReportService.setLoading(false);
+      return;
+    }
+    if (!startDate1 || !endDate2) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Date Range' });
+      this.misReportService.setLoading(false);
+      return;
+    } else if (!statuss) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Status' });
+      this.misReportService.setLoading(false);
+      return;
+    }
     this.misReportService.setLoading(true);
     const params = {
       startDate: this.MisReportCPCredam.get('date1')?.value,
       endDate: this.MisReportCPCredam.get('date2')?.value,
-      status: this.convertStatusToString(this.MisReportCPCredam.get('status')?.value),
-      userDPPK: this.MisReportCPCredam.get('userDPPK')?.value,
+      status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
+      type: 'STATELOG',
+      userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
+      assignTo: this.assignToDppk,
     };
 
     this.misReportService.getMisReportCPCredam(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_SLA_DPPK'),
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Select Parameters' });
         this._resetData();
         this.misReportService.setLoading(false);
       },

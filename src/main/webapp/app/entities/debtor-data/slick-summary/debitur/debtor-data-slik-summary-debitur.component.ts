@@ -512,6 +512,18 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     // Process fasilitasLain
     if (response.fasilitasLain && response.fasilitasLain.length) {
+
+      response.fasilitasLain.forEach(item => {
+
+        if (item.limit !== null) {
+          const index = item.limit.indexOf(',');
+          if (index !== -1) {
+            item.limit = item.limit.substring(0, index);
+          }
+        }
+
+      });
+
       data.push(...response.fasilitasLain);
     }
 
@@ -594,9 +606,9 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
   public savePartySlik(res: IPartySlik): void {
     if (res.id) {
-      this.partySlikService.update(res).subscribe(res2 => {});
+      this.partySlikService.update(res).subscribe(res2 => { });
     } else {
-      this.partySlikService.create(res).subscribe(res2 => {});
+      this.partySlikService.create(res).subscribe(res2 => { });
     }
   }
 

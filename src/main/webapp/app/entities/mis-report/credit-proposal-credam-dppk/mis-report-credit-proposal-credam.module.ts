@@ -4,7 +4,6 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { RouterModule, Routes } from '@angular/router';
 import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
-
 const cpfRoute: Routes = [
   {
     path: '',

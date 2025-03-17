@@ -54,14 +54,14 @@ export abstract class AbstractExcelMISReport {
     this.worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
       let maxHeight = 0;
       row.eachCell({ includeEmpty: true }, cell => {
-        if (cell.value) {
+        if (cell.value && rowNumber > 1) {
           const cellValue = cell.value.toString();
           const cellLines = cellValue.split('\n');
           const lineCount = cellLines.length;
           const maxLineLength = Math.max(...cellLines.map(line => line.length));
 
           // Estimate height based on line count and length
-          const estimatedHeight = Math.max(lineCount * 7, Math.ceil(maxLineLength / 7) * 7);
+          const estimatedHeight = Math.max(lineCount * 7, Math.ceil(maxLineLength / 7) * 7) * 5;
 
           if (estimatedHeight > maxHeight) {
             maxHeight = estimatedHeight;
@@ -85,6 +85,24 @@ export abstract class AbstractExcelMISReport {
 
   protected setUpColumns(columns): void {
     this.worksheet.columns = columns;
+  }
+
+  protected countWeekdays(start, end) {
+    const startDate = new Date(start);
+    startDate.setDate(startDate.getDate() + 1); // Mulai dari hari setelah start
+    const endDate = new Date(end);
+    let count = 0;
+
+    while (startDate <= endDate) {
+      const day = startDate.getDay();
+      if (day !== 0 && day !== 6) {
+        // 0 = Minggu, 6 = Sabtu
+        count++;
+      }
+      startDate.setDate(startDate.getDate() + 1);
+    }
+
+    return count;
   }
 
   protected applyStyles(headerBackgroundColor = 'fffefd32'): void {
@@ -372,16 +390,16 @@ export abstract class AbstractExcelMISReport {
     return city || '';
   }
 
-  protected _formatDate(dateStr) {
-    if (typeof dateStr === 'undefined' || dateStr === 'null' || dateStr === null) {
+  protected _formatDate(dateStr: string): string {
+    if (!dateStr) {
       return '';
     }
 
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    const [year, month, day] = dateStr.split('-');
-
-    return `${day}-${monthNames[parseInt(month, 10) - 1]}-${year}`;
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'long' }); // "August"
+    const year = date.getFullYear().toString();
+    return `${day} ${month} ${year}`;
   }
 
   // ============= HELPER METHODS FOR SLA Reviewer ============= //
@@ -621,5 +639,41 @@ export abstract class AbstractExcelMISReport {
         }
         return a.id - b.id;
       });
+  }
+
+  protected formatDateID(dateStr: string) {
+    if (!dateStr) {
+      return {
+        getDay: () => '',
+        getMonth: () => '',
+        getYear: () => '',
+        getFullDate: () => '',
+      };
+    }
+
+    const months = [
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = months[date.getMonth()];
+    const year = date.getFullYear().toString();
+    return {
+      getDay: () => day,
+      getMonth: () => month,
+      getYear: () => year,
+      getFullDate: () => `${day} ${month} ${year}`,
+    };
   }
 }
