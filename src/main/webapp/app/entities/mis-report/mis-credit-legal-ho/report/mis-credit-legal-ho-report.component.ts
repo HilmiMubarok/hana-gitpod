@@ -618,7 +618,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     // ==== End Form Search Section ==== //
 
     private _getPicTimeline(timeLineCreditProposal) {
-        return timeLineCreditProposal.filter(timeline => timeline.fromStatusDescription === 'DPPK Finalize').map(timeline => timeline.personName).join(',\n');
+        return timeLineCreditProposal.filter(timeline => timeline.fromStatusDescription === 'DPDL Finalize').map(timeline => timeline.personName).join(',\n');
     }
 
     private _getTanggalJatuhTempo(product) {
