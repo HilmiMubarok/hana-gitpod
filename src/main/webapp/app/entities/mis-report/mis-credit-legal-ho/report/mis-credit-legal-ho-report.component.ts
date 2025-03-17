@@ -109,7 +109,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         'Additional / Top Up',
         'Renewal',
         'Restructure',
-        'Existing',
+        // 'Existing',
         'Others',
         'Renewal + Additional',
         'Renewal + Decrease',
