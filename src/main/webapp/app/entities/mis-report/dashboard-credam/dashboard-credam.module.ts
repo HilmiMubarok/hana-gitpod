@@ -15,6 +15,16 @@ const cpfRoute: Routes = [
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
   },
+  {
+    path: 'dashboard-credam',
+    component: DashboardCredamComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'dashboard-SLA',
+    component: dashboardSlaInsuranceComponent,
+    canActivate: [UserRouteAccessService],
+  },
 ];
 @NgModule({
   imports: [SharedModule, RouterModule.forChild(cpfRoute), NgChartsModule],
