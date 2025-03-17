@@ -43,9 +43,13 @@
         <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Username</mat-label>
-            <mat-select name="status" (selectionChange)="toggleSelectUsernameAll()">
-              <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of lovUsername" [value]="item.userLogin">{{ item.firstName + ' ' + item.lastName }} </mat-option>
+            <mat-select formControlName="username" multiple>
+              <li class="select-all" (click)="toggleSelectUsernameAll()">
+                {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
+              </li>
+              <mat-option *ngFor="let item of lovUsername" [value]="item.userLogin">
+                {{ item.firstName + ' ' + item.lastName }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

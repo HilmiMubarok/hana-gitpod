@@ -51,7 +51,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
   public lovUsername = [];
   public misCp: FormGroup;
   allSelected = false;
-  public allSelectedUsername = false;
+  allSelectedUsername = false;
 
   changeOption(event) {
     console.log('test', event.value);
@@ -174,7 +174,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       startDate: this.misCp.get('date1')?.value,
       endDate: this.misCp.get('date2')?.value,
       status: this._convertStatusToString(this.misCp.get('status')?.value),
-      userLogin: this.misCp.get('username')?.value ? this._convertStatusToString(this.misCp.get('username')?.value) : null,
+      userLoanOps: this._convertStatusToString(this.misCp.get('username')?.value),
       type: 'STATELOG',
     };
 
