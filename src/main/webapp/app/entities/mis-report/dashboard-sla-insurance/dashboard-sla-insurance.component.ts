@@ -20,12 +20,10 @@ export class dashboardSlaInsuranceComponent implements OnInit {
   chartData: ChartConfiguration['data'] = {
     labels: [],
     datasets: [
+      { data: [], label: 'Active', backgroundColor: 'purple' },
+      { data: [], label: 'Existing', backgroundColor: 'brown' },
       { data: [], label: 'New', backgroundColor: 'green' },
-      { data: [], label: 'Restructure', backgroundColor: 'brown' },
-      { data: [], label: 'Additional', backgroundColor: 'orange' },
-      { data: [], label: 'Other', backgroundColor: 'purple' },
-      { data: [], label: 'Renewal', backgroundColor: 'blue' },
-      { data: [], label: 'Decrease', backgroundColor: 'red' },
+      { data: [], label: 'To Be Release', backgroundColor: 'orange' },
     ],
   };
 
@@ -84,29 +82,14 @@ export class dashboardSlaInsuranceComponent implements OnInit {
       this.chartData = {
         labels: sortedMonths,
         datasets: [
-          { data: getArrayData('newFacility'), label: 'New', backgroundColor: 'green' },
-          { data: getArrayData('restructureFacility'), label: 'Restructure', backgroundColor: 'brown' },
+          { data: getArrayData('activeCollateralStatus'), label: 'Active', backgroundColor: 'purple' },
+          { data: getArrayData('existingCollateralStatus'), label: 'Existing', backgroundColor: 'brown' },
+          { data: getArrayData('newCollateralStatus'), label: 'New', backgroundColor: 'green' },
+
           {
-            data: getArrayData('additionalOthersFacility').map((val, i) => val + (getArrayData('additionalTopupFacility')[i] || 0)),
-            label: 'Additional',
+            data: getArrayData('toBeReleaseCollateralStatus'),
+            label: 'To Be Release',
             backgroundColor: 'orange',
-          },
-          { data: getArrayData('othersFacility'), label: 'Other', backgroundColor: 'purple' },
-          {
-            data: getArrayData('renewalAdditionalFacility').map(
-              (val, i) =>
-                val +
-                (getArrayData('renewalDecreaseFacility')[i] || 0) +
-                (getArrayData('renewalFacility')[i] || 0) +
-                (getArrayData('renewalOthersFacility')[i] || 0)
-            ),
-            label: 'Renewal',
-            backgroundColor: 'blue',
-          },
-          {
-            data: getArrayData('decreaseFacility').map((val, i) => val + (getArrayData('decreaseOthersFacility')[i] || 0)),
-            label: 'Decrease',
-            backgroundColor: 'red',
           },
         ],
       };
@@ -125,7 +108,7 @@ export class dashboardSlaInsuranceComponent implements OnInit {
       const dueMonthYear = dueDate.toLocaleString('en-US', { month: 'short', year: 'numeric' });
 
       if (!groupedData[dueMonthYear]) {
-        groupedData[dueMonthYear] = { new: 0, restructure: 0, additional: 0, other: 0, renewal: 0, decrease: 0 };
+        groupedData[dueMonthYear] = { active: 0, existing: 0, new: 0, toBeRelease: 0 };
       }
 
       this.incrementCategoryCount(groupedData[dueMonthYear], item);
@@ -136,23 +119,17 @@ export class dashboardSlaInsuranceComponent implements OnInit {
 
   // Fungsi untuk menambah jumlah kategori berdasarkan description
   incrementCategoryCount(target: any, item: any): void {
+    if (item.description === 'Active') {
+      target.active++;
+    }
+    if (item.description === 'Existing') {
+      target.existing++;
+    }
     if (item.description === 'New') {
       target.new++;
     }
-    if (item.description === 'Restructure') {
-      target.restructure++;
-    }
-    if (item.description === 'Additional') {
-      target.additional++;
-    }
-    if (item.description === 'Other') {
-      target.other++;
-    }
-    if (item.description === 'Renewal') {
-      target.renewal++;
-    }
-    if (item.description === 'Decrease') {
-      target.decrease++;
+    if (item.description === 'To Be Release') {
+      target.toBeRelease++;
     }
   }
 }
