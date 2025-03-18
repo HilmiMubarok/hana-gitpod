@@ -99,17 +99,18 @@ import { map, switchMap, tap } from "rxjs";
 })
 export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport implements OnInit {
 
+    public originalLovBranch;
     public menu = 'dateFromStatus';
     public lovStatus = [];
     public lovUsername = [];
     public lovRegional = [];
     public lovBranch = [];
+    public lovProposalStatus = ['DONE', 'INCOMING', 'ON PROCESS', 'PENDING', 'CANCEL'];
     public lovApplicationType = [
         'New',
         'Additional / Top Up',
         'Renewal',
         'Restructure',
-        // 'Existing',
         'Others',
         'Renewal + Additional',
         'Renewal + Decrease',
@@ -124,6 +125,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     public allSelectedRegional = false;
     public allSelectedBranch = false;
     public allSelectedSummary = false;
+    public allSelectedProposalStatus = false;
     public searchResult = null;
     public pageSize = 10;
     public currentPage = 0;
@@ -141,6 +143,12 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             proposalDate: '',
             status: '',
         },
+    ];
+
+    public inRegions: string[] = [
+        '1101', '1113', '1129', '1139', '1111', '1135', '1106', '1110', '1104', '1142',
+        '1115', '1105', '1124', '2301', '2302', '1102', '1127', '1122', '1107', '1133',
+        '1114', '1108', '1118', '1136'
     ];
 
     private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
@@ -195,16 +203,19 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 }).pipe(
                     map(response => response.body),
                     map(branches => branches
-                        .filter(branch => internals.some(internal => internal.id === branch.parentId))
+                        .filter(branch => internals.some(internal => this.inRegions.includes(String(branch.id))))
                         .map(branch => ({ id: branch.id, name: branch.facilityName, parentId: branch.parentId }))
                     ),
-                    tap(filteredBranches => this.lovBranch = filteredBranches)
+                    tap(filteredBranches => {
+                        this.originalLovBranch = filteredBranches;
+                        this.lovBranch = filteredBranches;
+                    })
                 ))
             )
             .subscribe({
-                next: () => console.log("Success"),
+                next: () => console.log("Successfully loaded data"),
                 error: err => {
-                    console.error('Error Occurred:', err);
+                    console.error('Error Occurred when loading data:', err);
                     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
                 },
             });
@@ -215,7 +226,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             return;
         }
 
-        const copyBranches = [...this.lovBranch];
+        const copyBranches = [...this.originalLovBranch];
         this.lovBranch = copyBranches.filter(branch => regionalData.some(region => region === branch.parentId));
     }
 
@@ -264,6 +275,15 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         }
     }
 
+    public toggleSelectProposalStatus(): void {
+        this.allSelectedProposalStatus = !this.allSelectedProposalStatus;
+        if (this.allSelectedProposalStatus) {
+            this.form.get('proposalStatus')?.setValue([...this.lovProposalStatus.map(prop => prop)]);
+        } else {
+            this.form.get('proposalStatus')?.setValue(null);
+        }
+    }
+
     public clearDateRange(): void {
         this.form.get('startDate')?.reset();
         this.form.get('endDate')?.reset();
@@ -290,9 +310,10 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             const username = this.form.get('username')?.value;
             const regional = this.form.get('regional')?.value;
             const branch = this.form.get('branch')?.value;
+            const proposalStatus = this.form.get('proposalStatus')?.value;
             const summary = this.form.get('summary')?.value;
 
-            if ((startDate || endDate) || (status && status.length > 0) || (regional && regional.length > 0) || (username && username.length > 0) || (branch && branch.length > 0) || (summary && summary.length > 0)) {
+            if ((startDate || endDate) || (status && status.length > 0) || (regional && regional.length > 0) || (username && username.length > 0) || (branch && branch.length > 0) || (summary && summary.length > 0) || (proposalStatus && proposalStatus.length > 0)) {
                 this.form.get('query')?.disable();
                 this.applyDisabledStyle(this.formContainer.nativeElement, true);
             } else {
@@ -315,6 +336,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             regional: new FormControl(null),
             branch: new FormControl(''),
             summary: new FormControl(''),
+            proposalStatus: new FormControl(''),
             query: new FormControl(''),
         });
     }
@@ -373,9 +395,9 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                     startDate: this.form.get('startDate')?.value,
                     endDate: this.form.get('endDate')?.value,
                     status: this._convertStatusToString(this.form.get('status')?.value),
-                    userName: this._convertStatusToString(this.form.get('username')?.value),
+                    // userName: this._convertStatusToString(this.form.get('username')?.value),
                     assignTo: "dataAssignToLegalOfficer",
-                    regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
+                    // regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
                     type: 'STATELOG',
                 };
             } else {
@@ -383,9 +405,9 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                     startDate: null,
                     endDate: null,
                     status: this._convertStatusToString(this.form.get('status')?.value),
-                    userName: this._convertStatusToString(this.form.get('username')?.value),
+                    // userName: this._convertStatusToString(this.form.get('username')?.value),
                     assignTo: "dataAssignToLegalOfficer",
-                    regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
+                    // regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
                     type: null,
                 };
             }
@@ -548,6 +570,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             this.form.get('username')?.enable();
             this.form.get('regional')?.enable();
             this.form.get('branch')?.enable();
+            this.form.get('proposalStatus')?.enable();
             this.form.get('summary')?.enable();
 
             this.applyDisabledStyle(this.formContainer.nativeElement, false);
@@ -561,6 +584,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this.form.get('username')?.disable();
         this.form.get('regional')?.disable();
         this.form.get('branch')?.disable();
+        this.form.get('proposalStatus')?.disable();
         this.form.get('summary')?.disable();
 
         this.applyDisabledStyle(this.formContainer.nativeElement, true);
@@ -674,6 +698,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 'Loan Ops Review',
                 'Complete',
             ],
+            incoming: ['OL Assigned'],
             pending: [
                 'OL Distribution',
                 'OL Finalize',
