@@ -144,13 +144,43 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             status: '',
         },
     ];
-
+    public statusMap = {
+        done: [
+            'DPPK Finalize',
+            'DPPK Review',
+            'Loan Ops Ditribution',
+            'Loan Ops Checking',
+            'Loan Ops Review',
+            'Complete',
+        ],
+        incoming: ['OL Assigned'],
+        onProcess: [
+            "OL Distribution",
+            "Legal Head Review",
+            "Legal Lead Review",
+            "Legal Team Lead Review",
+            "PK Finalize",
+            "PK Generated",
+            "Return To OL",
+            "PK Legal Lead Review",
+            "PK Team Lead Review",
+            "DPDL Finalize",
+            "DPDL Legal Head Review",
+            "DPDL Legal Lead Review",
+            "DPDL Team Lead Review"
+        ],
+        pending: [
+            'Return To RM by Legal',
+            'Return To RM by PK',
+            'Return To RM(DPDL)',
+        ],
+        cancel: ['Cancel'],
+    };
     public inRegions: string[] = [
         '1101', '1113', '1129', '1139', '1111', '1135', '1106', '1110', '1104', '1142',
         '1115', '1105', '1124', '2301', '2302', '1102', '1127', '1122', '1107', '1133',
         '1114', '1108', '1118', '1136'
     ];
-
     private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
     @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
 
@@ -222,7 +252,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     }
 
     _handleRegionalChanges(regionalData) {
-        if (regionalData === null) {
+        if (regionalData === null || regionalData === '') {
             return;
         }
 
@@ -235,7 +265,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelected) {
             this.form.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
         } else {
-            this.form.get('status')?.setValue(null);
+            this.form.get('status')?.setValue('');
         }
     }
 
@@ -244,7 +274,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedUsername) {
             this.form.get('username')?.setValue([...this.lovUsername.map(username => username.partyId)]);
         } else {
-            this.form.get('username')?.setValue(null);
+            this.form.get('username')?.setValue('');
         }
     }
 
@@ -253,7 +283,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedRegional) {
             this.form.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
         } else {
-            this.form.get('regional')?.setValue(null);
+            this.form.get('regional')?.setValue('');
         }
     }
 
@@ -262,7 +292,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedBranch) {
             this.form.get('branch')?.setValue([...this.lovBranch.map(internal => internal.id)]);
         } else {
-            this.form.get('branch')?.setValue(null);
+            this.form.get('branch')?.setValue('');
         }
     }
 
@@ -271,7 +301,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedSummary) {
             this.form.get('summary')?.setValue([...this.lovApplicationType.map(appType => appType)]);
         } else {
-            this.form.get('summary')?.setValue(null);
+            this.form.get('summary')?.setValue('');
         }
     }
 
@@ -280,7 +310,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedProposalStatus) {
             this.form.get('proposalStatus')?.setValue([...this.lovProposalStatus.map(prop => prop)]);
         } else {
-            this.form.get('proposalStatus')?.setValue(null);
+            this.form.get('proposalStatus')?.setValue('');
         }
     }
 
@@ -331,9 +361,9 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this.form = new FormGroup({
             startDate: new FormControl(''),
             endDate: new FormControl(''),
-            status: new FormControl(null),
-            username: new FormControl(null),
-            regional: new FormControl(null),
+            status: new FormControl(''),
+            username: new FormControl(''),
+            regional: new FormControl(''),
             branch: new FormControl(''),
             summary: new FormControl(''),
             proposalStatus: new FormControl(''),
@@ -354,7 +384,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
             if (Array.isArray(changes.status)) {
                 if (changes.status.length === 0) {
-                    this._updateFormControl('status', null);
+                    this._updateFormControl('status', '');
                     this.allSelected = false;
                 } else if (changes.status.length === this.lovStatus.length) {
                     this.allSelected = true;
@@ -363,7 +393,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
             if (Array.isArray(changes.username)) {
                 if (changes.username.length === 0) {
-                    this._updateFormControl('username', null);
+                    this._updateFormControl('username', '');
                     this.allSelectedUsername = false;
                 } else if (changes.username.length === this.lovUsername.length) {
                     this.allSelectedUsername = true;
@@ -395,9 +425,8 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                     startDate: this.form.get('startDate')?.value,
                     endDate: this.form.get('endDate')?.value,
                     status: this._convertStatusToString(this.form.get('status')?.value),
-                    // userName: this._convertStatusToString(this.form.get('username')?.value),
+                    userName: this._convertStatusToString(this.form.get('username')?.value),
                     assignTo: "dataAssignToLegalOfficer",
-                    // regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
                     type: 'STATELOG',
                 };
             } else {
@@ -405,9 +434,8 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                     startDate: null,
                     endDate: null,
                     status: this._convertStatusToString(this.form.get('status')?.value),
-                    // userName: this._convertStatusToString(this.form.get('username')?.value),
+                    userName: this._convertStatusToString(this.form.get('username')?.value),
                     assignTo: "dataAssignToLegalOfficer",
-                    // regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
                     type: null,
                 };
             }
@@ -473,21 +501,31 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     }
 
     protected processData(data: any[]): void {
-        const branch = this.form.get('branch')?.value;
-        const search = this.form.get('query')?.value;
-        let cp
-
-        if (branch !== '' && search === '') {
-            cp = data.filter(proposal => proposal.branchNameRM === branch);
-        } else {
-            cp = data
-        }
-
+        const cp = this._filterCPBeforeGenerate(data);
         cp.forEach((proposal, index) => {
             this._addProposalData(this.worksheet, proposal, index);
         });
     }
 
+    _filterCPBeforeGenerate(data) {
+        const segmentation = this.form.get('regional')?.value;
+        const branch = this.form.get('branch')?.value;
+        const search = this.form.get('query')?.value;
+
+        let cp = data.filter(proposal => this.inRegions.includes(proposal.businessUnitRM));
+
+        if (search === '') {
+            if (segmentation !== '') {
+                cp = cp.filter(proposal => proposal.regionalId === segmentation);
+            }
+
+            if (branch !== '') {
+                cp = cp.filter(proposal => proposal.businessUnitRM === branch);
+            }
+        }
+
+        return cp;
+    }
     get columns() {
         return [
             { header: 'No.', key: 'no' },
@@ -525,7 +563,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (summary !== '' && search === '') {
             filteredProduct = proposal.product.filter(prod => prod.pengajuan === summary)
         } else {
-            filteredProduct = proposal.product
+            filteredProduct = proposal.product.filter(prod => prod.pengajuan !== 'Existing');
         }
 
         filteredProduct.forEach(product => {
@@ -689,50 +727,26 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     }
 
     private _getStatusData(proposal: any): string {
-        const statusMap = {
-            done: [
-                'DPPK Finalize',
-                'DPPK Review',
-                'Loan Ops Ditribution',
-                'Loan Ops Checking',
-                'Loan Ops Review',
-                'Complete',
-            ],
-            incoming: ['OL Assigned'],
-            onProcess: [
-                "OL Distribution",
-                "Legal Head Review",
-                "Legal Lead Review",
-                "Legal Team Lead Review",
-                "PK Finalize",
-                "PK Generated",
-                "Return To OL",
-                "PK Legal Lead Review",
-                "PK Team Lead Review",
-                "DPDL Finalize",
-                "DPDL Legal Head Review",
-                "DPDL Legal Lead Review",
-                "DPDL Team Lead Review"
-            ],
-            pending: [
-                'Return To RM by Legal',
-                'Return To RM by PK',
-                'Return To RM(DPDL)',
-            ],
-            cancel: ['Cancel'],
-        };
 
         const status = proposal.status;
 
-        if (statusMap.done.includes(status)) {
+        if (this.statusMap.done.includes(status)) {
             return 'DONE';
         }
 
-        if (statusMap.pending.includes(status)) {
+        if (this.statusMap.incoming.includes(status)) {
+            return 'INCOMING';
+        }
+
+        if (this.statusMap.onProcess.includes(status)) {
+            return 'ON PROCESS';
+        }
+
+        if (this.statusMap.pending.includes(status)) {
             return 'PENDING';
         }
 
-        if (statusMap.cancel.includes(status)) {
+        if (this.statusMap.cancel.includes(status)) {
             return 'CANCEL';
         }
 
