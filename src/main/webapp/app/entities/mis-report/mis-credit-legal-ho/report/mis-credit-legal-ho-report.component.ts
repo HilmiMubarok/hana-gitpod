@@ -700,9 +700,14 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
     private _getStartedAndDpdl(timeLine: any, status: string, param: 'Date' | 'Month' | 'Year') {
 
-        const data = timeLine.filter(timeline => timeline.statusDescription === status)
+        const data = timeLine?.filter(timeline => timeline.statusDescription === status)
+        if (!data) {
+            return '';
+        }
+
         data.sort((a, b) => b.id - a.id)
-        const date = data[0].fromDate
+        const firstData = data[0]
+        const date = firstData?.fromDate
 
         if (param === 'Date') {
             return this.formatDateID(date).getDay();
@@ -729,6 +734,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     private _getStatusData(proposal: any): string {
 
         const status = proposal.status;
+        const timelineCP = proposal.timeLineCreditProposal;
 
         if (this.statusMap.done.includes(status)) {
             return 'DONE';
@@ -747,7 +753,26 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         }
 
         if (this.statusMap.cancel.includes(status)) {
-            return 'CANCEL';
+
+            const data = timelineCP?.find(timeline => timeline.statusDescription === 'DAR Checker' || timeline.statusDescription === 'DAR Notif')
+
+            if (!data) {
+                return '';
+            }
+
+            const createdDate = data?.fromDate;
+
+            if (createdDate === null) {
+                return '';
+            }
+
+            const threeMonthsAgo = new Date();
+            threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+            if (createdDate > threeMonthsAgo) {
+                return 'CANCEL';
+            } else {
+                return 'PENDING';
+            }
         }
 
         return '';
