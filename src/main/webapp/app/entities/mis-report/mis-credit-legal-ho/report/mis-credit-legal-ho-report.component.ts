@@ -99,17 +99,18 @@ import { map, switchMap, tap } from "rxjs";
 })
 export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport implements OnInit {
 
+    public originalLovBranch;
     public menu = 'dateFromStatus';
     public lovStatus = [];
     public lovUsername = [];
     public lovRegional = [];
     public lovBranch = [];
+    public lovProposalStatus = ['DONE', 'INCOMING', 'ON PROCESS', 'PENDING', 'CANCEL'];
     public lovApplicationType = [
         'New',
         'Additional / Top Up',
         'Renewal',
         'Restructure',
-        'Existing',
         'Others',
         'Renewal + Additional',
         'Renewal + Decrease',
@@ -124,6 +125,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     public allSelectedRegional = false;
     public allSelectedBranch = false;
     public allSelectedSummary = false;
+    public allSelectedProposalStatus = false;
     public searchResult = null;
     public pageSize = 10;
     public currentPage = 0;
@@ -142,7 +144,43 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             status: '',
         },
     ];
-
+    public statusMap = {
+        done: [
+            'DPPK Finalize',
+            'DPPK Review',
+            'Loan Ops Ditribution',
+            'Loan Ops Checking',
+            'Loan Ops Review',
+            'Complete',
+        ],
+        incoming: ['OL Assigned'],
+        onProcess: [
+            "OL Distribution",
+            "Legal Head Review",
+            "Legal Lead Review",
+            "Legal Team Lead Review",
+            "PK Finalize",
+            "PK Generated",
+            "Return To OL",
+            "PK Legal Lead Review",
+            "PK Team Lead Review",
+            "DPDL Finalize",
+            "DPDL Legal Head Review",
+            "DPDL Legal Lead Review",
+            "DPDL Team Lead Review"
+        ],
+        pending: [
+            'Return To RM by Legal',
+            'Return To RM by PK',
+            'Return To RM(DPDL)',
+        ],
+        cancel: ['Cancel'],
+    };
+    public inRegions: string[] = [
+        '1101', '1113', '1129', '1139', '1111', '1135', '1106', '1110', '1104', '1142',
+        '1115', '1105', '1124', '2301', '2302', '1102', '1127', '1122', '1107', '1133',
+        '1114', '1108', '1118', '1136'
+    ];
     private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
     @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
 
@@ -195,27 +233,30 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                 }).pipe(
                     map(response => response.body),
                     map(branches => branches
-                        .filter(branch => internals.some(internal => internal.id === branch.parentId))
+                        .filter(branch => internals.some(internal => this.inRegions.includes(String(branch.id))))
                         .map(branch => ({ id: branch.id, name: branch.facilityName, parentId: branch.parentId }))
                     ),
-                    tap(filteredBranches => this.lovBranch = filteredBranches)
+                    tap(filteredBranches => {
+                        this.originalLovBranch = filteredBranches;
+                        this.lovBranch = filteredBranches;
+                    })
                 ))
             )
             .subscribe({
-                next: () => console.log("Success"),
+                next: () => console.log("Successfully loaded data"),
                 error: err => {
-                    console.error('Error Occurred:', err);
+                    console.error('Error Occurred when loading data:', err);
                     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
                 },
             });
     }
 
     _handleRegionalChanges(regionalData) {
-        if (regionalData === null) {
+        if (regionalData === null || regionalData === '') {
             return;
         }
 
-        const copyBranches = [...this.lovBranch];
+        const copyBranches = [...this.originalLovBranch];
         this.lovBranch = copyBranches.filter(branch => regionalData.some(region => region === branch.parentId));
     }
 
@@ -224,7 +265,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelected) {
             this.form.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
         } else {
-            this.form.get('status')?.setValue(null);
+            this.form.get('status')?.setValue('');
         }
     }
 
@@ -233,7 +274,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedUsername) {
             this.form.get('username')?.setValue([...this.lovUsername.map(username => username.partyId)]);
         } else {
-            this.form.get('username')?.setValue(null);
+            this.form.get('username')?.setValue('');
         }
     }
 
@@ -242,7 +283,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedRegional) {
             this.form.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
         } else {
-            this.form.get('regional')?.setValue(null);
+            this.form.get('regional')?.setValue('');
         }
     }
 
@@ -251,7 +292,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedBranch) {
             this.form.get('branch')?.setValue([...this.lovBranch.map(internal => internal.id)]);
         } else {
-            this.form.get('branch')?.setValue(null);
+            this.form.get('branch')?.setValue('');
         }
     }
 
@@ -260,7 +301,16 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (this.allSelectedSummary) {
             this.form.get('summary')?.setValue([...this.lovApplicationType.map(appType => appType)]);
         } else {
-            this.form.get('summary')?.setValue(null);
+            this.form.get('summary')?.setValue('');
+        }
+    }
+
+    public toggleSelectProposalStatus(): void {
+        this.allSelectedProposalStatus = !this.allSelectedProposalStatus;
+        if (this.allSelectedProposalStatus) {
+            this.form.get('proposalStatus')?.setValue([...this.lovProposalStatus.map(prop => prop)]);
+        } else {
+            this.form.get('proposalStatus')?.setValue('');
         }
     }
 
@@ -290,9 +340,10 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             const username = this.form.get('username')?.value;
             const regional = this.form.get('regional')?.value;
             const branch = this.form.get('branch')?.value;
+            const proposalStatus = this.form.get('proposalStatus')?.value;
             const summary = this.form.get('summary')?.value;
 
-            if ((startDate || endDate) || (status && status.length > 0) || (regional && regional.length > 0) || (username && username.length > 0) || (branch && branch.length > 0) || (summary && summary.length > 0)) {
+            if ((startDate || endDate) || (status && status.length > 0) || (regional && regional.length > 0) || (username && username.length > 0) || (branch && branch.length > 0) || (summary && summary.length > 0) || (proposalStatus && proposalStatus.length > 0)) {
                 this.form.get('query')?.disable();
                 this.applyDisabledStyle(this.formContainer.nativeElement, true);
             } else {
@@ -310,11 +361,12 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this.form = new FormGroup({
             startDate: new FormControl(''),
             endDate: new FormControl(''),
-            status: new FormControl(null),
-            username: new FormControl(null),
-            regional: new FormControl(null),
+            status: new FormControl(''),
+            username: new FormControl(''),
+            regional: new FormControl(''),
             branch: new FormControl(''),
             summary: new FormControl(''),
+            proposalStatus: new FormControl(''),
             query: new FormControl(''),
         });
     }
@@ -332,7 +384,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
             if (Array.isArray(changes.status)) {
                 if (changes.status.length === 0) {
-                    this._updateFormControl('status', null);
+                    this._updateFormControl('status', '');
                     this.allSelected = false;
                 } else if (changes.status.length === this.lovStatus.length) {
                     this.allSelected = true;
@@ -341,7 +393,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
             if (Array.isArray(changes.username)) {
                 if (changes.username.length === 0) {
-                    this._updateFormControl('username', null);
+                    this._updateFormControl('username', '');
                     this.allSelectedUsername = false;
                 } else if (changes.username.length === this.lovUsername.length) {
                     this.allSelectedUsername = true;
@@ -375,7 +427,6 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                     status: this._convertStatusToString(this.form.get('status')?.value),
                     userName: this._convertStatusToString(this.form.get('username')?.value),
                     assignTo: "dataAssignToLegalOfficer",
-                    regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
                     type: 'STATELOG',
                 };
             } else {
@@ -385,7 +436,6 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
                     status: this._convertStatusToString(this.form.get('status')?.value),
                     userName: this._convertStatusToString(this.form.get('username')?.value),
                     assignTo: "dataAssignToLegalOfficer",
-                    regionalRM: this._convertStatusToString(this.form.get('regional')?.value),
                     type: null,
                 };
             }
@@ -451,21 +501,31 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     }
 
     protected processData(data: any[]): void {
-        const branch = this.form.get('branch')?.value;
-        const search = this.form.get('query')?.value;
-        let cp
-
-        if (branch !== '' && search === '') {
-            cp = data.filter(proposal => proposal.branchNameRM === branch);
-        } else {
-            cp = data
-        }
-
+        const cp = this._filterCPBeforeGenerate(data);
         cp.forEach((proposal, index) => {
             this._addProposalData(this.worksheet, proposal, index);
         });
     }
 
+    _filterCPBeforeGenerate(data) {
+        const segmentation = this.form.get('regional')?.value;
+        const branch = this.form.get('branch')?.value;
+        const search = this.form.get('query')?.value;
+
+        let cp = data.filter(proposal => this.inRegions.includes(proposal.businessUnitRM));
+
+        if (search === '') {
+            if (segmentation !== '') {
+                cp = cp.filter(proposal => proposal.regionalId === segmentation);
+            }
+
+            if (branch !== '') {
+                cp = cp.filter(proposal => proposal.businessUnitRM === branch);
+            }
+        }
+
+        return cp;
+    }
     get columns() {
         return [
             { header: 'No.', key: 'no' },
@@ -503,7 +563,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         if (summary !== '' && search === '') {
             filteredProduct = proposal.product.filter(prod => prod.pengajuan === summary)
         } else {
-            filteredProduct = proposal.product
+            filteredProduct = proposal.product.filter(prod => prod.pengajuan !== 'Existing');
         }
 
         filteredProduct.forEach(product => {
@@ -548,6 +608,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
             this.form.get('username')?.enable();
             this.form.get('regional')?.enable();
             this.form.get('branch')?.enable();
+            this.form.get('proposalStatus')?.enable();
             this.form.get('summary')?.enable();
 
             this.applyDisabledStyle(this.formContainer.nativeElement, false);
@@ -561,6 +622,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this.form.get('username')?.disable();
         this.form.get('regional')?.disable();
         this.form.get('branch')?.disable();
+        this.form.get('proposalStatus')?.disable();
         this.form.get('summary')?.disable();
 
         this.applyDisabledStyle(this.formContainer.nativeElement, true);
@@ -618,7 +680,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     // ==== End Form Search Section ==== //
 
     private _getPicTimeline(timeLineCreditProposal) {
-        return timeLineCreditProposal.filter(timeline => timeline.fromStatusDescription === 'DPPK Finalize').map(timeline => timeline.personName).join(',\n');
+        return timeLineCreditProposal.filter(timeline => timeline.fromStatusDescription === 'DPDL Finalize').map(timeline => timeline.personName).join(',\n');
     }
 
     private _getTanggalJatuhTempo(product) {
@@ -638,9 +700,14 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
     private _getStartedAndDpdl(timeLine: any, status: string, param: 'Date' | 'Month' | 'Year') {
 
-        const data = timeLine.filter(timeline => timeline.statusDescription === status)
+        const data = timeLine?.filter(timeline => timeline.statusDescription === status)
+        if (!data) {
+            return '';
+        }
+
         data.sort((a, b) => b.id - a.id)
-        const date = data[0].fromDate
+        const firstData = data[0]
+        const date = firstData?.fromDate
 
         if (param === 'Date') {
             return this.formatDateID(date).getDay();
@@ -665,47 +732,47 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     }
 
     private _getStatusData(proposal: any): string {
-        const statusMap = {
-            done: [
-                'DPPK Finalize',
-                'DPPK Review',
-                'Loan Ops Ditribution',
-                'Loan Ops Checking',
-                'Loan Ops Review',
-                'Complete',
-            ],
-            pending: [
-                'OL Distribution',
-                'OL Finalize',
-                'OL Assigned',
-                'Legal Head Review',
-                'Legal Lead Review',
-                'Legal Team Lead Review',
-                'PK Finalize',
-                'PK Generated',
-                'Return To OL',
-                'PK Legal Lead Review',
-                'PK Team Lead Review',
-                'DPDL Finalize',
-                'DPDL Legal Head Review',
-                'DPDL Legal Lead Review',
-                'DPDL Team Lead Review',
-            ],
-            cancel: ['Cancel'],
-        };
 
         const status = proposal.status;
+        const timelineCP = proposal.timeLineCreditProposal;
 
-        if (statusMap.done.includes(status)) {
+        if (this.statusMap.done.includes(status)) {
             return 'DONE';
         }
 
-        if (statusMap.pending.includes(status)) {
+        if (this.statusMap.incoming.includes(status)) {
+            return 'INCOMING';
+        }
+
+        if (this.statusMap.onProcess.includes(status)) {
+            return 'ON PROCESS';
+        }
+
+        if (this.statusMap.pending.includes(status)) {
             return 'PENDING';
         }
 
-        if (statusMap.cancel.includes(status)) {
-            return 'CANCEL';
+        if (this.statusMap.cancel.includes(status)) {
+
+            const data = timelineCP?.find(timeline => timeline.statusDescription === 'DAR Checker' || timeline.statusDescription === 'DAR Notif')
+
+            if (!data) {
+                return '';
+            }
+
+            const createdDate = data?.fromDate;
+
+            if (createdDate === null) {
+                return '';
+            }
+
+            const threeMonthsAgo = new Date();
+            threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+            if (createdDate > threeMonthsAgo) {
+                return 'CANCEL';
+            } else {
+                return 'PENDING';
+            }
         }
 
         return '';
