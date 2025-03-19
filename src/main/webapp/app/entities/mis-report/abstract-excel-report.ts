@@ -87,6 +87,24 @@ export abstract class AbstractExcelMISReport {
     this.worksheet.columns = columns;
   }
 
+  protected countWeekdays(start, end) {
+    const startDate = new Date(start);
+    startDate.setDate(startDate.getDate() + 1); // Mulai dari hari setelah start
+    const endDate = new Date(end);
+    let count = 0;
+
+    while (startDate <= endDate) {
+      const day = startDate.getDay();
+      if (day !== 0 && day !== 6) {
+        // 0 = Minggu, 6 = Sabtu
+        count++;
+      }
+      startDate.setDate(startDate.getDate() + 1);
+    }
+
+    return count;
+  }
+
   protected applyStyles(headerBackgroundColor = 'fffefd32'): void {
     this.worksheet.columns.forEach((column, index) => {
       this.worksheet.getCell(1, index + 1).fill = {
@@ -655,8 +673,7 @@ export abstract class AbstractExcelMISReport {
       getDay: () => day,
       getMonth: () => month,
       getYear: () => year,
-      getFullDate: () => `${day} ${month} ${year}`
-    }
+      getFullDate: () => `${day} ${month} ${year}`,
+    };
   }
-
 }

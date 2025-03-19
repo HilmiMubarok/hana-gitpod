@@ -15,11 +15,17 @@ import { IProgress } from './charts/line-chart/line-chart.model';
 export class DashboardService extends AbstractEntityService<IChartData> {
   public resourceUrlNewNew: any;
   public resourceUrlInteral: any;
+  public resourceUrls: any;
+  public resourceUrlInsurance: any;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrlNewNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards');
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposals');
+    this.resourceUrls = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal');
     this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/collateral-appraisals');
+    this.resourceUrlInsurance = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/insurance'
+    );
     this.resourceUrlInteral = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internals');
   }
 
@@ -82,5 +88,12 @@ export class DashboardService extends AbstractEntityService<IChartData> {
 
   public getInterval(): Observable<HttpResponse<IInterval[]>> {
     return this.http.get<any[]>(`${this.resourceUrlNewNew}/intervals`, { observe: 'response' });
+  }
+  public getCpCredam(date: string): Observable<HttpResponse<any[]>> {
+    return this.http.get<any[]>(`${this.resourceUrls}/credit-admin?date=${date}`, { observe: 'response' });
+  }
+
+  public getInsurance(date: string): Observable<HttpResponse<any[]>> {
+    return this.http.get<any[]>(`${this.resourceUrlInsurance}?date=${date}`, { observe: 'response' });
   }
 }

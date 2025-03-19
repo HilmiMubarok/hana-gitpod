@@ -20,11 +20,10 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   allSelectedUsernameDppk = false;
   lovUsernameDppk = [];
   MisReportCPCredam: FormGroup;
-
   changeOption(event) {
     console.log('data', event.value);
   }
-
+  assignToDppk: any;
   constructor(public misReportService: MisReportService, public messageService: MessageService) {
     super(misReportService);
 
@@ -32,7 +31,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       date1: new FormControl(''),
       date2: new FormControl(''),
       status: new FormControl(''),
-      userDPPK: new FormControl(''),
+      userName: new FormControl(''),
     });
 
     this.MisReportCPCredam.get('date1')?.valueChanges.subscribe(date => {
@@ -47,9 +46,9 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         this.MisReportCPCredam.get('date2').setValue(formattedDate, { emitEvent: false });
       }
     });
-    this.MisReportCPCredam.get('userDPPK')?.valueChanges.subscribe(userDPPK => {
-      if (typeof userDPPK === 'object' && userDPPK.length === 0) {
-        this.MisReportCPCredam.get('userDPPK')?.setValue(null);
+    this.MisReportCPCredam.get('userName')?.valueChanges.subscribe(userName => {
+      if (typeof userName === 'object' && userName.length === 0) {
+        this.MisReportCPCredam.get('userName')?.setValue(null);
       }
     });
   }
@@ -82,9 +81,9 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   toggleSelectAllUsernameDppk(): void {
     this.allSelectedUsernameDppk = !this.allSelectedUsernameDppk;
     if (this.allSelectedUsernameDppk) {
-      this.MisReportCPCredam.get('userDPPK')?.setValue([...this.lovUsernameDppk.map(userDPPK => userDPPK.partyId)]);
+      this.MisReportCPCredam.get('userName')?.setValue([...this.lovUsernameDppk.map(userName => userName.partyId)]);
     } else {
-      this.MisReportCPCredam.get('userDPPK')?.setValue(null);
+      this.MisReportCPCredam.get('userName')?.setValue(null);
     }
   }
   toggleSelectAll(): void {
@@ -195,7 +194,6 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         const timeB = toMinutes(b.fromTime);
         return timeB - timeA;
       });
-
     const latestReviewCheckerTime = latestReviewCheckersTime.length > 0 ? latestReviewCheckersTime[0].fromTime.slice(0, 5) : null;
     // Fungsi untuk mengonversi waktu ke menit
     function toMinutes(time) {
@@ -312,6 +310,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         approvalOutData.push(...checker1Data.slice(1));
       }
     }
+    this.assignToDppk = proposal.dataAssignDppkFinalize;
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
@@ -401,7 +400,8 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       endDate: this.MisReportCPCredam.get('date2')?.value,
       status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
       type: 'STATELOG',
-      userDPPK: this._convertStatusToString(this.MisReportCPCredam.get('userDPPK')?.value),
+      userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
+      assignTo: this.assignToDppk,
     };
 
     this.misReportService.getMisReportCPCredam(params).subscribe({

@@ -43,7 +43,7 @@
         <div class="col">
           <mat-form-field class="w-100" appearance="outline" [ngClass]="{ 'mat-form-field-disabled': isDisabled }">
             <mat-label>Regional</mat-label>
-            <mat-select formControlName="regional" multiple>
+            <mat-select formControlName="regionalRM" multiple>
               <li class="select-all" (click)="toggleSelectAllRegion()">
                 {{ allSelectedRegion ? 'Deselect All' : 'Select All' }}
               </li>

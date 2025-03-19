@@ -5,6 +5,7 @@ import { LoginService } from 'app/login/login.service';
 import { Router } from '@angular/router';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { MessageService } from 'primeng/api';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-credit-proposal-new-dialog',
@@ -64,6 +65,28 @@ export class CreditProposalNewDialogComponent {
 
     return result;
   }
+
+  public updateFromHobis(): void {
+
+    const cifNumber = this.partyCif.customerNumber;
+    if (cifNumber !== undefined) {
+      this.partyCifService.syncUpdateHobis(cifNumber).subscribe({
+        next: res => {
+          if (res.body) {
+            this.fetchDataBeforeCreateFromHobies();
+          }
+        },
+        error: (res: HttpErrorResponse) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: res.error.title,
+          });
+        },
+      });
+    }
+  }
+
 
   private fetchDataBeforeCreateFromHobies(): void {
     const promise = new Promise<void>((resolve, reject) => {
