@@ -14,7 +14,7 @@ export interface IMainFacility {
   endPeriodDate?: Date;
   kurs?: number;
   lastAgreementDate?: Date;
-  startPeriodDate?: Date;
+  startPeriodDate?: string | Date;
   categoryListDTO?: ICategoryList[];
   endPeriodRemark?: string;
 }
@@ -36,7 +36,7 @@ export class MainFacility implements IMainFacility {
     public endPeriodDate?: Date,
     public kurs?: number,
     public lastAgreementDate?: Date,
-    public startPeriodDate?: Date,
+    public startPeriodDate?: string | Date,
     public categoryListDTO?: ICategoryList[],
     public endPeriodRemark?: string
   ) {
