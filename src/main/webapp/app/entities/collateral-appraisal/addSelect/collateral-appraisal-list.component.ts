@@ -187,7 +187,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
             severity: 'warn',
             summary: 'Warning',
             detail:
-              'Maaf, data CIF ini tercatat sebagai debitur cabang lain di HOBIS. Silakan melakukan update cabang debitur di HOBIS apabila debitur ini adalah debitur Anda.',
+              'Saat ini CIF tidak ada pada system CASH. Silahkan find CIF Pada menu Initiation Debtor Data terlebih dahulu.',
           });
           this.initDataForMatTable(res, res.headers);
         }
