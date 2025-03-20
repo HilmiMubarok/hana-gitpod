@@ -455,7 +455,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     }
 
     this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_CL_Task_HO'),
+      next: res => this._processGenerate(res.body, 'MIS_LEGAL_CL_OR'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
@@ -489,7 +489,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   private _applyStyles(): void {
-    super.applyStyles();
+    super.applyStyles('D3E9FF');
     this.columns.forEach(column => {
       const col = this.worksheet.getColumn(column.key);
       col.alignment = {
@@ -582,7 +582,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         debtorName: proposal.debtorName,
         branch: proposal.branchNameRM,
         rm: proposal.rmFirstName + ' ' + proposal.rmLastName,
-        pic: proposal.dataAssignToLegalOfficerName,
+        pic: this._getPic(proposal.timeLineCreditProposal),
         picTimeline: this._getPicTimeline(proposal.timeLineCreditProposal),
         summary: product.pengajuan,
         tanggalJatuhTempo: this._getTanggalJatuhTempo(product),
@@ -696,8 +696,15 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       .join(',\n');
   }
 
+  private _getPic(timeLineCreditProposal) {
+    return timeLineCreditProposal
+      .filter(timeline => timeline.fromStatusDescription === 'OL Assigned')
+      .map(timeline => timeline.personName)
+      .join(',\n');
+  }
+
   private _getTanggalJatuhTempo(product) {
-    const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional Renewal'];
+    const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional', 'Renewal'];
 
     if (allowedTypes.includes(product.pengajuan)) {
       return this.formatDateID(product.mainProduct[0].maturityDate).getFullDate();
