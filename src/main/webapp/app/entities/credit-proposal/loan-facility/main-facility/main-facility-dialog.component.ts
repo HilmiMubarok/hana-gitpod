@@ -112,6 +112,9 @@ export class MainFacilityDialogComponent implements OnInit {
     if (this.mainFacility.startPeriodDate) {
       this.mainFacility.startPeriodDate = this.setDate(this.mainFacility.startPeriodDate);
     }
+    if (this.mainFacility.endPeriodDate) {
+      this.mainFacility.endPeriodDate = this.setDate(this.mainFacility.endPeriodDate);
+    }
     this._dialog.close(this.mainFacility);
   }
   // public cancel(): void {

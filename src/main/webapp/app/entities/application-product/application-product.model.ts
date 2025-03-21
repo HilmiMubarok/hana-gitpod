@@ -315,7 +315,7 @@ export class ApplicationProduct implements IApplicationProduct {
     this.discountProposal = '';
     this.periodType = '';
     this.provisionFeeAmount = 0;
-
+    this.maturityDate = '';
     // Offering letter Field
     this.latePaymentFee = '';
     this.paymentObligation = '';
@@ -340,7 +340,7 @@ export interface IApplicationProductAttribute {
   installmentMethod?: string;
   maturity?: number;
   maturityPeriodType?: string;
-  maturityDate?: Date;
+  maturityDate?: string;
   subLimit?: boolean;
   sublimitFromExistingFacility?: string;
   commitedLine?: boolean;
@@ -398,7 +398,7 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     public installmentMethod?: string,
     public maturity?: number,
     public maturityPeriodType?: string,
-    public maturityDate?: Date,
+    public maturityDate?: string,
     public subLimit?: boolean,
     public sublimitFromExistingFacility?: string,
     public commitedLine?: boolean,
@@ -491,7 +491,7 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     this.loanType = '';
     this.disbursementCondition = '';
     this.discountProposal = '';
-
+    this.maturityDate = '';
     // Offering letter Field
     this.latePaymentFee = '';
     this.paymentObligation = '';
