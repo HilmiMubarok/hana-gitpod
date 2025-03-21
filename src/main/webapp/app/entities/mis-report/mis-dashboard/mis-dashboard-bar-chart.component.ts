@@ -41,14 +41,21 @@ interface ChartOptions {
 export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log({ changes });
+    if (changes['data']) {
+      this.data = changes['data'].currentValue;
+
+      this.prepareChartData();
+      this.initializeChart();
+    }
   }
 
   @Input() data: DashboardData[] = [];
+  @Input() legendPosition;
   @Input() date: Date;
   @Input() options?: ChartOptions;
   @Input() title? = '';
   @ViewChild('creditChart') creditChart!: ElementRef;
+  chartData: { labels: string[]; datasets: ChartDataset[] }
 
   chart: Chart | undefined;
 
@@ -95,7 +102,17 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
       return;
     }
 
-    const labels = this.data.map((item, index) => `${new Date(item.showcase[index].fromDate).toLocaleDateString()} - ${new Date(item.showcase[index].thruDate).toLocaleDateString()}`);
+    const labels: string[] = this.data.map((item) => {
+      // Sort item.showcase ascending by fromDate
+      const sortedShowcase = [...item.showcase].sort((a, b) =>
+        new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime()
+      );
+
+      // Format each date to "Month Year" and return as an array
+      return sortedShowcase.map(showcaseItem =>
+        new Date(showcaseItem.fromDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
+      );
+    })[0]
 
     // Get all properties from the first data item except excluded ones
     const properties = Object.keys(this.data[0]).filter(key => !this.excludedProperties.includes(key));
@@ -118,12 +135,25 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   private formatPropertyName(property: string): string {
     // Convert camelCase to Title Case with spaces
     const words = property.split(/(?=[A-Z])/); // Split on capital letters
-    const formattedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+
+    // Remove 'Facility' from the array
+    const filteredWords = words.filter(word => word !== 'Facility');
+
+    // Capitalize the first letter of each word
+    const formattedWords = filteredWords.map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    );
+
     return formattedWords.join(' ');
   }
 
   private initializeChart() {
     const ctx = this.creditChart.nativeElement.getContext('2d');
+
+    // Check if chart already exists
+    if (this.chart) {
+      this.chart.destroy();
+    }
 
     this.chart = new Chart(ctx, {
       type: 'bar',
@@ -140,7 +170,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
             },
           },
           legend: {
-            position: 'bottom',
+            position: this.legendPosition,
             labels: {
               usePointStyle: true,
               padding: 20,
@@ -153,9 +183,6 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
         scales: {
           x: {
             stacked: false,
-            grid: {
-              display: false,
-            },
             ticks: {
               font: {
                 size: 11,
@@ -187,81 +214,4 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     });
   }
 
-  chartData: { labels: string[]; datasets: ChartDataset[] } = {
-    labels: [],
-    datasets: [
-      {
-        label: 'New',
-        data: [20, 35, 35],
-        backgroundColor: '#96c6f4',
-        borderRadius: {
-          topLeft: 9,
-          topRight: 9,
-          bottomLeft: 0,
-          bottomRight: 0,
-        },
-        borderSkipped: false,
-      },
-      {
-        label: 'Restructure',
-        data: [55, 55, 55],
-        backgroundColor: '#fba1b7',
-        borderRadius: {
-          topLeft: 9,
-          topRight: 9,
-          bottomLeft: 0,
-          bottomRight: 0,
-        },
-        borderSkipped: false,
-      },
-      {
-        label: 'Additional',
-        data: [35, 35, 35],
-        backgroundColor: '#fdc390',
-        borderRadius: {
-          topLeft: 9,
-          topRight: 9,
-          bottomLeft: 0,
-          bottomRight: 0,
-        },
-        borderSkipped: false,
-      },
-      {
-        label: 'Other',
-        data: [80, 65, 55],
-        backgroundColor: '#fee09e',
-        borderRadius: {
-          topLeft: 9,
-          topRight: 9,
-          bottomLeft: 0,
-          bottomRight: 0,
-        },
-        borderSkipped: false,
-      },
-      {
-        label: 'Renewal',
-        data: [35, 35, 35],
-        backgroundColor: '#a1dad9',
-        borderRadius: {
-          topLeft: 9,
-          topRight: 9,
-          bottomLeft: 0,
-          bottomRight: 0,
-        },
-        borderSkipped: false,
-      },
-      {
-        label: 'Decrease',
-        data: [70, 80, 70],
-        backgroundColor: '#bea2ff',
-        borderRadius: {
-          topLeft: 9,
-          topRight: 9,
-          bottomLeft: 0,
-          bottomRight: 0,
-        },
-        borderSkipped: false,
-      },
-    ],
-  };
 }
