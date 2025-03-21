@@ -1,68 +1,29 @@
-<form [formGroup]="misLoanOpsForm" (ngSubmit)="generateMISLoanOps()">
-    <mat-card>
-        <div class="e-card-header-caption">
-            <ejs-breadcrumb cssClass="margin: 1rem;">
-                <e-breadcrumb-items>
-                    <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-                    <e-breadcrumb-item text="SLA Loan Operations" url=""> </e-breadcrumb-item>
-                </e-breadcrumb-items>
-            </ejs-breadcrumb>
-        </div>
-
-        <mat-card-content>
-            <div class="row my-3">
-                <div class="col-12 col-md-6">
-                    <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
-                        <mat-label>Enter a date range</mat-label>
-                        <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate formControlName="startDate" placeholder="Start date" />
-                            <input matEndDate formControlName="endDate" placeholder="End date" />
-                        </mat-date-range-input>
-                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-                        <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
-                            <mat-icon matDatepickerToggleIcon>clear</mat-icon>
-                        </mat-datepicker-toggle>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
-                        <mat-label>Status</mat-label>
-                        <mat-select formControlName="status" multiple>
-                            <li class="select-all" (click)="toggleSelectAll()">
-                                {{ allSelected ? 'Deselect All' : 'Select All' }}
-                            </li>
-                            <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription
-                                }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <mat-form-field class="w-100" appearance="outline">
-                        <mat-label>Username</mat-label>
-                        <mat-select formControlName="username" multiple>
-                            <li class="select-all" (click)="toggleSelectAllUsername()">
-                                {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
-                            </li>
-                            <mat-option *ngFor="let item of lovUsername" [value]="item.partyId">
-                                {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-
-    <div class="mt-3 text-center">
-        <button mat-raised-button id="generate-btn" class="confirm-button-no" type="submit"
-            [disabled]="misReportService.loadingGenerateDocument$ | async"
-            [class.loading]="misReportService.loadingGenerateDocument$ | async">
-            {{ misReportService.generateDocumentLabel$ | async }}
+<div class="department-header">
+    <div class="department-name h4">CREDIT ADMIN DEPARTMENT</div>
+    <div class="nav-buttons">
+        <button mat-stroked-button class="nav-button" [class.active]="page === 'dashboard'"
+            (click)="setPage('dashboard')">
+            Dashboard
+        </button>
+        <button mat-stroked-button class="nav-button" [class.active]="page === 'report'" (click)="setPage('report')">
+            Report
         </button>
     </div>
-</form>
+</div>
+
+<div class="chart-navigation" *ngIf="page === 'dashboard'">
+    <button class="chart-navigation-button" [class.active]="dashboardPage === 'credit-admin'"
+        (click)="setDashboardPage('credit-admin')">
+        CREDIT ADMIN
+    </button>
+    <button class="chart-navigation-button" [class.active]="dashboardPage === 'credit-insurance'"
+        (click)="setDashboardPage('credit-insurance')">
+        CREDIT INSURANCE
+    </button>
+</div>
+
+<jhi-mis-loan-ops-report *ngIf="page === 'report'"></jhi-mis-loan-ops-report>
+<jhi-mis-loan-ops-dashboard-credit-admin
+    *ngIf="page === 'dashboard' && dashboardPage === 'credit-admin'"></jhi-mis-loan-ops-dashboard-credit-admin>
+<jhi-mis-loan-ops-dashboard-credit-insurance
+    *ngIf="page === 'dashboard' && dashboardPage === 'credit-insurance'"></jhi-mis-loan-ops-dashboard-credit-insurance>

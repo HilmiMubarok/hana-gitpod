@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, shareReplay } from 'rxjs';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { createRequestOption } from 'app/core/request/request-util';
 
@@ -53,15 +53,27 @@ export class MisReportService {
     });
   }
 
+  private readonly cache: Map<string, Observable<string[]>> =
+    new Map<string, Observable<string[]>>();
+
   public getStatuses(appMenuId: string) {
     const params = new HttpParams().set('appMenuId', appMenuId).set('page', 0).set('sort', 'id,asc');
-
-    return this.http
-      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
+    const key = `statuses-${appMenuId}`;
+    if (!this.cache[key]) {
+      this.cache[key] = this.http.get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
         params,
         observe: 'response',
-      })
-      .pipe(map(res => res.body));
+      }).pipe(
+        map(res => res.body),
+        shareReplay(1)
+      )
+      setTimeout(() => {
+        delete this.cache[key];
+      }, 6000);
+    }
+
+    return this.cache[key];
+
   }
 
   public getLovUsername(positionTypeId) {
