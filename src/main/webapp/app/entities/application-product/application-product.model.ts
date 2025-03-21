@@ -315,7 +315,7 @@ export class ApplicationProduct implements IApplicationProduct {
     this.discountProposal = '';
     this.periodType = '';
     this.provisionFeeAmount = 0;
-
+    this.maturityDate = '';
     // Offering letter Field
     this.latePaymentFee = '';
     this.paymentObligation = '';
