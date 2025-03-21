@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DashboardData, dashboardDummyData } from 'app/entities/mis-report/mis-dashboard/dummy-data';
+import { DashboardData } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.model';
 import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.service';
 
 @Component({
@@ -76,7 +76,6 @@ import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-d
   ],
 })
 export class MisLoanOpsDashboardCreditAdminComponent implements OnInit {
-  chartDummyData = dashboardDummyData;
 
   dateForm: FormGroup;
   dateForm2: FormGroup;
