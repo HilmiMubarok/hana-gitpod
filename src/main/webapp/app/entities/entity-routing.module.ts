@@ -725,6 +725,11 @@ import { RouterModule } from '@angular/router';
         path: 'mis-cp-dashboard-credam',
         loadChildren: () => import('./mis-report/dashboard-credam/dashboard-credam.module').then(m => m.DashboardCredamModule),
       },
+      {
+        path: 'mis-legaladmla-report',
+        loadChildren: () =>
+          import('./mis-report/mis-laporan-admin-legal/mis-laporan-admin-legal.module').then(m => m.MisReportCreditProposalCredamModule),
+      },
     ]),
   ],
 })

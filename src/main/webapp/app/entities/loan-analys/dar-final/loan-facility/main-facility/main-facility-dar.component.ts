@@ -80,6 +80,9 @@ export class MainFacilityDarComponent implements OnInit, OnChanges {
       if (data.startPeriodDate) {
         data.startPeriodDate = this.setDate(data.startPeriodDate);
       }
+      if (data.endPeriodDate) {
+        data.endPeriodDate = this.setDate(data.endPeriodDate);
+      }
     });
   }
   private setDate(data: any) {
