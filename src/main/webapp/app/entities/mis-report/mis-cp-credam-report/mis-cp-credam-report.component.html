@@ -1,0 +1,18 @@
+<div class="department-header">
+  <div class="department-name h4">CREDIT ADMIN DEPARTMENT</div>
+  <div class="nav-buttons">
+    <button mat-stroked-button class="nav-button" routerLink="/mis-cp-dashboard-credam/dashboard" routerLinkActive="active">
+      Dashboard
+    </button>
+    <button mat-stroked-button class="nav-button" routerLink="/mis-cp-dashboard-credam/report" routerLinkActive="active">Report</button>
+  </div>
+</div>
+
+<div class="chart-navigation" *ngIf="page === 'dashboard'">
+  <button class="chart-navigation-button" routerLink="/mis-cp-dashboard-credam/dashboard/credit-admin" routerLinkActive="active">
+    CREDIT ADMIN
+  </button>
+  <button class="chart-navigation-button" routerLink="/mis-cp-dashboard-credam/dashboard/credit-insurance" routerLinkActive="active">
+    CREDIT INSURANCE
+  </button>
+</div>

@@ -667,7 +667,7 @@ import { RouterModule } from '@angular/router';
       {
         path: 'mis-cp-sladppk-report',
         loadChildren: () =>
-          import('./mis-report/credit-proposal-credam-dppk/mis-report-credit-proposal-credam.module').then(
+          import('./mis-report/mis-cp-credam-report/report/mis-report-credit-proposal-credam.module').then(
             m => m.MisReportCreditProposalCredamModule
           ),
       },
@@ -723,7 +723,10 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'mis-cp-dashboard-credam',
-        loadChildren: () => import('./mis-report/dashboard-credam/dashboard-credam.module').then(m => m.DashboardCredamModule),
+        loadChildren: () =>
+          import('./mis-report/mis-cp-credam-report/report/mis-report-credit-proposal-credam.module').then(
+            m => m.MisReportCreditProposalCredamModule
+          ),
       },
       {
         path: 'mis-legaladmla-report',

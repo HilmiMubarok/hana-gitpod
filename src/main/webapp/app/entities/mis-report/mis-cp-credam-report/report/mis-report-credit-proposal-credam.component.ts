@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MisReportService } from '../mis-report.service';
+import { MisReportService } from '../../mis-report.service';
 import { MessageService } from 'primeng/api';
 import moment from 'moment';
-import { AbstractExcelMISReport } from '../abstract-excel-report';
+import { AbstractExcelMISReport } from '../../abstract-excel-report';
 import * as ExcelJS from 'exceljs';
 
 @Component({
