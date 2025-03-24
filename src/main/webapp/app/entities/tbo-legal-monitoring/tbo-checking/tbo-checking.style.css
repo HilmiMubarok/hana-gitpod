@@ -35,6 +35,7 @@ body {
   order: 0;
   flex-grow: 0;
 }
+
 /* .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
     font-family: 'Poppins', sans-serif;
     font-size: 36px;
@@ -97,8 +98,10 @@ body {
 /* @font-face {
   font-family: 'Poppins';
   src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+
 /* } */
-*/ .grid-index {
+
+.grid-index {
   background: rgba(49, 158, 152, 1);
   color: #000000;
   text-align: center;
@@ -115,6 +118,7 @@ th {
   color: black;
   font-family: 'Poppins', sans-serif;
 }
+
 td {
   font-family: 'Poppins', sans-serif;
 }
@@ -218,9 +222,11 @@ td {
 .header-content {
   display: flex;
 }
+
 html * {
   font-family: 'Poppins', sans-serif !important;
 }
+
 .search-border-container {
   background-color: #ebebeb;
   padding: 1rem;
@@ -268,6 +274,7 @@ html * {
 .e-breadcrumb-text {
   color: #597c97 !important;
 }
+
 .e-breadcrumb-icon.e-icons.e-home {
   color: #597c97 !important;
 }
@@ -290,6 +297,7 @@ html * {
 .mat-mini-fab.mat-warn {
   background-color: rgba(209, 91, 111, 1);
 }
+
 .button-styling {
   background-color: rgba(49, 158, 152, 1);
   color: #ffffff;
@@ -300,12 +308,15 @@ th {
   color: black;
   font-family: 'Poppins', sans-serif !important;
 }
+
 td {
   font-family: 'Poppins', sans-serif !important;
 }
+
 .rounding-table-left {
   border-top-left-radius: 15px;
 }
+
 .rounding-table-right {
   border-top-right-radius: 15px;
 }
@@ -314,19 +325,23 @@ td {
   background-color: rgba(49, 158, 152, 1);
   color: #ffffff;
 }
+
 .mat-column {
   font-weight: 500;
 }
+
 .mat-column-no {
   width: 5%;
   justify-content: flex-end;
   padding-right: 30px;
 }
+
 .mat-header-cell:first-child {
   width: 5%;
   justify-content: flex-end;
   border-top-left-radius: 15px;
 }
+
 .mat-header-cell:last-child {
   width: 10%;
   align-items: flex-start;
@@ -337,7 +352,9 @@ td {
   font-weight: 500;
   font-size: 12px;
 }
+
 /* panel class for css */
+
 ::ng-deep .custom-dialog-container-delete .mat-dialog-container {
   background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
   background-color: rgba(225, 225, 225, 1);
@@ -367,7 +384,9 @@ td {
 ::ng-deep .custom-dialog-container-cancel .mat-dialog-container .mat-button-focus-overlay {
   background-color: transparent !important;
 }
+
 /* panel class for css */
+
 .confirm-button-yes {
   padding: 3px 43px 3px 43px;
   border-radius: 10px;
@@ -383,6 +402,7 @@ td {
   font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
 }
+
 .confirm-button-no:hover {
   padding: 3px 43px 3px 43px;
   border-radius: 10px;
@@ -391,6 +411,7 @@ td {
   font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
 }
+
 .confirm-button-yes:active:hover:not([disabled]) {
   padding: 3px 43px 3px 43px;
   border-radius: 10px;
@@ -432,6 +453,7 @@ td {
 .mat-raised-button {
   font-family: 'Poppins', sans-serif !important;
 }
+
 .e-float-input,
 .e-float-input.e-control-wrapper,
 .e-float-input.e-disabled,
@@ -440,14 +462,17 @@ td {
 .e-float-input.e-input-group.e-control-wrapper.e-disabled {
   font-family: 'Poppins', sans-serif !important;
 }
+
 .e-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
 
 /* override Syncfunction and Material Theme */
+
 :host .e-card {
   -webkit-tap-highlight-color: #effefd;
   background-color: #effefd;
@@ -479,6 +504,7 @@ td {
   color: rgba(0, 0, 0, 0.87);
   outline: none;
 }
+
 .wrapper-card e-card {
   border: 1px solid #b8b8b8 !important;
   border-radius: 10px !important;
@@ -498,12 +524,15 @@ td {
 }
 
 /* menu title css */
+
 .menu-title-class {
   text-transform: capitalize !important;
 }
 
 /* submenu css */
+
 /* horizontal */
+
 @keyframes icon-spin {
   0% {
     transform: rotate(0);
@@ -513,7 +542,8 @@ td {
   }
 }
 
-@-webkit-keyframes rotating /* Safari and Chrome */ {
+@-webkit-keyframes rotating
+/* Safari and Chrome */ {
   from {
     -webkit-transform: rotate(0deg);
     -o-transform: rotate(0deg);
@@ -525,6 +555,7 @@ td {
     transform: rotate(360deg);
   }
 }
+
 @keyframes rotating {
   from {
     -ms-transform: rotate(0deg);
@@ -541,6 +572,7 @@ td {
     transform: rotate(360deg);
   }
 }
+
 .rotating {
   -webkit-animation: rotating 2s linear infinite;
   -moz-animation: rotating 2s linear infinite;
@@ -574,6 +606,7 @@ td {
 .sidebar-state-true {
   z-index: 1;
 }
+
 .sidebar-state-false {
   z-index: 2;
 }
@@ -627,9 +660,11 @@ mat-sidenav {
   font-weight: 600;
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
+
 /* submenu css */
 
 /* btn-mnu-float-override */
+
 .btn-menu-floating {
   position: fixed !important;
   bottom: 27rem !important;

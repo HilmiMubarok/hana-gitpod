@@ -46,7 +46,7 @@ import { PageEvent } from '@angular/material/paginator';
       .skeleton-loading {
         display: flex;
         align-items: center;
-        justify-content: start;
+        justify-content: flex-start;
         background-color: #fff;
         border-radius: 4px;
         padding: 16px;
