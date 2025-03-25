@@ -18,4 +18,9 @@ export class MisDashboardService {
     return this.http.get<any>(this.endPoint, { params });
   }
 
+  getStatisticLoanOps(positionId) {
+    const params = new HttpParams().set('idPosition', positionId);
+    return this.http.get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/by-status'), { params });
+  }
+
 }

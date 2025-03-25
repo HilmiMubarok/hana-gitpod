@@ -71,14 +71,9 @@ import { Component } from '@angular/core';
 export class MisCpSlaloanopsReportComponent {
 
   page = 'dashboard';
-  dashboardPage = 'credit-admin';
 
   setPage(page: string): void {
     this.page = page;
-  }
-
-  setDashboardPage(page: string): void {
-    this.dashboardPage = page;
   }
 
 }
