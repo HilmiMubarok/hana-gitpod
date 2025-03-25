@@ -219,6 +219,16 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       return a.menuItemSequence - b.menuItemSequence || a.id - b.id;
     });
 
+    // HIDE MENU DASHBOARD MIS STATUS
+    // Find index dataSourceTemp[x].name is === 'Mis Report'
+    const misReportIndex = dataSourceTemp.findIndex(x => x.name === 'Mis Report') + 1;
+    // Find dataSoureTemp[misReportIndex].children[x].name is === "Dashboard MIS Status"
+    const dashboardMisStatusIndex = dataSourceTemp[misReportIndex]?.children.findIndex(
+      x => x.name === 'Dashboard MIS Status'
+    );
+    // Remove dataSoureTemp[misReportIndex].children[dashboardMisStatusIndex]
+    dataSourceTemp[misReportIndex]?.children.splice(dashboardMisStatusIndex, 1);
+
     this.dataSource.data = dataSourceTemp;
   }
 
