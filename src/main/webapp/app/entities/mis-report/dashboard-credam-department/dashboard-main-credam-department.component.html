@@ -1,0 +1,20 @@
+<div class="department-header">
+  <div class="department-name h4">CREDIT ADMIN DEPARTMENT</div>
+</div>
+
+<div class="chart-navigation" *ngIf="page === 'dashboard'">
+  <button class="chart-navigation-button" [class.active]="dashboardPage === 'credit-admin'" (click)="setDashboardPage('credit-admin')">
+    CREDIT ADMIN
+  </button>
+  <button
+    class="chart-navigation-button"
+    [class.active]="dashboardPage === 'credit-insurance'"
+    (click)="setDashboardPage('credit-insurance')"
+  >
+    CREDIT INSURANCE
+  </button>
+</div>
+
+<jhi-mis-dashboard-credit-insurance
+  *ngIf="page === 'dashboard' && dashboardPage === 'credit-insurance'"
+></jhi-mis-dashboard-credit-insurance>
