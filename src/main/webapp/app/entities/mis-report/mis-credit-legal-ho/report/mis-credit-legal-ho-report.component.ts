@@ -281,7 +281,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (this.allSelected) {
       this.form.get('status')?.setValue([...this.lovStatus.map(status => status.statusId)]);
     } else {
-      this.form.get('status')?.setValue('');
+      this.form.get('status')?.setValue(null);
     }
   }
 
@@ -290,7 +290,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (this.allSelectedUsername) {
       this.form.get('username')?.setValue([...this.lovUsername.map(username => username.partyId)]);
     } else {
-      this.form.get('username')?.setValue('');
+      this.form.get('username')?.setValue(null);
     }
   }
 
@@ -299,7 +299,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (this.allSelectedRegional) {
       this.form.get('regional')?.setValue([...this.lovRegional.map(internal => internal.id)]);
     } else {
-      this.form.get('regional')?.setValue('');
+      this.form.get('regional')?.setValue(null);
     }
   }
 
@@ -308,7 +308,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (this.allSelectedBranch) {
       this.form.get('branch')?.setValue([...this.lovBranch.map(internal => internal.id)]);
     } else {
-      this.form.get('branch')?.setValue('');
+      this.form.get('branch')?.setValue(null);
     }
   }
 
@@ -317,7 +317,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (this.allSelectedSummary) {
       this.form.get('summary')?.setValue([...this.lovApplicationType.map(appType => appType)]);
     } else {
-      this.form.get('summary')?.setValue('');
+      this.form.get('summary')?.setValue(null);
     }
   }
 
@@ -326,7 +326,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     if (this.allSelectedProposalStatus) {
       this.form.get('proposalStatus')?.setValue([...this.lovProposalStatus.map(prop => prop)]);
     } else {
-      this.form.get('proposalStatus')?.setValue('');
+      this.form.get('proposalStatus')?.setValue(null);
     }
   }
 
@@ -384,27 +384,35 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
   private _initializeForm() {
     this.form = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl(''),
-      status: new FormControl(''),
-      username: new FormControl(''),
-      regional: new FormControl(''),
-      branch: new FormControl(''),
-      summary: new FormControl(''),
-      proposalStatus: new FormControl(''),
-      query: new FormControl(''),
+      startDate: new FormControl(null),
+      endDate: new FormControl(null),
+      status: new FormControl(null),
+      username: new FormControl(null),
+      regional: new FormControl(null),
+      branch: new FormControl(null),
+      summary: new FormControl(null),
+      proposalStatus: new FormControl(null),
+      query: new FormControl(null),
     });
   }
 
   private _handleFormChanges(): void {
-    this.form.valueChanges.subscribe(changes => {
-      if (moment.isMoment(changes.startDate)) {
-        this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
-      }
 
-      if (moment.isMoment(changes.endDate)) {
-        this._updateFormControl('endDate', changes.endDate.format('YYYY-MM-DD'));
+    this.form.get('startDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('startDate')?.setValue(formattedDate, { emitEvent: false });
       }
+    });
+
+    this.form.get('endDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('endDate')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
+    this.form.valueChanges.subscribe(changes => {
 
       if (Array.isArray(changes.status)) {
         if (changes.status.length === 0) {
@@ -533,7 +541,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
 
-    let cp = data.filter(proposal => this.inRegions.includes(proposal.businessUnitRM));
+    let cp = data.filter(proposal => proposal.internalRegion === 'R1');
 
     if (search === '') {
       if (segmentation !== '') {
@@ -710,7 +718,20 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional', 'Renewal'];
 
     if (allowedTypes.includes(product.pengajuan)) {
-      return this.formatDateID(product.mainProduct[0].maturityDate).getFullDate();
+
+      // if mainProduct null
+      if (product.mainProduct === null || product.mainProduct === 'null' || product.mainProduct === undefined) {
+        return '';
+      }
+
+      const maturityDate = product.mainProduct[0]?.maturityDate;
+
+      // if maturityDate null
+      if (maturityDate === null || maturityDate === 'null' || maturityDate === undefined || maturityDate) {
+        return '';
+      }
+
+      return this.formatDateID(maturityDate).getFullDate();
     } else {
       return '';
     }

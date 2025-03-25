@@ -149,81 +149,95 @@
         </div>
       </div>
 
-      <!-- <div class="row mb-1">
-                <div class="col">
-                    <div #formContainer>
-                        <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('query')?.disabled">
-                            <mat-label>Search</mat-label>
-                            <input matInput placeholder="Search in here..." type="text" formControlName="query" (focus)="onSearchFocus()" (blur)="onSearchBlur()" />
-                            <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()" *ngIf="form.get('query')?.value">
-                              <mat-icon>search</mat-icon>
-                          </button>
-                            <button matSuffix mat-icon-button aria-label="Clear" *ngIf="form.get('query')?.value" (click)="clearSearch()">
-                              <mat-icon>close</mat-icon>
-                          </button>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
+      <div class="row mb-1">
+        <div class="col">
+          <div #formContainer>
+            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('query')?.disabled">
+              <mat-label>Search</mat-label>
+              <input
+                matInput
+                placeholder="Search in here..."
+                type="text"
+                formControlName="query"
+                (focus)="onSearchFocus()"
+                (blur)="onSearchBlur()"
+              />
+              <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()" *ngIf="form.get('query')?.value">
+                <mat-icon>search</mat-icon>
+              </button>
+              <button matSuffix mat-icon-button aria-label="Clear" *ngIf="form.get('query')?.value" (click)="clearSearch()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
 
-            <div class="row px-1" *ngIf="searchResult || loadingSearch">
-                <table mat-table [dataSource]="loadingSearch ? skeletonData : searchResult">
-                    <ng-container matColumnDef="proposalNumber">
-                        <th mat-header-cell *matHeaderCellDef>Proposal Number</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div *ngIf="loadingSearch; else dataApplicationNumber" class="skeleton-loading"></div>
-                            <ng-template #dataApplicationNumber>{{ element.applicationNumber }}</ng-template>
-                        </td>
-                    </ng-container>
+      <div class="row px-1" *ngIf="searchResult || loadingSearch">
+        <table mat-table [dataSource]="loadingSearch ? skeletonData : searchResult">
+          <ng-container matColumnDef="proposalNumber">
+            <th mat-header-cell *matHeaderCellDef>Proposal Number</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else dataApplicationNumber" class="skeleton-loading"></div>
+              <ng-template #dataApplicationNumber>{{ element.applicationNumber }}</ng-template>
+            </td>
+          </ng-container>
 
-                    <ng-container matColumnDef="cif">
-                        <th mat-header-cell *matHeaderCellDef>CIF</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div *ngIf="loadingSearch; else dataCustomerNumber" class="skeleton-loading">{{ element.customerNumber }}</div>
-                            <ng-template #dataCustomerNumber>{{ element.customerNumber }}</ng-template>
-                        </td>
-                    </ng-container>
+          <ng-container matColumnDef="cif">
+            <th mat-header-cell *matHeaderCellDef>CIF</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else dataCustomerNumber" class="skeleton-loading">{{ element.customerNumber }}</div>
+              <ng-template #dataCustomerNumber>{{ element.customerNumber }}</ng-template>
+            </td>
+          </ng-container>
 
-                    <ng-container matColumnDef="debtorName">
-                        <th mat-header-cell *matHeaderCellDef>Debtor Name</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div *ngIf="loadingSearch; else dataDebtorName" class="skeleton-loading"></div>
-                            <ng-template #dataDebtorName>
-                                {{ element.prospectPerson !== null ? element.prospectPerson.name : element.prospectOrganization.name }}
-                            </ng-template>
-                        </td>
-                    </ng-container>
+          <ng-container matColumnDef="debtorName">
+            <th mat-header-cell *matHeaderCellDef>Debtor Name</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else dataDebtorName" class="skeleton-loading"></div>
+              <ng-template #dataDebtorName>
+                {{ element.prospectPerson !== null ? element.prospectPerson.name : element.prospectOrganization.name }}
+              </ng-template>
+            </td>
+          </ng-container>
 
-                    <ng-container matColumnDef="customerType">
-                        <th mat-header-cell *matHeaderCellDef>Customer Type</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div *ngIf="loadingSearch; else dataCustomerType" class="skeleton-loading"></div>
-                            <ng-template #dataCustomerType>{{ element.customerType }}</ng-template>
-                        </td>
-                    </ng-container>
+          <ng-container matColumnDef="customerType">
+            <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else dataCustomerType" class="skeleton-loading"></div>
+              <ng-template #dataCustomerType>{{ element.customerType }}</ng-template>
+            </td>
+          </ng-container>
 
-                    <ng-container matColumnDef="proposalDate">
-                        <th mat-header-cell *matHeaderCellDef>Proposal Date</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div *ngIf="loadingSearch; else dataProposalDate" class="skeleton-loading"></div>
-                            <ng-template #dataProposalDate>{{ element.createdDate | date: 'yyyy-MM-dd' }}</ng-template>
-                        </td>
-                    </ng-container>
+          <ng-container matColumnDef="proposalDate">
+            <th mat-header-cell *matHeaderCellDef>Proposal Date</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else dataProposalDate" class="skeleton-loading"></div>
+              <ng-template #dataProposalDate>{{ element.createdDate | date: 'yyyy-MM-dd' }}</ng-template>
+            </td>
+          </ng-container>
 
-                    <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef>Status</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div *ngIf="loadingSearch; else dataStatus" class="skeleton-loading"></div>
-                            <ng-template #dataStatus>{{ element.statusDescription }}</ng-template>
-                        </td>
-                    </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="loadingSearch; else dataStatus" class="skeleton-loading"></div>
+              <ng-template #dataStatus>{{ element.statusDescription }}</ng-template>
+            </td>
+          </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-                </table>
-                <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [pageIndex]="currentPage" (page)="doSearch($event)" aria-label="Select page">
-                </mat-paginator>
-            </div> -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator
+          [length]="totalItems"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="currentPage"
+          (page)="doSearch($event)"
+          aria-label="Select page"
+        >
+        </mat-paginator>
+      </div>
     </mat-card-content>
   </mat-card>
 

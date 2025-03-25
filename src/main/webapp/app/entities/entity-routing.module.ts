@@ -723,12 +723,15 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'mis-cp-dashboard-credam',
-        loadChildren: () => import('./mis-report/dashboard-credam/dashboard-credam.module').then(m => m.DashboardCredamModule),
+        loadChildren: () =>
+          import('./mis-report/dashboard-credam-department/dashboard-main-credam-department.module').then(
+            m => m.MisDashboardCredamDepartmentModule
+          ),
       },
       {
         path: 'mis-legaladmla-report',
         loadChildren: () =>
-          import('./mis-report/mis-laporan-admin-legal/mis-laporan-admin-legal.module').then(m => m.MisReportCreditProposalCredamModule),
+          import('./mis-report/mis-laporan-admin-legal/mis-laporan-admin-legal.module').then(m => m.MisReportLaporanAdminLegalModule),
       },
     ]),
   ],

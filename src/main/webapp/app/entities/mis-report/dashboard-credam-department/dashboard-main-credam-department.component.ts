@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'jhi-mis-cp-slaloanops-report',
-  templateUrl: './mis-cp-slaloanops-report.component.html',
+  selector: 'jhi-dashboard-main-credam-department',
+  templateUrl: './dashboard-main-credam-department.component.html',
   styles: [
     `
       .department-header {
@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
       .department-name {
         font-weight: bold;
         margin-top: 10px;
-        color: #5BAFAA;
+        color: #5bafaa;
       }
 
       .nav-buttons {
@@ -33,14 +33,14 @@ import { Component } from '@angular/core';
         min-height: 40px;
         border-radius: 10px;
         font-weight: bold;
-        color: #9DCAC7;
+        color: #9dcac7;
       }
 
       .nav-button.active {
-        background-color: #5BAFAA;
+        background-color: #5bafaa;
         color: white;
       }
-      
+
       .chart-navigation {
         display: flex;
         justify-content: flex-start;
@@ -57,23 +57,26 @@ import { Component } from '@angular/core';
         font-weight: bold;
         border: none;
         outline: none;
-        background: #D4D4D4;
+        background: #d4d4d4;
         color: white;
       }
 
       .chart-navigation-button.active {
-        background: #3C958F;
+        background: #3c958f;
         color: white;
       }
     `,
   ],
 })
-export class MisCpSlaloanopsReportComponent {
-
+export class MisDashboardCredamDepartmentComponent {
   page = 'dashboard';
+  dashboardPage = 'credit-admin';
 
   setPage(page: string): void {
     this.page = page;
   }
 
+  setDashboardPage(page: string): void {
+    this.dashboardPage = page;
+  }
 }
