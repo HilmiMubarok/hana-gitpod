@@ -20,4 +20,4 @@ const cpfRoute: Routes = [
   providers: [],
   exports: [],
 })
-export class MisReportCreditProposalCredamModule {}
+export class MisReportLaporanAdminLegalModule {}
