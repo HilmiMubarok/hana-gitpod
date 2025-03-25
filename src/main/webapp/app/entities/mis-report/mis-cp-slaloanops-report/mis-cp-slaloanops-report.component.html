@@ -1,5 +1,5 @@
 <div class="department-header">
-    <div class="department-name h4">CREDIT ADMIN DEPARTMENT</div>
+    <div class="department-name h4">LOAN OPERATIONS DEPARTMENT</div>
     <div class="nav-buttons">
         <button mat-stroked-button class="nav-button" [class.active]="page === 'dashboard'"
             (click)="setPage('dashboard')">
@@ -11,19 +11,6 @@
     </div>
 </div>
 
-<div class="chart-navigation" *ngIf="page === 'dashboard'">
-    <button class="chart-navigation-button" [class.active]="dashboardPage === 'credit-admin'"
-        (click)="setDashboardPage('credit-admin')">
-        CREDIT ADMIN
-    </button>
-    <button class="chart-navigation-button" [class.active]="dashboardPage === 'credit-insurance'"
-        (click)="setDashboardPage('credit-insurance')">
-        CREDIT INSURANCE
-    </button>
-</div>
 
 <jhi-mis-loan-ops-report *ngIf="page === 'report'"></jhi-mis-loan-ops-report>
-<jhi-mis-loan-ops-dashboard-credit-admin
-    *ngIf="page === 'dashboard' && dashboardPage === 'credit-admin'"></jhi-mis-loan-ops-dashboard-credit-admin>
-<jhi-mis-loan-ops-dashboard-credit-insurance
-    *ngIf="page === 'dashboard' && dashboardPage === 'credit-insurance'"></jhi-mis-loan-ops-dashboard-credit-insurance>
+<jhi-mis-cp-slaloanops-dashboard *ngIf="page === 'dashboard'"></jhi-mis-cp-slaloanops-dashboard>
