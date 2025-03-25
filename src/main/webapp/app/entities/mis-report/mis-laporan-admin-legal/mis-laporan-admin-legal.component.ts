@@ -59,23 +59,23 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   public allSelectedRegional = false;
   public allSelectedBranch = false;
   public allSelectedAkta = false;
-  // public searchResult = null;
-  // public pageSize = 10;
-  // public currentPage = 0;
-  // public totalItems = 0;
-  // public pageSizeOptions: number[] = [5, 10, 25, 50];
-  // public loadingSearch = false;
-  // public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
-  // public skeletonData = [
-  //   {
-  //     proposalNumber: '',
-  //     cif: '',
-  //     debtorName: '',
-  //     customerType: '',
-  //     proposalDate: '',
-  //     status: '',
-  //   },
-  // ];
+  public searchResult = null;
+  public pageSize = 10;
+  public currentPage = 0;
+  public totalItems = 0;
+  public pageSizeOptions: number[] = [5, 10, 25, 50];
+  public loadingSearch = false;
+  public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
+  public skeletonData = [
+    {
+      proposalNumber: '',
+      cif: '',
+      debtorName: '',
+      customerType: '',
+      proposalDate: '',
+      status: '',
+    },
+  ];
 
   private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
   @ViewChild('formContainer', { static: true }) formContainer: ElementRef;
@@ -230,7 +230,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   onDateRangeFocus() {
-    // this.form.get('query')?.disable();
+    this.form.get('query')?.disable();
     this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
@@ -256,10 +256,10 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       (branch && branch.length > 0) ||
       (akta && akta.length > 0)
     ) {
-      // this.form.get('query')?.disable();
+      this.form.get('query')?.disable();
       this.applyDisabledStyle(this.formContainer.nativeElement, true);
     } else {
-      // this.form.get('query')?.enable();
+      this.form.get('query')?.enable();
       this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
@@ -278,7 +278,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       branch: new FormControl(''),
       akta: new FormControl(''),
       aggrementType: new FormControl(''),
-      // query: new FormControl(''),
+      query: new FormControl(''),
     });
   }
 
@@ -511,39 +511,39 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
-  // public clearSearch(): void {
-  //   this.form.get('query')?.reset();
-  //   this.searchResult = null;
-  // }
+  public clearSearch(): void {
+    this.form.get('query')?.reset();
+    this.searchResult = null;
+  }
 
-  // public doSearch(pageEvent?: PageEvent): void {
-  //   this.loadingSearch = true;
+  public doSearch(pageEvent?: PageEvent): void {
+    this.loadingSearch = true;
 
-  //   if (pageEvent) {
-  //     this.currentPage = pageEvent.pageIndex;
-  //     this.pageSize = pageEvent.pageSize;
-  //   }
+    if (pageEvent) {
+      this.currentPage = pageEvent.pageIndex;
+      this.pageSize = pageEvent.pageSize;
+    }
 
-  //   const predicate: object = {
-  //     page: this.currentPage,
-  //     query: this.form.get('query')?.value,
-  //     size: this.pageSize,
-  //     sort: ['id,desc'],
-  //     idPosition: this.getLocStor('POS'),
-  //   };
+    const predicate: object = {
+      page: this.currentPage,
+      query: this.form.get('query')?.value,
+      size: this.pageSize,
+      sort: ['id,desc'],
+      idPosition: this.getLocStor('POS'),
+    };
 
-  //   predicate['target'] = 'credit_proposal_status';
+    predicate['target'] = 'credit_proposal_status';
 
-  //   this.misReportService.searchCP(predicate).subscribe({
-  //     next: res => {
-  //       this.searchResult = res.body || [];
-  //       const totalCount = res.headers.get('X-Total-Count');
-  //       this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
-  //       this.loadingSearch = false;
-  //     },
-  //     error: (res: HttpErrorResponse) => console.error(res.message),
-  //   });
-  // }
+    this.misReportService.searchCP(predicate).subscribe({
+      next: res => {
+        this.searchResult = res.body || [];
+        const totalCount = res.headers.get('X-Total-Count');
+        this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
+        this.loadingSearch = false;
+      },
+      error: (res: HttpErrorResponse) => console.error(res.message),
+    });
+  }
 
   private getLocStor(cookieName: string) {
     let result = null;

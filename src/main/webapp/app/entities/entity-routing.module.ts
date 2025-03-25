@@ -728,7 +728,7 @@ import { RouterModule } from '@angular/router';
       {
         path: 'mis-legaladmla-report',
         loadChildren: () =>
-          import('./mis-report/mis-laporan-admin-legal/mis-laporan-admin-legal.module').then(m => m.MisReportCreditProposalCredamModule),
+          import('./mis-report/mis-laporan-admin-legal/mis-laporan-admin-legal.module').then(m => m.MisReportLaporanAdminLegalModule),
       },
     ]),
   ],
