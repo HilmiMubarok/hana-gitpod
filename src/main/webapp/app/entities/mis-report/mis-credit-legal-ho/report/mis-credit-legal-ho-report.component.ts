@@ -397,14 +397,22 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   private _handleFormChanges(): void {
-    this.form.valueChanges.subscribe(changes => {
-      if (moment.isMoment(changes.startDate)) {
-        this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
-      }
 
-      if (moment.isMoment(changes.endDate)) {
-        this._updateFormControl('endDate', changes.endDate.format('YYYY-MM-DD'));
+    this.form.get('startDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('startDate')?.setValue(formattedDate, { emitEvent: false });
       }
+    });
+
+    this.form.get('endDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('endDate')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
+    this.form.valueChanges.subscribe(changes => {
 
       if (Array.isArray(changes.status)) {
         if (changes.status.length === 0) {
@@ -533,7 +541,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
 
-    let cp = data.filter(proposal => this.inRegions.includes(proposal.businessUnitRM));
+    let cp = data.filter(proposal => proposal.internalRegion === 'R1');
 
     if (search === '') {
       if (segmentation !== '') {
