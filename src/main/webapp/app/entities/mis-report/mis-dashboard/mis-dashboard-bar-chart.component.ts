@@ -39,7 +39,6 @@ interface ChartOptions {
   `,
 })
 export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.data = changes['data'].currentValue;
@@ -55,7 +54,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   @Input() options?: ChartOptions;
   @Input() title? = '';
   @ViewChild('creditChart') creditChart!: ElementRef;
-  chartData: { labels: string[]; datasets: ChartDataset[] }
+  chartData: { labels: string[]; datasets: ChartDataset[] };
 
   chart: Chart | undefined;
 
@@ -102,17 +101,15 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
       return;
     }
 
-    const labels: string[] = this.data.map((item) => {
+    const labels: string[] = this.data.map(item => {
       // Sort item.showcase ascending by fromDate
-      const sortedShowcase = [...item.showcase].sort((a, b) =>
-        new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime()
-      );
+      const sortedShowcase = [...item.showcase].sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
       // Format each date to "Month Year" and return as an array
       return sortedShowcase.map(showcaseItem =>
         new Date(showcaseItem.fromDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
       );
-    })[0]
+    })[0];
 
     // Get all properties from the first data item except excluded ones
     const properties = Object.keys(this.data[0]).filter(key => !this.excludedProperties.includes(key));
@@ -140,17 +137,20 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     const filteredWords = words.filter(word => word !== 'Facility');
 
     // Capitalize the first letter of each word
-    const formattedWords = filteredWords.map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    );
+    const formattedWords = filteredWords.map(word => word.charAt(0).toUpperCase() + word.slice(1));
 
     return formattedWords.join(' ');
   }
 
   private initializeChart() {
-    const ctx = this.creditChart.nativeElement.getContext('2d');
+    if (!this.creditChart) {
+      return;
+    }
 
-    // Check if chart already exists
+    const ctx = this.creditChart.nativeElement.getContext('2d');
+    if (!ctx) {
+      return;
+    }
     if (this.chart) {
       this.chart.destroy();
     }
@@ -213,5 +213,4 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
       },
     });
   }
-
 }

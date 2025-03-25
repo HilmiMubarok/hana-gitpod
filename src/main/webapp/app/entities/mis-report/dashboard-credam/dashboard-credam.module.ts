@@ -5,7 +5,6 @@ import { SharedEntityModule } from 'app/entities/shared-entity.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { DashboardCredamComponent } from './dashboard-credam.component';
 import { NgChartsModule } from 'ng2-charts';
-import { dashboardSlaInsuranceComponent } from '../dashboard-sla-insurance/dashboard-sla-insurance.component';
 const cpfRoute: Routes = [
   {
     path: '',
@@ -20,15 +19,10 @@ const cpfRoute: Routes = [
     component: DashboardCredamComponent,
     canActivate: [UserRouteAccessService],
   },
-  {
-    path: 'dashboard-SLA',
-    component: dashboardSlaInsuranceComponent,
-    canActivate: [UserRouteAccessService],
-  },
 ];
 @NgModule({
   imports: [SharedModule, RouterModule.forChild(cpfRoute), NgChartsModule],
-  declarations: [DashboardCredamComponent, dashboardSlaInsuranceComponent],
+  declarations: [DashboardCredamComponent],
   providers: [],
   exports: [],
 })
