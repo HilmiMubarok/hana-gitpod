@@ -560,6 +560,11 @@ export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'mis-creditproposal-report',
       },
+      {
+        name: 'Legal Administration Report',
+        iconname: 'minus',
+        route: 'mis-legaladmla-report',
+      },
     ],
   },
 ];
