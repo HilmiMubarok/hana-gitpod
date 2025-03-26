@@ -11,7 +11,7 @@ export interface IMainFacility {
   maturityDate?: Date;
   newMaturityDate?: string;
   totalPlafond?: number;
-  endPeriodDate?: Date | string;
+  endPeriodDate?: string | Date;
   kurs?: number;
   lastAgreementDate?: Date;
   startPeriodDate?: string | Date;
@@ -33,7 +33,7 @@ export class MainFacility implements IMainFacility {
     public maturityDate?: Date,
     public newMaturityDate?: string,
     public totalPlafond?: number,
-    public endPeriodDate?: Date | string,
+    public endPeriodDate?: string | Date,
     public kurs?: number,
     public lastAgreementDate?: Date,
     public startPeriodDate?: string | Date,
