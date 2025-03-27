@@ -12,15 +12,21 @@ export class MisDashboardService {
   endPointUserInsurance: string;
   public resourceUrlInsurance: any;
   public resourceSlaStandart: any;
+  endPointCredam: string;
 
   constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     this.endPoint = applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/insurance');
+    this.endPointCredam = applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/credit-admin');
     this.endPointUserInsurance = applicationConfigService.getEndpointFor(
       MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/by-insurance'
     );
     this.resourceSlaStandart = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/application-options');
   }
 
+  getCredamData(date: string) {
+    const params = new HttpParams().set('date', date);
+    return this.http.get<any>(this.endPointCredam, { params });
+  }
   getBarChartData(date: string) {
     const params = new HttpParams().set('date', date);
     return this.http.get<any>(this.endPoint, { params });
