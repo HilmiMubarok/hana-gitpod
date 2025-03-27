@@ -13,13 +13,13 @@ export class MisDashboardService {
   public resourceSlaStandart: any;
 
   constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
-    this.endPoint = applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/insurance');
+    this.endPoint = applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/');
     this.resourceSlaStandart = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/application-options');
   }
 
-  getBarChartData(date: string) {
+  getBarChartData(date: string, type = 'insurance') {
     const params = new HttpParams().set('date', date);
-    return this.http.get<any>(this.endPoint, { params });
+    return this.http.get<any>(this.endPoint + type, { params });
   }
 
   getStatisticLoanOps(positionId) {

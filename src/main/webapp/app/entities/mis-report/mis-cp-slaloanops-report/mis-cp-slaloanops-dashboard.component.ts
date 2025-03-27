@@ -1,21 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { MisDashboardService } from '../mis-dashboard/mis-dashboard.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import moment from 'moment';
 
 @Component({
-    selector: 'jhi-mis-cp-slaloanops-dashboard',
-    template: `
+  selector: 'jhi-mis-cp-slaloanops-dashboard',
+  template: `
+    <div class="d-flex flex-row-reverse">
+      <div class="form-container">
+        <mat-form-field [formGroup]="form" appearance="outline">
+          <mat-label>Select Month</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
     <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
       <div class="row">
-        <ng-container *ngFor="let d of data">
+        <ng-container *ngFor="let data of chartStatisticData">
           <div class="col-md-3 my-2">
-            <jhi-mis-dashboard-card-statistic [title]="d.statusDescription" [count]="d.total"></jhi-mis-dashboard-card-statistic>
+            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
           </div>
         </ng-container>
       </div>
     </jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="BY TRANSACTION">
+      <jhi-mis-dashboard-bar-chart
+        [legendPosition]="'top'"
+        [data]="chartTransactionsData"
+        [date]="form.get('date')?.value"
+        title="LOAN OPERATIONS"
+      ></jhi-mis-dashboard-bar-chart>
+    </jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS">
+      <jhi-mis-dashboard-bar-chart [legendPosition]="'top'" type="user" [data]="chartUserData" [date]="form.get('date')?.value"></jhi-mis-dashboard-bar-chart>
+    </jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="PRODUCTIVITY"></jhi-mis-dashboard-card>
   `,
-    styles: [
-        `
+  styles: [
+    `
+      .form-container {
+        background-color: white;
+        border-radius: 4px;
+        padding: 5px 10px 5px 10px;
+        margin: 0 10px 10px 10px;
+      }
       .form-controls {
         display: flex;
         justify-content: flex-end;
@@ -48,34 +78,56 @@ import { MisDashboardService } from '../mis-dashboard/mis-dashboard.service';
         display: none;
       }
     `,
-    ],
+  ],
 })
 export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
-    constructor(private dashboardService: MisDashboardService) { }
+  constructor(private dashboardService: MisDashboardService) {
+    this.initializeForm();
 
-    private getLocStor(cookieName: string) {
-        let result = null;
-        const cookies: string[] = document.cookie.split(';');
+    this.form.get('date').valueChanges.subscribe(date => {
+      const formattedDate = moment(date).format('YYYY-MM-DD');
+      this._fetchAllData(formattedDate);
+    });
+  }
 
-        cookies.forEach(o => {
-            const cookie: string[] = o.split('=');
-            const name: string = cookie[0].trim();
-            if (name === cookieName) {
-                result = cookie[1];
-            }
-        });
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
 
-        return result;
-    }
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
 
-    data;
+    return result;
+  }
 
-    statuses = ['LOAN_OPS_CHECKING', 'LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
+  chartStatisticData;
+  chartTransactionsData;
+  chartUserData
+  today = moment().format('YYYY-MM-DD');
+  statuses = ['LOAN_OPS_CHECKING', 'LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
+  form: FormGroup;
 
-    ngOnInit(): void {
-        const positionId = this.getLocStor('POS');
-        this.dashboardService
-            .getStatisticLoanOps(positionId)
-            .subscribe(res => (this.data = res.filter(d => this.statuses.includes(d.statusId))));
-    }
+  private initializeForm() {
+    this.form = new FormGroup({
+      date: new FormControl(this.today),
+    });
+  }
+
+  ngOnInit(): void {
+    this._fetchAllData(this.form.get('date')?.value);
+  }
+
+  _fetchAllData(date): void {
+    const positionId = this.getLocStor('POS');
+    this.dashboardService
+      .getStatisticLoanOps(positionId)
+      .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
+    this.dashboardService.getBarChartData(date, 'loan-ops').subscribe(res => this.chartTransactionsData = res);
+    this.dashboardService.getBarChartData(date, 'by-user-loan-ops').subscribe(res => this.chartUserData = res);
+  }
 }
