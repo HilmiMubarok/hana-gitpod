@@ -202,56 +202,55 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     if (this.creditProposal.products.length > 0 && this.groupCollaterals.length > 0) {
       const value: boolean = event.checked;
       if (value) {
-        if (this.creditProposal.attributes['groupChecklisCollateral']) {
-          const filter: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
-            obj => obj.collateralId === element.id
-          );
-          if (filter) {
-            const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
-              return o.collateralId === element.id;
-            });
-            this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = true;
-          } else {
-            const checklis: IGroupCollateralChecklis = {};
-            checklis.cifNumber = this.cif;
-            checklis.checklis = true;
-            checklis.collateralId = element.id;
-            this.creditProposal.attributes['groupChecklisCollateral'].push(checklis);
-          }
-        }
-        for (let j = 0; j < this.creditProposal.products.length; j++) {
-          const tempCollateralProductRelationObject = {
-            applicationProduct: this.creditProposal.products[j],
-            collateralId: this.groupCollaterals[index].id,
-            bindingValue: 0,
-          };
-          this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
-        }
-      } else {
-        this.groupChecklisCollaterals = this.creditProposal.attributes['groupChecklisCollateral'];
         const filter: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
           obj => obj.collateralId === element.id
         );
-
         if (filter) {
           const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
             return o.collateralId === element.id;
           });
+          this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = true;
+        } else {
+          const checklis: IGroupCollateralChecklis = {};
+          checklis.cifNumber = this.cif;
+          checklis.checklis = true;
+          checklis.collateralId = element.id;
+          this.creditProposal.attributes['groupChecklisCollateral'].push(checklis);
+        }
 
-          if (idx !== -1) {
-            this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = false;
-
-            if (!this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis) {
-              this.creditProposal.collateralProductRelations = this.creditProposal.collateralProductRelations.filter(
-                relation => relation.collateralId !== this.creditProposal.attributes['groupChecklisCollateral'][idx].collateralId
-              );
-            }
+        for (let j = 0; j < this.creditProposal.products.length; j++) {
+          const existRel = this.creditProposal.collateralProductRelations.find(
+            rel => rel.applicationProduct.id === this.creditProposal.products[j].id && rel.collateralId === this.groupCollaterals[index].id
+          );
+          if (!existRel) {
+            const tempCollateralProductRelationObject = {
+              applicationProduct: this.creditProposal.products[j],
+              collateralId: this.groupCollaterals[index].id,
+              bindingValue: 0,
+            };
+            this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
           }
         }
-        this.creditProposalService.changeColRelByCP(this.creditProposal);
+      } else {
+        const filter: IGroupCollateralChecklis = this.creditProposal.attributes['groupChecklisCollateral'].find(
+          obj => obj.collateralId === element.id
+        );
+        if (filter) {
+          const idx: number = lodash.findIndex(this.groupChecklisCollaterals, function (o) {
+            return o.collateralId === element.id;
+          });
+          if (idx !== -1) {
+            this.creditProposal.attributes['groupChecklisCollateral'][idx].checklis = false;
+            this.creditProposal.collateralProductRelations = this.creditProposal.collateralProductRelations.filter(
+              relation => relation.collateralId !== this.creditProposal.attributes['groupChecklisCollateral'][idx].collateralId
+            );
+          }
+        }
       }
+      this.creditProposalService.changeColRelByCP(this.creditProposal);
     }
   }
+
   private checkIndividualCol(cp: ICreditProposal): void {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     if (cp.collateralProductRelations.length > 0 && cp.products.length > 0 && this.groupCollaterals.length > 0) {
