@@ -36,7 +36,9 @@ import moment from 'moment';
     <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS">
       <jhi-mis-dashboard-bar-chart [legendPosition]="'top'" type="user" [data]="chartUserData" [date]="form.get('date')?.value"></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
-    <jhi-mis-dashboard-card title="PRODUCTIVITY"></jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="PRODUCTIVITY">
+      <jhi-mis-dashboard-productivity></jhi-mis-dashboard-productivity>
+    </jhi-mis-dashboard-card>
   `,
   styles: [
     `
