@@ -78,7 +78,6 @@ interface CollateralData {
           <th mat-header-cell *matHeaderCellDef>Staff Needs</th>
           <td mat-cell *matCellDef="let element">{{ element.staffNeeds }}</td>
         </ng-container>
-
         <ng-container matColumnDef="totalStaffNeeds">
           <th mat-header-cell *matHeaderCellDef>Total Staff Needs</th>
           <td mat-cell *matCellDef="let element">{{ element.totalStaffNeeds }}</td>
@@ -153,6 +152,10 @@ interface CollateralData {
         padding: 12px;
         border-bottom: 1px solid #ddd;
       }
+
+      .merge-cell {
+        text-align: center;
+      }
     `,
   ],
 })
@@ -171,53 +174,9 @@ export class MisDashboardCredamComponent implements OnInit {
     'existing',
     'shortOver',
   ];
-
   chartDatas: any[] = [];
-
   dataSource: any[] = [];
-
-  // dataSource = [
-  //   {
-  //     applicationType: 'Active',
-  //     aveTrx: this.calculateAveTrx(this.chartData, 'Active'),
-  //     aveInDay: 13.63,
-  //     slaStandard: 120,
-  //     staffNeeds: '-',
-  //     totalStaffNeeds: '-',
-  //     existing: '-',
-  //     shortOver: '-',
-  //   },
-  //   {
-  //     applicationType: 'Existing',
-  //     aveTrx: this.calculateAveTrx(this.chartData, 'Existing'),
-  //     aveInDay: 13.63,
-  //     slaStandard: 4,
-  //     staffNeeds: '-',
-  //     totalStaffNeeds: '-',
-  //     existing: '-',
-  //     shortOver: '-',
-  //   },
-  //   {
-  //     applicationType: 'New',
-  //     aveTrx: this.calculateAveTrx(this.chartData, 'New'),
-  //     aveInDay: 13.63,
-  //     slaStandard: 4,
-  //     staffNeeds: '-',
-  //     totalStaffNeeds: '-',
-  //     existing: '-',
-  //     shortOver: '-',
-  //   },
-  //   {
-  //     applicationType: 'To Be Released',
-  //     aveTrx: this.calculateAveTrx(this.chartData, 'To Be Released'),
-  //     aveInDay: 13.63,
-  //     slaStandard: 4,
-  //     staffNeeds: '-',
-  //     totalStaffNeeds: '-',
-  //     existing: '-',
-  //     shortOver: '-',
-  //   },
-  // ];
+  staffcredams: any;
   constructor(private dashboardService: MisDashboardService) {
     this.initializeForm();
 
@@ -240,16 +199,15 @@ export class MisDashboardCredamComponent implements OnInit {
   public slaStandart(): void {
     this.dashboardService.getSlaStandart().subscribe({
       next: response => {
-        if (response.body && Array.isArray(response.body)) {
-          const slaStandardData = response.body.find(item => item.id === 'SLA_STANDARD_INSURANCE');
-          this.slaStandardValue = slaStandardData ? Number(slaStandardData.value) : 0;
+        if (response && Array.isArray(response)) {
+          const slaStandardData = response.find(item => item.id === 'SLA_STANDARD_CREDAM');
+          this.slaStandardValue = slaStandardData ? slaStandardData.value : 0;
         } else {
-          console.error('Invalid response format:', response.body);
+          console.error('Invalid response format:', response);
           this.slaStandardValue = 0; // Set default jika data tidak valid
         }
 
         console.log('SLA Standard Value:', this.slaStandardValue);
-
         // Panggil getChartData setelah slaStandardValue diperbarui
         this.getChartData();
       },
@@ -259,7 +217,27 @@ export class MisDashboardCredamComponent implements OnInit {
       },
     });
   }
+  public existingDataStaff(): void {
+    this.dashboardService.getSlaStandart().subscribe({
+      next: response => {
+        if (response && Array.isArray(response)) {
+          const staffCredam = response.find(item => item.id === 'STAFF_CREDAM');
+          this.staffcredams = staffCredam ? staffCredam.value : 0;
+        } else {
+          console.error('Invalid response format:', response);
+          this.staffcredams = 0; // Set default jika data tidak valid
+        }
 
+        console.log('SLA Standard Value:', this.staffcredams);
+        // Panggil getChartData setelah slaStandardValue diperbarui
+        this.getChartData();
+      },
+      error: error => {
+        console.error('Error fetching SLA Standard:', error);
+        this.staffcredams = 0; // Pastikan default tetap 0 jika terjadi error
+      },
+    });
+  }
   public calculateAveTrx(chartData: DashboardData[], applicationType: string): number {
     if (!chartData || chartData.length === 0) {
       console.warn('chartData is empty, returning 0');
@@ -269,10 +247,17 @@ export class MisDashboardCredamComponent implements OnInit {
     console.log('Data:', chartData);
 
     const columnKey = {
-      Active: 'activeCollateralStatus',
-      Existing: 'existingCollateralStatus',
-      New: 'newCollateralStatus',
-      'To Be Released': 'toBeReleaseCollateralStatus',
+      New: 'newFacility',
+      'Additional / TopUp': 'additionalTopupFacility',
+      Renewal: 'renewalFacility',
+      Existing: 'existingFacility',
+      Others: 'othersFacility',
+      'Renewal + Additional': 'renewalAdditionalFacility',
+      'Renewal + Decrease': 'renewalDecreaseFacility',
+      Decrease: 'decreaseFacility',
+      'Renewal + Others': 'renewalOthersFacility',
+      'Additional + Others': 'additionalOthersFacility',
+      'Decrease + Others': 'decreaseOthersFacility',
     }[applicationType];
 
     const total = chartData.reduce((sum, item) => sum + (item[columnKey] || 0), 0);
@@ -289,12 +274,26 @@ export class MisDashboardCredamComponent implements OnInit {
     //   this.chartData = res;
     // });
 
-    this.dashboardService.getBarChartData(this.dateForm.get('date')?.value).subscribe(res => {
+    this.dashboardService.getCredamData(this.dateForm.get('date')?.value).subscribe(res => {
       this.chartData = res;
       console.log('Updated chartData:', this.chartData); // Debugging
 
       // Daftar applicationType yang ingin dihitung
-      const applicationTypes = ['Active', 'Existing', 'New', 'To Be Released'];
+      const applicationTypes = [
+        'New',
+        'Additional / Topup',
+        'Restructure',
+        'Renewal',
+        'Existing',
+        'Others',
+        'Renewal + Additional',
+        'Renewal + Decrease',
+        'Decrease',
+        'Renewal + Others',
+        'Additional + Others',
+        'Additional + Others',
+        'Decrease + Others',
+      ];
 
       // Loop untuk menghitung rata-rata tiap applicationType
       const averages = applicationTypes.map(type => ({
@@ -307,65 +306,168 @@ export class MisDashboardCredamComponent implements OnInit {
 
     this.getChartData();
     this.slaStandart();
+    this.existingDataStaff();
   }
 
   // Deklarasi awal tanpa data
+  public staffneeds(chartData: DashboardData[], applicationType: string): number {
+    return this.slaStandardValue * this.aveInDay(chartData, applicationType);
+  }
+  public sumStaffneeds(chartData: DashboardData[]): number {
+    const applicationTypes = [
+      'New',
+      'Additional / TopUp',
+      'Renewal',
+      'Existing',
+      'Others',
+      'Restructure',
+      'Renewal + Additional',
+      'Renewal + Decrease',
+      'Decrease',
+      'Renewal + Others',
+      'Additional + Others',
+      'Decrease + Others',
+    ];
+
+    return applicationTypes.reduce((total, type) => total + this.staffneeds(chartData, type), 0);
+  }
 
   getChartData() {
     const rawDate = this.dateForm.get('date')?.value;
     const formattedDate = rawDate ? new Date(rawDate).toISOString().split('T')[0] : '';
 
-    this.dashboardService.getBarChartData(formattedDate).subscribe(res => {
+    this.dashboardService.getCredamData(formattedDate).subscribe(res => {
       this.chartData = res;
       console.log('Updated chartData:', this.chartData); // Debugging
-
       this.dataSource = [
         {
-          applicationType: 'Active',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Active'),
-          aveInDay: this.aveInDay(this.chartData, 'Active'),
+          applicationType: 'New',
+          aveTrx: this.calculateAveTrx(this.chartData, 'New'),
+          aveInDay: this.aveInDay(this.chartData, 'New'),
           slaStandard: this.slaStandardValue,
-          staffNeeds: '-',
-          totalStaffNeeds: '-',
-          existing: '-',
-          shortOver: '-',
+          staffNeeds: this.staffneeds(this.chartData, 'New'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'New'),
+        },
+        {
+          applicationType: 'Additional / Top Up',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Additional / Top Up'),
+          aveInDay: this.aveInDay(this.chartData, 'Additional / Top Up'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Additonal / Top Up'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Additional / Top Up'),
+        },
+        {
+          applicationType: 'Renewal',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Renewal'),
+          aveInDay: this.aveInDay(this.chartData, 'Renewal'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Renewal'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Renewal'),
+        },
+        {
+          applicationType: 'Restructure',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Restructure'),
+          aveInDay: this.aveInDay(this.chartData, 'Restructure'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Restructure'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Restructure'),
         },
         {
           applicationType: 'Existing',
           aveTrx: this.calculateAveTrx(this.chartData, 'Existing'),
           aveInDay: this.aveInDay(this.chartData, 'Existing'),
-          slaStandard: 4,
-          staffNeeds: '-',
-          totalStaffNeeds: '-',
-          existing: '-',
-          shortOver: '-',
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Existing'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Existing'),
         },
         {
-          applicationType: 'New',
-          aveTrx: this.calculateAveTrx(this.chartData, 'New'),
-          aveInDay: this.aveInDay(this.chartData, 'New'),
-          slaStandard: 4,
-          staffNeeds: '-',
-          totalStaffNeeds: '-',
-          existing: '-',
-          shortOver: '-',
+          applicationType: 'Others',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Others'),
+          aveInDay: this.aveInDay(this.chartData, 'Others'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Others'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Others'),
         },
         {
-          applicationType: 'To Be Released',
-          aveTrx: this.calculateAveTrx(this.chartData, 'To Be Released'),
-          aveInDay: this.aveInDay(this.chartData, 'To Be Released'),
-          slaStandard: 4,
-          staffNeeds: '-',
-          totalStaffNeeds: '-',
-          existing: '-',
-          shortOver: '-',
+          applicationType: 'Renewal + Additional',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Renewal + Additional'),
+          aveInDay: this.aveInDay(this.chartData, 'Renewal + Additional'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Renewal + Additional'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Renewal + Additional'),
+        },
+        {
+          applicationType: 'Renewal + Decrease',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Renewal + Decrease'),
+          aveInDay: this.aveInDay(this.chartData, 'Renewal + Decrease'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Renewal + Decrease'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Renewal + Decrease'),
+        },
+        {
+          applicationType: 'Decrease',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Decrease'),
+          aveInDay: this.aveInDay(this.chartData, 'Decrease'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Decrease'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Decrease'),
+        },
+        {
+          applicationType: 'Renewal + Others',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Renewal + Others'),
+          aveInDay: this.aveInDay(this.chartData, 'Renewal + Others'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Renewal + Others'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Renewal + Others'),
+        },
+        {
+          applicationType: 'Additional + Others',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Additional + Others'),
+          aveInDay: this.aveInDay(this.chartData, 'Additional + Others'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Additional + Others'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Additional + Others'),
+        },
+        {
+          applicationType: 'Decrease + Others',
+          aveTrx: this.calculateAveTrx(this.chartData, 'Decrease + Others'),
+          aveInDay: this.aveInDay(this.chartData, 'Decrease + Others'),
+          slaStandard: this.slaStandardValue,
+          staffNeeds: this.staffneeds(this.chartData, 'Decrease + Others'),
+          totalStaffNeeds: this.sumStaffneeds(this.chartData),
+          existing: this.staffcredams,
+          shortOver: this.shortOver(this.chartData, 'Decrease + Others'),
         },
       ];
 
       console.log('Updated dataSource:', this.dataSource); // Debugging
     });
   }
-
+  public shortOver(chartData: DashboardData[], applicationType: string): number {
+    return this.staffneeds(chartData, applicationType) - this.staffcredams;
+  }
   private initializeForm() {
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
