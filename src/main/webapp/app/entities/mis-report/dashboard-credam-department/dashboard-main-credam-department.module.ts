@@ -6,6 +6,7 @@ import { MisDashboardModule } from '../mis-dashboard/mis-dashboard.module';
 import { MisDashboardCredamDepartmentComponent } from './dashboard-main-credam-department.component';
 import { MisDashboardInsuranceComponent } from './dashboard/credit-insurance/dashboard-sla-insurance.component';
 import { MisDashboardCredamComponent } from './dashboard/credit-admin/dashboard-credit-admin.component';
+// import { RowspanDirective } from './row-span-directive';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [SharedModule, MisDashboardModule, RouterModule.forChild(routes)],
+  // declarations: [MisDashboardCredamDepartmentComponent, MisDashboardInsuranceComponent, MisDashboardCredamComponent, RowspanDirective],
   declarations: [MisDashboardCredamDepartmentComponent, MisDashboardInsuranceComponent, MisDashboardCredamComponent],
 })
 export class MisDashboardCredamDepartmentModule {}
