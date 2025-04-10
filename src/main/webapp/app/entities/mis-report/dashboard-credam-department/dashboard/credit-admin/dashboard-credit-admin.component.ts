@@ -3,14 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DashboardData } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.model';
 import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.service';
 
-interface CollateralData {
-  activeCollateralStatus: number;
-  existingCollateralStatus: number;
-  newCollateralStatus: number;
-  toBeReleaseCollateralStatus: number;
-  date: string;
-}
-
 @Component({
   selector: 'jhi-mis-dashboard-credit-admin',
   template: `
@@ -181,14 +173,14 @@ export class MisDashboardCredamComponent implements OnInit {
     this.initializeForm();
 
     this.dateForm.valueChanges.subscribe(value => {
-      this.dashboardService.getBarChartData(value.date.format('YYYY-MM-DD')).subscribe(res => {
+      this.dashboardService.getCredamData(value.date.format('YYYY-MM-DD')).subscribe(res => {
         this.chartData = res;
       });
       this.getChartData();
     });
 
     this.dateForm2.valueChanges.subscribe(value => {
-      this.dashboardService.getBarChartData(value.date2.format('YYYY-MM-DD')).subscribe(res => {
+      this.dashboardService.getCredamData(value.date2.format('YYYY-MM-DD')).subscribe(res => {
         this.chartData2 = res;
       });
     });
@@ -207,7 +199,6 @@ export class MisDashboardCredamComponent implements OnInit {
           this.slaStandardValue = 0; // Set default jika data tidak valid
         }
 
-        console.log('SLA Standard Value:', this.slaStandardValue);
         // Panggil getChartData setelah slaStandardValue diperbarui
         this.getChartData();
       },
@@ -228,7 +219,6 @@ export class MisDashboardCredamComponent implements OnInit {
           this.staffcredams = 0; // Set default jika data tidak valid
         }
 
-        console.log('SLA Standard Value:', this.staffcredams);
         // Panggil getChartData setelah slaStandardValue diperbarui
         this.getChartData();
       },
@@ -243,8 +233,6 @@ export class MisDashboardCredamComponent implements OnInit {
       console.warn('chartData is empty, returning 0');
       return 0;
     }
-
-    console.log('Data:', chartData);
 
     const columnKey = {
       New: 'newFacility',
@@ -276,7 +264,6 @@ export class MisDashboardCredamComponent implements OnInit {
 
     this.dashboardService.getCredamData(this.dateForm.get('date')?.value).subscribe(res => {
       this.chartData = res;
-      console.log('Updated chartData:', this.chartData); // Debugging
 
       // Daftar applicationType yang ingin dihitung
       const applicationTypes = [
@@ -300,8 +287,6 @@ export class MisDashboardCredamComponent implements OnInit {
         type,
         average: this.calculateAveTrx(this.chartData, type),
       }));
-
-      console.log('Averages:', averages);
     });
 
     this.getChartData();
@@ -338,7 +323,6 @@ export class MisDashboardCredamComponent implements OnInit {
 
     this.dashboardService.getCredamData(formattedDate).subscribe(res => {
       this.chartData = res;
-      console.log('Updated chartData:', this.chartData); // Debugging
       this.dataSource = [
         {
           applicationType: 'New',
@@ -461,8 +445,6 @@ export class MisDashboardCredamComponent implements OnInit {
           shortOver: this.shortOver(this.chartData, 'Decrease + Others'),
         },
       ];
-
-      console.log('Updated dataSource:', this.dataSource); // Debugging
     });
   }
   public shortOver(chartData: DashboardData[], applicationType: string): number {
