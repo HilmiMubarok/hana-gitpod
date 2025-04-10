@@ -98,8 +98,8 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
         data: this.data.map(item => item[property as keyof DashboardData] as number),
         backgroundColor: this.colorPalette[index % this.colorPalette.length],
         borderRadius: {
-          topLeft: 5,
-          topRight: 5,
+          topLeft: 3,
+          topRight: 3,
           bottomLeft: 0,
           bottomRight: 0,
         },
