@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Chart, registerables } from 'chart.js/auto';
 import { DashboardData } from './mis-dashboard.model';
 
 interface ChartDataset {
@@ -57,6 +57,8 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   chartData: { labels: string[]; datasets: ChartDataset[] };
 
   chart: Chart | undefined;
+
+  this.chart.register(...registerables);
 
   private readonly defaultBorderRadius: ChartBorderRadius = {
     topLeft: 3,
