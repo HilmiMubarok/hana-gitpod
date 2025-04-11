@@ -1,6 +1,9 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 import { DashboardData } from './mis-dashboard.model';
+
+/* Chart.register(...registerables);
 
 interface ChartDataset {
   label: string;
@@ -21,7 +24,7 @@ interface ChartOptions {
   title?: string;
   height?: string;
   backgroundColor?: string;
-}
+} */
 
 @Component({
   selector: 'jhi-mis-dashboard-bar-chart',
@@ -34,41 +37,99 @@ interface ChartOptions {
   ],
   template: `
     <div class="chart-content" [style.height]="options?.height || '400px'">
-      <canvas id="creditChart">{{chart}}</canvas>
+      <canvas
+		baseChart
+		[data]="chartData"
+		[options]="barChartOptions"
+		[type]="barChartType"
+	  >
+	  </canvas>
+
     </div>
   `,
 })
 export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']) {
-      this.data = changes['data'].currentValue;
-
-      this.prepareChartData();
-      this.initializeChart();
-    }
-  }
-
-  constructor() {
-    Chart.register(...registerables);
-  }
-
   @Input() data: DashboardData[] = [];
   @Input() legendPosition;
   @Input() date: Date;
   @Input() options?: ChartOptions;
   @Input() title? = '';
   // @ViewChild('creditChart') creditChart!: ElementRef;
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
   chartData: { labels: string[]; datasets: ChartDataset[] };
 
-  public chart: any;
   // chart: Chart | undefined;
+  
+  public barChartOptions: ChartConfiguration['options'];
+  public barChartType: ChartType;
+  public labelList: string[] = [];
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']) {
+      this.data = changes['data'].currentValue;
 
-  private readonly defaultBorderRadius: ChartBorderRadius = {
+	  this.initBarChart();
+      // this.prepareChartData();
+      // this.initializeChart();
+    }
+  }
+  
+  this.barChartType = 'bar';
+  this.barChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+
+    // We use these empty structures as placeholders for dynamic theming.
+    scales: {
+      x: {},
+      y: {
+        min: 0,
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+      },
+    },
+    interaction: {
+      mode: 'point',
+    },
+  };
+  
+  public initBarChart(): void {
+    this.barChartType = 'bar';
+    this.barChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+
+      // We use these empty structures as placeholders for dynamic theming.
+      scales: {
+        x: {},
+        y: {
+          min: 0,
+          beginAtZero: true,
+        },
+      },
+      plugins: {
+        legend: {
+          display: true,
+        },
+      },
+      interaction: {
+        mode: 'point',
+      },
+    };
+	
+	this.prepareChartData();
+  }
+
+  /* private readonly defaultBorderRadius: ChartBorderRadius = {
     topLeft: 3,
     topRight: 3,
     bottomLeft: 0,
     bottomRight: 0,
-  };
+  }; */
 
   ngOnInit(): void {
     this.prepareChartData();
@@ -132,6 +193,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     });
 
     this.chartData = { labels, datasets };
+	this.chart?.update();
   }
 
   private formatPropertyName(property: string): string {
@@ -147,8 +209,8 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     return formattedWords.join(' ');
   }
 
-  private initializeChart() {
-    /* if (!this.creditChart) {
+  /* private initializeChart() {
+    if (!this.creditChart) {
       return;
     }
 
@@ -158,9 +220,9 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     }
     if (this.chart) {
       this.chart.destroy();
-    } */
+    }
 
-    this.chart = new Chart('creditChart', {
+    this.chart = new Chart(creditChart, {
       type: 'bar',
       data: this.chartData,
       options: {
@@ -217,5 +279,5 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
         },
       },
     });
-  }
+  } */
 }
