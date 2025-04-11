@@ -158,7 +158,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
       this.chart.destroy();
     } */
 
-    this.chart = new Chart(creditChart, {
+    this.chart = new Chart('creditChart', {
       type: 'bar',
       data: this.chartData,
       options: {
