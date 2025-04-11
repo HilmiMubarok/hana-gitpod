@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart, registerables } from 'chart.js/auto';
+import { Chart, registerables } from 'chart.js';
 import { DashboardData } from './mis-dashboard.model';
 
 interface ChartDataset {
