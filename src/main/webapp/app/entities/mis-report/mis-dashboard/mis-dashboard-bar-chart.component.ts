@@ -1,30 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { DashboardData } from './mis-dashboard.model';
-
-/* Chart.register(...registerables);
-
-interface ChartDataset {
-  label: string;
-  data: number[];
-  backgroundColor?: string;
-  borderRadius: ChartBorderRadius;
-  borderSkipped?: boolean;
-}
-
-interface ChartBorderRadius {
-  topLeft: number;
-  topRight: number;
-  bottomLeft: number;
-  bottomRight: number;
-}
-
-interface ChartOptions {
-  title?: string;
-  height?: string;
-  backgroundColor?: string;
-} */
 
 @Component({
   selector: 'jhi-mis-dashboard-bar-chart',
@@ -49,16 +26,16 @@ interface ChartOptions {
   `,
 })
 export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
+  constructor() {}
+  
   @Input() data: DashboardData[] = [];
   @Input() legendPosition;
   @Input() date: Date;
   @Input() options?: ChartOptions;
   @Input() title? = '';
-  // @ViewChild('creditChart') creditChart!: ElementRef;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-  chartData: { labels: string[]; datasets: ChartDataset[] };
-
-  // chart: Chart | undefined;
+  
+  public chartData: { labels: string[]; datasets: ChartDataset[] };
   
   public barChartOptions: ChartConfiguration['options'];
   public barChartType: ChartType;
@@ -69,8 +46,6 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
       this.data = changes['data'].currentValue;
 
 	  this.initBarChart();
-      // this.prepareChartData();
-      // this.initializeChart();
     }
   }
   
@@ -124,19 +99,12 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
 	this.prepareChartData();
   }
 
-  /* private readonly defaultBorderRadius: ChartBorderRadius = {
-    topLeft: 3,
-    topRight: 3,
-    bottomLeft: 0,
-    bottomRight: 0,
-  }; */
-
   ngOnInit(): void {
     this.prepareChartData();
   }
 
   ngAfterViewInit(): void {
-    this.initializeChart();
+    this.prepareChartData();
   }
 
   ngOnDestroy(): void {
@@ -193,7 +161,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     });
 
     this.chartData = { labels, datasets };
-	this.chart?.update();
+	  this.chart?.update();
   }
 
   private formatPropertyName(property: string): string {
@@ -207,77 +175,5 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     const formattedWords = filteredWords.map(word => word.charAt(0).toUpperCase() + word.slice(1));
 
     return formattedWords.join(' ');
-  }
-
-  /* private initializeChart() {
-    if (!this.creditChart) {
-      return;
-    }
-
-    const ctx = this.creditChart.nativeElement.getContext('2d');
-    if (!ctx) {
-      return;
-    }
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    this.chart = new Chart(creditChart, {
-      type: 'bar',
-      data: this.chartData,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: this.title,
-            font: {
-              size: 16,
-            },
-          },
-          legend: {
-            position: this.legendPosition,
-            labels: {
-              usePointStyle: true,
-              padding: 20,
-              font: {
-                size: 11,
-              },
-            },
-          },
-        },
-        scales: {
-          x: {
-            stacked: false,
-            ticks: {
-              font: {
-                size: 11,
-              },
-            },
-          },
-          y: {
-            stacked: false,
-            beginAtZero: true,
-            grid: {
-              color: '#E0E0E0',
-            },
-            ticks: {
-              precision: 0,
-              stepSize: 1,
-              font: {
-                size: 11,
-              },
-            },
-          },
-        },
-        datasets: {
-          bar: {
-            barPercentage: 0.8,
-            categoryPercentage: 0.9,
-          },
-        },
-      },
-    });
-  } */
+  }  
 }
