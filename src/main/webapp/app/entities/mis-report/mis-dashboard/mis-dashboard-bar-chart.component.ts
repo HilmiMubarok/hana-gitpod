@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart, registerables, ChartDataset } from 'chart.js';
+import { Chart, registerables, ChartDataset } from 'https://esm.sh/chart.js@4.4.7';
 import { DashboardData } from './mis-dashboard.model';
 
 Chart.register(...registerables);
