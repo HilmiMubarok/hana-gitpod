@@ -36,7 +36,7 @@ interface ChartOptions {
   ],
   template: `
     <div class="chart-content" [style.height]="options?.height || '400px'">
-      <canvas #creditChart></canvas>
+      <canvas id="creditChart">{{chart}}</canvas>
     </div>
   `,
 })
@@ -55,10 +55,11 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   @Input() date: Date;
   @Input() options?: ChartOptions;
   @Input() title? = '';
-  @ViewChild('creditChart') creditChart!: ElementRef;
+  // @ViewChild('creditChart') creditChart!: ElementRef;
   chartData: { labels: string[]; datasets: ChartDataset[] };
 
-  chart: Chart | undefined;
+  public chart: any;
+  // chart: Chart | undefined;
 
   private readonly defaultBorderRadius: ChartBorderRadius = {
     topLeft: 3,
@@ -145,7 +146,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   }
 
   private initializeChart() {
-    if (!this.creditChart) {
+    /* if (!this.creditChart) {
       return;
     }
 
@@ -155,9 +156,9 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     }
     if (this.chart) {
       this.chart.destroy();
-    }
+    } */
 
-    this.chart = new Chart(ctx, {
+    this.chart = new Chart(creditChart, {
       type: 'bar',
       data: this.chartData,
       options: {
