@@ -58,7 +58,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
 
   chart: Chart | undefined;
 
-  this.chart.register(...registerables);
+  Chart.register(...registerables);
 
   private readonly defaultBorderRadius: ChartBorderRadius = {
     topLeft: 3,
