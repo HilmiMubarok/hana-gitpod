@@ -2,8 +2,6 @@ import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnIn
 import { Chart, registerables } from 'chart.js';
 import { DashboardData } from './mis-dashboard.model';
 
-Chart.register(...registerables);
-
 interface ChartDataset {
   label: string;
   data: number[];
@@ -48,6 +46,10 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
       this.prepareChartData();
       this.initializeChart();
     }
+  }
+
+  constructor() {
+    Chart.register(...registerables);
   }
 
   @Input() data: DashboardData[] = [];
