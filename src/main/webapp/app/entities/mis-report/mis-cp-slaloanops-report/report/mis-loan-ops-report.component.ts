@@ -398,6 +398,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       .join(',\n');
   }
 
+  // getLastCompletedDate
   private getLastCompletedDate(proposal: any): string {
     const timelines = (proposal.timeLineCreditProposal || [])
       .filter((t: any) => t.statusDescription === 'Complete')
@@ -416,6 +417,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       .join(',\n');
   }
 
+  // getLastCompletedTime
   private getLastCompletedTime(proposal: any): string {
     const timelines = (proposal.timeLineCreditProposal || [])
       .filter((t: any) => t.statusDescription === 'Complete')
