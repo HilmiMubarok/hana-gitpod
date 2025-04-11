@@ -205,7 +205,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
     dataSourceTemp.forEach(data => {
       menusData.forEach(menu => {
-        if (menu.parentMenuItemDescription === data.name) {
+        if (menu.parentMenuItemDescription === data.name && menu.menuItemDescription !== 'Dashboard MIS Status') {
           data.children.push({
             name: menu.menuItemDescription,
             iconname: menu.menuItemIcon,
@@ -219,15 +219,15 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       return a.menuItemSequence - b.menuItemSequence || a.id - b.id;
     });
 
-    // HIDE MENU DASHBOARD MIS STATUS
-    // Find index dataSourceTemp[x].name is === 'Mis Report'
-    const misReportIndex = dataSourceTemp.findIndex(x => x.name === 'Mis Report') + 1;
-    // Find dataSoureTemp[misReportIndex].children[x].name is === "Dashboard MIS Status"
-    const dashboardMisStatusIndex = dataSourceTemp[misReportIndex]?.children.findIndex(
-      x => x.name === 'Dashboard MIS Status'
-    );
-    // Remove dataSoureTemp[misReportIndex].children[dashboardMisStatusIndex]
-    dataSourceTemp[misReportIndex]?.children.splice(dashboardMisStatusIndex, 1);
+    // // HIDE MENU DASHBOARD MIS STATUS
+    // // Find index dataSourceTemp[x].name is === 'Mis Report'
+    // const misReportIndex = dataSourceTemp.findIndex(x => x.name === 'Mis Report') + 1;
+    // // Find dataSoureTemp[misReportIndex].children[x].name is === "Dashboard MIS Status"
+    // const dashboardMisStatusIndex = dataSourceTemp[misReportIndex]?.children.findIndex(
+    //   x => x.name === 'Dashboard MIS Status'
+    // );
+    // // Remove dataSoureTemp[misReportIndex].children[dashboardMisStatusIndex]
+    // dataSourceTemp[misReportIndex]?.children.splice(dashboardMisStatusIndex, 1);
 
     this.dataSource.data = dataSourceTemp;
   }
