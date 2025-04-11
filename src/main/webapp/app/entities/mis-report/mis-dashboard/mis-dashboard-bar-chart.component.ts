@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { DashboardData } from './mis-dashboard.model';
 
@@ -15,13 +15,13 @@ import { DashboardData } from './mis-dashboard.model';
   template: `
     <div class="chart-content" [style.height]="options?.height || '400px'">
       <canvas
-		baseChart
-		[data]="chartData"
-		[options]="barChartOptions"
-		[type]="barChartType"
-	  >
-	  </canvas>
-
+        baseChart
+        class="chart"
+        [data]="chartData"
+        [options]="barChartOptions"
+        [type]="barChartType"
+	    >
+	    </canvas>
     </div>
   `,
 })
@@ -161,7 +161,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     });
 
     this.chartData = { labels, datasets };
-	  this.chart?.update();
+	this.chart?.update();
   }
 
   private formatPropertyName(property: string): string {
