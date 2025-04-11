@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnIn
 import { Chart, registerables } from 'chart.js';
 import { DashboardData } from './mis-dashboard.model';
 
+Chart.register(...registerables);
+
 interface ChartDataset {
   label: string;
   data: number[];
@@ -57,8 +59,6 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   chartData: { labels: string[]; datasets: ChartDataset[] };
 
   chart: Chart | undefined;
-
-  Chart.register(...registerables);
 
   private readonly defaultBorderRadius: ChartBorderRadius = {
     topLeft: 3,
