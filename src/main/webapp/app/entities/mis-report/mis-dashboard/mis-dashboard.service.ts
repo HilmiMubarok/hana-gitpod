@@ -15,7 +15,7 @@ export class MisDashboardService {
   endPointCredam: string;
 
   constructor(private http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
-    this.endPoint = applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/insurance');
+    this.endPoint = applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/');
     this.endPointCredam = applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/credit-admin');
     this.endPointUserInsurance = applicationConfigService.getEndpointFor(
       MICROSERVICENAME.LOS + '/api/dashboards/credit-proposal/by-insurance'
@@ -27,9 +27,9 @@ export class MisDashboardService {
     const params = new HttpParams().set('date', date);
     return this.http.get<any>(this.endPointCredam, { params });
   }
-  getBarChartData(date: string) {
+  getBarChartData(date: string, type = 'insurance') {
     const params = new HttpParams().set('date', date);
-    return this.http.get<any>(this.endPoint, { params });
+    return this.http.get<any>(this.endPoint + type, { params });
   }
 
   getBarChartDataUserInsurance(date: string) {

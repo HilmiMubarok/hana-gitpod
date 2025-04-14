@@ -1,8 +1,15 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart, registerables, ChartDataset } from 'chart.js';
-import { DashboardData } from './mis-dashboard.model';
+import { Chart, ChartDataset, registerables } from 'chart.js';
+import { DashboardData, DashboardUserData } from './mis-dashboard.model';
 
 Chart.register(...registerables);
+
+interface ChartBorderRadius {
+  topLeft: number;
+  topRight: number;
+  bottomLeft: number;
+  bottomRight: number;
+}
 
 interface ChartOptions {
   title?: string;
@@ -17,23 +24,65 @@ interface ChartOptions {
       .chart-content {
         padding: 16px;
       }
+
+      .empty-chart-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      .empty-chart-content {
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .empty-chart-content i {
+        font-size: 3rem;
+        color: #ccc;
+        margin-bottom: 1rem;
+      }
+
+      .empty-chart-content h4 {
+        margin-bottom: 0.5rem;
+        color: #555;
+      }
+
+      .empty-chart-content p {
+        color: #888;
+      }
     `,
   ],
   template: `
-    <div class="chart-content" [style.height]="options?.height || '400px'">
+    <div class="chart-content" [style.height]="options?.height || '400px'" [hidden]="data.length === 0">
       <canvas #creditChart></canvas>
+    </div>
+
+    <div [hidden]="data && data.length > 0">
+      <div class="empty-chart-container">
+        <div class="empty-chart-content">
+          <i class="bi bi-bar-chart"></i>
+          <h4>No Data Available</h4>
+          <p>There is no chart data to display for the selected period.</p>
+        </div>
+      </div>
     </div>
   `,
 })
 export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
-  @Input() data: DashboardData[] = [];
+
+  @Input() data: DashboardData[] | DashboardUserData[] = [];
   @Input() legendPosition: 'top' | 'left' | 'bottom' | 'right' = 'top';
+  @Input() type?;
   @Input() date: Date;
   @Input() options?: ChartOptions;
   @Input() title = '';
   @ViewChild('creditChart') creditChart!: ElementRef;
 
-  chartData: { labels: string[]; datasets: ChartDataset<'bar', number[]>[] };
+  chartData: { labels: string[]; datasets: ChartDataset[] };
   chart: Chart | undefined;
 
   private readonly excludedProperties = ['date', 'information', 'showcase'];
@@ -52,6 +101,12 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     '#f8bbd0',
     '#ffe0b2',
   ];
+  private readonly defaultBorderRadius: ChartBorderRadius = {
+    topLeft: 3,
+    topRight: 3,
+    bottomLeft: 0,
+    bottomRight: 0,
+  };
 
   ngOnInit(): void {
     this.prepareChartData();
@@ -77,7 +132,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
 
   private prepareChartData() {
     if (!this.data || this.data.length === 0) {
-      return;
+      this.data = [];
     }
     const labels: string[] = this.data.map(item => {
       const sortedShowcase = [...item.showcase].sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
@@ -89,9 +144,15 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
       );
     })[0];
 
-    const properties = Object.keys(this.data[0]).filter(key => !this.excludedProperties.includes(key));
+    if (this.type === 'user') {
+      this._prepareChartUserData(labels);
+      return;
+    }
 
-    const datasets: ChartDataset<'bar', number[]>[] = properties.map((property, index) => {
+    // Get all properties from the first data item except excluded ones
+    const properties = this.data.length > 0 ? Object.keys(this.data[0]).filter(key => !this.excludedProperties.includes(key)) : [];
+
+    const datasets: ChartDataset[] = properties.map((property, index) => {
       const label = this.formatPropertyName(property);
       return {
         label,
@@ -106,6 +167,34 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
         borderSkipped: false,
       };
     });
+
+    // check if all the datasets value is 0
+    if (datasets.every(dataset => dataset.data.every(value => value === 0))) {
+      this.data = [];
+    }
+
+    this.chartData = { labels, datasets };
+  }
+
+  _prepareChartUserData(labels) {
+    const groupedData = {};
+
+    // Group data by user label
+    this.data.forEach((item, index) => {
+      if (!groupedData[item.nameUser]) {
+        groupedData[item.nameUser] = {
+          label: item.nameUser,
+          data: [],
+          backgroundColor: this.colorPalette[index % this.colorPalette.length],
+          borderRadius: this.defaultBorderRadius,
+          borderSkipped: false,
+        };
+      }
+      groupedData[item.nameUser].data.push(item.total);
+    });
+
+    // Convert grouped data object to an array
+    const datasets = Object.values(groupedData) as ChartDataset[];
 
     this.chartData = { labels, datasets };
   }
