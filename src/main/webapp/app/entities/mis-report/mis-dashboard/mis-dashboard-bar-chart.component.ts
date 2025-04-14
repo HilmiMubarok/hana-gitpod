@@ -1,8 +1,15 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart, registerables, ChartDataset } from 'chart.js';
+import { Chart, ChartDataset, registerables } from 'chart.js';
 import { DashboardData, DashboardUserData } from './mis-dashboard.model';
 
 Chart.register(...registerables);
+
+interface ChartBorderRadius {
+  topLeft: number;
+  topRight: number;
+  bottomLeft: number;
+  bottomRight: number;
+}
 
 interface ChartOptions {
   title?: string;
@@ -66,14 +73,6 @@ interface ChartOptions {
   `,
 })
 export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']) {
-      this.data = changes['data'].currentValue;
-
-      this.prepareChartData();
-      this.initializeChart();
-    }
-  }
 
   @Input() data: DashboardData[] | DashboardUserData[] = [];
   @Input() legendPosition: 'top' | 'left' | 'bottom' | 'right' = 'top';
@@ -83,7 +82,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   @Input() title = '';
   @ViewChild('creditChart') creditChart!: ElementRef;
 
-  chartData: { labels: string[]; datasets: ChartDataset<'bar', number[]>[] };
+  chartData: { labels: string[]; datasets: ChartDataset[] };
   chart: Chart | undefined;
 
   private readonly excludedProperties = ['date', 'information', 'showcase'];
@@ -102,6 +101,12 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     '#f8bbd0',
     '#ffe0b2',
   ];
+  private readonly defaultBorderRadius: ChartBorderRadius = {
+    topLeft: 3,
+    topRight: 3,
+    bottomLeft: 0,
+    bottomRight: 0,
+  };
 
   ngOnInit(): void {
     this.prepareChartData();
@@ -147,7 +152,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     // Get all properties from the first data item except excluded ones
     const properties = this.data.length > 0 ? Object.keys(this.data[0]).filter(key => !this.excludedProperties.includes(key)) : [];
 
-    const datasets: ChartDataset<'bar', number[]>[] = properties.map((property, index) => {
+    const datasets: ChartDataset[] = properties.map((property, index) => {
       const label = this.formatPropertyName(property);
       return {
         label,
