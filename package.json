@@ -76,7 +76,7 @@
     "@syncfusion/ej2-angular-splitbuttons": "20.1.57",
     "@syncfusion/ej2-angular-spreadsheet": "^20.1.61",
     "bootstrap": "5.1.3",
-    "chart.js": "3.0.2",
+    "chart.js": "3.4.1",
     "dayjs": "1.11.0",
     "exceljs": "^4.4.0",
     "file-save": "^0.2.0",
