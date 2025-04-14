@@ -46,7 +46,17 @@ import * as ExcelJS from 'exceljs';
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col"></div>
+            <div class="col">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Username</mat-label>
+                <mat-select formControlName="username">
+                  <mat-option [value]="null">--Select Username--</mat-option>
+                  <mat-option *ngFor="let item of lovUsername" [value]="item.userLogin"
+                    >{{ item.firstName + ' ' + item.lastName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>
@@ -99,6 +109,7 @@ import * as ExcelJS from 'exceljs';
 })
 export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements OnInit, OnDestroy {
   public lovStatus = [];
+  public lovUsername = [];
   listOfValue = [];
   misLoanOpsForm: FormGroup;
   allSelected = false;
@@ -110,6 +121,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       startDate: new FormControl(''),
       endDate: new FormControl(''),
       status: new FormControl(''),
+      username: new FormControl(''),
     });
 
     this.misLoanOpsForm.get('startDate')?.valueChanges.subscribe(date => {
@@ -136,6 +148,12 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       next: res => (this.lovStatus = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
+      },
+    });
+    this.getUsernameLOV('LOAN_OPS_OFFICER').subscribe({
+      next: res => (this.lovUsername = res),
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get List Username' });
       },
     });
   }
@@ -180,6 +198,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       endDate: this.misLoanOpsForm.get('endDate')?.value,
       status: this._convertStatusToString(this.misLoanOpsForm.get('status')?.value),
       type: 'STATELOG',
+      userName: this.misLoanOpsForm.get('username')?.value,
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({
