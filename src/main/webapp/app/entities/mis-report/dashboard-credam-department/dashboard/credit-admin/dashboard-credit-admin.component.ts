@@ -251,44 +251,30 @@ export class MisDashboardCredamComponent implements OnInit {
     });
   }
 
-  public slaStandardValue = 0; // Simpan SLA Standard di variabel global
-
-  public slaStandart(): void {
+  public slaStandardValue = 0;
+  public loadSlaAndStaff(): void {
     this.dashboardService.getSlaStandart().subscribe({
       next: response => {
         if (response && Array.isArray(response)) {
           const slaStandardData = response.find(item => item.id === 'SLA_STANDARD_CREDAM');
-          this.slaStandardValue = slaStandardData ? slaStandardData.value : 0;
-        } else {
-          console.error('Invalid response format:', response);
-          this.slaStandardValue = 0; // Set default jika data tidak valid
-        }
-        this.getChartData();
-      },
-      error: error => {
-        console.error('Error fetching SLA Standard:', error);
-        this.slaStandardValue = 0; // Pastikan default tetap 0 jika terjadi error
-      },
-    });
-  }
-  public existingDataStaff(): void {
-    this.dashboardService.getSlaStandart().subscribe({
-      next: response => {
-        if (response && Array.isArray(response)) {
           const staffCredam = response.find(item => item.id === 'STAFF_CREDAM');
+          this.slaStandardValue = slaStandardData ? slaStandardData.value : 0;
           this.staffcredams = staffCredam ? staffCredam.value : 0;
+          this.getChartData();
         } else {
           console.error('Invalid response format:', response);
-          this.staffcredams = 0; // Set default jika data tidak valid
+          this.slaStandardValue = 0;
+          this.staffcredams = 0;
         }
-        this.getChartData();
       },
       error: error => {
-        console.error('Error fetching SLA Standard:', error);
-        this.staffcredams = 0; // Pastikan default tetap 0 jika terjadi error
+        console.error('Error fetching SLA/Staff:', error);
+        this.slaStandardValue = 0;
+        this.staffcredams = 0;
       },
     });
   }
+
   public calculateAveTrx(chartData: DashboardData[], applicationType: string): number {
     if (!chartData || chartData.length === 0) {
       console.warn('chartData is empty, returning 0');
@@ -320,9 +306,12 @@ export class MisDashboardCredamComponent implements OnInit {
   chartStatisticData;
   statuses = ['DPPK_FINALIZE', 'DPPK_REVIEW'];
   ngOnInit(): void {
-    this.getChartData();
-    this.slaStandart();
-    this.existingDataStaff();
+    this.loadSlaAndStaff();
+    this.dateForm.valueChanges.subscribe(() => {
+      if (this.slaStandardValue && this.staffcredams) {
+        this.getChartData();
+      }
+    });
     const positionId = this.getLocStor('POS');
     this.dashboardService
       .getStatisticLoanOps(positionId)
