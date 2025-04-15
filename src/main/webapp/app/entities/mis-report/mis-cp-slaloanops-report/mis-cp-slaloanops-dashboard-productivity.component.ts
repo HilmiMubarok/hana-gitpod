@@ -153,9 +153,7 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
   private latestStaff: number | null = null;
   private latestData: any = null;
 
-  constructor(private dashboardService: MisDashboardService, private productivityService: MisCpSlaloanopsProductivityService) {
-    this.dataSource.subscribe(data => console.log('DataSource: ', data));
-  }
+  constructor(private dashboardService: MisDashboardService, private productivityService: MisCpSlaloanopsProductivityService) {}
 
   ngOnInit() {
     const filterId = ['STAFF_LOANOPS', 'SLA_STANDARD_LOANOPS'];
