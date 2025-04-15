@@ -42,10 +42,7 @@ import moment from 'moment';
       ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
     <jhi-mis-dashboard-card title="PRODUCTIVITY">
-      <jhi-mis-cp-slaloanops-dashboard-productivity
-        [date]="form.get('date')?.value"
-        [data]="chartTransactionsData"
-      ></jhi-mis-cp-slaloanops-dashboard-productivity>
+      <jhi-mis-cp-slaloanops-dashboard-productivity [data]="chartTransactionsData"></jhi-mis-cp-slaloanops-dashboard-productivity>
     </jhi-mis-dashboard-card>
   `,
   styles: [

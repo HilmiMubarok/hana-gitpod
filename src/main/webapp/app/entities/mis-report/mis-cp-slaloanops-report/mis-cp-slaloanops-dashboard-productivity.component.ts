@@ -147,7 +147,6 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
   dataSource = this.productivityService.processedRowsObservable$;
   totalRows = 0;
   mergedCellContent = '';
-  @Input() date;
   @Input() data;
 
   private latestStandard: number | null = null;
@@ -159,7 +158,6 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
   }
 
   ngOnInit() {
-    // Fetch SLA standard and existing staff, then process facility data
     const filterId = ['STAFF_LOANOPS', 'SLA_STANDARD_LOANOPS'];
     this.dashboardService
       .getSlaStandart()
@@ -191,14 +189,12 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.date = changes.date?.currentValue;
     this.data = changes.data?.currentValue;
     this.latestData = this.data || [];
     this.tryProcessFacilityData();
   }
 
   private tryProcessFacilityData() {
-    // Only process when both slaStandard and existing are not null/undefined/zero
     if (
       this.latestStandard !== null &&
       this.latestStaff !== null &&
@@ -209,8 +205,6 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
       this.productivityService.processFacilityData(this.latestData, this.latestStandard, this.latestStaff);
     }
   }
-
-  // _processData removed: all processing is now handled in the service
 
   shouldHideCell(rowIndex: number, columnName: string): boolean {
     if (columnName === 'totalStaffNeeds' && rowIndex > 0) {
