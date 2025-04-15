@@ -34,11 +34,19 @@ import moment from 'moment';
       ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
     <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS">
-      <jhi-mis-dashboard-bar-chart [legendPosition]="'top'" type="user" [data]="chartUserData" [date]="form.get('date')?.value"></jhi-mis-dashboard-bar-chart>
+      <jhi-mis-dashboard-bar-chart
+        [legendPosition]="'top'"
+        type="user"
+        [data]="chartUserData"
+        [date]="form.get('date')?.value"
+      ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
-    <!-- <jhi-mis-dashboard-card title="PRODUCTIVITY">
-      <jhi-mis-dashboard-productivity></jhi-mis-dashboard-productivity>
-    </jhi-mis-dashboard-card> -->
+    <jhi-mis-dashboard-card title="PRODUCTIVITY">
+      <jhi-mis-cp-slaloanops-dashboard-productivity
+        [date]="form.get('date')?.value"
+        [data]="chartTransactionsData"
+      ></jhi-mis-cp-slaloanops-dashboard-productivity>
+    </jhi-mis-dashboard-card>
   `,
   styles: [
     `
@@ -109,7 +117,7 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
 
   chartStatisticData;
   chartTransactionsData;
-  chartUserData
+  chartUserData;
   today = moment().format('YYYY-MM-DD');
   statuses = ['LOAN_OPS_CHECKING', 'LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
   form: FormGroup;
@@ -129,7 +137,7 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
     this.dashboardService
       .getStatisticLoanOps(positionId)
       .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
-    this.dashboardService.getBarChartData(date, 'loan-ops').subscribe(res => this.chartTransactionsData = res);
-    this.dashboardService.getBarChartData(date, 'by-user-loan-ops').subscribe(res => this.chartUserData = res);
+    this.dashboardService.getBarChartData(date, 'loan-ops').subscribe(res => (this.chartTransactionsData = res));
+    this.dashboardService.getBarChartData(date, 'by-user-loan-ops').subscribe(res => (this.chartUserData = res));
   }
 }
