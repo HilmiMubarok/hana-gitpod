@@ -16,7 +16,89 @@ import { IGeneralParameter } from 'app/entities/master-parameter/general-paramet
 @Component({
   selector: 'jhi-mis-laporan-admin-legal',
   templateUrl: './mis-laporan-admin-legal.component.html',
-  styleUrls: ['./mis-report.style.css'],
+  styleUrls: ['../disabled-style.scss'],
+  styles: [
+    `
+      .select-all {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        line-height: 48px;
+        height: 48px;
+        padding: 0 16px;
+        text-align: left;
+        text-decoration: none;
+        max-width: 100%;
+        position: relative;
+        liststyletype: none;
+        outline: none;
+        display: flex;
+        flex-direction: row;
+        max-width: 100%;
+        box-sizing: border-box;
+        align-items: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .select-all:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+      }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
+
+      .skeleton-loading {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 16px;
+        width: 90%;
+        height: 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+      }
+
+      .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+      .mat-button-toggle-group-appearance-standard {
+        border: none !important;
+      }
+
+      .mat-button-toggle {
+        margin: 0 3px;
+        border-radius: 5px !important;
+        font-weight: 400;
+      }
+
+      .mat-button-toggle-appearance-standard {
+        background: #e5e5e5;
+      }
+
+      .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+        border: none;
+      }
+
+      .mat-button-toggle-checked {
+        color: rgb(255 255 255 / 87%);
+        background: #48a5a0;
+      }
+
+      @keyframes skeleton-loading {
+        0% {
+          background-color: #e2e2e2;
+        }
+        50% {
+          background-color: #f2f2f2;
+        }
+        100% {
+          background-color: #e2e2e2;
+        }
+      }
+    `,
+  ],
 })
 export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implements OnInit {
   public inRegions: string[] = [
@@ -237,31 +319,39 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   onDateRangeBlur() {
     this.checkFieldStatus();
   }
-
+  private debounceTimer: any;
   checkFieldStatus() {
-    const startDate = this.form.get('startDate')?.value;
-    const endDate = this.form.get('endDate')?.value;
-    const status = this.form.get('status')?.value;
-    const jenisPengikatan = this.form.get('jenisPengikatan')?.value;
-    const regional = this.form.get('regional')?.value;
-    const branch = this.form.get('branch')?.value;
-    const akta = this.form.get('akta')?.value;
-
-    if (
-      startDate ||
-      endDate ||
-      (status && status.length > 0) ||
-      (regional && regional.length > 0) ||
-      (jenisPengikatan && jenisPengikatan.length > 0) ||
-      (branch && branch.length > 0) ||
-      (akta && akta.length > 0)
-    ) {
-      this.form.get('query')?.disable();
-      this.applyDisabledStyle(this.formContainer.nativeElement, true);
-    } else {
-      this.form.get('query')?.enable();
-      this.applyDisabledStyle(this.formContainer.nativeElement, false);
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
     }
+
+    this.debounceTimer = setTimeout(() => {
+      const startDate = this.form.get('startDate')?.value;
+      const endDate = this.form.get('endDate')?.value;
+      const status = this.form.get('status')?.value;
+      const jenisPengikatan = this.form.get('jenisPengikatan')?.value;
+      const regional = this.form.get('regional')?.value;
+      const branch = this.form.get('branch')?.value;
+      const akta = this.form.get('akta')?.value;
+      const aggrementType = this.form.get('aggrementType')?.value;
+
+      if (
+        startDate ||
+        endDate ||
+        (status && status.length > 0) ||
+        (jenisPengikatan && jenisPengikatan.length > 0) ||
+        (regional && regional.length > 0) ||
+        (branch && branch.length > 0) ||
+        (akta && akta.length > 0) ||
+        (aggrementType && aggrementType.length > 0)
+      ) {
+        this.form.get('query')?.disable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, true);
+      } else {
+        this.form.get('query')?.enable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, false);
+      }
+    }, 50);
   }
 
   public dateRangeHasValue(): boolean {
@@ -490,10 +580,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       this.form.get('startDate')?.enable();
       this.form.get('endDate')?.enable();
       this.form.get('status')?.enable();
-      this.form.get('username')?.enable();
       this.form.get('regional')?.enable();
       this.form.get('branch')?.enable();
       this.form.get('akta')?.enable();
+      this.form.get('jenisPengikatan')?.enable();
+      this.form.get('aggrementType')?.enable();
 
       this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
@@ -503,10 +594,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     this.form.get('startDate')?.disable();
     this.form.get('endDate')?.disable();
     this.form.get('status')?.disable();
-    this.form.get('username')?.disable();
     this.form.get('regional')?.disable();
     this.form.get('branch')?.disable();
     this.form.get('akta')?.disable();
+    this.form.get('jenisPengikatan')?.disable();
+    this.form.get('aggrementType')?.disable();
 
     this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
