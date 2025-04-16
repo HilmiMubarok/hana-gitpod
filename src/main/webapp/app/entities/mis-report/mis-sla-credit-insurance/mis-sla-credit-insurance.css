@@ -14,7 +14,9 @@
   order: 0;
   flex-grow: 0;
 }
-
+.e-breadcrumb-text .e-anchor-wrap {
+  color: black;
+}
 .html * {
   font-family: 'Poppins', sans-serif !important;
 }

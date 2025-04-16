@@ -2,7 +2,9 @@
   padding: 10px;
   margin-bottom: 1rem;
 }
-
+.e-breadcrumb-text .e-anchor-wrap {
+  color: black;
+}
 .e-card .e-card-header .e-card-header-caption .e-card-header-title {
   font-family: 'Poppins', sans-serif;
   font-size: 18px;
@@ -15,7 +17,7 @@
   flex-grow: 0;
 }
 
-.e-breadcrumb .e-breadcrumb-item .e-breadcrumb-text .e-anchor-wrap {
+.e-breadcrumb .e-breadcrumb-item {
   align-items: inherit;
   display: inherit;
   color: #597c97;
