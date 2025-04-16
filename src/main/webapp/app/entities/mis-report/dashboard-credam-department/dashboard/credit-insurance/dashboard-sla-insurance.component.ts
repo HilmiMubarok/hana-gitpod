@@ -37,7 +37,7 @@ import { MessageService } from 'primeng/api';
       ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
 
-    <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS">
+    <jhi-mis-dashboard-card title="BY USER CREDIT INSURANCE">
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         type="user"
@@ -169,7 +169,7 @@ import { MessageService } from 'primeng/api';
 
       .mat-column-aveInDay {
         width: 32px;
-        border-right: 1px solid currentColo;
+        border-right: 1px solid currentColor;
         padding-right: 24px;
         text-align: center;
       }
