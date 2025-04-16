@@ -7,12 +7,8 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-mis-dashboard-credit-insurance',
   template: `
-    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
-      <jhi-mis-dashboard-card-statistic></jhi-mis-dashboard-card-statistic>
-    </jhi-mis-dashboard-card>
-
-    <jhi-mis-dashboard-card title="BY TRANSACTION">
-      <div class="form-controls">
+    <div class="d-flex flex-row-reverse">
+      <div class="form-container">
         <mat-form-field [formGroup]="dateForm" appearance="outline">
           <mat-label>Select Month</mat-label>
           <input matInput formControlName="date" [matDatepicker]="picker" />
@@ -20,6 +16,19 @@ import { MessageService } from 'primeng/api';
           <mat-datepicker #picker startView="year"></mat-datepicker>
         </mat-form-field>
       </div>
+    </div>
+
+    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
+      <div class="row">
+        <ng-container *ngFor="let data of chartStatisticData">
+          <div class="col-md-3 my-2">
+            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
+          </div>
+        </ng-container>
+      </div>
+    </jhi-mis-dashboard-card>
+
+    <jhi-mis-dashboard-card title="BY TRANSACTION">
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         [data]="chartData"
@@ -28,22 +37,14 @@ import { MessageService } from 'primeng/api';
       ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
 
-    <!-- <jhi-mis-dashboard-card title="BY User Credit Insurance">
-      <div class="form-controls">
-        <mat-form-field [formGroup]="dateForm" appearance="outline">
-          <mat-label>Select Month</mat-label>
-          <input matInput formControlName="dateUserInsurance" [matDatepicker]="picker" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker startView="year"></mat-datepicker>
-        </mat-form-field>
-      </div>
+    <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS">
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
-        [data]="chartData"
-        [date]="dateForm.get('dateUserInsurance')?.value"
-        title="Credit Admin"
+        type="user"
+        [data]="chartUserData"
+        [date]="dateForm.get('date')?.value"
       ></jhi-mis-dashboard-bar-chart>
-    </jhi-mis-dashboard-card> -->
+    </jhi-mis-dashboard-card>
 
     <jhi-mis-dashboard-card title="PRODUCTIVITY">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
@@ -154,21 +155,21 @@ import { MessageService } from 'primeng/api';
       // css grid
       .mat-column-applicationType {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
       }
 
       .mat-column-aveTrx {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
       }
 
       .mat-column-aveInDay {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid currentColo;
         padding-right: 24px;
         text-align: center;
       }
@@ -214,7 +215,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
   dateForm: FormGroup;
   dateUserInsurance: FormGroup;
   chartData: DashboardData[] = [];
-  // chartDataUserInsurance: DashboardData[] = [];
+
   displayedColumns: string[] = [
     'applicationType',
     'aveTrx',
@@ -232,27 +233,29 @@ export class MisDashboardInsuranceComponent implements OnInit {
 
   constructor(private dashboardService: MisDashboardService, public messageService: MessageService) {
     this.initializeForm();
+  }
 
-    this.dateForm.valueChanges.subscribe(value => {
-      this.dashboardService.getBarChartData(value.date.format('YYYY-MM-DD')).subscribe(res => {
-        this.chartData = res;
-      });
-      this.getChartData();
+  chartStatisticData;
+  chartUserData;
+  statuses = ['LOAN_OPS_CHECKING', 'LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
     });
+
+    return result;
   }
 
   ngOnInit(): void {
-    this.dashboardService.getBarChartData(this.dateForm.get('date')?.value).subscribe(res => {
-      this.chartData = res;
-
-      const applicationTypes = ['Active', 'Existing', 'New', 'To Be Released'];
-
-      const averages = applicationTypes.map(type => ({
-        type,
-        average: this.calculateAveTrx(this.chartData, type),
-      }));
-    });
-
+    this._fetchAllData(this.dateForm.get('date')?.value);
     this.slaStandart();
     this.existing();
   }
@@ -284,7 +287,6 @@ export class MisDashboardInsuranceComponent implements OnInit {
       next: res => {
         const slaStandardInsurance = res.find((item: any) => item.id === 'STAFF_INSURANCE');
         this.existingValue = slaStandardInsurance ? slaStandardInsurance.value : '0';
-        // this.getChartData();
       },
     });
   }
@@ -338,44 +340,6 @@ export class MisDashboardInsuranceComponent implements OnInit {
     return data.reduce((sum, row) => sum + (Number(row.staffNeeds) || 0), 0);
   }
 
-  public getChartData() {
-    this.dateForm.valueChanges.subscribe(value => {
-      const formattedDate = value.date?.format('YYYY-MM-DD');
-
-      this.dashboardService.getBarChartData(formattedDate).subscribe(res => {
-        this.chartData = res;
-
-        const processedData = ['Active', 'Existing', 'New', 'To Be Released'].map(applicationType => {
-          const aveTrx = this.calculateAveTrx(this.chartData, applicationType);
-          const aveInDay = this.aveInDay(this.chartData, applicationType);
-          const slaStandard = this.slaStandardValue;
-          const staffNeeds = Number(this.staffNeeds(applicationType)).toFixed(2);
-          const existing = this.existingValue;
-          const shortOver = this.getShortOver(applicationType).toFixed(2);
-
-          return {
-            applicationType,
-            aveTrx,
-            aveInDay,
-            slaStandard,
-            staffNeeds,
-            existing,
-            shortOver,
-          };
-        });
-
-        const totalStaffNeedsValue = this.totalStaffNeeds(processedData).toFixed(2);
-
-        this.dataSource = this.calculateRowSpan(
-          processedData.map(row => ({
-            ...row,
-            totalStaffNeeds: totalStaffNeedsValue,
-          }))
-        );
-      });
-    });
-  }
-
   calculateRowSpan(data: any[]): any[] {
     const countMap: { [key: string]: number } = {};
 
@@ -409,8 +373,58 @@ export class MisDashboardInsuranceComponent implements OnInit {
     this.dateForm = new FormGroup({
       date: new FormControl(formattedDate),
     });
-    // this.dateUserInsurance = new FormGroup({
-    //   dateUserInsurance: new FormControl(formattedDate),
-    // });
+  }
+
+  _fetchAllData(date): void {
+    const positionId = this.getLocStor('POS');
+    this.dashboardService
+      .getStatisticLoanOps(positionId)
+      .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
+
+    this.dashboardService.getBarChartData(date, 'insurance').subscribe(res => {
+      this.chartData = res;
+      this.processChartData();
+    });
+
+    this.dashboardService.getBarChartData(date, 'by-insurance').subscribe(res => (this.chartUserData = res));
+  }
+
+  public getChartData(): void {
+    this.dateForm.valueChanges.subscribe(value => {
+      const formattedDate = value.date?.format('YYYY-MM-DD');
+      this._fetchAllData(formattedDate);
+    });
+  }
+
+  private processChartData(): void {
+    if (this.chartData?.length) {
+      const processedData = ['Active', 'Existing', 'New', 'To Be Released'].map(applicationType => {
+        const aveTrx = this.calculateAveTrx(this.chartData, applicationType);
+        const aveInDay = this.aveInDay(this.chartData, applicationType);
+        const slaStandard = this.slaStandardValue;
+        const staffNeeds = Number(this.staffNeeds(applicationType)).toFixed(2);
+        const existing = this.existingValue;
+        const shortOver = this.getShortOver(applicationType).toFixed(2);
+
+        return {
+          applicationType,
+          aveTrx,
+          aveInDay,
+          slaStandard,
+          staffNeeds,
+          existing,
+          shortOver,
+        };
+      });
+
+      const totalStaffNeedsValue = this.totalStaffNeeds(processedData).toFixed(2);
+
+      this.dataSource = this.calculateRowSpan(
+        processedData.map(row => ({
+          ...row,
+          totalStaffNeeds: totalStaffNeedsValue,
+        }))
+      );
+    }
   }
 }
