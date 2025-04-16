@@ -1,15 +1,14 @@
 <div class="row remove-row-scroll">
   <form [formGroup]="misCpTimeline" (ngSubmit)="generateMISCPTimeline()">
+    <div class="e-card-header-caption">
+      <ejs-breadcrumb cssClass="margin: 1rem;">
+        <e-breadcrumb-items>
+          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+          <e-breadcrumb-item text="MIS Credit Proposal Timeline" url=""> </e-breadcrumb-item>
+        </e-breadcrumb-items>
+      </ejs-breadcrumb>
+    </div>
     <div class="e-card">
-      <div class="e-card-header-caption">
-        <ejs-breadcrumb cssClass="margin: 1rem;">
-          <e-breadcrumb-items>
-            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="MIS Credit Proposal Timeline" url=""> </e-breadcrumb-item>
-          </e-breadcrumb-items>
-        </ejs-breadcrumb>
-      </div>
-
       <mat-card-content>
         <div class="col mb-3 custom-margin mt-5">
           <mat-form-field>

@@ -10,16 +10,15 @@ import * as ExcelJS from 'exceljs';
   selector: 'jhi-mis-loan-ops-report',
   template: `
     <form [formGroup]="misLoanOpsForm" (ngSubmit)="generateMISLoanOps()">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="SLA Loan Operations" url=""> </e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+      </div>
       <mat-card style="border-radius: 12px">
-        <div class="e-card-header-caption">
-          <ejs-breadcrumb cssClass="margin: 1rem;">
-            <e-breadcrumb-items>
-              <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-              <e-breadcrumb-item text="SLA Loan Operations" url=""> </e-breadcrumb-item>
-            </e-breadcrumb-items>
-          </ejs-breadcrumb>
-        </div>
-
         <mat-card-content>
           <div class="row my-3">
             <div class="col">

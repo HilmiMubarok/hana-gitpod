@@ -33,20 +33,12 @@ import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-d
       ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
 
-    <jhi-mis-dashboard-card title="BY User Credit Admin">
-      <div class="form-controls">
-        <mat-form-field [formGroup]="dateCredam" appearance="outline">
-          <mat-label>Select Month</mat-label>
-          <input matInput formControlName="dateCredam" [matDatepicker]="picker" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker startView="year"></mat-datepicker>
-        </mat-form-field>
-      </div>
+    <jhi-mis-dashboard-card title="BY USER CREDIT ADMIN">
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
-        [data]="chartData2"
-        [date]="dateForm.get('dateCredam')?.value"
-        title="Credit Admin"
+        type="user"
+        [data]="chartUserData"
+        [date]="dateForm.get('date')?.value"
       ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
 
@@ -221,9 +213,8 @@ import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-d
 })
 export class MisDashboardCredamComponent implements OnInit {
   dateForm: FormGroup;
-  dateCredam: FormGroup;
   chartData: DashboardData[] = [];
-  chartData2: DashboardData[] = [];
+  chartUserData;
   displayedColumns: string[] = [
     'applicationType',
     'aveTrx',
@@ -244,9 +235,9 @@ export class MisDashboardCredamComponent implements OnInit {
       this.getChartData();
     });
 
-    this.dateCredam.valueChanges.subscribe(value => {
-      this.dashboardService.getBarChartData(value.dateCredam.format('YYYY-MM-DD'), 'by-user-credam').subscribe(res => {
-        this.chartData2 = res;
+    this.dateForm.valueChanges.subscribe(value => {
+      this.dashboardService.getBarChartData(value.date.format('YYYY-MM-DD'), 'by-user-credam').subscribe(res => {
+        this.chartUserData = res;
       });
     });
   }
@@ -440,9 +431,6 @@ export class MisDashboardCredamComponent implements OnInit {
 
     this.dateForm = new FormGroup({
       date: new FormControl(formattedDate),
-    });
-    this.dateCredam = new FormGroup({
-      dateCredam: new FormControl(formattedDate),
     });
   }
 }
