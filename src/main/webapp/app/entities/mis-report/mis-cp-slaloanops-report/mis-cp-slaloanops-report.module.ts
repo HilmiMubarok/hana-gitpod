@@ -6,6 +6,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { MisLoanOpsReportComponent } from './report/mis-loan-ops-report.component';
 import { MisDashboardModule } from '../mis-dashboard/mis-dashboard.module';
 import { MisCpSlaLoanOpsDashboardComponent } from './mis-cp-slaloanops-dashboard.component';
+import { MisCpSlaloanopsDashboardProductivityComponent } from './mis-cp-slaloanops-dashboard-productivity.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
     MisCpSlaloanopsReportComponent,
     MisLoanOpsReportComponent,
     MisCpSlaLoanOpsDashboardComponent,
+    MisCpSlaloanopsDashboardProductivityComponent
   ],
 })
 export class MisCpSlaloanopsReportModule { }
