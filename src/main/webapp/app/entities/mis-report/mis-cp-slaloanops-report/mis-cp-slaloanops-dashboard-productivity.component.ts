@@ -47,12 +47,21 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
 
         <ng-container matColumnDef="existing">
           <th mat-header-cell *matHeaderCellDef>Existing</th>
-          <td mat-cell *matCellDef="let element">{{ element.existing }}</td>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [attr.rowspan]="getRowspan(i, 'existing')"
+            [style.display]="shouldHideCell(i, 'existing') ? 'none' : ''"
+          >
+            {{ element.existing }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="shortOver">
           <th mat-header-cell *matHeaderCellDef>Short/Over</th>
-          <td mat-cell *matCellDef="let element">{{ element.shortOver }}</td>
+          <td mat-cell *matCellDef="let element; let i = index">
+            {{ element.shortOver }}
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -205,14 +214,14 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
   }
 
   shouldHideCell(rowIndex: number, columnName: string): boolean {
-    if (columnName === 'totalStaffNeeds' && rowIndex > 0) {
+    if ((columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortsOver') && rowIndex > 0) {
       return true;
     }
     return false;
   }
 
   getRowspan(rowIndex: number, columnName: string): number {
-    if (rowIndex === 0 && columnName === 'totalStaffNeeds') {
+    if (rowIndex === 0 && (columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortsOver')) {
       return this.totalRows;
     }
     return 1;
