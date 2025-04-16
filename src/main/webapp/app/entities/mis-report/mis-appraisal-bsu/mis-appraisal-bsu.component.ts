@@ -8,6 +8,9 @@ import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
 import { PageEvent } from '@angular/material/paginator';
 import { HttpErrorResponse } from '@angular/common/http';
+import { map } from 'rxjs';
+import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { InternalService } from 'app/entities/internal/internal.service';
 
 @Component({
   selector: 'jhi-mis-appraisal-bsu',
@@ -49,6 +52,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   public lovBranch = [];
   public lovAppraisalType: string[] = ['Internal', 'External'];
   public lovGeo = [];
+  public lovRegional = [];
   data = '';
   date1: any;
   date2: any;
@@ -56,6 +60,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   allSelectedAppraisal = false;
   allSelectedBranch = false;
   allSelectedAppraisalType = false;
+  allSelectedRegional = false;
   MISReportAppraisal: FormGroup;
 
   displayedColumns: string[] = ['appraisalNumber', 'cif', 'debtorName', 'appraisalType', 'appraisalDate', 'statusDescription'];
@@ -66,7 +71,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     console.log('test', event.value);
   }
 
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
 
     this.MISReportAppraisal = new FormGroup({
@@ -76,6 +81,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       statusAppraisal: new FormControl(''),
       branch: new FormControl(null),
       appraisalType: new FormControl(null),
+      regional: new FormControl(null),
       query: new FormControl(''),
     });
 
@@ -133,6 +139,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.getStatusesAppraisal();
     this.getBoundaries();
     this.getBranch();
+    this.getRegional();
   }
 
   checkFieldStatus() {
@@ -306,6 +313,23 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     });
   }
 
+  getRegional() {
+    this.internalService
+      .queryFilterBy({
+        idInternalType: APPLICATION_TYPE.BUSINESS_UNIT,
+        size: 9999,
+        page: 0,
+      })
+      .pipe(
+        map(response => response.body),
+        map(internals => internals.map(internal => ({ id: internal.id, name: internal.facilityName })))
+      )
+      .subscribe({
+        next: internals => (this.lovRegional = internals),
+        error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Regional Data' }),
+      });
+  }
+
   getBoundaries() {
     this.misReportService.getGeoBoundaries().subscribe({
       next: res => {
@@ -334,6 +358,15 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       this.MISReportAppraisal.get('geoBoundaries')?.setValue([...this.lovGeo.map(geoBoundaries => geoBoundaries.id)]);
     } else {
       this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
+    }
+  }
+
+  toggleSelectAllRegional(): void {
+    this.allSelectedRegional = !this.allSelectedRegional;
+    if (this.allSelectedRegional) {
+      this.MISReportAppraisal.get('regional')?.setValue([...this.lovRegional.map(regional => regional.id)]);
+    } else {
+      this.MISReportAppraisal.get('regional')?.setValue(null);
     }
   }
 
@@ -766,11 +799,17 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       { header: 'Status', key: 'status', width: 25 },
     ];
 
-    const sortedData = data.sort((a, b) => {
+    let sortedData;
+    sortedData = data.sort((a, b) => {
       const dateA = new Date(a.appraisalDate).getTime();
       const dateB = new Date(b.appraisalDate).getTime();
       return dateA - dateB;
     });
+
+    const regionalIds = this.MISReportAppraisal.get('regional')?.value;
+    if (regionalIds?.length > 0) {
+      sortedData = sortedData.filter(row => regionalIds.includes(row.regionalDebiturId));
+    }
 
     sortedData.forEach((row, index) => {
       const visitedTimeline = row.timeLine
