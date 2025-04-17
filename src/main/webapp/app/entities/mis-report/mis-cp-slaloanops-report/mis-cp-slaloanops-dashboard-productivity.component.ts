@@ -6,6 +6,7 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
 @Component({
   selector: 'jhi-mis-cp-slaloanops-dashboard-productivity',
   template: `
+    <h1 class="text-center title mb-3">Productivity Loan Operations</h1>
     <div class="mat-elevation-z8 table-container">
       <table mat-table [dataSource]="dataSource" class="application-table">
         <ng-container matColumnDef="applicationType">
@@ -59,7 +60,12 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
 
         <ng-container matColumnDef="shortOver">
           <th mat-header-cell *matHeaderCellDef>Short/Over</th>
-          <td mat-cell *matCellDef="let element; let i = index">
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [attr.rowspan]="getRowspan(i, 'shortOver')"
+            [style.display]="shouldHideCell(i, 'shortOver') ? 'none' : ''"
+          >
             {{ element.shortOver }}
           </td>
         </ng-container>
@@ -71,6 +77,10 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
   `,
   styles: [
     `
+      .title {
+        color: #257e79f7;
+      }
+
       .table-container {
         width: 100%;
         overflow-x: auto;
@@ -89,6 +99,7 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
         color: #333;
         font-weight: bold;
         padding: 12px 8px;
+        border: 1px solid #e1e1e1;
       }
 
       .mat-cell {
@@ -214,14 +225,14 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
   }
 
   shouldHideCell(rowIndex: number, columnName: string): boolean {
-    if ((columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortsOver') && rowIndex > 0) {
+    if ((columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortOver') && rowIndex > 0) {
       return true;
     }
     return false;
   }
 
   getRowspan(rowIndex: number, columnName: string): number {
-    if (rowIndex === 0 && (columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortsOver')) {
+    if (rowIndex === 0 && (columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortOver')) {
       return this.totalRows;
     }
     return 1;
