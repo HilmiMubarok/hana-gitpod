@@ -59,7 +59,12 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
 
         <ng-container matColumnDef="shortOver">
           <th mat-header-cell *matHeaderCellDef>Short/Over</th>
-          <td mat-cell *matCellDef="let element; let i = index">
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [attr.rowspan]="getRowspan(i, 'shortOver')"
+            [style.display]="shouldHideCell(i, 'shortOver') ? 'none' : ''"
+          >
             {{ element.shortOver }}
           </td>
         </ng-container>
@@ -214,14 +219,14 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
   }
 
   shouldHideCell(rowIndex: number, columnName: string): boolean {
-    if ((columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortsOver') && rowIndex > 0) {
+    if ((columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortOver') && rowIndex > 0) {
       return true;
     }
     return false;
   }
 
   getRowspan(rowIndex: number, columnName: string): number {
-    if (rowIndex === 0 && (columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortsOver')) {
+    if (rowIndex === 0 && (columnName === 'totalStaffNeeds' || columnName === 'existing' || columnName === 'shortOver')) {
       return this.totalRows;
     }
     return 1;
