@@ -2,10 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DashboardData } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.model';
 import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.service';
-
+import moment from 'moment';
 @Component({
   selector: 'jhi-mis-dashboard-credit-admin',
   template: `
+    <div class="d-flex flex-row-reverse">
+      <div class="form-container">
+        <mat-form-field [formGroup]="dateForm" appearance="outline">
+          <mat-label>Select Month</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
     <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
       <div class="row">
         <ng-container *ngFor="let data of chartStatisticData">
@@ -17,14 +27,6 @@ import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-d
     </jhi-mis-dashboard-card>
 
     <jhi-mis-dashboard-card title="BY TRANSACTION">
-      <div class="form-controls">
-        <mat-form-field [formGroup]="dateForm" appearance="outline">
-          <mat-label>Select Month</mat-label>
-          <input matInput formControlName="date" [matDatepicker]="picker" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker startView="year"></mat-datepicker>
-        </mat-form-field>
-      </div>
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         [data]="chartData"
@@ -89,7 +91,11 @@ import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-d
 
         <ng-container matColumnDef="shortOver">
           <th mat-header-cell *matHeaderCellDef>Short/Over</th>
-          <td mat-cell *matCellDef="let element">{{ element.shortOver }}</td>
+          <ng-container *matCellDef="let element">
+            <td *ngIf="element.rowSpanShortOver > 0" mat-cell [attr.rowspan]="element.rowSpanShortOver">
+              {{ element.shortOver }}
+            </td>
+          </ng-container>
         </ng-container>
 
         <thead>
@@ -274,7 +280,7 @@ export class MisDashboardCredamComponent implements OnInit {
 
     const columnKey = {
       New: 'newFacility',
-      'Additional / TopUp': 'additionalTopupFacility',
+      'Additional / Top Up': 'additionalTopupFacility',
       Renewal: 'renewalFacility',
       Existing: 'existingFacility',
       Others: 'othersFacility',
@@ -288,7 +294,7 @@ export class MisDashboardCredamComponent implements OnInit {
 
     const total = chartData.reduce((sum, item) => sum + (item[columnKey] || 0), 0);
 
-    return total / chartData.length;
+    return total;
   }
 
   public aveInDay(chartData: DashboardData[], applicationType: string): number {
@@ -329,7 +335,7 @@ export class MisDashboardCredamComponent implements OnInit {
   public sumStaffneeds(chartData: DashboardData[]): number {
     const applicationTypes = [
       'New',
-      'Additional / TopUp',
+      'Additional / Top Up',
       'Renewal',
       'Existing',
       'Others',
@@ -347,7 +353,7 @@ export class MisDashboardCredamComponent implements OnInit {
 
   getChartData() {
     const rawDate = this.dateForm.get('date')?.value;
-    const formattedDate = rawDate ? new Date(rawDate).toISOString().split('T')[0] : '';
+    const formattedDate = moment(rawDate).format('YYYY-MM-DD');
     this.dashboardService.getBarChartData(formattedDate, 'credit-admin').subscribe(res => {
       this.chartData = res;
 
@@ -374,7 +380,7 @@ export class MisDashboardCredamComponent implements OnInit {
         staffNeeds: this.staffneeds(this.chartData, applicationType),
         totalStaffNeeds: this.sumStaffneeds(this.chartData),
         existing: this.staffcredams,
-        shortOver: this.shortOver(this.chartData, applicationType),
+        shortOver: this.shortOver(this.chartData),
       }));
       this.dataSource = this.calculateRowSpan(processedData);
     });
@@ -382,39 +388,46 @@ export class MisDashboardCredamComponent implements OnInit {
   calculateRowSpan(data: any[]): any[] {
     const totalMap: { [key: string]: number } = {};
     const existingMap: { [key: string]: number } = {};
+    const shortOverMap: { [key: string]: number } = {};
 
-    // Hitung jumlah kemunculan untuk masing-masing nilai
     data.forEach(row => {
       const totalKey = row.totalStaffNeeds;
       const existingKey = row.existing;
+      const shortOverKey = row.shortOver;
 
       totalMap[totalKey] = (totalMap[totalKey] || 0) + 1;
       existingMap[existingKey] = (existingMap[existingKey] || 0) + 1;
+      shortOverMap[shortOverKey] = (shortOverMap[shortOverKey] || 0) + 1;
     });
 
     const totalAdded: { [key: string]: boolean } = {};
     const existingAdded: { [key: string]: boolean } = {};
+    const shortOverAdded: { [key: string]: boolean } = {};
 
     return data.map(row => {
       const totalKey = row.totalStaffNeeds;
       const existingKey = row.existing;
+      const shortOverKey = row.shortOver;
 
       const rowSpanTotal = !totalAdded[totalKey] ? totalMap[totalKey] : 0;
       const rowSpanExisting = !existingAdded[existingKey] ? existingMap[existingKey] : 0;
+      const rowSpanShortOver = !shortOverAdded[shortOverKey] ? shortOverMap[shortOverKey] : 0;
 
       totalAdded[totalKey] = true;
       existingAdded[existingKey] = true;
+      shortOverAdded[shortOverKey] = true;
 
       return {
         ...row,
         rowSpanTotal,
         rowSpanExisting,
+        rowSpanShortOver,
       };
     });
   }
 
-  public shortOver(chartData: DashboardData[], applicationType: string): number {
-    const staffNeed = this.staffneeds(chartData, applicationType);
+  public shortOver(chartData: DashboardData[]): number {
+    const staffNeed = this.sumStaffneeds(chartData);
     const existing = this.staffcredams;
 
     if (isNaN(staffNeed) || isNaN(existing)) {
