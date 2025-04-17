@@ -6,6 +6,7 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
 @Component({
   selector: 'jhi-mis-cp-slaloanops-dashboard-productivity',
   template: `
+    <h1 class="text-center title mb-3">Productivity Loan Operations</h1>
     <div class="mat-elevation-z8 table-container">
       <table mat-table [dataSource]="dataSource" class="application-table">
         <ng-container matColumnDef="applicationType">
@@ -76,6 +77,10 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
   `,
   styles: [
     `
+      .title {
+        color: #257e79f7;
+      }
+
       .table-container {
         width: 100%;
         overflow-x: auto;
@@ -94,6 +99,7 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
         color: #333;
         font-weight: bold;
         padding: 12px 8px;
+        border: 1px solid #e1e1e1;
       }
 
       .mat-cell {
