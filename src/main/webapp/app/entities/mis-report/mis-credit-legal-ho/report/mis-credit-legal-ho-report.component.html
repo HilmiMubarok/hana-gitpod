@@ -17,133 +17,247 @@
 <form [formGroup]="form" (ngSubmit)="generateMISLegalReport()">
     <mat-card>
         <mat-card-content>
-            <div class="row">
-                <div class="col-12 col-md-6 mb-1" [hidden]="menu !== 'dateFromStatus'">
-                    <div #formContainer>
-                        <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true"
-                            [class.disabled-control]="form.get('startDate')?.disabled && form.get('endDate')?.disabled">
-                            <mat-label>Enter a date range</mat-label>
-                            <mat-date-range-input [rangePicker]="picker">
-                                <input matStartDate formControlName="startDate" placeholder="Start date"
-                                    (focus)="onDateRangeFocus()" (blur)="onDateRangeBlur()"
-                                    [class.disabled-control]="form.get('startDate')?.disabled" />
-                                <input matEndDate formControlName="endDate" placeholder="End date"
-                                    (focus)="onDateRangeFocus()" (blur)="onDateRangeBlur()"
-                                    [class.disabled-control]="form.get('endDate')?.disabled" />
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker></mat-date-range-picker>
-                            <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
-                                <mat-icon matDatepickerToggleIcon>clear</mat-icon>
-                            </mat-datepicker-toggle>
-                        </mat-form-field>
+
+            <ng-container *ngIf="menu === 'dateFromStatus'; else proposalDate">
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true"
+                                [class.disabled-control]="form.get('startDate')?.disabled && form.get('endDate')?.disabled">
+                                <mat-label>Enter a date range</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input matStartDate formControlName="startDate" placeholder="Start date"
+                                        (focus)="onDateRangeFocus()" (blur)="onDateRangeBlur()"
+                                        [class.disabled-control]="form.get('startDate')?.disabled" />
+                                    <input matEndDate formControlName="endDate" placeholder="End date"
+                                        (focus)="onDateRangeFocus()" (blur)="onDateRangeBlur()"
+                                        [class.disabled-control]="form.get('endDate')?.disabled" />
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                                <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
+                                    <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                                </mat-datepicker-toggle>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true"
+                                [class.disabled-control]="form.get('status')?.disabled">
+                                <mat-label>Status</mat-label>
+                                <mat-select formControlName="status" multiple>
+                                    <li class="select-all" (click)="toggleSelectAll()">
+                                        {{ allSelected ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{
+                                        item.statusDescription
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 mb-1">
-                    <div #formContainer>
-                        <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true"
-                            [class.disabled-control]="form.get('status')?.disabled">
-                            <mat-label>Status</mat-label>
-                            <mat-select formControlName="status" multiple>
-                                <li class="select-all" (click)="toggleSelectAll()">
-                                    {{ allSelected ? 'Deselect All' : 'Select All' }}
-                                </li>
-                                <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{
-                                    item.statusDescription
-                                    }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('username')?.disabled">
+                                <mat-label>PIC</mat-label>
+                                <mat-select formControlName="username" multiple>
+                                    <li class="select-all" (click)="toggleSelectAllUsername()">
+                                        {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovUsername" [value]="item.partyId">
+                                        {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-12 col-md-6 mb-1">
-                    <div #formContainer>
-                        <mat-form-field class="w-100" appearance="outline"
-                            [class.disabled-control]="form.get('username')?.disabled">
-                            <mat-label>PIC</mat-label>
-                            <mat-select formControlName="username" multiple>
-                                <li class="select-all" (click)="toggleSelectAllUsername()">
-                                    {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
-                                </li>
-                                <mat-option *ngFor="let item of lovUsername" [value]="item.partyId">
-                                    {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 mb-1">
-                    <div #formContainer>
-                        <mat-form-field class="w-100" appearance="outline"
-                            [class.disabled-control]="form.get('regional')?.disabled">
-                            <mat-label>Segmentation</mat-label>
-                            <mat-select formControlName="regional" multiple>
-                                <li class="select-all" (click)="toggleSelectRegionalAll()">
-                                    {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
-                                </li>
-                                <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name
-                                    }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12 col-md-6 mb-1">
-                    <div #formContainer>
-                        <mat-form-field class="w-100" appearance="outline"
-                            [class.disabled-control]="form.get('branch')?.disabled">
-                            <mat-label>Branch</mat-label>
-                            <mat-select formControlName="branch" multiple>
-                                <li class="select-all" (click)="toggleSelectBranchAll()">
-                                    {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
-                                </li>
-                                <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name
-                                    }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('regional')?.disabled">
+                                <mat-label>Segmentation</mat-label>
+                                <mat-select formControlName="regional" multiple>
+                                    <li class="select-all" (click)="toggleSelectRegionalAll()">
+                                        {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 mb-1">
-                    <div #formContainer>
-                        <mat-form-field class="w-100" appearance="outline"
-                            [class.disabled-control]="form.get('summary')?.disabled">
-                            <mat-label>Summary</mat-label>
-                            <mat-select multiple formControlName="summary">
-                                <li class="select-all" (click)="toggleSelectSummaryAll()">
-                                    {{ allSelectedSummary ? 'Deselect All' : 'Select All' }}
-                                </li>
-                                <mat-option *ngFor="let item of lovApplicationType" [value]="item">{{ item
-                                    }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('branch')?.disabled">
+                                <mat-label>Branch</mat-label>
+                                <mat-select formControlName="branch" multiple>
+                                    <li class="select-all" (click)="toggleSelectBranchAll()">
+                                        {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-12 col-md-6 mb-1">
-                    <div #formContainer>
-                        <mat-form-field class="w-100" appearance="outline"
-                            [class.disabled-control]="form.get('proposalStatus')?.disabled">
-                            <mat-label>Status Proposal</mat-label>
-                            <mat-select multiple formControlName="proposalStatus">
-                                <li class="select-all" (click)="toggleSelectProposalStatus()">
-                                    {{ allSelectedProposalStatus ? 'Deselect All' : 'Select All' }}
-                                </li>
-                                <mat-option *ngFor="let item of lovProposalStatus" [value]="item">{{ item
-                                    }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('summary')?.disabled">
+                                <mat-label>Summary</mat-label>
+                                <mat-select multiple formControlName="summary">
+                                    <li class="select-all" (click)="toggleSelectSummaryAll()">
+                                        {{ allSelectedSummary ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovApplicationType" [value]="item">{{ item
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('proposalStatus')?.disabled">
+                                <mat-label>Status Proposal</mat-label>
+                                <mat-select multiple formControlName="proposalStatus">
+                                    <li class="select-all" (click)="toggleSelectProposalStatus()">
+                                        {{ allSelectedProposalStatus ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovProposalStatus" [value]="item">{{ item
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #proposalDate>
+
+                <div class="row">
+
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true"
+                                [class.disabled-control]="form.get('status')?.disabled">
+                                <mat-label>Status</mat-label>
+                                <mat-select formControlName="status" multiple>
+                                    <li class="select-all" (click)="toggleSelectAll()">
+                                        {{ allSelected ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{
+                                        item.statusDescription
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('regional')?.disabled">
+                                <mat-label>Segmentation</mat-label>
+                                <mat-select formControlName="regional" multiple>
+                                    <li class="select-all" (click)="toggleSelectRegionalAll()">
+                                        {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('username')?.disabled">
+                                <mat-label>PIC</mat-label>
+                                <mat-select formControlName="username" multiple>
+                                    <li class="select-all" (click)="toggleSelectAllUsername()">
+                                        {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovUsername" [value]="item.partyId">
+                                        {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('branch')?.disabled">
+                                <mat-label>Branch</mat-label>
+                                <mat-select formControlName="branch" multiple>
+                                    <li class="select-all" (click)="toggleSelectBranchAll()">
+                                        {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('summary')?.disabled">
+                                <mat-label>Summary</mat-label>
+                                <mat-select multiple formControlName="summary">
+                                    <li class="select-all" (click)="toggleSelectSummaryAll()">
+                                        {{ allSelectedSummary ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovApplicationType" [value]="item">{{ item
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-1">
+                        <div #formContainer>
+                            <mat-form-field class="w-100" appearance="outline"
+                                [class.disabled-control]="form.get('proposalStatus')?.disabled">
+                                <mat-label>Status Proposal</mat-label>
+                                <mat-select multiple formControlName="proposalStatus">
+                                    <li class="select-all" (click)="toggleSelectProposalStatus()">
+                                        {{ allSelectedProposalStatus ? 'Deselect All' : 'Select All' }}
+                                    </li>
+                                    <mat-option *ngFor="let item of lovProposalStatus" [value]="item">{{ item
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+
+            </ng-template>
+
+
+
 
             <div class="row mb-1">
                 <div class="col">
