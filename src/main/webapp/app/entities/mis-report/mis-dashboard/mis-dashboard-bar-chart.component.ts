@@ -57,23 +57,12 @@ interface ChartOptions {
     `,
   ],
   template: `
-    <div class="chart-content" [style.height]="options?.height || '400px'" [hidden]="data.length === 0">
+    <div class="chart-content" [style.height]="options?.height || '400px'">
       <canvas #creditChart></canvas>
-    </div>
-
-    <div [hidden]="data && data.length > 0">
-      <div class="empty-chart-container">
-        <div class="empty-chart-content">
-          <i class="bi bi-bar-chart"></i>
-          <h4>No Data Available</h4>
-          <p>There is no chart data to display for the selected period.</p>
-        </div>
-      </div>
     </div>
   `,
 })
 export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
-
   @Input() data: DashboardData[] | DashboardUserData[] = [];
   @Input() legendPosition: 'top' | 'left' | 'bottom' | 'right' = 'top';
   @Input() type?;
