@@ -33,11 +33,11 @@ import { MessageService } from 'primeng/api';
         [legendPosition]="'top'"
         [data]="chartData"
         [date]="dateForm.get('date')?.value"
-        title="Credit Admin"
+        title="Credit Insurance"
       ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
 
-    <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS">
+    <jhi-mis-dashboard-card title="BY USER CREDIT INSURANCE">
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         type="user"
@@ -47,6 +47,7 @@ import { MessageService } from 'primeng/api';
     </jhi-mis-dashboard-card>
 
     <jhi-mis-dashboard-card title="PRODUCTIVITY">
+      <h3 class="productivity-title">Productivity Credit Insurance</h3>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
         <ng-container matColumnDef="applicationType">
           <th mat-header-cell *matHeaderCellDef>Application Type</th>
@@ -109,6 +110,13 @@ import { MessageService } from 'primeng/api';
         gap: 8px;
       }
 
+      .productivity-title {
+        text-align: center;
+        font-weight: bold;
+        color: #257e79;
+        font-size: 1.2rem;
+      }
+
       :host ::ng-deep .mat-mdc-form-field {
         width: 140px;
         margin-bottom: -1.25em;
@@ -169,7 +177,7 @@ import { MessageService } from 'primeng/api';
 
       .mat-column-aveInDay {
         width: 32px;
-        border-right: 1px solid currentColo;
+        border-right: 1px solid currentColor;
         padding-right: 24px;
         text-align: center;
       }
