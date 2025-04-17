@@ -294,7 +294,7 @@ export class MisDashboardCredamComponent implements OnInit {
 
     const total = chartData.reduce((sum, item) => sum + (item[columnKey] || 0), 0);
 
-    return total;
+    return total / chartData.length;
   }
 
   public aveInDay(chartData: DashboardData[], applicationType: string): number {
