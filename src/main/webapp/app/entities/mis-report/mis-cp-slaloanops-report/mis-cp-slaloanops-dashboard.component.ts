@@ -135,6 +135,10 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
       .getStatisticLoanOps(positionId)
       .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
     this.dashboardService.getBarChartData(date, 'loan-ops').subscribe(res => (this.chartTransactionsData = res));
+    this.dashboardService.getBarChartData(date, 'loan-ops').subscribe(res => {
+      const data = [...res].reverse();
+      this.chartTransactionsData = data;
+    });
     this.dashboardService.getBarChartData(date, 'by-user-loan-ops').subscribe(res => (this.chartUserData = res));
   }
 }
