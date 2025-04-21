@@ -712,10 +712,13 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional', 'Renewal'];
 
     if (allowedTypes.includes(product.pengajuan)) {
-      return this.formatDateID(product.mainProduct[0].maturityDate).getFullDate();
-    } else {
-      return '';
+      const mainProd = product.mainProduct?.[0];
+      if (mainProd?.maturityDate) {
+        return this.formatDateID(mainProd.maturityDate).getFullDate();
+      }
     }
+
+    return '';
   }
 
   private _getStartedAndDpdl(timeLine: any, status: string, param: 'Date' | 'Month' | 'Year') {
