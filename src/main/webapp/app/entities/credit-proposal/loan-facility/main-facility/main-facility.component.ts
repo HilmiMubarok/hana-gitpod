@@ -78,6 +78,9 @@ export class MainFacilityComponent implements OnChanges {
       if (data.newMaturityDate) {
         data.newMaturityDate = this.setDate(data.newMaturityDate);
       }
+      if (data.maturityDate) {
+        data.maturityDate = this.setDate(data.maturityDate);
+      }
     });
   }
   public printElements(element) {
