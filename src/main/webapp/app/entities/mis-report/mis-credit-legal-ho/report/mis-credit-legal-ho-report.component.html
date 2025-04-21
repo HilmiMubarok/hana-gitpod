@@ -18,7 +18,7 @@
     <mat-card>
         <mat-card-content>
 
-            <ng-container *ngIf="menu === 'dateFromStatus'; else proposalDate">
+            <div [hidden]="menu === 'proposalDate'">
                 <div class="row">
                     <div class="col-12 col-md-6 mb-1">
                         <div #formContainer>
@@ -146,8 +146,8 @@
                         </div>
                     </div>
                 </div>
-            </ng-container>
-            <ng-template #proposalDate>
+            </div>
+            <div [hidden]="menu === 'dateFromStatus'">
 
                 <div class="row">
 
@@ -254,10 +254,7 @@
                 </div>
 
 
-            </ng-template>
-
-
-
+            </div>
 
             <div class="row mb-1">
                 <div class="col">
@@ -266,7 +263,7 @@
                             [class.disabled-control]="form.get('query')?.disabled">
                             <mat-label>Search</mat-label>
                             <input matInput placeholder="Search in here..." type="text" formControlName="query"
-                                (focus)="onSearchFocus()" (blur)="onSearchBlur()" />
+                                (focus)="onSearchFocus()" (blur)="onSearchBlur()" (keyup.enter)="doSearch()" />
                             <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()"
                                 *ngIf="form.get('query')?.value">
                                 <mat-icon>search</mat-icon>

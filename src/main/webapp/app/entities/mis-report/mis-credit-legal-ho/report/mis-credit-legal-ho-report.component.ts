@@ -201,7 +201,19 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   onMenuChanged(): void {
-    this._initializeForm();
+    this._resetForms();
+  }
+
+  private _resetForms(): void {
+    if (this.form) {
+      this.form.reset();
+      this.allSelected = false;
+      this.allSelectedUsername = false;
+      this.allSelectedRegional = false;
+      this.allSelectedBranch = false;
+      this.allSelectedSummary = false;
+      this.allSelectedProposalStatus = false;
+    }
   }
 
   ngOnInit(): void {
@@ -397,7 +409,6 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   private _handleFormChanges(): void {
-
     this.form.get('startDate')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
@@ -413,7 +424,6 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     });
 
     this.form.valueChanges.subscribe(changes => {
-
       if (Array.isArray(changes.status)) {
         if (changes.status.length === 0) {
           this._updateFormControl('status', '');
@@ -457,7 +467,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
           endDate: this.form.get('endDate')?.value,
           status: this._convertStatusToString(this.form.get('status')?.value),
           userName: this._convertStatusToString(this.form.get('username')?.value),
-          assignTo: 'dataAssignToLegalOfficer',
+          assignTo: this.form.get('username')?.value ? 'dataAssignToLegalOfficer' : null,
           type: 'STATELOG',
         };
       } else {
@@ -718,7 +728,6 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional', 'Renewal'];
 
     if (allowedTypes.includes(product.pengajuan)) {
-
       // if mainProduct null
       if (product.mainProduct === null || product.mainProduct === 'null' || product.mainProduct === undefined) {
         return '';
