@@ -489,10 +489,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     if (branch !== '' && akta !== '') {
       cp = data.filter(
         proposal =>
-          proposal.branchNameRM === branch &&
-          Array.isArray(proposal.legalCovernote) &&
-          proposal.legalCovernote.length > 0 &&
-          proposal.legalCovernote.covernoteTask.some(task => task.code) === akta
+          proposal.branchNameRM === branch && proposal.legalCovernote.flatMap(item => item.covernoteTask).filter(task => task.code) === akta
       );
     } else {
       cp = data;
@@ -560,9 +557,9 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       jnsPengikatan: proposal.agreement.isNotaril || '',
       namaNotaris: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
       jenisPK: proposal.agreement.agreementType || '',
-      akta: proposal.legalCovernote.covernoteTask.some(task => task.code) || '',
+      akta: proposal.legalCovernote.flatMap(item => item.covernoteTask).map(task => task.code) || '',
       noAkta: '',
-      tglAkta: proposal.legalCovernote.covernoteTask.some(task => task.date) || '',
+      tglAkta: proposal.legalCovernote.flatMap(item => item.covernoteTask).map(task => task.date) || '',
       tglTargetPenyelesaian: '',
       tglMulaiHtEl: '',
       tglSelesaiHtEl: '',
