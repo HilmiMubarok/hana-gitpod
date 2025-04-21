@@ -190,7 +190,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
 
   private formatPropertyName(property: string): string {
     const words = property.split(/(?=[A-Z])/);
-    const filteredWords = words.filter(word => word !== 'Facility');
+    const filteredWords = words.filter(word => word !== 'Facility' && word !== 'Collateral' && word !== 'Status');
     const formattedWords = filteredWords.map(word => word.charAt(0).toUpperCase() + word.slice(1));
     return formattedWords.join(' ');
   }
