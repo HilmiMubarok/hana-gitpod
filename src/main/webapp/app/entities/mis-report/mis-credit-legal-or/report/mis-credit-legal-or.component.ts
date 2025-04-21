@@ -643,6 +643,11 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     this.searchResult = null;
   }
 
+  onEnterPressed(queryValue: string): void {
+    this.form.get('query')?.setValue(queryValue);
+    this.doSearch();
+  }
+
   public doSearch(pageEvent?: PageEvent): void {
     this.loadingSearch = true;
 
