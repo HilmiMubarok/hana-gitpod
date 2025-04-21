@@ -198,6 +198,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       status: this._convertStatusToString(this.misLoanOpsForm.get('status')?.value),
       type: 'STATELOG',
       userName: this.misLoanOpsForm.get('username')?.value,
+      assignTo: this.misLoanOpsForm.get('username')?.value ? 'dataAssignToLoanOpsOfficer' : null,
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({
