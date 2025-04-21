@@ -310,7 +310,6 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         approvalOutData.push(...checker1Data.slice(1));
       }
     }
-    this.assignToDppk = proposal.dataAssignDppkFinalize;
     worksheet.addRow({
       no: index + 1 || '',
       proposalNumber: proposal.proposalNumber || '',
@@ -379,7 +378,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     const startDate1 = this.MisReportCPCredam.get('date1')?.value;
     const endDate2 = this.MisReportCPCredam.get('date2')?.value;
     const statuss = this._convertStatusToString(this.MisReportCPCredam.get('status')?.value);
-
+    let params;
     if (!startDate1 && !endDate2 && !statuss) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameters' });
       this.misReportService.setLoading(false);
@@ -395,15 +394,25 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       return;
     }
     this.misReportService.setLoading(true);
-    const params = {
-      startDate: this.MisReportCPCredam.get('date1')?.value,
-      endDate: this.MisReportCPCredam.get('date2')?.value,
-      status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
-      type: 'STATELOG',
-      userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
-      assignTo: this.assignToDppk,
-    };
-
+    if (this.MisReportCPCredam.get('userName')?.value || this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value)) {
+      params = {
+        startDate: this.MisReportCPCredam.get('date1')?.value,
+        endDate: this.MisReportCPCredam.get('date2')?.value,
+        status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
+        type: 'STATELOG',
+        userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
+        assignTo: 'dataAssignDppkFinalize',
+      };
+    } else {
+      params = {
+        startDate: this.MisReportCPCredam.get('date1')?.value,
+        endDate: this.MisReportCPCredam.get('date2')?.value,
+        status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
+        type: 'STATELOG',
+        userName: null,
+        assignTo: null,
+      };
+    }
     this.misReportService.getMisReportCPCredam(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_SLA_DPPK'),
       error: () => {
