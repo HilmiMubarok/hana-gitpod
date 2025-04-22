@@ -8,7 +8,6 @@ import { CreditProposal, ICreditProposal } from '../../credit-proposal/credit-pr
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { forkJoin } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-assign-to',
