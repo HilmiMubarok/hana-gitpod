@@ -598,8 +598,8 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     const summary = this.form.get('summary')?.value;
     const search = this.form.get('query')?.value;
     let filteredProduct;
-    if (summary !== '' && search === '') {
-      filteredProduct = proposal.product.filter(prod => prod.pengajuan === summary);
+    if (summary && (search === '' || search === null)) {
+      filteredProduct = proposal.product.filter(prod => summary.includes(prod.pengajuan));
     } else {
       filteredProduct = proposal.product.filter(prod => prod.pengajuan !== 'Existing');
     }
