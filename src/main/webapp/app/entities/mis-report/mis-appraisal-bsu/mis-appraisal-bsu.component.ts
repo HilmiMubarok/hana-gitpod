@@ -127,6 +127,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.MISReportAppraisal.get('date1')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.MISReportAppraisal.get('date2')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.MISReportAppraisal.get('statusAppraisal')?.valueChanges.subscribe(() => this.checkFieldStatus());
+    this.MISReportAppraisal.get('regional')?.valueChanges.subscribe(() => this.checkFieldStatus());
 
     this.MISReportAppraisal.get('branch')?.valueChanges.subscribe(() => {
       this.checkFieldStatus();
@@ -148,8 +149,16 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     const status = this.MISReportAppraisal.get('statusAppraisal')?.value;
     const branch = this.MISReportAppraisal.get('branch')?.value;
     const appraisalType = this.MISReportAppraisal.get('appraisalType')?.value;
+    const regional = this.MISReportAppraisal.get('regional')?.value;
 
-    if (date1 || date2 || (status && status.length > 0) || (branch && branch.length > 0) || (appraisalType && appraisalType.length > 0)) {
+    if (
+      date1 ||
+      date2 ||
+      (status && status.length > 0) ||
+      (branch && branch.length > 0) ||
+      (appraisalType && appraisalType.length > 0) ||
+      (regional && regional.length > 0)
+    ) {
       this.MISReportAppraisal.get('query')?.disable();
       this.applyDisabledStyle(this.formContainer.nativeElement, true);
     } else {
@@ -181,6 +190,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.MISReportAppraisal.get('statusAppraisal')?.disable();
     this.MISReportAppraisal.get('branch')?.disable();
     this.MISReportAppraisal.get('appraisalType')?.disable();
+    this.MISReportAppraisal.get('regional')?.disable();
     this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
 
@@ -192,6 +202,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       this.MISReportAppraisal.get('statusAppraisal')?.enable();
       this.MISReportAppraisal.get('branch')?.enable();
       this.MISReportAppraisal.get('appraisalType')?.enable();
+      this.MISReportAppraisal.get('regional')?.enable();
       this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
   }
