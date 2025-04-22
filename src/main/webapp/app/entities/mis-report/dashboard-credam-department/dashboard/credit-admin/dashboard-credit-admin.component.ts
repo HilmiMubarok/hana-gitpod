@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DashboardData } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.model';
 import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.service';
-import moment from 'moment';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-mis-dashboard-credit-admin',
   template: `
@@ -220,7 +220,12 @@ import moment from 'moment';
 export class MisDashboardCredamComponent implements OnInit {
   dateForm: FormGroup;
   chartData: DashboardData[] = [];
-  chartUserData;
+  chartUserData: any;
+  chartStatisticData: any;
+  dataSource: any[] = [];
+  slaStandardValue = 0;
+  staffcredams = 0;
+
   displayedColumns: string[] = [
     'applicationType',
     'aveTrx',
@@ -231,89 +236,27 @@ export class MisDashboardCredamComponent implements OnInit {
     'existing',
     'shortOver',
   ];
-  chartDatas: any[] = [];
-  dataSource: any[] = [];
-  staffcredams: any;
-  constructor(private dashboardService: MisDashboardService) {
-    this.initializeForm();
 
-    this.dateForm.valueChanges.subscribe(value => {
-      this.getChartData();
-    });
-
-    this.dateForm.valueChanges.subscribe(value => {
-      this.dashboardService.getBarChartData(value.date.format('YYYY-MM-DD'), 'by-user-credam').subscribe(res => {
-        this.chartUserData = res;
-      });
-    });
-  }
-
-  public slaStandardValue = 0;
-  public loadSlaAndStaff(): void {
-    this.dashboardService.getSlaStandart().subscribe({
-      next: response => {
-        if (response && Array.isArray(response)) {
-          const slaStandardData = response.find(item => item.id === 'SLA_STANDARD_CREDAM');
-          const staffCredam = response.find(item => item.id === 'STAFF_CREDAM');
-          this.slaStandardValue = slaStandardData ? slaStandardData.value : 0;
-          this.staffcredams = staffCredam ? staffCredam.value : 0;
-          this.getChartData();
-        } else {
-          console.error('Invalid response format:', response);
-          this.slaStandardValue = 0;
-          this.staffcredams = 0;
-        }
-      },
-      error: error => {
-        console.error('Error fetching SLA/Staff:', error);
-        this.slaStandardValue = 0;
-        this.staffcredams = 0;
-      },
-    });
-  }
-
-  public calculateAveTrx(chartData: DashboardData[], applicationType: string): number {
-    if (!chartData || chartData.length === 0) {
-      console.warn('chartData is empty, returning 0');
-      return 0;
-    }
-
-    const columnKey = {
-      New: 'newFacility',
-      'Additional / Top Up': 'additionalTopupFacility',
-      Renewal: 'renewalFacility',
-      Existing: 'existingFacility',
-      Others: 'othersFacility',
-      'Renewal + Additional': 'renewalAdditionalFacility',
-      'Renewal + Decrease': 'renewalDecreaseFacility',
-      Decrease: 'decreaseFacility',
-      'Renewal + Others': 'renewalOthersFacility',
-      'Additional + Others': 'additionalOthersFacility',
-      'Decrease + Others': 'decreaseOthersFacility',
-    }[applicationType];
-
-    const total = chartData.reduce((sum, item) => sum + (item[columnKey] || 0), 0);
-
-    return total / chartData.length;
-  }
-
-  public aveInDay(chartData: DashboardData[], applicationType: string): number {
-    return this.calculateAveTrx(chartData, applicationType) / 22;
-  }
-  chartStatisticData;
   statuses = ['DPPK_FINALIZE', 'DPPK_REVIEW'];
-  ngOnInit(): void {
-    this.loadSlaAndStaff();
-    this.dateForm.valueChanges.subscribe(() => {
-      if (this.slaStandardValue && this.staffcredams) {
-        this.getChartData();
-      }
-    });
-    const positionId = this.getLocStor('POS');
-    this.dashboardService
-      .getStatisticLoanOps(positionId)
-      .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
+
+  constructor(private dashboardService: MisDashboardService, public messageService: MessageService) {
+    this.initializeForm();
   }
+
+  ngOnInit(): void {
+    this._fetchAllData(this.dateForm.get('date')?.value);
+    this.loadSlaAndStaff();
+  }
+
+  private initializeForm(): void {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+
+    this.dateForm = new FormGroup({
+      date: new FormControl(formattedDate),
+    });
+  }
+
   private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
@@ -328,94 +271,100 @@ export class MisDashboardCredamComponent implements OnInit {
 
     return result;
   }
-  // Deklarasi awal tanpa data
-  public staffneeds(chartData: DashboardData[], applicationType: string): number {
-    return (this.slaStandardValue * this.aveInDay(chartData, applicationType)) / 420;
-  }
-  public sumStaffneeds(chartData: DashboardData[]): number {
-    const applicationTypes = [
-      'New',
-      'Additional / Top Up',
-      'Renewal',
-      'Existing',
-      'Others',
-      'Restructure',
-      'Renewal + Additional',
-      'Renewal + Decrease',
-      'Decrease',
-      'Renewal + Others',
-      'Additional + Others',
-      'Decrease + Others',
-    ];
 
-    return applicationTypes.reduce((total, type) => total + this.staffneeds(chartData, type), 0);
-  }
-
-  getChartData() {
-    const rawDate = this.dateForm.get('date')?.value;
-    const formattedDate = moment(rawDate).format('YYYY-MM-DD');
-    this.dashboardService.getBarChartData(formattedDate, 'credit-admin').subscribe(res => {
-      this.chartData = res;
-
-      const applicationTypes = [
-        'New',
-        'Additional / Top Up',
-        'Renewal',
-        'Restructure',
-        'Existing',
-        'Others',
-        'Renewal + Additional',
-        'Renewal + Decrease',
-        'Decrease',
-        'Renewal + Others',
-        'Additional + Others',
-        'Decrease + Others',
-      ];
-
-      const processedData = applicationTypes.map(applicationType => ({
-        applicationType,
-        aveTrx: this.calculateAveTrx(this.chartData, applicationType),
-        aveInDay: this.aveInDay(this.chartData, applicationType),
-        slaStandard: this.slaStandardValue,
-        staffNeeds: this.staffneeds(this.chartData, applicationType),
-        totalStaffNeeds: this.sumStaffneeds(this.chartData),
-        existing: this.staffcredams,
-        shortOver: this.shortOver(this.chartData),
-      }));
-      this.dataSource = this.calculateRowSpan(processedData);
+  loadSlaAndStaff(): void {
+    this.dashboardService.getSlaStandart().subscribe({
+      next: res => {
+        const slaStandard = res.find((item: any) => item.id === 'SLA_STANDARD_CREDAM');
+        const staff = res.find((item: any) => item.id === 'STAFF_CREDAM');
+        this.slaStandardValue = slaStandard ? slaStandard.value : 0;
+        this.staffcredams = staff ? staff.value : 0;
+        this.getChartData();
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to get SLA/Staff data',
+        });
+      },
     });
   }
+
+  calculateAveTrx(chartData: DashboardData[], applicationType: string): number {
+    const columnMap: { [key: string]: string } = {
+      New: 'newFacility',
+      'Additional / Top Up': 'additionalTopupFacility',
+      Renewal: 'renewalFacility',
+      Existing: 'existingFacility',
+      Others: 'othersFacility',
+      'Renewal + Additional': 'renewalAdditionalFacility',
+      'Renewal + Decrease': 'renewalDecreaseFacility',
+      Decrease: 'decreaseFacility',
+      'Renewal + Others': 'renewalOthersFacility',
+      'Additional + Others': 'additionalOthersFacility',
+      'Decrease + Others': 'decreaseOthersFacility',
+    };
+
+    const columnKey = columnMap[applicationType];
+    if (!columnKey || !chartData?.length) {
+      return 0;
+    }
+
+    return chartData.reduce((sum, item) => sum + (item[columnKey] || 0), 0) / chartData.length;
+  }
+
+  aveInDay(chartData: DashboardData[], applicationType: string): number {
+    return this.calculateAveTrx(chartData, applicationType) / 22;
+  }
+
+  staffNeeds(applicationType: string): number {
+    const sla = this.slaStandardValue;
+    const ave = this.aveInDay(this.chartData, applicationType);
+    return (sla * ave) / 420;
+  }
+
+  getShortOver(applicationType: string): number {
+    return this.staffNeeds(applicationType) - this.staffcredams;
+  }
+
+  totalStaffNeeds(data: any[]): number {
+    return data.reduce((sum, row) => sum + (Number(row.staffNeeds) || 0), 0);
+  }
+
   calculateRowSpan(data: any[]): any[] {
     const totalMap: { [key: string]: number } = {};
     const existingMap: { [key: string]: number } = {};
     const shortOverMap: { [key: string]: number } = {};
+    const addedTotal: { [key: string]: boolean } = {};
+    const addedExisting: { [key: string]: boolean } = {};
+    const addedShortOver: { [key: string]: boolean } = {};
 
     data.forEach(row => {
-      const totalKey = row.totalStaffNeeds;
-      const existingKey = row.existing;
-      const shortOverKey = row.shortOver;
-
-      totalMap[totalKey] = (totalMap[totalKey] || 0) + 1;
-      existingMap[existingKey] = (existingMap[existingKey] || 0) + 1;
-      shortOverMap[shortOverKey] = (shortOverMap[shortOverKey] || 0) + 1;
+      totalMap[row.totalStaffNeeds] = (totalMap[row.totalStaffNeeds] || 0) + 1;
+      existingMap[row.existing] = (existingMap[row.existing] || 0) + 1;
+      shortOverMap[row.shortOver] = (shortOverMap[row.shortOver] || 0) + 1;
     });
 
-    const totalAdded: { [key: string]: boolean } = {};
-    const existingAdded: { [key: string]: boolean } = {};
-    const shortOverAdded: { [key: string]: boolean } = {};
-
     return data.map(row => {
-      const totalKey = row.totalStaffNeeds;
-      const existingKey = row.existing;
-      const shortOverKey = row.shortOver;
+      let rowSpanTotal = 0;
+      let rowSpanExisting = 0;
+      let rowSpanShortOver = 0;
 
-      const rowSpanTotal = !totalAdded[totalKey] ? totalMap[totalKey] : 0;
-      const rowSpanExisting = !existingAdded[existingKey] ? existingMap[existingKey] : 0;
-      const rowSpanShortOver = !shortOverAdded[shortOverKey] ? shortOverMap[shortOverKey] : 0;
+      if (!addedTotal[row.totalStaffNeeds]) {
+        rowSpanTotal = totalMap[row.totalStaffNeeds];
+        addedTotal[row.totalStaffNeeds] = true;
+      }
 
-      totalAdded[totalKey] = true;
-      existingAdded[existingKey] = true;
-      shortOverAdded[shortOverKey] = true;
+      if (!addedExisting[row.existing]) {
+        rowSpanExisting = existingMap[row.existing];
+        addedExisting[row.existing] = true;
+      }
+
+      if (!addedShortOver[row.shortOver]) {
+        rowSpanShortOver = shortOverMap[row.shortOver];
+        addedShortOver[row.shortOver] = true;
+      }
 
       return {
         ...row,
@@ -426,24 +375,81 @@ export class MisDashboardCredamComponent implements OnInit {
     });
   }
 
-  public shortOver(chartData: DashboardData[]): number {
-    const staffNeed = this.sumStaffneeds(chartData);
-    const existing = this.staffcredams;
-
-    if (isNaN(staffNeed) || isNaN(existing)) {
-      console.warn(`shortOver NaN detected: staffNeed=${staffNeed}, existing=${existing}`);
-      return 0;
-    }
-
-    return staffNeed - existing;
+  getChartData(): void {
+    this.dateForm.valueChanges.subscribe(value => {
+      const formattedDate = value.date?.format('YYYY-MM-DD');
+      this._fetchAllData(formattedDate);
+    });
   }
 
-  private initializeForm() {
-    const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0];
+  _fetchAllData(date: string): void {
+    const positionId = this.getLocStor('POS');
 
-    this.dateForm = new FormGroup({
-      date: new FormControl(formattedDate),
+    this.dashboardService
+      .getStatisticLoanOps(positionId)
+      .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
+
+    this.dashboardService.getBarChartData(date, 'credit-admin').subscribe(res => {
+      this.chartData = [...res].reverse();
+      this.processChartData();
     });
+
+    this.dashboardService.getBarChartData(date, 'by-user-credam').subscribe(res => {
+      this.chartUserData = [...res].reverse();
+    });
+  }
+
+  private processChartData(): void {
+    if (!this.chartData?.length) {
+      return;
+    }
+
+    const applicationTypes = [
+      'New',
+      'Additional / Top Up',
+      'Renewal',
+      'Existing',
+      'Others',
+      'Renewal + Additional',
+      'Renewal + Decrease',
+      'Decrease',
+      'Renewal + Others',
+      'Additional + Others',
+      'Decrease + Others',
+    ];
+
+    const totalStaffNeedss = this.totalStaffNeeds(applicationTypes.map(type => ({ staffNeeds: this.staffNeeds(type) })));
+
+    const processed = applicationTypes.map(applicationType => {
+      const aveTrx = this.calculateAveTrx(this.chartData, applicationType);
+      const aveInDay = this.aveInDay(this.chartData, applicationType);
+      const slaStandard = this.slaStandardValue;
+      const staffNeeds = this.staffNeeds(applicationType);
+      const existing = this.staffcredams;
+      const totalStaffNeeds = totalStaffNeedss;
+      const shortOver = totalStaffNeedss - this.staffcredams;
+
+      return {
+        applicationType,
+        aveTrx,
+        aveInDay,
+        slaStandard,
+        staffNeeds,
+        totalStaffNeeds,
+        existing,
+        shortOver,
+      };
+    });
+
+    const total = this.totalStaffNeeds(processed).toFixed(2);
+
+    this.dataSource = this.calculateRowSpan(
+      processed.map(row => ({
+        ...row,
+        totalStaffNeeds: total,
+        existing: row.existing,
+        shortOver: row.shortOver,
+      }))
+    );
   }
 }
