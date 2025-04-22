@@ -453,6 +453,48 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   public generateMISLegalReport(): void {
+    const query = this.form.get('query')?.value;
+
+    if (!query) {
+      if (this.menu === 'dateFromStatus') {
+        if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Parameter.',
+          });
+          return;
+        }
+
+        if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Date Range.',
+          });
+          return;
+        }
+
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      } else if (this.menu === 'proposalDate') {
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      }
+    }
+
     this.misReportService.setLoading(true);
 
     let params;
@@ -476,7 +518,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
           endDate: null,
           status: this._convertStatusToString(this.form.get('status')?.value),
           userName: this._convertStatusToString(this.form.get('username')?.value),
-          assignTo: 'dataAssignToLegalOfficer',
+          assignTo: this.form.get('username')?.value ? 'dataAssignToLegalOfficer' : null,
           type: null,
         };
       }
@@ -679,9 +721,11 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       this.pageSize = pageEvent.pageSize;
     }
 
+    const queryValue = this.form.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.form.get('query')?.value,
+      query: queryValue,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -695,8 +739,19 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
     });
   }
 

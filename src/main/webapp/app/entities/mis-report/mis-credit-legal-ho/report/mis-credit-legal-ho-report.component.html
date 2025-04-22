@@ -18,6 +18,7 @@
     <mat-card>
         <mat-card-content>
 
+            <!-- Menu Date From Status -->
             <div [hidden]="menu === 'proposalDate'">
                 <div class="row">
                     <div class="col-12 col-md-6 mb-1">
@@ -64,15 +65,14 @@
                     <div class="col-12 col-md-6 mb-1">
                         <div #formContainer>
                             <mat-form-field class="w-100" appearance="outline"
-                                [class.disabled-control]="form.get('username')?.disabled">
-                                <mat-label>PIC</mat-label>
-                                <mat-select formControlName="username" multiple>
-                                    <li class="select-all" (click)="toggleSelectAllUsername()">
-                                        {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
+                                [class.disabled-control]="form.get('branch')?.disabled">
+                                <mat-label>Branch</mat-label>
+                                <mat-select formControlName="branch" multiple>
+                                    <li class="select-all" (click)="toggleSelectBranchAll()">
+                                        {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
                                     </li>
-                                    <mat-option *ngFor="let item of lovUsername" [value]="item.partyId">
-                                        {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                                    </mat-option>
+                                    <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name
+                                        }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -99,14 +99,15 @@
                     <div class="col-12 col-md-6 mb-1">
                         <div #formContainer>
                             <mat-form-field class="w-100" appearance="outline"
-                                [class.disabled-control]="form.get('branch')?.disabled">
-                                <mat-label>Branch</mat-label>
-                                <mat-select formControlName="branch" multiple>
-                                    <li class="select-all" (click)="toggleSelectBranchAll()">
-                                        {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+                                [class.disabled-control]="form.get('username')?.disabled">
+                                <mat-label>PIC</mat-label>
+                                <mat-select formControlName="username" multiple>
+                                    <li class="select-all" (click)="toggleSelectAllUsername()">
+                                        {{ allSelectedUsername ? 'Deselect All' : 'Select All' }}
                                     </li>
-                                    <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name
-                                        }}</mat-option>
+                                    <mat-option *ngFor="let item of lovUsername" [value]="item.partyId">
+                                        {{ item.employeeFirstName }} {{ item.employeeLastName }}
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -147,6 +148,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Menu Proposal Date -->
             <div [hidden]="menu === 'dateFromStatus'">
 
                 <div class="row">
@@ -205,13 +208,13 @@
                     <div class="col-12 col-md-6 mb-1">
                         <div #formContainer>
                             <mat-form-field class="w-100" appearance="outline"
-                                [class.disabled-control]="form.get('branch')?.disabled">
-                                <mat-label>Branch</mat-label>
-                                <mat-select formControlName="branch" multiple>
-                                    <li class="select-all" (click)="toggleSelectBranchAll()">
-                                        {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+                                [class.disabled-control]="form.get('summary')?.disabled">
+                                <mat-label>Summary</mat-label>
+                                <mat-select multiple formControlName="summary">
+                                    <li class="select-all" (click)="toggleSelectSummaryAll()">
+                                        {{ allSelectedSummary ? 'Deselect All' : 'Select All' }}
                                     </li>
-                                    <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name
+                                    <mat-option *ngFor="let item of lovApplicationType" [value]="item">{{ item
                                         }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -224,13 +227,13 @@
                     <div class="col-12 col-md-6 mb-1">
                         <div #formContainer>
                             <mat-form-field class="w-100" appearance="outline"
-                                [class.disabled-control]="form.get('summary')?.disabled">
-                                <mat-label>Summary</mat-label>
-                                <mat-select multiple formControlName="summary">
-                                    <li class="select-all" (click)="toggleSelectSummaryAll()">
-                                        {{ allSelectedSummary ? 'Deselect All' : 'Select All' }}
+                                [class.disabled-control]="form.get('branch')?.disabled">
+                                <mat-label>Branch</mat-label>
+                                <mat-select formControlName="branch" multiple>
+                                    <li class="select-all" (click)="toggleSelectBranchAll()">
+                                        {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
                                     </li>
-                                    <mat-option *ngFor="let item of lovApplicationType" [value]="item">{{ item
+                                    <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name
                                         }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -263,7 +266,7 @@
                             [class.disabled-control]="form.get('query')?.disabled">
                             <mat-label>Search</mat-label>
                             <input matInput placeholder="Search in here..." type="text" formControlName="query"
-                                (focus)="onSearchFocus()" (blur)="onSearchBlur()" (keyup.enter)="doSearch()" />
+                                (focus)="onSearchFocus()" (blur)="onSearchBlur()" (keydown.enter)="doSearch()" />
                             <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()"
                                 *ngIf="form.get('query')?.value">
                                 <mat-icon>search</mat-icon>

@@ -6,6 +6,15 @@ import moment from 'moment';
 @Component({
   selector: 'jhi-mis-cp-slaloanops-dashboard',
   template: `
+    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
+      <div class="row">
+        <ng-container *ngFor="let data of chartStatisticData">
+          <div class="col-md-3 my-2">
+            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
+          </div>
+        </ng-container>
+      </div>
+    </jhi-mis-dashboard-card>
     <div class="d-flex flex-row-reverse">
       <div class="form-container">
         <mat-form-field [formGroup]="form" appearance="outline">
@@ -16,15 +25,6 @@ import moment from 'moment';
         </mat-form-field>
       </div>
     </div>
-    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
-      <div class="row">
-        <ng-container *ngFor="let data of chartStatisticData">
-          <div class="col-md-3 my-2">
-            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
-          </div>
-        </ng-container>
-      </div>
-    </jhi-mis-dashboard-card>
     <jhi-mis-dashboard-card title="BY TRANSACTION">
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
