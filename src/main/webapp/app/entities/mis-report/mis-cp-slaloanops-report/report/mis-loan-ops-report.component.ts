@@ -45,7 +45,9 @@ import * as ExcelJS from 'exceljs';
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col">
+          </div>
+          <div class="row my-3">
+            <div class="col-6">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Username</mat-label>
                 <mat-select formControlName="username">
@@ -120,7 +122,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       startDate: new FormControl(''),
       endDate: new FormControl(''),
       status: new FormControl(''),
-      username: new FormControl(''),
+      username: new FormControl(null),
     });
 
     this.misLoanOpsForm.get('startDate')?.valueChanges.subscribe(date => {
@@ -284,42 +286,44 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
   }
 
   private _addProposalData(ws: ExcelJS.Worksheet, prop: any, idx: number): void {
-    prop.product?.forEach((prod: any, index: number) => {
-      const dataRow = {
-        no: ws.rowCount,
-        proposalNumber: prop.proposalNumber || '',
-        dpkNumber: prop.dppkNumber || '',
-        picLoanOps: this.getPICLoanOps(prop),
-        debtor: prop.debtorName || '',
-        loanOpsDistributionInDate: this.getLoanOpsDistributionInDate(prop),
-        loanOpsDistributionInTime: this.getLoanOpsDistributionInTime(prop),
-        loanOpsOfficerOutName: prop.dataAssignToLoanOpsOfficerName || '',
-        loanOpsOfficerOutDate: this._formatDateSLA(this.getLoanOpsOfficerOutDate(prop)),
-        loanOpsOfficerOutTime: this.getLoanOpsOfficerOutTime(prop),
-        getLoanOpsOfficerSpvOutName: this.getLoanOpsOfficerSpvOutName(prop),
-        loanOpsOfficerSpvOutDate: this._formatDateSLA(this.getLoanOpsOfficerSpvOutDate(prop)),
-        loanOpsOfficerSpvOutTime: this.getLoanOpsOfficerSpvOutTime(prop),
-        completedDate: this.getCompletedDate(prop),
-        completedTime: this.getCompletedTime(prop),
-        tatDate: this.getTatDate(prop),
-        tatTime: this.getTatTime(prop),
-        status: prop.status || '',
-        transaksi: prod.pengajuan || '',
-        fasilitas: prod.facility || '',
-        ccy: prod.currency || '',
-        nominal: prod.totalPlafond || '',
-        tglEfektifFasilitas: this.getTanggalEfektifFasilitas(prod, prop),
-        jenisJaminan: prop.collateral.map(coll => coll.collateralCode).join(',\n'),
-        segmentasi: prop.regionalParentRM || '',
-        branch: prop.bookingBranchName || '',
-        rm: prop.rmFirstName + ' ' + prop.rmLastName || '',
-        keterangan: '',
-        deviasi: this._getDeviation(prop),
-        tbo: prop.statusDocumentTbo || '',
-      };
+    prop.product
+      ?.filter(prod => prod.pengajuan !== 'Existing')
+      .forEach((prod: any, index: number) => {
+        const dataRow = {
+          no: ws.rowCount,
+          proposalNumber: prop.proposalNumber || '',
+          dpkNumber: prop.dppkNumber || '',
+          picLoanOps: this.getPICLoanOps(prop),
+          debtor: prop.debtorName || '',
+          loanOpsDistributionInDate: this.getLoanOpsDistributionInDate(prop),
+          loanOpsDistributionInTime: this.getLoanOpsDistributionInTime(prop),
+          loanOpsOfficerOutName: prop.dataAssignToLoanOpsOfficerName || '',
+          loanOpsOfficerOutDate: this._formatDateSLA(this.getLoanOpsOfficerOutDate(prop)),
+          loanOpsOfficerOutTime: this.getLoanOpsOfficerOutTime(prop),
+          getLoanOpsOfficerSpvOutName: this.getLoanOpsOfficerSpvOutName(prop),
+          loanOpsOfficerSpvOutDate: this._formatDateSLA(this.getLoanOpsOfficerSpvOutDate(prop)),
+          loanOpsOfficerSpvOutTime: this.getLoanOpsOfficerSpvOutTime(prop),
+          completedDate: this.getCompletedDate(prop),
+          completedTime: this.getCompletedTime(prop),
+          tatDate: this.getTatDate(prop),
+          tatTime: this.getTatTime(prop),
+          status: prop.status || '',
+          transaksi: prod.pengajuan || '',
+          fasilitas: prod.facility || '',
+          ccy: prod.currency || '',
+          nominal: prod.totalPlafond || '',
+          tglEfektifFasilitas: this.getTanggalEfektifFasilitas(prod, prop),
+          jenisJaminan: prop.collateral.map(coll => coll.collateralCode).join(',\n'),
+          segmentasi: prop.regionalParentRM || '',
+          branch: prop.bookingBranchName || '',
+          rm: prop.rmFirstName + ' ' + prop.rmLastName || '',
+          keterangan: '',
+          deviasi: this._getDeviation(prop),
+          tbo: prop.statusDocumentTbo || '',
+        };
 
-      ws.addRow(dataRow);
-    });
+        ws.addRow(dataRow);
+      });
   }
 
   private _applyStyles(): void {
