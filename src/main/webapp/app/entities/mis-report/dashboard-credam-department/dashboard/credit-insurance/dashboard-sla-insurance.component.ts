@@ -7,6 +7,16 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-mis-dashboard-credit-insurance',
   template: `
+    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
+      <div class="row">
+        <ng-container *ngFor="let data of chartStatisticData">
+          <div class="col-md-3 my-2">
+            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
+          </div>
+        </ng-container>
+      </div>
+    </jhi-mis-dashboard-card>
+
     <div class="d-flex flex-row-reverse">
       <div class="form-container">
         <mat-form-field [formGroup]="dateForm" appearance="outline">
@@ -17,16 +27,6 @@ import { MessageService } from 'primeng/api';
         </mat-form-field>
       </div>
     </div>
-
-    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
-      <div class="row">
-        <ng-container *ngFor="let data of chartStatisticData">
-          <div class="col-md-3 my-2">
-            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
-          </div>
-        </ng-container>
-      </div>
-    </jhi-mis-dashboard-card>
 
     <jhi-mis-dashboard-card title="BY TRANSACTION">
       <jhi-mis-dashboard-bar-chart
@@ -85,12 +85,20 @@ import { MessageService } from 'primeng/api';
 
         <ng-container matColumnDef="existing">
           <th mat-header-cell *matHeaderCellDef>Existing</th>
-          <td mat-cell *matCellDef="let element">{{ element.existing }}</td>
+          <ng-container *matCellDef="let element">
+            <td *ngIf="element.rowSpan > 0" mat-cell [attr.rowspan]="element.rowSpan">
+              {{ element.existing }}
+            </td>
+          </ng-container>
         </ng-container>
 
         <ng-container matColumnDef="shortOver">
           <th mat-header-cell *matHeaderCellDef>Short/Over</th>
-          <td mat-cell *matCellDef="let element">{{ element.shortOver }}</td>
+          <ng-container *matCellDef="let element">
+            <td *ngIf="element.rowSpan > 0" mat-cell [attr.rowspan]="element.rowSpan">
+              {{ element.shortOver }}
+            </td>
+          </ng-container>
         </ng-container>
 
         <thead>
@@ -177,42 +185,42 @@ import { MessageService } from 'primeng/api';
 
       .mat-column-aveInDay {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
       }
 
       .mat-column-slaStandard {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
       }
 
       .mat-column-staffNeeds {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
       }
 
       .mat-column-totalStaffNeeds {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
       }
 
       .mat-column-existing {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
       }
 
       .mat-column-shortOver {
         width: 32px;
-        border-right: 1px solid currentColor;
+        border-right: 1px solid #e0e0e0;
         padding-right: 24px;
         text-align: center;
       }
@@ -245,7 +253,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
 
   chartStatisticData;
   chartUserData;
-  statuses = ['LOAN_OPS_CHECKING', 'LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
+  statuses = ['INSURANCE_CHECKING', 'INSURANCE_REVIEW', 'INSURANCE_COMPLETE'];
 
   private getLocStor(cookieName: string) {
     let result = null;
@@ -337,11 +345,10 @@ export class MisDashboardInsuranceComponent implements OnInit {
     return (slaStandard * aveInDay) / 420;
   }
 
-  public getShortOver(applicationType: string): number {
-    const staffNeeds = this.staffNeeds(applicationType);
+  public getShortOver(data: any[]): number {
+    const totalStaffNeeds = data.reduce((sum, row) => sum + (Number(row.staffNeeds) || 0), 0);
     const existing = parseFloat(this.existingValue?.toString() || '0') || 0;
-
-    return staffNeeds - existing;
+    return totalStaffNeeds - existing;
   }
 
   public totalStaffNeeds(data: any[]): number {
@@ -405,14 +412,12 @@ export class MisDashboardInsuranceComponent implements OnInit {
   }
 
   private processChartData(): void {
-    if (this.chartData?.length) {
+    if (this.chartData?.length && this.existingValue !== undefined) {
       const processedData = ['Active', 'Existing', 'New', 'To Be Released'].map(applicationType => {
         const aveTrx = this.calculateAveTrx(this.chartData, applicationType);
         const aveInDay = this.aveInDay(this.chartData, applicationType);
         const slaStandard = this.slaStandardValue;
         const staffNeeds = Number(this.staffNeeds(applicationType)).toFixed(2);
-        const existing = this.existingValue;
-        const shortOver = this.getShortOver(applicationType).toFixed(2);
 
         return {
           applicationType,
@@ -420,17 +425,18 @@ export class MisDashboardInsuranceComponent implements OnInit {
           aveInDay,
           slaStandard,
           staffNeeds,
-          existing,
-          shortOver,
         };
       });
 
-      const totalStaffNeedsValue = this.totalStaffNeeds(processedData).toFixed(2);
+      const totalStaffNeedsValue = this.totalStaffNeeds(processedData);
+      const shortOver = (totalStaffNeedsValue - parseFloat(this.existingValue?.toString() || '0')).toFixed(2);
 
       this.dataSource = this.calculateRowSpan(
         processedData.map(row => ({
           ...row,
-          totalStaffNeeds: totalStaffNeedsValue,
+          existing: this.existingValue,
+          shortOver,
+          totalStaffNeeds: totalStaffNeedsValue.toFixed(2),
         }))
       );
     }
