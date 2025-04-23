@@ -49,6 +49,7 @@ import { InternalService } from 'app/entities/internal/internal.service';
 })
 export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
   public lovStatusAppraisal = [];
+  private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
   public lovBranch = [];
   public lovAppraisalType: string[] = ['Internal', 'External'];
   public lovGeo = [];
@@ -333,7 +334,11 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       })
       .pipe(
         map(response => response.body),
-        map(internals => internals.map(internal => ({ id: internal.id, name: internal.facilityName })))
+        map(internals =>
+          internals
+            .filter(internal => this.parentIds.includes(String(internal.parentId)))
+            .map(internal => ({ id: internal.id, name: internal.facilityName }))
+        )
       )
       .subscribe({
         next: internals => (this.lovRegional = internals),
