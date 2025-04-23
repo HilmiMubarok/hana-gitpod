@@ -791,7 +791,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       const maturityDate = product.mainProduct[0]?.maturityDate;
 
       // if maturityDate null
-      if (maturityDate === null || maturityDate === 'null' || maturityDate === undefined || maturityDate) {
+      if (maturityDate === null || maturityDate === 'null' || maturityDate === undefined || !maturityDate) {
         return '';
       }
 
