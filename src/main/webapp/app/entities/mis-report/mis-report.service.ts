@@ -53,27 +53,27 @@ export class MisReportService {
     });
   }
 
-  private readonly cache: Map<string, Observable<string[]>> =
-    new Map<string, Observable<string[]>>();
+  private readonly cache: Map<string, Observable<string[]>> = new Map<string, Observable<string[]>>();
 
   public getStatuses(appMenuId: string) {
     const params = new HttpParams().set('appMenuId', appMenuId).set('page', 0).set('sort', 'id,asc');
     const key = `statuses-${appMenuId}`;
     if (!this.cache[key]) {
-      this.cache[key] = this.http.get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
-        params,
-        observe: 'response',
-      }).pipe(
-        map(res => res.body),
-        shareReplay(1)
-      )
+      this.cache[key] = this.http
+        .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item') + '/filterBy', {
+          params,
+          observe: 'response',
+        })
+        .pipe(
+          map(res => res.body),
+          shareReplay(1)
+        );
       setTimeout(() => {
         delete this.cache[key];
       }, 6000);
     }
 
     return this.cache[key];
-
   }
 
   public getLovUsername(positionTypeId) {
@@ -171,20 +171,6 @@ export class MisReportService {
   }
 
   public getPicLegalHO() {
-    const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,desc');
-
-    return this.http
-      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions'), {
-        params,
-        observe: 'response',
-      })
-      .pipe(
-        map(res => res.body),
-        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'LEGAL_OFFICER' && employee.statusId === 'ACTIVE'))
-      );
-  }
-
-  public getPicLegalOr() {
     const params = new HttpParams().set('page', 0).set('size', 99999).set('sort', 'id,desc');
 
     return this.http

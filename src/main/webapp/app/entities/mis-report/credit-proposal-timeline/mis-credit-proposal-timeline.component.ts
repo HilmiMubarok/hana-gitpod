@@ -276,9 +276,11 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       this.pageSize = pageEvent.pageSize;
     }
 
+    const queryValue = this.misCpTimeline.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.misCpTimeline.get('query')?.value,
+      query: queryValue,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -292,8 +294,19 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.misCpTimeline.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.misCpTimeline.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
     });
   }
 
@@ -519,29 +532,43 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   private _tatAppealPipelineProcess(timeline) {
+    if (!Array.isArray(timeline)) {
+      return 0;
+    }
+
     const darAppeal = this._getDate(timeline, 'DAR Appeal', 'createdDate');
-    const assignment = this._getDate(timeline, 'Assignment', 'createdDate');
+    const assignments = timeline.filter(
+      item => item.statusDescription === 'Assignment' && new Date(item.createdDate) > new Date(darAppeal)
+    );
 
-    console.log('tatAppealPipelineProcess', { darAppeal, assignment });
+    const latestAssignment = assignments.reduce((a, b) => (new Date(b.createdDate) > new Date(a.createdDate) ? b : a), null);
 
-    console.log('tatAppealPipelineProcess: ', this.countWeekdays(darAppeal, assignment));
-
-    return this.countWeekdays(darAppeal, assignment);
+    return latestAssignment ? this.countWeekdays(darAppeal, latestAssignment.createdDate) : 0;
   }
 
   private _tatAppealReviewProcess(timeline) {
-    const assignment = this._getDate(timeline, 'Assignment', 'createdDate');
-    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate');
-
-    if (!loanComm) {
-      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate');
+    if (!Array.isArray(timeline)) {
+      return 0;
     }
 
-    console.log('_tatAppealReviewProcess', { assignment, loanComm });
+    const darAppeal = this._getDate(timeline, 'DAR Appeal', 'createdDate');
 
-    console.log('_tatAppealReviewProcess: ', this.countWeekdays(assignment, loanComm));
+    const assignments = timeline.filter(
+      item => item.statusDescription === 'Assignment' && new Date(item.createdDate) > new Date(darAppeal)
+    );
+    const assignment = assignments.reduce((a, b) => (new Date(b.createdDate) > new Date(a.createdDate) ? b : a), null)?.createdDate;
 
-    return this.countWeekdays(assignment, loanComm);
+    const loanCommApprovals = timeline.filter(
+      item => item.statusDescription === 'Loan Committee Approval' && new Date(item.createdDate) > new Date(darAppeal)
+    );
+    let loanComm = loanCommApprovals.reduce((a, b) => (new Date(b.createdDate) > new Date(a.createdDate) ? b : a), null)?.createdDate;
+
+    if (!loanComm) {
+      const darFinals = timeline.filter(item => item.statusDescription === 'DAR Final' && new Date(item.createdDate) > new Date(darAppeal));
+      loanComm = darFinals.reduce((a, b) => (new Date(b.createdDate) > new Date(a.createdDate) ? b : a), null)?.createdDate;
+    }
+
+    return assignment && loanComm ? this.countWeekdays(assignment, loanComm) : 0;
   }
 
   private _getDate(timeLineCreditProposal, status, date, isLast = false): string | null {
@@ -583,18 +610,39 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   private _tatAppealPendingAcceptance(timeline) {
-    let loanComm = this._getDate(timeline, 'Loan Committee Approval', 'createdDate');
-    const confirmation = this._getDate(timeline, 'Confirmation', 'createdDate');
-
-    if (!loanComm) {
-      loanComm = this._getDate(timeline, 'DAR Final', 'createdDate');
+    if (!Array.isArray(timeline)) {
+      return 0;
     }
 
-    console.log('_tatAppealPendingAcceptance', { loanComm, confirmation });
+    const darAppeal = this._getDate(timeline, 'DAR Appeal', 'createdDate');
 
-    console.log('_tatAppealPendingAcceptance: ', this.countWeekdays(loanComm, confirmation));
+    const loanCommList = timeline.filter(
+      item => item.statusDescription === 'Loan Committee Approval' && new Date(item.createdDate) > new Date(darAppeal)
+    );
 
-    return this.countWeekdays(loanComm, confirmation);
+    let loanComm = loanCommList.length
+      ? loanCommList.reduce((a, b) => (new Date(b.createdDate) > new Date(a.createdDate) ? b : a)).createdDate
+      : null;
+
+    if (!loanComm) {
+      const darFinalList = timeline.filter(
+        item => item.statusDescription === 'DAR Final' && new Date(item.createdDate) > new Date(darAppeal)
+      );
+
+      if (darFinalList.length) {
+        loanComm = darFinalList.reduce((a, b) => (new Date(b.createdDate) > new Date(a.createdDate) ? b : a)).createdDate;
+      }
+    }
+
+    const confirmationList = timeline.filter(
+      item => item.statusDescription === 'Confirmation' && new Date(item.createdDate) > new Date(darAppeal)
+    );
+
+    const confirmation = confirmationList.length
+      ? confirmationList.reduce((a, b) => (new Date(b.createdDate) > new Date(a.createdDate) ? b : a)).createdDate
+      : null;
+
+    return loanComm && confirmation ? this.countWeekdays(loanComm, confirmation) : 0;
   }
 
   private _tatSigned(timeline) {
@@ -708,6 +756,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       worksheet.mergeCells(`Y${startRow}:Y${endRow}`);
       worksheet.mergeCells(`Z${startRow}:Z${endRow}`);
       worksheet.mergeCells(`AA${startRow}:AA${endRow}`);
+      worksheet.mergeCells(`AB${startRow}:AB${endRow}`);
     }
   }
 
@@ -736,6 +785,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       'tatAppealReviewProcess',
       'tatAppealPendingAcceptance',
       'tatSigned',
+      'tat',
     ];
     columnsToBeWraped.forEach(column => {
       this.worksheet.getColumn(column).alignment = {

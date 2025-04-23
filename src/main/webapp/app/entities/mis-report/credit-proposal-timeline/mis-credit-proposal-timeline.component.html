@@ -127,6 +127,7 @@
             formControlName="query"
             (focus)="onSearchFocus()"
             (blur)="onSearchBlur()"
+            (keydown.enter)="doSearch()"
           />
           <button
             matSuffix
@@ -173,7 +174,7 @@
           </ng-container>
 
           <ng-container matColumnDef="customerType">
-            <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+            <th mat-header-cell *matHeaderCellDef>Customer Status</th>
             <td mat-cell *matCellDef="let element">
               <div *ngIf="loadingSearch; else dataCustomerType" class="skeleton-loading"></div>
               <ng-template #dataCustomerType>{{ element.customerType }}</ng-template>
