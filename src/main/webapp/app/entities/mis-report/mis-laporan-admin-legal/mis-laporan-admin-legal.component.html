@@ -77,20 +77,17 @@
       <div class="row">
         <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
-            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('jenisPengikatan')?.disabled">
-              <mat-label>Jenis Pengikatan</mat-label>
-              <mat-select formControlName="jenisPengikatan" multiple>
-                <li class="select-all" (click)="toggleSelectAllJenisPengikatan()">
-                  {{ allSelectedJenisPengikatan ? 'Deselect All' : 'Select All' }}
+            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('branch')?.disabled">
+              <mat-label>Branch</mat-label>
+              <mat-select formControlName="branch" multiple>
+                <li class="select-all" (click)="toggleSelectBranchAll()">
+                  {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
                 </li>
-                <mat-option *ngFor="let item of lovJenisPengikatan" [value]="item">
-                  {{ item }}
-                </mat-option>
+                <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name }} </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
         </div>
-
         <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
             <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('regional')?.disabled">
@@ -109,27 +106,15 @@
       <div class="row">
         <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
-            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('branch')?.disabled">
-              <mat-label>Branch</mat-label>
-              <mat-select formControlName="branch" multiple>
-                <li class="select-all" (click)="toggleSelectBranchAll()">
-                  {{ allSelectedBranch ? 'Deselect All' : 'Select All' }}
+            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('jenisPengikatan')?.disabled">
+              <mat-label>Jenis Pengikatan</mat-label>
+              <mat-select formControlName="jenisPengikatan" multiple>
+                <li class="select-all" (click)="toggleSelectAllJenisPengikatan()">
+                  {{ allSelectedJenisPengikatan ? 'Deselect All' : 'Select All' }}
                 </li>
-                <mat-option *ngFor="let item of lovBranch" [value]="item.id">{{ item.name }} </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-6 mb-1">
-          <div #formContainer>
-            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('akta')?.disabled">
-              <mat-label>Akta</mat-label>
-              <mat-select multiple formControlName="akta">
-                <li class="select-all" (click)="toggleSelectAktaAll()">
-                  {{ allSelectedAkta ? 'Deselect All' : 'Select All' }}
-                </li>
-                <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.value }} </mat-option>
+                <mat-option *ngFor="let item of lovJenisPengikatan" [value]="item">
+                  {{ item }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -148,7 +133,19 @@
           </div>
         </div>
       </div>
-
+      <div class="col-12 col-md-6 mb-1">
+        <div #formContainer>
+          <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('akta')?.disabled">
+            <mat-label>Akta</mat-label>
+            <mat-select multiple formControlName="akta">
+              <li class="select-all" (click)="toggleSelectAktaAll()">
+                {{ allSelectedAkta ? 'Deselect All' : 'Select All' }}
+              </li>
+              <mat-option *ngFor="let item of lovAkta" [value]="item.value">{{ item.value }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
       <div class="row mb-1">
         <div class="col">
           <div #formContainer>
