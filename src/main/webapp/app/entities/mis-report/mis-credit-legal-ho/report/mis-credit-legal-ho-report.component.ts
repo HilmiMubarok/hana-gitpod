@@ -446,6 +446,12 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this._handleRegionalChanges(changes.regional);
       }
     });
+
+    this.form.get('query')?.valueChanges.subscribe(query => {
+      if (query === '') {
+        this.clearSearch();
+      }
+    });
   }
 
   private _updateFormControl(field: string, value: any): void {
