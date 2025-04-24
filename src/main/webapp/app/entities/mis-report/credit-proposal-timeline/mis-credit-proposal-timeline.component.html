@@ -98,7 +98,7 @@
           <div class="col">
             <div #formContainer>
               <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('customerType')?.disabled">
-                <mat-label>Customer Type</mat-label>
+                <mat-label>Customer Status</mat-label>
                 <mat-select formControlName="customerType" multiple>
                   <li class="select-all" (click)="toggleSelectCustomerTypeAll()">
                     {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
@@ -174,7 +174,7 @@
           </ng-container>
 
           <ng-container matColumnDef="customerType">
-            <th mat-header-cell *matHeaderCellDef>Customer Status</th>
+            <th mat-header-cell *matHeaderCellDef>Customer Type</th>
             <td mat-cell *matCellDef="let element">
               <div *ngIf="loadingSearch; else dataCustomerType" class="skeleton-loading"></div>
               <ng-template #dataCustomerType>{{ element.customerType }}</ng-template>
