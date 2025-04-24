@@ -157,6 +157,12 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       },
     });
     this._getRegionalLOV();
+
+    this.misCpTimeline.get('query')?.valueChanges.subscribe(value => {
+      if (value === '') {
+        this.clearSearch();
+      }
+    });
   }
 
   checkFieldStatus() {
@@ -226,9 +232,8 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     }
   }
 
-  clearSearch(): void {
-    this.misCpTimeline.get('query')?.reset();
-    // reset the searchResult
+  public clearSearch(): void {
+    this.misCpTimeline.get('query')?.setValue('', { emitEvent: false }); // Ganti reset()
     this.searchResult = null;
   }
 

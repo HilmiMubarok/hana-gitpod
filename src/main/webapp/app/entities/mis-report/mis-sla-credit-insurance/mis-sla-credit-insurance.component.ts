@@ -174,7 +174,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       startDate: this.misCp.get('date1')?.value,
       endDate: this.misCp.get('date2')?.value,
       status: this._convertStatusToString(this.misCp.get('status')?.value),
-      userLoanOps: this.misCp.get('username')?.value,
+      userLogin: this.misCp.get('username')?.value,
       type: 'STATELOG',
     };
 
