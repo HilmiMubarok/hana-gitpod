@@ -272,17 +272,20 @@ export class MisDashboardInsuranceComponent implements OnInit {
 
   ngOnInit(): void {
     this._fetchAllData(this.dateForm.get('date')?.value);
-    this.slaStandart();
-    this.existing();
+    this.getSlaStandardData();
   }
 
   public slaStandardValue = 0;
+  public existingValue = 0;
 
-  public slaStandart(): void {
+  public getSlaStandardData(): void {
     this.dashboardService.getSlaStandart().subscribe({
       next: res => {
         const slaStandardInsurance = res.find((item: any) => item.id === 'SLA_STANDARD_INSURANCE');
         this.slaStandardValue = slaStandardInsurance ? slaStandardInsurance.value : 0;
+
+        const staffInsurance = res.find((item: any) => item.id === 'STAFF_INSURANCE');
+        this.existingValue = staffInsurance ? staffInsurance.value : 0;
 
         this.getChartData();
       },
@@ -292,17 +295,6 @@ export class MisDashboardInsuranceComponent implements OnInit {
           summary: 'Error',
           detail: 'Failed to get SLA Standard',
         });
-      },
-    });
-  }
-
-  public existingValue = 0;
-
-  existing() {
-    this.dashboardService.getSlaStandart().subscribe({
-      next: res => {
-        const slaStandardInsurance = res.find((item: any) => item.id === 'STAFF_INSURANCE');
-        this.existingValue = slaStandardInsurance ? slaStandardInsurance.value : '0';
       },
     });
   }
@@ -330,7 +322,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
       total += value;
     }
 
-    return total;
+    return total / 3;
   }
 
   public aveInDay(chartData: DashboardData[], applicationType: string): number {
@@ -397,7 +389,8 @@ export class MisDashboardInsuranceComponent implements OnInit {
       .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
 
     this.dashboardService.getBarChartData(date, 'insurance').subscribe(res => {
-      this.chartData = res;
+      const data = [...res].reverse();
+      this.chartData = data;
       this.processChartData();
     });
 
