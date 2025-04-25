@@ -11,8 +11,9 @@
     <div class="e-card">
       <mat-card-content>
         <div class="col mb-3 custom-margin mt-5">
-          <mat-form-field>
-            <mat-select formControlName="type" placeholder="Select Date Type">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Type Date Range</mat-label>
+            <mat-select formControlName="type">
               <mat-option *ngFor="let type of dateTypes" [value]="type">{{ type }}</mat-option>
             </mat-select>
           </mat-form-field>
