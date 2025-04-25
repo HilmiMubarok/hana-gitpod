@@ -413,13 +413,37 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   public generateMISLaporanAdminLegalReport(): void {
-    this.misReportService.setLoading(true);
+    if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, Select Parameter.',
+      });
+      return;
+    }
 
+    if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, Select Date Range.',
+      });
+      return;
+    }
+
+    if (!this.form.get('status')?.value) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, Select Status.',
+      });
+      return;
+    }
+    this.misReportService.setLoading(true);
     const params = {
       startDate: this.form.get('startDate')?.value,
       endDate: this.form.get('endDate')?.value,
       status: this._convertStatusToString(this.form.get('status')?.value),
-      aggrementType: this._convertStatusToString(this.form.get('aggrementType').value),
       type: 'STATELOG',
     };
 
@@ -558,7 +582,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       namaNotaris: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
       jenisPK: proposal.agreement.agreementType || '',
       akta: proposal.legalCovernote.flatMap(item => item.covernoteTask).map(task => task.code) || '',
-      noAkta: '',
+      noAkta: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
       tglAkta: proposal.legalCovernote.flatMap(item => item.covernoteTask).map(task => task.date) || '',
       tglTargetPenyelesaian: '',
       tglMulaiHtEl: '',
