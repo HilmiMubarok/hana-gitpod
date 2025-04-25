@@ -2,7 +2,7 @@
   <ejs-breadcrumb cssClass="margin: 1rem;">
     <e-breadcrumb-items>
       <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-      <e-breadcrumb-item text="Laporan Admin Legal" url=""> </e-breadcrumb-item>
+      <e-breadcrumb-item text="Legal Administration Report " url=""> </e-breadcrumb-item>
     </e-breadcrumb-items>
   </ejs-breadcrumb>
 </div>
@@ -107,7 +107,7 @@
         <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
             <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('jenisPengikatan')?.disabled">
-              <mat-label>Jenis Pengikatan</mat-label>
+              <mat-label>Pengikatan Type</mat-label>
               <mat-select formControlName="jenisPengikatan" multiple>
                 <li class="select-all" (click)="toggleSelectAllJenisPengikatan()">
                   {{ allSelectedJenisPengikatan ? 'Deselect All' : 'Select All' }}
@@ -122,7 +122,7 @@
         <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
             <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="form.get('aggrementType')?.disabled">
-              <mat-label>Jenis PK</mat-label>
+              <mat-label>PK Type</mat-label>
               <mat-select multiple formControlName="aggrementType">
                 <li class="select-all" (click)="toggleSelectAggrementTypeAll()">
                   {{ allSelectedAggrementType ? 'Deselect All' : 'Select All' }}
