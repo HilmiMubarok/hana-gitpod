@@ -724,17 +724,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       return 0;
     }
 
-    const darAppeals = timeline.filter(item => item.statusDescription === 'DAR Appeal');
-    const earliestDarAppeal = darAppeals.reduce((a, b) => (!a || new Date(b.createdDate) < new Date(a.createdDate) ? b : a), null);
-
-    const darAppealDate = earliestDarAppeal ? new Date(earliestDarAppeal.createdDate) : null;
-
-    if (!darAppealDate) {
-      return 0;
-    }
-
-    const confirmations = timeline.filter(item => item.statusDescription === 'Confirmation' && new Date(item.createdDate) > darAppealDate);
-
+    const confirmations = timeline.filter(item => item.statusDescription === 'Confirmation');
     const latestConfirmation = confirmations.reduce((a, b) => (!a || new Date(b.createdDate) > new Date(a.createdDate) ? b : a), null);
 
     const completes = timeline.filter(item => item.statusDescription === 'Complete');
@@ -745,31 +735,33 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       : 0;
   }
 
+  private tatTotal(timeline: any[]): number {
+    const tatPipeline = this._tatPipelineProcess(timeline);
+    const tatReview = this._tatReviewProcess(timeline);
+    const tatPending = this._tatPendingAcceptance(timeline);
+    const tatAppealPipeline = this._tatAppealPipelineProcess(timeline);
+    const tatAppealReview = this._tatAppealReviewProcess(timeline);
+    const tatAppealPending = this._tatAppealPendingAcceptance(timeline);
+    const tatSigned = this._tatSigned(timeline);
+
+    return tatPipeline + tatReview + tatPending + tatAppealPipeline + tatAppealReview + tatAppealPending + tatSigned;
+  }
+
   private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal, index): void {
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
     const reversedTimeline = [...timeLineCreditProposal.timeLineCreditProposal].reverse();
 
-    function calculateWorkDays(startDate: Date, endDate: Date): number {
-      let workDays = 0;
-      const currentDate = new Date(startDate);
-      currentDate.setDate(currentDate.getDate() + 1);
-
-      while (currentDate <= endDate) {
-        const day = currentDate.getDay();
-        if (day !== 0 && day !== 6) {
-          workDays++;
-        }
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-
-      return workDays;
-    }
-
     reversedTimeline.forEach((timeline, timelineIndex) => {
-      const previousDate = timeline.fromDate ? new Date(timeline.fromDate) : null;
-      const adjustedNextDate = timeline.thruDate ? (timeline.thruDate === '9999-12-31' ? new Date() : new Date(timeline.thruDate)) : null;
+      const timelineData = timeLineCreditProposal?.timeLineCreditProposal ?? [];
 
-      const tat = previousDate && adjustedNextDate ? calculateWorkDays(previousDate, adjustedNextDate) : null;
+      const tatPipeline = this._tatPipelineProcess(timelineData);
+      const tatReview = this._tatReviewProcess(timelineData);
+      const tatPending = this._tatPendingAcceptance(timelineData);
+      const tatAppealPipeline = this._tatAppealPipelineProcess(timelineData);
+      const tatAppealReview = this._tatAppealReviewProcess(timelineData);
+      const tatAppealPending = this._tatAppealPendingAcceptance(timelineData);
+      const tatSigned = this._tatSigned(timelineData);
+      const totalTat = this.tatTotal(timelineData); // ← langsung hitung
 
       worksheet.addRow({
         no: timelineIndex === 0 ? index + 1 : '',
@@ -810,17 +802,14 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         pic: timeline.personName || '',
         note: timeline.note || '',
         status: timelineIndex === 0 ? timeLineCreditProposal.status || '' : '',
-        tatPipelineProcess: timelineIndex === 0 ? this._tatPipelineProcess(timeLineCreditProposal?.timeLineCreditProposal ?? []) : '',
-        tatReviewProcess: timelineIndex === 0 ? this._tatReviewProcess(timeLineCreditProposal?.timeLineCreditProposal ?? []) : '',
-        tatPendingAcceptance: timelineIndex === 0 ? this._tatPendingAcceptance(timeLineCreditProposal?.timeLineCreditProposal ?? []) : '',
-        tatAppealPipelineProcess:
-          timelineIndex === 0 ? this._tatAppealPipelineProcess(timeLineCreditProposal?.timeLineCreditProposal ?? []) : '',
-        tatAppealReviewProcess:
-          timelineIndex === 0 ? this._tatAppealReviewProcess(timeLineCreditProposal?.timeLineCreditProposal ?? []) : '',
-        tatAppealPendingAcceptance:
-          timelineIndex === 0 ? this._tatAppealPendingAcceptance(timeLineCreditProposal?.timeLineCreditProposal ?? []) : '',
-        tatSigned: timelineIndex === 0 ? this._tatSigned(timeLineCreditProposal?.timeLineCreditProposal ?? []) : '',
-        tat,
+        tatPipelineProcess: timelineIndex === 0 ? tatPipeline : '',
+        tatReviewProcess: timelineIndex === 0 ? tatReview : '',
+        tatPendingAcceptance: timelineIndex === 0 ? tatPending : '',
+        tatAppealPipelineProcess: timelineIndex === 0 ? tatAppealPipeline : '',
+        tatAppealReviewProcess: timelineIndex === 0 ? tatAppealReview : '',
+        tatAppealPendingAcceptance: timelineIndex === 0 ? tatAppealPending : '',
+        tatSigned: timelineIndex === 0 ? tatSigned : '',
+        tat: timelineIndex === 0 ? totalTat : '',
       });
     });
 
