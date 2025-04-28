@@ -467,7 +467,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       rm: (proposal.rmFirstName || '') + ' ' + (proposal.rmLastName || '') || '',
       bm: proposal.bm || '',
       smeHead: proposal.headName || '',
-      regional: proposal.regionalParentRM || '',
+      regional: proposal.regionalName || '',
       cif: proposal.cif || '',
       debtorName: proposal.debtorName || '',
       lineOfBusiness: proposal.lineOfBusiness || '',
