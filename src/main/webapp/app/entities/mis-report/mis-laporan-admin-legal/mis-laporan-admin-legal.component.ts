@@ -413,40 +413,59 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   public generateMISLaporanAdminLegalReport(): void {
-    if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please, Select Parameter.',
-      });
-      return;
-    }
+    if (this.menu === 'dateFromStatus') {
+      if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Parameter.',
+        });
+        return;
+      }
 
-    if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please, Select Date Range.',
-      });
-      return;
-    }
-
-    if (!this.form.get('status')?.value) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Warning',
-        detail: 'Please, Select Status.',
-      });
-      return;
+      if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Date Range.',
+        });
+        return;
+      }
+      if (!this.form.get('status')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Status.',
+        });
+        return;
+      }
+    } else if (this.menu === 'proposalDate') {
+      if (!this.form.get('status')?.value) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Status.',
+        });
+        return;
+      }
     }
     this.misReportService.setLoading(true);
-    const params = {
-      startDate: this.form.get('startDate')?.value,
-      endDate: this.form.get('endDate')?.value,
-      status: this._convertStatusToString(this.form.get('status')?.value),
-      type: 'STATELOG',
-    };
-
+    let params;
+    if (this.menu === 'dateFromStatus') {
+      params = {
+        startDate: this.form.get('startDate')?.value,
+        endDate: this.form.get('endDate')?.value,
+        status: this._convertStatusToString(this.form.get('status')?.value),
+        type: 'STATELOG',
+      };
+    } else {
+      params = {
+        startDate: null,
+        endDate: null,
+        status: this._convertStatusToString(this.form.get('status')?.value),
+        type: null,
+      };
+    }
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_LEGAL_ADM_LA'),
       error: () => {
