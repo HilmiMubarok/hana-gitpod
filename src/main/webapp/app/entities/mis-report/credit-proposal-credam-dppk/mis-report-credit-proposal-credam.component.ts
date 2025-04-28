@@ -400,6 +400,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         type: 'STATELOG',
         userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
         assignTo: 'dataAssignDppkFinalize',
+        businessKey: 'CREDITPROPOSAL',
       };
     } else {
       params = {
@@ -409,6 +410,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         type: 'STATELOG',
         userName: null,
         assignTo: null,
+        businessKey: 'CREDITPROPOSAL',
       };
     }
     this.misReportService.getMisReportCPCredam(params).subscribe({
