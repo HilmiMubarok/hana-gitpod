@@ -312,7 +312,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           no: index + 1 || '',
           proposalNumber: proposal.proposalNumber || '',
           dppkNumber: proposal.dppkNumber || '',
-          picCredam: latestDPPKFinalize[0].personName || '',
+          picCredam: latestDPPKFinalize.length > 0 ? latestDPPKFinalize[0].personName : '',
           debtor: proposal.debtorName || '',
           dppkInDate:
             timeLineData
