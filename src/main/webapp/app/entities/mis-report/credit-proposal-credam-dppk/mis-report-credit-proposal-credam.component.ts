@@ -239,14 +239,9 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           };
     // Gabungkan hasil akhir
     const formattedTatTime = `${minutesToTime(Math.abs(tatTime.timeDifference))}`;
-    const latestDPPKFinalize = timeLineData.filter(item => item.fromStatusDescription === 'DPPK Finalize');
-    if (latestDPPKFinalize.length > 0) {
-      latestDPPKFinalize.reduce((latest, current) => {
-        const currentDate = new Date(current?.fromDate);
-        const latestDate = new Date(latest?.fromDate);
-        return currentDate > latestDate ? current : latest;
-      });
-    }
+    const latestDPPKFinalize = timeLineData
+      .filter(item => item.fromStatusDescription === 'DPPK Finalize')
+      .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
     const tglEfekFasArr = [];
     const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution');
     const startDateInLoanOps =
@@ -317,7 +312,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           no: index + 1 || '',
           proposalNumber: proposal.proposalNumber || '',
           dppkNumber: proposal.dppkNumber || '',
-          picCredam: latestDPPKFinalize.length > 0 ? latestDPPKFinalize[0].personName : latestDPPKFinalize.personName || '',
+          picCredam: latestDPPKFinalize[0].personName || '',
           debtor: proposal.debtorName || '',
           dppkInDate:
             timeLineData
