@@ -314,13 +314,13 @@ export class MisDashboardCredamComponent implements OnInit {
   }
 
   aveInDay(chartData: DashboardData[], applicationType: string): number {
-    return this.calculateAveTrx(chartData, applicationType) / 22;
+    return Math.ceil(this.calculateAveTrx(chartData, applicationType) / 22);
   }
 
   staffNeeds(applicationType: string): number {
     const sla = this.slaStandardValue;
     const ave = this.aveInDay(this.chartData, applicationType);
-    return (sla * ave) / 420;
+    return Math.ceil((sla * ave) / 420);
   }
 
   getShortOver(applicationType: string): number {
