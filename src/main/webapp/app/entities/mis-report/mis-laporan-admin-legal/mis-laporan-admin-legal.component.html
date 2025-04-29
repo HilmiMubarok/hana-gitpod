@@ -28,27 +28,29 @@
                 [class.disabled-control]="form.get('startDate')?.disabled && form.get('endDate')?.disabled"
               >
                 <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [rangePicker]="picker">
+                <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
                   <input
                     matStartDate
                     formControlName="startDate"
                     placeholder="Start date"
-                    (focus)="onDateRangeFocus()"
+                    (focus)="onDateRangeFocus(); picker.open()"
                     (blur)="onDateRangeBlur()"
                     [class.disabled-control]="form.get('startDate')?.disabled"
+                    readonly
                   />
                   <input
                     matEndDate
                     formControlName="endDate"
                     placeholder="End date"
-                    (focus)="onDateRangeFocus()"
+                    (focus)="onDateRangeFocus(); picker.open()"
                     (blur)="onDateRangeBlur()"
                     [class.disabled-control]="form.get('endDate')?.disabled"
+                    readonly
                   />
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
-                <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
+                <mat-datepicker-toggle matSuffix (click)="clearDateRange(); $event.stopPropagation()" *ngIf="dateRangeHasValue()">
                   <mat-icon matDatepickerToggleIcon>clear</mat-icon>
                 </mat-datepicker-toggle>
               </mat-form-field>
