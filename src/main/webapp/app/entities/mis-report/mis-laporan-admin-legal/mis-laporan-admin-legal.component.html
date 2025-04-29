@@ -159,6 +159,7 @@
                   formControlName="query"
                   (focus)="onSearchFocus()"
                   (blur)="onSearchBlur()"
+                  (keydown.enter)="doSearch()"
                 />
                 <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()" *ngIf="form.get('query')?.value">
                   <mat-icon>search</mat-icon>
@@ -344,6 +345,7 @@
                   formControlName="query"
                   (focus)="onSearchFocus()"
                   (blur)="onSearchBlur()"
+                  (keydown.enter)="doSearch()"
                 />
                 <button matSuffix mat-icon-button type="button" aria-label="Search" (click)="doSearch()" *ngIf="form.get('query')?.value">
                   <mat-icon>search</mat-icon>

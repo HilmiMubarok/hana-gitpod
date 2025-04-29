@@ -413,58 +413,68 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   public generateMISLaporanAdminLegalReport(): void {
-    if (this.menu === 'dateFromStatus') {
-      if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Parameter.',
-        });
-        return;
-      }
+    const query = this.form.get('query')?.value;
 
-      if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Date Range.',
-        });
-        return;
-      }
-      if (!this.form.get('status')?.value) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Status.',
-        });
-        return;
-      }
-    } else if (this.menu === 'proposalDate') {
-      if (!this.form.get('status')?.value) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Warning',
-          detail: 'Please, Select Status.',
-        });
-        return;
+    if (!query) {
+      if (this.menu === 'dateFromStatus') {
+        if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Parameter.',
+          });
+          return;
+        }
+
+        if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Date Range.',
+          });
+          return;
+        }
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      } else if (this.menu === 'proposalDate') {
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
       }
     }
     this.misReportService.setLoading(true);
     let params;
-    if (this.menu === 'dateFromStatus') {
+    if (this.form.get('query')?.value) {
       params = {
-        startDate: this.form.get('startDate')?.value,
-        endDate: this.form.get('endDate')?.value,
-        status: this._convertStatusToString(this.form.get('status')?.value),
-        type: 'STATELOG',
+        query: this.form.get('query')?.value,
       };
     } else {
-      params = {
-        startDate: null,
-        endDate: null,
-        status: this._convertStatusToString(this.form.get('status')?.value),
-        type: null,
-      };
+      if (this.menu === 'dateFromStatus') {
+        params = {
+          startDate: this.form.get('startDate')?.value,
+          endDate: this.form.get('endDate')?.value,
+          status: this._convertStatusToString(this.form.get('status')?.value),
+          type: 'STATELOG',
+        };
+      } else {
+        params = {
+          startDate: null,
+          endDate: null,
+          status: this._convertStatusToString(this.form.get('status')?.value),
+          type: null,
+        };
+      }
     }
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_LEGAL_ADM_LA'),
@@ -656,9 +666,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       this.pageSize = pageEvent.pageSize;
     }
 
+    const queryValue = this.form.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.form.get('query')?.value,
+      query: queryValue,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -672,8 +684,19 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
     });
   }
 
