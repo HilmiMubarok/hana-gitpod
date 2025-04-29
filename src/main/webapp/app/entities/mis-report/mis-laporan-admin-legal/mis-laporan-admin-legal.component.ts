@@ -177,9 +177,22 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   onMenuChanged(): void {
-    this._initializeForm();
+    this._resetForms();
   }
 
+  private _resetForms(): void {
+    if (this.form) {
+      this.form.reset();
+      this.allSelected = false;
+      this.allSelectedAkta = false;
+      this.allSelectedRegional = false;
+      this.allSelectedBranch = false;
+      this.allSelectedjenisPk = false;
+      this.allSelectedAggrementType = false;
+      this.allSelectedJenisPengikatan = false;
+      this.searchResult = null;
+    }
+  }
   ngOnInit(): void {
     this.getStatusLOV('MIS_LEGAL_ADM_LA').subscribe({
       next: res => (this.lovStatus = res),
@@ -392,15 +405,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
           this.allSelected = true;
         }
       }
-
-      // if (Array.isArray(changes.username)) {
-      //   if (changes.username.length === 0) {
-      //     this._updateFormControl('username', null);
-      //     this.allSelectedUsername = false;
-      //   } else if (changes.username.length === this.lovUsername.length) {
-      //     this.allSelectedUsername = true;
-      //   }
-      // }
+      this.form.get('query')?.valueChanges.subscribe(query => {
+        if (query === '') {
+          this.clearSearch();
+        }
+      });
 
       if (changes.regional !== undefined) {
         this._handleRegionalChanges(changes.regional);
