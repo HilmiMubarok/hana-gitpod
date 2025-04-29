@@ -63,7 +63,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   showStatusAndRegional = false;
   dateTypes: string[] = ['Proposal Date', 'Date From Status'];
 
-  public lovCustomerType = ['NEW', 'EXISTING'];
+  public lovCustomerType = ['New', 'Existing'];
   public allSelectedRegional = false;
   public lovRegional = [];
   private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
@@ -487,9 +487,10 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       return dateA.getTime() - dateB.getTime();
     });
 
-    data.forEach((timeLineCreditProposal, index) => {
-      this._addTimelineData(this.worksheet, timeLineCreditProposal, index);
-    });
+    let proposalIndex = 1;
+    for (const proposal of data) {
+      this._addTimelineData(this.worksheet, proposal, proposalIndex++);
+    }
   }
 
   get columns(): any[] {
@@ -735,6 +736,8 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       : 0;
   }
 
+  private noCounter = 1;
+
   private tatTotal(timeline: any[]): number {
     const tatPipeline = this._tatPipelineProcess(timeline);
     const tatReview = this._tatReviewProcess(timeline);
@@ -747,24 +750,48 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     return tatPipeline + tatReview + tatPending + tatAppealPipeline + tatAppealReview + tatAppealPending + tatSigned;
   }
 
-  private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal, index): void {
+  private _addTimelineData(worksheet: ExcelJS.Worksheet, timeLineCreditProposal: any, index: number): void {
     const startRow = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
-    const reversedTimeline = [...timeLineCreditProposal.timeLineCreditProposal].reverse();
+
+    const customerType = this.misCpTimeline.get('customerType')?.value;
+    const search = this.misCpTimeline.get('query')?.value;
+
+    let filteredTimeline;
+    if (!customerType || customerType.length === 0 || (search && search !== '')) {
+      filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
+    } else {
+      const customerStatus = timeLineCreditProposal.customerStatus || '';
+      if (customerType.includes(customerStatus)) {
+        filteredTimeline = [...timeLineCreditProposal.timeLineCreditProposal];
+      } else {
+        filteredTimeline = [];
+      }
+    }
+
+    const reversedTimeline = [...filteredTimeline].reverse();
+
+    const timelineData = filteredTimeline;
+    const tatPipeline = this._tatPipelineProcess(timelineData);
+    const tatReview = this._tatReviewProcess(timelineData);
+    const tatPending = this._tatPendingAcceptance(timelineData);
+    const tatAppealPipeline = this._tatAppealPipelineProcess(timelineData);
+    const tatAppealReview = this._tatAppealReviewProcess(timelineData);
+    const tatAppealPending = this._tatAppealPendingAcceptance(timelineData);
+    const tatSigned = this._tatSigned(timelineData);
+    const totalTat = this.tatTotal(timelineData);
+
+    let manualNo = 1;
+    const columnNo = worksheet.getColumn(1).values;
+    for (let i = columnNo.length - 1; i >= 1; i--) {
+      if (typeof columnNo[i] === 'number') {
+        manualNo = (columnNo[i] as number) + 1;
+        break;
+      }
+    }
 
     reversedTimeline.forEach((timeline, timelineIndex) => {
-      const timelineData = timeLineCreditProposal?.timeLineCreditProposal ?? [];
-
-      const tatPipeline = this._tatPipelineProcess(timelineData);
-      const tatReview = this._tatReviewProcess(timelineData);
-      const tatPending = this._tatPendingAcceptance(timelineData);
-      const tatAppealPipeline = this._tatAppealPipelineProcess(timelineData);
-      const tatAppealReview = this._tatAppealReviewProcess(timelineData);
-      const tatAppealPending = this._tatAppealPendingAcceptance(timelineData);
-      const tatSigned = this._tatSigned(timelineData);
-      const totalTat = this.tatTotal(timelineData); // ← langsung hitung
-
       worksheet.addRow({
-        no: timelineIndex === 0 ? index + 1 : '',
+        no: timelineIndex === 0 ? manualNo : '',
         proposalNumber: timelineIndex === 0 ? timeLineCreditProposal.proposalNumber || '' : '',
         proposalDate:
           timelineIndex === 0
@@ -813,9 +840,8 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       });
     });
 
-    if (timeLineCreditProposal.timeLineCreditProposal.length > 0) {
-      const endRow = startRow + timeLineCreditProposal.timeLineCreditProposal.length - 1;
-
+    if (filteredTimeline.length > 0) {
+      const endRow = startRow + filteredTimeline.length - 1;
       worksheet.mergeCells(`A${startRow}:A${endRow}`);
       worksheet.mergeCells(`B${startRow}:B${endRow}`);
       worksheet.mergeCells(`C${startRow}:C${endRow}`);
