@@ -52,8 +52,8 @@ import * as ExcelJS from 'exceljs';
                 <mat-label>Username</mat-label>
                 <mat-select formControlName="username">
                   <mat-option [value]="null">--Select Username--</mat-option>
-                  <mat-option *ngFor="let item of lovUsername" [value]="item.userLogin"
-                    >{{ item.firstName + ' ' + item.lastName }}
+                  <mat-option *ngFor="let item of lovUsername" [value]="item.partyId"
+                    >{{ item.employeeFirstName + ' ' + item.employeeLastName }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -151,7 +151,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get Statuses' });
       },
     });
-    this.getUsernameLOV('LOAN_OPS_OFFICER').subscribe({
+    this.misReportService.getLovUsernameLoanOps().subscribe({
       next: res => (this.lovUsername = res),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get List Username' });
