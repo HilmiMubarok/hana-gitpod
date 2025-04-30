@@ -830,10 +830,14 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
   private _getTanggalComplianceReview(proposal) {
     if (proposal.isCompliance === 'Yes') {
-      const date = proposal.timeLineCreditProposal
+      const date: string[] = proposal.timeLineCreditProposal
         .filter(timeline => timeline.fromStatusDescription === 'Compliance Director')
         .map(timeline => timeline.fromDate);
-      return this.formatDateID(date).getFullDate();
+      const dateString = date[0];
+      if (dateString === null || dateString === 'null' || dateString === undefined || !dateString || dateString.length === 0) {
+        return '';
+      }
+      return this.formatDateID(dateString).getFullDate();
     } else {
       return '';
     }
