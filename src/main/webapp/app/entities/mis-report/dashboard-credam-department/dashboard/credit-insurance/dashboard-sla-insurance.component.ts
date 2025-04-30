@@ -326,15 +326,21 @@ export class MisDashboardInsuranceComponent implements OnInit {
   }
 
   public aveInDay(chartData: DashboardData[], applicationType: string): number {
-    return this.calculateAveTrx(chartData, applicationType) / 22;
+    const rawAverage = this.calculateAveTrx(chartData, applicationType) / 22;
+    return this.roundToDecimals(rawAverage, 2);
+  }
+
+  private roundToDecimals(value, decimals) {
+    const factor = Math.pow(10, decimals);
+    return Math.ceil(value * factor) / factor;
   }
 
   public staffNeeds(applicationType: string): number {
     const slaStandard = parseFloat(this.slaStandardValue?.toString() || '0') || 0;
-
     const aveInDay = this.aveInDay(this.chartData, applicationType);
+    const rawNeeds = (slaStandard * aveInDay) / 420;
 
-    return (slaStandard * aveInDay) / 420;
+    return this.roundToDecimals(rawNeeds, 2);
   }
 
   public getShortOver(data: any[]): number {
