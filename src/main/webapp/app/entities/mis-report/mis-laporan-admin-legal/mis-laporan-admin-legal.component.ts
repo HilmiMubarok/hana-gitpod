@@ -622,7 +622,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       jenisPK: proposal.agreement.agreementType || '',
       akta: proposal.legalCovernote.flatMap(item => item.covernoteTask).map(task => task.code) || '',
       noAkta: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
-      tglAkta: proposal.legalCovernote.flatMap(item => item.covernoteTask).map(task => task.date) || '',
+      tglAkta: proposal.agreement.dateAgreement || '',
       tglTargetPenyelesaian: '',
       tglMulaiHtEl: '',
       tglSelesaiHtEl: '',
