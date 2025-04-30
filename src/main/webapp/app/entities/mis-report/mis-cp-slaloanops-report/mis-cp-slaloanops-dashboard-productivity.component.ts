@@ -15,27 +15,33 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
         </ng-container>
 
         <ng-container matColumnDef="aveTrxMonth">
-          <th mat-header-cell *matHeaderCellDef>Ave Trx/Month</th>
-          <td mat-cell *matCellDef="let element">{{ element.aveTrxMonth }}</td>
+          <th mat-header-cell *matHeaderCellDef class="text-center">Ave Trx/Month</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.aveTrxMonth }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="aveInDay">
-          <th mat-header-cell *matHeaderCellDef>Ave in day</th>
-          <td mat-cell *matCellDef="let element">{{ element.aveInDay }}</td>
+          <th mat-header-cell *matHeaderCellDef class="text-center">Ave in day</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.aveInDay }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="slaStandard">
-          <th mat-header-cell *matHeaderCellDef>SLA Standard</th>
-          <td mat-cell *matCellDef="let element">{{ element.slaStandard }}</td>
+          <th mat-header-cell *matHeaderCellDef class="text-center">SLA Standard</th>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.slaStandard }}</td>
         </ng-container>
 
         <ng-container matColumnDef="staffNeeds">
-          <th mat-header-cell *matHeaderCellDef>Staff Needs</th>
-          <td mat-cell *matCellDef="let element">{{ element.staffNeeds }}</td>
+          <th mat-header-cell *matHeaderCellDef class="text-center">Staff Needs</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.staffNeeds }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="totalStaffNeeds">
-          <th mat-header-cell *matHeaderCellDef>Total Staff Needs</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center">Total Staff Needs</th>
           <td
             mat-cell
             *matCellDef="let element; let i = index"
@@ -47,7 +53,7 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
         </ng-container>
 
         <ng-container matColumnDef="existing">
-          <th mat-header-cell *matHeaderCellDef>Existing</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center">Existing</th>
           <td
             mat-cell
             *matCellDef="let element; let i = index"
@@ -59,7 +65,7 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
         </ng-container>
 
         <ng-container matColumnDef="shortOver">
-          <th mat-header-cell *matHeaderCellDef>Short/Over</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center">Short/Over</th>
           <td
             mat-cell
             *matCellDef="let element; let i = index"
@@ -79,6 +85,10 @@ import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-producti
     `
       .title {
         color: #257e79f7;
+      }
+
+      .text-center {
+        text-align: center;
       }
 
       .table-container {
@@ -173,7 +183,11 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
   private latestStaff: number | null = null;
   private latestData: any = null;
 
-  constructor(private dashboardService: MisDashboardService, private productivityService: MisCpSlaloanopsProductivityService) {}
+  constructor(private dashboardService: MisDashboardService, private productivityService: MisCpSlaloanopsProductivityService) {
+    this.dataSource.subscribe(rows => {
+      console.log('Datasource: ', rows);
+    });
+  }
 
   ngOnInit() {
     const filterId = ['STAFF_LOANOPS', 'SLA_STANDARD_LOANOPS'];
