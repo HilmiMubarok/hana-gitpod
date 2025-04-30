@@ -61,8 +61,8 @@ export class MisCpSlaloanopsProductivityService {
       const field = this.applicationTypeToField[appType];
       const sum = data.reduce((acc, curr) => acc + (curr[field] || 0), 0);
       const aveTrxMonth = data.length > 0 ? sum / data.length : 0;
-      const aveInDay = aveTrxMonth / 22;
-      const staffNeeds = (slaStandard * aveInDay) / 420;
+      const aveInDay = Math.ceil(this.roundToDecimals(aveTrxMonth / 22, 1));
+      const staffNeeds = Math.ceil(this.roundToDecimals((slaStandard * aveInDay) / 420, 1));
       return {
         applicationType: appType,
         aveTrxMonth,
@@ -77,9 +77,15 @@ export class MisCpSlaloanopsProductivityService {
     const totalStaffNeeds = rows.reduce((acc, row) => acc + row.staffNeeds, 0);
     rows.forEach(row => {
       row.totalStaffNeeds = totalStaffNeeds;
-      row.shortOver = row.totalStaffNeeds - row.existing;
+      const shortOver = row.totalStaffNeeds - row.existing;
+      row.shortOver = shortOver;
     });
     this.processedRows$.next(rows);
+  }
+
+  roundToDecimals(value, decimals) {
+    const factor = Math.pow(10, decimals);
+    return Math.ceil(value * factor) / factor;
   }
 
   setMonth1(value: number) {
