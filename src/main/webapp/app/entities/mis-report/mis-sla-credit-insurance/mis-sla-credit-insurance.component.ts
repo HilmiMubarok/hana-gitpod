@@ -176,6 +176,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       status: this._convertStatusToString(this.misCp.get('status')?.value),
       userLogin: this.misCp.get('username')?.value,
       type: 'STATELOG',
+      businessKey: 'INSURANCE_AGREEMENT',
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({
