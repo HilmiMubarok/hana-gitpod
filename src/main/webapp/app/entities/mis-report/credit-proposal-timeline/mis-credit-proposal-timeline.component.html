@@ -37,6 +37,8 @@
                     placeholder="Start date"
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
+                    [readonly]="true"
+                    (focus)="picker.open()"
                     [class.disabled-control]="misCpTimeline.get('date1')?.disabled"
                   />
                   <input
@@ -45,6 +47,8 @@
                     placeholder="End date"
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
+                    [readonly]="true"
+                    (focus)="picker.open()"
                     [class.disabled-control]="misCpTimeline.get('date2')?.disabled"
                   />
                 </mat-date-range-input>
