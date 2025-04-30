@@ -386,17 +386,20 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   private _handleFormChanges(): void {
+    this.form.get('startDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('startDate')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
+    this.form.get('endDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('endDate')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
     this.form.valueChanges.subscribe(changes => {
-      this.checkFieldStatus();
-
-      if (moment.isMoment(changes.startDate)) {
-        this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
-      }
-
-      if (moment.isMoment(changes.endDate)) {
-        this._updateFormControl('endDate', changes.endDate.format('YYYY-MM-DD'));
-      }
-
       if (Array.isArray(changes.status)) {
         if (changes.status.length === 0) {
           this._updateFormControl('status', null);
@@ -405,18 +408,16 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
           this.allSelected = true;
         }
       }
-      this.form.get('query')?.valueChanges.subscribe(query => {
-        if (query === '') {
-          this.clearSearch();
-        }
-      });
-
       if (changes.regional !== undefined) {
         this._handleRegionalChanges(changes.regional);
       }
     });
+    this.form.get('query')?.valueChanges.subscribe(query => {
+      if (query === '') {
+        this.clearSearch();
+      }
+    });
   }
-
   private _updateFormControl(field: string, value: any): void {
     this.form.get(field)?.setValue(value, { emitEvent: false });
   }
@@ -602,7 +603,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const dppkFinalizeLatestYear =
       latestDppkFinalizeDate.length > 0 ? new Date(latestDppkFinalizeDate[0].fromDate).getFullYear().toString() : '';
     const firstOlAssign = timeLineData
-      .filter(item => item.statusDescription === 'OL Assign')
+      .filter(item => item.statusDescription === 'OL Assigned')
       .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
     worksheet.addRow({
       no: index + 1 || '',
