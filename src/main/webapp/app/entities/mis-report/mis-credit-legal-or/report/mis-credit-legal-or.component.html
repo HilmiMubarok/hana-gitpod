@@ -35,6 +35,8 @@
                     placeholder="Start date"
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
+                    [readonly]="true"
+                    (focus)="picker.open()"
                     [class.disabled-control]="form.get('startDate')?.disabled"
                   />
                   <input
@@ -43,6 +45,8 @@
                     placeholder="End date"
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
+                    [readonly]="true"
+                    (focus)="picker.open()"
                     [class.disabled-control]="form.get('endDate')?.disabled"
                   />
                 </mat-date-range-input>

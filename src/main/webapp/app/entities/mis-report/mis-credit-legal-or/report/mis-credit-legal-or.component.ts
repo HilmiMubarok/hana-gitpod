@@ -482,7 +482,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
           startDate: this.form.get('startDate')?.value,
           endDate: this.form.get('endDate')?.value,
           status: this._convertStatusToString(this.form.get('status')?.value),
-          userLogin: this._convertStatusToString(this.form.get('username')?.value),
+          userLogin: this.form.get('username')?.value ? this._convertStatusToString(this.form.get('username')?.value) : null,
           type: 'STATELOG',
         };
       } else {
