@@ -199,6 +199,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       endDate: this.misLoanOpsForm.get('endDate')?.value,
       status: this._convertStatusToString(this.misLoanOpsForm.get('status')?.value),
       type: 'STATELOG',
+      businessKey: 'CREDITPROPOSAL',
       userName: this.misLoanOpsForm.get('username')?.value,
       assignTo: this.misLoanOpsForm.get('username')?.value ? 'dataAssignToLoanOpsOfficer' : null,
     };
