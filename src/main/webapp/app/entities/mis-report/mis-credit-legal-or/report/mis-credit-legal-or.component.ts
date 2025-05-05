@@ -565,15 +565,15 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
 
-    let cp = data.filter(proposal => this.outRegions.includes(proposal.businessUnitRM));
+    let cp = data.filter(proposal => proposal.internalRegion === 'R2');
 
-    if (search === '') {
-      if (segmentation !== '') {
-        cp = cp.filter(proposal => proposal.regionalId === segmentation);
+    if (!search) {
+      if (segmentation && segmentation.length > 0) {
+        cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
       }
 
-      if (branch !== '') {
-        cp = cp.filter(proposal => proposal.businessUnitRM === branch);
+      if (branch && branch.length > 0) {
+        cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
       }
     }
 
