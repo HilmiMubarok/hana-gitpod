@@ -364,12 +364,12 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
               .join(',\n') || '',
         });
 
-        const rowEnd = worksheet.rowCount;
-        if (rowEnd > startRow) {
-          worksheet.mergeCells(`F${startRow}:F${rowEnd}`); // Merge 'customerStatus'
-          worksheet.mergeCells(`G${startRow}:G${rowEnd}`); // Merge 'cif'
-          worksheet.mergeCells(`AB${startRow}:AB${rowEnd}`); // Merge 'debtorName'
-        }
+        // const rowEnd = worksheet.rowCount;
+        // if (rowEnd > startRow) {
+        //   worksheet.mergeCells(`F${startRow}:F${rowEnd}`); // Merge 'customerStatus'
+        //   worksheet.mergeCells(`G${startRow}:G${rowEnd}`); // Merge 'cif'
+        //   worksheet.mergeCells(`AB${startRow}:AB${rowEnd}`); // Merge 'debtorName'
+        // }
       });
   }
   public generateMISReportCP() {

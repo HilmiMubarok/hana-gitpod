@@ -615,14 +615,14 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
       segmentation: proposal.regionalParentRM || '',
       pic: latestDppkFinalizeDate.length > 0 ? latestDppkFinalizeDate[0].personName : '',
-      tglPemTgs: firstOlAssign.length > 0 ? firstOlAssign[0].fromDate : '',
-      tglAkad: proposal.agreement.dateAgreement || '',
+      tglPemTgs: firstOlAssign.length > 0 ? this._convertDate(firstOlAssign[0].fromDate) : '',
+      tglAkad: this._convertDate(proposal.agreement.dateAgreement) || '',
       jnsPengikatan: proposal.agreement.isNotaril || '',
       namaNotaris: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
       jenisPK: proposal.agreement.agreementType || '',
       akta: proposal.legalCovernote.flatMap(item => item.covernoteTask).map(task => task.code) || '',
       noAkta: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
-      tglAkta: proposal.agreement.dateAgreement || '',
+      tglAkta: this._convertDate(proposal.agreement.dateAgreement) || '',
       tglTargetPenyelesaian: '',
       tglMulaiHtEl: '',
       tglSelesaiHtEl: '',
@@ -723,5 +723,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     });
 
     return result;
+  }
+  private _convertDate(date: string): string {
+    if (!date) {
+      return '';
+    }
+    return moment(date).format('DD-MM-YYYY');
   }
 }
