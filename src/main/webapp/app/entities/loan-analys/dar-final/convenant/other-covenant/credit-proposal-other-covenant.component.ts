@@ -80,7 +80,9 @@ export class OtherCovenantTempComponent implements OnInit {
     if (
       this.creditProposalItem.attributes['darRevHistory'] &&
       this.creditProposalItem.statusId !== 'PK_DAR_REVISION' &&
-      this.creditProposalItem.statusId !== 'PK_DAR_REVISION_CHECKER'
+      this.creditProposalItem.statusId !== 'PK_DAR_REVISION_CHECKER' &&
+      this.creditProposalItem.statusId !== 'CP_DAR_FINAL' &&
+      this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE'
     ) {
       const parsed = parsePreviousAtrribute(this.creditProposalItem);
       this.data = parsed['darRevHistory'].convenant.otherCovenant;
