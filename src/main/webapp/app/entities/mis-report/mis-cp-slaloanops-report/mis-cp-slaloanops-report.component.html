@@ -1,3 +1,12 @@
+<div class="e-card-header-caption mb-3">
+    <ejs-breadcrumb cssClass="margin: 1rem;">
+        <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="SLA Loan Operations" url=""> </e-breadcrumb-item>
+        </e-breadcrumb-items>
+    </ejs-breadcrumb>
+</div>
+
 <div class="department-header">
     <div class="department-name h4">LOAN OPERATIONS DEPARTMENT</div>
     <div class="nav-buttons">
@@ -10,7 +19,5 @@
         </button>
     </div>
 </div>
-
-
 <jhi-mis-loan-ops-report *ngIf="page === 'report'"></jhi-mis-loan-ops-report>
 <jhi-mis-cp-slaloanops-dashboard *ngIf="page === 'dashboard'"></jhi-mis-cp-slaloanops-dashboard>

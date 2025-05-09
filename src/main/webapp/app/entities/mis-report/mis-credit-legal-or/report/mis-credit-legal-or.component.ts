@@ -565,15 +565,15 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
 
-    let cp = data.filter(proposal => this.outRegions.includes(proposal.businessUnitRM));
+    let cp = data.filter(proposal => proposal.internalRegion === 'R2');
 
-    if (search === '') {
-      if (segmentation !== '') {
-        cp = cp.filter(proposal => proposal.regionalId === segmentation);
+    if (!search) {
+      if (segmentation && segmentation.length > 0) {
+        cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
       }
 
-      if (branch !== '') {
-        cp = cp.filter(proposal => proposal.businessUnitRM === branch);
+      if (branch && branch.length > 0) {
+        cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
       }
     }
 
@@ -791,10 +791,14 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
 
   private _getTanggalComplianceReview(proposal) {
     if (proposal.isCompliance === 'Yes') {
-      const date = proposal.timeLineCreditProposal
+      const date: string[] = proposal.timeLineCreditProposal
         .filter(timeline => timeline.fromStatusDescription === 'Compliance Director')
         .map(timeline => timeline.fromDate);
-      return this.formatDateID(date).getFullDate();
+      const dateString = date[0];
+      if (dateString === null || dateString === 'null' || dateString === undefined || !dateString || dateString.length === 0) {
+        return '';
+      }
+      return this.formatDateID(dateString).getFullDate();
     } else {
       return '';
     }
