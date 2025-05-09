@@ -779,10 +779,15 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   // ==== End Form Search Section ==== //
 
   private _getPicTimeline(timeLineCreditProposal) {
-    return timeLineCreditProposal
+    if (!Array.isArray(timeLineCreditProposal)) {
+      return '';
+    }
+    
+    const filtered = timeLineCreditProposal
       .filter(timeline => timeline.fromStatusDescription === 'DPDL Finalize')
-      .map(timeline => timeline.personName)
-      .join(',\n');
+      .map(timeline => timeline.personName);
+      
+    return filtered.length ? filtered.join(',\n') : '';
   }
 
   private _getTanggalJatuhTempo(product) {
