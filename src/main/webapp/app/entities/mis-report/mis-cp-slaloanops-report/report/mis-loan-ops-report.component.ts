@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractExcelMISReport } from '../../abstract-excel-report';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MisReportService } from '../../mis-report.service';
 import { MessageService } from 'primeng/api';
 import moment from 'moment';
@@ -10,19 +10,11 @@ import * as ExcelJS from 'exceljs';
   selector: 'jhi-mis-loan-ops-report',
   template: `
     <form [formGroup]="misLoanOpsForm" (ngSubmit)="generateMISLoanOps()">
-      <div class="e-card-header-caption">
-        <ejs-breadcrumb cssClass="margin: 1rem;">
-          <e-breadcrumb-items>
-            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="SLA Loan Operations" url=""> </e-breadcrumb-item>
-          </e-breadcrumb-items>
-        </ejs-breadcrumb>
-      </div>
       <mat-card style="border-radius: 12px">
         <mat-card-content>
           <div class="row my-3">
             <div class="col">
-              <mat-form-field class="w-100" appearance="outline">
+              <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
                   <input matStartDate formControlName="startDate" placeholder="Start date" />
@@ -35,7 +27,7 @@ import * as ExcelJS from 'exceljs';
             </div>
 
             <div class="col">
-              <mat-form-field class="w-100" appearance="outline">
+              <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
                 <mat-label>Status</mat-label>
                 <mat-select formControlName="status" multiple>
                   <li class="select-all" (click)="toggleSelectAll()">
@@ -52,8 +44,10 @@ import * as ExcelJS from 'exceljs';
                 <mat-label>Username</mat-label>
                 <mat-select formControlName="username">
                   <mat-option [value]="null">--Select Username--</mat-option>
-                  <mat-option *ngFor="let item of lovUsername" [value]="item.partyId"
-                    >{{ item.employeeFirstName + ' ' + item.employeeLastName }}
+                  <mat-option *ngFor="let item of lovUsername" [value]="item.partyId">
+                    {{
+                      (item.employeeFirstName ? item.employeeFirstName : '') + ' ' + (item.employeeLastName ? item.employeeLastName : '')
+                    }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -105,6 +99,10 @@ import * as ExcelJS from 'exceljs';
         background-color: #f5f5f5;
         cursor: pointer;
       }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
     `,
   ],
 })
@@ -119,9 +117,9 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
     super(misReportService);
 
     this.misLoanOpsForm = new FormGroup({
-      startDate: new FormControl(''),
-      endDate: new FormControl(''),
-      status: new FormControl(''),
+      startDate: new FormControl('', [Validators.required]),
+      endDate: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
       username: new FormControl(null),
     });
 
@@ -144,6 +142,29 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
     window.history.back();
   }
 
+  private getFormValidationMessage(): string | null {
+    const startDate = this.misLoanOpsForm.get('startDate');
+    const endDate = this.misLoanOpsForm.get('endDate');
+    const status = this.misLoanOpsForm.get('status');
+
+    const isDateRangeInvalid = startDate?.invalid || endDate?.invalid;
+    const isStatusInvalid = status?.invalid;
+
+    if (isDateRangeInvalid && !isStatusInvalid) {
+      return 'Please Select Date Range';
+    }
+
+    if (isStatusInvalid && !isDateRangeInvalid) {
+      return 'Please Select Status';
+    }
+
+    if (isDateRangeInvalid && isStatusInvalid) {
+      return 'Please Select Parameters';
+    }
+
+    return null;
+  }
+
   ngOnInit(): void {
     this.getStatusLOV('MIS_SLA_LOANOPS').subscribe({
       next: res => (this.lovStatus = res),
@@ -160,9 +181,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
   }
 
   ngOnDestroy(): void {
-    // Clear form data
     this.misLoanOpsForm.reset();
-    console.log('ngOnDestroy: ', this.misLoanOpsForm);
   }
 
   toggleSelectAll(): void {
@@ -193,6 +212,14 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
   }
 
   generateMISLoanOps() {
+    if (this.misLoanOpsForm.invalid) {
+      const errorMessage = this.getFormValidationMessage();
+      if (errorMessage) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+        return;
+      }
+    }
+
     this.misReportService.setLoading(true);
     const params = {
       startDate: this.misLoanOpsForm.get('startDate')?.value,
