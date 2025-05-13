@@ -537,18 +537,22 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       case 'New':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       case 'Renewal':
+        if (!prod.mainProduct) { return '' };
         return (
           `${this._formatDateSLA(prod.mainProduct.maturityDate)} s/d ${this._formatDateSLA(prod.mainProduct.proposeMaturityDate)}` || ''
         );
       case 'Renewal + Additional':
+        if (!prod.mainProduct || !prod.mainProduct.mainProduct || !prod.mainProduct.mainProduct.length) { return '' };
         return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
       case 'Renewal + Decrease':
+        if (!prod.mainProduct || !prod.mainProduct.mainProduct || !prod.mainProduct.mainProduct.length) { return '' };
         return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
       case 'Existing':
         return this._formatDateSLA(prod.firstDisbursementDate) || '';
       case 'Additional / Top Up':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       default:
+        if (!prod.mainProduct) { return '' };
         return prod.mainProduct.endPeriodRemark || '';
     }
   }
