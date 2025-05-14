@@ -59,12 +59,12 @@ import { PageEvent } from '@angular/material/paginator';
         border: none !important;
       }
 
-      .ng-invalid:not(form)[class*=mat-] {
+      .ng-invalid:not(form)[class*='mat-'] {
         border: 0 !important;
         padding: 0 !important;
         margin: 0 !important;
       }
-      
+
       @keyframes skeleton-loading {
         0% {
           background-color: #e2e2e2;
@@ -550,8 +550,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       totalAdminFeeUSD: proposal.product.map(product => (product.adminFeeType === 'USD' ? product.adminFee : '')).join(',\n') || '',
       initialLimitIDR: proposal.product.map(product => (product.currency === 'IDR' ? product.initialLimit : '')).join(',\n') || '',
       initialLimitUSD: proposal.product.map(product => (product.currency === 'USD' ? product.initialLimit : '')).join(',\n') || '',
-      totalInitialLimitIDR: '',
-      totalInitialLimitUSD: '',
+      totalInitialLimitIDR: proposal.totalInitialLimitIDR || '',
+      totalInitialLimitUSD: proposal.totalInitialLimitUSD || '',
       facilityProposed: this._getFacilityProposedDataSource(proposal),
       facilityDARFinal: proposal.product.map(product => product.facility).join(',\n') || '',
       totalPlafondPerFacilityProposed: this._getTotalPlafondPerFacility(proposal, 'History') || '',

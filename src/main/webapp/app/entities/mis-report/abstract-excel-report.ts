@@ -266,16 +266,13 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _getRate(proposal: any, type: 'Proposed' | 'DAR Final'): string {
-    // Determine the products based on the type, either from previous history or current proposal
-    const products = type === 'Proposed' ? proposal.previousHistory?.product : proposal.product;
+    const products = type === 'Proposed' ? proposal.previousHistory?.[0]?.product : proposal.product;
 
-    // Return an '' if products is null or undefined
     if (!products) {
       return '';
     }
 
-    // Map over each product to extract proposed rates and join them with a newline separator
-    return products.map(({ rateProposed }) => rateProposed).join(',\n');
+    return products.map(({ rateProposed }) => (rateProposed && rateProposed !== 'null' ? rateProposed : '')).join(',\n');
   }
 
   protected _getDebiturGroup(proposal: any): string {
