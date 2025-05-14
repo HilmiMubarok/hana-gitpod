@@ -188,7 +188,8 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
       endDate: this.MISReportCPInsuranceReport.get('endDate')?.value,
       status: this._convertStatusToString(this.MISReportCPInsuranceReport.get('status')?.value),
       userLogin: this.MISReportCPInsuranceReport.get('username')?.value,
-      type: 'STATELOG',
+      type: 'INSURANCE',
+      businessKey: 'INSURANCE_AGREEMENT',
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({

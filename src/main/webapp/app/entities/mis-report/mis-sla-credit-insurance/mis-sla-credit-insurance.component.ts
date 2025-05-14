@@ -63,7 +63,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       date1: new FormControl('', [Validators.required]),
       date2: new FormControl('', [Validators.required]),
       status: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
+      username: new FormControl(''),
     });
     this.misCp.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
@@ -174,8 +174,9 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       startDate: this.misCp.get('date1')?.value,
       endDate: this.misCp.get('date2')?.value,
       status: this._convertStatusToString(this.misCp.get('status')?.value),
-      userLoanOps: this.misCp.get('username')?.value,
+      userLogin: this.misCp.get('username')?.value,
       type: 'STATELOG',
+      businessKey: 'INSURANCE_AGREEMENT',
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({

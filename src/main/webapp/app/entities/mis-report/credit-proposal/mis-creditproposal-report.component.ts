@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import moment from 'moment';
 import * as ExcelJS from 'exceljs';
 import { AbstractExcelMISReport } from '../abstract-excel-report';
@@ -55,6 +55,16 @@ import { PageEvent } from '@angular/material/paginator';
         animation: skeleton-loading 1.5s ease-in-out infinite;
       }
 
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
+
+      .ng-invalid:not(form)[class*='mat-'] {
+        border: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
       @keyframes skeleton-loading {
         0% {
           background-color: #e2e2e2;
@@ -85,9 +95,9 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
   constructor(public misReportService: MisReportService, public messageService: MessageService, public internalService: InternalService) {
     super(misReportService);
     this.MISReportCP = new FormGroup({
-      date1: new FormControl(''),
-      date2: new FormControl(''),
-      status: new FormControl(''),
+      date1: new FormControl('', [Validators.required]),
+      date2: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
       regional: new FormControl(null),
       customerType: new FormControl(null),
       query: new FormControl(''),
@@ -118,6 +128,12 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
 
     this.MISReportCP.get('status')?.valueChanges.subscribe(() => this.checkFieldStatus());
     this.MISReportCP.get('customerType')?.valueChanges.subscribe(() => this.checkFieldStatus());
+
+    this.MISReportCP.get('query')?.valueChanges.subscribe(query => {
+      if (query === '') {
+        this.clearSearch();
+      }
+    });
   }
 
   onDateRangeFocus() {
@@ -295,9 +311,11 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       this.pageSize = pageEvent.pageSize;
     }
 
+    const query = this.MISReportCP.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.MISReportCP.get('query')?.value,
+      query,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -311,8 +329,19 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (query !== null && query !== undefined) {
+          this.MISReportCP.get('query')?.setValue(query, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (query !== null && query !== undefined) {
+          this.MISReportCP.get('query')?.setValue(query, { emitEvent: false });
+        }
+      },
     });
   }
 
@@ -337,6 +366,40 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
   }
 
   public generateMISReportCP() {
+    const query = this.MISReportCP.get('query')?.value;
+    const startDate = this.MISReportCP.get('date1')?.value;
+    const endDate = this.MISReportCP.get('date2')?.value;
+    const status = this.MISReportCP.get('status')?.value;
+
+    if (!query) {
+      if ((!startDate || !endDate) && !status) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Parameter.',
+        });
+        return;
+      }
+
+      if (!startDate || !endDate) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Date Range.',
+        });
+        return;
+      }
+
+      if (!status) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Warning',
+          detail: 'Please, Select Status.',
+        });
+        return;
+      }
+    }
+
     this.misReportService.setLoading(true);
 
     let params;
@@ -467,7 +530,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       rm: (proposal.rmFirstName || '') + ' ' + (proposal.rmLastName || '') || '',
       bm: proposal.bm || '',
       smeHead: proposal.headName || '',
-      regional: proposal.regionalParentRM || '',
+      regional: proposal.regionalName || '',
       cif: proposal.cif || '',
       debtorName: proposal.debtorName || '',
       lineOfBusiness: proposal.lineOfBusiness || '',
@@ -487,8 +550,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       totalAdminFeeUSD: proposal.product.map(product => (product.adminFeeType === 'USD' ? product.adminFee : '')).join(',\n') || '',
       initialLimitIDR: proposal.product.map(product => (product.currency === 'IDR' ? product.initialLimit : '')).join(',\n') || '',
       initialLimitUSD: proposal.product.map(product => (product.currency === 'USD' ? product.initialLimit : '')).join(',\n') || '',
-      totalInitialLimitIDR: '',
-      totalInitialLimitUSD: '',
+      totalInitialLimitIDR: proposal.totalInitialLimitIDR || '',
+      totalInitialLimitUSD: proposal.totalInitialLimitUSD || '',
       facilityProposed: this._getFacilityProposedDataSource(proposal),
       facilityDARFinal: proposal.product.map(product => product.facility).join(',\n') || '',
       totalPlafondPerFacilityProposed: this._getTotalPlafondPerFacility(proposal, 'History') || '',

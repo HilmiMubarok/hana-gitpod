@@ -167,7 +167,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public loadingSearch = false;
   public doSearch(): void {
     this.loadingSearch = true;
-
+    const queryValue = this.MisReportCPDeviation.get('query')?.value;
     const predicate: object = {
       page: 0,
       query: this.MisReportCPDeviation.get('query')?.value,
@@ -184,8 +184,17 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         this.searchResultPagination = new MatTableDataSource(searchResultSort);
         this.searchResultPagination.paginator = this.paginator;
         this.loadingSearch = false;
+        if (queryValue !== null && queryValue !== undefined) {
+          this.MisReportCPDeviation.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+        if (queryValue !== null && queryValue !== undefined) {
+          this.MisReportCPDeviation.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
     });
   }
   @ViewChild('paginator') paginator: MatPaginator;

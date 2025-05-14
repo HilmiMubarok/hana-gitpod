@@ -16,7 +16,89 @@ import { IGeneralParameter } from 'app/entities/master-parameter/general-paramet
 @Component({
   selector: 'jhi-mis-laporan-admin-legal',
   templateUrl: './mis-laporan-admin-legal.component.html',
-  styleUrls: ['./mis-report.style.css'],
+  styleUrls: ['../disabled-style.scss'],
+  styles: [
+    `
+      .select-all {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        line-height: 48px;
+        height: 48px;
+        padding: 0 16px;
+        text-align: left;
+        text-decoration: none;
+        max-width: 100%;
+        position: relative;
+        liststyletype: none;
+        outline: none;
+        display: flex;
+        flex-direction: row;
+        max-width: 100%;
+        box-sizing: border-box;
+        align-items: center;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .select-all:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+      }
+
+      :host ::ng-deep .ng-invalid:not(form) {
+        border: none !important;
+      }
+
+      .skeleton-loading {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 16px;
+        width: 90%;
+        height: 100%;
+        animation: skeleton-loading 1.5s ease-in-out infinite;
+      }
+
+      .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+      .mat-button-toggle-group-appearance-standard {
+        border: none !important;
+      }
+
+      .mat-button-toggle {
+        margin: 0 3px;
+        border-radius: 5px !important;
+        font-weight: 400;
+      }
+
+      .mat-button-toggle-appearance-standard {
+        background: #e5e5e5;
+      }
+
+      .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+        border: none;
+      }
+
+      .mat-button-toggle-checked {
+        color: rgb(255 255 255 / 87%);
+        background: #48a5a0;
+      }
+
+      @keyframes skeleton-loading {
+        0% {
+          background-color: #e2e2e2;
+        }
+        50% {
+          background-color: #f2f2f2;
+        }
+        100% {
+          background-color: #e2e2e2;
+        }
+      }
+    `,
+  ],
 })
 export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implements OnInit {
   public inRegions: string[] = [
@@ -95,9 +177,22 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   onMenuChanged(): void {
-    this._initializeForm();
+    this._resetForms();
   }
 
+  private _resetForms(): void {
+    if (this.form) {
+      this.form.reset();
+      this.allSelected = false;
+      this.allSelectedAkta = false;
+      this.allSelectedRegional = false;
+      this.allSelectedBranch = false;
+      this.allSelectedjenisPk = false;
+      this.allSelectedAggrementType = false;
+      this.allSelectedJenisPengikatan = false;
+      this.searchResult = null;
+    }
+  }
   ngOnInit(): void {
     this.getStatusLOV('MIS_LEGAL_ADM_LA').subscribe({
       next: res => (this.lovStatus = res),
@@ -237,31 +332,39 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   onDateRangeBlur() {
     this.checkFieldStatus();
   }
-
+  private debounceTimer: any;
   checkFieldStatus() {
-    const startDate = this.form.get('startDate')?.value;
-    const endDate = this.form.get('endDate')?.value;
-    const status = this.form.get('status')?.value;
-    const jenisPengikatan = this.form.get('jenisPengikatan')?.value;
-    const regional = this.form.get('regional')?.value;
-    const branch = this.form.get('branch')?.value;
-    const akta = this.form.get('akta')?.value;
-
-    if (
-      startDate ||
-      endDate ||
-      (status && status.length > 0) ||
-      (regional && regional.length > 0) ||
-      (jenisPengikatan && jenisPengikatan.length > 0) ||
-      (branch && branch.length > 0) ||
-      (akta && akta.length > 0)
-    ) {
-      this.form.get('query')?.disable();
-      this.applyDisabledStyle(this.formContainer.nativeElement, true);
-    } else {
-      this.form.get('query')?.enable();
-      this.applyDisabledStyle(this.formContainer.nativeElement, false);
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
     }
+
+    this.debounceTimer = setTimeout(() => {
+      const startDate = this.form.get('startDate')?.value;
+      const endDate = this.form.get('endDate')?.value;
+      const status = this.form.get('status')?.value;
+      const jenisPengikatan = this.form.get('jenisPengikatan')?.value;
+      const regional = this.form.get('regional')?.value;
+      const branch = this.form.get('branch')?.value;
+      const akta = this.form.get('akta')?.value;
+      const aggrementType = this.form.get('aggrementType')?.value;
+
+      if (
+        startDate ||
+        endDate ||
+        (status && status.length > 0) ||
+        (jenisPengikatan && jenisPengikatan.length > 0) ||
+        (regional && regional.length > 0) ||
+        (branch && branch.length > 0) ||
+        (akta && akta.length > 0) ||
+        (aggrementType && aggrementType.length > 0)
+      ) {
+        this.form.get('query')?.disable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, true);
+      } else {
+        this.form.get('query')?.enable();
+        this.applyDisabledStyle(this.formContainer.nativeElement, false);
+      }
+    }, 50);
   }
 
   public dateRangeHasValue(): boolean {
@@ -283,17 +386,20 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   private _handleFormChanges(): void {
+    this.form.get('startDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('startDate')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
+    this.form.get('endDate')?.valueChanges.subscribe(date => {
+      if (moment.isMoment(date)) {
+        const formattedDate = date.format('YYYY-MM-DD');
+        this.form.get('endDate')?.setValue(formattedDate, { emitEvent: false });
+      }
+    });
     this.form.valueChanges.subscribe(changes => {
-      this.checkFieldStatus();
-
-      if (moment.isMoment(changes.startDate)) {
-        this._updateFormControl('startDate', changes.startDate.format('YYYY-MM-DD'));
-      }
-
-      if (moment.isMoment(changes.endDate)) {
-        this._updateFormControl('endDate', changes.endDate.format('YYYY-MM-DD'));
-      }
-
       if (Array.isArray(changes.status)) {
         if (changes.status.length === 0) {
           this._updateFormControl('status', null);
@@ -302,37 +408,84 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
           this.allSelected = true;
         }
       }
-
-      // if (Array.isArray(changes.username)) {
-      //   if (changes.username.length === 0) {
-      //     this._updateFormControl('username', null);
-      //     this.allSelectedUsername = false;
-      //   } else if (changes.username.length === this.lovUsername.length) {
-      //     this.allSelectedUsername = true;
-      //   }
-      // }
-
       if (changes.regional !== undefined) {
         this._handleRegionalChanges(changes.regional);
       }
     });
+    this.form.get('query')?.valueChanges.subscribe(query => {
+      if (query === '') {
+        this.clearSearch();
+      }
+    });
   }
-
   private _updateFormControl(field: string, value: any): void {
     this.form.get(field)?.setValue(value, { emitEvent: false });
   }
 
   public generateMISLaporanAdminLegalReport(): void {
+    const query = this.form.get('query')?.value;
+
+    if (!query) {
+      if (this.menu === 'dateFromStatus') {
+        if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Parameter.',
+          });
+          return;
+        }
+
+        if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Date Range.',
+          });
+          return;
+        }
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      } else if (this.menu === 'proposalDate') {
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      }
+    }
     this.misReportService.setLoading(true);
-
-    const params = {
-      startDate: this.form.get('startDate')?.value,
-      endDate: this.form.get('endDate')?.value,
-      status: this._convertStatusToString(this.form.get('status')?.value),
-      aggrementType: this._convertStatusToString(this.form.get('aggrementType').value),
-      type: 'STATELOG',
-    };
-
+    let params;
+    if (this.form.get('query')?.value) {
+      params = {
+        query: this.form.get('query')?.value,
+      };
+    } else {
+      if (this.menu === 'dateFromStatus') {
+        params = {
+          startDate: this.form.get('startDate')?.value,
+          endDate: this.form.get('endDate')?.value,
+          status: this._convertStatusToString(this.form.get('status')?.value),
+          type: 'STATELOG',
+        };
+      } else {
+        params = {
+          startDate: null,
+          endDate: null,
+          status: this._convertStatusToString(this.form.get('status')?.value),
+          type: null,
+        };
+      }
+    }
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_LEGAL_ADM_LA'),
       error: () => {
@@ -399,10 +552,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     if (branch !== '' && akta !== '') {
       cp = data.filter(
         proposal =>
-          proposal.branchNameRM === branch &&
-          Array.isArray(proposal.legalCovernote) &&
-          proposal.legalCovernote.length > 0 &&
-          proposal.legalCovernote.covernoteTask.some(task => task.code) === akta
+          proposal.branchNameRM === branch && proposal.legalCovernote.flatMap(item => item.covernoteTask).filter(task => task.code) === akta
       );
     } else {
       cp = data;
@@ -442,45 +592,85 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, index: number) {
-    const timeLineData = proposal.timeLineCreditProposal.sort((a, b) => a.id - b.id);
+    const timeLineData = proposal.timeLineCreditProposal?.sort((a, b) => a.id - b.id) || [];
+
     const latestDppkFinalizeDate = timeLineData
       .filter(item => item.statusDescription === 'DPPK Finalize')
       .sort((b, a) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
+
     const dppkFinalizeLatestDate =
       latestDppkFinalizeDate.length > 0 ? new Date(latestDppkFinalizeDate[0].fromDate).getDate().toString().padStart(2, '0') : '';
     const dppkFinalizeLatestMonth =
       latestDppkFinalizeDate.length > 0 ? (new Date(latestDppkFinalizeDate[0].fromDate).getMonth() + 1).toString().padStart(2, '0') : '';
     const dppkFinalizeLatestYear =
       latestDppkFinalizeDate.length > 0 ? new Date(latestDppkFinalizeDate[0].fromDate).getFullYear().toString() : '';
+
     const firstOlAssign = timeLineData
-      .filter(item => item.statusDescription === 'OL Assign')
+      .filter(item => item.statusDescription === 'OL Assigned')
       .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
-    worksheet.addRow({
-      no: index + 1 || '',
-      tanggalDpdl: dppkFinalizeLatestDate || '',
-      bulan: dppkFinalizeLatestMonth || '',
-      tahun: dppkFinalizeLatestYear || '',
-      namaDebitur: proposal.debtorName || '',
-      cabang: proposal.branchNameRM || '',
-      rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
-      segmentation: proposal.regionalParentRM || '',
-      pic: latestDppkFinalizeDate.length > 0 ? latestDppkFinalizeDate[0].personName : '',
-      tglPemTgs: firstOlAssign.length > 0 ? firstOlAssign[0].fromDate : '',
-      tglAkad: proposal.agreement.dateAgreement || '',
-      jnsPengikatan: proposal.agreement.isNotaril || '',
-      namaNotaris: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
-      jenisPK: proposal.agreement.agreementType || '',
-      akta: proposal.legalCovernote.covernoteTask.some(task => task.code) || '',
-      noAkta: '',
-      tglAkta: proposal.legalCovernote.covernoteTask.some(task => task.date) || '',
-      tglTargetPenyelesaian: '',
-      tglMulaiHtEl: '',
-      tglSelesaiHtEl: '',
-      tglSelesaiAkta: '',
-      checkingbyPicLegal: '',
-      tglTandaTerimaCus: '',
-      note: '',
-    });
+
+    const legalCovernotes = proposal.legalCovernote;
+
+    if (legalCovernotes?.length) {
+      legalCovernotes.forEach(prod => {
+        prod.covernoteTask?.forEach(task => {
+          worksheet.addRow({
+            no: index + 1 || '',
+            tanggalDpdl: dppkFinalizeLatestDate || '',
+            bulan: dppkFinalizeLatestMonth || '',
+            tahun: dppkFinalizeLatestYear || '',
+            namaDebitur: proposal.debtorName || '',
+            cabang: proposal.branchNameRM || '',
+            rm: (proposal.rmFirstName || '') + ' ' + (proposal.rmLastName || ''),
+            segmentation: proposal.regionalParentRM || '',
+            pic: latestDppkFinalizeDate.length > 0 ? latestDppkFinalizeDate[0].personName : '',
+            tglPemTgs: firstOlAssign.length > 0 ? this._convertDate(firstOlAssign[0].fromDate) : '',
+            tglAkad: this._convertDate(proposal.agreement?.dateAgreement) || '',
+            jnsPengikatan: proposal.agreement?.isNotaril || '',
+            namaNotaris: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
+            jenisPK: proposal.agreement?.agreementType || '',
+            akta: task.code || '',
+            noAkta: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
+            tglAkta: this._convertDate(proposal.agreement?.dateAgreement) || '',
+            tglTargetPenyelesaian: '',
+            tglMulaiHtEl: '',
+            tglSelesaiHtEl: '',
+            tglSelesaiAkta: '',
+            checkingbyPicLegal: '',
+            tglTandaTerimaCus: '',
+            note: '',
+          });
+        });
+      });
+    } else {
+      // Kalau tidak ada legalCovernote, tetap tambahkan baris dengan akta kosong
+      worksheet.addRow({
+        no: index + 1 || '',
+        tanggalDpdl: dppkFinalizeLatestDate || '',
+        bulan: dppkFinalizeLatestMonth || '',
+        tahun: dppkFinalizeLatestYear || '',
+        namaDebitur: proposal.debtorName || '',
+        cabang: proposal.branchNameRM || '',
+        rm: (proposal.rmFirstName || '') + ' ' + (proposal.rmLastName || ''),
+        segmentation: proposal.regionalParentRM || '',
+        pic: latestDppkFinalizeDate.length > 0 ? latestDppkFinalizeDate[0].personName : '',
+        tglPemTgs: firstOlAssign.length > 0 ? this._convertDate(firstOlAssign[0].fromDate) : '',
+        tglAkad: this._convertDate(proposal.agreement?.dateAgreement) || '',
+        jnsPengikatan: proposal.agreement?.isNotaril || '',
+        namaNotaris: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
+        jenisPK: proposal.agreement?.agreementType || '',
+        akta: '', // kosong karena tidak ada covernote
+        noAkta: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
+        tglAkta: this._convertDate(proposal.agreement?.dateAgreement) || '',
+        tglTargetPenyelesaian: '',
+        tglMulaiHtEl: '',
+        tglSelesaiHtEl: '',
+        tglSelesaiAkta: '',
+        checkingbyPicLegal: '',
+        tglTandaTerimaCus: '',
+        note: '',
+      });
+    }
   }
 
   // ==== Form Search Section ==== //
@@ -490,10 +680,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       this.form.get('startDate')?.enable();
       this.form.get('endDate')?.enable();
       this.form.get('status')?.enable();
-      this.form.get('username')?.enable();
       this.form.get('regional')?.enable();
       this.form.get('branch')?.enable();
       this.form.get('akta')?.enable();
+      this.form.get('jenisPengikatan')?.enable();
+      this.form.get('aggrementType')?.enable();
 
       this.applyDisabledStyle(this.formContainer.nativeElement, false);
     }
@@ -503,10 +694,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     this.form.get('startDate')?.disable();
     this.form.get('endDate')?.disable();
     this.form.get('status')?.disable();
-    this.form.get('username')?.disable();
     this.form.get('regional')?.disable();
     this.form.get('branch')?.disable();
     this.form.get('akta')?.disable();
+    this.form.get('jenisPengikatan')?.disable();
+    this.form.get('aggrementType')?.disable();
 
     this.applyDisabledStyle(this.formContainer.nativeElement, true);
   }
@@ -524,9 +716,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       this.pageSize = pageEvent.pageSize;
     }
 
+    const queryValue = this.form.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.form.get('query')?.value,
+      query: queryValue,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -540,8 +734,19 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
     });
   }
 
@@ -558,5 +763,11 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     });
 
     return result;
+  }
+  private _convertDate(date: string): string {
+    if (!date) {
+      return '';
+    }
+    return moment(date).format('DD-MM-YYYY');
   }
 }

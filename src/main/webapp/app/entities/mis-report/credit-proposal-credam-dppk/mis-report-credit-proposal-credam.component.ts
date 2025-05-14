@@ -239,14 +239,9 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           };
     // Gabungkan hasil akhir
     const formattedTatTime = `${minutesToTime(Math.abs(tatTime.timeDifference))}`;
-    const latestDPPKFinalize = timeLineData.filter(item => item.fromStatusDescription === 'DPPK Finalize');
-    if (latestDPPKFinalize.length > 0) {
-      latestDPPKFinalize.reduce((latest, current) => {
-        const currentDate = new Date(current?.fromDate);
-        const latestDate = new Date(latest?.fromDate);
-        return currentDate > latestDate ? current : latest;
-      });
-    }
+    const latestDPPKFinalize = timeLineData
+      .filter(item => item.fromStatusDescription === 'DPPK Finalize')
+      .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
     const tglEfekFasArr = [];
     const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution');
     const startDateInLoanOps =
@@ -310,76 +305,78 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
         approvalOutData.push(...checker1Data.slice(1));
       }
     }
-    this.assignToDppk = proposal.dataAssignDppkFinalize;
-    worksheet.addRow({
-      no: index + 1 || '',
-      proposalNumber: proposal.proposalNumber || '',
-      dppkNumber: proposal.dppkNumber || '',
-      picCredam: latestDPPKFinalize.length > 0 ? latestDPPKFinalize[0].personName : latestDPPKFinalize.personName || '',
-      debtor: proposal.debtorName || '',
-      dppkInDate:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
-          .sort((a, b) => a.fromDate - b.fromDate)
-          .map(timeline => this._convertDate(timeline.fromDate))
-          .join(',\n') || '',
-      dppkInTime:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
-          .map(timeline => this._convertTime(timeline.fromTime))
-          .join(',\n') || '',
-      dppkOutDate:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Review')
-          .map(timeline => this._convertDate(timeline.fromDate))
-          .join(',\n') || '',
-      dppkOutTime:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Review')
-          .map(timeline => this._convertTime(timeline.fromTime))
-          .join(',\n') || '',
+    proposal.product
+      ?.filter(prod => prod.pengajuan !== 'Existing')
+      .forEach((prod, idx) => {
+        worksheet.addRow({
+          no: index + 1 || '',
+          proposalNumber: proposal.proposalNumber || '',
+          dppkNumber: proposal.dppkNumber || '',
+          picCredam: latestDPPKFinalize.length > 0 ? latestDPPKFinalize[0].personName : '',
+          debtor: proposal.debtorName || '',
+          dppkInDate:
+            timeLineData
+              .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
+              .sort((a, b) => a.fromDate - b.fromDate)
+              .map(timeline => this._convertDate(timeline.fromDate))
+              .join(',\n') || '',
+          dppkInTime:
+            timeLineData
+              .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
+              .map(timeline => this._convertTime(timeline.fromTime))
+              .join(',\n') || '',
+          dppkOutDate:
+            timeLineData
+              .filter(timeline => timeline.statusDescription === 'DPPK Review')
+              .map(timeline => this._convertDate(timeline.fromDate))
+              .join(',\n') || '',
+          dppkOutTime:
+            timeLineData
+              .filter(timeline => timeline.statusDescription === 'DPPK Review')
+              .map(timeline => this._convertTime(timeline.fromTime))
+              .join(',\n') || '',
 
-      checkOutName: proposal.dataAssignToDPPKReviewOneName || '',
-      checkerOutDate: checkerOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
-      checkerOutTime: checkerOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
-      approvalOutName: proposal.dataAssignToDPPKReviewTwoName || '',
-      approvalOutDate: approvalOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
-      approvalOutTime: approvalOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
-      tatDays: tatDayss?.toString() || '',
-      tatTime: formattedTatTime || '',
-      status: proposal.status || '',
-      transaksi: proposal.product.map(product => product.pengajuan).join(',\n') || '',
-      fasilitas: proposal.product.map(product => product.facility).join(',\n') || '',
-      ccy: proposal.product.map(product => product.currency).join(',\n') || '',
-      nominal: proposal.product.map(product => product.totalPlafond).join(',\n') || '',
-      tglEfektifFas: tglEfekFasArr.join(',\n') || '',
-      jenisJaminan: proposal.collateral.map(collateral => collateral.collateralCode).join(',\n') || '',
-      segmentasi: proposal.regionalParentRM || '',
-      branch: proposal.bookingBranchName || '',
-      rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
-      deviasi: this._getDeviation(proposal) || '',
-      tbo: proposal.statusDocumentTbo || '',
-      keterangan:
-        timeLineData
-          .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
-          .map(timeline => timeline.note || '')
-          .filter(note => note.trim() !== '')
-          .join(',\n') || '',
-    });
-    const rowEnd = worksheet.rowCount;
-    // Merge columns for the proposal details (first row only)
-    if (rowEnd > startRow) {
-      worksheet.mergeCells(`F${startRow}:F${rowEnd}`); // Merge 'customerStatus'
-      worksheet.mergeCells(`G${startRow}:G${rowEnd}`); // Merge 'cif'
-      worksheet.mergeCells(`AB${startRow}:AB${rowEnd}`); // Merge 'debtorName'
-    }
+          checkOutName: proposal.dataAssignToDPPKReviewOneName || '',
+          checkerOutDate: checkerOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
+          checkerOutTime: checkerOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
+          approvalOutName: proposal.dataAssignToDPPKReviewTwoName || '',
+          approvalOutDate: approvalOutData.map(item => this._convertDate(item.fromDate)).join(',\n') || '',
+          approvalOutTime: approvalOutData.map(item => this._convertTime(item.fromTime)).join(',\n') || '',
+          tatDays: tatDayss?.toString() || '',
+          tatTime: formattedTatTime || '',
+          status: proposal.status || '',
+          transaksi: prod.pengajuan || '',
+          fasilitas: prod.facility || '',
+          ccy: prod.currency || '',
+          nominal: prod.totalPlafond || '',
+          tglEfektifFas: tglEfekFasArr.join(',\n') || '',
+          jenisJaminan: proposal.collateral.map(collateral => collateral.collateralCode).join(',\n') || '',
+          segmentasi: proposal.regionalParentRM || '',
+          branch: proposal.bookingBranchName || '',
+          rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
+          deviasi: this._getDeviation(proposal) || '',
+          tbo: proposal.statusDocumentTbo || '',
+          keterangan:
+            timeLineData
+              .filter(timeline => timeline.statusDescription === 'DPPK Finalize')
+              .map(timeline => timeline.note || '')
+              .filter(note => note.trim() !== '')
+              .join(',\n') || '',
+        });
+
+        // const rowEnd = worksheet.rowCount;
+        // if (rowEnd > startRow) {
+        //   worksheet.mergeCells(`F${startRow}:F${rowEnd}`); // Merge 'customerStatus'
+        //   worksheet.mergeCells(`G${startRow}:G${rowEnd}`); // Merge 'cif'
+        //   worksheet.mergeCells(`AB${startRow}:AB${rowEnd}`); // Merge 'debtorName'
+        // }
+      });
   }
-
   public generateMISReportCP() {
     const startDate1 = this.MisReportCPCredam.get('date1')?.value;
     const endDate2 = this.MisReportCPCredam.get('date2')?.value;
     const statuss = this._convertStatusToString(this.MisReportCPCredam.get('status')?.value);
-
+    let params;
     if (!startDate1 && !endDate2 && !statuss) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please, Select Parameters' });
       this.misReportService.setLoading(false);
@@ -395,15 +392,27 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       return;
     }
     this.misReportService.setLoading(true);
-    const params = {
-      startDate: this.MisReportCPCredam.get('date1')?.value,
-      endDate: this.MisReportCPCredam.get('date2')?.value,
-      status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
-      type: 'STATELOG',
-      userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
-      assignTo: this.assignToDppk,
-    };
-
+    if (this.MisReportCPCredam.get('userName')?.value || this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value)) {
+      params = {
+        startDate: this.MisReportCPCredam.get('date1')?.value,
+        endDate: this.MisReportCPCredam.get('date2')?.value,
+        status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
+        type: 'STATELOG',
+        userName: this._convertStatusToString(this.MisReportCPCredam.get('userName')?.value),
+        assignTo: 'dataAssignDppkFinalize',
+        businessKey: 'CREDITPROPOSAL',
+      };
+    } else {
+      params = {
+        startDate: this.MisReportCPCredam.get('date1')?.value,
+        endDate: this.MisReportCPCredam.get('date2')?.value,
+        status: this._convertStatusToString(this.MisReportCPCredam.get('status')?.value),
+        type: 'STATELOG',
+        userName: null,
+        assignTo: null,
+        businessKey: 'CREDITPROPOSAL',
+      };
+    }
     this.misReportService.getMisReportCPCredam(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_SLA_DPPK'),
       error: () => {

@@ -201,7 +201,19 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   onMenuChanged(): void {
-    this._initializeForm();
+    this._resetForms();
+  }
+
+  private _resetForms(): void {
+    if (this.form) {
+      this.form.reset();
+      this.allSelected = false;
+      this.allSelectedUsername = false;
+      this.allSelectedRegional = false;
+      this.allSelectedBranch = false;
+      this.allSelectedSummary = false;
+      this.allSelectedProposalStatus = false;
+    }
   }
 
   ngOnInit(): void {
@@ -397,7 +409,6 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   private _handleFormChanges(): void {
-
     this.form.get('startDate')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
         const formattedDate = date.format('YYYY-MM-DD');
@@ -413,7 +424,6 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     });
 
     this.form.valueChanges.subscribe(changes => {
-
       if (Array.isArray(changes.status)) {
         if (changes.status.length === 0) {
           this._updateFormControl('status', '');
@@ -436,6 +446,12 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         this._handleRegionalChanges(changes.regional);
       }
     });
+
+    this.form.get('query')?.valueChanges.subscribe(query => {
+      if (query === '') {
+        this.clearSearch();
+      }
+    });
   }
 
   private _updateFormControl(field: string, value: any): void {
@@ -443,6 +459,48 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   public generateMISLegalReport(): void {
+    const query = this.form.get('query')?.value;
+
+    if (!query) {
+      if (this.menu === 'dateFromStatus') {
+        if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Parameter.',
+          });
+          return;
+        }
+
+        if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Date Range.',
+          });
+          return;
+        }
+
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      } else if (this.menu === 'proposalDate') {
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      }
+    }
+
     this.misReportService.setLoading(true);
 
     let params;
@@ -457,7 +515,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
           endDate: this.form.get('endDate')?.value,
           status: this._convertStatusToString(this.form.get('status')?.value),
           userName: this._convertStatusToString(this.form.get('username')?.value),
-          assignTo: 'dataAssignToLegalOfficer',
+          assignTo: this.form.get('username')?.value ? 'dataAssignToLegalOfficer' : null,
           type: 'STATELOG',
         };
       } else {
@@ -466,7 +524,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
           endDate: null,
           status: this._convertStatusToString(this.form.get('status')?.value),
           userName: this._convertStatusToString(this.form.get('username')?.value),
-          assignTo: 'dataAssignToLegalOfficer',
+          assignTo: this.form.get('username')?.value ? 'dataAssignToLegalOfficer' : null,
           type: null,
         };
       }
@@ -537,19 +595,29 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   _filterCPBeforeGenerate(data) {
+
+    data.forEach(proposal => {
+      proposal.statusProposal = this._getStatusData(proposal);
+    });
+    
     const segmentation = this.form.get('regional')?.value;
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
+    const statusProposal = this.form.get('proposalStatus')?.value;
 
     let cp = data.filter(proposal => proposal.internalRegion === 'R1');
 
-    if (search === '') {
-      if (segmentation !== '') {
-        cp = cp.filter(proposal => proposal.regionalId === segmentation);
+    if (!search) {
+      if (segmentation && segmentation.length > 0) {
+        cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
       }
 
-      if (branch !== '') {
-        cp = cp.filter(proposal => proposal.businessUnitRM === branch);
+      if (branch && branch.length > 0) {
+        cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
+      }
+
+      if (statusProposal && statusProposal.length > 0) {
+        cp = cp.filter(proposal => statusProposal.includes(proposal.statusProposal));
       }
     }
 
@@ -588,8 +656,8 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     const summary = this.form.get('summary')?.value;
     const search = this.form.get('query')?.value;
     let filteredProduct;
-    if (summary !== '' && search === '') {
-      filteredProduct = proposal.product.filter(prod => prod.pengajuan === summary);
+    if (summary && (search === '' || search === null)) {
+      filteredProduct = proposal.product.filter(prod => summary.includes(prod.pengajuan));
     } else {
       filteredProduct = proposal.product.filter(prod => prod.pengajuan !== 'Existing');
     }
@@ -669,9 +737,11 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       this.pageSize = pageEvent.pageSize;
     }
 
+    const queryValue = this.form.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.form.get('query')?.value,
+      query: queryValue,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -685,8 +755,19 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
     });
   }
 
@@ -708,17 +789,21 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   // ==== End Form Search Section ==== //
 
   private _getPicTimeline(timeLineCreditProposal) {
-    return timeLineCreditProposal
+    if (!Array.isArray(timeLineCreditProposal)) {
+      return '';
+    }
+    
+    const filtered = timeLineCreditProposal
       .filter(timeline => timeline.fromStatusDescription === 'DPDL Finalize')
-      .map(timeline => timeline.personName)
-      .join(',\n');
+      .map(timeline => timeline.personName);
+      
+    return filtered.length ? filtered.join(',\n') : '';
   }
 
   private _getTanggalJatuhTempo(product) {
     const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional', 'Renewal'];
 
     if (allowedTypes.includes(product.pengajuan)) {
-
       // if mainProduct null
       if (product.mainProduct === null || product.mainProduct === 'null' || product.mainProduct === undefined) {
         return '';
@@ -727,7 +812,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
       const maturityDate = product.mainProduct[0]?.maturityDate;
 
       // if maturityDate null
-      if (maturityDate === null || maturityDate === 'null' || maturityDate === undefined || maturityDate) {
+      if (maturityDate === null || maturityDate === 'null' || maturityDate === undefined || !maturityDate) {
         return '';
       }
 
@@ -760,10 +845,14 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
   private _getTanggalComplianceReview(proposal) {
     if (proposal.isCompliance === 'Yes') {
-      const date = proposal.timeLineCreditProposal
+      const date: string[] = proposal.timeLineCreditProposal
         .filter(timeline => timeline.fromStatusDescription === 'Compliance Director')
         .map(timeline => timeline.fromDate);
-      return this.formatDateID(date).getFullDate();
+      const dateString = date[0];
+      if (dateString === null || dateString === 'null' || dateString === undefined || !dateString || dateString.length === 0) {
+        return '';
+      }
+      return this.formatDateID(dateString).getFullDate();
     } else {
       return '';
     }

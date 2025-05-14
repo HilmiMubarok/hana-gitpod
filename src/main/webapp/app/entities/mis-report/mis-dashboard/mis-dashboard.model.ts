@@ -16,6 +16,14 @@ export interface DashboardData {
     showcase: ShowcaseItem[];
 }
 
+export interface DashboardUserData {
+    nameUser: string;
+    total: number;
+    date: string;
+    information: InformationItem[];
+    showcase: ShowcaseItem[];
+}
+
 interface InformationItem {
     description: string;
     fromDate: string;

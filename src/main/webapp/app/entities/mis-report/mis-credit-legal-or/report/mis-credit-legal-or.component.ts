@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import { MisReportService } from '../../mis-report.service';
 import { MessageService } from 'primeng/api';
@@ -202,14 +202,10 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       },
     });
 
-    this.misReportService.getPicLegalOr().subscribe({
-      next: res => (this.lovUsername = res.sort((a: any, b: any) => a.employeeFirstName?.localeCompare(b.employeeFirstName))),
+    this.getUsernameLOV(' LEGALOFFICER_OUTREGION').subscribe({
+      next: res => (this.lovUsername = res),
       error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to get PIC',
-        });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to get pic' });
       },
     });
 
@@ -255,6 +251,12 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
         },
       });
+
+    this.form.get('query')?.valueChanges.subscribe(value => {
+      if (value === '') {
+        this.clearSearch();
+      }
+    });
   }
 
   _handleRegionalChanges(regionalData) {
@@ -278,7 +280,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   public toggleSelectAllUsername(): void {
     this.allSelectedUsername = !this.allSelectedUsername;
     if (this.allSelectedUsername) {
-      this.form.get('username')?.setValue([...this.lovUsername.map(username => username.partyId)]);
+      this.form.get('username')?.setValue([...this.lovUsername.map(username => username.userLogin)]);
     } else {
       this.form.get('username')?.setValue('');
     }
@@ -425,6 +427,48 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   public generateMISCreditLegalOr(): void {
+    const query = this.form.get('query')?.value;
+
+    if (!query) {
+      if (this.menu === 'dateFromStatus') {
+        if ((!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) && !this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Parameter.',
+          });
+          return;
+        }
+
+        if (!this.form.get('startDate')?.value || !this.form.get('endDate')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Date Range.',
+          });
+          return;
+        }
+
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      } else if (this.menu === 'proposalDate') {
+        if (!this.form.get('status')?.value) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Warning',
+            detail: 'Please, Select Status.',
+          });
+          return;
+        }
+      }
+    }
+
     this.misReportService.setLoading(true);
 
     let params;
@@ -438,8 +482,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
           startDate: this.form.get('startDate')?.value,
           endDate: this.form.get('endDate')?.value,
           status: this._convertStatusToString(this.form.get('status')?.value),
-          userName: this._convertStatusToString(this.form.get('username')?.value),
-          assignTo: 'dataAssignToLegalOfficer',
+          userLogin: this.form.get('username')?.value ? this._convertStatusToString(this.form.get('username')?.value) : null,
           type: 'STATELOG',
         };
       } else {
@@ -447,8 +490,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
           startDate: null,
           endDate: null,
           status: this._convertStatusToString(this.form.get('status')?.value),
-          userName: this._convertStatusToString(this.form.get('username')?.value),
-          assignTo: 'dataAssignToLegalOfficer',
+          userLogin: this.form.get('username')?.value ? this._convertStatusToString(this.form.get('username')?.value) : null,
           type: null,
         };
       }
@@ -523,15 +565,15 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
 
-    let cp = data.filter(proposal => this.outRegions.includes(proposal.businessUnitRM));
+    let cp = data.filter(proposal => proposal.internalRegion === 'R2');
 
-    if (search === '') {
-      if (segmentation !== '') {
-        cp = cp.filter(proposal => proposal.regionalId === segmentation);
+    if (!search) {
+      if (segmentation && segmentation.length > 0) {
+        cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
       }
 
-      if (branch !== '') {
-        cp = cp.filter(proposal => proposal.businessUnitRM === branch);
+      if (branch && branch.length > 0) {
+        cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
       }
     }
 
@@ -570,8 +612,8 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     const summary = this.form.get('summary')?.value;
     const search = this.form.get('query')?.value;
     let filteredProduct;
-    if (summary !== '' && search === '') {
-      filteredProduct = proposal.product.filter(prod => prod.pengajuan === summary);
+    if (summary && (search === '' || search === null)) {
+      filteredProduct = proposal.product.filter(prod => summary.includes(prod.pengajuan));
     } else {
       filteredProduct = proposal.product.filter(prod => prod.pengajuan !== 'Existing');
     }
@@ -581,7 +623,6 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         no: worksheet.rowCount,
         debtorName: proposal.debtorName,
         branch: proposal.branchNameRM,
-        rm: proposal.rmFirstName + ' ' + proposal.rmLastName,
         pic: this._getPic(proposal.timeLineCreditProposal),
         picTimeline: this._getPicTimeline(proposal.timeLineCreditProposal),
         summary: product.pengajuan,
@@ -639,7 +680,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   public clearSearch(): void {
-    this.form.get('query')?.reset();
+    this.form.get('query')?.setValue('', { emitEvent: false }); // Ganti reset()
     this.searchResult = null;
   }
 
@@ -651,9 +692,11 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       this.pageSize = pageEvent.pageSize;
     }
 
+    const queryValue = this.form.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.form.get('query')?.value,
+      query: queryValue,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -667,8 +710,19 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (queryValue !== null && queryValue !== undefined) {
+          this.form.get('query')?.setValue(queryValue, { emitEvent: false });
+        }
+      },
     });
   }
 
@@ -686,8 +740,6 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
 
     return result;
   }
-
-  // ==== End Form Search Section ==== //
 
   private _getPicTimeline(timeLineCreditProposal) {
     return timeLineCreditProposal
@@ -707,10 +759,13 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     const allowedTypes = ['Renewal + Others', 'Renewal + Decrease', 'Renewal + Additional', 'Renewal'];
 
     if (allowedTypes.includes(product.pengajuan)) {
-      return this.formatDateID(product.mainProduct[0].maturityDate).getFullDate();
-    } else {
-      return '';
+      const mainProd = product.mainProduct?.[0];
+      if (mainProd?.maturityDate) {
+        return this.formatDateID(mainProd.maturityDate).getFullDate();
+      }
     }
+
+    return '';
   }
 
   private _getStartedAndDpdl(timeLine: any, status: string, param: 'Date' | 'Month' | 'Year') {
@@ -736,10 +791,14 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
 
   private _getTanggalComplianceReview(proposal) {
     if (proposal.isCompliance === 'Yes') {
-      const date = proposal.timeLineCreditProposal
+      const date: string[] = proposal.timeLineCreditProposal
         .filter(timeline => timeline.fromStatusDescription === 'Compliance Director')
         .map(timeline => timeline.fromDate);
-      return this.formatDateID(date).getFullDate();
+      const dateString = date[0];
+      if (dateString === null || dateString === 'null' || dateString === undefined || !dateString || dateString.length === 0) {
+        return '';
+      }
+      return this.formatDateID(dateString).getFullDate();
     } else {
       return '';
     }

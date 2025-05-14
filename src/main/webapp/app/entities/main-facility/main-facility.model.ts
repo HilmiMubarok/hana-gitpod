@@ -8,7 +8,7 @@ export interface IMainFacility {
   mainPlafond?: number;
   outstanding?: number;
   availableLimit?: number;
-  maturityDate?: Date;
+  maturityDate?: Date | string;
   newMaturityDate?: string;
   totalPlafond?: number;
   endPeriodDate?: string | Date;
@@ -30,7 +30,7 @@ export class MainFacility implements IMainFacility {
     public mainPlafond?: number,
     public outstanding?: number,
     public availableLimit?: number,
-    public maturityDate?: Date,
+    public maturityDate?: Date | string,
     public newMaturityDate?: string,
     public totalPlafond?: number,
     public endPeriodDate?: string | Date,

@@ -7,7 +7,7 @@ import lodash from 'lodash';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal/credit-proposal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
-import { Console } from 'console';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'jhi-assign-to',
@@ -45,7 +45,7 @@ export class AssignToComponent implements OnInit {
     this._creditProposal = item;
 
     if (this.router.url.split('/')[1] === 'la-distribution') {
-      this.loadPosition(['CRO']);
+      this.loadPosition(['CRO', 'CRO_NONSME']);
     } else if (this.router.url.split('/')[1] === 'cc-distribution') {
       this.loadPosition(['CC_ANALYST']);
     } else if (this.router.url.split('/')[1] === 'distribution') {
@@ -55,21 +55,27 @@ export class AssignToComponent implements OnInit {
     }
   }
 
-  public loadPosition(positionTypeId: any): void {
-    // Change endpoint position
-    this.positionService.getPositionAssignTo(positionTypeId, this.creditProposal.internalId, { page: 0, size: 9999 }).subscribe(res => {
-      let tempDataAssignTo = {};
-      this.position = lodash.filter(res.body, function (o) {
-        return o.partyId !== null;
-      });
+  public loadPosition(positionTypeId: string[]): void {
+    const fetchObservables = positionTypeId.map(type =>
+      this.positionService.getPositionAssignTo([type], this.creditProposal.internalId, { page: 0, size: 9999 })
+    );
 
-      if (this.router.url.split('/')[1] === 'la-distribution') {
+    const positionPath = this.router.url.split('/')[1];
+
+    forkJoin(fetchObservables).subscribe(results => {
+      const combinedPositions = results.map(res => lodash.filter(res.body, o => o.partyId !== null)).flat(); // gabungkan array hasil dari masing-masing tipe posisi
+
+      this.position = combinedPositions;
+
+      let tempDataAssignTo = {};
+
+      if (positionPath === 'la-distribution') {
         tempDataAssignTo = this._creditProposal.attributes['dataAssignToCRO'];
-      } else if (this.router.url.split('/')[1] === 'cc-distribution') {
+      } else if (positionPath === 'cc-distribution') {
         tempDataAssignTo = this._creditProposal.attributes['dataAssignToCCAdmin'];
-      } else if (this.router.url.split('/')[1] === 'distribution') {
+      } else if (positionPath === 'distribution') {
         tempDataAssignTo = this._creditProposal.attributes['dataAssignToLegalOfficer'];
-      } else if (this.router.url.split('/')[1] === 'loan-ops-distribution') {
+      } else if (positionPath === 'loan-ops-distribution') {
         tempDataAssignTo = this._creditProposal.attributes['dataAssignToLoanOpsOfficer'];
       } else {
         tempDataAssignTo = this._creditProposal.attributes['dataAssignTo'];

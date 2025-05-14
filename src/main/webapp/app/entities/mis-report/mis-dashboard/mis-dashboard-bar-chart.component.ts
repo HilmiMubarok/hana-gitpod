@@ -1,14 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Chart } from 'chart.js';
-import { DashboardData } from './mis-dashboard.model';
+import { Chart, ChartDataset, registerables } from 'chart.js';
+import { DashboardData, DashboardUserData } from './mis-dashboard.model';
 
-interface ChartDataset {
-  label: string;
-  data: number[];
-  backgroundColor?: string;
-  borderRadius: ChartBorderRadius;
-  borderSkipped?: boolean;
-}
+Chart.register(...registerables);
 
 interface ChartBorderRadius {
   topLeft: number;
@@ -30,6 +24,36 @@ interface ChartOptions {
       .chart-content {
         padding: 16px;
       }
+
+      .empty-chart-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      .empty-chart-content {
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .empty-chart-content i {
+        font-size: 3rem;
+        color: #ccc;
+        margin-bottom: 1rem;
+      }
+
+      .empty-chart-content h4 {
+        margin-bottom: 0.5rem;
+        color: #555;
+      }
+
+      .empty-chart-content p {
+        color: #888;
+      }
     `,
   ],
   template: `
@@ -39,25 +63,33 @@ interface ChartOptions {
   `,
 })
 export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']) {
-      this.data = changes['data'].currentValue;
-
-      this.prepareChartData();
-      this.initializeChart();
-    }
-  }
-
-  @Input() data: DashboardData[] = [];
-  @Input() legendPosition;
+  @Input() data: DashboardData[] | DashboardUserData[] = [];
+  @Input() legendPosition: 'top' | 'left' | 'bottom' | 'right' = 'top';
+  @Input() type?;
   @Input() date: Date;
   @Input() options?: ChartOptions;
-  @Input() title? = '';
+  @Input() title = '';
   @ViewChild('creditChart') creditChart!: ElementRef;
-  chartData: { labels: string[]; datasets: ChartDataset[] };
 
+  chartData: { labels: string[]; datasets: ChartDataset[] };
   chart: Chart | undefined;
 
+  private readonly excludedProperties = ['date', 'information', 'showcase'];
+  private readonly colorPalette = [
+    '#96c6f4',
+    '#fba1b7',
+    '#fdc390',
+    '#fee09e',
+    '#a1dad9',
+    '#bea2ff',
+    '#b2dfdb',
+    '#ffcdd2',
+    '#c8e6c9',
+    '#d1c4e9',
+    '#bbdefb',
+    '#f8bbd0',
+    '#ffe0b2',
+  ];
   private readonly defaultBorderRadius: ChartBorderRadius = {
     topLeft: 3,
     topRight: 3,
@@ -67,6 +99,14 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
 
   ngOnInit(): void {
     this.prepareChartData();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']) {
+      this.data = changes['data'].currentValue;
+      this.prepareChartData();
+      this.initializeChart();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -79,66 +119,83 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     }
   }
 
-  private readonly excludedProperties = ['date', 'information', 'showcase'];
-  private readonly colorPalette = [
-    '#96c6f4', // Light Blue
-    '#fba1b7', // Pink
-    '#fdc390', // Orange
-    '#fee09e', // Yellow
-    '#a1dad9', // Teal
-    '#bea2ff', // Purple
-    '#b2dfdb', // Mint
-    '#ffcdd2', // Light Red
-    '#c8e6c9', // Light Green
-    '#d1c4e9', // Light Purple
-    '#bbdefb', // Very Light Blue
-    '#f8bbd0', // Light Pink
-    '#ffe0b2', // Light Orange
-  ];
-
   private prepareChartData() {
     if (!this.data || this.data.length === 0) {
-      return;
+      this.data = [];
     }
-
     const labels: string[] = this.data.map(item => {
-      // Sort item.showcase ascending by fromDate
       const sortedShowcase = [...item.showcase].sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
-
-      // Format each date to "Month Year" and return as an array
       return sortedShowcase.map(showcaseItem =>
-        new Date(showcaseItem.fromDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
+        new Date(showcaseItem.fromDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+        })
       );
     })[0];
 
-    // Get all properties from the first data item except excluded ones
-    const properties = Object.keys(this.data[0]).filter(key => !this.excludedProperties.includes(key));
+    if (this.type === 'user') {
+      this._prepareChartUserData(labels);
+      return;
+    }
 
-    // Create datasets dynamically
-    const datasets = properties.map((property, index) => {
+    // Get all properties from the first data item except excluded ones
+    const properties = this.data.length > 0 ? Object.keys(this.data[0]).filter(key => !this.excludedProperties.includes(key)) : [];
+
+    const datasets: ChartDataset[] = properties.map((property, index) => {
       const label = this.formatPropertyName(property);
       return {
         label,
-        data: this.data.map(item => item[property as keyof typeof item] as number),
+        data: this.data.map(item => item[property as keyof DashboardData] as number),
         backgroundColor: this.colorPalette[index % this.colorPalette.length],
-        borderRadius: this.defaultBorderRadius,
+        borderRadius: {
+          topLeft: 3,
+          topRight: 3,
+          bottomLeft: 0,
+          bottomRight: 0,
+        },
         borderSkipped: false,
       };
     });
+
+    // check if all the datasets value is 0
+    if (datasets.every(dataset => dataset.data.every(value => value === 0))) {
+      this.data = [];
+    }
+
+    this.chartData = { labels, datasets };
+  }
+
+  _handleNullName(name: string): string {
+    return name.replace('null', '');
+  }
+
+  _prepareChartUserData(labels) {
+    const groupedData = {};
+
+    // Group data by user label
+    this.data.forEach((item, index) => {
+      if (!groupedData[item.nameUser]) {
+        groupedData[item.nameUser] = {
+          label: this._handleNullName(item.nameUser),
+          data: [],
+          backgroundColor: this.colorPalette[index % this.colorPalette.length],
+          borderRadius: this.defaultBorderRadius,
+          borderSkipped: false,
+        };
+      }
+      groupedData[item.nameUser].data.push(item.total);
+    });
+
+    // Convert grouped data object to an array
+    const datasets = Object.values(groupedData) as ChartDataset[];
 
     this.chartData = { labels, datasets };
   }
 
   private formatPropertyName(property: string): string {
-    // Convert camelCase to Title Case with spaces
-    const words = property.split(/(?=[A-Z])/); // Split on capital letters
-
-    // Remove 'Facility' from the array
-    const filteredWords = words.filter(word => word !== 'Facility');
-
-    // Capitalize the first letter of each word
+    const words = property.split(/(?=[A-Z])/);
+    const filteredWords = words.filter(word => word !== 'Facility' && word !== 'Collateral' && word !== 'Status');
     const formattedWords = filteredWords.map(word => word.charAt(0).toUpperCase() + word.slice(1));
-
     return formattedWords.join(' ');
   }
 
@@ -146,7 +203,6 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     if (!this.creditChart) {
       return;
     }
-
     const ctx = this.creditChart.nativeElement.getContext('2d');
     if (!ctx) {
       return;
@@ -154,7 +210,6 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     if (this.chart) {
       this.chart.destroy();
     }
-
     this.chart = new Chart(ctx, {
       type: 'bar',
       data: this.chartData,
@@ -163,7 +218,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
         maintainAspectRatio: false,
         plugins: {
           title: {
-            display: true,
+            display: !!this.title,
             text: this.title,
             font: {
               size: 16,
@@ -190,8 +245,8 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
             },
           },
           y: {
-            stacked: false,
             beginAtZero: true,
+            stacked: false,
             grid: {
               color: '#E0E0E0',
             },
@@ -202,12 +257,6 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
                 size: 11,
               },
             },
-          },
-        },
-        datasets: {
-          bar: {
-            barPercentage: 0.8,
-            categoryPercentage: 0.9,
           },
         },
       },

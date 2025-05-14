@@ -2,31 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DashboardData } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.model';
 import { MisDashboardService } from 'app/entities/mis-report/mis-dashboard/mis-dashboard.service';
-
-interface CollateralData {
-  activeCollateralStatus: number;
-  existingCollateralStatus: number;
-  newCollateralStatus: number;
-  toBeReleaseCollateralStatus: number;
-  date: string;
-}
-
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-mis-dashboard-credit-admin',
   template: `
     <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
-      <jhi-mis-dashboard-card-statistic></jhi-mis-dashboard-card-statistic>
+      <div class="row">
+        <ng-container *ngFor="let data of chartStatisticData">
+          <div class="col-md-3 my-2">
+            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
+          </div>
+        </ng-container>
+      </div>
     </jhi-mis-dashboard-card>
-
+    <div class="d-flex flex-row-reverse">
+      <div class="form-container">
+        <mat-form-field [formGroup]="dateForm" appearance="outline">
+          <mat-label>Select Month</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
     <jhi-mis-dashboard-card title="BY TRANSACTION">
-      <div class="form-controls">
-        <mat-form-field [formGroup]="dateForm" appearance="outline">
-          <mat-label>Select Month</mat-label>
-          <input matInput formControlName="date" [matDatepicker]="picker" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker startView="year"></mat-datepicker>
-        </mat-form-field>
-      </div>
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         [data]="chartData"
@@ -35,22 +34,14 @@ interface CollateralData {
       ></jhi-mis-dashboard-bar-chart>
     </jhi-mis-dashboard-card>
 
-    <!-- <jhi-mis-dashboard-card title="BY User Credit Insurance">
-      <div class="form-controls">
-        <mat-form-field [formGroup]="dateForm" appearance="outline">
-          <mat-label>Select Month</mat-label>
-          <input matInput formControlName="date" [matDatepicker]="picker" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker startView="year"></mat-datepicker>
-        </mat-form-field>
-      </div>
+    <jhi-mis-dashboard-card title="BY USER CREDIT ADMIN">
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
-        [data]="chartData"
+        type="user"
+        [data]="chartUserData"
         [date]="dateForm.get('date')?.value"
-        title="Credit Admin"
       ></jhi-mis-dashboard-bar-chart>
-    </jhi-mis-dashboard-card> -->
+    </jhi-mis-dashboard-card>
 
     <jhi-mis-dashboard-card title="PRODUCTIVITY">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
@@ -78,19 +69,32 @@ interface CollateralData {
           <th mat-header-cell *matHeaderCellDef>Staff Needs</th>
           <td mat-cell *matCellDef="let element">{{ element.staffNeeds }}</td>
         </ng-container>
+
         <ng-container matColumnDef="totalStaffNeeds">
           <th mat-header-cell *matHeaderCellDef>Total Staff Needs</th>
-          <td mat-cell *matCellDef="let element">{{ element.totalStaffNeeds }}</td>
+          <ng-container *matCellDef="let element">
+            <td *ngIf="element.rowSpanTotal > 0" mat-cell [attr.rowspan]="element.rowSpanTotal">
+              {{ element.totalStaffNeeds }}
+            </td>
+          </ng-container>
         </ng-container>
 
         <ng-container matColumnDef="existing">
           <th mat-header-cell *matHeaderCellDef>Existing</th>
-          <td mat-cell *matCellDef="let element">{{ element.existing }}</td>
+          <ng-container *matCellDef="let element">
+            <td *ngIf="element.rowSpanExisting > 0" mat-cell [attr.rowspan]="element.rowSpanExisting">
+              {{ element.existing }}
+            </td>
+          </ng-container>
         </ng-container>
 
         <ng-container matColumnDef="shortOver">
           <th mat-header-cell *matHeaderCellDef>Short/Over</th>
-          <td mat-cell *matCellDef="let element">{{ element.shortOver }}</td>
+          <ng-container *matCellDef="let element">
+            <td *ngIf="element.rowSpanShortOver > 0" mat-cell [attr.rowspan]="element.rowSpanShortOver">
+              {{ element.shortOver }}
+            </td>
+          </ng-container>
         </ng-container>
 
         <thead>
@@ -153,7 +157,60 @@ interface CollateralData {
         border-bottom: 1px solid #ddd;
       }
 
-      .merge-cell {
+      // css grid
+      .mat-column-applicationType {
+        width: 32px;
+        border-right: 1px solid currentColor;
+        padding-right: 24px;
+        text-align: center;
+      }
+
+      .mat-column-aveTrx {
+        width: 32px;
+        border-right: 1px solid currentColor;
+        padding-right: 24px;
+        text-align: center;
+      }
+
+      .mat-column-aveInDay {
+        width: 32px;
+        border-right: 1px solid currentColor;
+        padding-right: 24px;
+        text-align: center;
+      }
+
+      .mat-column-slaStandard {
+        width: 32px;
+        border-right: 1px solid currentColor;
+        padding-right: 24px;
+        text-align: center;
+      }
+
+      .mat-column-staffNeeds {
+        width: 32px;
+        border-right: 1px solid currentColor;
+        padding-right: 24px;
+        text-align: center;
+      }
+
+      .mat-column-totalStaffNeeds {
+        width: 32px;
+        border-right: 1px solid currentColor;
+        padding-right: 24px;
+        text-align: center;
+      }
+
+      .mat-column-existing {
+        width: 32px;
+        border-right: 1px solid currentColor;
+        padding-right: 24px;
+        text-align: center;
+      }
+
+      .mat-column-shortOver {
+        width: 32px;
+        border-right: 1px solid currentColor;
+        padding-right: 24px;
         text-align: center;
       }
     `,
@@ -161,9 +218,13 @@ interface CollateralData {
 })
 export class MisDashboardCredamComponent implements OnInit {
   dateForm: FormGroup;
-  dateForm2: FormGroup;
   chartData: DashboardData[] = [];
-  chartData2: DashboardData[] = [];
+  chartUserData: any;
+  chartStatisticData: any;
+  dataSource: any[] = [];
+  slaStandardValue = 0;
+  staffcredams = 0;
+
   displayedColumns: string[] = [
     'applicationType',
     'aveTrx',
@@ -174,81 +235,65 @@ export class MisDashboardCredamComponent implements OnInit {
     'existing',
     'shortOver',
   ];
-  chartDatas: any[] = [];
-  dataSource: any[] = [];
-  staffcredams: any;
-  constructor(private dashboardService: MisDashboardService) {
+
+  statuses = ['DPPK_FINALIZE', 'DPPK_REVIEW'];
+
+  constructor(private dashboardService: MisDashboardService, public messageService: MessageService) {
     this.initializeForm();
+  }
 
-    this.dateForm.valueChanges.subscribe(value => {
-      this.dashboardService.getBarChartData(value.date.format('YYYY-MM-DD')).subscribe(res => {
-        this.chartData = res;
-      });
-      this.getChartData();
-    });
+  ngOnInit(): void {
+    this._fetchAllData(this.dateForm.get('date')?.value);
+    this.loadSlaAndStaff();
+  }
 
-    this.dateForm2.valueChanges.subscribe(value => {
-      this.dashboardService.getBarChartData(value.date2.format('YYYY-MM-DD')).subscribe(res => {
-        this.chartData2 = res;
-      });
+  private initializeForm(): void {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+
+    this.dateForm = new FormGroup({
+      date: new FormControl(formattedDate),
     });
   }
 
-  public slaStandardValue = 0; // Simpan SLA Standard di variabel global
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
 
-  public slaStandart(): void {
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
+  loadSlaAndStaff(): void {
     this.dashboardService.getSlaStandart().subscribe({
-      next: response => {
-        if (response && Array.isArray(response)) {
-          const slaStandardData = response.find(item => item.id === 'SLA_STANDARD_CREDAM');
-          this.slaStandardValue = slaStandardData ? slaStandardData.value : 0;
-        } else {
-          console.error('Invalid response format:', response);
-          this.slaStandardValue = 0; // Set default jika data tidak valid
-        }
-
-        console.log('SLA Standard Value:', this.slaStandardValue);
-        // Panggil getChartData setelah slaStandardValue diperbarui
+      next: res => {
+        const slaStandard = res.find((item: any) => item.id === 'SLA_STANDARD_CREDAM');
+        const staff = res.find((item: any) => item.id === 'STAFF_CREDAM');
+        this.slaStandardValue = slaStandard ? slaStandard.value : 0;
+        this.staffcredams = staff ? staff.value : 0;
         this.getChartData();
       },
-      error: error => {
-        console.error('Error fetching SLA Standard:', error);
-        this.slaStandardValue = 0; // Pastikan default tetap 0 jika terjadi error
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to get SLA/Staff data',
+        });
       },
     });
   }
-  public existingDataStaff(): void {
-    this.dashboardService.getSlaStandart().subscribe({
-      next: response => {
-        if (response && Array.isArray(response)) {
-          const staffCredam = response.find(item => item.id === 'STAFF_CREDAM');
-          this.staffcredams = staffCredam ? staffCredam.value : 0;
-        } else {
-          console.error('Invalid response format:', response);
-          this.staffcredams = 0; // Set default jika data tidak valid
-        }
 
-        console.log('SLA Standard Value:', this.staffcredams);
-        // Panggil getChartData setelah slaStandardValue diperbarui
-        this.getChartData();
-      },
-      error: error => {
-        console.error('Error fetching SLA Standard:', error);
-        this.staffcredams = 0; // Pastikan default tetap 0 jika terjadi error
-      },
-    });
-  }
-  public calculateAveTrx(chartData: DashboardData[], applicationType: string): number {
-    if (!chartData || chartData.length === 0) {
-      console.warn('chartData is empty, returning 0');
-      return 0;
-    }
-
-    console.log('Data:', chartData);
-
-    const columnKey = {
+  calculateAveTrx(chartData: DashboardData[], applicationType: string): number {
+    const columnMap: { [key: string]: string } = {
       New: 'newFacility',
-      'Additional / TopUp': 'additionalTopupFacility',
+      'Additional / Top Up': 'additionalTopupFacility',
       Renewal: 'renewalFacility',
       Existing: 'existingFacility',
       Others: 'othersFacility',
@@ -258,69 +303,112 @@ export class MisDashboardCredamComponent implements OnInit {
       'Renewal + Others': 'renewalOthersFacility',
       'Additional + Others': 'additionalOthersFacility',
       'Decrease + Others': 'decreaseOthersFacility',
-    }[applicationType];
+    };
 
-    const total = chartData.reduce((sum, item) => sum + (item[columnKey] || 0), 0);
+    const columnKey = columnMap[applicationType];
+    if (!columnKey || !chartData?.length) {
+      return 0;
+    }
 
-    return total / chartData.length;
+    return chartData.reduce((sum, item) => sum + (item[columnKey] || 0), 0) / chartData.length;
   }
 
-  public aveInDay(chartData: DashboardData[], applicationType: string): number {
-    return this.calculateAveTrx(chartData, applicationType) / 22;
+  aveInDay(chartData: DashboardData[], applicationType: string): number {
+    return Math.ceil(this.calculateAveTrx(chartData, applicationType) / 22);
   }
 
-  ngOnInit(): void {
-    // this.dashboardService.getBarChartData(this.dateForm.get('date')?.value).subscribe(res => {
-    //   this.chartData = res;
-    // });
+  staffNeeds(applicationType: string): number {
+    const sla = this.slaStandardValue;
+    const ave = this.aveInDay(this.chartData, applicationType);
+    return Math.ceil((sla * ave) / 420);
+  }
 
-    this.dashboardService.getCredamData(this.dateForm.get('date')?.value).subscribe(res => {
-      this.chartData = res;
-      console.log('Updated chartData:', this.chartData); // Debugging
+  getShortOver(applicationType: string): number {
+    return this.staffNeeds(applicationType) - this.staffcredams;
+  }
 
-      // Daftar applicationType yang ingin dihitung
-      const applicationTypes = [
-        'New',
-        'Additional / Topup',
-        'Restructure',
-        'Renewal',
-        'Existing',
-        'Others',
-        'Renewal + Additional',
-        'Renewal + Decrease',
-        'Decrease',
-        'Renewal + Others',
-        'Additional + Others',
-        'Additional + Others',
-        'Decrease + Others',
-      ];
+  totalStaffNeeds(data: any[]): number {
+    return data.reduce((sum, row) => sum + (Number(row.staffNeeds) || 0), 0);
+  }
 
-      // Loop untuk menghitung rata-rata tiap applicationType
-      const averages = applicationTypes.map(type => ({
-        type,
-        average: this.calculateAveTrx(this.chartData, type),
-      }));
+  calculateRowSpan(data: any[]): any[] {
+    const totalMap: { [key: string]: number } = {};
+    const existingMap: { [key: string]: number } = {};
+    const shortOverMap: { [key: string]: number } = {};
+    const addedTotal: { [key: string]: boolean } = {};
+    const addedExisting: { [key: string]: boolean } = {};
+    const addedShortOver: { [key: string]: boolean } = {};
 
-      console.log('Averages:', averages);
+    data.forEach(row => {
+      totalMap[row.totalStaffNeeds] = (totalMap[row.totalStaffNeeds] || 0) + 1;
+      existingMap[row.existing] = (existingMap[row.existing] || 0) + 1;
+      shortOverMap[row.shortOver] = (shortOverMap[row.shortOver] || 0) + 1;
     });
 
-    this.getChartData();
-    this.slaStandart();
-    this.existingDataStaff();
+    return data.map(row => {
+      let rowSpanTotal = 0;
+      let rowSpanExisting = 0;
+      let rowSpanShortOver = 0;
+
+      if (!addedTotal[row.totalStaffNeeds]) {
+        rowSpanTotal = totalMap[row.totalStaffNeeds];
+        addedTotal[row.totalStaffNeeds] = true;
+      }
+
+      if (!addedExisting[row.existing]) {
+        rowSpanExisting = existingMap[row.existing];
+        addedExisting[row.existing] = true;
+      }
+
+      if (!addedShortOver[row.shortOver]) {
+        rowSpanShortOver = shortOverMap[row.shortOver];
+        addedShortOver[row.shortOver] = true;
+      }
+
+      return {
+        ...row,
+        rowSpanTotal,
+        rowSpanExisting,
+        rowSpanShortOver,
+      };
+    });
   }
 
-  // Deklarasi awal tanpa data
-  public staffneeds(chartData: DashboardData[], applicationType: string): number {
-    return this.slaStandardValue * this.aveInDay(chartData, applicationType);
+  getChartData(): void {
+    this.dateForm.valueChanges.subscribe(value => {
+      const formattedDate = value.date?.format('YYYY-MM-DD');
+      this._fetchAllData(formattedDate);
+    });
   }
-  public sumStaffneeds(chartData: DashboardData[]): number {
+
+  _fetchAllData(date: string): void {
+    const positionId = this.getLocStor('POS');
+
+    this.dashboardService
+      .getStatisticLoanOps(positionId)
+      .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
+
+    this.dashboardService.getBarChartData(date, 'credit-admin').subscribe(res => {
+      this.chartData = [...res].reverse();
+      this.processChartData();
+    });
+
+    this.dashboardService.getBarChartData(date, 'by-user-credam').subscribe(res => {
+      this.chartUserData = [...res].reverse();
+    });
+  }
+
+  private processChartData(): void {
+    if (!this.chartData?.length) {
+      return;
+    }
+
     const applicationTypes = [
       'New',
-      'Additional / TopUp',
+      'Additional / Top Up',
       'Renewal',
       'Existing',
       'Others',
-      'Restructure',
       'Renewal + Additional',
       'Renewal + Decrease',
       'Decrease',
@@ -329,154 +417,38 @@ export class MisDashboardCredamComponent implements OnInit {
       'Decrease + Others',
     ];
 
-    return applicationTypes.reduce((total, type) => total + this.staffneeds(chartData, type), 0);
-  }
+    const totalStaffNeedss = this.totalStaffNeeds(applicationTypes.map(type => ({ staffNeeds: this.staffNeeds(type) })));
 
-  getChartData() {
-    const rawDate = this.dateForm.get('date')?.value;
-    const formattedDate = rawDate ? new Date(rawDate).toISOString().split('T')[0] : '';
+    const processed = applicationTypes.map(applicationType => {
+      const aveTrx = this.calculateAveTrx(this.chartData, applicationType);
+      const aveInDay = this.aveInDay(this.chartData, applicationType);
+      const slaStandard = this.slaStandardValue;
+      const staffNeeds = this.staffNeeds(applicationType);
+      const existing = this.staffcredams;
+      const totalStaffNeeds = totalStaffNeedss;
+      const shortOver = totalStaffNeedss - this.staffcredams;
 
-    this.dashboardService.getCredamData(formattedDate).subscribe(res => {
-      this.chartData = res;
-      console.log('Updated chartData:', this.chartData); // Debugging
-      this.dataSource = [
-        {
-          applicationType: 'New',
-          aveTrx: this.calculateAveTrx(this.chartData, 'New'),
-          aveInDay: this.aveInDay(this.chartData, 'New'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'New'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'New'),
-        },
-        {
-          applicationType: 'Additional / Top Up',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Additional / Top Up'),
-          aveInDay: this.aveInDay(this.chartData, 'Additional / Top Up'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Additonal / Top Up'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Additional / Top Up'),
-        },
-        {
-          applicationType: 'Renewal',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Renewal'),
-          aveInDay: this.aveInDay(this.chartData, 'Renewal'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Renewal'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Renewal'),
-        },
-        {
-          applicationType: 'Restructure',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Restructure'),
-          aveInDay: this.aveInDay(this.chartData, 'Restructure'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Restructure'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Restructure'),
-        },
-        {
-          applicationType: 'Existing',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Existing'),
-          aveInDay: this.aveInDay(this.chartData, 'Existing'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Existing'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Existing'),
-        },
-        {
-          applicationType: 'Others',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Others'),
-          aveInDay: this.aveInDay(this.chartData, 'Others'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Others'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Others'),
-        },
-        {
-          applicationType: 'Renewal + Additional',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Renewal + Additional'),
-          aveInDay: this.aveInDay(this.chartData, 'Renewal + Additional'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Renewal + Additional'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Renewal + Additional'),
-        },
-        {
-          applicationType: 'Renewal + Decrease',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Renewal + Decrease'),
-          aveInDay: this.aveInDay(this.chartData, 'Renewal + Decrease'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Renewal + Decrease'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Renewal + Decrease'),
-        },
-        {
-          applicationType: 'Decrease',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Decrease'),
-          aveInDay: this.aveInDay(this.chartData, 'Decrease'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Decrease'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Decrease'),
-        },
-        {
-          applicationType: 'Renewal + Others',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Renewal + Others'),
-          aveInDay: this.aveInDay(this.chartData, 'Renewal + Others'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Renewal + Others'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Renewal + Others'),
-        },
-        {
-          applicationType: 'Additional + Others',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Additional + Others'),
-          aveInDay: this.aveInDay(this.chartData, 'Additional + Others'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Additional + Others'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Additional + Others'),
-        },
-        {
-          applicationType: 'Decrease + Others',
-          aveTrx: this.calculateAveTrx(this.chartData, 'Decrease + Others'),
-          aveInDay: this.aveInDay(this.chartData, 'Decrease + Others'),
-          slaStandard: this.slaStandardValue,
-          staffNeeds: this.staffneeds(this.chartData, 'Decrease + Others'),
-          totalStaffNeeds: this.sumStaffneeds(this.chartData),
-          existing: this.staffcredams,
-          shortOver: this.shortOver(this.chartData, 'Decrease + Others'),
-        },
-      ];
-
-      console.log('Updated dataSource:', this.dataSource); // Debugging
+      return {
+        applicationType,
+        aveTrx,
+        aveInDay,
+        slaStandard,
+        staffNeeds,
+        totalStaffNeeds,
+        existing,
+        shortOver,
+      };
     });
-  }
-  public shortOver(chartData: DashboardData[], applicationType: string): number {
-    return this.staffneeds(chartData, applicationType) - this.staffcredams;
-  }
-  private initializeForm() {
-    const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0];
 
-    this.dateForm = new FormGroup({
-      date: new FormControl(formattedDate),
-    });
-    this.dateForm2 = new FormGroup({
-      date2: new FormControl(formattedDate),
-    });
+    const total = this.totalStaffNeeds(processed).toFixed(2);
+
+    this.dataSource = this.calculateRowSpan(
+      processed.map(row => ({
+        ...row,
+        totalStaffNeeds: total,
+        existing: row.existing,
+        shortOver: row.shortOver,
+      }))
+    );
   }
 }

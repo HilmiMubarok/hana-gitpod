@@ -1,19 +1,19 @@
 <div class="row remove-row-scroll">
   <form [formGroup]="misCpTimeline" (ngSubmit)="generateMISCPTimeline()">
+    <div class="e-card-header-caption">
+      <ejs-breadcrumb cssClass="margin: 1rem;">
+        <e-breadcrumb-items>
+          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+          <e-breadcrumb-item text="MIS Credit Proposal Timeline" url=""> </e-breadcrumb-item>
+        </e-breadcrumb-items>
+      </ejs-breadcrumb>
+    </div>
     <div class="e-card">
-      <div class="e-card-header-caption">
-        <ejs-breadcrumb cssClass="margin: 1rem;">
-          <e-breadcrumb-items>
-            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="MIS Credit Proposal Timeline" url=""> </e-breadcrumb-item>
-          </e-breadcrumb-items>
-        </ejs-breadcrumb>
-      </div>
-
       <mat-card-content>
         <div class="col mb-3 custom-margin mt-5">
-          <mat-form-field>
-            <mat-select formControlName="type" placeholder="Select Date Type">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Type Date Range</mat-label>
+            <mat-select formControlName="type">
               <mat-option *ngFor="let type of dateTypes" [value]="type">{{ type }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -37,6 +37,8 @@
                     placeholder="Start date"
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
+                    [readonly]="true"
+                    (focus)="picker.open()"
                     [class.disabled-control]="misCpTimeline.get('date1')?.disabled"
                   />
                   <input
@@ -45,6 +47,8 @@
                     placeholder="End date"
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
+                    [readonly]="true"
+                    (focus)="picker.open()"
                     [class.disabled-control]="misCpTimeline.get('date2')?.disabled"
                   />
                 </mat-date-range-input>
@@ -99,7 +103,7 @@
           <div class="col">
             <div #formContainer>
               <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('customerType')?.disabled">
-                <mat-label>Customer Type</mat-label>
+                <mat-label>Customer Status</mat-label>
                 <mat-select formControlName="customerType" multiple>
                   <li class="select-all" (click)="toggleSelectCustomerTypeAll()">
                     {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
@@ -128,6 +132,7 @@
             formControlName="query"
             (focus)="onSearchFocus()"
             (blur)="onSearchBlur()"
+            (keydown.enter)="doSearch()"
           />
           <button
             matSuffix
