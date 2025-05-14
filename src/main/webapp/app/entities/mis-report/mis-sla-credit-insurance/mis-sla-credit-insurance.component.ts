@@ -63,7 +63,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       date1: new FormControl('', [Validators.required]),
       date2: new FormControl('', [Validators.required]),
       status: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
+      username: new FormControl(''),
     });
     this.misCp.get('date1')?.valueChanges.subscribe(date => {
       if (moment.isMoment(date)) {
