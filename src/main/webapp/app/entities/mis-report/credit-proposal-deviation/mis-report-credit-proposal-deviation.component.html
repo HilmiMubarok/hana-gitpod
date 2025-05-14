@@ -71,6 +71,7 @@
           formControlName="query"
           (focus)="onSearchFocus()"
           (blur)="onSearchBlur()"
+          (keydown.enter)="doSearch()"
         />
         <button
           matSuffix
