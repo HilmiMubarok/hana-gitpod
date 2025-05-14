@@ -595,9 +595,15 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
   }
 
   _filterCPBeforeGenerate(data) {
+
+    data.forEach(proposal => {
+      proposal.statusProposal = this._getStatusData(proposal);
+    });
+    
     const segmentation = this.form.get('regional')?.value;
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
+    const statusProposal = this.form.get('proposalStatus')?.value;
 
     let cp = data.filter(proposal => proposal.internalRegion === 'R1');
 
@@ -608,6 +614,10 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
 
       if (branch && branch.length > 0) {
         cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
+      }
+
+      if (statusProposal && statusProposal.length > 0) {
+        cp = cp.filter(proposal => statusProposal.includes(proposal.statusProposal));
       }
     }
 
