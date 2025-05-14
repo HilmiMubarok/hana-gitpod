@@ -592,45 +592,85 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   }
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, index: number) {
-    const timeLineData = proposal.timeLineCreditProposal.sort((a, b) => a.id - b.id);
+    const timeLineData = proposal.timeLineCreditProposal?.sort((a, b) => a.id - b.id) || [];
+
     const latestDppkFinalizeDate = timeLineData
       .filter(item => item.statusDescription === 'DPPK Finalize')
       .sort((b, a) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
+
     const dppkFinalizeLatestDate =
       latestDppkFinalizeDate.length > 0 ? new Date(latestDppkFinalizeDate[0].fromDate).getDate().toString().padStart(2, '0') : '';
     const dppkFinalizeLatestMonth =
       latestDppkFinalizeDate.length > 0 ? (new Date(latestDppkFinalizeDate[0].fromDate).getMonth() + 1).toString().padStart(2, '0') : '';
     const dppkFinalizeLatestYear =
       latestDppkFinalizeDate.length > 0 ? new Date(latestDppkFinalizeDate[0].fromDate).getFullYear().toString() : '';
+
     const firstOlAssign = timeLineData
       .filter(item => item.statusDescription === 'OL Assigned')
       .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
-    worksheet.addRow({
-      no: index + 1 || '',
-      tanggalDpdl: dppkFinalizeLatestDate || '',
-      bulan: dppkFinalizeLatestMonth || '',
-      tahun: dppkFinalizeLatestYear || '',
-      namaDebitur: proposal.debtorName || '',
-      cabang: proposal.branchNameRM || '',
-      rm: proposal.rmFirstName + ' ' + proposal.rmLastName || '',
-      segmentation: proposal.regionalParentRM || '',
-      pic: latestDppkFinalizeDate.length > 0 ? latestDppkFinalizeDate[0].personName : '',
-      tglPemTgs: firstOlAssign.length > 0 ? this._convertDate(firstOlAssign[0].fromDate) : '',
-      tglAkad: this._convertDate(proposal.agreement.dateAgreement) || '',
-      jnsPengikatan: proposal.agreement.isNotaril || '',
-      namaNotaris: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
-      jenisPK: proposal.agreement.agreementType || '',
-      akta: proposal.legalCovernote.flatMap(item => item.covernoteTask).map(task => task.code) || '',
-      noAkta: proposal.agreement.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
-      tglAkta: this._convertDate(proposal.agreement.dateAgreement) || '',
-      tglTargetPenyelesaian: '',
-      tglMulaiHtEl: '',
-      tglSelesaiHtEl: '',
-      tglSelesaiAkta: '',
-      checkingbyPicLegal: '',
-      tglTandaTerimaCus: '',
-      note: '',
-    });
+
+    const legalCovernotes = proposal.legalCovernote;
+
+    if (legalCovernotes?.length) {
+      legalCovernotes.forEach(prod => {
+        prod.covernoteTask?.forEach(task => {
+          worksheet.addRow({
+            no: index + 1 || '',
+            tanggalDpdl: dppkFinalizeLatestDate || '',
+            bulan: dppkFinalizeLatestMonth || '',
+            tahun: dppkFinalizeLatestYear || '',
+            namaDebitur: proposal.debtorName || '',
+            cabang: proposal.branchNameRM || '',
+            rm: (proposal.rmFirstName || '') + ' ' + (proposal.rmLastName || ''),
+            segmentation: proposal.regionalParentRM || '',
+            pic: latestDppkFinalizeDate.length > 0 ? latestDppkFinalizeDate[0].personName : '',
+            tglPemTgs: firstOlAssign.length > 0 ? this._convertDate(firstOlAssign[0].fromDate) : '',
+            tglAkad: this._convertDate(proposal.agreement?.dateAgreement) || '',
+            jnsPengikatan: proposal.agreement?.isNotaril || '',
+            namaNotaris: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
+            jenisPK: proposal.agreement?.agreementType || '',
+            akta: task.code || '',
+            noAkta: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
+            tglAkta: this._convertDate(proposal.agreement?.dateAgreement) || '',
+            tglTargetPenyelesaian: '',
+            tglMulaiHtEl: '',
+            tglSelesaiHtEl: '',
+            tglSelesaiAkta: '',
+            checkingbyPicLegal: '',
+            tglTandaTerimaCus: '',
+            note: '',
+          });
+        });
+      });
+    } else {
+      // Kalau tidak ada legalCovernote, tetap tambahkan baris dengan akta kosong
+      worksheet.addRow({
+        no: index + 1 || '',
+        tanggalDpdl: dppkFinalizeLatestDate || '',
+        bulan: dppkFinalizeLatestMonth || '',
+        tahun: dppkFinalizeLatestYear || '',
+        namaDebitur: proposal.debtorName || '',
+        cabang: proposal.branchNameRM || '',
+        rm: (proposal.rmFirstName || '') + ' ' + (proposal.rmLastName || ''),
+        segmentation: proposal.regionalParentRM || '',
+        pic: latestDppkFinalizeDate.length > 0 ? latestDppkFinalizeDate[0].personName : '',
+        tglPemTgs: firstOlAssign.length > 0 ? this._convertDate(firstOlAssign[0].fromDate) : '',
+        tglAkad: this._convertDate(proposal.agreement?.dateAgreement) || '',
+        jnsPengikatan: proposal.agreement?.isNotaril || '',
+        namaNotaris: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
+        jenisPK: proposal.agreement?.agreementType || '',
+        akta: '', // kosong karena tidak ada covernote
+        noAkta: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
+        tglAkta: this._convertDate(proposal.agreement?.dateAgreement) || '',
+        tglTargetPenyelesaian: '',
+        tglMulaiHtEl: '',
+        tglSelesaiHtEl: '',
+        tglSelesaiAkta: '',
+        checkingbyPicLegal: '',
+        tglTandaTerimaCus: '',
+        note: '',
+      });
+    }
   }
 
   // ==== Form Search Section ==== //
