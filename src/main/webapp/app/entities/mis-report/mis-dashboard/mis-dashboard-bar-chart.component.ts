@@ -165,6 +165,10 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     this.chartData = { labels, datasets };
   }
 
+  _handleNullName(name: string): string {
+    return name.replace('null', '');
+  }
+
   _prepareChartUserData(labels) {
     const groupedData = {};
 
@@ -172,7 +176,7 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     this.data.forEach((item, index) => {
       if (!groupedData[item.nameUser]) {
         groupedData[item.nameUser] = {
-          label: item.nameUser,
+          label: this._handleNullName(item.nameUser),
           data: [],
           backgroundColor: this.colorPalette[index % this.colorPalette.length],
           borderRadius: this.defaultBorderRadius,
