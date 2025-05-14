@@ -97,7 +97,7 @@ export class MisReportService {
       })
       .pipe(
         map(res => res.body),
-        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'SURVEYOR' && employee.statusId === 'ACTIVE'))
+        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'SURVEYOR' && employee.statusId === 'ACTIVE' && employee.statusIdEmployee === 'ACTIVE'))
       );
   }
 
@@ -165,7 +165,7 @@ export class MisReportService {
       .pipe(
         map(res => res.body),
         map(employees =>
-          employees.filter((employee: any) => employee.positionTypeId === 'LOAN_OPS_OFFICER' && employee.statusId === 'ACTIVE')
+          employees.filter((employee: any) => employee.positionTypeId === 'LOAN_OPS_OFFICER' && employee.statusId === 'ACTIVE' && employee.statusIdEmployee === 'ACTIVE')
         )
       );
   }
@@ -180,7 +180,7 @@ export class MisReportService {
       })
       .pipe(
         map(res => res.body),
-        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'LEGAL_OFFICER' && employee.statusId === 'ACTIVE'))
+        map(employees => employees.filter((employee: any) => employee.positionTypeId === 'LEGAL_OFFICER' && employee.statusId === 'ACTIVE' && employee.statusIdEmployee === 'ACTIVE'))
       );
   }
 }
