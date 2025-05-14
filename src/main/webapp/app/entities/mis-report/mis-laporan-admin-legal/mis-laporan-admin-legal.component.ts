@@ -502,7 +502,6 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
 
   private _processGenerate(data, fileName) {
     this.setUpColumns(this.columns);
-
     // if data is empty, generate an empty file
     if (!data || data.length === 0) {
       this.applyStyles();
@@ -542,21 +541,28 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       columnValue.values = newValue;
     });
   }
-
-  protected processData(data: any[]): void {
+  _filterCPBeforeGenerate(data) {
     const branch = this.form.get('branch')?.value;
     const akta = this.form.get('akta')?.value;
-    console.log(akta, 'akta');
-    let cp;
+    const search = this.form.get('query')?.value;
 
-    if (branch !== '' && akta !== '') {
-      cp = data.filter(
-        proposal =>
-          proposal.branchNameRM === branch && proposal.legalCovernote.flatMap(item => item.covernoteTask).filter(task => task.code) === akta
-      );
-    } else {
-      cp = data;
+    let cp = data;
+
+    if (!search) {
+      if (akta && akta.length > 0) {
+        cp = cp.filter(proposal => proposal.legalCovernote?.some(item => item.covernoteTask?.some(task => akta.includes(task.code))));
+      }
+
+      if (branch && branch.length > 0) {
+        cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
+      }
     }
+
+    return cp;
+  }
+
+  protected processData(data: any[]): void {
+    const cp = this._filterCPBeforeGenerate(data);
     cp.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
@@ -593,7 +599,6 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, index: number) {
     const timeLineData = proposal.timeLineCreditProposal?.sort((a, b) => a.id - b.id) || [];
-
     const latestDppkFinalizeDate = timeLineData
       .filter(item => item.statusDescription === 'DPPK Finalize')
       .sort((b, a) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
