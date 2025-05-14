@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MisReportService } from '../mis-report.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -47,7 +47,7 @@ import { InternalService } from 'app/entities/internal/internal.service';
     `,
   ],
 })
-export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
+export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatusAppraisal = [];
   private readonly parentIds = ['9901', '9902', '9903', '9904', '9905'];
   public lovBranch = [];
@@ -106,12 +106,6 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
       }
     });
 
-    // this.MISReportAppraisal.get('geoBoundaries')?.valueChanges.subscribe(geoBoundaries => {
-    //   if (typeof geoBoundaries === 'object' && geoBoundaries.length === 0) {
-    //     this.MISReportAppraisal.get('geoBoundaries')?.setValue(null);
-    //   }
-    // });
-
     this.MISReportAppraisal.get('branch')?.valueChanges.subscribe(branch => {
       if (branch && typeof branch === 'object' && Array.isArray(branch) && branch.length === 0) {
         this.MISReportAppraisal.get('branch')?.setValue(null);
@@ -142,6 +136,14 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.getBoundaries();
     this.getBranch();
     this.getRegional();
+  }
+
+  ngOnInit(): void {
+    this.MISReportAppraisal.get('query')?.valueChanges.subscribe(value => {
+      if (value === '') {
+        this.clearSearch();
+      }
+    });
   }
 
   checkFieldStatus() {
@@ -226,9 +228,8 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport {
     this.MISReportAppraisal.get('date2')?.reset();
   }
 
-  clearSearch(): void {
-    this.MISReportAppraisal.get('query')?.reset();
-    // reset the searchResult
+  public clearSearch(): void {
+    this.MISReportAppraisal.get('query')?.setValue('', { emitEvent: false });
     this.searchResult = null;
   }
 
