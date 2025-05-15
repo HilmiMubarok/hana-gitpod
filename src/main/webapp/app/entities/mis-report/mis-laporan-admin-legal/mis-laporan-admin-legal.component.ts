@@ -615,7 +615,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       .sort((a, b) => new Date(a.fromDate).getTime() - new Date(b.fromDate).getTime());
 
     const legalCovernotes = proposal.legalCovernote;
-
+    const noAktaLegalCovernotes = legalCovernotes?.flatMap(item => item.attributes?.map(attr => attr.notaryNumber)).join(',\n');
     if (legalCovernotes?.length) {
       legalCovernotes.forEach(prod => {
         prod.covernoteTask?.forEach(task => {
@@ -635,7 +635,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
             namaNotaris: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
             jenisPK: proposal.agreement?.agreementType || '',
             akta: task.code || '',
-            noAkta: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
+            noAkta: proposal.agreement?.isNotaril === 'Notaril' ? noAktaLegalCovernotes : proposal.agreement.agreementNumber,
             tglAkta: this._convertDate(proposal.agreement?.dateAgreement) || '',
             tglTargetPenyelesaian: '',
             tglMulaiHtEl: '',
@@ -665,7 +665,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
         namaNotaris: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
         jenisPK: proposal.agreement?.agreementType || '',
         akta: '', // kosong karena tidak ada covernote
-        noAkta: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryNumber : proposal.agreement.agreementNumber,
+        noAkta: proposal.agreement?.isNotaril === 'Un-Notaril' ? proposal.agreement.agreementNumber : '',
         tglAkta: this._convertDate(proposal.agreement?.dateAgreement) || '',
         tglTargetPenyelesaian: '',
         tglMulaiHtEl: '',
