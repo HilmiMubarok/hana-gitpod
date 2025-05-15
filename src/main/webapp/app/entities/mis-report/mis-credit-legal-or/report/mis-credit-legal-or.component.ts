@@ -192,6 +192,19 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
 
   onMenuChanged(): void {
     this._initializeForm();
+    this._resetForms();
+  }
+
+  private _resetForms(): void {
+    if (this.form) {
+      this.form.reset();
+      this.allSelected = false;
+      this.allSelectedUsername = false;
+      this.allSelectedRegional = false;
+      this.allSelectedBranch = false;
+      this.allSelectedSummary = false;
+      this.allSelectedProposalStatus = false;
+    }
   }
 
   ngOnInit(): void {
@@ -318,7 +331,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
     if (this.allSelectedProposalStatus) {
       this.form.get('proposalStatus')?.setValue([...this.lovProposalStatus.map(prop => prop)]);
     } else {
-      this.form.get('proposalStatus')?.setValue('');
+      this.form.get('proposalStatus')?.setValue(null);
     }
   }
 
@@ -561,9 +574,14 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
   }
 
   _filterCPBeforeGenerate(data) {
+    data.forEach(proposal => {
+      proposal.statusProposal = this._getStatusData(proposal);
+    });
+
     const segmentation = this.form.get('regional')?.value;
     const branch = this.form.get('branch')?.value;
     const search = this.form.get('query')?.value;
+    const statusProposal = this.form.get('proposalStatus')?.value;
 
     let cp = data.filter(proposal => proposal.internalRegion === 'R2');
 
@@ -574,6 +592,10 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
 
       if (branch && branch.length > 0) {
         cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
+      }
+
+      if (statusProposal && statusProposal.length > 0) {
+        cp = cp.filter(proposal => statusProposal.includes(proposal.statusProposal));
       }
     }
 

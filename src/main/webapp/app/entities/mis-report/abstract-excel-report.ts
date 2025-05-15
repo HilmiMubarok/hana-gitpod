@@ -224,7 +224,7 @@ export abstract class AbstractExcelMISReport {
     return pengajuan;
   }
 
-  protected _gettotalPlafondProposed(proposal, currency: 'IDR' | 'USD') {
+  protected _gettotalPlafondProposed(proposal: any, currency: 'IDR' | 'USD'): string {
     // if proposal.previousHistory null
     if (proposal.previousHistory === null) {
       return '';
@@ -237,10 +237,16 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    return currency === 'IDR' ? facility.totalPlafondIDR : facility.totalPlafondUSD || '';
+    const value = currency === 'IDR' ? facility.totalPlafondIDR : facility.totalPlafondUSD;
+
+    if (!value || value === '0.00' || value === 'null' || value === '') {
+      return '';
+    }
+
+    return String(value);
   }
 
-  protected _getTotalPlafond(proposal, currency: 'IDR' | 'USD', facilityType: 'Cash' | 'Installment') {
+  protected _getTotalPlafond(proposal: any, currency: 'IDR' | 'USD', facilityType: 'Cash' | 'Installment'): string {
     // check if proposal.product is null
     if (proposal.product === null) {
       return '';
@@ -249,20 +255,23 @@ export abstract class AbstractExcelMISReport {
     const products = proposal.product;
     const installmentFacilities = ['WCI', 'IL'];
 
-    return products
-      .filter(product => product.currency === currency) // Filter by currency
+    const total = products
+      .filter(product => product.currency === currency)
       .filter(product => {
         if (facilityType === 'Cash') {
-          // For 'Cash', facility should NOT be 'WCI' or 'IL'
           return !installmentFacilities.includes(product.facility);
         } else if (facilityType === 'Installment') {
-          // For 'Installment', facility should ONLY be 'WCI' or 'IL'
           return installmentFacilities.includes(product.facility);
         }
-        return false; // In case an unsupported facilityType is passed
+        return false;
       })
-      .reduce((sum, product) => sum + parseFloat(product.totalPlafond), 0)
-      .toString();
+      .reduce((sum, product) => sum + parseFloat(product.totalPlafond), 0);
+
+    if (!total || total === 0 || total === '0.00' || total === 'null') {
+      return '';
+    }
+
+    return total.toString();
   }
 
   protected _getRate(proposal: any, type: 'Proposed' | 'DAR Final'): string {
