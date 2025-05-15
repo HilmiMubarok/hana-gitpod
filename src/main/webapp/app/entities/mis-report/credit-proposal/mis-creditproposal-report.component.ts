@@ -418,7 +418,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     }
 
     this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal'),
+      next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_BSU'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
@@ -513,6 +513,36 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     });
   }
 
+  private _getTotalInitialLimitUSD(proposal: any): string {
+    const rawValue = proposal?.totalInitialLimitUSD;
+
+    if (!rawValue || rawValue === 0 || rawValue === '0.00' || rawValue === 'null' || rawValue === '') {
+      return '';
+    }
+
+    return String(rawValue);
+  }
+
+  private _getTotalPlafondDARFinalUSD(proposal: any): string {
+    const rawValue = proposal?.totalPlafondDebtorOnlyUSD;
+
+    if (!rawValue || rawValue === 0 || rawValue === '0.00' || rawValue === 'null' || rawValue === '') {
+      return '';
+    }
+
+    return String(rawValue);
+  }
+
+  private _getTotalPlafondDebtorUSD(proposal: any): string {
+    const rawValue = proposal?.totalPlafondDebtorOnlyUSD;
+
+    if (!rawValue || rawValue === 0 || rawValue === '0.00' || rawValue === 'null') {
+      return '';
+    }
+
+    return String(rawValue);
+  }
+
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     worksheet.addRow({
       no: index + 1 || '',
@@ -551,7 +581,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       initialLimitIDR: proposal.product.map(product => (product.currency === 'IDR' ? product.initialLimit : '')).join(',\n') || '',
       initialLimitUSD: proposal.product.map(product => (product.currency === 'USD' ? product.initialLimit : '')).join(',\n') || '',
       totalInitialLimitIDR: proposal.totalInitialLimitIDR || '',
-      totalInitialLimitUSD: proposal.totalInitialLimitUSD || '',
+      totalInitialLimitUSD: this._getTotalInitialLimitUSD(proposal),
       facilityProposed: this._getFacilityProposedDataSource(proposal),
       facilityDARFinal: proposal.product.map(product => product.facility).join(',\n') || '',
       totalPlafondPerFacilityProposed: this._getTotalPlafondPerFacility(proposal, 'History') || '',
@@ -559,7 +589,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       totalPlafondProposedUSD: this._gettotalPlafondProposed(proposal, 'USD'),
       totalPlafondPerFacilityDARFinal: this._getTotalPlafondPerFacility(proposal, 'Current') || '',
       totalPlafondDARFinalIDR: proposal.totalPlafondDebtorOnlyIDR || '',
-      totalPlafondDARFinalUSD: proposal.totalPlafondDebtorOnlyUSD || '',
+      totalPlafondDARFinalUSD: this._getTotalPlafondDARFinalUSD(proposal),
       plafondODDLIDR: this._getTotalPlafond(proposal, 'IDR', 'Cash'),
       plafondInstallmentIDR: this._getTotalPlafond(proposal, 'IDR', 'Installment'),
       plafondODDLUSD: this._getTotalPlafond(proposal, 'USD', 'Cash'),
@@ -568,7 +598,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       rateDARFinal: this._getRate(proposal, 'DAR Final'),
       totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
       totalPlafondDebtorIDR: proposal.totalPlafondDebtorOnlyIDR || '',
-      totalPlafondDebtorUSD: proposal.totalPlafondDebtorOnlyUSD || '',
+      totalPlafondDebtorUSD: this._getTotalPlafondDebtorUSD(proposal),
       subTotalPlafondEqToIDRDebtor: proposal.subTotalPlafondEqToIDR || '',
       grandTotalPlafondEqToIDR: proposal.grandTotalPlafondEqToIDR || '',
       id: this._getCollateralIdAndCode(proposal).id,
