@@ -187,10 +187,13 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       { header: 'Line of Business', key: 'lineOfBusiness', width: 45 },
       { header: 'Total Exposure Group', key: 'totalExposureGroup', width: 20 },
       { header: 'Deviation', key: 'deviation', width: 10 },
-      { header: 'Credit Grading', key: 'creditGrading', width: 13 },
+      { header: 'Credit Grading Proposed', key: 'creditGrading', width: 13 },
+      { header: 'Credit Grading (Scorecard)', key: 'creditGradingScorecard', width: 13 },
+      { header: 'Credit Grading (Rating)', key: 'creditGradingRating', width: 13 },
       { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
       { header: 'Pengajuan', key: 'pengajuan', width: 20 },
       { header: 'Facility', key: 'facility', width: 20 },
+      { header: 'Tenor', key: 'tenor', width: 20 },
       { header: 'Maturity Date', key: 'maturityDate', width: 20 },
       { header: 'Interest Rate (%)', key: 'interestRate', width: 20 },
       { header: 'Provision (%pa)', key: 'provisionPa', width: 20 },
@@ -239,7 +242,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       { header: 'Appraisal Date / Draft', key: 'appraisalDateDraft', width: 20 },
       { header: 'Approval Team Leader', key: 'approvalTeamLeader', width: 20 },
       { header: 'Approval BM', key: 'approvalBM', width: 20 },
-      { header: 'Approval Ho', key: 'approvalHo', width: 20 },
+      { header: 'Approval HO', key: 'approvalHo', width: 20 },
       { header: 'Approval Div Head', key: 'approvalDivHead', width: 20 },
       { header: 'Approval to Analyst', key: 'approvalToAnalyst', width: 20 },
       { header: 'Assignment', key: 'assignment', width: 20 },
@@ -503,6 +506,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     this.processData(data);
 
     this._applyStyles();
+    this._setAutoWidthForAllColumns();
+    this._setAutoHeightForAllRows();
     this.downloadFile(fileName);
     this._resetData();
   }

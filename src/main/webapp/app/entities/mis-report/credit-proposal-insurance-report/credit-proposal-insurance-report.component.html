@@ -15,13 +15,12 @@
         <div class="row my-3">
           <div class="col-12 col-md-6">
             <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
-              <mat-label>Enter a date range</mat-label>
+              <mat-label>Date Range (Expiry Date)</mat-label>
               <mat-date-range-input [rangePicker]="picker">
                 <input matStartDate formControlName="startDate" placeholder="Start date" />
                 <input matEndDate formControlName="endDate" placeholder="End date" />
               </mat-date-range-input>
 
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker> </mat-date-range-picker>
               <mat-datepicker-toggle matSuffix (click)="clearDateRange()" *ngIf="dateRangeHasValue()">
@@ -32,12 +31,12 @@
 
           <div class="col-12 col-md-6">
             <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
-              <mat-label>Status</mat-label>
-              <mat-select formControlName="status" multiple>
+              <mat-label>Business Unit</mat-label>
+              <mat-select formControlName="businessUnit" multiple>
                 <li class="select-all" (click)="toggleSelectAll()">
                   {{ allSelected ? 'Deselect All' : 'Select All' }}
                 </li>
-                <mat-option *ngFor="let item of lovStatus" [value]="item.statusId">{{ item.statusDescription }}
+                <mat-option *ngFor="let item of lovBusinessUnit" [value]="item.id">{{ item.name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
