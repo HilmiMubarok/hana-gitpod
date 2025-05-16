@@ -243,7 +243,14 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    return String(value);
+    const numberValue = parseFloat(value);
+
+    if (!isNaN(numberValue)) {
+      const fixedValue = numberValue.toFixed(2);
+      return fixedValue.endsWith('.00') ? fixedValue.replace('.00', '') : fixedValue;
+    }
+
+    return '';
   }
 
   protected _getTotalPlafond(proposal: any, currency: 'IDR' | 'USD', facilityType: 'Cash' | 'Installment'): string {
@@ -271,7 +278,8 @@ export abstract class AbstractExcelMISReport {
       return '';
     }
 
-    return total.toString();
+    const fixedValue = total.toFixed(2);
+    return fixedValue.endsWith('.00') ? fixedValue.replace('.00', '') : fixedValue;
   }
 
   protected _getRate(proposal: any, type: 'Proposed' | 'DAR Final'): string {
