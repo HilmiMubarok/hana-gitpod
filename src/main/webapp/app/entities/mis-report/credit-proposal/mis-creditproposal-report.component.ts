@@ -520,7 +520,14 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       return '';
     }
 
-    return String(rawValue);
+    const numberValue = parseFloat(rawValue);
+
+    if (!isNaN(numberValue)) {
+      const fixedValue = numberValue.toFixed(2);
+      return fixedValue.endsWith('.00') ? fixedValue.replace('.00', '') : fixedValue;
+    }
+
+    return '';
   }
 
   private _getTotalPlafondDARFinalUSD(proposal: any): string {
@@ -530,7 +537,14 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       return '';
     }
 
-    return String(rawValue);
+    const numberValue = parseFloat(rawValue);
+
+    if (!isNaN(numberValue)) {
+      const fixedValue = numberValue.toFixed(2);
+      return fixedValue.endsWith('.00') ? fixedValue.replace('.00', '') : fixedValue;
+    }
+
+    return '';
   }
 
   private _getTotalPlafondDebtorUSD(proposal: any): string {
@@ -540,7 +554,47 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       return '';
     }
 
-    return String(rawValue);
+    const numberValue = parseFloat(rawValue);
+
+    if (!isNaN(numberValue)) {
+      const fixedValue = numberValue.toFixed(2);
+      return fixedValue.endsWith('.00') ? fixedValue.replace('.00', '') : fixedValue;
+    }
+
+    return '';
+  }
+
+  private _getInitialLimitUSD(proposal: any): string {
+    const formatCurrencyValue = (value: any): string => {
+      if (value === null || value === undefined) {
+        return '';
+      }
+      if (typeof value === 'string') {
+        if (value.trim().toLowerCase() === 'null' || value.trim() === '') {
+          return '';
+        }
+      }
+      const numberValue = parseFloat(value);
+      if (isNaN(numberValue) || numberValue === 0) {
+        return '';
+      }
+      const fixedValue = numberValue.toFixed(2);
+      if (fixedValue.endsWith('.00')) {
+        return fixedValue.slice(0, -3);
+      }
+      return fixedValue;
+    };
+
+    if (!proposal.product || !Array.isArray(proposal.product)) {
+      return '';
+    }
+
+    const values = proposal.product
+      .filter(product => product.currency === 'USD' && product.initialLimit !== undefined && product.initialLimit !== null)
+      .map(product => formatCurrencyValue(product.initialLimit))
+      .filter(val => val !== '');
+
+    return values.join(',\n');
   }
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
@@ -579,7 +633,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       totalAdminFeeIDR: proposal.product.map(product => (product.adminFeeType === 'IDR' ? product.adminFee : '')).join(',\n') || '',
       totalAdminFeeUSD: proposal.product.map(product => (product.adminFeeType === 'USD' ? product.adminFee : '')).join(',\n') || '',
       initialLimitIDR: proposal.product.map(product => (product.currency === 'IDR' ? product.initialLimit : '')).join(',\n') || '',
-      initialLimitUSD: proposal.product.map(product => (product.currency === 'USD' ? product.initialLimit : '')).join(',\n') || '',
+      initialLimitUSD: this._getInitialLimitUSD(proposal),
       totalInitialLimitIDR: proposal.totalInitialLimitIDR || '',
       totalInitialLimitUSD: this._getTotalInitialLimitUSD(proposal),
       facilityProposed: this._getFacilityProposedDataSource(proposal),
