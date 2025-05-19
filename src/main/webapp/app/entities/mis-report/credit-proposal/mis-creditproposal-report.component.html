@@ -26,6 +26,8 @@
                   placeholder="Start date"
                   (focus)="onDateRangeFocus()"
                   (blur)="onDateRangeBlur()"
+                  [readonly]="true"
+                  (focus)="picker.open()"
                   [class.disabled-control]="MISReportCP.get('date1')?.disabled"
                 />
                 <input
@@ -34,7 +36,9 @@
                   [class.disabled-control]="MISReportCP.get('date2')?.disabled"
                   placeholder="End date"
                   (focus)="onDateRangeFocus()"
+                  [readonly]="true"
                   (blur)="onDateRangeBlur()"
+                  (focus)="picker.open()"
                 />
               </mat-date-range-input>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -47,7 +51,12 @@
         </div>
         <div class="col-12 col-md-6 mb-1">
           <div #formContainer>
-            <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="MISReportCP.get('status')?.disabled" [hideRequiredMarker]="true">
+            <mat-form-field
+              class="w-100"
+              appearance="outline"
+              [class.disabled-control]="MISReportCP.get('status')?.disabled"
+              [hideRequiredMarker]="true"
+            >
               <mat-label>Status</mat-label>
               <mat-select formControlName="status" multiple>
                 <li class="select-all" (click)="toggleSelectAll()">
