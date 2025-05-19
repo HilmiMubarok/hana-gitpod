@@ -19,16 +19,15 @@
               [hideRequiredMarker]="true"
             >
               <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
+              <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
                 <input
                   matStartDate
                   formControlName="date1"
                   placeholder="Start date"
                   (focus)="onDateRangeFocus()"
                   (blur)="onDateRangeBlur()"
-                  [readonly]="true"
-                  (focus)="picker.open()"
                   [class.disabled-control]="MISReportCP.get('date1')?.disabled"
+                  readonly
                 />
                 <input
                   matEndDate
@@ -36,9 +35,7 @@
                   [class.disabled-control]="MISReportCP.get('date2')?.disabled"
                   placeholder="End date"
                   (focus)="onDateRangeFocus()"
-                  [readonly]="true"
-                  (blur)="onDateRangeBlur()"
-                  (focus)="picker.open()"
+                  readonly
                 />
               </mat-date-range-input>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
