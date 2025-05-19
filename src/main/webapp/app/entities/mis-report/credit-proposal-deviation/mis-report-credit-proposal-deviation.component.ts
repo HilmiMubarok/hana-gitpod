@@ -58,7 +58,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public allSelectedRegion = false;
   public allSelectedCustomerType = false;
   public lovRegional = [];
-  public lovCustomerType = ['NEW', 'EXISTING'];
+  public lovCustomerType = ['New', 'Existing'];
   private parentIds = ['9901', '9902', '9903', '9904', '9905'];
   public displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'status'];
   isDisabled = false;
@@ -75,7 +75,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       date2: new FormControl(''),
       status: new FormControl(''),
       regionalRM: new FormControl(null),
-      customerType: new FormControl(null),
+      customerStatus: new FormControl(''),
       query: new FormControl(''),
     });
 
@@ -102,7 +102,15 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         this.MisReportCPDeviation.get('regionalRM')?.setValue(null);
       }
     });
-    this.MisReportCPDeviation.get('customerType')?.valueChanges.subscribe(() => this.checkField());
+    this.MisReportCPDeviation.get('customerStatus')?.valueChanges.subscribe(() => {
+      this.checkField();
+      if (
+        Array.isArray(this.MisReportCPDeviation.get('customerStatus')?.value) &&
+        this.MisReportCPDeviation.get('customerStatus')?.value.length === 0
+      ) {
+        this.MisReportCPDeviation.get('customerStatus')?.setValue(null);
+      }
+    });
     this.MisReportCPDeviation.get('status')?.valueChanges.subscribe(() => this.checkField());
   }
   public checkField() {
@@ -110,14 +118,14 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     const date2 = this.MisReportCPDeviation.get('date2')?.value;
     const status = this.MisReportCPDeviation.get('status')?.value;
     const regionalRM = this.MisReportCPDeviation.get('regionalRM')?.value;
-    const customerType = this.MisReportCPDeviation.get('customerType')?.value;
+    const customerStatus = this.MisReportCPDeviation.get('customerStatus')?.value;
 
     if (
       date1 ||
       date2 ||
       (status && status.length > 0) ||
       (regionalRM && regionalRM.length > 0) ||
-      (customerType && customerType.length > 0)
+      (customerStatus && customerStatus.length > 0)
     ) {
       this.MisReportCPDeviation.get('query')?.disable();
       this.queryDisabled = true;
@@ -132,7 +140,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     this.MisReportCPDeviation.get('date2')?.disable();
     this.MisReportCPDeviation.get('status')?.disable();
     this.MisReportCPDeviation.get('regionalRM')?.disable();
-    this.MisReportCPDeviation.get('customerType')?.disable();
+    this.MisReportCPDeviation.get('customerStatus')?.disable();
   }
 
   public onSearchBlur() {
@@ -143,7 +151,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       this.MisReportCPDeviation.get('date2')?.enable();
       this.MisReportCPDeviation.get('status')?.enable();
       this.MisReportCPDeviation.get('regionalRM')?.enable();
-      this.MisReportCPDeviation.get('customerType')?.enable();
+      this.MisReportCPDeviation.get('customerStatus')?.enable();
     }
   }
 
@@ -160,7 +168,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       proposalNumber: '',
       cif: '',
       debtorName: '',
-      customerType: '',
+      customerStatus: '',
       proposalDate: '',
     },
   ];
@@ -244,9 +252,9 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public toggleSelectAllCustomerType(): void {
     this.allSelectedCustomerType = !this.allSelectedCustomerType;
     if (this.allSelectedCustomerType) {
-      this.MisReportCPDeviation.get('customerType')?.setValue([...this.lovCustomerType.map(lovCustomerType => lovCustomerType)]);
+      this.MisReportCPDeviation.get('customerStatus')?.setValue([...this.lovCustomerType.map(lovCustomerType => lovCustomerType)]);
     } else {
-      this.MisReportCPDeviation.get('customerType')?.setValue(null);
+      this.MisReportCPDeviation.get('customerStatus')?.setValue(null);
     }
   }
   private _getRegionalLOV(): void {
@@ -282,7 +290,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       const endDate2 = this.MisReportCPDeviation.get('date2')?.value;
       const statuss = this._convertStatusToString(this.MisReportCPDeviation.get('status')?.value);
       const regionals = this._convertStatusToString(this.MisReportCPDeviation.get('regionalRM')?.value);
-      const customerTypes = this._convertStatusToString(this.MisReportCPDeviation.get('customerType')?.value);
+      const customerTypes = this._convertStatusToString(this.MisReportCPDeviation.get('customerStatus')?.value);
       // Validasi untuk startDate, endDate, dan status
 
       if (!startDate1 && !endDate2 && !statuss) {
@@ -306,7 +314,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         endDate: endDate2,
         status: statuss,
         regionalRM: regionals,
-        customerType: customerTypes,
+        customerStatus: customerTypes,
       };
     }
     this.misReportService.getMisReportCP(params).subscribe({
