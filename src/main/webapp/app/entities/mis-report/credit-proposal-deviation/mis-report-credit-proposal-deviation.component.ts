@@ -244,7 +244,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   public toggleSelectAllCustomerType(): void {
     this.allSelectedCustomerType = !this.allSelectedCustomerType;
     if (this.allSelectedCustomerType) {
-      this.MisReportCPDeviation.get('customerType')?.setValue([...this.lovCustomerType]);
+      this.MisReportCPDeviation.get('customerType')?.setValue([...this.lovCustomerType.map(lovCustomerType => lovCustomerType)]);
     } else {
       this.MisReportCPDeviation.get('customerType')?.setValue(null);
     }
