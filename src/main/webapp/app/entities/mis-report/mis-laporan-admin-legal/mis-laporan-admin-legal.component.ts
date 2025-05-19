@@ -634,7 +634,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
             namaNotaris: proposal.agreement?.isNotaril === 'Notaril' ? proposal.agreement.notaryName : ' - ',
             jenisPK: proposal.agreement?.agreementType || '',
             akta: task.code || '',
-            noAkta: proposal.agreement?.isNotaril === 'Notaril' ? prod.attributes?.[0].notaryNumber : proposal.agreement.agreementNumber,
+            noAkta: proposal.agreement?.isNotaril === 'Notaril' ? prod.attributes?.notaryNumber : proposal.agreement.agreementNumber,
             tglAkta: this._convertDate(proposal.agreement?.dateAgreement) || '',
             tglTargetPenyelesaian: '',
             tglMulaiHtEl: '',
