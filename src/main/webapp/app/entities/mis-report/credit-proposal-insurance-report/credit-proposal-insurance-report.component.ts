@@ -60,7 +60,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     this.MISReportCPInsuranceReport = new FormGroup({
       startDate: new FormControl('', [Validators.required]),
       endDate: new FormControl('', [Validators.required]),
-      businessUnit: new FormControl('', [Validators.required]),
+      businessUnit: new FormControl(''),
       username: new FormControl(null),
     });
 
@@ -245,7 +245,28 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     } else {
       filteredData = data;
     }
-    return filteredData;
+
+    return filteredData
+      .map(item => {
+        const filteredCollateral = item.collateral
+          .map(collateralItem => {
+            const filteredInsurance = collateralItem.collateralInsurance.filter(insurance => insurance.expDate >= this.MISReportCPInsuranceReport.get('startDate')?.value && insurance.expDate <= this.MISReportCPInsuranceReport.get('endDate')?.value);
+            if (filteredInsurance.length > 0) {
+              return {
+                ...collateralItem,
+                collateralInsurance: filteredInsurance,
+              };
+            }
+            return null;
+          })
+          .filter(Boolean);
+
+        return {
+          ...item,
+          collateral: filteredCollateral,
+        };
+      })
+      .filter(item => item.collateral.length > 0);
   }
 
   private _addData(worksheet: ExcelJS.Worksheet, proposal: any): void {
@@ -279,7 +300,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
 
     const filteredCollateral = proposal.collateral.filter(
       collateral =>
-        ['Real Estate', 'Machine', 'Vehicle', 'Personal Property'].includes(collateral.collateralType) &&
+        ['Real Estate', 'Machine', 'Vehicle', 'Personal Property', 'Personal Property Machine'].includes(collateral.collateralType) &&
         collateral.collateralTypeInsurance === 'true' &&
         collateral.partyName === debtorName
     );
@@ -311,7 +332,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
             insuranceCode: insurance.insuranceTypeCode || '',
             insuranceName: insurance.insuranceTypeName || '',
             policyNumber: insurance.policyNo || '',
-            expiryDate: insurance.expiryDate ? this._formatDateSLA(insurance.expDate) : '',
+            expiryDate: insurance.expDate ? this._formatDateSLA(insurance.expDate) : '',
             insuranceCurrency: insurance.currency || '',
             insuranceAmount: insurance.insuranceAmount || '',
             brokerName: insurance.brokerCompany || '',
