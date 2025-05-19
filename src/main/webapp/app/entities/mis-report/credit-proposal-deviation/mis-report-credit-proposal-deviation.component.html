@@ -53,7 +53,7 @@
         <div class="col">
           <mat-form-field class="w-100" appearance="outline" [ngClass]="{ 'mat-form-field-disabled': isDisabled }">
             <mat-label>Customer Status</mat-label>
-            <mat-select formControlName="customerType" multiple>
+            <mat-select formControlName="customerStatus" multiple>
               <li class="select-all" (click)="toggleSelectAllCustomerType()">
                 {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
               </li>
