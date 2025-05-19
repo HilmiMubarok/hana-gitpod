@@ -82,7 +82,7 @@ import { PageEvent } from '@angular/material/paginator';
 export class MisCreditProposalReportComponent extends AbstractExcelMISReport implements OnInit {
   public lovStatus = [];
   public lovRegional = [];
-  public lovCustomerType = ['NEW', 'EXISTING'];
+  public lovCustomerType = ['New', 'Existing'];
   public date1: any;
   public date2: any;
   public allSelected = false;
