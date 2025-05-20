@@ -481,15 +481,14 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
 
   private getTatDate(prop): string {
     const completedDate = new Date(this.getLastCompletedDate(prop));
-    // this.getCompletedDate(prop)[this.getCompletedDate(prop).length - 1]
     const loanOpsDistributionInDate = new Date(this.getLastLoanOpsDistributionInDate(prop));
-    // this.getLoanOpsDistributionInDate(prop)[this.getLoanOpsDistributionInDate(prop).length - 1]
-    const diffDays = Math.abs(completedDate.getTime() - loanOpsDistributionInDate.getTime()) / (1000 * 60 * 60 * 24);
 
-    if (!completedDate || !loanOpsDistributionInDate) {
+    if (!completedDate || !loanOpsDistributionInDate || isNaN(completedDate.getTime()) || isNaN(loanOpsDistributionInDate.getTime())) {
       return '';
     }
-    return diffDays.toString();
+
+    const diffDays = Math.abs(completedDate.getTime() - loanOpsDistributionInDate.getTime()) / (1000 * 60 * 60 * 24);
+    return isNaN(diffDays) ? '' : diffDays.toString();
   }
 
   private getTatTime(prop): string {
@@ -497,23 +496,34 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
     const completedTime = this.getLastCompletedTime(prop);
     const loanOpsDistributionInTime = this.getFirstLoanOpsDistributionInTime(prop);
 
+    if (!completedTime || !loanOpsDistributionInTime) {
+      return '';
+    }
+
     const date = new Date().toLocaleDateString('en-US'); // Use a standard date format
     const dateCompletedTime = new Date(`${date} ${completedTime} UTC`);
     const dateLoanOpsDistributionInTime = new Date(`${date} ${loanOpsDistributionInTime} UTC`);
     const eightHours = new Date(`${date} 08:00:00 UTC`);
-
+  
+    if (isNaN(dateCompletedTime.getTime()) || isNaN(dateLoanOpsDistributionInTime.getTime()) || isNaN(eightHours.getTime())) {
+      return '';
+    }
+  
     let diffInMinutes;
-
+  
     if (tatDate === 0) {
       diffInMinutes = (dateCompletedTime.getTime() - dateLoanOpsDistributionInTime.getTime()) / (1000 * 60);
     } else {
       diffInMinutes = (dateCompletedTime.getTime() - eightHours.getTime()) / (1000 * 60);
     }
-
+  
+    if (isNaN(diffInMinutes)) {
+      return '';
+    }
+  
     const totalMinutes = Math.abs(diffInMinutes);
     const hours = Math.floor(totalMinutes / 60);
     const minutes = Math.floor(totalMinutes % 60);
-
     return hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
   }
 
@@ -537,22 +547,30 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       case 'New':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       case 'Renewal':
-        if (!prod.mainProduct) { return '' };
+        if (!prod.mainProduct) {
+          return '';
+        }
         return (
           `${this._formatDateSLA(prod.mainProduct.maturityDate)} s/d ${this._formatDateSLA(prod.mainProduct.proposeMaturityDate)}` || ''
         );
       case 'Renewal + Additional':
-        if (!prod.mainProduct || !prod.mainProduct.mainProduct || !prod.mainProduct.mainProduct.length) { return '' };
+        if (!prod.mainProduct || !prod.mainProduct.mainProduct || !prod.mainProduct.mainProduct.length) {
+          return '';
+        }
         return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
       case 'Renewal + Decrease':
-        if (!prod.mainProduct || !prod.mainProduct.mainProduct || !prod.mainProduct.mainProduct.length) { return '' };
+        if (!prod.mainProduct || !prod.mainProduct.mainProduct || !prod.mainProduct.mainProduct.length) {
+          return '';
+        }
         return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
       case 'Existing':
         return this._formatDateSLA(prod.firstDisbursementDate) || '';
       case 'Additional / Top Up':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       default:
-        if (!prod.mainProduct) { return '' };
+        if (!prod.mainProduct) {
+          return '';
+        }
         return prod.mainProduct.endPeriodRemark || '';
     }
   }
