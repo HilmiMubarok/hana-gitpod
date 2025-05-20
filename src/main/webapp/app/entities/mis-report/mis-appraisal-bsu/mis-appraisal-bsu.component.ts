@@ -263,9 +263,11 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
       this.pageSize = pageEvent.pageSize;
     }
 
+    const query = this.MISReportAppraisal.get('query')?.value;
+
     const predicate: object = {
       page: this.currentPage,
-      query: this.MISReportAppraisal.get('query')?.value,
+      query,
       size: this.pageSize,
       sort: ['id,desc'],
       idPosition: this.getLocStor('POS'),
@@ -275,14 +277,23 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
 
     this.misReportService.searchAppraisalBSU(predicate).subscribe({
       next: res => {
-        console.log('res', res.body);
-
         this.searchResult = res.body || [];
         const totalCount = res.headers.get('X-Total-Count');
         this.totalItems = totalCount ? parseInt(totalCount, 10) : 0;
         this.loadingSearch = false;
+
+        if (query !== null && query !== undefined) {
+          this.MISReportAppraisal.get('query')?.setValue(query, { emitEvent: false });
+        }
       },
-      error: (res: HttpErrorResponse) => console.error(res.message),
+      error: (res: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data' });
+        this.loadingSearch = false;
+
+        if (query !== null && query !== undefined) {
+          this.MISReportAppraisal.get('query')?.setValue(query, { emitEvent: false });
+        }
+      },
     });
   }
 
