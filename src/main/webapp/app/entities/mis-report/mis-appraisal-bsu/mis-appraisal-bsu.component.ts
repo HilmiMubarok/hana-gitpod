@@ -772,6 +772,15 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
     return '';
   }
 
+  public getTypeOfApplication(jenisPermohonan: any): string {
+    return Array.isArray(jenisPermohonan) ? jenisPermohonan.join('\n') : '';
+  }
+
+  public getCertificateNumbers(row: any): string {
+    const certificates = row?.collateral?.[0]?.landCertificates;
+    return Array.isArray(certificates) && certificates.length > 0 ? certificates.map(cert => cert?.certNumber || '').join('\n') : '';
+  }
+
   private _processGenerate(data, outputName: string): void {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
@@ -878,7 +887,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
         collateralId: row.collateral?.[0]?.id || '', // Gunakan optional chaining
         collateralType: row.collateral?.[0]?.collateralType || '',
         collateral: row.collateral?.[0]?.collateral || '',
-        certificateNumber: row.collateral?.[0]?.landCertificates?.map(cert => cert.certNumber).join('\n') || '',
+        certificateNumber: this.getCertificateNumbers(row),
         propertyUsage: row.collateral?.[0]?.propertyUsage || '',
         marketAbility:
           row.marketAbility === 'baik' ? 'Good' : row.marketAbility === 'cukup' ? 'Fair' : row.marketAbility === 'kurang' ? 'Minus' : '',
@@ -904,7 +913,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
         city: row.collateral?.[0]?.city || '',
         provinceName: row.collateral?.[0]?.provinceName || '',
         appraisalType: row.appraisalType || '',
-        typeOfApplication: row.jenisPermohonan.join('\n') || '',
+        typeOfApplication: this.getTypeOfApplication(row.jenisPermohonan),
         plafond: row.plafond || '',
         creditMaturityDate: row.tglJatemKredit || '',
         appraiser: row.appraiser || '',
@@ -978,6 +987,7 @@ export class MisAppraisalBsuComponent extends AbstractExcelMISReport implements 
     worksheet.getColumn('buildingAreaBasedOnPhysicalCondition').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
     worksheet.getColumn('timeline').alignment = { wrapText: true, vertical: 'middle' };
     worksheet.getColumn('location').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
+    worksheet.getColumn('certificateNumber').alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' };
 
     const timelineColumnIndex = worksheet.columns.findIndex(column => column.header === 'Timeline') + 1;
     if (timelineColumnIndex > 0) {
