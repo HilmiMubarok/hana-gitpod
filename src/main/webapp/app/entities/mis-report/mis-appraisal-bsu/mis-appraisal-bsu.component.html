@@ -29,6 +29,8 @@
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
                     [class.disabled-control]="MISReportAppraisal.get('date1')?.disabled"
+                    (focus)="picker.open()"
+                    readonly
                   />
                   <input
                     matEndDate
@@ -37,6 +39,8 @@
                     (focus)="onDateRangeFocus()"
                     (blur)="onDateRangeBlur()"
                     [class.disabled-control]="MISReportAppraisal.get('date2')?.disabled"
+                    (focus)="picker.open()"
+                    readonly
                   />
                 </mat-date-range-input>
 
