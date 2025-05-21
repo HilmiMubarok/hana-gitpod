@@ -460,26 +460,26 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       worksheet.mergeCells(`L${rowStart}:L${rowEnd}`); // Merge 'status'
     }
 
-    // // Handle the case where there's no covenant data (covenantData is empty)
-    // if (covenantData.length === 0) {
-    //   worksheet.addRow({
-    //     no: index + 1 || '',
-    //     proposalNumber: proposal.proposalNumber || '',
-    //     proposalDate:
-    //       `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
-    //         new Date(proposal.proposalDate).getMonth() + 1
-    //       ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}` || '',
-    //     segment: proposal.segment || '',
-    //     bookingBranch: proposal.bookingBranchName || '',
-    //     customerStatus: proposal.customerStatus || '',
-    //     cif: proposal.cif || '',
-    //     debtorName: proposal.debtorName || '',
-    //     proposalType: proposal.proposalType || '',
-    //     covenantStatus: '',
-    //     covenantDeviations: '',
-    //     status: proposal.status || '',
-    //   });
-    // }
+    // Handle the case where there's no covenant data (covenantData is empty)
+    if (covenantData.length === 0) {
+      worksheet.addRow({
+        no: index + 1 || '',
+        proposalNumber: proposal.proposalNumber || '',
+        proposalDate:
+          `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+            new Date(proposal.proposalDate).getMonth() + 1
+          ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}` || '',
+        segment: proposal.segment || '',
+        bookingBranch: proposal.bookingBranchName || '',
+        customerStatus: proposal.customerStatus || '',
+        cif: proposal.cif || '',
+        debtorName: proposal.debtorName || '',
+        proposalType: proposal.proposalType || '',
+        covenantStatus: '',
+        covenantDeviations: '',
+        status: proposal.status || '',
+      });
+    }
   }
   private _applyStyles(): void {
     super.applyStyles('ff4285f4');
@@ -506,7 +506,7 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     // column Top
     columnsToBeTop.forEach(columns => {
       this.worksheet.getColumn(columns).alignment = {
-        vertical: 'middle',
+        vertical: 'top',
         horizontal: 'center',
         wrapText: true,
       };
