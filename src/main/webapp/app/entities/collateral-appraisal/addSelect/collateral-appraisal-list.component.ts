@@ -101,7 +101,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected cashCollateralService: CashCollateralService,
     protected loginService: LoginService,
     protected cashSurveyAppraisalService: CashSurveyAppraisalsService,
-    protected collateralAppraisalsAppraiseService: CollateralAppraisalsAppraiseService
+    public collateralAppraisalsAppraiseService: CollateralAppraisalsAppraiseService
   ) {
     super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
@@ -186,8 +186,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           this.messageService.add({
             severity: 'warn',
             summary: 'Warning',
-            detail:
-              'Saat ini CIF tidak ada pada system CASH. Silahkan find CIF Pada menu Initiation Debtor Data terlebih dahulu.',
+            detail: 'Saat ini CIF tidak ada pada system CASH. Silahkan find CIF Pada menu Initiation Debtor Data terlebih dahulu.',
           });
           this.initDataForMatTable(res, res.headers);
         }
@@ -330,6 +329,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
 
   public onAdd(): void {
+    this.collateralAppraisalsAppraiseService.setLoading(true);
     this.internalIdLocStor = this.getLocStor('INT');
     this.positionIdLocStor = this.getLocStor('POS');
     if (!this.internalIdLocStor || !this.positionIdLocStor) {
@@ -338,8 +338,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       if (!this.internalIdLocStor) {
         this.logout();
       } else {
+        this.collateralAppraisalsAppraiseService.setLoading(true);
         if (this.statusChecked.length === 0) {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Silahkan pilih Appraisal Officer Type' });
+          this.collateralAppraisalsAppraiseService.setLoading(false);
         } else {
           this.InternalExternal = [];
           for (let i = 0; i < this.statusChecked.length; i++) {
@@ -347,6 +349,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           }
           if (this.dataSelectedCheckbox.length === 0) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Silahkan pilih Collateral' });
+            this.collateralAppraisalsAppraiseService.setLoading(false);
           } else {
             for (let e = 0; e < this.statusChecked.length; e++) {
               for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
@@ -367,6 +370,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
                           'masih dalam proses appraisal.',
                         life: 7000,
                       });
+                      this.collateralAppraisalsAppraiseService.setLoading(false);
                     } else {
                       this.surveyAppraisalCross = lodash.clone(this.surveyAppraisalTemplate);
                       if (this.selectedPartyCif?.partyId === this.dataSelectedCheckbox[i].partyId) {
@@ -395,6 +399,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
                       this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
                       Promise.all(this.createSurveyAppraisalPromises).then(results => {
                         this.router.navigate(['./collateral-appraisal']);
+                        this.collateralAppraisalsAppraiseService.setLoading(false);
                       });
                     }
                   },
