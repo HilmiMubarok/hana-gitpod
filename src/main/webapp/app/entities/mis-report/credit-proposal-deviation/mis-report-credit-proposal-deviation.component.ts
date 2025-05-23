@@ -308,14 +308,22 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         this.misReportService.setLoading(false);
         return;
       }
-
-      params = {
-        startDate: startDate1,
-        endDate: endDate2,
-        status: statuss,
-        regionalRM: regionals,
-        customerStatus: customerTypes,
-      };
+      if (!customerTypes) {
+        params = {
+          startDate: startDate1,
+          endDate: endDate2,
+          status: statuss,
+          regionalRM: regionals,
+        };
+      } else {
+        params = {
+          startDate: startDate1,
+          endDate: endDate2,
+          status: statuss,
+          regionalRM: regionals,
+          customerStatus: customerTypes,
+        };
+      }
     }
     this.misReportService.getMisReportCP(params).subscribe({
       next: res => this._processGenerate(res.body, 'MIS_Credit_Proposal_Deviation'),
@@ -369,46 +377,24 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
   }
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
-    // Handle null or undefined proposal.covenant
-    if (!proposal.covenant) {
-      worksheet.addRow({
-        no: index + 1 || '',
-        proposalNumber: proposal.proposalNumber || '',
-        proposalDate:
-          `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
-            new Date(proposal.proposalDate).getMonth() + 1
-          ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}` || '',
-        segment: proposal.segment || '',
-        bookingBranch: proposal.bookingBranchName || '',
-        customerStatus: proposal.customerStatus || '',
-        cif: proposal.cif || '',
-        debtorName: proposal.debtorName || '',
-        proposalType: proposal.proposalType || '',
-        covenantStatus: '',
-        covenantDeviations: '',
-        status: proposal.status || '',
-      });
-      return;
-    }
-
     // Filter covenant based on proposalType
     let covenantData = [];
     const statusesToFilter = ['Waived', 'To be waived', 'To Be Waived']; // Filtered statuses
     if (proposal.proposalType === 'Total Exposure Back to Back') {
       covenantData = [
-        ...(proposal.covenant.deposit.filter(c => statusesToFilter.includes(c.status)) || []),
-        ...(proposal.covenant.general.filter(c => statusesToFilter.includes(c.status)) || []),
-        ...(proposal.covenant.other.filter(c => statusesToFilter.includes(c.status)) || []),
+        ...(proposal.covenant?.deposit.filter(c => statusesToFilter.includes(c.status)) || []),
+        ...(proposal.covenant?.general.filter(c => statusesToFilter.includes(c.status)) || []),
+        ...(proposal.covenant?.other.filter(c => statusesToFilter.includes(c.status)) || []),
       ];
     } else if (proposal.proposalType === 'Total Exposure > IDR 15 Bio') {
       covenantData = [
-        ...(proposal.covenant.above.filter(c => statusesToFilter.includes(c.status)) || []),
-        ...(proposal.covenant.other.filter(c => statusesToFilter.includes(c.status)) || []),
+        ...(proposal.covenant?.above.filter(c => statusesToFilter.includes(c.status)) || []),
+        ...(proposal.covenant?.other.filter(c => statusesToFilter.includes(c.status)) || []),
       ];
     } else {
       covenantData = [
-        ...(proposal.covenant.below.filter(c => statusesToFilter.includes(c.status)) || []),
-        ...(proposal.covenant.other.filter(c => statusesToFilter.includes(c.status)) || []),
+        ...(proposal.covenant?.below.filter(c => statusesToFilter.includes(c.status)) || []),
+        ...(proposal.covenant?.other.filter(c => statusesToFilter.includes(c.status)) || []),
       ];
     }
     console.log('covenantData', covenantData); // console bundle covenant to excel
@@ -420,11 +406,10 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     }
 
     const rowStart = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1; // Track the starting row number for merging
-
     // Loop through covenant data and create rows
     covenantData.forEach((covenant, i) => {
       worksheet.addRow({
-        no: i === 0 ? index + 1 : '',
+        no: i === 0 ? worksheet.rowCount : '',
         proposalNumber: i === 0 ? proposal.proposalNumber || '' : '',
         proposalDate:
           i === 0
@@ -459,27 +444,6 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
       worksheet.mergeCells(`I${rowStart}:I${rowEnd}`); // Merge 'proposalType'
       worksheet.mergeCells(`L${rowStart}:L${rowEnd}`); // Merge 'status'
     }
-
-    // // Handle the case where there's no covenant data (covenantData is empty)
-    // if (covenantData.length === 0) {
-    //   worksheet.addRow({
-    //     no: index + 1 || '',
-    //     proposalNumber: proposal.proposalNumber || '',
-    //     proposalDate:
-    //       `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
-    //         new Date(proposal.proposalDate).getMonth() + 1
-    //       ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}` || '',
-    //     segment: proposal.segment || '',
-    //     bookingBranch: proposal.bookingBranchName || '',
-    //     customerStatus: proposal.customerStatus || '',
-    //     cif: proposal.cif || '',
-    //     debtorName: proposal.debtorName || '',
-    //     proposalType: proposal.proposalType || '',
-    //     covenantStatus: '',
-    //     covenantDeviations: '',
-    //     status: proposal.status || '',
-    //   });
-    // }
   }
   private _applyStyles(): void {
     super.applyStyles('ff4285f4');
