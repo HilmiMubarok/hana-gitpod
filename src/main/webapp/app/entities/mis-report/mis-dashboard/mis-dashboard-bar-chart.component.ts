@@ -75,20 +75,48 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   chart: Chart | undefined;
 
   private readonly excludedProperties = ['date', 'information', 'showcase'];
+  // private readonly colorPalette = [
+  //   '#f4b6c2', // soft pink
+  //   '#b5ead7', // soft mint
+  //   '#c7ceea', // soft lavender
+  //   '#ffdac1', // peach
+  //   '#e2f0cb', // pale green
+  //   '#c1c8e4', // soft periwinkle
+  //   '#ffd6e0', // light rose
+  //   '#d5e1df', // soft sage
+  //   '#f6dfeb', // pale blush
+  //   '#d6d4e0', // soft grayish purple
+  //   '#fbe4d8', // light coral
+  //   '#d0ebff', // baby blue
+  // ];
+  // private readonly colorPalette = [
+  //   '#fab1a0', // soft coral
+  //   '#81ecec', // mint
+  //   '#a29bfe', // lavender
+  //   '#ffeaa7', // light amber
+  //   '#55efc4', // aquamarine
+  //   '#fdcb6e', // warm yellow
+  //   '#74b9ff', // sky blue
+  //   '#e17055', // peach
+  //   '#fd79a8', // pink
+  //   '#b2bec3', // cool gray
+  //   '#e84393', // rose
+  //   '#00cec9', // cyan
+  //   '#6c5ce7', // soft indigo
+  // ];
   private readonly colorPalette = [
     '#96c6f4',
     '#fba1b7',
     '#fdc390',
-    '#fee09e',
+    '#c1fe9e',
     '#a1dad9',
     '#bea2ff',
-    '#b2dfdb',
-    '#ffcdd2',
-    '#c8e6c9',
-    '#d1c4e9',
-    '#bbdefb',
-    '#f8bbd0',
-    '#ffe0b2',
+    '#c3dfb2',
+    '#ffcdf9',
+    '#c8e5e6',
+    '#dbc4e9',
+    '#bbf9fb',
+    '#f8ecbb',
   ];
   private readonly defaultBorderRadius: ChartBorderRadius = {
     topLeft: 3,
@@ -119,6 +147,11 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     }
   }
 
+  private darkenHexColor(hex: string, percent = 15): string {
+    const amt = Math.round(2.55 * percent);
+    return '#' + hex.replace(/^#/, '').replace(/../g, color => ('0' + Math.max(0, parseInt(color, 16) - amt).toString(16)).slice(-2));
+  }
+
   private prepareChartData() {
     if (!this.data || this.data.length === 0) {
       this.data = [];
@@ -143,10 +176,12 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
 
     const datasets: ChartDataset[] = properties.map((property, index) => {
       const label = this.formatPropertyName(property);
+      const bg = this.colorPalette[index % this.colorPalette.length];
       return {
         label,
         data: this.data.map(item => item[property as keyof DashboardData] as number),
-        backgroundColor: this.colorPalette[index % this.colorPalette.length],
+        backgroundColor: bg,
+        hoverBackgroundColor: this.darkenHexColor(bg, 15),
         borderRadius: {
           topLeft: 3,
           topRight: 3,
@@ -175,10 +210,12 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
     // Group data by user label
     this.data.forEach((item, index) => {
       if (!groupedData[item.nameUser]) {
+        const bg = this.colorPalette[index % this.colorPalette.length];
         groupedData[item.nameUser] = {
           label: this._handleNullName(item.nameUser),
           data: [],
-          backgroundColor: this.colorPalette[index % this.colorPalette.length],
+          backgroundColor: bg,
+          hoverBackgroundColor: this.darkenHexColor(bg, 15),
           borderRadius: this.defaultBorderRadius,
           borderSkipped: false,
         };
