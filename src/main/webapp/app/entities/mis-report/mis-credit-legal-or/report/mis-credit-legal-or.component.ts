@@ -626,7 +626,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
       { header: 'Weekly Process Update', key: 'weeklyProcessUpdate' },
       { header: 'Reason', key: 'reason' },
       { header: 'Compliance Review >25M', key: 'complianceReview' },
-      { header: 'Tanggal Compliance Review', key: 'tanggalCompliance' },
+      { header: 'Tanggal Compliance Review', key: 'tanggalComplianceReview' },
     ];
   }
 
@@ -645,6 +645,7 @@ export class MisCreditLegalOrComponent extends AbstractExcelMISReport implements
         no: worksheet.rowCount,
         debtorName: proposal.debtorName,
         branch: proposal.branchNameRM,
+        rm: proposal.rmFirstName + ' ' + proposal.rmLastName,
         pic: this._getPic(proposal.timeLineCreditProposal),
         picTimeline: this._getPicTimeline(proposal.timeLineCreditProposal),
         summary: product.pengajuan,
