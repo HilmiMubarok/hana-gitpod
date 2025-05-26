@@ -75,35 +75,6 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
   chart: Chart | undefined;
 
   private readonly excludedProperties = ['date', 'information', 'showcase'];
-  // private readonly colorPalette = [
-  //   '#f4b6c2', // soft pink
-  //   '#b5ead7', // soft mint
-  //   '#c7ceea', // soft lavender
-  //   '#ffdac1', // peach
-  //   '#e2f0cb', // pale green
-  //   '#c1c8e4', // soft periwinkle
-  //   '#ffd6e0', // light rose
-  //   '#d5e1df', // soft sage
-  //   '#f6dfeb', // pale blush
-  //   '#d6d4e0', // soft grayish purple
-  //   '#fbe4d8', // light coral
-  //   '#d0ebff', // baby blue
-  // ];
-  // private readonly colorPalette = [
-  //   '#fab1a0', // soft coral
-  //   '#81ecec', // mint
-  //   '#a29bfe', // lavender
-  //   '#ffeaa7', // light amber
-  //   '#55efc4', // aquamarine
-  //   '#fdcb6e', // warm yellow
-  //   '#74b9ff', // sky blue
-  //   '#e17055', // peach
-  //   '#fd79a8', // pink
-  //   '#b2bec3', // cool gray
-  //   '#e84393', // rose
-  //   '#00cec9', // cyan
-  //   '#6c5ce7', // soft indigo
-  // ];
   private readonly colorPalette = [
     '#96c6f4',
     '#fba1b7',
