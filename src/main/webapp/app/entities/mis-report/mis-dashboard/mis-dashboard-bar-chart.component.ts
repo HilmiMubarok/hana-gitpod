@@ -76,18 +76,19 @@ export class MisDashboardBarChartComponent implements OnInit, AfterViewInit, OnD
 
   private readonly excludedProperties = ['date', 'information', 'showcase'];
   private readonly colorPalette = [
-    '#96c6f4',
-    '#fba1b7',
-    '#fdc390',
-    '#c1fe9e',
-    '#a1dad9',
-    '#bea2ff',
-    '#c3dfb2',
-    '#ffcdf9',
-    '#c8e5e6',
-    '#dbc4e9',
-    '#bbf9fb',
-    '#f8ecbb',
+    '#3cb44b', // green
+    '#e6194b', // red
+    '#ffe119', // yellow
+    '#4363d8', // blue
+    '#f58231', // orange
+    '#911eb4', // purple
+    '#46f0f0', // cyan
+    '#f032e6', // magenta
+    '#000075', // navy
+    '#fabebe', // pink
+    '#008080', // teal
+    '#a9a9a9', // gray
+    '#e6beff', // lavender
   ];
   private readonly defaultBorderRadius: ChartBorderRadius = {
     topLeft: 3,
