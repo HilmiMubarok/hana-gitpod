@@ -354,11 +354,14 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     this._resetData();
   }
   protected processData(data: any[]): void {
-    data.sort((a, b) => a.proposalDate - b.proposalDate);
-    data.forEach((proposal, index) => {
-      this._addProposalData(this.worksheet, proposal, index);
+    data.sort((a, b) => new Date(a.proposalDate).getTime() - new Date(b.proposalDate).getTime());
+
+    let noCounter = 1;
+    data.forEach(proposal => {
+      noCounter = this._addProposalData(this.worksheet, proposal, noCounter);
     });
   }
+
   get columns(): any[] {
     return [
       { header: 'No.', key: 'no', width: 5 },
@@ -376,10 +379,10 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
     ];
   }
 
-  private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
-    // Filter covenant based on proposalType
+  private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, noCounter): number {
+    const statusesToFilter = ['Waived', 'To be waived', 'To Be Waived'];
     let covenantData = [];
-    const statusesToFilter = ['Waived', 'To be waived', 'To Be Waived']; // Filtered statuses
+
     if (proposal.proposalType === 'Total Exposure Back to Back') {
       covenantData = [
         ...(proposal.covenant?.deposit.filter(c => statusesToFilter.includes(c.status)) || []),
@@ -397,54 +400,66 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         ...(proposal.covenant?.other.filter(c => statusesToFilter.includes(c.status)) || []),
       ];
     }
-    console.log('covenantData', covenantData); // console bundle covenant to excel
-    for (let i = 0; i < covenantData.length; i++) {
-      // condition manipulate character
-      if (covenantData[i].status === 'To be waived') {
-        covenantData[i].status = 'To Be Waived';
-      }
-    }
 
-    const rowStart = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1; // Track the starting row number for merging
-    // Loop through covenant data and create rows
-    covenantData.forEach((covenant, i) => {
-      worksheet.addRow({
-        no: i === 0 ? worksheet.rowCount : '',
-        proposalNumber: i === 0 ? proposal.proposalNumber || '' : '',
-        proposalDate:
-          i === 0
-            ? `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
-                new Date(proposal.proposalDate).getMonth() + 1
-              ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}` || ''
-            : '',
-        segment: i === 0 ? proposal.segment || '' : '',
-        bookingBranch: i === 0 ? proposal.bookingBranchName || '' : '',
-        customerStatus: i === 0 ? proposal.customerStatus || '' : '',
-        cif: i === 0 ? proposal.cif || '' : '',
-        debtorName: i === 0 ? proposal.debtorName || '' : '',
-        proposalType: i === 0 ? proposal.proposalType || '' : '',
-        covenantStatus: covenant.status || '',
-        covenantDeviations: covenant.deviation || '',
-        status: i === 0 ? proposal.status || '' : '',
-      });
+    covenantData.forEach(c => {
+      if (c.status === 'To be waived') {
+        c.status = 'To Be Waived';
+      }
     });
 
-    const rowEnd = rowStart + covenantData.length - 1;
+    const rowStart = worksheet.lastRow ? worksheet.lastRow.number + 1 : 2;
 
-    // Merge columns for the proposal details (first row only)
-    if (rowEnd > rowStart) {
-      worksheet.mergeCells(`A${rowStart}:A${rowEnd}`); // Merge 'no'
-      worksheet.mergeCells(`B${rowStart}:B${rowEnd}`); // Merge 'proposalNumber'
-      worksheet.mergeCells(`C${rowStart}:C${rowEnd}`); // Merge 'proposalDate'
-      worksheet.mergeCells(`D${rowStart}:D${rowEnd}`); // Merge 'segment'
-      worksheet.mergeCells(`E${rowStart}:E${rowEnd}`); // Merge 'bookingBranch'
-      worksheet.mergeCells(`F${rowStart}:F${rowEnd}`); // Merge 'customerStatus'
-      worksheet.mergeCells(`G${rowStart}:G${rowEnd}`); // Merge 'cif'
-      worksheet.mergeCells(`H${rowStart}:H${rowEnd}`); // Merge 'debtorName'
-      worksheet.mergeCells(`I${rowStart}:I${rowEnd}`); // Merge 'proposalType'
-      worksheet.mergeCells(`L${rowStart}:L${rowEnd}`); // Merge 'status'
+    worksheet.addRow({
+      no: noCounter, // Tetap berurut
+      proposalNumber: proposal.proposalNumber || '',
+      proposalDate: `${String(new Date(proposal.proposalDate).getDate()).padStart(2, '0')}-${String(
+        new Date(proposal.proposalDate).getMonth() + 1
+      ).padStart(2, '0')}-${new Date(proposal.proposalDate).getFullYear()}`,
+      segment: proposal.segment || '',
+      bookingBranch: proposal.bookingBranchName || '',
+      customerStatus: proposal.customerStatus || '',
+      cif: proposal.cif || '',
+      debtorName: proposal.debtorName || '',
+      proposalType: proposal.proposalType || '',
+      covenantStatus: covenantData.length > 0 ? covenantData[0].status || '' : '',
+      covenantDeviations: covenantData.length > 0 ? covenantData[0].deviation || '' : '',
+      status: proposal.status || '',
+    });
+
+    for (let i = 1; i < covenantData.length; i++) {
+      worksheet.addRow({
+        no: '', // Tidak perlu nomor untuk covenant lainnya dalam proposal yang sama
+        proposalNumber: '',
+        proposalDate: '',
+        segment: '',
+        bookingBranch: '',
+        customerStatus: '',
+        cif: '',
+        debtorName: '',
+        proposalType: '',
+        covenantStatus: covenantData[i].status || '',
+        covenantDeviations: covenantData[i].deviation || '',
+        status: '',
+      });
     }
+
+    if (covenantData.length > 1) {
+      const rowEnd = rowStart + covenantData.length - 1;
+      worksheet.mergeCells(`A${rowStart}:A${rowEnd}`);
+      worksheet.mergeCells(`B${rowStart}:B${rowEnd}`);
+      worksheet.mergeCells(`C${rowStart}:C${rowEnd}`);
+      worksheet.mergeCells(`D${rowStart}:D${rowEnd}`);
+      worksheet.mergeCells(`E${rowStart}:E${rowEnd}`);
+      worksheet.mergeCells(`F${rowStart}:F${rowEnd}`);
+      worksheet.mergeCells(`G${rowStart}:G${rowEnd}`);
+      worksheet.mergeCells(`H${rowStart}:H${rowEnd}`);
+      worksheet.mergeCells(`I${rowStart}:I${rowEnd}`);
+      worksheet.mergeCells(`L${rowStart}:L${rowEnd}`);
+    }
+
+    return noCounter + 1; // Nomor hanya bertambah setelah satu proposal selesai
   }
+
   private _applyStyles(): void {
     super.applyStyles('ff4285f4');
     const columnsToBeWraped = ['covenantStatus', 'covenantDeviations'];
