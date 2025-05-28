@@ -629,6 +629,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       loanCommApproval: proposal.approvalLc ? proposal.approvalLc.split(' ')[0] || '' : '',
       pengajuan: proposal.product.map(product => product.pengajuan).join(',\n') || '',
       facility: proposal.product.map(product => product.facility).join(',\n') || '',
+      tenor: proposal.product.map(product => (product.tenorFasilitas || '') + ' ' + (product.periodType || '')).join(',\n') || '',
       maturityDate: proposal.product.map(product => this._formatDate(product.maturityDate)).join(',\n') || '',
       interestRate: proposal.product.map(product => product.currentRate).join(',\n') || '',
       provisionPa: proposal.product.map(product => (product.provisionFeeType === '%p.a' ? product.provisionFee : '')).join(',\n') || '',
@@ -727,6 +728,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       'debiturGroup',
       'collateralIncCrosOtherCIF',
       'city',
+      'tenor'
     ];
 
     columnsToBeWraped.forEach(column => {
