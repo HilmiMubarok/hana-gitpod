@@ -172,15 +172,25 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       { header: 'Proposal Type', key: 'proposalType' },
       { header: 'Proposal Date', key: 'proposalDate' },
       { header: 'Proposal Number', key: 'proposalNumber' },
+      { header: 'DAR Date of Proposal', key: 'darDateOfProposal' },
+      { header: 'DAR Number of Proposal', key: 'darNumberOfProposal' },
+      { header: 'Appeal Date', key: 'appealDate' },
+      { header: 'Appeal Number', key: 'appealNumber' },
+      { header: 'DAR Date of Appeal', key: 'darDateOfAppeal' },
+      { header: 'DAR Number of Appeal', key: 'darNumberOfAppeal' },
       { header: 'Program', key: 'program' },
       { header: 'Branchs', key: 'branchs' },
       { header: 'Regional', key: 'regional' },
-      { header: 'SME Head Name', key: 'headName' },
+      { header: 'SME Head', key: 'headName' },
       { header: 'BM', key: 'bm' },
+      { header: 'Dep Head', key: 'depHead' },
+      { header: 'Div Head', key: 'divHead' },
       { header: 'RM', key: 'rm' },
       { header: 'Debtor Name', key: 'debtorName' },
       { header: 'Loan Comm Approval', key: 'loanCommApproval' },
       { header: 'Line Of Business', key: 'lineOfBusiness' },
+      { header: 'Scorecard', key: 'scorecard' },
+      { header: 'Credit Rating', key: 'creditRating' },
       { header: 'Proposed', key: 'proposed' },
       { header: 'Facility', key: 'facility' },
       { header: 'Facility Tenor', key: 'facilityTenor' },
@@ -232,15 +242,25 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         proposalType: proposal.proposalType || '',
         proposalDate: this.formatDateMISCP(proposal.proposalDate) || '',
         proposalNumber: proposal.proposalNumber || '',
+        darDateOfProposal: this.getDarDateOfProposal(proposal) || '',
+        darNumberOfProposal: proposal.darDocNo || '',
+        appealDate: this.getAppealDate(proposal),
+        appealNumber: proposal.appealMemoDocNo || '',
+        darDateOfAppeal: this.getDarDateOfAppeal(proposal),
+        darNumberOfAppeal: this.getDarNumberOfAppeal(proposal),
         program: proposal.program || '',
         branchs: proposal.bookingBranchName || '',
         regional: proposal.regionalParentRM || '',
         headName: proposal.headName || '',
         bm: proposal.bm || '',
+        depHead: proposal.deptHeadName || '',
+        divHead: proposal.dhName || '',
         rm: `${proposal.rmFirstName || ''} ${proposal.rmLastName || ''}`.trim(),
         debtorName: proposal.debtorName || '',
         loanCommApproval: proposal.approvalLc ? proposal.approvalLc.split(' ')[0] || '' : '',
         lineOfBusiness: proposal.lineOfBusiness || '',
+        scorecard: this.getScoreCardAndCreditRating(proposal, 'scorecard'),
+        creditRating: this.getScoreCardAndCreditRating(proposal, 'creditRating'),
         proposed: product.pengajuan || '',
         facility: product.facility || '',
         facilityTenor: product.tenorFasilitas || '',
@@ -331,7 +351,13 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     if (!dateStr || dateStr === 'null' || dateStr === '') {
       return '';
     }
-    return this.formatDateID(dateStr).getDay() + '-' + this.formatDateID(dateStr).getMonth().substring(0, 3) + '-' + this.formatDateID(dateStr).getYear();
+    return (
+      this.formatDateID(dateStr).getDay() +
+      '-' +
+      this.formatDateID(dateStr).getMonth().substring(0, 3) +
+      '-' +
+      this.formatDateID(dateStr).getYear()
+    );
   }
 
   private getDateOfApprovalToLA(proposal: any): string {
@@ -356,5 +382,78 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       return '';
     }
     return this.formatDateMISCP(assignment.createdDate);
+  }
+
+  private getDarDateOfProposal(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal.sort((a: any, b: any) => b.id - a.id);
+    if (!timeline) {
+      return '';
+    }
+
+    const darDateOfProposal = timeline.find(
+      (item: any) => item.statusDescription === 'DAR Checker' || item.statusDescription === 'DAR Notif'
+    );
+    if (!darDateOfProposal) {
+      return '';
+    }
+    return this.formatDateMISCP(darDateOfProposal.createdDate);
+  }
+
+  private getAppealDate(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal;
+    if (!timeline) {
+      return '';
+    }
+    const appeal = timeline
+      .filter((item: any) => item.statusDescription === 'DAR Appeal')
+      .map((item: any) => this.formatDateMISCP(item.createdDate))
+      .join(',\n');
+    return appeal || '';
+  }
+
+  private getDarDateOfAppeal(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal.sort((a: any, b: any) => b.id - a.id);
+    if (!timeline) {
+      return '';
+    }
+
+    // if not Dar Appeal, return empty string
+    const darAppeal = timeline.find((item: any) => item.statusDescription === 'DAR Appeal');
+    if (!darAppeal) {
+      return '';
+    }
+
+    const darDateOfProposal = timeline.find(
+      (item: any) => item.statusDescription === 'DAR Checker' || item.statusDescription === 'DAR Notif'
+    );
+    if (!darDateOfProposal) {
+      return '';
+    }
+    return this.formatDateMISCP(darDateOfProposal.createdDate);
+  }
+
+  private getDarNumberOfAppeal(proposal: any): string {
+    if (proposal.appealMemoDocNo) {
+      return proposal.darDocNo;
+    }
+    return '';
+  }
+
+  private getScoreCardAndCreditRating(proposal, type): string {
+    const c = proposal.creditGrading || '';
+
+    if(type === 'scorecard'){
+      if(c.charAt(0) !== c.charAt(0).toUpperCase()){
+        return c;
+      } else {
+        return '';
+      }
+    } else {
+      if(c.charAt(0) === c.charAt(0).toUpperCase()) {
+        return c;
+      } else {
+        return '';
+      }
+    }
   }
 }
