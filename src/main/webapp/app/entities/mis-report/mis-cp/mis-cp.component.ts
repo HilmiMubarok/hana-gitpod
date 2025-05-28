@@ -157,50 +157,55 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     this.processData(data);
 
     this._applyStyles(worksheet);
+    this._setAutoWidthForAllColumns();
+    this._setAutoHeightForAllRows();
     this.downloadFile(fileName);
+    this._resetData();
   }
 
   get columns(): any[] {
     return [
-      { header: 'No.', key: 'no', width: 5 },
-      { header: 'Segment', key: 'segment', width: 10 },
-      { header: 'Proposal Type', key: 'proposalType', width: 30 },
-      { header: 'Proposal Date', key: 'proposalDate', width: 15 },
-      { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
-      { header: 'Program', key: 'program', width: 15 },
-      { header: 'Branchs', key: 'branchs', width: 30 },
-      { header: 'Regional', key: 'regional', width: 15 },
-      { header: 'SME Head Name', key: 'headName', width: 15 },
-      { header: 'BM', key: 'bm', width: 25 },
-      { header: 'RM', key: 'rm', width: 40 },
-      { header: 'Debtor Name', key: 'debtorName', width: 30 },
-      { header: 'Loan Comm Approval', key: 'loanCommApproval', width: 19 },
-      { header: 'Line Of Business', key: 'lineOfBusiness', width: 40 },
-      { header: 'Proposed', key: 'proposed', width: 30 },
-      { header: 'Facility', key: 'facility', width: 15 },
-      { header: 'Facility Tenor', key: 'facilityTenor', width: 15 },
-      { header: 'Period Type', key: 'periodType', width: 15 },
-      { header: 'Maturity Date', key: 'maturityDate', width: 15 },
-      { header: 'Currency', key: 'currency', width: 15 },
-      { header: 'Initial Limit', key: 'initialLimit', width: 15 },
-      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR', width: 25 },
-      { header: 'Grand Total Plafond DEBTOR ONLY (IDR)', key: 'grandTotalPlafondDebtorIDR', width: 40 },
-      { header: 'Grand Total Plafond TOTAL EXPOSURE (IDR)', key: 'grandTotalPlafondExposureIDR', width: 40 },
-      { header: 'Interest Rate (%)', key: 'interestRate', width: 15 },
-      { header: 'Provision Fee', key: 'provisionFee', width: 15 },
-      { header: 'Provision Type', key: 'provisionType', width: 15 },
-      { header: 'Admin Fee', key: 'adminFee', width: 15 },
-      { header: 'Admin Type', key: 'adminType', width: 15 },
-      { header: 'Collateral (INCLUDE CROS COLL OTHER CIF)', key: 'collateral', width: 40 },
-      { header: 'MV (internal) (In Currency)', key: 'mv', width: 25 },
-      { header: 'MV (internal) (Equivalen to IDR)', key: 'mvIDR', width: 30 },
-      { header: 'LV Internal', key: 'lvInternal', width: 15 },
-      { header: 'Group Name', key: 'groupName', width: 30 },
-      { header: 'DEBITUR GROUP', key: 'debiturGroup', width: 30 },
-      { header: 'Reviewer', key: 'reviewer', width: 20 },
-      { header: 'Status', key: 'status', width: 20 },
-      { header: 'Date of Status', key: 'dateOfStatus', width: 20 },
-      { header: 'Memo', key: 'memo', width: 30 },
+      { header: 'No.', key: 'no' },
+      { header: 'Date of Approval to LA', key: 'dateOfApprovalToLA' },
+      { header: 'Date of Assignment', key: 'dateOfAssignment' },
+      { header: 'Segment', key: 'segment' },
+      { header: 'Proposal Type', key: 'proposalType' },
+      { header: 'Proposal Date', key: 'proposalDate' },
+      { header: 'Proposal Number', key: 'proposalNumber' },
+      { header: 'Program', key: 'program' },
+      { header: 'Branchs', key: 'branchs' },
+      { header: 'Regional', key: 'regional' },
+      { header: 'SME Head Name', key: 'headName' },
+      { header: 'BM', key: 'bm' },
+      { header: 'RM', key: 'rm' },
+      { header: 'Debtor Name', key: 'debtorName' },
+      { header: 'Loan Comm Approval', key: 'loanCommApproval' },
+      { header: 'Line Of Business', key: 'lineOfBusiness' },
+      { header: 'Proposed', key: 'proposed' },
+      { header: 'Facility', key: 'facility' },
+      { header: 'Facility Tenor', key: 'facilityTenor' },
+      { header: 'Period Type', key: 'periodType' },
+      { header: 'Maturity Date', key: 'maturityDate' },
+      { header: 'Currency', key: 'currency' },
+      { header: 'Initial Limit', key: 'initialLimit' },
+      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR' },
+      { header: 'Grand Total Plafond DEBTOR ONLY (IDR)', key: 'grandTotalPlafondDebtorIDR' },
+      { header: 'Grand Total Plafond TOTAL EXPOSURE (IDR)', key: 'grandTotalPlafondExposureIDR' },
+      { header: 'Interest Rate (%)', key: 'interestRate' },
+      { header: 'Provision Fee', key: 'provisionFee' },
+      { header: 'Provision Type', key: 'provisionType' },
+      { header: 'Admin Fee', key: 'adminFee' },
+      { header: 'Admin Type', key: 'adminType' },
+      { header: 'Collateral (INCLUDE CROS COLL OTHER CIF)', key: 'collateral' },
+      { header: 'MV (internal) (In Currency)', key: 'mv' },
+      { header: 'MV (internal) (Equivalen to IDR)', key: 'mvIDR' },
+      { header: 'LV Internal', key: 'lvInternal' },
+      { header: 'Group Name', key: 'groupName' },
+      { header: 'DEBITUR GROUP', key: 'debiturGroup' },
+      { header: 'Reviewer', key: 'reviewer' },
+      { header: 'Status', key: 'status' },
+      { header: 'Date of Status', key: 'dateOfStatus' },
+      { header: 'Memo', key: 'memo' },
     ];
   }
 
@@ -221,9 +226,11 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
       const row = worksheet.addRow({
         no: i === 0 ? index + 1 : '',
-        segment: proposal.segment || '',
+        dateOfApprovalToLA: this.getDateOfApprovalToLA(proposal),
+        dateOfAssignment: this.getDateOfAssignment(proposal),
+        segment: proposal.segmentParentRM || '',
         proposalType: proposal.proposalType || '',
-        proposalDate: proposal.proposalDate || '',
+        proposalDate: this.formatDateMISCP(proposal.proposalDate) || '',
         proposalNumber: proposal.proposalNumber || '',
         program: proposal.program || '',
         branchs: proposal.bookingBranchName || '',
@@ -260,12 +267,6 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         dateOfStatus: proposal.statusDate || '',
         memo: proposal.approvalStatus || '',
       });
-
-      row.getCell('collateral').alignment = { wrapText: true };
-      row.getCell('mv').alignment = { wrapText: true };
-      row.getCell('mvIDR').alignment = { wrapText: true };
-      row.getCell('lvInternal').alignment = { wrapText: true };
-      row.getCell('debiturGroup').alignment = { wrapText: true };
 
       const maxContentLength = Math.max(
         row.getCell('collateral').value?.toString().split('\n').length || 1,
@@ -305,41 +306,55 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
   private _applyStyles(worksheet: ExcelJS.Worksheet): void {
     super.applyStyles('FFD3D3D3');
-    const columnsToBeWraped = [
-      'collateral',
-      'mv',
-      'mvIDR',
-      'lvInternal',
-      'groupName',
-      'debiturGroup',
-      'reviewer',
-      'status',
-      'dateOfStatus',
-      'memo',
-    ];
-    columnsToBeWraped.forEach(column => {
-      this.worksheet.getColumn(column).alignment = {
+    this.columns.forEach(column => {
+      const col = this.worksheet.getColumn(column.key);
+      col.alignment = {
         vertical: 'middle',
         horizontal: 'center',
         wrapText: true,
       };
-    });
 
-    worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-      if (rowNumber === 1) {
-        worksheet.getRow(rowNumber).font = { bold: true };
-        worksheet.getRow(rowNumber).alignment = { vertical: 'middle', horizontal: 'center' };
-      }
+      const columnValue = this.worksheet.getColumn(column.key);
 
-      row.eachCell({ includeEmpty: true }, cell => {
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-        cell.alignment = { vertical: 'top', horizontal: 'center' };
+      const newValue = columnValue.values.map(value => {
+        if (value) {
+          return this._clearEmptyEntries(value.toString());
+        }
+        return value;
       });
+
+      columnValue.values = newValue;
     });
+  }
+
+  private formatDateMISCP(dateStr: string): string {
+    if (!dateStr || dateStr === 'null' || dateStr === '') {
+      return '';
+    }
+    return this.formatDateID(dateStr).getDay() + '-' + this.formatDateID(dateStr).getMonth().substring(0, 3) + '-' + this.formatDateID(dateStr).getYear();
+  }
+
+  private getDateOfApprovalToLA(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal;
+    if (!timeline) {
+      return '';
+    }
+    const approvalToLA = timeline
+      .filter((item: any) => item.statusDescription === 'Approve To Loan Analysis')
+      .map((item: any) => this.formatDateMISCP(item.createdDate))
+      .join(',\n');
+    return approvalToLA || '';
+  }
+
+  private getDateOfAssignment(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal.sort((a: any, b: any) => b.id - a.id);
+    if (!timeline) {
+      return '';
+    }
+    const assignment = timeline.find((item: any) => item.statusDescription === 'Assignment');
+    if (!assignment) {
+      return '';
+    }
+    return this.formatDateMISCP(assignment.createdDate);
   }
 }
