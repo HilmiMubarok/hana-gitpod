@@ -116,7 +116,7 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
   chartTransactionsData;
   chartUserData;
   today = moment().format('YYYY-MM-DD');
-  statuses = ['LOAN_OPS_CHECKING', 'LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
+  statuses = ['LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_CHECKING', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
   form: FormGroup;
 
   private initializeForm() {
