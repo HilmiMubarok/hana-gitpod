@@ -243,7 +243,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       .filter(item => item.fromStatusDescription === 'DPPK Finalize')
       .sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
     const tglEfekFasArr = [];
-    const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Ditribution');
+    const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Distribution');
     const startDateInLoanOps =
       filteringStatusLoanOps.length > 0 ? filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createdDate : '';
     for (let i = 0; i < proposal.product.length; i++) {
