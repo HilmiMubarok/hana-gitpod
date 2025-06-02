@@ -116,7 +116,7 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
   chartTransactionsData;
   chartUserData;
   today = moment().format('YYYY-MM-DD');
-  statuses = ['LOAN_OPS_CHECKING', 'LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
+  statuses = ['LOAN_OPS_DISTRIBUTION', 'LOAN_OPS_CHECKING', 'LOAN_OPS_REVIEW', 'CP_COMPLETE'];
   form: FormGroup;
 
   private initializeForm() {
@@ -133,7 +133,10 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
     const positionId = this.getLocStor('POS');
     this.dashboardService
       .getStatisticLoanOps(positionId)
-      .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
+      .subscribe(res => {
+        this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId));
+        this.chartStatisticData.sort((a, b) => this.statuses.indexOf(a.statusId) - this.statuses.indexOf(b.statusId));
+      });
     this.dashboardService.getBarChartData(date, 'loan-ops').subscribe(res => {
       const data = [...res].reverse();
       this.chartTransactionsData = data;
