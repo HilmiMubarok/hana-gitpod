@@ -145,7 +145,7 @@ export class MisCreditLegalHoReportComponent extends AbstractExcelMISReport impl
     },
   ];
   public statusMap = {
-    done: ['DPPK Finalize', 'DPPK Review', 'Loan Ops Ditribution', 'Loan Ops Checking', 'Loan Ops Review', 'Complete'],
+    done: ['DPPK Finalize', 'DPPK Review', 'Loan Ops Distribution', 'Loan Ops Checking', 'Loan Ops Review', 'Complete'],
     incoming: ['OL Assigned'],
     onProcess: [
       'OL Distribution',

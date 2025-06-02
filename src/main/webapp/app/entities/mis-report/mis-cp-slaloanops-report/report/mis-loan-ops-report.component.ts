@@ -305,7 +305,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
   }
 
   protected processData(data: any[]): void {
-    const statuses = ['Loan Ops Ditribution', 'Loan Ops Checking', 'Loan Ops Review', 'Complete'];
+    const statuses = ['Loan Ops Distribution', 'Loan Ops Checking', 'Loan Ops Review', 'Complete'];
     const sortedCreditProposals = this.sortCreditProposalByEarliestDate(data, statuses);
 
     sortedCreditProposals.forEach((proposal, index) => {
@@ -379,7 +379,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
 
   private getLoanOpsDistributionInDate(proposal: any): string {
     return proposal.timeLineCreditProposal
-      .filter((t: any) => t.statusDescription === 'Loan Ops Ditribution')
+      .filter((t: any) => t.statusDescription === 'Loan Ops Distribution')
       .map((timeline: any) => this._formatDateSLA(timeline.fromDate))
       .join(',\n');
   }
@@ -387,13 +387,13 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
   private getLastLoanOpsDistributionInDate(product: any): string {
     const timelines = product.timeLineCreditProposal
       .sort((a: any, b: any) => a.id - b.id)
-      .filter((t: any) => t.statusDescription === 'Loan Ops Ditribution');
+      .filter((t: any) => t.statusDescription === 'Loan Ops Distribution');
     return timelines.length > 0 ? timelines[0].fromDate : '';
   }
 
   private getLoanOpsDistributionInTime(proposal: any): string {
     return proposal.timeLineCreditProposal
-      .filter((t: any) => t.statusDescription === 'Loan Ops Ditribution')
+      .filter((t: any) => t.statusDescription === 'Loan Ops Distribution')
       .map((timeline: any) => timeline.fromTime.split(':').slice(0, 2).join(':'))
       .join(',\n');
   }
@@ -401,7 +401,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
   private getFirstLoanOpsDistributionInTime(proposal: any): string {
     const timelines = proposal.timeLineCreditProposal
       .sort((a: any, b: any) => a.id - b.id)
-      .filter((t: any) => t.statusDescription === 'Loan Ops Ditribution');
+      .filter((t: any) => t.statusDescription === 'Loan Ops Distribution');
 
     return timelines[0].fromTime;
   }
