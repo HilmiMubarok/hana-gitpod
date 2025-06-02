@@ -191,8 +191,10 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       { header: 'Line Of Business', key: 'lineOfBusiness' },
       { header: 'Scorecard', key: 'scorecard' },
       { header: 'Credit Rating', key: 'creditRating' },
-      { header: 'Proposed', key: 'proposed' },
-      { header: 'Facility', key: 'facility' },
+      { header: 'Application Type', key: 'applicationType' },
+      { header: 'Take Over (Y/N)', key: 'takeOverYN' },
+      { header: 'Previous Bank', key: 'previousBank' },
+      { header: 'Facility Type', key: 'facilityType' },
       { header: 'Facility Tenor', key: 'facilityTenor' },
       { header: 'Period Type', key: 'periodType' },
       { header: 'Maturity Date', key: 'maturityDate' },
@@ -207,9 +209,16 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
       { header: 'Admin Fee', key: 'adminFee' },
       { header: 'Admin Type', key: 'adminType' },
       { header: 'Collateral (INCLUDE CROS COLL OTHER CIF)', key: 'collateral' },
+      { header: 'Cross Collateral (Other CIF)', key: 'crossCollateral' },
+      { header: `Debtor's Name of Cross Collateral`, key: 'debtorNameCrossCollateral' },
+      { header: 'Appraisal No', key: 'appraisalNo' },
+      { header: 'Appraisal Date', key: 'appraisalDate' },
       { header: 'MV (internal) (In Currency)', key: 'mv' },
       { header: 'MV (internal) (Equivalen to IDR)', key: 'mvIDR' },
-      { header: 'LV Internal', key: 'lvInternal' },
+      { header: 'Total MV Internal (Eq to IDR)', key: 'totalMVInternalEqToIDR' },
+      { header: 'LV Internal (In Currency)', key: 'lvInternalInCurrency' },
+      { header: 'LV Internal (Eq to IDR)', key: 'lvInternalEqToIDR' },
+      { header: 'Total LV Internal (Eq to IDR)', key: 'totalLVInternalEqToIDR' },
       { header: 'Group Name', key: 'groupName' },
       { header: 'DEBITUR GROUP', key: 'debiturGroup' },
       { header: 'Reviewer', key: 'reviewer' },
@@ -261,8 +270,10 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         lineOfBusiness: proposal.lineOfBusiness || '',
         scorecard: this.getScoreCardAndCreditRating(proposal, 'scorecard'),
         creditRating: this.getScoreCardAndCreditRating(proposal, 'creditRating'),
-        proposed: product.pengajuan || '',
-        facility: product.facility || '',
+        applicationType: product.pengajuan || '',
+        takeOverYN: this.getTakeOverYN(proposal),
+        previousBank: this.getPreviousBank(proposal),
+        facilityType: product.facilityType || '',
         facilityTenor: product.tenorFasilitas || '',
         periodType: product.periodType || '',
         maturityDate: product.maturityDate === 'null' ? '' : product.maturityDate || '',
@@ -277,22 +288,29 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         adminFee: product.adminFee || '',
         adminType: product.adminFeeType || '',
         collateral: proposal.collateral?.map(col => col.collateralCode).join(',\n') || '',
+        crossCollateral: '',
+        debtorNameCrossCollateral: '',
+        appraisalNo: proposal.collateral?.map(col => col.appraisal?.appraisalNumber || '').join(',\n') || '',
+        appraisalDate: '',
         mv: proposal.collateral?.map(col => col.collateralProperty?.marketValueOriginal || '').join(',\n') || '',
         mvIDR: proposal.collateral?.map(col => col.collateralProperty?.marketValueInternal || '').join(',\n') || '',
-        lvInternal: proposal.collateral?.map(col => col.collateralProperty?.liquidationValueInternal || '').join(',\n') || '',
+        totalMVInternalEqToIDR: proposal.totalMVInternal || '',
+        lvInternalInCurrency: '',
+        lvInternalEqToIDR: proposal.collateral?.map(col => col.collateralProperty?.liquidationValueInternal || '').join(',\n') || '',
+        totalLVInternalEqToIDR: proposal.totalLVInternal || '',
         groupName: proposal.businessGroup?.groupCompanyName || '',
         debiturGroup: proposal.businessGroup?.customersGrup?.map((customer: any) => customer.customerName).join(',\n') || '',
         reviewer: proposal.dataAssignToCROName || '',
         status: proposal.status || '',
-        dateOfStatus: proposal.statusDate || '',
-        memo: proposal.approvalStatus || '',
+        dateOfStatus: this.formatDateMISCP(proposal.lastModifiedDate) || '',
+        memo: this.getMemo(proposal),
       });
 
       const maxContentLength = Math.max(
         row.getCell('collateral').value?.toString().split('\n').length || 1,
         row.getCell('mv').value?.toString().split('\n').length || 1,
         row.getCell('mvIDR').value?.toString().split('\n').length || 1,
-        row.getCell('lvInternal').value?.toString().split('\n').length || 1,
+        row.getCell('lvInternalInCurrency').value?.toString().split('\n').length || 1,
         row.getCell('debiturGroup').value?.toString().split('\n').length || 1
       );
       row.height = maxContentLength * 15;
@@ -307,7 +325,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         'collateral',
         'mv',
         'mvIDR',
-        'lvInternal',
+        'lvInternalInCurrency',
         'groupName',
         'debiturGroup',
         'reviewer',
@@ -442,18 +460,52 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
   private getScoreCardAndCreditRating(proposal, type): string {
     const c = proposal.creditGrading || '';
 
-    if(type === 'scorecard'){
-      if(c.charAt(0) !== c.charAt(0).toUpperCase()){
+    if (type === 'scorecard') {
+      if (c.charAt(0) !== c.charAt(0).toUpperCase()) {
         return c;
       } else {
         return '';
       }
     } else {
-      if(c.charAt(0) === c.charAt(0).toUpperCase()) {
+      if (c.charAt(0) === c.charAt(0).toUpperCase()) {
         return c;
       } else {
         return '';
       }
     }
+  }
+
+  private getTakeOverYN(proposal): string {
+    const previousBank = proposal.previousBank;
+
+    if (previousBank || previousBank !== '' || previousBank !== null || previousBank !== 'null') {
+      return 'N';
+    }
+    return 'Y';
+  }
+
+  private getPreviousBank(proposal): string {
+    const previousBank = proposal.previousBank;
+    if (previousBank || previousBank !== '' || previousBank !== null || previousBank !== 'null') {
+      return previousBank;
+    }
+    return '';
+  }
+
+  private getMemo(proposal): string {
+    const darAppealSequence = proposal.darAppealSeqNo;
+    const appealMemoDocNo = proposal.appealMemoDocNo;
+
+    if (
+      !darAppealSequence ||
+      darAppealSequence === 0 ||
+      darAppealSequence === '0' ||
+      !appealMemoDocNo ||
+      appealMemoDocNo === '' ||
+      appealMemoDocNo === 'null'
+    ) {
+      return 'No';
+    }
+    return 'Yes';
   }
 }
