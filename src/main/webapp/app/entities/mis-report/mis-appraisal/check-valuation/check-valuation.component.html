@@ -1,0 +1,107 @@
+<form [formGroup]="CheckValuation">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <ejs-breadcrumb cssClass="margin: 1rem;">
+        <e-breadcrumb-items>
+          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+          <!-- <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item> -->
+        </e-breadcrumb-items>
+      </ejs-breadcrumb>
+      <div class="header-container">
+        <div class="header-content">
+          <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+          <span class="back-prefix" (click)="previousState()">Back | </span>
+        </div>
+        <p class="e-card-sub-title">Check Valuation</p>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-items-start gap-2">
+    <mat-form-field class="flex-fill" appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" multiple>
+        <mat-option class="select-all" (click)="toggleSelectAll()">
+          {{ allSelected ? 'Deselect All' : 'Select All' }}
+        </mat-option>
+        <mat-option *ngFor="let item of lovStatusAppraisal" [value]="item.statusId">
+          {{ item.statusDescription }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="btn-lg text-uppercase button-styling mt-3" (click)="doSearch()">Click Status</button>
+  </div>
+
+  <div class="row px-5" *ngIf="searchResultPagination">
+    <table mat-table [dataSource]="searchResultPagination">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
+      </ng-container>
+      <ng-container matColumnDef="appraisalNumber">
+        <th mat-header-cell *matHeaderCellDef>Appraisal Number</th>
+        <td mat-cell *matCellDef="let element" class="text-capitalize">{{ element.appraisalNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cif">
+        <th mat-header-cell *matHeaderCellDef>CIF</th>
+        <td mat-cell *matCellDef="let element" class="text-capitalize">{{ element.cif.customerId }}</td>
+      </ng-container>
+      <ng-container matColumnDef="debtorName">
+        <th mat-header-cell *matHeaderCellDef>Debtor Name</th>
+        <td mat-cell *matCellDef="let element" class="text-capitalize">
+          {{ element.cif.name | lowercase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="customerType">
+        <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+        <td mat-cell *matCellDef="let element" class="text-capitalize">
+          {{ element.cif.customerType | lowercase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="appraisalDate">
+        <th mat-header-cell *matHeaderCellDef>Appraisal Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.createdDate | formatMediumDate }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="appraisalType">
+        <th mat-header-cell *matHeaderCellDef>Appraisal Type</th>
+        <td mat-cell *matCellDef="let element" class="text-capitalize">{{ element.apprOfficer }}</td>
+      </ng-container>
+      <ng-container matColumnDef="collateralType">
+        <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.collateral.collateralTypeDescription }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip>{{ element.statusDescription }}</mat-chip>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button>
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <mat-checkbox
+            (change)="onCheckboxChange($event, element.appraisalNumber)"
+            [checked]="selectedAppraisals.includes(element.appraisalNumber)"
+          >
+          </mat-checkbox></td
+      ></ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="mt-3 text-center">
+    <button mat-raised-button color="primary" class="btn-lg text-uppercase button-styling" (click)="doChangeValuation()">
+      Change Valuation
+    </button>
+  </div>
+</form>

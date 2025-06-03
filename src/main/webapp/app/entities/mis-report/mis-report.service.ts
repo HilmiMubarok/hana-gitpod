@@ -201,4 +201,19 @@ export class MisReportService {
         )
       );
   }
+  public findMisReportByStatus(params): Observable<HttpResponse<any>> {
+    return this.http.get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/mis/find/by-status'), {
+      params,
+      observe: 'response',
+    });
+  }
+  public changeValuation(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(
+        MICROSERVICENAME.LOS
+      )}/api/cash-collateral-appraisals/attributes/valuation-by-appraisal-number`,
+      params,
+      { observe: 'response' }
+    );
+  }
 }

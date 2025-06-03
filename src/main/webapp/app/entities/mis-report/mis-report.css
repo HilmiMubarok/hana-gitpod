@@ -3,6 +3,23 @@
   transition: background-color 0.3s ease;
   overflow: hidden;
 }
+/* Css untuk mis Appraisal */
+.display-appraisal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 16px;
+}
+
+#generate-btn-appraisal {
+  margin: 0 auto;
+}
+
+#check-btn-appraisal {
+  position: relative;
+}
+/* Css untuk mis Appraisal */
 
 #generate-btn.loading {
   pointer-events: none;
