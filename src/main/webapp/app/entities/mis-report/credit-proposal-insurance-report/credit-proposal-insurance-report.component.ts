@@ -200,7 +200,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
     };
 
     this.misReportService.getMISReportCPCredam(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_CP_CREDIT_INSURANCE_REPORT'),
+      next: res => this._processGenerate(res.body, 'MIS_Insurance_Report'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
