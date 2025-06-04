@@ -487,7 +487,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       }
     }
     this.misReportService.getMisReportCP(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_LEGAL_ADM_LA'),
+      next: res => this._processGenerate(res.body, 'MIS_LA_Report'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to generate MIS Report' });
         this._resetData();
