@@ -414,7 +414,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
       };
     }
     this.misReportService.getMisReportCPCredam(params).subscribe({
-      next: res => this._processGenerate(res.body, 'MIS_SLA_DPPK'),
+      next: res => this._processGenerate(res.body, 'MIS_SLA_Credit_Admin'),
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Select Parameters' });
         this._resetData();
