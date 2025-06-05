@@ -545,16 +545,28 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const branch = this.form.get('branch')?.value;
     const akta = this.form.get('akta')?.value;
     const search = this.form.get('query')?.value;
-
+    const jenisPengikatan = this.form.get('jenisPengikatan')?.value;
+    const aggrementType = this.form.get('aggrementType')?.value;
+    const segmentation = this.form.get('regional')?.value;
     let cp = data;
 
     if (!search) {
+      if (segmentation && segmentation.length > 0) {
+        cp = cp.filter(proposal => segmentation.includes(proposal.regionalId));
+      }
+
       if (akta && akta.length > 0) {
         cp = cp.filter(proposal => proposal.legalCovernote?.some(item => item.covernoteTask?.some(task => akta.includes(task.code))));
       }
 
       if (branch && branch.length > 0) {
         cp = cp.filter(proposal => branch.includes(proposal.businessUnitRM));
+      }
+      if (jenisPengikatan && jenisPengikatan.length > 0) {
+        cp = cp.filter(proposal => jenisPengikatan.includes(proposal.aggrement?.isNotaril));
+      }
+      if (aggrementType && aggrementType.length > 0) {
+        cp = cp.filter(proposal => aggrementType.includes(proposal.aggrement?.aggrementType));
       }
     }
 
@@ -563,6 +575,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
 
   protected processData(data: any[]): void {
     const cp = this._filterCPBeforeGenerate(data);
+    console.log('@cp:', cp);
     cp.forEach((proposal, index) => {
       this._addProposalData(this.worksheet, proposal, index);
     });
