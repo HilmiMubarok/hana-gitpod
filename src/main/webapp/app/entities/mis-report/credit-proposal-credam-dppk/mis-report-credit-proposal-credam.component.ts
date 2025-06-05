@@ -494,4 +494,11 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     }
     return time.slice(0, 5);
   }
+  public clearDateRange(): void {
+    this.MisReportCPCredam.get('startDate')?.reset();
+    this.MisReportCPCredam.get('endDate')?.reset();
+  }
+  public dateRangeHasValue(): void {
+    return this.MisReportCPCredam.get('startDate')?.value && this.MisReportCPCredam.get('endDate')?.value;
+  }
 }

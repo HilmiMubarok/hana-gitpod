@@ -14,12 +14,15 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate formControlName="date1" placeholder="Start date" />
-              <input matEndDate formControlName="date2" placeholder="End date" />
+              <input matStartDate formControlName="date1" placeholder="Start date" readonly />
+              <input matEndDate formControlName="date2" placeholder="End date" readonly />
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-datepicker-toggle matSuffix (click)="clearDateRange(); $event.stopPropagation()" *ngIf="dateRangeHasValue()">
+              <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+            </mat-datepicker-toggle>
           </mat-form-field>
         </div>
 
