@@ -406,7 +406,9 @@ export class MisReportCreditProposalDeviationComponent extends AbstractExcelMISR
         c.status = 'To Be Waived';
       }
     });
-
+    if (covenantData.length === 0) {
+      return noCounter;
+    }
     const rowStart = worksheet.lastRow ? worksheet.lastRow.number + 1 : 2;
 
     worksheet.addRow({
