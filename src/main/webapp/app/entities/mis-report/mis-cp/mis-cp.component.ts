@@ -234,6 +234,80 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     });
   }
 
+  private getDebtorNameCrossCollateral(proposal: any): string {
+    if (!proposal?.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const debtorNames: string[] = [];
+
+    proposal.collateral.forEach(col => {
+      if (col.crossCollaterals && Array.isArray(col.crossCollaterals)) {
+        col.crossCollaterals.forEach((cc: any) => {
+          if (cc.debtorName && !debtorNames.includes(cc.debtorName)) {
+            debtorNames.push(cc.debtorName);
+          }
+        });
+      }
+    });
+
+    return debtorNames.join(',\n');
+  }
+
+  private getAppraisalNumbers(proposal: any): string {
+    if (!proposal?.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const appraisalNumbers: string[] = [];
+
+    for (const col of proposal.collateral) {
+      if (!col.appraisal || !Array.isArray(col.appraisal)) {
+        continue;
+      }
+
+      for (const appraisal of col.appraisal) {
+        if (appraisal.appraisalType === 'Internal' && appraisal.appraisalNumber) {
+          appraisalNumbers.push(appraisal.appraisalNumber);
+        }
+      }
+    }
+
+    return appraisalNumbers.join(',\n');
+  }
+
+  private getAppraisalDates(proposal: any): string {
+    if (!proposal?.collateral || !Array.isArray(proposal.collateral)) {
+      return '';
+    }
+
+    const dates: string[] = [];
+
+    for (const col of proposal.collateral) {
+      if (!col.appraisal || !Array.isArray(col.appraisal)) {
+        continue;
+      }
+
+      for (const appraisal of col.appraisal) {
+        if (appraisal.appraisalType !== 'Internal') {
+          continue;
+        }
+
+        if (!appraisal.timeLine || !Array.isArray(appraisal.timeLine)) {
+          continue;
+        }
+
+        for (const timeline of appraisal.timeLine) {
+          if (timeline.statusDescription === 'Visited' && timeline.createdDate) {
+            dates.push(timeline.createdDate);
+          }
+        }
+      }
+    }
+
+    return dates.join(',\n');
+  }
+
   // ini bergantung dari jumlah si facilitynya
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
@@ -288,10 +362,10 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         adminFee: product.adminFee || '',
         adminType: product.adminFeeType || '',
         collateral: proposal.collateral?.map(col => col.collateralCode).join(',\n') || '',
-        crossCollateral: '',
-        debtorNameCrossCollateral: '',
-        appraisalNo: proposal.collateral?.map(col => col.appraisal?.appraisalNumber || '').join(',\n') || '',
-        appraisalDate: '',
+        crossCollateral: proposal.collateral?.map(col => col.paripasuStatus).join(',\n') || '',
+        debtorNameCrossCollateral: this.getDebtorNameCrossCollateral(proposal),
+        appraisalNo: this.getAppraisalNumbers(proposal),
+        appraisalDate: this.getAppraisalDates(proposal),
         mv: proposal.collateral?.map(col => col.collateralProperty?.marketValueOriginal || '').join(',\n') || '',
         mvIDR: proposal.collateral?.map(col => col.collateralProperty?.marketValueInternal || '').join(',\n') || '',
         totalMVInternalEqToIDR: proposal.totalMVInternal || '',
@@ -362,6 +436,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         'crossCollateral',
         'debtorNameCrossCollateral',
         'appraisalNo',
+        'appraisalDate',
         'totalMVInternalEqToIDR',
         'totalLVInternalEqToIDR',
       ]);
