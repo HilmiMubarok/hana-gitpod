@@ -258,16 +258,12 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
             break;
 
           case 'Renewal':
-            tglEfekFasArr.push(this._convertDate(product.maturityDate) + ' s/d ' + this._convertDate(mainProduct.proposeMaturityDate));
+            tglEfekFasArr.push(this._convertDate(mainProduct.maturityDate));
             break;
 
           case 'Renewal + Additional':
           case 'Renewal + Decrease':
-            tglEfekFasArr.push(this._convertDate(mainProduct.startPeriodType));
-            break;
-
-          case 'Existing':
-            tglEfekFasArr.push(this._convertDate(product.firstDisbursementDate));
+            tglEfekFasArr.push(this._convertDate(mainProduct.maturityDate));
             break;
 
           case 'Additional / Top Up':
