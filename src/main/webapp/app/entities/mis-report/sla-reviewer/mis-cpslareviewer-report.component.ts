@@ -74,39 +74,67 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
 
   get columns(): any[] {
     return [
-      { header: 'No.', key: 'no', width: 5 },
-      { header: 'Date of Assignment', key: 'dateOfAssignmentSingle', width: 15 },
-      { header: 'Debtor Name', key: 'debtorName', width: 15 },
-      { header: 'Proposal Number', key: 'proposalNumber', width: 30 },
-      { header: 'Proposal Type', key: 'proposalType', width: 15 },
-      { header: 'Regional', key: 'regional', width: 10 },
-      { header: 'Head Name', key: 'headName', width: 10 },
-      { header: 'Branch', key: 'branchDebitur', width: 15 },
-      { header: 'Pengajuan', key: 'pengajuan', width: 15 },
-      { header: 'Total Changes Amount (in IDR Mio)', key: 'totalChangesAmountInIDRMio', width: 15 },
-      { header: 'Total Changes Amount (in USD Thousand)', key: 'totalChangesAmountInUSDThousand', width: 15 },
-      { header: 'Sub Total Plafond (in IDR Mio)', key: 'subTotalPlafondIDRHistory', width: 10 },
-      { header: 'Sub Total Plafond (in USD Thousand)', key: 'subTotalPlafondUSDHistory', width: 10 },
-      { header: 'Total Changes eq to IDR', key: 'totalChangesEqToIDRHistory', width: 10 },
-      { header: 'Sub Total Plafond Eq to IDR', key: 'subTotalPlafondEqToIDRHistory', width: 10 },
-      { header: 'Total Changes Amount (in IDR Mio)', key: 'totalChangesAmountIDR', width: 10 },
-      { header: 'Total Changes Amount (in USD Thousand)', key: 'totalChangesAmountUSD', width: 10 },
-      { header: 'Sub Total Plafond (in IDR Mio)', key: 'subTotalPlafondIDRMIO', width: 10 },
-      { header: 'Sub Total Plafond (in USD Thousand)', key: 'subTotalPlafondUSDTHOUSAND', width: 10 },
-      { header: 'Total Changes eq to IDR', key: 'totalChangesEqToIDR', width: 10 },
-      { header: 'Sub Total Plafond Eq to IDR', key: 'subTotalPlafondEqToIDR', width: 10 },
-      { header: 'Loan Comm Approval (Summary)', key: 'loanCommApprovalSummary', width: 10 },
-      { header: 'Maturity Date', key: 'maturityDate', width: 10 },
-      { header: 'Date of Approve to LA', key: 'dateOfApproveToLA', width: 10 },
-      { header: 'Days to Maturity Date', key: 'daysToMaturityDate', width: 10 },
-      { header: 'Date of Assignment', key: 'dateOfAssignmentAll', width: 10 },
-      { header: 'Proposal return to the branch', key: 'proposalReturnToBranch', width: 10 },
-      { header: 'Proposal back to CRO', key: 'proposalBackToCRO', width: 10 },
-      { header: 'Proposal check by Checker', key: 'proposalCheckByChecker', width: 10 },
-      { header: 'Loan Approval/Loan Comm Date', key: 'loanApprovalLoanCommDate', width: 10 },
-      { header: 'Generate DAR', key: 'generateDAR', width: 10 },
-      { header: 'Finalized DAR', key: 'finalizedDAR', width: 10 },
-      { header: 'SLA Length', key: 'slaLength', width: 10 },
+      { header: 'No.', key: 'no' },
+      { header: 'Approve to LA', key: 'approveToLA' },
+      { header: 'Date of Assignment', key: 'dateOfAssignmentSingle' },
+      { header: 'Segment', key: 'segment' },
+      { header: 'Proposal Type', key: 'proposalType' },
+      { header: 'Proposal Date', key: 'proposalDate' },
+      { header: 'Proposal Number', key: 'proposalNumber' },
+      { header: 'Program', key: 'program' },
+      { header: 'Branchs', key: 'branchs' },
+      { header: 'Regional', key: 'regional' },
+      { header: 'SME Head Name', key: 'headName' },
+      { header: 'BM', key: 'bm' },
+      { header: 'RM', key: 'rm' },
+      { header: 'Debtor Name', key: 'debtorName' },
+      { header: 'Loan Comm Approval', key: 'loanCommApproval' },
+      { header: 'Line of Business', key: 'lineOfBusiness' },
+      { header: 'Grading / SME Scorecard', key: 'gradingSME' },
+      { header: 'Rating', key: 'rating' },
+      { header: 'Status of Facility', key: 'statusOfFacility' },
+      { header: 'Take Over (Y/N)', key: 'takeOverYN' },
+      { header: 'Previous Bank', key: 'previousBank' },
+      { header: 'Facility', key: 'facility' },
+      { header: 'Facility Tenor', key: 'facilityTenor' },
+      { header: 'Period Type', key: 'periodType' },
+      { header: 'Maturity Date', key: 'maturityDate' },
+      { header: 'Currency', key: 'currency' },
+      { header: 'Initial Limit', key: 'initialLimit' },
+      { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR' },
+      { header: 'Grand Total Plafond DEBTOR ONLY (IDR)', key: 'grandTotalPlafondDebtorOnlyIDR' },
+      { header: 'Grand Total Plafond TOTAL EXPOSURE (IDR)', key: 'grandTotalPlafondTotalExposureIDR' },
+      { header: 'Interest Rate (%)', key: 'interestRate' },
+      { header: 'Provision Fee', key: 'provisionFee' },
+      { header: 'Provision Fee Type', key: 'provisionFeeType' },
+      { header: 'Admin Fee', key: 'adminFee' },
+      { header: 'Admin Fee Type', key: 'adminFeeType' },
+      { header: 'Collateral (INCLUDE CROS COLL OTHER CIF)', key: 'collateralIncCrosCollOtherCif' },
+      { header: 'MV Internal  (In Currency)', key: 'mvInternalInCurrency' },
+      { header: 'MV Internal (Eq to IDR)', key: 'mvInternalEqToIDR' },
+      { header: 'Total MV Internal (Eq to IDR)', key: 'totalMVInternalEqToIDR' },
+      { header: 'LV Internal  (In Currency)', key: 'lvInternalInCurrency' },
+      { header: 'LV Internal (Eq to IDR)', key: 'lvInternalEqToIDR' },
+      { header: 'Total LV Internal (Eq to IDR)', key: 'totalLVInternalEqToIDR' },
+      { header: 'Group Name', key: 'groupName' },
+      { header: `Debtor's Group`, key: 'debtorGroup' },
+      { header: 'Reviewer', key: 'reviewer' },
+      { header: 'Status', key: 'status' },
+      { header: 'Date of Status', key: 'dateOfStatus' },
+      { header: 'Memo (Y/N)', key: 'memoYN' },
+      { header: 'Recommendation Reviewer', key: 'recommendationReviewer' },
+      { header: 'Loan Comm Approval (Summary)', key: 'loanCommApprovalSummary' },
+      { header: 'Days to Maturity Date', key: 'daysToMaturityDate' },
+      { header: 'Date of Approve to LA', key: 'dateOfApproveToLA' },
+      { header: 'Date of Assignment', key: 'dateOfAssignmentAll' },
+      { header: 'Date Return to Branch', key: 'dateReturnToBranch' },
+      { header: 'Proposal back to CRO', key: 'proposalBackToCRO' },
+      { header: 'Date Return to Reviewer', key: 'dateReturnToReviewer' },
+      { header: 'Proposal check by Checker', key: 'proposalCheckByChecker' },
+      { header: 'Loan Approval/Loan Comm Date', key: 'loanApprovalLoanCommDate' },
+      { header: 'Generate DAR', key: 'generateDAR' },
+      { header: 'Finalized DAR', key: 'finalizedDAR' },
+      { header: 'SLA Length', key: 'slaLength' },
     ];
   }
 
@@ -153,8 +181,6 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   }
 
   private _processGenerate(data, fileName) {
-    console.log('Data: ', data);
-
     this.setUpColumns(this.columns);
 
     // if data is empty, generate an empty file
@@ -168,6 +194,8 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     this.processData(data);
 
     this._applyStyles();
+    this._setAutoWidthForAllColumns();
+    // this._setAutoHeightForAllRows();
     this.downloadFile(fileName);
     this._resetData();
   }
@@ -179,63 +207,431 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   }
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
-    worksheet.addRow({
-      no: index + 1 || '',
-      dateOfAssignmentSingle: this._getDateOfAssignment(proposal, 'single'),
-      debtorName: proposal.debtorName || '',
-      proposalNumber: proposal.proposalNumber || '',
-      proposalType: proposal.proposalType || '',
-      regional: proposal.regionalParentRM || '',
-      headName: proposal.headName || '',
-      branchDebitur: proposal.bookingBranchName || '',
-      pengajuan: this._getPengajuan(proposal) || '',
-      totalChangesAmountInIDRMio: this._getTotalChangesAmountInMio(proposal, 'IDR'),
-      totalChangesAmountInUSDThousand: this._getTotalChangesAmountInMio(proposal, 'USD'),
-      subTotalPlafondIDRHistory: this._gettotalPlafondProposed(proposal, 'IDR'),
-      subTotalPlafondUSDHistory: this._gettotalPlafondProposed(proposal, 'USD'),
-      totalChangesEqToIDRHistory: this._gettotalChangesEqToIDR(proposal, 'History'),
-      subTotalPlafondEqToIDRHistory: this._getSubTotalPlafondEqToIDR(proposal, 'History') || '',
-      totalChangesAmountIDR: proposal.totalChangesIDR || '',
-      totalChangesAmountUSD: proposal.totalChangesUSD || '',
-      subTotalPlafondIDRMIO: proposal.totalPlafondDebtorOnlyIDR || '',
-      subTotalPlafondUSDTHOUSAND: proposal.totalPlafondDebtorOnlyUSD || '',
-      totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
-      subTotalPlafondEqToIDR: proposal.subTotalPlafondEqToIDR || '',
-      loanCommApprovalSummary: proposal.approvalStatus || '',
-      maturityDate: this._getMaturityDate(proposal) || '',
-      dateOfApproveToLA: this._getFromDateBasedOnField(proposal, 'statusDescription', ['Approve To Loan Analysis']) || '',
-      daysToMaturityDate: this._getDaysToMaturityDate(proposal) || '',
-      dateOfAssignmentAll: this._getFromDateBasedOnField(proposal, 'statusDescription', ['Assignment']) || '',
-      proposalReturnToBranch:
-        this._getFromDateBasedOnField(proposal, 'statusDescription', ['Return to Credit Proposal (CR)'], 'Count') || '',
-      proposalBackToCRO:
-        this._getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Return to Credit Proposal (CR)'], 'Count') || '',
-      proposalCheckByChecker: this._getFromDateBasedOnField(proposal, 'statusDescription', ['Checker']) || '',
-      loanApprovalLoanCommDate:
-        this._getFromDateBasedOnField(proposal, 'statusDescription', ['Loan Committee Approval', 'Loan Approval']) || '',
-      generateDAR: this._getGenerateDAR(proposal),
-      finalizedDAR: this._getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker']) || '',
-      slaLength: this._getSlaLength(proposal),
-    });
+    const repeatCount = proposal.product?.length || 1;
+    const baseRowIndex = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
+
+    for (let i = 0; i < repeatCount; i++) {
+      const product = proposal.product?.[i] || {};
+      worksheet.addRow({
+        no: i === 0 ? index + 1 : '',
+        approveToLA: this.getApproveToLA(proposal) || '',
+        dateOfAssignmentSingle: this.getDateOfAssignment(proposal),
+        segment: proposal.segmentParentRM || '',
+        proposalType: proposal.proposalType || '',
+        proposalDate: '', // TBC
+        proposalNumber: '', // TBC
+        program: proposal.program || '',
+        branchs: proposal.bookingBranchName || '',
+        regional: proposal.regionalParentRM || '',
+        headName: proposal.headName || '',
+        bm: proposal.bm || '',
+        rm: proposal.rmFirstName && proposal.rmLastName ? proposal.rmFirstName + ' ' + proposal.rmLastName : '',
+        debtorName: proposal.debtorName || '',
+        loanCommApproval: proposal.approvalLc || '',
+        lineOfBusiness: proposal.lineOfBusiness || '',
+        gradingSME: this.getGrading(proposal) === 'Grading' ? proposal.creditGrading : '',
+        rating: this.getGrading(proposal) === 'Rating' ? proposal.creditGrading : '',
+        statusOfFacility: product.pengajuan || '',
+        takeOverYN: proposal.previousBank ? 'Y' : 'N',
+        previousBank: proposal.previousBank || '',
+        facility: product.facility || '',
+        facilityTenor: product.tenorFasilitas || '',
+        periodType: product.periodType || '',
+        maturityDate: this.formatDate(product.maturityDate) || '',
+        currency: product.currency || '',
+        initialLimit: product.initialLimit || '',
+        totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
+        grandTotalPlafondDebtorOnlyIDR: proposal.totalPlafondDebtorOnlyIDR || '',
+        grandTotalPlafondTotalExposureIDR: proposal.grandTotalPlafondEqToIDR || '',
+        interestRate: product.currentRate || '',
+        provisionFee: this.formatProvisionFee(product.provisionFee) || '',
+        provisionFeeType: product.provisionFeeType || '',
+        adminFee: this.formatAdminFee(product.adminFee) || '',
+        adminFeeType: product.adminFeeType || '',
+        collateralIncCrosCollOtherCif: this.getCollateralIncCrosCollOtherCif(proposal),
+        mvInternalInCurrency: this.getMV(proposal).original,
+        mvInternalEqToIDR: this.getMV(proposal).internal,
+        totalMVInternalEqToIDR: proposal.totalMVInternal || '',
+        lvInternalInCurrency: '', // TBC
+        lvInternalEqToIDR: this.getLV(proposal).internal,
+        totalLVInternalEqToIDR: proposal.totalLVInternal || '',
+        groupName: proposal.businessGroup?.groupCompanyName || '',
+        debtorGroup: this.getDebturGroup(proposal),
+        reviewer: this.formatReviewer(proposal.dataAssignToCROName),
+        status: proposal.status || '',
+        dateOfStatus: this.formatDate(proposal.lastModifiedDate) || '',
+        memoYN: this.getMemo(proposal),
+        recommendationReviewer: '', // TBC
+        loanCommApprovalSummary: proposal.approvalStatus || '',
+        daysToMaturityDate: this._getDaysToMaturityDate(proposal) || '',
+        dateOfApproveToLA: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Approve To Loan Analysis']) || '',
+        dateOfAssignmentAll: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Assignment']) || '',
+        dateReturnToBranch: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Return to Credit Proposal (CR)'], 'Count') || '',
+        proposalBackToCRO:
+          this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Return to Credit Proposal (CR)'], 'Count') || '',
+        dateReturnToReviewer: '', // TBC
+        proposalCheckByChecker: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Checker']) || '',
+        loanApprovalLoanCommDate:
+          this.getFromDateBasedOnField(proposal, 'statusDescription', ['Loan Committee Approval', 'Loan Approval']) || '',
+        generateDAR: this.getGenerateDAR(proposal),
+        finalizedDAR: this.getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker']) || '',
+        slaLength: this._getSlaLength(proposal),
+      });
+    }
+
+    if (repeatCount > 1) {
+      this.mergeCells(worksheet, baseRowIndex, repeatCount, [
+        'no',
+        'approveToLA',
+        'dateOfAssignmentSingle',
+        'segment',
+        'proposalType',
+        'proposalDate',
+        'proposalNumber',
+        'program',
+        'branchs',
+        'regional',
+        'headName',
+        'bm',
+        'rm',
+        'debtorName',
+        'loanCommApproval',
+        'lineOfBusiness',
+        'gradingSME',
+        'rating',
+        'takeOverYN',
+        'previousBank',
+        'totalChangesEqToIDR',
+        'grandTotalPlafondDebtorOnlyIDR',
+        'grandTotalPlafondTotalExposureIDR',
+        'collateralIncCrosCollOtherCif',
+        'mvInternalInCurrency',
+        'mvInternalEqToIDR',
+        'totalMVInternalEqToIDR',
+        'lvInternalInCurrency',
+        'lvInternalEqToIDR',
+        'totalLVInternalEqToIDR',
+        'groupName',
+        'debtorGroup',
+        'reviewer',
+        'status',
+        'dateOfStatus',
+        'memoYN',
+        'recommendationReviewer',
+        'loanCommApprovalSummary',
+        'daysToMaturityDate',
+        'dateOfApproveToLA',
+        'dateOfAssignmentAll',
+        'dateReturnToBranch',
+        'proposalBackToCRO',
+        'dateReturnToReviewer',
+        'proposalCheckByChecker',
+        'loanApprovalLoanCommDate',
+        'generateDAR',
+        'finalizedDAR',
+        'slaLength',
+      ]);
+    }
   }
 
   private _applyStyles(): void {
-    super.applyStyles('ffffe49c');
-    const columnsToBeWraped = [
-      'pengajuan',
-      'maturityDate',
-      'proposalCheckByChecker',
-      'loanApprovalLoanCommDate',
-      'dateOfApproveToLA',
-      'dateOfAssignmentAll',
-      'finalizedDAR',
-    ];
-    columnsToBeWraped.forEach(column => {
-      this.worksheet.getColumn(column).alignment = {
+    super.applyStyles();
+    this.columns.forEach(column => {
+      const col = this.worksheet.getColumn(column.key);
+      col.alignment = {
         vertical: 'middle',
         horizontal: 'center',
         wrapText: true,
       };
+
+      const columnValue = this.worksheet.getColumn(column.key);
+
+      const newValue = columnValue.values.map(value => {
+        if (value) {
+          return this._clearEmptyEntries(value.toString());
+        }
+        return value;
+      });
+
+      columnValue.values = newValue;
     });
+  }
+
+  private mergeCells(worksheet: ExcelJS.Worksheet, startRow: number, rowCount: number, columns: string[]): void {
+    columns.forEach(column => {
+      worksheet.mergeCells(startRow, worksheet.getColumnKey(column).number, startRow + rowCount - 1, worksheet.getColumnKey(column).number);
+    });
+  }
+
+  private getApproveToLA(proposal: any): string {
+    const { timeLineCreditProposal: timelines } = proposal;
+
+    // Return '' if there is no timeline data
+    if (!timelines) {
+      return '';
+    }
+
+    return timelines
+      .filter(t => t.statusDescription === 'Approve To Loan Analysis')
+      .map(t => this.formatDate(t.fromDate))
+      .join(',\n');
+  }
+
+  private getFacility(proposal: any) {
+    const { product } = proposal;
+
+    // Return '' if there is no product data
+    if (!product) {
+      return '';
+    }
+
+    return product.map(p => p.facility).join(',\n');
+  }
+
+  private getTenorFacility(proposal: any) {
+    const { product } = proposal;
+
+    // Return '' if there is no product data
+    if (!product) {
+      return '';
+    }
+
+    return product.map(p => p.tenorFasilitas).join(',\n');
+  }
+
+  private getPeriodType(proposal: any) {
+    const { product } = proposal;
+
+    // Return '' if there is no product data
+    if (!product) {
+      return '';
+    }
+
+    return product.map(p => p.periodType).join(',\n');
+  }
+
+  private getCurrency(proposal: any) {
+    const { product } = proposal;
+
+    // Return '' if there is no product data
+    if (!product) {
+      return '';
+    }
+
+    return product.map(p => p.currency).join(',\n');
+  }
+
+  private getInitialLimit(proposal: any) {
+    const { product } = proposal;
+
+    // Return '' if there is no product data
+    if (!product) {
+      return '';
+    }
+
+    return product.map(p => p.initialLimit).join(',\n');
+  }
+
+  private getProduct(proposal: any) {
+    const { product } = proposal;
+
+    if (!product) {
+      return {
+        facility: '',
+        tenorFacility: '',
+        periodType: '',
+        currency: '',
+        initialLimit: '',
+        currentRate: '',
+        provisionFee: '',
+        provisionFeeType: '',
+        adminFee: '',
+        adminFeeType: '',
+      };
+    }
+
+    return {
+      facility: product.map(p => p.facility).join(',\n'),
+      tenorFacility: product.map(p => p.tenorFasilitas).join(',\n'),
+      periodType: product.map(p => p.periodType).join(',\n'),
+      currency: product.map(p => p.currency).join(',\n'),
+      initialLimit: product.map(p => p.initialLimit).join(',\n'),
+      currentRate: product.map(p => p.currentRate).join(',\n'),
+      provisionFee: product.map(p => Number(p.provisionFee).toFixed(2)).join(',\n'),
+      provisionFeeType: product.map(p => p.provisionFeeType).join(',\n'),
+      adminFee: product.map(p => p.adminFee).join(',\n'),
+      adminFeeType: product.map(p => p.adminFeeType).join(',\n'),
+    };
+  }
+
+  private getCollateralIncCrosCollOtherCif(proposal: any) {
+    const { collateral } = proposal;
+
+    // Return '' if there is no collateral data
+    if (!collateral) {
+      return '';
+    }
+
+    return collateral.map(c => c.collateralCode).join(',\n');
+  }
+
+  private getMV(proposal: any) {
+    const { collateral } = proposal;
+
+    if (!collateral) {
+      return {
+        original: '',
+        internal: '',
+      };
+    }
+
+    return {
+      original: collateral.map(c => (c.collateralProperty ? c.collateralProperty.marketValueOriginal : '')).join(',\n'),
+      internal: collateral.map(c => (c.collateralProperty ? c.collateralProperty.marketValueInternal : '')).join(',\n'),
+    };
+  }
+
+  private getLV(proposal: any) {
+    const { collateral } = proposal;
+
+    if (!collateral) {
+      return {
+        original: '',
+        internal: '',
+      };
+    }
+
+    return {
+      original: '',
+      internal: collateral.map(c => (c.collateralProperty ? c.collateralProperty.liquidationValueInternal : '')).join(',\n'),
+    };
+  }
+
+  private getDebturGroup(proposal: any) {
+    // return from proposal.businessGroup.customersGroup[x].customerName
+    if (!proposal.businessGroup) {
+      return '';
+    }
+
+    if (!proposal.businessGroup.customersGroup) {
+      return '';
+    }
+
+    return proposal.businessGroup.customersGroup.map(cg => cg.customerName).join(',\n');
+  }
+
+  private getMemo(proposal: any) {
+    const { darAppealSeqNo, appealMemoDocNo } = proposal;
+
+    if (Number(darAppealSeqNo) === 0 && !appealMemoDocNo) {
+      return 'NO';
+    }
+
+    return 'YES';
+  }
+
+  private getGrading(proposal: any) {
+    const grading = proposal.creditGrading ? proposal.creditGrading.charAt(0) : '';
+
+    if (grading === grading.toUpperCase()) {
+      return 'Rating';
+    }
+
+    return 'Grading';
+  }
+
+  private formatReviewer(reviewerName: string): string {
+    if (!reviewerName) {
+      return '';
+    }
+
+    return reviewerName.replace(/ null/g, '');
+  }
+
+  private formatProvisionFee(provisionFee: string): string {
+    if (!provisionFee) {
+      return '';
+    }
+
+    const data = provisionFee.split('.')[0];
+
+    return Number(data).toFixed(2);
+  }
+
+  private getDateOfAssignment(proposal: any): string {
+    const { timeLineCreditProposal: timelines } = proposal;
+
+    // Return '' if there is no timeline data
+    if (!timelines) {
+      return '';
+    }
+
+    const assignment = timelines.find(t => t.statusDescription === 'Assignment');
+    return this.formatDate(assignment?.fromDate) || '';
+  }
+
+  private formatDate(dateStr: string): string {
+    if (!dateStr) {
+      return '';
+    }
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = months[date.getMonth()];
+    const year = date.getFullYear().toString();
+    return `${day}-${month}-${year}`;
+  }
+
+  private formatAdminFee(adminFee: string): string {
+    if (!adminFee) {
+      return '';
+    }
+
+    return adminFee.split('.')[0];
+  }
+
+  private getFromDateBasedOnField(
+    proposal: any,
+    field: 'statusDescription' | 'fromStatusDescription',
+    status: string[],
+    outputType: 'Default' | 'Count' = 'Default',
+    isFormatted = true
+  ): string {
+    const timelines = proposal.timeLineCreditProposal;
+
+    // Return '' if there is no timeline data
+    if (!timelines || !Array.isArray(timelines)) {
+      return '';
+    }
+
+    // Sort timelines asc by id
+    timelines.sort((a, b) => a.id - b.id);
+
+    // Filter timelines based on the specified field and statuses in the array
+    const filteredTimelines = timelines.filter(t => status.includes(t[field]));
+
+    if (outputType === 'Default') {
+      // Map the filtered timelines to their fromDate and join them with a newline separator
+      if (isFormatted) {
+        return filteredTimelines.map(t => this.formatDate(t.fromDate)).join(',\n');
+      }
+
+      return filteredTimelines.map(t => this.formatDate(t.fromDate)).join(',\n');
+    }
+
+    // Return the count of the filtered timelines' fromDate
+    return filteredTimelines.length.toString();
+  }
+
+  protected getGenerateDAR(proposal: any): string {
+    const documentGenerate = proposal.documentGenerate;
+
+    if (!documentGenerate) {
+      return '';
+    }
+
+    return this.formatDate(documentGenerate.generateDate);
   }
 }
