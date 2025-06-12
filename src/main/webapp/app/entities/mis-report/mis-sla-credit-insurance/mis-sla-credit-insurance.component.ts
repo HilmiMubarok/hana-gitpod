@@ -258,13 +258,19 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
   }
 
   private _getMakerInDateFiltered(timeLineInsurance: any[]): string {
-    return (Array.isArray(timeLineInsurance) ? timeLineInsurance : [])
-      .filter(item => item.statusDescription === 'Insurance Checking' && item.fromDate)
-      .map(item => new Date(item.fromDate))
-      .filter(date => !isNaN(date.getTime()))
-      .sort((a, b) => a.getTime() - b.getTime())
-      .map(date => `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`)
-      .join(',\n');
+    const arrayData = Array.isArray(timeLineInsurance) ? timeLineInsurance : [];
+
+    const filteredItems = arrayData.filter(item => item.statusDescription === 'Insurance Checking' && item.fromDate);
+
+    const sortedItems = filteredItems.sort((a, b) => new Date(b.fromDate).getTime() - new Date(a.fromDate).getTime());
+
+    const latest = sortedItems[0];
+    if (latest) {
+      const date = new Date(latest.fromDate);
+      return `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
+    }
+
+    return '';
   }
 
   private _getMakerInDateFilteredFirst(timeLineInsurance: any[]): string {
@@ -294,19 +300,20 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       return '';
     }
 
-    return timeLineInsurance
-      .filter((item: any) => item.statusDescription === 'Insurance Checking')
-      .sort((a: any, b: any) => {
-        const [hourA, minuteA] = a.fromTime.split(':').map(Number);
-        const [hourB, minuteB] = b.fromTime.split(':').map(Number);
+    const filtered = timeLineInsurance.filter((item: any) => item.statusDescription === 'Insurance Checking' && item.fromTime);
 
-        return hourA !== hourB ? hourA - hourB : minuteA - minuteB;
-      })
-      .map((item: any) => {
-        const [hour, minute] = item.fromTime.split(':');
-        return `${hour}:${minute}`;
-      })
-      .join(',\n');
+    if (filtered.length === 0) {
+      return '';
+    }
+
+    const latest = filtered.sort((a: any, b: any) => {
+      const [hourA, minuteA] = a.fromTime.split(':').map(Number);
+      const [hourB, minuteB] = b.fromTime.split(':').map(Number);
+      return hourB !== hourA ? hourB - hourA : minuteB - minuteA;
+    })[0];
+
+    const [hour, minute] = latest.fromTime.split(':');
+    return `${hour}:${minute}`;
   }
 
   private _getMakerOutDateFiltered(timeLineInsurance: any[]): string {
@@ -372,7 +379,7 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
       .filter((item: any) => item.fromStatusDescription === 'Insurance Checking')
       .map((item: any) => item.personName);
 
-    return data.length ? data[data.length - 1] : '';
+    return data.length ? data[0] : '';
   }
 
   private _getApprovalOutDateFiltered(timeLineInsurance: any[]): string {
@@ -526,12 +533,17 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
     const allowedTypes = ['Real Estate', 'Personal Properties', 'Personal Property Vehicle', 'Personal Property Machine'];
 
     const filteredCollateral = collateral.filter(
-      item => item.collateralTypeInsurance === 'true' && allowedTypes.includes(item.collateralType) && item.partyName === debtorName
+      item =>
+        item.collateralTypeInsurance === 'true' &&
+        allowedTypes.includes(item.collateralType) &&
+        item.partyName === debtorName &&
+        Array.isArray(item.collateralInsurance) &&
+        item.collateralInsurance.length > 0
     );
 
-    console.log('Filtered Collateral:', filteredCollateral);
+    const result = filteredCollateral.map(item => item.collateralCode).join(',\n');
 
-    return filteredCollateral.map(item => item.collateralCode).join(',\n');
+    return result;
   }
 
   private _addProposalData(ws: ExcelJS.Worksheet, prop: any, idx: number): void {
