@@ -17,8 +17,8 @@ import * as ExcelJS from 'exceljs';
               <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate formControlName="startDate" placeholder="Start date" />
-                  <input matEndDate formControlName="endDate" placeholder="End date" />
+                  <input matStartDate formControlName="startDate" placeholder="Start date" (focus)="picker.open()" readonly />
+                  <input matEndDate formControlName="endDate" placeholder="End date" (focus)="picker.open()" readonly />
                 </mat-date-range-input>
                 <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -380,7 +380,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
   private getLoanOpsDistributionInDate(proposal: any): string {
     return proposal.timeLineCreditProposal
       .filter((t: any) => t.statusDescription === 'Loan Ops Distribution')
-      .map((timeline: any) => this._formatDateSLA(timeline.fromDate))
+      .map((timeline: any) => this._formatDateSLA(timeline.createdDate))
       .join(',\n');
   }
 
@@ -504,23 +504,23 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
     const dateCompletedTime = new Date(`${date} ${completedTime} UTC`);
     const dateLoanOpsDistributionInTime = new Date(`${date} ${loanOpsDistributionInTime} UTC`);
     const eightHours = new Date(`${date} 08:00:00 UTC`);
-  
+
     if (isNaN(dateCompletedTime.getTime()) || isNaN(dateLoanOpsDistributionInTime.getTime()) || isNaN(eightHours.getTime())) {
       return '';
     }
-  
+
     let diffInMinutes;
-  
+
     if (tatDate === 0) {
       diffInMinutes = (dateCompletedTime.getTime() - dateLoanOpsDistributionInTime.getTime()) / (1000 * 60);
     } else {
       diffInMinutes = (dateCompletedTime.getTime() - eightHours.getTime()) / (1000 * 60);
     }
-  
+
     if (isNaN(diffInMinutes)) {
       return '';
     }
-  
+
     const totalMinutes = Math.abs(diffInMinutes);
     const hours = Math.floor(totalMinutes / 60);
     const minutes = Math.floor(totalMinutes % 60);
@@ -547,22 +547,12 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
       case 'New':
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
       case 'Renewal':
+      case 'Renewal + additional':
+      case 'Renewal + decrease':
         if (!prod.mainProduct) {
           return '';
         }
-        return (
-          `${this._formatDateSLA(prod.mainProduct.maturityDate)} s/d ${this._formatDateSLA(prod.mainProduct.proposeMaturityDate)}` || ''
-        );
-      case 'Renewal + Additional':
-        if (!prod.mainProduct || !prod.mainProduct.mainProduct || !prod.mainProduct.mainProduct.length) {
-          return '';
-        }
-        return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
-      case 'Renewal + Decrease':
-        if (!prod.mainProduct || !prod.mainProduct.mainProduct || !prod.mainProduct.mainProduct.length) {
-          return '';
-        }
-        return this._formatDateSLA(prod.mainProduct.mainProduct[0].startPeriodDate) || '';
+        return `${this._formatDateSLA(prod.mainProduct.maturityDate)}` || '';
       case 'Existing':
         return this._formatDateSLA(prod.firstDisbursementDate) || '';
       case 'Additional / Top Up':
