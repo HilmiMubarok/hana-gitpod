@@ -542,26 +542,39 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
     return earliestDate;
   }
 
-  private getTanggalEfektifFasilitas(prod: any, proposal = null) {
-    switch (prod.pengajuan) {
-      case 'New':
+  private getTanggalEfektifFasilitas(prod: any, proposal = null): string {
+    const pengajuan = (prod.pengajuan || '').trim().toLowerCase();
+
+    switch (pengajuan) {
+      case 'new': {
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
-      case 'Renewal':
-      case 'Renewal + additional':
-      case 'Renewal + decrease':
-        if (!prod.mainProduct) {
+      }
+
+      case 'renewal':
+      case 'renewal + additional':
+      case 'renewal + decrease': {
+        const main = Array.isArray(prod.mainProduct) ? prod.mainProduct[0] : prod.mainProduct;
+        if (!main || !main.maturityDate) {
           return '';
         }
-        return `${this._formatDateSLA(prod.mainProduct.maturityDate)}` || '';
-      case 'Existing':
+        return this._formatDateSLA(main.maturityDate) || '';
+      }
+
+      case 'existing': {
         return this._formatDateSLA(prod.firstDisbursementDate) || '';
-      case 'Additional / Top Up':
+      }
+
+      case 'additional / top up': {
         return this._getEarliestDate(this.getLoanOpsDistributionInDate(proposal));
-      default:
-        if (!prod.mainProduct) {
+      }
+
+      default: {
+        const main = Array.isArray(prod.mainProduct) ? prod.mainProduct[0] : prod.mainProduct;
+        if (!main) {
           return '';
         }
-        return prod.mainProduct.endPeriodRemark || '';
+        return main.endPeriodRemark || '';
+      }
     }
   }
 
