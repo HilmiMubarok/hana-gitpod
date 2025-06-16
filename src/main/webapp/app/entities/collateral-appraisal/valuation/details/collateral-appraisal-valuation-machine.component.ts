@@ -40,7 +40,8 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
   constructor(
     public dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
-    protected collateralappraisalService: CollateralAppraisalService
+    protected collateralappraisalService: CollateralAppraisalService,
+    public collateralAppraisalService: CollateralAppraisalService
   ) {
     this.totalMarketValue = 0;
     this.totalLiquid = 0;
@@ -138,6 +139,7 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
           return o.propertyType === CollateralPropertyType.MACHINE;
         });
         this.countingData();
+        this.loadDataValuation();
       });
   }
 
@@ -150,5 +152,15 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
       return true;
     }
     return false;
+  }
+  public loadDataValuation(): void {
+    this.collateralPropertyService.getValuationAndProperties(this.collateral, this.collateralAppraisal.id).subscribe(
+      (result: any[]) => {
+        this.collateralAppraisalService.valuationData = result;
+      },
+      error => {
+        console.error('Error fetching valuations:', error);
+      }
+    );
   }
 }
