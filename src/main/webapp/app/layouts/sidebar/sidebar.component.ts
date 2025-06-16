@@ -205,7 +205,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
     dataSourceTemp.forEach(data => {
       menusData.forEach(menu => {
-        if (menu.parentMenuItemDescription === data.name && menu.menuItemDescription !== 'Dashboard MIS Status') {
+        if (menu.parentMenuItemDescription === data.name && menu.menuItemId !== 'MIS_DB_STATUS') {
           data.children.push({
             name: menu.menuItemDescription,
             iconname: menu.menuItemIcon,
