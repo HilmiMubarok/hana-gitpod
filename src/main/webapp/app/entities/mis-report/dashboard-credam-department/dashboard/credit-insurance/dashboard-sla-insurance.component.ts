@@ -327,7 +327,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
 
   public aveInDay(chartData: DashboardData[], applicationType: string): number {
     const rawAverage = this.calculateAveTrx(chartData, applicationType) / 22;
-    return this.roundToDecimals(rawAverage, 2);
+    return Math.ceil(rawAverage);
   }
 
   private roundToDecimals(value, decimals) {
@@ -339,8 +339,10 @@ export class MisDashboardInsuranceComponent implements OnInit {
     const slaStandard = parseFloat(this.slaStandardValue?.toString() || '0') || 0;
     const aveInDay = this.aveInDay(this.chartData, applicationType);
     const rawNeeds = (slaStandard * aveInDay) / 420;
+    const rounded = this.roundToDecimals(rawNeeds, 2);
+    const finalResult = Math.ceil(rounded);
 
-    return this.roundToDecimals(rawNeeds, 2);
+    return finalResult;
   }
 
   public getShortOver(data: any[]): number {
@@ -390,9 +392,14 @@ export class MisDashboardInsuranceComponent implements OnInit {
 
   _fetchAllData(date): void {
     const positionId = this.getLocStor('POS');
-    this.dashboardService
-      .getStatisticLoanOps(positionId)
-      .subscribe(res => (this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId))));
+    this.dashboardService.getStatisticLoanOps(positionId).subscribe(res => {
+      const filteredData = res?.filter(d => this.statuses.includes(d.statusId)) || [];
+      this.chartStatisticData = filteredData;
+
+      if (this.chartStatisticData.length > 0) {
+        this.chartStatisticData.sort((a, b) => this.statuses.indexOf(a.statusId) - this.statuses.indexOf(b.statusId));
+      }
+    });
 
     this.dashboardService.getBarChartData(date, 'insurance').subscribe(res => {
       const data = [...res].reverse();
@@ -400,7 +407,10 @@ export class MisDashboardInsuranceComponent implements OnInit {
       this.processChartData();
     });
 
-    this.dashboardService.getBarChartData(date, 'by-insurance').subscribe(res => (this.chartUserData = res));
+    this.dashboardService.getBarChartData(date, 'by-user-loan-ops').subscribe(res => {
+      const data = [...res].reverse();
+      this.chartUserData = data;
+    });
   }
 
   public getChartData(): void {
@@ -416,7 +426,7 @@ export class MisDashboardInsuranceComponent implements OnInit {
         const aveTrx = this.calculateAveTrx(this.chartData, applicationType);
         const aveInDay = this.aveInDay(this.chartData, applicationType);
         const slaStandard = this.slaStandardValue;
-        const staffNeeds = Number(this.staffNeeds(applicationType)).toFixed(2);
+        const staffNeeds = this.staffNeeds(applicationType);
 
         return {
           applicationType,
