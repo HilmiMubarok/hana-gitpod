@@ -246,36 +246,6 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
     const filteringStatusLoanOps = timeLineData.filter(timeline => timeline.statusDescription === 'Loan Ops Distribution');
     const startDateInLoanOps =
       filteringStatusLoanOps.length > 0 ? filteringStatusLoanOps[filteringStatusLoanOps.length - 1].createdDate : '';
-    for (let i = 0; i < proposal.product.length; i++) {
-      const product = proposal.product[i];
-
-      for (let z = 0; z < product.mainProduct.length; z++) {
-        const mainProduct = product.mainProduct[z];
-
-        switch (product.pengajuan) {
-          case 'New':
-            tglEfekFasArr.push(this._convertDate(startDateInLoanOps));
-            break;
-
-          case 'Renewal':
-            tglEfekFasArr.push(this._convertDate(mainProduct.maturityDate));
-            break;
-
-          case 'Renewal + Additional':
-          case 'Renewal + Decrease':
-            tglEfekFasArr.push(this._convertDate(mainProduct.maturityDate));
-            break;
-
-          case 'Additional / Top Up':
-            tglEfekFasArr.push(this._convertDate(startDateInLoanOps));
-            break;
-
-          default:
-            tglEfekFasArr.push(mainProduct.endPeriodRemark);
-            break;
-        }
-      }
-    }
     const checkerOutData = [];
     const approvalOutData = [];
     const checker1Data = timeLineData
@@ -345,7 +315,7 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
           fasilitas: prod.facility || '',
           ccy: prod.currency || '',
           nominal: prod.totalPlafond || '',
-          tglEfektifFas: tglEfekFasArr.join(',\n') || '',
+          tglEfektifFas: prod.mainProduct.map(mp => this._getTglEfektif(mp, prod.pengajuan, startDateInLoanOps)).join(',\n') || '',
           jenisJaminan: proposal.collateral.map(collateral => collateral.collateralCode).join(',\n') || '',
           segmentasi: proposal.regionalParentRM || '',
           branch: proposal.bookingBranchName || '',
@@ -496,5 +466,18 @@ export class MisReportCreditProposalCredamComponent extends AbstractExcelMISRepo
   }
   public dateRangeHasValue(): void {
     return this.MisReportCPCredam.get('startDate')?.value && this.MisReportCPCredam.get('endDate')?.value;
+  }
+  _getTglEfektif(mainProduct, pengajuan, startDateInLoanOps) {
+    switch (pengajuan) {
+      case 'New':
+      case 'Additional / Top Up':
+        return this._convertDate(startDateInLoanOps);
+      case 'Renewal':
+      case 'Renewal + Additional':
+      case 'Renewal + Decrease':
+        return this._convertDate(mainProduct.maturityDate);
+      default:
+        return mainProduct.endPeriodRemark;
+    }
   }
 }
