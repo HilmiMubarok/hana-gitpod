@@ -98,7 +98,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
       { header: 'Branch Name', key: 'branchName', width: 25 },
       { header: 'Business Unit', key: 'businessUnit', width: 25 },
       { header: 'Open Date', key: 'openDate', width: 15 },
-      { header: 'Expiry Date', key: 'expiryDate', width: 15 },
+      { header: 'Expiry Date', key: 'expiryDate1', width: 15 },
       { header: 'Approval Number', key: 'approvalNumber', width: 20 },
       { header: 'Name', key: 'productName', width: 20 },
       { header: 'Plafond', key: 'plafond', width: 15 },
@@ -232,7 +232,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
   }
 
   protected processData(data: any[]): void {
-    data.forEach((proposal) => {
+    data.forEach(proposal => {
       this._addData(this.worksheet, proposal);
     });
   }
@@ -250,7 +250,11 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
       .map(item => {
         const filteredCollateral = item.collateral
           .map(collateralItem => {
-            const filteredInsurance = collateralItem.collateralInsurance.filter(insurance => insurance.expDate >= this.MISReportCPInsuranceReport.get('startDate')?.value && insurance.expDate <= this.MISReportCPInsuranceReport.get('endDate')?.value);
+            const filteredInsurance = collateralItem.collateralInsurance.filter(
+              insurance =>
+                insurance.expDate >= this.MISReportCPInsuranceReport.get('startDate')?.value &&
+                insurance.expDate <= this.MISReportCPInsuranceReport.get('endDate')?.value
+            );
             if (filteredInsurance.length > 0) {
               return {
                 ...collateralItem,
@@ -282,10 +286,14 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         proposal.product
           .map(product => (product.firstDisbursementDate !== 'null' ? this._formatDateSLA(product.firstDisbursementDate) : ''))
           .join(',\n') || '',
-      expiryDate:
+      expiryDate1:
         proposal.product
-          .map(product => (product.mainProduct.maturityDate !== 'null' ? this._formatDateSLA(product.mainProduct.maturityDate) : ''))
+          .map(product => {
+            const maturityDate = product.mainProduct?.[0]?.maturityDate;
+            return maturityDate && maturityDate !== 'null' ? this._formatDateSLA(maturityDate) : '';
+          })
           .join(',\n') || '',
+
       approvalNumber: proposal.product.map(product => product.approvalNumber).join(',\n') || '',
       productName: proposal.product.map(product => product.productName).join(',\n') || '',
       plafond: proposal.subTotalPlafondEqToIDR || '',
@@ -314,7 +322,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
         collateralDetail: collateral.collateralCode || '',
         collateralCode: collateral.collateralProposePricing || '',
         certificateNumber: collateral.certificateAppraisal
-          ? collateral.certificateAppraisal.map(certificate => certificate.certificateNumber).join(',\n')
+          ? collateral.certificateAppraisal.map(certificate => certificate.certNumber).join(',\n')
           : '',
         location: collateral.collateralAddress || '',
         collateralOwner: collateral.collateralOwnerIDD || '',
@@ -389,7 +397,7 @@ export class CreditProposalInsuranceReportComponent extends AbstractExcelMISRepo
       'branchName',
       'businessUnit',
       'openDate',
-      'expiryDate',
+      'expiryDate1',
       'approvalNumber',
       'productName',
       'plafond',
