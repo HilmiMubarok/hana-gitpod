@@ -6,15 +6,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-mis-dashboard-credit-admin',
   template: `
-    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
-      <div class="row">
-        <ng-container *ngFor="let data of chartStatisticData">
-          <div class="col-md-3 my-2">
-            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
-          </div>
-        </ng-container>
-      </div>
-    </jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT" [content]="statistic"></jhi-mis-dashboard-card>
     <div class="d-flex flex-row-reverse">
       <div class="form-container">
         <mat-form-field [formGroup]="dateForm" appearance="outline">
@@ -25,25 +17,36 @@ import { MessageService } from 'primeng/api';
         </mat-form-field>
       </div>
     </div>
-    <jhi-mis-dashboard-card title="BY TRANSACTION">
+    <jhi-mis-dashboard-card title="BY TRANSACTION" [content]="transaction"></jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="BY USER CREDIT ADMIN" [content]="user"></jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="PRODUCTIVITY" [content]="productivity"></jhi-mis-dashboard-card>
+
+    <ng-template #statistic>
+      <div class="row">
+        <ng-container *ngFor="let data of chartStatisticData">
+          <div class="col-md-3 my-2">
+            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
+    <ng-template #transaction>
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         [data]="chartData"
         [date]="dateForm.get('date')?.value"
         title="Credit Admin"
       ></jhi-mis-dashboard-bar-chart>
-    </jhi-mis-dashboard-card>
-
-    <jhi-mis-dashboard-card title="BY USER CREDIT ADMIN">
+    </ng-template>
+    <ng-template #user>
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         type="user"
         [data]="chartUserData"
         [date]="dateForm.get('date')?.value"
       ></jhi-mis-dashboard-bar-chart>
-    </jhi-mis-dashboard-card>
-
-    <jhi-mis-dashboard-card title="PRODUCTIVITY">
+    </ng-template>
+    <ng-template #productivity>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
         <ng-container matColumnDef="applicationType">
           <th mat-header-cell *matHeaderCellDef>Application Type</th>
@@ -104,7 +107,7 @@ import { MessageService } from 'primeng/api';
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </tbody>
       </table>
-    </jhi-mis-dashboard-card>
+    </ng-template>
   `,
   styles: [
     `

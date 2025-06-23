@@ -737,6 +737,10 @@ import { RouterModule } from '@angular/router';
         path: 'check-validation',
         loadChildren: () => import('./mis-report/mis-appraisal/mis-appraisal.module').then(m => m.MisAppraisalModule),
       },
+      {
+        path: 'mis-cp-dashboard-legal',
+        loadChildren: () => import('./mis-report/dashboard-legal/dashboard-legal.module').then(m => m.DashboardLegalModule),
+      },
     ]),
   ],
 })
