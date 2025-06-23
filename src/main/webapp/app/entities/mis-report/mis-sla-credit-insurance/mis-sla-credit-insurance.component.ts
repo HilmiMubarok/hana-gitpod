@@ -60,9 +60,9 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
     super(misReportService);
 
     this.misCp = new FormGroup({
-      date1: new FormControl('', [Validators.required]),
-      date2: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
+      date1: new FormControl(''),
+      date2: new FormControl(''),
+      status: new FormControl(''),
       username: new FormControl(''),
     });
     this.misCp.get('date1')?.valueChanges.subscribe(date => {
@@ -167,6 +167,36 @@ export class MisSLACreditInsuranceComponent extends AbstractExcelMISReport imple
         this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
         return;
       }
+    }
+
+    if (
+      (!this.misCp.get('date1')?.value || !this.misCp.get('date2')?.value) &&
+      (!this.misCp.get('status')?.value || this.misCp.get('status')?.value.length === 0)
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, Select Parameter.',
+      });
+      return;
+    }
+
+    if (!this.misCp.get('date1')?.value || !this.misCp.get('date2')?.value) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, entry Date Range.',
+      });
+      return;
+    }
+
+    if (!this.misCp.get('status')?.value || this.misCp.get('status')?.value.length === 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Warning',
+        detail: 'Please, entry Status.',
+      });
+      return;
     }
 
     this.misReportService.setLoading(true);
