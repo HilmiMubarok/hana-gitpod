@@ -8,18 +8,27 @@
         </e-breadcrumb-items>
       </ejs-breadcrumb>
     </div>
-    <div class="e-card">
-      <mat-card-content>
-        <div class="col mb-3 custom-margin mt-5">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Type Date Range</mat-label>
-            <mat-select formControlName="type">
-              <mat-option *ngFor="let type of dateTypes" [value]="type">{{ type }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </mat-card-content>
 
+    <div class="department-header">
+      <div class="department-name h4">Credit Review Department</div>
+    </div>
+
+    <div class="col mb-3 custom-margin mt-5">
+      <div class="nav-buttons">
+        <button
+          *ngFor="let type of dateTypes"
+          type="button"
+          mat-stroked-button
+          class="nav-button"
+          [class.active]="misCpTimeline.get('type')?.value === type"
+          (click)="misCpTimeline.get('type')?.setValue(type)"
+        >
+          {{ type }}
+        </button>
+      </div>
+    </div>
+
+    <div class="e-card">
       <mat-card-content *ngIf="showDateRange">
         <div class="row my-3">
           <div class="col">

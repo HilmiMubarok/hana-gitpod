@@ -49,6 +49,43 @@ import { map } from 'rxjs';
         display: block;
         margin-bottom: 0px;
       }
+
+      .nav-button {
+        min-width: 250px;
+        min-height: 40px;
+        border-radius: 10px;
+        font-weight: bold;
+        color: #9dcac7;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 12px;
+      }
+
+      .nav-button.active {
+        background-color: #5bafaa;
+        color: white;
+      }
+
+      .department-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        height: 74px;
+        margin-bottom: 3px;
+        margin-top: 25px;
+      }
+
+      .department-name {
+        font-weight: bold;
+        margin-top: 10px;
+        color: #5bafaa;
+      }
     `,
   ],
 })
@@ -163,6 +200,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         this.clearSearch();
       }
     });
+    this.misCpTimeline.get('type')?.setValue('Proposal Date');
   }
 
   checkFieldStatus() {
