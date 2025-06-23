@@ -6,15 +6,7 @@ import moment from 'moment';
 @Component({
   selector: 'jhi-mis-cp-slaloanops-dashboard',
   template: `
-    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT">
-      <div class="row">
-        <ng-container *ngFor="let data of chartStatisticData">
-          <div class="col-md-3 my-2">
-            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
-          </div>
-        </ng-container>
-      </div>
-    </jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="SERVICE LEVEL AGREEMENT" [content]="statistic"></jhi-mis-dashboard-card>
     <div class="d-flex flex-row-reverse">
       <div class="form-container">
         <mat-form-field [formGroup]="form" appearance="outline">
@@ -25,25 +17,38 @@ import moment from 'moment';
         </mat-form-field>
       </div>
     </div>
-    <jhi-mis-dashboard-card title="BY TRANSACTION">
+    <jhi-mis-dashboard-card title="BY TRANSACTION" [content]="transaction"></jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS" [content]="user"></jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="PRODUCTIVITY" [content]="productivity"></jhi-mis-dashboard-card>
+
+    <ng-template #statistic>
+      <div class="row">
+        <ng-container *ngFor="let data of chartStatisticData">
+          <div class="col-md-3 my-2">
+            <jhi-mis-dashboard-card-statistic [title]="data.statusDescription" [count]="data.total"></jhi-mis-dashboard-card-statistic>
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
+    <ng-template #transaction>
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         [data]="chartTransactionsData"
         [date]="form.get('date')?.value"
         title="LOAN OPERATIONS"
       ></jhi-mis-dashboard-bar-chart>
-    </jhi-mis-dashboard-card>
-    <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS">
+    </ng-template>
+    <ng-template #user>
       <jhi-mis-dashboard-bar-chart
         [legendPosition]="'top'"
         type="user"
         [data]="chartUserData"
         [date]="form.get('date')?.value"
       ></jhi-mis-dashboard-bar-chart>
-    </jhi-mis-dashboard-card>
-    <jhi-mis-dashboard-card title="PRODUCTIVITY">
+    </ng-template>
+    <ng-template #productivity>
       <jhi-mis-cp-slaloanops-dashboard-productivity [data]="chartTransactionsData"></jhi-mis-cp-slaloanops-dashboard-productivity>
-    </jhi-mis-dashboard-card>
+    </ng-template>
   `,
   styles: [
     `
@@ -131,12 +136,10 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
 
   _fetchAllData(date): void {
     const positionId = this.getLocStor('POS');
-    this.dashboardService
-      .getStatisticLoanOps(positionId)
-      .subscribe(res => {
-        this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId));
-        this.chartStatisticData.sort((a, b) => this.statuses.indexOf(a.statusId) - this.statuses.indexOf(b.statusId));
-      });
+    this.dashboardService.getStatisticLoanOps(positionId).subscribe(res => {
+      this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId));
+      this.chartStatisticData.sort((a, b) => this.statuses.indexOf(a.statusId) - this.statuses.indexOf(b.statusId));
+    });
     this.dashboardService.getBarChartData(date, 'loan-ops').subscribe(res => {
       const data = [...res].reverse();
       this.chartTransactionsData = data;

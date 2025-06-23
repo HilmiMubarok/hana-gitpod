@@ -1,19 +1,21 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'jhi-mis-dashboard-card',
   template: `
     <div class="chart-container my-4">
-      <div class="chart-header">
-        <div class="title">{{title}}</div>
-        <button mat-icon-button class="expand-button" (click)="toggleExpand()">
+      <div class="chart-header" (click)="toggleExpand()">
+        <div class="title">{{ title }}</div>
+        <button mat-icon-button class="expand-button">
           <mat-icon [@rotateIcon]="isExpanded ? 'expanded' : 'collapsed'"> expand_less </mat-icon>
         </button>
       </div>
 
       <div [@expandCollapse]="isExpanded ? 'expanded' : 'collapsed'" class="collapsible-content">
-        <ng-content></ng-content>
+        <div *ngIf="isExpanded">
+          <ng-container *ngTemplateOutlet="content"></ng-container>
+        </div>
       </div>
     </div>
   `,
@@ -37,8 +39,12 @@ import { Component, Input } from '@angular/core';
         justify-content: space-between;
         align-items: center;
         padding: 12px 16px;
-        background: #5BAFAA;
+        background: #5bafaa;
         border-radius: 8px 8px 0 0;
+      }
+
+      .chart-header:hover {
+        cursor: pointer;
       }
 
       .expand-button {
@@ -53,7 +59,6 @@ import { Component, Input } from '@angular/core';
         overflow: hidden;
         padding: 20px;
       }
-
     `,
   ],
   animations: [
@@ -76,14 +81,18 @@ import { Component, Input } from '@angular/core';
     ]),
   ],
 })
-export class MisDashboardCardComponent {
-
+export class MisDashboardCardComponent implements OnInit {
   @Input() title: string;
+  @Input() defaultToggle = true;
+  @Input() content: TemplateRef<any>;
 
   isExpanded = true;
+
+  ngOnInit(): void {
+    this.isExpanded = this.defaultToggle;
+  }
 
   toggleExpand(): void {
     this.isExpanded = !this.isExpanded;
   }
-
 }
