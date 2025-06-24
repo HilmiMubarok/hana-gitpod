@@ -283,6 +283,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
       customerType: '',
       proposalDate: '',
       statusDescription: '',
+      select: '',
     },
   ];
 
@@ -304,7 +305,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   public searchResult = null;
-  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'statusDescription'];
+  displayedColumns: string[] = ['proposalNumber', 'cif', 'debtorName', 'customerType', 'proposalDate', 'statusDescription', 'select'];
 
   public pageSize = 10;
   public currentPage = 0;
@@ -514,7 +515,10 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
   }
 
   protected processData(data: any[]): void {
-    data.sort((a, b) => {
+    const selectedData =
+      this.selectedApplications.length > 0 ? data.filter(item => this.selectedApplications.includes(item.proposalNumber)) : data;
+
+    selectedData.sort((a, b) => {
       const dateA = new Date(a.proposalDate);
       const dateB = new Date(b.proposalDate);
 
@@ -526,7 +530,7 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
     });
 
     let proposalIndex = 1;
-    for (const proposal of data) {
+    for (const proposal of selectedData) {
       this._addTimelineData(this.worksheet, proposal, proposalIndex++);
     }
   }
@@ -947,5 +951,19 @@ export class MisCreditProposalTimelineComponent extends AbstractExcelMISReport i
         wrapText: true,
       };
     });
+  }
+
+  selectedApplications: string[] = [];
+
+  isSelected(applicationNumber: string): boolean {
+    return this.selectedApplications.includes(applicationNumber);
+  }
+
+  toggleSelection(applicationNumber: string, checked: boolean): void {
+    if (checked) {
+      this.selectedApplications.push(applicationNumber);
+    } else {
+      this.selectedApplications = this.selectedApplications.filter(app => app !== applicationNumber);
+    }
   }
 }
