@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import * as ExcelJS from 'exceljs';
+import { GetSlaLengthService } from './services/get-sla-length.service';
 
 @Component({
   selector: 'jhi-mis-cpslareviewer-report',
@@ -48,7 +49,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   public allSelected = false;
   public MISReportSLA: FormGroup;
 
-  constructor(public misReportService: MisReportService, public messageService: MessageService) {
+  constructor(public misReportService: MisReportService, public messageService: MessageService, public slaLengthService: GetSlaLengthService) {
     super(misReportService);
 
     this.MISReportSLA = new FormGroup({
@@ -129,8 +130,8 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       { header: 'Date of Assignment', key: 'dateOfAssignmentAll' },
       { header: 'Date Return to Branch', key: 'dateReturnToBranch' },
       { header: 'Proposal back to CRO', key: 'proposalBackToCRO' },
-      { header: 'Date Return to Reviewer', key: 'dateReturnToReviewer' },
       { header: 'Proposal check by Checker', key: 'proposalCheckByChecker' },
+      { header: 'Date Return to Reviewer', key: 'dateReturnToReviewer' },
       { header: 'Loan Approval/Loan Comm Date', key: 'loanApprovalLoanCommDate' },
       { header: 'Generate DAR', key: 'generateDAR' },
       { header: 'Finalized DAR', key: 'finalizedDAR' },
@@ -195,7 +196,6 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
 
     this._applyStyles();
     this._setAutoWidthForAllColumns();
-    // this._setAutoHeightForAllRows();
     this.downloadFile(fileName);
     this._resetData();
   }
@@ -207,6 +207,37 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
   }
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
+    this.slaLengthService.setDatesSlaLength({
+      dateOfAssignment: [this.getDateOfAssignment(proposal, false)],
+      dateReturnToBranch: this.getFromDateBasedOnField(
+        proposal,
+        'statusDescription',
+        ['Return to Credit Proposal (CR)'],
+        'Default',
+        false
+      ).split(',\n'),
+      proposalBackToCRO: this.getFromDateBasedOnField(
+        proposal,
+        'fromStatusDescription',
+        ['Return to Credit Proposal (CR)'],
+        'Default',
+        false
+      ).split(',\n'),
+      proposalCheckByChecker: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Checker'], 'Default', false).split(',\n'),
+      loanCommDate: this.getFromDateBasedOnField(
+        proposal,
+        'statusDescription',
+        ['Loan Committee Approval', 'Loan Approval'],
+        'Default',
+        false
+      ).split(',\n'),
+      dateReturnToReviewer: this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Checker', 'Assignment']).split(',\n'),
+      generateDAR: [this.getGenerateDAR(proposal, false)],
+      finalizedDAR: this.getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker'], 'Default', false).split(
+        ',\n'
+      ),
+    });
+
     const repeatCount = proposal.product?.length || 1;
     const baseRowIndex = worksheet.lastRow ? worksheet.lastRow.number + 1 : 1;
 
@@ -237,7 +268,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         facility: product.facility || '',
         facilityTenor: product.tenorFasilitas || '',
         periodType: product.periodType || '',
-        maturityDate: this.formatDate(product.maturityDate) || '',
+        maturityDate: this.getMaturityDate(product),
         currency: product.currency || '',
         initialLimit: product.initialLimit || '',
         totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
@@ -265,17 +296,17 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         loanCommApprovalSummary: proposal.approvalStatus || '',
         daysToMaturityDate: this._getDaysToMaturityDate(proposal) || '',
         dateOfApproveToLA: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Approve To Loan Analysis']) || '',
-        dateOfAssignmentAll: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Assignment']) || '',
-        dateReturnToBranch: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Return to Credit Proposal (CR)'], 'Count') || '',
+        dateOfAssignmentAll: this.getDateOfAssignment(proposal),
+        dateReturnToBranch: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Return to Credit Proposal (CR)']) || '',
         proposalBackToCRO:
-          this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Return to Credit Proposal (CR)'], 'Count') || '',
-        dateReturnToReviewer: '', // TBC
+          this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Return to Credit Proposal (CR)']) || '',
         proposalCheckByChecker: this.getFromDateBasedOnField(proposal, 'statusDescription', ['Checker']) || '',
+        dateReturnToReviewer: this.getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Checker', 'Assignment']) || '',
         loanApprovalLoanCommDate:
           this.getFromDateBasedOnField(proposal, 'statusDescription', ['Loan Committee Approval', 'Loan Approval']) || '',
         generateDAR: this.getGenerateDAR(proposal),
         finalizedDAR: this.getFromDateBasedOnField(proposal, 'statusDescription', ['DAR Notif', 'DAR Checker']) || '',
-        slaLength: this._getSlaLength(proposal),
+        slaLength: this.slaLengthService.getSLALength(),
       });
     }
 
@@ -377,93 +408,6 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       .join(',\n');
   }
 
-  private getFacility(proposal: any) {
-    const { product } = proposal;
-
-    // Return '' if there is no product data
-    if (!product) {
-      return '';
-    }
-
-    return product.map(p => p.facility).join(',\n');
-  }
-
-  private getTenorFacility(proposal: any) {
-    const { product } = proposal;
-
-    // Return '' if there is no product data
-    if (!product) {
-      return '';
-    }
-
-    return product.map(p => p.tenorFasilitas).join(',\n');
-  }
-
-  private getPeriodType(proposal: any) {
-    const { product } = proposal;
-
-    // Return '' if there is no product data
-    if (!product) {
-      return '';
-    }
-
-    return product.map(p => p.periodType).join(',\n');
-  }
-
-  private getCurrency(proposal: any) {
-    const { product } = proposal;
-
-    // Return '' if there is no product data
-    if (!product) {
-      return '';
-    }
-
-    return product.map(p => p.currency).join(',\n');
-  }
-
-  private getInitialLimit(proposal: any) {
-    const { product } = proposal;
-
-    // Return '' if there is no product data
-    if (!product) {
-      return '';
-    }
-
-    return product.map(p => p.initialLimit).join(',\n');
-  }
-
-  private getProduct(proposal: any) {
-    const { product } = proposal;
-
-    if (!product) {
-      return {
-        facility: '',
-        tenorFacility: '',
-        periodType: '',
-        currency: '',
-        initialLimit: '',
-        currentRate: '',
-        provisionFee: '',
-        provisionFeeType: '',
-        adminFee: '',
-        adminFeeType: '',
-      };
-    }
-
-    return {
-      facility: product.map(p => p.facility).join(',\n'),
-      tenorFacility: product.map(p => p.tenorFasilitas).join(',\n'),
-      periodType: product.map(p => p.periodType).join(',\n'),
-      currency: product.map(p => p.currency).join(',\n'),
-      initialLimit: product.map(p => p.initialLimit).join(',\n'),
-      currentRate: product.map(p => p.currentRate).join(',\n'),
-      provisionFee: product.map(p => Number(p.provisionFee).toFixed(2)).join(',\n'),
-      provisionFeeType: product.map(p => p.provisionFeeType).join(',\n'),
-      adminFee: product.map(p => p.adminFee).join(',\n'),
-      adminFeeType: product.map(p => p.adminFeeType).join(',\n'),
-    };
-  }
-
   private getCollateralIncCrosCollOtherCif(proposal: any) {
     const { collateral } = proposal;
 
@@ -558,7 +502,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     return Number(data).toFixed(2);
   }
 
-  private getDateOfAssignment(proposal: any): string {
+  private getDateOfAssignment(proposal: any, isDateFormated = true): string {
     const { timeLineCreditProposal: timelines } = proposal;
 
     // Return '' if there is no timeline data
@@ -567,6 +511,9 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     }
 
     const assignment = timelines.find(t => t.statusDescription === 'Assignment');
+    if (!isDateFormated) {
+      return assignment.fromDate || undefined;
+    }
     return this.formatDate(assignment?.fromDate) || '';
   }
 
@@ -618,20 +565,44 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         return filteredTimelines.map(t => this.formatDate(t.fromDate)).join(',\n');
       }
 
-      return filteredTimelines.map(t => this.formatDate(t.fromDate)).join(',\n');
+      return filteredTimelines.map(t => t.fromDate).join(',\n');
     }
 
     // Return the count of the filtered timelines' fromDate
     return filteredTimelines.length.toString();
   }
 
-  protected getGenerateDAR(proposal: any): string {
+  protected getGenerateDAR(proposal: any, isDateFormated = true): string {
     const documentGenerate = proposal.documentGenerate;
 
     if (!documentGenerate) {
       return '';
     }
 
+    if (!isDateFormated) {
+      return documentGenerate.generateDate || '';
+    }
+
     return this.formatDate(documentGenerate.generateDate);
   }
+
+  private getMaturityDate(product) {
+
+    if (!product) {
+      return '';
+    }
+
+    if (product.maturityDate) {
+      return '';
+    }
+
+    if (product.pengajuan === 'Renewal') {
+      const tenor = product.tenorFasilitas;
+      const period = product.periodType;
+      product.maturityDate = this._getAdjustedMaturityDate(product.maturityDate, tenor, period);
+    }
+
+    return this.formatDate(product.maturityDate) || '';
+  }
+
 }

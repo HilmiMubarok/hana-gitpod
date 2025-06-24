@@ -515,18 +515,44 @@ export abstract class AbstractExcelMISReport {
     return facility.totalPlafond.toString() || '';
   }
 
+  protected _getAdjustedMaturityDate(maturityDateStr, tenor, period) {
+    const maturityDate = new Date(maturityDateStr); // e.g. '2024-04-29'
+  
+    switch (period.toLowerCase()) {
+      case 'month':
+        maturityDate.setMonth(maturityDate.getMonth() - tenor);
+        break;
+      case 'year':
+        maturityDate.setFullYear(maturityDate.getFullYear() - tenor);
+        break;
+      case 'day':
+        maturityDate.setDate(maturityDate.getDate() - tenor);
+        break;
+      default:
+        throw new Error("Invalid period. Use 'Month', 'Year', or 'Day'.");
+    }
+  
+    return maturityDate.toISOString().split('T')[0]; // Returns 'YYYY-MM-DD'
+  }
+
   protected _getMaturityDate(proposal: any): string {
     const products = proposal.product;
 
-    // if products null
     if (products === null) {
       return '';
     }
 
-    // filter maturitydate
-    const filteredProducts = products.filter(product => product.maturityDate !== null && product.maturityDate !== 'null');
+    const filteredProducts = products.filter(p => p.maturityDate !== null && p.maturityDate !== 'null')
+    
+    filteredProducts.map(product => {
+      if(product.pengajuan === 'Renewal') {
+        const tenor = product.tenorFasilitas;
+        const period = product.periodType;
+        product.maturityDate = this._getAdjustedMaturityDate(product.maturityDate, tenor, period);
+      }
+    });
 
-    return filteredProducts.map(product => product.maturityDate).join(',\n');
+    return filteredProducts.map(product => product.maturityDate).join(',\n')
   }
 
   protected _getFromDateBasedOnField(
@@ -575,12 +601,17 @@ export abstract class AbstractExcelMISReport {
   }
 
   protected _getDaysToMaturityDate(proposal: any): string {
+
+    // TGL Maturity Date - Tanggal CRA
+    // Jika ada positif dan negatif, ambil negatif paling besar. e.g [1, -2, 3, -4] -> -4
+    // Jika full positif, ambil yang paling kecil. e.g [1, 2, 3, 4] -> 1
+    // Jika full negatif, ambil yang paling besar. e.g [-1, -2, -3, -4] -> -4
+
     const tanggalCRA = this._getFromDateBasedOnField(proposal, 'fromStatusDescription', ['Approve To Loan Analysis'], 'Default', false)
       .split(',')
       .pop();
     const jatuhTempo = this._getMaturityDate(proposal).split(',');
 
-    // subtract tanggalCRA - each jatuhTempo. output will be how many days between tanggalCRA and jatuhTempo in array
     if (!tanggalCRA || !jatuhTempo) {
       return '';
     }
@@ -589,14 +620,13 @@ export abstract class AbstractExcelMISReport {
     const maturityDates = jatuhTempo.map(date => new Date(date));
 
     const diffDays = maturityDates.map(date => {
-      const diffTime = Math.abs(craDate.getTime() - date.getTime());
+      const diffTime = Math.abs(date.getTime() - craDate.getTime());
       return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     });
 
-    // find the most approaching a positive value from diffDays
-    const minDiff = diffDays.filter(diff => diff >= 0);
-
-    return minDiff.length > 0 ? minDiff.reduce((a, b) => Math.max(a, b)).toString() : '';
+    const daysToMaturityDate = diffDays.length > 0 ? diffDays.reduce((a, b) => Math.min(a, b)).toString() : ''
+    
+    return daysToMaturityDate;
   }
 
   protected _getSlaLength(proposal: any): string {
