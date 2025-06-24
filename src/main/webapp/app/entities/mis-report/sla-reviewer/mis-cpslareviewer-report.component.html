@@ -1,25 +1,28 @@
+<div class="e-card-header-caption mb-3">
+  <ejs-breadcrumb cssClass="margin: 1rem;">
+      <e-breadcrumb-items>
+          <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+          <e-breadcrumb-item text="MIS SLA Credit Review" url=""> </e-breadcrumb-item>
+      </e-breadcrumb-items>
+  </ejs-breadcrumb>
+</div>
+
 <form [formGroup]="MISReportSLA" (ngSubmit)="generateMISReportSLA()">
-  <mat-card-header>
-    <mat-card-title>
-      <h4>Filter</h4>
-    </mat-card-title>
-  </mat-card-header>
   <mat-card>
     <mat-card-content>
-      <div class="row my-3">
-        <div class="col">
+      <div class="row">
+        <div class="col-12 col-md-6 mb-1">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
               <input matStartDate formControlName="startDate" placeholder="Start date" />
               <input matEndDate formControlName="endDate" placeholder="End date" />
             </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6 mb-1">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Status</mat-label>
             <mat-select formControlName="status" multiple>
@@ -30,7 +33,6 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col"></div>
       </div>
     </mat-card-content>
   </mat-card>
