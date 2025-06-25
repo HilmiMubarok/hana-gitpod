@@ -1,0 +1,68 @@
+<div class="yearly-report-container">
+  <div class="form-section">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Select Credit</mat-label>
+      <mat-select [(ngModel)]="selectedCredit" (selectionChange)="onCreditSelected($event)">
+        <mat-option
+          *ngFor="
+            let option of [
+              {
+                key: 'All',
+                value: 'Credit Legal Department (HO + OR)'
+              },
+              {
+                key: 'R1',
+                value: 'Credit Legal Head Office (HO)'
+              },
+              {
+                key: 'R2',
+                value: 'Credit Legal Out Region (OR)'
+              }
+            ]
+          "
+          [value]="option.key"
+        >
+          {{ option.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Report Bulan & Tahun</mat-label>
+      <input matInput [matDatepicker]="dp" placeholder="Select month and year" [formControl]="yearFormControl" />
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker
+        #dp
+        startView="multi-year"
+        (yearSelected)="onYearSelected($event)"
+        (monthSelected)="onMonthAndYearSelected($event, dp)"
+        panelClass="month-picker"
+      >
+      </mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button class="generate-btn" (click)="generate()">Generate</button>
+  </div>
+  <div class="table-responsive-material">
+    <table mat-table [dataSource]="dataSource" class="w-100">
+      <ng-container matColumnDef="jenisFasilitas">
+        <th mat-header-cell *matHeaderCellDef>Jenis Fasilitas</th>
+        <td mat-cell *matCellDef="let element">{{ element.jenisFasilitas }}</td>
+      </ng-container>
+      <ng-container matColumnDef="jumlahPengajuan">
+        <th mat-header-cell *matHeaderCellDef>Jumlah Pengajuan</th>
+        <td mat-cell *matCellDef="let element">{{ element.jumlahPengajuan }}</td>
+      </ng-container>
+      <ng-container matColumnDef="totalIDR">
+        <th mat-header-cell *matHeaderCellDef>Total IDR</th>
+        <td mat-cell *matCellDef="let element">{{ element.totalIDR }}</td>
+      </ng-container>
+      <ng-container matColumnDef="totalUSD">
+        <th mat-header-cell *matHeaderCellDef>Total USD</th>
+        <td mat-cell *matCellDef="let element">{{ element.totalUSD }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

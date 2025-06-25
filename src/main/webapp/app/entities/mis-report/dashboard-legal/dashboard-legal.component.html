@@ -1,18 +1,23 @@
 <div class="e-card-header-caption mb-3">
-    <ejs-breadcrumb cssClass="margin: 1rem;">
-        <e-breadcrumb-items>
-            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Dashboard Credit Legal" url=""> </e-breadcrumb-item>
-        </e-breadcrumb-items>
-    </ejs-breadcrumb>
+  <ejs-breadcrumb cssClass="margin: 1rem;">
+    <e-breadcrumb-items>
+      <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+      <e-breadcrumb-item text="Dashboard Credit Legal" url=""> </e-breadcrumb-item>
+    </e-breadcrumb-items>
+  </ejs-breadcrumb>
 </div>
 
 <div class="department-header">
-    <div class="department-name h4">DASHBOARD CREDIT LEGAL</div>
+  <div class="department-name h4">DASHBOARD CREDIT LEGAL</div>
 </div>
 
 <jhi-mis-dashboard-card title="YEARLY REPORT" [content]="yearlyReport"></jhi-mis-dashboard-card>
 
 <ng-template #yearlyReport>
-    <jhi-yearly-report></jhi-yearly-report>
+  <jhi-yearly-report></jhi-yearly-report>
+</ng-template>
+<!--Dashboard Weekly-->
+<jhi-mis-dashboard-card title="WEEKLY REPORT" [content]="weeklyReport"></jhi-mis-dashboard-card>
+<ng-template #weeklyReport>
+  <jhi-weekly-report></jhi-weekly-report>
 </ng-template>
