@@ -1,8 +1,6 @@
 /* eslint-disable */
-import { AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WeeklyReportService } from './weekly-report.service';
-import { Chart, ChartDataset } from 'chart.js';
-import { registerables } from 'chart.js';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -11,7 +9,6 @@ import moment, { Moment } from 'moment';
 import { FormControl } from '@angular/forms';
 import { AbstractExcelMISReport } from '../../abstract-excel-report';
 import { MisReportService } from '../../mis-report.service';
-import { MatDatepicker } from '@angular/material/datepicker';
 
 export const YEAR_MONTH_ONLY_FORMATS = {
   parse: { dateInput: 'YYYY/MM' },
