@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { MisDashboardModule } from '../mis-dashboard/mis-dashboard.module';
 import { WeeklyReportComponent } from './weekly-report/weekly-report.component';
+import { WeeklyDataUpdateComponent } from './weekly-data-update/weekly-data-update.component';
+import { NgChartsModule } from 'ng2-charts';
 
 const routes: Routes = [
   {
@@ -19,8 +21,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [DashboardLegalComponent, YearlyReportComponent, WeeklyReportComponent],
-  imports: [SharedModule, MisDashboardModule, RouterModule.forChild(routes)],
+  declarations: [DashboardLegalComponent, YearlyReportComponent, WeeklyReportComponent, WeeklyDataUpdateComponent],
+  imports: [SharedModule, MisDashboardModule, RouterModule.forChild(routes), NgChartsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DashboardLegalModule {}
