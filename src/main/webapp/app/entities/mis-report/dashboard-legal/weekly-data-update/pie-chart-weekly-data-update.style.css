@@ -1,0 +1,47 @@
+.yearly-report-container {
+  padding: 1rem;
+  /* background-color: #b4d8d8; */
+  border-radius: 8px;
+}
+
+.form-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-field {
+  width: 250px;
+}
+
+.generate-btn {
+  height: 40px;
+  margin-top: 6px;
+}
+
+.chart-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  max-width: 900px;
+  max-height: 900px;
+}
+
+.generate-btn {
+  height: 56px;
+  padding: 0 24px;
+  background-color: #5bafaa !important;
+  color: white !important;
+  border-radius: 4px !important;
+  font-weight: 500;
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.weekly-update-report-container {
+  margin: 0 auto;
+}
