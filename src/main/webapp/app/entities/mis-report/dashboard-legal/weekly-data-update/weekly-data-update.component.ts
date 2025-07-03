@@ -41,6 +41,13 @@ export class WeeklyDataUpdateComponent extends AbstractExcelMISReport implements
           },
         },
       },
+      tooltip: {
+        callbacks: {
+          label(context: any) {
+            return context.label;
+          },
+        },
+      },
     },
   };
 
@@ -84,17 +91,19 @@ export class WeeklyDataUpdateComponent extends AbstractExcelMISReport implements
   }
 
   prepareChartData(): void {
+    const s = this.weeklyData;
+
     this.chartData = {
-      labels: ['Review By Legal', 'Legal Docs Done', 'On Schedule Signing', 'Pending by Branch / Debtor', 'Done DPDL'],
+      labels: [
+        `Review By Legal = ${s.review}`,
+        `Legal Docs Done = ${s.legalDocs}`,
+        `On Schedule Signing = ${s.onSchedule}`,
+        `Pending by Branch / Debtor = ${s.pending}`,
+        `Done DPDL = ${s.done}`,
+      ],
       datasets: [
         {
-          data: [
-            this.weeklyData.review,
-            this.weeklyData.legalDocs,
-            this.weeklyData.onSchedule,
-            this.weeklyData.pending,
-            this.weeklyData.done,
-          ],
+          data: [s.review, s.legalDocs, s.onSchedule, s.pending, s.done],
           backgroundColor: this.colorPalette,
           hoverBackgroundColor: this.colorPalette.map(color => this.darkenHexColor(color, 15)),
           borderRadius: this.defaultBorderRadius,
