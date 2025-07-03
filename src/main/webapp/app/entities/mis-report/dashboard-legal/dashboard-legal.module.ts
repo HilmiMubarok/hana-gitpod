@@ -8,6 +8,7 @@ import { MisDashboardModule } from '../mis-dashboard/mis-dashboard.module';
 import { WeeklyReportComponent } from './weekly-report/weekly-report.component';
 import { WeeklyDataUpdateComponent } from './weekly-data-update/weekly-data-update.component';
 import { NgChartsModule } from 'ng2-charts';
+import { DataPicComponent } from './data-pic/data-pic.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [DashboardLegalComponent, YearlyReportComponent, WeeklyReportComponent, WeeklyDataUpdateComponent],
+  declarations: [DashboardLegalComponent, YearlyReportComponent, WeeklyReportComponent, WeeklyDataUpdateComponent, DataPicComponent],
   imports: [SharedModule, MisDashboardModule, RouterModule.forChild(routes), NgChartsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

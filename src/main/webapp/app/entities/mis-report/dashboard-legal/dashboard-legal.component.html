@@ -12,18 +12,21 @@
 </div>
 
 <jhi-mis-dashboard-card title="YEARLY REPORT" [content]="yearlyReport"></jhi-mis-dashboard-card>
-<jhi-mis-dashboard-card title="WEEKLY DATA UPDATE" [content]="weeklyDataUpdate" [defaultToggle]="false"></jhi-mis-dashboard-card>
-
 <ng-template #yearlyReport>
   <jhi-yearly-report></jhi-yearly-report>
 </ng-template>
 
+<jhi-mis-dashboard-card title="WEEKLY DATA UPDATE" [content]="weeklyDataUpdate" [defaultToggle]="false"></jhi-mis-dashboard-card>
 <ng-template #weeklyDataUpdate>
   <jhi-weekly-data-update></jhi-weekly-data-update>
 </ng-template>
 
-<!--Dashboard Weekly-->
-<jhi-mis-dashboard-card title="WEEKLY STATUS UPDATE" [content]="weeklyReport"></jhi-mis-dashboard-card>
+<jhi-mis-dashboard-card title="WEEKLY STATUS UPDATE" [content]="weeklyReport" [defaultToggle]="false"></jhi-mis-dashboard-card>
 <ng-template #weeklyReport>
   <jhi-weekly-report></jhi-weekly-report>
+</ng-template>
+
+<jhi-mis-dashboard-card title="DATA PIC" [content]="dataPic" [defaultToggle]="false"></jhi-mis-dashboard-card>
+<ng-template #dataPic>
+  <jhi-data-pic></jhi-data-pic>
 </ng-template>
