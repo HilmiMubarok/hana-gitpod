@@ -70,6 +70,7 @@ import { CollateralAppraisalSummaryComponent } from './summary/collateral-apprai
 import { Subject, takeUntil } from 'rxjs';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { CollateralAppraisalValuationPropertyComponent } from './valuation/details/collateral-appraisal-valuation-property.component';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   providers: [
@@ -192,7 +193,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
     public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
-    public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent
+    public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent,
+    public generalParameterService: GeneralParameterService
   ) {
     this.postalAddress = new PartyPostalAddress();
     this.activatedRoute.params.subscribe(params => {
@@ -340,6 +342,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
     this.getTasks();
     this.timeLine();
+    this._getLovNegativeCollateral();
   }
 
   public timeLine() {
@@ -471,6 +474,27 @@ export class CollateralAppraisalMainComponent implements OnInit {
     }
   }
 
+  score: IScoreCard[];
+  private _getLovNegativeCollateral(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'NEGATIVE_COLLATERAL',
+        page: 0,
+        size: 999,
+        sort: ['id,asc'],
+      })
+      .subscribe(res => {
+        const dataScoreCard = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        this.score = [];
+        for (let i = 0; i < dataScoreCard.length; i++) {
+          const num = i + 1;
+          this.score.push({ id: num, criteria: dataScoreCard[i].value, value: 'no' });
+        }
+      });
+  }
+
   public addNewCriteria(data: IScoreCard[]): void {
     this.collateralAppraisal.attributes['scoreCard'] = data;
   }
@@ -518,6 +542,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
     }
 
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+
+    if (typeof copySurveyAppraisal.attributes['scoreCard'] === 'object' || copySurveyAppraisal.attributes['scoreCard'] === '{}') {
+      copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.score);
+    }
 
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
       copySurveyAppraisal.attributes['marketbility'] = JSON.stringify(this.collateralAppraisal.attributes['marketbility']);
