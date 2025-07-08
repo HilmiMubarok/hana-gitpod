@@ -15,6 +15,7 @@ export interface IPositions extends IStrapiModel {
   partyId?: string;
   employeeFirstName?: string;
   employeeLastName?: string;
+  internalId?: string;
 }
 
 export class Positions implements IPositions {
