@@ -99,7 +99,7 @@
     </table>
     <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
   </div>
-  <div class="mt-3 text-center">
+  <div class="mt-3 text-center" *ngIf="searchResultPagination">
     <button mat-raised-button color="primary" class="btn-lg text-uppercase button-styling" (click)="doChangeValuation()">
       Change Valuation
     </button>
