@@ -273,7 +273,7 @@ export class MisLoanOpsReportComponent extends AbstractExcelMISReport implements
     return [
       { header: 'No', key: 'no' },
       { header: 'Proposal Number', key: 'proposalNumber' },
-      { header: 'DPK Number', key: 'dpkNumber' },
+      { header: 'DPPK Number', key: 'dpkNumber' },
       { header: 'PIC Loan Ops Admin', key: 'picLoanOps' },
       { header: 'Debtor', key: 'debtor' },
       { header: 'Loan Ops Distribution in Date', key: 'loanOpsDistributionInDate' },
