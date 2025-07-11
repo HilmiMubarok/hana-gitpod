@@ -35,3 +35,8 @@
 <ng-template #segmentationData>
   <jhi-segmentation-data-report></jhi-segmentation-data-report>
 </ng-template>
+
+<jhi-mis-dashboard-card title="DATA DPDL" [content]="dataDPDL" [defaultToggle]="false"></jhi-mis-dashboard-card>
+<ng-template #dataDPDL>
+  <jhi-dpdl-data></jhi-dpdl-data>
+</ng-template>
