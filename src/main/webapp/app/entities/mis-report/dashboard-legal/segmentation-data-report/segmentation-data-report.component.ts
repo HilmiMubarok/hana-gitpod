@@ -331,9 +331,18 @@ export class SegmentationDataReportComponent extends AbstractExcelMISReport impl
 
     this.worksheet.getRow(4).values = ['', ...segments, 'TOTAL E.O.M'];
     const headerRow = this.worksheet.getRow(4);
-    headerRow.eachCell(cell => {
+
+    headerRow.eachCell((cell, colNumber) => {
       cell.font = { bold: true };
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
+
+      if (colNumber === segments.length + 2) {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'FFFFC000' },
+        };
+      }
     });
 
     let rowIndex = 5;
@@ -362,5 +371,18 @@ export class SegmentationDataReportComponent extends AbstractExcelMISReport impl
       };
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
     });
+
+    const startRow = 5;
+    const endRow = rowIndex;
+
+    const totalEOMCol = segments.length + 2;
+    for (let r = startRow; r <= endRow; r++) {
+      const cell = this.worksheet.getRow(r).getCell(totalEOMCol);
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFFC000' },
+      };
+    }
   }
 }
