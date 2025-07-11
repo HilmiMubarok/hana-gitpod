@@ -30,3 +30,8 @@
 <ng-template #dataPic>
   <jhi-data-pic></jhi-data-pic>
 </ng-template>
+
+<jhi-mis-dashboard-card title="SEGMENTATION DATA" [content]="segmentationData" [defaultToggle]="false"></jhi-mis-dashboard-card>
+<ng-template #segmentationData>
+  <jhi-segmentation-data-report></jhi-segmentation-data-report>
+</ng-template>
