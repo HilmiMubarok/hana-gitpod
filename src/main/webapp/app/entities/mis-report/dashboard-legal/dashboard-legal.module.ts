@@ -10,6 +10,7 @@ import { WeeklyDataUpdateComponent } from './weekly-data-update/weekly-data-upda
 import { NgChartsModule } from 'ng2-charts';
 import { DataPicComponent } from './data-pic/data-pic.component';
 import { SegmentationDataReportComponent } from './segmentation-data-report/segmentation-data-report.component';
+import { DpdlDataComponent } from './dpdl-data/dpdl-data.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
     WeeklyDataUpdateComponent,
     DataPicComponent,
     SegmentationDataReportComponent,
+    DpdlDataComponent,
   ],
   imports: [SharedModule, MisDashboardModule, RouterModule.forChild(routes), NgChartsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
