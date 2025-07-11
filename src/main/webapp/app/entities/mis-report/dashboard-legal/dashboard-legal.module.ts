@@ -9,6 +9,7 @@ import { WeeklyReportComponent } from './weekly-report/weekly-report.component';
 import { WeeklyDataUpdateComponent } from './weekly-data-update/weekly-data-update.component';
 import { NgChartsModule } from 'ng2-charts';
 import { DataPicComponent } from './data-pic/data-pic.component';
+import { SegmentationDataReportComponent } from './segmentation-data-report/segmentation-data-report.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [DashboardLegalComponent, YearlyReportComponent, WeeklyReportComponent, WeeklyDataUpdateComponent, DataPicComponent],
+  declarations: [
+    DashboardLegalComponent,
+    YearlyReportComponent,
+    WeeklyReportComponent,
+    WeeklyDataUpdateComponent,
+    DataPicComponent,
+    SegmentationDataReportComponent,
+  ],
   imports: [SharedModule, MisDashboardModule, RouterModule.forChild(routes), NgChartsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
