@@ -557,8 +557,6 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const aggrementType = this.form.get('aggrementType')?.value;
     const segmentation = this.form.get('regional')?.value;
     let cp = data;
-    console.log('jenisPengikatan', jenisPengikatan);
-    console.log('aggrementType', aggrementType);
     if (!search) {
       if (segmentation && segmentation.length > 0) {
         cp = cp.filter(p => segmentation.includes(p.regionalId));
