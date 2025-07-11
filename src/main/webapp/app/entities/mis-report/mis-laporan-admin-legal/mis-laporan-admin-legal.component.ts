@@ -557,22 +557,21 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const aggrementType = this.form.get('aggrementType')?.value;
     const segmentation = this.form.get('regional')?.value;
     let cp = data;
-
     if (!search) {
-      if (segmentation?.length) {
+      if (segmentation && segmentation.length > 0) {
         cp = cp.filter(p => segmentation.includes(p.regionalId));
       }
-      if (akta?.length) {
+      if (akta && akta.length > 0) {
         cp = cp.filter(p => p.legalCovernote?.some(cn => cn.covernoteTask?.some(task => akta.includes(task.code))));
       }
-      if (branch?.length) {
+      if (branch && branch.length > 0) {
         cp = cp.filter(p => branch.includes(p.businessUnitRM));
       }
-      if (jenisPengikatan?.length) {
-        cp = cp.filter(p => jenisPengikatan.includes(p.aggrement?.isNotaril));
+      if (jenisPengikatan && jenisPengikatan.length > 0) {
+        cp = cp.filter(p => jenisPengikatan.includes(p.agreement.isNotaril));
       }
-      if (aggrementType?.length) {
-        cp = cp.filter(p => aggrementType.includes(p.aggrement?.aggrementType));
+      if (aggrementType && aggrementType.length > 0) {
+        cp = cp.filter(p => aggrementType.includes(p.agreement.agreementType));
       }
     }
 
