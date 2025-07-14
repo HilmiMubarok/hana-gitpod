@@ -250,7 +250,6 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
       })
       .subscribe(res => {
         this.lovAkta = res.body;
-        console.log('lovAkta', this.lovAkta);
       });
   }
 
@@ -562,8 +561,19 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
         cp = cp.filter(p => segmentation.includes(p.regionalId));
       }
       if (akta && akta.length > 0) {
-        cp = cp.filter(p => p.legalCovernote?.some(cn => cn.covernoteTask?.some(task => akta.includes(task.code))));
+        cp = cp
+          .map(p => {
+            const filteredLegalCovernote = (p.legalCovernote || [])
+              .map(cn => {
+                const filteredTasks = (cn.covernoteTask || []).filter(task => akta.includes(task.code));
+                return { ...cn, covernoteTask: filteredTasks };
+              })
+              .filter(cn => cn.covernoteTask.length > 0);
+            return { ...p, legalCovernote: filteredLegalCovernote };
+          })
+          .filter(p => p.legalCovernote.length > 0);
       }
+
       if (branch && branch.length > 0) {
         cp = cp.filter(p => branch.includes(p.businessUnitRM));
       }
