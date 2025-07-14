@@ -17,9 +17,9 @@ import moment from 'moment';
         </mat-form-field>
       </div>
     </div>
-    <jhi-mis-dashboard-card title="BY TRANSACTION" [content]="transaction"></jhi-mis-dashboard-card>
-    <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS" [content]="user"></jhi-mis-dashboard-card>
-    <jhi-mis-dashboard-card title="PRODUCTIVITY" [content]="productivity"></jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="BY TRANSACTION" [content]="transaction" [defaultToggle]="false"></jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="BY USER LOAN OPERATIONS" [content]="user" [defaultToggle]="false"></jhi-mis-dashboard-card>
+    <jhi-mis-dashboard-card title="PRODUCTIVITY" [content]="productivity" [defaultToggle]="false"></jhi-mis-dashboard-card>
 
     <ng-template #statistic>
       <div class="row">
@@ -31,23 +31,13 @@ import moment from 'moment';
       </div>
     </ng-template>
     <ng-template #transaction>
-      <jhi-mis-dashboard-bar-chart
-        [legendPosition]="'top'"
-        [data]="chartTransactionsData"
-        [date]="form.get('date')?.value"
-        title="LOAN OPERATIONS"
-      ></jhi-mis-dashboard-bar-chart>
+      <jhi-mis-cp-slaloanops-dashboard-transaction [date]="date"></jhi-mis-cp-slaloanops-dashboard-transaction>
     </ng-template>
     <ng-template #user>
-      <jhi-mis-dashboard-bar-chart
-        [legendPosition]="'top'"
-        type="user"
-        [data]="chartUserData"
-        [date]="form.get('date')?.value"
-      ></jhi-mis-dashboard-bar-chart>
+      <jhi-mis-cp-slaloanops-dashboard-user [date]="date"></jhi-mis-cp-slaloanops-dashboard-user>
     </ng-template>
     <ng-template #productivity>
-      <jhi-mis-cp-slaloanops-dashboard-productivity [data]="chartTransactionsData"></jhi-mis-cp-slaloanops-dashboard-productivity>
+      <jhi-mis-cp-slaloanops-dashboard-productivity [date]="date"></jhi-mis-cp-slaloanops-dashboard-productivity>
     </ng-template>
   `,
   styles: [
@@ -97,10 +87,11 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
     this.initializeForm();
 
     this.form.get('date').valueChanges.subscribe(date => {
-      const formattedDate = moment(date).format('YYYY-MM-DD');
-      this._fetchAllData(formattedDate);
+      this.date = moment(date).format('YYYY-MM-DD');
     });
   }
+
+  date = moment().format('YYYY-MM-DD');
 
   private getLocStor(cookieName: string) {
     let result = null;
@@ -131,7 +122,7 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._fetchAllData(this.form.get('date')?.value);
+    this._fetchAllData(this.date);
   }
 
   _fetchAllData(date): void {
@@ -139,14 +130,6 @@ export class MisCpSlaLoanOpsDashboardComponent implements OnInit {
     this.dashboardService.getStatisticLoanOps(positionId).subscribe(res => {
       this.chartStatisticData = res.filter(d => this.statuses.includes(d.statusId));
       this.chartStatisticData.sort((a, b) => this.statuses.indexOf(a.statusId) - this.statuses.indexOf(b.statusId));
-    });
-    this.dashboardService.getBarChartData(date, 'loan-ops').subscribe(res => {
-      const data = [...res].reverse();
-      this.chartTransactionsData = data;
-    });
-    this.dashboardService.getBarChartData(date, 'by-user-loan-ops').subscribe(res => {
-      const data = [...res].reverse();
-      this.chartUserData = data;
     });
   }
 }
