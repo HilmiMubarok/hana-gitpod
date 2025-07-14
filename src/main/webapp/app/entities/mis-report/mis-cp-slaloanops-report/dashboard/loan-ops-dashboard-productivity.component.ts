@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { map } from 'rxjs';
-import { MisDashboardService } from '../mis-dashboard/mis-dashboard.service';
-import { MisCpSlaloanopsProductivityService } from './mis-cp-slaloanops-productivity.service';
+import { MisDashboardService } from '../../mis-dashboard/mis-dashboard.service';
+import { MisCpSlaloanopsProductivityService } from '../mis-cp-slaloanops-productivity.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'jhi-mis-cp-slaloanops-dashboard-productivity',
@@ -176,20 +177,30 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
 
   dataSource = this.productivityService.processedRowsObservable$;
   totalRows = 0;
-  mergedCellContent = '';
-  @Input() data;
+  _date;
+  @Input()
+  get date() {
+    return this._date;
+  }
+  set date(value) {
+    this._date = value;
+  }
+
+  data;
 
   private latestStandard: number | null = null;
   private latestStaff: number | null = null;
   private latestData: any = null;
 
-  constructor(private dashboardService: MisDashboardService, private productivityService: MisCpSlaloanopsProductivityService) {
-    this.dataSource.subscribe(rows => {
-      console.log('Datasource: ', rows);
-    });
-  }
+  constructor(private dashboardService: MisDashboardService, private productivityService: MisCpSlaloanopsProductivityService) {}
 
-  ngOnInit() {
+  loadData() {
+    this.dashboardService.getBarChartData(this.date, 'loan-ops').subscribe(res => {
+      this.data = [...res].reverse();
+      this.latestData = this.data || [];
+      this.tryProcessFacilityData();
+    });
+
     const filterId = ['STAFF_LOANOPS', 'SLA_STANDARD_LOANOPS'];
     this.dashboardService
       .getSlaStandart()
@@ -220,10 +231,22 @@ export class MisCpSlaloanopsDashboardProductivityComponent implements OnInit, On
       });
   }
 
+  ngOnInit() {
+    this.loadData()
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    this.data = changes.data?.currentValue;
-    this.latestData = this.data || [];
-    this.tryProcessFacilityData();
+    if (changes['date'] && changes['date'].firstChange === false) {
+      if (moment.isMoment(changes['date'].currentValue)) {
+        this.date = changes['date'].currentValue.format('YYYY-MM-DD');
+      } else {
+        this.date = changes['date'].currentValue;
+      }
+
+      this.latestData = this.data || [];
+      this.tryProcessFacilityData();
+      this.loadData();
+    }
   }
 
   private tryProcessFacilityData() {
