@@ -12,6 +12,7 @@ import { DataPicComponent } from './data-pic/data-pic.component';
 import { SegmentationDataReportComponent } from './segmentation-data-report/segmentation-data-report.component';
 import { DpdlDataComponent } from './dpdl-data/dpdl-data.component';
 import { CreditNominalDataComponent } from './credit-nominal-data/credit-nominal-data.component';
+import { StatusAkadComponent } from './status-akad/status-akad-report.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
     SegmentationDataReportComponent,
     DpdlDataComponent,
     CreditNominalDataComponent,
+    StatusAkadComponent,
   ],
   imports: [SharedModule, MisDashboardModule, RouterModule.forChild(routes), NgChartsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

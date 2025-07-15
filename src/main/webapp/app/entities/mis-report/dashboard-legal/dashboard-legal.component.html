@@ -45,3 +45,8 @@
 <ng-template #creditNominalData>
   <jhi-credit-nominal-data></jhi-credit-nominal-data>
 </ng-template>
+
+<jhi-mis-dashboard-card title="STATUS AKAD" [content]="statusAkad" [defaultToggle]="false"></jhi-mis-dashboard-card>
+<ng-template #statusAkad>
+  <jhi-status-akad-report></jhi-status-akad-report>
+</ng-template>

@@ -1,0 +1,70 @@
+<div class="status-akad-container">
+  <div class="form-section">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Select Credit</mat-label>
+      <mat-select [(ngModel)]="selectedCredit" (selectionChange)="onCreditSelected()">
+        <mat-option
+          *ngFor="
+            let option of [
+              {
+                key: 'All',
+                value: 'Credit Legal Department (HO + OR)'
+              },
+              { key: 'R1', value: 'Credit Legal Head Office (HO)' },
+              { key: 'R2', value: 'Credit Legal Out Region (OR)' }
+            ]
+          "
+          [value]="option.key"
+        >
+          {{ option.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Report Year</mat-label>
+      <input matInput [matDatepicker]="dp" placeholder="Select year" [formControl]="yearFormControl" />
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker
+        #dp
+        startView="multi-year"
+        (yearSelected)="onYearSelected($event, dp)"
+        panelClass="example-month-picker"
+      ></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button class="generate-btn" (click)="generate()">Generated</button>
+  </div>
+
+  <div class="table-responsive-material">
+    <table mat-table [dataSource]="dataSource" class="w-100">
+      <ng-container matColumnDef="month">
+        <th mat-header-cell *matHeaderCellDef class="text-left">Month</th>
+        <td mat-cell *matCellDef="let element" class="text-left">{{ element.month }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="done">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Done</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.done }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cancel">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Cancel</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.cancel }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="pending">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Pending</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.pending }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalEOM">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Total O.E.M</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.totalEOM }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+  </div>
+</div>
