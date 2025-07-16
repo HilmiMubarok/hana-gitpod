@@ -63,6 +63,7 @@ import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/sum
 import { CollateralLandCertificateService } from '../collateral-appraisal/collateral/dialogs/collateral-land-certificate.service';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 // import { CollateralAppraisalValuationPropertyComponent } from '../collateral-appraisal/valuation/details/collateral-appraisal-valuation-property.component';
 
 @Component({
@@ -232,7 +233,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
     public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
     private collateralLandCertificateService: CollateralLandCertificateService,
-    public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent // public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent
+    public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent, // public collateralAppraisalValuationPropertyComponent: CollateralAppraisalValuationPropertyComponent
+    private generalParameterService: GeneralParameterService
   ) {
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -250,6 +252,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._getLovNegativeCollateral();
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
@@ -1458,6 +1461,27 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     });
   }
 
+  score: IScoreCard[];
+  private _getLovNegativeCollateral(): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'NEGATIVE_COLLATERAL',
+        page: 0,
+        size: 999,
+        sort: ['id,asc'],
+      })
+      .subscribe(res => {
+        const dataScoreCard = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        this.score = [];
+        for (let i = 0; i < dataScoreCard.length; i++) {
+          const num = i + 1;
+          this.score.push({ id: num, criteria: dataScoreCard[i].value, value: 'no' });
+        }
+      });
+  }
+
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
 
@@ -1501,6 +1525,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     }
 
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+
+    if (typeof copySurveyAppraisal.attributes['scoreCard'] === 'object' || copySurveyAppraisal.attributes['scoreCard'] === '{}') {
+      copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.score);
+    }
 
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
       copySurveyAppraisal.attributes['marketbility'] = JSON.stringify(this.collateralAppraisal.attributes['marketbility']);
