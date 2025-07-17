@@ -80,7 +80,7 @@
         <ng-container matColumnDef="bindingValue">
           <th mat-header-cell *matHeaderCellDef>Binding Value</th>
           <td mat-cell *matCellDef="let element">
-            {{ 'IDR ' + (getBinding(element).bindingValueEqIdr | number) }}
+            {{ 'IDR ' + (getBinding(element).bindingValueEqIdr ?? 0 | number) }}
           </td>
           <td mat-footer-cell *matFooterCellDef class="grid-index-right">
             <P>{{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}</P>
