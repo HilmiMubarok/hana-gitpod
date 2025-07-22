@@ -419,10 +419,10 @@ export class ProposalBasicInformationComponent implements OnInit {
           }
 
           /* if (this.creditProposalOpinionHistoryComponent) {
-			this.creditProposalOpinionHistoryComponent.triggeredSave();
-			this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-			this.creditProposalOpinionHistoryComponent.refresh();
-		  } */
+      this.creditProposalOpinionHistoryComponent.triggeredSave();
+      this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+      this.creditProposalOpinionHistoryComponent.refresh();
+      } */
 
           if (this.CreditProposalTabSummaryComponent) {
             this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -1175,10 +1175,10 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
 
         /* if (this.creditProposalOpinionHistoryComponent) {
-		  this.creditProposalOpinionHistoryComponent.triggeredSave();
-		  this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-		  this.creditProposalOpinionHistoryComponent.refresh();
-		} */
+      this.creditProposalOpinionHistoryComponent.triggeredSave();
+      this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+      this.creditProposalOpinionHistoryComponent.refresh();
+    } */
 
         if (this.CreditProposalTabSummaryComponent) {
           this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -1231,17 +1231,15 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   async saveCoverageAndUpdate(status: string, source: string) {
     try {
-      // Update coverage
-      await this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
-
       // Perform the pre-save and update credit proposal
       const preSaveData = this.preSave(status);
       const res = await this.creditProposalService.update(preSaveData).toPromise();
-
       // Update credit proposal fields with response data
       this.creditProposal.products = res.body.products;
       this.creditProposal.collaterals = res.body.collaterals;
       this.creditProposal.collateralProductRelations = res.body.collateralProductRelations;
+      // Update coverage
+      await this.updateCoverage.updateCoverage(this.creditProposal, this.creditProposalStartState, this.collateralPropertiesSummary);
 
       // Save the update with the given status and source
       this.saveUpdate(status, source);
