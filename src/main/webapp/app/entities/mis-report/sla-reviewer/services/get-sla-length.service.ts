@@ -156,7 +156,7 @@ export class GetSlaLengthService {
         const generateDAR = dates.generateDAR[0];
         const checker = dates.proposalCheckByChecker[dates.proposalCheckByChecker.length - 1];
 
-        return this._findDiffDaysWithoutWeekend(generateDAR, checker);
+        return this._findDiffDaysWithoutWeekend(checker, generateDAR);
     }
 
     /**

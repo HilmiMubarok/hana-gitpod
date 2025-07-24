@@ -93,7 +93,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       { header: 'Line of Business', key: 'lineOfBusiness' },
       { header: 'SME Scorecard', key: 'gradingSME' },
       { header: 'Credit Rating', key: 'rating' },
-      { header: 'Status of Facility', key: 'statusOfFacility' },
+      { header: 'Application Type', key: 'statusOfFacility' },
       { header: 'Take Over (Y/N)', key: 'takeOverYN' },
       { header: 'Previous Bank', key: 'previousBank' },
       { header: 'Facility', key: 'facility' },
@@ -105,6 +105,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
       { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR' },
       { header: 'Grand Total Plafond DEBTOR ONLY (IDR)', key: 'grandTotalPlafondDebtorOnlyIDR' },
       { header: 'Grand Total Plafond TOTAL EXPOSURE (IDR)', key: 'grandTotalPlafondTotalExposureIDR' },
+      { header: 'Exchange Rate', key: 'exchangeRate' },
       { header: 'Interest Rate (%)', key: 'interestRate' },
       { header: 'Provision Fee', key: 'provisionFee' },
       { header: 'Provision Fee Type', key: 'provisionFeeType' },
@@ -274,6 +275,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
         grandTotalPlafondDebtorOnlyIDR: proposal.totalPlafondDebtorOnlyIDR || '',
         grandTotalPlafondTotalExposureIDR: proposal.grandTotalPlafondEqToIDR || '',
+        exchangeRate: this.getExchangeRate(proposal) || '',
         interestRate: product.currentRate || '',
         provisionFee: this.formatProvisionFee(product.provisionFee) || '',
         provisionFeeType: product.provisionFeeType || '',
@@ -335,6 +337,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
         'totalChangesEqToIDR',
         'grandTotalPlafondDebtorOnlyIDR',
         'grandTotalPlafondTotalExposureIDR',
+        'exchangeRate',
         'collateralIncCrosCollOtherCif',
         'mvInternalInCurrency',
         'mvInternalEqToIDR',
@@ -404,7 +407,7 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
 
     return timelines
       .filter(t => t.statusDescription === 'Approve To Loan Analysis')
-      .map(t => this.formatDate(t.fromDate))
+      .map(t => this.formatDate(t.createdDate))
       .join(',\n');
   }
 
@@ -603,6 +606,25 @@ export class MisCpslaReviewerReportComponent extends AbstractExcelMISReport impl
     }
 
     return this.formatDate(product.maturityDate) || '';
+  }
+
+  private getExchangeRate(proposal) {
+    const { collateral } = proposal;
+
+    if (!collateral) {
+      return '';
+    }
+
+    // find if any collateral[x].collateralProperty.marketValueOriginal === 'USD'
+    // or if any product[x].currency === 'USD'
+    const isUSD =
+      collateral.some(c => c.collateralProperty.marketValueOriginalCcy === 'USD') || proposal.product.some(p => p.currency === 'USD');
+
+    if (!isUSD) {
+      return '';
+    }
+    
+    return proposal.exchangeRateUsdIdr;
   }
 
 }
