@@ -308,6 +308,14 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
     return dates.join(',\n');
   }
 
+  private _formatTwoDecimals(value: any): string {
+    const num = parseFloat(value);
+    if (isNaN(num)) {
+      return '';
+    }
+    return num.toFixed(2);
+  }
+
   // ini bergantung dari jumlah si facilitynya
 
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
@@ -328,7 +336,7 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         darDateOfProposal: this.getDarDateOfProposal(proposal) || '',
         darNumberOfProposal: proposal.darDocNo || '',
         appealDate: this.getAppealDate(proposal),
-        appealNumber: proposal.appealMemoDocNo || '',
+        appealNumber: this.getAppealNumber(proposal),
         darDateOfAppeal: this.getDarDateOfAppeal(proposal),
         darNumberOfAppeal: this.getDarNumberOfAppeal(proposal),
         program: proposal.program || '',
@@ -356,8 +364,8 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
         totalChangesEqToIDR: i === 0 ? proposal.totalChangesEqToIDR || '' : '',
         grandTotalPlafondDebtorIDR: i === 0 ? proposal.totalPlafondDebtorOnlyIDR || '' : '',
         grandTotalPlafondExposureIDR: i === 0 ? proposal.grandTotalPlafondEqToIDR || '' : '',
-        interestRate: product.currentRate || '',
-        provisionFee: product.provisionFee || '',
+        interestRate: this._formatTwoDecimals(product.currentRate),
+        provisionFee: this._formatTwoDecimals(product.provisionFee),
         provisionType: product.provisionFeeType || '',
         adminFee: product.adminFee || '',
         adminType: product.adminFeeType || '',
@@ -526,14 +534,44 @@ export class MisCPComponent extends AbstractExcelMISReport implements OnInit {
 
   private getAppealDate(proposal: any): string {
     const timeline = proposal.timeLineCreditProposal;
-    if (!timeline) {
+    if (!timeline || !Array.isArray(timeline)) {
       return '';
     }
-    const appeal = timeline
-      .filter((item: any) => item.statusDescription === 'DAR Appeal')
-      .map((item: any) => this.formatDateMISCP(item.createdDate))
-      .join(',\n');
-    return appeal || '';
+
+    const reversedTimeline = [...timeline].reverse();
+    const darAppealIndex = reversedTimeline.findIndex((item: any) => item.statusDescription === 'DAR Appeal');
+
+    if (darAppealIndex === -1) {
+      return '';
+    }
+
+    const afterDarAppeal = reversedTimeline.slice(darAppealIndex + 1);
+
+    const approveToLAList = afterDarAppeal
+      .filter((item: any) => item.statusDescription === 'Approve To Loan Analysis')
+      .map((item: any) => this.formatDateMISCP(item.createdDate));
+
+    if (approveToLAList.length === 0) {
+      return '';
+    }
+
+    return approveToLAList.join(',\n');
+  }
+
+  private getAppealNumber(proposal: any): string {
+    const timeline = proposal.timeLineCreditProposal;
+    if (!timeline || !Array.isArray(timeline)) {
+      return '';
+    }
+
+    const hasDarAppeal = timeline.some((item: any) => item.statusDescription === 'DAR Appeal');
+    const hasApproveToLA = timeline.some((item: any) => item.statusDescription === 'Approve To Loan Analysis');
+
+    if (hasDarAppeal && hasApproveToLA) {
+      return proposal.appealMemoDocNo || '';
+    }
+
+    return '';
   }
 
   private getDarDateOfAppeal(proposal: any): string {
