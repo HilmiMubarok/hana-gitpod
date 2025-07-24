@@ -173,6 +173,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       { header: 'Proposal Type', key: 'proposalType', width: 30 },
       { header: 'Branchs', key: 'branchs', width: 30 },
       { header: 'Customer Status', key: 'customerStatus', width: 15 },
+      { header: 'Customer Type', key: 'customerType', width: 15 },
       { header: 'Program', key: 'program', width: 25 },
       { header: 'Klasifikasi UMKM', key: 'umkm', width: 20 },
       { header: 'Modal Usaha (IDR)', key: 'modalUsaha', width: 20 },
@@ -218,6 +219,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       { header: 'Plafond Installment IDR', key: 'plafondInstallmentIDR', width: 15 },
       { header: 'Plafond OD/DL USD', key: 'plafondODDLUSD', width: 15 },
       { header: 'Plafond Installment USD', key: 'plafondInstallmentUSD', width: 15 },
+      { header: 'Disbursement amount', key: 'disbursementAmount', width: 15 },
+      { header: 'Current OS', key: 'currentOS', width: 15 },
       { header: 'Rate Proposed', key: 'rateProposed', width: 15 },
       { header: 'Rate DAR Final', key: 'rateDARFinal', width: 15 },
       { header: 'Total Changes Eq To IDR', key: 'totalChangesEqToIDR', width: 22 },
@@ -253,6 +256,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       { header: 'Reviewer Name', key: 'reviewerName', width: 20 },
       { header: 'Status', key: 'status', width: 25 },
       { header: 'Summary of Reviewer/Recommendation', key: 'summaryOfReviewerRecommendation', width: 20 },
+      { header: 'Guarantor', key: 'guarantor', width: 20 },
+      { header: 'Credit Rating Guarantor', key: 'creditRatingGuarantor', width: 20 },
     ];
   }
 
@@ -602,6 +607,70 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
     return values.join(',\n');
   }
 
+  private getAppraisalDateDraftList(collaterals: any[]): string {
+    if (!collaterals || !Array.isArray(collaterals)) {
+      return '';
+    }
+
+    const draftDates: string[] = [];
+
+    collaterals.forEach(collateral => {
+      const appraisals = collateral.appraisal;
+      if (!Array.isArray(appraisals) || appraisals.length === 0) {
+        return;
+      }
+
+      const latestAppraisal = appraisals.reduce((latest, current) =>
+        new Date(current.appraisalDate) > new Date(latest.appraisalDate) ? current : latest
+      );
+
+      if (latestAppraisal?.timeLine && Array.isArray(latestAppraisal.timeLine)) {
+        latestAppraisal.timeLine.forEach(tl => {
+          if (tl.statusDescription === 'Draft' && tl.createdDate) {
+            draftDates.push(tl.createdDate);
+          }
+        });
+      }
+    });
+
+    return draftDates.join('\n');
+  }
+
+  private getApprovalTeamLeaderDateList(collaterals: any[]): string {
+    if (!collaterals || !Array.isArray(collaterals)) {
+      return '';
+    }
+
+    const approvalTLDates: string[] = [];
+
+    collaterals.forEach(collateral => {
+      const appraisals = collateral.appraisal;
+      if (!Array.isArray(appraisals) || appraisals.length === 0) {
+        return;
+      }
+
+      const latestAppraisal = appraisals.reduce((latest, current) =>
+        new Date(current.appraisalDate) > new Date(latest.appraisalDate) ? current : latest
+      );
+
+      if (latestAppraisal?.timeLine && Array.isArray(latestAppraisal.timeLine)) {
+        const approvalTLTimelines = latestAppraisal.timeLine.filter(
+          tl => tl.fromStatusDescription === 'Approval Team Leader' && tl.createdDate
+        );
+
+        if (approvalTLTimelines.length > 0) {
+          const latestTL = approvalTLTimelines.reduce((latest, current) =>
+            new Date(current.createdDate) > new Date(latest.createdDate) ? current : latest
+          );
+
+          approvalTLDates.push(latestTL.createdDate);
+        }
+      }
+    });
+
+    return approvalTLDates.join('\n');
+  }
+
   private _addProposalData(worksheet: ExcelJS.Worksheet, proposal, index): void {
     worksheet.addRow({
       no: index + 1 || '',
@@ -611,6 +680,7 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       proposalType: proposal.proposalType || '',
       branchs: proposal.bookingBranchName || '',
       customerStatus: proposal.customerStatus || '',
+      customerType: proposal.customerType || '',
       program: proposal.program || '',
       umkm: proposal.umkm || '',
       modalUsaha: proposal.modalUsaha || '',
@@ -654,6 +724,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       plafondInstallmentIDR: this._getTotalPlafond(proposal, 'IDR', 'Installment'),
       plafondODDLUSD: this._getTotalPlafond(proposal, 'USD', 'Cash'),
       plafondInstallmentUSD: this._getTotalPlafond(proposal, 'USD', 'Installment'),
+      disbursementAmount: '',
+      currentOS: proposal.totalOsEqToIDR || '',
       rateProposed: this._getRate(proposal, 'Proposed'),
       rateDARFinal: this._getRate(proposal, 'DAR Final'),
       totalChangesEqToIDR: proposal.totalChangesEqToIDR || '',
@@ -675,8 +747,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       groupName: proposal.businessGroup ? proposal.businessGroup.groupCompanyName || '' : '',
       debiturGroup: this._getDebiturGroup(proposal),
       draft: this._getStatus(proposal, 'statusDescription', 'first', ['Draft']),
-      appraisalDateDraft: '',
-      approvalTeamLeader: '',
+      appraisalDateDraft: this.getAppraisalDateDraftList(proposal.collateral) || '',
+      approvalTeamLeader: this.getApprovalTeamLeaderDateList(proposal.collateral) || '',
       approvalBM: this._getStatus(proposal, 'statusDescription', 'first', ['Approval BM']),
       approvalHo: this._getStatus(proposal, 'statusDescription', 'first', ['Approval SME Head']),
       approvalDivHead: this._getStatus(proposal, 'statusDescription', 'first', ['Approval Div Head']),
@@ -689,6 +761,8 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       reviewerName: proposal.dataAssignToCROName || '',
       status: proposal.status || '',
       summaryOfReviewerRecommendation: proposal.approvalStatus || '',
+      guarantor: '',
+      creditRatingGuarantor: '',
     });
   }
 
@@ -728,7 +802,9 @@ export class MisCreditProposalReportComponent extends AbstractExcelMISReport imp
       'debiturGroup',
       'collateralIncCrosOtherCIF',
       'city',
-      'tenor'
+      'tenor',
+      'appraisalDateDraft',
+      'approvalTeamLeader',
     ];
 
     columnsToBeWraped.forEach(column => {
