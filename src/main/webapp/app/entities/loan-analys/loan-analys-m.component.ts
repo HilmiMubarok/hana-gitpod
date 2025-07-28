@@ -59,6 +59,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'applicationTypeDescription-proposalType',
     'cif',
     'customerName',
+    'reviewerName',
     'customerType',
     'createdDate',
     'status',
