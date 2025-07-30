@@ -543,8 +543,10 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
   protected processData(data: any[]): void {
     const cp = this._filterCPBeforeGenerate(data);
     console.log('@cp:', cp);
-    cp.forEach((proposal, index) => {
-      this._addProposalData(this.worksheet, proposal, index);
+
+    let rowNumber = 1; // Mulai dari 1
+    cp.forEach(proposal => {
+      rowNumber = this._addProposalData(this.worksheet, proposal, rowNumber);
     });
   }
 
@@ -556,6 +558,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     const aggrementType = this.form.get('aggrementType')?.value;
     const segmentation = this.form.get('regional')?.value;
     let cp = data;
+
     if (!search) {
       if (segmentation && segmentation.length > 0) {
         cp = cp.filter(p => segmentation.includes(p.regionalId));
@@ -588,7 +591,7 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     return cp;
   }
 
-  private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, index: number) {
+  private _addProposalData(worksheet: ExcelJS.Worksheet, proposal: any, rowNumber: number): number {
     const meta = this._extractMeta(proposal);
     const covernotes = proposal.legalCovernote || [];
 
@@ -597,18 +600,23 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
         const tasks = cover.covernoteTask || [];
         if (tasks.length) {
           tasks.forEach(task => {
-            const row = this._buildRow(meta, proposal, index, task, cover);
+            const row = this._buildRow(meta, proposal, rowNumber, task, cover);
             worksheet.addRow(row);
+            rowNumber++;
           });
         } else {
-          const row = this._buildRow(meta, proposal, index, null, cover);
+          const row = this._buildRow(meta, proposal, rowNumber, null, cover);
           worksheet.addRow(row);
+          rowNumber++;
         }
       });
     } else {
-      const row = this._buildRow(meta, proposal, index);
+      const row = this._buildRow(meta, proposal, rowNumber);
       worksheet.addRow(row);
+      rowNumber++;
     }
+
+    return rowNumber;
   }
 
   private _extractMeta(proposal: any) {
@@ -633,12 +641,12 @@ export class MisLaporanAdminLegalComponent extends AbstractExcelMISReport implem
     };
   }
 
-  private _buildRow(meta: any, proposal: any, index: number, task: any = null, cover: any = null): Record<string, any> {
+  private _buildRow(meta: any, proposal: any, rowNumber: number, task: any = null, cover: any = null): Record<string, any> {
     const agreement = proposal.agreement || {};
     const isNotaril = agreement.isNotaril;
 
     return {
-      no: index + 1 || '',
+      no: rowNumber,
       tanggalDpdl: meta.dppkDay,
       bulan: meta.dppkMonth,
       tahun: meta.dppkYear,
