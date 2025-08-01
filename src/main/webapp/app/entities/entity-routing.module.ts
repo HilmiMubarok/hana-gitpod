@@ -741,6 +741,11 @@ import { RouterModule } from '@angular/router';
         path: 'mis-cp-dashboard-legal',
         loadChildren: () => import('./mis-report/dashboard-legal/dashboard-legal.module').then(m => m.DashboardLegalModule),
       },
+      {
+        path: 'mis-croyearly-report',
+        loadChildren: () =>
+          import('./mis-report/mis-summary-approval-yearly/mis-summary-approval-yearly.module').then(m => m.MisSummaryApprovalYearlyModule),
+      },
     ]),
   ],
 })
