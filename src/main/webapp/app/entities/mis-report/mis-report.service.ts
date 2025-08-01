@@ -33,6 +33,14 @@ export class MisReportService {
     );
   }
 
+  public getMisYearlyReport(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-approval-yearly/`,
+      params,
+      { observe: 'response' }
+    );
+  }
+
   public getMisReportCPFacility(params): Observable<HttpResponse<any>> {
     return this.http.post<any>(
       `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/credit-proposal-detail-facility/`,
@@ -215,5 +223,13 @@ export class MisReportService {
       params,
       { observe: 'response' }
     );
+  }
+
+  public getProposalTypes(): Observable<any[]> {
+    const params = new HttpParams().set('idParameterType', 'PROPOSAL_TYPE').set('page', 0).set('size', 99999).set('sort', 'id,asc');
+
+    const endpoint = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/general-parameter/filterBy');
+
+    return this.http.get<any[]>(endpoint, { params });
   }
 }
