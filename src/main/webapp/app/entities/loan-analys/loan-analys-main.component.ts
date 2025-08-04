@@ -1250,11 +1250,13 @@ export class LoanAnalysMainComponent implements OnInit {
       width: '80vw',
       data: { processTask: task },
     });
+
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
         this.resAttr.attr['idApplication'] = this.creditProposal.id;
+
         if (
           this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
           this.creditProposal.attributes['approvalStatus'] === 'Reject' &&
@@ -1267,10 +1269,12 @@ export class LoanAnalysMainComponent implements OnInit {
           });
         } else if (
           (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
-            this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed' &&
+            (this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed' ||
+              this.creditProposal.attributes['approvalStatus'] === 'Approved as Proposed') &&
             _res.caption === 'Reject') ||
           (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
-            this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' &&
+            (this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' ||
+              this.creditProposal.attributes['approvalStatus'] === 'Approved as Condition') &&
             _res.caption === 'Reject')
         ) {
           this.messageService.add({
@@ -1345,6 +1349,7 @@ export class LoanAnalysMainComponent implements OnInit {
       }
     });
   }
+
   public lovProposalType() {
     this.generalParameterService
       .queryFilterBy({
