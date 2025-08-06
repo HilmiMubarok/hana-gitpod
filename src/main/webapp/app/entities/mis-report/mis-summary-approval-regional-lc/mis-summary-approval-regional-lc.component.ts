@@ -718,49 +718,6 @@ export class MisSummaryApprovalRegionalLCComponent extends AbstractExcelMISRepor
     ];
   }
 
-  private _filterSegmentsByLogic(data: any[], proposalType: string, approvalLC: string, segmentSelected: string): any[] {
-    const lowerProposal = proposalType.toLowerCase();
-    const lowerLC = approvalLC.toLowerCase();
-    const lowerSegment = segmentSelected?.toLowerCase() || '';
-
-    const isBTB = lowerProposal.includes('btb');
-    const isSME4 = lowerSegment === 'sme 4';
-    const isCOMM1 = lowerSegment === 'commercial banking 1';
-
-    if (isBTB && lowerLC === 'lc 1 btb') {
-      return (
-        data[0]?.segment?.filter(seg =>
-          [
-            'sme 1',
-            'sme 2',
-            'sme 3',
-            'sme 4',
-            'global business 1',
-            'global business 2',
-            'corporate banking 1',
-            'enterprise banking 1',
-            'commercial banking 1',
-            'commercial banking 2',
-          ].includes(seg.segmentName.toLowerCase())
-        ) || []
-      );
-    }
-
-    if (isBTB && isSME4) {
-      return data[0]?.lcType?.filter(lc => lc.lcName.toLowerCase().includes('btb')) || [];
-    }
-
-    if (!isBTB && lowerLC === 'lc 1 sme') {
-      return data[0]?.segment?.filter(seg => ['sme 1', 'sme 2', 'sme 3', 'sme 4'].includes(seg.segmentName.toLowerCase())) || [];
-    }
-
-    if (!isBTB && isCOMM1) {
-      return data[0]?.lcType?.filter(lc => lc.lcName.toLowerCase().includes('commercial')) || [];
-    }
-
-    return [];
-  }
-
   get columns() {
     return [{ header: 'Condition', key: 'condition' }];
   }
