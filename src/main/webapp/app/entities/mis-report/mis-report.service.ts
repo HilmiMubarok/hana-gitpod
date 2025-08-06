@@ -232,4 +232,19 @@ export class MisReportService {
 
     return this.http.get<any[]>(endpoint, { params });
   }
+  public getMisSummaryApprovalRegional(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-approval-sme/`,
+      params,
+      { observe: 'response' }
+    );
+  }
+  public getMisSummaryApprovalLC(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-approval-lc/`,
+      params,
+      { observe: 'response' }
+    );
+  }
+
 }
