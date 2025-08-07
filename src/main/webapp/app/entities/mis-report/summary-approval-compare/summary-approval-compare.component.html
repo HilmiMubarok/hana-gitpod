@@ -1,0 +1,119 @@
+<div class="summary-approval-compare-container">
+    <div class="e-card-header-caption mb-3">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+            <e-breadcrumb-items>
+                <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+                <e-breadcrumb-item text="Summary Approval Compare" url=""> </e-breadcrumb-item>
+            </e-breadcrumb-items>
+        </ejs-breadcrumb>
+    </div>
+
+    <div class="department-header">
+        <div class="department-name h4">SUMMARY APPROVAL COMPARE</div>
+    </div>
+
+    <!-- Data 1 Form -->
+    <ng-container *ngTemplateOutlet="dataForm; context: { config: formConfigs[0], title: 'Data 1' }"></ng-container>
+
+    <!-- Data 2 Form -->
+    <ng-container *ngTemplateOutlet="dataForm; context: { config: formConfigs[1], title: 'Data 2' }"></ng-container>
+
+    <div class="text-center">
+        <button mat-raised-button id="generate-btn" class="confirm-button-no" (click)="generate()">Generate</button>
+    </div>
+</div>
+
+<!-- Reusable Form Template -->
+<ng-template #dataForm let-config="config" let-title="title">
+    <form [formGroup]="config.form">
+        <mat-card style="border-radius: 12px; margin-bottom: 36px">
+            <mat-card-content>
+                <h4 class="h4 mb-3">{{ title }}</h4>
+                <div class="nav-buttons mb-3">
+                    <button mat-stroked-button class="nav-button"
+                        (click)="toggleMenu(config === formConfigs[0] ? 'menuData1' : 'menuData2')"
+                        [ngClass]="{ active: config.menuType === 'Regional' }">
+                        Regional
+                    </button>
+                    <button mat-stroked-button class="nav-button"
+                        (click)="toggleMenu(config === formConfigs[0] ? 'menuData1' : 'menuData2')"
+                        [ngClass]="{ active: config.menuType === 'Approval LC' }">
+                        Approval LC
+                    </button>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                                <input matStartDate formControlName="startDate" placeholder="Start date"
+                                    (focus)="picker.open()" readonly />
+                                <input matEndDate formControlName="endDate" placeholder="End date"
+                                    (focus)="picker.open()" readonly />
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Proposal Type</mat-label>
+                            <mat-select formControlName="proposalType">
+                                <mat-option *ngFor="let item of lovProposalType" [value]="item.value">{{ item.value
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-md-6">
+                        <mat-form-field class="w-100" appearance="outline" *ngIf="config.menuType === 'Regional'">
+                            <mat-label>Regional</mat-label>
+                            <mat-select multiple formControlName="segment">
+                                <li class="select-all"
+                                    (click)="toggleSelectAllSegment(config === formConfigs[0] ? 0 : 1)">
+                                    {{ config.allSelectedSegment ? 'Deselect All' : 'Select All' }}
+                                </li>
+                                <mat-option *ngFor="let item of lovSegment" [value]="item.facilityName">{{
+                                    item.facilityName }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="w-100" appearance="outline" *ngIf="config.menuType === 'Approval LC'">
+                            <mat-label>Approval LC</mat-label>
+                            <mat-select multiple formControlName="lc">
+                                <li class="select-all" (click)="toggleSelectAllLc(config === formConfigs[0] ? 0 : 1)">
+                                    {{ config.allSelectedLc ? 'Deselect All' : 'Select All' }}
+                                </li>
+                                <mat-option *ngFor="let item of lovLc[config.name]" [value]="item.id">{{
+                                    item.description }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Amount Type</mat-label>
+                            <mat-select formControlName="amountType">
+                                <mat-option *ngFor="let item of lovAmount" [value]="item">{{ item }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-md-6">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Approval Status</mat-label>
+                            <mat-select multiple formControlName="condition">
+                                <li class="select-all"
+                                    (click)="toggleSelectAllCondition(config === formConfigs[0] ? 0 : 1)">
+                                    {{ config.allSelectedCondition ? 'Deselect All' : 'Select All' }}
+                                </li>
+                                <mat-option *ngFor="let item of lovCondition" [value]="item">{{ item }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 col-md-6"></div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+</ng-template>
