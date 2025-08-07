@@ -37,10 +37,7 @@
           <div #formContainer>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Prpoposal Type</mat-label>
-              <mat-select formControlName="proposalType" multiple>
-                <li class="select-all" (click)="toggleSelectProposalTypeAll()">
-                  {{ allSelectedProposalType ? 'Deselect All' : 'Select All' }}
-                </li>
+              <mat-select formControlName="proposalType">
                 <mat-option *ngFor="let item of lovProposalType" [value]="item.code">{{ item.code }}</mat-option>
               </mat-select>
             </mat-form-field>

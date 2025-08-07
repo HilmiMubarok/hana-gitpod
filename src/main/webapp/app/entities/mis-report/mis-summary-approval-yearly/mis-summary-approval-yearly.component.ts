@@ -30,7 +30,7 @@ export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport im
     super(misReportService);
     this.misYearlyReport = new FormGroup({
       year: new FormControl(''),
-      proposalType: new FormControl([]),
+      proposalType: new FormControl(''),
       branchId: new FormControl(''),
     });
   }
@@ -60,7 +60,7 @@ export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport im
 
     const params = {
       year,
-      proposalType: proposalType ? proposalType.join(',') : '',
+      proposalType,
       branchId: branchId ? branchId.join(',') : '',
     };
 
@@ -151,11 +151,31 @@ export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport im
   }
 
   private addYearlySummaryData(worksheet: ExcelJS.Worksheet, data: any[]): void {
-    const workbook = new ExcelJS.Workbook();
     const year = this.misYearlyReport.get('year')?.value ? moment(this.misYearlyReport.get('year')?.value).year() : 2025;
 
+    const proposalType = this.misYearlyReport.get('proposalType')?.value;
+    console.log('Proposal Type:', proposalType); // Debugging untuk memeriksa nilai
+
+    let proposalTypeText = 'Tidak ada proposal type yang dipilih';
+    if (Array.isArray(proposalType) && proposalType.length > 0) {
+      proposalTypeText = proposalType.join(', ');
+    } else if (typeof proposalType === 'string') {
+      proposalTypeText = proposalType;
+    }
+
     worksheet.mergeCells('A1:N1');
-    const titleCell = worksheet.getCell('A1');
+    const proposalTypeCell = worksheet.getCell('A1');
+    proposalTypeCell.value = `Proposal Type: ${proposalTypeText}`;
+    proposalTypeCell.font = { bold: true, size: 12 };
+    proposalTypeCell.alignment = { vertical: 'middle', horizontal: 'center' };
+    proposalTypeCell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF00B0F0' },
+    };
+
+    worksheet.mergeCells('A2:N2');
+    const titleCell = worksheet.getCell('A2');
     titleCell.value = `YEAR ${year}`;
     titleCell.font = { bold: true, size: 14 };
     titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -164,15 +184,6 @@ export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport im
       pattern: 'solid',
       fgColor: { argb: 'FF00B0F0' },
     };
-
-    for (let col = 1; col <= 14; col++) {
-      const cell = worksheet.getCell(1, col);
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FF00B0F0' },
-      };
-    }
 
     const monthNames = [
       'Branch',
@@ -234,27 +245,15 @@ export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport im
         };
       });
 
-      const totalCell = worksheet.getCell(`N${rowIndex}`);
-      totalCell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FF00FF00' },
-      };
-
-      rowIndex++;
       totalEOY += branchTotal;
+      rowIndex++;
     });
 
-    const totalRowValues: (string | number)[] = ['Total E.O.M', ...totalPerMonth, totalEOY];
+    const totalRowValues: (string | number)[] = ['Total E.O.Y', ...totalPerMonth, totalEOY];
     const totalRow = worksheet.addRow(totalRowValues);
     totalRow.font = { bold: true };
     totalRow.eachCell((cell, colNumber) => {
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFFFFF00' },
-      };
       cell.border = {
         top: { style: 'thin' },
         left: { style: 'thin' },
@@ -262,13 +261,11 @@ export class MisSummaryApprovalYearlyComponent extends AbstractExcelMISReport im
         right: { style: 'thin' },
       };
 
-      if (colNumber === 14) {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'FF4F81BD' },
-        };
-      }
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'fffefd32' },
+      };
     });
 
     worksheet.columns.forEach(column => {
