@@ -12,10 +12,7 @@
         <div class="department-name h4">SUMMARY APPROVAL COMPARE</div>
     </div>
 
-    <!-- Data 1 Form -->
     <ng-container *ngTemplateOutlet="dataForm; context: { config: formConfigs[0], title: 'Data 1' }"></ng-container>
-
-    <!-- Data 2 Form -->
     <ng-container *ngTemplateOutlet="dataForm; context: { config: formConfigs[1], title: 'Data 2' }"></ng-container>
 
     <div class="text-center">
@@ -23,7 +20,6 @@
     </div>
 </div>
 
-<!-- Reusable Form Template -->
 <ng-template #dataForm let-config="config" let-title="title">
     <form [formGroup]="config.form">
         <mat-card style="border-radius: 12px; margin-bottom: 36px">

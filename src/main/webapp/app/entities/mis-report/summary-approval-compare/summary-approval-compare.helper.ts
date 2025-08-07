@@ -1,175 +1,16 @@
-// // Define types for better type safety
-// interface ConditionType {
-//   conditionName: string;
-//   product?: Product[];
-// }
-
-// interface Product {
-//   kategoriProduct?: string;
-//   noa?: number | string;
-//   summaryAmount?: SummaryAmount[];
-// }
-
-// interface SummaryAmount {
-//   currencyAmount?: CurrencyAmount[];
-// }
-
-// interface CurrencyAmount {
-//   currency: string;
-//   amount?: string;
-// }
-
-// interface SegmentData {
-//   segmentName: string;
-//   lcType?: LcType[];
-// }
-
-// interface LcType {
-//   lcName: string;
-//   segment?: SegmentData[];
-//   conditionType?: ConditionType[];
-// }
-
-// interface DataEntry {
-//   segmentName: string;
-//   lcName: string;
-//   conditionTypes: ConditionType[];
-// }
-
-// interface CategoryData {
-//   noa: number;
-//   amountIDR: number;
-//   amountUSD: number;
-// }
-
-// interface TransformData {
-//   data1?: any[];
-//   data2?: any[];
-// }
-// export const transformCombinedData = (data: TransformData) => {
-//   console.log('Data: ', data);
-//   const categoryNames = ['New', 'Additional', 'Renewal', 'Restructure', 'Decrease', 'Other'];
-
-//   // Create a map where segment names are the keys
-//   const segmentMap = new Map();
-
-//   // Process data1
-//   const data1Source = data.data1?.flatMap(item => {
-//     return (item.segment || []).map((segment) => {
-//       return (segment.lcType || []).map((lc) => ({
-//         segmentName: segment.segmentName,
-//         lcName: lc.lcName,
-//         conditionTypes: lc.conditionType || []
-//       }));
-//     }).flat();
-//   }) || [];
-
-//   // Process data2
-//   const data2Source = data.data2?.flatMap(item => {
-//     return (item.lcType || []).map((lc) => {
-//       return (lc.segment || []).map((segment) => ({
-//         segmentName: segment.segmentName,
-//         lcName: lc.lcName,
-//         conditionTypes: segment.conditionType || []
-//       }));
-//     }).flat();
-//   }) || [];
-
-//   // Merge both data sources
-//   const mergeSource = [...data1Source, ...data2Source];
-
-//   for (const entry of mergeSource) {
-//     const lcName = entry.lcName;
-//     const segmentName = entry.segmentName;
-
-//     if (!lcName || !segmentName) { continue; }
-
-//     // Get or create segment entry
-//     const segment = segmentMap.get(segmentName) || new Map();
-//     // Get or create LC entry within segment
-//     const lcData = segment.get(lcName) || new Map();
-
-//     for (const condition of entry.conditionTypes || []) {
-//       if (condition.conditionName !== 'Approved') { continue; }
-
-//       for (const product of condition.product || []) {
-//         const categoryNameRaw = product.kategoriProduct;
-//         const categoryName = categoryNames.find(c => categoryNameRaw?.toLowerCase().includes(c.toLowerCase())) || 'Other';
-//         const current = lcData.get(categoryName) || { noa: 0, amountIDR: 0, amountUSD: 0 };
-
-//         // Count NOA from listProduct entries instead of using product.noa directly
-//         const uniqueAppIds = new Set();
-//         for (const listItem of product.listProduct || []) {
-//           if (listItem.applicationId) {
-//             uniqueAppIds.add(listItem.applicationId);
-//           }
-//         }
-//         current.noa += uniqueAppIds.size;
-
-//         for (const amountSum of product.summaryAmount || []) {
-//           for (const currencyAmount of amountSum.currencyAmount || []) {
-//             const amount = parseFloat(currencyAmount.amount ?? '0');
-//             if (currencyAmount.currency === 'IDR') {
-//               current.amountIDR += amount;
-//             } else if (currencyAmount.currency === 'USD') {
-//               current.amountUSD += amount;
-//             }
-//           }
-//         }
-
-//         lcData.set(categoryName, current);
-//       }
-//     }
-
-//     segment.set(lcName, lcData);
-//     segmentMap.set(segmentName, segment);
-//   }
-
-//   const result = {
-//     segments: [],
-//   };
-
-//   // Build the result with segments as the primary level and LC types as children
-//   for (const [segmentName, lcMap] of segmentMap.entries()) {
-//     const children = [];
-//     for (const [lcName, categoryMap] of lcMap.entries()) {
-//       const categories = categoryNames.map(name => {
-//         const cat = categoryMap.get(name) || { noa: 0, amountIDR: 0, amountUSD: 0 };
-//         return {
-//           name,
-//           noa: cat.noa,
-//           amountIDR: cat.amountIDR,
-//           amountUSD: cat.amountUSD,
-//         };
-//       });
-
-//       children.push({ name: lcName, categories });
-//     }
-
-//     result.segments.push({ name: segmentName, children });
-//   }
-
-//   return result;
-// };
-
-// NEW HELPER
 export interface TableData {
   title: string;
   groups: string[];
   reportData: any;
 }
 
-// Get sample TableData for testing
 export const getSampleTableData = (data): TableData[] => transformAnyDataToTableData(data);
+
 const parseAmount = (amount: string): number => parseFloat(amount) || 0;
 
-const convertToUSD = (idrAmount: number): number => Math.round((idrAmount / 15000) * 100) / 100;
-
-// Main transformation function
 export const transformDataIntoTableData = (data: any): TableData[] => {
   const results: TableData[] = [];
 
-  // Group data by LC Type
   const lcTypeMap = new Map<string, any>();
 
   data.segment.forEach((segment: any) => {
@@ -190,11 +31,9 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
     });
   });
 
-  // Transform each LC Type into TableData
   lcTypeMap.forEach((lcData, lcId) => {
     const groups = lcData.segments.map((seg: any) => seg.segmentName);
 
-    // Initialize report data structure
     const reportData: any = {
       // Approved categories
       approved_new: { total: { noa: 0, idr: 0, usd: 0 } },
@@ -220,7 +59,6 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
       percent_cancel: { total: { noa: '', idr: '', usd: '' } },
     };
 
-    // Initialize segment data (sme1, sme2, sme3, etc.)
     groups.forEach((_: string, index: number) => {
       const segmentKey = `sme${index + 1}`;
       Object.keys(reportData).forEach(category => {
@@ -250,7 +88,6 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
             const kategori = product.kategoriProduct.toLowerCase();
             let categoryKey = '';
 
-            // Map kategori to our category keys
             if (conditionName === 'approved') {
               if (kategori.includes('new') || kategori.includes('ntb')) {
                 categoryKey = 'approved_new';
@@ -303,7 +140,7 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
                 });
               }
 
-              // If no USD amount, convert from IDR
+              // If no USD amount, set to 0
               if (totalUSD === 0 && totalIDR > 0) {
                 totalUSD = 0;
               }
@@ -401,7 +238,6 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
       reportData.percent_cancel.total.noa = '0%';
     }
 
-    // Create TableData object
     const tableData: TableData = {
       title: lcData.lcName,
       groups,
@@ -414,31 +250,24 @@ export const transformDataIntoTableData = (data: any): TableData[] => {
   return results;
 };
 
-// Enhanced transformation function that handles multiple data formats
 export const transformAnyDataToTableData = (data: any): TableData[] => {
-  // Detect data format and normalize it
   const normalizedData = normalizeDataFormat(data);
   return transformDataIntoTableData(normalizedData);
 };
 
-// Helper function to normalize different data formats
 const normalizeDataFormat = (data: any): any => {
-  // Check if data has the expected responseData format (with segment array)
   if (data.segment && Array.isArray(data.segment)) {
-    // Check if segments have listLC structure (need to flatten)
     const hasListLC = data.segment.some((segment: any) => segment.lcType && segment.lcType.some((lc: any) => lc.listLC));
 
     if (hasListLC) {
       console.log('🔄 Converting segment structure with listLC...');
 
-      // Flatten listLC structure
       const normalizedSegments = data.segment.map((segment: any) => {
         const flattenedLcTypes: any[] = [];
 
         if (segment.lcType && Array.isArray(segment.lcType)) {
           segment.lcType.forEach((lcGroup: any) => {
             if (lcGroup.listLC && Array.isArray(lcGroup.listLC)) {
-              // Flatten listLC into direct lcType array
               lcGroup.listLC.forEach((lc: any) => {
                 flattenedLcTypes.push({
                   lcId: lc.lcId,
@@ -447,7 +276,6 @@ const normalizeDataFormat = (data: any): any => {
                 });
               });
             } else {
-              // Keep as is if no listLC
               flattenedLcTypes.push(lcGroup);
             }
           });
@@ -467,14 +295,11 @@ const normalizeDataFormat = (data: any): any => {
       };
     }
 
-    return data; // Already in correct format
+    return data;
   }
 
-  // Check if data is in jsonData format (lcType containing segments)
   if (data.lcType && Array.isArray(data.lcType)) {
-    console.log('🔄 Converting jsonData format (lcType -> segment structure)...');
 
-    // Extract all segments from all lcTypes and restructure
     const allSegments = new Map<string, any>();
 
     data.lcType.forEach((lc: any) => {
@@ -490,7 +315,6 @@ const normalizeDataFormat = (data: any): any => {
             });
           }
 
-          // Add this LC to the segment with its condition types
           const segmentData = allSegments.get(segmentKey);
           segmentData.lcType.push({
             lcId: lc.lcId,
@@ -508,7 +332,6 @@ const normalizeDataFormat = (data: any): any => {
     };
   }
 
-  // Check if data is in jsonData format (direct segment array)
   if (Array.isArray(data)) {
     return {
       createDate: new Date().toISOString().split('T')[0],
@@ -517,7 +340,6 @@ const normalizeDataFormat = (data: any): any => {
     };
   }
 
-  // Check if data has segments directly as property
   if (data.segments && Array.isArray(data.segments)) {
     return {
       createDate: data.createDate || new Date().toISOString().split('T')[0],
@@ -526,7 +348,6 @@ const normalizeDataFormat = (data: any): any => {
     };
   }
 
-  // If data is a single segment object, wrap it in an array
   if (data.segmentId || data.segmentName) {
     return {
       createDate: new Date().toISOString().split('T')[0],
@@ -535,9 +356,5 @@ const normalizeDataFormat = (data: any): any => {
     };
   }
 
-  // Try to auto-detect and convert other formats
-  console.warn('Unknown data format, attempting auto-conversion:', data);
-
-  // Last resort: return original data and hope for the best
   return data;
 };

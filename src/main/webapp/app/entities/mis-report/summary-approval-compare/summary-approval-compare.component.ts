@@ -326,47 +326,12 @@ export class SummaryApprovalCompareComponent extends AbstractExcelMISReport {
       payloadData2: this.summaryApprovalService.generatePayloadFormat(this.formData2, this.formConfigs[1].menuType),
     };
 
-    // const transformedData = transformCombinedData(data);
-
-    // this.createFinalReport(finalPayload);
-
-    // console.log('Transformed Data:', transformedData);
-
     this.processData(processedData);
     this._setAutoWidthForAllColumns();
 
     this.downloadFile('Summary_Approval_Compare_');
     this._resetData();
   }
-
-  // createFinalReport(payload: { data1?: ReportBlockData[]; data2?: ReportBlockData[] }) {
-
-  //   let currentRow = 1;
-
-  //   // 2. Render semua tabel dari data1
-  //   if (payload.data1 && payload.data1.length > 0) {
-  //     currentRow = generateReportFromArray(this.worksheet, payload.data1, currentRow);
-  //   }
-
-  //   // 3. Sisipkan teks atau konten custom lainnya
-  //   const customCell = this.worksheet.getCell(`A${currentRow}`);
-  //   customCell.value = '--- Pemisah Antar Data ---';
-  //   customCell.font = { bold: true, color: { argb: 'FF0000FF' } };
-  //   currentRow += 2;
-
-  //   // 4. Render semua tabel dari data2
-  //   if (payload.data2 && payload.data2.length > 0) {
-  //     currentRow = generateReportFromArray(this.worksheet, payload.data2, currentRow);
-  //   }
-
-  //   this.downloadFile('Summary_Approval_Compare_' + moment(new Date()).format('YYYY-MM-DD'));
-  //   // 5. Simpan file ke disk atau kirim sebagai buffer
-
-
-  //   // Atau jika ingin mendapatkan buffer untuk di-response dari API
-  //   // const buffer = await workbook.xlsx.writeBuffer();
-  //   // return buffer;
-  // }
 
   protected processData(data): void {
     const ws = this.worksheet;

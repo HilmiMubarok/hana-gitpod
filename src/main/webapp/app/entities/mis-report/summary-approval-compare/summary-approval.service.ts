@@ -143,9 +143,6 @@ export class SummaryApprovalService {
     return this.http.post(endpoint, payload);
   }
 
-  // NEW SERVICE
-
-  // Helper function to format numbers with thousand separators (dots)
   private formatNumber(value: number | string): string {
     if (!value || value === 0 || value === '0') {
       return '0';
@@ -159,14 +156,11 @@ export class SummaryApprovalService {
     return numValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
-  // Method to create table in existing worksheet (new version with single object)
   createTableInWorksheet(worksheet: ExcelJS.Worksheet, tableData: TableData, startFromRow = 1): void {
     const { title: mainTitle, groups, reportData } = tableData;
 
-    // Calculate total columns: 1 for Conditions + (groups * 3) + 3 for Total
     const totalColumns = 1 + groups.length * 3 + 3;
 
-    // Conditions header (spans all 3 rows: startFromRow to startFromRow+2)
     worksheet.mergeCells(startFromRow, 1, startFromRow + 2, 1);
     const conditionsCell = worksheet.getCell(startFromRow, 1);
     conditionsCell.value = 'Conditions';
@@ -178,7 +172,6 @@ export class SummaryApprovalService {
       fgColor: { argb: 'FFC0C0C0' },
     };
 
-    // Row startFromRow: LC Group Header (spanning from column 2 to end)
     worksheet.mergeCells(startFromRow, 2, startFromRow, totalColumns);
     const lcGroupCell = worksheet.getCell(startFromRow, 2);
     lcGroupCell.value = mainTitle;
@@ -191,10 +184,7 @@ export class SummaryApprovalService {
     };
     worksheet.getRow(startFromRow).height = 25;
 
-    // Row startFromRow+1: Group Headers (Group 1, Group 2, Group 3, Total)
-    let currentCol = 2; // Start from column 2 (after Conditions column)
-
-    // Group headers
+    let currentCol = 2;
     groups.forEach((group: string) => {
       worksheet.mergeCells(startFromRow + 1, currentCol, startFromRow + 1, currentCol + 2);
       const groupCell = worksheet.getCell(startFromRow + 1, currentCol);
@@ -209,7 +199,6 @@ export class SummaryApprovalService {
       currentCol += 3;
     });
 
-    // Total header
     worksheet.mergeCells(startFromRow + 1, currentCol, startFromRow + 1, currentCol + 2);
     const totalHeaderCell = worksheet.getCell(startFromRow + 1, currentCol);
     totalHeaderCell.value = 'Total';
@@ -221,12 +210,10 @@ export class SummaryApprovalService {
       fgColor: { argb: 'FFC0C0C0' },
     };
 
-    // Row startFromRow+2: Sub Headers (NOA, Amount (IDR), Amount (USD))
-    currentCol = 2; // Start after Conditions column
+    currentCol = 2;
     const subHeaders = ['NOA', 'Amount (IDR)', 'Amount (USD)'];
 
     for (let i = 0; i < groups.length + 1; i++) {
-      // +1 for Total
       subHeaders.forEach(header => {
         const cell = worksheet.getCell(startFromRow + 2, currentCol);
         cell.value = header;
@@ -241,9 +228,7 @@ export class SummaryApprovalService {
       });
     }
 
-    // Define condition rows structure - first add parent rows, then sub-items
     const conditionRows = [
-      // Approved parent row
       {
         parent: 'Approved',
         label: '',
@@ -293,7 +278,6 @@ export class SummaryApprovalService {
         isParent: false,
         isSubItem: true,
       },
-      // Reject parent row
       {
         parent: 'Reject',
         label: '',
@@ -343,7 +327,6 @@ export class SummaryApprovalService {
         isParent: false,
         isSubItem: true,
       },
-      // Standalone items
       {
         parent: 'Cancel',
         label: '',
@@ -381,7 +364,6 @@ export class SummaryApprovalService {
       },
     ];
 
-    // Map groups to data keys
     const groupKeys = groups.map((group: string) =>
       group
         .toLowerCase()
@@ -389,26 +371,19 @@ export class SummaryApprovalService {
         .replace(/[^a-z0-9]/g, '')
     );
 
-    // Add data rows
     let currentRow = startFromRow + 3;
     conditionRows.forEach(condition => {
       let displayText = '';
       if (condition.isParent) {
-        // For parent rows, show the parent name
         displayText = condition.parent;
       } else {
-        // For sub-items, show the label (e.g., "- New")
         displayText = condition.label;
       }
       const rowData = [displayText];
-      // Check if this is a percentage row
       const isPercentageRow = ['percent_approved', 'percent_reject', 'percent_cancel'].includes(condition.key);
 
-      // Add data for each group
       groupKeys.forEach((groupKey: string) => {
-        // For parent rows of Approved/Reject, calculate sum of sub-categories
         if (condition.key === 'approved_parent') {
-          // Sum all approved sub-categories
           const approvedKeys = [
             'approved_new',
             'approved_additional',
@@ -430,7 +405,6 @@ export class SummaryApprovalService {
 
           rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
         } else if (condition.key === 'reject_parent') {
-          // Sum all reject sub-categories
           const rejectKeys = ['reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other'];
           let totalNOA = 0,
             totalIDR = 0,
@@ -445,7 +419,6 @@ export class SummaryApprovalService {
 
           rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
         } else if (isPercentageRow) {
-          // For percentage rows, only show NOA column, leave IDR and USD empty
           const data = reportData[condition.key]?.[groupKey] || {};
           rowData.push(data.noa || '', '', '');
         } else {
@@ -454,9 +427,7 @@ export class SummaryApprovalService {
         }
       });
 
-      // Add total data
       if (condition.key === 'approved_parent') {
-        // Sum all approved sub-categories totals
         const approvedKeys = [
           'approved_new',
           'approved_additional',
@@ -478,7 +449,6 @@ export class SummaryApprovalService {
 
         rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
       } else if (condition.key === 'reject_parent') {
-        // Sum all reject sub-categories totals
         const rejectKeys = ['reject_new', 'reject_additional', 'reject_renewal', 'reject_restructure', 'reject_decrease', 'reject_other'];
         let totalNOA = 0,
           totalIDR = 0,
@@ -493,7 +463,6 @@ export class SummaryApprovalService {
 
         rowData.push(totalNOA.toString(), this.formatNumber(totalIDR), this.formatNumber(totalUSD));
       } else if (isPercentageRow) {
-        // For percentage rows, only show NOA column in total, leave IDR and USD empty
         const totalData = reportData[condition.key]?.total || {};
         rowData.push(totalData.noa || '', '', '');
       } else {
@@ -507,46 +476,34 @@ export class SummaryApprovalService {
 
       const row = worksheet.addRow(rowData);
 
-      // Check if this is a Total or Percentage row for special styling
       const isTotalOrPercentageRow = ['total', 'percent_approved', 'percent_reject', 'percent_cancel'].includes(condition.key);
-
-      // Check if this is specifically a percentage row (not total)
       const isPercentageRowOnly = ['percent_approved', 'percent_reject', 'percent_cancel'].includes(condition.key);
 
-      // Style the condition cell
       const conditionCell = row.getCell(1);
       if (condition.isParent) {
         conditionCell.font = { bold: true };
       }
 
-      // Apply background color based on row type
       if (isTotalOrPercentageRow) {
-        // Special blue background for Total and Percentage rows
         conditionCell.fill = {
           type: 'pattern',
           pattern: 'solid',
           fgColor: { argb: 'FF8DB5E0' }, // Blue background
         };
 
-        // Apply background to all cells in this row
         for (let colIndex = 2; colIndex <= totalColumns; colIndex++) {
           const cell = row.getCell(colIndex);
 
-          // For percentage rows, check if this is an IDR or USD column
           if (isPercentageRowOnly) {
-            // Calculate position: every 3 columns represent NOA, IDR, USD
-            // Column positions: 2,3,4 = Group1(NOA,IDR,USD), 5,6,7 = Group2(NOA,IDR,USD), etc.
-            const columnPosition = (colIndex - 2) % 3; // 0=NOA, 1=IDR, 2=USD
+            const columnPosition = (colIndex - 2) % 3;
 
             if (columnPosition === 1 || columnPosition === 2) {
-              // IDR and USD columns get black background
               cell.fill = {
                 type: 'pattern',
                 pattern: 'solid',
                 fgColor: { argb: 'FF000000' }, // Black background
               };
             } else {
-              // NOA columns get blue background
               cell.fill = {
                 type: 'pattern',
                 pattern: 'solid',
@@ -554,7 +511,6 @@ export class SummaryApprovalService {
               };
             }
           } else {
-            // Total row gets all blue background
             cell.fill = {
               type: 'pattern',
               pattern: 'solid',
@@ -563,7 +519,6 @@ export class SummaryApprovalService {
           }
         }
       } else {
-        // Default orange background for other rows
         conditionCell.fill = {
           type: 'pattern',
           pattern: 'solid',
@@ -574,17 +529,14 @@ export class SummaryApprovalService {
       currentRow++;
     });
 
-    // Apply borders and styling
     this.applyBordersAndStyling(worksheet, totalColumns, currentRow - 1, startFromRow);
 
-    // Set column widths
-    worksheet.getColumn(1).width = 20; // Conditions column
+    worksheet.getColumn(1).width = 20;
     for (let i = 2; i <= totalColumns; i++) {
       worksheet.getColumn(i).width = 15;
     }
   }
 
-  // Helper method to download workbook
   async downloadWorkbook(workbook: ExcelJS.Workbook, fileName: string): Promise<void> {
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
@@ -594,7 +546,6 @@ export class SummaryApprovalService {
   }
 
   private applyBordersAndStyling(worksheet: ExcelJS.Worksheet, totalColumns: number, lastRow: number, startFromRow = 1): void {
-    // Apply borders to all cells in the table
     for (let row = startFromRow; row <= lastRow; row++) {
       for (let col = 1; col <= totalColumns; col++) {
         const cell = worksheet.getCell(row, col);
@@ -605,7 +556,6 @@ export class SummaryApprovalService {
           right: { style: 'thin' },
         };
 
-        // Center align data cells (except conditions column)
         if (col > 1 && row > startFromRow + 2) {
           cell.alignment = { horizontal: 'center', vertical: 'middle' };
         }
