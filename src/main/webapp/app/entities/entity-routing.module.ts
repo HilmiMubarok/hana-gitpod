@@ -753,6 +753,11 @@ import { RouterModule } from '@angular/router';
             m => m.MisReportSummaryApprovalRegionalLCModule
           ),
       },
+      {
+        path: 'mis-lglsummaryapprcompare-report',
+        loadChildren: () =>
+          import('./mis-report/summary-approval-compare/summary-approval-compare.module').then(m => m.SummaryApprovalCompareModule),
+      },
     ]),
   ],
 })
