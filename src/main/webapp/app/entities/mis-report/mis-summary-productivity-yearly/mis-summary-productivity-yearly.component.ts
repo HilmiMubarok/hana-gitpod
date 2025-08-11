@@ -86,17 +86,15 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
 
     rawData.forEach(item => {
       item.reviewers?.forEach(reviewer => {
-        // Siapkan array kosong untuk semua bulan × kondisi
         const monthsData: number[] = Array(12 * 3).fill(0);
 
         reviewer.data?.forEach(conditionBlock => {
-          const condition = conditionBlock.condition; // "Approved" | "Reject" | "Cancel"
+          const condition = conditionBlock.condition;
           const conditionIndex = this.getConditionIndex(condition);
 
           conditionBlock.summaryMonthly?.forEach(summary => {
             const monthIndex = this.getMonthIndex(summary.month);
             if (monthIndex >= 0 && conditionIndex >= 0) {
-              // Posisi kolom = (bulan × 3) + kondisi
               monthsData[monthIndex * 3 + conditionIndex] = summary.count;
             }
           });
@@ -159,7 +157,6 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     ];
     const statuses = ['Approved', 'Reject', 'Cancel'];
 
-    // ===== Baris 1: Judul =====
     worksheet.mergeCells(1, 2, 1, 1 + months.length * statuses.length);
     const titleCell = worksheet.getCell('B1');
     titleCell.value = `YEAR ${year}`;
@@ -167,7 +164,6 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
     titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
     titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF00B0F0' } };
 
-    // ===== Baris 2: Nama Bulan =====
     worksheet.mergeCells('A1:A3');
     const firstColCell = worksheet.getCell('A2');
     firstColCell.value = 'Reviewer';
@@ -195,12 +191,8 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
       });
       col += statuses.length;
     });
-
-    // ===== Data Reviewer =====
-    // Atur jumlah kolom total (12 bulan × 3 status)
     const totalPerMonthPerStatus = Array(12 * statuses.length).fill(0);
 
-    // Data reviewer
     data.forEach(branchData => {
       const rowValues: (string | number)[] = [branchData.reviewer];
 
@@ -212,16 +204,11 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
 
       worksheet.addRow(rowValues);
     });
-
-    // ===== Baris Total =====
     const totalRowValues: (string | number)[] = ['Total'];
     totalPerMonthPerStatus.forEach(val => totalRowValues.push(val));
 
     const totalRow = worksheet.addRow(totalRowValues);
     totalRow.font = { bold: true };
-
-    // ===== Styling =====
-    // Kolom "Reviewer" lebar + teks rata kiri + wrap
     worksheet.getColumn(1).width = 40;
     worksheet.getColumn(1).alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
 
@@ -249,7 +236,7 @@ export class MisSummaryProductivityYearlyComponent extends AbstractExcelMISRepor
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'FFFFFF00' }, // Kuning
+        fgColor: { argb: 'FFFFFF00' },
       };
     });
   }
