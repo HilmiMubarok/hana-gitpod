@@ -246,5 +246,11 @@ export class MisReportService {
       { observe: 'response' }
     );
   }
-
+  public getMisSummaryProductivityYearly(params): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS)}/api/mis/report/summary-productivity-yearly/`,
+      params,
+      { observe: 'response' }
+    );
+  }
 }

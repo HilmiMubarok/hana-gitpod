@@ -758,6 +758,13 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./mis-report/summary-approval-compare/summary-approval-compare.module').then(m => m.SummaryApprovalCompareModule),
       },
+      {
+        path: 'mis-crosummaryprod-report',
+        loadChildren: () =>
+          import('./mis-report/mis-summary-productivity-yearly/mis-summary-productivity-yearly.module').then(
+            m => m.MisSummaryProductivityYearlyModule
+          ),
+      },
     ]),
   ],
 })
