@@ -653,6 +653,13 @@ import { RouterModule } from '@angular/router';
       {
         path: 'mis-cptimeline-report',
         loadChildren: () =>
+          import('./mis-report/credit-proposal-timeline-summary/mis-report-credit-proposal-timeline-summary.module').then(
+            m => m.MisCreditProposalTimelineSummaryModule
+          ),
+      },
+      {
+        path: 'mis-cpcrotimeline-report',
+        loadChildren: () =>
           import('./mis-report/credit-proposal-timeline/mis-report-credit-proposal-timeline.module').then(
             m => m.MisCreditProposalTimelineModule
           ),
