@@ -423,12 +423,6 @@ export class MisCreditProposalTimelineSummaryComponent extends AbstractExcelMISR
       return;
     }
 
-    // if (selectedDateType === 'Date From Status') {
-    //   dateTypeValue = 'STATELOG';
-    // } else if (selectedDateType === 'Proposal Date') {
-    //   dateTypeValue = null;
-    // }
-
     params = {
       startDate: this.misCpTimeline.get('date1')?.value,
       endDate: this.misCpTimeline.get('date2')?.value,
