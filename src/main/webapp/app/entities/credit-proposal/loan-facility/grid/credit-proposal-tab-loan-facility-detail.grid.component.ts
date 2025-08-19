@@ -79,6 +79,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
   public dataCollateralSummary: any[];
   public totalPlafond: number;
   public biddingValueSum: number;
+  public statusesTakeoutFacilityButton = ['RETURN_TO_RM_LEGAL'];
+  public isTakedOut = false;
 
   length: number;
   pageSize = 10;
@@ -171,6 +173,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     this.creditProposal.attributes['calculationExposure'].totalPsrDebitur = this.countTotalPsrDebitur();
     this.creditProposal.attributes['calculationExposure'].totalShortTermLoanDebitur = this.countShortTermLoanDebitur();
     this.creditProposal.attributes['calculationExposure'].totalLongTermLoanDebitur = this.countLongThermLoanDebitur();
+    if(this.statusesTakeoutFacilityButton.includes(this.creditProposal.statusId)) {
+      this.isTakedOut = true;
+    }
   }
 
   public getdataNull(element) {
@@ -374,7 +379,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     } else if (this.view) {
       return true;
     } else {
-      return false;
+      if (this.statusesTakeoutFacilityButton.includes(this.creditProposal.statusId)) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 

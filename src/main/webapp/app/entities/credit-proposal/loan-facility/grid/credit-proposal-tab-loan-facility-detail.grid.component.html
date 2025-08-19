@@ -260,7 +260,7 @@
 </div>
 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
   <div align="right" class="mt-5 align-right" [hidden]="isViewMode === true">
-    <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
+    <button mat-raised-button [hidden]="isTakedOut" (click)="openDialog()" class="button-styling">ADD</button>
   </div>
 </section>
 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
