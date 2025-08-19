@@ -9,27 +9,12 @@
       </ejs-breadcrumb>
     </div>
 
-    <div class="department-header">
+    <div class="department-header" style="margin-bottom: 20px">
       <div class="department-name h4">Credit Review Department</div>
     </div>
 
-    <div class="col mb-3 custom-margin mt-5">
-      <div class="nav-buttons">
-        <button
-          *ngFor="let type of dateTypes"
-          type="button"
-          mat-stroked-button
-          class="nav-button"
-          [class.active]="misCpTimeline.get('type')?.value === type"
-          (click)="misCpTimeline.get('type')?.setValue(type)"
-        >
-          {{ type }}
-        </button>
-      </div>
-    </div>
-
     <div class="e-card">
-      <mat-card-content *ngIf="showDateRange">
+      <mat-card-content>
         <div class="row my-3">
           <div class="col">
             <div #formContainer>
@@ -74,7 +59,7 @@
           <div class="col">
             <div #formContainer>
               <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('status')?.disabled">
-                <mat-label>Status</mat-label>
+                <mat-label>Proposal Status</mat-label>
                 <mat-select
                   formControlName="status"
                   (selectionChange)="changeOption($event)"
@@ -94,46 +79,10 @@
         </div>
       </mat-card-content>
 
-      <mat-card-content *ngIf="showStatusAndRegional">
-        <div class="row my-3">
-          <div class="col">
-            <div #formContainer>
-              <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('regional')?.disabled">
-                <mat-label>Regional</mat-label>
-                <mat-select formControlName="regional" multiple>
-                  <li class="select-all" (click)="toggleSelectRegionalAll()">
-                    {{ allSelectedRegional ? 'Deselect All' : 'Select All' }}
-                  </li>
-                  <mat-option *ngFor="let item of lovRegional" [value]="item.id">{{ item.name }}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col">
-            <div #formContainer>
-              <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('customerType')?.disabled">
-                <mat-label>Customer Status</mat-label>
-                <mat-select formControlName="customerType" multiple>
-                  <li class="select-all" (click)="toggleSelectCustomerTypeAll()">
-                    {{ allSelectedCustomerType ? 'Deselect All' : 'Select All' }}
-                  </li>
-                  <mat-option *ngFor="let item of lovCustomerType" [value]="item">{{ item }}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-      </mat-card-content>
-
       <!-- Search Field -->
       <div #formContainer>
-        <mat-form-field
-          class="w-100"
-          appearance="outline"
-          *ngIf="showDateRange || showStatusAndRegional"
-          [class.disabled-control]="misCpTimeline.get('query')?.disabled"
-        >
-          <mat-label>Search</mat-label>
+        <mat-form-field class="w-100" appearance="outline" [class.disabled-control]="misCpTimeline.get('query')?.disabled">
+          <mat-label>Debtor Name</mat-label>
           <input
             matInput
             placeholder="Search in here..."
@@ -236,7 +185,7 @@
         </mat-paginator>
       </div>
 
-      <div class="mt-3 text-center" *ngIf="showDateRange || showStatusAndRegional">
+      <div class="mt-3 text-center">
         <button
           mat-raised-button
           id="generate-btn"
