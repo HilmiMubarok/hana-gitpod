@@ -42,6 +42,7 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 export class CreditProposalTabSummaryComponent implements OnInit, OnChanges, OnDestroy {
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'docType', 'sizeFile', 'action'];
   public statusesCanGenerateDocument = [
+    'DRAFT',
     'CP_DRAFT',
     'CP_RETURN_TO_RM',
     'CP_RETURN_TO_CR',
